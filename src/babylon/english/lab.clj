@@ -271,19 +271,19 @@
     (do
       (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
       (swap! (get (u/get-in with-words [:head]) :comp) (fn [old] raised-comp))
-      (let [with-head-comp-comp
+      (let [head-syntax-tree
+            (fn [lower-comp]
+              (str "["
+                   (u/get-in input [:head :rule])
+                   " *" (syntax-tree (u/get-in input [:head :head]))
+                   " " ".[" (u/get-in input [:head :comp :rule])
+                   " *"     (syntax-tree (u/get-in input [:head :comp :head]))
+                   " ." (syntax-tree lower-comp) "]"
+                   "]"))
+            with-head-comp-comp
             (->
              with-words
              (dissoc :dag_unify.serialization/serialized)
-             (u/assoc-in [:head :syntax-tree]
-                         (fn [lower-comp]
-                           (str "["
-                                (u/get-in input [:head :rule])
-                                " *" (syntax-tree (u/get-in input [:head :head]))
-                                " " ".[" (u/get-in input [:head :comp :rule])
-                                " *"     (syntax-tree (u/get-in input [:head :comp :head]))
-                                " ." (syntax-tree lower-comp) "]"
-                                "]")))
              add-with-spec
              first)]
         (-> with-head-comp-comp
@@ -291,5 +291,6 @@
                         (unify {:2 g/unify-morphology-tree-leaf
                                 :words (dag_unify.serialization/create-path-in
                                         [:rest :rest :first] 
-                                        g/unify-morphology-tree-leaf)})))))))
-
+                                        g/unify-morphology-tree-leaf)
+                                :syntax-tree (head-syntax-tree
+                                              (morph (u/get-in with-head-comp-comp [:head :comp])))})))))))

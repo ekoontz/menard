@@ -165,7 +165,6 @@
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (g/lazy-mapcat #(add-with-spec % {:aux true
                                      :canonical "be"}))
-
    ;; 2. add vp->verb:
    ;;
    ;;    s
@@ -183,13 +182,24 @@
    (g/lazy-mapcat add-with-spec)
    (remove #(= % :fail))))
 
+(defn add-word-at [tree at]
+  (let [word (g/make-word)
+        cat1 (atom :top)]
+    (->
+      tree
+      (unify {:syntax-tree {:2 {:2 {:1 {:cat cat1}}}}
+              :2 {:2 {:1 {:cat cat1}}}}))))
+
 (defn do-fold [tree]
   (let [tree (g/create-folded-words-1 tree [:head])
-        raised-comp (u/get-in tree [:head :comp :comp])]
+        raised-comp (u/get-in tree [:head :comp :comp])
+        upper-head (u/get-in tree [:head :head])
+        raised-head (u/get-in tree [:head :comp :head])]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
     (-> tree
-        (dissoc :dag_unify.serialization/serialized))))
+        (dissoc :dag_unify.serialization/serialized)
+        (add-word-at [:2 :2 :1] raised-head))))
 
 (defn demo []
   ;; 1. create a tree that looks like:
@@ -221,51 +231,12 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   do-fold
+;;   do-fold
 
-   ((fn [expression]
-      (log/info (str "post-folding: " (syntax-tree expression)))
-     expression))
+   (add-word-at [:2 :2 :1])
    
-   ;; 3. add complement at path [:head :comp]:
-   ;;    s
-   ;;   / \
-   ;;  /   \ H
-   ;;  _     vp-aux
-   ;;       /      \
-   ;;      / H      \
-   ;;    would see   <new>
-   ;;
-   add-with-spec
-   first
-
    ((fn [expression]
-      (log/info (str "pre-word-creation: " (syntax-tree expression)))
-      expression))
+      (log/info (str "post-folding 1: " (syntax-tree expression)))
+      (log/info (str "post-folding 2: " (u/get-in expression [:syntax-tree])))
+     expression))))
    
-   (u/assoc-in [:head]
-               (unify {:2 g/unify-morphology-tree-leaf
-                       :words (dag_unify.serialization/create-path-in
-                               [:rest :rest :first] 
-                               g/unify-morphology-tree-leaf)}))
-
-   ((fn [expression]
-      (log/info (str "post-word-creation: " (syntax-tree expression)))
-      expression))
-
-   (g/truncate-in [:head])
-
-   ((fn [expression]
-      (log/info (str "post-truncate: " (syntax-tree expression)))
-      expression))
-
-   add-with-spec
-   first
-   (g/create-words [])
-   (g/truncate-in [])
-
-   ((fn [expression]
-      (log/info (str "final: " (syntax-tree expression)))
-      expression))))
-
-

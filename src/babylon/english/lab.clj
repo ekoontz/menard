@@ -126,12 +126,32 @@
    flatten
    (filter #(not (u/get-in % [:exception])))))
 
+(defn numeric-path
+  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
+  [tree at]
+  (cond
+    (empty? at) []
+
+    (or (and (= (first at) :head)
+             (= (get tree :head)
+                (get tree :1)))
+        (and (= (first at) :comp)
+             (= (get tree :comp)
+                (get tree :1))))
+    (cons :1 (at-numeric (u/get-in tree [(first at)]) (rest at)))
+
+    true
+    (cons :2 (at-numeric (u/get-in tree [(first at)]) (rest at)))))
+
 (defn add-with-spec [tree & [spec]]
   (let [at (g/frontier tree)
+        at-numeric (numeric-path tree at)
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
       (log/debug (str "adding to: " (syntax-tree tree) " at:" at)))
+    (if (not (= tree :fail))
+      (log/debug (str " numerically: " at-numeric)))
     (if (= spec :fail)
       []
       (do
@@ -144,7 +164,8 @@
              (remove #(= :fail (unify % spec)))
              shuffle
              (g/eugenes-map #(u/assoc-in tree at %))
-             (map #(set-done % at)))))))
+             (map #(set-done % at))
+             (map #(add-word-at % at-numeric)))))))
 
 (defn pre-folded-trees []
   (->>
@@ -183,6 +204,7 @@
    (remove #(= % :fail))))
 
 (defn add-word-at [tree at]
+  (log/debug (str "adding word:" (u/get-in tree at) " at: " at))
   (let [head?
         (or
           (and
@@ -196,8 +218,8 @@
         word (merge (g/make-word)
                     {:head? head?})]
     (unify tree
-           {:syntax-tree {:rule (u/get-in tree [:rule])
-                          :2 {:rule (u/get-in tree [:head :rule])}}}
+;           {:syntax-tree {:rule (u/get-in tree [:rule])
+;                          :2 {:rule (u/get-in tree [:head :rule])}
            (merge (s/create-path-in (concat [:syntax-tree] at) word)
                   (s/create-path-in at word)))))
 
@@ -230,9 +252,9 @@
   (let [raised-comp (u/get-in tree [:head :comp :comp])
         upper-head (u/get-in tree [:head :head])
         raised-head (u/get-in tree [:head :comp :head])
-        tree (-> tree
-                 (add-word-at [:2 :2 :1])
-                 (add-word-at [:2 :1]))]
+        tree (-> tree)]
+;;                 (add-word-at [:2 :2 :1])
+;;                 (add-word-at [:2 :1]))]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
     (-> tree
@@ -255,9 +277,9 @@
    (pre-folded-trees)
    first
 
-   ((fn [expression]
-      (log/info (str "pre-folding:    " (syntax-tree expression)))
-      expression))
+;;   ((fn [expression]
+;;      (log/info (str "pre-folding:    " (syntax-tree expression)))
+;;      expression
 
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -268,7 +290,7 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   do-fold
+;;   do-fold
 
 ;;   (add-word-at [:2 :2 :1])
    

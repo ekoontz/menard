@@ -146,7 +146,7 @@
              (g/eugenes-map #(u/assoc-in tree at %))
              (map #(set-done % at)))))))
 
-(defn working-example []
+(defn pre-folded-trees []
   (->>
    ;; 1. build s->vp-aux->aux-verb:
    ;;
@@ -205,8 +205,13 @@
   ;;      H /     \
   ;;      see      _
   (->
-   (working-example)
+   (pre-folded-trees)
    first
+
+   ((fn [expression]
+      (log/info (str "pre-folding: " (syntax-tree expression)))
+      expression))
+
    ;; 2. fold up tree from the above representation to:
    ;;    s
    ;;   / \
@@ -217,6 +222,10 @@
    ;;    would see  _
    ;;
    do-fold
+
+   ((fn [expression]
+      (log/info (str "post-folding: " (syntax-tree expression)))
+     expression))
    
    ;; 3. add complement at path [:head :comp]:
    ;;    s
@@ -229,14 +238,34 @@
    ;;
    add-with-spec
    first
+
+   ((fn [expression]
+      (log/info (str "pre-word-creation: " (syntax-tree expression)))
+      expression))
+   
    (u/assoc-in [:head]
                (unify {:2 g/unify-morphology-tree-leaf
                        :words (dag_unify.serialization/create-path-in
                                [:rest :rest :first] 
                                g/unify-morphology-tree-leaf)}))
+
+   ((fn [expression]
+      (log/info (str "post-word-creation: " (syntax-tree expression)))
+      expression))
+
    (g/truncate-in [:head])
+
+   ((fn [expression]
+      (log/info (str "post-truncate: " (syntax-tree expression)))
+      expression))
+
    add-with-spec
    first
    (g/create-words [])
-   (g/truncate-in [])))
+   (g/truncate-in [])
+
+   ((fn [expression]
+      (log/info (str "final: " (syntax-tree expression)))
+      expression))))
+
 

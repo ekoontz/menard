@@ -183,18 +183,54 @@
    (remove #(= % :fail))))
 
 (defn add-word-at [tree at]
-  (let [word (g/make-word)
-        cat1 (:cat word)]
+  (let [head?
+        (or
+          (and
+            (= (last at) :1)
+            (= (get (u/get-in tree (butlast tree)) :1)
+               (get (u/get-in tree (butlast tree)) :head)))
+          (and
+           (= (last at) :1)
+           (= (get (u/get-in tree (butlast tree)) :1)
+              (get (u/get-in tree (butlast tree)) :head))))
+        word (merge (g/make-word)
+                    {:head? head?})]
     (unify tree
-           (merge (s/create-path-in (concat [:syntax-tree] at [:cat]) cat1)
-                  (s/create-path-in (concat at [:cat]) cat1)))))
+           {:syntax-tree {:rule (u/get-in tree [:rule])
+                          :2 {:rule (u/get-in tree [:head :rule])}}}
+           (merge (s/create-path-in (concat [:syntax-tree] at) word)
+                  (s/create-path-in at word)))))
+
+(defn syntax-tree-2 [syntax-tree]
+  (cond
+    (nil? syntax-tree) "_"
+    (u/get-in syntax-tree [:1])
+    (str "["
+         (:rule syntax-tree "?") " "
+         (if (= true (u/get-in syntax-tree [:1 :head?]))
+           "*" ".")
+         (syntax-tree-2 (u/get-in syntax-tree [:1])) " "
+         (if (= true (u/get-in syntax-tree [:2 :head?]))
+           "*" ".")
+         (syntax-tree-2 (u/get-in syntax-tree [:2]))
+         "]")
+    (u/get-in syntax-tree [:2])
+    (str "["
+         (:rule syntax-tree "?") " "
+         (if (= true (u/get-in syntax-tree [:1 :head?]))
+           "*" ".")
+         "_ "
+         (if (= true (u/get-in syntax-tree [:2 :head?]))
+           "*" ".")
+         (syntax-tree-2 (u/get-in syntax-tree [:2])) "]")
+    true
+    (morph syntax-tree)))
 
 (defn do-fold [tree]
   (let [raised-comp (u/get-in tree [:head :comp :comp])
         upper-head (u/get-in tree [:head :head])
         raised-head (u/get-in tree [:head :comp :head])
         tree (-> tree
-                 (g/create-folded-words-1 [:head])
                  (add-word-at [:2 :2 :1])
                  (add-word-at [:2 :1]))]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
@@ -220,7 +256,7 @@
    first
 
    ((fn [expression]
-      (log/info (str "pre-folding: " (syntax-tree expression)))
+      (log/info (str "pre-folding:    " (syntax-tree expression)))
       expression))
 
    ;; 2. fold up tree from the above representation to:
@@ -237,7 +273,7 @@
 ;;   (add-word-at [:2 :2 :1])
    
    ((fn [expression]
-      (log/info (str "post-folding 1: " (syntax-tree expression)))
-      (log/info (str "post-folding 2: " (u/get-in expression [:syntax-tree])))
+;;      (log/info (str "post-folding 1: " (syntax-tree expression)))
+      (log/info (str "post-folding 2: " (syntax-tree-2 (u/get-in expression [:syntax-tree]))))
      expression))))
    

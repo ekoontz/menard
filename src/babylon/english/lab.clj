@@ -111,14 +111,7 @@
        (butlast path))
     (u/assoc-in tree (concat path [:babylon.generate/done?]) true)))
 
-(defn add-rule-at [tree rule-name at]
-  (log/debug (str "adding rule: " rule-name " at: " at))
-  (->> grammar
-       (filter #(= (:rule %) rule-name))
-       shuffle
-       (g/eugenes-map #(u/assoc-in tree at %))
-       (g/eugenes-map #(set-started % at))))
-
+                                                                         
 (def flattened-lexicon
   (->>
    babylon.english/lexicon
@@ -143,7 +136,21 @@
     true
     (cons :2 (at-numeric (u/get-in tree [(first at)]) (rest at)))))
 
-(defn add-with-spec [tree & [spec]]
+(defn add-rule-at [tree rule-name at]
+  (log/debug (str "adding rule: " rule-name " at: " at))
+  (log/debug (str "creating: " (s/create-path-in (concat [:syntax-tree] (numeric-path tree at) [:rule])
+                                                 rule-name)))
+  (->> grammar
+       (filter #(= (:rule %) rule-name))
+       shuffle
+       (g/eugenes-map #(u/assoc-in tree at %))
+       (g/eugenes-map #(set-started % at))
+       (remove #(= :fail %))
+       (map #(unify % (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
+                                        {:head? (= :head (last at))
+                                         :rule rule-name})))))
+
+(defn add-lexeme-at [tree & [spec]]
   (let [at (g/frontier tree)
         at-numeric (numeric-path tree at)
         spec (or spec :top)
@@ -182,9 +189,11 @@
    grammar
    (filter #(= (:rule %) "s"))
    shuffle
+   (g/eugenes-map #(unify %
+                          {:syntax-tree {:rule (:rule %)}}))
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat #(add-with-spec % {:aux true
+   (g/lazy-mapcat #(add-lexeme-at % {:aux true
                                      :canonical "be"}))
    ;; 2. add vp->verb:
    ;;
@@ -200,21 +209,24 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
-   (g/lazy-mapcat add-with-spec)
+   (g/lazy-mapcat add-lexeme-at)
    (remove #(= % :fail))))
+
+(defn headness? [tree at]
+  (or
+   (= (last at) :head)
+   (and
+    (= (last at) :1)
+    (= (get (u/get-in tree (butlast at)) :1)
+       (get (u/get-in tree (butlast at)) :head)))
+   (and
+    (= (last at) :1)
+    (= (get (u/get-in tree (butlast at)) :1)
+       (get (u/get-in tree (butlast at)) :head)))))
 
 (defn add-word-at [tree at]
   (log/debug (str "adding word:" (u/get-in tree at) " at: " at))
-  (let [head?
-        (or
-          (and
-            (= (last at) :1)
-            (= (get (u/get-in tree (butlast tree)) :1)
-               (get (u/get-in tree (butlast tree)) :head)))
-          (and
-           (= (last at) :1)
-           (= (get (u/get-in tree (butlast tree)) :1)
-              (get (u/get-in tree (butlast tree)) :head))))
+  (let [head? (headness? tree at)
         word (merge (g/make-word)
                     {:head? head?})]
     (unify tree

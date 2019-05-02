@@ -184,22 +184,23 @@
 
 (defn add-word-at [tree at]
   (let [word (g/make-word)
-        cat1 (atom :top)]
-    (->
-      tree
-      (unify {:syntax-tree {:2 {:2 {:1 {:cat cat1}}}}
-              :2 {:2 {:1 {:cat cat1}}}}))))
+        cat1 (:cat word)]
+    (unify tree
+           (merge (s/create-path-in (concat [:syntax-tree] at [:cat]) cat1)
+                  (s/create-path-in (concat at [:cat]) cat1)))))
 
 (defn do-fold [tree]
-  (let [tree (g/create-folded-words-1 tree [:head])
-        raised-comp (u/get-in tree [:head :comp :comp])
+  (let [raised-comp (u/get-in tree [:head :comp :comp])
         upper-head (u/get-in tree [:head :head])
-        raised-head (u/get-in tree [:head :comp :head])]
+        raised-head (u/get-in tree [:head :comp :head])
+        tree (-> tree
+                 (g/create-folded-words-1 [:head])
+                 (add-word-at [:2 :2 :1])
+                 (add-word-at [:2 :1]))]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
     (-> tree
-        (dissoc :dag_unify.serialization/serialized)
-        (add-word-at [:2 :2 :1] raised-head))))
+        (dissoc :dag_unify.serialization/serialized))))
 
 (defn demo []
   ;; 1. create a tree that looks like:
@@ -231,9 +232,9 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-;;   do-fold
+   do-fold
 
-   (add-word-at [:2 :2 :1])
+;;   (add-word-at [:2 :2 :1])
    
    ((fn [expression]
       (log/info (str "post-folding 1: " (syntax-tree expression)))

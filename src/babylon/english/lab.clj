@@ -150,22 +150,17 @@
                                         {:head? (= :head (last at))
                                          :rule rule-name})))))
 
-(defn add-lexeme-at [tree & [spec]]
-  (let [at (g/frontier tree)
-        at-numeric (numeric-path tree at)
+(defn add-lexeme-at [tree at originally-at & [spec]]
+  (let [at-numeric (numeric-path tree originally-at)
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/debug (str "adding to: " (syntax-tree tree) " at:" at)))
+      (log/info (str "adding to: " (st2 tree) " at:" at)))
     (if (not (= tree :fail))
-      (log/debug (str " numerically: " at-numeric)))
+      (log/info (str " numerically: " at-numeric)))
     (if (= spec :fail)
       []
       (do
-        ;; TODO: apply the :syntax-tree value at the appropriate node,
-        ;; if it's a function. The appropriate node is 
-        ;; related to the _at_ param. The value to be applied is the new
-        ;; lexeme we added.
         (log/debug (str "spec: " (u/strip-refs spec)))
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
@@ -193,8 +188,11 @@
                           {:syntax-tree {:rule (:rule %)}}))
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat #(add-lexeme-at % {:aux true
-                                     :canonical "be"}))
+   (g/lazy-mapcat #(add-lexeme-at %
+                                  (g/frontier %)
+                                  (g/frontier %)
+                                  {:aux true
+                                   :canonical "be"}))
    ;; 2. add vp->verb:
    ;;
    ;;    s
@@ -209,7 +207,8 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
-   (g/lazy-mapcat add-lexeme-at)
+   (g/lazy-mapcat #(add-lexeme-at % (g/frontier %)
+                                    (g/frontier %)))
    (remove #(= % :fail))))
 
 (defn headness? [tree at]
@@ -225,13 +224,11 @@
        (get (u/get-in tree (butlast at)) :head)))))
 
 (defn add-word-at [tree at]
-  (log/debug (str "adding word:" (u/get-in tree at) " at: " at))
+  (log/info (str "adding word:" (u/get-in tree at) " at: " at))
   (let [head? (headness? tree at)
         word (merge (g/make-word)
                     {:head? head?})]
     (unify tree
-;           {:syntax-tree {:rule (u/get-in tree [:rule])
-;                          :2 {:rule (u/get-in tree [:head :rule])}
            (merge (s/create-path-in (concat [:syntax-tree] at) word)
                   (s/create-path-in at word)))))
 
@@ -263,14 +260,14 @@
 (defn do-fold [tree]
   (let [raised-comp (u/get-in tree [:head :comp :comp])
         upper-head (u/get-in tree [:head :head])
-        raised-head (u/get-in tree [:head :comp :head])
-        tree (-> tree)]
-;;                 (add-word-at [:2 :2 :1])
-;;                 (add-word-at [:2 :1]))]
+        raised-head (u/get-in tree [:head :comp :head])]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
     (-> tree
         (dissoc :dag_unify.serialization/serialized))))
+
+(defn st2 [tree]
+  (syntax-tree-2 (u/get-in tree [:syntax-tree])))
 
 (defn demo []
   ;; 1. create a tree that looks like:
@@ -289,9 +286,9 @@
    (pre-folded-trees)
    first
 
-;;   ((fn [expression]
-;;      (log/info (str "pre-folding:    " (syntax-tree expression)))
-;;      expression
+   ((fn [expression]
+      (log/info (str "pre-folding:    " (st2 expression)))
+      expression))
 
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -302,12 +299,16 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-;;   do-fold
+   do-fold
 
-;;   (add-word-at [:2 :2 :1])
+   ((fn [expression]
+      (log/info (str "post-folding:   " (st2 expression)))
+      expression))
+
+;;   (add-lexeme-at)
    
    ((fn [expression]
 ;;      (log/info (str "post-folding 1: " (syntax-tree expression)))
-      (log/info (str "post-folding 2: " (syntax-tree-2 (u/get-in expression [:syntax-tree]))))
+;;      (log/info (str "post-folding 2: " (syntax-tree-2 (u/get-in expression [:syntax-tree]))))
      expression))))
    

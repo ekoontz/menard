@@ -305,9 +305,7 @@
                                         :rule (:rule %)}})))
    (g/lazy-map #(set-started % []))
    (g/lazy-mapcat #(add-rule % "vp-aux"))
-   (g/lazy-mapcat #(add-lexeme %
-                                  {:aux true
-                                   :canonical "be"}))
+   (g/lazy-mapcat add-lexeme)
    ;; 2. add vp->verb:
    ;;
    ;;    s
@@ -323,8 +321,6 @@
    ;;
    (g/lazy-mapcat #(add-rule % "vp"))
    (g/lazy-mapcat #(add-lexeme %))
-   (remove #(= % :fail))
-
    
    ;; 2. fold up tree from the above representation to:
    ;;    s

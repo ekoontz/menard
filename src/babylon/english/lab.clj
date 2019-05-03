@@ -146,12 +146,14 @@
        (g/eugenes-map #(u/assoc-in tree at %))
        (g/eugenes-map #(set-started % at))
        (remove #(= :fail %))
-       (map #(unify % (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
-                                        (let [one-is-head? (headness? tree (concat at [:1]))] 
-                                          {:head? (= :head (last at))
-                                           :1 {:head? one-is-head?}
-                                           :2 {:head? (not one-is-head?)}
-                                           :rule rule-name}))))))
+       (g/eugenes-map
+        #(unify %
+                (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
+                                  (let [one-is-head? (headness? tree (concat at [:1]))] 
+                                    {:head? (= :head (last at))
+                                     :1 {:head? one-is-head?}
+                                     :2 {:head? (not one-is-head?)}
+                                     :rule rule-name}))))))
 
 (defn numeric-frontier [syntax-tree]
   ;; TODO: this is a mess; was written by trial-and-error: rewrite cleanly.

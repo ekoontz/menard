@@ -188,7 +188,7 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/debug (str "adding to: " (st2 tree) " at:" at)))
+      (log/info (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -291,7 +291,7 @@
 (defn truncate-at [tree at]
   (let [numeric-path (numeric-path tree at)]
     (log/info (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
-    (let [new-tree (-> tree (dissoc :head) (dissoc :2))]
+    (let [new-tree (-> tree (dissoc (first at) (dissoc (first numeric-path))))]
       (log/info (str "truncate-at (post): " (count (str new-tree))))
       new-tree)))
 
@@ -354,6 +354,8 @@
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head]))
    (g/lazy-map #(truncate-at % [:head]))
-;;   (g/lazy-mapcat add-lexeme)
-;;   (g/lazy-map #(truncate-at % [:comp]))
+   (g/lazy-map #(dissoc % :dag_unify.serialization/serialized))
+   (g/lazy-mapcat add-lexeme)
+   (g/lazy-map #(truncate-at % [:comp]))
+   (g/lazy-map #(dissoc % :dag_unify.serialization/serialized))
    first))

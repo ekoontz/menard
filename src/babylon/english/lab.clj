@@ -188,7 +188,7 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/info (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
+      (log/debug (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -274,25 +274,11 @@
 (defn morph-new [tree]
   (morph-2 (u/get-in tree [:syntax-tree])))
 
-(defn truncate-at! [tree at]
-  (let [numeric-path (numeric-path tree at)]
-    (log/info (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
-    (swap!
-     (get (u/get-in tree (butlast at))
-          (first at))
-     (fn [old] nil))
-    (swap!
-     (get (u/get-in tree (butlast numeric-path))
-          (first numeric-path))
-     (fn [old] nil))
-    (log/info (str "truncate-at (post): " (count (str tree))))
-    tree))
-
 (defn truncate-at [tree at]
   (let [numeric-path (numeric-path tree at)]
-    (log/info (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
-    (let [new-tree (-> tree (dissoc (first at) (dissoc (first numeric-path))))]
-      (log/info (str "truncate-at (post): " (count (str new-tree))))
+    (log/debug (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
+    (let [new-tree (-> tree (g/dissoc-in at) (g/dissoc-in numeric-path))]
+      (log/debug (str "truncate-at (post): " (count (str new-tree))))
       new-tree)))
 
 (defn terminate-at [tree at]

@@ -185,14 +185,10 @@
     
 (defn add-lexeme [tree & [spec]]
   (let [at (g/frontier tree)
-        at-numeric (numeric-frontier (u/get-in tree [:syntax-tree]))
-        debug (log/debug (str "add lexeme at:"  at "; at-numeric: " at-numeric))
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
       (log/debug (str "adding to: " (st2 tree) " at:" at)))
-    (if (not (= tree :fail))
-      (log/debug (str " numerically: " at-numeric)))
     (if (= spec :fail)
       []
       (do
@@ -202,7 +198,7 @@
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(set-done % at))
-             (g/lazy-map #(add-word-at % at at-numeric)))))))
+             (g/lazy-map #(add-word-at % at)))))))
 
 (defn headness? [tree at]
   (or
@@ -216,9 +212,9 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-(defn add-word-at [tree at numerically-at]
-  (log/debug (str "adding word at: " at "; numerically:" numerically-at))
+(defn add-word-at [tree at]
   (let [head? (headness? tree at)
+        numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
         word (merge (g/make-word)
                     {:head? head?})]
     (unify tree

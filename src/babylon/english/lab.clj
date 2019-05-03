@@ -147,11 +147,42 @@
        (g/eugenes-map #(set-started % at))
        (remove #(= :fail %))
        (map #(unify % (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
-                                        {:head? (= :head (last at))
-                                         :rule rule-name})))))
+                                        (let [one-is-head? (headness? tree (concat at [:1]))] 
+                                          {:head? (= :head (last at))
+                                           :1 {:head? one-is-head?}
+                                           :2 {:head? (not one-is-head?)}
+                                           :rule rule-name}))))))
 
-(defn add-lexeme-at [tree at originally-at & [spec]]
-  (let [at-numeric (numeric-path tree originally-at)
+(defn numeric-frontier [syntax-tree]
+  (cond
+    (nil? syntax-tree)
+    []
+    (:canonical syntax-tree) ;; we hit a leaf.
+    []
+
+    (and (nil? (-> syntax-tree :1 :canonical))
+         (-> syntax-tree :2 :rule))
+    (cons :2 (-> syntax-tree :2 numeric-frontier))
+
+    (and (nil? (-> syntax-tree :1 :canonical))
+         (nil? (-> syntax-tree :1 :rule))
+         (-> syntax-tree :1 :head?))
+    (cons :1 (-> syntax-tree :2 numeric-frontier))
+
+    (and (-> syntax-tree :1 :canonical)
+         (-> syntax-tree :1 :head?)
+         (-> syntax-tree :2 :rule))
+    (cons :2 (-> syntax-tree :2 numeric-frontier))
+
+    (-> syntax-tree :1 :head?)
+    (cons :1 (-> syntax-tree :1 numeric-frontier))
+    
+    true nil))
+    
+(defn add-lexeme-at [tree & [spec]]
+  (let [at (g/frontier tree)
+        at-numeric (numeric-frontier (u/get-in tree [:syntax-tree]))
+        debug (log/info (str "add lexeme at:"  at "; at-numeric: " at-numeric))
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
@@ -166,8 +197,8 @@
              (remove #(= :fail (unify % spec)))
              shuffle
              (g/eugenes-map #(u/assoc-in tree at %))
-             (map #(set-done % at))
-             (map #(add-word-at % at-numeric)))))))
+             (g/eugenes-map #(set-done % at))
+             (g/eugenes-map #(add-word-at % at-numeric)))))))
 
 (defn pre-folded-trees []
   (->>
@@ -185,12 +216,14 @@
    (filter #(= (:rule %) "s"))
    shuffle
    (g/eugenes-map #(unify %
-                          {:syntax-tree {:rule (:rule %)}}))
+                          (let [one-is-head? (headness? % [:1])]
+                            {:syntax-tree {:1 {:head? one-is-head?}
+                                           :2 {:head? (not one-is-head?)}
+                                           :rule (:rule %)}})))
+                                         
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (g/lazy-mapcat #(add-lexeme-at %
-                                  (g/frontier %)
-                                  (g/frontier %)
                                   {:aux true
                                    :canonical "be"}))
    ;; 2. add vp->verb:
@@ -207,8 +240,7 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
-   (g/lazy-mapcat #(add-lexeme-at % (g/frontier %)
-                                    (g/frontier %)))
+   (g/lazy-mapcat #(add-lexeme-at %))
    (remove #(= % :fail))))
 
 (defn headness? [tree at]
@@ -224,7 +256,7 @@
        (get (u/get-in tree (butlast at)) :head)))))
 
 (defn add-word-at [tree at]
-  (log/info (str "adding word:" (u/get-in tree at) " at: " at))
+  (log/debug (str "adding word:" (u/get-in tree at) " at: " at))
   (let [head? (headness? tree at)
         word (merge (g/make-word)
                     {:head? head?})]
@@ -266,7 +298,7 @@
     (-> tree
         (dissoc :dag_unify.serialization/serialized))))
 
-(defn st2 [tree]
+(defn syntax-tree-new [tree]
   (syntax-tree-2 (u/get-in tree [:syntax-tree])))
 
 (defn demo []
@@ -288,7 +320,7 @@
 
    ((fn [expression]
       (log/info (str "pre-folding:    " (st2 expression)))
-      expression))
+      expression
 
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -299,15 +331,15 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   do-fold
+;;   do-fold
 
-   ((fn [expression]
-      (log/info (str "post-folding:   " (st2 expression)))
-      expression))
+;;   ((fn [expression]
+;;      (log/info (str "post-folding:   " (st2 expression)))
+;;      expression))
 
 ;;   (add-lexeme-at)
    
-   ((fn [expression]
+;;   ((fn [expression]
 ;;      (log/info (str "post-folding 1: " (syntax-tree expression)))
 ;;      (log/info (str "post-folding 2: " (syntax-tree-2 (u/get-in expression [:syntax-tree]))))
      expression))))

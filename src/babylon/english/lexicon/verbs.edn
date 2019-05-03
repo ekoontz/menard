@@ -14,10 +14,13 @@
 
             ;; 2. "I am a student"
             subject-object-noun
-            ;; TODO: they must agree in number 
-            {:1 {:cat :noun}
-             :2 {:cat :noun}
-             :3 []}
+            (let [number (atom :top)]
+              {:1 {:cat :noun
+                   :agr {:number number}}
+               :2 {:cat :noun
+                   :subcat []
+                   :agr {:number number}}
+               :3 []})
 
             ;; 3. "I am sure"
             subject-adjective {:1 {:cat :noun}

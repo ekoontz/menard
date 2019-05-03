@@ -154,15 +154,12 @@
                                            :rule rule-name}))))))
 
 (defn numeric-frontier [syntax-tree]
+  ;; TODO: this is a mess; was written by trial-and-error: rewrite cleanly.
   (cond
     (nil? syntax-tree)
     []
     (:canonical syntax-tree) ;; we hit a leaf.
     []
-
-    (and (nil? (-> syntax-tree :1 :canonical))
-         (-> syntax-tree :2 :rule))
-    (cons :2 (-> syntax-tree :2 numeric-frontier))
 
     (and (nil? (-> syntax-tree :1 :canonical))
          (nil? (-> syntax-tree :1 :rule))
@@ -174,7 +171,12 @@
          (-> syntax-tree :2 :rule))
     (cons :2 (-> syntax-tree :2 numeric-frontier))
 
-    (-> syntax-tree :1 :head?)
+    (and (nil? (-> syntax-tree :1 :canonical))
+         (-> syntax-tree :2 :rule))
+    (cons :2 (-> syntax-tree :2 numeric-frontier))
+
+    (and (nil? (-> syntax-tree :1 :canonical))
+         (-> syntax-tree :1 :head?))
     (cons :1 (-> syntax-tree :1 numeric-frontier))
     
     true nil))
@@ -319,7 +321,7 @@
    first
 
    ((fn [expression]
-      (log/info (str "pre-folding:    " (st2 expression)))
+      (log/info (str "pre-folding:    " (syntax-tree-new expression)))
       expression
 
    ;; 2. fold up tree from the above representation to:

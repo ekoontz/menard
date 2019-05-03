@@ -336,7 +336,6 @@
    ;;    would see  _
    ;;
    (g/lazy-map #(do-fold % [:head]))
-
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(truncate-at % [:head]))
    (g/lazy-mapcat add-lexeme)

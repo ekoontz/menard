@@ -306,12 +306,12 @@
     (morph syntax-tree)))
 
 
-(defn do-fold [tree]
-  (let [raised-comp (u/get-in tree [:head :comp :comp])
-        upper-head (u/get-in tree [:head :head])
-        raised-head (u/get-in tree [:head :comp :head])]
-    (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
-    (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
+(defn do-fold [tree at]
+  (let [raised-comp (u/get-in tree (concat at [:comp :comp]))
+        upper-head (u/get-in tree (concat at [:head]))
+        raised-head (u/get-in tree (concat at [:comp :head]))]
+    (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
+    (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
     (-> tree
         (dissoc :dag_unify.serialization/serialized))))
 
@@ -339,10 +339,6 @@
    (pre-folded-trees)
    first
 
-   ((fn [expression]
-      (log/debug (str "pre-folding:    " (syntax-tree-new expression)))
-      expression))
-
    ;; 2. fold up tree from the above representation to:
    ;;    s
    ;;   / \
@@ -352,11 +348,7 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   do-fold
-
-   ((fn [expression]
-      (log/debug (str "post-folding:    " (syntax-tree-new expression)))
-      expression))
+   (do-fold [:head])
 
    (add-lexeme-at)
    first

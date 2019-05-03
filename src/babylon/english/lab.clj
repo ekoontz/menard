@@ -323,7 +323,12 @@
 (defn morph-new [tree]
   (morph-2 (u/get-in tree [:syntax-tree])))
 
-
+(defn truncate-at [tree at]
+  (-> tree
+      (g/dissoc-in at)
+      (g/dissoc-in (numeric-path tree at))
+      (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
+                  true)))
 (defn demo []
   ;; 1. create a tree that looks like:
   ;;
@@ -337,9 +342,8 @@
   ;;         /   \
   ;;      H /     \
   ;;      see      _
-  (->
+  (->>
    (pre-folded-trees)
-   first
 
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -350,17 +354,12 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   (do-fold [:head])
+   (g/lazy-map #(do-fold % [:head]))
 
-   (add-lexeme-at)
-   first
-
-   (g/dissoc-in [:head])
-   (g/dissoc-in [:2])
-
-   (u/assoc-in [:syntax-tree :2 :done?] true)
-
-   (add-lexeme-at)
+   (g/lazy-mapcat add-lexeme-at)
+   (g/lazy-map #(truncate-at % [:head]))
+   (g/lazy-mapcat add-lexeme-at)
    first))
+
 
    

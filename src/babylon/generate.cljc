@@ -63,10 +63,10 @@
        (map #(u/assoc-in! % [::started?] true))))
 
 (declare handle-generation-failure)
-(defn eugenes-map [f items]
+(defn lazy-map [f items]
   (when (not (empty? items))
     (cons (f (first items))
-          (lazy-seq (eugenes-map f (rest items))))))
+          (lazy-seq (lazy-map f (rest items))))))
 
 ;; TODO: (grow) isn't really the greatest name. Rather than "growing" a
 ;; a tree you grow an entire forest using a single tree as input.
@@ -104,7 +104,7 @@
                  (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
                  true
                  (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
-               (eugenes-map
+               (lazy-map
                 (fn [child]
                   (-> tree
                       (u/assoc-in frontier-path child)

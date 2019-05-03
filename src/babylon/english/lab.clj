@@ -161,6 +161,9 @@
     (:canonical syntax-tree) ;; we hit a leaf.
     []
 
+    (-> syntax-tree :2 :done?)
+    (cons :1 (-> syntax-tree :1 numeric-frontier))
+
     (and (nil? (-> syntax-tree :1 :canonical))
          (nil? (-> syntax-tree :1 :rule))
          (-> syntax-tree :1 :head?))
@@ -339,9 +342,19 @@
       expression))
 
    (add-lexeme-at)
-   first))
-;;   ((fn [expression]
-;;      (log/info (str "post-folding 1: " (syntax-tree expression)))
-;;      (log/info (str "post-folding 2: " (syntax-tree-2 (u/get-in expression [:syntax-tree]))))
-;;     expression))
+   first
+
+   (g/dissoc-in [:head])
+   (g/dissoc-in [:2])
+
+   (u/assoc-in [:syntax-tree :2 :done?] true)
+
+   (add-lexeme-at)
+   first
+   
+   (g/dissoc-in [:comp])
+   (g/dissoc-in [:1])
+
+   (u/assoc-in [:syntax-tree :1 :done?] true)))
+
    

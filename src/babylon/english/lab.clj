@@ -136,24 +136,22 @@
     true
     (cons :2 (at-numeric (u/get-in tree [(first at)]) (rest at)))))
 
-(defn add-rule-at [tree rule-name at]
-  (log/debug (str "adding rule: " rule-name " at: " at))
-  (log/debug (str "creating: " (s/create-path-in (concat [:syntax-tree] (numeric-path tree at) [:rule])
-                                                 rule-name)))
-  (->> grammar
-       (filter #(= (:rule %) rule-name))
-       shuffle
-       (g/lazy-map #(u/assoc-in tree at %))
-       (g/lazy-map #(set-started % at))
-       (remove #(= :fail %))
-       (g/lazy-map
-        #(unify %
-                (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
-                                  (let [one-is-head? (headness? tree (concat at [:1]))] 
-                                    {:head? (= :head (last at))
-                                     :1 {:head? one-is-head?}
-                                     :2 {:head? (not one-is-head?)}
-                                     :rule rule-name}))))))
+(defn add-rule [tree rule-name]
+  (let [at (g/frontier tree)]
+    (->> grammar
+         (filter #(= (:rule %) rule-name))
+         shuffle
+         (g/lazy-map #(u/assoc-in tree at %))
+         (g/lazy-map #(set-started % at))
+         (remove #(= :fail %))
+         (g/lazy-map
+          #(unify %
+                  (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
+                                    (let [one-is-head? (headness? tree (concat at [:1]))] 
+                                      {:head? (= :head (last at))
+                                       :1 {:head? one-is-head?}
+                                       :2 {:head? (not one-is-head?)}
+                                       :rule rule-name})))))))
 
 (defn numeric-frontier [syntax-tree]
   ;; TODO: this is a mess; was written by trial-and-error: rewrite cleanly.
@@ -185,7 +183,7 @@
     
     true nil))
     
-(defn add-lexeme-at [tree & [spec]]
+(defn add-lexeme [tree & [spec]]
   (let [at (g/frontier tree)
         at-numeric (numeric-frontier (u/get-in tree [:syntax-tree]))
         debug (log/debug (str "add lexeme at:"  at "; at-numeric: " at-numeric))
@@ -310,8 +308,8 @@
                                         :2 {:head? (not one-is-head?)}
                                         :rule (:rule %)}})))
    (g/lazy-map #(set-started % []))
-   (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat #(add-lexeme-at %
+   (g/lazy-mapcat #(add-rule % "vp-aux"))
+   (g/lazy-mapcat #(add-lexeme %
                                   {:aux true
                                    :canonical "be"}))
    ;; 2. add vp->verb:
@@ -327,8 +325,8 @@
    ;;      H /     \
    ;;      see      _
    ;;
-   (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
-   (g/lazy-mapcat #(add-lexeme-at %))
+   (g/lazy-mapcat #(add-rule % "vp"))
+   (g/lazy-mapcat #(add-lexeme %))
    (remove #(= % :fail))
 
    
@@ -343,9 +341,9 @@
    ;;
    (g/lazy-map #(do-fold % [:head]))
 
-   (g/lazy-mapcat add-lexeme-at)
+   (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(truncate-at % [:head]))
-   (g/lazy-mapcat add-lexeme-at)
+   (g/lazy-mapcat add-lexeme)
    first))
 
 

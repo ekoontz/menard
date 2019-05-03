@@ -274,10 +274,29 @@
 (defn morph-new [tree]
   (morph-2 (u/get-in tree [:syntax-tree])))
 
+(defn truncate-at! [tree at]
+  (let [numeric-path (numeric-path tree at)]
+    (log/info (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
+    (swap!
+     (get (u/get-in tree (butlast at))
+          (first at))
+     (fn [old] nil))
+    (swap!
+     (get (u/get-in tree (butlast numeric-path))
+          (first numeric-path))
+     (fn [old] nil))
+    (log/info (str "truncate-at (post): " (count (str tree))))
+    tree))
+
 (defn truncate-at [tree at]
+  (let [numeric-path (numeric-path tree at)]
+    (log/info (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
+    (let [new-tree (-> tree (dissoc :head) (dissoc :2))]
+      (log/info (str "truncate-at (post): " (count (str new-tree))))
+      new-tree)))
+
+(defn terminate-at [tree at]
   (-> tree
-      (g/dissoc-in at)
-      (g/dissoc-in (numeric-path tree at))
       (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
                   true)))
 (defn demo []
@@ -333,9 +352,8 @@
    ;;
    (g/lazy-map #(do-fold % [:head]))
    (g/lazy-mapcat add-lexeme)
+   (g/lazy-map #(terminate-at % [:head]))
    (g/lazy-map #(truncate-at % [:head]))
-   (g/lazy-mapcat add-lexeme)
+;;   (g/lazy-mapcat add-lexeme)
+;;   (g/lazy-map #(truncate-at % [:comp]))
    first))
-
-
-   

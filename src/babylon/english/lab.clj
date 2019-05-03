@@ -143,10 +143,10 @@
   (->> grammar
        (filter #(= (:rule %) rule-name))
        shuffle
-       (g/eugenes-map #(u/assoc-in tree at %))
-       (g/eugenes-map #(set-started % at))
+       (g/lazy-map #(u/assoc-in tree at %))
+       (g/lazy-map #(set-started % at))
        (remove #(= :fail %))
-       (g/eugenes-map
+       (g/lazy-map
         #(unify %
                 (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
                                   (let [one-is-head? (headness? tree (concat at [:1]))] 
@@ -202,9 +202,9 @@
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
              shuffle
-             (g/eugenes-map #(u/assoc-in tree at %))
-             (g/eugenes-map #(set-done % at))
-             (g/eugenes-map #(add-word-at % at at-numeric)))))))
+             (g/lazy-map #(u/assoc-in tree at %))
+             (g/lazy-map #(set-done % at))
+             (g/lazy-map #(add-word-at % at at-numeric)))))))
 
 (defn pre-folded-trees []
   (->>
@@ -221,13 +221,13 @@
    grammar
    (filter #(= (:rule %) "s"))
    shuffle
-   (g/eugenes-map #(unify %
+   (g/lazy-map #(unify %
                           (let [one-is-head? (headness? % [:1])]
                             {:syntax-tree {:1 {:head? one-is-head?}
                                            :2 {:head? (not one-is-head?)}
                                            :rule (:rule %)}})))
                                          
-   (g/eugenes-map #(set-started % []))
+   (g/lazy-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (g/lazy-mapcat #(add-lexeme-at %
                                   {:aux true

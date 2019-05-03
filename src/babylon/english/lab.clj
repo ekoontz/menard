@@ -186,13 +186,13 @@
 (defn add-lexeme-at [tree & [spec]]
   (let [at (g/frontier tree)
         at-numeric (numeric-frontier (u/get-in tree [:syntax-tree]))
-        debug (log/info (str "add lexeme at:"  at "; at-numeric: " at-numeric))
+        debug (log/debug (str "add lexeme at:"  at "; at-numeric: " at-numeric))
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/info (str "adding to: " (st2 tree) " at:" at)))
+      (log/debug (str "adding to: " (st2 tree) " at:" at)))
     (if (not (= tree :fail))
-      (log/info (str " numerically: " at-numeric)))
+      (log/debug (str " numerically: " at-numeric)))
     (if (= spec :fail)
       []
       (do
@@ -260,7 +260,7 @@
        (get (u/get-in tree (butlast at)) :head)))))
 
 (defn add-word-at [tree at numerically-at]
-  (log/info (str "adding word at: " at "; numerically:" numerically-at))
+  (log/debug (str "adding word at: " at "; numerically:" numerically-at))
   (let [head? (headness? tree at)
         word (merge (g/make-word)
                     {:head? head?})]
@@ -323,7 +323,7 @@
    first
 
    ((fn [expression]
-      (log/info (str "pre-folding:    " (syntax-tree-new expression)))
+      (log/debug (str "pre-folding:    " (syntax-tree-new expression)))
       expression))
 
    ;; 2. fold up tree from the above representation to:
@@ -338,7 +338,7 @@
    do-fold
 
    ((fn [expression]
-      (log/info (str "post-folding:    " (syntax-tree-new expression)))
+      (log/debug (str "post-folding:    " (syntax-tree-new expression)))
       expression))
 
    (add-lexeme-at)
@@ -350,11 +350,6 @@
    (u/assoc-in [:syntax-tree :2 :done?] true)
 
    (add-lexeme-at)
-   first
-   
-   (g/dissoc-in [:comp])
-   (g/dissoc-in [:1])
-
-   (u/assoc-in [:syntax-tree :1 :done?] true)))
+   first))
 
    

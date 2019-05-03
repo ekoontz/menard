@@ -167,8 +167,7 @@
     (cons :1 (-> syntax-tree :2 numeric-frontier))
 
     (and (-> syntax-tree :1 :canonical)
-         (-> syntax-tree :1 :head?)
-         (-> syntax-tree :2 :rule))
+         (-> syntax-tree :1 :head?))
     (cons :2 (-> syntax-tree :2 numeric-frontier))
 
     (and (nil? (-> syntax-tree :1 :canonical))
@@ -200,7 +199,7 @@
              shuffle
              (g/eugenes-map #(u/assoc-in tree at %))
              (g/eugenes-map #(set-done % at))
-             (g/eugenes-map #(add-word-at % at-numeric)))))))
+             (g/eugenes-map #(add-word-at % at at-numeric)))))))
 
 (defn pre-folded-trees []
   (->>
@@ -257,13 +256,13 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-(defn add-word-at [tree at]
-  (log/debug (str "adding word:" (u/get-in tree at) " at: " at))
+(defn add-word-at [tree at numerically-at]
+  (log/info (str "adding word at: " at "; numerically:" numerically-at))
   (let [head? (headness? tree at)
         word (merge (g/make-word)
                     {:head? head?})]
     (unify tree
-           (merge (s/create-path-in (concat [:syntax-tree] at) word)
+           (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                   (s/create-path-in at word)))))
 
 (defn syntax-tree-2 [syntax-tree]
@@ -322,7 +321,7 @@
 
    ((fn [expression]
       (log/info (str "pre-folding:    " (syntax-tree-new expression)))
-      expression
+      expression))
 
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -333,16 +332,16 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-;;   do-fold
+   do-fold
 
-;;   ((fn [expression]
-;;      (log/info (str "post-folding:   " (st2 expression)))
-;;      expression))
+   ((fn [expression]
+      (log/info (str "post-folding:    " (syntax-tree-new expression)))
+      expression))
 
-;;   (add-lexeme-at)
-   
+   (add-lexeme-at)
+   first))
 ;;   ((fn [expression]
 ;;      (log/info (str "post-folding 1: " (syntax-tree expression)))
 ;;      (log/info (str "post-folding 2: " (syntax-tree-2 (u/get-in expression [:syntax-tree]))))
-     expression))))
+;;     expression))
    

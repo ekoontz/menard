@@ -206,49 +206,6 @@
              (g/lazy-map #(set-done % at))
              (g/lazy-map #(add-word-at % at at-numeric)))))))
 
-(defn pre-folded-trees []
-  (->>
-   ;; 1. build s->vp-aux->aux-verb:
-   ;;
-   ;;    s
-   ;;   / \ 
-   ;;  /   \ H
-   ;;  _    vp-aux(new)
-   ;;      /   
-   ;;     / H   
-   ;;   would(new)
-   ;;
-   grammar
-   (filter #(= (:rule %) "s"))
-   shuffle
-   (g/lazy-map #(unify %
-                          (let [one-is-head? (headness? % [:1])]
-                            {:syntax-tree {:1 {:head? one-is-head?}
-                                           :2 {:head? (not one-is-head?)}
-                                           :rule (:rule %)}})))
-                                         
-   (g/lazy-map #(set-started % []))
-   (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat #(add-lexeme-at %
-                                  {:aux true
-                                   :canonical "be"}))
-   ;; 2. add vp->verb:
-   ;;
-   ;;    s
-   ;;   / \ 
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /   \
-   ;;     / H   vp(new)
-   ;;   would  / \
-   ;;         /   \
-   ;;      H /     \
-   ;;      see      _
-   ;;
-   (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
-   (g/lazy-mapcat #(add-lexeme-at %))
-   (remove #(= % :fail))))
-
 (defn headness? [tree at]
   (or
    (= (last at) :head)
@@ -330,21 +287,51 @@
       (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
                   true)))
 (defn demo []
-  ;; 1. create a tree that looks like:
-  ;;
-  ;;    s
-  ;;   / \ 
-  ;;  /   \ H
-  ;;  _    vp-aux
-  ;;      /   \
-  ;;     / H   vp(new)
-  ;;   would  / \
-  ;;         /   \
-  ;;      H /     \
-  ;;      see      _
   (->>
-   (pre-folded-trees)
+   grammar
+   (filter #(= (:rule %) "s"))
+   shuffle
 
+   ;; 1. create a tree that looks like:
+   ;;
+   ;;    s
+   ;;   / \ 
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /   \
+   ;;     / H   vp(new)
+   ;;   would  / \
+   ;;         /   \
+   ;;      H /     \
+   ;;      see      _
+   (g/lazy-map #(unify %
+                       (let [one-is-head? (headness? % [:1])]
+                         {:syntax-tree {:1 {:head? one-is-head?}
+                                        :2 {:head? (not one-is-head?)}
+                                        :rule (:rule %)}})))
+   (g/lazy-map #(set-started % []))
+   (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
+   (g/lazy-mapcat #(add-lexeme-at %
+                                  {:aux true
+                                   :canonical "be"}))
+   ;; 2. add vp->verb:
+   ;;
+   ;;    s
+   ;;   / \ 
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /   \
+   ;;     / H   vp(new)
+   ;;   would  / \
+   ;;         /   \
+   ;;      H /     \
+   ;;      see      _
+   ;;
+   (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
+   (g/lazy-mapcat #(add-lexeme-at %))
+   (remove #(= % :fail))
+
+   
    ;; 2. fold up tree from the above representation to:
    ;;    s
    ;;   / \

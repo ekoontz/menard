@@ -293,6 +293,19 @@
     true
     (morph syntax-tree)))
 
+(defn morph-2 [syntax-tree]
+  (cond
+    (nil? syntax-tree) "_"
+    (u/get-in syntax-tree [:1])
+    (str (morph-2 (u/get-in syntax-tree [:1])) " "
+         (morph-2 (u/get-in syntax-tree [:2])))
+    (u/get-in syntax-tree [:2])
+    (str "_ "
+         (morph-2 (u/get-in syntax-tree [:2])))
+    true
+    (morph syntax-tree)))
+
+
 (defn do-fold [tree]
   (let [raised-comp (u/get-in tree [:head :comp :comp])
         upper-head (u/get-in tree [:head :head])
@@ -304,6 +317,10 @@
 
 (defn syntax-tree-new [tree]
   (syntax-tree-2 (u/get-in tree [:syntax-tree])))
+
+(defn morph-new [tree]
+  (morph-2 (u/get-in tree [:syntax-tree])))
+
 
 (defn demo []
   ;; 1. create a tree that looks like:

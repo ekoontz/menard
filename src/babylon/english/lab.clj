@@ -285,7 +285,7 @@
   (-> tree
       (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
                   true)))
-(defn demo []
+(defn generate-new []
   (->>
    ;; 1. start with a list containing a single empty tree:
    [{}]
@@ -340,3 +340,6 @@
    ;; 7. add upper complement:
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(truncate-at % [:comp]))))
+
+(defn demo []
+  (repeatedly #(println (morph-new (-> (generate-new) first)))))

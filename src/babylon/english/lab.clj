@@ -276,10 +276,10 @@
 
 (defn truncate-at [tree at]
   (let [numeric-path (numeric-path tree at)]
-    (log/debug (str "truncate-at: " (syntax-tree-new tree) " at: " at "; numerically: " numeric-path))
-    (let [new-tree (-> tree (g/dissoc-in at) (g/dissoc-in numeric-path))]
-      (log/debug (str "truncate-at (post): " (count (str new-tree))))
-      new-tree)))
+    (-> tree
+        (g/dissoc-in at)
+        (g/dissoc-in numeric-path)
+        (dissoc :dag_unify.serialization/serialized))))
 
 (defn terminate-at [tree at]
   (-> tree
@@ -340,8 +340,5 @@
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head]))
    (g/lazy-map #(truncate-at % [:head]))
-   (g/lazy-map #(dissoc % :dag_unify.serialization/serialized))
    (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(truncate-at % [:comp]))
-   (g/lazy-map #(dissoc % :dag_unify.serialization/serialized))
-   first))
+   (g/lazy-map #(truncate-at % [:comp]))))

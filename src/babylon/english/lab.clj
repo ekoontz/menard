@@ -221,7 +221,10 @@
     (morph syntax-tree)))
 
 (defn syntax-tree-new [tree]
-  (syntax-tree-2 (u/get-in tree [:syntax-tree])))
+  (cond (= :fail tree)
+        tree
+        true
+        (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
 
 (defn add-word-at [tree at]
   (let [head? (headness? tree at)

@@ -131,10 +131,22 @@
         (and (= (first at) :comp)
              (= (get tree :comp)
                 (get tree :1))))
-    (cons :1 (at-numeric (u/get-in tree [(first at)]) (rest at)))
+    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
 
     true
-    (cons :2 (at-numeric (u/get-in tree [(first at)]) (rest at)))))
+    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
+
+(defn headness? [tree at]
+  (or
+   (= (last at) :head)
+   (and
+    (= (last at) :1)
+    (= (get (u/get-in tree (butlast at)) :1)
+       (get (u/get-in tree (butlast at)) :head)))
+   (and
+    (= (last at) :1)
+    (= (get (u/get-in tree (butlast at)) :1)
+       (get (u/get-in tree (butlast at)) :head)))))
 
 (defn add-rule [tree rule-name]
   (let [at (g/frontier tree)]
@@ -182,44 +194,6 @@
     (cons :1 (-> syntax-tree :1 numeric-frontier))
     
     true nil))
-    
-(defn add-lexeme [tree & [spec]]
-  (let [at (g/frontier tree)
-        spec (or spec :top)
-        spec (unify spec (u/get-in tree at))]
-    (if (not (= tree :fail))
-      (log/debug (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
-    (if (= spec :fail)
-      []
-      (do
-        (log/debug (str "spec: " (u/strip-refs spec)))
-        (->> flattened-lexicon
-             (remove #(= :fail (unify % spec)))
-             shuffle
-             (g/lazy-map #(u/assoc-in tree at %))
-             (g/lazy-map #(set-done % at))
-             (g/lazy-map #(add-word-at % at)))))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
-
-(defn add-word-at [tree at]
-  (let [head? (headness? tree at)
-        numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-        word (merge (g/make-word)
-                    {:head? head?})]
-    (unify tree
-           (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                  (s/create-path-in at word)))))
 
 (defn syntax-tree-2 [syntax-tree]
   (cond
@@ -246,6 +220,35 @@
     true
     (morph syntax-tree)))
 
+(defn syntax-tree-new [tree]
+  (syntax-tree-2 (u/get-in tree [:syntax-tree])))
+
+(defn add-word-at [tree at]
+  (let [head? (headness? tree at)
+        numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
+        word (merge (g/make-word)
+                    {:head? head?})]
+    (unify tree
+           (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                  (s/create-path-in at word)))))
+
+(defn add-lexeme [tree & [spec]]
+  (let [at (g/frontier tree)
+        spec (or spec :top)
+        spec (unify spec (u/get-in tree at))]
+    (if (not (= tree :fail))
+      (log/debug (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
+    (if (= spec :fail)
+      []
+      (do
+        (log/debug (str "spec: " (u/strip-refs spec)))
+        (->> flattened-lexicon
+             (remove #(= :fail (unify % spec)))
+             shuffle
+             (g/lazy-map #(u/assoc-in tree at %))
+             (g/lazy-map #(set-done % at))
+             (g/lazy-map #(add-word-at % at)))))))
+
 (defn morph-2 [syntax-tree]
   (cond
     (nil? syntax-tree) "_"
@@ -267,9 +270,6 @@
     (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
     (-> tree
         (dissoc :dag_unify.serialization/serialized))))
-
-(defn syntax-tree-new [tree]
-  (syntax-tree-2 (u/get-in tree [:syntax-tree])))
 
 (defn morph-new [tree]
   (morph-2 (u/get-in tree [:syntax-tree])))

@@ -159,7 +159,7 @@
          (g/lazy-map
           #(unify %
                   (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
-                                    (let [one-is-head? (headness? tree (concat at [:1]))] 
+                                    (let [one-is-head? (headness? % (concat at [:1]))] 
                                       {:head? (= :head (last at))
                                        :1 {:head? one-is-head?}
                                        :2 {:head? (not one-is-head?)}

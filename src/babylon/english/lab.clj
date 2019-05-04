@@ -287,31 +287,25 @@
                   true)))
 (defn demo []
   (->>
-   grammar
-   (filter #(= (:rule %) "s"))
-   shuffle
+   ;; 1. start with a list containing a single empty tree:
+   [{}]
 
-   ;; 1. create a tree that looks like:
+   ;; 2. add an s:
+   (g/lazy-mapcat #(add-rule % "s"))
+
+   ;; 3. add auxiliary verb:
    ;;
    ;;    s
    ;;   / \ 
    ;;  /   \ H
    ;;  _    vp-aux
-   ;;      /   \
-   ;;     / H   vp(new)
-   ;;   would  / \
-   ;;         /   \
-   ;;      H /     \
-   ;;      see      _
-   (g/lazy-map #(unify %
-                       (let [one-is-head? (headness? % [:1])]
-                         {:syntax-tree {:1 {:head? one-is-head?}
-                                        :2 {:head? (not one-is-head?)}
-                                        :rule (:rule %)}})))
-   (g/lazy-map #(set-started % []))
+   ;;      /   
+   ;;     / H   
+   ;;   would  
    (g/lazy-mapcat #(add-rule % "vp-aux"))
    (g/lazy-mapcat add-lexeme)
-   ;; 2. add vp->verb:
+
+   ;; 4. add vp->verb:
    ;;
    ;;    s
    ;;   / \ 
@@ -327,7 +321,7 @@
    (g/lazy-mapcat #(add-rule % "vp"))
    (g/lazy-mapcat #(add-lexeme %))
    
-   ;; 2. fold up tree from the above representation to:
+   ;; 5. fold up tree from the above representation to:
    ;;    s
    ;;   / \
    ;;  /   \ H
@@ -337,8 +331,12 @@
    ;;    would see  _
    ;;
    (g/lazy-map #(do-fold % [:head]))
+   
+   ;; 6. add lower complement:
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head]))
    (g/lazy-map #(truncate-at % [:head]))
+
+   ;; 7. add upper complement:
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(truncate-at % [:comp]))))

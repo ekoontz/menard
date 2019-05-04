@@ -307,7 +307,9 @@
    ;;   would  
    (g/lazy-mapcat #(add-rule % "vp-aux"))
    (g/lazy-mapcat add-lexeme)
-
+   (g/lazy-map #(terminate-at % [:head :head]))
+;;   (g/lazy-map #(truncate-at % [:head :head]))
+   
    ;; 4. add vp->verb:
    ;;
    ;;    s
@@ -322,7 +324,10 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule % "vp"))
+
    (g/lazy-mapcat #(add-lexeme %))
+   (g/lazy-map #(terminate-at % [:head :comp :head]))
+;;   (g/lazy-map #(truncate-at % [:head :comp :head]))
    
    ;; 5. fold up tree from the above representation to:
    ;;    s
@@ -342,6 +347,7 @@
 
    ;; 7. add upper complement:
    (g/lazy-mapcat add-lexeme)
+   (g/lazy-map #(terminate-at % [:comp]))
    (g/lazy-map #(truncate-at % [:comp]))))
 
 (defn demo []

@@ -278,16 +278,24 @@
   (morph-2 (u/get-in tree [:syntax-tree])))
 
 (defn truncate-at [tree at]
-  (let [numeric-path (numeric-path tree at)]
-    (-> tree
-        (g/dissoc-in at)
-        (g/dissoc-in numeric-path)
-        (dissoc :dag_unify.serialization/serialized))))
+  (cond
+    (= at [:head :comp :head])
+    tree
+    (= at [:head :head])
+    tree
+    true
+    (let [numeric-path (numeric-path tree at)]
+      (-> tree
+          (g/dissoc-in at)
+          (g/dissoc-in numeric-path)
+          (dissoc :dag_unify.serialization/serialized)))))
 
 (defn terminate-at [tree at]
   (-> tree
       (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
-                  true)))
+                  true)
+      (truncate-at at)))
+
 (defn generate-new []
   (->>
    ;; 1. start with a list containing a single empty tree:
@@ -308,10 +316,10 @@
    (g/lazy-mapcat #(add-rule % "vp-aux"))
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head :head]))
-;;   (g/lazy-map #(truncate-at % [:head :head]))
    
    ;; 4. add vp->verb:
    ;;
+
    ;;    s
    ;;   / \ 
    ;;  /   \ H
@@ -324,10 +332,8 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule % "vp"))
-
-   (g/lazy-mapcat #(add-lexeme %))
+   (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head :comp :head]))
-;;   (g/lazy-map #(truncate-at % [:head :comp :head]))
    
    ;; 5. fold up tree from the above representation to:
    ;;    s
@@ -343,12 +349,10 @@
    ;; 6. add lower complement:
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head]))
-   (g/lazy-map #(truncate-at % [:head]))
 
    ;; 7. add upper complement:
    (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:comp]))
-   (g/lazy-map #(truncate-at % [:comp]))))
+   (g/lazy-map #(terminate-at % [:comp]))))
 
 (defn demo []
   (repeatedly #(println (morph-new (-> (generate-new) first)))))

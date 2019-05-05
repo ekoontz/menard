@@ -314,6 +314,7 @@
    ;;     / H   
    ;;   would  
    (g/lazy-mapcat #(add-rule % "vp-aux"))
+
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head :head]))
    
@@ -332,6 +333,7 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule % "vp"))
+
    (g/lazy-mapcat add-lexeme)
    (g/lazy-map #(terminate-at % [:head :comp :head]))
    

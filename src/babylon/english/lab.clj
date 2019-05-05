@@ -226,8 +226,11 @@
         true
         (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
 
-(defn add-word-at [tree at]
+(defn update-syntax-tree [tree at]
   (let [head? (headness? tree at)
+        ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
+        ;; if folding occurs.
+
         numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
         word (merge (g/make-word)
                     {:head? head?})]
@@ -240,7 +243,7 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/debug (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
+      (log/info (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -250,7 +253,7 @@
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(set-done % at))
-             (g/lazy-map #(add-word-at % at)))))))
+             (g/lazy-map #(update-syntax-tree % at)))))))
 
 (defn morph-2 [syntax-tree]
   (cond
@@ -358,3 +361,24 @@
 
 (defn demo []
   (repeatedly #(println (morph-new (-> (generate-new) first)))))
+
+(defn foo1 []
+  (->>
+   ;; 1. start with a list containing a single empty tree:
+   [{}]
+
+   ;; 2. add an s:
+   (g/lazy-mapcat #(add-rule % "s"))
+
+   ;; 3. add auxiliary verb:
+   ;;
+   ;;    s
+   ;;   / \ 
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /   
+   ;;     / H   
+   ;;   would  
+   (g/lazy-mapcat #(add-rule % "vp-aux"))))
+
+;;   (g/lazy-mapcat add-lexeme)))

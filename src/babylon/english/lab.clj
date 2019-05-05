@@ -281,23 +281,21 @@
   (morph-2 (u/get-in tree [:syntax-tree])))
 
 (defn truncate-at [tree at]
-  (cond
-    (= at [:head :comp :head])
-    tree
-    (= at [:head :head])
-    tree
-    true
-    (let [numeric-path (numeric-path tree at)]
-      (-> tree
-          (g/dissoc-in at)
-          (g/dissoc-in numeric-path)
-          (dissoc :dag_unify.serialization/serialized)))))
+  (let [numeric-path (numeric-path tree at)]
+    (-> tree
+        (g/dissoc-in at)
+        (g/dissoc-in numeric-path)
+        (dissoc :dag_unify.serialization/serialized))))
 
 (defn terminate-at [tree at]
   (-> tree
       (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
                   true)
-      (truncate-at at)))
+      ((fn [tree]
+         (if (u/get-in tree (concat at [:canonical]))
+           tree ;; a lexeme: do not try to truncate.
+           ;; a phrase: truncate.
+          (truncate-at tree at))))))
 
 (defn generate-new []
   (->>
@@ -379,6 +377,7 @@
    ;;      /   
    ;;     / H   
    ;;   would  
-   (g/lazy-mapcat #(add-rule % "vp-aux"))))
+   (g/lazy-mapcat #(add-rule % "vp-aux"))
 
-;;   (g/lazy-mapcat add-lexeme)))
+   (g/lazy-mapcat add-lexeme)))
+;;   (g/lazy-map #(terminate-at % [:head :head]))))

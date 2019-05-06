@@ -357,6 +357,8 @@
    (g/lazy-mapcat add-lexeme)
 
    ;; 7. add upper complement:
+   (g/lazy-mapcat #(add-rule % "np"))
+   (g/lazy-mapcat add-lexeme)
    (g/lazy-mapcat add-lexeme)))
 
 (defn demo []

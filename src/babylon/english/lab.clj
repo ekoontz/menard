@@ -235,14 +235,14 @@
         (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
 
 (defn update-syntax-tree [tree at]
-  (log/info (str "updating syntax-tree:" (syntax-tree-new tree) " at: " at))
+  (log/debug (str "updating syntax-tree:" (syntax-tree-new tree) " at: " at))
   (let [head? (headness? tree at)
         ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
         ;; if folding occurs.
         numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
         word (merge (g/make-word)
                     {:head? head?})]
-    (log/info (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
+    (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
     (unify tree
            (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                   (s/create-path-in at word)))))
@@ -252,11 +252,11 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/info (str "add-lexeme: adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
+      (log/debug (str "add-lexeme: adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
     (if (= spec :fail)
       []
       (do
-        (log/info (str "add-lexeme: spec: " (u/strip-refs spec)))
+        (log/debug (str "add-lexeme: spec: " (u/strip-refs spec)))
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
              shuffle
@@ -289,21 +289,11 @@
   (morph-2 (u/get-in tree [:syntax-tree])))
 
 (defn truncate-at [tree at]
-  (log/info (str "truncating: " (syntax-tree-new tree) " at: " at))
   (let [numeric-path (numeric-path tree at)]
     (-> tree
         (g/dissoc-in at)
         (g/dissoc-in numeric-path)
         (dissoc :dag_unify.serialization/serialized))))
-
-(defn terminate-at [tree at]
-  (log/info (str "terminate-at: " (syntax-tree-new tree) " at: " at))
-  (if (u/get-in tree (concat at [:canonical]))
-    tree
-    (-> tree
-        (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
-                    true)
-        (truncate-at at))))
 
 (defn generate-new []
   (->>
@@ -323,9 +313,7 @@
    ;;     / H   
    ;;   would  
    (g/lazy-mapcat #(add-rule % "vp-aux"))
-
    (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:head :head]))
    
    ;; 4. add vp->verb:
    ;;
@@ -342,9 +330,7 @@
    ;;      see      _
    ;;
    (g/lazy-mapcat #(add-rule % "vp"))
-
    (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:head :comp :head]))
    
    ;; 5. fold up tree from the above representation to:
    ;;    s
@@ -359,69 +345,10 @@
    
    ;; 6. add lower complement:
    (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:head]))
 
    ;; 7. add upper complement:
    (g/lazy-mapcat add-lexeme)))
-;;   (g/lazy-map #(terminate-at % [:comp]))))
 
 (defn demo []
-  (repeatedly #(println (morph-new (-> (generate-new) first)))))
-
-(defn foo1 []
-  (->>
-   ;; 1. start with a list containing a single empty tree:
-   [{}]
-
-   ;; 2. add an s:
-   (g/lazy-mapcat #(add-rule % "s"))
-
-   ;; 3. add auxiliary verb:
-   ;;
-   ;;    s
-   ;;   / \ 
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /   
-   ;;     / H   
-   ;;   would  
-   (g/lazy-mapcat #(add-rule % "vp-aux"))
-
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:head :head]))
-   
-   ;; 4. add vp->verb:
-   ;;
-
-   ;;    s
-   ;;   / \ 
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /   \
-   ;;     / H   vp(new)
-   ;;   would  / \
-   ;;         /   \
-   ;;      H /     \
-   ;;      see      _
-   ;;
-   (g/lazy-mapcat #(add-rule % "vp"))
-
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:head :comp :head]))
-   
-   ;; 5. fold up tree from the above representation to:
-   ;;    s
-   ;;   / \
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /      \
-   ;;     / H      \
-   ;;    would see  _
-   ;;
-   (g/lazy-map #(do-fold % [:head]))
-   
-   ;; 6. add lower complement:
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:head]))))
-
+  (repeatedly #(println (morph-new (time (-> (generate-new) first))))))
 

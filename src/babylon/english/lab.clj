@@ -262,27 +262,25 @@
         true at))
 
 (defn truncate-at [tree at]
-  (cond
-    (not (= (last at) :comp))
-    tree
-    
-    true
-    (let [at (cond (empty? (butlast at))
-                   [:comp]
-                   true (butlast at))
-          numeric-path (numeric-path tree at)]
-      (log/info (str "truncate-at: " (syntax-tree tree) " at: " (vec at) "; numerically: " numeric-path))
-      (-> tree
-          (g/dissoc-in at)
-          (g/dissoc-in numeric-path)
-          (dissoc :dag_unify.serialization/serialized)))))
+  (if (= :comp (last at))
+    (let [compless-at (if (empty? (remove-trailing-comps at))
+                        ;; in this case, we are truncating the final :comp, 
+                        ;; and we don't need to go up one level since
+                        ;; the [:head] has already been truncated.
+                        [:comp]
+                        (remove-trailing-comps at))]
+       (-> tree
+           (g/dissoc-in compless-at)
+           (g/dissoc-in (numeric-path tree compless-at))
+           (dissoc :dag_unify.serialization/serialized)))
+    tree))
 
 (defn add-lexeme [tree & [spec]]
   (let [at (g/frontier tree)
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/debug (str "add-lexeme: adding to: " (syntax-tree tree) "(#" (count (str tree)) ") at:" at)))
+      (log/info (str "add-lexeme: adding to: " (syntax-tree tree) " at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -292,8 +290,8 @@
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(set-done % at))
-             (g/lazy-map #(update-syntax-tree % at)))))))
-;;             (g/lazy-map #(truncate-at % at)))))))
+             (g/lazy-map #(update-syntax-tree % at))
+             (g/lazy-map #(truncate-at % at)))))))
 
 (defn morph-2 [syntax-tree]
   (cond
@@ -308,6 +306,7 @@
     (morph syntax-tree)))
 
 (defn do-fold [tree at]
+  (log/info (str "do-fold: " (syntax-tree tree) " at: " at))
   (let [raised-comp (u/get-in tree (concat at [:comp :comp]))]
     (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))

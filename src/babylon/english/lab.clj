@@ -357,21 +357,28 @@
     true
     (en/morph syntax-tree)))
 
-(defn generate [spec]
+(defn add [tree as]
+  (cond (= as :rule)
+        (add-rule tree)  
+        true (add-lexeme tree)))
+           
+(defn generate-all [spec]
   (->>
    [spec]
-   (g/lazy-mapcat add-rule)
-   (g/lazy-mapcat add-rule)
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-rule)
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-rule)
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-rule)
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-lexeme)))
+   (g/lazy-mapcat #(add % :rule))
+   (g/lazy-mapcat #(add % :rule))
+   (g/lazy-mapcat #(add % :lexeme))
+   (g/lazy-mapcat #(add % :rule))
+   (g/lazy-mapcat #(add % :lexeme))
+   (g/lazy-mapcat #(add % :rule))
+   (g/lazy-mapcat #(add % :lexeme))
+   (g/lazy-mapcat #(add % :lexeme))
+   (g/lazy-mapcat #(add % :rule))
+   (g/lazy-mapcat #(add % :lexeme))
+   (g/lazy-mapcat #(add % :lexeme))))
 
+(defn generate [spec]
+   (-> spec generate-all first))
 
 (defn quick [spec]
   (->>
@@ -394,7 +401,6 @@
    #(println
      (-> demo-spec
          generate
-         first
          morph))))
 
 (defn timed-demo []
@@ -402,6 +408,5 @@
    #(println
      (-> demo-spec
          generate
-         first
          time
          syntax-tree))))

@@ -254,6 +254,13 @@
            (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                   (s/create-path-in at word)))))
 
+(defn remove-trailing-comps [at]
+  (cond (empty? at) at
+        (= :comp
+           (last at))
+        (remove-trailing-comps (butlast at))
+        true at))
+
 (defn truncate-at [tree at]
   (cond
     (not (= (last at) :comp))

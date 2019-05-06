@@ -192,6 +192,14 @@
     :done
 
     (nil? syntax-tree) :done
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :1 :head?))
+    (cons :1 (numeric-frontier (-> syntax-tree :1)))
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :2 :head?))
+    (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
     true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
 

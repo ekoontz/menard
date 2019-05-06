@@ -291,9 +291,7 @@
 (defn terminate-at [tree at]
   (log/info (str "terminate-at: " (syntax-tree-new tree) " at: " at))
   (if (u/get-in tree (concat at [:canonical]))
-    (-> tree)
-;        (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
-;                    true)
+    tree
     (-> tree
         (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
                     true)

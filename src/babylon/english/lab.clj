@@ -231,8 +231,12 @@
 
 (defn add-rule [tree & [rule-name]]
   (let [at (g/frontier tree)
+        rule-name
+        (cond rule-name rule-name
+              (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
+              true nil)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: " (syntax-tree tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
+    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle
@@ -246,7 +250,10 @@
                                       {:head? (= :head (last at))
                                        :1 {:head? one-is-head?}
                                        :2 {:head? (not one-is-head?)}
-                                       :rule (:rule %)})))))))
+                                       :rule
+                                       (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                           (or rule-name
+                                               (u/get-in % (concat at [:rule]))))})))))))
 
 
 (defn update-syntax-tree [tree at]

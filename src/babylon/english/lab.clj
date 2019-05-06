@@ -247,6 +247,22 @@
            (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                   (s/create-path-in at word)))))
 
+(defn truncate-at [tree at]
+  (cond
+    (not (= (last at) :comp))
+    tree
+    
+    true
+    (let [at (cond (empty? (butlast at))
+                   [:comp]
+                   true (butlast at))
+          numeric-path (numeric-path tree at)]
+      (log/debug (str "truncate-at: " (syntax-tree-new tree) " at: " (vec at) "; numerically: " numeric-path))
+      (-> tree
+          (g/dissoc-in at)
+          (g/dissoc-in numeric-path)
+          (dissoc :dag_unify.serialization/serialized)))))
+
 (defn add-lexeme [tree & [spec]]
   (let [at (g/frontier tree)
         spec (or spec :top)
@@ -288,22 +304,6 @@
 
 (defn morph-new [tree]
   (morph-2 (u/get-in tree [:syntax-tree])))
-
-(defn truncate-at [tree at]
-  (cond
-    (not (= (last at) :comp))
-    tree
-    
-    true
-    (let [at (cond (empty? (butlast at))
-                   [:comp]
-                   true (butlast at))
-          numeric-path (numeric-path tree at)]
-      (log/debug (str "truncate-at: " (syntax-tree-new tree) " at: " (vec at) "; numerically: " numeric-path))
-      (-> tree
-          (g/dissoc-in at)
-          (g/dissoc-in numeric-path)
-          (dissoc :dag_unify.serialization/serialized)))))
 
 (defn generate-new []
   (->>

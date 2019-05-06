@@ -55,6 +55,10 @@
 (defn numeric-frontier [syntax-tree]
   (cond
     (and (map? syntax-tree)
+         (:syntax-tree syntax-tree))
+    (numeric-frontier (:syntax-tree syntax-tree))
+
+    (and (map? syntax-tree)
          (-> syntax-tree :canonical))
     :done
 

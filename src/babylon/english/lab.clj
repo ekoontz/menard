@@ -356,7 +356,7 @@
    [{}]
 
    ;; 2. start with s at the root level:
-   (g/lazy-mapcat #(add-rule % "s"))
+   (g/lazy-mapcat #(add-rule %))
 
    ;; 3. add s -> .comp *_vp-aux_
    (g/lazy-mapcat #(add-rule % "vp-aux"))

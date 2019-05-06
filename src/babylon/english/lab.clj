@@ -372,6 +372,17 @@
    (g/lazy-mapcat add-lexeme)
    (g/lazy-mapcat add-lexeme)))
 
+
+(defn quick [spec]
+  (->>
+   [spec]
+   (g/lazy-mapcat add-rule)
+   (g/lazy-mapcat add-lexeme)
+   (g/lazy-mapcat add-lexeme)))
+
+(defn quick-demo []
+  (repeatedly #(println (morph (first (quick {:rule "s" :comp {:phrasal false} :head {:phrasal false}}))))))
+
 (def demo-spec
   (-> {:rule "s"
        :comp {:rule "np"}
@@ -379,6 +390,14 @@
               :comp {:rule "vp"
                      :comp {:rule "np"}}}}))
 (defn demo []
+  (repeatedly
+   #(println
+     (-> demo-spec
+         generate
+         first
+         morph))))
+
+(defn timed-demo []
   (repeatedly
    #(println
      (-> demo-spec

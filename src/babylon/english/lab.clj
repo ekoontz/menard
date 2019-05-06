@@ -50,7 +50,7 @@
   (cond (= :fail tree)
         tree
         true
-        (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
+        (str (syntax-tree-2 (u/get-in tree [:syntax-tree])) " (#" (count (str tree)) ")")))
 
 (defn numeric-frontier [syntax-tree]
   (cond

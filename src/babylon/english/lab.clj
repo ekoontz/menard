@@ -224,7 +224,7 @@
 (defn add-rule [tree rule-name]
   (let [at (g/frontier tree)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: " (syntax-tree tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
+    (log/debug (str "add-rule: " (syntax-tree tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(= (:rule %) rule-name))
          shuffle
@@ -280,7 +280,7 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/info (str "add-lexeme: adding to: " (syntax-tree tree) " at:" at)))
+      (log/debug (str "add-lexeme: adding to: " (syntax-tree tree) " at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -306,7 +306,7 @@
     (morph syntax-tree)))
 
 (defn do-fold [tree at]
-  (log/info (str "do-fold: " (syntax-tree tree) " at: " at))
+  (log/debug (str "do-fold: " (syntax-tree tree) " at: " at))
   (let [raised-comp (u/get-in tree (concat at [:comp :comp]))]
     (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))

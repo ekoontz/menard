@@ -262,7 +262,8 @@
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(set-done % at))
-             (g/lazy-map #(update-syntax-tree % at)))))))
+             (g/lazy-map #(update-syntax-tree % at))
+             (g/lazy-map #(truncate-at % at)))))))
 
 (defn morph-2 [syntax-tree]
   (cond
@@ -289,11 +290,20 @@
   (morph-2 (u/get-in tree [:syntax-tree])))
 
 (defn truncate-at [tree at]
-  (let [numeric-path (numeric-path tree at)]
-    (-> tree
-        (g/dissoc-in at)
-        (g/dissoc-in numeric-path)
-        (dissoc :dag_unify.serialization/serialized))))
+  (cond
+    (not (= (last at) :comp))
+    tree
+    
+    true
+    (let [at (cond (empty? (butlast at))
+                   [:comp]
+                   true (butlast at))
+          numeric-path (numeric-path tree at)]
+      (log/debug (str "truncate-at: " (syntax-tree-new tree) " at: " (vec at) "; numerically: " numeric-path))
+      (-> tree
+          (g/dissoc-in at)
+          (g/dissoc-in numeric-path)
+          (dissoc :dag_unify.serialization/serialized)))))
 
 (defn generate-new []
   (->>

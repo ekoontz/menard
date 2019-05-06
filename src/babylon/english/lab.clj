@@ -363,7 +363,7 @@
    [{}]
 
    ;; 2. start with s at the root level:
-   (g/lazy-mapcat #(add-rule %))
+   (g/lazy-mapcat #(add-rule % "s"))
 
    ;; 3. add s -> .comp *_vp-aux_
    (g/lazy-mapcat #(add-rule % "vp-aux"))
@@ -372,18 +372,18 @@
    (g/lazy-mapcat add-lexeme)
 
    ;; 5. add vp: *vp-aux -> *v _.vp_
-   (g/lazy-mapcat #(add-rule % "vp"))
+   (g/lazy-mapcat #(add-rule %))
 
    ;; add .vp -> *_verb_ .comp:
    (g/lazy-mapcat add-lexeme)
    
    ;; 6. add lower complement np: .vp -> *v _.np_:
-   (g/lazy-mapcat #(add-rule % "np"))
+   (g/lazy-mapcat #(add-rule %))
    (g/lazy-mapcat add-lexeme)
    (g/lazy-mapcat add-lexeme)
 
    ;; 7. add upper complement:np: s -> vp _np_.
-   (g/lazy-mapcat #(add-rule % "np"))
+   (g/lazy-mapcat #(add-rule %))
    (g/lazy-mapcat add-lexeme)
    (g/lazy-mapcat add-lexeme)))
 

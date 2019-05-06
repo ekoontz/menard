@@ -264,9 +264,8 @@
 (defn truncate-at [tree at]
   (if (= :comp (last at))
     (let [compless-at (if (empty? (remove-trailing-comps at))
-                        ;; in this case, we are truncating the final :comp, 
-                        ;; and we don't need to go up one level since
-                        ;; the [:head] has already been truncated.
+                        ;; in this case, we have just added the final :comp at the
+                        ;; root of the tree, so simply truncate that.
                         [:comp]
                         (remove-trailing-comps at))]
        (-> tree

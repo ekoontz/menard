@@ -169,7 +169,7 @@
   (cond
     (and (map? syntax-tree)
          (-> syntax-tree :canonical))
-    :none
+    :done
 
     (and (map? syntax-tree)
          (nil? (-> syntax-tree :1))
@@ -177,21 +177,21 @@
     []
 
     (and (map? syntax-tree)
-         (= :none (numeric-frontier (-> syntax-tree :2)))
-         (not (= :none (numeric-frontier (-> syntax-tree :1)))))
+         (= :done (numeric-frontier (-> syntax-tree :2)))
+         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
     (cons :1 (numeric-frontier (-> syntax-tree :1)))
           
     (and (map? syntax-tree)
-         (= :none (numeric-frontier (-> syntax-tree :1)))
-         (not (= :none (numeric-frontier (-> syntax-tree :2)))))
+         (= :done (numeric-frontier (-> syntax-tree :1)))
+         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
 
     (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :none)
-         (= (-> syntax-tree :2 numeric-frontier) :none))
-    :none
+         (= (-> syntax-tree :1 numeric-frontier) :done)
+         (= (-> syntax-tree :2 numeric-frontier) :done))
+    :done
 
-    (nil? syntax-tree) :none
+    (nil? syntax-tree) :done
     
     true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
 

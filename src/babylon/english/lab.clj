@@ -1,6 +1,6 @@
 (ns babylon.english.lab
   (:require
-   [babylon.english :as en :refer [analyze generate grammar morph parse syntax-tree]]
+   [babylon.english :as en :refer [analyze generate grammar morph parse]]
    [babylon.generate :as g]
    [dag_unify.core :as u :refer [unify fail? ref? simplify-ref]]
    [dag_unify.serialization :as s :refer [all-refs]]
@@ -20,6 +20,75 @@
            :agr {:number :sing}
            :sem {:pred :dog}}
     :canonical "be"}])
+
+(defn syntax-tree-2 [syntax-tree]
+  (cond
+    (nil? syntax-tree) "_"
+    (u/get-in syntax-tree [:1])
+    (str "["
+         (:rule syntax-tree "?") " "
+         (if (= true (u/get-in syntax-tree [:1 :head?]))
+           "*" ".")
+         (syntax-tree-2 (u/get-in syntax-tree [:1])) " "
+         (if (= true (u/get-in syntax-tree [:2 :head?]))
+           "*" ".")
+         (syntax-tree-2 (u/get-in syntax-tree [:2]))
+         "]")
+    (u/get-in syntax-tree [:2])
+    (str "["
+         (:rule syntax-tree "?") " "
+         (if (= true (u/get-in syntax-tree [:1 :head?]))
+           "*" ".")
+         "_ "
+         (if (= true (u/get-in syntax-tree [:2 :head?]))
+           "*" ".")
+         (syntax-tree-2 (u/get-in syntax-tree [:2])) "]")
+    true
+    (morph syntax-tree)))
+
+(defn syntax-tree [tree]
+  (cond (= :fail tree)
+        tree
+        true
+        (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
+
+(defn numeric-frontier [syntax-tree]
+  (cond
+    (and (map? syntax-tree)
+         (-> syntax-tree :canonical))
+    :done
+
+    (and (map? syntax-tree)
+         (nil? (-> syntax-tree :1))
+         (nil? (-> syntax-tree :2)))
+    []
+
+    (and (map? syntax-tree)
+         (= :done (numeric-frontier (-> syntax-tree :2)))
+         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
+    (cons :1 (numeric-frontier (-> syntax-tree :1)))
+          
+    (and (map? syntax-tree)
+         (= :done (numeric-frontier (-> syntax-tree :1)))
+         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
+    (cons :2 (numeric-frontier (-> syntax-tree :2)))
+
+    (and (map? syntax-tree)
+         (= (-> syntax-tree :1 numeric-frontier) :done)
+         (= (-> syntax-tree :2 numeric-frontier) :done))
+    :done
+
+    (nil? syntax-tree) :done
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :1 :head?))
+    (cons :1 (numeric-frontier (-> syntax-tree :1)))
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :2 :head?))
+    (cons :2 (numeric-frontier (-> syntax-tree :2)))
+    
+    true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
 
 (defn gen
   "how to generate a phrase with particular constraints."
@@ -151,7 +220,7 @@
 (defn add-rule [tree rule-name]
   (let [at (g/frontier tree)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: " (syntax-tree-new tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
+    (log/info (str "add-rule: " (syntax-tree tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(= (:rule %) rule-name))
          shuffle
@@ -167,77 +236,9 @@
                                        :2 {:head? (not one-is-head?)}
                                        :rule rule-name})))))))
 
-(defn numeric-frontier [syntax-tree]
-  (cond
-    (and (map? syntax-tree)
-         (-> syntax-tree :canonical))
-    :done
-
-    (and (map? syntax-tree)
-         (nil? (-> syntax-tree :1))
-         (nil? (-> syntax-tree :2)))
-    []
-
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :2)))
-         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-          
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :1)))
-         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-
-    (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :done)
-         (= (-> syntax-tree :2 numeric-frontier) :done))
-    :done
-
-    (nil? syntax-tree) :done
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :1 :head?))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :2 :head?))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-    
-    true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
-
-(defn syntax-tree-2 [syntax-tree]
-  (cond
-    (nil? syntax-tree) "_"
-    (u/get-in syntax-tree [:1])
-    (str "["
-         (:rule syntax-tree "?") " "
-         (if (= true (u/get-in syntax-tree [:1 :head?]))
-           "*" ".")
-         (syntax-tree-2 (u/get-in syntax-tree [:1])) " "
-         (if (= true (u/get-in syntax-tree [:2 :head?]))
-           "*" ".")
-         (syntax-tree-2 (u/get-in syntax-tree [:2]))
-         "]")
-    (u/get-in syntax-tree [:2])
-    (str "["
-         (:rule syntax-tree "?") " "
-         (if (= true (u/get-in syntax-tree [:1 :head?]))
-           "*" ".")
-         "_ "
-         (if (= true (u/get-in syntax-tree [:2 :head?]))
-           "*" ".")
-         (syntax-tree-2 (u/get-in syntax-tree [:2])) "]")
-    true
-    (morph syntax-tree)))
-
-(defn syntax-tree-new [tree]
-  (cond (= :fail tree)
-        tree
-        true
-        (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
 
 (defn update-syntax-tree [tree at]
-  (log/debug (str "updating syntax-tree:" (syntax-tree-new tree) " at: " at))
+  (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
   (let [head? (headness? tree at)
         ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
         ;; if folding occurs.
@@ -259,7 +260,7 @@
                    [:comp]
                    true (butlast at))
           numeric-path (numeric-path tree at)]
-      (log/debug (str "truncate-at: " (syntax-tree-new tree) " at: " (vec at) "; numerically: " numeric-path))
+      (log/info (str "truncate-at: " (syntax-tree tree) " at: " (vec at) "; numerically: " numeric-path))
       (-> tree
           (g/dissoc-in at)
           (g/dissoc-in numeric-path)
@@ -270,7 +271,7 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/debug (str "add-lexeme: adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
+      (log/debug (str "add-lexeme: adding to: " (syntax-tree tree) "(#" (count (str tree)) ") at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -280,8 +281,8 @@
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(set-done % at))
-             (g/lazy-map #(update-syntax-tree % at))
-             (g/lazy-map #(truncate-at % at)))))))
+             (g/lazy-map #(update-syntax-tree % at)))))))
+;;             (g/lazy-map #(truncate-at % at)))))))
 
 (defn morph-2 [syntax-tree]
   (cond
@@ -327,7 +328,6 @@
    
    ;; 4. add vp->verb:
    ;;
-
    ;;    s
    ;;   / \ 
    ;;  /   \ H
@@ -354,12 +354,14 @@
    (g/lazy-map #(do-fold % [:head]))
    
    ;; 6. add lower complement:
-   (g/lazy-mapcat add-lexeme)
+   (g/lazy-mapcat #(add-rule % "np"))
+   (g/lazy-mapcat add-lexeme)))
+;;   (g/lazy-mapcat add-lexeme)))
 
    ;; 7. add upper complement:
-   (g/lazy-mapcat #(add-rule % "np"))
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-lexeme)))
+;;   (g/lazy-mapcat #(add-rule % "np"))
+;;   (g/lazy-mapcat add-lexeme)
+;;   (g/lazy-mapcat add-lexeme)))
 
 (defn demo []
   (repeatedly #(println (morph-new (time (-> (generate-new) first))))))

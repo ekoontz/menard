@@ -229,12 +229,12 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-(defn add-rule [tree rule-name]
+(defn add-rule [tree & [rule-name]]
   (let [at (g/frontier tree)
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: " (syntax-tree tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
     (->> grammar
-         (filter #(= (:rule %) rule-name))
+         (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle
          (g/lazy-map #(u/assoc-in tree at %))
          (g/lazy-map #(set-started % at))
@@ -246,7 +246,7 @@
                                       {:head? (= :head (last at))
                                        :1 {:head? one-is-head?}
                                        :2 {:head? (not one-is-head?)}
-                                       :rule rule-name})))))))
+                                       :rule (:rule %)})))))))
 
 
 (defn update-syntax-tree [tree at]

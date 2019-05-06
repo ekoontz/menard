@@ -166,34 +166,34 @@
                                        :rule rule-name})))))))
 
 (defn numeric-frontier [syntax-tree]
-  ;; TODO: this is a mess; was written by trial-and-error: rewrite cleanly.
   (cond
-    (nil? syntax-tree)
+    (and (map? syntax-tree)
+         (-> syntax-tree :canonical))
+    :none
+
+    (and (map? syntax-tree)
+         (nil? (-> syntax-tree :1))
+         (nil? (-> syntax-tree :2)))
     []
-    (:canonical syntax-tree) ;; we hit a leaf.
-    []
 
-    (-> syntax-tree :2 :done?)
-    (cons :1 (-> syntax-tree :1 numeric-frontier))
+    (and (map? syntax-tree)
+         (= :none (numeric-frontier (-> syntax-tree :2)))
+         (not (= :none (numeric-frontier (-> syntax-tree :1)))))
+    (cons :1 (numeric-frontier (-> syntax-tree :1)))
+          
+    (and (map? syntax-tree)
+         (= :none (numeric-frontier (-> syntax-tree :1)))
+         (not (= :none (numeric-frontier (-> syntax-tree :2)))))
+    (cons :2 (numeric-frontier (-> syntax-tree :2)))
 
-    (and (nil? (-> syntax-tree :1 :canonical))
-         (nil? (-> syntax-tree :1 :rule))
-         (-> syntax-tree :1 :head?))
-    (cons :1 (-> syntax-tree :2 numeric-frontier))
+    (and (map? syntax-tree)
+         (= (-> syntax-tree :1 numeric-frontier) :none)
+         (= (-> syntax-tree :2 numeric-frontier) :none))
+    :none
 
-    (and (-> syntax-tree :1 :canonical)
-         (-> syntax-tree :1 :head?))
-    (cons :2 (-> syntax-tree :2 numeric-frontier))
-
-    (and (nil? (-> syntax-tree :1 :canonical))
-         (-> syntax-tree :2 :rule))
-    (cons :2 (-> syntax-tree :2 numeric-frontier))
-
-    (and (nil? (-> syntax-tree :1 :canonical))
-         (-> syntax-tree :1 :head?))
-    (cons :1 (-> syntax-tree :1 numeric-frontier))
+    (nil? syntax-tree) :none
     
-    true nil))
+    true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
 
 (defn syntax-tree-2 [syntax-tree]
   (cond
@@ -227,13 +227,14 @@
         (syntax-tree-2 (u/get-in tree [:syntax-tree]))))
 
 (defn update-syntax-tree [tree at]
+  (log/info (str "updating syntax-tree:" (syntax-tree-new tree) " at: " at))
   (let [head? (headness? tree at)
         ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
         ;; if folding occurs.
-
         numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
         word (merge (g/make-word)
                     {:head? head?})]
+    (log/info (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
     (unify tree
            (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                   (s/create-path-in at word)))))
@@ -243,11 +244,11 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/info (str "adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
+      (log/info (str "add-lexeme: adding to: " (syntax-tree-new tree) "(#" (count (str tree)) ") at:" at)))
     (if (= spec :fail)
       []
       (do
-        (log/debug (str "spec: " (u/strip-refs spec)))
+        (log/info (str "add-lexeme: spec: " (u/strip-refs spec)))
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
              shuffle
@@ -267,7 +268,6 @@
     true
     (morph syntax-tree)))
 
-
 (defn do-fold [tree at]
   (let [raised-comp (u/get-in tree (concat at [:comp :comp]))
         upper-head (u/get-in tree (concat at [:head]))
@@ -281,6 +281,7 @@
   (morph-2 (u/get-in tree [:syntax-tree])))
 
 (defn truncate-at [tree at]
+  (log/info (str "truncating: " (syntax-tree-new tree) " at: " at))
   (let [numeric-path (numeric-path tree at)]
     (-> tree
         (g/dissoc-in at)
@@ -288,14 +289,15 @@
         (dissoc :dag_unify.serialization/serialized))))
 
 (defn terminate-at [tree at]
-  (-> tree
-      (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
-                  true)
-      ((fn [tree]
-         (if (u/get-in tree (concat at [:canonical]))
-           tree ;; a lexeme: do not try to truncate.
-           ;; a phrase: truncate.
-          (truncate-at tree at))))))
+  (log/info (str "terminate-at: " (syntax-tree-new tree) " at: " at))
+  (if (u/get-in tree (concat at [:canonical]))
+    (-> tree)
+;        (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
+;                    true)
+    (-> tree
+        (u/assoc-in (concat [:syntax-tree] (numeric-path tree at) [:done?])
+                    true)
+        (truncate-at at))))
 
 (defn generate-new []
   (->>
@@ -354,8 +356,8 @@
    (g/lazy-map #(terminate-at % [:head]))
 
    ;; 7. add upper complement:
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-map #(terminate-at % [:comp]))))
+   (g/lazy-mapcat add-lexeme)))
+;;   (g/lazy-map #(terminate-at % [:comp]))))
 
 (defn demo []
   (repeatedly #(println (morph-new (-> (generate-new) first)))))
@@ -379,5 +381,41 @@
    ;;   would  
    (g/lazy-mapcat #(add-rule % "vp-aux"))
 
-   (g/lazy-mapcat add-lexeme)))
-;;   (g/lazy-map #(terminate-at % [:head :head]))))
+   (g/lazy-mapcat add-lexeme)
+   (g/lazy-map #(terminate-at % [:head :head]))
+   
+   ;; 4. add vp->verb:
+   ;;
+
+   ;;    s
+   ;;   / \ 
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /   \
+   ;;     / H   vp(new)
+   ;;   would  / \
+   ;;         /   \
+   ;;      H /     \
+   ;;      see      _
+   ;;
+   (g/lazy-mapcat #(add-rule % "vp"))
+
+   (g/lazy-mapcat add-lexeme)
+   (g/lazy-map #(terminate-at % [:head :comp :head]))
+   
+   ;; 5. fold up tree from the above representation to:
+   ;;    s
+   ;;   / \
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /      \
+   ;;     / H      \
+   ;;    would see  _
+   ;;
+   (g/lazy-map #(do-fold % [:head]))
+   
+   ;; 6. add lower complement:
+   (g/lazy-mapcat add-lexeme)
+   (g/lazy-map #(terminate-at % [:head]))))
+
+

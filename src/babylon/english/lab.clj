@@ -294,9 +294,7 @@
     (morph syntax-tree)))
 
 (defn do-fold [tree at]
-  (let [raised-comp (u/get-in tree (concat at [:comp :comp]))
-        upper-head (u/get-in tree (concat at [:head]))
-        raised-head (u/get-in tree (concat at [:comp :head]))]
+  (let [raised-comp (u/get-in tree (concat at [:comp :comp]))]
     (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
     (-> tree

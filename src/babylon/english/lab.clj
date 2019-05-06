@@ -149,7 +149,9 @@
        (get (u/get-in tree (butlast at)) :head)))))
 
 (defn add-rule [tree rule-name]
-  (let [at (g/frontier tree)]
+  (let [at (g/frontier tree)
+        at-num (numeric-frontier (:syntax-tree tree {}))]
+    (log/info (str "add-rule: " (syntax-tree-new tree) "; adding rule: " rule-name "; at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(= (:rule %) rule-name))
          shuffle
@@ -158,7 +160,7 @@
          (remove #(= :fail %))
          (g/lazy-map
           #(unify %
-                  (s/create-path-in (concat [:syntax-tree] (numeric-path tree at))
+                  (s/create-path-in (concat [:syntax-tree] at-num)
                                     (let [one-is-head? (headness? % (concat at [:1]))] 
                                       {:head? (= :head (last at))
                                        :1 {:head? one-is-head?}

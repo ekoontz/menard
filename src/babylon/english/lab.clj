@@ -1,6 +1,6 @@
 (ns babylon.english.lab
   (:require
-   [babylon.english :as en :refer [analyze generate grammar morph parse]]
+   [babylon.english :as en :refer [analyze grammar parse]]
    [babylon.generate :as g]
    [dag_unify.core :as u :refer [unify fail? ref? simplify-ref]]
    [dag_unify.serialization :as s :refer [all-refs]]
@@ -21,7 +21,18 @@
            :sem {:pred :dog}}
     :canonical "be"}])
 
-(defn syntax-tree-2 [syntax-tree]
+(declare morph-1)
+(declare syntax-tree-1)
+(defn morph [tree]
+  (morph-1 (u/get-in tree [:syntax-tree])))
+
+(defn syntax-tree [tree]
+  (cond (= :fail tree)
+        tree
+        true
+        (str (syntax-tree-1 (u/get-in tree [:syntax-tree])) " (#" (count (str tree)) ")")))
+
+(defn syntax-tree-1 [syntax-tree]
   (cond
     (nil? syntax-tree) "_"
     (u/get-in syntax-tree [:1])
@@ -29,10 +40,10 @@
          (:rule syntax-tree "?") " "
          (if (= true (u/get-in syntax-tree [:1 :head?]))
            "*" ".")
-         (syntax-tree-2 (u/get-in syntax-tree [:1])) " "
+         (syntax-tree-1 (u/get-in syntax-tree [:1])) " "
          (if (= true (u/get-in syntax-tree [:2 :head?]))
            "*" ".")
-         (syntax-tree-2 (u/get-in syntax-tree [:2]))
+         (syntax-tree-1 (u/get-in syntax-tree [:2]))
          "]")
     (u/get-in syntax-tree [:2])
     (str "["
@@ -42,15 +53,10 @@
          "_ "
          (if (= true (u/get-in syntax-tree [:2 :head?]))
            "*" ".")
-         (syntax-tree-2 (u/get-in syntax-tree [:2])) "]")
+         (syntax-tree-1 (u/get-in syntax-tree [:2])) "]")
     true
-    (morph syntax-tree)))
+    (en/morph syntax-tree)))
 
-(defn syntax-tree [tree]
-  (cond (= :fail tree)
-        tree
-        true
-        (str (syntax-tree-2 (u/get-in tree [:syntax-tree])) " (#" (count (str tree)) ")")))
 
 (defn numeric-frontier [syntax-tree]
   (cond
@@ -93,6 +99,8 @@
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
     true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
+
+(declare generate)
 
 (defn gen
   "how to generate a phrase with particular constraints."
@@ -292,17 +300,17 @@
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at)))))))
 
-(defn morph-2 [syntax-tree]
+(defn morph-1 [syntax-tree]
   (cond
     (nil? syntax-tree) "_"
     (u/get-in syntax-tree [:1])
-    (str (morph-2 (u/get-in syntax-tree [:1])) " "
-         (morph-2 (u/get-in syntax-tree [:2])))
+    (str (morph-1 (u/get-in syntax-tree [:1])) " "
+         (morph-1 (u/get-in syntax-tree [:2])))
     (u/get-in syntax-tree [:2])
     (str "_ "
-         (morph-2 (u/get-in syntax-tree [:2])))
+         (morph-1 (u/get-in syntax-tree [:2])))
     true
-    (morph syntax-tree)))
+    (en/morph syntax-tree)))
 
 (defn do-fold [tree at]
   (log/debug (str "do-fold: " (syntax-tree tree) " at: " at))
@@ -312,10 +320,8 @@
     (-> tree
         (dissoc :dag_unify.serialization/serialized))))
 
-(defn morph-new [tree]
-  (morph-2 (u/get-in tree [:syntax-tree])))
 
-(defn generate-new []
+(defn generate []
   (->>
    ;; 1. start with a list containing a single empty tree:
    [{}]
@@ -373,5 +379,5 @@
    (g/lazy-mapcat add-lexeme)))
 
 (defn demo []
-  (repeatedly #(println (morph-new (time (-> (generate-new) first))))))
+  (repeatedly #(println (morph (time (-> (generate) first))))))
 

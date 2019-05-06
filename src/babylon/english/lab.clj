@@ -282,6 +282,43 @@
            (dissoc :dag_unify.serialization/serialized)))
     tree))
 
+
+(defn do-fold [tree at]
+  (log/debug (str "do-fold: " (syntax-tree tree) " at: " at))
+  (let [raised-comp (u/get-in tree (concat at [:comp :comp]))]
+    (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
+    (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
+    (-> tree
+        (dissoc :dag_unify.serialization/serialized))))
+   
+;; fold up a tree like this:
+;;
+;;    s
+;;   / \ 
+;;  /   \ H
+;;  _    vp-aux
+;;      /   \
+;;     / H   vp
+;;   would  / \
+;;         /   \
+;;      H /     \
+;;      see      _
+;;
+;; into:
+;;
+;;    s
+;;   / \
+;;  /   \ H
+;;  _    vp-aux
+;;      /      \
+;;     / H      \
+;;    would see  _
+;;
+(defn fold-at [tree at]
+  (cond (= at [:head :comp :head])
+        (do-fold tree [:head])
+        true tree))
+
 (defn add-lexeme [tree & [spec]]
   (let [at (g/frontier tree)
         spec (or spec :top)
@@ -298,7 +335,8 @@
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(set-done % at))
              (g/lazy-map #(update-syntax-tree % at))
-             (g/lazy-map #(truncate-at % at)))))))
+             (g/lazy-map #(truncate-at % at))
+             (g/lazy-map #(fold-at % at)))))))
 
 (defn morph-1 [syntax-tree]
   (cond
@@ -311,15 +349,6 @@
          (morph-1 (u/get-in syntax-tree [:2])))
     true
     (en/morph syntax-tree)))
-
-(defn do-fold [tree at]
-  (log/debug (str "do-fold: " (syntax-tree tree) " at: " at))
-  (let [raised-comp (u/get-in tree (concat at [:comp :comp]))]
-    (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
-    (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
-    (-> tree
-        (dissoc :dag_unify.serialization/serialized))))
-
 
 (defn generate []
   (->>
@@ -341,32 +370,9 @@
    (g/lazy-mapcat #(add-rule % "vp-aux"))
    (g/lazy-mapcat add-lexeme)
    
-   ;; 4. add vp->verb:
-   ;;
-   ;;    s
-   ;;   / \ 
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /   \
-   ;;     / H   vp(new)
-   ;;   would  / \
-   ;;         /   \
-   ;;      H /     \
-   ;;      see      _
-   ;;
    (g/lazy-mapcat #(add-rule % "vp"))
+   ;; add vp->verb:
    (g/lazy-mapcat add-lexeme)
-   
-   ;; 5. fold up tree from the above representation to:
-   ;;    s
-   ;;   / \
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /      \
-   ;;     / H      \
-   ;;    would see  _
-   ;;
-   (g/lazy-map #(do-fold % [:head]))
    
    ;; 6. add lower complement:
    (g/lazy-mapcat #(add-rule % "np"))

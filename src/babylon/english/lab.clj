@@ -357,35 +357,40 @@
     true
     (en/morph syntax-tree)))
 
-(defn add [tree as]
-  (cond (= as :rule)
-        (add-rule tree)  
-        true (add-lexeme tree)))
+(defn add [tree]
+  (log/info (str "add: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))
+  (if (u/get-in tree (concat (g/frontier tree) [:rule]))
+    (log/info (str " add: frontier-rule:" (u/get-in tree (concat (g/frontier tree) [:rule])))))
+  (cond
+    (u/get-in tree (concat (g/frontier tree) [:rule])) (add-rule tree)
+    
+    true
+    (add-lexeme tree)))
            
-(defn generate-all [spec]
+(defn generate-all [trees]
   (->>
-   [spec]
-   (g/lazy-mapcat #(add % :rule))
-   (g/lazy-mapcat #(add % :rule))
-   (g/lazy-mapcat #(add % :lexeme))
-   (g/lazy-mapcat #(add % :rule))
-   (g/lazy-mapcat #(add % :lexeme))
-   (g/lazy-mapcat #(add % :rule))
-   (g/lazy-mapcat #(add % :lexeme))
-   (g/lazy-mapcat #(add % :lexeme))
-   (g/lazy-mapcat #(add % :rule))
-   (g/lazy-mapcat #(add % :lexeme))
-   (g/lazy-mapcat #(add % :lexeme))))
+   trees
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)))
 
 (defn generate [spec]
-   (-> spec generate-all first))
+   (-> [spec] generate-all first))
 
 (defn quick [spec]
   (->>
    [spec]
-   (g/lazy-mapcat add-rule)
-   (g/lazy-mapcat add-lexeme)
-   (g/lazy-mapcat add-lexeme)))
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)
+   (g/lazy-mapcat add)))
 
 (defn quick-demo []
   (repeatedly #(println (morph (first (quick {:rule "s" :comp {:phrasal false} :head {:phrasal false}}))))))

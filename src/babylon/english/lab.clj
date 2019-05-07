@@ -358,20 +358,25 @@
     (en/morph syntax-tree)))
 
 (defn add [tree]
-  (log/info (str "add: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))
-  (if (u/get-in tree (concat (g/frontier tree) [:rule]))
-    (log/info (str " add: frontier-rule:" (u/get-in tree (concat (g/frontier tree) [:rule])))))
   (cond
-    (u/get-in tree (concat (g/frontier tree) [:rule])) (add-rule tree)
-    
+    (u/get-in tree [:babylon.generate/done?]) [tree]
     true
-    (add-lexeme tree)))
+    (do
+      (log/debug (str "add: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))
+      (if (u/get-in tree (concat (g/frontier tree) [:rule]))
+         (log/debug (str " add: frontier-rule:" (u/get-in tree (concat (g/frontier tree) [:rule])))))
+      (cond
+        (u/get-in tree [:babylon.generate/done?]) [tree]
+        (u/get-in tree (concat (g/frontier tree) [:rule])) (add-rule tree)
+    
+        true
+        (add-lexeme tree)))))
            
 (defn generate-all [trees]
   (->>
    trees
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
+   (g/lazy-mapcat (fn [tree] (add tree)))
+   (g/lazy-mapcat add)   
    (g/lazy-mapcat add)
    (g/lazy-mapcat add)
    (g/lazy-mapcat add)

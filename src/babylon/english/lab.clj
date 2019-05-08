@@ -288,15 +288,6 @@
            (g/dissoc-in (numeric-path tree compless-at))
            (dissoc :dag_unify.serialization/serialized)))
     tree))
-
-
-(defn do-fold [tree at]
-  (log/debug (str "do-fold: " (syntax-tree tree) " at: " at))
-  (let [raised-comp (u/get-in tree (concat at [:comp :comp]))]
-    (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
-    (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
-    (-> tree
-        (dissoc :dag_unify.serialization/serialized))))
    
 ;; fold up a tree like this:
 ;;
@@ -323,7 +314,11 @@
 ;;
 (defn fold-at [tree at]
   (cond (= at [:head :comp :head])
-        (do-fold tree [:head])
+        (let [at [:head]
+              raised-comp (u/get-in tree (concat at [:comp :comp]))]
+           (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
+           (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
+           (dissoc tree :dag_unify.serialization/serialized))
         true tree))
 
 (defn add-lexeme [tree & [spec]]

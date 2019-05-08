@@ -405,10 +405,12 @@
 
 (def demo-spec
   (-> {:rule "s"
-       :comp {:rule "np"}
+       :comp {:rule "np"
+              :head {:rule "nbar"}}
        :head {:rule "vp-aux"
               :comp {:rule "vp"
-                     :comp {:rule "np"}}}}))
+                     :comp {:rule "np"
+                            :head {:rule "nbar"}}}}}))
 (defn demo []
   (repeatedly
    #(println

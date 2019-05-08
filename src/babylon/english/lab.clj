@@ -178,13 +178,15 @@
                           :head {:phrasal true}}}})))))))
 
 (defn set-done [tree path]
-  (if (and (not (empty? path))
-           (= :comp (last path)))
-      (set-done
-       (u/assoc-in tree (concat path [:babylon.generate/done?]) true)
-       (butlast path))
-    (u/assoc-in tree (concat path [:babylon.generate/done?]) true)))
-
+  (cond (and (not (empty? path))
+             (= :comp (last path)))
+        (do
+          (log/info (str "set-done(1): " (syntax-tree tree) "; path: " path))
+          (set-done tree (butlast path)))
+        true
+        (do
+          (log/debug (str "set-done(2): " (syntax-tree tree) "; path: " path))
+          (u/assoc-in tree (concat path [:babylon.generate/done?]) true))))
                                                                          
 (def flattened-lexicon
   (->>

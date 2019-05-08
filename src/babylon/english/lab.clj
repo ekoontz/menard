@@ -399,6 +399,13 @@
        :head {:rule "vp-aux"
               :comp {:rule "vp"
                      :comp {:rule "np"}}}}))
+
+(def rathole-spec
+  (-> {:rule "s"
+       :comp {:rule "np"
+              :head {:rule "nbar"}}
+       :head {:rule "vp-aux"}}))
+
 (defn demo []
   (repeatedly
    #(println
@@ -416,3 +423,16 @@
 
 (defn quick-demo []
   (repeatedly #(println (morph (time (generate quick-demo-spec))))))
+
+(defn bad-spec-test []
+  (->> [rathole-spec]
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (lazy-mapcat add)
+       (take 1)))

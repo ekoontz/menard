@@ -284,7 +284,7 @@
                         ;; otherwise, ascend the tree as high as there are :comps
                         ;; trailing _at_.
                         (remove-trailing-comps at))]
-      (log/info (str "truncating: " (syntax-tree tree) " at: " compless-at))
+      (log/debug (str "truncating: " (syntax-tree tree) " at: " compless-at))
       (-> tree
            (g/dissoc-in compless-at)
            (g/dissoc-in (numeric-path tree compless-at))
@@ -325,7 +325,7 @@
         (get (u/get-in tree (butlast at)) :1)))
     (let [at [:head]
           raised-comp (u/get-in tree (concat at [:comp :comp]))]
-      (log/info (str "doing fold: " (syntax-tree tree)))
+      (log/debug (str "doing fold: " (syntax-tree tree)))
       (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
       (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
       (dissoc tree :dag_unify.serialization/serialized))
@@ -371,18 +371,18 @@
       (or (u/get-in tree (concat frontier [:rule]))
           (u/get-in tree (concat frontier [:phrasal])))
       (do
-        (log/info (str "adding rule: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (log/debug (str "adding rule: " (syntax-tree tree) (str "; frontier:" frontier)))
         (add-rule tree))
 
       (or (= false (u/get-in tree (concat frontier [:phrasal])))
           (u/get-in tree (concat frontier [:canonical])))
       (do
-        (log/info (str "adding lexeme: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; frontier:" frontier)))
         (add-lexeme tree))
     
       true
       (do
-        (log/info (str "adding lexemes and rules: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (log/debug (str "adding lexemes and rules: " (syntax-tree tree) (str "; frontier:" frontier)))
         (lazy-cat
          (add-lexeme tree)
          (add-rule tree))))))

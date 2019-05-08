@@ -288,7 +288,8 @@
       (-> tree
            (g/dissoc-in compless-at)
            (g/dissoc-in (numeric-path tree compless-at))
-           (dissoc :dag_unify.serialization/serialized)))
+           (dissoc :dag_unify.serialization/serialized)
+           (u/assoc-in (concat compless-at [:babylon.generate/done?]) true)))
     tree))
    
 ;; fold up a tree like this:

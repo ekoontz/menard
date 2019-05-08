@@ -338,7 +338,7 @@
     (if (= spec :fail)
       []
       (do
-        (log/debug (str "add-lexeme: spec: " (u/strip-refs spec)))
+        (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
              shuffle

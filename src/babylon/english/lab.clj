@@ -153,7 +153,7 @@
   (repeatedly
    #(time (->
            (or (poetry-line) "(failed)")
-           (morph :sentence-punctuation? true)
+           morph
            println))))
 
 (defn poetry []
@@ -366,39 +366,26 @@
       (if (u/get-in tree (concat (g/frontier tree) [:rule]))
          (log/debug (str " add: frontier-rule:" (u/get-in tree (concat (g/frontier tree) [:rule])))))
       (cond
-        (u/get-in tree [:babylon.generate/done?]) [tree]
         (u/get-in tree (concat (g/frontier tree) [:rule])) (add-rule tree)
     
         true
         (add-lexeme tree)))))
-           
+
 (defn generate-all [trees]
-  (->>
-   trees
-   (g/lazy-mapcat (fn [tree] (add tree)))
-   (g/lazy-mapcat add)   
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)))
+  (if (not (empty? trees))
+    (let [tree (first trees)]
+      (if (u/get-in tree [:babylon.generate/done?])
+        (cons tree
+              (generate-all (rest trees)))
+        (lazy-cat
+         (generate-all (add tree))
+         (generate-all (rest trees)))))))
 
 (defn generate [spec]
    (-> [spec] generate-all first))
 
-(defn quick [spec]
-  (->>
-   [spec]
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)
-   (g/lazy-mapcat add)))
-
-(defn quick-demo []
-  (repeatedly #(println (morph (first (quick {:rule "s" :comp {:phrasal false} :head {:phrasal false}}))))))
+(def quick-demo-spec
+  {:rule "s" :comp {:phrasal false} :head {:phrasal false}})
 
 (def demo-spec
   (-> {:rule "s"
@@ -420,3 +407,6 @@
          generate
          time
          syntax-tree))))
+
+(defn quick-demo []
+  (repeatedly #(println (morph (time (generate quick-demo-spec))))))

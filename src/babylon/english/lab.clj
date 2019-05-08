@@ -363,30 +363,31 @@
     (en/morph syntax-tree)))
 
 (defn add [tree]
-  (cond
-    (u/get-in tree [:babylon.generate/done?])
-    [tree]
-    (= tree :fail)
-    []
+  (let [frontier (g/frontier tree)]
+    (cond
+      (u/get-in tree [:babylon.generate/done?])
+      [tree]
+      (= tree :fail)
+      []
 
-    (or (u/get-in tree (concat (g/frontier tree) [:rule]))
-        (u/get-in tree (concat (g/frontier tree) [:phrasal])))
-    (do
-      (log/info (str "adding rule: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))
-      (add-rule tree))
+      (or (u/get-in tree (concat frontier [:rule]))
+          (u/get-in tree (concat frontier [:phrasal])))
+      (do
+        (log/info (str "adding rule: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (add-rule tree))
 
-    (or (= false (u/get-in tree (concat (g/frontier tree) [:phrasal])))
-        (u/get-in tree (concat (g/frontier tree) [:canonical])))
-    (do
-      (log/info (str "adding lexeme: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))
-      (add-lexeme tree))
+      (or (= false (u/get-in tree (concat frontier [:phrasal])))
+          (u/get-in tree (concat frontier [:canonical])))
+      (do
+        (log/info (str "adding lexeme: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (add-lexeme tree))
     
-    true
-    (do
-      (log/info (str "adding lexemes and rules: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))
-      (lazy-cat
-       (add-lexeme tree)
-       (add-rule tree)))))
+      true
+      (do
+        (log/info (str "adding lexemes and rules: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (lazy-cat
+         (add-lexeme tree)
+         (add-rule tree))))))
 
 (defn generate-all [trees]
   (if (not (empty? trees))

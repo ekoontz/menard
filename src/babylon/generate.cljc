@@ -141,12 +141,17 @@
   their containing structures."
   [m ks]
   (if-let [[head & tail] ks]
-    (if tail
+    (cond
+      tail
       (let [v (dissoc-in (get m head) tail)]
         (if (empty? v)
           (dissoc m head)
           (assoc m head v)))
+      (= (type m) clojure.lang.Atom)
+      (swap! m (fn [old] (dissoc @m head)))
+      true
       (dissoc m head))
+
     m))
 
 (defn find-tail-path [tree path]

@@ -1,7 +1,7 @@
 (ns babylon.english.lab
   (:require
    [babylon.english :as en :refer [analyze grammar parse]]
-   [babylon.generate :as g]
+   [babylon.generate :as g :refer [lazy-mapcat]]
    [dag_unify.core :as u :refer [unify fail? ref? simplify-ref]]
    [dag_unify.serialization :as s :refer [all-refs]]
    [clojure.tools.logging :as log]))

@@ -143,12 +143,12 @@
   (if-let [[head & tail] ks]
     (cond
       tail
-      (let [v (dissoc-in (get m head) tail)]
-        (if (empty? v)
+      (let [v (dissoc-in (u/get-in m [head]) tail)]
+        (cond
+          (empty? v)
           (dissoc m head)
+          true
           (assoc m head v)))
-      (= (type m) clojure.lang.Atom)
-      (swap! m (fn [old] (dissoc @m head)))
       true
       (dissoc m head))
 

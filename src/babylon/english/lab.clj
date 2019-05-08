@@ -177,13 +177,6 @@
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
 
-(defn set-started [tree path]
-  (if (not (empty? path))
-    (set-started
-     (u/assoc-in tree (concat path [:babylon.generate/started?]) true)
-     (rest path))
-    (u/assoc-in tree [:babylon.generate/started?] true)))
-
 (defn set-done [tree path]
   (if (and (not (empty? path))
            (= :comp (last path)))
@@ -240,8 +233,8 @@
     (->> grammar
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle
+         (g/lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
          (g/lazy-map #(u/assoc-in tree at %))
-         (g/lazy-map #(set-started % at))
          (remove #(= :fail %))
          (g/lazy-map
           #(unify %

@@ -282,8 +282,11 @@
                         ;; in this case, we have just added the final :comp at the
                         ;; root of the tree, so simply truncate that.
                         [:comp]
+                        ;; otherwise, ascend the tree as high as there are :comps
+                        ;; trailing _at_.
                         (remove-trailing-comps at))]
-       (-> tree
+      (log/info (str "truncating: " (syntax-tree tree) " at: " compless-at))
+      (-> tree
            (g/dissoc-in compless-at)
            (g/dissoc-in (numeric-path tree compless-at))
            (dissoc :dag_unify.serialization/serialized)))

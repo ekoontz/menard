@@ -335,8 +335,6 @@
   (let [at (g/frontier tree)
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
-    (if (not (= tree :fail))
-      (log/debug (str "add-lexeme: adding to: " (syntax-tree tree) " at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -430,8 +428,21 @@
   (repeatedly #(println (morph (time (generate quick-demo-spec))))))
 
 (defn partial-generate-test []
-  (->> [demo-spec]
-       (lazy-mapcat add)
-       (lazy-mapcat add)
-       (lazy-mapcat add)
-       (take 1)))
+  (first
+    (->> [demo-spec]
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)         
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (lazy-mapcat add)
+         (take 1))))

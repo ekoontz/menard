@@ -176,18 +176,6 @@
             :head {:phrasal true
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
-
-(defn set-done [tree path]
-  (cond (and (not (empty? path))
-             (= :comp (last path)))
-        (do
-          (log/info (str "set-done(1): " (syntax-tree tree) "; path: " path))
-          (set-done tree (butlast path)))
-        true
-        (do
-          (log/debug (str "set-done(2): " (syntax-tree tree) "; path: " path))
-          (u/assoc-in tree (concat path [:babylon.generate/done?]) true))))
-                                                                         
 (def flattened-lexicon
   (->>
    babylon.english/lexicon
@@ -338,7 +326,7 @@
              (remove #(= :fail (unify % spec)))
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
-             (g/lazy-map #(set-done % at))
+             (g/lazy-map #(u/assoc-in % (concat (remove-trailing-comps at) [:babylon.generate/done?]) true))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(fold-at % at)))))))

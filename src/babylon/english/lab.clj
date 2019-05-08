@@ -362,6 +362,7 @@
 (defn add [tree]
   (cond
     (u/get-in tree [:babylon.generate/done?]) [tree]
+    (= tree :fail) []
     true
     (do
       (log/debug (str "add: " (syntax-tree tree) (str "; frontier:" (vec (concat (g/frontier tree))))))

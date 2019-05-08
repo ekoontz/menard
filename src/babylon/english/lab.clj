@@ -255,7 +255,6 @@
                                            (or rule-name
                                                (u/get-in % (concat at [:rule]))))})))))))
 
-
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
   (let [head? (headness? tree at)
@@ -298,8 +297,8 @@
 ;;   / \ 
 ;;  /   \ H
 ;;  _    vp-aux
-;;      /   \
-;;     / H   vp
+;;      /   \ C
+;;   H /    vp
 ;;   would  / \
 ;;         /   \
 ;;      H /     \

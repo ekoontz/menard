@@ -34,7 +34,8 @@
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash false
-  :comp {:cat :adjective}
+  :comp {:cat :adjective
+         :phrasal false}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
@@ -98,6 +99,7 @@
   :agr {:person :3rd}
   :cat :noun
   :slash false
+  :comp {:phrasal false}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/subcat-1]}

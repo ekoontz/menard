@@ -361,7 +361,7 @@
         (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
         (->> (filter-lexemes (u/strip-refs spec))
              shuffle
-             (g/lazy-map #(u/assoc-in tree at %))
+             (g/lazy-map #(u/assoc-in! (u/copy tree) at (u/copy %)))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(foldup % at)))))))
@@ -435,7 +435,6 @@
               :comp {:rule "vp"
                      :comp {:rule "np"
                             :head {:rule "nbar"}}}}}))
-
 (defn demo []
   (repeatedly
    #(println

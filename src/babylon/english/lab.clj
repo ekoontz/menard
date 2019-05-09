@@ -277,10 +277,7 @@
    
 ;; fold up a tree like this:
 ;;
-;;    s
-;;   / \ 
-;;  /   \ H
-;;  _    vp-aux
+;;      vp-aux
 ;;      /   \ C
 ;;   H /    vp
 ;;   would  / \
@@ -290,12 +287,9 @@
 ;;
 ;; into:
 ;;
-;;    s
-;;   / \
-;;  /   \ H
-;;  _    vp-aux
-;;      /      \
-;;     / H      \
+;;      vp-aux
+;;      /     \ C
+;;     / H     \
 ;;    would see  _
 ;;
 (defn foldup [tree at]

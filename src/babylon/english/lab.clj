@@ -298,7 +298,7 @@
 ;;     / H      \
 ;;    would see  _
 ;;
-(defn fold-at [tree at]
+(defn foldup [tree at]
   (cond
     (and
      (= at [:head :comp :head])
@@ -370,7 +370,7 @@
              (g/lazy-map #(u/assoc-in tree at %))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
-             (g/lazy-map #(fold-at % at)))))))
+             (g/lazy-map #(foldup % at)))))))
 
 (defn morph-1 [syntax-tree]
   (cond

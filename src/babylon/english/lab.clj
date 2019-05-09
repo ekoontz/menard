@@ -318,6 +318,7 @@
   (let [at (g/frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
+        tree (u/assoc-in tree done-at true)
         spec (unify spec (u/get-in tree at))]
     (if (= spec :fail)
       []
@@ -327,7 +328,6 @@
              (remove #(= :fail (unify % spec)))
              shuffle
              (g/lazy-map #(u/assoc-in tree at %))
-             (g/lazy-map #(u/assoc-in % done-at true))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(fold-at % at)))))))

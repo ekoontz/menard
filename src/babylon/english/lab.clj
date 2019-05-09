@@ -438,14 +438,14 @@
 (defn demo []
   (repeatedly
    #(println
-     (-> demo-spec
+     (-> long-demo-spec
          generate
          morph))))
 
 (defn timed-demo []
   (repeatedly
    #(println
-     (-> demo-spec
+     (-> long-demo-spec
          generate
          time
          syntax-tree))))
@@ -463,7 +463,7 @@
 
 (defn partial-generate-test []
   (first
-    (->> [demo-spec]
+    (->> [long-demo-spec]
          (lazy-mapcat add)
          (lazy-mapcat add)
          (lazy-mapcat add)

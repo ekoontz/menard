@@ -227,16 +227,16 @@
          (g/lazy-map #(u/assoc-in tree at %))
          (remove #(= :fail %))
          (g/lazy-map
-          #(unify %
-                  (s/create-path-in (concat [:syntax-tree] at-num)
-                                    (let [one-is-head? (headness? % (concat at [:1]))] 
-                                      {:head? (= :head (last at))
-                                       :1 {:head? one-is-head?}
-                                       :2 {:head? (not one-is-head?)}
-                                       :rule
-                                       (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
-                                           (or rule-name
-                                               (u/get-in % (concat at [:rule]))))})))))))
+          #(u/unify! %
+                     (s/create-path-in (concat [:syntax-tree] at-num)
+                                       (let [one-is-head? (headness? % (concat at [:1]))] 
+                                         {:head? (= :head (last at))
+                                          :1 {:head? one-is-head?}
+                                          :2 {:head? (not one-is-head?)}
+                                          :rule
+                                          (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                              (or rule-name
+                                                  (u/get-in % (concat at [:rule]))))})))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
@@ -247,9 +247,9 @@
         word (merge (g/make-word)
                     {:head? head?})]
     (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-    (unify tree
-           (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                  (s/create-path-in at word)))))
+    (u/unify! tree
+              (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                     (s/create-path-in at word)))))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at
@@ -360,7 +360,7 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
         tree (u/assoc-in tree done-at true)
-        spec (unify spec (u/get-in tree at))]
+        spec (u/unify! spec (u/get-in tree at))]
     (if (= spec :fail)
       []
       (do

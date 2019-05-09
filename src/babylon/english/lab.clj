@@ -430,6 +430,7 @@
 (def demo-spec
   (-> {:rule "s"
        :comp {:rule "np"
+              :agr {:person :3rd}
               :head {:rule "nbar"}}
        :head {:rule "vp-aux"
               :comp {:rule "vp"

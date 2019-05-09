@@ -419,7 +419,15 @@
 (def quick-demo-spec
   {:rule "s" :comp {:phrasal false} :head {:phrasal false}})
 
-(def demo-spec
+(def medium-demo-spec
+  (-> {:rule "s"
+       :comp {:rule "np"
+              :head {:rule "nbar"}}
+       :head {:rule "vp"
+              :comp {:rule "np"
+                     :head {:phrasal false}}}}))
+
+(def long-demo-spec
   (-> {:rule "s"
        :comp {:rule "np"
               :head {:rule "nbar"}}
@@ -427,6 +435,7 @@
               :comp {:rule "vp"
                      :comp {:rule "np"
                             :head {:rule "nbar"}}}}}))
+
 (defn demo []
   (repeatedly
    #(println
@@ -438,6 +447,14 @@
   (repeatedly
    #(println
      (-> demo-spec
+         generate
+         time
+         syntax-tree))))
+
+(defn medium-timed-demo []
+  (repeatedly
+   #(println
+     (-> medium-demo-spec
          generate
          time
          syntax-tree))))

@@ -293,20 +293,22 @@
 ;;    would see  _
 ;;
 (defn foldup [tree at]
-  (cond
-    (and
-     (= at [:head :comp :head])
-     (= (get tree :head)
-        (get tree :2))
-     (= (get (u/get-in tree (butlast at)) :head)
-        (get (u/get-in tree (butlast at)) :1)))
-    (let [at [:head]
-          raised-comp (u/get-in tree (concat at [:comp :comp]))]
-      (log/debug (str "doing fold: " (syntax-tree tree)))
-      (swap! (get (u/get-in tree (concat at [:head :subcat])) :2) (fn [old] raised-comp))
-      (swap! (get (u/get-in tree at) :comp) (fn [old] raised-comp))
-      (dissoc tree :dag_unify.serialization/serialized))
-    true tree))
+  (let [grandparent-at (-> at butlast butlast)
+        uncle-head-at (-> grandparent-at (concat [:head]) vec)]
+    (cond
+      (and
+       grandparent-at
+       (= at [:head :comp :head])
+       (= (get tree :head)
+          (get tree :2))
+       (= (get (u/get-in tree (butlast at)) :head)
+          (get (u/get-in tree (butlast at)) :1)))
+      (let [raised-comp (u/get-in tree (concat grandparent-at [:comp :comp]))]
+        (log/info (str "doing fold: " (syntax-tree tree) " uncle-head-at: " uncle-head-at "; at: " (vec at)))
+        (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
+        (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
+        (dissoc tree :dag_unify.serialization/serialized))
+      true tree)))
 
 (def cat-verbs
   (->> flattened-lexicon

@@ -399,11 +399,9 @@
         (add-lexeme tree))
     
       true
-      (do
-        (log/debug (str "adding lexemes and rules: " (syntax-tree tree) (str "; frontier:" frontier)))
-        (lazy-cat
-         (add-lexeme tree)
-         (add-rule tree))))))
+      (do (log/warn (str "slowness at rule: " (u/get-in tree (concat (butlast frontier) [:rule])) " for child " (last frontier) " due to need to generate for both rules *and* lexemes.."))
+          (lazy-cat (add-lexeme tree)
+                    (add-rule tree))))))
 
 (defn generate-all [trees]
   (if (not (empty? trees))

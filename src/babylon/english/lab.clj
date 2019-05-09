@@ -387,7 +387,7 @@
       []
 
       (or (u/get-in tree (concat frontier [:rule]))
-          (u/get-in tree (concat frontier [:phrasal])))
+          (= true (u/get-in tree (concat frontier [:phrasal]))))
       (do
         (log/debug (str "adding rule: " (syntax-tree tree) (str "; frontier:" frontier)))
         (add-rule tree))

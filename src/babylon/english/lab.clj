@@ -301,6 +301,7 @@
     (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
     (cond
       (and
+       (not (empty? parent-at))
        (get grandparent :head)
        (= (get parent :head)
           (get parent :1))

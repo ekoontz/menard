@@ -221,7 +221,7 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
+    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle

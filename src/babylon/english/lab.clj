@@ -212,7 +212,7 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-(def optimize? false)
+(def optimize? true)
 
 (defn add-rule [tree & [rule-name]]
   (let [at (g/frontier tree)

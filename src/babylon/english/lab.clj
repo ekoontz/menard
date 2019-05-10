@@ -467,22 +467,36 @@
               :comp {:rule "vp"
                      :comp {:rule "np"
                             :head {:rule "nbar"}}}}}))
-(def modal-spec
-  (-> {:rule "s"
-       :comp {:rule "np" :head {:rule "nbar"}}
-       :head {:rule "vp-modal-1"}}))
+(def modal-specs
+  [{:rule "s"
+    :sem {:tense :present}
+    :comp {:rule "np"
+           :agr {:number :sing}
+           :head {:rule "nbar"}}
+    :head {:rule "vp-modal-1"
+           :head {:canonical "try"}}}
+   {:rule "s"
+    :comp {:phrasal false}
+    :head {:rule "vp-modal-2"
+           :comp {:phrasal false}}}])
+
+(def specs (concat
+            modal-specs
+            [long-demo-spec]))
 
 (defn demo []
   (repeatedly
    #(println
-     (-> long-demo-spec
+     (-> (take 1 (shuffle specs))
+         first
          generate
          morph))))
 
 (defn modal-demo []
   (repeatedly
    #(println
-     (-> modal-spec
+     (-> (take 1 (shuffle modal-specs))
+         first
          generate
          time
          morph))))
@@ -490,7 +504,8 @@
 (defn timed-demo []
   (repeatedly
    #(println
-     (-> long-demo-spec
+     (-> (take 1 (shuffle specs))
+         first
          generate
          time
          syntax-tree))))

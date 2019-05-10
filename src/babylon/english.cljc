@@ -47,6 +47,12 @@
     :sem {:tense :present
           :aspect :simple}}
 
+   ;; "can see"
+   {:infl :base
+    :modal :base
+    :sem {:tense :present
+          :aspect :simple}}
+
    ;; "saw"
    {:infl :past-simple
     :sem {:tense :past

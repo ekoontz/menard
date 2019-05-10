@@ -298,28 +298,19 @@
         grandparent-at (-> parent-at butlast vec)
         grandparent (u/get-in tree grandparent-at)
         uncle-head-at (-> grandparent-at (concat [:head]) vec)]
+    (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
     (cond
       (and
-       grandparent-at
-       (= at [:head :comp :head])
-       (= (get tree :head)
-          (get tree :2))
+       (get grandparent :head)
        (= (get parent :head)
           (get parent :1))
        (= (get grandparent :head)
           (get grandparent :1)))
       (let [raised-comp (u/get-in tree (concat grandparent-at [:comp :comp]))]
-        (log/info (str "doing fold: " (syntax-tree tree) " uncle-head-at: " uncle-head-at "; at: " (vec at)))
-        (log/info (str "    grandparent-at: " grandparent-at))
-        (log/info (str "    type(grandparent's head): " (type (get grandparent :head))))
-        (log/info (str "    type(grandparent's 2): " (type (get grandparent :2))))
-        (log/info (str "    equal: " (= (get grandparent :1) (get grandparent :head))))
-        (log/info (str "    type(grandparent's 2): " (type (get grandparent :2))))
-
-        (log/info (str "    type1(grandparent's head): " (type @(get grandparent :head))))
-        (log/info (str "    type1(grandparent's 2): " (type @(get grandparent :2))))
+        (log/info (str "doing fold: " (syntax-tree tree) " uncle-head-at:" uncle-head-at "; at:" (vec at)))
         (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
         (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
+        (log/info (str "=== done: " (count (str tree)) "  ==="))
         (dissoc tree :dag_unify.serialization/serialized))
       true tree)))
 

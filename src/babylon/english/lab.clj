@@ -463,11 +463,24 @@
               :comp {:rule "vp"
                      :comp {:rule "np"
                             :head {:rule "nbar"}}}}}))
+(def modal-spec
+  (-> {:rule "s"
+       :comp {:rule "np" :head {:rule "nbar"}}
+       :head {:rule "vp-modal-1"}}))
+
 (defn demo []
   (repeatedly
    #(println
      (-> long-demo-spec
          generate
+         morph))))
+
+(defn modal-demo []
+  (repeatedly
+   #(println
+     (-> modal-spec
+         generate
+         time
          morph))))
 
 (defn timed-demo []

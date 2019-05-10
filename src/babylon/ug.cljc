@@ -9,6 +9,11 @@
     {:sem sem
      :head {:sem sem}}))
 
+(def head-modal
+  (let [modal (atom :top)]
+    {:modal modal
+     :head {:modal modal}}))
+
 (def head-infl
   (let [infl (atom :top)]
     {:infl infl

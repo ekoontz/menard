@@ -524,7 +524,13 @@
 ;; for debugging generation and fixing grammatical rules
 (defn partial-generate-test []
   (syntax-tree (->> [{:rule "s"
-                      :head {:rule "vp-modal-2"}}]
+                      :comp {:phrasal false}
+                      :head {:rule "vp-modal-2"
+                             :comp {:phrasal false}}}]
+                    (lazy-mapcat add)
+                    (lazy-mapcat add)
+                    (lazy-mapcat add)
+                    (lazy-mapcat add)
                     (lazy-mapcat add)
                     (lazy-mapcat add)
                     first)))

@@ -212,6 +212,8 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
+(def optimize? false)
+
 (defn add-rule [tree & [rule-name]]
   (let [at (g/frontier tree)
         rule-name
@@ -219,13 +221,16 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
+    (log/info (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle
          (g/lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
+         (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+                    (log/warn (str "rule:" (u/get-in % [:rule]) " failed to be added to: " (syntax-tree tree)
+                                   "; at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
+                    true))
          (g/lazy-map #(u/assoc-in tree at %))
-         (remove #(= :fail %))
          (g/lazy-map
           #(u/unify! %
                      (s/create-path-in (concat [:syntax-tree] at-num)
@@ -382,14 +387,13 @@
         (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
         (->> (filter-lexemes (u/strip-refs spec))
              shuffle
+             (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+                        (log/warn (str "lexeme with canonical form:" (u/get-in % [:canonical]) " failed to be added to: " (syntax-tree tree)
+                                       "; at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
+                        true))
              (g/lazy-map (fn [candidate-lexeme]
                            (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
                            (u/assoc-in! (u/copy tree) at (u/copy candidate-lexeme))))
-             (filter #(do
-                        (if (= :fail %)
-                          (log/warn (str "lexeme with canonical form:" (u/get-in % [:canonical]) " failed to be added to: " (syntax-tree tree)
-                                         "; failed path:" (u/fail-path (u/get-in tree at) %))))
-                        (not (= :fail %))))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(foldup % at)))))))
@@ -504,7 +508,8 @@
 
 ;; for debugging generation and fixing grammatical rules
 (defn partial-generate-test []
-  (syntax-tree (->> [{:rule "vp-modal-2"}]
+  (syntax-tree (->> [{:rule "s"
+                      :head {:rule "vp-modal-2"}}]
                     (lazy-mapcat add)
                     (lazy-mapcat add)
                     first)))

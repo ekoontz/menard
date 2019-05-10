@@ -502,22 +502,10 @@
 (defn quick-demo []
   (repeatedly #(println (morph (time (generate quick-demo-spec))))))
 
+;; for debugging generation and fixing grammatical rules
 (defn partial-generate-test []
-  (first
-    (->> [long-demo-spec]
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)         
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (lazy-mapcat add)
-         (take 1))))
+  (syntax-tree (->> [{:rule "vp-modal-2"}]
+                    (lazy-mapcat add)
+                    (lazy-mapcat add)
+                    first)))
+

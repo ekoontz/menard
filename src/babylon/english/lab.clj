@@ -227,8 +227,8 @@
          shuffle
          (g/lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
          (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
-                    (log/warn (str "rule:" (u/get-in % [:rule]) " failed to be added to: " (syntax-tree tree)
-                                   "; at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
+                    (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
+                                   " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))
          (g/lazy-map #(u/assoc-in tree at %))
          (g/lazy-map
@@ -388,8 +388,8 @@
         (->> (filter-lexemes (u/strip-refs spec))
              shuffle
              (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
-                        (log/warn (str "lexeme with canonical form:" (u/get-in % [:canonical]) " failed to be added to: " (syntax-tree tree)
-                                       "; at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
+                        (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
+                                       " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
                         true))
              (g/lazy-map (fn [candidate-lexeme]
                            (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))

@@ -120,8 +120,9 @@
   :unify [babylon.ug/comp-mod-is-subj-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
+          babylon.ug/head-modal
           babylon.ug/subcat-1]}
-
+ 
  {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
   :slash true
   :cat :verb

@@ -368,7 +368,14 @@
         (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
         (->> (filter-lexemes (u/strip-refs spec))
              shuffle
-             (g/lazy-map #(u/assoc-in! (u/copy tree) at (u/copy %)))
+             (g/lazy-map (fn [candidate-lexeme]
+                           (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
+                           (u/assoc-in! (u/copy tree) at (u/copy candidate-lexeme))))
+             (filter #(do
+                        (if (= :fail %)
+                          (log/warn (str "lexeme with canonical form:" (u/get-in % [:canonical]) " failed to be added to: " (syntax-tree tree)
+                                         "; failed path:" (u/fail-path (u/get-in tree at) %))))
+                        (not (= :fail %))))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(foldup % at)))))))

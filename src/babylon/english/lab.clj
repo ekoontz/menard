@@ -26,6 +26,18 @@
 (defn morph [tree]
   (morph-1 (u/get-in tree [:syntax-tree])))
 
+(defn morph-1 [syntax-tree]
+  (cond
+    (nil? syntax-tree) "_"
+    (u/get-in syntax-tree [:1])
+    (str (morph-1 (u/get-in syntax-tree [:1])) " "
+         (morph-1 (u/get-in syntax-tree [:2])))
+    (u/get-in syntax-tree [:2])
+    (str "_ "
+         (morph-1 (u/get-in syntax-tree [:2])))
+    true
+    (en/morph syntax-tree)))
+
 (defn syntax-tree [tree]
   (cond (or (nil? tree) (= :fail tree))
         tree
@@ -58,7 +70,6 @@
          (syntax-tree-1 (u/get-in syntax-tree [:2])) "]")
     true
     (en/morph syntax-tree)))
-
 
 (defn numeric-frontier [syntax-tree]
   (cond
@@ -366,18 +377,6 @@
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(foldup % at)))))))
-
-(defn morph-1 [syntax-tree]
-  (cond
-    (nil? syntax-tree) "_"
-    (u/get-in syntax-tree [:1])
-    (str (morph-1 (u/get-in syntax-tree [:1])) " "
-         (morph-1 (u/get-in syntax-tree [:2])))
-    (u/get-in syntax-tree [:2])
-    (str "_ "
-         (morph-1 (u/get-in syntax-tree [:2])))
-    true
-    (en/morph syntax-tree)))
 
 (defn add [tree]
   (let [at (g/frontier tree)]

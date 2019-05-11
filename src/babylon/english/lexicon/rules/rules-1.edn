@@ -56,12 +56,11 @@
                obj (atom {:subj subj})]
            {:sem {:subj subj
                   :obj obj}
-            :subcat {:1 {:infl :infinitive
+            :subcat {:2 {:infl :infinitive
                          :cat :verb
                          :sem obj
                          :subcat {:1 subcat-subj
-                                  :2 []}}
-                     :2 []}})]}
+                                  :2 []}}}})]}
 
  {:rule :modal-base
   :if {:cat :verb
@@ -72,13 +71,13 @@
           [{:sem {:subj subj
                   :obj :unspec}
             :infl :base
-            :subcat {:2 []}}
+            :subcat {:2 []}} ;; "can"
            {:sem {:subj subj
                   :obj obj}
             :infl :base
             :subcat {:2 {:infl :base
                           :cat :verb
-                          :modal false  ;;  "can sleep"
+                          :modal false  ;;  "can sleep" or "can see it"
                           :sem obj
                           :subcat {:1 subcat-subj}}}}
            {:sem {:subj subj

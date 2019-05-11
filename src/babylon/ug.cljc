@@ -10,9 +10,14 @@
      :head {:sem sem}}))
 
 (def head-modal
-  (let [modal (atom :top)]
-    {:modal modal
-     :head {:modal modal}}))
+  (let [shared (atom :top)]
+    {:modal shared
+     :head {:modal shared}}))
+
+(def head-reflexive
+  (let [shared (atom :top)]
+    {:reflexive shared
+     :head {:reflexive shared}}))
 
 (def head-infl
   (let [infl (atom :top)]

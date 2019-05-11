@@ -130,8 +130,10 @@
                  (map #(unify % spec))
                  (filter #(not (= :fail %)))
                  (map #(u/assoc-in! % [::done?] true)))]
-        (log/info (str "emptyness of retval:" (empty? retval)))
-        retval))))
+        ;; This empty?-check is a workaround because without it, retval will be empty
+        ;; if (get-lexemes) is called from outside this namespace with bindings on lexicon and index-fn.
+        ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).
+        (if (empty? retval) retval retval)))))
 
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
 (defn dissoc-in

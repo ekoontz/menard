@@ -202,6 +202,29 @@
           babylon.ug/comp-is-root
           babylon.ug/subcat-2-2-slash]}
 
+ {:rule "vp-modal-1" ;; [vp-modal-1 *wants .[*to .sleep]
+  :sem {:mood :decl}
+  :cat :verb
+  :slash false
+  :subcat {:1 {:top :top}
+           :2 []}
+  :aux false
+  :modal :infinitive
+  :options babylon.english/tenses
+  :comp {:cat :verb
+         :infl :infinitive
+         :phrasal true
+         :slash false}
+  :head {:slash false
+         :phrasal false
+         :cat :verb
+         :aux false
+         :modal :infinitive}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          ;; TODO: this should be subcat-2, not subcat-1-..etc (see below vp-modal-2 for how it should be).
+          babylon.ug/subcat-1-1-comp-subcat]}
+
  {:rule "vp-modal-2" ;; [vp-modal-2 *can .sleep]
   :sem {:mood :decl}
   :cat :verb
@@ -222,7 +245,7 @@
          :modal :base}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
-          babylon.ug/subcat-1-1-comp-subcat]}]
+          babylon.ug/subcat-2]}]
 
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]

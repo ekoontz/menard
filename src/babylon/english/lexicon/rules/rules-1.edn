@@ -66,30 +66,29 @@
  {:rule :modal-base
   :if {:cat :verb
        :modal :base}
-  :then [(let [subj (atom :top)
-               subcat-subj (atom {:sem subj})
-               obj (atom {:subj subj})]
+  :then (let [subj (atom :top)
+              subcat-subj (atom {:sem subj})
+              obj (atom {:subj subj})]
+          [{:sem {:subj subj
+                  :obj :unspec}
+            :infl :base
+            :subcat {:2 []}}
            {:sem {:subj subj
                   :obj obj}
             :infl :base
-            :subcat {:1 {:infl :base
-                         :cat :verb
-                         :modal false  ;;  "can sleep"
-                         :sem obj
-                         :subcat {:1 subcat-subj
-                                  :2 []}}
-                     :2 []}}
-
+            :subcat {:2 {:infl :base
+                          :cat :verb
+                          :modal false  ;;  "can sleep"
+                          :sem obj
+                          :subcat {:1 subcat-subj}}}}
            {:sem {:subj subj
                   :obj obj}
             :infl :base
-            :subcat {:1 {:infl :base
-                         :cat :verb
-                         :modal :infinitive ;;  "can try to sleep"
-                         :sem obj
-                         :subcat {:1 subcat-subj
-                                  :2 []}}
-                     :2 []}})]}
+            :subcat {:2 {:infl :base
+                          :cat :verb
+                          :modal :infinitive ;;  "can try to sleep"
+                          :sem obj
+                          :subcat {:1 subcat-subj}}}}])}
 
  {:rule :transitive-verb-prep-default-false
   :if {:cat :verb

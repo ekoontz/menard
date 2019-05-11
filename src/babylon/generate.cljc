@@ -123,7 +123,6 @@
   (if (= true (u/get-in spec [:phrasal]))
     (lazy-seq [])
     (do
-      (log/debug (str "getting lexemes with: " spec))
       (let [retval
             (->> (index-fn spec)
                  lazy-seq
@@ -131,7 +130,7 @@
                  (map #(unify % spec))
                  (filter #(not (= :fail %)))
                  (map #(u/assoc-in! % [::done?] true)))]
-        (log/debug (str "got lexemes."))
+        (log/info (str "emptyness of retval:" (empty? retval)))
         retval))))
 
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20

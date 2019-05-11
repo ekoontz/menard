@@ -526,7 +526,7 @@
   (syntax-tree (->> [{:rule "s"
                       :comp {:phrasal false}
                       :head {:rule "vp-modal-2"
-                             :comp {:phrasal false}}}]
+                             :comp {:phrasal true}}}]
                     (lazy-mapcat add)
                     (lazy-mapcat add)
                     (lazy-mapcat add)

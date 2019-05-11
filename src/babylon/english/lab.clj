@@ -29,6 +29,8 @@
 (defn syntax-tree [tree]
   (cond (or (nil? tree) (= :fail tree))
         tree
+        (= ::unspec (u/get-in tree [:syntax-tree] ::unspec))
+        (babylon.english/syntax-tree tree)
         true
         (str (syntax-tree-1 (u/get-in tree [:syntax-tree])) " (#" (count (str tree)) ")")))
 
@@ -495,8 +497,6 @@
                 :comp {:phrasal true
                        :modal false
                        :head {:rule "vp"}}}}]
-       (lazy-mapcat add)
-       (lazy-mapcat add)
        (lazy-mapcat add)
        (lazy-mapcat add)
        (lazy-mapcat add)

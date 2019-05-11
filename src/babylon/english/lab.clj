@@ -27,7 +27,7 @@
   (morph-1 (u/get-in tree [:syntax-tree])))
 
 (defn syntax-tree [tree]
-  (cond (= :fail tree)
+  (cond (or (nil? tree) (= :fail tree))
         tree
         true
         (str (syntax-tree-1 (u/get-in tree [:syntax-tree])) " (#" (count (str tree)) ")")))

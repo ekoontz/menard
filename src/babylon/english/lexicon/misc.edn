@@ -55,7 +55,6 @@
        :pronoun true
        :reflexive false}]
  "it" [{:cat :noun
-        :case :nom
         :agr {:number :sing
               :person :3rd}
         :sem {:ref {:human false}

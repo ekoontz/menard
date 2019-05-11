@@ -171,6 +171,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-is-root
+          babylon.ug/head-modal
           babylon.ug/subcat-2]} 
 
  {:rule "vp-aux" ;; [vp-aux *will .see]
@@ -245,6 +246,7 @@
          :modal :base}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
+          babylon.ug/head-reflexive
           babylon.ug/subcat-2]}]
 
 

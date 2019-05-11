@@ -74,7 +74,18 @@
             :infl :base
             :subcat {:1 {:infl :base
                          :cat :verb
-                         :modal false
+                         :modal false  ;;  "can sleep"
+                         :sem obj
+                         :subcat {:1 subcat-subj
+                                  :2 []}}
+                     :2 []}}
+
+           {:sem {:subj subj
+                  :obj obj}
+            :infl :base
+            :subcat {:1 {:infl :base
+                         :cat :verb
+                         :modal :infinitive ;;  "can try to sleep"
                          :sem obj
                          :subcat {:1 subcat-subj
                                   :2 []}}

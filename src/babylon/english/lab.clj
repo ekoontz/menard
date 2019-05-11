@@ -316,19 +316,24 @@
        (= (get grandparent :head)
           (get grandparent :1)))
       (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
-        (log/debug (str "doing fold: " (syntax-tree tree) " uncle-head-at:" uncle-head-at "; at:" (vec at)))
-        (log/debug (str "parent-at:" parent-at))
-        (log/debug (str "grandparent-at:" grandparent-at))
+        (log/debug (str "doing fold: " (syntax-tree tree) " uncle at: " uncle-head-at "; nephew at:" (vec at)))
+        (log/debug (str "parent: " (:rule parent) " at:" parent-at))
+        (log/debug (str "grandparent: " (:rule grandparent) " at:" grandparent-at))
         (log/debug (str "subcatness(1): " (= (get (u/get-in nephew [:subcat]) :1)
                                             (get parent :comp))))
         (log/debug (str "subcatness(2): " (= (get (u/get-in nephew [:subcat]) :2)
-                                            (get parent :comp))))
+                                            (get parent :comp))
+                       " which is type=" (type (get parent :comp))))
+        (log/debug (str "uncle's [:subcat :2] type:" (get (u/get-in tree (concat uncle-head-at [:subcat])) :2)))
         (cond (= (get (u/get-in nephew [:subcat]) :1)
                  (get parent :comp))
               (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :1) (fn [old] raised-comp))
-              (= (get (u/get-in nephew [:subcat]) :2)
-                 (get parent :comp))
+
+              (and (= (get (u/get-in nephew [:subcat]) :2)
+                      (get parent :comp))
+                   (or true (= clojure.lang.Atom (u/get-in tree (concat uncle-head-at [:subcat])))))
               (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
+
               true (throw (Exception. (str "unhandled subcat scenario between nephew head and its complement sibling."))))
         (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
         (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
@@ -395,6 +400,7 @@
              (g/lazy-map (fn [candidate-lexeme]
                            (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
                            (u/assoc-in! (u/copy tree) at (u/copy candidate-lexeme))))
+             (remove #(= :fail %))
              (g/lazy-map #(update-syntax-tree % at))
              (g/lazy-map #(truncate-at % at))
              (g/lazy-map #(foldup % at)))))))
@@ -461,7 +467,6 @@
        :head {:rule "vp"
               :comp {:rule "np"
                      :head {:phrasal false}}}}))
-
 (def long-demo-spec
   (-> {:rule "s"
        :comp {:rule "np"
@@ -474,14 +479,12 @@
   [{:rule "s"
     :sem {:tense :present}
     :comp {:rule "np"
-           :agr {:number :sing}
            :head {:rule "nbar"}}
-    :head {:rule "vp-modal-1"
-           :head {:canonical "try"}}}
+    :head {:rule "vp-modal-1"}}
    {:rule "s"
     :comp {:phrasal false}
     :head {:rule "vp-modal-2"
-           :comp {:phrasal false}}}])
+           :comp {:phrasal true}}}])
 
 (def specs (concat
             modal-specs

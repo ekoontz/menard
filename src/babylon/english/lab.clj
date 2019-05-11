@@ -176,12 +176,6 @@
             :head {:phrasal true
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
-(def flattened-lexicon
-  (->>
-   babylon.english/lexicon
-   vals
-   flatten
-   (filter #(not (u/get-in % [:exception])))))
 
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
@@ -340,47 +334,6 @@
         (dissoc tree :dag_unify.serialization/serialized))
       true tree)))
 
-(def cat-verbs
-  (->> flattened-lexicon
-       (filter #(= :verb (u/get-in % [:cat])))))
-
-(def cat-noun
-  (->> flattened-lexicon
-       (filter #(= :noun (u/get-in % [:cat])))))
-
-(def cat-det
-  (->> flattened-lexicon
-       (filter #(= :det (u/get-in % [:cat])))))
-
-(def cat-adj
-  (->> flattened-lexicon
-       (filter #(= :adjective (u/get-in % [:cat])))))
-
-(defn filter-lexemes [spec]
-  (let [lexemes flattened-lexicon]
-    (log/debug (str "start filtering; spec:" spec))
-    (let [retval
-          (filter
-            (fn [lexeme]
-               (if (not (= :fail (unify spec lexeme)))
-                 (do
-                    (log/debug (str "found a match: " (u/get-in lexeme [:canonical])))
-                    true)
-                 false))
-            (cond
-              (= (u/get-in spec [:cat]) :verb)
-              cat-verbs
-              (= (u/get-in spec [:cat]) :noun)
-              cat-noun
-              (= (u/get-in spec [:cat]) :det)
-              cat-det
-              (= (u/get-in spec [:cat]) :adjective)
-              cat-adj
-              true
-              lexemes))]
-      (log/debug (str "done filtering."))
-      retval)))
-
 (defn add-lexeme [tree & [spec]]
   (let [at (g/frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
@@ -391,7 +344,14 @@
       []
       (do
         (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
-        (->> (filter-lexemes (u/strip-refs spec))
+        (->> (binding [g/lexicon babylon.english/lexicon
+                       g/index-fn
+                       (fn [spec]
+                         (cond (= (u/get-in spec [:cat]) :verb)
+                               (shuffle babylon.english/verb-lexicon)
+                               true
+                               (shuffle babylon.english/non-verb-lexicon)))]
+               (g/get-lexemes (u/strip-refs spec)))
              shuffle
              (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
                         (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])

@@ -222,6 +222,7 @@
          :modal :infinitive}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
+          ;; TODO: this should be subcat-2, not subcat-1-..etc (see below vp-modal-2 for how it should be).
           babylon.ug/subcat-1-1-comp-subcat]}
 
  {:rule "vp-modal-2" ;; [vp-modal-2 *can .sleep]
@@ -244,7 +245,7 @@
          :modal :base}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
-          babylon.ug/subcat-1-1-comp-subcat]}]
+          babylon.ug/subcat-2]}]
 
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]

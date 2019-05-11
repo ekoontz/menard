@@ -62,32 +62,75 @@
                          :subcat {:1 subcat-subj
                                   :2 []}}}})]}
 
+ ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
+ ;; modal-base is simpler and clearer.
  {:rule :modal-base
   :if {:cat :verb
        :modal :base}
-  :then (let [subj (atom :top)
+  :then (let [agr (atom :top)
+              subj (atom :top)
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
-          [{:sem {:subj subj
+          [;; "I can"
+           {:marker 1
+            :sem {:subj subj
                   :obj :unspec}
             :infl :base
             :subcat {:2 []}} ;; "can"
-           {:sem {:subj subj
+
+           ;;  "I can sleep" or "I can see it"
+           {:marker 2
+            :sem {:subj subj
+                  :obj obj}
+            :infl :base
+            :reflexive false
+            :subcat {:2 {:infl :base
+                         :cat :verb
+                         :modal false
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+
+           ;;  "I can see myself"
+           {:marker 3
+            :agr agr
+            :sem {:subj subj
+                  :obj obj}
+            :infl :base
+            :subcat {:1 {:agr agr}
+                     :2 {:agr agr
+                         :infl :base
+                         :cat :verb
+                         :modal false
+                         :reflexive true
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+           
+           ;; "I can try to sleep"
+           {:marker 4
+            :sem {:subj subj
                   :obj obj}
             :infl :base
             :subcat {:2 {:infl :base
-                          :cat :verb
-                          :modal false  ;;  "can sleep" or "can see it"
-                          :sem obj
-                          :subcat {:1 subcat-subj}}}}
-           {:sem {:subj subj
+                         :cat :verb
+                         :modal :infinitive
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+           ;; "I can try to see myself"
+           {:marker 5
+            :agr agr
+            :sem {:subj subj
                   :obj obj}
             :infl :base
-            :subcat {:2 {:infl :base
-                          :cat :verb
-                          :modal :infinitive ;;  "can try to sleep"
-                          :sem obj
-                          :subcat {:1 subcat-subj}}}}])}
+            :subcat {:1 {:agr agr}
+                     :2 {:agr agr
+                         :infl :base
+                         :cat :verb
+                         :reflexive true
+                         :modal :infinitive
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}])}
 
  {:rule :transitive-verb-prep-default-false
   :if {:cat :verb

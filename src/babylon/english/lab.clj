@@ -412,27 +412,29 @@
     (en/morph syntax-tree)))
 
 (defn add [tree]
-  (let [frontier (g/frontier tree)]
+  (let [at (g/frontier tree)]
+    (if (not (= tree :fail))
+      (log/debug (str "adding to: " (syntax-tree tree) (str "; at:" at))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       [tree]
       (= tree :fail)
       []
 
-      (or (u/get-in tree (concat frontier [:rule]))
-          (= true (u/get-in tree (concat frontier [:phrasal]))))
+      (or (u/get-in tree (concat at [:rule]))
+          (= true (u/get-in tree (concat at [:phrasal]))))
       (do
-        (log/debug (str "adding rule: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (log/debug (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
         (add-rule tree))
 
-      (or (= false (u/get-in tree (concat frontier [:phrasal])))
-          (u/get-in tree (concat frontier [:canonical])))
+      (or (= false (u/get-in tree (concat at [:phrasal])))
+          (u/get-in tree (concat at [:canonical])))
       (do
-        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; frontier:" frontier)))
+        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
         (add-lexeme tree))
     
       true
-      (do (log/warn (str "slowness at rule: " (u/get-in tree (concat (butlast frontier) [:rule])) " for child " (last frontier) " due to need to generate for both rules *and* lexemes.."))
+      (do (log/warn (str "slowness at rule: " (u/get-in tree (concat (butlast at) [:rule])) " for child " (last at) " due to need to generate for both rules *and* lexemes.."))
           (lazy-cat (add-lexeme tree)
                     (add-rule tree))))))
 

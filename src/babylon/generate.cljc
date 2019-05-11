@@ -195,40 +195,6 @@
 (def unify-morphology-tree-leaf
   (make-word))
 
-(declare create-folded-words-1)
-(declare create-folded-words-2)
-(defn create-folded-words [tree frontier-path]
-  (if (empty? (u/get-in tree (concat frontier-path [:words])))
-     (create-folded-words-1 tree frontier-path)
-     (create-folded-words-2 tree frontier-path)))
-
-(defn create-folded-words-1
-  "create a word list for a given subtree (tree+frontier-path),
-   where :1 is a word, by adding the the word at :1 with the new word at :2 :1."
-  [tree frontier-path]
-  (u/assoc-in tree frontier-path unify-morphology-fold))
-
-(defn create-folded-words-2
-  "create a word list for a given subtree (tree+frontier-path),
-   where :1 is a phrase, by adding the
-   the phrase at :1's :words at :1 with the new word at :2 :1."
-  [tree frontier-path]
-  (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
-       (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false))
-   (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
-                                   [])]
-     (log/debug (str "create-folded-words-2; tree is at: " (vec (concat frontier-path [:2]))
-                     "; tail-path is: " (vec tail-path)))
-     (->
-      tree
-      (u/assoc-in (concat frontier-path [:words])
-                  (u/get-in tree (concat frontier-path [:1 :words])))
-      (u/assoc-in frontier-path
-                  (unify {:2 unify-morphology-tree-leaf
-                          :words
-                          (s/create-path-in (concat tail-path [:first])
-                                            unify-morphology-fold)}))))))
-
 (defn create-words [tree frontier-path]
   (log/debug (str "creating words: " (syntax-tree tree) " at: " frontier-path))
   (let [retval

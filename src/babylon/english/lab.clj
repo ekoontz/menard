@@ -309,6 +309,7 @@
     (cond
       (and
        (not (empty? parent-at))
+       ;; TODO: remove: should not be needed.
        (get grandparent :head)
        (= (get parent :head)
           (get parent :1))

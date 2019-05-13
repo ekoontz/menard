@@ -4,8 +4,7 @@
    [babylon.english.generate :refer [add generate]]
    [babylon.english.serialization :refer [morph syntax-tree]]
    [babylon.generate :as g :refer [lazy-mapcat]]
-   [dag_unify.core :as u :refer [unify fail? ref? simplify-ref]]
-   [dag_unify.serialization :as s :refer [all-refs]]
+   [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
 (def specs

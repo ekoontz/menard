@@ -317,6 +317,7 @@
       (and
        (not (nil? parent))
        (not (nil? grandparent))
+       (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
        (not (empty? parent-at))
        (= (get parent :head)
           (get parent :1))

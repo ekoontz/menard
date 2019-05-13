@@ -429,7 +429,11 @@
     :sem {:tense :present}
     :comp {:rule "np"
            :head {:rule "nbar"}}
-    :head {:rule "vp-modal-1"}}
+    :head {:rule "vp-modal-1"
+           :comp {:rule "infinitive"
+                  :comp {:rule "vp"
+                         :comp {:rule "np"
+                                :head {:rule "nbar"}}}}}}
    {:rule "s"
     :comp {:phrasal false}
     :head {:rule "vp-modal-2"

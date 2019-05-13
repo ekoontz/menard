@@ -1,10 +1,9 @@
 (ns babylon.english.generate
   (:require
-   [babylon.english :as en :refer [analyze grammar parse]]
-   [babylon.english.serialization :refer [morph syntax-tree]]
-   [babylon.generate :as g :refer [lazy-mapcat]]
-   [dag_unify.core :as u :refer [unify fail? ref? simplify-ref]]
-   [dag_unify.serialization :as s :refer [all-refs]]
+   [babylon.english :as en :refer [grammar]]
+   [babylon.english.serialization :refer [syntax-tree]]
+   [babylon.generate :as g]
+   [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
 (defn numeric-frontier [syntax-tree]

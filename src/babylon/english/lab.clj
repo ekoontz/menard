@@ -289,20 +289,20 @@
    
 ;; fold up a tree like this:
 ;;
-;;      vp-aux
+;;       grandparent
 ;;      /   \ C
-;;   H /    vp
-;;   would  / \
+;;   H /    parent
+;;   uncle  / \
 ;;         /   \
 ;;      H /     \
-;;      see      _
+;;      nephew   _ nephew's complement
 ;;
 ;; into:
 ;;
-;;      vp-aux
-;;      /     \ C
-;;     / H     \
-;;    would see  _
+;;      grandparent
+;;      /         \ C
+;;   H /           \
+;;    uncle+nephew   _
 ;;
 (defn foldup [tree at]
   (let [parent-at (-> at butlast)
@@ -328,7 +328,7 @@
            (= (get (u/get-in nephew [:subcat]) :2)
               (get parent :comp))))
       (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
-        (log/debug (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
+        (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
                        "); nephew at:" (vec nephew-at) " (" (u/get-in tree (concat nephew-at [:canonical])) ")"))
         (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
         (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))

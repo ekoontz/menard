@@ -342,30 +342,28 @@
         spec (or spec :top)
         tree (u/assoc-in! tree done-at true)
         spec (u/unify! spec (u/get-in tree at))]
-    (if (= spec :fail)
-      []
-      (do
-        (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
-        (->> (binding [g/lexicon babylon.english/lexicon
-                       g/index-fn
-                       (fn [spec]
-                         (cond (= (u/get-in spec [:cat]) :verb)
-                               (shuffle babylon.english/verb-lexicon)
-                               true
-                               (shuffle babylon.english/non-verb-lexicon)))]
-               (g/get-lexemes (u/strip-refs spec)))
-             shuffle
-             (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
-                        (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
-                                       " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
-                        true))
-             (g/lazy-map (fn [candidate-lexeme]
-                           (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
-                           (u/assoc-in! (u/copy tree) at (u/copy candidate-lexeme))))
-             (remove #(= :fail %))
-             (g/lazy-map #(update-syntax-tree % at))
-             (g/lazy-map #(truncate-at % at))
-             (g/lazy-map #(foldup % at)))))))
+    (when (not (= spec :fail))
+      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
+      (->> (binding [g/lexicon babylon.english/lexicon
+                     g/index-fn
+                     (fn [spec]
+                       (cond (= (u/get-in spec [:cat]) :verb)
+                             (shuffle babylon.english/verb-lexicon)
+                             true
+                             (shuffle babylon.english/non-verb-lexicon)))]
+             (g/get-lexemes (u/strip-refs spec)))
+           shuffle
+           (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+                      (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
+                                     " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
+                      true))
+           (g/lazy-map (fn [candidate-lexeme]
+                         (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
+                         (u/assoc-in! (u/copy tree) at (u/copy candidate-lexeme))))
+           (remove #(= :fail %))
+           (g/lazy-map #(update-syntax-tree % at))
+           (g/lazy-map #(truncate-at % at))
+           (g/lazy-map #(foldup % at))))))
 
 (defn add [tree]
   (let [at (g/frontier tree)]

@@ -316,42 +316,20 @@
     (cond
       (and
        (not (nil? parent))
+       (not (nil? grandparent))
        (not (empty? parent-at))
        (= (get parent :head)
           (get parent :1))
        (= (get grandparent :head)
-          (get grandparent :1)))
+          (get grandparent :1))
+       (or (= (get (u/get-in nephew [:subcat]) :1)
+              (get parent :comp))
+           (= (get (u/get-in nephew [:subcat]) :2)
+              (get parent :comp))))
       (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
         (log/debug (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
                        "); nephew at:" (vec nephew-at) " (" (u/get-in tree (concat nephew-at [:canonical])) ")"))
-        (log/debug (str "parent: " (:rule parent) " at:" parent-at))
-        (log/debug (str "grandparent: " (:rule grandparent) " at:" grandparent-at))
-
-        ;; subcatness(1) is for:
-        ;; (1) [vp-modal-1 *try .[infinitive *to ._]] => [vp-modal-1 *try-to _] 
-        (log/debug (str "subcatness(1): " (= (get (u/get-in nephew [:subcat]) :1)
-                                             (get parent :comp))))
-
-        ;; subcatness(2) is for:
-        ;; (1) [vp-aux     *have [vp *seen       ._]]  => [vp-aux *have_seen    ._]
-        ;; (2) [vp-modal-2 *must [vp *see        ._]]  => [vp-modal-2 *must_see ._]
-        (log/debug (str "subcatness(2): " (= (get (u/get-in nephew [:subcat]) :2)
-                                             (get parent :comp))
-                       " which is type=" (type (get parent :comp))))
-        (log/debug (str "uncle's [:subcat :2] type:" (get (u/get-in tree (concat uncle-head-at [:subcat])) :2)))
-        (cond (= (get (u/get-in nephew [:subcat]) :1)
-                 (get parent :comp))
-              (do
-                (log/debug (str "folding on case 1."))
-                (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp)))
-
-              (and (= (get (u/get-in nephew [:subcat]) :2)
-                      (get parent :comp)))
-              (do
-                (log/debug (str "folding on case 2."))
-                (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp)))
-
-              true (throw (Exception. (str "unhandled subcat scenario between nephew head and its complement sibling."))))
+        (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
         (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
         (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
         (dissoc tree :dag_unify.serialization/serialized))

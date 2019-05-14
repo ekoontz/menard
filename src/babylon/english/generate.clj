@@ -98,6 +98,7 @@
                     (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
                                    " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))
+         (remove #(= :fail %))
          (g/lazy-map #(u/assoc-in tree at %))
          (g/lazy-map
           #(u/unify! %
@@ -220,7 +221,7 @@
                       true))
            (g/lazy-map (fn [candidate-lexeme]
                          (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
-                         (u/assoc-in! (u/copy tree) at (u/copy candidate-lexeme))))
+                         (u/assoc-in! (u/copy tree) at candidate-lexeme)))
            (remove #(= :fail %))
            (g/lazy-map #(update-syntax-tree % at))
            (g/lazy-map #(truncate-at % at))

@@ -49,8 +49,6 @@
     
     true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
 
-(declare generate)
-
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
   [tree at]

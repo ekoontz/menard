@@ -3,6 +3,7 @@
    [babylon.english :as en :refer [grammar]]
    [babylon.english.serialization :refer [syntax-tree]]
    [babylon.generate :as g]
+   [dag_unify.serialization :as s]
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 

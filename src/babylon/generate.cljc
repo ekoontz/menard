@@ -17,6 +17,7 @@
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic index-fn (fn [spec]
                           (throw (Exception. (str "no index-fn supplied.")))))
+(def ^:dynamic lexical-filter nil)
 (def ^:dynamic lexicon (delay (throw (Exception. (str "no lexicon supplied.")))))
 (def ^:dynamic syntax-tree (fn [tree]
                              (log/warn (str "using default syntax-tree function for tree "

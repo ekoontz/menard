@@ -183,6 +183,13 @@
          (filter #(and (not (= (u/get-in % [:cat]) :verb))
                        (not (u/get-in % [:exception]))))))
 
+
+(defn index-fn [spec]
+  (cond (= (u/get-in spec [:cat]) :verb)
+        (shuffle verb-lexicon)
+        true
+        (shuffle non-verb-lexicon)))
+
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
@@ -192,11 +199,7 @@
     (binding [g/lexicon lexicon
               g/syntax-tree syntax-tree
               g/morph morph
-              g/index-fn (fn [spec]
-                           (cond (= (u/get-in spec [:cat]) :verb)
-                                 (shuffle verb-lexicon)
-                                 true
-                                 (shuffle non-verb-lexicon)))]
+              g/index-fn index-fn]
       (let [spec (let [with-cat
                        (unify spec {:cat (first (shuffle [:noun :verb]))})]
                    (if (= :fail with-cat)

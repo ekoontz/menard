@@ -1,7 +1,7 @@
 (ns babylon.english.lab
   (:require
-   [babylon.english :as en :refer [analyze grammar parse]]
-   [babylon.english.generate :refer [add generate]]
+   [babylon.english :as en :refer [analyze grammar index-fn lexicon parse]]
+   [babylon.english.generate :as en-gen :refer [add generate]]
    [babylon.english.serialization :refer [morph syntax-tree]]
    [babylon.generate :as g :refer [lazy-mapcat]]
    [dag_unify.core :as u]
@@ -60,13 +60,17 @@
             [long-demo-spec]))
 
 (defn demo []
-  (repeatedly
-   #(println
-     (->
-      (take 1 (shuffle specs))
-      first
-      generate
-      morph))))
+    (repeatedly
+      #(println
+         (binding [en-gen/grammar grammar
+                   en-gen/lexicon lexicon
+                   en-gen/syntax-tree syntax-tree
+                   en-gen/index-fn index-fn]
+           (->
+            (take 1 (shuffle specs))
+            first
+            generate
+            morph)))))
 
 (defn modal-demo []
   (repeatedly

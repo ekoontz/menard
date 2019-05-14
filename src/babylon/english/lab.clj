@@ -1,9 +1,9 @@
 (ns babylon.english.lab
   (:require
    [babylon.english :as en :refer [analyze grammar index-fn lexicon parse]]
-   [babylon.generatenew :as en-gen :refer [add generate]]
+   [babylon.generatenew :as en-gen :refer [generate]]
    [babylon.english.serialization :refer [morph syntax-tree]]
-   [babylon.generate :as g :refer [lazy-mapcat]]
+   [babylon.generate :as g :refer [add lazy-mapcat]]
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
@@ -62,10 +62,10 @@
 (defn demo []
     (repeatedly
       #(println
-         (binding [en-gen/grammar grammar
-                   en-gen/lexicon lexicon
-                   en-gen/syntax-tree syntax-tree
-                   en-gen/index-fn index-fn]
+         (binding [g/grammar grammar
+                   g/lexicon lexicon
+                   g/syntax-tree syntax-tree
+                   g/index-fn index-fn]
            (->
             (take 1 (shuffle specs))
             first

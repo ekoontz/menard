@@ -1,7 +1,7 @@
 (ns babylon.english.lab
   (:require
    [babylon.english :as en :refer [analyze grammar index-fn lexicon parse]]
-   [babylon.english.generate :as en-gen :refer [add generate]]
+   [babylon.generatenew :as en-gen :refer [add generate]]
    [babylon.english.serialization :refer [morph syntax-tree]]
    [babylon.generate :as g :refer [lazy-mapcat]]
    [dag_unify.core :as u]

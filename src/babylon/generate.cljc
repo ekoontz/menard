@@ -68,7 +68,9 @@
         (add-lexeme tree))
     
       true
-      (do (log/warn (str "slowness:" (syntax-tree tree) " at rule: " (u/get-in tree (concat (butlast at) [:rule])) " for child: " (last at) " due to need to generate for both rules *and* lexemes.."))
+      (do (log/warn (str "slowness:" (syntax-tree tree) " at rule: "
+                         (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                         (last at) ", due to need to generate for both rules *and* lexemes."))
           (lazy-cat (add-lexeme tree)
                     (add-rule tree))))))
 

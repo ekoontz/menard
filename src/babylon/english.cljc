@@ -214,11 +214,6 @@
         (-> spec
             (g/generate (shuffle grammar)))))))
 
-(defn truncate [tree]
-  (binding [g/syntax-tree syntax-tree
-            g/morph morph]
-    (g/truncate tree)))
-
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]

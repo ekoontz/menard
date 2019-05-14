@@ -44,6 +44,7 @@
 (declare truncate-in)
 
 ;; <new implementation>
+(declare add)
 (declare add-lexeme)
 (declare add-rule)
 (declare foldup)
@@ -63,17 +64,18 @@
 ;; </new implementation>
 
 
-(defn generate
-  "Return one expression matching spec _spec_ given the model _model_."
-  [spec grammar]
-  (first (generate-all spec grammar)))
+(defn generate-all [trees]
+  (if (not (empty? trees))
+    (let [tree (first trees)]
+      (if (u/get-in tree [:babylon.generate/done?])
+        (cons tree
+              (generate-all (rest trees)))
+        (lazy-cat
+         (generate-all (add tree))
+         (generate-all (rest trees)))))))
 
-(defn generate-all
-  "Return the subset of _grammar_ that unfies with spec _spec_, and return the unified result for each member of that subset."
-  [spec grammar]
-  (->> (match-against-rules spec grammar)
-       (lazy-mapcat (fn [tree]
-                      (grow tree grammar)))))
+(defn generate [spec]
+   (-> [spec] generate-all first))
 
 (defn match-against-rules [spec grammar]
   (->> grammar

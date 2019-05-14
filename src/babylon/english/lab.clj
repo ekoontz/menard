@@ -1,9 +1,8 @@
 (ns babylon.english.lab
   (:require
    [babylon.english :as en :refer [analyze grammar index-fn lexicon parse]]
-   [babylon.generatenew :as en-gen :refer [generate]]
    [babylon.english.serialization :refer [morph syntax-tree]]
-   [babylon.generate :as g :refer [add lazy-mapcat]]
+   [babylon.generate :as g :refer [add generate lazy-mapcat]]
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 

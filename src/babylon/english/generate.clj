@@ -99,7 +99,7 @@
                                    " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))
          (remove #(= :fail %))
-         (g/lazy-map #(u/assoc-in tree at %))
+         (g/lazy-map #(u/assoc-in! (u/copy tree) at %))
          (g/lazy-map
           #(u/unify! %
                      (s/create-path-in (concat [:syntax-tree] at-num)

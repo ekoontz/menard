@@ -198,7 +198,6 @@
         non-verb-lexicon (shuffle non-verb-lexicon)]
     (binding [g/lexicon lexicon
               g/syntax-tree syntax-tree
-              g/morph morph
               g/index-fn index-fn]
       (let [spec (let [with-cat
                        (unify spec {:cat (first (shuffle [:noun :verb]))})]

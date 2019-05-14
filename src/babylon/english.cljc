@@ -128,9 +128,7 @@
 
 (defn morph
   ([tree]
-   (if false
-     (grammar/default-morph-fn tree morphology)
-     (morph-1 tree)))
+   (morph-1 tree))
   ([tree & {:keys [sentence-punctuation?]}]
    (if sentence-punctuation?
      (-> tree

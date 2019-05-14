@@ -5,8 +5,15 @@
 
 (declare morph-1)
 (declare syntax-tree-1)
-(defn morph [tree]
-  (morph-1 (u/get-in tree [:syntax-tree])))
+(defn morph
+  ([tree]
+   (morph-1 (u/get-in tree [:syntax-tree])))
+  ([tree & {:keys [sentence-punctuation?]}]
+   (if sentence-punctuation?
+     (-> tree
+         morph
+         en/an
+         (en/sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
 
 (defn morph-1 [syntax-tree]
   (cond

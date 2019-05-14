@@ -2,7 +2,7 @@
   (:require
    [babylon.english :as en :refer [analyze grammar index-fn lexicon parse]]
    [babylon.english.serialization :refer [morph syntax-tree]]
-   [babylon.generate :as g :refer [add generate lazy-mapcat]]
+   [babylon.generate :as g :refer [add lazy-mapcat]]
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
@@ -58,18 +58,22 @@
             modal-specs
             [long-demo-spec]))
 
+
+(defn generate [spec]
+  (binding [g/grammar grammar
+            g/lexicon lexicon
+            g/syntax-tree syntax-tree
+            g/index-fn index-fn]
+    (-> spec
+        g/generate)))
+
 (defn demo []
     (repeatedly
       #(println
-         (binding [g/grammar grammar
-                   g/lexicon lexicon
-                   g/syntax-tree syntax-tree
-                   g/index-fn index-fn]
-           (->
-            (take 1 (shuffle specs))
+        (-> (take 1 (shuffle specs))
             first
             generate
-            morph)))))
+            morph))))
 
 (defn modal-demo []
   (repeatedly
@@ -114,7 +118,6 @@
        (lazy-mapcat add)
        (remove #(= :fail %))
        first))
-
 
 (defn gen
   "how to generate a phrase with particular constraints."

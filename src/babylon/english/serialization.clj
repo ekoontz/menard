@@ -1,5 +1,6 @@
 (ns babylon.english.serialization
   (:require
+   [babylon.english :as en]
    [dag_unify.core :as u]))
 
 (declare morph-1)

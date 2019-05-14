@@ -1,6 +1,6 @@
 (ns babylon.english.lab
   (:require
-   [babylon.english :as en :refer [analyze grammar index-fn lexicon parse]]
+   [babylon.english :as en :refer [analyze generate grammar index-fn lexicon parse]]
    [babylon.english.serialization :refer [morph syntax-tree]]
    [babylon.generate :as g :refer [add lazy-mapcat]]
    [dag_unify.core :as u]
@@ -57,15 +57,6 @@
 (def specs (concat
             modal-specs
             [long-demo-spec]))
-
-
-(defn generate [spec]
-  (binding [g/grammar grammar
-            g/lexicon lexicon
-            g/syntax-tree syntax-tree
-            g/index-fn index-fn]
-    (-> spec
-        g/generate)))
 
 (defn demo []
     (repeatedly

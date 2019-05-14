@@ -193,34 +193,18 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (let [verb-lexicon (->> verb-lexicon
-                          shuffle)
-        non-verb-lexicon (shuffle non-verb-lexicon)]
-    (binding [g/lexicon lexicon
-              g/syntax-tree syntax-tree
-              g/index-fn index-fn]
-      (let [spec (let [with-cat
-                       (unify spec {:cat (first (shuffle [:noun :verb]))})]
-                   (if (= :fail with-cat)
-                     spec
-                     with-cat))
-            spec (let [with-subcat-empty
-                       (unify spec {:slash false
-                                    :subcat []})]
-                   (if (= :fail with-subcat-empty)
-                     spec
-                     with-subcat-empty))]
-        (-> spec
-            (g/generate (shuffle grammar)))))))
+  (binding [g/grammar grammar
+            g/lexicon lexicon
+            g/syntax-tree syntax-tree
+            g/index-fn index-fn]
+    (-> spec
+        g/generate)))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]
-  (binding [g/lexicon lexicon
-            g/syntax-tree syntax-tree]
-    (take n (g/generate-all (unify spec
-                                   {:subcat []})
-                            grammar))))
+  (take n (repeatedly #(generate spec))))
+
 (defn parse [expression]
   (binding [p/grammar grammar
             l/lexicon lexicon
@@ -249,7 +233,6 @@
 
    {:comp {:phrasal false}
     :head {:phrasal false}}])
-
 
 (defn generate-long-sentence [& {:keys [spec trees]}]
   (if (empty? trees)

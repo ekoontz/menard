@@ -7,9 +7,16 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
+(declare dissoc-in)
 (declare foldup)
+(declare frontier)
+(declare get-lexemes)
 (declare headness?)
+(declare lazy-map)
+(declare lazy-mapcat)
+(declare make-word)
 (declare numeric-frontier)
+(declare numeric-path)
 (declare remove-trailing-comps)
 (declare truncate-at)
 (declare update-syntax-tree)
@@ -37,101 +44,6 @@
 
 (defn generate [spec]
    (-> [spec] generate-all first))
-
-(defn lazy-map [f items]
-  (when (not (empty? items))
-    (cons (f (first items))
-          (lazy-seq (lazy-map f (rest items))))))
-
-(defn get-lexemes
-  "Get lexemes matching the spec. Use index, where the index 
-   is a function that we call with _spec_ to get a set of lexemes
-   that matches the given _spec_."
-  [spec]
-  (if (= true (u/get-in spec [:phrasal]))
-    (lazy-seq [])
-    (do
-      (let [retval
-            (->> (index-fn spec)
-                 lazy-seq
-                 (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
-                 (map #(unify % spec))
-                 (filter #(not (= :fail %)))
-                 (map #(u/assoc-in! % [::done?] true)))]
-        ;; This empty?-check is a workaround because without it, retval will be empty
-        ;; if (get-lexemes) is called from outside this namespace with bindings on lexicon and index-fn.
-        ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).
-        (if (empty? retval) retval retval)))))
-
-;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
-(defn dissoc-in
-  "Dissociate a value in a nested associative structure, identified by a sequence
-  of keys. Any collections left empty by the operation will be dissociated from
-  their containing structures."
-  [m ks]
-  (if-let [[head & tail] ks]
-    (cond
-      tail
-      (let [v (dissoc-in (u/get-in m [head]) tail)]
-        (cond
-          (empty? v)
-          (dissoc m head)
-          true
-          (assoc m head v)))
-      true
-      (dissoc m head))
-    m))
-
-(defn make-word []
-   {:agr (atom :top)
-    :canonical (atom :top)
-    :exceptions (atom :top)
-    :cat (atom :top)
-    :infl (atom :top)
-    :inflected? (atom :top)
-    :root (atom :top)})
-
-(defn frontier
-  "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
-  [tree]
-  (let [retval
-         (cond
-           (= (u/get-in tree [::done?]) true)
-           []
-
-           (= (u/get-in tree [::started?] false) false)
-           []
-           
-           (= (u/get-in tree [:phrasal]) false)
-           []
-           
-           (= ::none (u/get-in tree [:comp] ::none))
-           []
-           
-           (= ::none (u/get-in tree [:head] ::none))
-           (cons :comp (frontier (u/get-in tree [:comp])))
-    
-           (and (= (u/get-in tree [:phrasal] true) true)
-                (= true (u/get-in tree [::started?]))
-                (not (u/get-in tree [:head ::done?])))
-           (cons :head (frontier (u/get-in tree [:head])))
-
-           (and (= (u/get-in tree [:phrasal] true) true)
-                (= true (u/get-in tree [::started?])))
-           (cons :comp (frontier (u/get-in tree [:comp])))
-
-           (and (= (u/get-in tree [:phrasal] true) true))
-           [:head]
-    
-           true
-           (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
-    retval))
-
-(defn lazy-mapcat [f seqs]
-  (if (not (empty? seqs))
-     (lazy-cat
-       (f (first seqs))
-       (lazy-mapcat f (rest seqs)))))
 
 (defn add [tree]
   (let [at (frontier tree)]
@@ -182,6 +94,39 @@
            (lazy-map #(truncate-at % at))
            (lazy-map #(foldup % at))))))
 
+(defn update-syntax-tree [tree at]
+  (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
+  (let [head? (headness? tree at)
+        ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
+        ;; if folding occurs.
+        numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
+        word (merge (make-word)
+                    {:head? head?})]
+    (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
+    (u/unify! tree
+              (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                     (s/create-path-in at word)))))
+
+(defn get-lexemes
+  "Get lexemes matching the spec. Use index, where the index 
+   is a function that we call with _spec_ to get a set of lexemes
+   that matches the given _spec_."
+  [spec]
+  (if (= true (u/get-in spec [:phrasal]))
+    (lazy-seq [])
+    (do
+      (let [retval
+            (->> (index-fn spec)
+                 lazy-seq
+                 (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
+                 (map #(unify % spec))
+                 (filter #(not (= :fail %)))
+                 (map #(u/assoc-in! % [::done?] true)))]
+        ;; This empty?-check is a workaround because without it, retval will be empty
+        ;; if (get-lexemes) is called from outside this namespace with bindings on lexicon and index-fn.
+        ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).
+        (if (empty? retval) retval retval)))))
+
 (defn add-rule [tree & [rule-name]]
   (let [at (frontier tree)
         rule-name
@@ -211,6 +156,117 @@
                                           (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
                                               (or rule-name
                                                   (u/get-in % (concat at [:rule]))))})))))))
+
+(defn make-word []
+   {:agr (atom :top)
+    :canonical (atom :top)
+    :exceptions (atom :top)
+    :cat (atom :top)
+    :infl (atom :top)
+    :inflected? (atom :top)
+    :root (atom :top)})
+
+(defn frontier
+  "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
+  [tree]
+  (let [retval
+         (cond
+           (= (u/get-in tree [::done?]) true)
+           []
+
+           (= (u/get-in tree [::started?] false) false)
+           []
+           
+           (= (u/get-in tree [:phrasal]) false)
+           []
+           
+           (= ::none (u/get-in tree [:comp] ::none))
+           []
+           
+           (= ::none (u/get-in tree [:head] ::none))
+           (cons :comp (frontier (u/get-in tree [:comp])))
+    
+           (and (= (u/get-in tree [:phrasal] true) true)
+                (= true (u/get-in tree [::started?]))
+                (not (u/get-in tree [:head ::done?])))
+           (cons :head (frontier (u/get-in tree [:head])))
+
+           (and (= (u/get-in tree [:phrasal] true) true)
+                (= true (u/get-in tree [::started?])))
+           (cons :comp (frontier (u/get-in tree [:comp])))
+
+           (and (= (u/get-in tree [:phrasal] true) true))
+           [:head]
+    
+           true
+           (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
+    retval))
+
+(defn truncate-at [tree at]
+  (if (= :comp (last at))
+    (let [compless-at (if (empty? (remove-trailing-comps at))
+                        ;; in this case, we have just added the final :comp at the
+                        ;; root of the tree, so simply truncate that.
+                        [:comp]
+                        ;; otherwise, ascend the tree as high as there are :comps
+                        ;; trailing _at_.
+                        (remove-trailing-comps at))]
+      (log/debug (str "truncating: " (syntax-tree tree) " at: " compless-at))
+      (-> tree
+           (dissoc-in compless-at)
+           (dissoc-in (numeric-path tree compless-at))
+           (dissoc :dag_unify.serialization/serialized)
+           (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
+    tree))
+   
+;; fold up a tree like this:
+;;
+;;       grandparent
+;;      /   \ C
+;;   H /    parent
+;;   uncle  / \
+;;         /   \
+;;      H /     \
+;;      nephew   _ nephew's complement
+;;
+;; into:
+;;
+;;      grandparent
+;;      /         \ C
+;;   H /           \
+;;    uncle+nephew   _
+;;
+(defn foldup [tree at]
+  (let [parent-at (-> at butlast)
+        parent (u/get-in tree parent-at)
+        grandparent-at (-> parent-at butlast vec)
+        grandparent (u/get-in tree grandparent-at)
+        uncle-head-at (-> grandparent-at (concat [:head]) vec)
+        nephew-at (-> parent-at (concat [:head]))
+        nephew (u/get-in tree nephew-at)]
+    (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
+    (cond
+      (and
+       (not (nil? parent))
+       (not (nil? grandparent))
+       (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
+       (not (empty? parent-at))
+       (= (get parent :head)
+          (get parent :1))
+       (= (get grandparent :head)
+          (get grandparent :1))
+       (or (= (get (u/get-in nephew [:subcat]) :1)
+              (get parent :comp))
+           (= (get (u/get-in nephew [:subcat]) :2)
+              (get parent :comp))))
+      (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
+        (log/debug (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
+                       "); nephew at:" (vec nephew-at) " (" (u/get-in tree (concat nephew-at [:canonical])) ")"))
+        (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
+        (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
+        (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
+        (dissoc tree :dag_unify.serialization/serialized))
+      true tree)))
 
 (defn numeric-frontier [syntax-tree]
   (cond
@@ -283,19 +339,6 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-(defn update-syntax-tree [tree at]
-  (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
-  (let [head? (headness? tree at)
-        ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
-        ;; if folding occurs.
-        numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-        word (merge (make-word)
-                    {:head? head?})]
-    (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-    (u/unify! tree
-              (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                     (s/create-path-in at word)))))
-
 (defn remove-trailing-comps [at]
   (cond (empty? at) at
         (= :comp
@@ -303,69 +346,27 @@
         (remove-trailing-comps (butlast at))
         true at))
 
-(defn truncate-at [tree at]
-  (if (= :comp (last at))
-    (let [compless-at (if (empty? (remove-trailing-comps at))
-                        ;; in this case, we have just added the final :comp at the
-                        ;; root of the tree, so simply truncate that.
-                        [:comp]
-                        ;; otherwise, ascend the tree as high as there are :comps
-                        ;; trailing _at_.
-                        (remove-trailing-comps at))]
-      (log/debug (str "truncating: " (syntax-tree tree) " at: " compless-at))
-      (-> tree
-           (dissoc-in compless-at)
-           (dissoc-in (numeric-path tree compless-at))
-           (dissoc :dag_unify.serialization/serialized)
-           (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
-    tree))
-   
-;; fold up a tree like this:
-;;
-;;       grandparent
-;;      /   \ C
-;;   H /    parent
-;;   uncle  / \
-;;         /   \
-;;      H /     \
-;;      nephew   _ nephew's complement
-;;
-;; into:
-;;
-;;      grandparent
-;;      /         \ C
-;;   H /           \
-;;    uncle+nephew   _
-;;
-(defn foldup [tree at]
-  (let [parent-at (-> at butlast)
-        parent (u/get-in tree parent-at)
-        grandparent-at (-> parent-at butlast vec)
-        grandparent (u/get-in tree grandparent-at)
-        uncle-head-at (-> grandparent-at (concat [:head]) vec)
-        nephew-at (-> parent-at (concat [:head]))
-        nephew (u/get-in tree nephew-at)]
-    (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
+;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
+(defn dissoc-in
+  "Dissociate a value in a nested associative structure, identified by a sequence
+  of keys. Any collections left empty by the operation will be dissociated from
+  their containing structures."
+  [m ks]
+  (if-let [[head & tail] ks]
     (cond
-      (and
-       (not (nil? parent))
-       (not (nil? grandparent))
-       (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
-       (not (empty? parent-at))
-       (= (get parent :head)
-          (get parent :1))
-       (= (get grandparent :head)
-          (get grandparent :1))
-       (or (= (get (u/get-in nephew [:subcat]) :1)
-              (get parent :comp))
-           (= (get (u/get-in nephew [:subcat]) :2)
-              (get parent :comp))))
-      (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
-        (log/debug (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
-                       "); nephew at:" (vec nephew-at) " (" (u/get-in tree (concat nephew-at [:canonical])) ")"))
-        (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
-        (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
-        (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
-        (dissoc tree :dag_unify.serialization/serialized))
-      true tree)))
+      tail
+      (let [v (dissoc-in (u/get-in m [head]) tail)]
+        (cond
+          (empty? v)
+          (dissoc m head)
+          true
+          (assoc m head v)))
+      true
+      (dissoc m head))
+    m))
+
+(defn lazy-map [f items]
+  (when (not (empty? items))
+    (cons (f (first items))
+          (lazy-seq (lazy-map f (rest items))))))
 

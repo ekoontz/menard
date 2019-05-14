@@ -1,12 +1,17 @@
 (ns babylon.english.generate
   (:require
-   [babylon.english :as en :refer [grammar]]
-   [babylon.english.serialization :refer [syntax-tree]]
    [babylon.generate :as g]
    [dag_unify.serialization :as s]
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
+(def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
+(def ^:dynamic index-fn (fn [spec]
+                          (throw (Exception. (str "no index-fn supplied.")))))
+(def ^:dynamic lexicon (delay (throw (Exception. (str "no lexicon supplied.")))))
+(def ^:dynamic syntax-tree (fn [tree]
+                             (log/warn (str "using default syntax-tree function for tree "
+                                            " rooted at: " (u/get-in tree [:rule])))))
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
@@ -54,7 +59,7 @@
         (add-lexeme tree))
     
       true
-      (do (log/warn (str "slowness at rule: " (u/get-in tree (concat (butlast at) [:rule])) " for child " (last at) " due to need to generate for both rules *and* lexemes.."))
+      (do (log/warn (str "slowness:" (syntax-tree tree) " at rule: " (u/get-in tree (concat (butlast at) [:rule])) " for child: " (last at) " due to need to generate for both rules *and* lexemes.."))
           (lazy-cat (add-lexeme tree)
                     (add-rule tree))))))
 
@@ -66,13 +71,8 @@
         spec (u/unify! spec (u/get-in tree at))]
     (when (not (= spec :fail))
       (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
-      (->> (binding [g/lexicon babylon.english/lexicon
-                     g/index-fn
-                     (fn [spec]
-                       (cond (= (u/get-in spec [:cat]) :verb)
-                             (shuffle babylon.english/verb-lexicon)
-                             true
-                             (shuffle babylon.english/non-verb-lexicon)))]
+      (->> (binding [g/lexicon lexicon
+                     g/index-fn index-fn]
              (g/get-lexemes (u/strip-refs spec)))
            shuffle
            (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))

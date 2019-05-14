@@ -7,6 +7,116 @@
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
+(declare add)
+(declare add-lexeme)
+(declare add-rule)
+(declare foldup)
+(declare headness?)
+(declare numeric-frontier)
+(declare remove-trailing-comps)
+(declare truncate-at)
+(declare update-syntax-tree)
+(def optimize? true)
+
+(defn generate-all [trees]
+  (if (not (empty? trees))
+    (let [tree (first trees)]
+      (if (u/get-in tree [:babylon.generate/done?])
+        (cons tree
+              (generate-all (rest trees)))
+        (lazy-cat
+         (generate-all (add tree))
+         (generate-all (rest trees)))))))
+
+(defn generate [spec]
+   (-> [spec] generate-all first))
+
+(defn add [tree]
+  (let [at (g/frontier tree)]
+    (if (not (= tree :fail))
+      (log/debug (str "adding to: " (syntax-tree tree) (str "; at:" at))))
+    (cond
+      (u/get-in tree [:babylon.generate/done?])
+      [tree]
+      (= tree :fail)
+      []
+
+      (or (u/get-in tree (concat at [:rule]))
+          (= true (u/get-in tree (concat at [:phrasal]))))
+      (do
+        (log/debug (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
+        (add-rule tree))
+
+      (or (= false (u/get-in tree (concat at [:phrasal])))
+          (u/get-in tree (concat at [:canonical])))
+      (do
+        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
+        (add-lexeme tree))
+    
+      true
+      (do (log/warn (str "slowness at rule: " (u/get-in tree (concat (butlast at) [:rule])) " for child " (last at) " due to need to generate for both rules *and* lexemes.."))
+          (lazy-cat (add-lexeme tree)
+                    (add-rule tree))))))
+
+(defn add-lexeme [tree & [spec]]
+  (let [at (g/frontier tree)
+        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
+        spec (or spec :top)
+        tree (u/assoc-in! tree done-at true)
+        spec (u/unify! spec (u/get-in tree at))]
+    (when (not (= spec :fail))
+      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
+      (->> (binding [g/lexicon babylon.english/lexicon
+                     g/index-fn
+                     (fn [spec]
+                       (cond (= (u/get-in spec [:cat]) :verb)
+                             (shuffle babylon.english/verb-lexicon)
+                             true
+                             (shuffle babylon.english/non-verb-lexicon)))]
+             (g/get-lexemes (u/strip-refs spec)))
+           shuffle
+           (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+                      (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
+                                     " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
+                      true))
+           (g/lazy-map (fn [candidate-lexeme]
+                         (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
+                         (u/assoc-in! (u/copy tree) at candidate-lexeme)))
+           (remove #(= :fail %))
+           (g/lazy-map #(update-syntax-tree % at))
+           (g/lazy-map #(truncate-at % at))
+           (g/lazy-map #(foldup % at))))))
+
+(defn add-rule [tree & [rule-name]]
+  (let [at (g/frontier tree)
+        rule-name
+        (cond rule-name rule-name
+              (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
+              true nil)
+        at-num (numeric-frontier (:syntax-tree tree {}))]
+    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
+    (->> grammar
+         (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
+         shuffle
+         (g/lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
+         (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+                    (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
+                                   " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
+                    true))
+         (remove #(= :fail %))
+         (g/lazy-map #(u/assoc-in! (u/copy tree) at %))
+         (g/lazy-map
+          #(u/unify! %
+                     (s/create-path-in (concat [:syntax-tree] at-num)
+                                       (let [one-is-head? (headness? % (concat at [:1]))] 
+                                         {:head? (= :head (last at))
+                                          :1 {:head? one-is-head?}
+                                          :2 {:head? (not one-is-head?)}
+                                          :rule
+                                          (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                              (or rule-name
+                                                  (u/get-in % (concat at [:rule]))))})))))))
+
 (defn numeric-frontier [syntax-tree]
   (cond
     (and (map? syntax-tree)
@@ -77,38 +187,6 @@
     (= (last at) :1)
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
-
-(def optimize? true)
-
-(defn add-rule [tree & [rule-name]]
-  (let [at (g/frontier tree)
-        rule-name
-        (cond rule-name rule-name
-              (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
-              true nil)
-        at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
-    (->> grammar
-         (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
-         shuffle
-         (g/lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-         (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
-                    (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
-                                   " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
-                    true))
-         (remove #(= :fail %))
-         (g/lazy-map #(u/assoc-in! (u/copy tree) at %))
-         (g/lazy-map
-          #(u/unify! %
-                     (s/create-path-in (concat [:syntax-tree] at-num)
-                                       (let [one-is-head? (headness? % (concat at [:1]))] 
-                                         {:head? (= :head (last at))
-                                          :1 {:head? one-is-head?}
-                                          :2 {:head? (not one-is-head?)}
-                                          :rule
-                                          (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
-                                              (or rule-name
-                                                  (u/get-in % (concat at [:rule]))))})))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
@@ -195,73 +273,4 @@
         (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
         (dissoc tree :dag_unify.serialization/serialized))
       true tree)))
-
-(defn add-lexeme [tree & [spec]]
-  (let [at (g/frontier tree)
-        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
-        spec (or spec :top)
-        tree (u/assoc-in! tree done-at true)
-        spec (u/unify! spec (u/get-in tree at))]
-    (when (not (= spec :fail))
-      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
-      (->> (binding [g/lexicon babylon.english/lexicon
-                     g/index-fn
-                     (fn [spec]
-                       (cond (= (u/get-in spec [:cat]) :verb)
-                             (shuffle babylon.english/verb-lexicon)
-                             true
-                             (shuffle babylon.english/non-verb-lexicon)))]
-             (g/get-lexemes (u/strip-refs spec)))
-           shuffle
-           (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
-                      (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
-                                     " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
-                      true))
-           (g/lazy-map (fn [candidate-lexeme]
-                         (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
-                         (u/assoc-in! (u/copy tree) at candidate-lexeme)))
-           (remove #(= :fail %))
-           (g/lazy-map #(update-syntax-tree % at))
-           (g/lazy-map #(truncate-at % at))
-           (g/lazy-map #(foldup % at))))))
-
-(defn add [tree]
-  (let [at (g/frontier tree)]
-    (if (not (= tree :fail))
-      (log/debug (str "adding to: " (syntax-tree tree) (str "; at:" at))))
-    (cond
-      (u/get-in tree [:babylon.generate/done?])
-      [tree]
-      (= tree :fail)
-      []
-
-      (or (u/get-in tree (concat at [:rule]))
-          (= true (u/get-in tree (concat at [:phrasal]))))
-      (do
-        (log/debug (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
-        (add-rule tree))
-
-      (or (= false (u/get-in tree (concat at [:phrasal])))
-          (u/get-in tree (concat at [:canonical])))
-      (do
-        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
-        (add-lexeme tree))
-    
-      true
-      (do (log/warn (str "slowness at rule: " (u/get-in tree (concat (butlast at) [:rule])) " for child " (last at) " due to need to generate for both rules *and* lexemes.."))
-          (lazy-cat (add-lexeme tree)
-                    (add-rule tree))))))
-
-(defn generate-all [trees]
-  (if (not (empty? trees))
-    (let [tree (first trees)]
-      (if (u/get-in tree [:babylon.generate/done?])
-        (cons tree
-              (generate-all (rest trees)))
-        (lazy-cat
-         (generate-all (add tree))
-         (generate-all (rest trees)))))))
-
-(defn generate [spec]
-   (-> [spec] generate-all first))
 

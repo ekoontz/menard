@@ -20,7 +20,10 @@
 (declare remove-trailing-comps)
 (declare truncate-at)
 (declare update-syntax-tree)
-(def optimize? true)
+
+;; enable additional checks and logging that makes generation slower
+(def diagnostics? false)
+
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic index-fn (fn [spec]
                           (throw (Exception. (str "no index-fn supplied.")))))
@@ -84,7 +87,7 @@
       (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
       (->> (get-lexemes (u/strip-refs spec))
            shuffle
-           (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+           (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
                       (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
                                      " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
                       true))
@@ -141,7 +144,7 @@
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle
          (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-         (remove #(when (and (not optimize?) (= :fail (u/assoc-in tree at %)))
+         (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
                     (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
                                    " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))

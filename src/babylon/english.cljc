@@ -127,7 +127,7 @@
 
 (defn morph
   ([tree]
-   (s/morph-1 tree morphology))
+   (s/morph tree morphology))
   ([tree & {:keys [sentence-punctuation?]}]
    (if sentence-punctuation?
      (-> tree
@@ -141,7 +141,7 @@
         (= ::unspec (u/get-in tree [:syntax-tree] ::unspec))
         (babylon.english/syntax-tree tree)
         true
-        (str (s/syntax-tree-1 (u/get-in tree [:syntax-tree]) morphology)
+        (str (s/syntax-tree (u/get-in tree [:syntax-tree]) morphology)
              " (#" (count (str tree)) ")")))
 
 (defn an

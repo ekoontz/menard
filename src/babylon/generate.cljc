@@ -21,8 +21,8 @@
 (declare truncate-at)
 (declare update-syntax-tree)
 
-;; enable additional checks and logging that makes generation slower
-(def diagnostics? true)
+;; enable additional checks and logging that makes generation slower:
+(def diagnostics? false)
 
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic index-fn (fn [spec]
@@ -51,11 +51,11 @@
 (defn add [tree]
   (let [at (frontier tree)]
     (if (not (= tree :fail))
-      (log/info (str "adding to: " (syntax-tree tree) (str "; at:" at))))
+      (log/debug (str "adding to: " (syntax-tree tree) (str "; at:" at))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       (do
-        (log/info (str "condition 1."))
+        (log/debug (str "condition 1."))
         [tree])
       (= tree :fail)
       []
@@ -65,7 +65,7 @@
                        (u/get-in tree (concat at [:rule])))))
           (= true (u/get-in tree (concat at [:phrasal]))))
       (do
-        (log/info (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
+        (log/debug (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
         (add-rule tree))
 
       (or (= false (u/get-in tree (concat at [:phrasal])))
@@ -74,15 +74,15 @@
                        (u/get-in tree (concat at [:canonical]))))))
                        
       (do
-        (log/info (str "alpha:" (= false (u/get-in tree (concat at [:phrasal])))))
-        (log/info (str "beta:" (u/get-in tree (concat at [:canonical]))))
-        (log/info (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
+        (log/debug (str "alpha:" (= false (u/get-in tree (concat at [:phrasal])))))
+        (log/debug (str "beta:" (u/get-in tree (concat at [:canonical]))))
+        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
         (add-lexeme tree))
     
       true
-      (do (log/warn (str "slowness:" (syntax-tree tree) " at rule: "
-                         (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                         (last at) ", due to need to generate for both rules *and* lexemes."))
+      (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
+                          (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                          (last at) ", due to need to generate for both rules *and* lexemes."))
           (lazy-cat (add-lexeme tree)
                     (add-rule tree))))))
 
@@ -142,13 +142,14 @@
         (if (empty? retval) retval retval)))))
 
 (defn add-rule [tree & [rule-name]]
+  (log/debug (str "add-rule:" (syntax-tree tree) " at:" (frontier tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
+    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle

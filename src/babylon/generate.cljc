@@ -22,7 +22,7 @@
 (declare update-syntax-tree)
 
 ;; enable additional checks and logging that makes generation slower
-(def diagnostics? false)
+(def diagnostics? true)
 
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic index-fn (fn [spec]
@@ -51,23 +51,30 @@
 (defn add [tree]
   (let [at (frontier tree)]
     (if (not (= tree :fail))
-      (log/debug (str "adding to: " (syntax-tree tree) (str "; at:" at))))
+      (log/info (str "adding to: " (syntax-tree tree) (str "; at:" at))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
-      [tree]
+      (do
+        (log/info (str "condition 1."))
+        [tree])
       (= tree :fail)
       []
 
       (or (u/get-in tree (concat at [:rule]))
           (= true (u/get-in tree (concat at [:phrasal]))))
       (do
-        (log/debug (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
+        (log/info (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
         (add-rule tree))
 
       (or (= false (u/get-in tree (concat at [:phrasal])))
-          (u/get-in tree (concat at [:canonical])))
+          (and (u/get-in tree (concat at [:canonical]))
+               (not (= :top
+                       (u/get-in tree (concat at [:canonical]))))))
+                       
       (do
-        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
+        (log/info (str "alpha:" (= false (u/get-in tree (concat at [:phrasal])))))
+        (log/info (str "beta:" (u/get-in tree (concat at [:canonical]))))
+        (log/info (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
         (add-lexeme tree))
     
       true
@@ -84,7 +91,7 @@
         tree (u/assoc-in! tree done-at true)
         spec (u/unify! spec (u/get-in tree at))]
     (when (not (= spec :fail))
-      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at))
+      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
       (->> (get-lexemes (u/strip-refs spec))
            shuffle
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
@@ -139,7 +146,7 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
+    (log/info (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (->> grammar
          (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
          shuffle

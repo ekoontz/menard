@@ -127,7 +127,13 @@
 
 (defn morph
   ([tree]
-   (s/morph (u/get-in tree [:syntax-tree]) morphology))
+   (cond
+     (map? (u/get-in tree [:syntax-tree]))
+     (s/morph (u/get-in tree [:syntax-tree]) morphology)
+
+     true
+     (s/morph tree morphology)))
+
   ([tree & {:keys [sentence-punctuation?]}]
    (if sentence-punctuation?
      (-> tree

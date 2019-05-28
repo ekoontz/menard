@@ -1,2 +1,0 @@
-{"can" [{:cat :verb :aux true :sem {:pred :can :subcat {:1 :top :2 :top}}}]
- "will" [{:cat :verb :aux true :sem {:pred :will :subcat {:1 :top :2 :top}}}]}

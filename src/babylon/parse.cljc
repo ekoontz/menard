@@ -195,11 +195,12 @@
                                      (->>
                                       (over grammar left-signs right-signs)
                                       (map (fn [tree]
-                                             (cond truncate?
-                                                   (-> tree (dissoc :head) (dissoc :comp)
-                                                       (dissoc :1) (dissoc :2)
+                                             (cond (and true truncate?)
+                                                   (-> tree
+                                                       (assoc :syntax-tree (syntax-tree tree))
                                                        (assoc :surface (morph tree))
-                                                       (assoc :syntax-tree (syntax-tree tree)))
+                                                       (dissoc :head) (dissoc :comp)
+                                                       (dissoc :1) (dissoc :2))
                                                    true tree)))))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))})
                              ;; </value>

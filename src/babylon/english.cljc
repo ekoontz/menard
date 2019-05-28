@@ -142,13 +142,10 @@
          (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
 
 (defn syntax-tree [tree]
-  (cond (or (nil? tree) (= :fail tree))
-        tree
-        (= ::unspec (u/get-in tree [:syntax-tree] ::unspec))
-        (babylon.english/syntax-tree tree)
+  (cond (= false (u/get-in tree [:phrasal]))
+        (morph tree)
         true
-        (str (s/syntax-tree (u/get-in tree [:syntax-tree]) morphology)
-             " (#" (count (str tree)) ")")))
+        (s/syntax-tree (u/get-in tree [:syntax-tree]) morphology)))
 
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel; 

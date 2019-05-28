@@ -60,7 +60,9 @@
       (= tree :fail)
       []
 
-      (or (u/get-in tree (concat at [:rule]))
+      (or (and (u/get-in tree (concat at [:rule]))
+               (not (= :top
+                       (u/get-in tree (concat at [:rule])))))
           (= true (u/get-in tree (concat at [:phrasal]))))
       (do
         (log/info (str "adding rule: " (syntax-tree tree) (str "; at:" at)))

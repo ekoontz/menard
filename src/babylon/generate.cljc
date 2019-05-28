@@ -88,8 +88,8 @@
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
-        tree (u/assoc-in! tree done-at true)
-        spec (u/unify! spec (u/get-in tree at))]
+        tree (u/assoc-in tree done-at true)
+        spec (u/unify spec (u/get-in tree at))]
     (when (not (= spec :fail))
       (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
       (->> (get-lexemes (u/strip-refs spec))

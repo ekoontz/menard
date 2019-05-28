@@ -45,7 +45,7 @@
          (generate-all (add tree))
          (generate-all (rest trees)))))))
 
-(defn generate [spec]
+(defn generate [^clojure.lang.PersistentArrayMap spec]
    (-> [spec] generate-all first))
 
 (defn add [tree]

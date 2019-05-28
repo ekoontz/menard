@@ -61,7 +61,7 @@
 (defn demo []
     (repeatedly
       #(println
-        (-> (take 1 (shuffle specs))
+        (-> (shuffle specs)
             first
             generate
             morph))))
@@ -69,7 +69,7 @@
 (defn modal-demo []
   (repeatedly
    #(println
-     (-> (take 1 (shuffle modal-specs))
+     (-> (shuffle modal-specs)
          first
          generate
          time
@@ -78,7 +78,7 @@
 (defn timed-demo []
   (repeatedly
    #(println
-     (-> (take 1 (shuffle specs))
+     (-> (shuffle specs)
          first
          generate
          time

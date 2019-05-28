@@ -18,13 +18,17 @@
 (defn syntax-tree [tree morphology]
   (cond
     (nil? tree) "_"
+    (u/get-in tree [:syntax-tree])
+    (syntax-tree (u/get-in tree [:syntax-tree]) morphology)
     (u/get-in tree [:1])
     (str "["
          (:rule tree "?") " "
-         (if (= true (u/get-in tree [:1 :head?]))
+         (if (or (= true (u/get-in tree [:1 :head?]))
+                 (= (u/get-in tree [:1]) (u/get-in tree [:head])))
            "*" ".")
          (syntax-tree (u/get-in tree [:1]) morphology) " "
-         (if (= true (u/get-in tree [:2 :head?]))
+         (if (or (= true (u/get-in tree [:2 :head?]))
+                 (= (u/get-in tree [:2]) (u/get-in tree [:head])))
            "*" ".")
          (syntax-tree (u/get-in tree [:2]) morphology)
          "]")

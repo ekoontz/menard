@@ -185,3 +185,9 @@
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
 
+(def failing-spec
+  {:rule "s"
+   :cat :verb
+   :reflexive false
+   :sem {:mood :decl
+         :obj {:top :top}}})

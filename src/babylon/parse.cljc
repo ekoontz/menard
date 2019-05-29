@@ -80,7 +80,7 @@
         (vector? parent))
     (let [parents (lazy-seq parent)]
       (lazy-mapcat (fn [parent]
-                    (overc parent comp))
+                     (overc parent comp))
                    parents))
 
     (or (seq? comp)

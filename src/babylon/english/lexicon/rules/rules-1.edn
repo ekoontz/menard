@@ -54,14 +54,32 @@
   :then [(let [subj (atom :top)
                subcat-subj (atom {:sem subj})
                obj (atom {:subj subj})]
-           {:sem {:subj subj
+           {:reflexive false
+            :sem {:subj subj
                   :obj obj}
             :subcat {:2 {:infl :infinitive
                          :cat :verb
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj
+                                  :2 []}}}})
+         (let [subj (atom :top)
+               agr (atom :top)
+               subcat-subj (atom {:agr agr
+                                  :sem subj})
+               obj (atom {:subj subj})]
+           {:reflexive true
+            :agr agr
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:infl :infinitive
+                         :agr agr
+                         :cat :verb
+                         :reflexive true
                          :sem obj
                          :subcat {:1 subcat-subj
                                   :2 []}}}})]}
-
+ 
  ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
  ;; modal-base is simpler and clearer.
  {:rule :modal-base

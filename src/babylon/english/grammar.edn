@@ -16,6 +16,7 @@
  
  {:rule "infinitive" ;; 'to sleep','to see the cat', 'to try to sleep', 'to try to see the cat'
   :cat :verb
+  :modal :infinitive
   :head {:cat :particle
          :phrasal false
          :infl :infinitive}

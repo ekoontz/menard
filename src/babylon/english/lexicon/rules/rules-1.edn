@@ -104,7 +104,8 @@
                   :obj obj}
             :infl :base
             :reflexive false
-            :subcat {:2 {:infl :base
+            :subcat {:2 {:aux false
+                         :infl :base
                          :cat :verb
                          :modal false
                          :reflexive false
@@ -119,7 +120,8 @@
             :infl :base
             :reflexive true
             :subcat {:1 {:agr agr}
-                     :2 {:agr agr
+                     :2 {:aux false
+                         :agr agr
                          :infl :base
                          :modal false
                          :cat :verb
@@ -133,7 +135,8 @@
                   :obj obj}
             :infl :base
             :reflexive false
-            :subcat {:2 {:infl :base
+            :subcat {:2 {:aux false
+                         :infl :base
                          :cat :verb
                          :modal :infinitive
                          :reflexive false
@@ -148,7 +151,8 @@
             :infl :base
             :reflexive true
             :subcat {:1 {:agr agr}
-                     :2 {:agr agr
+                     :2 {:aux false
+                         :agr agr
                          :infl :base
                          :modal :infinitive
                          :cat :verb

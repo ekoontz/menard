@@ -35,6 +35,7 @@
           :subcat subject-object-noun
           :exceptions exceptions}
          {:cat :verb
+          :reflexive false
           :sem {:pred :be}
           :subcat subject-adjective
           :exceptions exceptions}

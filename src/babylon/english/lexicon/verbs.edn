@@ -296,5 +296,28 @@
            :inflected? true
            :sem {:tense :conditional}
            :subcat {:2 {:modal false
-                        :infl :base}}}]
+                        :infl :base}}}
+          {:aux true
+           :modal false
+           :cat :verb
+           :inflected? true
+           :sem {:tense :conditional
+                 :mood :interog}
+           :subcat {:1 {:rule "s-comp"
+                        :infl :base
+                        :modal false
+                        :cat :verb}
+                    :2 []}}
+          {:aux true
+           :modal false
+           :cat :verb
+           :inflected? true
+           :sem {:tense :conditional
+                 :mood :interog}
+           :subcat {:1 {:rule "s-comp"
+                        :infl :base
+                        :modal :infinitive
+                        :cat :verb}
+                    :2 []}}]
+
  "work" [{:cat :verb :sem {:pred :work}}]}

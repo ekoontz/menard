@@ -25,6 +25,7 @@
   :unify [babylon.ug/comp-is-root
           babylon.ug/head-first-1
           babylon.ug/head-infl
+          babylon.ug/head-modal
           babylon.ug/head-sem
           babylon.ug/subcat-1-1-comp-subcat]}
  

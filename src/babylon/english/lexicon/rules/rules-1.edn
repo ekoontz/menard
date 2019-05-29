@@ -94,12 +94,11 @@
               obj (atom {:subj subj})]
           [;; "I can"
            {:marker 1
-            :sem {:subj subj
-                  :obj :unspec}
+            :sem {:obj :unspec}
             :infl :base
             :subcat {:2 []}} ;; "can"
 
-           ;;  "I can sleep" or "I can see it"
+           ;;  "can <vp[base,nonmodal]>" non-reflexive
            {:marker 2
             :sem {:subj subj
                   :obj obj}
@@ -112,47 +111,52 @@
                          :sem obj
                          :subcat {:1 subcat-subj}}}}
 
-           ;;  "I can see myself"
+           ;;  "can <vp[base,nonmodal]>" reflexive
            {:marker 3
             :agr agr
             :sem {:subj subj
                   :obj obj}
             :infl :base
+            :reflexive true
             :subcat {:1 {:agr agr}
                      :2 {:agr agr
                          :infl :base
-                         :cat :verb
                          :modal false
+                         :cat :verb
                          :reflexive true
                          :sem obj
                          :subcat {:1 subcat-subj}}}}
-           
-           ;; "I can try to sleep"
-           {:marker 4
+
+           ;;  "can <vp[base,infinitive modal]>" non-reflexive
+           {:marker 2
             :sem {:subj subj
                   :obj obj}
             :infl :base
+            :reflexive false
             :subcat {:2 {:infl :base
                          :cat :verb
                          :modal :infinitive
                          :reflexive false
                          :sem obj
                          :subcat {:1 subcat-subj}}}}
-           ;; "I can try to see myself"
-           {:marker 5
+
+           ;;  "can <vp[base,infinitive modal]>" reflexive
+           {:marker 3
             :agr agr
             :sem {:subj subj
                   :obj obj}
             :infl :base
+            :reflexive true
             :subcat {:1 {:agr agr}
                      :2 {:agr agr
                          :infl :base
+                         :modal :infinitive
                          :cat :verb
                          :reflexive true
-                         :modal :infinitive
                          :sem obj
                          :subcat {:1 subcat-subj}}}}])}
 
+ 
  {:rule :transitive-verb-prep-default-false
   :if {:cat :verb
        :transitive-prep ::unspec}

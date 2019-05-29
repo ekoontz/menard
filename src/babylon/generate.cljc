@@ -92,7 +92,8 @@
         spec (or spec :top)
         tree (u/assoc-in tree done-at true)
         spec (u/unify spec (u/get-in tree at))]
-    (when (not (= spec :fail))
+    (when (and (not (= spec :fail))
+               (not (empty? at)))
       (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
       (->> (get-lexemes (u/strip-refs spec))
            shuffle

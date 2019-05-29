@@ -150,7 +150,8 @@
           :infl :infinitive
           :inflected? true
           :sem sem
-          :subcat {:1 {:cat :verb
+          :subcat {:1 {:aux false
+                       :cat :verb
                        :sem sem
                        :modal false
                        :infl :base}
@@ -162,7 +163,8 @@
           :infl :infinitive
           :inflected? true
           :sem sem
-          :subcat {:1 {:cat :verb
+          :subcat {:1 {:aux false
+                       :cat :verb
                        :sem sem
                        :modal :infinitive
                        :infl :base}

@@ -282,7 +282,8 @@
           :infl :present
           :inflected? true
           :sem {:tense :future}
-          :subcat {:2 {:infl :base}}}]
+          :subcat {:2 {:modal false
+                       :infl :base}}}]
  "would" [{:aux true
            :cat :verb
            :infl :present
@@ -294,5 +295,6 @@
            :infl :present
            :inflected? true
            :sem {:tense :conditional}
-           :subcat {:2 {:infl :base}}}]
+           :subcat {:2 {:modal false
+                        :infl :base}}}]
  "work" [{:cat :verb :sem {:pred :work}}]}

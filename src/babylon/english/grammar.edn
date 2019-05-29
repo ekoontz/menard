@@ -237,6 +237,7 @@
   :modal :base
   :options babylon.english/tenses
   :comp {:cat :verb
+         :subcat {:2 []} ;; TODO: consider promoting this constraint to ug/subcat-2.
          :infl :base
          :slash false}
   :head {:slash false

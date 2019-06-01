@@ -144,6 +144,7 @@
            :comp {:phrasal true}}}
 
    {:subcat []
+    :cat :verb
     :comp {:phrasal true}}
 
    {:cat :verb

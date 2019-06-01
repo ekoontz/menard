@@ -51,7 +51,7 @@
 (defn add [tree]
   (let [at (frontier tree)]
     (if (not (= tree :fail))
-      (log/debug (str "adding to: " (syntax-tree tree) (str "; at:" at))))
+      (log/debug (str "add: " (syntax-tree tree) (str "; at:" at))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       (do
@@ -65,7 +65,7 @@
                        (u/get-in tree (concat at [:rule])))))
           (= true (u/get-in tree (concat at [:phrasal]))))
       (do
-        (log/debug (str "adding rule: " (syntax-tree tree) (str "; at:" at)))
+        (log/debug (str "RULE-ADD ONLY: " (syntax-tree tree) (str "; at:" at)))
         (add-rule tree))
 
       (or (= false (u/get-in tree (concat at [:phrasal])))

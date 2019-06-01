@@ -141,7 +141,15 @@
     :subcat []
     :comp {:phrasal false}
     :head {:phrasal true
-           :comp {:phrasal true}}}])
+           :comp {:phrasal true}}}
+
+   {:subcat []
+    :comp {:phrasal true}}
+
+   {:cat :verb
+    :subcat []
+    :comp {:phrasal true}
+    :sem {:mood :interog}}])
 
 (defn poetry-line []
   (try

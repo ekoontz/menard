@@ -16,6 +16,7 @@
  
  {:rule "infinitive" ;; 'to sleep','to see the cat', 'to try to sleep', 'to try to see the cat'
   :cat :verb
+  :sem {:mood ::none}
   :modal :infinitive
   :head {:cat :particle
          :phrasal false
@@ -125,13 +126,12 @@
           babylon.ug/subcat-1]}
  
  {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
+  :sem {:mood ::none}
   :slash true
   :cat :verb
 
   ;; TODO: should be part of head (e.g. "sleep" in example "did she sleep"
   :comp {:cat :noun}
-
-  :sem {:mood :interog}
   :options [{:head {:infl :base}} {:head {:infl :gerund}}
             {:head {:infl :past-participle}}]
   
@@ -145,7 +145,7 @@
   :sem {:mood :interog}
   :head {:aux true :phrasal false}
   :comp {:slash true
-         :sem {:mood :interog}}
+         :sem {:mood ::none}}
   :unify [babylon.ug/subcat-1
           babylon.ug/comp-is-root
           babylon.ug/head-first]}
@@ -166,6 +166,7 @@
   :aux false
   :slash false
   :options babylon.english/tenses
+  :sem {:mood ::none}
   :head {:slash false
          :modal false
          :aux false}

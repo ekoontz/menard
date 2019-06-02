@@ -49,9 +49,15 @@
    (-> [spec] generate-all first))
 
 (defn add [tree]
-  (let [at (frontier tree)]
+  (let [at (frontier tree)
+        rule-at (u/get-in tree (concat at [:rule]) ::none)
+        phrase-at (u/get-in tree (concat at [:phrase]) ::none)
+        lexness (u/get-in tree (concat at [:canonical]) ::none)]
+    (log/info (str "spec:" (u/strip-refs (u/get-in tree at))))
+    (if (= :fail (u/get-in tree at))
+      (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/debug (str "add: " (syntax-tree tree) (str "; at:" at))))
+      (log/info (str "add: " (syntax-tree tree) (str "; at:" at))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       (do
@@ -60,10 +66,11 @@
       (= tree :fail)
       []
 
-      (or (and (u/get-in tree (concat at [:rule]))
-               (not (= :top
-                       (u/get-in tree (concat at [:rule])))))
-          (= true (u/get-in tree (concat at [:phrasal]))))
+      (or
+        (and (not (= ::none rule-at))
+             (not (= :top rule-at)))
+        (and (not (= ::none phrase-at))
+             (not (= :top phrase-at))))
       (do
         (log/debug (str "RULE-ADD ONLY: " (syntax-tree tree) (str "; at:" at)))
         (add-rule tree))
@@ -74,10 +81,12 @@
                        (u/get-in tree (concat at [:canonical]))))))
                        
       (do
-        (log/debug (str "alpha:" (= false (u/get-in tree (concat at [:phrasal])))))
-        (log/debug (str "beta:" (u/get-in tree (concat at [:canonical]))))
         (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
-        (add-lexeme tree))
+        (let [result (add-lexeme tree)]
+          (if (empty? result)
+            (throw (Exception. (str "unexpectedly empty lexemes for tree: " (syntax-tree tree)
+                                    "; nothing matched spec: " (u/strip-refs (u/get-in tree (frontier tree))))))
+            result)))
     
       true
       (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
@@ -94,7 +103,7 @@
         spec (u/unify spec (u/get-in tree at))]
     (when (and (not (= spec :fail))
                (not (empty? at)))
-      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
+      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
       (->> (get-lexemes (u/strip-refs spec))
            shuffle
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))

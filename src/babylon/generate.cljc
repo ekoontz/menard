@@ -38,33 +38,42 @@
   [trees]
   (if (not (empty? trees))
     (let [tree (first trees)]
-      (if (u/get-in tree [:babylon.generate/done?])
-        (cons tree
-              (generate-all (rest trees)))
-        (lazy-cat
-         (generate-all (add tree))
-         (generate-all (rest trees)))))))
+      (cond (= :fail tree)
+            (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
+
+            (u/get-in tree [:babylon.generate/done?])
+            (cons tree
+                  (generate-all (rest trees)))
+
+            true
+            (lazy-cat
+             (generate-all (add tree))
+             (generate-all (rest trees)))))))
 
 (defn generate [^clojure.lang.PersistentArrayMap spec]
    (-> [spec] generate-all first))
 
 (defn add [tree]
+  (log/info (str "add: starting with:" (syntax-tree tree)))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)]
-    (log/info (str "spec:" (u/strip-refs (u/get-in tree at))))
+    (log/info (str "add: spec:" (u/strip-refs (u/get-in tree at))))
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/info (str "add: " (syntax-tree tree) (str "; at:" at))))
+      (log/debug (str "add: tree=" (syntax-tree tree) (str "; at:" at " with spec: " (u/strip-refs (u/get-in tree at))))))
+    (if (and (= false (u/get-in tree (concat at [:phrasal])))
+             (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
+      (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/strip-refs (u/get-in tree at))))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       (do
         (log/debug (str "condition 1."))
         [tree])
       (= tree :fail)
-      []
+      (throw (Exception. (str "add: tree is unexpectedly :fail.")))
 
       (or
         (and (not (= ::none rule-at))
@@ -72,8 +81,8 @@
         (and (not (= ::none phrase-at))
              (not (= :top phrase-at))))
       (do
-        (log/debug (str "RULE-ADD ONLY: " (syntax-tree tree) (str "; at:" at)))
-        (add-rule tree))
+        (log/info (str "add: rule is set to: " rule-at))
+        (add-rule tree (:rule rule-at) (= true phrase-at)))
 
       (or (= false (u/get-in tree (concat at [:phrasal])))
           (and (u/get-in tree (concat at [:canonical]))
@@ -81,11 +90,12 @@
                        (u/get-in tree (concat at [:canonical]))))))
                        
       (do
-        (log/debug (str "adding lexeme: " (syntax-tree tree) (str "; at:" at)))
+        (log/debug (str "add: adding lexeme: " (syntax-tree tree) (str "; at:" at)))
         (let [result (add-lexeme tree)]
+          (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
           (if (empty? result)
             (throw (Exception. (str "unexpectedly empty lexemes for tree: " (syntax-tree tree)
-                                    "; nothing matched spec: " (u/strip-refs (u/get-in tree (frontier tree))))))
+                                    "; no lexemes match spec: " (u/strip-refs (u/get-in tree (frontier tree))))))
             result)))
     
       true
@@ -101,9 +111,10 @@
         spec (or spec :top)
         tree (u/assoc-in tree done-at true)
         spec (u/unify spec (u/get-in tree at))]
+    (log/debug (str "add-lexeme: calculated spec."))
     (when (and (not (= spec :fail))
                (not (empty? at)))
-      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
+      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
       (->> (get-lexemes (u/strip-refs spec))
            shuffle
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
@@ -151,20 +162,29 @@
         ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).
         (if (empty? retval) retval retval)))))
 
-(defn add-rule [tree & [rule-name]]
-  (log/debug (str "add-rule:" (syntax-tree tree) " at:" (frontier tree)))
+(defn add-rule [tree & [rule-name some-rule-must-match?]]
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
+        matching-rules (->> grammar
+                            (filter #(or (nil? rule-name) (= (:rule %) rule-name))))
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
-    (->> grammar
-         (filter #(or (nil? rule-name) (= (:rule %) rule-name)))
+    (log/info (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
+                   "; number of matching rules: " (count matching-rules)))
+    (if (and (= 0 (count matching-rules))
+             (not (nil? rule-name)))
+      (throw (Exception. (str "add-rule: no rules matched rule-name '" rule-name "'."))))
+    (if (and (= 0 (count matching-rules))
+             some-rule-must-match?)
+      (throw (Exception. (str "add-rule: no rules matched but we were given {:phrasal true} in the spec."))))
+    (->> matching-rules
          shuffle
          (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-         (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
+         (remove #(when (and diagnostics?
+                             (= :fail (u/assoc-in tree at %)))
                     (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
                                    " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))
@@ -194,34 +214,37 @@
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
+  
   (let [retval
          (cond
+           (= :fail tree)
+           (throw (Exception. (str "input tree was :fail.")))
+           
            (= (u/get-in tree [::done?]) true)
-           []
-
-           (= (u/get-in tree [::started?] false) false)
            []
            
            (= (u/get-in tree [:phrasal]) false)
            []
-           
-           (= ::none (u/get-in tree [:comp] ::none))
+
+           (empty? tree)
+           []
+
+           (= ::none (u/get-in tree [::started?] ::none))
            []
            
-           (= ::none (u/get-in tree [:head] ::none))
-           (cons :comp (frontier (u/get-in tree [:comp])))
-    
+           (and (u/get-in tree [:head ::done?])
+                (u/get-in tree [:comp ::done?]))
+           []
+
            (and (= (u/get-in tree [:phrasal] true) true)
-                (= true (u/get-in tree [::started?]))
+                (= (u/get-in tree [::started?] true) true)
                 (not (u/get-in tree [:head ::done?])))
            (cons :head (frontier (u/get-in tree [:head])))
 
            (and (= (u/get-in tree [:phrasal] true) true)
-                (= true (u/get-in tree [::started?])))
+                (= (u/get-in tree [::started?] true) true)
+                (not (u/get-in tree [:comp ::done?])))
            (cons :comp (frontier (u/get-in tree [:comp])))
-
-           (and (= (u/get-in tree [:phrasal] true) true))
-           [:head]
     
            true
            (throw (Exception. (str "could not determine frontier for this tree: " tree))))]

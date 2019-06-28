@@ -190,6 +190,7 @@
                     true))
          (remove #(= :fail %))
          (lazy-map #(u/assoc-in! (u/copy tree) at %))
+         (remove #(= :fail %))
          (lazy-map
           #(u/unify! %
                      (s/create-path-in (concat [:syntax-tree] at-num)

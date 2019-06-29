@@ -193,3 +193,8 @@
             :head {:phrasal true
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
+(defn matching-lexemes [spec]
+  (->> (flatten (vals lexicon))
+       (filter #(not (= :fail
+                        (u/unify % spec))))))
+

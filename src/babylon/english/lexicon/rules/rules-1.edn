@@ -35,8 +35,7 @@
                          :cat :verb
                          :reflexive reflexive
                          :sem sem
-                         :subcat {:1 subject
-                                  :2 []}}}}])}
+                         :subcat {:1 subject}}}}])}
  
  {:rule :dont-inflect-pronouns
   :if {:cat :noun

@@ -45,7 +45,7 @@
           babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
- {:rule "nbar2" ;; 'cat [s-slash I see]'
+ {:rule "nbar2" ;; '[nbar2 *cat .[s-slash I see]]'
   :slash false
   :cat :noun
   :head {:phrasal false
@@ -132,7 +132,8 @@
 
   ;; TODO: should be part of head (e.g. "sleep" in example "did she sleep"
   :comp {:cat :noun}
-  :options [{:head {:infl :base}} {:head {:infl :gerund}}
+  :options [{:head {:infl :base}}
+            {:head {:infl :gerund}}
             {:head {:infl :past-participle}}]
   
   :unify [babylon.ug/subcat-1

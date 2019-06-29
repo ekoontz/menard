@@ -94,9 +94,14 @@
         (let [result (add-lexeme tree)]
           (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
           (if (empty? result)
-            (throw (Exception. (str "unexpectedly empty lexemes for tree: " (syntax-tree tree)
-                                    "; no lexemes match spec: " (u/strip-refs (u/get-in tree (frontier tree))))))
-            result)))
+            (let [message
+                  (str "no lexemes match for tree: " (syntax-tree tree)
+                       " at: " (frontier tree)
+                       "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
+              (if false
+                (throw (Exception. (str "Unexpected: " message)))
+                (log/warn message))))
+          result))
     
       true
       (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "

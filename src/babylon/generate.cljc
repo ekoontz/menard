@@ -173,7 +173,12 @@
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (log/info (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
-                   "; number of matching rules: " (count matching-rules)))
+                   "; number of matching rules: " (count matching-rules) ": ("
+                   (clojure.string/join ","
+                                        (map #(u/get-in % [:rule])
+                                             (take 5 matching-rules)))
+                   (if (< 5 (count matching-rules)) ",..")
+                   ")"))
     (if (and (= 0 (count matching-rules))
              (not (nil? rule-name)))
       (throw (Exception. (str "add-rule: no rules matched rule-name '" rule-name "'."))))

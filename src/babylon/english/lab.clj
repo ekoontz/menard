@@ -193,6 +193,20 @@
             :head {:phrasal true
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
+
+(defn new-test-1 []
+  (repeatedly #(println (syntax-tree (generate {:rule "np"
+                                                :head {:rule "nbar2"
+                                                       :comp {:rule "s-slash" 
+                                                              :head {:phrasal true}
+                                                              :comp {:phrasal false}}}})))))
+(defn new-test-2 []
+  (repeatedly #(println (syntax-tree (generate {:rule "np"
+                                                :head {:rule "nbar2"
+                                                       :comp {:rule "s-slash" 
+                                                              :head {:rule "vp-slash"}
+                                                              :comp {:phrasal false}}}})))))
+
 (defn matching-lexemes [spec]
   (->> (flatten (vals lexicon))
        (filter #(not (= :fail

@@ -54,12 +54,12 @@
    (-> [spec] generate-all first))
 
 (defn add [tree]
-  (log/info (str "add: starting with:" (syntax-tree tree)))
+  (log/debug (str "add: starting with:" (syntax-tree tree)))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)]
-    (log/info (str "add: spec:" (u/strip-refs (u/get-in tree at))))
+    (log/debug (str "add: spec:" (u/strip-refs (u/get-in tree at))))
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
@@ -81,7 +81,7 @@
         (and (not (= ::none phrase-at))
              (not (= :top phrase-at))))
       (do
-        (log/info (str "add: rule is set to: " rule-at))
+        (log/debug (str "add: rule is set to: " rule-at))
         (add-rule tree (:rule rule-at) (= true phrase-at)))
 
       (or (= false (u/get-in tree (concat at [:phrasal])))
@@ -177,7 +177,7 @@
                             (filter #(or (nil? rule-name) (= (:rule %) rule-name))))
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
-    (log/info (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
+    (log/debug (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
                    "; number of matching rules: " (count matching-rules) ": ("
                    (clojure.string/join ","
                                         (map #(u/get-in % [:rule])

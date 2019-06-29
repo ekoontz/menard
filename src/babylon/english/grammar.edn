@@ -151,7 +151,7 @@
           babylon.ug/head-first]}
  
  {:rule "s-slash" ;; [nbar2 *cat .[s-slash .I *see]'
-  :sem {:mood :decl}
+  :sem {:mood ::none}
   :slash true
   :complement {:case :nom}
   :cat :verb
@@ -195,7 +195,7 @@
           babylon.ug/subcat-2]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
-  :sem {:mood :decl}
+  :sem {:mood ::none}
   :cat :verb
   :slash true
   :aux true

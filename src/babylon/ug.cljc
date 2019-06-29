@@ -167,16 +167,15 @@
                      :2 obj}}}))
 
 (def subcat-2-2-slash
-  (let [subcat (atom :top)
-        comp (atom {:subcat subcat})
-        sem (atom :top)]
-    {:sem sem
-     :subcat subcat
-     :slash true
-     :comp comp
-     :head {:sem sem
-            :subcat {:1 comp
-                     :2 []}}}))
+  (let [one (atom :top)
+        two (atom :top)
+        three (atom {:subcat {:1 one
+                              :2 two}})]
+    {:subcat {:1 one
+              :2 two}
+     :head {:subcat {:1 one
+                     :2 three}}
+     :comp three}))
 
 ;; for nbar2:
 (def object-of-comp-is-head

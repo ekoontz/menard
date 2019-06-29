@@ -204,7 +204,7 @@
   (repeatedly #(println (syntax-tree (generate {:rule "np"
                                                 :head {:rule "nbar2"
                                                        :comp {:rule "s-slash" 
-                                                              :head {:rule "vp-slash"}
+                                                              :head {:rule "vp-aux-slash"}
                                                               :comp {:phrasal false}}}})))))
 
 (defn matching-lexemes [spec]

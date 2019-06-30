@@ -201,7 +201,7 @@
   :cat :verb
   :slash true
   :aux true
-  :options babylon.english/aux-tenses
+  :options babylon.english/slash-tenses
   :head {:phrasal false
          :aux true}
   :unify [babylon.ug/head-first

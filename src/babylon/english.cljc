@@ -44,7 +44,8 @@
     :head {:aux true}}
 
    ;; "sees"
-   {:infl :present
+   {:abbreviation :simple-present
+    :infl :present
     :sem {:tense :present
           :aspect :simple}}
 
@@ -74,7 +75,7 @@
    ;; "has seen"
    {:infl :present
     :head {:aux true}
-    :sem {:tense :past
+    :sem {:tense :past 
           :aspect :perfect}}
 
    ;; "had seen"
@@ -83,6 +84,9 @@
     :sem {:tense :past
           :aspect :pluperfect}}])
 
+(def slash-tenses ;; used for vp-aux-slash
+  (->> finite-tenses
+       (filter #(not (= :simple-present (u/get-in % [:abbreviation]))))))
 
 (def tenses
   (concat finite-tenses

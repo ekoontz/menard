@@ -168,7 +168,6 @@
   :aux false
   :slash false
   :options babylon.english/tenses
-  :sem {:mood ::none}
   :head {:slash false
          :modal false
          :aux false}
@@ -179,7 +178,6 @@
           babylon.ug/subcat-2]} 
 
  {:rule "vp-aux" ;; [vp-aux *will .see]
-  :sem {:mood :decl}
   :cat :verb
   :slash false
   :subcat {:1 {:top :top}

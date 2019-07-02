@@ -40,11 +40,13 @@
           :subcat subject-adjective
           :exceptions exceptions}
          {:cat :verb
+          :marker {:sense :progressive-gerund-non-reflexive}
           :aux true
           :infl :present
           :sem {:tense :present
                 :aspect :progressive}
-          :subcat {:2 {:infl :gerund}}
+          :subcat {:2 {:infl :gerund
+                       :reflexive false}}
           :exceptions exceptions}
          {:cat :verb
           :aux true

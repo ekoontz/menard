@@ -38,6 +38,7 @@
    {:infl :present
     :sem {:tense :conditional}
     :head {:aux true}}
+
    ;; "will see"
    {:infl :present
     :sem {:tense :future}
@@ -46,6 +47,7 @@
    ;; "sees"
    {:abbreviation :simple-present
     :infl :present
+    :modal false
     :sem {:tense :present
           :aspect :simple}}
 

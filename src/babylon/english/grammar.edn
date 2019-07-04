@@ -177,13 +177,18 @@
           babylon.ug/head-modal
           babylon.ug/subcat-2]} 
 
- {:rule "vp-aux" ;; [vp-aux *will .see]
+ {:rule "vp-aux" ;; [vp-aux *will .see]; [vp-aux *will .[vp *see it]]
   :cat :verb
   :slash false
   :subcat {:1 {:top :top}
            :2 []}
   :aux true
-  :options babylon.english/aux-tenses
+  :options (mapcat (fn [aux-tense]
+                     (map #(dag_unify.core/unify % aux-tense)
+                          [{:comp {:phrasal true}}
+                           {:comp {:phrasal false
+                                   :reflexive false}}]))
+                   babylon.english/aux-tenses)
   :comp {:cat :verb
          :slash false}
   :head {:slash false

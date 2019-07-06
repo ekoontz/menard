@@ -92,13 +92,13 @@
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
           [;; "I can"
-           {:marker 1
+           {:derivation {:marker 1}
             :sem {:obj :unspec}
             :infl :base
             :subcat {:2 []}} ;; "can"
 
            ;;  "can <vp[base,nonmodal]>" non-reflexive
-           {:marker 2
+           {:derivation {:marker 2}
             :sem {:subj subj
                   :obj obj}
             :infl :base
@@ -112,7 +112,7 @@
                          :subcat {:1 subcat-subj}}}}
 
            ;;  "can <vp[base,nonmodal]>" reflexive
-           {:marker 3
+           {:derivation {:marker 3}
             :agr agr
             :sem {:subj subj
                   :obj obj}
@@ -129,7 +129,7 @@
                          :subcat {:1 subcat-subj}}}}
 
            ;;  "can <vp[base,infinitive modal]>" non-reflexive
-           {:marker 2
+           {:derivation {:marker 2}
             :sem {:subj subj
                   :obj obj}
             :infl :base
@@ -143,7 +143,7 @@
                          :subcat {:1 subcat-subj}}}}
 
            ;;  "can <vp[base,infinitive modal]>" reflexive
-           {:marker 3
+           {:derivation {:marker 3}
             :agr agr
             :sem {:subj subj
                   :obj obj}

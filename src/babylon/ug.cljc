@@ -29,24 +29,21 @@
         head-agr (atom :top)
         head-infl (atom :top)
         head-cat (atom :top)
-        head-marker (atom :top)
         head-sem (atom :top)
-        rules-matched (atom :top)
+        derivation (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
      :infl head-infl
-     :marker head-marker
      :reflexive reflexive
      :sem head-sem
-     :rules-matched rules-matched
+     :derivation derivation
      :head {:agr head-agr
             :cat head-cat
             :infl head-infl
-            :marker head-marker
             :reflexive reflexive
             :sem head-sem
-            :rules-matched rules-matched}
+            :derivation derivation}
      :phrasal true}))
 
 (def head-comp-rule ;; the :cat of the _comp_ is the :cat of the parent.

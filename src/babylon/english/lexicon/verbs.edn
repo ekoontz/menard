@@ -40,7 +40,7 @@
           :subcat subject-adjective
           :exceptions exceptions}
          {:cat :verb
-          :marker {:sense :progressive-gerund-non-reflexive}
+          :derivation {:sense :progressive-gerund-non-reflexive}
           :aux true
           :infl :present
           :sem {:tense :present
@@ -158,28 +158,33 @@
             ;; {:aux false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
             :aux false
+            :derivation {:sense 1}
             :sem {:pred :have}
             :exceptions exceptions}
            {:cat :verb
             :aux true
+            :derivation {:sense 2}
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
            {:cat :verb
             :aux true
+            :derivation {:sense 3}
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
            {:cat :verb
             :aux true
+            :derivation {:sense 4}
             :sem {:tense :past
                   :aspect :pluperfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
            {:cat :verb
             :aux true
+            :derivation {:sense 5}
             :sem {:tense :past
                   :aspect :pluperfect}
             :subcat {:2 {:infl :past-participle}}

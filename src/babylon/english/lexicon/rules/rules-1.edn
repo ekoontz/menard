@@ -15,28 +15,6 @@
             :subcat {:1 {:agr agr
                          :cat :noun
                          :case :nom}}})]}
- {:rule :aux-verbs
-  :if {:cat :verb
-       :aux true
-       :subcat {:2 {:cat :verb}}}
-  :then (let [agr (atom :top)
-              reflexive (atom :top)
-              sem (atom :top)
-              subject (atom {:agr agr
-                             :cat :noun
-                             :subcat []})]
-          [{:agr agr
-            :cat :verb
-            :reflexive reflexive
-            :sem sem
-            :subcat {:1 subject
-                     :2 {:agr agr
-                         :aux false
-                         :cat :verb
-                         :reflexive reflexive
-                         :sem sem
-                         :subcat {:1 subject
-                                  :2 []}}}}])}
  
  {:rule :dont-inflect-pronouns
   :if {:cat :noun
@@ -165,4 +143,25 @@
  {:rule :transitive-verb-prep-default-false
   :if {:cat :verb
        :transitive-prep ::unspec}
-  :then [{:transitive-prep false}]}]
+  :then [{:transitive-prep false}]}
+
+ {:rule :aux-verbs
+  :if {:cat :verb
+       :aux true}
+  :then (let [agr (atom :top)
+              reflexive (atom :top)
+              subject (atom {:agr agr
+                             :cat :noun
+                             :subcat []})]
+          [{:agr agr
+            :derivation {:aux-verbs-mood :decl}
+            :mood :decl
+            :slash false
+            :reflexive reflexive
+            :subcat {:1 subject}}
+           {:agr agr
+            :derivation {:aux-verbs-mood :interog}
+            :mood :interog
+            :slash false
+            :reflexive reflexive
+            :subcat {:1 subject}}])}]

@@ -39,37 +39,39 @@
           :sem {:pred :be}
           :subcat subject-adjective
           :exceptions exceptions}
-         {:cat :verb
-          :derivation {:sense :progressive-gerund-non-reflexive}
+         {:cat :verb ;; "is sleeping"
+          :derivation {:sense 4}
           :aux true
           :infl :present
           :sem {:tense :present
                 :aspect :progressive}
-          :subcat {:2 {:infl :gerund
-                       :reflexive false}}
+          :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
-         {:cat :verb
+         {:cat :verb ;; "is" (aux sense)
+          :derivation {:sense 5}
           :aux true
           :infl :present
           :sem {:tense :present
                 :aspect :progressive}
           :subcat {:2 []}
           :exceptions exceptions}
-         {:cat :verb
+         {:cat :verb ;; "was sleeping"
+          :derivation {:sense 6}
           :aux true
-          :infl :past-simple
+          :infl :past
           :sem {:tense :past
                 :aspect :progressive}
           :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
-         {:cat :verb
+         {:cat :verb ;; "was" (aux sense)
+          :derivation {:sense 7}
           :aux true
-          :infl :past-simple
+          :infl :past
           :sem {:tense :past
                 :aspect :progressive}
           :subcat {:2 []}
           :exceptions exceptions}])
- 
+
  "become" (let [exceptions [{:infl :past-simple
                              :surface "became"}
                             {:infl :past-participle
@@ -281,6 +283,9 @@
  "want" [{:cat :verb
           :sem {:pred :want}
           :modal :infinitive}]
+ ;; TODO: using "will" as an example of using
+ ;; a single lexeme and deriving all 4 aux-senses:
+ ;; (intrans/trans * decl/interog)
  "will" [{:aux true
           :cat :verb
           :infl :present
@@ -291,9 +296,9 @@
           :cat :verb
           :infl :present
           :inflected? true
-          :sem {:tense :future}
-          :subcat {:2 {:modal false
+          :subcat {:2 {:cat :verb
                        :infl :base}}}]
+ 
  "would" [{:aux true
            :cat :verb
            :infl :present
@@ -305,29 +310,7 @@
            :infl :present
            :inflected? true
            :sem {:tense :conditional}
-           :subcat {:2 {:modal false
-                        :infl :base}}}
-          {:aux true
-           :modal false
-           :cat :verb
-           :inflected? true
-           :sem {:tense :conditional
-                 :mood :interog}
-           :subcat {:1 {:rule "s-comp"
-                        :infl :base
-                        :modal false
-                        :cat :verb}
-                    :2 []}}
-          {:aux true
-           :modal false
-           :cat :verb
-           :inflected? true
-           :sem {:tense :conditional
-                 :mood :interog}
-           :subcat {:1 {:rule "s-comp"
-                        :infl :base
-                        :modal :infinitive
-                        :cat :verb}
-                    :2 []}}]
+           :subcat {:2 {:cat :verb
+                        :infl :base}}}]
 
  "work" [{:cat :verb :sem {:pred :work}}]}

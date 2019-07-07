@@ -179,5 +179,25 @@
             :subcat {:1 {:sem subj
                          :cat :noun
                          :case :nom}
-                     :2 []}})]}]
+                     :2 []}})]}
 
+ {:rule :aux-verbs-with-verb-argument
+  :if {:cat :verb
+       :aux true
+       :subcat {:2 {:cat :verb}}}
+  :then (let [agr (atom :top)
+              sem (atom :top)
+              subject (atom {:agr agr
+                             :cat :noun
+                             :subcat []})
+              verb-argument {:agr agr
+                             :aux false
+                             :cat :verb
+                             :sem sem
+                             :subcat {:1 subject
+                                      :2 []}}]
+          [{:agr agr
+            :derivation {:aux-verbs-with-verb-arg 1}
+            :sem sem
+            :subcat {:1 subject
+                     :2 verb-argument}}])}]

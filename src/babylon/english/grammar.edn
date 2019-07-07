@@ -125,7 +125,7 @@
           babylon.ug/head-modal
           babylon.ug/subcat-1]}
  
- {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
+ {:rule "s-comp" ;; [s-interog *did .[s-comp .she *sleep]]
   :infl :base
   :sem {:mood ::none}
   :slash true
@@ -141,7 +141,7 @@
           babylon.ug/head-last
           babylon.ug/comp-is-root]}
 
- {:rule "s-interog"
+ {:rule "s-interog" ;; [s-interog *did .[s-comp .she *sleep]]
   :slash false
   :cat :verb
   :sem {:mood :interog}

@@ -42,3 +42,12 @@
     (is (= :small (-> parses first (u/get-in [:mod :first :pred]))))
     (is (= :see (-> parses first (u/get-in [:mod :rest :first :pred]))))
     (is (empty? (-> parses first (u/get-in [:mod :rest :rest]))))))
+
+;; [s-interog did [s-comp .she *sleep]]
+(deftest s-comp
+  (let [parses (parse "she sleep")]
+    (is (= 1 (count parses)))
+    (is (= "s-comp" (u/get-in (first parses) [:rule])))))
+
+(deftest s-interog
+  (is (not (empty? (parse "did she sleep")))))

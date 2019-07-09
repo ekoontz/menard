@@ -344,3 +344,31 @@
   (-> input
       (string/replace #"\b([aA]) ([aeiou])"   "$1n $2")
       (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
+
+(defn with-head [head rule]
+  (let [extended-info? false
+        lexemes (analyze head)]
+    (->> grammar
+         (filter #(= rule (u/get-in % [:rule])))
+         (map (fn [rule]
+                (map (fn [lexeme]
+                       (if (= false extended-info?)
+                         (unify rule {:head lexeme})
+                         
+                         ;; show 'extended-info':
+                         {:l lexeme
+                          :r rule
+                          :u (unify rule {:head lexeme})
+                          :fp (u/fail-path rule {:head lexeme})}))
+                     lexemes)))
+         (reduce (fn [first rest]
+                   (lazy-cat first rest)))
+
+         ;; remove fails; need this 'or' because we
+         ;; might be either in extended-info?-mode or not.
+         (remove #(or (and extended-info?
+                           (= :fail (:u %)))
+                      (and (not extended-info?)
+                           (= :fail %)))))))
+
+

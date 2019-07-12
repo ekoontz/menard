@@ -345,11 +345,11 @@
       (string/replace #"\b([aA]) ([aeiou])"   "$1n $2")
       (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
 
-(defn with-head [head rule]
+(defn with-head [head & [rule]]
   (let [extended-info? false
         lexemes (analyze head)]
     (->> grammar
-         (filter #(= rule (u/get-in % [:rule])))
+         (filter #(or (nil? rule) (= rule (u/get-in % [:rule]))))
          (map (fn [rule]
                 (map (fn [lexeme]
                        (if (= false extended-info?)
@@ -371,4 +371,30 @@
                       (and (not extended-info?)
                            (= :fail %)))))))
 
+(defn with-comp
+  "analyze _comp_ as a lexeme and try to add it as the :comp in _tree_."
+  [comp tree] 
+  (let [extended-info? false
+        lexemes (analyze comp)]
+    (->> lexemes
 
+         (map (fn [lexeme]
+                (if (= false extended-info?)
+                    (unify tree {:comp lexeme})
+                    ;; show 'extended-info':
+                    {:l lexeme
+                     :u (unify tree {:comp lexeme})
+                     :fp (u/fail-path tree {:comp lexeme})})))
+
+         ;; remove fails; need this 'or' because we
+         ;; might be either in extended-info?-mode or not.
+         (remove #(or (and extended-info?
+                           (= :fail (:u %)))
+                      (and (not extended-info?)
+                           (= :fail %)))))))
+
+
+;; (def the-dogs (->> (with-head "dog") (map (fn [tree] (with-comp "the" tree))) (reduce (fn [first rest] (lazy-cat first rest)))))
+
+
+    

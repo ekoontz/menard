@@ -393,8 +393,12 @@
                       (and (not extended-info?)
                            (= :fail %)))))))
 
+(defn make-tree [head comp]
+  (->> (with-head head)
+       (map (fn [tree]
+              (with-comp comp tree)))
+       (reduce (fn [first rest] (lazy-cat first rest)))))
 
-;; (def the-dogs (->> (with-head "dog") (map (fn [tree] (with-comp "the" tree))) (reduce (fn [first rest] (lazy-cat first rest)))))
 
 
     

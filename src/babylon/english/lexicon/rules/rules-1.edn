@@ -155,13 +155,13 @@
                              :subcat []})]
           [{:agr agr
             :derivation {:aux-verbs-mood :decl}
-            :mood :decl
+            :sem {:mood :decl}
             :slash false
             :reflexive reflexive
             :subcat {:1 subject}}
            {:agr agr
             :derivation {:aux-verbs-mood :interog}
-            :mood :interog
+            :sem {:mood :interog}
             :slash false
             :reflexive reflexive
             :subcat {:1 subject}}])}]

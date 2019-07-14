@@ -26,24 +26,27 @@
 
 (def head-rule
   (let [comp-cat (atom :top)
+        comp-derivation (atom :top)
         head-agr (atom :top)
-        head-infl (atom :top)
         head-cat (atom :top)
+        head-derivation (atom :top)
+        head-infl (atom :top)
         head-sem (atom :top)
-        derivation (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
      :infl head-infl
      :reflexive reflexive
      :sem head-sem
-     :derivation derivation
+     :comp-derivation comp-derivation
+     :head-derivation head-derivation
      :head {:agr head-agr
             :cat head-cat
             :infl head-infl
             :reflexive reflexive
             :sem head-sem
-            :derivation derivation}
+            :derivation head-derivation}
+     :comp {:derivation comp-derivation}
      :phrasal true}))
 
 (def head-comp-rule ;; the :cat of the _comp_ is the :cat of the parent.

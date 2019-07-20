@@ -194,6 +194,7 @@
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
+          babylon.ug/head-reflexive
           babylon.ug/subcat-2]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
@@ -204,6 +205,7 @@
   :head {:phrasal false
          :aux true}
   :unify [babylon.ug/head-first
+          babylon.ug/head-reflexive
           babylon.ug/comp-is-root
           babylon.ug/subcat-2-2-slash]}
 

@@ -149,19 +149,8 @@
   :if {:cat :verb
        :aux true}
   :then (let [agr (atom :top)
-              reflexive (atom :top)
               subject (atom {:agr agr
                              :cat :noun
                              :subcat []})]
           [{:agr agr
-            :derivation {:aux-verbs-mood :decl}
-            :sem {:mood :decl}
-            :slash false
-            :reflexive reflexive
-            :subcat {:1 subject}}
-           {:agr agr
-            :derivation {:aux-verbs-mood :interog}
-            :sem {:mood :interog}
-            :slash false
-            :reflexive reflexive
             :subcat {:1 subject}}])}]

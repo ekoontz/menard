@@ -16,7 +16,6 @@
  
  {:rule "infinitive" ;; 'to sleep','to see the cat', 'to try to sleep', 'to try to see the cat'
   :cat :verb
-  :sem {:mood ::none}
   :modal :infinitive
   :head {:cat :particle
          :phrasal false
@@ -127,7 +126,6 @@
  
  {:rule "s-comp" ;; [s-interog *did .[s-comp .she *sleep]]
   :infl :base
-  :sem {:mood ::none}
   :slash true
   :cat :verb
 
@@ -146,16 +144,14 @@
   :cat :verb
   :sem {:mood :interog}
   :head {:aux true :phrasal false}
-  :comp {:slash true
-         :sem {:mood ::none}}
+  :comp {:slash true}
   :unify [babylon.ug/subcat-1
           babylon.ug/comp-is-root
           babylon.ug/head-first]}
  
  {:rule "s-slash" ;; [nbar2 *cat .[s-slash .I *see]'
-  :sem {:mood ::none}
   :slash true
-  :complement {:case :nom}
+  :complement {:case :nom} ;; TODO: should not be needed; subcat of head should handle it.
   :cat :verb
   :reflexive false
   :options babylon.english/finite-tenses
@@ -201,7 +197,6 @@
           babylon.ug/subcat-2]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
-  :sem {:mood ::none}
   :cat :verb
   :slash true
   :aux true

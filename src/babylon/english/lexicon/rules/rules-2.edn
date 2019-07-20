@@ -190,14 +190,33 @@
               subject (atom {:agr agr
                              :cat :noun
                              :subcat []})
-              verb-argument {:agr agr
-                             :aux false
-                             :cat :verb
-                             :sem sem
-                             :subcat {:1 subject
-                                      :2 []}}]
-          [{:agr agr
+              verb-argument
+              {:agr agr
+               :slash false
+               :aux false
+               :cat :verb
+               :sem sem
+               :subcat {:1 subject
+                        :2 []}}
+              verb-argument-slash
+              {:agr agr
+               :slash true
+               :aux false
+               :cat :verb
+               :sem sem
+               :subcat {:1 subject
+                        :2 {:top :top}}}]
+          
+          [;; [s .she *[vp-aux *has .seen]]
+           {:agr agr
             :derivation {:aux-verbs-with-verb-arg 1}
             :sem sem
             :subcat {:1 subject
-                     :2 verb-argument}}])}]
+                     :2 verb-argument}}
+
+           ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
+           {:agr agr
+            :derivation {:aux-verbs-with-verb-arg 2}
+            :sem sem
+            :subcat {:1 subject
+                     :2 verb-argument-slash}}])}]

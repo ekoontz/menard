@@ -190,8 +190,10 @@
               subject (atom {:agr agr
                              :cat :noun
                              :subcat []})
+              reflexive (atom :top)
               verb-argument
               {:agr agr
+               :reflexive reflexive
                :slash false
                :aux false
                :cat :verb
@@ -200,6 +202,7 @@
                         :2 []}}
               verb-argument-slash
               {:agr agr
+               :reflexive reflexive
                :slash true
                :aux false
                :cat :verb
@@ -210,6 +213,7 @@
           [;; [s .she *[vp-aux *has .seen]]
            {:agr agr
             :derivation {:aux-verbs-with-verb-arg 1}
+            :reflexive reflexive
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument}}
@@ -217,6 +221,7 @@
            ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
            {:agr agr
             :derivation {:aux-verbs-with-verb-arg 2}
+            :reflexive reflexive
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument-slash}}])}]

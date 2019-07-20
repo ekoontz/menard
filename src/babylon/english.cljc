@@ -35,53 +35,62 @@
 
 (def finite-tenses
   [;; "would see"
-   {:infl :present
+   {:finiteness 1
+    :infl :present
     :sem {:tense :conditional}
     :head {:aux true}}
 
    ;; "will see"
-   {:infl :present
+   {:finiteness 2
+    :infl :present
     :sem {:tense :future}
     :head {:aux true}}
 
    ;; "sees"
-   {:abbreviation :simple-present
+   {:finiteness 3
+    :abbreviation :simple-present
     :infl :present
     :modal false
     :sem {:tense :present
           :aspect :simple}}
 
    ;; "can see"
-   {:infl :base
+   {:finiteness 4    
+    :infl :base
     :modal :base
     :sem {:tense :present
           :aspect :simple}}
 
    ;; "saw"
-   {:infl :past-simple
+   {:finiteness 5
+    :infl :past-simple
     :sem {:tense :past
           :aspect :simple}}
 
    ;; "is seeing"
-   {:infl :present
+   {:finiteness 6
+    :infl :present
     :head {:aux true}
     :sem {:tense :present
           :aspect :progressive}}
 
    ;; "was seeing"
-   {:infl :past-simple
+   {:finiteness 7
+    :infl :past-simple    
     :head {:aux true}
     :sem {:tense :past
           :aspect :progressive}}
 
    ;; "has seen"
-   {:infl :present
+   {:finiteness 8
+    :infl :present
     :head {:aux true}
     :sem {:tense :past 
           :aspect :perfect}}
 
    ;; "had seen"
-   {:infl :past-simple
+   {:finiteness 9
+    :infl :past-simple
     :head {:aux true}
     :sem {:tense :past
           :aspect :pluperfect}}])

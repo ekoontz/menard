@@ -124,8 +124,8 @@
           babylon.ug/head-modal
           babylon.ug/subcat-1]}
  
+ ;; TODO: add s-comp-slash for wh- questions, e.g. : [s .[np .what *movie] *[vp-aux-slash *did .[s-comp-slash .you *see]]]
  {:rule "s-comp" ;; [s-interog *did .[s-comp .she *sleep]]
-  :slash true
   :cat :verb
 
   ;; TODO: should be part of head (e.g. "sleep" in example "did she sleep"
@@ -143,7 +143,6 @@
   :cat :verb
   :sem {:mood :interog}
   :head {:aux true :phrasal false}
-  :comp {:slash true}
   :unify [babylon.ug/subcat-1
           babylon.ug/comp-is-root
           babylon.ug/head-first]}

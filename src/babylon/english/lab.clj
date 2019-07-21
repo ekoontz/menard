@@ -136,18 +136,21 @@
 
 (def poetry-specs
   [
-   {:cat :verb
+   {:rule "s"
+    :cat :verb
     :phrasal true
     :subcat []
     :comp {:phrasal false}
     :head {:phrasal true
            :comp {:phrasal true}}}
 
-   {:subcat []
+   {:rule "s"
+    :subcat []
     :cat :verb
     :comp {:phrasal true}}
 
-   {:cat :verb
+   {:rule "s-interog"
+    :cat :verb
     :subcat []
     :comp {:phrasal true}
     :sem {:mood :interog}}])

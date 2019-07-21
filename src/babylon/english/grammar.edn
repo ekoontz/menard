@@ -128,7 +128,7 @@
  {:rule "s-comp" ;; [s-interog *did .[s-comp .she *sleep]]
   :cat :verb
 
-  ;; TODO: should be part of head (e.g. "sleep" in example "did she sleep"
+  ;; TODO: should be part of head's subcat (e.g. "sleep" in "did she sleep")
   :comp {:cat :noun}
   :options [{:head {:infl :base}}
             {:head {:infl :gerund}}

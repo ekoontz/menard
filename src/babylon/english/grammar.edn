@@ -125,7 +125,6 @@
           babylon.ug/subcat-1]}
  
  {:rule "s-comp" ;; [s-interog *did .[s-comp .she *sleep]]
-  :infl :base
   :slash true
   :cat :verb
 

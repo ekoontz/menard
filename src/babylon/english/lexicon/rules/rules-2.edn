@@ -193,6 +193,7 @@
               reflexive (atom :top)
               verb-argument
               {:agr agr
+               :modal false
                :reflexive reflexive
                :slash false
                :aux false
@@ -202,6 +203,7 @@
                         :2 []}}
               verb-argument-slash
               {:agr agr
+               :modal false
                :reflexive reflexive
                :slash true
                :aux false

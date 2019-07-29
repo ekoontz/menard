@@ -54,7 +54,7 @@
    (-> [spec] generate-all first))
 
 (defn add [tree]
-  (log/debug (str "add: starting with:" (syntax-tree tree)))
+  (log/info (str "add: starting with:" (syntax-tree tree) " #:" (count (str tree))))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -66,7 +66,7 @@
       (log/debug (str "add: tree=" (syntax-tree tree) (str "; at:" at " with spec: " (u/strip-refs (u/get-in tree at))))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
-      (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/strip-refs (u/get-in tree at))))))
+      (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/get-in tree (concat at [:rule]))))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       (do
@@ -111,6 +111,7 @@
                     (add-rule tree))))))
 
 (defn add-lexeme [tree & [spec]]
+  (log/info (str "add-lexeme: started."))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
@@ -133,6 +134,14 @@
            (lazy-map #(update-syntax-tree % at))
            (lazy-map #(truncate-at % at))
            (lazy-map #(foldup % at))))))
+           (lazy-map (fn [tree]
+                       (if (u/get-in tree [::done?])
+                         (do
+                           (log/info (str "don't need to foldup: " (syntax-tree tree)))
+                           tree)
+                         (do
+                           (log/info (str "gonna try to foldup: " (syntax-tree tree) " doneness:" (u/get-in tree [::done?])))
+                           (foldup tree at)))))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
@@ -293,7 +302,7 @@
 ;;      grandparent
 ;;      /         \ C
 ;;   H /           \
-;;    uncle+nephew   _
+;;    uncle+nephew   _ nephew's complement
 ;;
 (defn foldup [tree at]
   (let [parent-at (-> at butlast)
@@ -303,7 +312,7 @@
         uncle-head-at (-> grandparent-at (concat [:head]) vec)
         nephew-at (-> parent-at (concat [:head]))
         nephew (u/get-in tree nephew-at)]
-    (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
+    (log/info (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
     (cond
       (and
        (not (nil? parent))
@@ -319,7 +328,7 @@
            (= (get (u/get-in nephew [:subcat]) :2)
               (get parent :comp))))
       (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
-        (log/debug (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
+        (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
                        "); nephew at:" (vec nephew-at) " (" (u/get-in tree (concat nephew-at [:canonical])) ")"))
         (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
         (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))

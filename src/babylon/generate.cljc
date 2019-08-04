@@ -32,6 +32,10 @@
 (def ^:dynamic syntax-tree (fn [tree]
                              (log/warn (str "using default syntax-tree function for tree "
                                             " rooted at: " (u/get-in tree [:rule])))))
+
+(defn report [tree]
+  (str (syntax-tree tree) " #:" (count (str tree))))
+  
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -51,10 +55,10 @@
              (generate-all (rest trees)))))))
 
 (defn generate [^clojure.lang.PersistentArrayMap spec]
-   (-> [spec] generate-all first))
+  (-> [spec] generate-all first))
 
 (defn add [tree]
-  (log/info (str "add: starting with:" (syntax-tree tree) " #:" (count (str tree))))
+  (log/info (str "add: " (report tree)))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -76,10 +80,10 @@
       (throw (Exception. (str "add: tree is unexpectedly :fail.")))
 
       (or
-        (and (not (= ::none rule-at))
-             (not (= :top rule-at)))
-        (and (not (= ::none phrase-at))
-             (not (= :top phrase-at))))
+       (and (not (= ::none rule-at))
+            (not (= :top rule-at)))
+       (and (not (= ::none phrase-at))
+            (not (= :top phrase-at))))
       (do
         (log/debug (str "add: rule is set to: " rule-at))
         (add-rule tree (:rule rule-at) (= true phrase-at)))
@@ -88,7 +92,7 @@
           (and (u/get-in tree (concat at [:canonical]))
                (not (= :top
                        (u/get-in tree (concat at [:canonical]))))))
-                       
+      
       (do
         (log/debug (str "add: adding lexeme: " (syntax-tree tree) (str "; at:" at)))
         (let [result (add-lexeme tree)]
@@ -102,7 +106,7 @@
                 (throw (Exception. (str "Unexpected: " message)))
                 (log/warn message))))
           result))
-    
+      
       true
       (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
                           (u/get-in tree (concat (butlast at) [:rule])) " for child: "
@@ -111,7 +115,7 @@
                     (add-rule tree))))))
 
 (defn add-lexeme [tree & [spec]]
-  (log/info (str "add-lexeme: started."))
+  (log/info (str "add-lexeme: " (report tree)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
@@ -128,20 +132,12 @@
                                      " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
                       true))
            (lazy-map (fn [candidate-lexeme]
-                         (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
-                         (u/assoc-in! (u/copy tree) at candidate-lexeme)))
+                       (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
+                       (u/assoc-in! (u/copy tree) at candidate-lexeme)))
            (remove #(= :fail %))
            (lazy-map #(update-syntax-tree % at))
            (lazy-map #(truncate-at % at))
            (lazy-map #(foldup % at))))))
-           (lazy-map (fn [tree]
-                       (if (u/get-in tree [::done?])
-                         (do
-                           (log/info (str "don't need to foldup: " (syntax-tree tree)))
-                           tree)
-                         (do
-                           (log/info (str "gonna try to foldup: " (syntax-tree tree) " doneness:" (u/get-in tree [::done?])))
-                           (foldup tree at)))))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
@@ -177,6 +173,7 @@
         (if (empty? retval) retval retval)))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
+  (log/info (str "add-rule: " (report tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -187,12 +184,12 @@
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (log/debug (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
-                   "; number of matching rules: " (count matching-rules) ": ("
-                   (clojure.string/join ","
-                                        (map #(u/get-in % [:rule])
-                                             (take 5 matching-rules)))
-                   (if (< 5 (count matching-rules)) ",..")
-                   ")"))
+                    "; number of matching rules: " (count matching-rules) ": ("
+                    (clojure.string/join ","
+                                         (map #(u/get-in % [:rule])
+                                              (take 5 matching-rules)))
+                    (if (< 5 (count matching-rules)) ",..")
+                    ")"))
     (if (and (= 0 (count matching-rules))
              (not (nil? rule-name)))
       (throw (Exception. (str "add-rule: no rules matched rule-name '" rule-name "'."))))
@@ -223,51 +220,51 @@
                                                   (u/get-in % (concat at [:rule]))))})))))))
 
 (defn make-word []
-   {:agr (atom :top)
-    :canonical (atom :top)
-    :exceptions (atom :top)
-    :cat (atom :top)
-    :infl (atom :top)
-    :inflected? (atom :top)
-    :root (atom :top)})
+  {:agr (atom :top)
+   :canonical (atom :top)
+   :exceptions (atom :top)
+   :cat (atom :top)
+   :infl (atom :top)
+   :inflected? (atom :top)
+   :root (atom :top)})
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
   
   (let [retval
-         (cond
-           (= :fail tree)
-           (throw (Exception. (str "input tree was :fail.")))
-           
-           (= (u/get-in tree [::done?]) true)
-           []
-           
-           (= (u/get-in tree [:phrasal]) false)
-           []
+        (cond
+          (= :fail tree)
+          (throw (Exception. (str "input tree was :fail.")))
+          
+          (= (u/get-in tree [::done?]) true)
+          []
+          
+          (= (u/get-in tree [:phrasal]) false)
+          []
 
-           (empty? tree)
-           []
+          (empty? tree)
+          []
 
-           (= ::none (u/get-in tree [::started?] ::none))
-           []
-           
-           (and (u/get-in tree [:head ::done?])
-                (u/get-in tree [:comp ::done?]))
-           []
+          (= ::none (u/get-in tree [::started?] ::none))
+          []
+          
+          (and (u/get-in tree [:head ::done?])
+               (u/get-in tree [:comp ::done?]))
+          []
 
-           (and (= (u/get-in tree [:phrasal] true) true)
-                (= (u/get-in tree [::started?] true) true)
-                (not (u/get-in tree [:head ::done?])))
-           (cons :head (frontier (u/get-in tree [:head])))
+          (and (= (u/get-in tree [:phrasal] true) true)
+               (= (u/get-in tree [::started?] true) true)
+               (not (u/get-in tree [:head ::done?])))
+          (cons :head (frontier (u/get-in tree [:head])))
 
-           (and (= (u/get-in tree [:phrasal] true) true)
-                (= (u/get-in tree [::started?] true) true)
-                (not (u/get-in tree [:comp ::done?])))
-           (cons :comp (frontier (u/get-in tree [:comp])))
-    
-           true
-           (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
+          (and (= (u/get-in tree [:phrasal] true) true)
+               (= (u/get-in tree [::started?] true) true)
+               (not (u/get-in tree [:comp ::done?])))
+          (cons :comp (frontier (u/get-in tree [:comp])))
+          
+          true
+          (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
     retval))
 
 (defn truncate-at [tree at]
@@ -281,12 +278,12 @@
                         (remove-trailing-comps at))]
       (log/debug (str "truncating: " (syntax-tree tree) " at: " compless-at))
       (-> tree
-           (dissoc-in compless-at)
-           (dissoc-in (numeric-path tree compless-at))
-           (dissoc :dag_unify.serialization/serialized)
-           (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
+          (dissoc-in compless-at)
+          (dissoc-in (numeric-path tree compless-at))
+          (dissoc :dag_unify.serialization/serialized)
+          (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
     tree))
-   
+
 ;; fold up a tree like this:
 ;;
 ;;       grandparent
@@ -305,36 +302,39 @@
 ;;    uncle+nephew   _ nephew's complement
 ;;
 (defn foldup [tree at]
-  (let [parent-at (-> at butlast)
-        parent (u/get-in tree parent-at)
-        grandparent-at (-> parent-at butlast vec)
-        grandparent (u/get-in tree grandparent-at)
-        uncle-head-at (-> grandparent-at (concat [:head]) vec)
-        nephew-at (-> parent-at (concat [:head]))
-        nephew (u/get-in tree nephew-at)]
-    (log/info (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
-    (cond
-      (and
-       (not (nil? parent))
-       (not (nil? grandparent))
-       (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
-       (not (empty? parent-at))
-       (= (get parent :head)
-          (get parent :1))
-       (= (get grandparent :head)
-          (get grandparent :1))
-       (or (= (get (u/get-in nephew [:subcat]) :1)
-              (get parent :comp))
-           (= (get (u/get-in nephew [:subcat]) :2)
-              (get parent :comp))))
-      (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
-        (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " (" (u/get-in tree (concat uncle-head-at [:canonical]))
-                       "); nephew at:" (vec nephew-at) " (" (u/get-in tree (concat nephew-at [:canonical])) ")"))
-        (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
-        (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
-        (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
-        (dissoc tree :dag_unify.serialization/serialized))
-      true tree)))
+  (if (u/get-in tree [::done?])
+    tree
+
+    (let [parent-at (-> at butlast)
+          parent (u/get-in tree parent-at)
+          grandparent-at (-> parent-at butlast vec)
+          grandparent (u/get-in tree grandparent-at)
+          uncle-head-at (-> grandparent-at (concat [:head]) vec)
+          nephew-at (-> parent-at (concat [:head]))
+          nephew (u/get-in tree nephew-at)]
+      (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
+      (cond
+        (and
+         (not (nil? parent))
+         (not (nil? grandparent))
+         (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
+         (not (empty? parent-at))
+         (= (get parent :head)
+            (get parent :1))
+         (= (get grandparent :head)
+            (get grandparent :1))
+         (or (= (get (u/get-in nephew [:subcat]) :1)
+                (get parent :comp))
+             (= (get (u/get-in nephew [:subcat]) :2)
+                (get parent :comp))))
+        (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
+          (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
+                         "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'."))
+          (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
+          (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
+          (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
+          (dissoc tree :dag_unify.serialization/serialized))
+        true tree))))
 
 (defn numeric-frontier [syntax-tree]
   (cond
@@ -355,7 +355,7 @@
          (= :done (numeric-frontier (-> syntax-tree :2)))
          (not (= :done (numeric-frontier (-> syntax-tree :1)))))
     (cons :1 (numeric-frontier (-> syntax-tree :1)))
-          
+    
     (and (map? syntax-tree)
          (= :done (numeric-frontier (-> syntax-tree :1)))
          (not (= :done (numeric-frontier (-> syntax-tree :2)))))

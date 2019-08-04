@@ -153,14 +153,31 @@
     :cat :verb
     :subcat []
     :comp {:phrasal true}
-    :sem {:mood :interog}}])
+    :sem {:mood :interog}}
+
+   {:rule "s"
+    :comp {:rule "np"}
+    :head {:rule "vp"
+           :head {:canonical "move"
+                  :infl :present}
+           :comp {:rule "nbar4"
+                  :head {:canonical "mother"}
+                  :comp {:top :top
+                         :rule "comp1"
+                         :head {:top :top
+                                :canonical "that"}
+                         :comp {:top :top
+                                :rule "s-slash"
+                                :head {:top :top
+                                       :rule "vp-aux-slash"}}}}}}])
 
 (defn poetry-line []
   (try
     (->
      poetry-specs
-     shuffle
-     first
+;;     shuffle
+     ;;     first
+     last
      generate)
     (catch Exception e
       (log/warn (str "fail:(" (-> e ex-data :why) ":)"
@@ -214,4 +231,3 @@
   (->> (flatten (vals lexicon))
        (filter #(not (= :fail
                         (u/unify % spec))))))
-

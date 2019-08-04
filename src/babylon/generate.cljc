@@ -214,6 +214,7 @@
                                          {:head? (= :head (last at))
                                           :1 {:head? one-is-head?}
                                           :2 {:head? (not one-is-head?)}
+                                          :variant (u/get-in % [:variant])
                                           :rule
                                           (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
                                               (or rule-name
@@ -312,7 +313,7 @@
           uncle-head-at (-> grandparent-at (concat [:head]) vec)
           nephew-at (-> parent-at (concat [:head]))
           nephew (u/get-in tree nephew-at)]
-      (log/debug (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
+      (log/info (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
       (cond
         (and
          (not (nil? parent))

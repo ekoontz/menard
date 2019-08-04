@@ -22,7 +22,9 @@
     (syntax-tree (u/get-in tree [:syntax-tree]) morphology)
     (u/get-in tree [:1])
     (str "["
-         (:rule tree "?") " "
+         (:rule tree "?")
+         (if (:variant tree) (str "(" (:variant tree) ")" ""))
+         " "
          (if (or (= true (u/get-in tree [:1 :head?]))
                  (= (u/get-in tree [:1]) (u/get-in tree [:head])))
            "*" ".")

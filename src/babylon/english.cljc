@@ -35,19 +35,19 @@
 
 (def finite-tenses
   [;; "would see"
-   {:finiteness 1
+   {:variant 1
     :infl :present
     :sem {:tense :conditional}
     :head {:aux true}}
 
    ;; "will see"
-   {:finiteness 2
+   {:variant 2
     :infl :present
     :sem {:tense :future}
     :head {:aux true}}
 
    ;; "sees"
-   {:finiteness 3
+   {:variant 3
     :abbreviation :simple-present
     :infl :present
     :modal false
@@ -55,41 +55,41 @@
           :aspect :simple}}
 
    ;; "can see"
-   {:finiteness 4    
+   {:variant 4    
     :infl :base
     :modal :base
     :sem {:tense :present
           :aspect :simple}}
 
    ;; "saw"
-   {:finiteness 5
+   {:variant 5
     :infl :past-simple
     :sem {:tense :past
           :aspect :simple}}
 
    ;; "is seeing"
-   {:finiteness 6
+   {:variant 6
     :infl :present
     :head {:aux true}
     :sem {:tense :present
           :aspect :progressive}}
 
    ;; "was seeing"
-   {:finiteness 7
+   {:variant 7
     :infl :past-simple    
     :head {:aux true}
     :sem {:tense :past
           :aspect :progressive}}
 
    ;; "has seen"
-   {:finiteness 8
+   {:variant 8
     :infl :present
     :head {:aux true}
     :sem {:tense :past 
           :aspect :perfect}}
 
    ;; "had seen"
-   {:finiteness 9
+   {:variant 9
     :infl :past-simple
     :head {:aux true}
     :sem {:tense :past
@@ -408,6 +408,8 @@
               (with-comp comp tree)))
        (reduce (fn [first rest] (lazy-cat first rest)))))
 
-
+(defn gi [path]
+  (fn [structure]
+    (u/get-in structure path)))
 
     

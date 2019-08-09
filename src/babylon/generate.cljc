@@ -348,26 +348,26 @@
 ;;    uncle+nephew   _ nephew's complement
 ;;
 (defn foldup [tree at]
-  (if (u/get-in tree [::done?])
-    tree
-
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      (cond
-        (foldup-condition? tree at)
-        (let [raised-comp (u/get-in tree (concat parent-at [:comp]))]
-          (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
-                         "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'."))
-          (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
-          (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
-          (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
-          (dissoc tree :dag_unify.serialization/serialized))
-        true tree))))
+    (cond
+      (u/get-in tree [::done?])
+      tree
+      
+      (foldup-condition? tree at)
+      (let [parent-at (-> at butlast)
+            parent (u/get-in tree parent-at)
+            grandparent-at (-> parent-at butlast vec)
+            grandparent (u/get-in tree grandparent-at)
+            uncle-head-at (-> grandparent-at (concat [:head]) vec)
+            nephew-at (-> parent-at (concat [:head]))
+            nephew (u/get-in tree nephew-at)
+            raised-comp (u/get-in tree (concat parent-at [:comp]))]
+        (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
+                       "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'."))
+        (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] raised-comp))
+        (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] raised-comp))
+        (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
+        (dissoc tree :dag_unify.serialization/serialized))
+      true tree))
 
 (defn numeric-frontier [syntax-tree]
   (cond

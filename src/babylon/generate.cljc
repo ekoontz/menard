@@ -357,11 +357,10 @@
 (defn foldup [tree at]
   (cond
     (foldable? tree at)
-    (let [uncle-head-at (-> at butlast butlast (concat [:head]) vec)
+    (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (swap! (get (u/get-in tree (concat (-> at butlast butlast (concat [:head :subcat])))) :2)
+      (swap! (get grandparent :comp)
              (fn [old] nephew-complement))
-      (swap! (get (u/get-in tree (-> at butlast butlast)) :comp) (fn [old] nephew-complement))
       (dissoc tree :dag_unify.serialization/serialized))
     true
     (do

@@ -300,44 +300,44 @@
 ;;   uncle  / \
 ;;         /   \
 ;;      H /     \
-;;      nephew   _ nephew complement
+;;      nephew   _ complement-of-nephew
 ;;
 ;; into:
 ;;
 ;;      grandparent
 ;;      /         \ C
 ;;   H /           \
-;;    uncle+nephew   _ nephew complement
+;;    uncle+nephew   _ complement-of-nephew
 ;;
-(defn foldable? [tree at]
-    (let [parent-at (-> at butlast)
-          st (syntax-tree tree)
-          parent (u/get-in tree (-> at butlast))
-          grandparent (u/get-in tree (-> at butlast butlast))
-          uncle-head-at (-> at butlast butlast (concat [:head]))
-          nephew (u/get-in parent [:head])
-          cond1 (not (empty? (-> at butlast butlast)))
-          cond2 (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
-          cond3 (= (get parent :head)
-                   (get parent :1))
-          cond4 (= (get grandparent :head)
-                   (get grandparent :1))]
-      (cond (and cond1 cond2 cond3 cond4)
-            (do (log/info (str "FOLD OK: " (syntax-tree tree) " at: " at))
-                true)
-            (false? cond1)
-            (do (log/debug (str "cond1? " cond1 " " st " at: " at))
-                false)
-            (false? cond2)
-            (do (log/info (str "cond2? " cond2 " " st " at: " at))
-                false)
-            (false? cond3)
-            (do (log/info (str "cond3? " cond3 " " st " at: " at))
-                false)
-            (false? cond4)
-            (do (log/info (str "cond4? " cond4 " " st " at: " at))
-                false)
-            true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
+(defn foldable?
+  "determine whether the given _tree_ is foldable, if the given _at_ points to a nephew"
+  [tree at]
+  (let [st (syntax-tree tree)
+        grandparent (u/get-in tree (-> at butlast butlast))
+        parent (u/get-in tree (-> at butlast))
+        uncle (u/get-in grandparent [:head])
+        cond1 (not (empty? (-> at butlast butlast)))
+        cond2 (not (empty? (u/get-in uncle [:subcat :2])))
+        cond3 (= (get parent :head)
+                 (get parent :1))
+        cond4 (= (get grandparent :head)
+                 (get grandparent :1))]
+    (cond (and cond1 cond2 cond3 cond4)
+          (do (log/info (str "FOLD OK: " (syntax-tree tree) " at: " at))
+              true)
+          (false? cond1)
+          (do (log/debug (str "cond1? " cond1 " " st " at: " at))
+              false)
+          (false? cond2)
+          (do (log/info (str "cond2? " cond2 " " st " at: " at))
+              false)
+          (false? cond3)
+          (do (log/info (str "cond3? " cond3 " " st " at: " at))
+              false)
+          (false? cond4)
+          (do (log/info (str "cond4? " cond4 " " st " at: " at))
+              false)
+          true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
 
 ;; fold up a tree like this:
 ;;

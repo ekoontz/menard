@@ -299,43 +299,31 @@
           grandparent (u/get-in tree grandparent-at)
           uncle-head-at (-> grandparent-at (concat [:head]) vec)
           nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
+          nephew (u/get-in tree nephew-at)
+          cond1 (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
+          cond2 (not (empty? parent-at))
+          cond3 (= (get parent :head)
+                   (get parent :1))
+          cond4 (= (get grandparent :head)
+                   (get grandparent :1))
+          cond5 (or (= (get (u/get-in nephew [:subcat]) :1)
+                       (get parent :comp))
+                    (= (get (u/get-in nephew [:subcat]) :2)
+                       (get parent :comp)))]
       (log/info (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
-      (log/info (str "(not (nil? parent))? " (not (nil? parent))))
-      (log/info (str "(not (nil? grandparent))? " (not (nil? grandparent))))
-      (log/info (str "(not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))? "
-                     (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))))
-      (log/info (str "(not (empty? parent-at))? " (not (empty? parent-at))))
-      (log/info (str "(= (get parent :head)(get parent :1))? " (= (get parent :head)
-                                                                  (get parent :1))))
-      (log/info (str "(= (get grandparent :head)(get grandparent :1))? "
-                     (= (get grandparent :head)
-                        (get grandparent :1))))
-      (log/info (str "(or (= (get (u/get-in nephew [:subcat]) :1)(get parent :comp))(= (get (u/get-in nephew [:subcat]) :2)(get parent :comp)))? "
-                     (or (= (get (u/get-in nephew [:subcat]) :1)
-                            (get parent :comp))
-                         (= (get (u/get-in nephew [:subcat]) :2)
-                            (get parent :comp)))))
-      (let [condition
-            (and
-             (not (u/get-in tree [::done?]))
-             (not (nil? parent))
-             (not (nil? grandparent))
-             (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
-             (not (empty? parent-at))
-             (= (get parent :head)
-                (get parent :1))
-             (= (get grandparent :head)
-                (get grandparent :1))
-             (or (= (get (u/get-in nephew [:subcat]) :1)
-                    (get parent :comp))
-                 (= (get (u/get-in nephew [:subcat]) :2)
-                    (get parent :comp))))]
-        (when condition
-          (log/info (str "FOLD OK: " (syntax-tree tree) "; uncle at: " uncle-head-at
-                         " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
-                         "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'.")))
-        condition)))
+      (log/info (str "cond1? " cond1))
+      (log/info (str "cond2? " cond2))
+      (log/info (str "cond3? " cond3))
+      (log/info (str "cond4? " cond4))
+      (log/info (str "cond5? " cond5))
+      (cond (and cond1 cond2 cond3 cond4 cond5)
+            (do (log/info (str "FOLD OK: " (syntax-tree tree) "; uncle at: " uncle-head-at
+                               " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
+                               "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'."))
+                true)
+            true
+            (do (log/info (str "FOLD NOT OK."))
+                false))))
 
 ;; fold up a tree like this:
 ;;
@@ -365,9 +353,7 @@
              (fn [old] nephew-complement))
       (dissoc tree :dag_unify.serialization/serialized))
     true
-    (do
-      (log/info (str "FOLD NOT OK."))
-      tree)))
+    tree))
 
 (defn numeric-frontier [syntax-tree]
   (cond

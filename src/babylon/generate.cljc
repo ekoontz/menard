@@ -292,7 +292,7 @@
             (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
       tree)))
 
-(defn foldup-condition? [tree at]
+(defn foldable? [tree at]
     (let [parent-at (-> at butlast)
           parent (u/get-in tree parent-at)
           grandparent-at (-> parent-at butlast vec)
@@ -356,17 +356,12 @@
 ;;
 (defn foldup [tree at]
   (cond
-    (foldup-condition? tree at)
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent (u/get-in tree (-> at butlast butlast))
-          uncle-head-at (-> at butlast butlast (concat [:head]) vec)
-          nephew-at (-> at butlast (concat [:head]))
-          nephew (u/get-in tree nephew-at)
+    (foldable? tree at)
+    (let [uncle-head-at (-> at butlast butlast (concat [:head]) vec)
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] nephew-complement))
-      (swap! (get grandparent :comp) (fn [old] nephew-complement))
-      (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
+      (swap! (get (u/get-in tree (concat (-> at butlast butlast (concat [:head :subcat])))) :2)
+             (fn [old] nephew-complement))
+      (swap! (get (u/get-in tree (-> at butlast butlast)) :comp) (fn [old] nephew-complement))
       (dissoc tree :dag_unify.serialization/serialized))
     true
     (do

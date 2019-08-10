@@ -292,16 +292,31 @@
             (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
       tree)))
 
+;; fold up a tree like this:
+;;
+;;       grandparent
+;;      /   \ C
+;;   H /    parent
+;;   uncle  / \
+;;         /   \
+;;      H /     \
+;;      nephew   _ nephew complement
+;;
+;; into:
+;;
+;;      grandparent
+;;      /         \ C
+;;   H /           \
+;;    uncle+nephew   _ nephew complement
+;;
 (defn foldable? [tree at]
     (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)
-          cond1 (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
-          cond2 (not (empty? parent-at))
+          parent (u/get-in tree (-> at butlast))
+          grandparent (u/get-in tree (-> at butlast butlast))
+          uncle-head-at (-> at butlast butlast (concat [:head]))
+          nephew (u/get-in parent [:head])
+          cond1 (not (empty? (-> at butlast butlast)))
+          cond2 (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
           cond3 (= (get parent :head)
                    (get parent :1))
           cond4 (= (get grandparent :head)
@@ -310,20 +325,25 @@
                        (get parent :comp))
                     (= (get (u/get-in nephew [:subcat]) :2)
                        (get parent :comp)))]
-      (log/info (str "checking for foldability: " (syntax-tree tree) " at: " (vec at)))
-      (log/info (str "cond1? " cond1))
-      (log/info (str "cond2? " cond2))
-      (log/info (str "cond3? " cond3))
-      (log/info (str "cond4? " cond4))
-      (log/info (str "cond5? " cond5))
       (cond (and cond1 cond2 cond3 cond4 cond5)
-            (do (log/info (str "FOLD OK: " (syntax-tree tree) "; uncle at: " uncle-head-at
-                               " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
-                               "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'."))
+            (do (log/info (str "FOLD OK: " (syntax-tree tree) " at: " at))
                 true)
-            true
-            (do (log/info (str "FOLD NOT OK."))
-                false))))
+            (false? cond1)
+            (do (log/info (str "cond1? " cond1))
+                false)
+            (false? cond2)
+            (do (log/info (str "cond2? " cond2))
+                false)
+            (false? cond3)
+            (do (log/info (str "cond3? " cond3))
+                false)
+            (false? cond4)
+            (do (log/info (str "cond4? " cond4))
+                false)
+            (false? cond5)
+            (do (log/info (str "cond5? " cond5))
+                false)
+            true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
 
 ;; fold up a tree like this:
 ;;

@@ -134,6 +134,39 @@
     :head {:phrasal false
            :canonical "be"}}])
 
+;; (syntax-tree (generate folding-spec))
+(def folding-spec
+  {:rule "s"
+   :comp {:phrasal false}
+   :head {:phrasal true
+          :rule "vp-aux"
+          :head {:phrasal false}
+          :comp {:rule "vp"
+                 :phrasal true
+                 :head {:phrasal false}
+                 :comp {:phrasal false}}}})
+
+;; (syntax-tree (generate nonfolding-spec))
+(def nonfolding-spec
+  {:rule "s"
+   :comp {:rule "np"}
+   :head {:rule "vp"
+          :head {:canonical "move"
+                 :infl :present}
+          :comp {:rule "nbar4"
+                 :phrasal true
+                 :head {:canonical "mother"}
+                 :comp {:top :top
+                        :phrasal true
+                        :rule "comp1"
+                        :head {:top :top
+                               :canonical "that"}
+                        :comp {:top :top
+                               :phrasal true
+                               :rule "s-slash"
+                               :head {:top :top
+                                      :rule "vp-aux-slash"}}}}}})
+
 (def poetry-specs
   [
    {:rule "s"
@@ -161,12 +194,15 @@
            :head {:canonical "move"
                   :infl :present}
            :comp {:rule "nbar4"
+                  :phrasal true
                   :head {:canonical "mother"}
                   :comp {:top :top
+                         :phrasal true
                          :rule "comp1"
                          :head {:top :top
                                 :canonical "that"}
                          :comp {:top :top
+                                :phrasal true
                                 :rule "s-slash"
                                 :head {:top :top
                                        :rule "vp-aux-slash"}}}}}}])
@@ -176,7 +212,7 @@
     (->
      poetry-specs
 ;;     shuffle
-     ;;     first
+;;          first
      last
      generate)
     (catch Exception e
@@ -205,7 +241,8 @@
       #(println
          (morph
           (generate
-           {:cat :verb
+           {:rule "s"
+            :cat :verb
             :subcat []
             :pred :top
             :comp {:phrasal true

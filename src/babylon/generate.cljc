@@ -356,6 +356,8 @@
 ;;
 (defn foldup [tree at]
   (cond
+    (u/get-in tree [::done?]) tree
+    
     (foldable? tree at)
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]

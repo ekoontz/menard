@@ -316,19 +316,26 @@
                             (get parent :comp))
                          (= (get (u/get-in nephew [:subcat]) :2)
                             (get parent :comp)))))
-      (and
-       (not (nil? parent))
-       (not (nil? grandparent))
-       (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
-       (not (empty? parent-at))
-       (= (get parent :head)
-          (get parent :1))
-       (= (get grandparent :head)
-          (get grandparent :1))
-       (or (= (get (u/get-in nephew [:subcat]) :1)
-              (get parent :comp))
-           (= (get (u/get-in nephew [:subcat]) :2)
-              (get parent :comp))))))
+      (let [condition
+            (and
+             (not (u/get-in tree [::done?]))
+             (not (nil? parent))
+             (not (nil? grandparent))
+             (not (empty? (u/get-in tree (concat uncle-head-at [:subcat :2]))))
+             (not (empty? parent-at))
+             (= (get parent :head)
+                (get parent :1))
+             (= (get grandparent :head)
+                (get grandparent :1))
+             (or (= (get (u/get-in nephew [:subcat]) :1)
+                    (get parent :comp))
+                 (= (get (u/get-in nephew [:subcat]) :2)
+                    (get parent :comp))))]
+        (when condition
+          (log/info (str "FOLD OK: " (syntax-tree tree) "; uncle at: " uncle-head-at
+                         " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
+                         "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'.")))
+        condition)))
 
 ;; fold up a tree like this:
 ;;
@@ -349,25 +356,22 @@
 ;;
 (defn foldup [tree at]
   (cond
-    (u/get-in tree [::done?])
-    tree
-    
     (foldup-condition? tree at)
     (let [parent-at (-> at butlast)
           parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
+          grandparent (u/get-in tree (-> at butlast butlast))
+          uncle-head-at (-> at butlast butlast (concat [:head]) vec)
           nephew-at (-> at butlast (concat [:head]))
           nephew (u/get-in tree nephew-at)
-          nephew-complement (u/get-in tree (concat parent-at [:comp]))]
-      (log/info (str "doing fold: " (syntax-tree tree) "; uncle at: " uncle-head-at " is '" (u/get-in tree (concat uncle-head-at [:canonical]))
-                     "'; nephew at:" (vec nephew-at) " '" (u/get-in tree (concat nephew-at [:canonical])) "'."))
+          nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
       (swap! (get (u/get-in tree (concat uncle-head-at [:subcat])) :2) (fn [old] nephew-complement))
-      (swap! (get (u/get-in tree grandparent-at) :comp) (fn [old] nephew-complement))
+      (swap! (get grandparent :comp) (fn [old] nephew-complement))
       (log/debug (str "=== done folding: " (count (str tree)) "  ==="))
       (dissoc tree :dag_unify.serialization/serialized))
-    true tree))
+    true
+    (do
+      (log/info (str "FOLD NOT OK."))
+      tree)))
 
 (defn numeric-frontier [syntax-tree]
   (cond

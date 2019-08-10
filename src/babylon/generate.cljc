@@ -58,7 +58,7 @@
   (-> [spec] generate-all first))
 
 (defn add [tree]
-  (log/info (str "add: " (report tree)))
+  (log/debug (str "add: " (report tree)))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -115,7 +115,7 @@
                     (add-rule tree))))))
 
 (defn add-lexeme [tree & [spec]]
-  (log/info (str "add-lexeme: " (report tree)))
+  (log/debug (str "add-lexeme: " (report tree)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
@@ -173,7 +173,7 @@
         (if (empty? retval) retval retval)))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
-  (log/info (str "add-rule: " (report tree)))
+  (log/debug (str "add-rule: " (report tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -323,19 +323,19 @@
         cond4 (= (get grandparent :head)
                  (get grandparent :1))]
     (cond (and cond1 cond2 cond3 cond4)
-          (do (log/info (str "FOLD OK: " (syntax-tree tree) " at: " at))
+          (do (log/debug (str "FOLD OK: " (syntax-tree tree) " at: " at))
               true)
           (false? cond1)
           (do (log/debug (str "cond1? " cond1 " " st " at: " at))
               false)
           (false? cond2)
-          (do (log/info (str "cond2? " cond2 " " st " at: " at))
+          (do (log/debug (str "cond2? " cond2 " " st " at: " at))
               false)
           (false? cond3)
-          (do (log/info (str "cond3? " cond3 " " st " at: " at))
+          (do (log/debug (str "cond3? " cond3 " " st " at: " at))
               false)
           (false? cond4)
-          (do (log/info (str "cond4? " cond4 " " st " at: " at))
+          (do (log/debug (str "cond4? " cond4 " " st " at: " at))
               false)
           true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
 

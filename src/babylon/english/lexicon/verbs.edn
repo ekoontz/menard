@@ -285,7 +285,7 @@
           :modal :infinitive}]
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:
- ;; (intrans/trans * decl/interog)
+ ;; {intrans,trans} x {decl,interog} = {intrans + decl, intrans + interog, trans + decl, trans + interog}
  "will" [{:aux true
           :cat :verb
           :infl :present

@@ -290,6 +290,7 @@
           :cat :verb
           :infl :present
           :inflected? true
+          :modal true
           :sem {:tense :future}
           :subcat {:2 []}}
          {:aux true

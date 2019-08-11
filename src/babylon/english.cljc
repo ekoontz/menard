@@ -35,19 +35,19 @@
 
 (def finite-tenses
   [;; "would see"
-   {:variant 1
+   {:variant :conditional
     :infl :present
     :sem {:tense :conditional}
     :head {:aux true}}
 
    ;; "will see"
-   {:variant 2
+   {:variant :future
     :infl :present
     :sem {:tense :future}
     :head {:aux true}}
 
    ;; "sees"
-   {:variant 3
+   {:variant :present-simple
     :abbreviation :simple-present
     :infl :present
     :modal false
@@ -55,41 +55,41 @@
           :aspect :simple}}
 
    ;; "can see"
-   {:variant 4    
+   {:variant :modal
     :infl :base
     :modal :base
     :sem {:tense :present
           :aspect :simple}}
 
    ;; "saw"
-   {:variant 5
+   {:variant :past
     :infl :past-simple
     :sem {:tense :past
           :aspect :simple}}
 
    ;; "is seeing"
-   {:variant 6
+   {:variant :present-progressive
     :infl :present
     :head {:aux true}
     :sem {:tense :present
           :aspect :progressive}}
 
    ;; "was seeing"
-   {:variant 7
+   {:variant :past-progressive
     :infl :past-simple    
     :head {:aux true}
     :sem {:tense :past
           :aspect :progressive}}
 
    ;; "has seen"
-   {:variant 8
+   {:variant :perfect
     :infl :present
     :head {:aux true}
     :sem {:tense :past 
           :aspect :perfect}}
 
    ;; "had seen"
-   {:variant 9
+   {:variant :pluperfect
     :infl :past-simple
     :head {:aux true}
     :sem {:tense :past

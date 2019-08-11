@@ -191,16 +191,12 @@
    {:rule "s"
     :comp {:rule "np"}
     :head {:rule "vp"
-           :head {:canonical "move"
-                  :infl :present}
+           :head {:infl :present}
            :comp {:rule "nbar4"
                   :phrasal true
-                  :head {:canonical "mother"}
                   :comp {:top :top
                          :phrasal true
                          :rule "comp1"
-                         :head {:top :top
-                                :canonical "that"}
                          :comp {:top :top
                                 :phrasal true
                                 :rule "s-slash"
@@ -211,9 +207,8 @@
   (try
     (->
      poetry-specs
-;;     shuffle
-;;          first
-     last
+     shuffle
+     first
      generate)
     (catch Exception e
       (log/warn (str "fail:(" (-> e ex-data :why) ":)"

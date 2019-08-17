@@ -22,12 +22,10 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ```
 % lein repl
-Warning: implicit hook found: lein-environ.plugin/hooks
-Hooks are deprecated and will be removed in a future version.
-nREPL server started on port 61788 on host 127.0.0.1 - nrepl://127.0.0.1:61788
+nREPL server started on port 52895 on host 127.0.0.1 - nrepl://127.0.0.1:52895
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.0
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
+OpenJDK 64-Bit Server VM 12.0.1+12
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -43,65 +41,58 @@ Generation:
 
 = transitive sentences =
 
-Questions had been words.
-Moneys will show studies.
-Books were wanting to look.
-You begin people.
-Students are wanting to show.
-It will walk to nights.
-They tried to move.
-Boys have got problems.
-We were wanting to put.
-Cats found eyes.
+It can call.
+We meant parts.
+Rooms have kept governments.
+We have made men.
+Rooms had eaten days.
+Stories would seem rights.
+Places must want.
+Homes are seeing months.
+Jobs were putting words.
+Ways will look at girls.
 
 = reflexive sentences =
 
-WARN  16 apr 2019 11:43:46,618 babylon.english: failed to generate: [s  . *[vp-aux  *were .[vp-modal-1  *needing .[infinitive  *to .[vp-modal-1  *need .[infinitive  *to .:top]]]]]] with spec:{:cat :verb, :reflexive true, :root :top, :canonical :top, :agr :top, :subcat {:2 (), :1 {:top :top, :subcat (), :sem :top, :mod :top, :agr :top}}, :infl :base, :sem {:subj :top}}; at path:(:head :comp :comp :comp :comp :comp);e=class clojure.lang.ExceptionInfo
-WARN  16 apr 2019 11:44:06,954 babylon.english: failed to generate: [s  . *[vp-aux  *am .[vp-modal-1  *wanting .[infinitive  *to .[vp-modal-2  *can .[vp  *move ._]]]]]] with spec:{:subcat (), :mod :top, :case :acc, :sem {:obj :top}, :cat :prep, :reflexive true, :agr :top}; at path:(:head :comp :comp :comp :comp :comp);e=class clojure.lang.ExceptionInfo
-He tried to must give himself.
-I will let on myself.
-It makes itself.
-I have started at myself.
-WARN  16 apr 2019 11:44:37,840 babylon.english: failed to generate: [s  . *[vp-aux  *will .[vp-modal-1  *want .[infinitive  *to .[vp-modal-2  *can .[vp  *make ._]]]]]] with spec:{:subcat (), :mod :top, :case :acc, :sem {:obj :top}, :cat :prep, :reflexive true, :agr :top}; at path:(:head :comp :comp :comp :comp :comp);e=class clojure.lang.ExceptionInfo
-I will seem myself.
-It kept to itself.
-WARN  16 apr 2019 11:45:00,508 babylon.english: failed to generate: [s  . *[vp-aux  *had .[vp-modal-1  *needed .[infinitive  *to .[vp-modal-1  *want .[infinitive  *to .:top]]]]]] with spec:{:cat :verb, :reflexive true, :root :top, :canonical :top, :agr :top, :subcat {:2 (), :1 {:top :top, :subcat (), :sem :top, :mod :top, :agr :top}}, :infl :base, :sem {:subj :top}}; at path:(:head :comp :comp :comp :comp :comp);e=class clojure.lang.ExceptionInfo
-Points would call to themselves.
-Years need to want to make themselves.
-She has needed to find herself.
-He will like himself.
+Ways will go to themselves.
+Stories were talking to themselves.
+Antonia was putting herself.
+She has turned herself.
+Antonia is teaching herself.
+He has let himself.
+It will find itself.
+He is using himself.
+It was saying itself.
+I will put myself.
 
 = Interrogative sentences =
 
-Would parts do?
-Are students putting?
-Are lots being?
-Have eyes gone?
-Have parts slept?
-Were jobs being?
-Were you looking?
-Were schools giving?
-Were days liking?
-Have boys showed?
+He runs?
+Asked myself?
+Sheep have had?
+Will tell?
+Have meant?
+It takes?
+Work students?
+We mean?
+Have groups?
+Jobs would turn?
 
 Parsing:
 ===
 
-WARN  16 apr 2019 11:45:48,413 babylon.english: failed to generate: [nbar2  *rights .[s-slash  . *[vp-aux-slash  *have .:toped]]] with spec:{:aux false, :cat :verb, :infl :past-participle, :subcat {:1 {:subcat (), :sem :top, :agr :top}, :2 {:sem {:pred :right, :ref :top}}}, :agr :top, :modal :infinitive, :sem {:obj {:pred :right, :ref :top}, :ref :top, :subj :top, :aspect :perfect, :tense :past, :mood :decl}, :root :top, :canonical :top}; at path:(:comp :head :comp);e=class clojure.lang.ExceptionInfo
-[nbar4  *rights .[comp1  *that .[s-slash  .facts *thought]]], [nbar4  *rights .[comp1  *that .[s-slash  .facts *thought]]]
-[nbar2  *dogs .[s-slash  .numbers *find]], [nbar2  *dogs .[s-slash  .numbers *find]], [nbar2  *dogs .[s-slash  .numbers *find]], [nbar2  *dogs .[s-slash  .numbers *find]]
-[s-interog  *were .[s-comp  .systems *turning]], [s-interog  *were .[s-comp  .systems *turning]]
-WARN  16 apr 2019 11:45:57,466 babylon.english: failed to generate: [nbar2  *eyes .[s-slash  . *[vp-aux-slash  *were .:topping]]] with spec:{:aux false, :cat :verb, :infl :gerund, :subcat {:1 {:subcat (), :sem :top, :agr :top}, :2 {:sem {:pred :eye, :ref :top}}}, :agr :top, :modal :infinitive, :sem {:obj {:pred :eye, :ref :top}, :ref :top, :subj :top, :aspect :progressive, :tense :past, :mood :decl}, :root :top, :canonical :top}; at path:(:comp :head :comp);e=class clojure.lang.ExceptionInfo
-WARN  16 apr 2019 11:46:05,101 babylon.english: failed to generate: [nbar4  *cases .[comp1  *that .[vp-aux-slash  *had .[vp-modal-1  *wanted .[infinitive  *to .[vp-modal-1  *:top ._]]]]]] with spec:{:aux false, :cat :verb, :slash false, :phrasal false, :infl :base, :reflexive :top, :subcat {:1 {:subcat {:2 (), :1 {:cat :noun, :case :acc, :reflexive false, :top :top, :agr :top, :sem :top}}, :agr :top, :slash false, :phrasal true, :infl :infinitive, :cat :verb, :reflexive :top}, :2 ()}, :agr :top, :modal :infinitive, :sem {:ref :top, :pred :case, :subj :top, :mood :decl}, :root :top, :canonical :top}; at path:(:comp :comp :comp :comp :comp :head);e=class clojure.lang.ExceptionInfo
-[s-comp  .[nbar2  *questions .[s-slash  .governments *are]] *being], [s-comp  .[nbar2  *questions .[s-slash  .governments *are]] *being]
-[s  .questions *used], [s-comp  .questions *used], [s-slash  .questions *used], [s-slash  .questions *used]
-[s  .Antonio *[vp-aux  *was .[vp  *seeming .[pp  *to .himself]]]], [s  .Antonio *[vp-aux  *was .[vp  *seeming .[pp  *to .himself]]]]
-WARN  16 apr 2019 11:46:16,187 babylon.lexiconfn: (matching-lexemes 'have'): both regular inflections (38) and exceptions (27).
-WARN  16 apr 2019 11:46:16,187 babylon.lexiconfn: (matching-lexemes 'have'): both regular inflections (38) and exceptions (27).
-[s  .days *[vp-aux  *have .had]], [s-slash  .days *[vp-aux-slash  *have .had]], [s-slash  .days *[vp-aux-slash  *have .had]], [s-slash  .days *[vp-aux-slash  *have .had]], [s-slash  .days *[vp-aux-slash  *have .had]]
-[s  .groups *[vp-aux  *are .[vp-modal-1  *trying .[infinitive  *to .take]]]], [s  .groups *[vp-aux  *are .[vp-modal-1  *trying .[infinitive  *to .take]]]]
-[s  .moneys *[vp-aux  *are .walking]], [s-slash  .moneys *[vp-aux-slash  *are .walking]], [s-slash  .moneys *[vp-aux-slash  *are .walking]], [s-slash  .moneys *[vp-aux-slash  *are .walking]], [s-slash  .moneys *[vp-aux-slash  *are .walking]]
-[np  .the *story]
+[np .the *day]
+[s(:past) .people *showed], [s-comp .people *showed], [s-slash(:past) .people *showed]
+[s(:past) .she *was], [s(:past-progressive) .she *was], [s-slash(:past) .she *was], [s-slash(:past) .she *was]
+WARN  17 Aug 2019 13:14:06,564 babylon.lexiconfn: (matching-lexemes 'put'): both regular inflections (18) and exceptions (6).
+[nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]]
+[s-interog *are .girls], [vp(:present-simple) *are .girls]
+[nbar3 *states .[comp1 *that .began]], [nbar3 *states .[comp1 *that .began]]
+[s(:present-simple) .Antonia *has], [s(:perfect) .Antonia *has], [s-slash(:present-simple) .Antonia *has]
+[s(:present-simple) .lives *move], [s-comp .lives *move], [s-slash(:present-simple) .lives *move], [s-slash(:modal) .lives *move]
+[s(:past) .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s(:pluperfect) .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-comp .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-comp .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-comp .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-slash(:past) .[nbar2 *facts .[s-slash(:past) .lots *had]] *had]
+WARN  17 Aug 2019 13:14:14,862 babylon.lexiconfn: (matching-lexemes 'have'): both regular inflections (24) and exceptions (18).
+[s(:present-simple) .dogs *have], [s(:present-simple) .dogs *have], [s(:perfect) .dogs *have], [s-comp .dogs *have], [s-comp .dogs *have], [s-comp .dogs *have], [s-slash(:present-simple) .dogs *have], [s-slash(:present-simple) .dogs *have], [s-slash(:modal) .dogs *have]
 10
 user=>
 ```

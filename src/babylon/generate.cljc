@@ -292,7 +292,7 @@
                           ;; otherwise, ascend the tree as high as there are :comps
                           ;; trailing _at_.
                           (remove-trailing-comps at))]
-        (log/debug (str "truncating: " (syntax-tree tree) " at: " compless-at))
+        (log/info (str "truncating: " (syntax-tree tree) " at: " compless-at))
         (-> tree
             (dissoc-in compless-at)
             (dissoc-in (numeric-path tree compless-at))

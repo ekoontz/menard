@@ -185,8 +185,10 @@
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
+        cat (u/get-in tree (concat at [:cat]))
         matching-rules (->> grammar
-                            (filter #(or (nil? rule-name) (= (:rule %) rule-name))))
+                            (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
+                            (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat))))
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
     (log/debug (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)

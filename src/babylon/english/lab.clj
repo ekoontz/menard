@@ -263,3 +263,38 @@
   (->> (flatten (vals lexicon))
        (filter #(not (= :fail
                         (u/unify % spec))))))
+
+(def stuck-spec
+  {:rule "s" :variant :present-simple
+   :phrasal true :agr {:number :plur}
+   :comp {:rule "nbar2"
+          :phrasal true
+          :head {:phrasal false
+                 :canonical :top}
+          :comp {:phrasal true
+                 :rule "s-slash"
+                 :comp {:phrasal false :canonical "cat"}
+                 :head {:rule "vp-aux-slash"
+                        :phrasal true
+                        :head {:phrasal false :canonical "would"}
+                        :comp {:phrasal true :canonical :top}}}}
+   :head {:phrasal false
+          :canonical :top
+          :derivation {:2 {:intransitive-verbs true}}}})
+
+(def not-stuck-spec
+  {:rule "s" :variant :present-simple
+   :phrasal true :agr {:number :plur}
+   :comp {:rule "nbar2"
+          :phrasal true
+          :head {:phrasal false
+                 :canonical :top}
+          :comp {:phrasal true
+                 :rule "s-slash"
+                 :comp {:phrasal false :canonical "cat"}
+                 :head {:rule "vp-aux-slash"
+                        :phrasal true
+                        :head {:phrasal false :canonical "would"}}}}
+   :head {:phrasal false
+          :canonical :top
+          :derivation {:2 {:intransitive-verbs true}}}})

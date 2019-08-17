@@ -113,8 +113,12 @@
       (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
                           (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                           (last at) ", due to need to generate for both rules *and* lexemes."))
-          (lazy-cat (add-lexeme tree)
-                    (add-rule tree))))))
+          (let [both
+                (lazy-cat (add-lexeme tree)
+                          (add-rule tree))]
+            (if (empty? both)
+              (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
+            both)))))
 
 (defn add-lexeme [tree & [spec]]
   (log/debug (str "add-lexeme: " (report tree)))

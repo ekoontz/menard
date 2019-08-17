@@ -196,10 +196,10 @@
                                               (take 5 matching-rules)))
                     (if (< 5 (count matching-rules)) ",..")
                     ")"))
-    (if (and (= 0 (count matching-rules))
+    (if (and (empty? matching-rules)
              (not (nil? rule-name)))
       (throw (Exception. (str "add-rule: no rules matched rule-name '" rule-name "'."))))
-    (if (and (= 0 (count matching-rules))
+    (if (and (empty? matching-rules)
              some-rule-must-match?)
       (throw (Exception. (str "add-rule: no rules matched but we were given {:phrasal true} in the spec."))))
     (->> matching-rules

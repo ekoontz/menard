@@ -137,6 +137,8 @@
               (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
               (u/assoc-in! (u/copy tree) at candidate-lexeme)))
        (map #(update-syntax-tree % at))
+       (map #(do (log/info (str "after adding word at: " at " :" (syntax-tree %)))
+                 %))
        (map #(truncate-at % at))))))
 
 (defn update-syntax-tree [tree at]

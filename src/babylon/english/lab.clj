@@ -300,15 +300,15 @@
           :derivation {:2 {:intransitive-verbs true}}}})
 
 (def overeager-spec
-  {:rule "s" :variant :pluperfect
-   :comp {:rule "nbar4" :variant :pluperfect
-          :head {:canonical "puppy"}
-          :comp {:rule "comp1"
+  {:rule "s" :variant :pluperfect :phrasal true
+   :comp {:rule "nbar4" :variant :pluperfect :phrasal true
+          :head {:canonical "puppy" :phrasal false}
+          :comp {:rule "comp1" :phrasal true
                  :variant :pluperfect
-                 :head {:canonical "that"}
-                 :comp {:rule "s-slash"
+                 :head {:canonical "that" :phrasal false}
+                 :comp {:rule "s-slash" :phrasal true
                         :variant :pluperfect
-                        :head {:rule "vp-aux-slash"
-                               :head {:canonical "have"}
-                               :comp {:canonical "show"}}}}}
-    :head {:canonical "have"}})
+                        :head {:rule "vp-aux-slash" :phrasal true
+                               :head {:canonical "have" :phrasal false}
+                               :comp {:canonical "show" :phrasal false}}}}}
+    :head {:canonical "have" :phrasal false}})

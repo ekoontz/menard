@@ -142,6 +142,8 @@
                        (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
                        (u/assoc-in! (u/copy tree) at candidate-lexeme)))
            (remove #(= :fail %))
+           (lazy-map #(do (log/debug (str "add-lexeme: after adding lexeme: " (syntax-tree %)))
+                          %))
            (lazy-map #(update-syntax-tree % at))
            (lazy-map #(truncate-at % at))
            (lazy-map #(foldup % at))))))

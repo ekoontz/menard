@@ -298,3 +298,17 @@
    :head {:phrasal false
           :canonical :top
           :derivation {:2 {:intransitive-verbs true}}}})
+
+(def overeager-spec
+  {:rule "s" :variant :pluperfect
+   :comp {:rule "nbar4" :variant :pluperfect
+          :head {:canonical "puppy"}
+          :comp {:rule "comp1"
+                 :variant :pluperfect
+                 :head {:canonical "that"}
+                 :comp {:rule "s-slash"
+                        :variant :pluperfect
+                        :head {:rule "vp-aux-slash"
+                               :head {:canonical "have"}
+                               :comp {:canonical "show"}}}}}
+    :head {:canonical "have"}})

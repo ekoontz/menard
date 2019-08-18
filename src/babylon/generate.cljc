@@ -46,8 +46,9 @@
             (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
 
             (u/get-in tree [:babylon.generate/done?])
-            (cons tree
-                  (generate-all (rest trees)))
+            (lazy-seq
+              (cons tree
+                    (generate-all (rest trees))))
 
             true
             (lazy-cat

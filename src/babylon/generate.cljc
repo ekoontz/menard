@@ -12,8 +12,6 @@
 (declare frontier)
 (declare get-lexemes)
 (declare headness?)
-(declare lazy-map)
-(declare lazy-mapcat)
 (declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)
@@ -113,15 +111,13 @@
       (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
                           (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                           (last at) ", due to need to generate for both rules *and* lexemes."))
-          (let [both
-                (lazy-cat (add-lexeme tree)
-                          (add-rule tree))]
+          (let [both (concat (add-lexeme tree) (add-rule tree))]
             (if (empty? both)
               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
             both)))))
 
 (defn add-lexeme [tree & [spec]]
-  (log/debug (str "add-lexeme: " (report tree)))
+  (log/info (str "add-lexeme: " (report tree)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
@@ -131,19 +127,17 @@
     (when (and (not (= spec :fail))
                (not (empty? at)))
       (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
-      (->> (get-lexemes (u/strip-refs spec))
-           shuffle
-           (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
-                      (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
-                                     " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
-                      true))
-           (lazy-map (fn [candidate-lexeme]
-                       (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
-                       (u/assoc-in! (u/copy tree) at candidate-lexeme)))
-           (remove #(= :fail %))
-           (lazy-map #(update-syntax-tree % at))
-           (lazy-map #(truncate-at % at))
-           (lazy-map #(foldup % at))))))
+      (->>
+       (lazy-seq (index-fn spec))
+       (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
+       (map #(unify % spec))
+       (filter #(not (= :fail %)))
+       (map #(u/assoc-in! % [::done?] true))
+       (map (fn [candidate-lexeme]
+              (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
+              (u/assoc-in! (u/copy tree) at candidate-lexeme)))
+       (map #(update-syntax-tree % at))
+       (map #(truncate-at % at))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
@@ -158,28 +152,8 @@
               (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                      (s/create-path-in at word)))))
 
-(defn get-lexemes
-  "Get lexemes matching the spec. Use index, where the index 
-   is a function that we call with _spec_ to get a set of lexemes
-   that matches the given _spec_."
-  [spec]
-  (if (= true (u/get-in spec [:phrasal]))
-    (lazy-seq [])
-    (do
-      (let [retval
-            (->> (index-fn spec)
-                 lazy-seq
-                 (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
-                 (map #(unify % spec))
-                 (filter #(not (= :fail %)))
-                 (map #(u/assoc-in! % [::done?] true)))]
-        ;; This empty?-check is a workaround because without it, retval will be empty
-        ;; if (get-lexemes) is called from outside this namespace with bindings on lexicon and index-fn.
-        ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).
-        (if (empty? retval) retval retval)))))
-
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
-  (log/debug (str "add-rule: " (report tree)))
+  (log/info (str "add-rule: " (report tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -206,16 +180,16 @@
       (throw (Exception. (str "add-rule: no rules matched but we were given {:phrasal true} in the spec."))))
     (->> matching-rules
          shuffle
-         (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
+         (map #(u/assoc-in % [:babylon.generate/started?] true))
          (remove #(when (and diagnostics?
                              (= :fail (u/assoc-in tree at %)))
                     (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
                                    " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))
          (remove #(= :fail %))
-         (lazy-map #(u/assoc-in! (u/copy tree) at %))
+         (map #(u/assoc-in! (u/copy tree) at %))
          (remove #(= :fail %))
-         (lazy-map
+         (map
           #(u/unify! %
                      (s/create-path-in (concat [:syntax-tree] at-num)
                                        (let [one-is-head? (headness? % (concat at [:1]))] 
@@ -473,9 +447,4 @@
       true
       (dissoc m head))
     m))
-
-(defn lazy-map [f items]
-  (when (not (empty? items))
-    (cons (f (first items))
-          (lazy-seq (lazy-map f (rest items))))))
 

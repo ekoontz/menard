@@ -59,12 +59,11 @@
   (-> [spec] generate-all first))
 
 (defn add [tree]
-  (log/debug (str "add: " (report tree)))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)]
-    (log/debug (str "add: spec:" (u/strip-refs (u/get-in tree at))))
+    (log/debug (str "adding to: " (report tree) " at: " at))
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
@@ -285,15 +284,17 @@
         uncle-head-at (-> grandparent-at (concat [:head]) vec)
         nephew-at (-> parent-at (concat [:head]))
         nephew (u/get-in tree nephew-at)]
+    ;; TODO: also truncate :head at this point, too:
     (if (= :comp (last at))
       (let [compless-at (if (empty? (remove-trailing-comps at))
                           ;; in this case, we have just added the final :comp at the
-                          ;; root of the tree, so simply truncate that.
+                          ;; root of the tree, so simply truncate that:
                           [:comp]
+                          
                           ;; otherwise, ascend the tree as high as there are :comps
                           ;; trailing _at_.
                           (remove-trailing-comps at))]
-        (log/debug (str "truncating: " (syntax-tree tree) " at: " compless-at))
+        (log/debug (str "truncating: " (report (u/get-in tree compless-at)) " inside: " (report tree) " at: " compless-at))
         (-> tree
             (dissoc-in compless-at)
             (dissoc-in (numeric-path tree compless-at))

@@ -264,6 +264,18 @@
        (filter #(not (= :fail
                         (u/unify % spec))))))
 
+
+;; generation reasonable amount of time
+(def reasonable-spec
+  {:rule "s"
+   :head {:phrasal true}
+   :comp {:rule "nbar4"
+          :head {:phrasal false}
+          :comp {:rule "comp1"
+                 :comp {:rule "s-slash"
+                        :head {:rule "vp-aux-slash"}}}}})
+
+;; generation gets stuck in a dead-end.
 (def stuck-spec
   {:rule "s" :variant :present-simple
    :phrasal true :agr {:number :plur}
@@ -282,6 +294,7 @@
           :canonical :top
           :derivation {:2 {:intransitive-verbs true}}}})
 
+;; generation doesn't get stuck, but is unreasonably slow.
 (def not-stuck-spec
   {:rule "s" :variant :present-simple
    :phrasal true :agr {:number :plur}
@@ -298,3 +311,4 @@
    :head {:phrasal false
           :canonical :top
           :derivation {:2 {:intransitive-verbs true}}}})
+

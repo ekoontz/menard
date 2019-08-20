@@ -298,7 +298,17 @@
             (dissoc-in compless-at)
             (dissoc-in (numeric-path tree compless-at))
             (dissoc :dag_unify.serialization/serialized)
-            (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)))
+            (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)
+            (dissoc-in (concat (butlast compless-at) [:head :subcat]))
+            (dissoc-in (concat (butlast compless-at) [:head :derivation]))
+            (dissoc-in (concat (butlast compless-at) [:head :sem]))
+            (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
+            (dissoc-in (concat (butlast compless-at) [:1]))
+            (dissoc-in (concat (butlast compless-at) [:2]))
+            ((fn [tree]
+               (log/debug (str "afterwards: " (report tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
+                               (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
+               (cond true tree)))))
       tree)))
 
 ;; fold up a tree like this:

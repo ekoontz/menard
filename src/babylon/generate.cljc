@@ -329,8 +329,9 @@
         cond2 (= (get parent :head)
                  (get parent :1))
         cond3 (= (get grandparent :head)
-                 (get grandparent :1))]
-    (cond (and cond1 cond2 cond3)
+                 (get grandparent :1))
+        cond4 (not (nil? (u/get-in tree (-> at butlast (concat [:comp])))))]
+    (cond (and cond1 cond2 cond3 cond4)
           (do (log/debug (str "FOLD OK: " (syntax-tree tree) " at: " at))
               true)
           (false? cond1)
@@ -342,6 +343,10 @@
           (false? cond3)
           (do (log/debug (str "cond3? " cond3 " " st " at: " at))
               false)
+          (false? cond4)
+          (do (log/debug (str "cond4? " cond4 " " st " at: " at))
+              false)
+          
           true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
 
 ;; fold up a tree like this:
@@ -368,6 +373,7 @@
     (foldable? tree at)
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
+      (log/debug (str "nephew-complement: " (report nephew-complement)))
       (swap! (get grandparent :comp)
              (fn [old] nephew-complement))
       (dissoc tree :dag_unify.serialization/serialized))

@@ -201,7 +201,14 @@
                                 :phrasal true
                                 :rule "s-slash"
                                 :head {:top :top
-                                       :rule "vp-aux-slash"}}}}}}])
+                                       :rule "vp-aux-slash"}}}}}}
+   {:rule "s"
+    :comp {:rule "np"
+           :head {:rule "nbar2"
+                  :comp {:rule "s-slash"}}}
+    
+    :head {:phrasal true
+           :comp {:phrasal true}}}])
 
 (defn poetry-line []
   (try
@@ -311,4 +318,16 @@
    :head {:phrasal false
           :canonical :top
           :derivation {:2 {:intransitive-verbs true}}}})
+
+;; takes as long as 17 seconds sometimes: 
+;; a time books begin would
+;; "Elapsed time: 17274.995313 msecs"
+(def slow-spec
+  {:comp {:rule "np"
+          :head {:rule "nbar2"
+                 :comp {:rule "s-slash"}}}
+   :rule "s"
+   :head {:phrasal true
+          :comp {:phrasal true}}})
+
 

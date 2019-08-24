@@ -99,10 +99,40 @@
                            :surface "come"}]]
           [{:cat :verb :sem {:pred :come} :subcat {:2 []}
             :exceptions exceptions}])
+ 
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]]
-          [{:exceptions exceptions
-            :cat :verb :sem {:pred :do}}])
+        [{;; "I do", "I did"
+          :exceptions exceptions
+          :derivation {:sense 0}
+          :cat :verb :sem {:pred :do}}
+         
+         ;;TODO: "you did sleep"
+
+         ;; "do you sleep?"
+         {:exceptions exceptions
+          :cat :verb :aux true
+          :infl :present
+          :derivation {:sense 1}
+          :sem {:aspect :habitual
+                :tense :present
+                :mood :interog}
+          :subcat {:1 {:cat :verb
+                       :infl :base}
+                   :2 []}}])
+
+ "doof" [{:cat :verb
+          :aux true
+          :exception true ;; TODO: something's wrong here: should not be needed:
+          ;; if {:exception true} is removed, then (analyze) fails to find this entry.
+          :infl :present
+          :sem {:aspect :habitual
+                :tense :present
+                :mood :interogative}
+          :subcat {:1 {:cat :verb
+                       :infl :base}
+                   :2 []}}]
+ 
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :eat}}])

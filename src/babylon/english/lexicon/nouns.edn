@@ -19,6 +19,7 @@
  "hand" [{:cat :noun :sem {:pred :hand}}]
  "home" [{:cat :noun :sem {:pred :home}}]
  "job" [{:cat :noun :sem {:pred :job}}]
+ "kitten" [{:cat :noun :sem {:pred :kitten}}]
  "life" [{:cat :noun :sem {:pred :life}}]
  "lot" [{:cat :noun :sem {:pred :lot}}]
  "man" [{:cat :noun :sem {:pred :man} :agr {:gender :masc :number :sing}}]

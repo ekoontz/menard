@@ -2,42 +2,37 @@
  {:g [#"^(.*ay)$"   "$1s"] ;; play  -> plays
   :p [#"^(.*ay)s$"  "$1y"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
   :p [#"^(.*)ies$" "$1y"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
   :p [#"^(.*)oes$" "$1o"] 
   :u {:cat :verb
-      :aux false
+      :blah 99
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*e)$"  "$1s"] ;; give -> gives
   :p [#"^(.*e)s$" "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*ch)$"   "$1es"] ;; teach -> teaches
   :p [#"^(.*ch)es$" "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
   :p [#"^(.*[^e])s$" "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
@@ -45,35 +40,30 @@
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :1st
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :1st
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :2nd
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :aux false
       :infl :present
       :agr {:person :3rd
             :number :plur}}}

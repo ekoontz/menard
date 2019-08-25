@@ -101,37 +101,51 @@
             :exceptions exceptions}])
  
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
-                        {:infl :past-participle :surface "done"}]]
+                        {:infl :past-participle :surface "done"}]
+            agr (atom :top)]
         [{;; "I do", "I did"
           :exceptions exceptions
-          :derivation {:sense 0}
+          :derivation {:sense 1}
           :cat :verb :sem {:pred :do}}
          
-         ;;TODO: "you did sleep"
-
-         ;; "do you sleep?"
-         {:exceptions exceptions
-          :cat :verb :aux true
+         ;; "do you sleep?", "does he sleep?"
+         {:agr agr
+          :exceptions exceptions
+          :cat :verb
+          :aux true
           :infl :present
-          :derivation {:sense 1}
+          :derivation {:sense 2}
           :sem {:aspect :habitual
                 :tense :present
                 :mood :interog}
           :subcat {:1 {:cat :verb
+                       :aux false
+                       :agr agr
+                       :rule "s-comp"
+                       :phrasal true
+                       :sem {:mood :decl}
+                       :subcat []
+                       :infl :base}
+                   :2 []}}
+
+         ;; "did you sleep?"
+         {:agr agr
+          :exceptions exceptions
+          :cat :verb
+          :aux true
+          :infl :past-simple
+          :derivation {:sense 3}
+          :sem {:tense :past
+                :mood :interog}
+          :subcat {:1 {:cat :verb
+                       :aux false
+                       :agr agr
+                       :rule "s-comp"
+                       :phrasal true
+                       :sem {:mood :decl}
+                       :subcat []
                        :infl :base}
                    :2 []}}])
-
- "doof" [{:cat :verb
-          :aux true
-          :exception true ;; TODO: something's wrong here: should not be needed:
-          ;; if {:exception true} is removed, then (analyze) fails to find this entry.
-          :infl :present
-          :sem {:aspect :habitual
-                :tense :present
-                :mood :interogative}
-          :subcat {:1 {:cat :verb
-                       :infl :base}
-                   :2 []}}]
  
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]

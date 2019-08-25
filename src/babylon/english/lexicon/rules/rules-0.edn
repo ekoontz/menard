@@ -9,6 +9,12 @@
           :pronoun false
           :mod []
           :propernoun false}]}
+
+ {:rule :nouns-are-inhuman-by-default
+  :if {:cat :noun
+       :agr {:human ::unspec}}
+  :then [{:agr {:human false}}]}
+
  {:rule :complementizer
   :if {:cat :comp}
   :then [(let [sem (atom :top)

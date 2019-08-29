@@ -101,9 +101,12 @@
 
 (def tenses
   (concat finite-tenses
-          [{:infl :base}
-           {:infl :gerund}
-           {:infl :past-participle}]))
+          [{:infl :base
+            :variant :base}
+           {:infl :gerund
+            :variant :gerund}
+           {:infl :past-participle
+            :variant :past-participle}]))
 
 (def aux-tenses
   [{:infl :present

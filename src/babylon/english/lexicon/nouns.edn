@@ -48,6 +48,7 @@
  "student" [{:cat :noun :sem {:pred :student}}]
  "study" [{:cat :noun :sem {:pred :study}}]
  "system" [{:cat :noun :sem {:pred :system}}]
+ "table" [{:cat :noun :sem {:pred :table}}]
  "thing" [{:cat :noun :sem {:pred :thing}}]
  "time" [{:cat :noun :sem {:pred :time}}]
  "water" [{:cat :noun :sem {:pred :water}}]

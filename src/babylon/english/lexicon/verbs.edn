@@ -278,8 +278,12 @@
           :modal :infinitive}]
  "play" [{:cat :verb :sem {:pred :play}}]
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
-                         {:infl :past-participle :surface "put"}]]
-         [{:exceptions exceptions :cat :verb :sem {:pred :put}}])
+                         {:infl :past-participle :surface "put"}]
+             indirect-object (atom :top)]
+         [{:exceptions exceptions
+           :derivation {:rules-matched {:2 {:intransitive-verbs false}}}
+           :cat :verb
+           :sem {:pred :put}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :run}}])

@@ -141,6 +141,7 @@
      :reflexive reflexive
      :subcat comp-subcat}))
 
+;; *head<1,2> + [2] comp] -> [parent <1>]
 (def subcat-2
   (let [agr (atom :top)
         complement-1 (atom {:top :top})
@@ -182,6 +183,24 @@
      :head {:subcat {:1 one
                      :2 three}}
      :comp three}))
+
+;; *head<1,2,3> + [3] comp] -> [parent <1,2>]
+(def subcat-3
+  (let [agr (atom :top)
+        complement-1 (atom {:top :top}) ;;  we use {:top :top} to prevent unifying with nil or :unspec.
+        complement-2 (atom {:top :top}) ;;  we use {:top :top} to prevent unifying with nil or :unspec.
+        complement-3 (atom {:top :top})] ;; we use {:top :top} to prevent unifying with nil or :unspec.
+    {:subcat {:1 complement-1
+              :2 complement-2
+              :3 []}
+
+     :head {:agr agr
+            :subcat {:1 complement-1
+                     :2 complement-2
+                     :3 complement-3
+                     :4 []}}
+     :agr agr
+     :comp complement-3}))
 
 ;; for nbar2:
 (def object-of-comp-is-head

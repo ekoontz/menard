@@ -171,6 +171,20 @@
           babylon.ug/head-modal
           babylon.ug/subcat-2]} 
 
+ {:rule "vp-below-vp" ;; [vp [vp-below-vp *puts .it] [pp *on .[np .the *table]]]
+  :cat :verb
+  :aux false
+  :slash false
+  :options babylon.english/tenses
+  :head {:slash false
+         :modal false
+         :aux false}
+  :unify [babylon.ug/head-first
+;;          babylon.ug/comp-mod-is-obj-mod ;; might need to change this.
+          babylon.ug/head-is-root
+          babylon.ug/head-modal
+          babylon.ug/subcat-3]} 
+ 
  {:rule "vp-aux" ;; [vp-aux *will .see]; [vp-aux *will .[vp *see it]]
   :sem {:mood :decl}
   :cat :verb

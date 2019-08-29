@@ -98,6 +98,8 @@
                            morphology))]
           (mapcat (fn [canonical-form]
                     (filter (fn [lexeme]
+                              (if (not (= :fail lexeme))
+                                (log/debug (str "matching lexeme: " (u/strip-refs lexeme))))
                               (not (= :fail lexeme)))
                             (map (fn [lexeme]
                                    (unify (:u canonical-form)
@@ -107,9 +109,12 @@
                                           lexeme))
                                  (get lexicon (:canonical canonical-form)))))
                   canonical-forms))
-        ;; however, some (or even all) of the hypotheses might be wrong, if there are
-        ;; exceptional surface forms which preclude these hypotheses. For example,
-        ;; applying the rules for regular verbs in English, for infl present and agr 3rd sing,
+
+        debug (log/debug (str "found: " (count from-inflected) " inflected forms."))
+
+        ;; however, some (or even all) of the hypotheses might be wrong, if the verb has
+        ;; any exceptions. Then, the exceptional surface forms should pre-empt and exclude these hypotheses.
+        ;; For example, applying the rules for regular verbs in English, for infl present and agr 3rd sing,
         ;; the singular form of "be" is "bes", but there is an exceptional form "is" that should
         ;; be used instead. So this filter removes the spurious "bes" from the hypotheses generated
         ;; from _from_inflected_ above.
@@ -139,6 +144,7 @@
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
         (log/warn (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
+      (log/debug (str "found: " (count from-regular-morphology) " analyzed forms."))
       (concat
        from-regular-morphology
        exceptions))))

@@ -240,23 +240,6 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-(def tree-specs
-  [{:comp {:phrasal true
-           :head {:phrasal true
-                  :head {:phrasal true}}}
-    :head {:phrasal true
-           :comp {:phrasal true
-                  :head {:phrasal true}}}}
-
-   {:comp {:phrasal true
-           :head {:phrasal true
-                  :head {:phrasal true}}}
-    :head {:phrasal true
-           :comp {:phrasal true}}}
-
-   {:comp {:phrasal false}
-    :head {:phrasal false}}])
-
 (defn generate-long-sentence [& {:keys [spec trees]}]
   (if (empty? trees)
     (throw (Exception. (str "no trees left; can't generate a sentence.")))

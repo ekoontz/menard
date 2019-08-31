@@ -108,7 +108,7 @@
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
                obj (atom :top)]
-           {:derivation {:rules-applied {:2 {:transitive-verbs :non-reflexive}}}
+           {:derivation {:rules-matched {:2 {:transitive-verbs :non-reflexive}}}
             :reflexive false
             :sem {:subj subj
                   :obj obj}
@@ -123,7 +123,7 @@
          ;; reflexive: subject and object are the same semantically and by agreement.
          (let [subj (atom :top)
                agr (atom :top)]
-           {:derivation {:rules-applied {:transitive-verbs :reflexive}}
+           {:derivation {:rules-matched {:transitive-verbs :reflexive}}
             :reflexive true
             :sem {:subj subj
                   :obj subj}
@@ -145,15 +145,15 @@
  ;; where: vp-slash -> "talking to". So add in addition to this :rule,
  ;; a new rule :transitive-verbs-prep-2-slash.
  ;; 
- {:rule :transitive-verbs-prep-2
+ {:rule :verb-prep
   :if {:cat :verb
-       :transitive-prep true
        :subcat {:1 {:cat :noun}
                 :2 {:cat :prep}}}
+       :derivation {:rules-allowed {:2 {:verb-prep true}}}}
   :then [(let [subj (atom :top)
                iobj (atom :top)]
            {:reflexive false
-            :derivation {:rules-applied {:transitive-verbs-prep-2 :nonreflexive}}
+            :derivation {:rules-matched {:2 {:verb-prep :nonreflexive}}}
             :sem {:iobj iobj}
             :subcat {:2 {:cat :prep
                          :subcat []
@@ -165,7 +165,7 @@
          (let [subj (atom :top)
                agr (atom :top)]
            {:reflexive true
-            :derivation {:rules-applied {:transitive-verbs-prep-2 :reflexive}}
+            :derivation {:rules-matched {:2 {:verb-prep :reflexive}}}
             :sem {:subj subj
                   :iobj subj}
             :subcat {:1 {:agr agr

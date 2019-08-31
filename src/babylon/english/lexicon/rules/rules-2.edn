@@ -148,7 +148,7 @@
  {:rule :verb-prep
   :if {:cat :verb
        :subcat {:1 {:cat :noun}
-                :2 {:cat :prep}}}
+                :2 {:cat :prep}}
        :derivation {:rules-allowed {:2 {:verb-prep true}}}}
   :then [(let [subj (atom :top)
                iobj (atom :top)]

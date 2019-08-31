@@ -145,8 +145,7 @@
                 :3 {:cat :prep}}}
   :then [(let [subj (atom :top)
                obj (atom :top)]
-           {:derivation {:2 {:ditransitive-verbs {:reflexive false}}}
-            :sem {:subj subj
+           {:sem {:subj subj
                   :obj obj}
             :subcat {:1 {:cat :noun
                          :case :nom

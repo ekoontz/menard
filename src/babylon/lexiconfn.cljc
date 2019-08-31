@@ -26,7 +26,7 @@
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [(unify result
                         (if rule
-                          {:derivation {:rules-matched {rule-group {rule {:matched? true}}}}}
+                          {:derivation {rule-group {rule {:matched? true}}}}
                           :top))]))))
 
 (defn apply-rules [rules lexeme if-no-rules-matched? rule-group]
@@ -45,7 +45,7 @@
           with-rules
 
           if-no-rules-matched?
-          [(unify lexeme {:derivation {:rules-matched {rule-group {::no-rules-matched? true}}}})]
+          [(unify lexeme {:derivation {rule-group {::no-rules-matched? true}}})]
           true
           [lexeme])))
 

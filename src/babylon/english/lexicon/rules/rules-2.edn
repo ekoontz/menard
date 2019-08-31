@@ -108,7 +108,7 @@
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
                obj (atom :top)]
-           {:derivation {:rules-matched {:2 {:transitive-verbs :non-reflexive}}}
+           {:derivation {:2 {:transitive-verbs {:reflexive false}}}
             :reflexive false
             :sem {:subj subj
                   :obj obj}
@@ -123,7 +123,7 @@
          ;; reflexive: subject and object are the same semantically and by agreement.
          (let [subj (atom :top)
                agr (atom :top)]
-           {:derivation {:rules-matched {:transitive-verbs :reflexive}}
+           {:derivation {:2 {:transitive-verbs {:reflexive true}}}
             :reflexive true
             :sem {:subj subj
                   :obj subj}
@@ -136,45 +136,6 @@
                          :reflexive true
                          :cat :noun
                          :sem subj
-                         :case :acc}}})]}
-
- ;; TODO: currently we set [:subcat :2 :subcat] = [],
- ;; to prevent *"I talk to"
- ;; but we need to allow for [:subcat :2 :subcat :1] = {:top :top}
- ;; so that we can allow: "the woman I was talking to"
- ;; where: vp-slash -> "talking to". So add in addition to this :rule,
- ;; a new rule :transitive-verbs-prep-2-slash.
- ;; 
- {:rule :verb-prep
-  :if {:cat :verb
-       :subcat {:1 {:cat :noun}
-                :2 {:cat :prep}}
-       :derivation {:rules-allowed {:2 {:verb-prep true}}}}
-  :then [(let [subj (atom :top)
-               iobj (atom :top)]
-           {:reflexive false
-            :derivation {:rules-matched {:2 {:verb-prep :nonreflexive}}}
-            :sem {:iobj iobj}
-            :subcat {:2 {:cat :prep
-                         :subcat []
-                         :reflexive false
-                         :case :acc
-                         :sem {:obj iobj}}}})
-
-         ;; reflexive: subject and object agree.
-         (let [subj (atom :top)
-               agr (atom :top)]
-           {:reflexive true
-            :derivation {:rules-matched {:2 {:verb-prep :reflexive}}}
-            :sem {:subj subj
-                  :iobj subj}
-            :subcat {:1 {:agr agr
-                         :sem subj}
-                     :2 {:agr agr
-                         :reflexive true
-                         :cat :prep
-                         :subcat []
-                         :sem {:obj subj}
                          :case :acc}}})]}
 
  {:rule :intransitive-verbs
@@ -190,7 +151,7 @@
                          :case :nom}
                      :2 []}})]}
 
- {:rule :aux-verbs-with-verb-argument
+ {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb
        :aux true
        :subcat {:2 {:cat :verb}}}
@@ -223,7 +184,7 @@
           
           [;; [s .she *[vp-aux *has .seen]]
            {:agr agr
-            :derivation {:aux-verbs-with-verb-arg 1}
+            :derivation {:2 {:aux-verbs-with-verb-arg {:sense 1}}}
             :reflexive reflexive
             :sem sem
             :subcat {:1 subject
@@ -231,7 +192,7 @@
 
            ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
            {:agr agr
-            :derivation {:aux-verbs-with-verb-arg 2}
+            :derivation {:2 {:aux-verbs-with-verb-arg {:sense 2}}}
             :reflexive reflexive
             :sem sem
             :subcat {:1 subject

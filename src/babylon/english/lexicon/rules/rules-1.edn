@@ -157,6 +157,7 @@
             :subcat {:1 subject}}])}
 
  {:rule :ditransitive-false
-  :if {:cat :verb}
+  :if {:cat :verb
+       :subcat {:3 ::unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}]

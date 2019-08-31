@@ -100,10 +100,4 @@
  {:rule :modal-default-false
   :if {:cat :verb
        :modal ::unspec}
-  :then [{:modal false}]}
-
- {:rule :transitive-verbs-prep
-  :if {:cat :verb
-       :aux false
-       :subcat {:2 {:cat :prep}}}
-  :then [{:transitive-prep true}]}]
+  :then [{:modal false}]}]

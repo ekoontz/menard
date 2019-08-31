@@ -138,6 +138,25 @@
                          :sem subj
                          :case :acc}}})]}
 
+ {:rule :ditransitive-verbs
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}
+                :2 {:cat :noun}
+                :3 {:cat :prep}}}
+  :then [(let [subj (atom :top)
+               obj (atom :top)]
+           {:derivation {:2 {:ditransitive-verbs {:reflexive false}}}
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :case :nom
+                         :sem subj}
+                     :2 {:cat :noun
+                         :case :acc
+                         :sem obj}
+                     :3 {:cat :prep
+                         :phrasal false}}})]} ;; for testing: eventually will be phrasal true (prepositional phrase).
+ 
  {:rule :intransitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat :noun}

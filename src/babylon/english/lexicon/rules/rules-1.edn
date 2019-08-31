@@ -154,4 +154,9 @@
                              :cat :noun
                              :subcat []})]
           [{:agr agr
-            :subcat {:1 subject}}])}]
+            :subcat {:1 subject}}])}
+
+ {:rule :ditransitive-false
+  :if {:cat :verb
+       :derivation {:2 {:ditransitive-verbs {:match? ::unspec}}}}
+  :then [{:derivation {:2 {:ditransitive-verbs {:match? false}}}}]}]

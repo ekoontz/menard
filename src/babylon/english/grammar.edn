@@ -180,7 +180,8 @@
          :modal false
          :aux false}
   :unify [babylon.ug/head-first
-;;          babylon.ug/comp-mod-is-obj-mod ;; might need to change this.
+          babylon.ug/comp-mod-is-obj-mod
+          babylon.ug/head-sem
           babylon.ug/head-is-root
           babylon.ug/head-modal
           babylon.ug/subcat-3]} 

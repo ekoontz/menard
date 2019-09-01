@@ -141,20 +141,21 @@
  {:rule :ditransitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat :noun}
-                :2 {:cat :noun}
-                :3 {:cat :prep}}}
+                :2 {:cat :prep}
+                :3 {:cat :noun}}}
   :then [(let [subj (atom :top)
+               iobj (atom :top)
                obj (atom :top)]
            {:sem {:subj subj
+                  :iobj iobj
                   :obj obj}
             :subcat {:1 {:cat :noun
                          :case :nom
                          :sem subj}
-                     :2 {:cat :noun
-                         :case :acc
-                         :sem obj}
-                     :3 {:cat :prep
-                         :phrasal false}}})]} ;; for testing: eventually will be phrasal true (prepositional phrase).
+                     :2 {:cat :prep
+                         :sem {:obj iobj}}
+                     :3 {:cat :noun
+                         :sem obj}}})]}
  
  {:rule :intransitive-verbs
   :if {:cat :verb

@@ -51,3 +51,6 @@
 
 (deftest s-interog
   (is (not (empty? (parse "did she sleep")))))
+
+(deftest prepositional-phrases
+  (is (not (empty? (parse "she puts the cat he sees on the table")))))

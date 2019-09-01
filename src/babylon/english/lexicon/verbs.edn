@@ -280,8 +280,9 @@
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
          [{:exceptions exceptions
-           :subcat {:1 {:top :top}
-                    :2 {:cat :prep :subcat []}
+           :subcat {:2 {:cat :prep
+                        :sem {:pred :on}
+                        :subcat []}
                     :3 {:cat :noun}}
            :cat :verb
            :sem {:pred :put}}])

@@ -1,5 +1,5 @@
 (ns babylon.test.english
-  (:require [babylon.english :as en :refer [analyze parse]]
+  (:require [babylon.english :as en :refer [analyze generate morph parse]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]))
 
@@ -54,3 +54,17 @@
 
 (deftest prepositional-phrases
   (is (not (empty? (parse "she puts the cat he sees on the table")))))
+
+(deftest ditransitive-phrase
+  (let [expression
+        (generate
+         {:sem {:tense :present
+                :aspect :simple
+                :pred :put
+                :subj {:pred :girl}
+                :iobj {:pred :table}
+                :obj {:pred :cat}}
+          :cat :verb
+          :rule "s"})]
+    (is (not (empty? expression)))
+    (is (not (empty? (morph expression))))))

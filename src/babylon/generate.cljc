@@ -132,7 +132,7 @@
     (log/debug (str "add-lexeme: calculated spec."))
     (when (and (not (= spec :fail))
                (not (empty? at)))
-      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (u/strip-refs spec)))
+      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
       (->> (get-lexemes (u/strip-refs spec))
            shuffle
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
@@ -343,8 +343,9 @@
                  (get parent :1))
         cond3 (= (get grandparent :head)
                  (get grandparent :1))
-        cond4 (not (nil? (u/get-in tree (-> at butlast (concat [:comp])))))]
-    (cond (and cond1 cond2 cond3 cond4)
+        cond4 (not (nil? (u/get-in tree (-> at butlast (concat [:comp])))))
+        cond5 (nil? (u/get-in tree (concat at [:subcat :3])))]
+    (cond (and cond1 cond2 cond3 cond4 cond5)
           (do (log/debug (str "FOLD OK: " (syntax-tree tree) " at: " at))
               true)
           (false? cond1)
@@ -358,6 +359,9 @@
               false)
           (false? cond4)
           (do (log/debug (str "cond4? " cond4 " " st " at: " at))
+              false)
+          (false? cond5)
+          (do (log/debug (str "cond5? " cond5 " " st " at: " at))
               false)
           
           true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
@@ -383,7 +387,6 @@
   (cond
     (u/get-in tree [::done?]) tree
     
-    (foldable? tree at)
     (and allow-folding? (foldable? tree at))
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]

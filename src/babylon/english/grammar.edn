@@ -191,8 +191,7 @@
   :sem {:mood :decl}
   :cat :verb
   :slash false
-  :subcat {:1 {:top :top}
-           :2 []}
+  :subcat {:1 {:top :top}}
   :aux true
   :options (mapcat (fn [aux-tense]
                      (map #(dag_unify.core/unify % aux-tense)
@@ -227,8 +226,7 @@
   :sem {:mood :decl}
   :cat :verb
   :slash false
-  :subcat {:1 {:top :top}
-           :2 []}
+  :subcat {:1 {:top :top}}
   :aux false
   :modal :infinitive
   :options babylon.english/tenses
@@ -250,8 +248,7 @@
   :cat :verb
   :infl :base
   :slash false
-  :subcat {:1 {:top :top}
-           :2 []}
+  :subcat {:1 {:top :top}}
   :aux false
   :modal :base
   :options babylon.english/tenses

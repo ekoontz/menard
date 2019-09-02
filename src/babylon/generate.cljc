@@ -24,6 +24,8 @@
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
 
+(def allow-folding? true)
+
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic index-fn (fn [spec]
                           (throw (Exception. (str "no index-fn supplied.")))))
@@ -382,8 +384,10 @@
     (u/get-in tree [::done?]) tree
     
     (foldable? tree at)
+    (and allow-folding? (foldable? tree at))
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
+      (log/debug (str "folding: " (syntax-tree tree) " at: " at))
       (log/debug (str "nephew-complement: " (report nephew-complement)))
       (swap! (get grandparent :comp)
              (fn [old] nephew-complement))

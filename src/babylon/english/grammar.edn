@@ -164,7 +164,8 @@
   :options babylon.english/tenses
   :head {:slash false
          :modal false
-         :aux false}
+         :aux false
+         :subcat {:3 []}}
   :unify [babylon.ug/head-first
           babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-is-root

@@ -151,7 +151,8 @@
                      :2 complement-2}}
      :agr agr
      :subcat {:1 complement-1
-              :2 []}
+              :2 []
+              :3 []}
      :comp complement-2}))
 
 (def subcat-2-1-slash

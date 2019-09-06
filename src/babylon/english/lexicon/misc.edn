@@ -60,6 +60,8 @@
              :pred :i}
        :pronoun true
        :reflexive false}]
+ "in" [{:cat :prep
+        :sem {:pred :in}}]
  "it" [{:cat :noun
         :agr {:number :sing
               :human false

@@ -282,9 +282,7 @@
          [{:exceptions exceptions
            :subcat {:2 {:cat :prep
                         :sem {:pred :on}}
-                    :3 {:cat :noun
-                        :case :acc ;; TODO: move this to a lexical rule.
-                        :subcat []}} ;; TODO move this to a lexical rule.
+                    :3 {:cat :noun}}
            :cat :verb
            :sem {:pred :put}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}

@@ -281,12 +281,9 @@
                          {:infl :past-participle :surface "put"}]]
          [{:exceptions exceptions
            :subcat {:2 {:cat :prep
-                        :reflexive false
-                        :sem {:pred :on}
-                        :subcat []} ;; TODO: move this to a lexical rule.
+                        :sem {:pred :on}}
                     :3 {:cat :noun
                         :case :acc ;; TODO: move this to a lexical rule.
-                        :reflexive false ;; TODO: lexical rule to allow both reflexive (with proper binding) and nonreflexive.
                         :subcat []}} ;; TODO move this to a lexical rule.
            :cat :verb
            :sem {:pred :put}}])

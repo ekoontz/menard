@@ -151,11 +151,15 @@
                   :obj obj}
             :subcat {:1 {:cat :noun
                          :case :nom
-                         :sem subj}
+                         :sem subj
+                         :subcat []}
                      :2 {:cat :prep
-                         :sem {:obj iobj}}
+                         :sem {:obj iobj}
+                         :subcat []}
                      :3 {:cat :noun
-                         :sem obj}}})]}
+                         :case :acc
+                         :sem obj
+                         :subcat []}}})]}
  
  {:rule :intransitive-verbs
   :if {:cat :verb

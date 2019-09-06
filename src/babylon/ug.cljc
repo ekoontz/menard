@@ -45,8 +45,10 @@
             :infl head-infl
             :reflexive reflexive
             :sem head-sem
+            :head-derivation head-derivation
             :derivation head-derivation}
-     :comp {:derivation comp-derivation}
+     :comp {:head-derivation comp-derivation
+            :derivation comp-derivation}
      :phrasal true}))
 
 (def head-comp-rule ;; the :cat of the _comp_ is the :cat of the parent.

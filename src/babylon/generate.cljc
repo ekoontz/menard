@@ -13,7 +13,6 @@
 (declare get-lexemes)
 (declare headness?)
 (declare lazy-map)
-(declare lazy-mapcat)
 (declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)

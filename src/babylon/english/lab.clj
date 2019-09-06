@@ -2,7 +2,7 @@
   (:require
    [babylon.english :as en :refer [analyze generate grammar index-fn lexicon
                                    morph parse syntax-tree]]
-   [babylon.generate :as g :refer [add lazy-mapcat]]
+   [babylon.generate :as g :refer [add lazy-map]]
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
@@ -103,10 +103,10 @@
                 :comp {:phrasal true
                        :modal false
                        :head {:rule "vp"}}}}]
-       (lazy-mapcat add)
-       (lazy-mapcat add)
-       (lazy-mapcat add)
-       (lazy-mapcat add)
+       (lazy-map add)
+       (lazy-map add)
+       (lazy-map add)
+       (lazy-map add)
        (remove #(= :fail %))
        first))
 

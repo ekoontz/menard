@@ -159,9 +159,15 @@
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :get}}])
+
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
                           {:infl :past-participle :surface "given"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :give}}])
+          [{:exceptions exceptions
+            :subcat {:2 {:cat :prep
+                         :sem {:pred :to}}
+                     :3 {:cat :noun}}
+            :cat :verb
+            :sem {:pred :give}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}
                    {:infl :past-participle :surface "gone"}]]

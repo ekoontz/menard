@@ -319,8 +319,12 @@
                           {:infl :past-participle :surface "taken"}]]
           [{:cat :verb :sem {:pred :take}
             :exceptions exceptions}])
- "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 []}}
-         {:cat :verb :sem {:pred :talk}
+ "talk" [{:cat :verb
+          :sem {:pred :talk}
+          :subcat {:1 :top
+                   :2 []}}
+         {:cat :verb
+          :sem {:pred :talk}
           :subcat {:1 :top
                    :2 {:cat :prep
                        :sem {:pred :to}}

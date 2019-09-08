@@ -1,4 +1,20 @@
-[{:rule :ditransitive-reflexive
+[{:rule :prep-arg-reflexive
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 []}}
+  :then (let [iobj (atom :top)
+              agr (atom :top)]
+          [{:derivation {:sense 1} ;; "talks to her"
+            :subcat {:2 {:reflexive false}}}
+           {:derivation {:sense 2} ;; "talks to herself"
+            :sem {:subj iobj
+                  :iobj iobj}
+            :subcat {:1 {:agr agr}
+                     :2 {:reflexive true
+                         :agr agr
+                         :sem {:obj iobj}}}}])}
+
+ {:rule :ditransitive-reflexive
   :if {:cat :verb
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}

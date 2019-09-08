@@ -137,14 +137,6 @@
                          :reflexive true
                          :sem obj
                          :subcat {:1 subcat-subj}}}}])}
-
- 
- ;; used to prevent rules-2.edn's transitive-verbs-prep-2 from applying.
- {:rule :transitive-verb-prep-default-false
-  :if {:cat :verb
-       :transitive-prep ::unspec}
-  :then [{:transitive-prep false}]}
-
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true

@@ -113,6 +113,16 @@
      :agr agr
      :subcat subcat-1}))
 
+(def interogative ;; TODO: improve name
+  (let [one (atom :top)
+        two (atom {:subcat {:1 one
+                            :2 []}})]
+    {:subcat {:1 one
+              :2 []}
+     :head {:subcat {:1 two
+                     :2 []}}
+     :comp one}))
+
 (def sem-mod
   (let [reference (atom :top)
         adjunct (atom {:ref reference})

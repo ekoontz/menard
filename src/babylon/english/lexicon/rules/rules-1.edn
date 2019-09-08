@@ -10,11 +10,15 @@
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}
-  :then [(let [agr (atom :top)]
+  :then [(let [agr (atom :top)
+               subj (atom :top)]
            {:agr agr
+            :sem {:subj subj}
             :subcat {:1 {:agr agr
                          :cat :noun
-                         :case :nom}}})]}
+                         :case :nom
+                         :sem subj
+                         :subcat []}}})]}
  
  {:rule :dont-inflect-pronouns
   :if {:cat :noun

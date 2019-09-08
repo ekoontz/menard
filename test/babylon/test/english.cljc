@@ -60,7 +60,7 @@
         (generate
          {:sem {:tense :present
                 :aspect :simple
-                :pred :put
+                :pred :put-on
                 :subj {:pred :girl}
                 :iobj {:pred :table}
                 :obj {:pred :cat}}

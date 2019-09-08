@@ -6,31 +6,6 @@
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
-(def specs
-  [{:phrasal true
-    :rule "np"
-    :head {:rule "nbar4"
-           :phrasal true
-           :comp {:phrasal true
-                  :comp {:phrasal true
-                         :comp {:phrasal true}}}}}
-   {:phrasal true
-    :rule "s"
-    :comp {:phrasal true
-           :agr {:number :sing}
-           :sem {:pred :dog}}
-    :canonical "be"}])
-
-(def quick-demo-spec
-  {:rule "s" :comp {:phrasal false} :head {:phrasal false}})
-
-(def medium-demo-spec
-  (-> {:rule "s"
-       :comp {:rule "np"
-              :head {:rule "nbar"}}
-       :head {:rule "vp"
-              :comp {:rule "np"
-                     :head {:phrasal false}}}}))
 (def long-demo-spec
   (-> {:rule "s"
        :comp {:rule "np"
@@ -83,17 +58,6 @@
          generate
          time
          syntax-tree))))
-
-(defn medium-timed-demo []
-  (repeatedly
-   #(println
-     (-> medium-demo-spec
-         generate
-         time
-         syntax-tree))))
-
-(defn quick-demo []
-  (repeatedly #(println (morph (time (generate quick-demo-spec))))))
 
 ;; for debugging generation and fixing grammatical rules
 (defn partial-generate-test []

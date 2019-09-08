@@ -294,8 +294,7 @@
   (println "= Interrogative sentences =")
   (println)
   (count
-   (take 10 (repeatedly #(-> {:cat :verb
-                              :sem {:mood :interog}}
+   (take 10 (repeatedly #(-> {:rule "s-interog"}
                              generate
                              (morph :sentence-punctuation? true)
                              println))))

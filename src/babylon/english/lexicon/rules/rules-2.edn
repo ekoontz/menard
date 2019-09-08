@@ -101,21 +101,16 @@
           :reflexive false
           :subcat []}]}
  
- {:rule :transitive-verbs
+ {:rule :transitive-verbs ;; "sees" in "she sees him"
   :if {:cat :verb
-       :subcat {:1 {:cat :noun}
-                :2 {:cat :noun}}}
+       :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
                obj (atom :top)]
            {:derivation {:2 {:transitive-verbs {:reflexive false}}}
             :reflexive false
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :case :nom
-                         :sem subj}
-                     :2 {:cat :noun
+            :sem {:obj obj}
+            :subcat {:2 {:cat :noun
                          :reflexive false
                          :case :acc
                          :sem obj}}})
@@ -124,13 +119,11 @@
          (let [subj (atom :top)
                agr (atom :top)]
            {:derivation {:2 {:transitive-verbs {:reflexive true}}}
+            :agr agr
             :reflexive true
             :sem {:subj subj
                   :obj subj}
-            :subcat {:1 {:agr agr
-                         :cat :noun
-                         :case :nom
-                         :sem subj}
+            :subcat {:1 {:agr agr}
                      :2 {:agr agr
                          :phrasal false
                          :reflexive true
@@ -140,20 +133,13 @@
 
  {:rule :ditransitive-verbs
   :if {:cat :verb
-       :subcat {:1 {:cat :noun}
-                :2 {:cat :prep}
+       :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}
-  :then [(let [subj (atom :top)
-               iobj (atom :top)
+  :then [(let [iobj (atom :top)
                obj (atom :top)]
-           {:sem {:subj subj
-                  :iobj iobj
+           {:sem {:iobj iobj
                   :obj obj}
-            :subcat {:1 {:cat :noun
-                         :case :nom
-                         :sem subj
-                         :subcat []}
-                     :2 {:cat :prep
+            :subcat {:2 {:cat :prep
                          :sem {:obj iobj}
                          :subcat []}
                      :3 {:cat :noun
@@ -163,16 +149,11 @@
  
  {:rule :intransitive-verbs
   :if {:cat :verb
-       :subcat {:1 {:cat :noun}
-                :2 []}}
+       :subcat {:2 []}}
   :then [(let [subj (atom :top)]
-           {:sem {:subj subj
-                  :obj :unspec}
+           {:sem {:obj :unspec}
             :reflexive false
-            :subcat {:1 {:sem subj
-                         :cat :noun
-                         :case :nom}
-                     :2 []}})]}
+            :subcat {:2 []}})]}
 
  {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb

@@ -95,6 +95,10 @@
   :if {:cat :det}
   :then [{:inflected? true}]}
 
+ {:rule :dont-inflect-wh-words
+  :if {:cat :wh-word}
+  :then [{:inflected? true}]}
+ 
  ;; </non-inflecting rules>
 
  {:rule :modal-default-false

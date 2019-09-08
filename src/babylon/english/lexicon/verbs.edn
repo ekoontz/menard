@@ -284,13 +284,7 @@
                         :sem {:pred :on}}
                     :3 {:cat :noun}}
            :cat :verb
-           :sem {:pred :put-on}}
-          {:exceptions exceptions
-           :subcat {:2 {:cat :prep
-                        :sem {:pred :in}}
-                    :3 {:cat :noun}}
-           :cat :verb
-           :sem {:pred :put-in}}])
+           :sem {:pred :put}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :run}}])

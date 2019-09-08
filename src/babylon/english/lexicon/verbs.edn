@@ -145,6 +145,26 @@
                        :sem {:mood :decl}
                        :subcat []
                        :infl :base}
+                   :2 []}}
+
+         ;; "what does she see?"
+         {:agr agr
+          :exceptions exceptions
+          :cat :verb
+          :aux true
+          :infl :present
+          :derivation {:sense 4}
+          :sem {:tense :present
+                :mood :interog}
+          :subcat {:1 {:cat :verb
+                       :aux false
+                       :agr agr
+                       :rule "s-interog-slash"
+                       :phrasal true
+                       :sem {:mood :decl}
+                       :subcat {:1 {:slash true}
+                                :2 []}
+                       :infl :base}
                    :2 []}}])
  
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}

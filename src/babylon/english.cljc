@@ -264,18 +264,6 @@
                 :trees (rest trees)
                 :spec {:root (u/get-in (:tree (ex-data e)) [:root])})))))))
 
-(defn generate-retry [spec tries]
-  (try (generate spec)
-       (catch Exception e
-         (do
-           (log/warn (str "failed to generate: "                  
-                          (syntax-tree (:tree (ex-data e))) " with spec:"
-                          (u/strip-refs (:child-spec (ex-data e))) "; at path:"
-                          (:frontier-path (ex-data e)) ";e=" (type e)))
-           (if (> tries 0)
-             (generate-retry spec (- tries 1))
-             (throw e))))))
-
 (defn demo []
   (println "Generation:")
   (println "===")
@@ -288,7 +276,7 @@
                                  :reflexive false
                                  :sem {:mood :decl
                                        :obj {:pred :top}}}
-                                (generate-retry 3)
+                                generate
                                 (morph :sentence-punctuation? true)
                                 println))))
 
@@ -299,7 +287,7 @@
                                 {:cat :verb
                                  :rule "s"
                                  :reflexive true}
-                                (generate-retry 3)
+                                generate
                                 (morph :sentence-punctuation? true)
                                 println))))
   (println)
@@ -308,7 +296,7 @@
   (count
    (take 10 (repeatedly #(-> {:cat :verb
                               :sem {:mood :interog}}
-                             (generate-retry 3)
+                             generate
                              (morph :sentence-punctuation? true)
                              println))))
   (println)
@@ -316,9 +304,8 @@
   (println "===")
   (println)
   (count (take 10
-               (repeatedly #(let [surface (morph (generate-retry {:cat (first (shuffle [:noun :verb]))
-                                                                  :subcat []}
-                                                                 3))]
+               (repeatedly #(let [surface (morph (generate {:cat (first (shuffle [:noun :verb]))
+                                                            :subcat []}))]
                               (println (->> (parse surface)
                                             (map (fn [tree]
                                                    (binding [p/lookup-fn l/matching-lexemes]

@@ -1,7 +1,9 @@
 {
  "area" [{:cat :noun :sem {:pred :area}}]
  "book" [{:cat :noun :sem {:pred :book}}]
- "boy" [{:cat :noun :sem {:pred :boy} :agr {:gender :masc}}]
+ "boy" [{:cat :noun :sem {:pred :boy}
+         :agr {:human true
+               :gender :masc}}]
  "business" [{:cat :noun :sem {:pred :business}}]
  "case" [{:cat :noun :sem {:pred :case}}]
  "cat" [{:cat :noun :sem {:pred :cat :ref {:animate true
@@ -13,7 +15,9 @@
  "eye" [{:cat :noun :sem {:pred :eye}}]
  "fact" [{:cat :noun :sem {:pred :fact}}]
  "family" [{:cat :noun :sem {:pred :family}}]
- "girl" [{:cat :noun :sem {:pred :girl} :agr {:gender :fem}}]
+ "girl" [{:cat :noun :sem {:pred :girl}
+          :agr {:human true
+                :gender :fem}}]
  "government" [{:cat :noun :sem {:pred :government}}]
  "group" [{:cat :noun :sem {:pred :group}}]
  "hand" [{:cat :noun :sem {:pred :hand}}]
@@ -22,8 +26,14 @@
  "kitten" [{:cat :noun :sem {:pred :kitten}}]
  "life" [{:cat :noun :sem {:pred :life}}]
  "lot" [{:cat :noun :sem {:pred :lot}}]
- "man" [{:cat :noun :sem {:pred :man} :agr {:gender :masc :number :sing}}]
- "men" [{:cat :noun :sem {:pred :man} :agr {:gender :masc :number :plur}}]
+ "man" [{:cat :noun :sem {:pred :man}
+         :agr {:gender :masc
+               :human true
+               :number :sing}}]
+ "men" [{:cat :noun :sem {:pred :man}
+         :agr {:gender :masc
+               :human true
+               :number :plur}}]
  "money" [{:cat :noun :sem {:pred :money}}]
  "month" [{:cat :noun :sem {:pred :month}}]
  "mother" [{:cat :noun :sem {:pred :mother}}]
@@ -54,8 +64,14 @@
  "water" [{:cat :noun :sem {:pred :water}}]
  "way" [{:cat :noun :sem {:pred :way}}]
  "week" [{:cat :noun :sem {:pred :week}}]
- "woman" [{:cat :noun :sem {:pred :woman} :agr {:gender :fem :number :sing}}]
- "women" [{:cat :noun :sem {:pred :woman} :agr {:gender :fem :number :plur}}]
+ "woman" [{:cat :noun :sem {:pred :woman}
+           :agr {:gender :fem
+                 :human true
+                 :number :sing}}]
+ "women" [{:cat :noun :sem {:pred :woman}
+           :agr {:gender :fem
+                 :human true
+                 :number :plur}}]
  "word" [{:cat :noun :sem {:pred :word}}]
  "work" [{:cat :noun :sem {:pred :work}}]
  "world" [{:cat :noun :sem {:pred :world}}]

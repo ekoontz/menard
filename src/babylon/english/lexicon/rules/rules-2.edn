@@ -131,7 +131,17 @@
                          :sem subj
                          :case :acc}}})]}
 
- {:rule :ditransitive-verbs
+ {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 []}}
+  :then [(let [iobj (atom :top)]
+           {:sem {:iobj iobj}
+            :subcat {:2 {:cat :prep
+                         :sem {:obj iobj}
+                         :subcat []}}})]}
+
+ {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}

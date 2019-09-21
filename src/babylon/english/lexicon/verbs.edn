@@ -153,6 +153,7 @@
            {:agr agr
             :exceptions exceptions
             :cat :verb
+            :reflexive false
             :aux true
             :infl :past-simple
             :derivation {:sense 4}
@@ -174,6 +175,7 @@
            {:agr agr
             :exceptions exceptions
             :cat :verb
+            :reflexive false
             :aux true
             :infl :present
             :surface "does"

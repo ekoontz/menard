@@ -14,7 +14,6 @@
  {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
   :p [#"^(.*)oes$" "$1o"] 
   :u {:cat :verb
-      :blah 99
       :infl :present
       :agr {:person :3rd
             :number :sing}}}

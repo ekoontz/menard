@@ -149,6 +149,7 @@
 
          ;; "what does she see?"
          (let [sem (atom {:tense :past
+                          :mood :interog
                           :aspect :progressive})]
            {:agr agr
             :exceptions exceptions
@@ -171,6 +172,7 @@
                      :2 []}})
          ;; "what did she see?"
          (let [sem (atom {:tense :present
+                          :mood :interog
                           :aspect :progressive})]
            {:agr agr
             :exceptions exceptions

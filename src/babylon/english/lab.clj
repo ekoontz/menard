@@ -295,3 +295,12 @@
           :comp {:phrasal true}}})
 
 
+;; (map syntax-tree (parse-as "does she see" "s-interog-slash"))
+(defn parse-as
+  "return only parses of _expression_ for which the rule is _rule_."
+  [expression rule]
+  (->> (parse expression)
+       (filter #(= rule (u/get-in % [:rule])))))
+
+
+

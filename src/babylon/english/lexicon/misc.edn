@@ -186,6 +186,8 @@
         :agr {:person :1st :number :plur}}]
  "what" [{:cat :noun
           :pronoun true
+          :sem {:pred :what
+                :ref {:human false}}
           :wh-word true}]
  "you" [{:cat :noun
          :case :nom

@@ -148,28 +148,47 @@
                    :2 []}}
 
          ;; "what does she see?"
-         (let [obj (ref {::foo 99})
-               sem (ref {::foo 42})]
-;;                         :obj obj
-;;                         :tense :present
-;;                         :mood :interog})]
-          {:agr agr
-           :exceptions exceptions
-           :cat :verb
-           :aux true
-           :infl :present
-           :derivation {:sense 4}
-           :sem sem
-           :subcat {:1 {:cat :verb
-                        :slash true
-                        :aux false
-                        :agr agr
-                        :phrasal true
-                        :sem sem
-                        :subcat {:1 {:top :top}
-                                 :2 []}
-                        :infl :base}
-                    :2 []}})])
+         (let [sem (atom {:tense :past
+                          :aspect :progressive})]
+           {:agr agr
+            :exceptions exceptions
+            :cat :verb
+            :aux true
+            :infl :past-simple
+            :derivation {:sense 4}
+            :sem sem
+            :surface "did"
+            :subcat {:1 {:cat :verb
+                         :slash true
+                         :aux false
+                         :agr agr
+                         :phrasal true
+                         :sem sem
+                         :subcat {:1 {:top :top}
+                                  :2 []}
+                         :infl :base}
+                     :2 []}})
+         ;; "what did she see?"
+         (let [sem (atom {:tense :present
+                          :aspect :progressive})]
+           {:agr agr
+            :exceptions exceptions
+            :cat :verb
+            :aux true
+            :infl :present
+            :surface "does"
+            :derivation {:sense 5}
+            :sem sem
+            :subcat {:1 {:cat :verb
+                         :slash true
+                         :aux false
+                         :agr agr
+                         :phrasal true
+                         :sem sem
+                         :subcat {:1 {:top :top}
+                                  :2 []}
+                         :infl :base}
+                     :2 []}})])
  
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]

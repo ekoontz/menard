@@ -124,7 +124,7 @@
           babylon.ug/head-modal
           babylon.ug/subcat-1]}
  
- {:rule "s-comp" ;; [s-interog *did .[s-comp .she *sleep]]
+ {:rule "s-comp" ;; [s-comp .she *sleep]] in [s-interog *did .[s-comp .she *sleep]]
   :cat :verb
   :slash false
   ;; TODO: should be part of head's subcat (e.g. "sleep" in "did she sleep")
@@ -146,15 +146,12 @@
           babylon.ug/comp-is-root
           babylon.ug/head-first]}
 
- {:rule "s-interog-slash" ;; [s-interog-slash *did .[s-slash .she *see]] (head of: [s-wh-interog .what *[s-interog-slash *did .[s-slash .she *see]]])
-  :slash true
-  :cat :verb
-  :sem {:mood :interog}
-  :head {:aux true
-         :phrasal false}
-  :comp {:rule "s-slash"}
-  :unify [babylon.ug/comp-is-root
-          babylon.ug/head-first
+ {:rule "s-interog-slash"
+  ;; [s-interog-slash *did .[s-slash .she *see]]
+  ;; (head of: [s-wh-interog .what *[s-interog-slash *did .[s-slash .she *see]]])
+  :comp {:phrasal true
+         :rule "she-see"}
+  :unify [babylon.ug/head-first
           babylon.ug/raise-the-comp-subcat]}
  
  {:rule "s-slash" ;; [s-slash .I *see] in: [nbar2 *cat .[s-slash .I *see]
@@ -168,14 +165,8 @@
           babylon.ug/subcat-2-1-slash]}
 
  {:rule "s-wh-interog" ;; [s-wh-interog *what .[s-interog-slash *did .[s-slash .she *see]]]
-  :cat :verb
-  :slash false
-  :comp {:phrasal false
-         :cat :noun
-         :canonical "what"}
-  :head {:slash true
-         :cat :verb
-         :rule "s-interog-slash"
+  :comp {:phrasal false}
+  :head {:rule "s-interog-slash"
          :phrasal true}
   :unify [babylon.ug/head-last
           babylon.ug/subcat-1-slash]}
@@ -287,8 +278,16 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
-          babylon.ug/subcat-2]}]
+          babylon.ug/subcat-2]}
 
+ {:rule "she-see"
+  :head {:phrasal false
+         :infl :base
+         :reflexive false
+         :subcat {:1 {:top :top}
+                  :2 {:top :top}}}
+  :unify [babylon.ug/head-last
+          babylon.ug/raise-two-to-one]}]
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]
 ;; TODO {:rule "vp-slash"} ;; [np .the [ nbar *woman .[s-slash .I *[vp-slash *talk .to]]]]

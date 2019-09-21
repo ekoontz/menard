@@ -94,14 +94,16 @@
  {:rule :dont-inflect-determiners
   :if {:cat :det}
   :then [{:inflected? true}]}
-
- {:rule :dont-inflect-wh-words
-  :if {:cat :wh-word}
-  :then [{:inflected? true}]}
  
  ;; </non-inflecting rules>
 
  {:rule :modal-default-false
   :if {:cat :verb
        :modal ::unspec}
-  :then [{:modal false}]}]
+  :then [{:modal false}]}
+
+ {:rule :pronouns-are-not-reflexive-by-default
+  :if {:cat :noun
+       :pronoun true
+       :reflexive ::unspec}
+  :then [{:reflexive false}]}]

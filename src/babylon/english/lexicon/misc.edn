@@ -184,7 +184,9 @@
         :reflexive false
         :case :nom
         :agr {:person :1st :number :plur}}]
- "what" [{:cat :wh-word}]
+ "what" [{:cat :noun
+          :pronoun true
+          :wh-word true}]
  "you" [{:cat :noun
          :case :nom
          :agr {:person :2nd}

@@ -146,18 +146,20 @@
           babylon.ug/comp-is-root
           babylon.ug/head-first]}
 
- {:rule "s-interog-slash" ;; [s-interog *what .[s-interog-slash *did .[s-slash .she *see]]]
+ {:rule "s-interog-slash" ;; [s-interog-slash *did .[s-slash .she *see]] (head of: [s-wh-interog .what *[s-interog-slash *did .[s-slash .she *see]]])
   :slash true
   :cat :verb
   :sem {:mood :interog}
-  :head {:aux true :phrasal false}
-  :unify [babylon.ug/interogative
-          babylon.ug/comp-is-root
-          babylon.ug/head-first]}
+  :head {:aux true
+         :phrasal false}
+  :comp {:rule "s-slash"}
+  :unify [babylon.ug/comp-is-root
+          babylon.ug/head-first
+          babylon.ug/raise-the-comp-subcat]}
  
- {:rule "s-slash" ;; [nbar2 *cat .[s-slash .I *see]'
+ {:rule "s-slash" ;; [s-slash .I *see] in: [nbar2 *cat .[s-slash .I *see]
   :slash true
-  :complement {:case :nom} ;; TODO: should not be needed; subcat of head should handle it.
+  :comp {:case :nom} ;; TODO: should not be needed; subcat of head should handle it.
   :cat :verb
   :reflexive false
   :options babylon.english/finite-tenses
@@ -165,6 +167,19 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2-1-slash]}
 
+ {:rule "s-wh-interog" ;; [s-wh-interog *what .[s-interog-slash *did .[s-slash .she *see]]]
+  :cat :verb
+  :slash false
+  :comp {:phrasal false
+         :cat :noun
+         :canonical "what"}
+  :head {:slash true
+         :cat :verb
+         :rule "s-interog-slash"
+         :phrasal true}
+  :unify [babylon.ug/head-last
+          babylon.ug/subcat-1-slash]}
+ 
  {:rule "vp" ;; [vp *see .it]
   :cat :verb
   :aux false

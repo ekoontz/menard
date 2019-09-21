@@ -159,6 +159,7 @@
  
  {:rule :intransitive-verbs
   :if {:cat :verb
+       :aux false
        :subcat {:2 []}}
   :then [(let [subj (atom :top)]
            {:sem {:obj :unspec}

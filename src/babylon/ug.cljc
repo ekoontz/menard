@@ -105,6 +105,20 @@
      :subcat []
      :comp complement}))
 
+(def subcat-1-slash
+  (let [complement (atom {:subcat []})
+        agr (atom :top)
+        mod (atom :top)]
+    {:agr agr
+     :slash false
+     :head {:mod mod
+            :agr agr
+            :slash true
+            :subcat {:1 complement :2 []}}
+     :mod mod
+     :subcat []
+     :comp complement}))
+
 (def subcat-1-1
   (let [agr (atom :top)
         subcat-1 (atom :top)]
@@ -112,16 +126,6 @@
             :subcat subcat-1}
      :agr agr
      :subcat subcat-1}))
-
-(def interogative ;; TODO: improve name
-  (let [one (atom :top)
-        two (atom {:subcat {:1 one
-                            :2 []}})]
-    {:subcat {:1 one
-              :2 []}
-     :head {:subcat {:1 two
-                     :2 []}}
-     :comp one}))
 
 (def sem-mod
   (let [reference (atom :top)
@@ -257,3 +261,12 @@
 (def nominal-phrase
   {:reflexive false
    :agr {:person :3rd}})
+
+(def raise-the-comp-subcat
+  (let [one (atom :top)]
+    {:subcat {:1 one}
+     :head {:subcat {:1 {:subcat {:1 one}}}}}))
+
+
+
+

@@ -262,11 +262,24 @@
   {:reflexive false
    :agr {:person :3rd}})
 
-(def raise-the-comp-subcat
-  (let [one (atom :top)]
-    {:subcat {:1 one}
-     :head {:subcat {:1 {:subcat {:1 one}}}}}))
 
+(def raise-the-comp-subcat
+  (let [two (atom :top)
+        one (atom {:subcat {:1 two
+                            :2 []}})]
+    {:subcat {:1 two
+              :2 []}
+     :head {:subcat {:1 one}}
+     :comp one}))
+
+(def raise-two-to-one
+  (let [one (atom :top)
+        two (atom :top)]
+    {:subcat {:1 two
+              :2 []}
+     :comp one
+     :head {:subcat {:1 one
+                     :2 two}}}))
 
 
 

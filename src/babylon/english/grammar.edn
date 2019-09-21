@@ -137,6 +137,17 @@
           babylon.ug/head-last
           babylon.ug/comp-is-root]}
 
+ {:rule "s-comp-2"
+  ;; [s-comp-2 .[np .the *cat] *eat]
+  ;; in: [s-wh-interog .what *[s-interog-slash *did .[s-comp-2 .[np .the *cat] *eat]]]
+  :head {:phrasal false
+         :infl :base
+         :reflexive false
+         :subcat {:1 {:top :top}
+                  :2 {:top :top}}}
+  :unify [babylon.ug/head-last
+          babylon.ug/raise-two-to-one]}
+ 
  {:rule "s-interog" ;; [s-interog *did .[s-comp .she *sleep]]
   :slash false
   :cat :verb
@@ -149,8 +160,7 @@
  {:rule "s-interog-slash"
   ;; [s-interog-slash *did .[s-slash .she *see]]
   ;; (head of: [s-wh-interog .what *[s-interog-slash *did .[s-slash .she *see]]])
-  :comp {:phrasal true
-         :rule "she-see"}
+  :comp {:phrasal true}
   :unify [babylon.ug/head-first
           babylon.ug/raise-the-comp-subcat]}
  
@@ -278,16 +288,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
-          babylon.ug/subcat-2]}
-
- {:rule "she-see"
-  :head {:phrasal false
-         :infl :base
-         :reflexive false
-         :subcat {:1 {:top :top}
-                  :2 {:top :top}}}
-  :unify [babylon.ug/head-last
-          babylon.ug/raise-two-to-one]}]
+          babylon.ug/subcat-2]}]
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]
 ;; TODO {:rule "vp-slash"} ;; [np .the [ nbar *woman .[s-slash .I *[vp-slash *talk .to]]]]

@@ -106,4 +106,10 @@
   :if {:cat :noun
        :pronoun true
        :reflexive ::unspec}
-  :then [{:reflexive false}]}]
+  :then [{:reflexive false}]}
+
+ {:rule :pronouns-are-not-wh-words-by-default
+  :if {:cat :noun
+       :pronoun true
+       :wh-word ::unspec}
+  :then [{:wh-word false}]}]

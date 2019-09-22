@@ -167,7 +167,7 @@
                          :agr agr
                          :phrasal true
                          :sem sem
-                         :subcat {:1 {:top :top}
+                         :subcat {:1 {:wh-word true}
                                   :2 []}
                          :infl :base}
                      :2 []}})
@@ -190,7 +190,7 @@
                          :agr agr
                          :phrasal true
                          :sem sem
-                         :subcat {:1 {:top :top}
+                         :subcat {:1 {:wh-word true}
                                   :2 []}
                          :infl :base}
                      :2 []}})])

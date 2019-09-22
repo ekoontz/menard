@@ -129,23 +129,24 @@
                    :2 []}}
 
          ;; "did you sleep?"
-         {:agr agr
-          :exceptions exceptions
-          :cat :verb
-          :aux true
-          :infl :past-simple
-          :derivation {:sense 3}
-          :sem {:tense :past
-                :mood :interog}
-          :subcat {:1 {:cat :verb
-                       :aux false
-                       :agr agr
-                       :rule "s-comp"
-                       :phrasal true
-                       :sem {:mood :decl}
-                       :subcat []
-                       :infl :base}
-                   :2 []}}
+         (let [sem (atom {:tense :past
+                          :mood :interog})]
+           {:agr agr
+            :exceptions exceptions
+            :cat :verb
+            :aux true
+            :infl :past-simple
+            :derivation {:sense 3}
+            :sem sem
+            :subcat {:1 {:cat :verb
+                         :aux false
+                         :agr agr
+                         :rule "s-comp"
+                         :phrasal true
+                         :sem sem
+                         :subcat []
+                         :infl :base}
+                     :2 []}})
 
          ;; "what does she see?"
          (let [sem (atom {:tense :past

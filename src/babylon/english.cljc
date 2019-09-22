@@ -59,6 +59,7 @@
    {:variant :modal
     :infl :base
     :modal :base
+    :head {:modal :base}
     :sem {:tense :present
           :aspect :simple}}
 

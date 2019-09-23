@@ -4,7 +4,7 @@
                                    morph parse syntax-tree]]
    [babylon.generate :as g :refer [add lazy-map]]
    [dag_unify.core :as u]
-   [clojure.core.async :refer [alts!! chan go timeout <! >!]]
+   [clojure.core.async :refer [alts!! chan close! go timeout <! >!]]
    [clojure.tools.logging :as log]))
 
 (def long-demo-spec
@@ -305,7 +305,6 @@
 
 ;; some uploads are hard and take 10 seconds at worst.
 (def upload-scaling-factor 10)
-(def consumer-patience-factor 1)
 (defn upload
   [headshot c]
   ;; https://www.braveclojure.com/core-async/
@@ -315,6 +314,7 @@
         (println (str "DONE!: " delay " seconds."))
         (>! c (str "your processed headshot: " headshot)))))
 
+(def consumer-patience-factor 1)
 ;; (repeatedly #(type (upload-consumer)))
 (defn upload-consumer []
   (let [c1 (chan)]
@@ -323,6 +323,8 @@
           (alts!! [c1 (timeout (* consumer-patience-factor 1000))])]
       (if headshot
         (println "Headshot sent: " headshot)
-        (println "TIMED OUT!!!"))
+        (do (println "TIMED OUT!!!")
+            (close! c1)))
       headshot)))
+
 

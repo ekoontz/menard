@@ -6,6 +6,7 @@
   :dependencies [[dag_unify "1.6.6"]
                  [log4j/log4j "1.2.17"]
                  [org.clojure/clojure "1.10.0"]
+                 [org.clojure/core.async "0.4.500"]
                  [org.clojure/tools.logging "0.4.0"]]
   :resource-paths ["resources"])
 

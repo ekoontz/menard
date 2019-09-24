@@ -310,12 +310,18 @@
   ;; https://www.braveclojure.com/core-async/
   (go (let [delay (rand (* (rand-int (inc upload-scaling-factor)) 1000))]
         (println (str "Starting upload; estimated time: " delay))
+
+        ;; working hard..or barely working?
         (Thread/sleep delay)
-        (println (str "DONE!: " delay " seconds."))
+
+        (println (str "DONE IN TIME, PHEW! in: " delay " seconds."))
         (>! c (str "your processed headshot: " headshot)))))
 
 (def consumer-patience-factor 1)
-;; (repeatedly #(type (upload-consumer)))
+
+(comment
+  (repeatedly #(type (upload-consumer))))
+
 (defn upload-consumer []
   (let [c1 (chan)]
     (upload "serious.jpg" c1)
@@ -323,7 +329,7 @@
           (alts!! [c1 (timeout (* consumer-patience-factor 1000))])]
       (if headshot
         (println "Headshot sent: " headshot)
-        (do (println "TIMED OUT!!!")
+        (do (println "Timed you; I'm tired of waiting! You're too slow!!!")
             (close! c1)))
       headshot)))
 

@@ -15,6 +15,16 @@
  "eye" [{:cat :noun :sem {:pred :eye}}]
  "fact" [{:cat :noun :sem {:pred :fact}}]
  "family" [{:cat :noun :sem {:pred :family}}]
+ "gentleman" [{:cat :noun :sem {:pred :man
+                                :context :polite}
+               :agr {:gender :man
+                     :human true
+                     :number :sing}}]
+ "gentlemen" [{:cat :noun :sem {:pred :man
+                                :context :polite}
+               :agr {:gender :man
+                     :human true
+                     :number :plur}}]
  "girl" [{:cat :noun :sem {:pred :girl}
           :agr {:human true
                 :gender :fem}}]
@@ -24,6 +34,11 @@
  "home" [{:cat :noun :sem {:pred :home}}]
  "job" [{:cat :noun :sem {:pred :job}}]
  "kitten" [{:cat :noun :sem {:pred :kitten}}]
+ "lady" [{:cat :noun :sem {:pred :woman
+                           :context :polite}
+          :agr {:gender :fem
+                :human true
+                :number :sing}}]
  "life" [{:cat :noun :sem {:pred :life}}]
  "lot" [{:cat :noun :sem {:pred :lot}}]
  "man" [{:cat :noun :sem {:pred :man}
@@ -75,5 +90,5 @@
  "word" [{:cat :noun :sem {:pred :word}}]
  "work" [{:cat :noun :sem {:pred :work}}]
  "world" [{:cat :noun :sem {:pred :world}}]
- "year" [{:cat :noun :sem {:pred :year}}]
- }
+ "year" [{:cat :noun :sem {:pred :year}}]}
+ 

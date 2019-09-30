@@ -4,7 +4,6 @@
                                    morph parse syntax-tree]]
    [babylon.generate :as g :refer [add lazy-map]]
    [dag_unify.core :as u]
-   [clojure.core.async :refer [alts!! chan close! go timeout <! >!]]
    [clojure.tools.logging :as log]))
 
 (def long-demo-spec
@@ -27,8 +26,17 @@
                                 :head {:rule "nbar"}}}}}}
    {:rule "s"
     :comp {:phrasal false}
-    :head {:rule "vp-modal-2"
-           :comp {:phrasal true}}}])
+    :head {:phrasal true
+           :rule "vp"
+           :head {:phrasal false}
+           :comp {:phrasal true
+                  :rule "np"
+                  :head {:phrasal true
+                         :rule "nbar3"
+                         :comp {:phrasal true
+                                :rule "comp1"
+                                :head {:phrasal false}
+                                :comp {:phrasal false}}}}}}])
 
 (def specs (concat
             modal-specs
@@ -135,38 +143,85 @@
 (def poetry-specs
   [
    {:rule "s"
-    :cat :verb
     :phrasal true
-    :subcat []
+    :head {:rule "vp"
+           :phrasal true
+           :head {:phrasal false
+                   :subcat {:1 {:cat :noun}}
+                           :2 {:cat :noun}
+                           :3 []}
+           :comp {:phrasal true
+                  :head {:phrasal true
+                         :head {:phrasal false
+                                 :agr {:number :sing}}
+                         :comp {:phrasal false}}
+                  :comp {:phrasal false}}}
+    :comp {:phrasal true
+           :head {:phrasal false}
+           :comp {:phrasal false}}}
+
+   ;; [s(:present-simple)
+   ;;   .families
+   ;;   *[vp(:present-simple) *think
+   ;;                         .[np(:present-simple) .a
+   ;;                                               *[nbar3(:present-simple) *problem]]]]
+   ;;
+   {:rule "s"
     :comp {:phrasal false}
     :head {:phrasal true
-           :comp {:phrasal true}}}
+           :rule "vp"
+           :head {:phrasal false
+                  :canonical "call"
+                  :subcat {:1 {:cat :noun}
+                           :2 {:cat :noun}
+                           :3 []}}
+           :comp {:phrasal true
+                  :rule "np"
+                  :head {:phrasal true
+                         :rule "nbar3"
+                         :head {:canonical "puppy"}
+                         :comp {:phrasal true
+                                :rule "comp1"
+                                :head {:phrasal false}
+                                :comp {:phrasal false}}}}}}
 
+   ;; [s(:present-simple)
+   ;;  .[np(:present-simple) .the *systems]
+   ;;  *[vp(:present-simple) *let .[nbar4(:present-simple) *gentlemen
+   ;;                                                      .[comp1(:present-simple) *that
+   ;;                                                                               .[s-slash(:present-simple) .governments
+   ;;                                                                                                          *[vp-aux-slash(:present-simple) *will .let]
    {:rule "s"
-    :subcat []
-    :cat :verb
-    :comp {:phrasal true}}
-
+    :comp {:rule "np"
+           :head {:phrasal true}}
+    :head {:rule "vp"
+           :head {:subcat {:1 {:cat :noun}
+                           :2 {:cat :noun}
+                           :3 []}}
+           :comp {:rule "nbar4"
+                  :phrasal true
+                  :head {:phrasal false
+                         :canonical :top}
+                  :comp {:phrasal true
+                         :rule "comp1"
+                         :comp {:phrasal true
+                                :rule "s-slash"
+                                :comp {:phrasal false}
+                                :head {:phrasal true
+                                       :infl :present
+                                       :rule "vp-aux-slash"
+                                       :head {:phrasal false
+                                              :aux true
+                                              :sem {:tense :conditional}
+                                              :subcat {:2 {:modal false}}}
+                                       :comp {:phrasal true
+                                              :subcat {:1 {:cat :noun}}}}}}}}}
    {:rule "s-interog"
     :cat :verb
     :subcat []
     :comp {:phrasal true}
     :sem {:mood :interog}}
 
-   {:rule "s"
-    :comp {:rule "np"}
-    :head {:rule "vp"
-           :head {:infl :present}
-           :comp {:rule "nbar4"
-                  :phrasal true
-                  :comp {:top :top
-                         :phrasal true
-                         :rule "comp1"
-                         :comp {:top :top
-                                :phrasal true
-                                :rule "s-slash"
-                                :head {:top :top
-                                       :rule "vp-aux-slash"}}}}}}
    {:rule "s"
     :comp {:rule "np"
            :head {:rule "nbar2"
@@ -180,7 +235,7 @@
     (->
      poetry-specs
 ;;     shuffle
-     (nth 0)
+     (nth 2)
      generate)
     (catch Exception e
       (log/warn (str "fail: " e)))))

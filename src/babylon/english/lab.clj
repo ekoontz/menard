@@ -183,11 +183,7 @@
      (nth 0)
      generate)
     (catch Exception e
-      (log/warn (str "fail:(" (-> e ex-data :why) ":)"
-                     (syntax-tree (:tree (ex-data e))) " with spec:"
-                     (u/strip-refs (:child-spec (ex-data e))) "; at path:"
-                     (:frontier-path (ex-data e)) "; immediate-parent: "
-                     (-> e ex-data :immediate-parent))))))
+      (log/warn (str "fail: " e)))))
 
 (defn benchmark []
   (repeatedly

@@ -18,6 +18,7 @@
  "hard" [{:cat :adjective :sem {:pred :hard}}]
  "high" [{:cat :adjective :sem {:pred :high}}]
  "human" [{:cat :adjective :sem {:pred :human}}]
+ "interesting" [{:cat :adjective :sem {:pred :interesting}}]
  "important" [{:cat :adjective :sem {:pred :important}}]
  "international" [{:cat :adjective :sem {:pred :international}}]
  "large" [{:cat :adjective :sem {:pred :large}}]

@@ -198,7 +198,7 @@
 
 (defn poetry []
   (loop []
-    (println (morph (or (poetry-line) "(failed)") :sentence-punctuation? true))
+    (println (syntax-tree (or (poetry-line) "(failed)") :sentence-punctuation? true))
     (recur)))
 
 (defn long-s []
@@ -303,34 +303,50 @@
   (->> (parse expression)
        (filter #(= rule (u/get-in % [:rule])))))
 
-;; some uploads are hard and take 10 seconds at worst.
-(def upload-scaling-factor 10)
-(defn upload
-  [headshot c]
-  ;; https://www.braveclojure.com/core-async/
-  (go (let [delay (rand (* (rand-int (inc upload-scaling-factor)) 1000))]
-        (println (str "Starting upload; estimated time: " delay))
+(def consumer-patience 6000)
 
-        ;; working hard..or barely working?
-        (Thread/sleep delay)
+(defn timeout-with [timeout-ms callback]
+   (let [fut (future (callback))
+         ret (deref fut timeout-ms ::timed-out)]
+     (when (= ret ::timed-out)
+       (println (str "Too bad! you took more than " timeout-ms " msecs long."))
+       (future-cancel fut))
+     ret))
 
-        (println (str "DONE IN TIME, PHEW! in: " delay " seconds."))
-        (>! c (str "your processed headshot: " headshot)))))
+(defn generate-with-timeout []
+    (println (str "Generating.."))
+    ((or morph syntax-tree morph) (poetry-line)))
 
-(def consumer-patience-factor 1)
+(defn poetry-line-with-timeout []
+  (let [result (timeout-with consumer-patience generate-with-timeout)]
+    (if (= ::timed-out result)
+      (do
+        (println (str "retrying.."))
+        (poetry-line-with-timeout))
+      result)))
 
-(comment
-  (repeatedly #(type (upload-consumer))))
+(defn poetry-with-timeout []
+  (take 50 (repeatedly #(println (time (poetry-line-with-timeout))))))
 
-(defn upload-consumer []
-  (let [c1 (chan)]
-    (upload "serious.jpg" c1)
-    (let [[headshot channel]
-          (alts!! [c1 (timeout (* consumer-patience-factor 1000))])]
-      (if headshot
-        (println "Headshot sent: " headshot)
-        (do (println "Timed you; I'm tired of waiting! You're too slow!!!")
-            (close! c1)))
-      headshot)))
+(def extremely-specific-spec
+  {:rule "s"
+   :phrasal true
+   :head {:rule "vp"
+          :phrasal true
+          :head {:phrasal false
+                 :subcat {:1 {:cat :noun}
+                          :2 {:cat :noun}
+                          :3 []}}
+          :comp {:phrasal true
+                 :head {:phrasal true
+                        :head {:phrasal false
+                               :agr {:number :sing}}
+                        :comp {:phrasal false}}
+                 :comp {:phrasal false}}}
+   :comp {:phrasal true
+          :head {:phrasal false}
+          :comp {:phrasal false}}})
+
+(comment (repeatedly #(println (time (timeout-with consumer-patience generate-with-timeout)))))
 
 

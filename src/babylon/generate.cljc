@@ -206,7 +206,6 @@
              some-rule-must-match?)
       (throw (Exception. (str "add-rule: no rules matched but we were given {:phrasal true} in the spec."))))
     (->> matching-rules
-         shuffle
          (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
          (remove #(when (and diagnostics?
                              (= :fail (u/assoc-in tree at %)))

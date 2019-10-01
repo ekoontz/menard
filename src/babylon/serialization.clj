@@ -27,21 +27,21 @@
          " "
          (if (or (= true (u/get-in tree [:1 :head?]))
                  (= (u/get-in tree [:1]) (u/get-in tree [:head])))
-           "*" ".")
+           "+" ".")
          (syntax-tree (u/get-in tree [:1]) morphology) " "
          (if (or (= true (u/get-in tree [:2 :head?]))
                  (= (u/get-in tree [:2]) (u/get-in tree [:head])))
-           "*" ".")
+           "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology)
          "]")
     (u/get-in tree [:2])
     (str "["
          (:rule tree "?") " "
          (if (= true (u/get-in tree [:1 :head?]))
-           "*" ".")
+           "+" ".")
          "_ "
          (if (= true (u/get-in tree [:2 :head?]))
-           "*" ".")
+           "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology) "]")
     true
     (default-morph-fn tree morphology)))

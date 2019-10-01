@@ -35,7 +35,7 @@
                                             " rooted at: " (u/get-in tree [:rule])))))
 
 (defn report [tree]
-  (str (syntax-tree tree) " #:" (count (str tree))))
+  (str "#:" (count (str tree)) " " (syntax-tree tree)))
   
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively

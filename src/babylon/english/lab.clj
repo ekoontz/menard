@@ -416,7 +416,10 @@
                         :rule "comp1"
                         :comp {:phrasal true
                                :rule "s-slash"
-                               :comp {:phrasal false}
+                               :comp {:phrasal true
+                                      :rule "np"
+                                      :head {:phrasal false}
+                                      :comp {:phrasal false}}
                                :head {:phrasal true
                                       :infl :present
                                       :rule "vp-aux-slash"

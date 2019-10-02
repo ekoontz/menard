@@ -34,6 +34,9 @@
                              (log/warn (str "using default syntax-tree function for tree "
                                             " rooted at: " (u/get-in tree [:rule])))))
 
+
+(defn ^:dynamic stop-generation-at [])
+
 (defn report [tree]
   (str "#" (count (str tree)) " " (syntax-tree tree)))
   
@@ -46,7 +49,8 @@
       (cond (= :fail tree)
             (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
 
-            (u/get-in tree [:babylon.generate/done?])
+            (or (u/get-in tree [:babylon.generate/done?])
+                (= (frontier tree) stop-generation-at))
             (lazy-seq
               (cons tree
                     (generate-all (rest trees))))
@@ -73,6 +77,12 @@
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/get-in tree (concat at [:rule]))))))
     (cond
+
+
+      (= at stop-generation-at)
+      (do (log/info (str "stopping early and returning tree: " (syntax-tree tree) " at: " at))
+          [tree])
+
       (u/get-in tree [:babylon.generate/done?])
       (do
         (log/debug (str "condition 1."))

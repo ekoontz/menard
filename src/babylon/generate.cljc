@@ -52,10 +52,16 @@
             (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
 
             (or (u/get-in tree [:babylon.generate/done?])
-                (= (frontier tree) stop-generation-at))
-            (lazy-seq
-              (cons tree
-                    (generate-all (rest trees))))
+                (and (not (= (u/get-in tree [:head]) (u/get-in tree [:2])))
+                     false
+                     (not (empty? frontier)))
+                (and false (= frontier stop-generation-at)))
+            (do
+              (if (not (u/get-in tree [:babylon.generate/done?]))
+                (log/info (str "STOPPING GENERATION EARLY ON THIS TREE: " (report tree) " at: " frontier)))
+              (lazy-seq
+                (cons tree
+                      (generate-all (rest trees)))))
 
             true
             (lazy-cat
@@ -80,12 +86,6 @@
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/get-in tree (concat at [:rule]))))))
     (cond
-
-
-      (= at stop-generation-at)
-      (do (log/info (str "stopping early and returning tree: " (syntax-tree tree) " at: " at))
-          [tree])
-
       (u/get-in tree [:babylon.generate/done?])
       (do
         (log/debug (str "condition 1."))

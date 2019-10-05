@@ -314,6 +314,7 @@
         (-> tree
             (dissoc-in compless-at)
             (dissoc-in (numeric-path tree compless-at))
+            (dissoc :dag_unify.serialization/serialized)
             (u/assoc-in! (concat compless-at [::done?]) true)
             (dissoc-in (concat (butlast compless-at) [:head :subcat]))
             (dissoc-in (concat (butlast compless-at) [:head :derivation]))

@@ -490,16 +490,36 @@
   their containing structures."
   [m ks]
   (if-let [[head & tail] ks]
-    (cond
-      tail
-      (let [v (dissoc-in (u/get-in m [head]) tail)]
-        (cond
-          (empty? v)
-          (dissoc m head)
-          true
-          (assoc m head v)))
-      true
-      (dissoc m head))
+    (do
+      (log/debug (str "dissoc-in: " (report m)))
+      (log/debug (str "ks: " ks))
+      (log/debug (str "HEAD: " head))
+      (log/debug (str "TAIL: " tail))      
+      (cond
+        tail
+        (let [v (dissoc-in (u/get-in m [head]) tail)]
+          (cond
+            (empty? v)
+            (dissoc m head)
+            true
+            (do
+              (log/debug (str "associng m: " (report m) " with key: " head))
+              (log/debug (str "type of head: " (get m head)))
+              (cond
+                (= clojure.lang.Atom (type (get m head)))
+                (do
+                  (log/debug (str "doing swap!"))
+                  (swap! (get m head)
+                         (fn [x] v))
+                  m)
+                true
+                (do
+                  (log/debug (str "doing default: " assoc))
+                  (assoc m head v))))))
+        true
+        (do
+          (log/debug (str "HEAD(alone):" head))
+          (dissoc m head))))
     m))
 
 (defn lazy-map [f items]

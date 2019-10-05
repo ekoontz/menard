@@ -45,7 +45,9 @@
    until no further expansion is possible."
   [trees]
   (if (not (empty? trees))
-    (let [tree (first trees)]
+    (let [tree (first trees)
+          frontier (frontier tree)]
+      (log/debug (str "generate-a " frontier ": " (report tree)))
       (cond (= :fail tree)
             (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
 
@@ -68,7 +70,8 @@
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)]
-    (log/debug (str "adding to: " (report tree) " at: " at))
+    (log/info (str "adding at: " at ": " (report tree)))
+
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
@@ -149,7 +152,7 @@
                                      " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
                       true))
            (lazy-map (fn [candidate-lexeme]
-                       (log/debug (str "adding lexeme: " (u/get-in candidate-lexeme [:canonical])))
+                       (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
                        (u/assoc-in! (u/copy tree) at candidate-lexeme)))
            (remove #(= :fail %))
            (lazy-map #(update-syntax-tree % at))
@@ -157,7 +160,7 @@
            (lazy-map #(foldup % at))))))
 
 (defn update-syntax-tree [tree at]
-  (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
+  (log/info (str "updating syntax-tree:" (report tree) " at: " at))
   (let [head? (headness? tree at)
         ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
         ;; if folding occurs.
@@ -201,7 +204,7 @@
                             (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
                             (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat))))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: " (syntax-tree tree) "; " (if rule-name (str "adding rule: " rule-name ";")) " at: " at "; numerically: " at-num))
+    (log/debug (str "add-rule   " at " '" rule-name "' " (report tree) "; numerically: " at-num))
     (log/debug (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
                     "; number of matching rules: " (count matching-rules) ": ("
                     (clojure.string/join ","
@@ -295,6 +298,7 @@
         nephew-at (-> parent-at (concat [:head]))
         nephew (u/get-in tree nephew-at)]
     ;; TODO: also truncate :head at this point, too:
+    (log/debug (str "truncate@: " at "(at) " (report tree)))
     (if (= :comp (last at))
       (let [compless-at (if (empty? (remove-trailing-comps at))
                           ;; in this case, we have just added the final :comp at the
@@ -304,7 +308,8 @@
                           ;; otherwise, ascend the tree as high as there are :comps
                           ;; trailing _at_.
                           (remove-trailing-comps at))]
-        (log/debug (str "truncating: " (report (u/get-in tree compless-at)) " inside: " (report tree) " at: " compless-at))
+        (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree)))
+        (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree)))
         (-> tree
             (dissoc-in compless-at)
             (dissoc-in (numeric-path tree compless-at))
@@ -397,7 +402,7 @@
     (and allow-folding? (foldable? tree at))
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (log/debug (str "folding: " (syntax-tree tree) " at: " at))
+      (log/debug (str "folding    " at " " (report tree)))
       (log/debug (str "nephew-complement: " (report nephew-complement)))
       (swap! (get grandparent :comp)
              (fn [old] nephew-complement))

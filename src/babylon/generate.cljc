@@ -157,7 +157,7 @@
            (lazy-map #(foldup % at))))))
 
 (defn update-syntax-tree [tree at]
-  (log/info (str "updating syntax-tree:" (report tree) " at: " at))
+  (log/debug (str "updating syntax-tree:" (report tree) " at: " at))
   (let [head? (headness? tree at)
         ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
         ;; if folding occurs.

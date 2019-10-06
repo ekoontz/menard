@@ -1,6 +1,6 @@
 [
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
- {:rule :prep-arg-reflexive
+ {:rule :prep-arg-reflexivity
   :if {:cat :verb
        :subcat {:2 {:cat :prep}
                 :3 []}}
@@ -16,7 +16,7 @@
                          :agr agr
                          :sem {:obj iobj}}}}])}
 
- {:rule :ditransitive-reflexive
+ {:rule :ditransitive-reflexivity
   :if {:cat :verb
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}

@@ -1,4 +1,6 @@
-[{:rule :prep-arg-reflexive
+[
+ ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
+ {:rule :prep-arg-reflexive
   :if {:cat :verb
        :subcat {:2 {:cat :prep}
                 :3 []}}

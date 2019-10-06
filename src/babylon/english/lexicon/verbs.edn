@@ -247,21 +247,20 @@
                                      :aspect :pluperfect}}
                               {:surface "had"
                                :infl :past-participle}]
-              agr-exceptions
-              [{:infl :present :agr {:person :1st} :surface "have"
-                {:infl :present :agr {:person :2nd} :surface "have"}
-                {:infl :present
-                 :agr {:person :3rd :number :sing} :surface "has"}
-                {:infl :present :agr {:person :3rd :number :plur} :surface "have"}
-                {:infl :past-simple :surface "had"}
-                {:infl :past-participle :surface "had"}}]]
+              exceptions [{:infl :present :agr {:person :1st} :surface "have"}
+                          {:infl :present :agr {:person :2nd} :surface "have"}
+                          {:infl :present
+                           :agr {:person :3rd :number :sing} :surface "has"}
+                          {:infl :present :agr {:person :3rd :number :plur} :surface "have"}
+                          {:infl :past-simple :surface "had"}
+                          {:infl :past-participle :surface "had"}]]
           [{:cat :verb
             ;; {:aux false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
             :aux false
             :derivation {:sense 1}
             :sem {:pred :have}
-            :exceptions agr-exceptions}
+            :exceptions exceptions}
            {:cat :verb
             :aux true
             :derivation {:sense 2}

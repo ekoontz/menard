@@ -224,6 +224,7 @@
   (binding [g/grammar grammar
             g/lexicon lexicon
             g/syntax-tree syntax-tree
+;;            g/stop-generation-at [:head :comp :head :comp]
             g/index-fn index-fn]
     (-> spec
         g/generate)))

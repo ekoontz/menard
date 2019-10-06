@@ -52,13 +52,10 @@
             (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
 
             (or (u/get-in tree [:babylon.generate/done?])
-                (and (not (= (u/get-in tree [:head]) (u/get-in tree [:2])))
-                     false
-                     (not (empty? frontier)))
-                (and false (= frontier stop-generation-at)))
+                (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
               (if (not (u/get-in tree [:babylon.generate/done?]))
-                (log/info (str "STOPPING GENERATION EARLY ON THIS TREE: " (report tree) " at: " frontier)))
+                (log/info (str "early stop of generation: " (report tree) " at: " frontier)))
               (lazy-seq
                 (cons tree
                       (generate-all (rest trees)))))

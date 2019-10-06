@@ -206,6 +206,7 @@
          :modal false
          :aux false}
   :unify [babylon.ug/head-first
+          babylon.ug/head-reflexive
           babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-sem
           babylon.ug/head-is-root

@@ -73,7 +73,7 @@
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)]
-    (log/info (str "adding at: " at ": " (report tree)))
+    (log/debug (str "adding at: " at ": " (report tree)))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))

@@ -412,7 +412,8 @@
            :cat :verb
            :infl :present
            :inflected? true
-           :sem {:tense :conditional}
+           :sem {:tense :conditional
+                 :obj ::unspec}
            :subcat {:2 []}}
           {:aux true
            :cat :verb

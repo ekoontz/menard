@@ -34,8 +34,16 @@
                              (log/warn (str "using default syntax-tree function for tree "
                                             " rooted at: " (u/get-in tree [:rule])))))
 
-
-(defn ^:dynamic stop-generation-at [])
+(def ^:dynamic stop-generation-at
+ "To use: in your own namespace, override this variable with the path
+  before whose generation you want to stop.
+  Generation will stop immediately
+  when (frontier tree) is equal to this path.
+  Note that the path must be given
+  as where the generator is according to (frontier), which may
+  differ from the path to the same node as in the logical syntax tree,
+  because folding might have occurred."
+  [])
 
 (defn report [tree]
   (str "#" (count (str tree)) " " (syntax-tree tree)))

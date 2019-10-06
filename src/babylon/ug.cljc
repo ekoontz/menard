@@ -164,7 +164,8 @@
         complement-2 (atom {:top :top})]
     {:head {:agr agr
             :subcat {:1 complement-1
-                     :2 complement-2}}
+                     :2 complement-2
+                     :3 []}}
      :agr agr
      :subcat {:1 complement-1
               :2 []

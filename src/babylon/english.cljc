@@ -287,6 +287,7 @@
   (count (take 10 (repeatedly #(->
                                 {:cat :verb
                                  :rule "s"
+                                 :sem {:obj {:top :top}}
                                  :reflexive true}
                                 generate
                                 (morph :sentence-punctuation? true)

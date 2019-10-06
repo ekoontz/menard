@@ -1,5 +1,4 @@
-[
- ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
+[;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
        :subcat {:2 {:cat :prep}

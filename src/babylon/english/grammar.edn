@@ -79,7 +79,7 @@
           babylon.ug/subcat-1-1
           babylon.ug/subject-of-comp-is-head]}
 
- {:rule "nbar4" ;; 'cat [comp1 that [s-slash I see]]'
+ {:rule "nbar4" ;; '[np [nbar4 cat [comp1 that [s-slash I see]]]]'
   :slash false
   :cat :noun
   :head {:phrasal false

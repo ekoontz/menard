@@ -80,13 +80,23 @@
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
-        lexness (u/get-in tree (concat at [:canonical]) ::none)]
+        lexness (u/get-in tree (concat at [:canonical]) ::none)
+        spec (u/get-in tree at)
+
+        ;; TODO: move this to a ^:dynamic: variable:
+        summary-fn (fn [spec]
+                     (or (u/get-in spec [:rule])
+                         (u/get-in spec [:canonical])
+                         (u/get-in spec [:sem :pred])
+                         (u/get-in spec [:cat])))]
     (log/debug (str "adding at: " at ": " (report tree)))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/debug (str "add: tree=" (syntax-tree tree) (str "; at:" at " with spec: " (u/strip-refs (u/get-in tree at))))))
+      (log/info (str "add: tree=" (report tree)
+                     "; at:" at " with spec: "
+                     (summary-fn spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/get-in tree (concat at [:rule]))))))
@@ -159,7 +169,7 @@
                                " in tree: " (syntax-tree tree) " at path: " at)))
               (log/debug (str "add-lexeme: found this many lexemes: " (count lexemes)))
               (if (not (empty? lexemes))
-                (log/debug (str "first one: " (syntax-tree (first lexemes)))))
+                (log/debug (str "add-lexeme: first lexeme found: " (syntax-tree (first lexemes)))))
               lexemes))
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
                       (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
@@ -199,10 +209,14 @@
        (take 1)
        (map #(u/assoc-in! % [::done?] true))
        (#(do
-           (log/info (str "get-lexeme: found this many lexemes:" (count %)))
+           (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
            (if (not (empty? %))
-             (log/info (str "get-lexeme: first one: " (syntax-tree (first %)))))
-           %))))
+             (log/info (str "get-lexeme: " 
+                            (cond (= 1 (count %))
+                                  "only one "
+                                  true "first of " (count %) " lexemes ")
+                            "found: '" (syntax-tree (first %)) "'")))
+          %))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))

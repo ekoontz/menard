@@ -211,12 +211,12 @@
        (#(do
            (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
            (if (not (empty? %))
-             (log/info (str "get-lexeme: " 
-                            (cond (= 1 (count %))
-                                  "only one "
-                                  true "first of " (count %) " lexemes ")
-                            "found: '" (syntax-tree (first %)) "'")))
-          %))))
+             (log/debug (str "get-lexeme: " 
+                             (cond (= 1 (count %))
+                                   "only one "
+                                   true "first of " (count %) " lexemes ")
+                             "found: '" (syntax-tree (first %)) "'")))
+           %))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))

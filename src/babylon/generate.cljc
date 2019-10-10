@@ -141,17 +141,27 @@
 
 (defn add-lexeme [tree & [spec]]
   (log/debug (str "add-lexeme: " (report tree)))
+
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
         tree (u/assoc-in tree done-at true)
-        spec (u/unify spec (u/get-in tree at))]
+        spec (u/unify spec {:phrasal false} (u/get-in tree at))]
     (log/debug (str "add-lexeme: calculated spec."))
     (when (and (not (= spec :fail))
                (not (empty? at)))
       (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
       (->> (get-lexemes (u/strip-refs spec))
-           shuffle
+           ((fn [lexemes]
+              (if (empty? lexemes)
+                (log/warn (str "found no lexemes that matched spec: "
+                               (-> spec u/strip-refs u/pprint)
+                               " in tree: " (syntax-tree tree) " at path: " at)))
+              (log/debug (str "add-lexeme: found this many lexemes: " (count lexemes)))
+              (if (not (empty? lexemes))
+                (log/debug (str "first one: " (syntax-tree (first lexemes)))))
+              lexemes))
+;;           shuffle
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
                       (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
                                      " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
@@ -182,24 +192,18 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec]
-  (if (= true (u/get-in spec [:phrasal]))
-    (lazy-seq [])
-    (do
-      (let [retval
-            (->> (index-fn spec)
-                 lazy-seq
-                 (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
-                 (map #(unify % spec))
-                 (filter #(not (= :fail %)))
-                 (take 1)
-                 (map #(u/assoc-in! % [::done?] true)))]
-
-        (log/info (str "found this many:" (count retval)))
-        
-        ;; This empty?-check is a workaround because without it, retval will be empty
-        ;; if (get-lexemes) is called from outside this namespace with bindings on lexicon and index-fn.
-        ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).
-        (if (empty? retval) retval retval)))))
+  (->> (index-fn spec)
+       lazy-seq
+       (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
+       (map #(unify % spec))
+       (filter #(not (= :fail %)))
+       (take 1)
+       (map #(u/assoc-in! % [::done?] true))
+       (#(do
+           (log/info (str "get-lexeme: found this many lexemes:" (count %)))
+           (if (not (empty? %))
+             (log/info (str "get-lexeme: first one: " (syntax-tree (first %)))))
+           %))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))

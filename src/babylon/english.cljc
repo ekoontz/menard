@@ -213,10 +213,13 @@
 
 
 (defn index-fn [spec]
-  (cond (= (u/get-in spec [:cat]) :verb)
-        verb-lexicon
-        true
-        non-verb-lexicon))
+  (let [shuffle? false]
+    (cond (= (u/get-in spec [:cat]) :verb)
+          (or (and shuffle? (shuffle verb-lexicon))
+              verb-lexicon)
+          true
+          (or (and shuffle? (shuffle non-verb-lexicon))
+              non-verb-lexicon))))
 
 (defn generate
   "generate one random expression that satisfies _spec_."

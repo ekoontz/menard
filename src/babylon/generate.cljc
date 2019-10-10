@@ -209,7 +209,6 @@
        (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
        (map #(unify % spec))
        (filter #(not (= :fail %)))
-       (take 1)
        (map #(u/assoc-in! % [::done?] true))
        (#(do
            (log/debug (str "get-lexeme: found this many lexemes:" (count %)))

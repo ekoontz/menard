@@ -161,7 +161,6 @@
               (if (not (empty? lexemes))
                 (log/debug (str "first one: " (syntax-tree (first lexemes)))))
               lexemes))
-;;           shuffle
            (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
                       (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
                                      " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))

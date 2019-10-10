@@ -166,7 +166,7 @@
               (if (empty? lexemes)
                 (log/warn (str "found no lexemes that matched spec: "
                                (-> spec u/strip-refs u/pprint)
-                               " in tree: " (syntax-tree tree) " at path: " at)))
+                               " in tree: " (report tree) " at path: " at)))
               (log/debug (str "add-lexeme: found this many lexemes: " (count lexemes)))
               (if (not (empty? lexemes))
                 (log/debug (str "add-lexeme: first lexeme found: " (syntax-tree (first lexemes)))))

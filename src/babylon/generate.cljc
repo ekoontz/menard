@@ -191,7 +191,11 @@
                  (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
                  (map #(unify % spec))
                  (filter #(not (= :fail %)))
+                 (take 1)
                  (map #(u/assoc-in! % [::done?] true)))]
+
+        (log/info (str "found this many:" (count retval)))
+        
         ;; This empty?-check is a workaround because without it, retval will be empty
         ;; if (get-lexemes) is called from outside this namespace with bindings on lexicon and index-fn.
         ;; Not sure where the bug is (might be my code somewhere or even in Clojure itself).

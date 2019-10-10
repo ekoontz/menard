@@ -155,7 +155,6 @@
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (or spec :top)
-        tree (u/assoc-in tree done-at true)
         spec (u/unify spec {:phrasal false} (u/get-in tree at))]
     (log/debug (str "add-lexeme: calculated spec."))
     (when (and (not (= spec :fail))
@@ -177,7 +176,11 @@
                       true))
            (lazy-map (fn [candidate-lexeme]
                        (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
-                       (u/assoc-in! (u/copy tree) at candidate-lexeme)))
+                       (u/assoc-in!
+                        (if (not (= done-at at))
+                          (u/assoc-in! tree done-at true)
+                          tree)
+                        at candidate-lexeme)))
            (remove #(= :fail %))
            (lazy-map #(update-syntax-tree % at))
            (lazy-map #(truncate-at % at))

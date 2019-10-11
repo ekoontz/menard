@@ -421,11 +421,9 @@
                                       :head {:phrasal false}
                                       :comp {:phrasal false}}
                                :head {:phrasal true
-                                      :infl :present
                                       :rule "vp-aux-slash"
                                        :head {:phrasal false
                                               :aux true
-                                              :sem {:tense :conditional}
                                               :subcat {:2 {:modal false}}}
                                        :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
                                               :subcat {:1 {:cat :noun}}}}}}}}})

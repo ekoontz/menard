@@ -57,7 +57,7 @@
           frontier (frontier tree)]
       (log/debug (str "generate-a " frontier ": " (report tree)))
       (cond (= :fail tree)
-            (throw (Exception. (str "generate-all: tree is unexpectedly :fail.")))
+            []
 
             (or (u/get-in tree [:babylon.generate/done?])
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
@@ -89,7 +89,7 @@
                          (u/get-in spec [:canonical])
                          (u/get-in spec [:sem :pred])
                          (u/get-in spec [:cat])))]
-    (log/info (str "add: " (report tree) " at: " at))
+    (log/debug (str "add: " (report tree) " at: " at))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
@@ -149,39 +149,31 @@
               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
             both)))))
 
-(defn add-lexeme [tree & [spec]]
+(defn add-lexeme [tree]
   (log/debug (str "add-lexeme: " (report tree)))
-
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
-        spec (or spec :top)
-        spec (u/unify spec {:phrasal false} (u/get-in tree at))]
-    (log/debug (str "add-lexeme: calculated spec."))
-    (when (and (not (= spec :fail))
-               (not (empty? at)))
-      (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
-      (->> (get-lexemes (u/strip-refs spec))
-           ((fn [lexemes]
-              (if (empty? lexemes)
-                (log/warn (str "found no lexemes that matched spec: "
-                               (-> spec u/strip-refs u/pprint)
-                               " in tree: " (report tree) " at path: " at)))
-              (log/debug (str "add-lexeme: found this many lexemes: " (count lexemes)))
-              (if (not (empty? lexemes))
-                (log/debug (str "add-lexeme: first lexeme found: " (syntax-tree (first lexemes)))))
-              lexemes))
-           (remove #(when (and diagnostics? (= :fail (u/assoc-in tree at %)))
-                      (log/warn (str (syntax-tree tree) " failed to add lexeme: " (u/get-in % [:canonical])
-                                     " at: " at "; failed path:" (u/fail-path (u/get-in tree at) %)))
-                      true))
-           (lazy-map (fn [candidate-lexeme]
-                       (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
-                       (-> tree
-                           (u/assoc-in! done-at true)
-                           (u/assoc-in! at candidate-lexeme)
-                           (update-syntax-tree at)
-                           (truncate-at at)
-                           (foldup at))))))))
+        spec (u/get-in tree at)
+        diagnose? false]
+    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
+    (->> (get-lexemes (u/strip-refs spec))
+         ((fn [lexemes]
+            (if (and diagnose? (empty? lexemes))
+              (log/warn (str "found no lexemes that matched spec: "
+                             (-> spec u/strip-refs u/pprint)
+                             " in tree: " (report tree) " at path: " at)))
+            (log/debug (str "add-lexeme: found this many lexemes: " (count lexemes)))
+            (if (not (empty? lexemes))
+              (log/debug (str "add-lexeme: first lexeme found: " (syntax-tree (first lexemes)))))
+            lexemes))
+         (lazy-map (fn [candidate-lexeme]
+                     (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
+                     (-> tree
+                         (u/assoc-in! done-at true)
+                         (u/assoc-in! at candidate-lexeme)
+                         (update-syntax-tree at)
+                         (truncate-at at)
+                         (foldup at)))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (report tree) " at: " at))

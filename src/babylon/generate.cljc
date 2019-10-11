@@ -89,7 +89,7 @@
                          (u/get-in spec [:canonical])
                          (u/get-in spec [:sem :pred])
                          (u/get-in spec [:cat])))]
-    (log/debug (str "adding at: " at ": " (report tree)))
+    (log/info (str "add: " (report tree) " at: " at))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))

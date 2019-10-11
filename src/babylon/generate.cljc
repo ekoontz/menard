@@ -254,7 +254,8 @@
                                    " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
                     true))
          (remove #(= :fail %))
-         (lazy-map #(u/assoc-in! (u/copy tree) at %))
+         (lazy-map #(u/assoc-in! (u/copy tree)
+                                 at %))
          (remove #(= :fail %))
          (lazy-map
           #(u/unify! %
@@ -269,7 +270,6 @@
                                            (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
                                                (or rule-name
                                                    (u/get-in % (concat at [:rule]))))}))))))))
-
 (defn make-word []
   {:agr (atom :top)
    :canonical (atom :top)

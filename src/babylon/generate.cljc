@@ -260,16 +260,15 @@
          (lazy-map
           #(u/unify! %
                      (s/create-path-in (concat [:syntax-tree] at-num)
-                                       (u/strip-refs
-                                        (let [one-is-head? (headness? % (concat at [:1]))] 
-                                          {:head? (= :head (last at))
-                                           :1 {:head? one-is-head?}
-                                           :2 {:head? (not one-is-head?)}
-                                           :variant (u/get-in % [:variant])
-                                           :rule
-                                           (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
-                                               (or rule-name
-                                                   (u/get-in % (concat at [:rule]))))}))))))))
+                                       (let [one-is-head? (headness? % (concat at [:1]))] 
+                                         {:head? (= :head (last at))
+                                          :1 {:head? one-is-head?}
+                                          :2 {:head? (not one-is-head?)}
+                                          :variant (u/get-in % [:variant])
+                                          :rule
+                                          (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                              (or rule-name
+                                                  (u/get-in % (concat at [:rule]))))})))))))
 (defn make-word []
   {:agr (atom :top)
    :canonical (atom :top)

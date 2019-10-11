@@ -177,9 +177,8 @@
            (lazy-map (fn [candidate-lexeme]
                        (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
                        (u/assoc-in!
-                        (if (not (= done-at at))
-                          (u/assoc-in! tree done-at true)
-                          tree)
+                        (u/assoc-in! tree
+                                     done-at true)
                         at candidate-lexeme)))
            (remove #(= :fail %))
            (lazy-map #(update-syntax-tree % at))

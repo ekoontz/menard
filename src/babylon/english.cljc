@@ -213,7 +213,7 @@
 
 
 (defn index-fn [spec]
-  (let [shuffle? false]
+  (let [shuffle? true]
     (cond (= (u/get-in spec [:cat]) :verb)
           (or (and shuffle? (shuffle verb-lexicon))
               verb-lexicon)

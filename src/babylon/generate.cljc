@@ -22,8 +22,8 @@
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
-
 (def allow-folding? true)
+(def generate-only-one? true)
 
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic index-fn (fn [spec]
@@ -156,7 +156,7 @@
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
-    (->> (get-lexemes (u/strip-refs spec))
+    (->> (get-lexemes spec)
          ((fn [lexemes]
             (if (and diagnose? (empty? lexemes))
               (log/warn (str "found no lexemes that matched spec: "
@@ -166,9 +166,16 @@
             (if (not (empty? lexemes))
               (log/debug (str "add-lexeme: first lexeme found: " (syntax-tree (first lexemes)))))
             lexemes))
+         ((fn [lexemes]
+            (cond
+              generate-only-one? (take 1 lexemes)
+              true lexemes)))
          (lazy-map (fn [candidate-lexeme]
                      (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
                      (-> tree
+                         ((fn [tree]
+                            (cond generate-only-one? tree
+                                  true (u/copy tree))))
                          (u/assoc-in! done-at true)
                          (u/assoc-in! at candidate-lexeme)
                          (update-syntax-tree at)

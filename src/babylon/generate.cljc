@@ -149,39 +149,6 @@
               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
             both)))))
 
-(defn add-lexeme [tree]
-  (log/debug (str "add-lexeme: " (report tree)))
-  (let [at (frontier tree)
-        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
-        spec (u/get-in tree at)
-        diagnose? false]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
-    (->> (get-lexemes spec)
-         ((fn [lexemes]
-            (if (and diagnose? (empty? lexemes))
-              (log/warn (str "found no lexemes that matched spec: "
-                             (-> spec u/strip-refs u/pprint)
-                             " in tree: " (report tree) " at path: " at)))
-            (log/debug (str "add-lexeme: found this many lexemes: " (count lexemes)))
-            (if (not (empty? lexemes))
-              (log/debug (str "add-lexeme: first lexeme found: " (syntax-tree (first lexemes)))))
-            lexemes))
-         ((fn [lexemes]
-            (cond
-              generate-only-one? (take 1 lexemes)
-              true lexemes)))
-         (lazy-map (fn [candidate-lexeme]
-                     (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
-                     (-> tree
-                         ((fn [tree]
-                            (cond generate-only-one? tree
-                                  true (u/copy tree))))
-                         (u/assoc-in! done-at true)
-                         (u/assoc-in! at candidate-lexeme)
-                         (update-syntax-tree at)
-                         (truncate-at at)
-                         (foldup at)))))))
-
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (report tree) " at: " at))
   (cond (= :fail tree)
@@ -218,6 +185,29 @@
                                    true "first of " (count %) " lexemes ")
                              "found: '" (syntax-tree (first %)) "'")))
            %))))
+(defn add-lexeme [tree]
+  (log/debug (str "add-lexeme: " (report tree)))
+  (let [at (frontier tree)
+        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
+        spec (u/get-in tree at)
+        diagnose? false]
+    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
+    (->> (get-lexemes spec)
+         ((fn [lexemes]
+            (cond
+              generate-only-one? (take 1 lexemes)
+              true lexemes)))
+         (lazy-map (fn [candidate-lexeme]
+                     (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
+                     (-> tree
+                         ((fn [tree]
+                            (cond generate-only-one? tree
+                                  true (u/copy tree))))
+                         (u/assoc-in! done-at true)
+                         (u/assoc-in! at candidate-lexeme)
+                         (update-syntax-tree at)
+                         (truncate-at at)
+                         (foldup at)))))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))
@@ -227,31 +217,12 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         cat (u/get-in tree (concat at [:cat]))
-        matching-rules (->> grammar
-                            (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
-                            (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat))))
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule   " at " '" rule-name "' " (report tree) "; numerically: " at-num))
-    (log/debug (str "add-rule: tree: " (syntax-tree tree) " at:" (frontier tree)
-                    "; number of matching rules: " (count matching-rules) ": ("
-                    (clojure.string/join ","
-                                         (map #(u/get-in % [:rule])
-                                              (take 5 matching-rules)))
-                    (if (< 5 (count matching-rules)) ",..")
-                    ")"))
-    (if (and (empty? matching-rules)
-             (not (nil? rule-name)))
-      (throw (Exception. (str "add-rule: no rules matched rule-name '" rule-name "'."))))
-    (if (and (empty? matching-rules)
-             some-rule-must-match?)
-      (throw (Exception. (str "add-rule: no rules matched but we were given {:phrasal true} in the spec."))))
-    (->> matching-rules
+    (->> grammar
+         (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
+         (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat)))
          (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-         (remove #(when (and diagnostics?
-                             (= :fail (u/assoc-in tree at %)))
-                    (log/warn (str (syntax-tree tree) " failed to add rule:" (u/get-in % [:rule])
-                                   " at: " at "; failed path(tree/rule):" (u/fail-path (u/get-in tree at) %)))
-                    true))
          (remove #(= :fail %))
          (lazy-map #(u/assoc-in! (u/copy tree)
                                  at %))

@@ -170,24 +170,22 @@
                                                        (lookup-fn string))
                                                      right-strings)
                                left-signs (concat left-lexemes (filter map? left))
-                               right-signs (concat right-lexemes (filter map? right))]
+                               right-signs (concat right-lexemes (filter map? right))
+                               over-results-lazy (over grammar left-signs right-signs)
+                               over-results-eager (vec (over grammar left-signs right-signs))]
                            (concat
                             (if (and (not (empty? left-signs))
                                      (not (empty? right-signs)))
                               (do
-                                (when (nil? syntax-tree)
-                                  (log/info (str "WELL THE SYNTAX TREE FN(1) IS NULL.")))
                                 (->>
-                                 (over grammar left-signs right-signs)
+                                 ;; if you change the following true to false, 
+                                 ;; the 'syntax-tree' variable will be bound to its default 'nil'
+                                 ;; value and things will fail.
+                                 (if true over-results-eager over-results-lazy)
                                  (map (fn [tree]
-                                        (log/info (str "intermediate.."))
-                                        (when (nil? syntax-tree)
-                                          (log/info (str "WELL THE SYNTAX TREE FN(1.5) IS NULL.")))
-                                        tree))
-                                 (map (fn [tree]
-                                        (cond (and false truncate?)
+                                        (cond (and true truncate?)
                                               (-> tree
-  ;;                                                (assoc :syntax-tree (syntax-tree tree))
+                                                  (assoc :syntax-tree (syntax-tree tree))
                                                   (assoc :surface (morph tree))
                                                   (dissoc :head) (dissoc :comp)
                                                   (dissoc :1) (dissoc :2))

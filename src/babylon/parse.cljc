@@ -59,7 +59,7 @@
           is-fail? (= :fail result)]
       (if (not is-fail?)
         (do
-          (if syntax-tree (log/info (str "overc success: " (syntax-tree result) " -> " (syntax-tree result))))
+          (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
           [result])
         (log/debug (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
                         " " (u/fail-path parent {:comp comp})))))))
@@ -132,14 +132,11 @@
                 spans))))))
 
 (defn parses [input n span-map morph]
-  (if (nil? syntax-tree)
-    (throw (Exception. (str " parses(1): WELL THE SYNTAX TREE IS NULL."))))
   (cond
     (= n 1) input
     (> n 1)
     (let [minus-1 (parses input (- n 1) span-map morph)]
-      (log/info (str "parses: input=" input))
-      (log/info (str "parses: syntax-tree: " syntax-tree))
+      (log/debug (str "parses: input=" input))
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))
@@ -156,10 +153,7 @@
                          ;; </key>
 
                          ;; <value: parses for strings indexed at [i,j]>
-                         (let [debug
-                               (if (nil? syntax-tree)
-                                   (throw (Exception. (str " parses(2): WELL THE SYNTAX TREE IS NULL."))))
-                               left (get minus-1 (first span-pair))
+                         (let [left (get minus-1 (first span-pair))
                                right (get minus-1 (second span-pair))
                                left-strings (filter string? left)
                                right-strings (filter string? right)
@@ -183,7 +177,7 @@
                                ;; that the caller has set up. So you are running this function
                                ;; with no binding for the variable 'syntax-tree', the
                                ;; correct binding for which is needed for logging and truncation.
-                               over-results (vec (over grammar left-signs right-signs))]
+                               over-results (over grammar left-signs right-signs)]
                            (concat
                             (if (and (not (empty? left-signs))
                                      (not (empty? right-signs)))
@@ -197,7 +191,14 @@
                                                   (assoc :surface (morph tree))
                                                   (dissoc :head) (dissoc :comp)
                                                   (dissoc :1) (dissoc :2))
-                                              true tree)))))
+                                              true tree)))
+
+                                 ;; here again we need to call (vec)
+                                 ;; in order to expand the lazy
+                                 ;; sequence created
+                                 ;; by the map above:
+                                 vec))
+
                               [(string/join " " [(first left-strings) (first right-strings)])])))})
                       ;; </value>
                       

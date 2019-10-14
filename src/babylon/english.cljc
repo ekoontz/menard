@@ -317,11 +317,12 @@
                                                             :phrasal true
 
                                                             :subcat []}))]
-                              (println (->> (parse surface)
-                                            (map (fn [tree]
-                                                   (binding [p/lookup-fn l/matching-lexemes]
-                                                     (syntax-tree tree))))
-                                            (string/join ", "))))))))
+                              (println (str "parses for: '" surface "': "
+                                            (->> (parse surface)
+                                                 (map (fn [tree]
+                                                         (binding [p/lookup-fn l/matching-lexemes]
+                                                            (syntax-tree tree))))
+                                                 (string/join ", ")))))))))
 
 (defn capitalize-first-letter
   "clojure.string/capitalize is too much: it lower-cases every word in the string *except*

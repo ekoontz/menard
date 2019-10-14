@@ -115,6 +115,7 @@
 
  {:rule "s"
   :sem {:mood :decl}
+  :comp {:interogative? false}
   :cat :verb
   :slash false
   :options babylon.english/finite-tenses

@@ -185,6 +185,7 @@
         :case :nom
         :agr {:person :1st :number :plur}}]
  "what" [{:cat :noun
+          :interogative? true
           :pronoun true
           :sem {:pred :what
                 :ref {:human false}}

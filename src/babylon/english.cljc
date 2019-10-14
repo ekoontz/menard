@@ -311,6 +311,11 @@
   (println)
   (count (take 10
                (repeatedly #(let [surface (morph (generate {:cat (first (shuffle [:noun :verb]))
+
+                                                            ;; TODO: should not need this, but
+                                                            ;; until this is done within (defn generate):
+                                                            :phrasal true
+
                                                             :subcat []}))]
                               (println (->> (parse surface)
                                             (map (fn [tree]

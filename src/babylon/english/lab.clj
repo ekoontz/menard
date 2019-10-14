@@ -422,9 +422,9 @@
                                       :comp {:phrasal false}}
                                :head {:phrasal true
                                       :rule "vp-aux-slash"
-                                       :head {:phrasal false
-                                              :aux true
-                                              :subcat {:2 {:modal false}}}
-                                       :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
-                                              :subcat {:1 {:cat :noun}}}}}}}}})
+                                      :head {:phrasal false
+                                             :aux true
+                                             :subcat {:2 {:modal false}}}
+                                      :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
+                                             :subcat {:1 {:cat :noun}}}}}}}}})
 

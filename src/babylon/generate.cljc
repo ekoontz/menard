@@ -185,6 +185,7 @@
                                    true "first of " (count %) " lexemes ")
                              "found: '" (syntax-tree (first %)) "'")))
            %))))
+
 (defn add-lexeme [tree]
   (log/debug (str "add-lexeme: " (report tree)))
   (let [at (frontier tree)

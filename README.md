@@ -22,9 +22,9 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ```
 % lein repl
-nREPL server started on port 52895 on host 127.0.0.1 - nrepl://127.0.0.1:52895
+nREPL server started on port 60267 on host 127.0.0.1 - nrepl://127.0.0.1:60267
 REPL-y 0.4.3, nREPL 0.6.0
-Clojure 1.10.0
+Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
@@ -35,64 +35,65 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 
 user=> (load "babylon/english")
 nil
+user=> (babylon.
+babylon.english         babylon.exception       babylon.generate        babylon.grammar         babylon.lexiconfn
+babylon.morphology      babylon.parse           babylon.serialization   babylon.ug
 user=> (babylon.english/demo)
 Generation:
 ===
 
 = transitive sentences =
 
-It can call.
-We meant parts.
-Rooms have kept governments.
-We have made men.
-Rooms had eaten days.
-Stories would seem rights.
-Places must want.
-Homes are seeing months.
-Jobs were putting words.
-Ways will look at girls.
+Numbers would live her.
+You would become students.
+Mothers would move stories.
+We would tell hands.
+Ways would call names.
+Groups would know words.
+Mothers would live gentlemen.
+Problems would keep points.
+Numbers would help systems.
+We would become people.
 
 = reflexive sentences =
 
-Ways will go to themselves.
-Stories were talking to themselves.
-Antonia was putting herself.
-She has turned herself.
-Antonia is teaching herself.
-He has let himself.
-It will find itself.
-He is using himself.
-It was saying itself.
-I will put myself.
+I would help myself.
+She would say herself.
+It would keep itself.
+Hands would walk themselves.
+I would take myself.
+Antonia would tell herself.
+She would ask herself.
+Questions would feel themselves.
+Problems would start themselves.
+He would become himself.
 
 = Interrogative sentences =
 
-He runs?
-Asked myself?
-Sheep have had?
-Will tell?
-Have meant?
-It takes?
-Work students?
-We mean?
-Have groups?
-Jobs would turn?
+Have stories?
+Did moneys need?
+Have waters?
+Have moneys?
+Are rooms?
+Have works?
+Would times?
+Have governments?
+Have cases?
+Are cases?
 
 Parsing:
 ===
 
-[np .the *day]
-[s(:past) .people *showed], [s-comp .people *showed], [s-slash(:past) .people *showed]
-[s(:past) .she *was], [s(:past-progressive) .she *was], [s-slash(:past) .she *was], [s-slash(:past) .she *was]
-WARN  17 Aug 2019 13:14:06,564 babylon.lexiconfn: (matching-lexemes 'put'): both regular inflections (18) and exceptions (6).
-[nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]], [nbar3 *studies .[comp1 *that .put]]
-[s-interog *are .girls], [vp(:present-simple) *are .girls]
-[nbar3 *states .[comp1 *that .began]], [nbar3 *states .[comp1 *that .began]]
-[s(:present-simple) .Antonia *has], [s(:perfect) .Antonia *has], [s-slash(:present-simple) .Antonia *has]
-[s(:present-simple) .lives *move], [s-comp .lives *move], [s-slash(:present-simple) .lives *move], [s-slash(:modal) .lives *move]
-[s(:past) .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s(:pluperfect) .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-comp .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-comp .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-comp .[nbar2 *facts .[s-slash(:past) .lots *had]] *had], [s-slash(:past) .[nbar2 *facts .[s-slash(:past) .lots *had]] *had]
-WARN  17 Aug 2019 13:14:14,862 babylon.lexiconfn: (matching-lexemes 'have'): both regular inflections (24) and exceptions (18).
-[s(:present-simple) .dogs *have], [s(:present-simple) .dogs *have], [s(:perfect) .dogs *have], [s-comp .dogs *have], [s-comp .dogs *have], [s-comp .dogs *have], [s-slash(:present-simple) .dogs *have], [s-slash(:present-simple) .dogs *have], [s-slash(:modal) .dogs *have]
+parses for: 'books worlds would teach': [nbar2 +books .[s-slash(:conditional) .worlds +[vp-aux-slash(:conditional) +would .teach]]], [nbar2 +books .[s-slash(:conditional) .worlds +[vp-aux-slash(:conditional) +would .teach]]]
+parses for: 'facts schools would say': [nbar2 +facts .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .say]]], [nbar2 +facts .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .say]]]
+parses for: 'things people would play': [nbar2 +things .[s-slash(:conditional) .people +[vp-aux-slash(:conditional) +would .play]]], [nbar2 +things .[s-slash(:conditional) .people +[vp-aux-slash(:conditional) +would .play]]]
+parses for: 'works families would help': [nbar2 +works .[s-slash(:conditional) .families +[vp-aux-slash(:conditional) +would .help]]], [nbar2 +works .[s-slash(:conditional) .families +[vp-aux-slash(:conditional) +would .help]]]
+parses for: 'lives what would seem': [nbar2 +lives .[s-slash(:conditional) .what +[vp-aux-slash(:conditional) +would .seem]]], [nbar2 +lives .[s-slash(:conditional) .what +[vp-aux-slash(:conditional) +would .seem]]]
+parses for: 'hands schools would take': [nbar2 +hands .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .take]]], [nbar2 +hands .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .take]]]
+parses for: 'numbers tables would think': [nbar2 +numbers .[s-slash(:conditional) .tables +[vp-aux-slash(:conditional) +would .think]]], [nbar2 +numbers .[s-slash(:conditional) .tables +[vp-aux-slash(:conditional) +would .think]]]
+parses for: 'numbers would': [s(:conditional) .numbers +would]
+parses for: 'they would': [s(:conditional) .they +would]
+parses for: 'mothers numbers would be': [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]]
 10
 user=>
 ```

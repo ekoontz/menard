@@ -418,7 +418,7 @@
                                :rule "s-slash"
                                :comp {:phrasal true
                                       :rule "np"
-                                      :head {:phrasal false}
+                                      :head {:phrasal true}
                                       :comp {:phrasal false}}
                                :head {:phrasal true
                                       :rule "vp-aux-slash"

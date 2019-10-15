@@ -224,10 +224,8 @@
          (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
          (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat)))
          (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-         (remove #(= :fail %))
          (lazy-map #(u/assoc-in! (u/copy tree)
                                  at %))
-         (remove #(= :fail %))
          (lazy-map
           #(u/unify! %
                      (s/create-path-in (concat [:syntax-tree] at-num)

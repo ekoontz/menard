@@ -219,7 +219,7 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: @" at ": '" rule-name "' " (report tree) "; numerically: " at-num))
+    (log/info (str "add-rule: @" at ": '" rule-name "' " (report tree)))
     (->> grammar
          (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
          (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat)))

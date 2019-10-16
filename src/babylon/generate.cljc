@@ -131,7 +131,7 @@
                        (u/get-in tree (concat at [:canonical]))))))
       
       (do
-        (log/info (str "add: adding lexeme: " (syntax-tree tree) (str "; at:" at)))
+        (log/debug (str "add: only adding lexemes."))
         (let [result (add-lexeme tree)]
           (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
           (if (and (= false (u/get-in tree (concat at [:phrasal])))
@@ -200,8 +200,6 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (if (not (= :top (u/get-in spec [:cat] :top)))
-      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with cat:" (u/get-in spec [:cat]))))
     (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
                    (summary-fn spec)))
     (if (u/get-in spec [:phrasal])
@@ -219,7 +217,7 @@
                 true lexemes)))
            (lazy-map (fn [candidate-lexeme]
                        (log/info (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                      " at: " at " to: '" (report tree)))
+                                      " at: " at " to: " (report tree)))
                        (-> tree
                            ((fn [tree]
                               (cond generate-only-one? tree

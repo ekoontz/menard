@@ -118,6 +118,13 @@
         (log/debug (str "add: rule is set to: " rule-at))
         (add-rule tree (:rule rule-at) (= true phrase-at)))
 
+      (= true (u/get-in tree (concat at [:phrasal])))
+      (let [result
+            (add-rule tree)]
+        (if (empty? result)
+          (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
+        result)
+      
       (or (= false (u/get-in tree (concat at [:phrasal])))
           (and (u/get-in tree (concat at [:canonical]))
                (not (= :top

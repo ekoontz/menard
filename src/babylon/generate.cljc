@@ -145,7 +145,7 @@
                 (throw (Exception. (str "Unexpected: " message)))
                 (log/warn message))))
           result))
-      
+
       true
       (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
                           (u/get-in tree (concat (butlast at) [:rule])) " for child: "

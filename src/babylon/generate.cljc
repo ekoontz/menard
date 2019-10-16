@@ -131,7 +131,7 @@
                        (u/get-in tree (concat at [:canonical]))))))
       
       (do
-        (log/debug (str "add: adding lexeme: " (syntax-tree tree) (str "; at:" at)))
+        (log/info (str "add: adding lexeme: " (syntax-tree tree) (str "; at:" at)))
         (let [result (add-lexeme tree)]
           (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
           (if (and (= false (u/get-in tree (concat at [:phrasal])))

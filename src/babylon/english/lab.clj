@@ -400,7 +400,9 @@
 
 (comment (repeatedly #(println (time (timeout-with consumer-patience generate-with-timeout)))))
 
-(def spec
+;; Currently we can generate in 2.1 secs at 50% median, 2.4 secs max.
+(def long-spec
+  "e.g. 'the old students walk hands that the good studies would teach'"
   {:rule "s"
    :comp {:rule "np"
           :head {:phrasal true}}
@@ -427,4 +429,21 @@
                                              :subcat {:2 {:modal false}}}
                                       :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
                                              :subcat {:1 {:cat :noun}}}}}}}}})
+
+
+(def wh-spec
+  {:rule "s-wh-interog"
+   :comp {:canonical "what"}
+   :head {:rule "s-interog-slash"
+          :head {:canonical "do"}
+          :comp {:rule "s-comp-2"
+                 :head {:canonical "see"}
+                 :comp {:canonical "she"}}}})
+
+
+(def wh-spec-2 {:rule "s-wh-interog"
+                :head {:rule "s-interog-slash"
+                       :comp {:phrasal true :rule "s-comp-2"}
+                       :head {:phrasal false}}
+                :comp {:phrasal false}})
 

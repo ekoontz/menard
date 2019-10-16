@@ -235,9 +235,13 @@
             g/lexicon lexicon
             g/syntax-tree syntax-tree
 ;;            g/stop-generation-at [:head :comp :head :comp]
-            g/index-fn index-fn]
+            g/lexicon-index-fn index-fn]
     (-> spec
         g/generate)))
+
+(defn get-lexemes [spec]
+  (binding [g/lexicon-index-fn index-fn]
+    (g/get-lexemes spec)))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

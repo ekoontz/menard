@@ -26,8 +26,8 @@
 (def generate-only-one? true)
 
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
-(def ^:dynamic index-fn (fn [spec]
-                          (throw (Exception. (str "no index-fn supplied.")))))
+(def ^:dynamic lexicon-index-fn (fn [spec]
+                                  (throw (Exception. (str "no lexicon-index-fn supplied.")))))
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic lexicon (delay (throw (Exception. (str "no lexicon supplied.")))))
 (def ^:dynamic syntax-tree (fn [tree]
@@ -170,7 +170,7 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec]
-  (->> (index-fn spec)
+  (->> (lexicon-index-fn spec)
        lazy-seq
        (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
        (map #(unify % spec))

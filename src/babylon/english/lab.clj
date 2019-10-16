@@ -447,3 +447,26 @@
                        :head {:phrasal false}}
                 :comp {:phrasal false}})
 
+
+(def wh-spec-3
+   {:rule "s-wh-interog"
+    :head {:rule "s-interog-slash"
+           :comp {:phrasal true :rule "s-comp-2"
+                  :comp {:phrasal false
+                         :canonical "she"}
+                  :head {:phrasal false
+                         :canonical "see"}}
+           :head {:phrasal false}}
+    :comp {:phrasal false}})
+
+;; first actually working wh-sentence:
+;; (syntax-tree (generate wh-spec-3))
+
+(def wh-spec-4
+   {:rule "s-wh-interog"
+    :head {:rule "s-interog-slash"
+           :comp {:rule "s-comp-2"
+                  :head {:phrasal false
+                         :canonical "see"}}
+           :head {:phrasal false}}
+    :comp {:phrasal false}})

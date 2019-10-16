@@ -98,6 +98,7 @@
        :propernoun true}
   :then [{:agr {:person :3rd
                 :number :sing}
+          :interogative? false
           :reflexive false
           :subcat []}]}
  

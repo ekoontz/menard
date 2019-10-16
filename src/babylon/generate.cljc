@@ -192,23 +192,35 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec(cat):" (u/get-in spec [:cat])))
-    (->> (get-lexemes spec)
-         ((fn [lexemes]
-            (cond
-              generate-only-one? (take 1 lexemes)
-              true lexemes)))
-         (lazy-map (fn [candidate-lexeme]
-                     (log/debug (str "adding lex " at " '" (u/get-in candidate-lexeme [:canonical]) "' " (report tree)))
-                     (-> tree
-                         ((fn [tree]
-                            (cond generate-only-one? tree
-                                  true (u/copy tree))))
-                         (u/assoc-in! done-at true)
-                         (u/assoc-in! at candidate-lexeme)
-                         (update-syntax-tree at)
-                         (truncate-at at)
-                         (foldup at)))))))
+    (if (not (= :top (u/get-in spec [:cat] :top)))
+      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with cat:" (u/get-in spec [:cat]))))
+    (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
+                   (summary-fn spec)))
+    (if (u/get-in spec [:phrasal])
+      (throw (Exception. (str "don't call me with phrasal=true! fix your code!")))
+      (->> (get-lexemes spec)
+
+           ((fn [lexemes]
+              (if (empty? lexemes)
+                (log/warn (str "no lexemes matched spec: " (u/strip-refs spec))))
+              lexemes))
+
+           ((fn [lexemes]
+              (cond
+                generate-only-one? (take 1 lexemes)
+                true lexemes)))
+           (lazy-map (fn [candidate-lexeme]
+                       (log/info (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
+                                      " at: " at " to: '" (report tree)))
+                       (-> tree
+                           ((fn [tree]
+                              (cond generate-only-one? tree
+                                    true (u/copy tree))))
+                           (u/assoc-in! done-at true)
+                           (u/assoc-in! at candidate-lexeme)
+                           (update-syntax-tree at)
+                           (truncate-at at)
+                           (foldup at))))))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))

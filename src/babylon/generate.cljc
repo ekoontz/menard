@@ -76,20 +76,21 @@
 (defn generate [^clojure.lang.PersistentArrayMap spec]
   (-> [spec] generate-all first))
 
+;; TODO: move this to a ^:dynamic: variable so it can
+;; be customized per-language.
+(defn summary-fn [spec]
+ (or (u/get-in spec [:rule])
+     (u/get-in spec [:canonical])
+     (u/get-in spec [:sem :pred])
+     (u/get-in spec [:cat])))
+
 (defn add [tree]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)
-        spec (u/get-in tree at)
-
-        ;; TODO: move this to a ^:dynamic: variable:
-        summary-fn (fn [spec]
-                     (or (u/get-in spec [:rule])
-                         (u/get-in spec [:canonical])
-                         (u/get-in spec [:sem :pred])
-                         (u/get-in spec [:cat])))]
-    (log/debug (str "add: " (report tree) " at: " at))
+        spec (u/get-in tree at)]
+    (log/info (str "add: " (report tree) " at: " at " ; the spec is: " (summary-fn spec)))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
@@ -231,27 +232,42 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: @" at ": '" rule-name "' " (report tree)))
-    (->> grammar
-         (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
-         (filter #(or (nil? cat) (= (u/get-in % [:cat]) cat)))
-         (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-         (remove #(= :fail %))
-         (lazy-map #(u/assoc-in! (u/copy tree)
-                                 at %))
-         (remove #(= :fail %))
-         (lazy-map
-          #(u/unify! %
-                     (s/create-path-in (concat [:syntax-tree] at-num)
-                                       (let [one-is-head? (headness? % (concat at [:1]))] 
-                                         {:head? (= :head (last at))
-                                          :1 {:head? one-is-head?}
-                                          :2 {:head? (not one-is-head?)}
-                                          :variant (u/get-in % [:variant])
-                                          :rule
-                                          (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
-                                              (or rule-name
-                                                  (u/get-in % (concat at [:rule]))))})))))))
+    (log/info (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree)))
+    (->>
+     ;; start with the whole grammar:
+     grammar
+     
+     ;; if a :rule is supplied, then filter out all rules that don't have this name:
+     (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
+     
+     ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
+     (filter #(or (nil? cat) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
+
+     ;; initialize the rule-to-be-added:
+     (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
+
+     ;; TODO: should be able to remove this:
+     (remove #(= :fail %))
+
+     ;; do the actual adjoining of the child within the _tree_'s path _at_:
+     (lazy-map #(u/assoc-in! (u/copy tree)
+                             at %))
+
+     ;; some attempts to adjoin will have failed, so remove those:
+     (remove #(= :fail %))
+
+     (lazy-map
+      #(u/unify! %
+                 (s/create-path-in (concat [:syntax-tree] at-num)
+                                   (let [one-is-head? (headness? % (concat at [:1]))] 
+                                     {:head? (= :head (last at))
+                                      :1 {:head? one-is-head?}
+                                      :2 {:head? (not one-is-head?)}
+                                      :variant (u/get-in % [:variant])
+                                      :rule
+                                      (do (log/info (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                          (or rule-name
+                                              (u/get-in % (concat at [:rule]))))})))))))
 (defn make-word []
   {:agr (atom :top)
    :canonical (atom :top)

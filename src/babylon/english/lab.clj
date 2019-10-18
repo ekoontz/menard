@@ -429,44 +429,21 @@
                                              :subcat {:2 {:modal false}}}
                                       :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
                                              :subcat {:1 {:cat :noun}}}}}}}}})
-
-
-(def wh-spec
+;; "what did tables hear?"
+(def wh-spec-1
   {:rule "s-wh-interog"
-   :comp {:canonical "what"}
    :head {:rule "s-interog-slash"
-          :head {:canonical "do"}
           :comp {:rule "s-comp-2"
-                 :head {:canonical "see"}
-                 :comp {:canonical "she"}}}})
+                 :head {:phrasal false
+                        :subcat {:2 {:cat :noun}}}}
+          :head {:phrasal false}}
+   :comp {:phrasal false}})
 
-
-(def wh-spec-2 {:rule "s-wh-interog"
-                :head {:rule "s-interog-slash"
-                       :comp {:phrasal true :rule "s-comp-2"}
-                       :head {:phrasal false}}
-                :comp {:phrasal false}})
-
-
-(def wh-spec-3
-   {:rule "s-wh-interog"
-    :head {:rule "s-interog-slash"
-           :comp {:phrasal true :rule "s-comp-2"
-                  :comp {:phrasal false
-                         :canonical "she"}
-                  :head {:phrasal false
-                         :canonical "see"}}
-           :head {:phrasal false}}
-    :comp {:phrasal false}})
-
-;; first actually working wh-sentence:
-;; (syntax-tree (generate wh-spec-3))
-
-(def wh-spec-4
-   {:rule "s-wh-interog"
-    :head {:rule "s-interog-slash"
-           :comp {:rule "s-comp-2"
-                  :head {:phrasal false
-                         :canonical "see"}}
-           :head {:phrasal false}}
-    :comp {:phrasal false}})
+;; "at what did tables look?"
+(def wh-spec-2
+  {:rule "s-wh-interog"
+   :head {:rule "s-interog-slash"
+          :comp {:rule "s-comp-2"
+                 :head {:phrasal false
+                        :subcat {:2 {:cat :prep}}}}
+          :head {:phrasal false}}})

@@ -160,6 +160,7 @@
  {:rule "s-interog-slash"
   ;; [s-interog-slash +did .[s-slash .she +see]]
   ;; (head of: [s-wh-interog .what +[s-interog-slash +did .[s-slash .she +see]]])
+  :head {:phrasal false}
   :comp {:phrasal true}
   :unify [babylon.ug/head-first
           babylon.ug/raise-the-comp-subcat]}

@@ -44,7 +44,7 @@
           babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
- {:rule "nbar2" ;; '[nbar2 *cat .[s-slash I see]]'
+ {:rule "nbar2" ;; '[nbar2 +cat .[s-slash I see]]'
   :slash false
   :cat :noun
   :head {:phrasal false
@@ -125,7 +125,7 @@
           babylon.ug/head-modal
           babylon.ug/subcat-1]}
  
- {:rule "s-comp" ;; [s-comp .she *sleep]] in [s-interog *did .[s-comp .she *sleep]]
+ {:rule "s-comp" ;; [s-comp .she +sleep]] in [s-interog +did .[s-comp .she +sleep]]
   :cat :verb
   :slash false
   ;; TODO: should be part of head's subcat (e.g. "sleep" in "did she sleep")
@@ -139,8 +139,8 @@
           babylon.ug/comp-is-root]}
 
  {:rule "s-comp-2"
-  ;; [s-comp-2 .[np .the *cat] *eat]
-  ;; in: [s-wh-interog .what *[s-interog-slash *did .[s-comp-2 .[np .the *cat] *eat]]]
+  ;; [s-comp-2 .[np .the +cat] +eat]
+  ;; in: [s-wh-interog .what +[s-interog-slash +did .[s-comp-2 .[np .the +cat] +eat]]]
   :head {:infl :base
          :reflexive false
          :subcat {:1 {:top :top}
@@ -148,7 +148,7 @@
   :unify [babylon.ug/head-last
           babylon.ug/raise-two-to-one]}
  
- {:rule "s-interog" ;; [s-interog *did .[s-comp .she *sleep]]
+ {:rule "s-interog" ;; [s-interog +did .[s-comp .she +sleep]]
   :slash false
   :cat :verb
   :sem {:mood :interog}
@@ -158,13 +158,13 @@
           babylon.ug/head-first]}
 
  {:rule "s-interog-slash"
-  ;; [s-interog-slash *did .[s-slash .she *see]]
-  ;; (head of: [s-wh-interog .what *[s-interog-slash *did .[s-slash .she *see]]])
+  ;; [s-interog-slash +did .[s-slash .she +see]]
+  ;; (head of: [s-wh-interog .what +[s-interog-slash +did .[s-slash .she +see]]])
   :comp {:phrasal true}
   :unify [babylon.ug/head-first
           babylon.ug/raise-the-comp-subcat]}
  
- {:rule "s-slash" ;; [s-slash .I *see] in: [nbar2 *cat .[s-slash .I *see]
+ {:rule "s-slash" ;; [s-slash .I +see] in: [nbar2 +cat .[s-slash .I +see]
   :slash true
   :comp {:case :nom} ;; TODO: should not be needed; subcat of head should handle it.
   :cat :verb
@@ -174,7 +174,7 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2-1-slash]}
 
- {:rule "s-wh-interog" ;; [s-wh-interog *what .[s-interog-slash *did .[s-slash .she *see]]]
+ {:rule "s-wh-interog" ;; [s-wh-interog +what .[s-interog-slash +did .[s-slash .she +see]]]
   :comp {:phrasal false
          :interogative? true}
   :head {:rule "s-interog-slash"
@@ -182,7 +182,7 @@
   :unify [babylon.ug/head-last
           babylon.ug/subcat-1-slash]}
  
- {:rule "vp" ;; [vp *see .it]
+ {:rule "vp" ;; [vp +see .it]
   :cat :verb
   :aux false
   :slash false
@@ -198,7 +198,7 @@
           babylon.ug/head-modal
           babylon.ug/subcat-2]} 
 
- {:rule "vp-below-vp" ;; [vp [vp-below-vp *puts .it] [pp *on .[np .the *table]]]
+ {:rule "vp-below-vp" ;; [vp [vp-below-vp +puts .it] [pp +on .[np .the +table]]]
   :cat :verb
   :aux false
   :slash false
@@ -214,7 +214,7 @@
           babylon.ug/head-modal
           babylon.ug/subcat-3]} 
  
- {:rule "vp-aux" ;; [vp-aux *will .see]; [vp-aux *will .[vp *see it]]
+ {:rule "vp-aux" ;; [vp-aux +will .see]; [vp-aux +will .[vp +see it]]
   :sem {:mood :decl}
   :cat :verb
   :slash false
@@ -237,7 +237,7 @@
           babylon.ug/head-reflexive
           babylon.ug/subcat-2]}
  
- {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
+ {:rule "vp-aux-slash" ;; [np .the [nbar2 +cat .[s-slash .she +[vp-aux-slash +will .see]]]]
   :cat :verb
   :slash true
   :aux true
@@ -249,7 +249,7 @@
           babylon.ug/comp-is-root
           babylon.ug/subcat-2-2-slash]}
 
- {:rule "vp-modal-1" ;; [vp-modal-1 *wants .[*to .sleep]
+ {:rule "vp-modal-1" ;; [vp-modal-1 +wants .[+to .sleep]
   :sem {:mood :decl}
   :cat :verb
   :slash false
@@ -270,7 +270,7 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2]}
 
- {:rule "vp-modal-2" ;; [vp-modal-2 *can .sleep]
+ {:rule "vp-modal-2" ;; [vp-modal-2 +can .sleep]
   :sem {:mood :decl}
   :cat :verb
   :infl :base
@@ -293,6 +293,6 @@
           babylon.ug/head-reflexive
           babylon.ug/subcat-2]}]
 
-;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]
-;; TODO {:rule "vp-slash"} ;; [np .the [ nbar *woman .[s-slash .I *[vp-slash *talk .to]]]]
+;; TODO {:rule "vp-modal-slash"}] ;; [nbar +book .[s-slash .she +[vp-modal-slash +wants .[+to .find]]]]
+;; TODO {:rule "vp-slash"} ;; [np .the [ nbar +woman .[s-slash .I +[vp-slash +talk .to]]]]
 

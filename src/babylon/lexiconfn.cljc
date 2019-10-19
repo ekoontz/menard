@@ -153,11 +153,16 @@
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"
   [canonical lexeme]
   (map (fn [exception]
-         {(:surface exception)
-          [(unify (d/dissoc-in lexeme [:exceptions])
-                  exception
-                  {:exception true
-                   :canonical canonical})]})
+         (let [u-result
+               (unify (d/dissoc-in lexeme [:exceptions])
+                      exception
+                      {:exception true
+                       :canonical canonical})
+               result
+               (if (not (= :fail u-result))
+                 {(:surface exception)
+                  [u-result]})]
+           result))
        (:exceptions lexeme)))
 
 (defn merge-with-all

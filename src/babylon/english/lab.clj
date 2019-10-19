@@ -435,7 +435,9 @@
    :head {:rule "s-interog-slash"
           :comp {:rule "s-comp-2"
                  :head {:phrasal false
-                        :subcat {:2 {:cat :noun}}}}
+                        :canonical "see"
+                        :subcat {:2 {:cat :noun}}}
+                 :comp {:phrasal false}}
           :head {:phrasal false}}
    :comp {:phrasal false}})
 
@@ -447,3 +449,5 @@
                  :head {:phrasal false
                         :subcat {:2 {:cat :prep}}}}
           :head {:phrasal false}}})
+
+;; TODO: "what did she look at?"

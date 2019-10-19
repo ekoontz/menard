@@ -249,10 +249,10 @@
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
-     
-     ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
-     (filter #(or (nil? cat) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
 
+     ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
+     (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
+     
      ;; initialize the rule-to-be-added:
      (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
 

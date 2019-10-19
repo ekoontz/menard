@@ -176,8 +176,7 @@
           babylon.ug/subcat-2-1-slash]}
 
  {:rule "s-wh-interog" ;; [s-wh-interog +what .[s-interog-slash +did .[s-slash .she +see]]]
-  :comp {:phrasal false
-         :interogative? true}
+  :comp {:interogative? true}
   :head {:rule "s-interog-slash"
          :phrasal true}
   :unify [babylon.ug/head-last

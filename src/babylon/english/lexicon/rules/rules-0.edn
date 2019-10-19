@@ -26,11 +26,14 @@
  {:rule :preposition
   :if {:cat :prep}
   :then [(let [obj (atom :top)
-               agr (atom :top)]
+               agr (atom :top)
+               interogative? (atom :top)]
            {:cat :prep
+            :interogative? interogative?
             :agr agr
             :reflexive true
             :subcat {:1 {:case :acc
+                         :interogative? interogative?
                          :reflexive true
                          :cat :noun
                          :agr agr
@@ -38,10 +41,13 @@
                          :sem obj}
                      :2 []}
             :sem {:obj obj}})
-         (let [obj (atom :top)]
+         (let [obj (atom :top)
+               interogative? (atom :top)]
            {:cat :prep
+            :interogative? interogative?            
             :reflexive false
             :subcat {:1 {:case :acc
+                         :interogative? interogative?
                          :reflexive false
                          :cat :noun
                          :subcat []

@@ -31,11 +31,13 @@
         head-cat (atom :top)
         head-derivation (atom :top)
         head-infl (atom :top)
+        head-interogative (atom :top)
         head-sem (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
      :infl head-infl
+     :interogative? head-interogative
      :reflexive reflexive
      :sem head-sem
      :comp-derivation comp-derivation
@@ -43,6 +45,7 @@
      :head {:agr head-agr
             :cat head-cat
             :infl head-infl
+            :interogative? head-interogative
             :reflexive reflexive
             :sem head-sem
             :head-derivation head-derivation

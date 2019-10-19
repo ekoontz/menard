@@ -212,4 +212,9 @@
             :reflexive reflexive
             :sem sem
             :subcat {:1 subject
-                     :2 verb-argument-slash}}])}]
+                     :2 verb-argument-slash}}])}
+
+ {:rule :nouns-are-not-interogative
+  :if {:cat :noun
+       :interogative? false}
+  :then [{:interogative? false}]}]

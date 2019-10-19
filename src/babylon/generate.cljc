@@ -79,10 +79,15 @@
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
 (defn summary-fn [spec]
- (or (u/get-in spec [:rule])
-     (u/get-in spec [:canonical])
-     (u/get-in spec [:sem :pred])
-     (u/get-in spec [:cat])))
+  (cond ;true
+        ;(u/strip-refs spec)
+        (= :verb (u/get-in spec [:cat]))
+        (str "V:" (u/strip-refs (u/get-in spec [:subcat])))
+        true
+        (or (u/get-in spec [:rule])
+            (u/get-in spec [:canonical])
+            (u/get-in spec [:sem :pred])
+            (u/get-in spec [:cat]))))
 
 (defn add [tree]
   (let [at (frontier tree)

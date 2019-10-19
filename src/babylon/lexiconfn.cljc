@@ -13,7 +13,7 @@
 (defn apply-rule [rule lexeme consequent antecedent rule-group]
   (let [result (unify lexeme consequent)]
     (log/debug (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
-                   "; result: " result))
+                    "; result: " result))
     (cond (= :fail result)
           (let [error-message (str "rule: " rule " matched antecedent: " antecedent
                                    ", but failed to unify lexeme:" (vec (s/serialize lexeme))
@@ -25,9 +25,9 @@
           true
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [(unify result
-                        (if rule
-                          {:derivation {rule-group {rule {:match? true}}}}
-                          :top))]))))
+                      (if rule
+                        {:derivation {rule-group {rule {:match? true}}}}
+                        :top))]))))
 
 (defn apply-rules [rules lexeme if-no-rules-matched? rule-group]
   (let [with-rules

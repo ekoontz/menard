@@ -208,9 +208,8 @@
   
 (def non-verb-lexicon
   (->> flattened-lexicon
-         (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                       (not (u/get-in % [:exception]))))))
-
+       (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                     (not (u/get-in % [:exception]))))))
 
 (defn index-fn [spec]
   (let [shuffle? true]

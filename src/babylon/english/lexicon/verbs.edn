@@ -410,19 +410,29 @@
           :subcat {:2 {:cat :verb
                        :infl :base}}}]
  
- "would" [{:aux true
-           :cat :verb
-           :infl :present
-           :inflected? true
-           :sem {:tense :conditional
-                 :obj ::unspec}
-           :subcat {:2 []}}
-          {:aux true
-           :cat :verb
-           :infl :present
-           :inflected? true
-           :sem {:tense :conditional}
-           :subcat {:2 {:cat :verb
-                        :infl :base}}}]
+ "would" (let [common {:aux true
+                       :cat :verb
+                       :infl :present
+                       :inflected? true
+                       :sem {:tense :conditional}}]
+           (map #(dag_unify.core/unify % common)
+                [{:derivation {:sense 1}
+                  :sem {:obj ::unspec}
+                  :subcat {:2 []}}
+                 {:derivation {:sense 2}           
+                  :subcat {:2 {:cat :verb
+                               :infl :base}}}
+                 ;; TODO: be, can, do, may, should, will, would: all these
+                 ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
+                 ;; generalize with a lexical rule. See above related TODO about "will".
+                 (let [sem (atom {:tense :condition})]
+                   {:derivation {:sense 3}
+                    :sem sem
+                    :subcat {:1 {:cat :verb
+                                 :aux false
+                                 :sem sem
+                                 :subcat []
+                                 :infl :base}
+                              :2 []}})]))
 
  "work" [{:cat :verb :sem {:pred :work}}]}

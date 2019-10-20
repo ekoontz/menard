@@ -285,5 +285,23 @@
      :head {:subcat {:1 one
                      :2 two}}}))
 
-
-
+;; "what did she [+look .at] ?"
+;;
+;; vp-slash <1,3>
+;; |`- v<1,2> "look"
+;; |
+;; `- prep<2<3>> "at"
+;;
+;; TODO: rename: not vp-specific.
+(def vp-slash
+  (let [one (atom {:top :top})
+        three (atom {:top :top})
+        two (atom {:subcat {:1 three
+                            :2 []}})]
+    {:subcat {:1 one
+              :2 three
+              :3 []}
+     :head {:subcat {:1 one
+                     :2 two
+                     :3 []}}
+     :comp two}))

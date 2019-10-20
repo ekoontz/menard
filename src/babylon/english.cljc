@@ -315,6 +315,32 @@
                              generate
                              (morph :sentence-punctuation? true)
                              println))))
+
+  (println)
+  (println "= 'WH' interogative sentences =")
+  (println)
+  (let [specs
+        [{:rule "s-wh-interog"
+          :head {:rule "s-interog-slash"
+                 :comp {:rule "s-comp-2"
+                        :head {:phrasal false
+                               :subcat {:2 {:cat :prep}}}}
+                 :head {:phrasal false}}}
+
+         {:rule "s-wh-interog"
+          :comp {:phrasal false}
+          :head
+          {:rule "s-interog-slash"
+           :comp {:rule "s-comp-2"
+                  :head {:rule "vp-slash"}}
+           :head {:phrasal false}}}]]
+    (count
+     (take 10 (repeatedly #(-> (first (shuffle specs))
+                               generate
+                               (morph :sentence-punctuation? true)
+                               println)))))
+
+
   (println)
   (println "Parsing:")
   (println "===")

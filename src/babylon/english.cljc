@@ -290,7 +290,7 @@
                                  :rule "s"
                                  :reflexive false
                                  :sem {:mood :decl
-                                       :obj {:pred :top}}}
+                                       :obj {:top :top}}}
                                 generate
                                 (morph :sentence-punctuation? true)
                                 println))))

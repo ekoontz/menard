@@ -124,7 +124,25 @@
        ;; for each member of :option in a rule,
        ;; create a new rule unified with that member.
        (mapcat (fn [base-rule]
-                 (->> (eval (:options base-rule [:top]))
-                      (map (fn [option]
-                             (unify base-rule option)))
-                      (filter #(not (= % :fail))))))))
+                 (let [result
+                       (->> (eval (:options base-rule [:top]))
+                            (map (fn [option]
+                                   (unify base-rule option)))
+                            (filter #(not (= % :fail))))]
+                   result)))
+
+       (filter (fn [input-rule]
+                 (cond (= (get input-rule :head)
+                          (get input-rule :1))
+                       (do (log/debug (str "rule is ok: head is first: " (u/get-in input-rule [:rule])))
+                           true)
+
+                       (= (get input-rule :head)
+                          (get input-rule :2))
+                       (do (log/debug (str "rule is ok: head is last: " (u/get-in input-rule [:rule])))
+                           true)
+
+                       true
+                       (let [error-message (str "rule name: " (u/get-in input-rule [:rule]) ": does not specify if the head is first or last.")]
+                         (log/error error-message)
+                         (throw (Exception. error-message))))))))

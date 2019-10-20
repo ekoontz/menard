@@ -44,6 +44,7 @@
   differ from the path to the same node as in the logical syntax tree,
   because folding might have occurred."
   [])
+(def ^:dynamic die-on-no-matching-lexemes? true)
 
 (defn report [tree]
   (str "#" (count (str tree)) " " (syntax-tree tree)))
@@ -146,9 +147,10 @@
                   (str "no lexemes match for tree: " (syntax-tree tree)
                        " at: " (frontier tree)
                        "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
-              (if false
-                (throw (Exception. (str "Unexpected: " message)))
-                (log/warn message))))
+              (when die-on-no-matching-lexemes?
+                (log/error message)
+                (throw (Exception. message)))
+              (log/warn message)))
           result))
 
       true

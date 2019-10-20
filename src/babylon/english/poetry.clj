@@ -6,144 +6,66 @@
    [dag_unify.core :as u]
    [clojure.tools.logging :as log]))
 
-(def long-demo-spec
+(def wh-q-1
+  "What did she hear?"
+  {:rule "s-wh-interog"
+   :head {:rule "s-interog-slash"
+          :comp {:rule "s-comp-2"
+                 :head {:phrasal false
+                        :subcat {:2 {:cat :noun}}}
+                 :comp {:phrasal false}}
+          :head {:phrasal false}}
+   :comp {:phrasal false}})
+
+(def wh-q-2
+  "At who does she look?"
+  {:rule "s-wh-interog"
+   :head {:rule "s-interog-slash"
+          :comp {:rule "s-comp-2"
+                 :head {:phrasal false
+                        :canonical "look"
+                        :subcat {:2 {:cat :prep}}}}
+          :head {:phrasal false}}})
+
+(def wh-q-3
+  "What did they look at?"
+  {:rule "s-wh-interog"
+   :comp {:phrasal false}
+   :head {:rule "s-interog-slash"
+          :comp {:rule "s-comp-2"
+                 :head {:rule "vp-slash"}}
+          :head {:phrasal false}}})
+
+(def medium-declarative
+  "the social students would leave the major rooms"
   (-> {:rule "s"
        :comp {:rule "np"
+              :phrasal true
               :head {:rule "nbar"}}
        :head {:rule "vp-aux"
               :comp {:rule "vp"
                      :comp {:rule "np"
+                            :phrasal true
                             :head {:rule "nbar"}}}}}))
-(def modal-specs
-  [{:rule "s"
-    :sem {:tense :present}
-    :comp {:rule "np"
-           :head {:rule "nbar"}}
-    :head {:rule "vp-modal-1"
-           :comp {:rule "infinitive"
-                  :comp {:rule "vp"
-                         :comp {:rule "np"
-                                :head {:rule "nbar"}}}}}}
-   {:rule "s"
-    :comp {:phrasal false}
-    :head {:phrasal true
-           :rule "vp"
-           :head {:phrasal false}
-           :comp {:phrasal true
-                  :rule "np"
-                  :head {:phrasal true
-                         :rule "nbar3"
-                         :comp {:phrasal true
-                                :rule "comp1"
-                                :head {:phrasal false}
-                                :comp {:phrasal false}}}}}}])
-
-(def specs (concat
-            modal-specs
-            [long-demo-spec]))
-
-(defn demo []
-    (repeatedly
-      #(println
-        (-> (shuffle specs)
-            first
-            generate
-            morph))))
-
-(defn modal-demo []
-  (repeatedly
-   #(println
-     (-> (shuffle modal-specs)
-         first
-         generate
-         time
-         morph))))
-
-(defn timed-demo []
-  (repeatedly
-   #(println
-     (-> (shuffle specs)
-         first
-         generate
-         time
-         syntax-tree))))
-
-;; for debugging generation and fixing grammatical rules
-(defn partial-generate-test []
-  (->> [{:rule "s"
-         :comp {:phrasal false}
-         :head {:rule "vp-modal-2"
-                :comp {:phrasal true
-                       :modal false
-                       :head {:rule "vp"}}}}]
-       (lazy-map add)
-       (lazy-map add)
-       (lazy-map add)
-       (lazy-map add)
-       (remove #(= :fail %))
-       first))
-
-(defn gen
-  "how to generate a phrase with particular constraints."
-  [i]
-  (let [expression (generate (nth specs i))]
-      {:st (syntax-tree expression)
-       :morph (morph expression)
-       :agr (u/strip-refs (u/get-in expression [:head :agr]))
-       ;;       :parses (map syntax-tree (parse (morph expression)))
-       :phrase? (u/get-in expression [:head :comp :phrasal])}))
-
-(def specific-sentence-spec
-  [{:cat :verb
-    :subcat []
-    :pred :top
-    :comp {:phrasal true
-           :rule "np"
-           :agr {:number :sing
-                 :person :3rd}
-           :head {:phrasal true
-                  :rule "nbar2"
-                  :head {:canonical "dog"}}}
-    :head {:phrasal false
-           :canonical "be"}}])
-
-;; (syntax-tree (generate folding-spec))
-(def folding-spec
+(def medium-declarative-2
+  "mothers eat the things that look"
   {:rule "s"
    :comp {:phrasal false}
    :head {:phrasal true
-          :rule "vp-aux"
+          :rule "vp"
           :head {:phrasal false}
-          :comp {:rule "vp"
-                 :phrasal true
-                 :head {:phrasal false}
-                 :comp {:phrasal false}}}})
-
-;; (syntax-tree (generate nonfolding-spec))
-(def nonfolding-spec
-  {:rule "s"
-   :comp {:rule "np"}
-   :head {:rule "vp"
-          :head {:canonical "move"
-                 :infl :present}
-          :comp {:rule "nbar4"
-                 :phrasal true
-                 :head {:canonical "mother"}
-                 :comp {:top :top
-                        :phrasal true
-                        :rule "comp1"
-                        :head {:top :top
-                               :canonical "that"}
-                        :comp {:top :top
-                               :phrasal true
-                               :rule "s-slash"
-                               :head {:top :top
-                                      :rule "vp-aux-slash"}}}}}})
-
+          :comp {:phrasal true
+                 :rule "np"
+                 :head {:phrasal true
+                        :rule "nbar3"
+                        :comp {:phrasal true
+                               :rule "comp1"
+                               :head {:phrasal false}
+                               :comp {:phrasal false}}}}}})
 
 ;; Currently we can generate in 2.1 secs at 50% median, 2.4 secs max.
-(def long-spec
-  "e.g. 'the old students walk hands that the good studies would teach'"
+(def long-declarative
+  "The old students walk hands that the good studies would teach."
   {:rule "s"
    :comp {:rule "np"
           :head {:phrasal true}}
@@ -172,7 +94,12 @@
                                              :subcat {:1 {:cat :noun}}}}}}}}})
 
 (def poetry-specs
-  [long-spec])
+  [long-declarative
+   medium-declarative
+   medium-declarative-2
+   wh-q-1
+   wh-q-2
+   wh-q-3])
 
 (defn poetry-line []
   (try

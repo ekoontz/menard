@@ -106,7 +106,8 @@
                       (summary-fn spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
-      (throw (Exception. (str "add: phrasal is false but rule is specified: " (u/get-in tree (concat at [:rule]))))))
+      (throw (Exception. (str "add: phrasal is false but rule is specified: "
+                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree tree)))))
     (cond
       (u/get-in tree [:babylon.generate/done?])
       (do

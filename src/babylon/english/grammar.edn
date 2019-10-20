@@ -141,6 +141,7 @@
  {:rule "s-comp-2"
   ;; [s-comp-2 .[np .the +cat] +eat]
   ;; in: [s-wh-interog .what +[s-interog-slash +did .[s-comp-2 .[np .the +cat] +eat]]]
+  :cat :verb
   :sem {:mood :interog}
   :head {:infl :base
          :reflexive false

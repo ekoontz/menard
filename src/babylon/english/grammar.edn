@@ -141,6 +141,7 @@
  {:rule "s-comp-2"
   ;; [s-comp-2 .[np .the +cat] +eat]
   ;; in: [s-wh-interog .what +[s-interog-slash +did .[s-comp-2 .[np .the +cat] +eat]]]
+  :sem {:mood :interog}
   :head {:infl :base
          :reflexive false
          :subcat {:1 {:top :top}
@@ -160,6 +161,7 @@
  {:rule "s-interog-slash"
   ;; [s-interog-slash +did .[s-slash .she +see]]
   ;; (head of: [s-wh-interog .what +[s-interog-slash +did .[s-slash .she +see]]])
+  :sem {:mood :interog}
   :head {:phrasal false
          :cat :verb
          :aux true}

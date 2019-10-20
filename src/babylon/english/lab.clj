@@ -450,4 +450,13 @@
                         :subcat {:2 {:cat :prep}}}}
           :head {:phrasal false}}})
 
+(def wh-spec-3
+  {:rule "s-wh-interog"
+   :comp {:phrasal false}
+   :head {:rule "s-interog-slash"
+          :comp {:rule "s-comp-2"
+                 :head {:rule "vp-slash"}}
+          :head {:phrasal false}}})
+
+
 ;; TODO: "what did she look at?"

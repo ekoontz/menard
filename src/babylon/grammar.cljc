@@ -143,6 +143,19 @@
                            true)
 
                        true
-                       (let [error-message (str "rule name: " (u/get-in input-rule [:rule]) ": does not specify if the head is first or last.")]
+                       (let [error-message (str "rule: " (u/get-in input-rule [:rule]) ": does not specify if the head is first or last.")]
                          (log/error error-message)
-                         (throw (Exception. error-message))))))))
+                         (throw (Exception. error-message))))))
+
+       (filter (fn [input-rule]
+                 (cond (and (keyword? (u/get-in input-rule [:cat]))
+                            (not (= :top (u/get-in input-rule [:cat]))))
+                       (do (log/debug (str "rule: " (u/get-in input-rule :rule) " is ok: :cat is specified to: " (u/get-in input-rule [:cat])))
+                           true)
+
+                       true
+                       (let [warn-message (str "rule: " (u/get-in input-rule :rule) " has no :cat value specified: might overgeneralize unexpectedly.")]
+                         (log/warn warn-message)
+                         true))))))
+
+

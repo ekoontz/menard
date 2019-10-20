@@ -139,8 +139,7 @@
   :then [(let [iobj (atom :top)]
            {:sem {:iobj iobj}
             :subcat {:2 {:cat :prep
-                         :sem {:obj iobj}
-                         :subcat []}}})]}
+                         :sem {:obj iobj}}}})]}
 
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb

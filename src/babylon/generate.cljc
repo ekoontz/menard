@@ -64,7 +64,7 @@
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
               (if (not (u/get-in tree [:babylon.generate/done?]))
-                (log/info (str "early stop of generation: " (report tree) " at: " frontier)))
+                (log/debug (str "early stop of generation: " (report tree) " at: " frontier)))
               (lazy-seq
                 (cons tree
                       (generate-all (rest trees)))))
@@ -96,7 +96,7 @@
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)
         spec (u/get-in tree at)]
-    (log/info (str "add: " (report tree) " at: " at " ; the spec is: " (summary-fn spec)))
+    (log/debug (str "add: " (report tree) " at: " at " ; the spec is: " (summary-fn spec)))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
@@ -207,7 +207,7 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
+    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
                    (summary-fn spec)))
     (if (u/get-in spec [:phrasal])
       (throw (Exception. (str "don't call me with phrasal=true! fix your code!")))
@@ -218,7 +218,7 @@
                 generate-only-one? (take 1 lexemes)
                 true lexemes)))
            (lazy-map (fn [candidate-lexeme]
-                       (log/info (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
+                       (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
                                       " at: " at " to: " (report tree)))
                        (-> tree
                            ((fn [tree]
@@ -239,7 +239,7 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree)))
+    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree)))
     (->>
      ;; start with the whole grammar:
      grammar
@@ -272,7 +272,7 @@
                                       :2 {:head? (not one-is-head?)}
                                       :variant (u/get-in % [:variant])
                                       :rule
-                                      (do (log/info (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                      (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
                                           (or rule-name
                                               (u/get-in % (concat at [:rule]))))})))))))
 (defn make-word []

@@ -293,7 +293,14 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
-          babylon.ug/subcat-2]}]
+          babylon.ug/subcat-2]}
+  
+ {:rule "vp-slash" ;; [s-wh-interog .[pp +at .what] +[s-interog-slash +did [s-comp-2 .she +[vp-slash +look .at]]]]
+;;  :options [] ;; TODO: options: infl base,present participle, past participle
+  :head {:cat :verb
+         :infl :base} ;; TODO: use options (see above TODO comment)
+  :unify [babylon.ug/head-first
+          babylon.english/vp-slash]}]
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar +book .[s-slash .she +[vp-modal-slash +wants .[+to .find]]]]
 ;; TODO {:rule "vp-slash"} ;; [np .the [ nbar +woman .[s-slash .I +[vp-slash +talk .to]]]]

@@ -435,7 +435,6 @@
    :head {:rule "s-interog-slash"
           :comp {:rule "s-comp-2"
                  :head {:phrasal false
-                        :canonical "see"
                         :subcat {:2 {:cat :noun}}}
                  :comp {:phrasal false}}
           :head {:phrasal false}}
@@ -447,6 +446,7 @@
    :head {:rule "s-interog-slash"
           :comp {:rule "s-comp-2"
                  :head {:phrasal false
+                        :canonical "look"
                         :subcat {:2 {:cat :prep}}}}
           :head {:phrasal false}}})
 

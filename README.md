@@ -22,7 +22,7 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ```
 % lein repl
-nREPL server started on port 60267 on host 127.0.0.1 - nrepl://127.0.0.1:60267
+nREPL server started on port 61915 on host 127.0.0.1 - nrepl://127.0.0.1:61915
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -36,64 +36,77 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 user=> (load "babylon/english")
 nil
 user=> (babylon.
-babylon.english         babylon.exception       babylon.generate        babylon.grammar         babylon.lexiconfn
-babylon.morphology      babylon.parse           babylon.serialization   babylon.ug
+babylon.english         babylon.exception       babylon.generate        babylon.grammar         babylon.lexiconfn       babylon.morphology
+babylon.parse           babylon.serialization   babylon.ug
 user=> (babylon.english/demo)
 Generation:
 ===
 
 = transitive sentences =
 
-Numbers would live her.
-You would become students.
-Mothers would move stories.
-We would tell hands.
-Ways would call names.
-Groups would know words.
-Mothers would live gentlemen.
-Problems would keep points.
-Numbers would help systems.
-We would become people.
+Groups would play Antonia.
+Areas would run jobs.
+Men would turn Antonia.
+We would be mothers.
+Nights would run countries.
+Girls would live women.
+Men would be women.
+Things would take Antonio.
+Times would talk to.
+It would show rooms.
 
 = reflexive sentences =
 
-I would help myself.
-She would say herself.
-It would keep itself.
-Hands would walk themselves.
-I would take myself.
-Antonia would tell herself.
-She would ask herself.
-Questions would feel themselves.
-Problems would start themselves.
-He would become himself.
+She would be herself.
+Books would have themselves.
+It would show itself.
+I would turn myself.
+It would live itself.
+I would find myself.
+He would walk himself.
+It would take itself.
+She would turn herself.
+It would like itself.
 
 = Interrogative sentences =
 
-Have stories?
-Did moneys need?
-Have waters?
-Have moneys?
-Are rooms?
-Have works?
-Would times?
-Have governments?
-Have cases?
-Are cases?
+Do points come?
+Were questions?
+Would waters?
+Are problems?
+Does who feel?
+Have ways?
+Were problems?
+Have mothers?
+Are words?
+Are numbers?
+
+= 'WH' interogative sentences =
+
+Who did numbers talk to?
+To what did ways talk?
+Who do weeks go to?
+What do moneys go to?
+What does what look at?
+To what do jobs go?
+On what do women put?
+Who do homes look at?
+To who do waters go?
+Who did lives talk to?
 
 Parsing:
 ===
 
-parses for: 'books worlds would teach': [nbar2 +books .[s-slash(:conditional) .worlds +[vp-aux-slash(:conditional) +would .teach]]], [nbar2 +books .[s-slash(:conditional) .worlds +[vp-aux-slash(:conditional) +would .teach]]]
-parses for: 'facts schools would say': [nbar2 +facts .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .say]]], [nbar2 +facts .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .say]]]
-parses for: 'things people would play': [nbar2 +things .[s-slash(:conditional) .people +[vp-aux-slash(:conditional) +would .play]]], [nbar2 +things .[s-slash(:conditional) .people +[vp-aux-slash(:conditional) +would .play]]]
-parses for: 'works families would help': [nbar2 +works .[s-slash(:conditional) .families +[vp-aux-slash(:conditional) +would .help]]], [nbar2 +works .[s-slash(:conditional) .families +[vp-aux-slash(:conditional) +would .help]]]
-parses for: 'lives what would seem': [nbar2 +lives .[s-slash(:conditional) .what +[vp-aux-slash(:conditional) +would .seem]]], [nbar2 +lives .[s-slash(:conditional) .what +[vp-aux-slash(:conditional) +would .seem]]]
-parses for: 'hands schools would take': [nbar2 +hands .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .take]]], [nbar2 +hands .[s-slash(:conditional) .schools +[vp-aux-slash(:conditional) +would .take]]]
-parses for: 'numbers tables would think': [nbar2 +numbers .[s-slash(:conditional) .tables +[vp-aux-slash(:conditional) +would .think]]], [nbar2 +numbers .[s-slash(:conditional) .tables +[vp-aux-slash(:conditional) +would .think]]]
-parses for: 'numbers would': [s(:conditional) .numbers +would]
-parses for: 'they would': [s(:conditional) .they +would]
-parses for: 'mothers numbers would be': [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .numbers +[vp-aux-slash(:conditional) +would .be]]]
+parses for: 'eyes would': [s(:conditional) .eyes +would]
+parses for: 'cats would': [s(:conditional) .cats +would]
+parses for: 'puppies programs would do': [nbar2 +puppies .[s-slash(:conditional) .programs +[vp-aux-slash(:conditional) +would .do]]], [nbar2 +puppies .[s-slash(:conditional) .programs +[vp-aux-slash(:conditional) +would .do]]]
+parses for: 'rooms would': [s(:conditional) .rooms +would]
+parses for: 'mothers I would be': [nbar2 +mothers .[s-slash(:conditional) .I +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .I +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .I +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +mothers .[s-slash(:conditional) .I +[vp-aux-slash(:conditional) +would .be]]]
+parses for: 'years businesses would be': [nbar2 +years .[s-slash(:conditional) .businesses +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +years .[s-slash(:conditional) .businesses +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +years .[s-slash(:conditional) .businesses +[vp-aux-slash(:conditional) +would .be]]], [nbar2 +years .[s-slash(:conditional) .businesses +[vp-aux-slash(:conditional) +would .be]]]
+parses for: 'schools problems would take': [nbar2 +schools .[s-slash(:conditional) .problems +[vp-aux-slash(:conditional) +would .take]]], [nbar2 +schools .[s-slash(:conditional) .problems +[vp-aux-slash(:conditional) +would .take]]]
+parses for: 'parts would': [s(:conditional) .parts +would]
+parses for: 'businesses what would eat': [nbar2 +businesses .[s-slash(:conditional) .what +[vp-aux-slash(:conditional) +would .eat]]], [nbar2 +businesses .[s-slash(:conditional) .what +[vp-aux-slash(:conditional) +would .eat]]]
+parses for: 'companies women would say': [nbar2 +companies .[s-slash(:conditional) .women +[vp-aux-slash(:conditional) +would .say]]], [nbar2 +companies .[s-slash(:conditional) .women +[vp-aux-slash(:conditional) +would .say]]]
 10
 user=>
 ```

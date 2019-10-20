@@ -190,6 +190,12 @@
           :sem {:pred :what
                 :ref {:human false}}
           :wh-word true}]
+ "who" [{:cat :noun
+          :interogative? true
+          :pronoun true
+          :sem {:pred :what
+                :ref {:human true}}
+          :wh-word true}]
  "you" [{:cat :noun
          :case :nom
          :agr {:person :2nd}

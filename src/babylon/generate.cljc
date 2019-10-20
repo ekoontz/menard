@@ -214,11 +214,6 @@
       (->> (get-lexemes spec)
 
            ((fn [lexemes]
-              (if (empty? lexemes)
-                (log/warn (str "no lexemes matched spec: " (u/strip-refs spec))))
-              lexemes))
-
-           ((fn [lexemes]
               (cond
                 generate-only-one? (take 1 lexemes)
                 true lexemes)))

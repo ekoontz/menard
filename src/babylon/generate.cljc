@@ -80,8 +80,9 @@
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
 (defn summary-fn [spec]
-  (cond ;true
-        ;(u/strip-refs spec)
+  (cond (u/get-in spec [:rule])
+        (u/get-in spec [:rule])
+
         (= :verb (u/get-in spec [:cat]))
         (str "V:" (u/strip-refs (u/get-in spec [:subcat])))
         true
@@ -96,7 +97,7 @@
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)
         spec (u/get-in tree at)]
-    (log/debug (str "add: " (report tree) " at: " at " ; the spec is: " (summary-fn spec)))
+    (log/debug (str "add: " (report tree) " at: " at "; the spec is: " (summary-fn spec)))
 
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
@@ -209,7 +210,7 @@
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
-                   (summary-fn spec)))
+                    (summary-fn spec)))
     (if (u/get-in spec [:phrasal])
       (throw (Exception. (str "don't call me with phrasal=true! fix your code!")))
       (->> (get-lexemes spec)
@@ -220,7 +221,7 @@
                 true lexemes)))
            (lazy-map (fn [candidate-lexeme]
                        (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                      " at: " at " to: " (report tree)))
+                                       " at: " at " to: " (report tree)))
                        (-> tree
                            ((fn [tree]
                               (cond generate-only-one? tree

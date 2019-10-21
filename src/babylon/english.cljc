@@ -162,10 +162,7 @@
          (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
 
 (defn syntax-tree [tree]
-  (cond (= false (u/get-in tree [:phrasal]))
-        (morph tree)
-        true
-        (s/syntax-tree tree morphology)))
+  (s/syntax-tree tree morphology))
 
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel; 

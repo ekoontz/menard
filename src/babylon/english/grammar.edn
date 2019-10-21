@@ -180,7 +180,8 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2-1-slash]}
 
- {:rule "s-wh-interog" ;; [s-wh-interog +what .[s-interog-slash +did .[s-slash .she +see]]]
+ {:rule "s-wh-interog" ;; [s-wh-interog .what +[s-interog-slash +did .[s-slash .she +see]]]
+  :cat :verb
   :comp {:interogative? true}
   :head {:rule "s-interog-slash"
          :phrasal true}

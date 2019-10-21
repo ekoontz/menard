@@ -45,4 +45,10 @@
                      :2 {:reflexive false}
                      :3 {:agr agr
                          :sem obj
-                         :reflexive true}}}])}]
+                         :reflexive true}}}])}
+ {:rule :verb-with-complement
+  :if {:cat :verb
+       :subcat {:2 {:cat :comp}}}
+  :then [{:subcat {:2 {:rule "comp2"
+                       :subcat []}
+                   :3 []}}]}]

@@ -5,6 +5,14 @@
           babylon.ug/head-is-root
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-1-1-comp-subcat]}
+
+ {:rule "comp2" ;; 'that you will see a cat'
+  :head {:cat :comp
+         :phrasal false}
+  :comp {:phrasal true}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/subcat-1]}
  
  {:rule "intensifier" ;; 'very small'
   :cat :adjective

@@ -132,7 +132,16 @@
                                       :case :nom}
                                   :2 []}
                          :slash false}
-                     :2 []}})]
+                     :2 []}})
+
+         ;; [comp2 *that .[s you will see a cat]]
+         {:cat :comp
+          :subcat {:1 {:cat :verb
+                       :sem {:mood :decl}
+                       :subcat []}
+                   :2 []}}]
+       
+ 
  "the" [{:cat :det}]
  "themselves" [{:cat :noun :agr {:person :3rd :number :plur} :pronoun true :reflexive true}]
  "they" [{:cat :noun

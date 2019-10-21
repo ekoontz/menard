@@ -86,6 +86,16 @@
           [{:cat :verb :sem {:pred :begin}
             :exceptions exceptions}])
 
+ "believe" [{:sense 1
+             :cat :verb
+             :sem {:pred :believe}
+             :subcat {:1 :top :2 []}}
+
+            {:sense 2
+             :cat :verb
+             :sem {:pred :believe}
+             :subcat {:2 {:cat :comp}}}]
+
  "call" [{:cat :verb :sem {:pred :call}}]
 
  "can" [{:modal :base
@@ -301,7 +311,11 @@
            [{:exceptions exceptions :cat :verb :sem {:pred :keep}}])
  "know" (let [exceptions [{:infl :past-simple :surface "knew"}
                           {:infl :past-participle :surface "known"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :know}}])
+          [{:exceptions exceptions :cat :verb :sem {:pred :know}}
+           {:exceptions exceptions :cat :verb
+            :sem {:pred :know}
+            :subcat {:2 {:cat :comp}}}])
+ 
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :leave}}])
@@ -388,7 +402,21 @@
             :cat :verb :sem {:pred :tell}}])
  "think" (let [exceptions [{:infl :past-simple :surface "thought"}
                            {:infl :past-participle :surface "thought"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :think}}])
+           [{:sense 1
+             :exceptions exceptions
+             :cat :verb
+             :sem {:pred :think}
+             :subcat {:1 :top :2 []}}
+
+            ;; "think that you will see the cat"
+            {:sense 2
+             :exceptions exceptions
+             :cat :verb
+             :sem {:pred :think}
+             :subcat {:2 {:cat :comp}}}])
+
+            ;; TODO: "the cat they think that you will see"
+ 
  "try" [{:cat :verb
          :sem {:pred :try}
          :modal :infinitive}]

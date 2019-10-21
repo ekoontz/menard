@@ -309,34 +309,9 @@
                                              :subcat {:2 {:modal false}}}
                                       :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
                                              :subcat {:1 {:cat :noun}}}}}}}}})
-;; "what did tables hear?"
-(def wh-spec-1
-  {:rule "s-wh-interog"
-   :head {:rule "s-interog-slash"
-          :comp {:rule "s-comp-2"
-                 :head {:phrasal false
-                        :subcat {:2 {:cat :noun}}}
-                 :comp {:phrasal false}}
-          :head {:phrasal false}}
-   :comp {:phrasal false}})
-
-;; "at what did tables look?"
-(def wh-spec-2
-  {:rule "s-wh-interog"
-   :head {:rule "s-interog-slash"
-          :comp {:rule "s-comp-2"
-                 :head {:phrasal false
-                        :canonical "look"
-                        :subcat {:2 {:cat :prep}}}}
-          :head {:phrasal false}}})
-
-(def wh-spec-3
-  {:rule "s-wh-interog"
-   :comp {:phrasal false}
-   :head {:rule "s-interog-slash"
-          :comp {:rule "s-comp-2"
-                 :head {:rule "vp-slash"}}
-          :head {:phrasal false}}})
-
-
-;; TODO: "what did she look at?"
+(def that-spec
+  {:rule "s"
+   :head {:rule "vp"
+          :head {:phrasal false
+                 :subcat {:2 {:cat :comp
+                              :rule "comp2"}}}}})

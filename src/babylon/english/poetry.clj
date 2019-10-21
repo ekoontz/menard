@@ -62,6 +62,12 @@
                                :rule "comp1"
                                :head {:phrasal false}
                                :comp {:phrasal false}}}}}})
+(def that-spec
+  {:rule "s"
+   :head {:rule "vp"
+          :head {:phrasal false
+                 :subcat {:2 {:cat :comp
+                              :rule "comp2"}}}}})
 
 ;; Currently we can generate in 2.1 secs at 50% median, 2.4 secs max.
 (def long-declarative
@@ -97,6 +103,7 @@
   [long-declarative
    medium-declarative
    medium-declarative-2
+   that-spec
    wh-q-1
    wh-q-2
    wh-q-3])

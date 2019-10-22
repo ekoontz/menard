@@ -128,3 +128,28 @@
     (println (morph (or (poetry-line) "(failed)") :sentence-punctuation? true))
     (recur)))
 
+(def consumer-patience 6000)
+
+(defn timeout-with [timeout-ms callback]
+   (let [fut (future (callback))
+         ret (deref fut timeout-ms ::timed-out)]
+     (when (= ret ::timed-out)
+       (println (str "Too bad! you took more than " timeout-ms " msecs long."))
+       (future-cancel fut))
+     ret))
+
+(defn generate-with-timeout []
+    (println (str "Generating.."))
+    ((or morph syntax-tree morph) (poetry-line)))
+
+(defn poetry-line-with-timeout []
+  (let [result (timeout-with consumer-patience generate-with-timeout)]
+    (if (= ::timed-out result)
+      (do
+        (println (str "retrying.."))
+        (poetry-line-with-timeout))
+      result)))
+
+(defn poetry-with-timeout []
+  (take 50 (repeatedly #(println (time (poetry-line-with-timeout))))))
+

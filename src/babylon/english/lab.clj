@@ -31,36 +31,6 @@
                                 :head {:phrasal false}
                                 :comp {:phrasal false}}}}}}])
 
-(def specs (concat
-            modal-specs
-            [long-demo-spec]))
-
-(defn demo []
-    (repeatedly
-      #(println
-        (-> (shuffle specs)
-            first
-            generate
-            morph))))
-
-(defn modal-demo []
-  (repeatedly
-   #(println
-     (-> (shuffle modal-specs)
-         first
-         generate
-         time
-         morph))))
-
-(defn timed-demo []
-  (repeatedly
-   #(println
-     (-> (shuffle specs)
-         first
-         generate
-         time
-         syntax-tree))))
-
 ;; for debugging generation and fixing grammatical rules
 (defn partial-generate-test []
   (->> [{:rule "s"
@@ -233,31 +203,6 @@
   [expression rule]
   (->> (parse expression)
        (filter #(= rule (u/get-in % [:rule])))))
-
-(def consumer-patience 6000)
-
-(defn timeout-with [timeout-ms callback]
-   (let [fut (future (callback))
-         ret (deref fut timeout-ms ::timed-out)]
-     (when (= ret ::timed-out)
-       (println (str "Too bad! you took more than " timeout-ms " msecs long."))
-       (future-cancel fut))
-     ret))
-
-(defn generate-with-timeout []
-    (println (str "Generating.."))
-    ((or morph syntax-tree morph) (poetry-line)))
-
-(defn poetry-line-with-timeout []
-  (let [result (timeout-with consumer-patience generate-with-timeout)]
-    (if (= ::timed-out result)
-      (do
-        (println (str "retrying.."))
-        (poetry-line-with-timeout))
-      result)))
-
-(defn poetry-with-timeout []
-  (take 50 (repeatedly #(println (time (poetry-line-with-timeout))))))
 
 (def extremely-specific-spec
   {:rule "s"

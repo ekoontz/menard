@@ -317,19 +317,19 @@
           :cat :verb
           :sem {:pred :hope}
           :subcat {:1 {:top :top}
-                   :2 []}
+                   :2 []}}
 
-          {:sense 2
-           :cat :verb
-           :sem {:pred :hope}
-           :subcat {:2 {:cat :verb
-                        :rule "s"}}}
+         {:sense 2
+          :cat :verb
+          :sem {:pred :hope}
+          :subcat {:2 {:cat :verb
+                       :rule "s"}}}
           
-          {:sense 3
-           :cat :verb
-           :sem {:pred :hope}
-           :subcat {:2 {:cat :comp
-                        :rule "comp2"}}}}]
+         {:sense 3
+          :cat :verb
+          :sem {:pred :hope}
+          :subcat {:2 {:cat :comp
+                       :rule "comp2"}}}]
 
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}
                           {:infl :past-participle :surface "kept"}]]

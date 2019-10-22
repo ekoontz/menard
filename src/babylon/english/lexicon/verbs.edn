@@ -88,13 +88,19 @@
 
  "believe" [{:sense 1
              :cat :verb
-             :sem {:pred :believe}
-             :subcat {:1 :top :2 []}}
+             :sem {:pred :believe}}
 
             {:sense 2
              :cat :verb
              :sem {:pred :believe}
-             :subcat {:2 {:cat :comp}}}]
+             :subcat {:2 {:cat :verb
+                          :rule "s"}}}
+
+            {:sense 3
+             :cat :verb
+             :sem {:pred :believe}
+             :subcat {:2 {:cat :comp
+                          :rule "comp2"}}}]
 
  "call" [{:cat :verb :sem {:pred :call}}]
 
@@ -306,15 +312,47 @@
                           {:infl :past-participle :surface "heard"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :hear}}])
  "help" [{:cat :verb :sem {:pred :help} :subcat {:1 :top :2 :top}}]
+
+ "hope" [{:sense 1
+          :cat :verb
+          :sem {:pred :hope}
+          :subcat {:1 {:top :top}
+                   :2 []}
+
+          {:sense 2
+           :cat :verb
+           :sem {:pred :hope}
+           :subcat {:2 {:cat :verb
+                        :rule "s"}}}
+          
+          {:sense 3
+           :cat :verb
+           :sem {:pred :hope}
+           :subcat {:2 {:cat :comp
+                        :rule "comp2"}}}}]
+
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}
                           {:infl :past-participle :surface "kept"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :keep}}])
  "know" (let [exceptions [{:infl :past-simple :surface "knew"}
                           {:infl :past-participle :surface "known"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :know}}
-           {:exceptions exceptions :cat :verb
+          [{:exceptions exceptions
+            :cat :verb
             :sem {:pred :know}
-            :subcat {:2 {:cat :comp}}}])
+
+            {:sense 2
+             :cat :verb
+             :exceptions exceptions
+             :sem {:pred :know}
+             :subcat {:2 {:cat :verb
+                          :rule "s"}}}
+
+            {:sense 3
+             :cat :verb
+             :exceptions exceptions
+             :sem {:pred :know}
+             :subcat {:2 {:cat :comp
+                          :rule "comp2"}}}}])
  
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
@@ -413,7 +451,16 @@
              :exceptions exceptions
              :cat :verb
              :sem {:pred :think}
-             :subcat {:2 {:cat :comp}}}])
+             :subcat {:2 {:cat :verb
+                          :rule "s"}}}
+
+            ;; "think that you will see the cat"
+            {:sense 3
+             :exceptions exceptions
+             :cat :verb
+             :sem {:pred :think}
+             :subcat {:2 {:cat :comp
+                          :rule "comp2"}}}])
 
             ;; TODO: "the cat they think that you will see"
  

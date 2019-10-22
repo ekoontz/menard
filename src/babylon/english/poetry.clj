@@ -69,6 +69,14 @@
                  :subcat {:2 {:cat :comp
                               :rule "comp2"}}}}})
 
+(def complement-s-spec
+  {:rule "s"
+   :head {:rule "vp"
+          :head {:phrasal false
+                 :subcat {:2 {:cat :verb
+                              :rule "s"
+                              :phrasal true}}}}})
+
 ;; Currently we can generate in 2.1 secs at 50% median, 2.4 secs max.
 (def long-declarative
   "The old students walk hands that the good studies would teach."
@@ -104,6 +112,7 @@
    medium-declarative
    medium-declarative-2
    that-spec
+   complement-s-spec
    wh-q-1
    wh-q-2
    wh-q-3])

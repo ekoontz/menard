@@ -46,9 +46,22 @@
                      :3 {:agr agr
                          :sem obj
                          :reflexive true}}}])}
- {:rule :verb-with-complement
+
+ ;; TODO: add semantics for both [:subcat :2]'s.
+ {:rule :verb-with-s
   :if {:cat :verb
-       :subcat {:2 {:cat :comp}}}
-  :then [{:subcat {:2 {:rule "comp2"
-                       :subcat []}
+       :subcat {:2 {:rule "s"
+                    :cat :verb
+                    :subcat []}}}
+  :then [{:subcat {:2 {:subcat []}
+                   :3 []}}]}
+
+ ;; TODO: add semantics for both [:subcat :2]'s.
+ {:rule :verb-with-comp2
+  :if {:cat :verb
+       :subcat {:2 {:rule "comp2"
+                    :cat :comp
+                    :subcat []}}}
+  :then [{:subcat {:2 {:subcat []}
                    :3 []}}]}]
+

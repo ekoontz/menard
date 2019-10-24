@@ -33,9 +33,14 @@
         (do
           (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
           [result])
-        (log/debug
-         (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
-              " " (u/fail-path parent {:head head})))))))
+        (let [message
+              (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
+                   " " (u/fail-path parent {:head head}))]
+          (if (and (not (= true (u/get-in head [:phrasal])))
+                   (= (u/get-in parent [:head :cat]) (u/get-in head [:cat]))
+                   (= "vp" (u/get-in parent [:rule])))
+           (log/debug message)
+           (log/debug message)))))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"

@@ -127,7 +127,13 @@
                  (let [result
                        (->> (eval (:options base-rule [:top]))
                             (map (fn [option]
-                                   (unify base-rule option)))
+                                   (let [unified
+                                         (unify base-rule option)]
+                                     (if (= :fail unified)
+                                       (log/warn (str "base rule fail: '" (u/get-in base-rule [:rule]) "'"
+                                                      " with option:" option ";"
+                                                      (u/fail-path base-rule option))))
+                                     unified)))
                             (filter #(not (= % :fail))))]
                    result)))
 

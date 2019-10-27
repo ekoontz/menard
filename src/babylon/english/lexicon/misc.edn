@@ -107,7 +107,7 @@
          :pronoun true
          :reflexive false}]
 
- "that" [;; "[comp1 *that [s-slash you *see]]"
+ "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
           :slash true
           :sense 1
@@ -118,7 +118,8 @@
                                 :2 []}
                        :slash true}
                    :2 []}}
-         ;; "[comp1 *that [vp sees you]]"
+
+         ;; "[comp1 +that [vp sees you]]"
          ;; in this case agreement is with the subject of the vp, so :agr must be percolated upwards:
          (let [agr (atom :top)]
            {:cat :comp
@@ -134,7 +135,7 @@
                          :slash false}
                      :2 []}})
 
-         ;; [comp2 *that .[s you will see a cat]]
+         ;; [comp2 +that .[s you will see a cat]]
          {:cat :comp
           :subcat {:1 {:cat :verb
                        :sem {:mood :decl}

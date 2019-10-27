@@ -38,7 +38,14 @@
               (mapcat #(let [{rule :rule
                               antecedent :if
                               consequents :then} %]
-                        (mapcat (fn [consequent]
+                         (log/info (str "processing lexeme: " (u/get-in lexeme [:canonical])
+                                        "; rule:" rule))
+                         (when (and (= (u/get-in lexeme [:canonical])
+                                     "will")
+                                    (= rule :aux-verbs-with-verb-arg))
+                           (log/info (str "serialized lexeme: " (vec (dag_unify.serialization/serialize lexeme))))
+                           (log/info (str "serialized conseq : " (vec (dag_unify.serialization/serialize (first consequents))))))
+                         (mapcat (fn [consequent]
                                     (apply-rule rule lexeme consequent antecedent rule-group))
                                 consequents))))]
     (cond (not (empty? with-rules))

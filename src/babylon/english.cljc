@@ -63,6 +63,14 @@
     :sem {:tense :present
           :aspect :simple}}
 
+   ;; "tries to see"
+   {:variant :modal-present
+    :infl :present
+    :modal :infinitive
+    :head {:modal :infinitive}
+    :sem {:tense :present
+          :aspect :simple}}
+
    ;; "saw"
    {:variant :past
     :infl :past-simple

@@ -121,8 +121,6 @@
 
          ;; "[comp1 +that [vp sees you]]"
          ;; in this case agreement is with the subject of the vp, so :agr must be percolated upwards:
-         (let [agr (atom :top)]
-           {:cat :comp
             :agr agr
             :slash false
             :sense 2
@@ -130,9 +128,6 @@
                          :cat :verb
                          :subcat {:1 {:agr agr
                                       :cat :noun
-                                      :case :nom}
-                                  :2 []}
-                         :slash false}
                      :2 []}})
 
          ;; [comp2 +that .[s you will see a cat]]

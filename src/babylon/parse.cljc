@@ -171,18 +171,6 @@
                                                      right-strings)
                                left-signs (concat left-lexemes (filter map? left))
                                right-signs (concat right-lexemes (filter map? right))
-                               ;; you must run (vec) on the return value of (over)
-                               ;; this is because (over ..) returns a lazy seq.
-                               ;; It returns a lazy sequence because it itself calls
-                               ;; (map), which is a macro. The trouble with macros
-                               ;; is that they return a lazy sequence. The first
-                               ;; member (if any) of the sequence will have the correct bindings,
-                               ;; but subsequent members of the sequence (if any)
-                               ;; will not. (map f v) returns a lazy sequence out of
-                               ;; calls to f. However f does not have the dynamic bindings
-                               ;; that the caller has set up. So you are running this function
-                               ;; with no binding for the variable 'syntax-tree', the
-                               ;; correct binding for which is needed for logging and truncation.
                                over-results (over grammar left-signs right-signs)]
                            (concat
                             (if (and (not (empty? left-signs))
@@ -197,14 +185,7 @@
                                                   (assoc :surface (morph tree))
                                                   (dissoc :head) (dissoc :comp)
                                                   (dissoc :1) (dissoc :2))
-                                              true tree)))
-
-                                 ;; here again we need to call (vec)
-                                 ;; in order to expand the lazy
-                                 ;; sequence created
-                                 ;; by the map above:
-                                 vec))
-
+                                              true tree)))))
                               [(string/join " " [(first left-strings) (first right-strings)])])))})
                       ;; </value>
                       

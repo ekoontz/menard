@@ -78,6 +78,10 @@
                               :phrasal true}}}}})
 
 ;; Currently we can generate in 2.1 secs at 50% median, 2.4 secs max.
+(def modal-sentence
+  {:rule "s"
+   :head {:rule "vp-modal-1"}})
+
 (def long-declarative
   "The old students walk hands that the good studies would teach."
   {:rule "s"
@@ -111,6 +115,7 @@
   [long-declarative
    medium-declarative
    medium-declarative-2
+   modal-sentence
    that-spec
    complement-s-spec
    wh-q-1

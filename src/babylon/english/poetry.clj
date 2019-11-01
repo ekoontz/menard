@@ -76,11 +76,6 @@
                  :subcat {:2 {:cat :verb
                               :rule "s"
                               :phrasal true}}}}})
-
-(def modal-sentence
-  {:rule "s"
-   :head {:rule "vp-modal-1"}})
-
 (def long-declarative
   "The old students walk hands that the good studies would teach."
   {:rule "s"
@@ -121,12 +116,13 @@
                         :comp {:phrasal false}}}}})
 
 (def poetry-specs
-  [long-declarative
+  [
+   complement-s-spec
+   long-declarative
    medium-declarative
    medium-declarative-2
    modal-sentence
    that-spec
-   complement-s-spec
    wh-q-1
    wh-q-2
    wh-q-3])

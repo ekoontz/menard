@@ -465,7 +465,6 @@
             ;; TODO: "the cat they think that you will see"
  
  "try" [{:cat :verb
-         :aux true ;; will bust things.
          :sem {:pred :try}
          :modal :infinitive}]
  "turn" [{:cat :verb :sem {:pred :turn}}]

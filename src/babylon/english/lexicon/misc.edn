@@ -167,21 +167,7 @@
                        :sem sem
                        :modal false
                        :infl :base}
-                   :2 []}})
-
-       ;; "to try to sleep"
-       (let [sem (atom :top)]
-         {:cat :particle
-          :infl :infinitive
-          :inflected? true
-          :sem sem
-          :subcat {:1 {:aux false
-                       :cat :verb
-                       :sem sem
-                       :modal :infinitive
-                       :infl :base}
                    :2 []}})]
-
  
  "very" [{:cat :intensifier
           :subcat {:1 {:cat :adjective

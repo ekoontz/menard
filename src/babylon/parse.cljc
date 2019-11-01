@@ -185,7 +185,13 @@
                                                   (assoc :surface (morph tree))
                                                   (dissoc :head) (dissoc :comp)
                                                   (dissoc :1) (dissoc :2))
-                                              true tree)))))
+                                              true tree)))
+                                 ;; you must run (vec) on the return value of this (map).
+                                 ;; This is because (map f v) returns a lazy sequence out of
+                                 ;; calls to f. However f does not have the dynamic bindings
+                                 ;; that the caller has set up. So without the(vec), f will be ran,
+                                 ;; with no binding for ^:dynamic variables like 'syntax-tree'.
+                                 vec))
                               [(string/join " " [(first left-strings) (first right-strings)])])))})
                       ;; </value>
                       

@@ -1,5 +1,6 @@
 {
  "area" [{:cat :noun :sem {:pred :area}}]
+ "bike" [{:cat :noun :sem {:pred :bike}}]
  "book" [{:cat :noun :sem {:pred :book}}]
  "boy" [{:cat :noun :sem {:pred :boy}
          :agr {:human true
@@ -32,6 +33,7 @@
  "group" [{:cat :noun :sem {:pred :group}}]
  "hand" [{:cat :noun :sem {:pred :hand}}]
  "home" [{:cat :noun :sem {:pred :home}}]
+ "house" [{:cat :noun :sem {:pred :house}}]
  "job" [{:cat :noun :sem {:pred :job}}]
  "kitten" [{:cat :noun :sem {:pred :kitten}}]
  "lady" [{:cat :noun :sem {:pred :woman

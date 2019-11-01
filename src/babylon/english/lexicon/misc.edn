@@ -162,9 +162,15 @@
           :infl :infinitive
           :inflected? true
           :sem sem
+
+          ;; "to" takes a verb or verb phrase which itself needs a subject -
+          ;; the subject is the {:cat :noun :case :nom} below.
           :subcat {:1 {:aux false
                        :cat :verb
                        :sem sem
+                       :subcat {:1 {:cat :noun
+                                    :case :nom}
+                                :2 []}
                        :modal false
                        :infl :base}
                    :2 []}})]

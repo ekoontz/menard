@@ -110,6 +110,16 @@
                                       :comp {:phrasal (or false false) ;; changing this to true will take a long time and finally you'll get a 'dead end' error.
                                              :subcat {:1 {:cat :noun}}}}}}}}})
 
+(def modal-sentence
+  {:rule "s"
+   :reflexive false
+   :head {:rule "vp-modal-1"
+          :head {:canonical "want"}
+          :comp {:head {:phrasal false}
+                 :comp {:phrasal true
+                        :head {:phrasal false}
+                        :comp {:phrasal false}}}}})
+
 (def poetry-specs
   [long-declarative
    medium-declarative

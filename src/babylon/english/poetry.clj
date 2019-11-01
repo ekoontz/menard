@@ -68,7 +68,6 @@
           :head {:phrasal false
                  :subcat {:2 {:cat :comp
                               :rule "comp2"}}}}})
-
 (def complement-s-spec
   {:rule "s"
    :head {:rule "vp"
@@ -144,7 +143,9 @@
 
 (defn poetry []
   (loop []
-    (println (morph (or (poetry-line) "(failed)") :sentence-punctuation? true))
+    (println (if true
+               (morph (or (poetry-line) "(failed)") :sentence-punctuation? true)
+               (syntax-tree (poetry-line))))
     (recur)))
 
 (def consumer-patience 6000)

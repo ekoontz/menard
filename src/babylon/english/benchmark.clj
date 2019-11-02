@@ -51,8 +51,6 @@
       (log/warn (str "fail: " e)))))
 
 (defn benchmark []
-  (take 20
-        (loop []
-          (println (morph (or (benchmark-line) "(failed)") :sentence-punctuation? true))
-          (recur))))
+  (take 50
+        (repeatedly #(println (morph (or (benchmark-line) "(failed)") :sentence-punctuation? true)))))
 

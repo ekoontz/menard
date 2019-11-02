@@ -210,9 +210,9 @@
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
-                    (summary-fn spec)))
-    (if (u/get-in spec [:phrasal])
-      (throw (Exception. (str "don't call me with phrasal=true! fix your code!")))
+                    (u/strip-refs spec)))
+    (if (= true (u/get-in spec [:phrasal]))
+      (throw (Exception. (str "don't call add-lexeme with phrasal=true! fix your code!")))
       (->> (get-lexemes spec)
 
            ((fn [lexemes]

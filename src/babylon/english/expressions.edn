@@ -33,6 +33,7 @@
          :head {:rule "nbar"}}
   :head {:rule "vp-aux"
          :comp {:rule "vp"
+                :phrasal true
                 :comp {:rule "np"
                        :phrasal true
                        :head {:rule "nbar"}}}}}
@@ -99,7 +100,8 @@
   :reflexive false
   :head {:rule "vp-modal-1"
          :head {:canonical "want"}
-         :comp {:head {:phrasal false}
+         :comp {:rule "infinitive"
+                :phrasal true
                 :comp {:phrasal true
-                       :head {:phrasal false}
-                       :comp {:phrasal false}}}}}]
+                       :rule "vp"
+                       :head {:subcat {:2 {:subcat []}}}}}}}]

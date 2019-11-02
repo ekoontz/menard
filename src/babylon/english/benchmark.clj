@@ -7,8 +7,7 @@
 (def long-declarative
   "The old students walk hands that the good studies would teach."
   {:rule "s"
-   :comp {:rule "np"
-          :head {:phrasal true}}
+   :comp {:rule "np"}
    :head {:rule "vp"
           :head {:phrasal false
                  :subcat {:2 {:cat :comp

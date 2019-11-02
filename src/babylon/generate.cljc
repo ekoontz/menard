@@ -97,13 +97,11 @@
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
         lexness (u/get-in tree (concat at [:canonical]) ::none)
         spec (u/get-in tree at)]
-    (log/debug (str "add: " (report tree) " at: " at "; the spec is: " (summary-fn spec)))
-
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/debug (str "add: tree=" (report tree)
-                      "; at:" at " with spec: "
+      (log/debug (str (report tree) " add "
+                      "at:" at " with spec: "
                       (summary-fn spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))

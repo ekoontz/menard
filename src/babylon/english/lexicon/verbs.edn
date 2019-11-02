@@ -404,7 +404,22 @@
           [{:exceptions exceptions :cat :verb :sem {:pred :run}}])
  "say" (let [exceptions [{:infl :past-simple :surface "said"}
                          {:infl :past-participle :surface "said"}]]
-         [{:exceptions exceptions :cat :verb :sem {:pred :say}}])
+         [{:sense 1
+           :cat :verb
+           :sem {:pred :say}}
+           
+          {:sense 2
+           :cat :verb
+           :sem {:pred :say}
+           :subcat {:2 {:cat :verb
+                        :rule "s"}}}
+           
+          {:sense 3
+           :cat :verb
+           :sem {:pred :say}
+           :subcat {:2 {:cat :comp
+                        :rule "comp2"}}}])
+ 
  "see" (let [exceptions [{:infl :past-simple :surface "saw"}
                          {:infl :past-participle :surface "seen"}]]
          [{:exceptions exceptions

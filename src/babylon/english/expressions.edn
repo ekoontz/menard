@@ -1,0 +1,105 @@
+[
+ ;; "What did she hear?"
+ {:rule "s-wh-interog"
+  :head {:rule "s-interog-slash"
+         :comp {:rule "s-comp-2"
+                :head {:phrasal false
+                       :subcat {:2 {:cat :noun}}}
+                :comp {:phrasal false}}
+         :head {:phrasal false}}
+  :comp {:phrasal false}}
+
+ ;; "At who does she look?"
+ {:rule "s-wh-interog"
+  :head {:rule "s-interog-slash"
+         :comp {:rule "s-comp-2"
+                :head {:phrasal false
+                       :canonical "look"
+                       :subcat {:2 {:cat :prep}}}}
+         :head {:phrasal false}}}
+
+ ;; "What did they look at?"
+ {:rule "s-wh-interog"
+  :comp {:phrasal false}
+  :head {:rule "s-interog-slash"
+         :comp {:rule "s-comp-2"
+                :head {:rule "vp-slash"}}
+         :head {:phrasal false}}}
+  
+ ;; "the social students would leave the major rooms"
+ {:rule "s"
+  :comp {:rule "np"
+         :phrasal true
+         :head {:rule "nbar"}}
+  :head {:rule "vp-aux"
+         :comp {:rule "vp"
+                :comp {:rule "np"
+                       :phrasal true
+                       :head {:rule "nbar"}}}}}
+  
+ ;; "mothers eat the things that look"
+ {:rule "s"
+  :comp {:phrasal false}
+  :head {:phrasal true
+         :rule "vp"
+         :head {:phrasal false}
+         :comp {:phrasal true
+                :rule "np"
+                :head {:phrasal true
+                       :rule "nbar3"
+                       :comp {:phrasal true
+                              :rule "comp1"
+                              :head {:phrasal false}
+                              :comp {:phrasal false}}}}}}
+ {:rule "s"
+  :head {:rule "vp"
+         :head {:phrasal false
+                :subcat {:2 {:cat :verb
+                             :rule "s"
+                             :phrasal true}}}}}
+ {:rule "s"
+  :head {:rule "vp"
+         :head {:phrasal false
+                :subcat {:2 {:cat :comp
+                             :rule "comp2"
+                             :phrasal true}}}}}
+  
+ ;; "The old students walk hands that the good studies would teach."
+ {:rule "s"
+  :comp {:rule "np"
+         :head {:phrasal true}}
+  :head {:rule "vp"
+         :head {:subcat {:1 {:cat :noun}
+                         :2 {:cat :noun}
+                         :3 []}}
+         :comp {:rule "nbar4"
+                :phrasal true
+                :head {:phrasal false
+                       :canonical :top}
+                :comp {:phrasal true
+                       :rule "comp1"
+                       :comp {:phrasal true
+                              :rule "s-slash"
+                              :comp {:phrasal true
+                                     :rule "np"
+                                     :head {:phrasal true}
+                                     :comp {:phrasal false}}
+                              :head {:phrasal true
+                                     :rule "vp-aux-slash"
+                                     :head {:phrasal false
+                                            :aux true
+                                            :subcat {:2 {:modal false}}}
+                                     ;; changing this to true will
+                                     ;; take a long time and finally
+                                     ;; you'll get a 'dead end' error.
+                                     :comp {:phrasal (or false false) 
+                                            :subcat {:1 {:cat :noun}}}}}}}}}
+  
+ {:rule "s"
+  :reflexive false
+  :head {:rule "vp-modal-1"
+         :head {:canonical "want"}
+         :comp {:head {:phrasal false}
+                :comp {:phrasal true
+                       :head {:phrasal false}
+                       :comp {:phrasal false}}}}}]

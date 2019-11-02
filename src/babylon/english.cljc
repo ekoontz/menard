@@ -438,3 +438,7 @@
 (defn gi [path]
   (fn [structure]
     (u/get-in structure path)))
+
+(def expressions
+  (-> "babylon/english/expressions.edn"
+      io/resource slurp read-string))

@@ -98,7 +98,7 @@
                                      :comp {:phrasal false
                                             :subcat {:1 {:cat :noun}}}}}}}}}
   
- ;; "worlds want to tell cats"
+ ;; "Worlds want to tell cats."
  {:rule "s"
   :reflexive false
   :head {:rule "vp-modal-1"
@@ -107,4 +107,10 @@
                 :phrasal true
                 :comp {:phrasal true
                        :rule "vp"
-                       :head {:subcat {:2 {:subcat []}}}}}}}]
+                       :head {:subcat {:2 {:subcat []}}}}}}}
+
+ ;; Did she try to see him?
+ {:rule "s-interog"
+  :head {:canonical "do"}
+  :comp {:rule "s-comp"
+         :head {:rule "vp-modal-1"}}}]

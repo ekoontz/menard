@@ -1,5 +1,5 @@
 (ns babylon.test.english
-  (:require [babylon.english :as en :refer [analyze generate morph parse syntax-tree]]
+  (:require [babylon.english :as en :refer [analyze expressions generate morph parse syntax-tree]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]))
 
@@ -61,3 +61,14 @@
           :rule "s"})]
     (is (not (empty? expression)))
     (is (not (empty? (morph expression))))))
+
+
+(deftest all-expressions-work
+  (let [expressions
+        (->>
+         (range 0 (count expressions))
+         (pmap (fn [index]
+                 (generate (nth expressions index)))))])
+  (is (empty? (filter empty? expressions))))
+
+       

@@ -9,7 +9,7 @@
             [babylon.serialization :as s]
             [babylon.ug :as ug]
             [clojure.tools.logging :as log]
-            [dag_unify.core :as u :refer [unify]]))
+            [dag_unify.core :as u :refer [pprint unify]]))
 ;;
 ;; For generation and parsing of English.
 ;;

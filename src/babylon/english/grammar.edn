@@ -121,7 +121,7 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-1]}
 
- {:rule "s"
+ {:rule "s" ;; [s(:present-simple) .she +sleeps]
   :sem {:mood :decl}
   :comp {:interogative? false}
   :cat :verb
@@ -136,8 +136,6 @@
  {:rule "s-comp" ;; [s-comp .she +sleep]] in [s-interog +did .[s-comp .she +sleep]]
   :cat :verb
   :slash false
-  ;; TODO: should be part of head's subcat (e.g. "sleep" in "did she sleep")
-  :comp {:cat :noun}
   :options [{:head {:infl :base}}
             {:head {:infl :gerund}}
             {:head {:infl :past-participle}}]

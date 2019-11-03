@@ -96,7 +96,7 @@
             :reflexive true}]
 
 
- "not" (let [sem {:polarity :negative}
+ "not" (let [sem (atom {:polarity :negative})
              infl (atom :top)
              slash (atom :top)]
          [{:cat :neg

@@ -274,4 +274,5 @@
                           (pmap (fn [index]
                                   (println (morph (generate (nth expressions index))
                                                   :sentence-punctuation? true))))
-                          (remove nil?)))))
+                          count))))
+

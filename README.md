@@ -23,7 +23,7 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 ## Demo
 
 For the demo, a sentence is generated for each specification listed in
-<a href="/ekoontz/babylon/blob/master/src/babylon/english/expressions.edn">expressions.edn</a>. 
+<a href="https://github.com/ekoontz/babylon/blob/master/src/babylon/english/expressions.edn">expressions.edn</a>. 
 Each expression is printed out first in its surface form, then in its the syntax tree form.
 
 ```

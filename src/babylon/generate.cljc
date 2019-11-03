@@ -56,7 +56,7 @@
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
-      (log/debug (str "generate-a " frontier ": " (report tree)))
+      (log/debug (str "generate-all: " frontier ": " (report tree)))
       (cond (= :fail tree)
             []
 

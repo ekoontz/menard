@@ -285,6 +285,13 @@
      :head {:subcat {:1 one
                      :2 two}}}))
 
+(def raise-yet-another
+  (let [one (atom :top)
+        two (atom {:subcat {:1 one}})]
+    {:subcat {:1 one}
+     :comp two
+     :head {:subcat {:1 two}}}))
+
 ;; "what did she [+look .at] ?"
 ;;
 ;; vp-slash <1,3>

@@ -24,7 +24,7 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 For the demo, a sentence is generated for each specification listed in
 <a href="https://github.com/ekoontz/babylon/blob/master/src/babylon/english/expressions.edn">expressions.edn</a>. 
-Each expression is printed out first in its surface form, then in its the syntax tree form.
+Each expression is printed out first in its surface form, then in its the syntax tree form, as shown in the output below:
 
 ```
 % lein repl
@@ -42,25 +42,36 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 user=> (load "babylon/english")
 nil
 user=> (babylon.english/demo)
-What did boys have?
-[s-wh-interog .what +[s-interog-slash +did .[s-comp-2 .boys +have]]]
-true
-user=> Men hope tables would.
-[s(:present-simple) .men +[vp(:present-simple) +hope .[s(:present-simple) .tables +would]]]
-At who did people look?
-[s-wh-interog .[pp +at .who] +[s-interog-slash +did .[s-comp-2 .people +look]]]Who did stories look at?
+Who do nights teach?
+[s-wh-interog .who +[s-interog-slash +do .[s-comp-2 .nights +teach]]]
 
-[s-wh-interog .who +[s-interog-slash +did .[s-comp-2 .stories +[vp-slash +look .at]]]]
-Numbers believe that governments would.
-[s(:present-simple) .numbers +[vp(:present-simple) +believe .[comp2(:present-simple) +that .[s(:present-simple) .governments +would]]]]
-It wants to begin houses.
-[s(:modal-present) .it +[vp-modal-1(:modal-present) +wants .[infinitive(:modal-present) +to .[vp(:modal-present) +begin .houses]]]]
-I have the study that became.
-[s(:present-simple) .I +[vp(:present-simple) +have .[np(:present-simple) .the +[nbar3(:present-simple) +study .[comp1(:present-simple) +that .became]]]]]
-The military worlds would walk the free area.
-[s(:conditional) .[np(:conditional) .the +[nbar(:conditional) .military +worlds]] +[vp-aux(:conditional) +would .[vp(:conditional) +walk .[np(:conditional) .the +[nbar(:conditional) .free +area]]]]]
-The black right hears rooms that the big problems would show.
-[s(:present-simple) .[np(:present-simple) .the +[nbar(:present-simple) .black +right]] +[vp(:present-simple) +hears .[nbar4(:present-simple) +rooms .[comp1(:present-simple) +that .[s-slash(:present-simple) .[np(:present-simple) .the +[nbar(:present-simple) .big +problems]] +[vp-aux-slash(:present-simple) +would .show]]]]]]
+false
+user=> Who do rights look at?
+[s-wh-interog .who +[s-interog-slash +do .[s-comp-2 .rights +[vp-slash +look .at]]]]
+
+Words hope days would.
+[s(:present-simple) .words +[vp(:present-simple) +hope .[s(:present-simple) .days +would]]]
+
+At who do you look?
+[s-wh-interog .[pp +at .who] +[s-interog-slash +do .[s-comp-2 .you +look]]]
+
+Do businesses need to keep?
+[s-interog +do .[s-comp .businesses +[vp-modal-1 +need .[infinitive +to .keep]]]]
+
+Families say that businesses would.
+[s(:present-simple) .families +[vp(:present-simple) +say .[comp2(:present-simple) +that .[s(:present-simple) .businesses +would]]]]
+
+Mothers want to move sheep.
+[s(:modal-present) .mothers +[vp-modal-1(:modal-present) +want .[infinitive(:modal-present) +to .[vp(:modal-present) +move .sheep]]]]
+
+Lots move the women that heard.
+[s(:present-simple) .lots +[vp(:present-simple) +move .[np(:present-simple) .the +[nbar3(:present-simple) +women .[comp1(:present-simple) +that .heard]]]]]
+
+The whole bike would do a local month.
+[s(:conditional) .[np(:conditional) .the +[nbar(:conditional) .whole +bike]] +[vp-aux(:conditional) +would .[vp(:conditional) +do .[np(:conditional) .a +[nbar(:conditional) .local +month]]]]]
+
+The long gentleman takes states that the interesting puppies would show.
+[s(:present-simple) .[np(:present-simple) .the +[nbar(:present-simple) .long +gentleman]] +[vp(:present-simple) +takes .[nbar4(:present-simple) +states .[comp1(:present-simple) +that .[s-slash(:present-simple) .[np(:present-simple) .the +[nbar(:present-simple) .interesting +puppies]] +[vp-aux-slash(:present-simple) +would .show]]]]]]
 
 user=>
 ```

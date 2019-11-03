@@ -263,7 +263,6 @@
           babylon.ug/subcat-2-2-slash]}
 
  {:rule "vp-modal-1" ;; [vp-modal-1 +wants .[+to .sleep]
-  :sem {:mood :decl}
   :cat :verb
   :slash false
   :subcat {:1 {:top :top}}

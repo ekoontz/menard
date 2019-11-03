@@ -52,12 +52,14 @@
                               :rule "comp1"
                               :head {:phrasal false}
                               :comp {:phrasal false}}}}}}
+ ;; "studies say areas would"
  {:rule "s"
   :head {:rule "vp"
          :head {:phrasal false
                 :subcat {:2 {:cat :verb
                              :rule "s"
                              :phrasal true}}}}}
+ ;; "it says that parts would"
  {:rule "s"
   :head {:rule "vp"
          :head {:phrasal false
@@ -96,6 +98,7 @@
                                      :comp {:phrasal false
                                             :subcat {:1 {:cat :noun}}}}}}}}}
   
+ ;; "worlds want to tell cats"
  {:rule "s"
   :reflexive false
   :head {:rule "vp-modal-1"

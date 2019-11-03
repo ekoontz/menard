@@ -94,6 +94,22 @@
             :sem {:ref {:human true}}
             :pronoun true
             :reflexive true}]
+
+
+ "not" (let [sem {:polarity :negative}
+             infl (atom :top)
+             slash (atom :top)]
+         [{:cat :neg
+           :infl infl
+           :sem sem
+           :slash slash
+           :inflected? true
+           :subcat {:1 {:cat :verb
+                        :infl infl
+                        :sem sem
+                        :slash slash}
+                    :2 []}}])
+
  "on" [{:cat :prep
         :sem {:pred :on}}]
  "she" [{:cat :noun

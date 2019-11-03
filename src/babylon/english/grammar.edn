@@ -104,6 +104,16 @@
           babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
+ {:rule "negp"
+  :cat :verb
+  :head {:cat :neg}
+  :unify [babylon.ug/comp-is-root
+          babylon.ug/head-comp-rule
+          babylon.ug/head-first-1
+          babylon.ug/head-infl
+          babylon.ug/slash-is-head-slash
+          babylon.ug/subcat-1-1-comp-subcat]}
+ 
  {:rule "np"
   :reflexive false
   :agr {:person :3rd}

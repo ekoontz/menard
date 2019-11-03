@@ -269,15 +269,14 @@
       io/resource slurp read-string))
 
 (defn demo []
-  (not
-   (empty?
-    (->>
-     (range 0 (count expressions))
-     (pmap (fn [index]
-             (let [generated-expression (generate (nth expressions index))]
-                (println (morph generated-expression
-                                :sentence-punctuation? true))
-                (println (syntax-tree generated-expression)))))))))
-
+  (empty?
+   (->>
+    (range 0 (count expressions))
+    (pmap (fn [index]
+            (let [generated-expression (generate (nth expressions index))]
+              (println (morph generated-expression
+                              :sentence-punctuation? true))
+              (println (syntax-tree generated-expression))
+              (println)))))))
 
 

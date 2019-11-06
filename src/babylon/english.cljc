@@ -239,8 +239,12 @@
             g/syntax-tree syntax-tree
 ;;            g/stop-generation-at [:head :comp :head :comp]
             g/lexicon-index-fn index-fn]
-    (-> spec
-        g/generate)))
+    (try
+      (-> spec
+          g/generate)
+     (catch Exception e
+       (log/warn (str "generation failed: " e "; input spec was:" spec))))))
+
 
 (defn get-lexemes [spec]
   (binding [g/lexicon-index-fn index-fn]

@@ -5,6 +5,8 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :as u]))
 
+(def parse-only-one? false)
+
 (def ^:dynamic lookup-fn
   (fn [token]
     []))
@@ -32,8 +34,8 @@
                                {:head head})
                       (catch Exception e
                         (do
-                          (log/warn (str "overh caught unification failure: "
-                                         (syntax-tree parent) "; head: " (syntax-tree head)))
+                          (log/debug (str "overh caught unification failure: "
+                                          (syntax-tree parent) "; head: " (syntax-tree head)))
                           :fail)))]
       (if (not (= :fail result))
         (do
@@ -67,8 +69,8 @@
         (do
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
           [result])
-        (log/debug (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
-                        " " (u/fail-path parent {:comp comp})))))))
+        (log/info (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
+                       " " (u/fail-path parent {:comp comp})))))))
 
 (defn over [parents child1 child2]
   (mapcat
@@ -142,7 +144,6 @@
     (= n 1) input
     (> n 1)
     (let [minus-1 (parses input (- n 1) span-map morph)]
-      (log/debug (str "parses: input=" input))
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))
@@ -176,22 +177,31 @@
                             (if (and (not (empty? left-signs))
                                      (not (empty? right-signs)))
                               (do
+                                (log/info (str (string/join ", " (set (map syntax-tree left-signs))) " || "
+                                               (string/join ", " (set (map syntax-tree right-signs)))))
                                 (->>
                                  over-results
                                  (map (fn [tree]
-                                        (cond (and true truncate?)
+                                        (cond truncate?
                                               (-> tree
                                                   (assoc :syntax-tree (syntax-tree tree))
                                                   (assoc :surface (morph tree))
                                                   (dissoc :head) (dissoc :comp)
                                                   (dissoc :1) (dissoc :2))
                                               true tree)))
+
+                                 ;; if returning more than one parse,
                                  ;; you must run (vec) on the return value of this (map).
                                  ;; This is because (map f v) returns a lazy sequence out of
                                  ;; calls to f. However f does not have the dynamic bindings
-                                 ;; that the caller has set up. So without the(vec), f will be ran,
+                                 ;; that the caller has set up. So without the(vec), subsequent runs of f
+                                 ;; (after the first one) will be ran,
                                  ;; with no binding for ^:dynamic variables like 'syntax-tree'.
-                                 vec))
+                                 ;; TODO: fix this by re-binding variables using (binding [syntax-tree syntax-tree]).
+                                 ((fn [trees]
+                                    (if parse-only-one?
+                                      trees
+                                      (vec trees))))))
                               [(string/join " " [(first left-strings) (first right-strings)])])))})
                       ;; </value>
                       

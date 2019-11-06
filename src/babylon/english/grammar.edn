@@ -105,6 +105,9 @@
           babylon.ug/subcat-1-1]}
 
  {:rule "negp"
+  :options [{:infl :base}
+            {:infl :gerund}
+            {:infl :infinitive}]
   :cat :verb
   :head {:cat :neg}
   :unify [babylon.ug/comp-is-root

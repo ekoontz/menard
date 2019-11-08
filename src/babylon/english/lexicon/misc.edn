@@ -3,6 +3,12 @@
         :cat :det :agr {:number :sing}}]
  "at" [{:cat :prep
         :sem {:pred :at}}]
+
+ "extremely" [{:cat :intensifier
+               :sem {:pred :extremely}
+               :subcat {:1 {:cat :adjective
+                            :phrasal false}
+                        :2 []}}]
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing
@@ -206,10 +212,11 @@
                    :2 []}})]
  
  "very" [{:cat :intensifier
+          :sem {:pred :very}
           :subcat {:1 {:cat :adjective
                         :phrasal false}
                     :2 []}}]
- 
+
  "we" [{:cat :noun
         :sem {:pred :we}
         :pronoun true

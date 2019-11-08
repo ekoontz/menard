@@ -1,143 +1,161 @@
-[
- ;; "What did she hear?"
- {:rule "s-wh-interog"
-  :head {:rule "s-interog-slash"
-         :comp {:rule "s-comp-2"
-                :head {:phrasal false
-                       :subcat {:2 {:cat :noun}}}
-                :comp {:phrasal false}}
-         :head {:phrasal false}}
-  :comp {:phrasal false}}
+(let [intensified-np
+      {:rule "np"
+       :head {:phrasal true
+              :comp {:phrasal true}}
+       :pronoun false
+       :phrasal true}]
+  [
+   ;; "What did she hear?"
+   {:rule "s-wh-interog"
+    :head {:rule "s-interog-slash"
+           :comp {:rule "s-comp-2"
+                  :head {:phrasal false
+                         :subcat {:2 {:cat :noun}}}
+                  :comp {:phrasal false}}
+           :head {:phrasal false}}
+    :comp {:phrasal false}}
+   
+   ;; "At who does she look?"
+   {:rule "s-wh-interog"
+    :head {:rule "s-interog-slash"
+           :comp {:rule "s-comp-2"
+                  :head {:phrasal false
+                         :canonical "look"
+                         :subcat {:2 {:cat :prep}}}}
+           :head {:phrasal false}}}
+   
+   ;; "What did they look at?"
+   {:rule "s-wh-interog"
+    :comp {:phrasal false}
+    :head {:rule "s-interog-slash"
+           :comp {:rule "s-comp-2"
+                  :head {:rule "vp-slash"}}
+           :head {:phrasal false}}}
+   
+   ;; "the social students would leave the major rooms"
+   {:rule "s"
+    :comp {:rule "np"
+           :phrasal true
+           :head {:rule "nbar"}}
+    :head {:rule "vp-aux"
+           :comp {:rule "vp"
+                  :phrasal true
+                  :comp {:rule "np"
+                         :phrasal true
+                         :head {:rule "nbar"}}}}}
+   
+   ;; "mothers eat the things that look"
+   {:rule "s"
+    :comp {:phrasal false}
+    :head {:phrasal true
+           :rule "vp"
+           :head {:phrasal false}
+           :comp {:phrasal true
+                  :rule "np"
+                  :head {:phrasal true
+                         :rule "nbar3"
+                         :comp {:phrasal true
+                                :rule "comp1"
+                                :head {:phrasal false}
+                                :comp {:phrasal false}}}}}}
+   ;; "studies say areas would"
+   {:rule "s"
+    :head {:rule "vp"
+           :head {:phrasal false
+                  :subcat {:2 {:cat :verb
+                               :rule "s"
+                               :phrasal true}}}}}
+   ;; "it says that parts would"
+   {:rule "s"
+    :head {:rule "vp"
+           :head {:phrasal false
+                  :subcat {:2 {:cat :comp
+                               :rule "comp2"
+                               :phrasal true}}}}}
+   
+   ;; "The old students walk hands that the good studies would teach."
+   {:rule "s"
+    :comp {:rule "np"
+           :head {:phrasal true}}
+    :head {:rule "vp"
+           :head {:subcat {:1 {:cat :noun}
+                           :2 {:cat :noun}
+                           :3 []}}
+           :comp {:rule "nbar4"
+                  :phrasal true
+                  :head {:phrasal false
+                         :canonical :top}
+                  :comp {:phrasal true
+                         :rule "comp1"
+                         :comp {:phrasal true
+                                :rule "s-slash"
+                                :comp {:phrasal true
+                                       :rule "np"
+                                       :head {:phrasal true}
+                                       :comp {:phrasal false}}
+                                :head {:phrasal true
+                                       :rule "vp-aux-slash"
+                                       :head {:phrasal false
+                                              :aux true
+                                              :subcat {:2 {:modal false}}}
+                                       ;; changing this to true will
+                                       ;; take a long time and finally
+                                       ;; you'll get a 'dead end' error.
+                                       :comp {:phrasal false
+                                              :subcat {:1 {:cat :noun}}}}}}}}}
+   
+   ;; "Worlds want to tell cats."
+   {:rule "s"
+    :reflexive false
+    :head {:rule "vp-modal-1"
+           :head {:canonical "want"}
+           :comp {:rule "infinitive"
+                  :phrasal true
+                  :comp {:phrasal true
+                         :rule "vp"
+                         :head {:subcat {:2 {:subcat []}}}}}}}
+   
+   ;; Did she try to see him?
+   {:rule "s-interog"
+    :head {:canonical "do"}
+    :comp {:rule "s-comp"
+           :head {:rule "vp-modal-1"}}}
+   
+   ;; Works were not playing
+   {:rule "s"
+    :infl :present
+    :head {:rule "vp-aux"
+           :comp {:rule "negp"
+                  :phrasal true}}}
+   
+   ;; same as the above but more semantically-defined:
+   {:rule "s"
+    :sem {:tense :past
+          :obj {:top :top}
+          :polarity :negative
+          :aspect :progressive}
+    :head {:phrasal true}}
+   
+   ;; Antonio was not working himself
+   {:rule "s"
+    :sem {:tense :past
+          :obj {:top :top}
+          :polarity :negative
+          :aspect :progressive}
+    :head {:phrasal true 
+           :comp {:phrasal true
+                  :comp {:phrasal true
+                         :rule "vp"}}}}
+   
+   ;; ("[s(:present-simple) .[np .the +[nbar .[intensifier +very .small] +cat]] +[vp(:present-simple) +looks .[pp +at .[np .the +[nbar .easy +chair]]]]]")
+   {:rule "s"
+    :comp intensified-np
+    :head {:rule "vp"}}
+   ])
 
- ;; "At who does she look?"
- {:rule "s-wh-interog"
-  :head {:rule "s-interog-slash"
-         :comp {:rule "s-comp-2"
-                :head {:phrasal false
-                       :canonical "look"
-                       :subcat {:2 {:cat :prep}}}}
-         :head {:phrasal false}}}
 
- ;; "What did they look at?"
- {:rule "s-wh-interog"
-  :comp {:phrasal false}
-  :head {:rule "s-interog-slash"
-         :comp {:rule "s-comp-2"
-                :head {:rule "vp-slash"}}
-         :head {:phrasal false}}}
- 
- ;; "the social students would leave the major rooms"
- {:rule "s"
-  :comp {:rule "np"
-         :phrasal true
-         :head {:rule "nbar"}}
-  :head {:rule "vp-aux"
-         :comp {:rule "vp"
-                :phrasal true
-                :comp {:rule "np"
-                       :phrasal true
-                       :head {:rule "nbar"}}}}}
- 
- ;; "mothers eat the things that look"
- {:rule "s"
-  :comp {:phrasal false}
-  :head {:phrasal true
-         :rule "vp"
-         :head {:phrasal false}
-         :comp {:phrasal true
-                :rule "np"
-                :head {:phrasal true
-                       :rule "nbar3"
-                       :comp {:phrasal true
-                              :rule "comp1"
-                              :head {:phrasal false}
-                              :comp {:phrasal false}}}}}}
- ;; "studies say areas would"
- {:rule "s"
-  :head {:rule "vp"
-         :head {:phrasal false
-                :subcat {:2 {:cat :verb
-                             :rule "s"
-                             :phrasal true}}}}}
- ;; "it says that parts would"
- {:rule "s"
-  :head {:rule "vp"
-         :head {:phrasal false
-                :subcat {:2 {:cat :comp
-                             :rule "comp2"
-                             :phrasal true}}}}}
- 
- ;; "The old students walk hands that the good studies would teach."
- {:rule "s"
-  :comp {:rule "np"
-         :head {:phrasal true}}
-  :head {:rule "vp"
-         :head {:subcat {:1 {:cat :noun}
-                         :2 {:cat :noun}
-                         :3 []}}
-         :comp {:rule "nbar4"
-                :phrasal true
-                :head {:phrasal false
-                       :canonical :top}
-                :comp {:phrasal true
-                       :rule "comp1"
-                       :comp {:phrasal true
-                              :rule "s-slash"
-                              :comp {:phrasal true
-                                     :rule "np"
-                                     :head {:phrasal true}
-                                     :comp {:phrasal false}}
-                              :head {:phrasal true
-                                     :rule "vp-aux-slash"
-                                     :head {:phrasal false
-                                            :aux true
-                                            :subcat {:2 {:modal false}}}
-                                     ;; changing this to true will
-                                     ;; take a long time and finally
-                                     ;; you'll get a 'dead end' error.
-                                     :comp {:phrasal false
-                                            :subcat {:1 {:cat :noun}}}}}}}}}
- 
- ;; "Worlds want to tell cats."
- {:rule "s"
-  :reflexive false
-  :head {:rule "vp-modal-1"
-         :head {:canonical "want"}
-         :comp {:rule "infinitive"
-                :phrasal true
-                :comp {:phrasal true
-                       :rule "vp"
-                       :head {:subcat {:2 {:subcat []}}}}}}}
 
- ;; Did she try to see him?
- {:rule "s-interog"
-  :head {:canonical "do"}
-  :comp {:rule "s-comp"
-         :head {:rule "vp-modal-1"}}}
 
- ;; Works were not playing
- {:rule "s"
-  :infl :present
-  :head {:rule "vp-aux"
-         :comp {:rule "negp"
-                :phrasal true}}}
 
- ;; same as the above but more semantically-defined:
- {:rule "s"
-  :sem {:tense :past
-        :obj {:top :top}
-        :polarity :negative
-        :aspect :progressive}
-  :head {:phrasal true}}
 
- ;; Antonio was not working himself
- {:rule "s"
-  :sem {:tense :past
-        :obj {:top :top}
-        :polarity :negative
-        :aspect :progressive}
-  :head {:phrasal true 
-         :comp {:phrasal true
-                :comp {:phrasal true
-                       :rule "vp"}}}}
- ]
+

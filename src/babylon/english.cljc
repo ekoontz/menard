@@ -270,7 +270,7 @@
 
 (def expressions
   (-> "babylon/english/expressions.edn"
-      io/resource slurp read-string))
+      io/resource slurp read-string eval))
 
 (defn demo []
   (empty?

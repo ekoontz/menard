@@ -37,7 +37,7 @@
           babylon.ug/head-sem
           babylon.ug/subcat-1-1-comp-subcat]}
  
- {:rule "nbar" ;; 'black cat'
+ {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -70,7 +70,7 @@
           babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
  
- {:rule "nbar3" ;; 'cat [comp1 that [vp-present sees me]]'
+ {:rule "nbar3" ;; '[nbar3 cat [comp1 that [vp-present sees me]]]'
   :slash false
   :cat :noun
   :head {:phrasal false

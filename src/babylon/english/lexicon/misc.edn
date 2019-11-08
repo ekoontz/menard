@@ -104,8 +104,7 @@
              common-part {:cat :neg
                           :sem sem
                           :slash slash
-                          :inflected? true
-                          :subcat {:1 {:cat :verb
+                           :subcat {:1 {:cat :verb}
                                        :aux false
                                        :sem sem
                                        :slash slash}

@@ -93,6 +93,10 @@
   :if {:cat :comp}
   :then [{:inflected? true}]}
 
+ {:rule :dont-inflect-neg
+  :if {:cat :neg}
+  :then [{:inflected? true}]}
+ 
  {:rule :dont-inflect-prepositions
   :if {:cat :prep}
   :then [{:inflected? true}]}

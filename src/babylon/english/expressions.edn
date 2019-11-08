@@ -34,9 +34,7 @@
    
    ;; "the social students would leave the major rooms"
    {:rule "s"
-    :comp {:rule "np"
-           :phrasal true
-           :head {:rule "nbar"}}
+    :comp intensified-np
     :head {:rule "vp-aux"
            :comp {:rule "vp"
                   :phrasal true
@@ -75,8 +73,7 @@
    
    ;; "The old students walk hands that the good studies would teach."
    {:rule "s"
-    :comp {:rule "np"
-           :head {:phrasal true}}
+    :comp intensified-np
     :head {:rule "vp"
            :head {:subcat {:1 {:cat :noun}
                            :2 {:cat :noun}
@@ -89,10 +86,7 @@
                          :rule "comp1"
                          :comp {:phrasal true
                                 :rule "s-slash"
-                                :comp {:phrasal true
-                                       :rule "np"
-                                       :head {:phrasal true}
-                                       :comp {:phrasal false}}
+                                :comp intensified-np
                                 :head {:phrasal true
                                        :rule "vp-aux-slash"
                                        :head {:phrasal false

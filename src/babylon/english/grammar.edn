@@ -107,7 +107,8 @@
  {:rule "negp"
   :options [{:infl :base}
             {:infl :gerund}
-            {:infl :infinitive}]
+            {:infl :infinitive}
+            {:infl :past-participle}]
   :cat :verb
   :head {:cat :neg}
   :unify [babylon.ug/comp-is-root

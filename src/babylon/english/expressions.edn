@@ -25,7 +25,7 @@
          :comp {:rule "s-comp-2"
                 :head {:rule "vp-slash"}}
          :head {:phrasal false}}}
-  
+ 
  ;; "the social students would leave the major rooms"
  {:rule "s"
   :comp {:rule "np"
@@ -37,7 +37,7 @@
                 :comp {:rule "np"
                        :phrasal true
                        :head {:rule "nbar"}}}}}
-  
+ 
  ;; "mothers eat the things that look"
  {:rule "s"
   :comp {:phrasal false}
@@ -66,7 +66,7 @@
                 :subcat {:2 {:cat :comp
                              :rule "comp2"
                              :phrasal true}}}}}
-  
+ 
  ;; "The old students walk hands that the good studies would teach."
  {:rule "s"
   :comp {:rule "np"
@@ -97,7 +97,7 @@
                                      ;; you'll get a 'dead end' error.
                                      :comp {:phrasal false
                                             :subcat {:1 {:cat :noun}}}}}}}}}
-  
+ 
  ;; "Worlds want to tell cats."
  {:rule "s"
   :reflexive false
@@ -113,4 +113,31 @@
  {:rule "s-interog"
   :head {:canonical "do"}
   :comp {:rule "s-comp"
-         :head {:rule "vp-modal-1"}}}]
+         :head {:rule "vp-modal-1"}}}
+
+ ;; Works were not playing
+ {:rule "s"
+  :infl :present
+  :head {:rule "vp-aux"
+         :comp {:rule "negp"
+                :phrasal true}}}
+
+ ;; same as the above but more semantically-defined:
+ {:rule "s"
+  :sem {:tense :past
+        :obj {:top :top}
+        :polarity :negative
+        :aspect :progressive}
+  :head {:phrasal true}}
+
+ ;; Antonio was not working himself
+ {:rule "s"
+  :sem {:tense :past
+        :obj {:top :top}
+        :polarity :negative
+        :aspect :progressive}
+  :head {:phrasal true 
+         :comp {:phrasal true
+                :comp {:phrasal true
+                       :rule "vp"}}}}
+ ]

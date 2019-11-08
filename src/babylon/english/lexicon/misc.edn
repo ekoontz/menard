@@ -207,9 +207,9 @@
                    :2 []}})]
  
  "very" [{:cat :intensifier
-          :subcat {:1 {:cat :adjective
-                       :phrasal false}
-                   :2 []}}]
+           :subcat {:1 {:cat :adjective
+                        :phrasal false}
+                    :2 []}}]
  
  "we" [{:cat :noun
         :sem {:pred :we}

@@ -100,45 +100,31 @@
              infl-base (atom :base)
              infl-gerund (atom :gerund)
              infl-infinitive (atom :infinitive)
-             slash (atom :top)]
-         [{:cat :neg
-           :infl infl-base
-           :sem sem
-           :slash slash
-           :inflected? true
-           :subcat {:1 {:cat :verb
-                        :aux false
-                        :modal false
-                        :infl infl-base
-                        :sem sem
-                        :slash slash}
-                    :2 []}}
-          {:cat :neg
-           :infl infl-gerund
-           :sem sem
-           :slash slash
-           :inflected? true
-           :subcat {:1 {:cat :verb
-                        :aux false
-                        :modal false
-                        :infl infl-gerund
-                        :sem sem
-                        :slash slash}
-                    :2 []}}
-          {:cat :neg
-           :infl infl-infinitive
-           :sem sem
-           :slash slash
-           :inflected? true
-           :subcat {:1 {:cat :verb
-                        :aux false
-                        :modal :infinitive
-                        :infl infl-infinitive
-                        :sem sem
-                        :slash slash}
-                    :2 []}}])
+             slash (atom :top)
+             common-part {:cat :neg
+                          :sem sem
+                          :slash slash
+                          :inflected? true
+                          :subcat {:1 {:cat :verb
+                                       :aux false
+                                       :sem sem
+                                       :slash slash}
+                                   :2 []}}
+             input
+             [{:infl infl-base
+               :subcat {:1 {:modal false
+                            :infl infl-base}}}
+              {:infl infl-gerund
+               :subcat {:1 {:modal false
+                            :infl infl-gerund}}}
+              {:infl infl-infinitive
+               :subcat {:1 {:modal :infinitive
+                            :infl infl-infinitive}}}]]
+        (map (fn [sense]
+               (dag_unify.core/unify sense
+                                     common-part))
+             input))
 
- 
  "on" [{:cat :prep
         :sem {:pred :on}}]
  "she" [{:cat :noun

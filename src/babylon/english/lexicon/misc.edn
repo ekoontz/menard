@@ -104,11 +104,11 @@
              common-part {:cat :neg
                           :sem sem
                           :slash slash
-                           :subcat {:1 {:cat :verb}
-                                       :aux false
-                                       :sem sem
-                                       :slash slash}
-                                   :2 []}}
+                           :subcat {:1 {:cat :verb
+                                        :aux false
+                                        :sem sem
+                                        :slash slash}
+                                    :2 []}}
              input
              [{:infl infl-base
                :subcat {:1 {:modal false

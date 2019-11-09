@@ -1,1 +1,25 @@
-[]
+[{:rule :dont-inflect-adjectives
+  :if {:cat :adjective}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-complementizers
+  :if {:cat :comp}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-intensifiers
+  :if {:cat :intensifier}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-neg
+  :if {:cat :neg}
+  :then [{:inflected? true}]}
+ 
+ {:rule :dont-inflect-prepositions
+  :if {:cat :prep}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-determiners
+  :if {:cat :det}
+  :then [{:inflected? true}]}]
+
+

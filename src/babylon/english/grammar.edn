@@ -249,7 +249,6 @@
  {:rule "vp-aux" ;; [vp-aux +will .see]; [vp-aux +will .[vp +see it]]
   :sem {:mood :decl}
   :cat :verb
-  :slash false
   :subcat {:1 {:top :top}}
   :aux true
   :options (mapcat (fn [aux-tense]
@@ -262,11 +261,11 @@
          :slash false}
   :head {:slash false
          :phrasal false
-         :cat :verb
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
           babylon.ug/head-reflexive
+          babylon.ug/slash-is-head-slash          
           babylon.ug/subcat-2]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 +cat .[s-slash .she +[vp-aux-slash +will .see]]]]

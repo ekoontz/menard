@@ -164,7 +164,7 @@
                          :infl :base}
                      :2 []}})
 
-         ;; "what does she see?"
+         ;; "what did she see?"
          (let [sem (atom {:tense :past
                           :mood :interog
                           :aspect :progressive})]
@@ -176,7 +176,6 @@
             :infl :past-simple
             :derivation {:sense 4}
             :sem sem
-            :surface "did"
             :subcat {:1 {:cat :verb
                          :slash true
                          :aux false
@@ -187,7 +186,7 @@
                                   :2 []}
                          :infl :base}
                      :2 []}})
-         ;; "what did she see?"
+         ;; "what does she see?"
          (let [sem (atom {:tense :present
                           :mood :interog
                           :aspect :progressive})]
@@ -197,7 +196,6 @@
             :reflexive false
             :aux true
             :infl :present
-            :surface "does"
             :derivation {:sense 5}
             :sem sem
             :subcat {:1 {:cat :verb

@@ -180,8 +180,8 @@
           babylon.ug/head-first]}
 
  {:rule "s-interog-slash"
-  ;; [s-interog-slash +did .[s-slash .she +see]]
-  ;; (head of: [s-wh-interog .what +[s-interog-slash +did .[s-slash .she +see]]])
+  ;; [s-interog-slash +did .[s-comp-2 .she +see]]
+  ;; (head of: [s-wh-interog .what +[s-interog-slash did she see]]])
   :sem {:mood :interog}
   :head {:phrasal false
          :cat :verb

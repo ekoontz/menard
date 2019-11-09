@@ -233,6 +233,7 @@
   :options babylon.english/tenses
   :unify [babylon.ug/head-first
           babylon.ug/head-infl
+          babylon.ug/head-is-root
           babylon.ug/sem-mod
           babylon.ug/slash-is-head-slash          
           babylon.ug/subcat-1-1]}

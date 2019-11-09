@@ -281,11 +281,11 @@
 ;; 'raise-the-comp-subcat'
 ;; should work.
 (def raise-yet-another
-  (let [one (atom :top)
-        two (atom {:subcat {:1 one}})]
-    {:subcat {:1 one}
-     :comp two
-     :head {:subcat {:1 two}}}))
+  (let [two (atom :top)
+        one (atom {:subcat {:1 two}})]
+    {:subcat {:1 two}
+     :head {:subcat {:1 one}}
+     :comp one}))
 
 (def raise-two-to-one
   (let [one (atom :top)

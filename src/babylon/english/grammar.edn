@@ -222,12 +222,18 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-2]} 
 
-; {:rule "vp-adjunct" ;; [vp-adjunct +sit .[pp on the table]}
-;  :cat :verb
-;  :aux false
-;  :slash false
-;  :options babylon.english/tenses
-;  :head}
+ {:rule "vp-adjunct" ;; [vp-adjunct +sit .[pp on the table]}
+  :cat :verb
+  :aux false
+  :slash false
+  :comp {:cat :prep
+         :subcat []}
+  :options babylon.english/tenses
+  :unify [babylon.ug/head-first
+          babylon.ug/head-infl
+          babylon.ug/sem-mod
+          babylon.ug/slash-is-head-slash          
+          babylon.ug/subcat-1-1]}
  
  {:rule "vp-ditransitive" ;; [vp [vp-ditransitive +puts .it] [pp +on .[np .the +table]]]
   :sem {:iobj {:top :top}}

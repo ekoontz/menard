@@ -1,0 +1,3 @@
+{"klein" [{:cat :adjective :sem {:pred :small}}]
+ "groet" [{:cat :adjective :sem {:pred :big}}]
+ "sterk" [{:cat :adjective :sem {:pred :strong}}]}

@@ -226,6 +226,8 @@
   :cat :verb
   :aux false
   :slash false
+  :head {:subcat {:1 {:top :top}
+                  :2 []}}
   :comp {:cat :prep
          :subcat []}
   :options babylon.english/tenses

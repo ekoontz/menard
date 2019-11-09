@@ -68,7 +68,14 @@
         (->>
          (range 0 (count expressions))
          (pmap (fn [index]
-                 (generate (nth expressions index)))))])
-  (is (empty? (filter empty? expressions))))
+                 (generate (nth expressions index)))))]
+    (is (empty? (filter empty? expressions)))
+    (is (empty? (filter empty? (map (fn [expression]
+                                      (-> expression
+                                          morph
+                                          parse))
+                                    expressions))))))
+
+
 
        

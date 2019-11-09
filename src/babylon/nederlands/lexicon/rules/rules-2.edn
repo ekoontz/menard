@@ -1,0 +1,24 @@
+[{:rule :common-noun
+  :if {:cat :noun
+       :propernoun false
+       :pronoun false
+       :subcat ::unspec
+       :agr {:number ::unspec}}
+  :then [(let [agr (atom {:number :sing
+                          :person :3rd})]
+           {:cat :noun
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         (let [agr (atom {:number :plur
+                          :person :3rd})]
+           {:cat :noun
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})]}]

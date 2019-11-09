@@ -20,6 +20,15 @@
 
  {:rule :dont-inflect-determiners
   :if {:cat :det}
-  :then [{:inflected? true}]}]
+  :then [{:inflected? true}]}
 
+ {:rule :nouns-are-not-pronouns
+  :if {:cat :noun
+       :pronoun ::unspec}
+  :then [{:pronoun false}]}
+
+ {:rule :nouns-are-not-propernouns
+  :if {:cat :noun
+       :propernoun ::unspec}
+  :then [{:propernoun false}]}]
 

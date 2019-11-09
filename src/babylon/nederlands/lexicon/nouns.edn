@@ -1,1 +1,6 @@
-{}
+{"kat" [{:cat :noun
+         :agr {:gender :masc}
+         :sem {:pred :cat}}]
+ "hond" [{:cat :noun
+          :agr {:gender :masc}
+          :sem {:pred :dog}}]}

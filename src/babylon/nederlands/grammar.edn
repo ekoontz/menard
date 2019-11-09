@@ -1,1 +1,9 @@
-[]
+[{:rule "np"
+  :reflexive false
+  :agr {:person :3rd}
+  :cat :noun
+  :slash false
+  :comp {:phrasal false}
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/subcat-1]}]

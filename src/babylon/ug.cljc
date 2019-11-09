@@ -269,19 +269,6 @@
 
 (def raise-the-comp-subcat
   (let [two (atom :top)
-        one (atom {:subcat {:1 two
-                            :2 []}})]
-    {:subcat {:1 two
-              :2 []}
-     :head {:subcat {:1 one}}
-     :comp one}))
-
-;; TODO: should not be needed:
-;; immediately-above
-;; 'raise-the-comp-subcat'
-;; should work.
-(def raise-yet-another
-  (let [two (atom :top)
         one (atom {:subcat {:1 two}})]
     {:subcat {:1 two}
      :head {:subcat {:1 one}}

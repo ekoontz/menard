@@ -115,7 +115,7 @@
           babylon.ug/head-first-1
           babylon.ug/head-infl
           babylon.ug/head-sem
-          babylon.ug/raise-yet-another
+          babylon.ug/raise-the-comp-subcat
           babylon.ug/slash-is-head-slash]}
  
  {:rule "np"

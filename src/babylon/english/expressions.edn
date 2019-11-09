@@ -141,11 +141,21 @@
                   :comp {:phrasal true
                          :rule "vp"}}}}
    
-   ;; ("[s(:present-simple) .[np .the +[nbar .[intensifier +very .small] +cat]] +[vp(:present-simple) +looks .[pp +at .[np .the +[nbar .easy +chair]]]]]")
+   ;; [s .[np .the +[nbar .[intensifier +very .small] +cat]] +[vp +looks .[pp +at .[np .the +[nbar .easy +chair]]]]]
    {:rule "s"
     :comp intensified-np
     :head {:rule "vp"}}
-   ])
+
+   ;; A very great week sits on a school.
+   {:rule "s"
+    :comp intensified-np
+    :head {:rule "vp-adjunct"
+           :root "sit"
+           :comp {:rule "pp"
+                  :root "on"
+                  :comp {:rule "np"}}}}])
+
+
 
 
 

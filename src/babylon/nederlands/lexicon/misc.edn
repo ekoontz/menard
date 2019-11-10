@@ -2,12 +2,12 @@
 {"een" [{:cat :det
          :agr {:number :sing}}]
 
- ;; <F. p54-55>
+ ;; <F. p30-31, 54-55>
  "de" [{:cat :det
-        :agr {:gender :masc}}
+        :agr {:gender :common}}
        {:cat :det
         :agr {:number :plur}}]
  "het" [{:cat :det
-         :agr {:gender :fem
+         :agr {:gender :neuter
                :number :sing}}]}
- ;; </F>
+;; </F>

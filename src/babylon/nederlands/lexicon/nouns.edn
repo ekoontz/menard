@@ -1,35 +1,35 @@
 {"been" [{:cat :noun
-          :agr {:gender :fem}
+          :agr {:gender :neuter}
           :sem {:pred :leg}}]
  "boek" [{:cat :noun
-          :agr {:gender :fem}
+          :agr {:gender :neuter}
           :sem {:pred :book}}]
  "druif" [{:cat :noun
-           :agr {:gender :masc}
+           :agr {:gender :common}
            :sem {:pred :grape}}]
  "haar" [{:cat :noun
           :agr {:gender :top} ;; gender seems to be unspecified for this word.
           :sem {:pred :hair}}]
  "hond" [{:cat :noun
-          :agr {:gender :masc}
+          :agr {:gender :common}
           :sem {:pred :dog}}]
  "huis" [{:cat :noun
-          :agr {:gender :masc}
+          :agr {:gender :neuter}
           :sem {:pred :house}}]
  "jas" [{:cat :noun
-         :agr {:gender :masc}
+         :agr {:gender :common}
          :sem {:pred :coat}}]
  "kat" [{:cat :noun
-          :agr {:gender :masc}
+          :agr {:gender :common}
          :sem {:pred :cat}}]
  "kind" [{:cat :noun
-          :agr {:gender :fem
+          :agr {:gender :neuter
                 :number :sing}
           :sem {:pred :child}}]
  "kinderen" [{:cat :noun
               :inflected? true
-              :agr {:gender :fem
+              :agr {:gender :neuter
                     :number :plur}
               :sem {:pred :child}}]
  "man" [{:cat :noun
-         :agr {:gender :masc}}]}
+         :agr {:gender :common}}]}

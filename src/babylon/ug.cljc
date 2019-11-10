@@ -257,12 +257,12 @@
 (def comp-mod-is-subj-mod
   (let [comp-mod (atom :top)]
     {:sem {:subj-mod comp-mod}
-     :comp {:mod comp-mod}}))
+     :comp {:sem {:mod comp-mod}}}))
 
 (def comp-mod-is-obj-mod
   (let [comp-mod (atom :top)]
     {:sem {:obj-mod comp-mod}
-     :comp {:mod comp-mod}}))
+     :comp {:sem {:mod comp-mod}}}))
 
 ;; root rules: which child (head or comp) is the root of a tree.
 (def head-is-root

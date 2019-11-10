@@ -9,7 +9,15 @@
  {:g [#"^(.*)aa(.)$"     "$1a$2en"] ;; haar   -> haren
   :p [#"^(.*)a(.)en$"    "$1aa$2"]  ;; haren -> haar
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-1 true}}
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-vowel true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+
+ {:g [#"^(.*)ee(.)$"     "$1e$2en"] ;; been   -> benen
+  :p [#"^(.*)e(n)en$"    "$1ee$2"]  ;; benen -> been
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-vowel true}}
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -17,7 +25,7 @@
  {:g [#"^(.*)s$"    "$1ssen"] ;; jas    -> jassen
   :p [#"^(.*)ssen$" "$1s"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-2 true}}
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -25,7 +33,7 @@
  {:g [#"^(.*)t$"    "$1tten"] ;; kat    -> katten
   :p [#"^(.*)tten$"  "$1t"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-3 true}}
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -33,15 +41,18 @@
  {:g [#"^(.*)n$"    "$1nnen"] ;; man    -> mannen
   :p [#"^(.*)nnen$"  "$1n"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-4 true}}
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
       :pronoun false
       :agr {:number :plur}
       :regular true}}
  
+ ;; TODO: parsing falls through to this catch-all rule and
+ ;; thus incorrectly matches this for e.g. *"beenen";
+ ;; i.e. incorrectly allows *"beenen" as a plural form of "been".
  {:g [#"^(.*)$"       "$1en"] ;; hond   -> honden
   :p [#"^(.*)en$"      "$1"]  ;; honden -> dog
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-5 true}}
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-otherwise true}}
       :pronoun false
       :agr {:number :plur}
       :regular true}}]

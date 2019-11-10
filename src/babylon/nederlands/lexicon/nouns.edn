@@ -1,4 +1,6 @@
-{"boek" [{:cat :noun
+{"been" [{:cat :noun
+          :agr {:gender :fem}}]
+ "boek" [{:cat :noun
           :agr {:gender :fem}}]
  "haar" [{:cat :noun
           :sem {:pred :hair}}]

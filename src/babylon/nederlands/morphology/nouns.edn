@@ -22,6 +22,14 @@
       :agr {:number :plur}
       :regular true}}
 
+ {:g [#"^(.*ui)s$"    "$1zen"] ;; huis   -> huizen
+  :p [#"^(.*ui)zen$"  "$1s"] 
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-s2z true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+ 
  {:g [#"^(.*)s$"    "$1ssen"] ;; jas    -> jassen
   :p [#"^(.*)ssen$" "$1s"] 
   :u {:cat :noun

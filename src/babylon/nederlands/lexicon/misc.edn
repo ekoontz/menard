@@ -5,4 +5,6 @@
        {:cat :det
         :agr {:number :plur}}]
  "het" [{:cat :det
-         :agr {:gender :fem}}]}
+         :agr {:gender :fem
+               :number :sing}}]}
+ ;; </F>

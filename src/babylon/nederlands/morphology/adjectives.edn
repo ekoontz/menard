@@ -1,3 +1,4 @@
+;; TODO: Fehringer .p 4 stom -> stome; lief -> lieve; vies -> vieze
 [{:g [#"^(.*)oot$" "$1ote"]
   :p [#"e$" ""]
   :u {:cat :adjective

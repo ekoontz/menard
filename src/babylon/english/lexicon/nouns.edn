@@ -70,7 +70,8 @@
  "right" [{:cat :noun :sem {:pred :right}}]
  "room" [{:cat :noun :sem {:pred :room}}]
  "school" [{:cat :noun :sem {:pred :school}}]
- "sheep" [{:cat :noun :sem {:pred :sheep} :agr {:number :sing}} {:cat :noun :sem {:pred :sheep} :agr {:number :plur}}]
+ "sheep" [{:cat :noun :sem {:pred :sheep} :agr {:number :sing}}
+          {:cat :noun :sem {:pred :sheep} :agr {:number :plur}}]
  "state" [{:cat :noun :sem {:pred :state}}]
  "story" [{:cat :noun :sem {:pred :story}}]
  "student" [{:cat :noun :sem {:pred :student}}]

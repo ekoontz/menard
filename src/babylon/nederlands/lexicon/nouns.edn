@@ -14,5 +14,6 @@
               :inflected? true
               :agr {:gender :fem
                     :number :plur}
-              :sem {:pred :child}}]}
-
+              :sem {:pred :child}}]
+ "man" [{:cat :noun
+         :agr {:gender :masc}}]}

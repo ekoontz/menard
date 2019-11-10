@@ -5,6 +5,7 @@
   :slash false
   :comp {:phrasal false}
   :unify [babylon.ug/head-last
+          babylon.ug/head-mod-is-sem-mod
           babylon.ug/head-is-root
           babylon.ug/subcat-1]}
 

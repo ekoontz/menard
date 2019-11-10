@@ -9,6 +9,11 @@
     {:sem sem
      :head {:sem sem}}))
 
+(def head-mod-is-sem-mod
+  (let [mod (atom :top)]
+    {:sem {:mod mod}
+     :head {:mod mod}}))
+
 (def head-modal
   (let [shared (atom :top)]
     {:modal shared

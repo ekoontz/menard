@@ -1,5 +1,7 @@
 {"boek" [{:cat :noun
           :agr {:gender :fem}}]
+ "haar" [{:cat :noun
+          :sem {:pred :hair}}]
  "hond" [{:cat :noun
           :agr {:gender :masc}
           :sem {:pred :dog}}]

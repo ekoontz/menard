@@ -144,6 +144,16 @@
      :sem {:ref reference
            :pred pred}}))
 
+(def shared-quant
+  (let [shared (atom :top)]
+    {:comp {:sem {:quant shared}}
+     :head {:sem {:quant shared}}}))
+
+(def shared-agr
+  (let [shared (atom :top)]
+    {:comp {:agr shared}
+     :head {:agr shared}}))
+
 (def subcat-1-1-comp-subcat
   (let [comp-subcat (atom {:1 {:top :top}
                            :2 []})

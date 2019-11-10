@@ -11,6 +11,7 @@
             :pronoun false
             :agr agr
             :sem {:quant quant}
-            :subcat {:1 {:cat :det :agr agr
+            :subcat {:1 {:cat :det
+                         :agr agr
                          :sem {:quant quant}}
                      :2 []}})]}]

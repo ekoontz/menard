@@ -13,6 +13,14 @@
       :pronoun false
       :agr {:number :plur}
       :regular true}}
+
+ {:g [#"^(.*)n$"    "$1nnen"] ;; man    -> mannen
+  :p [#"^(.*)nnen$"  "$1n"] 
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-1 true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
  
  {:g [#"^(.*)$"       "$1en"] ;; hond   -> honden
   :p [#"^(.*)en$"      "$1"]  ;; honden -> dog

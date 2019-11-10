@@ -1,6 +1,6 @@
 ;; TODO: Fehringer p. 4 stom -> stomme; lief -> lieve; vies -> vieze
 [{:g [#"oot$" "ote"]
-  :p [#"e$"    ""]
+  :p [#"ote$" "oot"]
   :u {:cat :adjective
       :modifies-noun true}}
 

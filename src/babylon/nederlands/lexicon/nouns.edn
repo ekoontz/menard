@@ -2,6 +2,8 @@
           :agr {:gender :fem}}]
  "boek" [{:cat :noun
           :agr {:gender :fem}}]
+ "druif" [{:cat :noun
+           :agr {:gender :masc}}]
  "haar" [{:cat :noun
           :sem {:pred :hair}}]
  "hond" [{:cat :noun

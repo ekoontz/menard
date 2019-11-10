@@ -45,10 +45,18 @@
       :pronoun false
       :agr {:number :plur}
       :regular true}}
- 
- ;; TODO: parsing falls through to this catch-all rule and
- ;; thus incorrectly matches this for e.g. *"beenen";
- ;; i.e. incorrectly allows *"beenen" as a plural form of "been".
+
+ {:g [#"^(.*)f$"    "$1ven"] ;; druif   -> druiven
+  :p [#"^(.*)ven$"  "$1f"] 
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-f2v true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+
+ ;; TODO: parsing falls through to this catch-all rule,
+ ;; thus matches incorrect inputs e.g. *"beenen";
+ ;; i.e. incorrectly allows inputs *"beenen" as a plural form of "been".
  {:g [#"^(.*)$"       "$1en"] ;; hond   -> honden
   :p [#"^(.*)en$"      "$1"]  ;; honden -> dog
   :u {:cat :noun

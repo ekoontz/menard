@@ -1,5 +1,8 @@
-[{:g [#"^(.*)$" "$1e"]
+[{:g [#"^(.*)oot$" "$1ote"]
+  :p [#"e$" ""]
+  :u {:cat :adjective
+      :modifies-noun true}}
+ {:g [#"^(.*)$" "$1e"]
   :p [#"e$" ""]
   :u {:cat :adjective
       :modifies-noun true}}]
-

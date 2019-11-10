@@ -1,5 +1,16 @@
-;; TODO: Fehringer p. 4 stom -> stomme; lief -> lieve; vies -> vieze
-[{:g [#"oot$" "ote"]
+[
+ ;; F. p 4 "Adjectives have no ending if they precede a singular neuter noun in an indefinite context: i.e.
+ ;;         after een 'a', geen 'no/not a', elk 'each'.."
+ ;; all the 
+ {:g [#"" ""]
+  :p [#"" ""]
+  :u {:cat :adjective
+      :agr {:gender :neuter
+            :number :sing}
+      :sem {:quant :indef}
+      :modifies-noun true}}
+
+ {:g [#"oot$" "ote"]
   :p [#"ote$" "oot"]
   :u {:cat :adjective
       :modifies-noun true}}

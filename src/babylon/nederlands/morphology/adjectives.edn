@@ -1,9 +1,25 @@
-;; TODO: Fehringer .p 4 stom -> stome; lief -> lieve; vies -> vieze
-[{:g [#"^(.*)oot$" "$1ote"]
-  :p [#"e$" ""]
+;; TODO: Fehringer p. 4 stom -> stomme; lief -> lieve; vies -> vieze
+[{:g [#"oot$" "ote"]
+  :p [#"e$"    ""]
   :u {:cat :adjective
       :modifies-noun true}}
- {:g [#"^(.*)$" "$1e"]
-  :p [#"e$" ""]
+
+ {:g [#"f$"    "ve"]
+  :p [#"ve$"   "f"]
+  :u {:cat :adjective
+      :modifies-noun true}}
+
+ {:g [#"s$"    "ze"]
+  :p [#"ze$"   "s"]
+  :u {:cat :adjective
+      :modifies-noun true}}
+
+ {:g [#"om$"   "omme"]
+  :p [#"mme$"  "m"]
+  :u {:cat :adjective
+      :modifies-noun true}}
+ 
+ {:g [#"$"     "e"]
+  :p [#"e$"    ""]
   :u {:cat :adjective
       :modifies-noun true}}]

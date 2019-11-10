@@ -11,6 +11,7 @@
                  (generate (nth expressions index)))))]
     (is (empty? (filter empty? expressions)))
     (is (empty? (filter empty? (map (fn [expression]
+                                      (log/info (str "parsing generated expression: '" (morph expression) "'"))
                                       (-> expression
                                           morph
                                           parse))

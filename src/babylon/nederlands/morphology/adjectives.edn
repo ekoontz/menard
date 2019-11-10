@@ -1,2 +1,5 @@
-[]
+[{:g [#"^(.*)$" "$1e"]
+  :p [#"e$" ""]
+  :u {:cat :adjective
+      :modifies-noun true}}]
 

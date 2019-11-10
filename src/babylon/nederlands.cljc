@@ -42,6 +42,8 @@
 
 (def morphology
   (concat
+   (-> "babylon/nederlands/morphology/adjectives.edn"
+       l/read-rules)
    (-> "babylon/nederlands/morphology/nouns.edn"
        l/read-rules)
    (-> "babylon/nederlands/morphology/verbs.edn"

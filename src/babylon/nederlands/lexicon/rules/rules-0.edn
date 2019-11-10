@@ -1,8 +1,4 @@
-[{:rule :dont-inflect-adjectives
-  :if {:cat :adjective}
-  :then [{:inflected? true}]}
-
- {:rule :dont-inflect-complementizers
+[{:rule :dont-inflect-complementizers
   :if {:cat :comp}
   :then [{:inflected? true}]}
 

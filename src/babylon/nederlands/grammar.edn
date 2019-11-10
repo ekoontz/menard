@@ -15,7 +15,8 @@
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash false
-  :comp {:cat :adjective}
+  :comp {:cat :adjective
+         :modifies-noun true}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase

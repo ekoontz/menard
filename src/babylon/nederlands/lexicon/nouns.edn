@@ -3,6 +3,8 @@
  "hond" [{:cat :noun
           :agr {:gender :masc}
           :sem {:pred :dog}}]
+ "jas" [{:cat :noun
+         :agr {:gender :masc}}]
  "kat" [{:cat :noun
           :agr {:gender :masc}
          :sem {:pred :cat}}]

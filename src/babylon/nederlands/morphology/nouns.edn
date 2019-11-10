@@ -6,6 +6,14 @@
       :regular true
       :agr {:number :sing}}}
 
+ {:g [#"^(.*)s$"    "$1ssen"] ;; jas    -> jassen
+  :p [#"^(.*)ssen$" "$1s"] 
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:morphology-noun-plur-1 true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+
  {:g [#"^(.*)t$"    "$1tten"] ;; kat    -> katten
   :p [#"^(.*)tten$"  "$1t"] 
   :u {:cat :noun

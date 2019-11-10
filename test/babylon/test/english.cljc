@@ -1,7 +1,8 @@
 (ns babylon.test.english
   (:require [babylon.english :as en :refer [analyze expressions generate morph parse syntax-tree]]
             [dag_unify.core :as u]
-            [clojure.test :refer [deftest is]]))
+            [clojure.test :refer [deftest is]]
+            [clojure.tools.logging :as log]))
 
 (deftest parse-cat
   (is (not (empty? (analyze "cat"))))
@@ -64,13 +65,19 @@
 
 
 (deftest all-expressions-work
+  "generate every expression in _expressions_ specification list, and then try to parse that expression."
   (let [expressions
         (->>
          (range 0 (count expressions))
          (pmap (fn [index]
-                 (generate (nth expressions index)))))]
+                 (first
+                  (->> (repeatedly #(generate (nth expressions index)))
+                       (take 2) ;; if generation fails the first time, retry once.
+                       (filter #(not (nil? %)))
+                       (take 1))))))]
     (is (empty? (filter empty? expressions)))
     (is (empty? (filter empty? (map (fn [expression]
+                                      (log/info (str "parsing generated expression: '" (morph expression) "'"))
                                       (-> expression
                                           morph
                                           parse))

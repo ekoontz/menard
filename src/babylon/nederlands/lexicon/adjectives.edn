@@ -1,7 +1,7 @@
 {"klein" [{:cat :adjective :sem {:pred :small}}]
  "groot" [{:cat :adjective :sem {:pred :big}}]
  "lief"  [{:cat :adjective :sem {:pred :nice}}]
+ "oud"  [{:cat :adjective :sem {:pred :old}}]
  "sterk" [{:cat :adjective :sem {:pred :strong}}]
  "stom"  [{:cat :adjective :sem {:pred :stupid}}]
  "vies"  [{:cat :adjective :sem {:pred :dirty}}]}
-

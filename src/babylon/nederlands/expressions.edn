@@ -1,2 +1,5 @@
-[{:rule "np"}]
+[{:rule "np" ;; de kat
+  :head {:phrasal false}}
+ {:rule "np" ;; de groet kat
+  :head {:phrasal true}}]
 

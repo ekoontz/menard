@@ -6,4 +6,19 @@
   :comp {:phrasal false}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/subcat-1]}]
+          babylon.ug/subcat-1]}
+
+ {:rule "nbar" ;; '[nbar .groet +kat]'
+  :cat :noun
+  :head {:pronoun false
+         :propernoun false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash false
+  :comp {:cat :adjective}
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/nominal-phrase
+          babylon.ug/sem-mod
+          babylon.ug/subcat-1-1]}]
+

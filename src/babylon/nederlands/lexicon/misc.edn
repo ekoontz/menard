@@ -1,13 +1,17 @@
 ;; 'F.' means Carol Fehringer, "A Reference Grammar of Dutch", 1999 ,Cambridge University Press.
 {"een" [{:cat :det
+         :sem {:quant :indef}
          :agr {:number :sing}}]
 
  ;; <F. p30-31, 54-55>
  "de" [{:cat :det
+        :sem {:quant :def}
         :agr {:gender :common}}
        {:cat :det
+        :sem {:quant :def}
         :agr {:number :plur}}]
  "het" [{:cat :det
+         :sem {:quant :def}
          :agr {:gender :neuter
                :number :sing}}]}
 ;; </F>

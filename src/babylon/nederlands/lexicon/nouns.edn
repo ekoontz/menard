@@ -1,4 +1,6 @@
-{"hond" [{:cat :noun
+{"boek" [{:cat :noun
+          :agr {:gender :fem}}]
+ "hond" [{:cat :noun
           :agr {:gender :masc}
           :sem {:pred :dog}}]
  "kat" [{:cat :noun

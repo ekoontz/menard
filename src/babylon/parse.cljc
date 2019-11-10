@@ -177,8 +177,8 @@
                             (if (and (not (empty? left-signs))
                                      (not (empty? right-signs)))
                               (do
-                                (log/info (str (string/join ", " (set (map syntax-tree left-signs))) " || "
-                                               (string/join ", " (set (map syntax-tree right-signs)))))
+                                (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
+                                                (string/join ", " (set (map syntax-tree right-signs)))))
                                 (->>
                                  over-results
                                  (map (fn [tree]

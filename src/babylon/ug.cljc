@@ -105,11 +105,9 @@
         agr (atom :top)
         mod (atom :top)]
     {:agr agr
-     :head {:mod mod
-            :agr agr
+     :head {:agr agr
             :slash false
             :subcat {:1 complement :2 []}}
-     :mod mod
      :subcat []
      :comp complement}))
 
@@ -118,14 +116,12 @@
         agr (atom :top)
         mod (atom :top)]
     {:agr agr
-     :slash false
-     :head {:mod mod
-            :agr agr
+     :comp complement
+     :head {:agr agr
             :slash true
             :subcat {:1 complement :2 []}}
-     :mod mod
-     :subcat []
-     :comp complement}))
+     :slash false
+     :subcat []}))
 
 (def subcat-1-1
   (let [agr (atom :top)

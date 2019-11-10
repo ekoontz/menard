@@ -277,7 +277,7 @@
    (->>
     (range 0 (count expressions))
     (pmap (fn [index]
-            (let [generated-expression (first (->> (take 2 (repeatedly #(generate (nth expressions index))))
+            (let [generated-expression (first (->> (take 3 (repeatedly #(generate (nth expressions index))))
                                                    (filter #(not (nil? %)))))]
               (println (morph generated-expression
                               :sentence-punctuation? true))

@@ -1,4 +1,6 @@
-{"de" [{:cat :det
+{"een" [{:cat :det
+         :agr {:number :sing}}]
+ "de" [{:cat :det
         :agr {:gender :masc}}]
  "het" [{:cat :det
          :agr {:gender :fem}}]}

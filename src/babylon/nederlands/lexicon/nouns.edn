@@ -3,4 +3,14 @@
          :sem {:pred :cat}}]
  "hond" [{:cat :noun
           :agr {:gender :masc}
-          :sem {:pred :dog}}]}
+          :sem {:pred :dog}}]
+ "kind" [{:cat :noun
+          :agr {:gender :fem
+                :number :sing}
+          :sem {:pred :child}}]
+ "kinderen" [{:cat :noun
+              :inflected? true
+              :agr {:gender :fem
+                    :number :plur}
+              :sem {:pred :child}}]}
+

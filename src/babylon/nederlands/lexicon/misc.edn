@@ -1,5 +1,8 @@
+;; 'F.' means Carol Fehringer, "A Reference Grammar of Dutch", 1999 ,Cambridge University Press.
 {"een" [{:cat :det
          :agr {:number :sing}}]
+
+ ;; <F. p54-55>
  "de" [{:cat :det
         :agr {:gender :masc}}
        {:cat :det

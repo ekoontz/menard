@@ -167,20 +167,10 @@
    (if sentence-punctuation?
      (-> tree
          morph
-         an
          (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
 
 (defn syntax-tree [tree]
    (s/syntax-tree tree morphology))
-
-(comment
-  (defn an
-   "change 'a' to 'an' if the next word starts with a vowel; 
-    and change 'an' to 'a' if the next word does *not* start with a vowel.")
-  [input]
-  (-> input
-      (string/replace #"\b([aA]) ([aeiou])"  "$1n $2")
-      (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

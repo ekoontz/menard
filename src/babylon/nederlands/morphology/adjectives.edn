@@ -4,22 +4,22 @@
   :u {:cat :adjective
       :modifies-noun true}}
 
- {:g [#"f$"    "ve"]
-  :p [#"ve$"   "f"]
+ {:g [#"f$"   "ve"]
+  :p [#"ve$"  "f"]
   :u {:cat :adjective
       :modifies-noun true}}
 
- {:g [#"s$"    "ze"]
-  :p [#"ze$"   "s"]
+ {:g [#"s$"   "ze"]
+  :p [#"ze$"  "s"]
   :u {:cat :adjective
       :modifies-noun true}}
 
- {:g [#"om$"   "omme"]
-  :p [#"mme$"  "m"]
+ {:g [#"om$"  "omme"]
+  :p [#"mme$" "m"]
   :u {:cat :adjective
       :modifies-noun true}}
  
- {:g [#"$"     "e"]
-  :p [#"e$"    ""]
+ {:g [#"$"    "e"]
+  :p [#"e$"   ""]
   :u {:cat :adjective
       :modifies-noun true}}]

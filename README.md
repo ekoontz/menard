@@ -13,12 +13,14 @@
 
 A Clojure library for generation and parsing of natural language expressions.
 
+## Acknowledgements
+
 Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar). More about HPSG:
 
 - http://hpsg.stanford.edu/
 - https://en.wikipedia.org/wiki/Head-driven_phrase_structure_grammar
 
-# Getting Started
+Dutch grammar and lexicon based on [Carole Fehringer, "A Reference Grammar of Dutch", Cambridge University Press, 1999](https://books.google.nl/books/about/A_Reference_Grammar_of_Dutch.html?id=hXZNkFqILp0C&redir_esc=y). 
 
 ## Demo
 

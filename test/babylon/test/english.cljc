@@ -69,11 +69,12 @@
   (let [expressions
         (->>
          (range 0 (count expressions))
-         (pmap (fn [index]
-                 (first
-                  (->> (repeatedly #(generate (nth expressions index)))
-                       (take 3) ;; if generation fails the first time, retry once.
-                       (filter #(not (nil? %))))))))]
+         (map (fn [index]
+                (log/info (str "working on generating expression with index: " index))
+                (first
+                 (->> (repeatedly #(generate (nth expressions index)))
+                      (take 3) ;; if generation fails the first time, retry once.
+                      (filter #(not (nil? %))))))))]
     (is (empty? (filter empty? expressions)))
     (is (empty? (filter empty? (map (fn [expression]
                                       (log/info (str "parsing generated expression: '" (morph expression) "'"))

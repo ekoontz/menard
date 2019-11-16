@@ -81,3 +81,55 @@
                                           morph
                                           parse))
                                     expressions))))))
+
+(defn seq-to-map
+  "convert a clojure seq to a map with :first and :rest keys."
+  [l]
+  (cond (empty? l)
+        nil
+        true
+        {:first (first l)
+         :rest (seq-to-map (rest l))}))
+
+(defn map-to-seq
+  "convert a map with :first and :rest keys to a clojure seq."
+  [l]
+  (cond (empty? l)
+        nil
+        true
+        (cons (:first l)
+              (map-to-seq (:rest l)))))
+
+(deftest filter-references
+  "modify a spec to remove irrelevant references"
+  (let [obj-sem (atom {:pred :cat})
+        subj-sem (atom {:pred :woman})
+        spec {:cat :noun
+              :rule "np"
+              :sem obj-sem
+              :mod {:first {:pred :tall
+                            :arg subj-sem}
+                    :rest {:first {:pred :nice
+                                   :arg obj-sem}}}}
+        refs-within-sem (vec (set (dag_unify.serialization/all-refs (u/get-in spec [:sem]))))
+        refs-within-sem (set (if (u/ref? (get spec :sem))
+                               (cons (get spec :sem)
+                                     refs-within-sem)
+                              refs-within-sem))
+        mods (map-to-seq (u/get-in spec [:mod]))
+        relevant-mods (filter
+                       (fn [mod]
+                         (let [arg (get mod :arg)]
+                           (contains? refs-within-sem arg)))
+                       (map-to-seq (u/get-in spec [:mod])))]
+    (is (not (empty? spec)))
+    (is (not (empty? relevant-mods)))
+    (is (= 1 (count relevant-mods)))
+    ;; TODO: also sort the mods by a ':degree' (e.g. "small red ball", not "red small ball")
+    (let [filtered-spec
+          (merge (dissoc spec :mod)
+                 {:mod (seq-to-map (seq relevant-mods))})]
+      (is (not (empty? filtered-spec))))))
+
+
+  

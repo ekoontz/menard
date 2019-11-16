@@ -100,18 +100,21 @@
         (cons (:first l)
               (map-to-seq (:rest l)))))
 
-(deftest filter-references
-  "modify a spec to remove irrelevant references"
+
+(def spec
   (let [obj-sem (atom {:pred :cat})
-        subj-sem (atom {:pred :woman})
-        spec {:cat :noun
-              :rule "np"
-              :sem obj-sem
-              :mod {:first {:pred :tall
-                            :arg subj-sem}
-                    :rest {:first {:pred :nice
-                                   :arg obj-sem}}}}
-        refs-within-sem (vec (set (dag_unify.serialization/all-refs (u/get-in spec [:sem]))))
+        subj-sem (atom {:pred :woman})]
+    {:cat :noun
+     :rule "np"
+     :head {:rule "nbar"}
+     :sem obj-sem
+     :mod {:first {:pred :tall
+                   :arg subj-sem}
+           :rest {:first {:pred :nice
+                          :arg obj-sem}}}}))
+
+(defn filter-spec [spec]
+  (let [refs-within-sem (vec (set (dag_unify.serialization/all-refs (u/get-in spec [:sem]))))
         refs-within-sem (set (if (u/ref? (get spec :sem))
                                (cons (get spec :sem)
                                      refs-within-sem)
@@ -122,14 +125,16 @@
                          (let [arg (get mod :arg)]
                            (contains? refs-within-sem arg)))
                        (map-to-seq (u/get-in spec [:mod])))]
-    (is (not (empty? spec)))
-    (is (not (empty? relevant-mods)))
-    (is (= 1 (count relevant-mods)))
-    ;; TODO: also sort the mods by a ':degree' (e.g. "small red ball", not "red small ball")
-    (let [filtered-spec
-          (merge (dissoc spec :mod)
-                 {:mod (seq-to-map (seq relevant-mods))})]
-      (is (not (empty? filtered-spec))))))
+    (merge (dissoc spec :mod)
+           {:mod (seq-to-map (seq relevant-mods))})))
+
+(deftest filter-references
+  "modify a spec to remove irrelevant references"
+  (is (not (empty? spec)))
+  ;; TODO: also sort the mods by a ':degree' (e.g. "small red ball", not "red small ball")
+  (let [filtered-spec (filter-spec spec)]
+    (is (not (empty? filtered-spec)))))
+
 
 
   

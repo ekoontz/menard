@@ -31,6 +31,7 @@
  "military" [{:cat :adjective :sem {:pred :military}}]
  "national" [{:cat :adjective :sem {:pred :national}}]
  "new" [{:cat :adjective :sem {:pred :new}}]
+ "nice" [{:cat :adjective :sem {:pred :nice}}]
  "old" [{:cat :adjective :sem {:pred :old}}]
  "only" [{:cat :adjective :sem {:pred :only}}]
  "other" [{:cat :adjective :sem {:pred :other}}]

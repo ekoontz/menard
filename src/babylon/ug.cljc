@@ -315,14 +315,15 @@
 ;;  `-pp [ sem 3[arg 1]]
 ;;       [ mod 4       ]
 ;;
+;; TODO: :mod is not quite as shown in above comment: we are ignoring
+;; :head-mod in parent :mod.
 (def complement-is-adjunct
   (let [sem (atom :top)
         head-mod (atom :top)
         comp-sem (atom {:arg sem})
         comp-mod (atom :top)]
-    {:mod {:first head-mod
-           :rest {:first comp-sem
-                  :rest comp-mod}}
+    {:mod {:first comp-sem
+           :rest comp-mod}
      :head {:sem sem
             :mod head-mod}
      :comp {:sem comp-sem

@@ -100,25 +100,20 @@
         agr (atom :top)
         mod (atom :top)]
     {:agr agr
-     :head {:mod mod
-            :agr agr
+     :head {:agr agr
             :slash false
             :subcat {:1 complement :2 []}}
-     :mod mod
      :subcat []
      :comp complement}))
 
 (def subcat-1-slash
   (let [complement (atom {:subcat []})
-        agr (atom :top)
-        mod (atom :top)]
+        agr (atom :top)]
     {:agr agr
      :slash false
-     :head {:mod mod
-            :agr agr
+     :head {:agr agr
             :slash true
             :subcat {:1 complement :2 []}}
-     :mod mod
      :subcat []
      :comp complement}))
 
@@ -129,20 +124,6 @@
             :subcat subcat-1}
      :agr agr
      :subcat subcat-1}))
-
-(def sem-mod
-  (let [reference (atom :top)
-        adjunct (atom {:ref reference})
-        head-mod (atom :top)
-        pred (atom :top)]
-    {:head {:mod head-mod
-            :sem {:pred pred
-                  :ref reference}}
-     :comp {:sem adjunct}
-     :mod {:first adjunct
-           :rest head-mod}
-     :sem {:ref reference
-           :pred pred}}))
 
 (def shared-quant
   (let [shared (atom :top)]
@@ -249,16 +230,6 @@
      :comp {:agr head-agr
             :sem {:subj head-sem}}}))
 
-(def comp-mod-is-subj-mod
-  (let [comp-mod (atom :top)]
-    {:sem {:subj-mod comp-mod}
-     :comp {:mod comp-mod}}))
-
-(def comp-mod-is-obj-mod
-  (let [comp-mod (atom :top)]
-    {:sem {:obj-mod comp-mod}
-     :comp {:mod comp-mod}}))
-
 ;; root rules: which child (head or comp) is the root of a tree.
 (def head-is-root
   (let [root (atom :top)]
@@ -298,7 +269,7 @@
 ;; vp-slash <1,3>
 ;; |`- v<1,2> "look"
 ;; |
-;; `- prep<2<3>> "at"
+;;  `- prep<2<3>> "at"
 ;;
 ;; TODO: rename: not vp-specific.
 (def vp-slash
@@ -313,3 +284,47 @@
                      :2 two
                      :3 []}}
      :comp two}))
+
+;; semantic modification
+
+;; this is used for non-adjunct phrase-structure rules
+;; e.g. in "sees the cat", "the cat" is an argument of the verb:
+;; vp    [ mod   <1,2> ]
+;; |
+;; |`-v  [ mod  <1>    ]
+;;  `-np [mod <2>      ]
+;;
+(def complement-is-argument
+  (let [head-mod (atom :top)
+        comp-mod (atom :top)]
+    {:mod {:first head-mod
+           :rest comp-mod}
+     :head {:mod head-mod}
+     :comp {:mod comp-mod}}))
+
+;; this is used for adjunct phrase structure rules
+;; e.g. in "sits on the chair", "on the chair" is
+;; an adjunct:
+;;
+;; vp    [ sem 1       ]
+;; |     [ mod <2,3,4> ]
+;; |
+;; |`-v  [ sem 1       ]
+;; |     [ mod <2>     ]
+;; |
+;;  `-pp [ sem 3[arg 1]]
+;;       [ mod 4       ]
+;;
+(def complement-is-adjunct
+  (let [sem (atom :top)
+        head-mod (atom :top)
+        comp-sem (atom {:arg sem})
+        comp-mod (atom :top)]
+    {:mod {:first head-mod
+           :rest {:first comp-sem
+                  :rest comp-mod}}
+     :head {:sem sem
+            :mod head-mod}
+     :comp {:sem comp-sem
+            :mod comp-mod}}))
+

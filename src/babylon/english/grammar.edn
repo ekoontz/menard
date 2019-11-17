@@ -47,8 +47,8 @@
   :comp {:cat :adjective}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
+          babylon.ug/head-sem          
           babylon.ug/nominal-phrase
-          babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
  {:rule "nbar2" ;; '[nbar2 +cat .[s-slash I see]]'
@@ -64,9 +64,9 @@
          :slash true}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
+          babylon.ug/head-sem          
           babylon.ug/nominal-phrase
           babylon.ug/object-of-comp-is-head
-          babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
  
  {:rule "nbar3" ;; '[nbar3 cat [comp1 that [vp-present sees me]]]'
@@ -80,9 +80,9 @@
          :slash false}
   :unify [babylon.ug/head-first
           babylon.ug/head-rule
+          babylon.ug/head-sem          
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
-          babylon.ug/sem-mod
           babylon.ug/subcat-1-1
           babylon.ug/subject-of-comp-is-head]}
 
@@ -96,11 +96,11 @@
          :cat :comp
          :slash true}
   :unify [babylon.ug/head-first
+          babylon.ug/head-sem
           babylon.ug/head-rule
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
           babylon.ug/object-of-comp-is-head
-          babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
  {:rule "negp"
@@ -141,8 +141,7 @@
   :cat :verb
   :slash false
   :options babylon.english/finite-tenses
-  :unify [babylon.ug/comp-mod-is-subj-mod
-          babylon.ug/head-last
+  :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-modal
           babylon.ug/subcat-1]}
@@ -216,9 +215,9 @@
   :head {:aux false}
   :unify [babylon.ug/head-first
           babylon.ug/head-reflexive
-          babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-is-root
           babylon.ug/head-modal
+          babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-2]} 
 
@@ -234,7 +233,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-infl
           babylon.ug/head-is-root
-          babylon.ug/sem-mod
+          babylon.ug/head-sem
           babylon.ug/slash-is-head-slash          
           babylon.ug/subcat-1-1]}
  
@@ -248,7 +247,6 @@
   :head {:aux false}
   :unify [babylon.ug/head-first
           babylon.ug/head-reflexive
-          babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-sem
           babylon.ug/head-is-root
           babylon.ug/head-modal
@@ -273,6 +271,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
           babylon.ug/head-reflexive
+          babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-2]}
  
@@ -285,6 +284,7 @@
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/head-reflexive
+          babylon.ug/head-sem
           babylon.ug/comp-is-root
           babylon.ug/subcat-2-2-slash]}
 
@@ -305,6 +305,7 @@
          :modal :infinitive}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
+          babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-2]}
 
@@ -329,6 +330,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
+          babylon.ug/head-sem
           babylon.ug/subcat-2]}
   
  {:rule "vp-slash" ;; [s-wh-interog .[pp +at .what] +[s-interog-slash +did [s-comp-2 .she +[vp-slash +look .at]]]]
@@ -338,6 +340,7 @@
          :infl :base  ;; TODO: use options (see above TODO comment)
          :subcat {:2 {:cat :prep}}}
   :unify [babylon.ug/head-first
+          babylon.ug/head-sem
           babylon.ug/vp-slash]}]
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar +book .[s-slash .she +[vp-modal-slash +wants .[+to .find]]]]

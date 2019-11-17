@@ -575,20 +575,26 @@
 (declare map-to-seq)
 (declare seq-to-map)
 
+(defn refs-within-sem [spec]
+  (let [refs-within-sem (vec (set (dag_unify.serialization/all-refs (u/get-in spec [:sem]))))]
+    (set (if (u/ref? (get spec :sem))
+            (cons (get spec :sem)
+                  refs-within-sem)
+            refs-within-sem))))
+
 (defn filter-spec [spec]
-  (let [refs-within-sem (vec (set (dag_unify.serialization/all-refs (u/get-in spec [:sem]))))
-        refs-within-sem (set (if (u/ref? (get spec :sem))
-                               (cons (get spec :sem)
-                                     refs-within-sem)
-                              refs-within-sem))
+  (let [refs-within-sem (refs-within-sem spec)
         mods (map-to-seq (u/get-in spec [:mod]))
         relevant-mods (filter
                        (fn [mod]
-                         (let [arg (get mod :arg)]
+                         (let [arg
+                               (if (u/ref? mod)
+                                 (get @mod :arg)
+                                 (get mod :arg))]
                            (contains? refs-within-sem arg)))
-                       (map-to-seq (u/get-in spec [:mod])))]
+                       mods)]
     (merge (dissoc spec :mod)
-           {:mod (seq-to-map (seq relevant-mods))})))
+           {:mod (seq-to-map relevant-mods)})))
 
 (defn seq-to-map
   "convert a clojure seq to a map with :first and :rest keys."

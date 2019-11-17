@@ -309,20 +309,19 @@
 ;; an adjunct:
 ;;
 ;; vp    [ sem 1       ]
-;; |     [ mod <2,3,4> ]
+;; |     [ mod <2,3>   ]
 ;; |
 ;; |`-v  [ sem 1       ]
-;; |     [ mod <2>     ]
 ;; |
-;;  `-pp [ sem 3[arg 1]]
-;;       [ mod 4       ]
+;;  `-pp [ sem 2[arg 1]]
+;;       [ mod 3       ]
 ;;
-;; TODO: :mod is not quite as shown in above comment: we are ignoring
-;; :head-mod in parent :mod.
 (def complement-is-adjunct
   (let [sem (atom :top)
         head-mod (atom :top)
-        comp-sem (atom {:arg sem})
+        ;; other possibilities besides :arg are:
+        ;; :subj, :obj, :iobj.
+        comp-sem (atom {:arg sem}) 
         comp-mod (atom :top)]
     {:mod {:first comp-sem
            :rest head-mod}

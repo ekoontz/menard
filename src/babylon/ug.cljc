@@ -325,7 +325,7 @@
         comp-sem (atom {:arg sem})
         comp-mod (atom :top)]
     {:mod {:first comp-sem
-           :rest comp-mod}
+           :rest head-mod}
      :head {:sem sem
             :mod head-mod}
      :comp {:sem comp-sem

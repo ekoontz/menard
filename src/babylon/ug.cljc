@@ -24,6 +24,8 @@
     {:infl infl
      :head {:infl infl}}))
 
+;; TODO: :interogative? into :sem if
+;; possible, so we don't need to specify it here.
 (def head-rule
   (let [comp-cat (atom :top)
         comp-derivation (atom :top)

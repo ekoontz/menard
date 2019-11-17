@@ -600,7 +600,7 @@
   "convert a clojure seq to a map with :first and :rest keys."
   [l]
   (cond (empty? l)
-        nil
+        :top
         true
         {:first (first l)
          :rest (seq-to-map (rest l))}))

@@ -4,7 +4,7 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [babylon.ug/complement-is-argument
+  :unify [babylon.ug/complement-is-argument-no-comp-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-sem

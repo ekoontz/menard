@@ -301,6 +301,9 @@
     {:mod comp-mod
      :comp {:mod comp-mod}}))
 
+;; also used for non-adjunct phrase-structure rules
+;; e.g. in "sees the cat", "the cat" is an argument of the verb,
+;; but allows for one modifier of the head:
 ;; vp    [ mod  <1,2..> ]
 ;; |
 ;; |`-v  [ mod  <1>     ]

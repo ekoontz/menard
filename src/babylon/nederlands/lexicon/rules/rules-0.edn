@@ -26,5 +26,11 @@
  {:rule :nouns-are-not-propernouns
   :if {:cat :noun
        :propernoun ::unspec}
-  :then [{:propernoun false}]}]
+  :then [{:propernoun false}]}
+
+
+ {:rule :nouns-have-empty-modifiers
+  :if {:cat :noun
+       :mod ::unspec}
+  :then [{:mod []}]}]
 

@@ -291,10 +291,10 @@
 
 ;; this is used for non-adjunct phrase-structure rules
 ;; e.g. in "sees the cat", "the cat" is an argument of the verb:
-;; vp    [ mod   <1,2> ]
+;; vp    [ mod  <1> ]
 ;; |
-;; |`-v  [ mod  <1>    ]
-;;  `-np [mod <2>      ]
+;; |`-v
+;;  `-np [ mod  <1> ]
 ;;
 (def complement-is-argument
   (let [head-mod (atom :top)]

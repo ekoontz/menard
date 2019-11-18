@@ -164,10 +164,15 @@
   (count
    (->>
     (range 0 (count expressions))
-    (pmap (fn [index]
-            (let [generated-expression (first (->> (take 3 (repeatedly #(generate (nth expressions index))))
-                                                   (filter #(not (nil? %)))))]
-              (println (morph generated-expression
-                              :sentence-punctuation? true))
-              (println (syntax-tree generated-expression))
-              (println)))))))
+    (map (fn [index]
+           (let [generated-expressions (->> (take 10
+                                                  (repeatedly #(generate (nth expressions index))))
+                                            (filter #(not (nil? %))))]
+             (count
+              (->> generated-expressions
+                   (map (fn [generated-expression]
+                          (println (morph generated-expression
+                                          :sentence-punctuation? true))
+                          (println (syntax-tree generated-expression))
+                          (println)))))))))))
+

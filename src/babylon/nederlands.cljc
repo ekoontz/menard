@@ -168,11 +168,14 @@
            (let [generated-expressions (->> (take 10
                                                   (repeatedly #(generate (nth expressions index))))
                                             (filter #(not (nil? %))))]
+             ;; for each expression:
+             ;; generate it, and print the surface form
+             ;; parse the surface form and return the first parse tree.
              (count
               (->> generated-expressions
                    (map (fn [generated-expression]
                           (println (morph generated-expression
                                           :sentence-punctuation? true))
-                          (println (syntax-tree generated-expression))
+                          (println (syntax-tree (first (parse (morph generated-expression)))))
                           (println)))))))))))
 

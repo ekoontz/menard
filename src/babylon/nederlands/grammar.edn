@@ -1,16 +1,4 @@
-[{:rule "np"
-  :reflexive false
-  :agr {:person :3rd}
-  :cat :noun
-  :slash false
-  :comp {:phrasal false}
-  :unify [babylon.ug/complement-is-argument-no-comp-mod
-          babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/head-sem
-          babylon.ug/subcat-1]}
-
- {:rule "nbar" ;; '[nbar .groet +kat]'
+[{:rule "nbar" ;; '[nbar .groet +kat]'
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -26,5 +14,19 @@
           babylon.ug/nominal-phrase
           babylon.ug/shared-quant
           babylon.ug/shared-agr
-          babylon.ug/subcat-1-1]}]
+          babylon.ug/subcat-1-1]}
+
+ {:rule "np"
+  :reflexive false
+  :agr {:person :3rd}
+  :cat :noun
+  :slash false
+  :comp {:phrasal false}
+  :unify [babylon.ug/complement-is-argument-no-comp-mod
+          babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/head-sem
+          babylon.ug/subcat-1]}]
+
+
 

@@ -165,7 +165,7 @@
    (->>
     (range 0 (count expressions))
     (map (fn [index]
-           (let [generated-expressions (->> (take 10
+           (let [generated-expressions (->> (take 20
                                                   (repeatedly #(generate (nth expressions index))))
                                             (filter #(not (nil? %))))]
              ;; for each expression:
@@ -176,6 +176,6 @@
                    (map (fn [generated-expression]
                           (println (morph generated-expression
                                           :sentence-punctuation? true))
-                          (println (syntax-tree (first (parse (morph generated-expression)))))
-                          (println)))))))))))
+                          (if false (println (syntax-tree (first (parse (morph generated-expression))))))
+                          (if false (println))))))))))))
 

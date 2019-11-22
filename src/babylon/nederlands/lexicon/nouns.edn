@@ -4,14 +4,21 @@
  "boek" [{:cat :noun
           :agr {:gender :neuter}
           :sem {:pred :book}}]
+ "bedrijf" [{:cat :noun
+             :agr {:gender :neuter}
+             :sem {:pred :business}}]
  "druif" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :grape}}]
+ "fiets" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :bike}}]
  "gebeid" [{:cat :noun
             :agr {:gender :neuter}
             :sem {:pred :area}}]
  "haar" [{:cat :noun
-          :agr {:gender :top} ;; gender seems to be unspecified for this word.
+          ;; gender seems to be unspecified for this word.
+          :agr {:gender :top} 
           :sem {:pred :hair}}]
  "hond" [{:cat :noun
           :agr {:gender :common}
@@ -22,6 +29,9 @@
  "jas" [{:cat :noun
          :agr {:gender :common}
          :sem {:pred :coat}}]
+ "jongen" [{:cat :noun
+            :agr {:gender :common}
+            :sem {:pred :boy}}]
  "kat" [{:cat :noun
           :agr {:gender :common}
          :sem {:pred :cat}}]
@@ -34,5 +44,15 @@
               :agr {:gender :neuter
                     :number :plur}
               :sem {:pred :child}}]
+ "land" [{:cat :noun
+          :sem {:pred :country}
+          :agr {:gender :neuter}}]
  "man" [{:cat :noun
-         :agr {:gender :common}}]}
+         :sem {:pred :man}
+         :agr {:gender :common}}]
+ "stoel" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :chair}}]
+ "zaak" [{:cat :noun
+          :sem {:pred :case}
+          :agr {:gender :common}}]}

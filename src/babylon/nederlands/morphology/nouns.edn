@@ -29,9 +29,12 @@
       :pronoun false
       :agr {:number :plur}
       :regular true}}
- 
- {:g [#"^(.*)s$"    "$1ssen"] ;; jas    -> jassen
-  :p [#"^(.*)ssen$" "$1s"] 
+
+ ;; jas    -> jassen
+ ;; but not:
+ ;; fiets  -> *fietssen
+ {:g [#"^(.*[^t])s$"    "$1ssen"] 
+  :p [#"^(.*[^t])ssen$" "$1s"] 
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
       :pronoun false

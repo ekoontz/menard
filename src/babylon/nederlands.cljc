@@ -165,17 +165,26 @@
    (->>
     (range 0 (count expressions))
     (map (fn [index]
-           (let [generated-expressions (->> (take 20
-                                                  (repeatedly #(generate (nth expressions index))))
-                                            (filter #(not (nil? %))))]
+           (let [generated-expressions
+                 (->> (repeatedly #(generate (nth expressions index)))
+                      (take 20)
+                      (filter #(not (nil? %))))]
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.
              (count
               (->> generated-expressions
                    (map (fn [generated-expression]
-                          (println (morph generated-expression
-                                          :sentence-punctuation? true))
-                          (if false (println (syntax-tree (first (parse (morph generated-expression))))))
+                          (-> generated-expression
+                              (morph :sentence-punctuation? true)
+                              println)
+                          (if false
+                            (-> generated-expression
+                                morph
+                                parse
+                                first
+                                syntax-tree
+                                println))
                           (if false (println))))))))))))
+
 

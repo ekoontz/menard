@@ -15,7 +15,7 @@
       :regular true}}
 
  {:g [#"^(.*)ee(.)$"     "$1e$2en"] ;; been   -> benen
-  :p [#"^(.*)e(n)en$"    "$1ee$2"]  ;; benen -> been
+  :p [#"^(.*)e([nr])en$" "$1ee$2"]  ;; benen -> been
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-vowel true}}
       :pronoun false

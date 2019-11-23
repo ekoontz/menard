@@ -126,4 +126,14 @@
   :if {:cat :noun
        :pronoun true
        :wh-word ::unspec}
-  :then [{:wh-word false}]}]
+  :then [{:wh-word false}]}
+
+ {:rule :nouns-have-empty-modifiers
+  :if {:cat :noun
+       :mod ::unspec}
+  :then [{:mod []}]}
+
+ {:rule :politeness-is-unspecified
+  :if {:cat :noun
+       :sem {:context :unspec}}
+  :then [{:mod []}]}]

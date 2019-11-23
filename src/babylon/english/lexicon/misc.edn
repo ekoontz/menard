@@ -1,6 +1,10 @@
-{"a" [{:cat :det :agr {:number :sing}}]
+{"a" [{:cat :det
+       :sem {:quant :indef}
+       :agr {:number :sing}}]
  "an" [{:exception true
+        :sem {:quant :indef}
         :cat :det :agr {:number :sing}}]
+
  "at" [{:cat :prep
         :sem {:pred :at}}]
 
@@ -177,9 +181,10 @@
                        :sem {:mood :decl}
                        :subcat []}
                    :2 []}}]
-       
  
- "the" [{:cat :det}]
+ "the" [{:cat :det
+         :sem {:quant :def}}]
+
  "themselves" [{:cat :noun :agr {:person :3rd :number :plur} :pronoun true :reflexive true}]
  "they" [{:cat :noun
           :pronoun true

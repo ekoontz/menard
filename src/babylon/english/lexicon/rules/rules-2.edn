@@ -11,27 +11,37 @@
        :subcat ::unspec
        :agr {:number ::unspec}}
   :then [(let [agr (atom {:number :sing
-                          :person :3rd})]
+                          :person :3rd})
+               quant (atom :top)]
+           ;; "a/the dog sleeps"
            {:cat :noun
             :reflexive false
             :propernoun false
             :pronoun false
             :agr agr
-            :subcat {:1 {:cat :det :agr agr}
+            :sem {:quant quant}
+            :subcat {:1 {:cat :det :agr agr
+                         :sem {:quant quant}}
                      :2 []}})
+         ;; "the/some dogs sleep"
          (let [agr (atom {:number :plur
-                          :person :3rd})]
+                          :person :3rd})
+               quant (atom :top)]
            {:cat :noun
             :reflexive false
             :propernoun false
             :pronoun false
             :agr agr
-            :subcat {:1 {:cat :det :agr agr}
+            :sem {:quant quant}
+            :subcat {:1 {:cat :det :agr agr
+                         :sem {:quant quant}}
                      :2 []}})
+         ;; "dogs sleep"
          {:cat :noun
           :reflexive false
           :propernoun false
           :pronoun false
+          :sem {:quant :unspec}
           :agr {:number :plur
                 :person :3rd}
           :subcat []}]}

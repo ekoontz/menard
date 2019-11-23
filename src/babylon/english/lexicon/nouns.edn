@@ -16,6 +16,14 @@
          :sem {:pred :cat}}]
  "chair" [{:cat :noun
            :sem {:pred :chair}}]
+ "child" [{:cat :noun
+           :sem {:pred :child}
+           :agr {:number :sing}}]
+ "children" [{:cat :noun
+              :sem {:pred :child}
+              :agr {:number :plur}}]
+ "coat" [{:cat :noun
+          :sem {:pred :coat}}]
  "company" [{:cat :noun
              :sem {:pred :company}}]
  "country" [{:cat :noun
@@ -48,8 +56,12 @@
                 :gender :fem}}]
  "government" [{:cat :noun
                 :sem {:pred :government}}]
+ "grape" [{:cat :noun
+           :sem {:pred :grape}}]
  "group" [{:cat :noun
            :sem {:pred :group}}]
+ "hair" [{:cat :noun
+          :sem {:pred :hair}}]
  "hand" [{:cat :noun
           :sem {:pred :hand}}]
  "home" [{:cat :noun
@@ -66,6 +78,8 @@
           :agr {:gender :fem
                 :human true
                 :number :sing}}]
+ "leg" [{:cat :noun
+          :sem {:pred :leg}}]
  "life" [{:cat :noun
           :sem {:pred :life}}]
  "lot" [{:cat :noun

@@ -1,4 +1,7 @@
-{"been" [{:cat :noun
+{"baan" [{:cat :noun
+          :agr {:gender :common}
+          :sem {:pred :job}}]
+ "been" [{:cat :noun
           :agr {:gender :neuter}
           :sem {:pred :leg}}]
  "boek" [{:cat :noun
@@ -7,19 +10,37 @@
  "bedrijf" [{:cat :noun
              :agr {:gender :neuter}
              :sem {:pred :business}}]
+ "dag" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :day}}]
  "druif" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :grape}}]
+ "familie" [{:cat :noun
+             :agr {:gender :common}
+             :sem {:pred :family}}]
+ "feit" [{:cat :noun
+          :agr {:gender :neuter}
+          :sem {:pred :fact}}]
  "fiets" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :bike}}]
  "gebeid" [{:cat :noun
             :agr {:gender :neuter}
             :sem {:pred :area}}]
+ "groep" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :group}}]
  "haar" [{:cat :noun
-          ;; gender seems to be unspecified for this word.
-          :agr {:gender :top} 
+          :agr {:gender :neuter} 
           :sem {:pred :hair}}]
+ "hand" [{:cat :noun
+          :agr {:gender :common} 
+          :sem {:pred :hand}}]
+ "heer" [{:cat :noun
+          :agr {:gender :common}
+          :sem {:pred :man
+                :context :polite}}]
  "hond" [{:cat :noun
           :agr {:gender :common}
           :sem {:pred :dog}}]
@@ -32,6 +53,9 @@
  "jongen" [{:cat :noun
             :agr {:gender :common}
             :sem {:pred :boy}}]
+ "meisje" [{:cat :noun
+            :agr {:gender :neuter}
+            :sem {:pred :girl}}]
  "kat" [{:cat :noun
           :agr {:gender :common}
          :sem {:pred :cat}}]
@@ -44,15 +68,27 @@
               :agr {:gender :neuter
                     :number :plur}
               :sem {:pred :child}}]
+ "kitten" [{:cat :noun
+            :agr {:gender :common}
+            :sem {:pred :kitten}}]
  "land" [{:cat :noun
           :sem {:pred :country}
           :agr {:gender :neuter}}]
  "man" [{:cat :noun
          :sem {:pred :man}
          :agr {:gender :common}}]
+ "oog" [{:cat :noun
+         :sem {:pred :eye}
+         :agr {:gender :neuter}}]
+ "overheid" [{:cat :noun
+              :sem {:pred :government}
+              :agr {:gender :common}}]
  "stoel" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :chair}}]
+ "thuis" [{:cat :noun
+           :agr {:gender :neuter}
+           :sem {:pred :home}}]
  "zaak" [{:cat :noun
           :sem {:pred :case}
           :agr {:gender :common}}]}

@@ -13,6 +13,10 @@
  "dag" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :day}}]
+ "dame" [{:cat :noun
+          :agr {:gender :common}
+          :sem {:pred :woman
+                :context :polite}}]
  "druif" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :grape}}]
@@ -28,6 +32,9 @@
  "gebeid" [{:cat :noun
             :agr {:gender :neuter}
             :sem {:pred :area}}]
+ "geld" [{:cat :noun
+          :agr {:gender :neuter}
+          :sem {:pred :money}}]
  "groep" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :group}}]
@@ -53,9 +60,15 @@
  "jongen" [{:cat :noun
             :agr {:gender :common}
             :sem {:pred :boy}}]
+ "maand" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :month}}]
  "meisje" [{:cat :noun
             :agr {:gender :neuter}
             :sem {:pred :girl}}]
+ "moeder" [{:cat :noun
+            :agr {:gender :common}
+            :sem {:pred :mother}}]
  "kat" [{:cat :noun
           :agr {:gender :common}
          :sem {:pred :cat}}]
@@ -74,6 +87,9 @@
  "land" [{:cat :noun
           :sem {:pred :country}
           :agr {:gender :neuter}}]
+ "leven" [{:cat :noun
+           :agr {:gender :neuter}
+           :sem {:pred :life}}]
  "man" [{:cat :noun
          :sem {:pred :man}
          :agr {:gender :common}}]
@@ -83,6 +99,9 @@
  "overheid" [{:cat :noun
               :sem {:pred :government}
               :agr {:gender :common}}]
+ "plaats" [{:cat :noun
+            :sem {:pred :lot}
+            :agr {:gender :common}}]
  "stoel" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :chair}}]

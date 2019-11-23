@@ -13,12 +13,9 @@
  "case" [{:cat :noun
           :sem {:pred :case}}]
  "cat" [{:cat :noun
-         :sem {:pred :cat
-               :ref {:animate true
-                     :human false}}}]
+         :sem {:pred :cat}}]
  "chair" [{:cat :noun
-           :sem {:pred :chair
-                 :ref {:animate false}}}]
+           :sem {:pred :chair}}]
  "company" [{:cat :noun
              :sem {:pred :company}}]
  "country" [{:cat :noun

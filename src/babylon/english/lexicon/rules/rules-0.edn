@@ -135,5 +135,5 @@
 
  {:rule :politeness-is-unspecified
   :if {:cat :noun
-       :sem {:context :unspec}}
-  :then [{:mod []}]}]
+       :sem {:context ::unspec}}
+  :then [{:sem {:context :unspec}}]}]

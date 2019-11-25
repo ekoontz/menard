@@ -76,8 +76,7 @@
           :sem {:pred :woman
                 :context :polite}
           :agr {:gender :fem
-                :human true
-                :number :sing}}]
+                :human true}}]
  "leg" [{:cat :noun
           :sem {:pred :leg}}]
  "life" [{:cat :noun

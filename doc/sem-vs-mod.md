@@ -26,7 +26,7 @@ Below we describe a proposed solution that meets these requirements.
   
 - English rules' use of these meta rules:
   - `nest-mod`: `np`,`vp`,..
-  - `cons-mod`: `n-mod` (a.k.a. `nbar`),..
+  - `cons-mod`: `nmod` (a.k.a. `nbar`),..
   - `no-mod`:   `s`,`s/`, `cp`,..
 
 
@@ -63,10 +63,10 @@ Below we describe a proposed solution that meets these requirements.
 
 # Rules
 
-`n-mod` is a rule where :sem and :mod are siblings (`cons-mod`): 
+`nmod` is a rule where :sem and :mod are siblings (`cons-mod`): 
 
 ```
-{:rule "nbar"
+{:rule "nmod"
  :comp [1]
  :sem [2] {:ref [3]}
  :mod <[4]{:arg [3]} [5]>
@@ -93,7 +93,7 @@ Below we describe a proposed solution that meets these requirements.
 
 Here we'll use the example sentence "the small orange dog that you see sleeps quietly" and its constituent phrases:
 
-## `[s [np the [nbar [nbar small [nbar orange dog]] [cp that [s/ you see]]]] [vp sleeps quietly]]`
+## `[s [np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]] [vp sleeps quietly]]`
 
 The `:mod` of the entire expression is nested within the `:sem`:
 
@@ -113,7 +113,7 @@ The `:mod` of the entire expression is nested within the `:sem`:
 	          :arg [2]}>}}
 ```
 
-## `[np the [nbar [nbar small [nbar orange dog]] [cp that [s/ you see]]]]`
+## `[np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]]`
 
 ```
 {:sem {:pred :dog
@@ -127,9 +127,9 @@ The `:mod` of the entire expression is nested within the `:sem`:
               :arg [1]}>}
 ```
 
-## `[nbar [nbar small [nbar orange dog]] [cp that [s/ you see]]]`
+## `[nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]`
 
-The outer `n-mod`: `:sem` and `:mod` are siblings:
+The outer `nmod`: `:sem` and `:mod` are siblings:
 
 ```
 {:sem {:pred :dog
@@ -143,9 +143,9 @@ The outer `n-mod`: `:sem` and `:mod` are siblings:
        :arg [1]}>}
 ```
 
-## `[nbar [nbar small [nbar orange dog]]]`
+## `[nmod [nmod small [nmod orange dog]]]`
 
-The middle `n-mod`: `:sem` and `:mod` are also siblings:
+The middle `nmod`: `:sem` and `:mod` are also siblings:
 
 ```
 {:sem {:pred :dog
@@ -156,7 +156,7 @@ The middle `n-mod`: `:sem` and `:mod` are also siblings:
        :arg [1]}>}
 ```
 
-## `[nbar orange dog]`
+## `[nmod orange dog]`
 
 The inner `nmod`: `:sem` and `:mod` are once more siblings:
 

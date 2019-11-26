@@ -101,20 +101,23 @@ Below we describe a proposed solution that meets these requirements.
         :mod [1]}}
 ```
 
-# Example Expression Semantics
+# Example Expression Representations
 
-Here we'll use the example sentence "the small orange dog that you see sleeps quietly" and its constituent phrases:
+Here we'll use the example sentence "the small orange dog that you see hunts a mouse stealthily" and its constituent phrases:
 
-## `[s [np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]] [vmod sleeps quietly]]`
+## `[s [np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]] [vmod [vp hunts a mouse] stealthily]]`
 
-The `:mod` of the entire expression is nested within the `:sem`:
-
-`s` is neither `nest-mod` nor `cons-mod`.
+`s` is neither `nest-mod`, `cons-mod`, nor `:cons-and-nest-mod`: neither child should have a
+`:mod` feature. This is enforced with `:mod ::unspec`:
 
 ```
-{:sem {:pred :sleep
+{:sem {:pred :hunts
+	   :obj {:ref [3]
+             :pred :mouse
+	         :mod <{:ref [3]
+			        :pred :grey}>}
        :ref [2]
-       :subj {:pred :dog
+       :subj {:pred :cat
               :ref [1]}
               :mod <{:pred :see
                      :obj [1]
@@ -123,16 +126,19 @@ The `:mod` of the entire expression is nested within the `:sem`:
                      :arg [1]}
                     {:pred :orange
                      :arg [1]}>}
-       :mod <{:pred :quiet
-	          :arg [2]}>}}
+       :mod <{:pred :stealth
+	          :arg [2]}>}
+ :mod ::unspec}
+ :head {:mod ::unspec}
+ :comp {:mod ::unspec}}
 ```
 
-## `[np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]]`
+## `[np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]]`
 
 `np` is `nest-mod`:
 
 ```
-{:sem {:pred :dog
+{:sem {:pred :cat
        :ref [1]}
        :mod <{:pred :see
               :obj [1]
@@ -140,15 +146,18 @@ The `:mod` of the entire expression is nested within the `:sem`:
              {:pred :small
               :arg [1]}
              {:pred :orange
-              :arg [1]}>}
+              :arg [1]}>
+ :mod ::unspec}
+ :head {:mod ::unspec}
+ :comp {:mod ::unspec}}
 ```
 
-## `[nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]`
+## `[nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]`
 
 `nmod` is `cons-mod`; as such, the outer `nmod`: `:sem` and `:mod` are siblings:
 
 ```
-{:sem {:pred :dog
+{:sem {:pred :cat
        :ref [1]}
  :mod <{:pred :see
         :obj [1]
@@ -159,12 +168,12 @@ The `:mod` of the entire expression is nested within the `:sem`:
        :arg [1]}>}
 ```
 
-## `[nmod [nmod small [nmod orange dog]]]`
+## `[nmod [nmod small [nmod orange cat]]]`
 
 The middle `nmod`: `:sem` and `:mod` are also siblings:
 
 ```
-{:sem {:pred :dog
+{:sem {:pred :cat
        :ref [1]}
  :mod <{:pred :small
         :arg [1]}
@@ -172,12 +181,12 @@ The middle `nmod`: `:sem` and `:mod` are also siblings:
         :arg [1]}>}
 ```
 
-## `[nmod orange dog]`
+## `[nmod orange cat]`
 
 The inner `nmod`: `:sem` and `:mod` are once more siblings:
 
 ```
-{:sem {:pred :dog
+{:sem {:pred :cat
        :ref [1]}
  :mod <{:pred :orange
         :arg [1]}>}
@@ -185,29 +194,56 @@ The inner `nmod`: `:sem` and `:mod` are once more siblings:
 
 ## `[cp that [s/ you see]]`
 
-`cp` is neither `nest-mod` nor `cons-mod`: the childrens' `:mod` is ignored. In fact there should not be any such feature:
-this should be enforced with `:mod ::unspec`.
+Like `s`. `cp` is neither `nest-mod`, `cons-mod`, nor `cons-and-nest-mod`: neither child should have a 
+`:mod` feature. This is enforced with `:mod ::unspec` on the rule.
 
 ```
 {:subcat {:1 {:sem [1]}}
  :sem {:pred :see
        :obj [1]
-       :subj {:pred :you}}>}
+       :subj {:pred :you}}>}`
+ :mod ::unspec
+ :head {:mod ::unspec}
+ :comp {:mod ::unspec}}
 ```
 
-## `[vmod sleeps quietly]`
+## `[vmod [vp hunts a grey mouse] stealthily]`
 
 `vmod` is `cons-and-nest-mod`:
 
 ```
-{:subcat {:1 {:sem [1]
+{:subcat {:1 {:cat :noun}
           :2 []}}
- :sem {:pred :sleeps
+ :sem {:pred :hunts
        :subj [1]
+	   :obj {:ref [3]
+             :pred :mouse
+	         :mod <{:ref [3]
+			        :pred :grey}>}
 	   :ref [2]
-	   :mod <{:pred :quiet
+	   :mod <{:pred :stealth
 	          :arg [2]}>}}
-           
+ :mod ::unspec
+ :head {:mod ::unspec}
+ :comp {:mod ::unspec}}
 ```
 
+## `[vp hunts a grey mouse]`
 
+Like `s` and `cp`, `vp` is neither `nest-mod`, `cons-mod` nor `cons-and-nest-mod`: neither child should have a
+`:mod` feature. This is enforced with `:mod ::unspec`.
+
+```
+{:subcat {:1 {:cat :noun}
+          :2 []}}
+ :sem {:pred :hunts
+       :subj [1]
+	   :obj {:ref [3]
+             :pred :mouse
+	         :mod <{:ref [3]
+			        :pred :grey}>}
+	   :ref [2]
+ :mod ::unspec
+ :head {:mod ::unspec}
+ :comp {:mod ::unspec}}
+```

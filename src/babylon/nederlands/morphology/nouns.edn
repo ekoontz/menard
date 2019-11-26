@@ -6,6 +6,7 @@
       :regular true
       :agr {:number :sing}}}
 
+ ;; noun pluralization ending in -'s
  {:g [#"(a|i|o|u|y)$"  "$1's"] ;; baby  -> baby's
   :p [#"^(.*)'s$"      "$1"]     ;; baby's -> baby
   :u {:cat :noun
@@ -14,6 +15,7 @@
       :agr {:number :plur}
       :regular true}}
 
+  ;; noun pluralization ending in -s
  {:g [#"(e|el|em|en|er)$"  "$1s"] ;; tafel  -> tafels
   :p [#"^(.*)s$"   "$1"]          ;; tafels -> tafel 
   :u {:cat :noun
@@ -22,6 +24,8 @@
       :agr {:number :plur}
       :regular true}}
 
+ ;; TODO: "aar(d), -erd,-ier when referring to people" (F. p 55).
+ 
  {:g [#"^(.*)aa(.)$"     "$1a$2en"] ;; haar   -> haren
   :p [#"^(.*)a(.)en$"    "$1aa$2"]  ;; haren -> haar
   :u {:cat :noun

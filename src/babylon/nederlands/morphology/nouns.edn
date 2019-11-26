@@ -24,7 +24,8 @@
       :agr {:number :plur}
       :regular true}}
 
- ;; TODO: "aar(d), -erd,-ier when referring to people" (F. p 55).
+ ;; TODO: nouns end in 's' if they end in
+ ;; "aar(d), -erd,-ier when referring to people" (F. p 55).
  
  {:g [#"^(.*)aa(.)$"     "$1a$2en"] ;; haar   -> haren
   :p [#"^(.*)a(.)en$"    "$1aa$2"]  ;; haren -> haar

@@ -335,15 +335,15 @@
 ;; e.g. in "sits on the chair", "on the chair" is
 ;; an adjunct:
 ;;
-;; vp    [ sem 1       ]
-;; |     [ mod <2,3>   ]
+;; vp-adj [ sem 1       ]
+;; |      [ mod <2,3>   ]
 ;; |
-;; |`-v  [ sem 1       ]
+;; |`-v   [ sem 1       ]
 ;; |
-;;  `-pp [ sem 2[arg 1]]
-;;       [ mod 3       ]
+;;  `-pp  [ sem 2[arg 1]]
+;;        [ mod 3       ]
 ;;
-(def complement-is-adjunct
+(def cons-mod
   (let [sem (atom :top)
         head-mod (atom :top)
         ;; other possibilities besides :arg are:

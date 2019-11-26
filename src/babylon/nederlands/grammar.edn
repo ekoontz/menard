@@ -7,7 +7,7 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [babylon.ug/complement-is-adjunct
+  :unify [babylon.ug/cons-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-sem          

@@ -163,10 +163,8 @@ The inner `nmod`: `:sem` and `:mod` are once more siblings:
 ```
 {:sem {:pred :dog
        :ref [1]}
- :mod <{:pred :small
-        :arg [1]}
-       {:pred :orange
-       :arg [1]}>}
+ :mod <{:pred :orange
+        :arg [1]}>}
 ```
 
 ## `[cp that [s/ you see]]`

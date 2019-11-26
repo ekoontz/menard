@@ -6,6 +6,22 @@
       :regular true
       :agr {:number :sing}}}
 
+ {:g [#"(a|i|o|u|y)$"  "$1's"] ;; baby  -> baby's
+  :p [#"^(.*)'s$"      "$1"]     ;; baby's -> baby
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:apostrophe-s-plural true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+
+ {:g [#"(e|el|em|en|er)$"  "$1s"] ;; tafel  -> tafels
+  :p [#"^(.*)s$"   "$1"]          ;; tafels -> tafel 
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:s-plural true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+
  {:g [#"^(.*)aa(.)$"     "$1a$2en"] ;; haar   -> haren
   :p [#"^(.*)a(.)en$"    "$1aa$2"]  ;; haren -> haar
   :u {:cat :noun

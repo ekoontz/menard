@@ -151,9 +151,9 @@ The middle `nmod`: `:sem` and `:mod` are also siblings:
 {:sem {:pred :dog
        :ref [1]}
  :mod <{:pred :small
-       :arg [1]}
+        :arg [1]}
        {:pred :orange
-       :arg [1]}>}
+        :arg [1]}>}
 ```
 
 ## `[nmod orange dog]`

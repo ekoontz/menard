@@ -56,7 +56,7 @@ Below we describe a proposed solution that meets these requirements.
 
 ```
 {:cat :adv
- :sem {:pred :quiet
+ :sem {:pred :stealth
        :arg {:activity true}}}
 ```
 

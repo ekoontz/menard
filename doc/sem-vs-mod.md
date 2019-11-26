@@ -14,21 +14,24 @@ Below we describe a proposed solution that meets these requirements.
 
 - The `:ref` feature is used to avoid cycles (a. above). This `:ref` is used by `[:mod :arg]` to refer to what is being modified.
 
-- Two new ug meta-rules:
+- Three new ug meta-rules:
   - `nest-mod`: 
      - the :sem of the `:head` and the `:sem` of the parent are *distinct*: `[:head :sem]` != `[:sem]`.
      - the :mod of the head is moved inside the parent's `:sem`: `[:head :mod]` = `[:sem :mod]`.
   - `cons-mod`:
-     - the :sem of the :head and the :sem of the parent are *distinct*: `[:head :sem]` = `[:sem]`.
+     - the :sem of the :head and the :sem of the parent are *identical*: `[:head :sem]` = `[:sem]`.
 	 - the :mod of the parent is equal to the cons of:
 	   - :sem of the comp: `[:head :mod :first]` = `[:comp :sem]`
 	   - :mod of the head. `[:head :mod :rest]`  = `[:comp :mod]`.
-  
+  - `cons-and-nest-mod`:
+    - the `:sem` of the `:head` and the `:sem` of the parent are *identical*: `[:head :sem]` = `[:sem]`.
+	- this `[:sem :mod]` is a list with one member: `[:comp :mod]`.
+
 - English rules' use of these meta rules:
-  - `nest-mod`: `np`,`vp`,..
+  - `nest-mod`: `np`,`vp`.
   - `cons-mod`: `nmod` (a.k.a. `nbar`),..
   - `no-mod`:   `s`,`s/`, `cp`,..
-
+  - `cons-and-nest-mod`: `vmod`.
 
 # Lexical entries
 
@@ -49,11 +52,20 @@ Below we describe a proposed solution that meets these requirements.
        :arg {:spatial true}}}
 ```
 
+## Adverbs
+
+```
+{:cat :adv
+ :sem {:pred :quiet
+       :arg {:activity true}}}
+```
+
 ## Verbs
 
 ```
 {:cat :verb
- :sem {:pred :sleeps
+ :sem {:pred :sleep
+       :ref {:activity true}
        :subj {:animate true (c.)
 	          :ref [1]}}
  :subcat {:1 {:cat :noun
@@ -93,9 +105,11 @@ Below we describe a proposed solution that meets these requirements.
 
 Here we'll use the example sentence "the small orange dog that you see sleeps quietly" and its constituent phrases:
 
-## `[s [np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]] [vp sleeps quietly]]`
+## `[s [np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]] [vmod sleeps quietly]]`
 
 The `:mod` of the entire expression is nested within the `:sem`:
+
+`s` is neither `nest-mod` nor `cons-mod`.
 
 ```
 {:sem {:pred :sleep
@@ -115,6 +129,8 @@ The `:mod` of the entire expression is nested within the `:sem`:
 
 ## `[np the [nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]]`
 
+`np` is `nest-mod`:
+
 ```
 {:sem {:pred :dog
        :ref [1]}
@@ -129,7 +145,7 @@ The `:mod` of the entire expression is nested within the `:sem`:
 
 ## `[nmod [nmod small [nmod orange dog]] [cp that [s/ you see]]]`
 
-The outer `nmod`: `:sem` and `:mod` are siblings:
+`nmod` is `cons-mod`; as such, the outer `nmod`: `:sem` and `:mod` are siblings:
 
 ```
 {:sem {:pred :dog
@@ -169,6 +185,9 @@ The inner `nmod`: `:sem` and `:mod` are once more siblings:
 
 ## `[cp that [s/ you see]]`
 
+`cp` is neither `nest-mod` nor `cons-mod`: the childrens' `:mod` is ignored. In fact there should not be any such feature:
+this should be enforced with `:mod ::unspec`.
+
 ```
 {:subcat {:1 {:sem [1]}}
  :sem {:pred :see
@@ -176,11 +195,19 @@ The inner `nmod`: `:sem` and `:mod` are once more siblings:
        :subj {:pred :you}}>}
 ```
 
-## `[vp sleeps quietly]`
+## `[vmod sleeps quietly]`
+
+`vmod` is `cons-and-nest-mod`:
 
 ```
 {:subcat {:1 {:sem [1]
           :2 []}}
  :sem {:pred :sleeps
-       :subj [1]}}
+       :subj [1]
+	   :ref [2]
+	   :mod <{:pred :quiet
+	          :arg [2]}>}}
+           
 ```
+
+

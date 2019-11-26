@@ -76,6 +76,7 @@
           :agr {:gender :common}
          :sem {:pred :cat}}]
  "kind" [{:cat :noun
+          :inflected? true
           :agr {:gender :neuter
                 :number :sing}
           :sem {:pred :child}}]

@@ -105,7 +105,7 @@ The `:mod` of the entire expression is nested within the `:sem`:
               :mod <{:pred :see
                      :obj [1]
                      :subj {:pred :you}}>}
-				    {:pred :small
+                    {:pred :small
                      :arg [1]}
                     {:pred :orange
                      :arg [1]}>}

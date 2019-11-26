@@ -1,6 +1,9 @@
 {"baan" [{:cat :noun
           :agr {:gender :common}
           :sem {:pred :job}}]
+ "baby" [{:cat :noun
+          :agr {:gender :common}
+          :sem {:pred :baby}}]
  "been" [{:cat :noun
           :agr {:gender :neuter}
           :sem {:pred :leg}}]
@@ -105,6 +108,9 @@
  "stoel" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :chair}}]
+ "tafel" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :table}}]
  "thuis" [{:cat :noun
            :agr {:gender :neuter}
            :sem {:pred :home}}]

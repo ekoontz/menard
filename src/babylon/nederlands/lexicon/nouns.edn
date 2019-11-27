@@ -9,7 +9,9 @@
           :sem {:pred :leg}}]
  "boek" [{:cat :noun
           :agr {:gender :neuter}
-          :sem {:pred :book}}]
+          :sem {:pred :book
+                :ref {:animate false
+                      :readable true}}}] ;; TODO: move these to inference rules: pred=book -> animate false, readable true,etc.
  "bedrijf" [{:cat :noun
              :agr {:gender :neuter}
              :sem {:pred :business}}]

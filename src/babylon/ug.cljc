@@ -2,7 +2,18 @@
   (:require [dag_unify.core :as u :refer [unify]])
   (:require [dag_unify.dissoc :refer [dissoc-in]]))
 
-;; universal grammar rules
+;; This file consists of language independent, or 'universal'
+;; grammar rules.
+
+(def head-sem
+  (let [sem (atom :top)]
+    {:sem sem
+     :head {:sem sem}}))
+
+(def head-aux
+  (let [aux (atom :top)]
+    {:aux aux
+     :head {:aux aux}}))
 
 (def head-modal
   (let [shared (atom :top)]

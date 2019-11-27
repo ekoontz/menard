@@ -103,7 +103,7 @@ Below we describe a proposed solution that meets these requirements.
 
 # Example Expression Representations
 
-Here we'll use the example sentence "the small orange dog that you see hunts a mouse stealthily" and its constituent phrases:
+Here we'll use the example sentence "the small orange dog that you see hunts a grey mouse stealthily" and its constituent phrases:
 
 ## `[s [np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]] [vmod [vp hunts a mouse] stealthily]]`
 

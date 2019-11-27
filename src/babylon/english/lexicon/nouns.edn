@@ -1,5 +1,7 @@
 {"area" [{:cat :noun
           :sem {:pred :area}}]
+ "baby" [{:cat :noun
+          :sem {:pred :baby}}]
  "bike" [{:cat :noun
           :sem {:pred :bike}}]
  "book" [{:cat :noun

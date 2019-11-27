@@ -112,10 +112,10 @@ Here we'll use the example sentence "the small orange dog that you see hunts a g
 
 ```
 {:sem {:pred :hunts
-	   :obj {:ref [3]
+       :obj {:ref [3]
              :pred :mouse
-	         :mod <{:ref [3]
-			        :pred :grey}>}
+             :mod <{:ref [3]
+                    :pred :grey}>}
        :ref [2]
        :subj {:pred :cat
               :ref [1]}
@@ -127,7 +127,7 @@ Here we'll use the example sentence "the small orange dog that you see hunts a g
                     {:pred :orange
                      :arg [1]}>}
        :mod <{:pred :stealth
-	          :arg [2]}>}
+              :arg [2]}>}
  :mod ::unspec}
  :head {:mod ::unspec}
  :comp {:mod ::unspec}}

@@ -32,8 +32,8 @@
  {:rule "s"
   :cat :verb
   :subcat []
-  :head {:phrasal false}
-  :comp {:phasal false}
-  :unify [babylon.ug/head-last
+  :unify [babylon.ug/head-aux
+          babylon.ug/head-last
+          babylon.ug/head-is-root
           babylon.ug/head-sem
           babylon.ug/subcat-1]}]

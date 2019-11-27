@@ -10,7 +10,6 @@
   :unify [babylon.ug/cons-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/head-sem          
           babylon.ug/nominal-phrase
           babylon.ug/shared-quant
           babylon.ug/shared-agr
@@ -24,8 +23,8 @@
   :comp {:phrasal false}
   :unify [babylon.ug/nest-mod
           babylon.ug/head-last
-          babylon.ug/head-is-root]}]
-          babylon.ug/subcat-1}}]
+          babylon.ug/head-is-root
+          babylon.ug/subcat-1]}]
 
 
 

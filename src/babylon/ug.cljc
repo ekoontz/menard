@@ -4,11 +4,6 @@
 
 ;; universal grammar rules
 
-(def head-sem
-  (let [sem (atom :top)]
-    {:sem sem
-     :head {:sem sem}}))
-
 (def head-modal
   (let [shared (atom :top)]
     {:modal shared
@@ -213,22 +208,6 @@
      :agr agr
      :comp complement-3}))
 
-;; for nbar2:
-(def object-of-comp-is-head
-  (let [head-sem (atom :top)]
-    {:sem head-sem
-     :comp {:sem {:obj head-sem}}}))
-
-;; for nbar3:
-(def subject-of-comp-is-head
-  (let [head-sem (atom :top)
-        head-agr (atom :top)]
-    {:agr head-agr
-     :sem head-sem
-     :head {:agr head-agr}
-     :comp {:agr head-agr
-            :sem {:subj head-sem}}}))
-
 ;; root rules: which child (head or comp) is the root of a tree.
 (def head-is-root
   (let [root (atom :top)]
@@ -326,18 +305,16 @@
 ;;        [ mod 3       ]
 ;;
 (def cons-mod
-  (let [sem (atom :top)
+  (let [ref (atom :top)
         head-mod (atom :top)
-        ;; other possibilities besides :arg are:
-        ;; :subj, :obj, :iobj.
-        comp-sem (atom {:arg sem}) 
-        comp-mod (atom :top)]
+        sem (atom {:ref ref})
+        comp-sem (atom {:arg ref})]
     {:mod {:first comp-sem
            :rest head-mod}
+     :sem sem
      :head {:sem sem
             :mod head-mod}
-     :comp {:sem comp-sem
-            :mod comp-mod}}))
+     :comp {:sem comp-sem}}))
 
 (def nest-mod
   (let [arg (atom :top)
@@ -347,6 +324,7 @@
         obj (atom :top)
         pred (atom :top)
         quant (atom :top)
+        ref (atom :top)
         subj (atom :top)]
     {:sem {:arg arg
            :context context
@@ -354,12 +332,14 @@
            :obj obj
            :pred pred
            :quant quant
+           :ref ref
            :subj subj}
      :head {:sem {:arg arg
                   :context context
                   :obj obj
                   :pred pred
                   :quant quant
+                  :ref ref
                   :subj subj}
             :mod mod}}))
 

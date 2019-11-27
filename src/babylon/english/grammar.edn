@@ -27,4 +27,13 @@
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/nest-mod
+          babylon.ug/subcat-1]}
+
+ {:rule "s"
+  :cat :verb
+  :subcat []
+  :head {:phrasal false}
+  :comp {:phasal false}
+  :unify [babylon.ug/head-last
+          babylon.ug/head-sem
           babylon.ug/subcat-1]}]

@@ -1,5 +1,8 @@
 [{:rule "np" ;; de kat
   :head {:phrasal false}}
  {:rule "np" ;; de groet kat
-  :head {:phrasal true}}]
+  :head {:phrasal true}}
+ {:rule "np" ;; een stomme lieve overheid. (A stupid nice government).
+  :head {:phrasal true
+         :head {:phrasal true}}}]
 

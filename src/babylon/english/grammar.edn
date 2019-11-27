@@ -9,7 +9,6 @@
   :unify [babylon.ug/cons-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/head-sem          
           babylon.ug/nominal-phrase
           babylon.ug/shared-quant
           babylon.ug/shared-agr
@@ -26,8 +25,7 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [babylon.ug/complement-is-argument-no-comp-mod
-          babylon.ug/head-last
+  :unify [babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/head-sem
+          babylon.ug/nest-mod
           babylon.ug/subcat-1]}]

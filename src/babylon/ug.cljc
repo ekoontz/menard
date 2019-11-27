@@ -34,14 +34,12 @@
         head-derivation (atom :top)
         head-infl (atom :top)
         head-interogative (atom :top)
-        head-sem (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
      :infl head-infl
      :interogative? head-interogative
      :reflexive reflexive
-     :sem head-sem
      :comp-derivation comp-derivation
      :head-derivation head-derivation
      :head {:agr head-agr
@@ -49,7 +47,6 @@
             :infl head-infl
             :interogative? head-interogative
             :reflexive reflexive
-            :sem head-sem
             :head-derivation head-derivation
             :derivation head-derivation}
      :comp {:head-derivation comp-derivation
@@ -287,21 +284,6 @@
                      :3 []}}
      :comp two}))
 
-;; semantic modification
-
-;; this is used for non-adjunct phrase-structure rules
-;; e.g. in "sees the cat", "the cat" is an argument of the verb:
-;;
-;; vp    [ mod  1 ]
-;; |
-;; |`-v
-;;  `-np [ mod  1 ]
-;;
-(def complement-is-argument-no-head-mod
-  (let [comp-mod (atom :top)]
-    {:mod comp-mod
-     :comp {:mod comp-mod}}))
-
 ;; also used for non-adjunct phrase-structure rules
 ;; e.g. in "sees the cat", "the cat" is an argument of the verb,
 ;; but allows for one modifier of the head:
@@ -356,4 +338,29 @@
             :mod head-mod}
      :comp {:sem comp-sem
             :mod comp-mod}}))
+
+(def nest-mod
+  (let [arg (atom :top)
+        context (atom :top)
+        iobj (atom :top)
+        mod (atom :top)
+        obj (atom :top)
+        pred (atom :top)
+        quant (atom :top)
+        subj (atom :top)]
+    {:sem {:arg arg
+           :context context
+           :mod mod
+           :obj obj
+           :pred pred
+           :quant quant
+           :subj subj}
+     :head {:sem {:arg arg
+                  :context context
+                  :obj obj
+                  :pred pred
+                  :quant quant
+                  :subj subj}
+            :mod mod}}))
+
 

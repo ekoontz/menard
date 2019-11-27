@@ -22,11 +22,10 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [babylon.ug/complement-is-argument-no-comp-mod
+  :unify [babylon.ug/nest-mod
           babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/head-sem
-          babylon.ug/subcat-1]}]
+          babylon.ug/head-is-root]}]
+          babylon.ug/subcat-1}}]
 
 
 

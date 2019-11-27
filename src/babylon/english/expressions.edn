@@ -1,5 +1,7 @@
 [{:rule "np" ;; the cat
   :head {:phrasal false}}
  {:rule "np" ;; the big cat
-  :head {:phrasal true}}]
-
+  :head {:phrasal true}}
+ {:rule "s"
+  :aux false
+  :comp {:phrasal true}}]

@@ -11,13 +11,19 @@
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}
   :then [(let [agr (atom :top)
-               subj (atom :top)]
+               pred (atom :top)
+               ref (atom :top)
+               prop (atom :top)]
            {:agr agr
-            :sem {:subj subj}
+            :sem {:subj {:pred pred
+                         :prop prop
+                         :ref ref}}
             :subcat {:1 {:agr agr
                          :cat :noun
                          :case :nom
-                         :sem subj
+                         :sem {:pred pred
+                               :prop prop
+                               :ref ref}
                          :subcat []}}})]}
  
  {:rule :dont-inflect-pronouns

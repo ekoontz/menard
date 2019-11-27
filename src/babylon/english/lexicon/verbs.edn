@@ -437,7 +437,8 @@
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions
              :cat :verb
-             :sem {:pred :sleep}
+             :sem {:pred :sleep
+                   :subj {:prop {:animate true}}} ;; TODO: move to encyclopedia.
              :subcat {:1 :top :2 []}}])
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}

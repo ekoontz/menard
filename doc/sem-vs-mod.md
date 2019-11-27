@@ -65,7 +65,7 @@ Below we describe a proposed solution that meets these requirements.
 ```
 {:cat :verb
  :sem {:pred :sleep
-       :ref {:activity true}
+       :activity true
        :subj {:animate true (c.)
 	          :ref [1]}}
  :subcat {:1 {:cat :noun
@@ -103,27 +103,47 @@ Below we describe a proposed solution that meets these requirements.
 
 # Example Expression Representations
 
-Here we'll use the example sentence "the small orange dog that you see hunts a grey mouse stealthily" and its constituent phrases:
+Here we'll use the example sentence "the small orange cat that you see hunts a grey mouse stealthily" and its constituent phrases:
 
 ## `[s [np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]] [vmod [vp hunts a mouse] stealthily]]`
 
 `s` is neither `nest-mod`, `cons-mod`, nor `:cons-and-nest-mod`: neither child should have a
-`:mod` feature. This is enforced with `:mod ::unspec`:
+`:mod` feature. This is enforced with `:mod ::unspec` as shown below:
+
+
+### Input to generation
 
 ```
-{:sem {:pred :hunts
+{:cat :verb
+ :sem {:pred :hunts
+       :obj {:pred :mouse
+             :mod <{:pred :grey}>}
+       :subj {:pred :cat
+              :mod <{:pred :see
+                     :subj {:pred :you}},
+                    {:pred :small},
+                    {:pred :orange}>
+       :mod <{:pred :stealth>}>}}
+```
+
+### Output of generation
+
+```
+{:cat :verb
+ :sem {:pred :hunts
        :obj {:ref [3]
              :pred :mouse
-             :mod <{:ref [3]
-                    :pred :grey}>}
+             :mod [4] <{:ref [3]
+                        :pred :grey}>}
        :ref [2]
-       :subj {:pred :cat
+       :subj {:pred [5] :cat
               :ref [1]}
               :mod <{:pred :see
-                     :obj [1]
-                     :subj {:pred :you}}>}
+                     :obj {:ref [1]
+					       :pred [5]}
+                     :subj {:pred :you}},
                     {:pred :small
-                     :arg [1]}
+                     :arg [1]},
                     {:pred :orange
                      :arg [1]}>}
        :mod <{:pred :stealth
@@ -135,13 +155,29 @@ Here we'll use the example sentence "the small orange dog that you see hunts a g
 
 ## `[np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]]`
 
-`np` is `nest-mod`:
+`np` is `nest-mod` and so `[:sem :mod]` = `[:head :mod]`.
+
+
+### Input to generation
 
 ```
-{:sem {:pred :cat
+{:cat :noun
+ :sem {:pred :cat
+       :mod <{:pred :see
+              :subj {:pred :you}},
+             {:pred :small},
+             {:pred :orange}>}}
+```
+
+### Output of generation
+
+```
+{:cat :noun
+ :sem {:pred [5] :cat
        :ref [1]}
        :mod <{:pred :see
-              :obj [1]
+              :obj {:ref [1]
+                    :pred [5]}
               :subj {:pred :you}}>}
              {:pred :small
               :arg [1]}
@@ -156,37 +192,55 @@ Here we'll use the example sentence "the small orange dog that you see hunts a g
 
 `nmod` is `cons-mod`; as such, the outer `nmod`: `:sem` and `:mod` are siblings:
 
+### Input to generation
+
 ```
-{:sem {:pred :cat
+{:cat :noun
+ :sem {:pred :cat
+ :mod <{:pred :see
+        :subj {:pred :you}},
+       {:pred :small},
+       {:pred :orange}>}}
+```
+
+### Output of generation
+
+```
+{:cat :noun
+ :sem {:pred :cat
        :ref [1]}
  :mod <{:pred :see
-        :obj [1]
-        :subj {:pred :you}}>}
+        :obj {:ref [1]}
+        :subj {:pred :you}}>},
        {:pred :small
-        :arg [1]}
+        :arg [1]},
        {:pred :orange
-       :arg [1]}>}
+        :arg [1]}>}
 ```
 
 ## `[nmod [nmod small [nmod orange cat]]]`
 
 The middle `nmod`: `:sem` and `:mod` are also siblings:
 
+### Output of generation
+
 ```
-{:sem {:pred :cat
+{:cat :noun
+ :sem {:pred :cat
        :ref [1]}
  :mod <{:pred :small
-        :arg [1]}
+        :arg [1]},
        {:pred :orange
         :arg [1]}>}
 ```
 
 ## `[nmod orange cat]`
 
-The inner `nmod`: `:sem` and `:mod` are once more siblings:
+The inner `nmod`: `:sem` and `:mod` are, as in the parent, siblings:
 
 ```
-{:sem {:pred :cat
+{:cat :noun
+ :sem {:pred :cat
        :ref [1]}
  :mod <{:pred :orange
         :arg [1]}>}
@@ -197,11 +251,23 @@ The inner `nmod`: `:sem` and `:mod` are once more siblings:
 Like `s`. `cp` is neither `nest-mod`, `cons-mod`, nor `cons-and-nest-mod`: neither child should have a 
 `:mod` feature. This is enforced with `:mod ::unspec` on the rule.
 
+
+### Input to generation
+
 ```
-{:subcat {:1 {:sem [1]}}
+{:cat :comp
  :sem {:pred :see
-       :obj [1]
-       :subj {:pred :you}}>}`
+       :subj {:pred :you}}>}
+```
+
+### Output of generation
+
+```
+{:cat :comp
+ :subcat {:1 {:sem {:ref [1]}}}
+ :sem {:pred :see
+       :obj {:ref [1]}
+       :subj {:pred :you}}>}
  :mod ::unspec
  :head {:mod ::unspec}
  :comp {:mod ::unspec}}
@@ -209,13 +275,29 @@ Like `s`. `cp` is neither `nest-mod`, `cons-mod`, nor `cons-and-nest-mod`: neith
 
 ## `[vmod [vp hunts a grey mouse] stealthily]`
 
-`vmod` is `cons-and-nest-mod`:
+### Input to generation:
+
+Since `vmod` is `cons-and-nest-mod`, the `[:sem :mod]` is a list with one member: the `sem` of "stealthily".
 
 ```
-{:subcat {:1 {:cat :noun}
+{:cat :verb
+ :subcat {:1 {:top :top}
+          :2 []}
+ :sem {:pred :hunts
+	   :obj {:pred :mouse
+	         :mod <{:pred :grey}>}
+	   :mod <{:pred :stealth}>
+```
+
+### Output of generation:
+
+```
+{:cat :verb
+ :subcat {:1 {:cat :noun
+              :sem {:ref [1]}}
           :2 []}}
  :sem {:pred :hunts
-       :subj [1]
+       :subj {:ref [1]
 	   :obj {:ref [3]
              :pred :mouse
 	         :mod <{:ref [3]
@@ -232,6 +314,20 @@ Like `s`. `cp` is neither `nest-mod`, `cons-mod`, nor `cons-and-nest-mod`: neith
 
 Like `s` and `cp`, `vp` is neither `nest-mod`, `cons-mod` nor `cons-and-nest-mod`: neither child should have a
 `:mod` feature. This is enforced with `:mod ::unspec`.
+
+
+
+### Input to generation
+
+```
+{:subcat {:1 {:top :top}
+          :2 []}
+ :sem {:pred :hunts
+	   :obj {:pred :mouse
+	         :mod <{:pred :grey}>}}}
+```
+
+### Output of generation
 
 ```
 {:subcat {:1 {:cat :noun}

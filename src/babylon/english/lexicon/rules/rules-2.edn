@@ -171,10 +171,9 @@
   :if {:cat :verb
        :aux false
        :subcat {:2 []}}
-  :then [(let [subj (atom :top)]
-           {:sem {:obj :unspec}
-            :reflexive false
-            :subcat {:2 []}})]}
+  :then [{:sem {:obj :unspec}
+          :reflexive false
+          :subcat {:2 []}}]}
 
  {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb

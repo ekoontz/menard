@@ -428,12 +428,16 @@
 
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]
-         [{:exceptions exceptions :cat :verb :sem {:pred :sit}
+         [{:exceptions exceptions
+           :cat :verb
+           :sem {:pred :sit}
            :subcat {:1 :top :2 []}}])
 
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :sleep}
+           [{:exceptions exceptions
+             :cat :verb
+             :sem {:pred :sleep}
              :subcat {:1 :top :2 []}}])
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}

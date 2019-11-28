@@ -11,7 +11,7 @@
     (map (fn [index]
            (let [generated-expressions
                  (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-                      (take 20)
+                      (take 10)
                       (filter #(not (nil? %))))]
              ;; for each expression:
              ;; generate it, and print the surface form

@@ -6,8 +6,8 @@
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)$"   "$1"] ;; werk -> werk
-  :p [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"   "$1"] 
   :u {:cat :verb
       :infl :present
-      :agr {:person :1st
-            :number :sing}}}]
+      :agr {:person :top
+            :number :top}}}]

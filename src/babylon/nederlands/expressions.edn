@@ -6,9 +6,6 @@
   :head {:phrasal true
          :head {:phrasal true}}}
  {:rule "s"}
- {:rule "s"
-  :comp {:pronoun false
-         :propernoun false}}
  {:rule "s" ;; Een lieve man werkt. (The nice gentleman works).
   :comp {:rule "np" 
          :head {:phrasal true}}}

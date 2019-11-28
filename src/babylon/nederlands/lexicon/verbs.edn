@@ -1,3 +1,7 @@
 {"werk"
  [{:cat :verb
-   :sem {:pred :work}}]}
+   :sem {:pred :work}
+   :subcat {:1 {:cat :noun
+                :arg {:person :3rd
+                      :number :sing}}
+            :2 []}}]}

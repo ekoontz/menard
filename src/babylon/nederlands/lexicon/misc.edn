@@ -13,7 +13,17 @@
  "het" [{:cat :det
          :sem {:quant :def}
          :agr {:gender :neuter
-               :number :sing}}]
+               :number :sing}}
+        {:agr {:person :3rd
+               :number :sing
+               :gender :masc}
+         :case :nom
+         :cat :noun
+         :pronoun true
+         :sem {:pred :it
+               :ref {:human false}}
+         :subcat []}]
+        
  ;; </F>
 
  ;; <F. p69-73>
@@ -23,7 +33,8 @@
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :he}
+         :sem {:pred :he
+               :ref {:human true}}
          :subcat []}]
 
  "ik" [{:agr {:person :1st

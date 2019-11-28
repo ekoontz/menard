@@ -8,6 +8,7 @@
                   :ref ref}}
      :agr agr
      :subcat {:1 {:cat :noun
+                  :case :nom
                   :sem {:pred pred
                         :ref ref}
                   :agr agr}

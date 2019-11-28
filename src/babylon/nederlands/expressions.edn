@@ -4,5 +4,6 @@
   :head {:phrasal true}}
  {:rule "np" ;; een stomme lieve overheid. (A stupid nice government).
   :head {:phrasal true
-         :head {:phrasal true}}}]
+         :head {:phrasal true}}}
+ {:rule "s"}]
 

@@ -5,6 +5,12 @@
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
+ {:g [#"^(.*)$"   "$1en"] ;; werk -> werken
+  :p [#"^(.*)en$" "$1"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :plur}}}
+
  {:g [#"^(.*)$"   "$1"] ;; werk -> werk
   :p [#"^(.*)$"   "$1"] 
   :u {:cat :verb

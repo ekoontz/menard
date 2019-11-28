@@ -30,7 +30,7 @@
                               ((fn [expression]
                                  {:cat (u/get-in expression [:cat])
                                   :phrasal true
-                                  :agr {:number (u/get-in expression [:agr :number])}
+                                  :agr {:number (u/get-in expression [:agr :number] :top)}
                                   :sem (u/get-in expression [:sem])
                                   :mod (u/get-in expression [:mod])}))
                               en/generate

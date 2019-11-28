@@ -16,11 +16,15 @@
 (def intermediate-parse? false)
 
 (defn nl-to-en-spec [nl-expression]
- {:cat (u/get-in nl-expression [:cat])
-  :subcat []
-  :phrasal true
-  :agr {:number (u/get-in nl-expression [:agr :number] :top)}
-  :sem (u/get-in nl-expression [:sem])})
+  (log/debug (str "input:  " nl-expression))
+  (let [retval
+        {:cat (u/get-in nl-expression [:cat])
+         :subcat []
+         :phrasal true
+         :agr {:number (u/get-in nl-expression [:agr :number] :top)}
+         :sem (u/get-in nl-expression [:sem])}]
+    (log/debug (str "retval: " retval))
+    retval))
 
 (defn demo []
   (count

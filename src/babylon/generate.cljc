@@ -246,7 +246,7 @@
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree)))
     (->>
      ;; start with the whole grammar:
-     grammar
+     (shuffle grammar)
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))

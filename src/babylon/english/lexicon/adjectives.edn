@@ -43,6 +43,7 @@
  "recent" [{:cat :adjective :sem {:pred :recent}}]
  "right" [{:cat :adjective :sem {:pred :right}}]
  "small" [{:cat :adjective :sem {:pred :small}}]
+ "smart" [{:cat :adjective :sem {:pred :smart}}]
  "social" [{:cat :adjective :sem {:pred :social}}]
  "special" [{:cat :adjective :sem {:pred :special}}]
  "strong" [{:cat :adjective :sem {:pred :strong}}]

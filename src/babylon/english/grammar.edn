@@ -28,7 +28,20 @@
 
  {:rule "s"
   :cat :verb
+  :comp {:phrasal true}
   :subcat []
+  :options babylon.english/finite-tenses  
+  :unify [babylon.ug/head-aux
+          babylon.ug/head-is-root
+          babylon.ug/head-last
+          babylon.ug/head-sem
+          babylon.ug/subcat-1]}
+
+ {:rule "s"
+  :cat :verb
+  :comp {:phrasal false}
+  :subcat []
+  :sem {:subj {:mod []}}
   :options babylon.english/finite-tenses  
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root

@@ -7,5 +7,20 @@
   :if {:cat :noun
        :propernoun true}
   :then [{:inflected? true
-          :subcat []}]}]
+          :subcat []}]}
+
+ {:rule :subject-verb-agreement
+  :if {:cat :verb}
+  :then
+  (let [agr (atom :top)
+        pred (atom :top)
+        ref (atom :top)]
+    [{:sem {:subj {:pred pred
+                   :ref ref}}
+      :agr agr
+      :subcat {:1 {:cat :noun
+                   :case :nom
+                   :sem {:pred pred
+                         :ref ref}
+                   :agr agr}}}])}]
 

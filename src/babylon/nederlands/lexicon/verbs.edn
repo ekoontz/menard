@@ -1,15 +1,4 @@
 {"werk"
- (let [agr (atom :top)
-       pred (atom :top)
-       ref (atom :top)]
-   [{:cat :verb
-     :sem {:pred :work
-           :subj {:pred pred
-                  :ref ref}}
-     :agr agr
-     :subcat {:1 {:cat :noun
-                  :case :nom
-                  :sem {:pred pred
-                        :ref ref}
-                  :agr agr}
-              :2 []}}])}
+ [{:cat :verb
+   :sem {:pred :work}
+   :subcat {:2 []}}]}

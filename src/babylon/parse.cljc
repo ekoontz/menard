@@ -14,6 +14,7 @@
 (def ^:dynamic syntax-tree)
 (def ^:dynamic truncate? true)
 
+(def ^:dynamic split-on #"[ ']")
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
@@ -237,7 +238,7 @@
   [input morph]
   (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
   ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
-  (let [tokenizations (filter #(not (empty? %)) (string/split input #"[ ']"))
+  (let [tokenizations (filter #(not (empty? %)) (string/split input split-on))
         result (parse-tokens tokenizations morph)]
     (if (empty? result)
       (let [analyses

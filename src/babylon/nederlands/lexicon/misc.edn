@@ -15,12 +15,26 @@
          :agr {:gender :neuter
                :number :sing}}]
 
-
- "ik" [{:cat :noun
+ "ik" [{:agr {:person :1st
+              :number :sing}
+        :case :nom
+        :cat :noun
         :pronoun true
-        :subcat []
         :sem {:pred :i}
-        :agr {:person :1st
-              :number :sing}}]}
+        :subcat []}]
+ "jij" [{:agr {:person :2nd
+               :number :sing}
+         :case :nom
+         :cat :noun
+         :pronoun true
+         :sem {:pred :you}
+         :subcat []}]
+ "jullie" [{:case :nom
+            :cat :noun
+            :pronoun true
+            :subcat []
+            :sem {:pred :you}
+            :agr {:person :2nd
+                  :number :plur}}]}
 
 ;; </F>

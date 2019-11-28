@@ -8,7 +8,7 @@
 
  ;; noun pluralization ending in -'s
  {:g [#"(a|i|o|u|y)$"  "$1's"] ;; baby  -> baby's
-  :p [#"^(.*)'s$"      "$1"]     ;; baby's -> baby
+  :p [#"^(.*)'s$"      "$1"]   ;; baby's -> baby
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:apostrophe-s-plural true}}
       :pronoun false

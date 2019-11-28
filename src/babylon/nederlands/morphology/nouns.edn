@@ -15,8 +15,8 @@
       :agr {:number :plur}
       :regular true}}
 
-  ;; noun pluralization ending in -s
- {:g [#"(e|el|em|en|er)$"  "$1s"] ;; tafel  -> tafels
+  ;; noun pluralization ending in -s:
+ {:g [#"([^aeiouy])(e|el|em|en|er)$"  "$1$2s"] ;; tafel  -> tafels
   :p [#"^(.*)s$"   "$1"]          ;; tafels -> tafel 
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:s-plural true}}

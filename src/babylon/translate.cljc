@@ -4,7 +4,7 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
-(def generate-this-many 1)
+(def generate-this-many 5)
 
 ;; in the demo, we first generate a target expression in Dutch,
 ;; and then translate it to English.
@@ -47,9 +47,6 @@
                                   :phrasal true
                                   :agr {:number (u/get-in source-expression [:agr :number] :top)}
                                   :sem (u/get-in source-expression [:sem])}))
-                              ((fn [spec]
-                                 (println spec)
-                                 spec))
                               ;; 2.b. generate from this spec:
                               en/generate
                               ;; 2.c. get the surface form of the generated target expression:

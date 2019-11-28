@@ -24,14 +24,14 @@ Dutch grammar and lexicon based on [Carole Fehringer, "A Reference Grammar of Du
 
 ## Demo
 
-For the demo, a sentence is generated for each specification listed in
-<a href="https://github.com/ekoontz/babylon/blob/master/src/babylon/english/expressions.edn">expressions.edn</a>. 
-Each expression is printed out first in its surface form, then in its the syntax tree form, as shown in the output below:
+For the demo, a Dutch sentence is generated for each specification listed in
+<a href="https://github.com/ekoontz/babylon/blob/master/src/babylon/nederlands/expressions.edn">expressions.edn</a>. 
+Each expression is then translated into English, as shown in the output below:
 
 
 ```
 % lein repl
-nREPL server started on port 60458 on host 127.0.0.1 - nrepl://127.0.0.1:60458
+nREPL server started on port 58587 on host 127.0.0.1 - nrepl://127.0.0.1:58587
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -42,65 +42,190 @@ OpenJDK 64-Bit Server VM 12.0.1+12
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
-user=> (load "babylon/english")
+user=> (load "babylon")
 nil
-user=> (babylon.english/demo)
-What does who seem?
-[s-wh-interog .what +[s-interog-slash +does .[s-comp-2 .who +seem]]]
+user=> (babylon/demo)
+De gebeiden.
+The areas.
 
-Governments would not put.
-[s(:conditional) .governments +[vp-aux(:conditional) +would .[negp(:conditional) +not .put]]]
+De haren.
+The hairs.
 
-At what did points look?
-[s-wh-interog .[pp +at .what] +[s-interog-slash +did .[s-comp-2 .points +look]]]
+Een bedrijf.
+A business.
 
-Moneys believe parts would.
-A very better fact begins him.
-[s(:present-simple) .moneys +[vp(:present-simple) +believe .[s(:present-simple) .parts +would]]]
-[s(:present-simple) .[np(:present-simple) .a +[nbar(:present-simple) .[intensifier(:present-simple) +very .better] +fact]] +[vp(:present-simple) +begins .him]]
+Een leven.
+A life.
 
+De zaak.
+The cases.
 
-What did studies talk to?
-[s-wh-interog .what +[s-interog-slash +did .[s-comp-2 .studies +[vp-slash +talk .to]]]]
+De fiets.
+The bikes.
 
-Did bikes try to hear?
-Programs think that programs would.
-[s(:present-simple) .programs +[vp(:present-simple) +think .[comp2(:present-simple) +that .[s(:present-simple) .programs +would]]]]
+De jongen.
+The boy.
 
-[s-interog +did .[s-comp .bikes +[vp-modal-1 +try .[infinitive +to .hear]]]]
+Het leven.
+The life.
 
-Things were not teaching.
-States tell the puppies that meant.
-[s(:past-progressive) .things +[vp-aux(:past-progressive) +were .[negp(:past-progressive) +not .teaching]]]
+Een kat.
+A cat.
 
-[s(:present-simple) .states +[vp(:present-simple) +tell .[np(:present-simple) .the +[nbar3(:present-simple) +puppies .[comp1(:present-simple) +that .meant]]]]]
-
-I was not knowing myself.
-[s(:past-progressive) .I +[vp-aux(:past-progressive) +was .[negp(:past-progressive) +not .[vp(:past-progressive) +knowing .myself]]]]
-
-Gentlemen want to hope men would.
-[s(:modal-present) .gentlemen +[vp-modal-1(:modal-present) +want .[infinitive(:modal-present) +to .[vp(:modal-present) +hope .[s(:modal-present) .men +would]]]]]
-
-The extremely real gentleman would play an able boy.
-[s(:conditional) .[np(:conditional) .the +[nbar(:conditional) .[intensifier(:conditional) +extremely .real] +gentleman]] +[vp-aux(:conditional) +would .[vp(:conditional) +play .[np(:conditional) .a +[nbar(:conditional) .able +boy]]]]]
-
-A very different fact sit on a boy.
-[s(:modal) .[np(:modal) .a +[nbar(:modal) .[intensifier(:modal) +very .different] +fact]] +[vp-adjunct(:modal) +sit .[pp(:modal) +on .[np(:modal) .a +boy]]]]
-
-The very certain words feel chairs that a very sure fact would know.
-[s(:present-simple) .[np(:present-simple) .the +[nbar(:present-simple) .[intensifier(:present-simple) +very .certain] +words]] +[vp(:present-simple) +feel .[nbar4(:present-simple) +chairs .[comp1(:present-simple) +that .[s-slash(:present-simple) .[np(:present-simple) .a +[nbar(:present-simple) .[intensifier(:present-simple) +very .sure] +fact]] +[vp-aux-slash(:present-simple) +would .know]]]]]]
-
-15
-user=> (load "babylon/nederlands")
-nil
-user=> (babylon.nederlands/demo)
 De kinderen.
-[np .de +kinderen]
+The children.
 
-De vieze haar.
-[np .de +[nbar .vieze +haar]]
+Een kleine groep.
+A small group.
 
-2
+Een kleine zaak.
+A small case.
+
+Een sterke jongen.
+A strong boy.
+
+Een vieze moeder.
+A dirty mother.
+
+De kleine familie.
+The small family.
+
+Het lieve meisje.
+The nice girl.
+
+De slimme maanden.
+The smart months.
+
+De slimme zaken.
+The smart cases.
+
+Het slimme land.
+The smart country.
+
+De kleine tafels.
+The small tables.
+
+De slimme slimme dame.
+The smart smart lady.
+
+De grote oude honden.
+The big old dogs.
+
+De slimme stomme overheid.
+The smart stupid governments.
+
+Een grote lieve overheid.
+A big nice government.
+
+Een lief sterk meisje.
+A nice strong girl.
+
+Het oude oude bedrijf.
+The old old business.
+
+De kleine slimme benen.
+The small smart legs.
+
+Een oude kleine maand.
+An old small month.
+
+Het grote kleine boek.
+The big small book.
+
+De grote lieve oogen.
+The big nice eyes.
+
+Saskia werkt.
+Saskia works.
+
+Hij werkt.
+He works.
+
+Saskia slaapt.
+Saskia sleeps.
+
+Zij slaapt.
+She sleeps.
+
+U werkt.
+You work.
+
+Zij werkt.
+She works.
+
+Jij werkt.
+You work.
+
+Wij zingen.
+We sing.
+
+Hij slaapt.
+He sleeps.
+
+Jij zingt.
+You sing.
+
+Het vieze feit zingt.
+The dirty fact sings.
+
+Een stomme druif zingt.
+A stupid grape sings.
+
+De grote plaatsen zingen.
+The big lots sing.
+
+De vieze huizen slaapen.
+The dirty houses sleep.
+
+Een grote familie slaapt.
+A big family sleeps.
+
+Een sterke kitten slaapt.
+A strong kitten sleeps.
+
+De vieze mannen slaapen.
+The dirty men sleep.
+
+Een kleine maand zingt.
+A small month sings.
+
+De grote boeken slaapen.
+The big books sleep.
+
+Een sterk bedrijf zingt.
+A strong business sings.
+
+De oude kleine overheden zingen.
+The old small governments sing.
+
+De vieze oude baby's werken.
+The dirty old babies work.
+
+De vieze stomme oogen zingen.
+The dirty stupid eyes sing.
+
+De slimme sterke dames werken.
+The smart strong ladies work.
+
+De kleine vieze haren zingen.
+The small dirty hairs sing.
+
+De vieze stomme levens slaapen.
+The dirty stupid lives sleep.
+
+De oude stomme tafels werken.
+The old stupid tables work.
+
+Een kleine stomme plaats werkt.
+A small stupid lot works.
+
+De vieze sterke tafels zingen.
+The dirty strong tables sing.
+
+Het kleine grote feit werkt.
+The small big fact works.
+
+6
 user=>
 ```
 

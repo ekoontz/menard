@@ -22,21 +22,21 @@
                           (-> generated-expression
                               (nl/morph :sentence-punctuation? true)
                               println)
-                          (if true
-                            (-> generated-expression
-                                nl/morph
-                                nl/parse
-                                ((fn [expressions]
-                                  (first (shuffle expressions))))
-                                ((fn [expression]
-                                   {:cat (u/get-in expression [:cat])
-                                    :phrasal true
-                                    :agr {:number (u/get-in expression [:agr :number])}
-                                    :sem (u/get-in expression [:sem])
-                                    :mod (u/get-in expression [:mod])}))
-                                en/generate
-                                (en/morph :sentence-punctuation? true)
-                                println))
-                          (if true (println))))))))))))
+                          (-> generated-expression
+                              nl/morph
+                              nl/parse
+                              ((fn [expressions]
+                                (first (shuffle expressions))))
+                              ((fn [expression]
+                                 {:cat (u/get-in expression [:cat])
+                                  :phrasal true
+                                  :agr {:number (u/get-in expression [:agr :number])}
+                                  :sem (u/get-in expression [:sem])
+                                  :mod (u/get-in expression [:mod])}))
+                              en/generate
+                              (en/morph :sentence-punctuation? true)
+                              println)
+                          (println)))))))))))
+
 
 

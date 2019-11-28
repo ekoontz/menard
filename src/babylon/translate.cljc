@@ -4,7 +4,7 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
-(def generate-this-many 5)
+(def generate-this-many 10)
 
 ;; in the demo, we first generate a target expression in Dutch,
 ;; and then translate it to English.
@@ -14,6 +14,13 @@
 ;; If this is false, we generate the source expression directly from the target
 ;; expression without first parsing it.
 (def intermediate-parse? false)
+
+(defn nl-to-en-spec [nl-expression]
+ {:cat (u/get-in nl-expression [:cat])
+  :subcat []
+  :phrasal true
+  :agr {:number (u/get-in nl-expression [:agr :number] :top)}
+  :sem (u/get-in nl-expression [:sem])})
 
 (defn demo []
   (count
@@ -41,12 +48,8 @@
                                   (-> % nl/morph nl/parse shuffle first)
                                   %))
                               ;; 2.a. create a specification for generation:
-                              ((fn [source-expression]
-                                 {:cat (u/get-in source-expression [:cat])
-                                  :subcat []
-                                  :phrasal true
-                                  :agr {:number (u/get-in source-expression [:agr :number] :top)}
-                                  :sem (u/get-in source-expression [:sem])}))
+                              nl-to-en-spec
+
                               ;; 2.b. generate from this spec:
                               en/generate
                               ;; 2.c. get the surface form of the generated target expression:

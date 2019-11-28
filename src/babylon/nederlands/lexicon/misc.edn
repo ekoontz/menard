@@ -13,5 +13,13 @@
  "het" [{:cat :det
          :sem {:quant :def}
          :agr {:gender :neuter
-               :number :sing}}]}
+               :number :sing}}]
+
+
+ "ik" [{:cat :noun
+        :pronoun true
+        :subcat []
+        :agr {:person :1st
+              :number :sing}}]}
+
 ;; </F>

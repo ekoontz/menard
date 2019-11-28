@@ -33,6 +33,15 @@
     (compile-lexicon "babylon/nederlands/lexicon/nouns.edn")
     (compile-lexicon "babylon/nederlands/lexicon/verbs.edn")))
 
+(def finite-tenses
+  [;; "hij werkt"
+   {:variant :present-simple
+    :abbreviation :simple-present
+    :infl :present
+    :modal false
+    :sem {:tense :present
+          :aspect :simple}}])
+
 (def grammar
   (-> "babylon/nederlands/grammar.edn"
       io/resource
@@ -187,5 +196,4 @@
                                 syntax-tree
                                 println))
                           (if false (println))))))))))))
-
 

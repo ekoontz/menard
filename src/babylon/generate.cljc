@@ -24,6 +24,7 @@
 (def diagnostics? false)
 (def allow-folding? true)
 (def generate-only-one? true)
+(def allow-backtracking? true)
 
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic lexicon-index-fn (fn [spec]
@@ -60,6 +61,9 @@
       (cond (= :fail tree)
             []
 
+            (> (count frontier) 5)
+            []
+            
             (or (u/get-in tree [:babylon.generate/done?])
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
@@ -160,7 +164,7 @@
           (let [both
                 (lazy-cat (add-lexeme tree)
                           (add-rule tree))]
-            (if (empty? both)
+            (if (and (not allow-backtracking?) (empty? both))
               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
             both)))))
 

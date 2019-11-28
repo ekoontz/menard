@@ -5,5 +5,15 @@
  {:rule "np" ;; een stomme lieve overheid. (A stupid nice government).
   :head {:phrasal true
          :head {:phrasal true}}}
- {:rule "s"}]
+ {:rule "s"}
+ {:rule "s"
+  :comp {:pronoun false
+         :propernoun false}}
+ {:rule "s" ;; Een lieve man werkt. (The nice gentleman works).
+  :comp {:rule "np" 
+         :head {:phrasal true}}}
+ {:rule "s" ;; Een lieve stomme man werkt. (The nice stupid gentleman works).
+  :comp {:rule "np" 
+         :head {:phrasal true
+                :head {:phrasal true}}}}]
 

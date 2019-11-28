@@ -1,1 +1,3 @@
-{}
+{"werk"
+ [{:cat :verb
+   :sem {:pred :work}}]}

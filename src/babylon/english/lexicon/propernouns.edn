@@ -11,6 +11,22 @@
              :sem {:ref {:human true}
                    :pred :antonio}
              :pronoun false
-             :propernoun true}]}
+             :propernoun true}]
+ "Guus" [{:cat :noun
+          :agr {:gender :masc
+                :human true}
+          :sem {:ref {:human true}
+                :pred :guus}
+          :pronoun false
+          :propernoun true}]
+ "Saskia" [{:cat :noun
+            :agr {:gender :fem
+                  :human true}
+            :sem {:ref {:human true}
+                  :pred :saskia}
+            :pronoun false
+            :propernoun true}]}
+
+
 
 

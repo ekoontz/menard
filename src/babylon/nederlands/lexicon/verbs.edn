@@ -1,4 +1,12 @@
-{"werk"
+{"slaap"
+ [{:cat :verb
+   :sem {:pred :sleep}
+   :subcat {:2 []}}]
+ "werk"
  [{:cat :verb
    :sem {:pred :work}
+   :subcat {:2 []}}]
+ "zing"
+ [{:cat :verb
+   :sem {:pred :sing}
    :subcat {:2 []}}]}

@@ -7,15 +7,12 @@
   :slash false
   :comp {:cat :adjective}
   :unify [babylon.ug/cons-mod
-          babylon.ug/head-last
           babylon.ug/head-is-root
+          babylon.ug/head-last
+          babylon.ug/head-last
           babylon.ug/nominal-phrase
           babylon.ug/shared-quant
           babylon.ug/shared-agr
-          babylon.ug/subcat-1-1
-          babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/nominal-phrase
           babylon.ug/subcat-1-1]}
  
  {:rule "np"
@@ -24,8 +21,8 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [babylon.ug/head-last
-          babylon.ug/head-is-root
+  :unify [babylon.ug/head-is-root
+          babylon.ug/head-last
           babylon.ug/nest-mod
           babylon.ug/subcat-1]}
 
@@ -33,7 +30,7 @@
   :cat :verb
   :subcat []
   :unify [babylon.ug/head-aux
-          babylon.ug/head-last
           babylon.ug/head-is-root
+          babylon.ug/head-last
           babylon.ug/head-sem
           babylon.ug/subcat-1]}]

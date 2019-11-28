@@ -21,6 +21,8 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
+  :options [{:agr {:number :plur}}
+            {:agr {:number :sing}}]
   :unify [babylon.ug/head-is-root
           babylon.ug/head-last
           babylon.ug/nest-mod

@@ -15,6 +15,15 @@
       :agr {:number :plur}
       :regular true}}
 
+ ;; if a singular noun ends in -heid, then noun pluralization ends in -heden:
+ {:g [#"(heid)$"  "heden"] ;; mogelijkheid -> mogelijkheden
+  :p [#"heden$"   "heid"]
+  :u {:cat :noun
+      :derivation {:runtime-noun-analysis {:heid-suffix true}}
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+ 
   ;; noun pluralization ending in -s:
  {:g [#"([^aeiouy])(e|el|em|en|er)$"  "$1$2s"] ;; tafel  -> tafels
   :p [#"^(.*)s$"   "$1"]          ;; tafels -> tafel 

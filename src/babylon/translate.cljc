@@ -26,7 +26,8 @@
                             (-> generated-expression
                                 nl/morph
                                 nl/parse
-                                first
+                                ((fn [expressions]
+                                  (first (shuffle expressions))))
                                 ((fn [expression]
                                    {:cat (u/get-in expression [:cat])
                                     :phrasal true

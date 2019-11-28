@@ -480,7 +480,7 @@
          (= (-> syntax-tree :2 numeric-frontier) :done))
     :done
 
-    (nil? syntax-tree) :done
+    (nil? syntax-tree) []
 
     (and (map? syntax-tree)
          (-> syntax-tree :1 :head?))

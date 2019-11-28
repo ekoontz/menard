@@ -13,12 +13,14 @@
   :then [(let [agr (atom :top)
                mod (atom :top)
                pred (atom :top)
+               quant (atom :top)
                ref (atom :top)
                prop (atom :top)]
            {:agr agr
             :sem {:subj {:pred pred
                          :mod mod
                          :prop prop
+                         :quant quant
                          :ref ref}}
             :subcat {:1 {:agr agr
                          :cat :noun
@@ -26,6 +28,7 @@
                          :sem {:mod mod
                                :pred pred
                                :prop prop
+                               :quant quant
                                :ref ref}
                          :subcat []}}})]}
  

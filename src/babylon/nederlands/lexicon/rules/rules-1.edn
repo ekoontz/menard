@@ -15,15 +15,21 @@
   (let [agr (atom :top)
         mod (atom :top)
         pred (atom :top)
+        prop (atom :top)
+        quant (atom :top)
         ref (atom :top)]
-    [{:sem {:subj {:pred pred
-                   :mod mod
+    [{:sem {:subj {:mod mod
+                   :pred pred
+                   :prop prop
+                   :quant quant
                    :ref ref}}
       :agr agr
       :subcat {:1 {:cat :noun
                    :case :nom
-                   :sem {:pred pred
-                         :mod mod
+                   :sem {:mod mod
+                         :pred pred
+                         :prop prop
+                         :quant quant
                          :ref ref}
                    :agr agr}}}])}]
 

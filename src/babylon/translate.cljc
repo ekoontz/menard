@@ -4,6 +4,8 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
+(def generate-this-many 1)
+
 ;; in the demo, we first generate a target expression in Dutch,
 ;; and then translate it to English.
 ;; If this is true, after generating the target expression, we
@@ -18,32 +20,42 @@
    (->>
     (range 0 (count nl/expressions))
     (map (fn [index]
-           (let [target-expressions
+           (let [source-expressions
                  (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-                      (take 10)
+                      (take generate-this-many)
                       (filter #(not (nil? %))))]
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.
              (count
-              (->> target-expressions
-                   (map (fn [target-expression]
-                          (-> target-expression
+              (->> source-expressions
+                   (map (fn [source-expression]
+                          ;; 1. print the surface form of the source expression:
+                          (-> source-expression
                               (nl/morph :sentence-punctuation? true)
                               println)
-                          (-> target-expression
+
+                          ;; 2. generate the target expression from the source expression:
+                          (-> source-expression
                               (#(if intermediate-parse?
                                   (-> % nl/morph nl/parse shuffle first)
                                   %))
-                              ((fn [target-expression]
-                                 {:cat (u/get-in target-expression [:cat])
+                              ;; 2.a. create a specification for generation:
+                              ((fn [source-expression]
+                                 {:cat (u/get-in source-expression [:cat])
+                                  :subcat []
                                   :phrasal true
-                                  :agr {:number (u/get-in target-expression [:agr :number] :top)}
-                                  :sem (u/get-in target-expression [:sem])
-                                  :mod (u/get-in target-expression [:mod])}))
+                                  :agr {:number (u/get-in source-expression [:agr :number] :top)}
+                                  :sem (u/get-in source-expression [:sem])}))
+                              ((fn [spec]
+                                 (println spec)
+                                 spec))
+                              ;; 2.b. generate from this spec:
                               en/generate
+                              ;; 2.c. get the surface form of the generated target expression:
                               (en/morph :sentence-punctuation? true)
                               println)
+                          ;; print a newline between each pair of source/target outputs:
                           (println)))))))))))
 
 

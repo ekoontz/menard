@@ -13,14 +13,17 @@
   :if {:cat :verb}
   :then
   (let [agr (atom :top)
+        mod (atom :top)
         pred (atom :top)
         ref (atom :top)]
     [{:sem {:subj {:pred pred
+                   :mod mod
                    :ref ref}}
       :agr agr
       :subcat {:1 {:cat :noun
                    :case :nom
                    :sem {:pred pred
+                         :mod mod
                          :ref ref}
                    :agr agr}}}])}]
 

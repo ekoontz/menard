@@ -19,6 +19,7 @@
  "ik" [{:cat :noun
         :pronoun true
         :subcat []
+        :sem {:pred :i}
         :agr {:person :1st
               :number :sing}}]}
 

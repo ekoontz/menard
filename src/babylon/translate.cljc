@@ -29,7 +29,7 @@
                                 first
                                 ((fn [expression]
                                    {:cat (u/get-in expression [:cat])
-                                    :rule "np"
+                                    :phrasal true
                                     :agr {:number (u/get-in expression [:agr :number])}
                                     :sem (u/get-in expression [:sem])
                                     :mod (u/get-in expression [:mod])}))

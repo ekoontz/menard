@@ -38,11 +38,11 @@ the morphology is a set of rules, each of which looks like:"
       (u/get-in structure [:canonical])
       
       (nil? matching-rules)
-      (throw (Exception. (str "something went wrong: no rules matched for:"
+      (throw (Exception. (str "No rules matched for:"
                               (u/strip-refs structure))))
 
       (not (seq? matching-rules))
-      (throw (Exception. (str "something went wrong: matching-rules "
+      (throw (Exception. (str "syntax error in matching rules: "
                               "should be a sequence but it's a: "
                               (type matching-rules)
                               " for matching: " (u/strip-refs structure))))

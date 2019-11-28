@@ -14,6 +14,17 @@
          :sem {:quant :def}
          :agr {:gender :neuter
                :number :sing}}]
+ ;; </F>
+
+ ;; <F. p69-73>
+ "hij" [{:agr {:person :3rd
+               :number :sing
+               :gender :masc}
+         :case :nom
+         :cat :noun
+         :pronoun true
+         :sem {:pred :he}
+         :subcat []}]
 
  "ik" [{:agr {:person :1st
               :number :sing}
@@ -22,6 +33,7 @@
         :pronoun true
         :sem {:pred :i}
         :subcat []}]
+
  "jij" [{:agr {:person :2nd
                :number :sing}
          :case :nom
@@ -35,6 +47,38 @@
             :subcat []
             :sem {:pred :you}
             :agr {:person :2nd
-                  :number :plur}}]}
+                  :number :plur}}]
+ "u" [{:agr {:person :2nd
+             :number :sing}
+       :case :nom
+       :cat :noun
+       :pronoun true
+       :sem {:pred :you
+             :context :polite}
+       :subcat []}]
+
+ "wij" [{:agr {:person :1st
+               :number :plur}
+         :case :nom
+         :cat :noun
+         :pronoun true
+         :sem {:pred :we}
+         :subcat []}]
+
+ "zij" [{:agr {:person :3rd
+               :number :sing
+               :gender :fem}
+         :case :nom
+         :cat :noun
+         :pronoun true
+         :sem {:pred :she}
+         :subcat []}
+        {:agr {:person :3rd
+               :number :plur}
+         :case :nom
+         :cat :noun
+         :pronoun true
+         :sem {:pred :they}
+         :subcat []}]}
 
 ;; </F>

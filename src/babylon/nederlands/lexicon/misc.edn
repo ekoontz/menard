@@ -22,10 +22,16 @@
          :pronoun true
          :sem {:pred :it
                :ref {:human false}}
-         :subcat []}]
-        
+         :subcat []}]        
  ;; </F>
 
+
+ "heel" [{:cat :intensifier
+          :sem {:pred :very}
+          :subcat {:1 {:cat :adjective
+                        :phrasal false}
+                    :2 []}}]
+ 
  ;; <F. p69-73>
  "hij" [{:agr {:person :3rd
                :number :sing

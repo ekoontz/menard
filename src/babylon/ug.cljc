@@ -274,35 +274,6 @@
                      :3 []}}
      :comp two}))
 
-;; also used for non-adjunct phrase-structure rules
-;; e.g. in "sees the cat", "the cat" is an argument of the verb,
-;; but allows for one modifier of the head:
-;; vp    [ mod  <1,2..> ]
-;; |
-;; |`-v  [ mod  <1>     ]
-;;  `-np [ mod  <2..>   ]
-;;
-(def complement-is-argument-one-head-mod
-  (let [head-mod (atom :top)
-        comp-mod (atom :top)]
-    {:mod {:first head-mod
-           :rest comp-mod}
-     :head {:mod {:first head-mod}}
-     :comp {:mod comp-mod}}))
-
-;; this is used for non-adjunct phrase-structure rules.
-;; e.g. in "the little cat"
-;;
-;; np      [ mod  1 ]
-;; |
-;; |`-det
-;;  `-nbar [ mod  1 ]
-;;
-(def complement-is-argument-no-comp-mod
-  (let [head-mod (atom :top)]
-    {:mod head-mod
-     :head {:mod head-mod}}))
-
 ;; this is used for adjunct phrase structure rules
 ;; e.g. in "sits on the chair", "on the chair" is
 ;; an adjunct:

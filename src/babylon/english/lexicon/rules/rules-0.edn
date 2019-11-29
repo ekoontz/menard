@@ -97,6 +97,15 @@
   :if {:cat :intensifier}
   :then [{:inflected? true}]}
 
+ {:rule :intensifier-semantics
+  :if {:cat :intensifier}
+  :then [(let [adjective-sem (atom :top)]
+           {:sem adjective-sem
+            :subcat {:1 {:cat :adjective
+                         :phrasal false
+                         :sem adjective-sem}
+                     :2 []}})]}
+ 
  {:rule :dont-inflect-neg
   :if {:cat :neg}
   :then [{:inflected? true}]}

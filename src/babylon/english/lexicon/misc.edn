@@ -216,13 +216,8 @@
                        :infl :base}
                    :2 []}})]
  
- "very" [(let [adjective-sem (atom {:mod {:first {:pred :very}}})]
-           {:cat :intensifier
-            :sem adjective-sem
-            :subcat {:1 {:cat :adjective
-                         :phrasal false
-                         :sem adjective-sem}
-                     :2 []}})]
+ "very" [{:cat :intensifier
+          :sem {:mod {:first {:pred :very}}}}]
 
  "we" [{:cat :noun
         :sem {:pred :we}

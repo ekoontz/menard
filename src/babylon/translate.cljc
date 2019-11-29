@@ -11,6 +11,7 @@
 ;; If this is true, after generating the target expression, we
 ;; parse its surface form and then generate the source expression from that parse
 ;; tree.
+;;
 ;; If this is false, we generate the source expression directly from the target
 ;; expression without first parsing it.
 (def intermediate-parse? false)
@@ -56,7 +57,7 @@
 
                               ;; 2.b. generate from this spec:
                               en/generate
-                              ;; 2.c. get the surface form of the generated target expression:
+                              ;; 2.c. print the surface form of the target expression:
                               (en/morph :sentence-punctuation? true)
                               println)
                           ;; print a newline between each pair of source/target outputs:

@@ -5,21 +5,14 @@
  {:rule "s"
   :aux false
   :comp {:phrasal true}}
- {:arg :top,
-  :cat :noun
+ {:cat :noun
   :subcat []
-  :context :unspec,
   :head {:phrasal true
          :comp {:phrasal true}}
   :mod
   {:first
-   {:arg :top,
-    :quant :indef,
-    :pred :small,
-    :mod {:first {:pred :very}}},
-   :rest ()},
-  :obj :top,
-  :pred :cat,
-  :quant :indef,
-  :ref :top,
-  :subj :top}]
+   {:quant :indef
+    :pred :small
+    :mod {:first {:pred :very}}}}
+  :pred :cat
+  :quant :indef}]

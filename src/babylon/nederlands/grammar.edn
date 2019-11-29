@@ -1,4 +1,12 @@
-[{:rule "nbar" ;; '[nbar .groet +kat]'
+[{:rule "intensifier" ;; 'heel groet'
+  :cat :adjective
+  :head {:cat :intensifier}
+  :comp {:cat :adjective}
+  :unify [babylon.ug/head-comp-rule
+          babylon.ug/head-first-1
+          babylon.ug/subcat-1]}
+
+ {:rule "nbar" ;; '[nbar .groet +kat]'
   :cat :noun
   :head {:pronoun false
          :propernoun false

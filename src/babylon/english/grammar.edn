@@ -1,4 +1,13 @@
-[{:rule "nbar" ;; '[nbar .black +cat]'
+[
+ {:rule "intensifier" ;; 'very small'
+  :cat :adjective
+  :head {:cat :intensifier}
+  :comp {:cat :adjective}
+  :unify [babylon.ug/head-comp-rule
+          babylon.ug/head-first-1
+          babylon.ug/subcat-1]}
+ 
+ {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -14,7 +23,7 @@
           babylon.ug/shared-quant
           babylon.ug/shared-agr
           babylon.ug/subcat-1-1]}
- 
+
  {:rule "np"
   :reflexive false
   :agr {:person :3rd}

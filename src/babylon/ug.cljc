@@ -128,6 +128,11 @@
   {:reflexive false
    :agr {:person :3rd}})
 
+(def parent-sem
+  (let [sem (atom :top)]
+    {:sem sem
+     :head {:parent-sem sem}}))      
+
 (def shared-agr
   (let [shared (atom :top)]
     {:comp {:agr shared}

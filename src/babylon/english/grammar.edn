@@ -5,6 +5,7 @@
   :comp {:cat :adjective}
   :unify [babylon.ug/comp-is-root
           babylon.ug/head-first
+          babylon.ug/parent-sem
           babylon.ug/subcat-1]}
  
  {:rule "nbar" ;; '[nbar .black +cat]'

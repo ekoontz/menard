@@ -30,7 +30,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 59314 on host 127.0.0.1 - nrepl://127.0.0.1:59314
+nREPL server started on port 54167 on host 127.0.0.1 - nrepl://127.0.0.1:54167
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -44,187 +44,217 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 user=> (load "babylon")
 nil
 user=> (babylon/demo)
-De huizen.
-The houses.
+De groep.
+The group.
 
-De benen.
-The legs.
+De jongen.
+The boy.
 
-Een jas.
-A coat.
+De gebeiden.
+The areas.
 
-De dagen.
-The days.
+Een land.
+A country.
 
-De overheid.
-The government.
+De overheden.
+The governments.
 
-De thuizen.
-The homes.
+Het land.
+The country.
 
-De benen.
-The legs.
+Een been.
+A leg.
 
-Een familie.
-A family.
+De dag.
+The day.
 
-Een overheid.
-A government.
+De kinderen.
+The children.
 
-De feitten.
-The facts.
+De katten.
+The cats.
 
-De vieze jongens.
-The dirty boys.
+Een lieve tafel.
+A nice table.
 
-De lieve dag.
-The nice day.
+De stomme feitten.
+The stupid facts.
 
-Een oude baan.
-An old job.
+Het oude huis.
+The old house.
 
-De vieze tafel.
-The dirty table.
+De slimme hond.
+The smart dog.
 
-De sterke haren.
-The strong hairs.
+Een stom geld.
+A stupid money.
 
-De stomme katten.
-The stupid cats.
+Een lieve groep.
+A nice group.
 
-De oude bedrijven.
-The old businesses.
+Een slimme jas.
+A smart coat.
 
-Het oude bedrijf.
-The old business.
+De kleine katten.
+The small cats.
 
-Een grote jongen.
-A big boy.
+De vieze groepen.
+The dirty groups.
 
-De oude benen.
-The old legs.
+Een kleine stoel.
+A small chair.
 
-Een grote oude moeder.
-A big old mother.
+De stomme stomme plaatsen.
+The stupid stupid lots.
 
-De kleine oude jongen.
-The small old boy.
+De kleine oude tafels.
+The small old tables.
 
-De slimme kleine honden.
-The smart small dogs.
+De oude stomme jassen.
+The old stupid coats.
 
-Een stomme stomme kat.
-A stupid stupid cat.
+De stomme oude oogen.
+The stupid old eyes.
 
-De grote slimme dame.
-The big smart lady.
+De lieve stomme thuizen.
+The nice stupid homes.
 
-Een lieve grote kitten.
-A nice big kitten.
+De oude oude heer.
+The old old gentleman.
 
-De lieve vieze levens.
-The nice dirty lives.
+Een kleine vieze baby.
+A small dirty baby.
 
-De kleine oude families.
-The small old families.
+Het vieze vieze bedrijf.
+The dirty dirty business.
 
-Een vies stom land.
-A dirty stupid country.
+Een vieze stomme groep.
+A dirty stupid group.
 
-De stomme grote druif.
-The stupid big grape.
+De stomme oude mannen.
+The stupid old men.
 
-Zij werkt.
-She works.
+Een heel oud huis.
+A very old house.
 
-Hij zingt.
-He sings.
+Een heel klein dag.
+A very small day.
 
-Jij zingt.
-You sing.
+Een heel vies meisje.
+A very dirty girl.
 
-Zij slaapen.
-They sleep.
+Een heel lief druif.
+A very nice grape.
 
-U slaapt.
-You sleep.
+Een heel slim gebeid.
+A very smart area.
 
-Zij werkt.
-She works.
+Een heel vies baan.
+A very dirty job.
 
-Jij werkt.
-You work.
+Een heel oud familie.
+A very old family.
+
+Een heel lief man.
+The very nice man.
+
+Een heel vies oog.
+A very dirty eye.
+
+Een heel klein boek.
+A very small book.
+
+Het slaapt.
+It sleeps.
 
 Jullie slaapen.
 You sleep.
 
-Zij zingt.
-She sings.
+U werkt.
+You work.
 
-Hij werkt.
-He works.
+Het zingt.
+It sings.
 
-Het lieve geld zingt.
-The nice money sings.
+Saskia werkt.
+Saskia works.
 
-Een grote zaak werkt.
-A big case works.
+Ik werk.
+I work.
 
-Een oud kind slaapt.
-An old child sleeps.
+Jullie zingen.
+You sing.
 
-De oude gebeiden zingen.
-The old areas sing.
+U zingt.
+You sing.
 
-Het oude gebeid zingt.
-The old area sings.
+Saskia zingt.
+Saskia sings.
 
-De vieze heer slaapt.
-The dirty man sleeps.
+Ik zing.
+I sing.
 
-Een grote tafel werkt.
-A big table works.
+De lieve hand werkt.
+The nice hand works.
 
-De vieze oogen slaapen.
-The dirty eyes sleep.
+Een stomme maand slaapt.
+A stupid month sleeps.
 
-De grote thuizen werken.
-The big homes work.
+De kleine baby's zingen.
+The small babies sing.
 
-De vieze dagen werken.
-The dirty days work.
+Het sterke land zingt.
+The strong country sings.
+
+De vieze overheid slaapt.
+The dirty government sleeps.
+
+De stomme zaken werken.
+The stupid cases work.
+
+De slimme plaats zingt.
+The smart lot sings.
+
+Het oude gebeid werkt.
+The old area works.
+
+De grote moeder zingt.
+The big mother sings.
+
+Een stomme hond werkt.
+A stupid dog works.
+
+Het kleine sterke geld slaapt.
+The small strong money sleeps.
+
+De sterke kleine stoel slaapt.
+The strong small chair sleeps.
+
+Een lieve grote moeder zingt.
+A nice big mother sings.
+
+De grote sterke honden werken.
+The big strong dogs work.
+
+Een oud klein leven slaapt.
+An old small life sleeps.
+
+De sterke kleine overheden zingen.
+The strong small governments sing.
 
 De sterke oude zaken slaapen.
 The strong old cases sleep.
 
-Een slimme sterke baan werkt.
-A smart strong job works.
+De oude sterke handen slaapen.
+The old strong hands sleep.
 
-Een lieve stomme groep zingt.
-A nice stupid group sings.
+De slimme vieze haren slaapen.
+The smart dirty hairs sleep.
 
-Een lieve slimme jas zingt.
-A nice smart coat sings.
+Een oud klein kind werkt.
+An old small child works.
 
-Een sterke grote maand slaapt.
-A strong big month sleeps.
-
-De stomme sterke banen slaapen.
-The stupid strong jobs sleep.
-
-De sterke stomme gelden zingen.
-The strong stupid moneys sing.
-
-De sterke slimme zaak slaapt.
-The strong smart case sleeps.
-
-Een kleine lieve baby slaapt.
-A small nice baby sleeps.
-
-De oude vieze banen slaapen.
-The old dirty jobs sleep.
-
-6
+7
 user=>
 ```
 

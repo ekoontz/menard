@@ -1,3 +1,5 @@
-[{:rule "s" 
+[;; [s(:present-simple) .[np .een +[nbar .[intensifier +heel .stom] +[nbar .lief +bedrijf]]] +werkt]
+ ;; (a very stupid nice business works)
+ {:rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}]

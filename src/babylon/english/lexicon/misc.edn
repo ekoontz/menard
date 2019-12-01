@@ -147,6 +147,9 @@
          :pronoun true
          :reflexive false}]
 
+ "some" [{:cat :det
+          :sem {:quant :indef}
+          :agr {:number :plur}}]
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
           :slash true

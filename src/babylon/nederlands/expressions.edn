@@ -6,15 +6,20 @@
   :head {:phrasal true
          :head {:phrasal true}}}
 
- {:rule "np" ;; "[np .een +[nbar .[intensifier +heel .klein] +kat]]"
-  :head {:phrasal true
-         :comp {:phrasal true}
-         :head {:phrasal false}}}
-
+ {:rule "np"
+  :phrasal true ;; "[np .een +[nbar .[intensifier +heel .klein] +kat]]"
+  :cat :noun
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}}
+        :quant :indef
+        :pred :top}}
+ 
  {:rule "s"}
+
  {:rule "s" ;; Een lieve man werkt. (The nice gentleman works).
   :comp {:rule "np" 
          :head {:phrasal true}}}
+
  {:rule "s" ;; Een lieve stomme man werkt. (The nice stupid gentleman works).
   :comp {:rule "np" 
          :head {:phrasal true

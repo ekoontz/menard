@@ -1,4 +1,4 @@
-[{:rule "intensifier" ;; 'heel groet'
+[{:rule "intensifier" ;; 'heel groot'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}
@@ -19,6 +19,7 @@
   :unify [babylon.ug/cons-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
+          babylon.ug/head-rule
           babylon.ug/nominal-phrase
           babylon.ug/shared-quant
           babylon.ug/shared-agr
@@ -34,6 +35,7 @@
             {:agr {:number :sing}}]
   :unify [babylon.ug/head-is-root
           babylon.ug/head-last
+          babylon.ug/head-rule
           babylon.ug/nest-mod
           babylon.ug/subcat-1]}
 
@@ -44,6 +46,7 @@
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
           babylon.ug/head-last
+          babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/subcat-1]}]
 

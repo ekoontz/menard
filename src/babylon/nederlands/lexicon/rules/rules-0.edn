@@ -1,4 +1,9 @@
-[{:rule :dont-inflect-complementizers
+[{:rule :adjectives-have-empty-modifiers
+  :if {:cat :adjective
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :dont-inflect-complementizers
   :if {:cat :comp}
   :then [{:inflected? true}]}
 
@@ -17,6 +22,20 @@
  {:rule :dont-inflect-determiners
   :if {:cat :det}
   :then [{:inflected? true}]}
+
+ {:rule :intensifier-semantics
+  :if {:cat :intensifier}
+  :then [(let [adj-mod (atom :top)
+               adj-pred (atom :top)
+               intensifier-sem (atom :top)]
+           {:parent-sem {:pred adj-pred
+                         :mod {:first intensifier-sem
+                               :rest adj-mod}}
+            :sem intensifier-sem
+            :subcat {:1 {:cat :adjective
+                         :sem {:pred adj-pred
+                               :mod adj-mod}}
+                     :2 []}})]}
 
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun

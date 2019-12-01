@@ -9,8 +9,8 @@
  ;; [np .a +[nbar .[intensifier +very .small] +cat]
  {:phrasal true
   :cat :noun
-  :sem {:mod  {:first {:pred :top
-                       :mod {:first {:pred :top}}}}
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}}
         :quant :indef
         :pred :top}}]
 

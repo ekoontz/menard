@@ -1,5 +1,5 @@
-{"klein" [{:cat :adjective :sem {:pred :small}}]
- "groot" [{:cat :adjective :sem {:pred :big}}]
+{"groot" [{:cat :adjective :sem {:pred :big}}]
+ "klein" [{:cat :adjective :sem {:pred :small}}]
  "lief"  [{:cat :adjective :sem {:pred :nice}}]
  "oud"   [{:cat :adjective :sem {:pred :old}}]
  "slim"  [{:cat :adjective :sem {:pred :smart}}]

@@ -5,8 +5,6 @@
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.
 
-;; part 1: rules that don't use other rules.
-
 (def comp-is-root
   (let [root (atom :top)]
     {:root root
@@ -42,14 +40,21 @@
     {:aux aux
      :head {:aux aux}}))
 
-(def head-first-1 ;; used for e.g. intensifier-phrase, where [:head :cat] != [:cat].
+(def head-first
   (let [head (atom :top)
         comp (atom :top)]
-    {:phrasal true
-     :head head
-      :1 head
-      :comp comp
-      :2 comp}))
+    {:head head
+     :1 head
+     :comp comp
+     :2 comp}))
+
+(def head-last
+ (let [head (atom :top)
+       comp (atom :top)]
+   {:head head
+    :1 comp
+    :comp comp
+    :2 head}))
 
 ;; root rules: which child (head or comp) is the root of a tree.
 (def head-is-root
@@ -167,25 +172,3 @@
               :3 []}
      :comp complement-2}))
 
-;; part 2: rules that use above rules.
-
-(def head-first
-  (let [head (atom :top)
-        comp (atom :top)]
-    (unify
-     head-rule
-     {:phrasal true
-      :head head
-      :1 head
-      :comp comp
-      :2 comp})))
-
-(def head-last
- (let [head (atom :top)
-       comp (atom :top)]
-   (unify
-    head-rule
-    {:head head
-     :1 comp
-     :comp comp
-     :2 head})))

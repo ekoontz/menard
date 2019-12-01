@@ -220,7 +220,7 @@
                    :2 []}})]
  
  "very" [{:cat :intensifier
-          :sem {:mod {:first {:pred :very}}}}]
+          :sem {:pred :very}}]
 
  "we" [{:cat :noun
         :sem {:pred :we}

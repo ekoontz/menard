@@ -2,8 +2,9 @@
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}
-  :unify [babylon.ug/head-comp-rule
-          babylon.ug/head-first-1
+  :unify [babylon.ug/comp-is-root
+          babylon.ug/head-first
+          babylon.ug/parent-sem
           babylon.ug/subcat-1]}
 
  {:rule "nbar" ;; '[nbar .groet +kat]'

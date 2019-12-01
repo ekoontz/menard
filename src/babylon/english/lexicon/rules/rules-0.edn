@@ -153,4 +153,16 @@
  {:rule :politeness-is-unspecified
   :if {:cat :noun
        :sem {:context ::unspec}}
-  :then [{:sem {:context :unspec}}]}]
+  :then [{:sem {:context :unspec}}]}
+
+ {:rule :pronoun-have-empty-modifiers
+  :if {:cat :noun
+       :pronoun true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernouns-have-empty-modifiers
+  :if {:cat :noun
+       :propernoun true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}]

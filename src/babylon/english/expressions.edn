@@ -5,14 +5,12 @@
  {:rule "s"
   :aux false
   :comp {:phrasal true}}
- {:cat :noun
-  :subcat []
-  :head {:phrasal true
-         :comp {:phrasal true}}
-  :mod
-  {:first
-   {:quant :indef
-    :pred :small
-    :mod {:first {:pred :very}}}}
-  :pred :cat
-  :quant :indef}]
+
+ ;; [np .a +[nbar .[intensifier +very .small] +cat]
+ {:phrasal true
+  :cat :noun
+  :sem {:mod  {:first {:pred :top
+                       :mod {:first {:pred :top}}}}
+        :quant :indef
+        :pred :top}}]
+

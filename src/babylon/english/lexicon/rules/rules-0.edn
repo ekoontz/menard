@@ -1,4 +1,8 @@
-[{:rule :regular-noun
+[{:rule :adjectives-have-empty-modifiers
+  :if {:cat :adjective
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+ {:rule :regular-noun
   :if {:cat :noun
        :agr {:number ::unspec}
        :pronoun ::unspec
@@ -9,7 +13,6 @@
           :pronoun false
           :mod []
           :propernoun false}]}
-
  {:rule :nouns-are-inhuman-by-default
   :if {:cat :noun
        :agr {:human ::unspec}}
@@ -96,11 +99,6 @@
  {:rule :dont-inflect-intensifiers
   :if {:cat :intensifier}
   :then [{:inflected? true}]}
-
- {:rule :intensifier-semantics
-  :if {:cat :intensifier}
-  :then [{:subcat {:1 {:cat :adjective}
-                   :2 []}}]}
  
  {:rule :dont-inflect-neg
   :if {:cat :neg}
@@ -115,6 +113,20 @@
   :then [{:inflected? true}]}
  
  ;; </non-inflecting rules>
+
+ {:rule :intensifier-semantics
+  :if {:cat :intensifier}
+  :then [(let [adj-mod (atom :top)
+               adj-pred (atom :top)
+               intensifier-sem (atom :top)]
+           {:parent-sem {:pred adj-pred
+                         :mod {:first intensifier-sem
+                               :rest adj-mod}}
+            :sem intensifier-sem
+            :subcat {:1 {:cat :adjective
+                         :sem {:pred adj-pred
+                               :mod adj-mod}}
+                     :2 []}})]}
 
  {:rule :modal-default-false
   :if {:cat :verb

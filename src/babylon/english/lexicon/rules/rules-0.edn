@@ -7,11 +7,9 @@
        :agr {:number ::unspec}
        :pronoun ::unspec
        :propernoun ::unspec
-       :regular ::unspec
-       :sem {:mod ::unspec}}
+       :regular ::unspec}
   :then [{:regular true
           :pronoun false
-          :mod []
           :propernoun false}]}
  {:rule :nouns-are-inhuman-by-default
   :if {:cat :noun

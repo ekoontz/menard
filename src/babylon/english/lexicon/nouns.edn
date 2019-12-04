@@ -162,12 +162,14 @@
  "week" [{:cat :noun
           :sem {:pred :week}}]
  "woman" [{:cat :noun
-           :sem {:pred :woman}
+           :sem {:pred :woman
+                 :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem
                  :human true
                  :number :sing}}]
  "women" [{:cat :noun
-           :sem {:pred :woman}
+           :sem {:pred :woman
+                 :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem
                  :human true
                  :number :plur}}]

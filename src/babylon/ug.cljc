@@ -63,6 +63,23 @@
      :head {:root root
             :canonical root}}))
 
+(def head-modal
+  (let [shared (atom :top)]
+    {:modal shared
+     :head {:modal shared}}))
+
+(def head-reflexive
+  (let [shared (atom :top)]
+    {:reflexive shared
+     :head {:reflexive shared}}))
+
+(def head-slash
+  (let [head-slash (atom :top)]
+    {:slash head-slash
+     :head {:slash head-slash}}))
+
+(def slash-is-head-slash head-slash)
+
 ;; TODO: :interogative? into :sem if
 ;; possible, so we don't need to specify it here.
 (def head-rule

@@ -13,12 +13,14 @@
   :if {:cat :verb}
   :then
   (let [agr (atom :top)
+        context (atom :top)
         mod (atom :top)
         pred (atom :top)
         prop (atom :top)
         quant (atom :top)
         ref (atom :top)]
-    [{:sem {:subj {:mod mod
+    [{:sem {:subj {:context context
+                   :mod mod
                    :pred pred
                    :prop prop
                    :quant quant
@@ -26,7 +28,8 @@
       :agr agr
       :subcat {:1 {:cat :noun
                    :case :nom
-                   :sem {:mod mod
+                   :sem {:context context
+                         :mod mod
                          :pred pred
                          :prop prop
                          :quant quant

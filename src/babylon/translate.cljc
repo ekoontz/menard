@@ -4,7 +4,7 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
-(def generate-this-many 10)
+(def generate-this-many 1)
 
 ;; in the demo, we first generate a target expression in Dutch,
 ;; and then translate it to English.
@@ -27,6 +27,32 @@
     (log/debug (str "retval: " retval))
     retval))
 
+(defn translate [source-expression]
+  (if (:annotation source-expression)
+    (println (str ";; translate: " (:annotation source-expression)))
+    (println (str "there is no annotation you fucking asshole.")))
+  ;; 1. print the surface form of the source expression:
+  (-> source-expression
+      ((fn [src] (str "SRC:" (nl/morph src :sentence-punctuation? true))))
+      println)
+
+
+  ;; 2. generate the target expression from the source expression:
+  (-> source-expression
+      (#(if intermediate-parse?
+           (-> % nl/morph nl/parse shuffle first)
+           %))
+      ;; 2.a. create a specification for generation:
+      nl-to-en-spec
+
+      ;; 2.b. generate from this spec:
+      en/generate
+
+      ;; 2.c. print the surface form of the target expression:
+      (en/morph :sentence-punctuation? true)
+      println
+      println))
+
 (defn demo []
   (count
    (->>
@@ -41,27 +67,7 @@
              ;; parse the surface form and return the first parse tree.
              (count
               (->> source-expressions
-                   (map (fn [source-expression]
-                          ;; 1. print the surface form of the source expression:
-                          (-> source-expression
-                              (nl/morph :sentence-punctuation? true)
-                              println)
-
-                          ;; 2. generate the target expression from the source expression:
-                          (-> source-expression
-                              (#(if intermediate-parse?
-                                  (-> % nl/morph nl/parse shuffle first)
-                                  %))
-                              ;; 2.a. create a specification for generation:
-                              nl-to-en-spec
-
-                              ;; 2.b. generate from this spec:
-                              en/generate
-                              ;; 2.c. print the surface form of the target expression:
-                              (en/morph :sentence-punctuation? true)
-                              println)
-                          ;; print a newline between each pair of source/target outputs:
-                          (println)))))))))))
+                   (mapcat translate)))))))))
 
 
 

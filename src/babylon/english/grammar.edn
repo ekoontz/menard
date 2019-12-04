@@ -70,9 +70,10 @@
   :options babylon.english/tenses
   :head {:aux false}
   :unify [babylon.ug/head-first
-          babylon.ug/head-reflexive
           babylon.ug/head-is-root
           babylon.ug/head-modal
+          babylon.ug/head-reflexive
+          babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-2]}]

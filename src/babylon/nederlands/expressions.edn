@@ -1,5 +1,64 @@
-[;; [s(:present-simple) .[np .een +[nbar .[intensifier +heel .stom] +[nbar .lief +bedrijf]]] +werkt]
- ;; (a very stupid nice business works)
- {:rule "s" 
+[
+ ;; TODO: derive the general case from the specific automatically rather
+ ;; than having to list these specifications in pairs:
+ ;;    (i.e. specific np, general np, specific np with adjective, etc..)
+ {:annotation "'een huis'"
+  :rule "np"
+  :agr {:number :sing}
+  :sem {:mod []
+        :pred :house
+        :quant :indef}}
+ {:annotation "generalization of the above:"
+  :rule "np"
+  :sem {:mod []}}
+
+ {:annotation "'het grote boeken'"
+  :rule "np"
+  :agr {:number :plur}  
+  :sem {:mod {:first {:pred :big}}
+        :quant :def
+        :pred :book}}
+ {:annotation "generalization of the above:"
+  :rule "np"
+  :sem {:mod {:first {:pred :top}}}}
+ 
+ {:annotation "'een heel klein druif'"
+  :rule "np"
+  :agr {:number :sing}
+  :sem {:pred :grape
+        :quant :indef
+        :mod {:first {:pred :small
+                      :mod {:first {:pred :very}}}}}}
+ {:annotation "generalization of the above:"
+  :rule "np"
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}}}}
+ 
+ {:annotation "'De heel klein oud fietsen'."
+  :agr {:number :plur}
+  :rule "np"
+  :sem {:mod {:first {:pred :small
+                      :mod {:first {:pred :very}}}
+              :rest {:first {:pred :old}}}
+        :pred :bike
+        :quant :def}}
+ {:annotation "generalization of the above:"
+  :rule "np"
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}
+              :rest {:first {:top :top}}}}}
+ 
+ {:annotation "'De heel sterk slimme vrouen zingen'."
+  :rule "s" 
+  :agr {:number :plur}
+  :sem {:pred :sing
+        :subj {:pred :woman
+               :context :neutral
+               :mod {:first {:pred :strong
+                             :mod {:first {:pred :very}}}
+                     :rest {:first {:pred :smart}}}}
+        :quant :def}}
+ {:annotation "generalization of the above:"
+  :rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}]

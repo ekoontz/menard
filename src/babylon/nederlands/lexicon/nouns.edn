@@ -117,6 +117,10 @@
  "thuis" [{:cat :noun
            :agr {:gender :neuter}
            :sem {:pred :home}}]
+ "vrouw" [{:cat :noun
+           :agr {:gender :neuter}
+           :sem {:pred :woman
+                 :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
  "zaak" [{:cat :noun
           :sem {:pred :case}
           :agr {:gender :common}}]}

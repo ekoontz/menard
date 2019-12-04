@@ -29,13 +29,11 @@
 
 (defn translate [source-expression]
   (if (:annotation source-expression)
-    (println (str ";; translate: " (:annotation source-expression)))
-    (println (str "there is no annotation you fucking asshole.")))
+    (println (str ";; " (:annotation source-expression))))
   ;; 1. print the surface form of the source expression:
   (-> source-expression
-      ((fn [src] (str "SRC:" (nl/morph src :sentence-punctuation? true))))
+      ((fn [src] (nl/morph src :sentence-punctuation? true)))
       println)
-
 
   ;; 2. generate the target expression from the source expression:
   (-> source-expression

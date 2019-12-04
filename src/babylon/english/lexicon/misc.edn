@@ -96,6 +96,7 @@
               :pred :i}
         :pronoun true
         :reflexive false}]
+
  "myself" [{:cat :noun
             :case :acc
             :agr {:number :sing

@@ -30,7 +30,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 54167 on host 127.0.0.1 - nrepl://127.0.0.1:54167
+nREPL server started on port 62467 on host 127.0.0.1 - nrepl://127.0.0.1:62467
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -44,217 +44,47 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 user=> (load "babylon")
 nil
 user=> (babylon/demo)
-De groep.
-The group.
-
-De jongen.
-The boy.
-
-De gebeiden.
-The areas.
-
-Een land.
-A country.
-
-De overheden.
-The governments.
-
-Het land.
-The country.
-
-Een been.
-A leg.
-
-De dag.
-The day.
-
-De kinderen.
-The children.
-
-De katten.
-The cats.
-
-Een lieve tafel.
-A nice table.
-
-De stomme feitten.
-The stupid facts.
-
-Het oude huis.
-The old house.
-
-De slimme hond.
-The smart dog.
-
-Een stom geld.
-A stupid money.
-
-Een lieve groep.
-A nice group.
-
-Een slimme jas.
-A smart coat.
-
-De kleine katten.
-The small cats.
-
-De vieze groepen.
-The dirty groups.
-
-Een kleine stoel.
-A small chair.
-
-De stomme stomme plaatsen.
-The stupid stupid lots.
-
-De kleine oude tafels.
-The small old tables.
-
-De oude stomme jassen.
-The old stupid coats.
-
-De stomme oude oogen.
-The stupid old eyes.
-
-De lieve stomme thuizen.
-The nice stupid homes.
-
-De oude oude heer.
-The old old gentleman.
-
-Een kleine vieze baby.
-A small dirty baby.
-
-Het vieze vieze bedrijf.
-The dirty dirty business.
-
-Een vieze stomme groep.
-A dirty stupid group.
-
-De stomme oude mannen.
-The stupid old men.
-
-Een heel oud huis.
-A very old house.
-
-Een heel klein dag.
-A very small day.
-
-Een heel vies meisje.
-A very dirty girl.
-
-Een heel lief druif.
-A very nice grape.
-
-Een heel slim gebeid.
-A very smart area.
-
-Een heel vies baan.
-A very dirty job.
-
-Een heel oud familie.
-A very old family.
-
-Een heel lief man.
-The very nice man.
-
-Een heel vies oog.
-A very dirty eye.
-
-Een heel klein boek.
-A very small book.
-
-Het slaapt.
-It sleeps.
-
-Jullie slaapen.
-You sleep.
-
-U werkt.
-You work.
-
-Het zingt.
-It sings.
-
-Saskia werkt.
-Saskia works.
-
-Ik werk.
-I work.
-
-Jullie zingen.
-You sing.
-
-U zingt.
-You sing.
-
-Saskia zingt.
-Saskia sings.
-
-Ik zing.
-I sing.
-
-De lieve hand werkt.
-The nice hand works.
-
-Een stomme maand slaapt.
-A stupid month sleeps.
-
-De kleine baby's zingen.
-The small babies sing.
-
-Het sterke land zingt.
-The strong country sings.
-
-De vieze overheid slaapt.
-The dirty government sleeps.
-
-De stomme zaken werken.
-The stupid cases work.
-
-De slimme plaats zingt.
-The smart lot sings.
-
-Het oude gebeid werkt.
-The old area works.
-
-De grote moeder zingt.
-The big mother sings.
-
-Een stomme hond werkt.
-A stupid dog works.
-
-Het kleine sterke geld slaapt.
-The small strong money sleeps.
-
-De sterke kleine stoel slaapt.
-The strong small chair sleeps.
-
-Een lieve grote moeder zingt.
-A nice big mother sings.
-
-De grote sterke honden werken.
-The big strong dogs work.
-
-Een oud klein leven slaapt.
-An old small life sleeps.
-
-De sterke kleine overheden zingen.
-The strong small governments sing.
-
-De sterke oude zaken slaapen.
-The strong old cases sleep.
-
-De oude sterke handen slaapen.
-The old strong hands sleep.
-
-De slimme vieze haren slaapen.
-The smart dirty hairs sleep.
-
-Een oud klein kind werkt.
-An old small child works.
-
-7
+;; 'een huis'
+Een huis.
+A house.
+nil
+;; generalization of the above:
+De jas.
+The coat.
+nil
+;; 'het grote boeken'
+De grote boeken.
+The big books.
+nil
+;; generalization of the above:
+De kleine maanden.
+The small months.
+nil
+;; 'een heel klein druif'
+Een heel klein druif.
+A very small grape.
+nil
+;; generalization of the above:
+Een heel oud plaats.
+A very old lot.
+nil
+;; 'De heel klein oud fietsen'.
+De heel klein oude fietsen.
+The very small old bikes.
+nil
+;; generalization of the above:
+De heel groot grote dagen.
+The very big big days.
+nil
+;; 'De heel sterk slimme vrouen zingen'.
+De heel sterk slimme vrouwen zingen.
+Some very strong smart women sing.
+nil
+;; generalization of the above:
+De heel groot lieve vrouwen werken.
+The very big nice ladies work.
+nil
+10
 user=>
 ```
 

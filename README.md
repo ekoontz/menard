@@ -30,7 +30,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 62467 on host 127.0.0.1 - nrepl://127.0.0.1:62467
+nREPL server started on port 63899 on host 127.0.0.1 - nrepl://127.0.0.1:63899
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -49,40 +49,40 @@ Een huis.
 A house.
 nil
 ;; generalization of the above:
-De jas.
-The coat.
+Het feit.
+The fact.
 nil
 ;; 'het grote boeken'
 De grote boeken.
 The big books.
 nil
 ;; generalization of the above:
-De kleine maanden.
-The small months.
+De grote baby.
+The big baby.
 nil
 ;; 'een heel klein druif'
 Een heel klein druif.
 A very small grape.
 nil
 ;; generalization of the above:
-Een heel oud plaats.
-A very old lot.
+De heel stom thuizen.
+The very stupid homes.
 nil
 ;; 'De heel klein oud fietsen'.
 De heel klein oude fietsen.
 The very small old bikes.
 nil
 ;; generalization of the above:
-De heel groot grote dagen.
-The very big big days.
+De heel slim lieve tafels.
+The very smart nice tables.
 nil
 ;; 'De heel sterk slimme vrouen zingen'.
 De heel sterk slimme vrouwen zingen.
 Some very strong smart women sing.
 nil
 ;; generalization of the above:
-De heel groot lieve vrouwen werken.
-The very big nice ladies work.
+De heel groot kleine boeken slaapen.
+The very big small books sleep.
 nil
 10
 user=>

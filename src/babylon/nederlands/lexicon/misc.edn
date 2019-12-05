@@ -3,7 +3,7 @@
          :sem {:quant :indef}
          :agr {:number :sing}}]
 
- ;; <F. p30-31, 54-55>
+ ;; <F. p30-31, 54-55, 70>
  "de" [{:cat :det
         :sem {:quant :def}
         :agr {:gender :common}}
@@ -56,17 +56,34 @@
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :you}
+         :sem {:pred :you
+               :context :informal}
          :subcat []}]
+
  "jullie" [{:case :nom
             :cat :noun
             :pronoun true
             :subcat []
-            :sem {:pred :you}
+            :sem {:pred :you
+                  :context :informal}
             :agr {:person :2nd
                   :number :plur}}]
- "u" [{:agr {:person :2nd
-             :number :sing}
+
+ "mij" [{:case :acc
+         :cat :noun
+         :pronoun true
+         :sem {:pred :i}
+         :agr {:person :1st
+               :number :sing}}]
+
+ "jou" [{:agr {:person :2nd
+               :number :sing}
+         :case :acc
+         :cat :noun
+         :sem {:pred :you}
+         :pronoun true}]
+ 
+ "u" [{:agr {:person :2nd}
        :case :nom
        :cat :noun
        :pronoun true

@@ -10,27 +10,44 @@
        {:cat :det
         :sem {:quant :def}
         :agr {:number :plur}}]
- "het" [{:cat :det
-         :sem {:quant :def}
-         :agr {:gender :neuter
-               :number :sing}}
-        {:agr {:person :3rd
-               :number :sing
-               :gender :masc}
-         :case :nom
-         :cat :noun
-         :pronoun true
-         :sem {:pred :it
-               :ref {:human false}}
-         :subcat []}]        
- ;; </F>
 
+ "die" [{:agr {:number :plur
+               :person :3rd}
+         :case :acc
+         :cat :noun
+         :sem {:pred :them
+               :ref {:human false}}}]
+
+ "haar" [{:agr {:gender :fem
+                :number :sing
+                :person :3rd}
+          :case :acc
+          :cat :noun
+          :pronoun true
+          :sem {:pred :she
+                :ref {:human true}}}]
 
  "heel" [{:cat :intensifier
           :sem {:pred :very}
           :subcat {:1 {:cat :adjective
                         :phrasal false}
                     :2 []}}]
+
+ "hem" [{:agr {:gender :masc
+               :number :sing
+               :person :3rd}
+         :cat :noun
+         :pronoun true
+         :sem {:pred :he
+               :ref {:human true}}}]
+
+ "hen" [{:agr {:number :plur
+               :person :3rd}
+         :case :acc
+         :cat :noun
+         :pronoun true
+         :sem {:pred :he
+               :ref {:human true}}}]
  
  ;; <F. p69-73>
  "hij" [{:agr {:person :3rd
@@ -40,16 +57,22 @@
          :cat :noun
          :pronoun true
          :sem {:pred :he
-               :ref {:human true}}
-         :subcat []}]
+               :ref {:human true}}}]
 
+ "hun" [{:agr {:number :plur
+               :person :3rd}
+         :case :acc
+         :cat :noun
+         :pronoun true
+         :sem {:pred :he
+               :ref {:human true}}}]
+ 
  "ik" [{:agr {:person :1st
               :number :sing}
         :case :nom
         :cat :noun
         :pronoun true
-        :sem {:pred :i}
-        :subcat []}]
+        :sem {:pred :i}}]
 
  "jij" [{:agr {:person :2nd
                :number :sing}
@@ -57,13 +80,18 @@
          :cat :noun
          :pronoun true
          :sem {:pred :you
-               :context :informal}
-         :subcat []}]
+               :context :informal}}]
+
+ "jou" [{:agr {:person :2nd
+               :number :sing}
+         :case :acc
+         :cat :noun
+         :sem {:pred :you}
+         :pronoun true}]
 
  "jullie" [{:case :nom
             :cat :noun
             :pronoun true
-            :subcat []
             :sem {:pred :you
                   :context :informal}
             :agr {:person :2nd
@@ -75,29 +103,21 @@
          :sem {:pred :i}
          :agr {:person :1st
                :number :sing}}]
-
- "jou" [{:agr {:person :2nd
-               :number :sing}
-         :case :acc
-         :cat :noun
-         :sem {:pred :you}
-         :pronoun true}]
  
+ ;; "u" is very generic: can be
+ ;; sing/plur and nom/acc.
  "u" [{:agr {:person :2nd}
-       :case :nom
        :cat :noun
        :pronoun true
        :sem {:pred :you
-             :context :polite}
-       :subcat []}]
+             :context :polite}}]
 
  "wij" [{:agr {:person :1st
                :number :plur}
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :we}
-         :subcat []}]
+         :sem {:pred :we}}]
 
  "zij" [{:agr {:person :3rd
                :number :sing
@@ -105,14 +125,12 @@
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :she}
-         :subcat []}
+         :sem {:pred :she}}
         {:agr {:person :3rd
                :number :plur}
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :they}
-         :subcat []}]}
+         :sem {:pred :they}}]}
 
 ;; </F>

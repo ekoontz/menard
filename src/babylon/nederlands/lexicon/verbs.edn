@@ -2,10 +2,18 @@
  [{:cat :verb
    :sem {:pred :sleep}
    :subcat {:2 []}}]
+
  "werk"
  [{:cat :verb
    :sem {:pred :work}
    :subcat {:2 []}}]
+
+ "zien"
+ [{:cat :verb
+   :sem {:pred :see}
+   :subcat {:1 {:top :top}
+            :2 {:top :top}}}]
+
  "zing"
  [{:cat :verb
    :sem {:pred :sing}

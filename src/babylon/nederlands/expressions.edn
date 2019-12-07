@@ -2,13 +2,13 @@
  ;; TODO: derive the general case from the specific automatically rather
  ;; than having to list these specifications in pairs:
  ;;    (i.e. specific np, general np, specific np with adjective, etc..)
- {:annotation "'een huis'"
+ {:note "'een huis'"
   :rule "np"
   :agr {:number :sing}
   :sem {:mod []
         :pred :house
         :quant :indef}}
- {:annotation "generalization of the above:"
+ {:note "generalization of the above:"
   :generic true
   :rule "np"
   :sem {:mod []}}
@@ -66,4 +66,12 @@
   :generic true
   :rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
-                     :rest {:first {:top :top}}}}}}]
+                     :rest {:first {:top :top}}}}}}
+
+ {:note "sentence with direct object."
+  :cat :verb
+  :subcat []
+  :modal false
+  :sem {:pred :see
+        :obj {:top :top}}}]
+                    

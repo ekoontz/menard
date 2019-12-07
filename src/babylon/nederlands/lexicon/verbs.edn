@@ -9,10 +9,16 @@
    :subcat {:2 []}}]
 
  "zien"
- [{:cat :verb
+ [(let [obj (atom :top)]
+    {:cat :verb
+     :sem {:pred :see
+           :obj obj}
+     :subcat {:1 {:top :top}
+              :2 {:sem obj}}})
+  {:cat :verb
    :sem {:pred :see}
    :subcat {:1 {:top :top}
-            :2 {:top :top}}}]
+            :2 []}}]
 
  "zing"
  [{:cat :verb

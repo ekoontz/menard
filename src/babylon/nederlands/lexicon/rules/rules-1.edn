@@ -13,12 +13,6 @@
   :if {:cat :verb}
   :then
   (let [agr (atom :top)
-        context (atom :top)
-        mod (atom :top)
-        pred (atom :top)
-        prop (atom :top)
-        quant (atom :top)
-        ref (atom :top)
         subj (atom :top)]
     [{:sem {:subj subj}
       :agr agr

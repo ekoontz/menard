@@ -9,6 +9,7 @@
         :pred :house
         :quant :indef}}
  {:annotation "generalization of the above:"
+  :generic true
   :rule "np"
   :sem {:mod []}}
 
@@ -19,6 +20,7 @@
         :quant :def
         :pred :book}}
  {:annotation "generalization of the above:"
+  :generic true
   :rule "np"
   :sem {:mod {:first {:pred :top}}}}
  
@@ -31,6 +33,7 @@
                       :mod {:first {:pred :very}}}}}}
  {:annotation "generalization of the above:"
   :rule "np"
+  :generic true  
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}}}}
  
@@ -43,6 +46,7 @@
         :pred :bike
         :quant :def}}
  {:annotation "generalization of the above:"
+  :generic true
   :rule "np"
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
@@ -59,6 +63,7 @@
                      :rest {:first {:pred :smart}}}}
         :quant :def}}
  {:annotation "generalization of the above:"
+  :generic true
   :rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}]

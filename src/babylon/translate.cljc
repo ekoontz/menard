@@ -4,7 +4,7 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
-(def generate-this-many 1)
+(def generate-this-many 5)
 
 ;; in the demo, we first generate a target expression in Dutch,
 ;; and then translate it to English.
@@ -61,7 +61,10 @@
     (map (fn [index]
            (let [source-expressions
                  (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-                      (take generate-this-many)
+                      (take
+                       (if (:generic (nth nl/expressions index))
+                           generate-this-many
+                           1))
                       (filter #(not (nil? %))))]
              ;; for each expression:
              ;; generate it, and print the surface form

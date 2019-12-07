@@ -52,7 +52,8 @@
           :aux true
           :infl :present
           :sem {:tense :present
-                :aspect :progressive}
+                :aspect :progressive
+                :obj :anaphor}
           :subcat {:2 []}
           :exceptions exceptions}
          {:cat :verb ;; "was sleeping"
@@ -68,7 +69,8 @@
           :aux true
           :infl :past-simple
           :sem {:tense :past
-                :aspect :progressive}
+                :aspect :progressive
+                :obj :anaphor}
           :subcat {:2 []}
           :exceptions exceptions}])
 
@@ -281,6 +283,7 @@
             :aux true
             :derivation {:sense 2}
             :sem {:tense :past
+                  :obj :anaphor
                   :aspect :perfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
@@ -295,6 +298,7 @@
             :aux true
             :derivation {:sense 4}
             :sem {:tense :past
+                  :obj :anaphor
                   :aspect :pluperfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}

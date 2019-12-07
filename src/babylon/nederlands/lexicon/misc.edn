@@ -36,6 +36,7 @@
  "hem" [{:agr {:gender :masc
                :number :sing
                :person :3rd}
+         :case :acc
          :cat :noun
          :pronoun true
          :sem {:pred :he

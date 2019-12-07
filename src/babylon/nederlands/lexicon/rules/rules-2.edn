@@ -14,4 +14,17 @@
             :subcat {:1 {:cat :det
                          :agr agr
                          :sem {:quant quant}}
-                     :2 []}})]}]
+                     :2 []}})]}
+ {:rule :object
+  :if {:cat :verb
+       :subcat {:2 ::unspec}}
+  :then [;; by default, a verb gets an intransitive sense:
+         {:sem {:obj :none}
+          :subcat {:2 []}}
+         ;; also by default, het krijgt een noun object:
+         (let [obj (atom :top)]
+           {:sem {:obj obj}
+            :subcat {:2 {:subcat []
+                         :cat :noun
+                         :case :acc
+                         :sem obj}}})]}]

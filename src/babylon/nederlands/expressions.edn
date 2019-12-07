@@ -69,6 +69,7 @@
                      :rest {:first {:top :top}}}}}}
 
  {:note "sentence with direct object."
+  :generic true
   :cat :verb
   :subcat []
   :modal false

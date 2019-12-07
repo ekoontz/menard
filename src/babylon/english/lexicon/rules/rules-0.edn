@@ -148,11 +148,6 @@
        :mod ::unspec}
   :then [{:mod []}]}
 
- {:rule :politeness-is-unspecified
-  :if {:cat :noun
-       :sem {:context ::unspec}}
-  :then [{:sem {:context :unspec}}]}
-
  {:rule :pronoun-have-empty-modifiers
   :if {:cat :noun
        :pronoun true

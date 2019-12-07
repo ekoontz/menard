@@ -21,6 +21,7 @@
   (let [retval
         {:cat (u/get-in nl-expression [:cat])
          :subcat []
+         :modal (u/get-in nl-expression [:modal] false)
          :phrasal true
          :agr {:number (u/get-in nl-expression [:agr :number] :top)}
          :sem (u/get-in nl-expression [:sem])}]

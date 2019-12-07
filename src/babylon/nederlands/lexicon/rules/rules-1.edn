@@ -18,21 +18,12 @@
         pred (atom :top)
         prop (atom :top)
         quant (atom :top)
-        ref (atom :top)]
-    [{:sem {:subj {:context context
-                   :mod mod
-                   :pred pred
-                   :prop prop
-                   :quant quant
-                   :ref ref}}
+        ref (atom :top)
+        subj (atom :top)]
+    [{:sem {:subj subj}
       :agr agr
       :subcat {:1 {:cat :noun
                    :case :nom
-                   :sem {:context context
-                         :mod mod
-                         :pred pred
-                         :prop prop
-                         :quant quant
-                         :ref ref}
+                   :sem subj
                    :agr agr}}}])}]
 

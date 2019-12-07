@@ -29,8 +29,8 @@
     retval))
 
 (defn translate [source-expression]
-  (if (:annotation source-expression)
-    (if false (println (str ";; " (:annotation source-expression)))))
+  (if (:note source-expression)
+    (if false (println (str ";; " (:note source-expression)))))
   ;; 1. print the surface form of the source expression:
   (-> source-expression
       ((fn [src] (str (nl/morph src :sentence-punctuation? true) "|")))

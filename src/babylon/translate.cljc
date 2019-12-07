@@ -25,7 +25,7 @@
          :phrasal true
          :agr {:number (u/get-in nl-expression [:agr :number] :top)}
          :sem (u/get-in nl-expression [:sem])}]
-    (log/debug (str "retval: " retval))
+    (log/debug (str "English spec to generate: " retval))
     retval))
 
 (defn translate [source-expression]

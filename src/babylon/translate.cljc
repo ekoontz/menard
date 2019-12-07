@@ -33,7 +33,7 @@
     (if false (println (str ";; " (:annotation source-expression)))))
   ;; 1. print the surface form of the source expression:
   (-> source-expression
-      ((fn [src] (nl/morph src :sentence-punctuation? true)))
+      ((fn [src] (str (nl/morph src :sentence-punctuation? true) "|")))
       println)
 
   ;; 2. generate the target expression from the source expression:
@@ -48,10 +48,11 @@
       en/generate
 
       ;; 2.c. print the surface form of the target expression:
-      (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1.1 (count (nl/morph source-expression :sentence-punctuation? true))))))
-             (en/morph % :sentence-punctuation? true)))
+      (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))
+             "|" (en/morph % :sentence-punctuation? true)))
 
       println))
+
 
 (defn demo []
   (count

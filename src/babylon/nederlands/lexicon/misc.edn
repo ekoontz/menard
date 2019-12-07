@@ -48,6 +48,17 @@
          :pronoun true
          :sem {:pred :he
                :ref {:human true}}}]
+
+ "het" [{:cat :det
+         :sem {:quant :def}
+         :agr {:gender :neuter
+               :number :sing}}
+        {:cat :noun
+         :pronoun true
+         :agr {:person :3rd
+               :number :sing
+               :gender :masc}
+         :case :nom}]
  
  ;; <F. p69-73>
  "hij" [{:agr {:person :3rd

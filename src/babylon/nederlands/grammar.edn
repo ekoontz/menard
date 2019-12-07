@@ -48,6 +48,20 @@
           babylon.ug/head-last
           babylon.ug/head-rule
           babylon.ug/head-sem
-          babylon.ug/subcat-1]}]
+          babylon.ug/subcat-1]}
 
 
+ {:rule "vp" ;; [vp +see .it]
+  :cat :verb
+  :aux false
+  :slash false
+  :options babylon.nederlands/finite-tenses
+  :head {:aux false}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/head-modal
+          babylon.ug/head-reflexive
+          babylon.ug/head-rule
+          babylon.ug/head-sem
+          babylon.ug/slash-is-head-slash
+          babylon.ug/subcat-2]}]

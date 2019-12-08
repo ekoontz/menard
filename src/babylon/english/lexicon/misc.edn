@@ -189,7 +189,17 @@
  "the" [{:cat :det
          :sem {:quant :def}}]
 
- "themselves" [{:cat :noun :agr {:person :3rd :number :plur} :pronoun true :reflexive true}]
+ "them" [{:case :acc
+          :cat :noun
+          :agr {:person :3rd :number :plur}
+          :sem {:pred :they}
+          :pronoun true
+          :reflexive false}]
+ 
+ "themselves" [{:cat :noun
+                :agr {:person :3rd :number :plur}
+                :pronoun true :reflexive true}]
+
  "they" [{:cat :noun
           :pronoun true
           :reflexive false

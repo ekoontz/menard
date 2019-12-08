@@ -70,6 +70,7 @@
 
  {:note "sentence with direct object."
   :generic true
+  :backtrack? true
   :cat :verb
   :subcat []
   :modal false

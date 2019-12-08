@@ -234,8 +234,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/allow-backtracking? true
-            g/grammar grammar
+  (binding [g/grammar grammar
             g/lexicon lexicon
             g/syntax-tree syntax-tree
 ;;            g/stop-generation-at [:head :comp :head :comp]

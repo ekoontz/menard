@@ -1,6 +1,7 @@
 (ns babylon.translate
   (:require [babylon.nederlands :as nl]
             [babylon.english :as en]
+            [babylon.generate :as g]
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
@@ -28,7 +29,11 @@
     (log/debug (str "English spec to generate: " (u/strip-refs retval)))
     retval))
 
-(defn translate [source-expression]
+(defn en-generate [spec allow-backtracking?]
+  (binding [g/allow-backtracking? allow-backtracking?]
+    (en/generate spec)))
+
+(defn translate [source-expression allow-backtracking?]
   (if (:note source-expression)
     (if false (println (str ";; " (:note source-expression)))))
   ;; 1. print the surface form of the source expression:
@@ -45,7 +50,7 @@
       nl-to-en-spec
 
       ;; 2.b. generate from this spec:
-      en/generate
+      (en-generate allow-backtracking?)
 
       ;; 2.c. print the surface form of the target expression:
       (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))
@@ -71,7 +76,8 @@
              ;; parse the surface form and return the first parse tree.
              (count
               (->> source-expressions
-                   (mapcat translate)))))))))
+                   (mapcat (fn [expr]
+                             (translate expr (:backtrack? (nth nl/expressions index) false))))))))))))
 
 
 

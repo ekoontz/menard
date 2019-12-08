@@ -19,5 +19,12 @@
       :subcat {:1 {:cat :noun
                    :case :nom
                    :sem subj
-                   :agr agr}}}])}]
+                   :agr agr}}}])}
+
+ {:rule :propernouns-are-3rd-person-singular
+  :if {:cat :noun
+       :pronoun false
+       :propernoun true}
+  :then [{:agr {:number :sing
+                :person :3rd}}]}]
 

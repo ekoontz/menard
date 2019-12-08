@@ -24,8 +24,8 @@
 (def diagnostics? false)
 (def allow-folding? true)
 (def generate-only-one? true)
-(def allow-backtracking? false)
 
+(def ^:dynamic allow-backtracking? false)
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic lexicon-index-fn (fn [spec]
                                   (throw (Exception. (str "no lexicon-index-fn supplied.")))))
@@ -88,7 +88,7 @@
         (u/get-in spec [:rule])
 
         (= :verb (u/get-in spec [:cat]))
-        (str "V:" (u/strip-refs (u/get-in spec [:subcat])))
+        (str "V:" (vec (u/strip-refs (u/get-in spec [:subcat]))))
         true
         (or (u/get-in spec [:rule])
             (u/get-in spec [:canonical])
@@ -158,15 +158,16 @@
           result))
 
       true
-      (do (log/debug (str "slowness:" (syntax-tree tree) " at rule: "
-                          (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                          (last at) ", due to need to generate for both rules *and* lexemes."))
-          (let [both
-                (lazy-cat (add-lexeme tree)
-                          (add-rule tree))]
-            (if (and (not allow-backtracking?) (empty? both))
-              (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
-            both)))))
+      (let [both
+            (lazy-cat (add-lexeme tree)
+                      (add-rule tree))]
+          (if (and (not allow-backtracking?) (empty? both))
+            (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
+          (if (and allow-backtracking? (empty? both))
+            (log/warn (str "backtracking: " (syntax-tree tree) " at rule: "
+                           (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                           (last at) ", due to need to generate for both rules *and* lexemes.")))
+          both))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (report tree) " at: " at))

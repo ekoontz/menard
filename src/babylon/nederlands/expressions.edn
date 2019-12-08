@@ -8,7 +8,8 @@
   :sem {:mod []
         :pred :house
         :quant :indef}}
- {:note "generalization of the above:"
+
+ {:note "NP with no modifiers"
   :generic true
   :rule "np"
   :sem {:mod []}}
@@ -19,7 +20,8 @@
   :sem {:mod {:first {:pred :big}}
         :quant :def
         :pred :book}}
- {:note "generalization of the above:"
+
+ {:note "NP with one modifier"
   :generic true
   :rule "np"
   :sem {:mod {:first {:pred :top}}}}
@@ -31,7 +33,8 @@
         :quant :indef
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
- {:note "generalization of the above:"
+
+ {:note "NP with one modifier, which is itself modified"
   :rule "np"
   :generic true  
   :sem {:mod {:first {:pred :top
@@ -45,7 +48,8 @@
               :rest {:first {:pred :old}}}
         :pred :bike
         :quant :def}}
- {:note "generalization of the above:"
+
+ {:note "NP with two modifiers, the first of which is itself modified"
   :generic true
   :rule "np"
   :sem {:mod {:first {:pred :top
@@ -62,13 +66,14 @@
                              :mod {:first {:pred :very}}}
                      :rest {:first {:pred :smart}}}}
         :quant :def}}
- {:note "generalization of the above:"
+
+ {:note "Sentence whose subject has two modifiers, the first of which is itself modified"
   :generic true
   :rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
- {:note "sentence with direct object."
+ {:note "Sentence with direct object"
   :generic true
   :cat :verb
   :subcat []

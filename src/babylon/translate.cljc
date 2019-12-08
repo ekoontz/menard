@@ -75,6 +75,8 @@
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.
+             (if (:generic (nth nl/expressions index))
+               (println (str "# " (:note (nth nl/expressions index)) "; " generate-this-many " examples:")))
              (count
               (->> source-expressions
                    (mapcat (fn [expr]

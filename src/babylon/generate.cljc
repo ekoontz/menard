@@ -158,16 +158,17 @@
           result))
 
       true
-      (let [both
-            (lazy-cat (add-lexeme tree)
-                      (add-rule tree))]
-          (if (and (not allow-backtracking?) (empty? both))
-            (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at))))
-          (if (and allow-backtracking? (empty? both))
-            (log/warn (str "backtracking: " (syntax-tree tree) " at rule: "
-                           (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                           (last at) ", due to need to generate for both rules *and* lexemes.")))
-          both))))
+      (let [both (lazy-cat (add-lexeme tree) (add-rule tree))]
+        (cond (and (empty? both)
+                   allow-backtracking?)
+              (do
+                (log/warn (str "backtracking: " (syntax-tree tree) " at rule: "
+                               (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                               (last at) ", due to need to generate for both rules *and* lexemes.")))
+              (empty? both)
+              (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
+
+              true both)))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (report tree) " at: " at))

@@ -1,10 +1,16 @@
+[
+ {:g [#"^(.*)$"   "$1"] ;; werk -> werk
+  :p [#"^(.*)$"   "$1"] 
+  :u {:cat :verb
+      :infl :infinitive}}
+
 ;; <F. p. 108>
-[;; inflection: present
- {:g [#"^(.*)$"   "$1t"] ;; werk -> werkt
-  :p [#"^(.*)t$"  "$1"] 
+;; inflection: present
+ {:g [#"^(.*)$"   "$1"] ;; werk -> werk
+  :p [#"^(.*)$"   "$1"] 
   :u {:cat :verb
       :infl :present
-      :agr {:person :3rd
+      :agr {:person :1st
             :number :sing}}}
  {:g [#"^(.*)$"   "$1t"] ;; werk -> werkt
   :p [#"^(.*)t$"  "$1"] 
@@ -12,16 +18,15 @@
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
+ {:g [#"^(.*)$"   "$1t"] ;; werk -> werkt
+  :p [#"^(.*)t$"  "$1"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
  {:g [#"^(.*)$"   "$1en"] ;; werk -> werken
   :p [#"^(.*)en$" "$1"] 
   :u {:cat :verb
       :infl :present
-      :agr {:number :plur}}}
-
- {:g [#"^(.*)$"   "$1"] ;; werk -> werk
-  :p [#"^(.*)$"   "$1"] 
-  :u {:cat :verb
-      :infl :present
-      :agr {:person :top
-            :number :top}}}]
+      :agr {:number :plur}}}]
 ;; </F>

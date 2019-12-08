@@ -30,7 +30,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 63899 on host 127.0.0.1 - nrepl://127.0.0.1:63899
+nREPL server started on port 63379 on host 127.0.0.1 - nrepl://127.0.0.1:63379
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -44,47 +44,77 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 user=> (load "babylon")
 nil
 user=> (babylon/demo)
-;; 'een huis'
-Een huis.
-A house.
-nil
-;; generalization of the above:
-Het feit.
-The fact.
-nil
-;; 'het grote boeken'
-De grote boeken.
-The big books.
-nil
-;; generalization of the above:
-De grote baby.
-The big baby.
-nil
-;; 'een heel klein druif'
-Een heel klein druif.
-A very small grape.
-nil
-;; generalization of the above:
-De heel stom thuizen.
-The very stupid homes.
-nil
-;; 'De heel klein oud fietsen'.
-De heel klein oude fietsen.
-The very small old bikes.
-nil
-;; generalization of the above:
-De heel slim lieve tafels.
-The very smart nice tables.
-nil
-;; 'De heel sterk slimme vrouen zingen'.
-De heel sterk slimme vrouwen zingen.
-Some very strong smart women sing.
-nil
-;; generalization of the above:
-De heel groot kleine boeken slaapen.
-The very big small books sleep.
-nil
-10
+Een huis.|
+         |A house.
+Een been.|
+         |A leg.
+De bedrijven.|
+             |The businesses.
+Een baby.|
+         |A baby.
+De benen.|
+         |The legs.
+Een kitten.|
+           |A kitten.
+De grote boeken.|
+                |The big books.
+De slimme gebeiden.|
+                   |The smart areas.
+De stomme huizen.|
+                 |The stupid houses.
+De vieze baan.|
+              |The dirty job.
+De oude zaak.|
+             |The old case.
+De oude benen.|
+              |The old legs.
+Een heel klein druif.|
+                     |A very small grape.
+De heel stom landen.|
+                    |The very stupid countries.
+De heel sterk jongens.|
+                      |The very strong boys.
+De heel oud familie.|
+                    |The very old family.
+Een heel klein groep.|
+                     |A very small group.
+De heel klein tafels.|
+                     |The very small tables.
+De heel klein oude fietsen.|
+                           |The very small old bikes.
+De heel klein vieze heren.|
+                          |Some very small dirty men.
+De heel vies vieze overheden.|
+                             |The very dirty dirty governments.
+Een heel lief oude overheid.|
+                            |A very nice old government.
+Een heel vies slimme stoel.|
+                           |A very dirty smart chair.
+De heel oud vieze jassen.|
+                         |The very old dirty coats.
+De heel sterk slimme vrouwen zingen.|
+                                    |The very strong smart women sing.
+Een heel sterk kleine stoel slaapt.|
+                                   |A very strong small chair sleeps.
+De heel slim grote heren slaapen.|
+                                 |Some very smart big gentlemen sleep.
+De heel klein lieve stoelen werken.|
+                                   |The very small nice chairs work.
+De heel sterk grote huizen zingen.|
+                                  |The very strong big houses sing.
+Een heel groot vieze dame zient.|
+                                |A very big dirty lady sees.
+Jullie zienen hen.|
+                  |You see him.
+Jullie zienen u.|
+                |You see you.
+Wij zienen Guus.|
+                |We see Guus.
+Hij zient haar.|
+               |He sees her.
+Wij zienen Saskia.|
+                  |We see Saskia.
+11
 user=>
 ```
 

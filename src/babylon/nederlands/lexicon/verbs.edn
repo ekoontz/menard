@@ -9,8 +9,21 @@
    :subcat {:2 []}}]
 
  "zien"
- [{:cat :verb
-   :sem {:pred :see}}]
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "zie"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "ziet"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "ziet"}
+                   {:infl :present
+                    :agr {:number :plur}
+                    :surface "zien"}]]
+   [{:exceptions exceptions
+     :cat :verb
+     :sem {:pred :see}}])
 
  "zing"
  [{:cat :verb

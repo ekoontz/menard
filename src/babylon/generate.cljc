@@ -162,9 +162,9 @@
         (cond (and (empty? both)
                    allow-backtracking?)
               (do
-                (log/warn (str "backtracking: " (syntax-tree tree) " at rule: "
-                               (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                               (last at) ", due to need to generate for both rules *and* lexemes.")))
+                (log/debug (str "backtracking: " (syntax-tree tree) " at rule: "
+                                (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                                (last at))))
               (empty? both)
               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
 

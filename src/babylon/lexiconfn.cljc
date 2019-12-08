@@ -112,8 +112,11 @@
                                  (get lexicon (:canonical canonical-form)))))
                   canonical-forms))
 
-        debug (log/debug (str "found: " (count from-inflected) " inflected forms."))
-
+        debug (log/debug (str "found: " (count from-inflected) " inflected form"
+                             (if (not (= (count from-inflected) 1))
+                               "s")
+                             " before looking"
+                             " at exceptions."))
         ;; however, some (or even all) of the hypotheses might be wrong, if the verb has
         ;; any exceptions. Then, the exceptional surface forms should pre-empt and exclude these hypotheses.
         ;; For example, applying the rules for regular verbs in English, for infl present and agr 3rd sing,
@@ -122,9 +125,13 @@
         ;; from _from_inflected_ above.
         filter-against-exceptions
         (filter (fn [analyze-hypothesis]
+                  (log/debug (str "inflection guess: " analyze-hypothesis))
                   (let [filter-with
                         {:infl (u/get-in analyze-hypothesis [:infl])
                          :agr (u/get-in analyze-hypothesis [:agr])}]
+                    (log/debug (str "filtering with: " filter-with))
+                    (log/debug (str "unify map: " (vec (map #(unify % filter-with)
+                                                           (:exceptions analyze-hypothesis)))))
                     (empty? (filter #(not (= :fail (unify % filter-with)))
                                     (:exceptions analyze-hypothesis)))))
                 from-inflected)]
@@ -146,7 +153,14 @@
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
         (log/warn (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
-      (log/debug (str "found: " (count from-regular-morphology) " analyzed forms."))
+      (log/debug (str "found: " (count from-regular-morphology) " analyzed form"
+                     (if (not (= (count from-regular-morphology) 1))
+                       "s")
+                     "."))
+      (log/debug (str "found: " (count exceptions) " exception"
+                     (if (not (= count exceptions 1))
+                         "s")
+                     "."))
       (concat
        from-regular-morphology
        exceptions))))

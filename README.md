@@ -46,74 +46,74 @@ nil
 user=> (babylon/demo)
 Een huis.|
          |A house.
-Een been.|
-         |A leg.
-De bedrijven.|
-             |The businesses.
-Een baby.|
-         |A baby.
-De benen.|
-         |The legs.
-Een kitten.|
-           |A kitten.
+Het thuis.|
+          |The home.
+De haren.|
+         |The hairs.
+Een dame.|
+         |A lady.
+De boeken.|
+          |The books.
+Een plaats.|
+           |A lot.
 De grote boeken.|
                 |The big books.
-De slimme gebeiden.|
-                   |The smart areas.
-De stomme huizen.|
-                 |The stupid houses.
-De vieze baan.|
-              |The dirty job.
-De oude zaak.|
-             |The old case.
-De oude benen.|
-              |The old legs.
+Een oud meisje.|
+               |An old girl.
+Een lieve jongen.|
+                 |A nice boy.
+Een lieve heer.|
+               |A nice man.
+De kleine levens.|
+                 |The small lives.
+De grote banen.|
+               |The big jobs.
 Een heel klein druif.|
                      |A very small grape.
-De heel stom landen.|
-                    |The very stupid countries.
-De heel sterk jongens.|
-                      |The very strong boys.
-De heel oud familie.|
-                    |The very old family.
-Een heel klein groep.|
-                     |A very small group.
-De heel klein tafels.|
-                     |The very small tables.
+De heel klein dag.|
+                  |The very small day.
+Het heel groot huis.|
+                    |The very big house.
+De heel groot dames.|
+                    |The very big ladies.
+De heel groot plaatsen.|
+                       |The very big lots.
+De heel lief plaatsen.|
+                      |The very nice lots.
 De heel klein oude fietsen.|
                            |The very small old bikes.
-De heel klein vieze heren.|
-                          |Some very small dirty men.
-De heel vies vieze overheden.|
-                             |The very dirty dirty governments.
-Een heel lief oude overheid.|
-                            |A very nice old government.
-Een heel vies slimme stoel.|
-                           |A very dirty smart chair.
-De heel oud vieze jassen.|
-                         |The very old dirty coats.
+Een heel oud slim geld.|
+                       |A very old smart money.
+De heel slim vieze gebeiden.|
+                            |The very smart dirty areas.
+Een heel stom vieze jongen.|
+                           |A very stupid dirty boy.
+Een heel stom grote stoel.|
+                          |A very stupid big chair.
+Het heel lief kleine thuis.|
+                           |The very nice small home.
 De heel sterk slimme vrouwen zingen.|
                                     |The very strong smart women sing.
-Een heel sterk kleine stoel slaapt.|
-                                   |A very strong small chair sleeps.
-De heel slim grote heren slaapen.|
-                                 |Some very smart big gentlemen sleep.
-De heel klein lieve stoelen werken.|
-                                   |The very small nice chairs work.
-De heel sterk grote huizen zingen.|
-                                  |The very strong big houses sing.
-Een heel groot vieze dame zient.|
-                                |A very big dirty lady sees.
-Jullie zienen hen.|
-                  |You see him.
-Jullie zienen u.|
-                |You see you.
-Wij zienen Guus.|
-                |We see Guus.
-Hij zient haar.|
-               |He sees her.
-Wij zienen Saskia.|
-                  |We see Saskia.
+Een heel vies stomme zaak ziet.|
+                               |A very dirty stupid case sees.
+De heel groot lieve katten zien.|
+                                |The very big nice cats see.
+De heel vies sterke overheden slaapen.|
+                                      |The very dirty strong governments sleep.
+De heel stom slimme hond werkt.|
+                               |The very stupid smart dog works.
+De heel vies stomme katten slaapen.|
+                                   |The very dirty stupid cats sleep.
+Jij ziet Saskia.|
+                |You see Saskia.
+U ziet haar.|
+            |You see her.
+U ziet hun.|
+           |You see him.
+Guus ziet hen.|
+              |Guus sees him.
+Saskia ziet u.|
+              |Saskia sees you.
 11
 user=>
 ```

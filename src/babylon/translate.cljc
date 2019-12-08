@@ -33,7 +33,7 @@
   (binding [g/allow-backtracking? allow-backtracking?]
     (en/generate spec)))
 
-(defn translate [source-expression allow-backtracking?]
+(defn translate [source-expression]
   (if (:note source-expression)
     (if false (println (str ";; " (:note source-expression)))))
   ;; 1. print the surface form of the source expression:
@@ -50,7 +50,8 @@
       nl-to-en-spec
 
       ;; 2.b. generate from this spec:
-      (en-generate allow-backtracking?)
+      (#(or (en-generate % false)
+            (en-generate % true)))
 
       ;; 2.c. print the surface form of the target expression:
       (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))
@@ -77,7 +78,7 @@
              (count
               (->> source-expressions
                    (mapcat (fn [expr]
-                             (translate expr (:backtrack? (nth nl/expressions index) false))))))))))))
+                             (translate expr)))))))))))
 
 
 

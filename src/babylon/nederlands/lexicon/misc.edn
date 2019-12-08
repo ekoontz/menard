@@ -88,6 +88,13 @@
         :pronoun true
         :sem {:pred :i}}]
 
+ "je" {:cat :noun
+       :case :acc
+       :agr {:person :2nd}
+       :pronoun true
+       :reflexive true
+       :sem {:context :informal}}
+
  "jij" [{:agr {:person :2nd
                :number :sing}
          :case :nom
@@ -111,12 +118,26 @@
             :agr {:person :2nd
                   :number :plur}}]
 
+ "me" [{:cat :noun
+        :case :acc
+        :agr {:number :sing
+              :person :1st}
+        :pronoun true
+        :reflexive true}]
+
  "mij" [{:case :acc
          :cat :noun
          :pronoun true
          :sem {:pred :i}
          :agr {:person :1st
                :number :sing}}]
+
+ "ons" [{:cat :noun
+         :case :acc
+         :agr {:number :plur
+               :person :1st}
+         :pronoun true
+         :reflexive true}]
  
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
@@ -124,14 +145,28 @@
        :cat :noun
        :pronoun true
        :sem {:pred :you
-             :context :polite}}]
-
+             :context :polite}}
+      {:cat :noun
+       :case :acc
+       :agr {:person :2nd}
+       :pronoun true
+       :reflexive true
+       :sem {:context :polite}}]
+ 
  "wij" [{:agr {:person :1st
                :number :plur}
          :case :nom
          :cat :noun
          :pronoun true
          :sem {:pred :we}}]
+
+ ;; F.95: 'zich' can also be used for 2nd person
+ ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
+ "zich" [{:cat :noun
+          :case :acc
+          :agr {:person :3rd}
+          :pronoun true
+          :reflexive true}]
 
  "zij" [{:agr {:person :3rd
                :number :sing

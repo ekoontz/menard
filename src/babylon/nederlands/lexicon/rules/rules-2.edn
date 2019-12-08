@@ -19,7 +19,7 @@
   :if {:cat :verb
        :subcat {:2 ::unspec}}
   :then [;; by default, a verb gets an intransitive sense:
-         {:sem {:obj :none}
+         {:sem {:obj :unspec}
           :subcat {:2 []}}
          ;; also by default, het krijgt een noun object:
          (let [obj (atom :top)]

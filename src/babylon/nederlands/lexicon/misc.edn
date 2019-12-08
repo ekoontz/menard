@@ -15,7 +15,8 @@
                :person :3rd}
          :case :acc
          :cat :noun
-         :sem {:pred :them
+         :pronoun true
+         :sem {:pred :they
                :ref {:human false}}}]
 
  "haar" [{:agr {:gender :fem

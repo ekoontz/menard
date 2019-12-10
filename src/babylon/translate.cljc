@@ -20,13 +20,14 @@
 (defn nl-to-en-spec [nl-expression]
   (log/debug (str "input:  " nl-expression))
   (let [retval
-        {:cat (u/get-in nl-expression [:cat])
-         :subcat []
+        {:agr {:number (u/get-in nl-expression [:agr :number] :top)}
+         :cat (u/get-in nl-expression [:cat])
          :modal (u/get-in nl-expression [:modal] false)
          :phrasal true
-         :agr {:number (u/get-in nl-expression [:agr :number] :top)}
-         :sem (u/get-in nl-expression [:sem])}]
-    (log/debug (str "English spec to generate: " (u/strip-refs retval)))
+         :reflexive (u/get-in nl-expression [:reflexive] :top)
+         :sem (u/get-in nl-expression [:sem])
+         :subcat []}]
+    (log/info (str "English spec to generate: " (u/strip-refs retval)))
     retval))
 
 (defn en-generate [spec allow-backtracking?]

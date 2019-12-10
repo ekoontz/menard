@@ -31,7 +31,8 @@
     retval))
 
 (defn en-generate [spec allow-backtracking?]
-  (binding [g/allow-backtracking? allow-backtracking?]
+  (binding [g/allow-backtracking? allow-backtracking?
+            g/generate-only-one? false]
     (en/generate spec)))
 
 (defn translate [source-expression]

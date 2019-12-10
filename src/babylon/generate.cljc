@@ -103,9 +103,9 @@
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/debug (str (report tree) " add "
-                      "at:" at " with spec: "
-                      (summary-fn spec))))
+      (log/info (str (report tree) " add "
+                     "at:" at " with spec: "
+                     (summary-fn spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: "

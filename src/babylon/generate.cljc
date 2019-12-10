@@ -170,10 +170,10 @@
 
                true both)))
      (filter (fn [foo]
-               (do (log/info (str "filtering after adding..:" (syntax-tree foo) "; reflexive: " (u/get-in foo [:reflexive] ::unset)))
+               (do (log/debug (str "filtering after adding..:" (syntax-tree foo) "; reflexive: " (u/get-in foo [:reflexive] ::unset)))
                    (if (= true (u/get-in foo [:reflexive]))
-                     (log/info (str "   subj/obj identity: " (= (:ref (u/get-in foo [:sem :subj]))
-                                                                (:ref (u/get-in foo [:sem :obj]))))))
+                     (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in foo [:sem :subj]))
+                                                                 (:ref (u/get-in foo [:sem :obj]))))))
                    (or (= false (u/get-in foo [:reflexive]))
                        (= :top (u/get-in foo [:reflexive]))
                        (and
@@ -224,8 +224,7 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
-                    (u/strip-refs spec)))
+    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
       (throw (Exception. (str "don't call add-lexeme with phrasal=true! fix your code!")))
       (->> (get-lexemes spec)
@@ -245,7 +244,12 @@
                            (u/assoc-in! at candidate-lexeme)
                            (update-syntax-tree at)
                            (truncate-at at)
-                           (foldup at))))))))
+                           (foldup at)
+                           (#(do
+                               (if (= :fail %)
+                                 (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
+                                 (log/info (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
+                               %)))))))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))

@@ -127,19 +127,22 @@
                          :sem obj}}})
 
          ;; reflexive: subject and object are the same semantically and by agreement.
-         (let [subj (atom :top)
+         (let [ref (atom :top)
+               subj (atom {:ref ref})
+               obj (atom {:ref ref})
                agr (atom :top)]
            {:derivation {:2 {:transitive-verbs {:reflexive true}}}
             :agr agr
             :reflexive true
             :sem {:subj subj
-                  :obj subj}
-            :subcat {:1 {:agr agr}
+                  :obj obj}
+            :subcat {:1 {:agr agr
+                         :sem subj}
                      :2 {:agr agr
                          :phrasal false
                          :reflexive true
                          :cat :noun
-                         :sem subj
+                         :sem obj
                          :case :acc}}})]}
 
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"

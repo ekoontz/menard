@@ -66,6 +66,13 @@
 
  {:rule :propernouns-have-empty-modifiers
   :if {:cat :noun
+       :pronoun false
        :propernoun true
        :sem {:mod ::unspec}}
-  :then [{:sem {:mod []}}]}]
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernouns-are-nonreflexive
+  :if {:cat :noun
+       :pronoun false
+       :propernoun true}
+  :then [{:reflexive false}]}]

@@ -106,7 +106,6 @@
             :pronoun true
             :reflexive true}]
 
-
  "not" (let [sem (atom {:polarity :negative})
              infl-base (atom :base)
              infl-gerund (atom :gerund)
@@ -264,6 +263,23 @@
          :sem {:human true
                :pred :you}
          :pronoun true
-         :reflexive false}]}
+         :reflexive false}]
+
+ "yourself" [{:cat :noun
+              :case :acc
+              :agr {:number :sing
+                    :human true
+                    :person :1st}
+              :sem {:ref {:human true}}
+              :pronoun true
+              :reflexive true}]
+ "yourselves" [{:cat :noun
+                :case :acc
+                :agr {:number :plur
+                      :human true
+                      :person :1st}
+                :sem {:ref {:human true}}
+                :pronoun true
+                :reflexive true}]}
 
 

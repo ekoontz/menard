@@ -279,10 +279,11 @@
               :case :acc
               :agr {:number :sing
                     :human true
-                    :person :1st}
+                    :person :2nd}
               :sem {:ref {:human true}}
               :pronoun true
               :reflexive true}]
+
  "yourselves" [{:cat :noun
                 :case :acc
                 :agr {:number :plur
@@ -291,5 +292,4 @@
                 :sem {:ref {:human true}}
                 :pronoun true
                 :reflexive true}]}
-
 

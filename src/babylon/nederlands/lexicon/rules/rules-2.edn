@@ -21,6 +21,7 @@
        :subcat {:2 ::unspec}}
   :then [;; 1. a verb gets an intransitive sense:
          {:sem {:obj :unspec}
+          :reflexive false
           :subcat {:2 []}}
          ;; 2. het krijgt een non-reflexive noun object:
          (let [obj (atom :top)]

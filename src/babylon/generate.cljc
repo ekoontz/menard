@@ -111,64 +111,76 @@
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: "
                               (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree tree)))))
-    (cond
-      (u/get-in tree [:babylon.generate/done?])
-      (do
-        (log/debug (str "condition 1."))
-        [tree])
-      (= tree :fail)
-      (throw (Exception. (str "add: tree is unexpectedly :fail.")))
+    (->>
+     (cond
+       (u/get-in tree [:babylon.generate/done?])
+       (do
+         (log/debug (str "condition 1."))
+         [tree])
+       (= tree :fail)
+       (throw (Exception. (str "add: tree is unexpectedly :fail.")))
 
-      (or
-       (and (not (= ::none rule-at))
-            (not (= :top rule-at)))
-       (and (not (= ::none phrase-at))
-            (not (= :top phrase-at))))
-      (do
-        (log/debug (str "add: rule is set to: " rule-at))
-        (add-rule tree (:rule rule-at) (= true phrase-at)))
+       (or
+        (and (not (= ::none rule-at))
+             (not (= :top rule-at)))
+        (and (not (= ::none phrase-at))
+             (not (= :top phrase-at))))
+       (do
+         (log/debug (str "add: rule is set to: " rule-at))
+         (add-rule tree (:rule rule-at) (= true phrase-at)))
 
-      (= true (u/get-in tree (concat at [:phrasal])))
-      (let [result
-            (add-rule tree)]
-        (if (empty? result)
-          (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
-        result)
-      
-      (or (= false (u/get-in tree (concat at [:phrasal])))
-          (and (u/get-in tree (concat at [:canonical]))
-               (not (= :top
-                       (u/get-in tree (concat at [:canonical]))))))
-      
-      (do
-        (log/debug (str "add: only adding lexemes."))
-        (let [result (add-lexeme tree)]
-          (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
-          (if (and (= false (u/get-in tree (concat at [:phrasal])))
-                   (empty? result)
-                   diagnostics?)
-            (let [message
-                  (str "no lexemes match for tree: " (syntax-tree tree)
-                       " at: " (frontier tree)
-                       "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
-              (when die-on-no-matching-lexemes?
-                (log/error message)
-                (throw (Exception. message)))
-              (log/warn message)))
-          result))
+       (= true (u/get-in tree (concat at [:phrasal])))
+       (let [result
+             (add-rule tree)]
+         (if (empty? result)
+           (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
+         result)
 
-      true
-      (let [both (lazy-cat (add-lexeme tree) (add-rule tree))]
-        (cond (and (empty? both)
-                   allow-backtracking?)
-              (do
-                (log/debug (str "backtracking: " (syntax-tree tree) " at rule: "
-                                (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                                (last at))))
-              (empty? both)
-              (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
+       (or (= false (u/get-in tree (concat at [:phrasal])))
+           (and (u/get-in tree (concat at [:canonical]))
+                (not (= :top
+                        (u/get-in tree (concat at [:canonical]))))))
 
-              true both)))))
+       (do
+         (log/debug (str "add: only adding lexemes."))
+         (let [result (add-lexeme tree)]
+           (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
+           (if (and (= false (u/get-in tree (concat at [:phrasal])))
+                    (empty? result)
+                    diagnostics?)
+             (let [message
+                   (str "no lexemes match for tree: " (syntax-tree tree)
+                        " at: " (frontier tree)
+                        "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
+               (when die-on-no-matching-lexemes?
+                 (log/error message)
+                 (throw (Exception. message)))
+               (log/warn message)))
+           result))
+
+       true
+       (let [both (lazy-cat (add-lexeme tree) (add-rule tree))]
+         (cond (and (empty? both)
+                    allow-backtracking?)
+               (do
+                 (log/debug (str "backtracking: " (syntax-tree tree) " at rule: "
+                                 (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                                 (last at))))
+               (empty? both)
+               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
+
+               true both)))
+     (filter (fn [foo]
+               (do (log/info (str "filtering after adding..:" (syntax-tree foo) "; reflexive: " (u/get-in foo [:reflexive] ::unset)))
+                   (if (= true (u/get-in foo [:reflexive]))
+                     (log/info (str "   subj/obj identity: " (= (:ref (u/get-in foo [:sem :subj]))
+                                                                (:ref (u/get-in foo [:sem :obj]))))))
+                   (or (= false (u/get-in foo [:reflexive]))
+                       (= :top (u/get-in foo [:reflexive]))
+                       (and
+                        (= true (u/get-in foo [:reflexive]))
+                        (= (:ref (u/get-in foo [:sem :subj]))
+                           (:ref (u/get-in foo [:sem :obj])))))))))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (report tree) " at: " at))

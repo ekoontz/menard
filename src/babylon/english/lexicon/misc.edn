@@ -277,7 +277,7 @@
                 :case :acc
                 :agr {:number :plur
                       :human true
-                      :person :1st}
+                      :person :2nd}
                 :sem {:ref {:human true}}
                 :pronoun true
                 :reflexive true}]}

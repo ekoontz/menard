@@ -75,4 +75,11 @@
   :if {:cat :noun
        :pronoun false
        :propernoun true}
+  :then [{:reflexive false}]}
+
+ {:rule :pronouns-are-nonreflexive
+  :if {:cat :noun
+       :pronoun true
+       :reflexive ::unspec
+       :propernoun false}
   :then [{:reflexive false}]}]

@@ -263,14 +263,14 @@
  "you" [{:cat :noun
          :case :nom
          :agr {:person :2nd}
-         :sem {:human true
+         :sem {:ref {:human true}
                :pred :you}
          :pronoun true
          :reflexive false}
         {:cat :noun
          :case :acc
          :agr {:person :2nd}
-         :sem {:human true
+         :sem {:ref {:human true}
                :pred :you}
          :pronoun true
          :reflexive false}]

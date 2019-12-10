@@ -79,5 +79,14 @@
   :subcat []
   :modal false
   :sem {:pred :see
+        :obj {:top :top}}}
+
+ {:note "Sentence with reflexive direct object"
+  :generic true
+  :cat :verb
+  :reflexive true
+  :subcat []
+  :modal false
+  :sem {:pred :see
         :obj {:top :top}}}]
                     

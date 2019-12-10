@@ -23,8 +23,7 @@
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
 (def allow-folding? true)
-(def generate-only-one? true)
-
+(def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic lexicon-index-fn (fn [spec]

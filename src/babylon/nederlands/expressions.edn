@@ -83,10 +83,14 @@
 
  {:note "Sentence with reflexive direct object"
   :generic true
+  :agr {:person :2nd}
   :cat :verb
-  :reflexive true
-  :subcat []
   :modal false
-  :sem {:pred :see
-        :obj {:top :top}}}]
+  :phrasal true
+  :reflexive true
+  :sem {:tense :present
+        :aspect :simple
+        :pred :see}
+  :subcat '()}]
+
                     

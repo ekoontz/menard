@@ -17,14 +17,33 @@
                      :2 []}})]}
  {:rule :object
   :if {:cat :verb
+       :reflexive ::unspec
        :subcat {:2 ::unspec}}
-  :then [;; by default, a verb gets an intransitive sense:
+  :then [;; 1. a verb gets an intransitive sense:
          {:sem {:obj :unspec}
           :subcat {:2 []}}
-         ;; also by default, het krijgt een noun object:
+         ;; 2. het krijgt een non-reflexive noun object:
          (let [obj (atom :top)]
-           {:sem {:obj obj}
+           {:reflexive false
+            :sem {:obj obj}
             :subcat {:2 {:subcat []
                          :cat :noun
                          :case :acc
+                         :reflexive false
+                         :sem obj}}})
+         ;; 3. reflexive:
+         (let [ref (atom :top)
+               agr (atom :top)
+               subj (atom {:ref ref})
+               obj (atom {:ref ref})]
+           {:reflexive true
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:agr agr
+                         :sem subj}
+                     :2 {:agr agr
+                         :subcat []
+                         :cat :noun
+                         :case :acc
+                         :reflexive true
                          :sem obj}}})]}]

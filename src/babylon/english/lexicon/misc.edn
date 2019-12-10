@@ -136,6 +136,16 @@
 
  "on" [{:cat :prep
         :sem {:pred :on}}]
+
+ "ourselves" [{:cat :noun
+                :case :acc
+                :agr {:number :plur
+                      :human true
+                      :person :1st}
+                :sem {:ref {:human true}}
+                :pronoun true
+                :reflexive true}]
+
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing

@@ -247,7 +247,9 @@
         :pronoun true
         :reflexive false
         :case :nom
-        :agr {:person :1st :number :plur}}]
+        :agr {:human true
+              :person :1st
+              :number :plur}}]
  "what" [{:cat :noun
           :interogative? true
           :pronoun true
@@ -262,14 +264,16 @@
           :wh-word true}]
  "you" [{:cat :noun
          :case :nom
-         :agr {:person :2nd}
+         :agr {:person :2nd
+               :human true}
          :sem {:ref {:human true}
                :pred :you}
          :pronoun true
          :reflexive false}
         {:cat :noun
          :case :acc
-         :agr {:person :2nd}
+         :agr {:person :2nd
+               :human true}
          :sem {:ref {:human true}
                :pred :you}
          :pronoun true

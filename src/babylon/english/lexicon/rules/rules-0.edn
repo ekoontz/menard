@@ -11,8 +11,10 @@
   :then [{:regular true
           :pronoun false
           :propernoun false}]}
- {:rule :nouns-are-inhuman-by-default
+
+ {:rule :common-nouns-are-inhuman-by-default
   :if {:cat :noun
+       :pronoun false
        :agr {:human ::unspec}}
   :then [{:agr {:human false}}]}
 

@@ -93,7 +93,7 @@
        :agr {:person :2nd}
        :pronoun true
        :reflexive true
-       :sem {:context :informal}}
+       :sem {:ref {:context :informal}}}
 
  "jij" [{:agr {:person :2nd
                :number :sing}
@@ -101,7 +101,7 @@
          :cat :noun
          :pronoun true
          :sem {:pred :you
-               :context :informal}}]
+               :ref {:context :informal}}}]
 
  "jou" [{:agr {:person :2nd
                :number :sing}
@@ -114,7 +114,7 @@
             :cat :noun
             :pronoun true
             :sem {:pred :you
-                  :context :informal}
+                  :ref {:context :informal}}
             :agr {:person :2nd
                   :number :plur}}]
 
@@ -145,13 +145,13 @@
        :cat :noun
        :pronoun true
        :sem {:pred :you
-             :context :polite}}
+             :ref {:context :polite}}}
       {:cat :noun
        :case :acc
        :agr {:person :2nd}
        :pronoun true
        :reflexive true
-       :sem {:context :polite}}]
+       :sem {:ref {:context :polite}}}]
  
  "wij" [{:agr {:person :1st
                :number :plur}

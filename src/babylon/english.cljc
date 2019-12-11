@@ -243,7 +243,7 @@
       (-> spec
           g/generate)
      (catch Exception e
-       (log/warn (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
+       (log/debug (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
 
 
 (defn get-lexemes [spec]

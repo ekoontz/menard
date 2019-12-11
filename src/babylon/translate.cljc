@@ -24,14 +24,17 @@
          :cat (u/get-in nl-expression [:cat])
          :modal (u/get-in nl-expression [:modal] false)
          :phrasal true
+         :head {:rule "vp"
+                :comp {:phrasal false}}
          :reflexive (u/get-in nl-expression [:reflexive] :top)
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]
-    (log/info (str "English spec to generate: " (u/strip-refs retval)))
+    (log/debug (str "English spec to generate: " (u/strip-refs retval)))
     retval))
 
 (defn en-generate [spec allow-backtracking?]
   (binding [g/allow-backtracking? allow-backtracking?
+            g/die-on-no-matching-lexemes? false
             g/generate-only-one? false]
     (en/generate spec)))
 

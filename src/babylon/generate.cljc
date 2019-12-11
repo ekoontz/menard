@@ -22,6 +22,7 @@
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
+;; TODO: add allow-truncation?
 (def allow-folding? true)
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
@@ -103,9 +104,10 @@
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/info (str (report tree) " add "
-                     "at:" at " with spec: "
-                     (summary-fn spec))))
+      (log/debug (str (report tree) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+    (if (and (not (= tree :fail))
+             (= [:comp] at))
+      (log/debug (str (report tree) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: "
@@ -131,7 +133,7 @@
        (= true (u/get-in tree (concat at [:phrasal])))
        (let [result
              (add-rule tree)]
-         (if (empty? result)
+         (if (and diagnostics? (empty? result))
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
          result)
 
@@ -141,9 +143,9 @@
                         (u/get-in tree (concat at [:canonical]))))))
 
        (do
-         (log/debug (str "add: only adding lexemes."))
+         (log/debug (str "add: only adding lexemes at: " at))
          (let [result (add-lexeme tree)]
-           (log/debug (str "add: added lexeme; result: " (syntax-tree tree)))
+           (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree result))))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
                     (empty? result)
                     diagnostics?)
@@ -248,7 +250,7 @@
                            (#(do
                                (if (= :fail %)
                                  (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
-                                 (log/info (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
+                                 (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
                                %)))))))))
 
 (defn add-rule [tree & [rule-name some-rule-must-match?]]

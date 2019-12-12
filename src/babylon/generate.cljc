@@ -95,6 +95,24 @@
             (u/get-in spec [:sem :pred])
             (u/get-in spec [:cat]))))
 
+(defn reflexive-violations [expression]
+  (log/debug (str "filtering after adding..:" (syntax-tree expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
+  (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
+                                              (:ref (u/get-in expression [:sem :obj])))))
+  (or (not (= :verb (u/get-in expression [:cat])))
+      (and
+         (or (= false (u/get-in expression [:reflexive] false))
+             (= :top (u/get-in expression [:reflexive])))
+         (or
+             (= ::unspec (:ref (u/get-in expression [:sem :subj]) ::unspec))
+             (= ::unspec (:ref (u/get-in expression [:sem :obj]) ::unspec))                         
+             (not (= (:ref (u/get-in expression [:sem :subj]))
+                     (:ref (u/get-in expression [:sem :obj]))))))
+      (and
+        (= true (u/get-in expression [:reflexive] false))
+        (= (:ref (u/get-in expression [:sem :subj]))
+           (:ref (u/get-in expression [:sem :obj]))))))
+
 (defn add [tree]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
@@ -171,24 +189,7 @@
                (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
 
                true both)))
-     (filter (fn [foo]
-               (do (log/debug (str "filtering after adding..:" (syntax-tree foo) "; reflexive: " (u/get-in foo [:reflexive] ::unset)))
-                   (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in foo [:sem :subj]))
-                                                               (:ref (u/get-in foo [:sem :obj])))))
-                   (or (not (= :verb (u/get-in foo [:cat])))
-
-                       (and
-                        (or (= false (u/get-in foo [:reflexive] false))
-                            (= :top (u/get-in foo [:reflexive])))
-                        (or
-                         (= ::unspec (:ref (u/get-in foo [:sem :subj]) ::unspec))
-                         (= ::unspec (:ref (u/get-in foo [:sem :obj]) ::unspec))                         
-                         (not (= (:ref (u/get-in foo [:sem :subj]))
-                                 (:ref (u/get-in foo [:sem :obj]))))))
-                       (and
-                        (= true (u/get-in foo [:reflexive] false))
-                        (= (:ref (u/get-in foo [:sem :subj]))
-                           (:ref (u/get-in foo [:sem :obj])))))))))))
+     (filter reflexive-violations))))
 
 (defn update-syntax-tree [tree at]
   (log/debug (str "updating syntax-tree:" (report tree) " at: " at))

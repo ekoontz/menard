@@ -3,6 +3,7 @@
  ;; than having to list these specifications in pairs:
  ;;    (i.e. specific np, general np, specific np with adjective, etc..)
  {:note "'een huis'"
+  :dotimes 1
   :rule "np"
   :agr {:number :sing}
   :sem {:mod []
@@ -15,6 +16,7 @@
   :sem {:mod []}}
 
  {:note "'de grote boeken'"
+  :dotimes 1
   :rule "np"
   :agr {:number :plur}  
   :sem {:mod {:first {:pred :big}}
@@ -27,6 +29,7 @@
   :sem {:mod {:first {:pred :top}}}}
  
  {:note "'een heel klein druif'"
+  :dotimes 1
   :rule "np"
   :agr {:number :sing}
   :sem {:pred :grape
@@ -35,12 +38,13 @@
                       :mod {:first {:pred :very}}}}}}
 
  {:note "NP with one modifier, which is itself modified"
-  :rule "np"
   :dotimes 10
+  :rule "np"
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}}}}
  
  {:note "'De heel klein oud fietsen'."
+  :dotimes 1
   :agr {:number :plur}
   :rule "np"
   :sem {:mod {:first {:pred :small
@@ -57,6 +61,7 @@
               :rest {:first {:top :top}}}}}
  
  {:note "'De heel sterk slimme vrouen zingen'."
+  :dotimes 1
   :rule "s"
   :agr {:number :plur}
   :sem {:pred :sing

@@ -80,6 +80,12 @@
 
  {:note "Sentence with direct object"
   :dotimes 10
+  :target {:rule "s"
+           :comp {:phrasal false}
+           :head {:phrasal true
+                  :comp {:phrasal false}
+                  :head {:phrasal false}
+                  :rule "vp"}}
   :cat :verb
   :subcat []
   :modal false

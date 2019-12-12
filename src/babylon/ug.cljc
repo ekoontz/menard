@@ -1,6 +1,7 @@
 (ns babylon.ug
-  (:require [dag_unify.core :as u :refer [unify]])
-  (:require [dag_unify.dissoc :refer [dissoc-in]]))
+  (:require
+   [dag_unify.core :as u :refer [unify]]
+   [dag_unify.dissoc :refer [dissoc-in]]))
 
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.

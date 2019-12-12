@@ -5,7 +5,7 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [pprint unify]]))
 
-(def generate-this-many 5)
+(def generate-this-many 1)
 
 ;; in the demo, we first generate a target expression in Dutch,
 ;; and then translate it to English.
@@ -42,6 +42,7 @@
   (if (:note source-expression)
     (if false (println (str ";; " (:note source-expression)))))
   ;; 1. print the surface form of the source expression:
+
   (-> source-expression
       ((fn [src] (str (nl/morph src :sentence-punctuation? true) "|")))
       println)
@@ -54,6 +55,9 @@
       ;; 2.a. create a specification for generation:
       nl-to-en-spec
 
+      (#(unify %
+               (u/get-in % [:target] :top)))
+
       ;; 2.b. generate from this spec:
       (#(or (en-generate % false)
             (en-generate % true)))
@@ -65,22 +69,27 @@
       println))
 
 
-(defn demo []
+(defn demo [ & [index]]
   (count
    (->>
     (range 0 (count nl/expressions))
+    (filter (fn [each-index]
+              (or (nil? index) (= index each-index))))
     (map (fn [index]
-           (let [source-expressions
+           (let [generate-this-many (cond (:dotimes (nth nl/expressions index))
+                                          (:dotimes (nth nl/expressions index))
+
+                                          true
+                                          1)
+
+                 source-expressions
                  (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-                      (take
-                       (if (:generic (nth nl/expressions index))
-                           generate-this-many
-                           1))
+                      (take generate-this-many)
                       (filter #(not (nil? %))))]
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.
-             (if (:generic (nth nl/expressions index))
+             (if (:note (nth nl/expressions index))
                (println (str "# " (:note (nth nl/expressions index)) "; " generate-this-many " examples:")))
              (count
               (->> source-expressions

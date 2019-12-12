@@ -10,7 +10,7 @@
         :quant :indef}}
 
  {:note "NP with no modifiers"
-  :generic true
+  :dotimes 10
   :rule "np"
   :sem {:mod []}}
 
@@ -22,7 +22,7 @@
         :pred :book}}
 
  {:note "NP with one modifier"
-  :generic true
+  :dotimes 10
   :rule "np"
   :sem {:mod {:first {:pred :top}}}}
  
@@ -36,7 +36,7 @@
 
  {:note "NP with one modifier, which is itself modified"
   :rule "np"
-  :generic true  
+  :dotimes 10
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}}}}
  
@@ -50,14 +50,14 @@
         :quant :def}}
 
  {:note "NP with two modifiers, the first of which is itself modified"
-  :generic true
+  :dotimes 10
   :rule "np"
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:top :top}}}}}
  
  {:note "'De heel sterk slimme vrouen zingen'."
-  :rule "s" 
+  :rule "s"
   :agr {:number :plur}
   :sem {:pred :sing
         :subj {:pred :woman
@@ -68,13 +68,13 @@
         :quant :def}}
 
  {:note "Sentence whose subject has two modifiers, the first of which is itself modified"
-  :generic true
+  :dotimes 10
   :rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
  {:note "Sentence with direct object"
-  :generic true
+  :dotimes 10
   :cat :verb
   :subcat []
   :modal false
@@ -82,8 +82,14 @@
         :obj {:top :top}}}
 
  {:note "Sentence with reflexive direct object"
+  :dotimes 10
+  :target {:rule "s"
+           :comp {:phrasal false}
+           :head {:phrasal true
+                  :comp {:phrasal false}
+                  :head {:phrasal false}
+                  :rule "vp"}}
   :generic true
-  :agr {:person :2nd}
   :cat :verb
   :modal false
   :phrasal true

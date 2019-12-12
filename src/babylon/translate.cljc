@@ -24,8 +24,6 @@
          :cat (u/get-in nl-expression [:cat])
          :modal (u/get-in nl-expression [:modal] false)
          :phrasal true
-         :head {:rule "vp"
-                :comp {:phrasal false}}
          :reflexive (u/get-in nl-expression [:reflexive] :top)
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]

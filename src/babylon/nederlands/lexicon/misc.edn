@@ -86,14 +86,16 @@
         :case :nom
         :cat :noun
         :pronoun true
-        :sem {:pred :i}}]
+        :sem {:pred :i
+              :ref {:human true}}}]
 
  "je" {:cat :noun
        :case :acc
        :agr {:person :2nd}
        :pronoun true
        :reflexive true
-       :sem {:ref {:context :informal}}}
+       :sem {:ref {:human true
+                   :context :informal}}}
 
  "jij" [{:agr {:person :2nd
                :number :sing}
@@ -101,20 +103,23 @@
          :cat :noun
          :pronoun true
          :sem {:pred :you
-               :ref {:context :informal}}}]
+               :ref {:human true
+                     :context :informal}}}]
 
  "jou" [{:agr {:person :2nd
                :number :sing}
          :case :acc
          :cat :noun
-         :sem {:pred :you}
+         :sem {:pred :you
+               :ref {:human true}}
          :pronoun true}]
 
  "jullie" [{:case :nom
             :cat :noun
             :pronoun true
             :sem {:pred :you
-                  :ref {:context :informal}}
+                  :ref {:human true
+                        :context :informal}}
             :agr {:person :2nd
                   :number :plur}}]
 
@@ -122,13 +127,15 @@
         :case :acc
         :agr {:number :sing
               :person :1st}
+        :sem {:ref {:human true}}
         :pronoun true
         :reflexive true}]
 
  "mij" [{:case :acc
          :cat :noun
          :pronoun true
-         :sem {:pred :i}
+         :sem {:pred :i
+               :ref {:human true}}
          :agr {:person :1st
                :number :sing}}]
 
@@ -174,12 +181,14 @@
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :she}}
+         :sem {:pred :she
+               :ref {:human true}}}
         {:agr {:person :3rd
                :number :plur}
          :case :nom
          :cat :noun
          :pronoun true
-         :sem {:pred :they}}]}
+         :sem {:pred :they
+               :ref {:human true}}}]}
 
 ;; </F>

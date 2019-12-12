@@ -16,7 +16,6 @@
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing
-              :human true
               :person :3rd
               :gender :masc}
         :sem {:ref {:human true}
@@ -27,7 +26,6 @@
          :case :acc
          :agr {:number :sing
                :person :3rd
-               :human true
                :gender :fem}
          :pronoun true
          :reflexive false
@@ -37,7 +35,6 @@
              :case :acc
              :agr {:number :sing
                    :person :3rd
-                   :human true
                    :gender :fem}
              :pronoun true
              :reflexive true
@@ -46,7 +43,6 @@
          :case :acc
          :agr {:number :sing
                :person :3rd
-               :human true
                :gender :masc}
          :pronoun true
          :reflexive false
@@ -55,7 +51,6 @@
  "himself" [{:cat :noun
              :case :acc
              :agr {:number :sing
-                   :human true
                    :person :3rd
                    :gender :masc}
              :pronoun true
@@ -64,7 +59,6 @@
  "I" [{:cat :noun
        :case :nom
        :agr {:number :sing
-             :human true
              :person :1st}
        :sem {:ref {:human true}
              :pred :i}
@@ -74,7 +68,6 @@
         :sem {:pred :in}}]
  "it" [{:cat :noun
         :agr {:number :sing
-              :human false
               :person :3rd}
         :sem {:ref {:human false}
               :pred :it}
@@ -82,7 +75,6 @@
         :reflexive false}]
  "itself" [{:cat :noun
             :agr {:number :sing
-                  :human false
                   :person :3rd}
             :sem {:ref {:human false}}
             :pronoun true
@@ -90,7 +82,6 @@
  "me" [{:cat :noun
         :case :acc
         :agr {:number :sing
-              :human true
               :person :1st}
         :sem {:ref {:human true}
               :pred :i}
@@ -100,7 +91,6 @@
  "myself" [{:cat :noun
             :case :acc
             :agr {:number :sing
-                  :human true
                   :person :1st}
             :sem {:ref {:human true}}
             :pronoun true
@@ -114,11 +104,11 @@
              common-part {:cat :neg
                           :sem sem
                           :slash slash
-                           :subcat {:1 {:cat :verb
-                                        :aux false
-                                        :sem sem
-                                        :slash slash}
-                                    :2 []}}
+                          :subcat {:1 {:cat :verb
+                                       :aux false
+                                       :sem sem
+                                       :slash slash}
+                                   :2 []}}
              input
              [{:infl infl-base
                :subcat {:1 {:modal false
@@ -140,7 +130,6 @@
  "ourselves" [{:cat :noun
                 :case :acc
                 :agr {:number :plur
-                      :human true
                       :person :1st}
                 :sem {:ref {:human true}}
                 :pronoun true
@@ -149,7 +138,6 @@
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing
-               :human true
                :person :3rd
                :gender :fem}
          :sem {:ref {:human true}
@@ -247,8 +235,7 @@
         :pronoun true
         :reflexive false
         :case :nom
-        :agr {:human true
-              :person :1st
+        :agr {:person :1st
               :number :plur}}]
  "what" [{:cat :noun
           :interogative? true
@@ -264,16 +251,14 @@
           :wh-word true}]
  "you" [{:cat :noun
          :case :nom
-         :agr {:person :2nd
-               :human true}
+         :agr {:person :2nd}
          :sem {:ref {:human true}
                :pred :you}
          :pronoun true
          :reflexive false}
         {:cat :noun
          :case :acc
-         :agr {:person :2nd
-               :human true}
+         :agr {:person :2nd}
          :sem {:ref {:human true}
                :pred :you}
          :pronoun true
@@ -282,7 +267,6 @@
  "yourself" [{:cat :noun
               :case :acc
               :agr {:number :sing
-                    :human true
                     :person :2nd}
               :sem {:ref {:human true}}
               :pronoun true
@@ -291,7 +275,6 @@
  "yourselves" [{:cat :noun
                 :case :acc
                 :agr {:number :plur
-                      :human true
                       :person :2nd}
                 :sem {:ref {:human true}}
                 :pronoun true

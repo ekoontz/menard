@@ -140,7 +140,7 @@
       (-> spec
           g/generate)
      (catch Exception e
-       (log/warn (str "generation failed: " e "; input spec was:" spec))))))
+       (log/debug (str "generation failed: " e "; input spec was:" spec))))))
 
 
 (defn get-lexemes [spec]

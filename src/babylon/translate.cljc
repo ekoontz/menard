@@ -90,11 +90,13 @@
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.
              (if (:note (nth nl/expressions index))
-               (println (str "# " (:note (nth nl/expressions index)) "; " generate-this-many " examples:")))
+               (println (str "# " (:note (nth nl/expressions index)) "; " generate-this-many " example" (if (not (= 1 generate-this-many)) "s") ":")))
+             (println "---")
              (count
               (->> source-expressions
                    (mapcat (fn [expr]
-                             (translate expr)))))))))))
+                             (translate expr)))))
+             (println)))))))
 
 
 

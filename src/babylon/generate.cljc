@@ -173,13 +173,20 @@
                true both)))
      (filter (fn [foo]
                (do (log/debug (str "filtering after adding..:" (syntax-tree foo) "; reflexive: " (u/get-in foo [:reflexive] ::unset)))
-                   (if (= true (u/get-in foo [:reflexive]))
-                     (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in foo [:sem :subj]))
-                                                                 (:ref (u/get-in foo [:sem :obj]))))))
-                   (or (= false (u/get-in foo [:reflexive]))
-                       (= :top (u/get-in foo [:reflexive]))
+                   (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in foo [:sem :subj]))
+                                                               (:ref (u/get-in foo [:sem :obj])))))
+                   (or (not (= :verb (u/get-in foo [:cat])))
+
                        (and
-                        (= true (u/get-in foo [:reflexive]))
+                        (or (= false (u/get-in foo [:reflexive] false))
+                            (= :top (u/get-in foo [:reflexive])))
+                        (or
+                         (= ::unspec (:ref (u/get-in foo [:sem :subj]) ::unspec))
+                         (= ::unspec (:ref (u/get-in foo [:sem :obj]) ::unspec))                         
+                         (not (= (:ref (u/get-in foo [:sem :subj]))
+                                 (:ref (u/get-in foo [:sem :obj]))))))
+                       (and
+                        (= true (u/get-in foo [:reflexive] false))
                         (= (:ref (u/get-in foo [:sem :subj]))
                            (:ref (u/get-in foo [:sem :obj])))))))))))
 

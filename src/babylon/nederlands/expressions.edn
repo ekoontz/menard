@@ -14,7 +14,7 @@
   :rule "np"
   :sem {:mod []}}
 
- {:note "'het grote boeken'"
+ {:note "'de grote boeken'"
   :rule "np"
   :agr {:number :plur}  
   :sem {:mod {:first {:pred :big}}

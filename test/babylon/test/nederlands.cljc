@@ -23,7 +23,8 @@
          (morph (generate {:rule "np"
                            :root "huis"
                            :agr {:number :plur}
-                           :sem {:mod {:first {:pred :old}}}
+                           :sem {:quant :def
+                                 :mod {:first {:pred :old}}}
                            :head {:rule "nbar"}})))))
 
 (deftest all-expressions-work

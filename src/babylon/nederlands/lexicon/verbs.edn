@@ -1,9 +1,27 @@
-{"slaap"
- [{:cat :verb
-   :sem {:pred :sleep}
-   :subcat {:2 []}}]
+{"lezen"
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "lees"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "leest"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "leest"}]]
+   [{:exceptions exceptions
+     :cat :verb
+     :sem {:pred :read}}])
 
- "werk"
+ "slapen"
+ (let [exceptions [{:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "slaapt"}]]
+  [{:exceptions exceptions
+    :cat :verb
+    :sem {:pred :sleep}
+    :subcat {:2 []}}])
+
+ "werken"
  [{:cat :verb
    :sem {:pred :work}
    :subcat {:2 []}}]
@@ -25,7 +43,7 @@
      :cat :verb
      :sem {:pred :see}}])
 
- "zing"
+ "zingen"
  [{:cat :verb
    :sem {:pred :sing}
    :subcat {:2 []}}]}

@@ -4,7 +4,7 @@
        :subcat {:1 {:cat :det}}}
   :then [(let [quant (atom :top)]
            {:sem {:quant quant}
-            :subcat {:1 {:sem {:quant quant}}}})]}
+            :subcat {:1 {:sem {:pred quant}}}})]}
  
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity

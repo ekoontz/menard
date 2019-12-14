@@ -1,5 +1,5 @@
 {"a" [{:cat :det
-       :sem {:quant :indef}
+       :sem {:pred :indef}
        :agr {:number :sing}}]
  "actually" [{:cat :intensifier
               :sem {:pred :actually}
@@ -7,7 +7,7 @@
                            :phrasal false}
                        :2 []}}]
  "an" [{:exception true
-        :sem {:quant :indef}
+        :sem {:pred :indef}
         :cat :det :agr {:number :sing}}]
 
  "at" [{:cat :prep
@@ -157,7 +157,7 @@
          :reflexive false}]
 
  "some" [{:cat :det
-          :sem {:quant :indef}
+          :sem {:pred :indef}
           :agr {:number :plur}}]
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
@@ -196,10 +196,10 @@
          ;; "that book"
          {:cat :det
           :agr {:number :sing}
-          :sem {:quant :that}}]
+          :sem {:pred :that}}]
  
  "the" [{:cat :det
-         :sem {:quant :def}}]
+         :sem {:pred :def}}]
 
  "them" [{:case :acc
           :cat :noun
@@ -215,7 +215,7 @@
  "these" [;; "these books"
           {:cat :det
            :agr {:number :plur}
-           :sem {:quant :this}}]
+           :sem {:pred :this}}]
 
  "they" [{:cat :noun
           :pronoun true
@@ -227,12 +227,12 @@
  "this" [;; "this book"
          {:cat :det
           :agr {:number :sing}
-          :sem {:quant :this}}]
+          :sem {:pred :this}}]
  
  ;; "those books"
  "those" [{:cat :det
            :agr {:number :plur}
-           :sem {:quant :that}}]
+           :sem {:pred :that}}]
  
  "to" [;; "to the park"
        {:cat :prep

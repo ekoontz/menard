@@ -13,7 +13,7 @@
             :sem {:quant quant}
             :subcat {:1 {:cat :det
                          :agr agr
-                         :sem {:quant quant}}
+                         :sem {:pred quant}}
                      :2 []}})]}
  {:rule :object
   :if {:cat :verb

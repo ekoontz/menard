@@ -78,8 +78,9 @@
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
- {:note "Sentence with direct object"
+ {:note "Sentence with non-reflexive direct object"
   :dotimes 10
+  :reflexive false
   :target {:rule "s"
            :comp {:phrasal false}
            :head {:phrasal true

@@ -401,6 +401,9 @@
                     :3 {:cat :noun}}
            :cat :verb
            :sem {:pred :put-in}}])
+ "read" (let [exceptions [{:infl :past-simple :surface "read"}
+                          {:infl :past-participle :surface "read"}]]
+          [{:exceptions exceptions :cat :verb :sem {:pred :read}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :run}}])

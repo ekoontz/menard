@@ -84,8 +84,9 @@
 
                  source-expressions
                  (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-                      (take generate-this-many)
-                      (filter #(not (nil? %))))]
+                      (filter #(not (nil? %))) ;; a nil means that generation failed, so retry.
+                      (take generate-this-many))]
+
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.

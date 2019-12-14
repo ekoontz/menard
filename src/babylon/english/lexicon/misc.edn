@@ -196,7 +196,7 @@
          ;; "that book"
          {:cat :det
           :agr {:number :sing}
-          :sem {:quant :demonstrative}}]
+          :sem {:quant :that}}]
  
  "the" [{:cat :det
          :sem {:quant :def}}]
@@ -212,6 +212,11 @@
                 :agr {:person :3rd :number :plur}
                 :pronoun true :reflexive true}]
 
+ "these" [;; "these books"
+          {:cat :det
+           :agr {:number :plur}
+           :sem {:quant :this}}]
+
  "they" [{:cat :noun
           :pronoun true
           :reflexive false
@@ -219,10 +224,15 @@
           :agr {:person :3rd :number :plur}
           :sem {:pred :they}}]
 
+ "this" [;; "this book"
+         {:cat :det
+          :agr {:number :sing}
+          :sem {:quant :this}}]
+ 
  ;; "those books"
  "those" [{:cat :det
            :agr {:number :plur}
-           :sem {:quant :demonstrative}}]
+           :sem {:quant :that}}]
  
  "to" [;; "to the park"
        {:cat :prep

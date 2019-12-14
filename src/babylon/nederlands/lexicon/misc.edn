@@ -1,5 +1,11 @@
 ;; 'F.' means Carol Fehringer, "A Reference Grammar of Dutch", 1999 ,Cambridge University Press.
 {
+
+ "dat" [{:cat :det
+         :sem {:quant :that}
+         :agr {:number :sing
+               :gender :neuter}}]
+
  ;; <F. p30-31, 54-55, 70>
  "de" [{:cat :det
         :sem {:quant :def}
@@ -7,15 +13,31 @@
        {:cat :det
         :sem {:quant :def}
         :agr {:number :plur}}]
+ "deze" [{:cat :det
+          :sem {:quant :this}
+          :agr {:number :sing
+                :gender :common}}
+         {:cat :det
+          :sem {:quant :this}
+          :agr {:number :plur}}]
+
  "die" [{:agr {:number :plur
                :person :3rd}
          :case :acc
          :cat :noun
          :pronoun true
          :sem {:pred :they
-               :ref {:human false}}}]
+               :ref {:human false}}}
+        {:cat :det
+         :sem {:quant :that}
+         :agr {:number :sing
+               :gender :common}}
+        {:cat :det
+         :sem {:quant :that}
+         :agr {:number :plur}}]
+
  "dit" [{:cat :det
-         :sem {:quant :demonstrative}
+         :sem {:quant :this}
          :agr {:number :sing
                :gender :neuter}}]
  "echt" [{:cat :intensifier

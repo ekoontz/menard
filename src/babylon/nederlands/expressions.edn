@@ -62,8 +62,8 @@
                :context :neutral
                :mod {:first {:pred :strong
                              :mod {:first {:pred :very}}}
-                     :rest {:first {:pred :smart}}}}
-        :quant :def}}
+                     :rest {:first {:pred :smart}}}
+               :quant :def}}}
 
  {:note "Sentence whose subject has two modifiers, the first of which is itself modified"
   :dotimes 10

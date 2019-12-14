@@ -35,7 +35,10 @@
          :pronoun true
          :reflexive false
          :sem {:ref {:human true}
-               :pred :she}}]
+               :pred :she}}
+        {:cat :det
+         :sem {:pred :she}}]
+ 
  "herself" [{:cat :noun
              :case :acc
              :agr {:number :sing
@@ -61,6 +64,10 @@
              :pronoun true
              :reflexive true
              :sem {:ref {:human true}}}]
+
+ "his" [{:cat :det
+         :sem {:pred :he}}]
+
  "I" [{:cat :noun
        :case :nom
        :agr {:number :sing
@@ -78,6 +85,8 @@
               :pred :it}
         :pronoun true
         :reflexive false}]
+ "its" [{:cat :det
+         :sem {:pred :it}}]
  "itself" [{:cat :noun
             :agr {:number :sing
                   :person :3rd}
@@ -92,6 +101,9 @@
               :pred :i}
         :pronoun true
         :reflexive false}]
+
+ "my" [{:cat :det
+        :sem {:pred :i}}]
 
  "myself" [{:cat :noun
             :case :acc
@@ -132,6 +144,9 @@
  "on" [{:cat :prep
         :sem {:pred :on}}]
 
+ "our" [{:cat :det
+         :sem {:pred :we}}]
+ 
  "ourselves" [{:cat :noun
                 :case :acc
                 :agr {:number :plur
@@ -211,6 +226,9 @@
  "themselves" [{:cat :noun
                 :agr {:person :3rd :number :plur}
                 :pronoun true :reflexive true}]
+
+ "their" [{:cat :det
+           :sem {:pred :they}}]
 
  "these" [;; "these books"
           {:cat :det
@@ -300,6 +318,9 @@
                :pred :you}
          :pronoun true
          :reflexive false}]
+
+ "your" [{:cat :det
+          :sem {:pred :you}}]
 
  "yourself" [{:cat :noun
               :case :acc

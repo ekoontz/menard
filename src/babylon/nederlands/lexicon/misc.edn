@@ -65,8 +65,10 @@
           :cat :noun
           :pronoun true
           :sem {:pred :she
-                :ref {:human true}}}]
-
+                :ref {:human true}}}
+         {:cat :det
+          :sem {:pred :she}}]
+ 
  "heel" [{:cat :intensifier
           :sem {:pred :very}
           :subcat {:1 {:cat :adjective
@@ -118,8 +120,10 @@
          :cat :noun
          :pronoun true
          :sem {:pred :he
-               :ref {:human true}}}]
- 
+               :ref {:human true}}}
+        {:cat :det
+         :sem {:pred :they}}]
+
  "ik" [{:agr {:person :1st
               :number :sing}
         :case :nom
@@ -153,6 +157,10 @@
                :ref {:human true}}
          :pronoun true}]
 
+ "jouw" [{:cat :det
+          :sem {:pred :you
+                :context :informal}}]
+
  "jullie" [{:case :nom
             :cat :noun
             :pronoun true
@@ -178,6 +186,9 @@
          :agr {:person :1st
                :number :sing}}]
 
+ "mijn" [{:cat :det
+          :sem {:pred :i}}]
+
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}
               :subcat {:1 {:cat :adjective
@@ -189,7 +200,19 @@
          :agr {:number :plur
                :person :1st}
          :pronoun true
-         :reflexive true}]
+         :reflexive true}
+        {:cat :det
+         :agr {:number :sing
+               :gender :neuter}
+         :sem {:pred :we}}]
+
+ "onze" [{:cat :det
+          :agr {:number :sing
+                :gender :common}
+          :sem {:pred :we}}
+         {:cat :det
+          :agr {:number :plur}
+          :sem {:pred :we}}]
  
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
@@ -204,7 +227,11 @@
        :pronoun true
        :reflexive true
        :sem {:ref {:context :polite}}}]
- 
+
+ "uw" [{:cat :det
+        :sem {:pred :you
+              :context :polite}}]
+
  "wij" [{:agr {:person :1st
                :number :plur}
          :case :nom
@@ -234,6 +261,9 @@
          :cat :noun
          :pronoun true
          :sem {:pred :they
-               :ref {:human true}}}]}
+               :ref {:human true}}}]
 
-;; </F>
+ "zijn" [{:cat :det
+          :sem {:pred :he}}
+         {:cat :det
+          :sem {:pred :it}}]}

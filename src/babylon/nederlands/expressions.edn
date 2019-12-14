@@ -52,13 +52,6 @@
               :rest {:first {:pred :old}}}
         :pred :bike
         :quant :def}}
-
- {:note "NP with two modifiers, the first of which is itself modified"
-  :dotimes 10
-  :rule "np"
-  :sem {:mod {:first {:pred :top
-                      :mod {:first {:pred :top}}}
-              :rest {:first {:top :top}}}}}
  
  {:note "'De heel sterk slimme vrouen zingen'."
   :dotimes 1

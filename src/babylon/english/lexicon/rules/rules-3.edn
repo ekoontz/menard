@@ -1,4 +1,12 @@
-[;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
+[
+ {:rule :quantified-noun
+  :if {:cat :noun
+       :subcat {:1 {:cat :det}}}
+  :then [(let [quant (atom :top)]
+           {:sem {:quant quant}
+            :subcat {:1 {:sem {:quant quant}}}})]}
+ 
+ ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
        :subcat {:2 {:cat :prep}

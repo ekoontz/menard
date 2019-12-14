@@ -27,7 +27,7 @@
          :reflexive (u/get-in nl-expression [:reflexive] :top)
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]
-    (log/debug (str "English spec to generate: " (u/strip-refs retval)))
+    (log/info (str "English spec to generate: " (u/strip-refs retval)))
     (unify
      retval
      (u/get-in nl-expression [:target] :top))))

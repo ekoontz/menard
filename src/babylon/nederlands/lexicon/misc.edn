@@ -1,8 +1,5 @@
 ;; 'F.' means Carol Fehringer, "A Reference Grammar of Dutch", 1999 ,Cambridge University Press.
-{"een" [{:cat :det
-         :sem {:quant :indef}
-         :agr {:number :sing}}]
-
+{
  ;; <F. p30-31, 54-55, 70>
  "de" [{:cat :det
         :sem {:quant :def}
@@ -10,7 +7,6 @@
        {:cat :det
         :sem {:quant :def}
         :agr {:number :plur}}]
-
  "die" [{:agr {:number :plur
                :person :3rd}
          :case :acc
@@ -18,13 +14,24 @@
          :pronoun true
          :sem {:pred :they
                :ref {:human false}}}]
-
-
+ "dit" [{:cat :det
+         :sem {:quant :demonstrative}
+         :agr {:number :sing
+               :gender :neuter}}]
  "echt" [{:cat :intensifier
           :sem {:pred :really}
           :subcat {:1 {:cat :adjective
                         :phrasal false}
                     :2 []}}]
+ "een" [{:cat :det
+         :sem {:quant :indef}
+         :agr {:number :sing}}]
+
+ "erg" [{:cat :intensifier
+         :sem {:pred :very}
+         :subcat {:1 {:cat :adjective
+                      :phrasal false}
+                  :2 []}}]
  "eigenlijk" [{:cat :intensifier
                :sem {:pred :actually}
                :subcat {:1 {:cat :adjective

@@ -192,7 +192,11 @@
           :subcat {:1 {:cat :verb
                        :sem {:mood :decl}
                        :subcat []}
-                   :2 []}}]
+                   :2 []}}
+         ;; "that book"
+         {:cat :det
+          :agr {:number :sing}
+          :sem {:quant :demonstrative}}]
  
  "the" [{:cat :det
          :sem {:quant :def}}]
@@ -214,6 +218,11 @@
           :case :nom
           :agr {:person :3rd :number :plur}
           :sem {:pred :they}}]
+
+ ;; "those books"
+ "those" [{:cat :det
+           :agr {:number :plur}
+           :sem {:quant :demonstrative}}]
  
  "to" [;; "to the park"
        {:cat :prep

@@ -1,6 +1,11 @@
 {"a" [{:cat :det
        :sem {:quant :indef}
        :agr {:number :sing}}]
+ "actually" [{:cat :intensifier
+              :sem {:pred :actually}
+              :subcat {:1 {:cat :adjective
+                           :phrasal false}
+                       :2 []}}]
  "an" [{:exception true
         :sem {:quant :indef}
         :cat :det :agr {:number :sing}}]
@@ -135,6 +140,12 @@
                 :pronoun true
                 :reflexive true}]
 
+ "really" [{:cat :intensifier
+            :sem {:pred :really}
+            :subcat {:1 {:cat :adjective
+                         :phrasal false}
+                     :2 []}}]
+ 
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing
@@ -226,6 +237,13 @@
                        :modal false
                        :infl :base}
                    :2 []}})]
+
+ "unusually" [{:cat :intensifier
+               :sem {:pred :unusually}
+               :subcat {:1 {:cat :adjective
+                            :phrasal false}
+                        :2 []}}]
+
  
  "very" [{:cat :intensifier
           :sem {:pred :very}}]

@@ -1,5 +1,6 @@
 (ns babylon.morphology
-  (:require [clojure.tools.logging :as log]
+  (:require #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]))
 
 (defn morph-leaf

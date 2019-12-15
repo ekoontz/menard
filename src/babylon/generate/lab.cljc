@@ -2,7 +2,8 @@
   (:require [babylon.generate :as g]
             [dag_unify.core :as u :refer [unify]]
             [clojure.string :as string]
-            [clojure.tools.logging :as log]))
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])))
 
 (def head-first
   (let [one (atom :top)

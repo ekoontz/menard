@@ -3,8 +3,8 @@
    [babylon.english :as en :refer [analyze expressions generate grammar
                                    index-fn lexicon morph parse syntax-tree]]
    [babylon.generate :as g :refer [add lazy-map]]
-   [dag_unify.core :as u]
-   [clojure.tools.logging :as log]))
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])))
 
 (declare poetry-line)
 

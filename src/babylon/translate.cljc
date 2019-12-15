@@ -2,7 +2,8 @@
   (:require [babylon.nederlands :as nl]
             [babylon.english :as en]
             [babylon.generate :as g]
-            [clojure.tools.logging :as log]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]))
 
 (def generate-this-many 1)

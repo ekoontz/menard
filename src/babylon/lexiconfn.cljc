@@ -2,7 +2,8 @@
   (:require
    [babylon.exception :refer [exception]]
    [clojure.java.io :as io]
-   [clojure.tools.logging :as log]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.dissoc :as d]))

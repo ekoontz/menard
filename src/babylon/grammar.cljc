@@ -1,7 +1,8 @@
 (ns babylon.grammar
   (:require [babylon.morphology :as m]
             [clojure.string :as string]
-            [clojure.tools.logging :as log]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]))
 
 (defn list-as-map-to-list

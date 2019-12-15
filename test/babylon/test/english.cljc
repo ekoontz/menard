@@ -2,7 +2,8 @@
   (:require [babylon.english :as en :refer [analyze expressions generate morph parse syntax-tree]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
-            [clojure.tools.logging :as log]))
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])))
 
 (deftest all-expressions-work
   "generate every expression in _expressions_ specification list, and then try to parse that expression."

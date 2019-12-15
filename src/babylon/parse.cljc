@@ -2,7 +2,8 @@
   (:require
    [clojure.set :refer [union]]
    [clojure.string :as string]
-   [clojure.tools.logging :as log]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u]))
 
 (def parse-only-one? false)

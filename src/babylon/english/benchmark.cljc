@@ -1,7 +1,8 @@
 (ns babylon.english.benchmark
   (:require
    [babylon.english :as en :refer [generate morph]]
-   [clojure.tools.logging :as log]))
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])))
 
 ;; Currently we can generate in 1.3 secs at 50p, 1.6 secs max.
 (def long-declarative

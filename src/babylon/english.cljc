@@ -8,7 +8,8 @@
             [babylon.parse :as p]
             [babylon.serialization :as s]
             [babylon.ug :as ug]
-            [clojure.tools.logging :as log]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]))
 ;;
 ;; For generation and parsing of English.

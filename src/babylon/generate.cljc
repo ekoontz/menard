@@ -1,6 +1,7 @@
 (ns babylon.generate
   (:require
-   [clojure.tools.logging :as log]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.serialization :as s]))
 

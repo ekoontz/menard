@@ -1,5 +1,5 @@
 (ns babylon.nederlands
-  (:require [clojure.java.io :as io]
+  (:require #?(:clj [clojure.java.io :as io])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
@@ -8,10 +8,14 @@
             [babylon.parse :as p]
             [babylon.serialization :as s]
             [babylon.ug :as ug]
+            #?(:clj [clojure.core :refer [read-string]])
+            #?(:cljs [clojure.reader :refer [read-string]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]))
-;;
+            [dag_unify.core :as u :refer [pprint unify]])
+  #?(:cljs (:require-macros [babylon.io :refer [inline-resource slurp]])))
+
+;; 
 ;; For generation and parsing of Dutch.
 ;;
 (defn apply-rules-to [lexicon]
@@ -45,8 +49,9 @@
 
 (def grammar
   (-> "babylon/nederlands/grammar.edn"
-      io/resource
-      slurp
+      #?(:cljs inline-resource)
+      #?(:clj io/resource)
+      clojure.core/slurp
       read-string
       grammar/process))
 
@@ -169,7 +174,11 @@
 
 (def expressions
   (-> "babylon/nederlands/expressions.edn"
-      io/resource slurp read-string eval))
+      #?(:cljs inline-resource)
+      #?(:clj io/resource)
+      slurp
+      read-string
+      eval))
 
 (defn demo []
   (count

@@ -1,7 +1,7 @@
 (ns babylon.lexiconfn
   (:require
    [babylon.exception :refer [exception]]
-   [clojure.java.io :as io]
+   #?(:clj [clojure.java.io :as io])
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
@@ -64,9 +64,15 @@
                                        {:phrasal false
                                         :canonical (u/get-in lexeme [:canonical] k)})])))]))))
 
+;; https://clojureverse.org/t/best-practices-for-importing-raw-text-files-into-clojurescript-projects/2569/2
+#?(:clj
+   (defmacro inline-resource [resource-path]
+      (io/resource resource-path)))
+
 (defn read-rules [rules-filename]
   (-> rules-filename
-      io/resource
+      #?(:cljs inline-resource)
+      #?(:clj io/resource)
       slurp
       read-string
       ((fn [rule]

@@ -1,12 +1,19 @@
 (ns babylon.lexiconfn
-  (:require
-   [babylon.exception :refer [exception]]
-   #?(:clj [clojure.java.io :as io])
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
-   [dag_unify.serialization :as s :refer [serialize]]
-   [dag_unify.core :as u :refer [unify]]
-   [dag_unify.dissoc :as d]))
+  (:require #?(:clj [clojure.java.io :as io])
+            [clojure.string :as string]
+            [babylon.generate :as g]
+            [babylon.grammar :as grammar]
+            [babylon.morphology :as m]
+            [babylon.parse :as p]
+            [babylon.ug :as ug]
+            #?(:clj [clojure.core :refer [read-string]])
+            #?(:cljs [clojure.reader :refer [read-string]])
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])
+            [dag_unify.dissoc :as d]
+            [dag_unify.serialization :as s :refer [serialize]]
+            [dag_unify.core :as u :refer [pprint unify]])
+  #?(:cljs (:require-macros [babylon.io :refer [inline-resource slurp]])))
 
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.

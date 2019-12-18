@@ -31,7 +31,7 @@
 (def ^:dynamic lexicon-index-fn (fn [spec]
                                   (throw (#?(:clj Exception.) #?(:cljs js/Error.) (str "no lexicon-index-fn supplied.")))))
 (def ^:dynamic lexical-filter nil)
-(def ^:dynamic lexicon (delay (throw (Exception. (str "no lexicon supplied.")))))
+(def ^:dynamic lexicon (delay (throw (#?(:clj Exception.) #?(:cljs js/Error.) (str "no lexicon supplied.")))))
 (def ^:dynamic syntax-tree (fn [tree]
                              (log/warn (str "using default syntax-tree function for tree "
                                             " rooted at: " (u/get-in tree [:rule])))))
@@ -121,7 +121,7 @@
         lexness (u/get-in tree (concat at [:canonical]) ::none)
         spec (u/get-in tree at)]
     (if (= :fail (u/get-in tree at))
-      (throw (Exception. (str "add: value at: " at " is fail."))))
+      (throw (#?(:clj Exception.) #?(:cljs js/Error.) (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
       (log/debug (str (report tree) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
@@ -129,8 +129,9 @@
       (log/debug (str (report tree) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
-      (throw (Exception. (str "add: phrasal is false but rule is specified: "
-                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree tree)))))
+      (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                (str "add: phrasal is false but rule is specified: "
+                     (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree tree)))))
     (->>
      (cond
        (u/get-in tree [:babylon.generate/done?])
@@ -138,7 +139,8 @@
          (log/debug (str "condition 1."))
          [tree])
        (= tree :fail)
-       (throw (Exception. (str "add: tree is unexpectedly :fail.")))
+       (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                 (str "add: tree is unexpectedly :fail.")))
 
        (or
         (and (not (= ::none rule-at))
@@ -174,7 +176,7 @@
                         "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
                (when die-on-no-matching-lexemes?
                  (log/error message)
-                 (throw (Exception. message)))
+                 (throw (#?(:clj Exception.) #?(:cljs js/Error.) message)))
                (log/warn message)))
            result))
 
@@ -187,7 +189,8 @@
                                  (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                  (last at))))
                (empty? both)
-               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
+               (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                         (str "dead end: " (syntax-tree tree) " at: " at)))
 
                true both)))
      (filter reflexive-violations))))
@@ -237,7 +240,8 @@
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
-      (throw (Exception. (str "don't call add-lexeme with phrasal=true! fix your code!")))
+      (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                (str "don't call add-lexeme with phrasal=true! fix your code!")))
       (->> (get-lexemes spec)
 
            ((fn [lexemes]
@@ -353,7 +357,9 @@
           (cons :comp (frontier (u/get-in tree [:comp])))
           
           true
-          (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
+          (throw (#?(:clj Exception.)
+                  #?(:cljs js/Error.)
+                  (str "could not determine frontier for this tree: " tree))))]
     retval))
 
 (defn truncate-at [tree at]
@@ -448,7 +454,9 @@
           (do (log/debug (str "cond5? " cond5 " " st " at: " at))
               false)
           
-          true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
+          true (throw (#?(:clj Exception.)
+                       #?(:cljs js/Error.)
+                       (str "should never get here: did you miss adding a cond-check in foldable?"))))))
 
 ;; fold up a tree like this:
 ;;
@@ -522,7 +530,9 @@
          (-> syntax-tree :2 :head?))
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
-    true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
+    true (throw (#?(:clj Exception.)
+                 #?(:cljs js/Error.)
+                 (str "unhandled: " (u/strip-refs syntax-tree))))))
 
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."

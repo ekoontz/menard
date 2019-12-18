@@ -34,7 +34,7 @@
     (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
           result (try (u/unify parent
                                {:head head})
-                      (catch Exception e
+                      (catch #?(:clj Exception) #?(:cljs :default) e
                         (do
                           (log/debug (str "overh caught unification failure: "
                                           (syntax-tree parent) "; head: " (syntax-tree head)))

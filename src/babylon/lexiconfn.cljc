@@ -22,7 +22,8 @@
                                    "; fail-path: "
                                    (u/fail-path lexeme consequent))]
             (log/error error-message)
-            (throw (Exception. error-message)))
+            (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                    error-message)))
           true
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [(unify result

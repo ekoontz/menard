@@ -78,10 +78,11 @@
                         "*"
                         
                         true
-                        (throw (Exception. (str "the :1 is neither :head nor :comp: "
-                                                (type structure) "; empty: " (empty? structure) "; keys: "
-                                                (keys structure) "; "
-                                                (vec (:dag_unify.core/serialized structure))))))
+                        (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                                  (str "the :1 is neither :head nor :comp: "
+                                       (type structure) "; empty: " (empty? structure) "; keys: "
+                                       (keys structure) "; "
+                                       (vec (:dag_unify.core/serialized structure))))))
               two (cond (= (get structure :2)
                            (get structure :head))
                         "*"
@@ -96,8 +97,9 @@
                         "*"
                         
                         true
-                        (throw (Exception. (str "the :2 is neither :head nor :comp: "
-                                                (vec (:dag_unify.core/serialized structure))))))]
+                        (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                                (str "the :2 is neither :head nor :comp: "
+                                     (vec (:dag_unify.core/serialized structure))))))]
           
           (string/join ""
                        (map (fn [structure] (syntax-tree structure morphology))
@@ -146,7 +148,8 @@
                        true
                        (let [error-message (str "rule: " (u/get-in input-rule [:rule]) ": does not specify if the head is first or last.")]
                          (log/error error-message)
-                         (throw (Exception. error-message))))))
+                         (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                                 error-message))))))
 
        (filter (fn [input-rule]
                  (cond (and (keyword? (u/get-in input-rule [:cat]))

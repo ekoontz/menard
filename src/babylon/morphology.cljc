@@ -39,14 +39,16 @@ the morphology is a set of rules, each of which looks like:"
       (u/get-in structure [:canonical])
       
       (nil? matching-rules)
-      (throw (Exception. (str "No rules matched for:"
-                              (u/strip-refs structure))))
+      (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+                (str "No rules matched for:"
+                     (u/strip-refs structure))))
 
       (not (seq? matching-rules))
-      (throw (Exception. (str "syntax error in matching rules: "
-                              "should be a sequence but it's a: "
-                              (type matching-rules)
-                              " for matching: " (u/strip-refs structure))))
+      (throw (#?(:clj Exception.) #?(:cljs js/Error.)
+              (str "syntax error in matching rules: "
+                   "should be a sequence but it's a: "
+                   (type matching-rules)
+                   " for matching: " (u/strip-refs structure))))
       
       (not (empty? matching-rules))
       (let [{[from to] :g} (first matching-rules)]

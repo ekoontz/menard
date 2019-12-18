@@ -51,7 +51,7 @@
   (-> "babylon/nederlands/grammar.edn"
       #?(:cljs inline-resource)
       #?(:clj io/resource)
-      clojure.core/slurp
+      slurp
       read-string
       grammar/process))
 

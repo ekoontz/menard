@@ -27,9 +27,9 @@
 (def allow-folding? true)
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
+(def ^:dynamic grammar (delay (throw (#?(:clj Exception.) #?(:cljs js/Error.) (str "no grammar supplied.")))))
 (def ^:dynamic lexicon-index-fn (fn [spec]
-                                  (throw (Exception. (str "no lexicon-index-fn supplied.")))))
+                                  (throw (#?(:clj Exception.) #?(:cljs js/Error.) (str "no lexicon-index-fn supplied.")))))
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic lexicon (delay (throw (Exception. (str "no lexicon supplied.")))))
 (def ^:dynamic syntax-tree (fn [tree]

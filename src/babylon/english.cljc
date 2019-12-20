@@ -253,7 +253,6 @@
      (catch Exception e
        (log/debug (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
 
-
 (defn get-lexemes [spec]
   (binding [g/lexicon-index-fn index-fn]
     (g/get-lexemes spec)))

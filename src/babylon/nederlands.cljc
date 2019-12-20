@@ -13,7 +13,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]])
-  #?(:cljs (:require-macros [babylon.io :refer [inline-resource slurp]])))
+  #?(:cljs (:require-macros [babylon.io :refer [some-function]])))
 
 ;; 
 ;; For generation and parsing of Dutch.
@@ -48,12 +48,12 @@
           :aspect :simple}}])
 
 (def grammar
-  (-> "babylon/nederlands/grammar.edn"
-      #?(:cljs inline-resource)
-      #?(:clj io/resource)
-      slurp
-      read-string
-      grammar/process))
+  #?(:clj
+     (-> "babylon/nederlands/grammar.edn"
+         io/resource
+         slurp
+         read-string
+         grammar/process)))
 
 (def morphology
   (concat
@@ -173,12 +173,12 @@
     (l/matching-lexemes surface)))              
 
 (def expressions
-  (-> "babylon/nederlands/expressions.edn"
-      #?(:cljs inline-resource)
-      #?(:clj io/resource)
-      slurp
-      read-string
-      eval))
+ #?(:clj
+    (-> "babylon/nederlands/expressions.edn"
+        io/resource
+        slurp
+        read-string
+        eval)))
 
 (defn demo []
   (count

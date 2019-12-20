@@ -7,13 +7,12 @@
             [babylon.parse :as p]
             [babylon.ug :as ug]
             #?(:clj [clojure.core :refer [read-string]])
-            #?(:cljs [clojure.reader :refer [read-string]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.dissoc :as d]
             [dag_unify.serialization :as s :refer [serialize]]
             [dag_unify.core :as u :refer [pprint unify]])
-  #?(:cljs (:require-macros [babylon.io :refer [inline-resource slurp]])))
+  #?(:cljs (:require-macros [babylon.io :refer [some-function]])))
 
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
@@ -73,18 +72,15 @@
                                         :canonical (u/get-in lexeme [:canonical] k)})])))]))))
 
 ;; https://clojureverse.org/t/best-practices-for-importing-raw-text-files-into-clojurescript-projects/2569/2
-#?(:clj
-   (defmacro inline-resource [resource-path]
-      (io/resource resource-path)))
 
-(defn read-rules [rules-filename]
-  (-> rules-filename
-      #?(:cljs inline-resource)
-      #?(:clj io/resource)
-      slurp
-      read-string
-      ((fn [rule]
-        (eval rule)))))
+(defn read-rules [rules-filename])
+#?(:clj
+   (-> rules-filename
+       io/resource
+       slurp
+       read-string
+       ((fn [rule]
+          (eval rule)))))
 
 (defn apply-rules-in-order [lexicon rules rule-group]
   (if (empty? rules)

@@ -1,5 +1,5 @@
 (ns babylon.english
-  (:require [clojure.java.io :as io]
+  (:require #?(:clj [clojure.java.io :as io])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
@@ -138,11 +138,12 @@
           :aspect :pluperfect}}])
 
 (def grammar
-  (-> "babylon/english/grammar.edn"
-      io/resource
-      slurp
-      read-string
-      grammar/process))
+  #?(:clj
+     (-> "babylon/english/grammar.edn"
+         io/resource
+         slurp
+         read-string
+         grammar/process)))
 
 (def morphology
   (concat

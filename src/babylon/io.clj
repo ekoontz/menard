@@ -8,9 +8,8 @@
 (defmacro some-other-function [x]
   (clojure.core/slurp x))
 
-(defmacro load-the-file [filename]
+(defmacro load-lexicon-file [filename]
   (-> ,filename
       io/resource
       slurp
       read-string))
-

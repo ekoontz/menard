@@ -13,7 +13,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]])
-  #?(:cljs (:require-macros [babylon.io :refer [load-the-file]])))
+  #?(:cljs (:require-macros [babylon.io :refer [load-lexicon-file]])))
 
 ;; 
 ;; For generation and parsing of Dutch.
@@ -35,21 +35,21 @@
       l/add-exceptions-to-lexicon
       apply-rules-to))
 
-(def js-lexicon
+(def cljs-lexicon
   #?(:cljs {"babylon/nederlands/lexicon/adjectives.edn"
-            (load-the-file "babylon/nederlands/lexicon/adjectives.edn")
+            (load-lexicon-file "babylon/nederlands/lexicon/adjectives.edn")
 
             "babylon/nederlands/lexicon/misc.edn"
-            (load-the-file "babylon/nederlands/lexicon/misc.edn")
+            (load-lexicon-file "babylon/nederlands/lexicon/misc.edn")
 
             "babylon/nederlands/lexicon/propernouns.edn"
-            (load-the-file "babylon/nederlands/lexicon/propernouns.edn")
+            (load-lexicon-file "babylon/nederlands/lexicon/propernouns.edn")
 
             "babylon/nederlands/lexicon/nouns.edn"
-            (load-the-file "babylon/nederlands/lexicon/nouns.edn")
+            (load-lexicon-file "babylon/nederlands/lexicon/nouns.edn")
 
             "babylon/nederlands/lexicon/verbs.edn"
-            (load-the-file "babylon/nederlands/lexicon/verbs.edn")}))
+            (load-lexicon-file "babylon/nederlands/lexicon/verbs.edn")}))
 
 (def lexicon
   (merge-with concat

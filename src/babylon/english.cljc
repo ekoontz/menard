@@ -29,7 +29,7 @@
 
 (defn compile-lexicon [filename]
   (-> filename
-      l/read-rules
+      l/read-file
       l/add-exceptions-to-lexicon
       apply-rules-to))
 

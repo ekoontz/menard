@@ -73,12 +73,17 @@
 
 ;; https://clojureverse.org/t/best-practices-for-importing-raw-text-files-into-clojurescript-projects/2569/2
 
+(defn read-file [filename]
+ #?(:clj
+    (-> filename
+        io/resource
+        slurp
+        read-string)))
+
 (defn read-rules [rules-filename]
  #?(:clj
     (-> rules-filename
-        io/resource
-        slurp
-        read-string
+        read-file
         eval)))
 
 (defn apply-rules-in-order [lexicon rules rule-group]

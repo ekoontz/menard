@@ -9,7 +9,8 @@
   (clojure.core/slurp x))
 
 (defmacro load-lexicon-file [filename]
-  (-> ,filename
-      io/resource
-      slurp
-      read-string))
+  `,(-> filename
+        io/resource
+        slurp
+        read-string
+        eval))

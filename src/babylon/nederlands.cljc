@@ -19,9 +19,9 @@
 ;; For generation and parsing of Dutch.
 ;;
 (def compiled-rules
-  [(l/read-rules "babylon/nederlands/lexicon/rules/rules-0.edn")
-   (l/read-rules "babylon/nederlands/lexicon/rules/rules-1.edn")
-   (l/read-rules "babylon/nederlands/lexicon/rules/rules-2.edn")])
+  [(l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn")
+   (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-1.edn")
+   (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn")])
 
 (defn apply-rules-to [lexicon]
   (-> lexicon
@@ -31,7 +31,7 @@
 
 (defn compile-lexicon [filename]
   (-> filename
-      l/read-rules
+      l/read-and-eval
       l/add-exceptions-to-lexicon
       apply-rules-to))
 
@@ -79,11 +79,11 @@
 (def morphology
   (concat
    (-> "babylon/nederlands/morphology/adjectives.edn"
-       l/read-rules)
+       l/read-and-eval)
    (-> "babylon/nederlands/morphology/nouns.edn"
-       l/read-rules)
+       l/read-and-eval)
    (-> "babylon/nederlands/morphology/verbs.edn"
-       l/read-rules)))
+       l/read-and-eval)))
 
 (declare an)
 (declare sentence-punctuation)

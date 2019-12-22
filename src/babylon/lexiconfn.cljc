@@ -80,7 +80,7 @@
         slurp
         read-string)))
 
-(defn read-rules [rules-filename]
+(defn read-and-eval [rules-filename]
  #?(:clj
     (-> rules-filename
         read-file

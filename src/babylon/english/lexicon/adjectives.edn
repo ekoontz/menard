@@ -42,6 +42,7 @@
  "real" [{:cat :adjective :sem {:pred :real}}]
  "recent" [{:cat :adjective :sem {:pred :recent}}]
  "right" [{:cat :adjective :sem {:pred :right}}]
+ "scary" [{:cat :adjective :sem {:pred :scary}}]
  "small" [{:cat :adjective :sem {:pred :small}}]
  "smart" [{:cat :adjective :sem {:pred :smart}}]
  "social" [{:cat :adjective :sem {:pred :social}}]

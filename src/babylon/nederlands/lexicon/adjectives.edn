@@ -1,8 +1,10 @@
-{"groot" [{:cat :adjective :sem {:pred :big}}]
+{"eng" [{:cat :adjective :sem {:pred :scary}}]
+ "groot" [{:cat :adjective :sem {:pred :big}}]
  "klein" [{:cat :adjective :sem {:pred :small}}]
  "lief"  [{:cat :adjective :sem {:pred :nice}}]
  "oud"   [{:cat :adjective :sem {:pred :old}}]
  "slim"  [{:cat :adjective :sem {:pred :smart}}]
  "sterk" [{:cat :adjective :sem {:pred :strong}}]
  "stom"  [{:cat :adjective :sem {:pred :stupid}}]
- "vies"  [{:cat :adjective :sem {:pred :dirty}}]}
+ "vies"  [{:cat :adjective :sem {:pred :dirty}}]
+ "waar"  [{:cat :adjective :sem {:pred :true}}]}

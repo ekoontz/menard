@@ -209,3 +209,15 @@
          (map (fn [canonical]
                 (exceptions-for canonical (get lexicon canonical)))
               (keys lexicon)))))
+
+(defn serialized-value-map [the-map]
+  (zipmap
+   (keys the-map)
+   (map (fn [value-is-a-seq]
+          (vec (map serialize value-is-a-seq)))
+        (vals the-map))))
+
+(defn write-compiled-lexicon [lexicon write-to-file]
+  (spit write-to-file
+        (serialized-value-map lexicon)))
+

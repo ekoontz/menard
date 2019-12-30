@@ -25,3 +25,4 @@ compiled/
 .DS_Store
 *.orig
 *.rej
+compiled.edn

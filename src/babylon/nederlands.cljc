@@ -10,7 +10,8 @@
             [babylon.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]))
+            [dag_unify.core :as u :refer [pprint unify]]
+            [dag_unify.serialization :refer [serialize]]))
 ;;
 ;; For generation and parsing of Dutch.
 ;;
@@ -33,6 +34,18 @@
     (compile-lexicon "babylon/nederlands/lexicon/propernouns.edn")
     (compile-lexicon "babylon/nederlands/lexicon/nouns.edn")
     (compile-lexicon "babylon/nederlands/lexicon/verbs.edn")))
+
+(defn write-compiled-lexicon []
+  (l/write-compiled-lexicon lexicon
+                            "src/babylon/nederlands/lexicon/compiled.edn"))
+
+(def compiled-lexicon
+  (do
+    (write-compiled-lexicon)
+    (-> "babylon/nederlands/lexicon/compiled.edn"
+        io/resource
+        slurp
+        read-string)))
 
 (def finite-tenses
   [;; "hij werkt"

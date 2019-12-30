@@ -35,6 +35,18 @@
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
     (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
+(defn write-compiled-lexicon []
+  (l/write-compiled-lexicon lexicon
+                            "src/babylon/english/lexicon/compiled.edn"))
+
+(def compiled-lexicon
+  (do
+    (write-compiled-lexicon)
+    (-> "babylon/english/lexicon/compiled.edn"
+        io/resource
+        slurp
+        read-string)))
+
 (def finite-tenses
   [;; "would see"
    {:variant :conditional
@@ -284,5 +296,3 @@
                               :sentence-punctuation? true))
               (println (syntax-tree generated-expression))
               (println)))))))
-
-

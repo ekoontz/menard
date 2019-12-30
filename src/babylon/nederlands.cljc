@@ -40,7 +40,7 @@
                             "src/babylon/nederlands/lexicon/compiled.edn"))
 
 (comment (write-compiled-lexicon))
-(def compiled-lexicon
+(defn compiled-lexicon []
   (-> "babylon/nederlands/lexicon/compiled.edn"
       io/resource
       slurp

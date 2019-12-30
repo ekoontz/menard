@@ -39,13 +39,12 @@
   (l/write-compiled-lexicon lexicon
                             "src/babylon/english/lexicon/compiled.edn"))
 
+(comment (write-compiled-lexicon))
 (def compiled-lexicon
-  (do
-    (write-compiled-lexicon)
-    (-> "babylon/english/lexicon/compiled.edn"
-        io/resource
-        slurp
-        read-string)))
+  (-> "babylon/english/lexicon/compiled.edn"
+      io/resource
+      slurp
+      read-string))
 
 (def finite-tenses
   [;; "would see"

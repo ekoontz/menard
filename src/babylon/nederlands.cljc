@@ -31,8 +31,8 @@
   (merge-with concat
     (compile-lexicon "babylon/nederlands/lexicon/adjectives.edn")
     (compile-lexicon "babylon/nederlands/lexicon/misc.edn")
-    (compile-lexicon "babylon/nederlands/lexicon/propernouns.edn")
     (compile-lexicon "babylon/nederlands/lexicon/nouns.edn")
+    (compile-lexicon "babylon/nederlands/lexicon/propernouns.edn")
     (compile-lexicon "babylon/nederlands/lexicon/verbs.edn")))
 
 (defn write-compiled-lexicon []

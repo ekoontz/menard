@@ -40,6 +40,15 @@
        (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
 
+(def finite-tenses
+  [;; "hij werkt"
+   {:variant :present-simple
+    :abbreviation :simple-present
+    :infl :present
+    :modal false
+    :sem {:tense :present
+          :aspect :simple}}])
+
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"
@@ -72,15 +81,6 @@
          io/resource
          slurp
          read-string))
-
-(def finite-tenses
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :modal false
-    :sem {:tense :present
-          :aspect :simple}}])
 
 (declare an)
 (declare sentence-punctuation)

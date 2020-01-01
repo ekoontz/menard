@@ -140,7 +140,10 @@
   (->> flattened-lexicon
        (filter #(and (not (u/get-in % [:exception]))
                      (= (u/get-in % [:cat]) :verb)))))
-  
+
+(defmacro verb-lexicon-macro []
+  `~verb-lexicon)
+
 (def non-verb-lexicon
   (->> flattened-lexicon
        (filter #(and (not (= (u/get-in % [:cat]) :verb))

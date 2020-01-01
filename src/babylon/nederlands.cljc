@@ -17,13 +17,19 @@
 ;;
 
 #?(:clj
+   (def lexical-rules
+     [(l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn")
+      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-1.edn")
+      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn")]))
+
+#?(:clj
    (defn compile-lexicon-source [source-filename]
      (-> source-filename
          l/read-and-eval
          l/add-exceptions-to-lexicon
-         (l/apply-rules-in-order (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn") :0)
-         (l/apply-rules-in-order (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-1.edn") :1)
-         (l/apply-rules-in-order (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn") :2))))
+         (l/apply-rules-in-order (nth lexical-rules 0) :0)
+         (l/apply-rules-in-order (nth lexical-rules 1) :1)
+         (l/apply-rules-in-order (nth lexical-rules 2) :2))))
 
 #?(:clj
    (def lexicon
@@ -33,6 +39,29 @@
        (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
+
+#?(:clj
+   (def grammar
+     (-> "babylon/nederlands/grammar.edn"
+         io/resource
+         slurp
+         read-string
+         grammar/process)))
+
+#?(:clj
+   (def morphology
+     (concat
+      (-> "babylon/nederlands/morphology/adjectives.edn"
+          l/read-and-eval)
+      (-> "babylon/nederlands/morphology/nouns.edn"
+          l/read-and-eval)
+      (-> "babylon/nederlands/morphology/verbs.edn"
+          l/read-and-eval))))
+
+#?(:clj
+   (def expressions
+     (-> "babylon/nederlands/expressions.edn"
+         io/resource slurp read-string eval)))
 
 (defn write-compiled-lexicon []
   (l/write-compiled-lexicon lexicon
@@ -52,24 +81,6 @@
     :modal false
     :sem {:tense :present
           :aspect :simple}}])
-
-#?(:clj
-   (def grammar
-     (-> "babylon/nederlands/grammar.edn"
-         io/resource
-         slurp
-         read-string
-         grammar/process)))
-
-#?(:clj
-   (def morphology
-     (concat
-      (-> "babylon/nederlands/morphology/adjectives.edn"
-          l/read-and-eval)
-      (-> "babylon/nederlands/morphology/nouns.edn"
-          l/read-and-eval)
-      (-> "babylon/nederlands/morphology/verbs.edn"
-          l/read-and-eval))))
 
 (declare an)
 (declare sentence-punctuation)
@@ -178,11 +189,6 @@
   (binding [l/lexicon lexicon
             l/morphology morphology]
     (l/matching-lexemes surface)))              
-
-#?(:clj
-   (def expressions
-     (-> "babylon/nederlands/expressions.edn"
-         io/resource slurp read-string eval)))
 
 (defn demo []
   (count

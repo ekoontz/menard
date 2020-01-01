@@ -19,11 +19,11 @@
 #?(:clj
    (defn compile-lexicon-source [source-filename]
      (-> source-filename
-         l/read-rules
+         l/read-and-eval
          l/add-exceptions-to-lexicon
-         (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-0.edn") :0)
-         (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-1.edn") :1)
-         (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-2.edn") :2))))
+         (l/apply-rules-in-order (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn") :0)
+         (l/apply-rules-in-order (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-1.edn") :1)
+         (l/apply-rules-in-order (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn") :2))))
 
 #?(:clj
    (def lexicon
@@ -69,11 +69,11 @@
    (def morphology
      (concat
       (-> "babylon/nederlands/morphology/adjectives.edn"
-          l/read-rules)
+          l/read-and-eval)
       (-> "babylon/nederlands/morphology/nouns.edn"
-          l/read-rules)
+          l/read-and-eval)
       (-> "babylon/nederlands/morphology/verbs.edn"
-          l/read-rules))))
+          l/read-and-eval))))
 
 (declare an)
 (declare sentence-punctuation)

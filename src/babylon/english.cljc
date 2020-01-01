@@ -16,14 +16,14 @@
 ;;
 (defn apply-rules-to [lexicon]
   (-> lexicon
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn") :0)
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn") :1)
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") :2)
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-3.edn") :3)))
+      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-0.edn") :0)
+      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-1.edn") :1)
+      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-2.edn") :2)
+      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-3.edn") :3)))
 
 (defn compile-lexicon [filename]
   (-> filename
-      l/read-rules
+      l/read-and-eval
       l/add-exceptions-to-lexicon
       apply-rules-to))
 
@@ -158,9 +158,9 @@
 (def morphology
   (concat
    (-> "babylon/english/morphology/nouns.edn"
-       l/read-rules)
+       l/read-and-eval)
    (-> "babylon/english/morphology/verbs.edn"
-       l/read-rules)))
+       l/read-and-eval)))
 
 (declare an)
 (declare sentence-punctuation)

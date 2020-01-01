@@ -65,7 +65,7 @@
                                         :canonical (u/get-in lexeme [:canonical] k)})])))]))))
 
 #?(:clj
-   (defn read-rules [rules-filename]
+   (defn read-and-eval [rules-filename]
      (-> rules-filename
          io/resource
          slurp

@@ -132,13 +132,13 @@
         :sem {:pred :i
               :ref {:human true}}}]
 
- "je" {:cat :noun
-       :case :acc
-       :agr {:person :2nd}
-       :pronoun true
-       :reflexive true
-       :sem {:ref {:human true
-                   :context :informal}}}
+ "je" [{:cat :noun
+        :case :acc
+        :agr {:person :2nd}
+        :pronoun true
+        :reflexive true
+        :sem {:ref {:human true
+                    :context :informal}}}]
 
  "jij" [{:agr {:person :2nd
                :number :sing}

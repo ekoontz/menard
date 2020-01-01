@@ -1,7 +1,7 @@
 (ns babylon.lexiconfn
   (:require
    [babylon.exception :refer [exception]]
-   [clojure.java.io :as io]
+   #?(:clj [clojure.java.io :as io])
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
@@ -64,13 +64,14 @@
                                        {:phrasal false
                                         :canonical (u/get-in lexeme [:canonical] k)})])))]))))
 
-(defn read-rules [rules-filename]
-  (-> rules-filename
-      io/resource
-      slurp
-      read-string
-      ((fn [rule]
-        (eval rule)))))
+#?(:clj
+   (defn read-rules [rules-filename]
+     (-> rules-filename
+         io/resource
+         slurp
+         read-string
+         ((fn [rule]
+           (eval rule))))))
 
 (defn apply-rules-in-order [lexicon rules rule-group]
   (if (empty? rules)

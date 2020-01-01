@@ -1,5 +1,5 @@
 (ns babylon.nederlands
-  (:require [clojure.java.io :as io]
+  (:require #?(:clj [clojure.java.io :as io])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
@@ -39,12 +39,15 @@
   (l/write-compiled-lexicon lexicon
                             "src/babylon/nederlands/lexicon/compiled.edn"))
 
-(comment (write-compiled-lexicon))
-(defn compiled-lexicon []
-  (-> "babylon/nederlands/lexicon/compiled.edn"
-      io/resource
-      slurp
-      read-string))
+#?(:clj
+   (defn compiled-lexicon []
+     (-> "babylon/nederlands/lexicon/compiled.edn"
+         io/resource
+         slurp
+         read-string)))
+
+(defmacro get-compiled-lexicon []
+  `~(compiled-lexicon))
 
 (def finite-tenses
   [;; "hij werkt"

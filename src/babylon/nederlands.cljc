@@ -82,7 +82,6 @@
          slurp
          read-string))
 
-(declare an)
 (declare sentence-punctuation)
 
 (defn morph

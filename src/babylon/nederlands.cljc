@@ -38,15 +38,11 @@
   (l/write-compiled-lexicon lexicon
                             "src/babylon/nederlands/lexicon/compiled.edn"))
 
-#?(:clj
-   (defn compiled-lexicon []
-     (-> "babylon/nederlands/lexicon/compiled.edn"
+(defmacro read-compiled-lexicon []
+  `~(-> "babylon/nederlands/lexicon/compiled.edn"
          io/resource
          slurp
-         read-string)))
-
-(defmacro get-compiled-lexicon []
-  `~(compiled-lexicon))
+         read-string))
 
 (def finite-tenses
   [;; "hij werkt"

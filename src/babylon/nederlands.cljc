@@ -15,28 +15,24 @@
 ;;
 ;; For generation and parsing of Dutch.
 ;;
+
 #?(:clj
-   (defn apply-rules-to [lexicon]
-     (-> lexicon
+   (defn compile-lexicon-source [source-filename]
+     (-> source-filename
+         l/read-rules
+         l/add-exceptions-to-lexicon
          (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-0.edn") :0)
          (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-1.edn") :1)
          (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-2.edn") :2))))
 
 #?(:clj
-   (defn compile-lexicon [filename]
-     (-> filename
-         l/read-rules
-         l/add-exceptions-to-lexicon
-         apply-rules-to)))
-
-#?(:clj
    (def lexicon
      (merge-with concat
-       (compile-lexicon "babylon/nederlands/lexicon/adjectives.edn")
-       (compile-lexicon "babylon/nederlands/lexicon/misc.edn")
-       (compile-lexicon "babylon/nederlands/lexicon/nouns.edn")
-       (compile-lexicon "babylon/nederlands/lexicon/propernouns.edn")
-       (compile-lexicon "babylon/nederlands/lexicon/verbs.edn"))))
+       (compile-lexicon-source "babylon/nederlands/lexicon/adjectives.edn")
+       (compile-lexicon-source "babylon/nederlands/lexicon/misc.edn")
+       (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
+       (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
+       (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
 
 (defn write-compiled-lexicon []
   (l/write-compiled-lexicon lexicon

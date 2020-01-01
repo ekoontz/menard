@@ -219,8 +219,7 @@
 (defn lookup
   "find lexemes that satisfy _spec_."
   [spec]
-  (binding [g/lexicon lexicon
-            g/syntax-tree syntax-tree]
+  (binding [g/syntax-tree syntax-tree]
     (let [spec (let [with-subcat-empty
                      (unify spec {:subcat []})]
                  (if (= :fail with-subcat-empty)
@@ -260,7 +259,6 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [g/grammar grammar
-            g/lexicon lexicon
             g/syntax-tree syntax-tree
 ;;            g/stop-generation-at [:head :comp :head :comp]
             g/lexicon-index-fn index-fn]

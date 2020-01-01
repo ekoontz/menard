@@ -15,25 +15,28 @@
 ;;
 ;; For generation and parsing of Dutch.
 ;;
-(defn apply-rules-to [lexicon]
-  (-> lexicon
-      (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-0.edn") :0)
-      (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-1.edn") :1)
-      (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-2.edn") :2)))
+#?(:clj
+   (defn apply-rules-to [lexicon]
+     (-> lexicon
+         (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-0.edn") :0)
+         (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-1.edn") :1)
+         (l/apply-rules-in-order (l/read-rules "babylon/nederlands/lexicon/rules/rules-2.edn") :2))))
 
-(defn compile-lexicon [filename]
-  (-> filename
-      l/read-rules
-      l/add-exceptions-to-lexicon
-      apply-rules-to))
+#?(:clj
+   (defn compile-lexicon [filename]
+     (-> filename
+         l/read-rules
+         l/add-exceptions-to-lexicon
+         apply-rules-to)))
 
-(def lexicon
-  (merge-with concat
-    (compile-lexicon "babylon/nederlands/lexicon/adjectives.edn")
-    (compile-lexicon "babylon/nederlands/lexicon/misc.edn")
-    (compile-lexicon "babylon/nederlands/lexicon/nouns.edn")
-    (compile-lexicon "babylon/nederlands/lexicon/propernouns.edn")
-    (compile-lexicon "babylon/nederlands/lexicon/verbs.edn")))
+#?(:clj
+   (def lexicon
+     (merge-with concat
+       (compile-lexicon "babylon/nederlands/lexicon/adjectives.edn")
+       (compile-lexicon "babylon/nederlands/lexicon/misc.edn")
+       (compile-lexicon "babylon/nederlands/lexicon/nouns.edn")
+       (compile-lexicon "babylon/nederlands/lexicon/propernouns.edn")
+       (compile-lexicon "babylon/nederlands/lexicon/verbs.edn"))))
 
 (defn write-compiled-lexicon []
   (l/write-compiled-lexicon lexicon
@@ -58,21 +61,23 @@
     :sem {:tense :present
           :aspect :simple}}])
 
-(def grammar
-  (-> "babylon/nederlands/grammar.edn"
-      io/resource
-      slurp
-      read-string
-      grammar/process))
+#?(:clj
+   (def grammar
+     (-> "babylon/nederlands/grammar.edn"
+         io/resource
+         slurp
+         read-string
+         grammar/process)))
 
-(def morphology
-  (concat
-   (-> "babylon/nederlands/morphology/adjectives.edn"
-       l/read-rules)
-   (-> "babylon/nederlands/morphology/nouns.edn"
-       l/read-rules)
-   (-> "babylon/nederlands/morphology/verbs.edn"
-       l/read-rules)))
+#?(:clj
+   (def morphology
+     (concat
+      (-> "babylon/nederlands/morphology/adjectives.edn"
+          l/read-rules)
+      (-> "babylon/nederlands/morphology/nouns.edn"
+          l/read-rules)
+      (-> "babylon/nederlands/morphology/verbs.edn"
+          l/read-rules))))
 
 (declare an)
 (declare sentence-punctuation)
@@ -182,9 +187,10 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-(def expressions
-  (-> "babylon/nederlands/expressions.edn"
-      io/resource slurp read-string eval))
+#?(:clj
+   (def expressions
+     (-> "babylon/nederlands/expressions.edn"
+         io/resource slurp read-string eval)))
 
 (defn demo []
   (count

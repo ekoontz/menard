@@ -146,11 +146,11 @@
              (not (= :top phrase-at))))
        (do
          (log/debug (str "add: rule is set to: " rule-at))
-         (add-rule tree (:rule rule-at) (= true phrase-at)))
+         (add-rule tree grammar (:rule rule-at) (= true phrase-at)))
 
        (= true (u/get-in tree (concat at [:phrasal])))
        (let [result
-             (add-rule tree)]
+             (add-rule tree grammar)]
          (if (and diagnostics? (empty? result))
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
          result)
@@ -178,7 +178,7 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree) (add-rule tree))]
+       (let [both (lazy-cat (add-lexeme tree) (add-rule tree grammar))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
@@ -261,7 +261,7 @@
                                  (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
                                %)))))))))
 
-(defn add-rule [tree & [rule-name some-rule-must-match?]]
+(defn add-rule [tree grammar & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))
   (let [at (frontier tree)
         rule-name

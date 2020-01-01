@@ -258,13 +258,12 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/grammar grammar
-            g/syntax-tree syntax-tree
+  (binding [g/syntax-tree syntax-tree
 ;;            g/stop-generation-at [:head :comp :head :comp]
             g/lexicon-index-fn index-fn]
     (try
       (-> spec
-          g/generate)
+          (g/generate grammar))
      (catch Exception e
        (log/debug (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
 

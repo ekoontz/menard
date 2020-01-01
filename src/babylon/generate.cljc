@@ -27,7 +27,6 @@
 (def allow-folding? true)
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic lexicon-index-fn (fn [spec]
                                   (throw (Exception. (str "no lexicon-index-fn supplied.")))))
 (def ^:dynamic lexical-filter nil)
@@ -53,7 +52,7 @@
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [trees]
+  [trees grammar]
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
@@ -75,11 +74,11 @@
 
             true
             (lazy-cat
-             (generate-all (add tree))
-             (generate-all (rest trees)))))))
+             (generate-all (add tree grammar) grammar)
+             (generate-all (rest trees) grammar))))))
 
-(defn generate [^clojure.lang.PersistentArrayMap spec]
-  (-> [spec] generate-all first))
+(defn generate [^clojure.lang.PersistentArrayMap spec grammar]
+  (-> [spec] (generate-all grammar) first))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
@@ -113,7 +112,7 @@
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
 
-(defn add [tree]
+(defn add [tree grammar]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -146,11 +145,11 @@
              (not (= :top phrase-at))))
        (do
          (log/debug (str "add: rule is set to: " rule-at))
-         (add-rule tree (:rule rule-at) (= true phrase-at)))
+         (add-rule tree grammar (:rule rule-at) (= true phrase-at)))
 
        (= true (u/get-in tree (concat at [:phrasal])))
        (let [result
-             (add-rule tree)]
+             (add-rule tree grammar)]
          (if (and diagnostics? (empty? result))
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
          result)
@@ -178,7 +177,7 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree) (add-rule tree))]
+       (let [both (lazy-cat (add-lexeme tree) (add-rule tree grammar))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
@@ -261,7 +260,7 @@
                                  (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
                                %)))))))))
 
-(defn add-rule [tree & [rule-name some-rule-must-match?]]
+(defn add-rule [tree grammar & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree)))
   (let [at (frontier tree)
         rule-name

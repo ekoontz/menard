@@ -1,5 +1,5 @@
 (ns babylon.english
-  (:require [clojure.java.io :as io]
+  (:require #?(:clj [clojure.java.io :as io])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
@@ -14,26 +14,31 @@
 ;;
 ;; For generation and parsing of English.
 ;;
-(defn apply-rules-to [lexicon]
-  (-> lexicon
-      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-0.edn") :0)
-      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-1.edn") :1)
-      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-2.edn") :2)
-      (l/apply-rules-in-order (l/read-and-eval "babylon/english/lexicon/rules/rules-3.edn") :3)))
 
-(defn compile-lexicon [filename]
-  (-> filename
-      l/read-and-eval
-      l/add-exceptions-to-lexicon
-      apply-rules-to))
+#?(:clj
+   (def lexical-rules
+     [(l/read-and-eval "babylon/english/lexicon/rules/rules-0.edn")
+      (l/read-and-eval "babylon/english/lexicon/rules/rules-1.edn")
+      (l/read-and-eval "babylon/english/lexicon/rules/rules-2.edn")
+      (l/read-and-eval "babylon/english/lexicon/rules/rules-3.edn")]))
 
-(def lexicon
-  (merge-with concat
-    (compile-lexicon "babylon/english/lexicon/adjectives.edn")
-    (compile-lexicon "babylon/english/lexicon/misc.edn")
-    (compile-lexicon "babylon/english/lexicon/nouns.edn")
-    (compile-lexicon "babylon/english/lexicon/propernouns.edn")
-    (compile-lexicon "babylon/english/lexicon/verbs.edn")))
+#?(:clj
+   (defn compile-lexicon-source [source-filename]
+     (-> source-filename
+         l/read-and-eval
+         l/add-exceptions-to-lexicon
+         (l/apply-rules-in-order (nth lexical-rules 0) :0)
+         (l/apply-rules-in-order (nth lexical-rules 1) :1)
+         (l/apply-rules-in-order (nth lexical-rules 2) :2)
+         (l/apply-rules-in-order (nth lexical-rules 3) :3))))
+#?(:clj
+   (def lexicon
+     (merge-with concat
+       (compile-lexicon-source "babylon/english/lexicon/adjectives.edn")
+       (compile-lexicon-source "babylon/english/lexicon/misc.edn")
+       (compile-lexicon-source "babylon/english/lexicon/nouns.edn")
+       (compile-lexicon-source "babylon/english/lexicon/propernouns.edn")
+       (compile-lexicon-source "babylon/english/lexicon/verbs.edn"))))
 
 (defn write-compiled-lexicon []
   (l/write-compiled-lexicon lexicon
@@ -148,19 +153,27 @@
     :sem {:tense :past
           :aspect :pluperfect}}])
 
-(def grammar
-  (-> "babylon/english/grammar.edn"
-      io/resource
-      slurp
-      read-string
-      grammar/process))
+#?(:clj
+   (def grammar
+     (-> "babylon/english/grammar.edn"
+         io/resource
+         slurp
+         read-string
+         grammar/process)))
 
-(def morphology
-  (concat
-   (-> "babylon/english/morphology/nouns.edn"
-       l/read-and-eval)
-   (-> "babylon/english/morphology/verbs.edn"
-       l/read-and-eval)))
+#?(:clj
+   (def morphology
+     (concat
+      (-> "babylon/english/morphology/nouns.edn"
+          l/read-and-eval)
+      (-> "babylon/english/morphology/verbs.edn"
+          l/read-and-eval))))
+
+(defmacro read-compiled-lexicon []
+  `~(-> "babylon/english/lexicon/compiled.edn"
+         io/resource
+         slurp
+         read-string))
 
 (declare an)
 (declare sentence-punctuation)
@@ -280,9 +293,10 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-(def expressions
-  (-> "babylon/english/expressions.edn"
-      io/resource slurp read-string eval))
+#?(:clj
+   (def expressions
+     (-> "babylon/english/expressions.edn"
+         io/resource slurp read-string eval)))
 
 (defn demo []
   (count

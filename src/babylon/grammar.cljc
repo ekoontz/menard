@@ -3,7 +3,8 @@
             [clojure.string :as string]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [unify]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.serialization :as s :refer [serialize]]))
 
 (defn list-as-map-to-list
   "turn a map represention of a list: e.g. {:first :a :rest {:first :b}}
@@ -159,4 +160,5 @@
                          (log/warn warn-message)
                          true))))))
 
-
+(defn write-compiled-grammar [grammar write-to-file]
+  (spit write-to-file (vec (map serialize grammar))))

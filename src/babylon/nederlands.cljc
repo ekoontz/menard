@@ -76,8 +76,19 @@
   (l/write-compiled-lexicon lexicon
                             "src/babylon/nederlands/lexicon/compiled.edn"))
 
+(defn write-compiled-grammar []
+  (grammar/write-compiled-grammar grammar
+                                  "src/babylon/nederlands/grammar/compiled.edn"))
+
+
 (defmacro read-compiled-lexicon []
   `~(-> "babylon/nederlands/lexicon/compiled.edn"
+         io/resource
+         slurp
+         read-string))
+
+(defmacro read-compiled-grammar []
+  `~(-> "babylon/nederlands/grammar/compiled.edn"
          io/resource
          slurp
          read-string))

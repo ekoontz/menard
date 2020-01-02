@@ -48,11 +48,11 @@
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [trees grammar lexicon-index-fn syntax-tree]
+  [trees grammar lexicon-index-fn syntax-tree-fn]
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
-      (log/debug (str "generate-all: " frontier ": " (report tree syntax-tree)))
+      (log/debug (str "generate-all: " frontier ": " (report tree syntax-tree-fn)))
       (cond (= :fail tree)
             []
 
@@ -63,16 +63,16 @@
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
               (if (not (u/get-in tree [:babylon.generate/done?]))
-                (log/debug (str "early stop of generation: " (report tree syntax-tree) " at: " frontier)))
+                (log/debug (str "early stop of generation: " (report tree syntax-tree-fn) " at: " frontier)))
               (lazy-seq
                (cons tree
-                     (generate-all (rest trees) grammar lexicon-index-fn syntax-tree))))
+                     (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
 
             true
             (lazy-cat
-             (generate-all (add tree grammar lexicon-index-fn syntax-tree) grammar lexicon-index-fn syntax-tree)
-             (generate-all (rest trees) grammar lexicon-index-fn syntax-tree))))))
-                           
+             (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
+             (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
+
 (defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree]
   (first (generate-all [spec] grammar lexicon-index-fn syntax-tree)))
 

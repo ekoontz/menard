@@ -27,7 +27,6 @@
 (def allow-folding? true)
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic grammar (delay (throw (Exception. (str "no grammar supplied.")))))
 (def ^:dynamic lexicon-index-fn (fn [spec]
                                   (throw (Exception. (str "no lexicon-index-fn supplied.")))))
 (def ^:dynamic lexical-filter nil)
@@ -78,7 +77,7 @@
              (generate-all (add tree grammar) grammar)
              (generate-all (rest trees) grammar))))))
                            
-(defn generate [^clojure.lang.PersistentArrayMap spec]
+(defn generate [^clojure.lang.PersistentArrayMap spec grammar]
   (first (generate-all [spec] grammar)))
 
 ;; TODO: move this to a ^:dynamic: variable so it can

@@ -210,7 +210,7 @@
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
-  [spec]
+  [spec lexicon-index-fn]
   (->> (lexicon-index-fn spec)
        lazy-seq
        (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
@@ -236,7 +236,7 @@
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
       (throw (Exception. (str "don't call add-lexeme with phrasal=true! fix your code!")))
-      (->> (get-lexemes spec)
+      (->> (get-lexemes spec lexicon-index-fn)
 
            ((fn [lexemes]
               (cond

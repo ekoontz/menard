@@ -27,8 +27,6 @@
 (def allow-folding? true)
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic lexicon-index-fn (fn [spec]
-                                  (throw (Exception. (str "no lexicon-index-fn supplied.")))))
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic syntax-tree (fn [tree]
                              (log/warn (str "using default syntax-tree function for tree "
@@ -52,7 +50,7 @@
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [trees grammar]
+  [trees grammar lexicon-index-fn]
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
@@ -70,15 +68,15 @@
                 (log/debug (str "early stop of generation: " (report tree) " at: " frontier)))
               (lazy-seq
                (cons tree
-                     (generate-all (rest trees) grammar))))
+                     (generate-all (rest trees) grammar lexicon-index-fn))))
 
             true
             (lazy-cat
-             (generate-all (add tree grammar) grammar)
-             (generate-all (rest trees) grammar))))))
+             (generate-all (add tree grammar lexicon-index-fn) grammar lexicon-index-fn)
+             (generate-all (rest trees) grammar lexicon-index-fn))))))
                            
-(defn generate [^clojure.lang.PersistentArrayMap spec grammar]
-  (first (generate-all [spec] grammar)))
+(defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn]
+  (first (generate-all [spec] grammar lexicon-index-fn)))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
@@ -112,7 +110,7 @@
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
 
-(defn add [tree grammar]
+(defn add [tree grammar lexicon-index-fn]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -161,7 +159,7 @@
 
        (do
          (log/debug (str "add: only adding lexemes at: " at))
-         (let [result (add-lexeme tree)]
+         (let [result (add-lexeme tree lexicon-index-fn)]
            (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree result))))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
                     (empty? result)
@@ -177,7 +175,7 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree) (add-rule tree grammar))]
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn) (add-rule tree grammar))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
@@ -227,7 +225,7 @@
                              "found: '" (syntax-tree (first %)) "'")))
            %))))
 
-(defn add-lexeme [tree]
+(defn add-lexeme [tree lexicon-index-fn]
   (log/debug (str "add-lexeme: " (report tree)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])

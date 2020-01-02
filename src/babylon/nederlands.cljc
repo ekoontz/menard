@@ -167,17 +167,15 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/syntax-tree syntax-tree
+  (binding [g/syntax-tree syntax-tree]
 ;;            g/stop-generation-at [:head :comp :head :comp]
-            g/lexicon-index-fn index-fn]
     (try
-      (g/generate spec grammar)
+      (g/generate spec grammar index-fn)
      (catch Exception e
        (log/debug (str "generation failed: " e "; input spec was:" spec))))))
 
 (defn get-lexemes [spec]
-  (binding [g/lexicon-index-fn index-fn]
-    (g/get-lexemes spec)))
+  (g/get-lexemes spec index-fn))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

@@ -252,7 +252,7 @@
                            (u/assoc-in! done-at true)
                            (u/assoc-in! at candidate-lexeme)
                            (update-syntax-tree at syntax-tree)
-                           (truncate-at at)
+                           (truncate-at at syntax-tree)
                            (foldup at)
                            (#(do
                                (if (= :fail %)
@@ -354,7 +354,7 @@
           (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
     retval))
 
-(defn truncate-at [tree at]
+(defn truncate-at [tree at syntax-tree]
   (cond
     (= :fail tree)
     tree

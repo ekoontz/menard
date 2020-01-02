@@ -3,7 +3,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u :refer [unify]]
-   [dag_unify.serialization :as s]))
+   [dag_unify.serialization :as s :refer [exception]]))
 
 (declare add)
 (declare add-lexeme)
@@ -30,7 +30,8 @@
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic syntax-tree (fn [tree]
                              (log/warn (str "using default syntax-tree function for tree "
-                                            " rooted at: " (u/get-in tree [:rule])))))
+                                            " rooted at: " (u/get-in tree [:rule])))
+                             (ser/syntax-tree tree [])))
 
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path
@@ -183,7 +184,7 @@
                                  (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                  (last at))))
                (empty? both)
-               (throw (Exception. (str "dead end: " (syntax-tree tree) " at: " at)))
+               (exception (str "dead end: " (syntax-tree tree) " at: " at))
 
                true both)))
      (filter reflexive-violations))))
@@ -233,7 +234,7 @@
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
-      (throw (Exception. (str "don't call add-lexeme with phrasal=true! fix your code!")))
+      (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn)
 
            ((fn [lexemes]

@@ -125,13 +125,12 @@
 (defn lookup
   "find lexemes that satisfy _spec_."
   [spec]
-  (binding [g/syntax-tree syntax-tree]
-    (let [spec (let [with-subcat-empty
-                     (unify spec {:subcat []})]
-                 (if (= :fail with-subcat-empty)
-                   spec
-                   with-subcat-empty))]
-       (g/get-lexemes spec))))
+  (let [spec (let [with-subcat-empty
+                   (unify spec {:subcat []})]
+               (if (= :fail with-subcat-empty)
+                 spec
+                 with-subcat-empty))]
+    (g/get-lexemes spec)))
 
 (def flattened-lexicon
   (flatten (vals lexicon)))
@@ -167,8 +166,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/syntax-tree syntax-tree]
-;;            g/stop-generation-at [:head :comp :head :comp]
+  (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
     (try
       (g/generate spec grammar index-fn syntax-tree)
      (catch Exception e

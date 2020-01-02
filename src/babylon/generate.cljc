@@ -29,10 +29,6 @@
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
-(def ^:dynamic syntax-tree (fn [tree]
-                             (log/warn (str "using default syntax-tree function for tree "
-                                            " rooted at: " (u/get-in tree [:rule])))
-                             (ser/syntax-tree tree [])))
 
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path
@@ -94,7 +90,7 @@
             (u/get-in spec [:sem :pred])
             (u/get-in spec [:cat]))))
 
-(defn reflexive-violations [expression]
+(defn reflexive-violations [expression syntax-tree]
   (log/debug (str "filtering after adding..:" (syntax-tree expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
   (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
                                               (:ref (u/get-in expression [:sem :obj])))))
@@ -145,11 +141,11 @@
              (not (= :top phrase-at))))
        (do
          (log/debug (str "add: rule is set to: " rule-at))
-         (add-rule tree grammar (:rule rule-at) (= true phrase-at)))
+         (add-rule tree grammar syntax-tree (:rule rule-at) (= true phrase-at)))
 
        (= true (u/get-in tree (concat at [:phrasal])))
        (let [result
-             (add-rule tree grammar)]
+             (add-rule tree grammar syntax-tree)]
          (if (and diagnostics? (empty? result))
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
          result)
@@ -177,7 +173,7 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree) (add-rule tree grammar))]
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree) (add-rule tree grammar syntax-tree))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
@@ -188,7 +184,7 @@
                (exception (str "dead end: " (syntax-tree tree) " at: " at))
 
                true both)))
-     (filter reflexive-violations))))
+     (filter #(reflexive-violations % syntax-tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
@@ -210,7 +206,7 @@
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
-  [spec lexicon-index-fn]
+  [spec lexicon-index-fn syntax-tree]
   (->> (lexicon-index-fn spec)
        lazy-seq
        (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
@@ -236,7 +232,7 @@
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
-      (->> (get-lexemes spec lexicon-index-fn)
+      (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
            ((fn [lexemes]
               (cond
@@ -253,14 +249,14 @@
                            (u/assoc-in! at candidate-lexeme)
                            (update-syntax-tree at syntax-tree)
                            (truncate-at at syntax-tree)
-                           (foldup at)
+                           (foldup at syntax-tree)
                            (#(do
                                (if (= :fail %)
                                  (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
                                  (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
                                %)))))))))
 
-(defn add-rule [tree grammar & [rule-name some-rule-must-match?]]
+(defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree syntax-tree)))
   (let [at (frontier tree)
         rule-name
@@ -415,7 +411,7 @@
 ;;
 (defn foldable?
   "determine whether the given _tree_ is foldable, if the given _at_ points to a nephew"
-  [tree at]
+  [tree at syntax-tree]
   (let [st (syntax-tree tree)
         grandparent (u/get-in tree (-> at butlast butlast))
         parent (u/get-in tree (-> at butlast))
@@ -465,11 +461,11 @@
 ;;   H /           \
 ;;    uncle+nephew   _ nephew complement
 ;;
-(defn foldup [tree at]
+(defn foldup [tree at syntax-tree]
   (cond
     (u/get-in tree [::done?]) tree
     
-    (and allow-folding? (foldable? tree at))
+    (and allow-folding? (foldable? tree at syntax-tree))
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
       (log/debug (str "folding    " at " " (report tree syntax-tree)))

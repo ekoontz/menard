@@ -73,8 +73,8 @@
              (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-(defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree]
-  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree)))
+(defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree-fn]
+  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
@@ -90,8 +90,8 @@
             (u/get-in spec [:sem :pred])
             (u/get-in spec [:cat]))))
 
-(defn reflexive-violations [expression syntax-tree]
-  (log/debug (str "filtering after adding..:" (syntax-tree expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
+(defn reflexive-violations [expression syntax-tree-fn]
+  (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
   (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
                                               (:ref (u/get-in expression [:sem :obj])))))
   (or (not (= :verb (u/get-in expression [:cat])))

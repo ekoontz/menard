@@ -108,7 +108,7 @@
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
 
-(defn add [tree grammar lexicon-index-fn syntax-tree]
+(defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -117,14 +117,14 @@
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/info (str (report tree syntax-tree) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
-      (log/debug (str (report tree syntax-tree) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
+      (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: "
-                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree tree)))))
+                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree)))))
     (->>
      (cond
        (u/get-in tree [:babylon.generate/done?])
@@ -141,11 +141,11 @@
              (not (= :top phrase-at))))
        (do
          (log/debug (str "add: rule is set to: " rule-at))
-         (add-rule tree grammar syntax-tree (:rule rule-at) (= true phrase-at)))
+         (add-rule tree grammar syntax-tree-fn (:rule rule-at) (= true phrase-at)))
 
        (= true (u/get-in tree (concat at [:phrasal])))
        (let [result
-             (add-rule tree grammar syntax-tree)]
+             (add-rule tree grammar syntax-tree-fn)]
          (if (and diagnostics? (empty? result))
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
          result)
@@ -157,13 +157,13 @@
 
        (do
          (log/debug (str "add: only adding lexemes at: " at))
-         (let [result (add-lexeme tree lexicon-index-fn syntax-tree)]
-           (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree result))))
+         (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)]
+           (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree-fn result))))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
                     (empty? result)
                     diagnostics?)
              (let [message
-                   (str "no lexemes match for tree: " (syntax-tree tree)
+                   (str "no lexemes match for tree: " (syntax-tree-fn tree)
                         " at: " (frontier tree)
                         "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
                (when die-on-no-matching-lexemes?
@@ -173,18 +173,18 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree) (add-rule tree grammar syntax-tree))]
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn) (add-rule tree grammar syntax-tree-fn))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
-                 (log/debug (str "backtracking: " (syntax-tree tree) " at rule: "
+                 (log/debug (str "backtracking: " (syntax-tree-fn tree) " at rule: "
                                  (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                  (last at))))
                (empty? both)
-               (exception (str "dead end: " (syntax-tree tree) " at: " at))
+               (exception (str "dead end: " (syntax-tree-fn tree) " at: " at))
 
                true both)))
-     (filter #(reflexive-violations % syntax-tree)))))
+     (filter #(reflexive-violations % syntax-tree-fn)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))

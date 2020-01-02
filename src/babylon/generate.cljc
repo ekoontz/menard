@@ -42,17 +42,17 @@
   [])
 (def ^:dynamic die-on-no-matching-lexemes? true)
 
-(defn report [tree syntax-tree]
-  (str "#" (count (str tree)) " " (syntax-tree tree)))
+(defn report [tree syntax-tree-fn]
+  (str "#" (count (str tree)) " " (syntax-tree-fn tree)))
   
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [trees grammar lexicon-index-fn syntax-tree]
+  [trees grammar lexicon-index-fn syntax-tree-fn]
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
-      (log/debug (str "generate-all: " frontier ": " (report tree syntax-tree)))
+      (log/debug (str "generate-all: " frontier ": " (report tree syntax-tree-fn)))
       (cond (= :fail tree)
             []
 
@@ -63,18 +63,18 @@
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
               (if (not (u/get-in tree [:babylon.generate/done?]))
-                (log/debug (str "early stop of generation: " (report tree syntax-tree) " at: " frontier)))
+                (log/debug (str "early stop of generation: " (report tree syntax-tree-fn) " at: " frontier)))
               (lazy-seq
                (cons tree
-                     (generate-all (rest trees) grammar lexicon-index-fn syntax-tree))))
+                     (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
 
             true
             (lazy-cat
-             (generate-all (add tree grammar lexicon-index-fn syntax-tree) grammar lexicon-index-fn syntax-tree)
-             (generate-all (rest trees) grammar lexicon-index-fn syntax-tree))))))
+             (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
+             (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
                            
-(defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree]
-  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree)))
+(defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree-fn]
+  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
@@ -90,8 +90,8 @@
             (u/get-in spec [:sem :pred])
             (u/get-in spec [:cat]))))
 
-(defn reflexive-violations [expression syntax-tree]
-  (log/debug (str "filtering after adding..:" (syntax-tree expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
+(defn reflexive-violations [expression syntax-tree-fn]
+  (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
   (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
                                               (:ref (u/get-in expression [:sem :obj])))))
   (or (not (= :verb (u/get-in expression [:cat])))
@@ -108,7 +108,7 @@
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
 
-(defn add [tree grammar lexicon-index-fn syntax-tree]
+(defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -117,14 +117,14 @@
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/info (str (report tree syntax-tree) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
-      (log/debug (str (report tree syntax-tree) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
+      (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (throw (Exception. (str "add: phrasal is false but rule is specified: "
-                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree tree)))))
+                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree)))))
     (->>
      (cond
        (u/get-in tree [:babylon.generate/done?])
@@ -141,11 +141,11 @@
              (not (= :top phrase-at))))
        (do
          (log/debug (str "add: rule is set to: " rule-at))
-         (add-rule tree grammar syntax-tree (:rule rule-at) (= true phrase-at)))
+         (add-rule tree grammar syntax-tree-fn (:rule rule-at) (= true phrase-at)))
 
        (= true (u/get-in tree (concat at [:phrasal])))
        (let [result
-             (add-rule tree grammar syntax-tree)]
+             (add-rule tree grammar syntax-tree-fn)]
          (if (and diagnostics? (empty? result))
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
          result)
@@ -157,13 +157,13 @@
 
        (do
          (log/debug (str "add: only adding lexemes at: " at))
-         (let [result (add-lexeme tree lexicon-index-fn syntax-tree)]
-           (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree result))))
+         (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)]
+           (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree-fn result))))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
                     (empty? result)
                     diagnostics?)
              (let [message
-                   (str "no lexemes match for tree: " (syntax-tree tree)
+                   (str "no lexemes match for tree: " (syntax-tree-fn tree)
                         " at: " (frontier tree)
                         "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
                (when die-on-no-matching-lexemes?
@@ -173,21 +173,21 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree) (add-rule tree grammar syntax-tree))]
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn) (add-rule tree grammar syntax-tree-fn))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
-                 (log/debug (str "backtracking: " (syntax-tree tree) " at rule: "
+                 (log/debug (str "backtracking: " (syntax-tree-fn tree) " at rule: "
                                  (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                  (last at))))
                (empty? both)
-               (exception (str "dead end: " (syntax-tree tree) " at: " at))
+               (exception (str "dead end: " (syntax-tree-fn tree) " at: " at))
 
                true both)))
-     (filter #(reflexive-violations % syntax-tree)))))
+     (filter #(reflexive-violations % syntax-tree-fn)))))
 
-(defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
+(defn update-syntax-tree [tree at syntax-tree-fn]
+  (log/debug (str "updating syntax-tree:" (report tree syntax-tree-fn) " at: " at))
   (cond (= :fail tree)
         tree
         true
@@ -206,7 +206,7 @@
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
-  [spec lexicon-index-fn syntax-tree]
+  [spec lexicon-index-fn syntax-tree-fn]
   (->> (lexicon-index-fn spec)
        lazy-seq
        (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
@@ -220,19 +220,19 @@
                              (cond (= 1 (count %))
                                    "only one "
                                    true "first of " (count %) " lexemes ")
-                             "found: '" (syntax-tree (first %)) "'")))
+                             "found: '" (syntax-tree-fn (first %)) "'")))
            %))))
 
-(defn add-lexeme [tree lexicon-index-fn syntax-tree]
-  (log/debug (str "add-lexeme: " (report tree syntax-tree)))
+(defn add-lexeme [tree lexicon-index-fn syntax-tree-fn]
+  (log/debug (str "add-lexeme: " (report tree syntax-tree-fn)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
+    (log/debug (str "add-lexeme: " (syntax-tree-fn tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
-      (->> (get-lexemes spec lexicon-index-fn syntax-tree)
+      (->> (get-lexemes spec lexicon-index-fn syntax-tree-fn)
 
            ((fn [lexemes]
               (cond
@@ -240,32 +240,32 @@
                 true lexemes)))
            (lazy-map (fn [candidate-lexeme]
                        (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                       " at: " at " to: " (report tree syntax-tree)))
+                                       " at: " at " to: " (report tree syntax-tree-fn)))
                        (-> tree
                            ((fn [tree]
                               (cond generate-only-one? tree
                                     true (u/copy tree))))
                            (u/assoc-in! done-at true)
                            (u/assoc-in! at candidate-lexeme)
-                           (update-syntax-tree at syntax-tree)
-                           (truncate-at at syntax-tree)
-                           (foldup at syntax-tree)
+                           (update-syntax-tree at syntax-tree-fn)
+                           (truncate-at at syntax-tree-fn)
+                           (foldup at syntax-tree-fn)
                            (#(do
                                (if (= :fail %)
                                  (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
-                                 (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
+                                 (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree-fn %))))
                                %)))))))))
 
-(defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
-  (log/debug (str "add-rule: " (report tree syntax-tree)))
+(defn add-rule [tree grammar syntax-tree-fn & [rule-name some-rule-must-match?]]
+  (log/debug (str "add-rule: " (report tree syntax-tree-fn)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         cat (u/get-in tree (concat at [:cat]))
-        at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree syntax-tree)))
+        at-num (numeric-frontier (:syntax-tree-fn tree {}))]
+    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree syntax-tree-fn)))
     (->>
      ;; start with the whole grammar:
      (shuffle grammar)
@@ -298,7 +298,7 @@
                                       :2 {:head? (not one-is-head?)}
                                       :variant (u/get-in % [:variant])
                                       :rule
-                                      (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                      (do (log/debug (str "getting rule for: " (syntax-tree-fn %) "; rule-name is: " rule-name))
                                           (or rule-name
                                               (u/get-in % (concat at [:rule]))))})))))))
 (defn make-word []
@@ -350,7 +350,7 @@
           (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
     retval))
 
-(defn truncate-at [tree at syntax-tree]
+(defn truncate-at [tree at syntax-tree-fn]
   (cond
     (= :fail tree)
     tree
@@ -363,7 +363,7 @@
           nephew-at (-> parent-at (concat [:head]))
           nephew (u/get-in tree nephew-at)]
       ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
+      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree-fn)))
       (if (= :comp (last at))
         (let [compless-at (if (empty? (remove-trailing-comps at))
                             ;; in this case, we have just added the final :comp at the
@@ -373,8 +373,8 @@
                             ;; otherwise, ascend the tree as high as there are :comps
                             ;; trailing _at_.
                             (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
+          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree-fn)))
+          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree-fn)))
           (-> tree
               (dissoc-in compless-at)
               (dissoc-in (numeric-path tree compless-at))
@@ -387,7 +387,7 @@
               (dissoc-in (concat (butlast compless-at) [:1]))
               (dissoc-in (concat (butlast compless-at) [:2]))
               ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
+                 (log/debug (str "afterwards: " (report tree syntax-tree-fn) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
                                  (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
                  (cond true tree)))))
         tree))))
@@ -411,8 +411,8 @@
 ;;
 (defn foldable?
   "determine whether the given _tree_ is foldable, if the given _at_ points to a nephew"
-  [tree at syntax-tree]
-  (let [st (syntax-tree tree)
+  [tree at syntax-tree-fn]
+  (let [st (syntax-tree-fn tree)
         grandparent (u/get-in tree (-> at butlast butlast))
         parent (u/get-in tree (-> at butlast))
         uncle (u/get-in grandparent [:head])
@@ -424,7 +424,7 @@
         cond4 (not (nil? (u/get-in tree (-> at butlast (concat [:comp])))))
         cond5 (nil? (u/get-in tree (concat at [:subcat :3])))]
     (cond (and cond1 cond2 cond3 cond4 cond5)
-          (do (log/debug (str "FOLD OK: " (syntax-tree tree) " at: " at))
+          (do (log/debug (str "FOLD OK: " (syntax-tree-fn tree) " at: " at))
               true)
           (false? cond1)
           (do (log/debug (str "cond1? " cond1 " " st " at: " at))
@@ -461,15 +461,15 @@
 ;;   H /           \
 ;;    uncle+nephew   _ nephew complement
 ;;
-(defn foldup [tree at syntax-tree]
+(defn foldup [tree at syntax-tree-fn]
   (cond
     (u/get-in tree [::done?]) tree
     
-    (and allow-folding? (foldable? tree at syntax-tree))
+    (and allow-folding? (foldable? tree at syntax-tree-fn))
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (log/debug (str "folding    " at " " (report tree syntax-tree)))
-      (log/debug (str "nephew-complement: " (report nephew-complement syntax-tree)))
+      (log/debug (str "folding    " at " " (report tree syntax-tree-fn)))
+      (log/debug (str "nephew-complement: " (report nephew-complement syntax-tree-fn)))
       (swap! (get grandparent :comp)
              (fn [old] nephew-complement))
       (dissoc tree :dag_unify.serialization/serialized))

@@ -53,7 +53,7 @@
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [trees]
+  [trees grammar]
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
@@ -71,15 +71,15 @@
                 (log/debug (str "early stop of generation: " (report tree) " at: " frontier)))
               (lazy-seq
                (cons tree
-                     (generate-all (rest trees)))))
+                     (generate-all (rest trees) grammar))))
 
             true
             (lazy-cat
-             (generate-all (add tree grammar))
-             (generate-all (rest trees)))))))
+             (generate-all (add tree grammar) grammar)
+             (generate-all (rest trees) grammar))))))
                            
 (defn generate [^clojure.lang.PersistentArrayMap spec]
-  (-> [spec] generate-all first))
+  (first (generate-all [spec] grammar)))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.

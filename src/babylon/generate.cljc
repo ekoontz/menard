@@ -190,7 +190,7 @@
                true both)))
      (filter reflexive-violations))))
 
-(defn update-syntax-tree [tree at]
+(defn update-syntax-tree [tree at syntax-tree]
   (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
   (cond (= :fail tree)
         tree
@@ -251,7 +251,7 @@
                                     true (u/copy tree))))
                            (u/assoc-in! done-at true)
                            (u/assoc-in! at candidate-lexeme)
-                           (update-syntax-tree at)
+                           (update-syntax-tree at syntax-tree)
                            (truncate-at at)
                            (foldup at)
                            (#(do

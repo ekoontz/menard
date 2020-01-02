@@ -261,7 +261,7 @@
   (binding [g/syntax-tree syntax-tree]
 ;;            g/stop-generation-at [:head :comp :head :comp]
     (try
-      (g/generate spec grammar index-fn)
+      (g/generate spec grammar index-fn syntax-tree)
      (catch Exception e
        (log/debug (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
 

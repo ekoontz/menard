@@ -170,7 +170,7 @@
   (binding [g/syntax-tree syntax-tree]
 ;;            g/stop-generation-at [:head :comp :head :comp]
     (try
-      (g/generate spec grammar index-fn syntax-tree)
+      (g/generate spec grammar index-fn)
      (catch Exception e
        (log/debug (str "generation failed: " e "; input spec was:" spec))))))
 

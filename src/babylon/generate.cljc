@@ -121,7 +121,7 @@
     (if (= :fail (u/get-in tree at))
       (throw (Exception. (str "add: value at: " at " is fail."))))
     (if (not (= tree :fail))
-      (log/debug (str (report tree) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/info (str (report tree) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree) " COMP: add at:" at " with spec: " (u/strip-refs spec))))

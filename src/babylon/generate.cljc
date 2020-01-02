@@ -77,6 +77,7 @@
             (lazy-cat
              (generate-all (add tree))
              (generate-all (rest trees)))))))
+             (generate-all (add tree grammar))
 
 (defn generate [^clojure.lang.PersistentArrayMap spec]
   (-> [spec] generate-all first))
@@ -113,7 +114,7 @@
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
 
-(defn add [tree]
+(defn add [tree grammar]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)

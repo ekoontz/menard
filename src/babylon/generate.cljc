@@ -70,15 +70,14 @@
               (if (not (u/get-in tree [:babylon.generate/done?]))
                 (log/debug (str "early stop of generation: " (report tree) " at: " frontier)))
               (lazy-seq
-                (cons tree
-                      (generate-all (rest trees)))))
+               (cons tree
+                     (generate-all (rest trees)))))
 
             true
             (lazy-cat
-             (generate-all (add tree))
-             (generate-all (rest trees)))))))
              (generate-all (add tree grammar))
-
+             (generate-all (rest trees)))))))
+                           
 (defn generate [^clojure.lang.PersistentArrayMap spec]
   (-> [spec] generate-all first))
 

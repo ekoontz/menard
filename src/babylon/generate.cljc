@@ -161,7 +161,7 @@
 
        (do
          (log/debug (str "add: only adding lexemes at: " at))
-         (let [result (add-lexeme tree lexicon-index-fn)]
+         (let [result (add-lexeme tree lexicon-index-fn syntax-tree)]
            (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree result))))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
                     (empty? result)
@@ -177,7 +177,7 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn) (add-rule tree grammar))]
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree) (add-rule tree grammar))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do
@@ -227,7 +227,7 @@
                              "found: '" (syntax-tree (first %)) "'")))
            %))))
 
-(defn add-lexeme [tree lexicon-index-fn]
+(defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])

@@ -72,13 +72,15 @@
      (-> "babylon/nederlands/expressions.edn"
          io/resource slurp read-string eval)))
 
-(defn write-compiled-lexicon []
-  (l/write-compiled-lexicon lexicon
-                            "src/babylon/nederlands/lexicon/compiled.edn"))
+#?(:clj
+   (defn write-compiled-lexicon []
+     (l/write-compiled-lexicon lexicon
+                               "src/babylon/nederlands/lexicon/compiled.edn")))
 
-(defn write-compiled-grammar []
-  (grammar/write-compiled-grammar grammar
-                                  "src/babylon/nederlands/grammar/compiled.edn"))
+#?(:clj
+   (defn write-compiled-grammar []
+     (grammar/write-compiled-grammar grammar
+                                     "src/babylon/nederlands/grammar/compiled.edn")))
 
 
 (defmacro read-compiled-lexicon []

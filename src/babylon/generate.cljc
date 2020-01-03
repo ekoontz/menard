@@ -563,7 +563,6 @@
   [m ks]
   (if-let [[head & tail] ks]
     (do
-      (log/debug (str "dissoc-in: " (report m)))
       (log/debug (str "ks: " ks))
       (log/debug (str "HEAD: " head))
       (log/debug (str "TAIL: " tail))      
@@ -575,7 +574,6 @@
             (dissoc m head)
             true
             (do
-              (log/debug (str "associng m: " (report m) " with key: " head))
               (log/debug (str "type of head: " (get m head)))
               (cond
                 (= clojure.lang.Atom (type (get m head)))

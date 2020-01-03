@@ -22,7 +22,7 @@
                                    "; fail-path: "
                                    (u/fail-path lexeme consequent))]
             (log/error error-message)
-            (throw (Exception. error-message)))
+            (exception error-message))
           true
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [(unify result
@@ -218,7 +218,8 @@
           (vec (map serialize value-is-a-seq)))
         (vals the-map))))
 
-(defn write-compiled-lexicon [lexicon write-to-file]
-  (spit write-to-file
-        (serialized-value-map lexicon)))
+#?(:clj
+   (defn write-compiled-lexicon [lexicon write-to-file]
+     (spit write-to-file
+           (serialized-value-map lexicon))))
 

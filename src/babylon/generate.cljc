@@ -596,3 +596,17 @@
   (when (not (empty? items))
     (cons (f (first items))
           (lazy-seq (lazy-map f (rest items))))))
+
+(defn generate-tiny [grammar lexicon-fn]
+  (log/info (str "THIS IS PLATFORM INDEPENDENT."))
+  (let [phrase
+        (u/unify
+         (first (shuffle (->> grammar
+                              (filter #(= [] (u/get-in % [:subcat]))))))
+         {:babylon.generate/started? true})
+        head (first (shuffle (lexicon-fn (u/get-in phrase [:head]))))
+        with-head (u/unify phrase
+                           {:head head})
+        comp (first (shuffle (lexicon-fn (u/get-in with-head [:comp]))))]
+    (u/unify with-head
+             {:comp comp})))

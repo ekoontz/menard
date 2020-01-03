@@ -2,9 +2,10 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
+   [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
    [dag_unify.core :as u :refer [unify]]
-   [dag_unify.serialization :as s :refer [exception]]))
+   [dag_unify.serialization :as s]))
 
 (declare add)
 (declare add-lexeme)
@@ -115,7 +116,7 @@
         lexness (u/get-in tree (concat at [:canonical]) ::none)
         spec (u/get-in tree at)]
     (if (= :fail (u/get-in tree at))
-      (throw (Exception. (str "add: value at: " at " is fail."))))
+      (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
@@ -123,8 +124,8 @@
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
-      (throw (Exception. (str "add: phrasal is false but rule is specified: "
-                              (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree)))))
+      (exception (str "add: phrasal is false but rule is specified: "
+                      (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree))))
     (->>
      (cond
        (u/get-in tree [:babylon.generate/done?])
@@ -132,7 +133,7 @@
          (log/debug (str "condition 1."))
          [tree])
        (= tree :fail)
-       (throw (Exception. (str "add: tree is unexpectedly :fail.")))
+       (exception (str "add: tree is unexpectedly :fail."))
 
        (or
         (and (not (= ::none rule-at))
@@ -168,7 +169,7 @@
                         "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
                (when die-on-no-matching-lexemes?
                  (log/error message)
-                 (throw (Exception. message)))
+                 (exception message))
                (log/warn message)))
            result))
 
@@ -347,7 +348,7 @@
           (cons :comp (frontier (u/get-in tree [:comp])))
           
           true
-          (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
+          (exception (str "could not determine frontier for this tree: " tree)))]
     retval))
 
 (defn truncate-at [tree at syntax-tree]
@@ -442,7 +443,7 @@
           (do (log/debug (str "cond5? " cond5 " " st " at: " at))
               false)
           
-          true (throw (Exception. (str "should never get here: did you miss adding a cond-check in foldable?"))))))
+          true (exception (str "should never get here: did you miss adding a cond-check in foldable?")))))
 
 ;; fold up a tree like this:
 ;;
@@ -516,7 +517,7 @@
          (-> syntax-tree :2 :head?))
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
-    true (throw (Exception. (str "unhandled: " (u/strip-refs syntax-tree))))))
+    true (exception (str "unhandled: " (u/strip-refs syntax-tree)))))
 
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."

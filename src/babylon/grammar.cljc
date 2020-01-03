@@ -161,5 +161,6 @@
                          (log/warn warn-message)
                          true))))))
 
-(defn write-compiled-grammar [grammar write-to-file]
-  (spit write-to-file (vec (map serialize grammar))))
+#?(:clj
+   (defn write-compiled-grammar [grammar write-to-file]
+     (spit write-to-file (vec (map serialize grammar)))))

@@ -57,15 +57,18 @@
          read-string
          grammar/process)))
 
+(defmacro compile-morphology []
+  `(concat
+     ~(-> "babylon/nederlands/morphology/adjectives.edn"
+          l/read-and-eval)
+     ~(-> "babylon/nederlands/morphology/nouns.edn"
+          l/read-and-eval)
+     ~(-> "babylon/nederlands/morphology/verbs.edn"
+          l/read-and-eval)))
+
 #?(:clj
    (def morphology
-     (concat
-      (-> "babylon/nederlands/morphology/adjectives.edn"
-          l/read-and-eval)
-      (-> "babylon/nederlands/morphology/nouns.edn"
-          l/read-and-eval)
-      (-> "babylon/nederlands/morphology/verbs.edn"
-          l/read-and-eval))))
+     (compile-morphology)))
 
 #?(:clj
    (def expressions

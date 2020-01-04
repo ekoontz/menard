@@ -77,6 +77,19 @@
 (defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree-fn]
   (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
 
+(defn generate-tiny [spec grammar lexicon-fn syntax-tree-fn]
+  (let [phrase
+        (u/unify
+         (first (shuffle (->> grammar
+                              (filter #(= [] (u/get-in % [:subcat]))))))
+         {:babylon.generate/started? true})
+        head (first (shuffle (lexicon-fn (u/get-in phrase [:head]))))
+        with-head (u/unify phrase
+                           {:head head})
+        comp (first (shuffle (lexicon-fn (u/get-in with-head [:comp]))))]
+    (u/unify with-head
+             {:comp comp})))
+
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
 (defn summary-fn [spec]
@@ -597,15 +610,3 @@
     (cons (f (first items))
           (lazy-seq (lazy-map f (rest items))))))
 
-(defn generate-tiny [grammar lexicon-fn]
-  (let [phrase
-        (u/unify
-         (first (shuffle (->> grammar
-                              (filter #(= [] (u/get-in % [:subcat]))))))
-         {:babylon.generate/started? true})
-        head (first (shuffle (lexicon-fn (u/get-in phrase [:head]))))
-        with-head (u/unify phrase
-                           {:head head})
-        comp (first (shuffle (lexicon-fn (u/get-in with-head [:comp]))))]
-    (u/unify with-head
-             {:comp comp})))

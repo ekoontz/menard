@@ -78,11 +78,12 @@
   (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
 
 (defn generate-tiny [spec grammar lexicon-fn syntax-tree-fn]
-  (let [phrase
-        (u/unify
-         (first (shuffle (->> grammar
-                              (filter #(= [] (u/get-in % [:subcat]))))))
-         {:babylon.generate/started? true})
+  (let [spec (or spec :top)
+        phrase
+        (first (shuffle (->> grammar
+                             (map #(unify % spec))
+                             (filter #(not (= :fail
+                                              (u/unify % spec)))))))
         head (first (shuffle (lexicon-fn (u/get-in phrase [:head]))))
         with-head (u/unify phrase
                            {:head head})

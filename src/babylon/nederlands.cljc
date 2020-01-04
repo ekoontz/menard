@@ -90,6 +90,12 @@
    (defn resource [x]))
 #?(:cljs
    (def morphology nil))
+#?(:cljs
+   (def grammar nil))
+#?(:cljs
+   (def lexicon nil))
+#?(:cljs
+   (def expressions nil))
 
 (defmacro read-compiled-lexicon []
   `~(-> "babylon/nederlands/lexicon/compiled.edn"

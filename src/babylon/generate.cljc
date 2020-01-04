@@ -82,12 +82,14 @@
         phrase
         (first (shuffle (->> grammar
                              (map #(unify % spec))
-                             (filter #(not (= :fail
-                                              (u/unify % spec)))))))
-        head (first (shuffle (lexicon-index-fn (u/get-in phrase [:head]))))
+                             (filter #(not (= :fail %))))))
+        head (first (get-lexemes (u/get-in phrase [:head])
+                                 lexicon-index-fn syntax-tree-fn))
         with-head (u/unify phrase
                            {:head head})
-        comp (first (shuffle (lexicon-index-fn (u/get-in with-head [:comp]))))]
+        comp (first (get-lexemes (u/get-in with-head [:comp])
+                                 lexicon-index-fn syntax-tree-fn))]
+    
     (u/unify with-head
              {:comp comp})))
 

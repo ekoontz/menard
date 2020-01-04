@@ -86,14 +86,14 @@
 (defmacro read-compiled-lexicon []
   `~(-> "babylon/nederlands/lexicon/compiled.edn"
         io/resource
-         slurp
-         read-string))
+        slurp
+        read-string))
 
 (defmacro read-compiled-grammar []
   `~(-> "babylon/nederlands/grammar/compiled.edn"
-         io/resource
-         slurp
-         read-string))
+        io/resource
+        slurp
+        read-string))
 
 (declare sentence-punctuation)
 

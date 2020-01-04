@@ -182,11 +182,8 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-    (try
-      (g/generate spec grammar index-fn syntax-tree)
-     (catch Exception e
-       (log/debug (str "generation failed: " e "; input spec was:" spec))))))
+  (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
+  (g/generate spec grammar index-fn syntax-tree))
 
 (defn get-lexemes [spec]
   (g/get-lexemes spec index-fn syntax-tree))

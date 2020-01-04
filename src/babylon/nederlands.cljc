@@ -189,7 +189,7 @@
        (log/debug (str "generation failed: " e "; input spec was:" spec))))))
 
 (defn get-lexemes [spec]
-  (g/get-lexemes spec index-fn))
+  (g/get-lexemes spec index-fn syntax-tree))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

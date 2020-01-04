@@ -85,7 +85,7 @@
 
 (defmacro read-compiled-lexicon []
   `~(-> "babylon/nederlands/lexicon/compiled.edn"
-         io/resource
+        io/resource
          slurp
          read-string))
 

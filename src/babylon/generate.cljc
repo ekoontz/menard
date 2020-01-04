@@ -74,20 +74,20 @@
              (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-(defn generate [^clojure.lang.PersistentArrayMap spec grammar lexicon-index-fn syntax-tree-fn]
+(defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
   (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
 
-(defn generate-tiny [spec grammar lexicon-fn syntax-tree-fn]
+(defn generate-tiny [spec grammar lexicon-index-fn syntax-tree-fn]
   (let [spec (or spec :top)
         phrase
         (first (shuffle (->> grammar
                              (map #(unify % spec))
                              (filter #(not (= :fail
                                               (u/unify % spec)))))))
-        head (first (shuffle (lexicon-fn (u/get-in phrase [:head]))))
+        head (first (shuffle (lexicon-index-fn (u/get-in phrase [:head]))))
         with-head (u/unify phrase
                            {:head head})
-        comp (first (shuffle (lexicon-fn (u/get-in with-head [:comp]))))]
+        comp (first (shuffle (lexicon-index-fn (u/get-in with-head [:comp]))))]
     (u/unify with-head
              {:comp comp})))
 

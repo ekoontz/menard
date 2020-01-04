@@ -90,8 +90,11 @@
         comp (first (get-lexemes (u/get-in with-head [:comp])
                                  lexicon-index-fn syntax-tree-fn))]
     
-    (u/unify with-head
-             {:comp comp})))
+    (log/info (str "with head: " (syntax-tree-fn with-head)))
+    (let [result (u/unify with-head
+                          {:comp comp})]
+      (log/info (str "result: " (syntax-tree-fn result)))
+      result)))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.

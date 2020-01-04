@@ -1,5 +1,5 @@
 (ns babylon.nederlands
-  (:require #?(:clj [clojure.java.io :as io])
+  (:require #?(:clj [clojure.java.io :as io :refer [resource]])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
@@ -52,7 +52,7 @@
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"
-         io/resource
+         resource
          slurp
          read-string
          grammar/process)))
@@ -70,7 +70,7 @@
 #?(:clj
    (def expressions
      (-> "babylon/nederlands/expressions.edn"
-         io/resource slurp read-string eval)))
+         resource slurp read-string eval)))
 
 #?(:clj
    (defn write-compiled-lexicon []
@@ -87,17 +87,19 @@
 #?(:cljs
    (defn read-string [x]))
 #?(:cljs
+   (defn resource [x]))
+#?(:cljs
    (def morphology nil))
 
 (defmacro read-compiled-lexicon []
   `~(-> "babylon/nederlands/lexicon/compiled.edn"
-        io/resource
+        resource
         slurp
         read-string))
 
 (defmacro read-compiled-grammar []
   `~(-> "babylon/nederlands/grammar/compiled.edn"
-        io/resource
+        resource
         slurp
         read-string))
 

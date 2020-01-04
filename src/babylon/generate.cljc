@@ -598,7 +598,6 @@
           (lazy-seq (lazy-map f (rest items))))))
 
 (defn generate-tiny [grammar lexicon-fn]
-  (log/info (str "THIS IS PLATFORM INDEPENDENT."))
   (let [phrase
         (u/unify
          (first (shuffle (->> grammar

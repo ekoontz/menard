@@ -49,8 +49,14 @@
 (defn report [tree syntax-tree]
   (str "#" (count (str tree)) " " (syntax-tree tree)))
 
+(def count-adds (atom 0))
+
 (defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
-  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
+  (swap! count-adds (fn [x] 0))
+  (let [result
+        (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
+    (log/info (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add(s)"))
+    result))
 
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
@@ -81,6 +87,7 @@
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
+  (swap! count-adds (fn [x] (+ 1 @count-adds)))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)

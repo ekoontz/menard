@@ -80,36 +80,6 @@
              (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-(defn generate-small
-  ".."
-  [trees grammar lexicon-index-fn syntax-tree-fn]
-  (if (not (empty? trees))
-    (let [tree (first trees)
-          frontier (frontier tree)]
-      (log/debug (str "generate-all: " frontier ": " (report tree syntax-tree-fn)))
-      (cond (= :fail tree)
-            []
-
-            (> (count frontier) 5)
-            []
-            
-            (or (u/get-in tree [:babylon.generate/done?])
-                (and (not (empty? frontier)) (= frontier stop-generation-at)))
-            (do
-              (if (not (u/get-in tree [:babylon.generate/done?]))
-                (log/debug (str "early stop of generation: " (report tree syntax-tree-fn) " at: " frontier)))
-              (lazy-seq
-               (cons tree
-                     (generate-small (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
-
-            true
-            (lazy-cat
-             (generate-small (add tree grammar lexicon-index-fn syntax-tree-fn)
-                             grammar lexicon-index-fn syntax-tree-fn)
-             (generate-small (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
-
-             
-
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)

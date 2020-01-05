@@ -236,6 +236,3 @@
                                 syntax-tree
                                 println))
                           (if false (println))))))))))))
-
-(defn testing []
-  (syntax-tree (first (g/generate-small [{:phrasal true}] grammar index-fn syntax-tree))))

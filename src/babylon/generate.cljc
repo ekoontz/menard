@@ -103,27 +103,12 @@
                      (generate-small (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
 
             true
-            (generate-small (add tree grammar lexicon-index-fn syntax-tree-fn)
-                            grammar lexicon-index-fn syntax-tree-fn)))))
+            (lazy-cat
+             (generate-small (add tree grammar lexicon-index-fn syntax-tree-fn)
+                             grammar lexicon-index-fn syntax-tree-fn)
+             (generate-small (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-(defn generate-tiny [spec grammar lexicon-index-fn syntax-tree-fn]
-  (let [spec (or spec :top)
-        phrase
-        (first (shuffle (->> grammar
-                             (map #(unify % spec))
-                             (filter #(not (= :fail %))))))
-        head (first (get-lexemes (u/get-in phrase [:head])
-                                 lexicon-index-fn syntax-tree-fn))
-        with-head (u/unify phrase
-                           {:head head})
-        comp (first (get-lexemes (u/get-in with-head [:comp])
-                                 lexicon-index-fn syntax-tree-fn))]
-    
-    (log/debug (str "with head: " (syntax-tree-fn with-head)))
-    (let [result (u/unify with-head
-                          {:comp comp})]
-      (log/info (str "result: " (syntax-tree-fn result)))
-      result)))
+             
 
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (let [at (frontier tree)
@@ -134,7 +119,7 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))

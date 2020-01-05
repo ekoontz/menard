@@ -13,13 +13,16 @@
 (declare dissoc-in)
 (declare foldup)
 (declare frontier)
+(declare generate-all)
 (declare get-lexemes)
 (declare headness?)
 (declare lazy-map)
 (declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)
+(declare reflexive-violations)
 (declare remove-trailing-comps)
+(declare summary-fn)
 (declare truncate-at)
 (declare update-syntax-tree)
 
@@ -45,7 +48,10 @@
 
 (defn report [tree syntax-tree]
   (str "#" (count (str tree)) " " (syntax-tree tree)))
-  
+
+(defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
+  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
+
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -74,9 +80,6 @@
              (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-(defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
-  (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn)))
-
 (defn generate-tiny [spec grammar lexicon-index-fn syntax-tree-fn]
   (let [spec (or spec :top)
         phrase
@@ -90,43 +93,11 @@
         comp (first (get-lexemes (u/get-in with-head [:comp])
                                  lexicon-index-fn syntax-tree-fn))]
     
-    (log/info (str "with head: " (syntax-tree-fn with-head)))
+    (log/debug (str "with head: " (syntax-tree-fn with-head)))
     (let [result (u/unify with-head
                           {:comp comp})]
       (log/info (str "result: " (syntax-tree-fn result)))
       result)))
-
-;; TODO: move this to a ^:dynamic: variable so it can
-;; be customized per-language.
-(defn summary-fn [spec]
-  (cond (u/get-in spec [:rule])
-        (u/get-in spec [:rule])
-
-        (= :verb (u/get-in spec [:cat]))
-        (str "V:" (vec (u/strip-refs (u/get-in spec [:subcat]))))
-        true
-        (or (u/get-in spec [:rule])
-            (u/get-in spec [:canonical])
-            (u/get-in spec [:sem :pred])
-            (u/get-in spec [:cat]))))
-
-(defn reflexive-violations [expression syntax-tree-fn]
-  (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
-  (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
-                                              (:ref (u/get-in expression [:sem :obj])))))
-  (or (not (= :verb (u/get-in expression [:cat])))
-      (and
-         (or (= false (u/get-in expression [:reflexive] false))
-             (= :top (u/get-in expression [:reflexive])))
-         (or
-             (= ::unspec (:ref (u/get-in expression [:sem :subj]) ::unspec))
-             (= ::unspec (:ref (u/get-in expression [:sem :obj]) ::unspec))                         
-             (not (= (:ref (u/get-in expression [:sem :subj]))
-                     (:ref (u/get-in expression [:sem :obj]))))))
-      (and
-        (= true (u/get-in expression [:reflexive] false))
-        (= (:ref (u/get-in expression [:sem :subj]))
-           (:ref (u/get-in expression [:sem :obj]))))))
 
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (let [at (frontier tree)
@@ -137,7 +108,7 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -616,3 +587,35 @@
     (cons (f (first items))
           (lazy-seq (lazy-map f (rest items))))))
 
+
+;; TODO: move this to a ^:dynamic: variable so it can
+;; be customized per-language.
+(defn summary-fn [spec]
+  (cond (u/get-in spec [:rule])
+        (u/get-in spec [:rule])
+
+        (= :verb (u/get-in spec [:cat]))
+        (str "V:" (vec (u/strip-refs (u/get-in spec [:subcat]))))
+        true
+        (or (u/get-in spec [:rule])
+            (u/get-in spec [:canonical])
+            (u/get-in spec [:sem :pred])
+            (u/get-in spec [:cat]))))
+
+(defn reflexive-violations [expression syntax-tree-fn]
+  (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
+  (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
+                                              (:ref (u/get-in expression [:sem :obj])))))
+  (or (not (= :verb (u/get-in expression [:cat])))
+      (and
+         (or (= false (u/get-in expression [:reflexive] false))
+             (= :top (u/get-in expression [:reflexive])))
+         (or
+             (= ::unspec (:ref (u/get-in expression [:sem :subj]) ::unspec))
+             (= ::unspec (:ref (u/get-in expression [:sem :obj]) ::unspec))                         
+             (not (= (:ref (u/get-in expression [:sem :subj]))
+                     (:ref (u/get-in expression [:sem :obj]))))))
+      (and
+        (= true (u/get-in expression [:reflexive] false))
+        (= (:ref (u/get-in expression [:sem :subj]))
+           (:ref (u/get-in expression [:sem :obj]))))))

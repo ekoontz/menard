@@ -112,6 +112,12 @@
         slurp
         read-string))
 
+(defmacro read-expressions []
+  `~(-> "babylon/nederlands/expressions.edn"
+        resource
+        slurp
+        read-string))
+
 (declare sentence-punctuation)
 
 (defn morph

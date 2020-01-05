@@ -592,7 +592,7 @@
             (do
               (log/debug (str "type of head: " (get m head)))
               (cond
-                (= clojure.lang.Atom (type (get m head)))
+                (u/ref? (get m head))
                 (do
                   (log/debug (str "doing swap!"))
                   (swap! (get m head)

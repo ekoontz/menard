@@ -73,6 +73,12 @@
          ((fn [rule]
            (eval rule))))))
 
+;; (read-and-eval) doesn't do anything and should not be called from
+;; Clojurescript. This definition is provided to avoid Clojurescript warnings
+;; about it being undefined.
+#?(:cljs
+   (defn read-and-eval [rules-filename]))
+
 (defn apply-rules-in-order [lexicon rules rule-group]
   (if (empty? rules)
     lexicon

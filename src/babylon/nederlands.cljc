@@ -242,5 +242,5 @@
                                 grammar index-fn syntax-tree)))
 
 (defn testing2 []
-  (syntax-tree (first (g/generate-small [spec] grammar index-fn syntax-tree))))
+  (syntax-tree (first (g/generate-small [{:phrasal true}] grammar index-fn syntax-tree))))
 

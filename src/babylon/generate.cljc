@@ -100,10 +100,11 @@
                 (log/debug (str "early stop of generation: " (report tree syntax-tree-fn) " at: " frontier)))
               (lazy-seq
                (cons tree
-                     (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
+                     (generate-small (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
 
             true
-            (add tree grammar lexicon-index-fn syntax-tree-fn)))))
+            (generate-small (add tree grammar lexicon-index-fn syntax-tree-fn)
+                            grammar lexicon-index-fn syntax-tree-fn)))))
 
 (defn generate-tiny [spec grammar lexicon-index-fn syntax-tree-fn]
   (let [spec (or spec :top)

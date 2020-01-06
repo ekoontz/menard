@@ -271,7 +271,7 @@
 
      (lazy-map
       #(do
-         (log/info (str "creating path in: " (syntax-tree %) " with at: " at " and at-num: " at-num))
+         (log/debug (str "creating path in: " (syntax-tree %) " with at: " at " and at-num: " at-num))
          (log/debug (str " and keys: " (keys %)))
          (u/unify! %
                    (s/create-path-in (concat [:syntax-tree] at-num)

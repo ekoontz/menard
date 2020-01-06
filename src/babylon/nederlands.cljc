@@ -248,24 +248,31 @@
   (let [skeleton
         (->  {:phrasal true
               :rule "s"
+              :comp {:phrasal true
+                     :rule "np"
+                     :head {:phrasal false}
+                     :comp {:phrasal false}}
               :head {:phrasal true
                      :rule "vp"
                      :head {:phrasal false}
-                     :comp {:phrasal true}}}
+                     :comp {:phrasal true
+                            :rule "np"
+                            :head {:phrasal false}
+                            :copm {:phrasal false}}}}
              ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree "s"))))
+                (first (g/add-rule tree grammar syntax-tree))))
              ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree "vp"))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree))))
-             ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree "np"))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree))))
+                (first (g/add-rule tree grammar syntax-tree))))
              ((fn [tree]
                 (first (g/add-lexeme tree index-fn syntax-tree))))
              ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree "np"))))
+                (first (g/add-rule tree grammar syntax-tree))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree))))
+             ((fn [tree]
+                (first (g/add-rule tree grammar syntax-tree))))
              ((fn [tree]
                 (first (g/add-lexeme tree index-fn syntax-tree))))
              ((fn [tree]

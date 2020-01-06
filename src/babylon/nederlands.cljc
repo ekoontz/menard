@@ -242,3 +242,37 @@
                                 syntax-tree
                                 println))
                           (if false (println))))))))))))
+
+
+(defn testing []
+  (let [skeleton
+        (->  {:phrasal true
+              :rule "s"
+              :head {:phrasal true
+                     :rule "vp"
+                     :head {:phrasal false}
+                     :comp {:phrasal true}}}
+             ((fn [tree]
+                (first (g/add-rule tree grammar syntax-tree "s"))))
+             ((fn [tree]
+                (first (g/add-rule tree grammar syntax-tree "vp"))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree))))
+             ((fn [tree]
+                (first (g/add-rule tree grammar syntax-tree "np"))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree))))
+             ((fn [tree]
+                (first (g/add-rule tree grammar syntax-tree "np"))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree))))
+             ((fn [tree]
+                (first (g/add-lexeme tree index-fn syntax-tree)))))]
+    skeleton))
+
+
+
+
+

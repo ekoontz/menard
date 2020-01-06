@@ -240,7 +240,7 @@
                                %)))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
-  (log/debug (str "add-rule: " (report tree syntax-tree)))
+  (log/info (str "add-rule: " (report tree syntax-tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -248,7 +248,8 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'" " ")) (report tree syntax-tree)))
+    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) (report tree syntax-tree)
+                    " with at: " at "; at-num: " at-num))
     (->>
      ;; start with the whole grammar:
      (shuffle grammar)
@@ -276,17 +277,21 @@
                     %))
 
      (lazy-map
-      #(u/unify! %
-                 (s/create-path-in (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (headness? % (concat at [:1]))] 
-                                     {:head? (= :head (last at))
-                                      :1 {:head? one-is-head?}
-                                      :2 {:head? (not one-is-head?)}
-                                      :variant (u/get-in % [:variant])
-                                      :rule
-                                      (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
-                                          (or rule-name
-                                              (u/get-in % (concat at [:rule]))))})))))))
+      #(do
+         (log/info (str "creating path in: " (syntax-tree %) " with at: " at " and at-num: " at-num))
+         (log/debug (str " and keys: " (keys %)))
+         (u/unify! %
+                   (s/create-path-in (concat [:syntax-tree] at-num)
+                                     (let [one-is-head? (headness? % (concat at [:1]))] 
+                                       {:head? (= :head (last at))
+                                        :1 {:head? one-is-head?}
+                                        :2 {:head? (not one-is-head?)}
+                                        :variant (u/get-in % [:variant])
+                                        :rule
+                                        (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
+                                            (or rule-name
+                                                (u/get-in % (concat at [:rule]))))}))))))))
+
 (defn make-word []
   {:agr (atom :top)
    :canonical (atom :top)

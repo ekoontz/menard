@@ -243,38 +243,38 @@
                                 println))
                           (if false (println))))))))))))
 
-
-(defn testing []
-  (let [skeleton
-        (->  {:phrasal true
-              :rule "s"
+(defn testing-with [grammar index-fn syntax-tree]
+  (-> {:phrasal true
+       :rule "s"
+       :comp {:phrasal true
+              :rule "np"
+              :head {:phrasal false}
+              :comp {:phrasal false}}
+       :head {:phrasal true
+              :rule "vp"
+              :head {:phrasal false}
               :comp {:phrasal true
                      :rule "np"
                      :head {:phrasal false}
-                     :comp {:phrasal false}}
-              :head {:phrasal true
-                     :rule "vp"
-                     :head {:phrasal false}
-                     :comp {:phrasal true
-                            :rule "np"
-                            :head {:phrasal false}
-                            :comp {:phrasal false}}}}
-             ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree))))
-             ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree))))
-             ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree))))
-             ((fn [tree]
-                (first (g/add-rule tree grammar syntax-tree))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree))))
-             ((fn [tree]
-                (first (g/add-lexeme tree index-fn syntax-tree)))))]
-    skeleton))
+                     :comp {:phrasal false}}}}
+      ((fn [tree]
+         (first (g/add-rule tree grammar syntax-tree))))
+      ((fn [tree]
+         (first (g/add-rule tree grammar syntax-tree))))
+      ((fn [tree]
+         (first (g/add-lexeme tree index-fn syntax-tree))))
+      ((fn [tree]
+         (first (g/add-rule tree grammar syntax-tree))))
+      ((fn [tree]
+         (first (g/add-lexeme tree index-fn syntax-tree))))
+      ((fn [tree]
+         (first (g/add-lexeme tree index-fn syntax-tree))))
+      ((fn [tree]
+         (first (g/add-rule tree grammar syntax-tree))))
+      ((fn [tree]
+         (first (g/add-lexeme tree index-fn syntax-tree))))
+      ((fn [tree]
+         (first (g/add-lexeme tree index-fn syntax-tree))))))
+
+(defn testing []
+  (testing-with grammar index-fn syntax-tree))

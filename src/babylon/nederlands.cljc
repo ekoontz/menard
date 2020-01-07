@@ -258,7 +258,7 @@
                      :comp {:phrasal true
                             :rule "np"
                             :head {:phrasal false}
-                            :copm {:phrasal false}}}}
+                            :comp {:phrasal false}}}}
              ((fn [tree]
                 (first (g/add-rule tree grammar syntax-tree))))
              ((fn [tree]
@@ -278,8 +278,3 @@
              ((fn [tree]
                 (first (g/add-lexeme tree index-fn syntax-tree)))))]
     skeleton))
-
-
-
-
-

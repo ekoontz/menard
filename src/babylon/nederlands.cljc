@@ -246,6 +246,7 @@
 (defn testing-with [grammar index-fn syntax-tree]
   (-> {:phrasal true
        :rule "s"
+       :reflexive false
        :comp {:phrasal true
               :rule "np"
               :head {:phrasal false}

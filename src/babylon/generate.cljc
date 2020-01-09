@@ -258,23 +258,24 @@
 
      ((fn [rules]
         (log/debug (str "rules matched(1): " (count rules)))
-        (if (empty? rules) (log/debug (str "step 1: no rules matched for tree: " (syntax-tree) "; tried to adjoin at: " at)))
+        (if (empty? rules) (log/debug (str "step 1 no rules matched for tree: " (syntax-tree) "; tried to adjoin at: " at)))
         rules))
      
      ;; initialize the rule-to-be-added:
      (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
 
+     ((fn [rules]
+        (log/debug (str "rules matched(2): " (count rules)))
+        (if (empty? rules) (log/debug (str "step 2 failed to add started? marker to tree: " (syntax-tree tree) " at: " at)))
+        rules))
+
      ;; TODO: should be able to remove this:
      (remove #(= :fail %))
 
-     ((fn [rules]
-        (log/debug (str "rules matched(2): " (count rules)))
-        (if (empty? rules) (log/debug (str "step 2: failed to add started? marker to tree: " (syntax-tree tree) " at: " at)))
-        rules))
 
      ((fn [rules]
         (log/debug (str "rules matched(3): " (count rules)))
-        (if (empty? rules) (log/warn (str "step 3: returned no successful adjoinings to tree: " (syntax-tree tree) " at: " at)))
+        (if (empty? rules) (log/debug (str "step 3 returned no successful adjoinings to tree: " (syntax-tree tree) " at: " at)))
         rules))
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
@@ -285,8 +286,8 @@
      (remove #(= :fail %))
 
      ((fn [rules]
-        (log/debug (str "rules matched(3): " (count rules)))
-        (if (empty? rules) (log/warn (str "step 2 returned no successful adjoinings at: " at)))
+        (log/debug (str "rules matched(4): " (count rules)))
+        (if (empty? rules) (log/debug (str "step 3 returned no successful adjoinings at: " at)))
         rules))
      
      (lazy-map

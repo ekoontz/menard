@@ -259,23 +259,38 @@
                      :head {:phrasal false}
                      :comp {:phrasal false}}}}
       ((fn [tree]
+         (log/debug (str "1.."))
          (first (g/add-rule tree grammar syntax-tree))))
       ((fn [tree]
+         (log/debug (str "2.."))         
          (first (g/add-rule tree grammar syntax-tree))))
       ((fn [tree]
+         (log/debug (str "3.."))         
          (first (g/add-lexeme tree index-fn syntax-tree))))
       ((fn [tree]
+         (log/debug (str "4.."))
          (first (g/add-rule tree grammar syntax-tree))))
       ((fn [tree]
+         (log/debug (str "5.." (syntax-tree tree)))         
          (first (g/add-lexeme tree index-fn syntax-tree))))
       ((fn [tree]
+         (log/debug (str "6.."))         
          (first (g/add-lexeme tree index-fn syntax-tree))))
       ((fn [tree]
+         (log/debug (str "7.."))         
          (first (g/add-rule tree grammar syntax-tree))))
       ((fn [tree]
-         (first (g/add-lexeme tree index-fn syntax-tree))))
+         (log/debug (str "8.."))
+         (let [results (g/add-lexeme tree index-fn syntax-tree)]
+           (log/debug (str "results empty? " (empty? results)))
+           (first results))))
       ((fn [tree]
+         (log/debug (str "9.." (type tree)))         
          (first (g/add-lexeme tree index-fn syntax-tree))))))
 
 (defn testing []
-  (testing-with grammar index-fn syntax-tree))
+  (let [testing (fn []
+                  (testing-with grammar index-fn syntax-tree))]
+    (repeatedly #(println (str " " (sentence-punctuation (morph (testing)) :decl))))))
+
+

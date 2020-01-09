@@ -55,11 +55,7 @@
   (swap! count-adds (fn [x] 0))
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-<<<<<<< HEAD
-    (log/info (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add" (if (not (= @count-adds 1)) "s") "."))
-=======
     (log/debug (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add(s)"))
->>>>>>> improve logging
     result))
 
 (defn generate-all
@@ -180,7 +176,7 @@
               numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
               word (merge (make-word)
                           {:head? head?})]
-          (log/info (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
+          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
           (u/unify! tree
                     (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                            (s/create-path-in at word))))))
@@ -207,16 +203,12 @@
            %))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
-  (log/info (str "add-lexeme: " (report tree syntax-tree)))
+  (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-<<<<<<< HEAD
-    (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
-=======
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
->>>>>>> improve logging
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
@@ -226,30 +218,21 @@
                 generate-only-one? (take 1 lexemes)
                 true lexemes)))
            (lazy-map (fn [candidate-lexeme]
-<<<<<<< HEAD
-                       (log/info (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                       " at: " at " to: " (report tree syntax-tree)))
-=======
                        (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
                                       " at: " at " to: " (report tree syntax-tree)))
->>>>>>> improve logging
                        (-> tree
                            ((fn [tree]
                               (cond generate-only-one? tree
                                     true (u/copy tree))))
                            (u/assoc-in! done-at true)
                            (u/assoc-in! at candidate-lexeme)
-                           ((fn [tree] (log/info (str "before updating tree's syntax: "
-                                                      (syntax-tree tree)))))
                            (update-syntax-tree at syntax-tree)
-                           ((fn [tree] (log/info (str "before mangling tree: "
-                                                      (syntax-tree tree)))))
                            (truncate-at at syntax-tree)
                            (foldup at syntax-tree)
                            (#(do
                                (if (= :fail %)
                                  (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
-                                 (log/info (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "' to tree: " (syntax-tree %))))
+                                 (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
                                %)))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
@@ -262,7 +245,7 @@
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": " (report tree syntax-tree)
-                    " at: " at " (numerically): " at-num))
+                   " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar:
      (shuffle grammar)
@@ -297,7 +280,7 @@
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (lazy-map #(u/assoc-in! (u/copy tree)
                              at %))
-     
+
      ;; some attempts to adjoin will have failed, so remove those:
      (remove #(= :fail %))
 
@@ -639,14 +622,14 @@
                                               (:ref (u/get-in expression [:sem :obj])))))
   (or (not (= :verb (u/get-in expression [:cat])))
       (and
-       (or (= false (u/get-in expression [:reflexive] false))
-           (= :top (u/get-in expression [:reflexive])))
-       (or
-        (= ::unspec (:ref (u/get-in expression [:sem :subj]) ::unspec))
-        (= ::unspec (:ref (u/get-in expression [:sem :obj]) ::unspec))                         
-        (not (= (:ref (u/get-in expression [:sem :subj]))
-                (:ref (u/get-in expression [:sem :obj]))))))
+         (or (= false (u/get-in expression [:reflexive] false))
+             (= :top (u/get-in expression [:reflexive])))
+         (or
+             (= ::unspec (:ref (u/get-in expression [:sem :subj]) ::unspec))
+             (= ::unspec (:ref (u/get-in expression [:sem :obj]) ::unspec))                         
+             (not (= (:ref (u/get-in expression [:sem :subj]))
+                     (:ref (u/get-in expression [:sem :obj]))))))
       (and
-       (= true (u/get-in expression [:reflexive] false))
-       (= (:ref (u/get-in expression [:sem :subj]))
-          (:ref (u/get-in expression [:sem :obj]))))))
+        (= true (u/get-in expression [:reflexive] false))
+        (= (:ref (u/get-in expression [:sem :subj]))
+           (:ref (u/get-in expression [:sem :obj]))))))

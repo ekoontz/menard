@@ -292,5 +292,3 @@
   (let [testing (fn []
                   (testing-with grammar index-fn syntax-tree))]
     (repeatedly #(println (str " " (sentence-punctuation (morph (testing)) :decl))))))
-
-

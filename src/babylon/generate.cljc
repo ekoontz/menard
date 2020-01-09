@@ -55,7 +55,7 @@
   (swap! count-adds (fn [x] 0))
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-    (log/info (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add(s)"))
+    (log/debug (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add(s)"))
     result))
 
 (defn generate-all
@@ -96,7 +96,7 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: " (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -208,7 +208,7 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
+    (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
@@ -219,7 +219,7 @@
                 true lexemes)))
            (lazy-map (fn [candidate-lexeme]
                        (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                       " at: " at " to: " (report tree syntax-tree)))
+                                      " at: " at " to: " (report tree syntax-tree)))
                        (-> tree
                            ((fn [tree]
                               (cond generate-only-one? tree
@@ -236,7 +236,7 @@
                                %)))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
-  (log/info (str "add-rule: " (report tree syntax-tree)))
+  (log/debug (str "add-rule: " (report tree syntax-tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -244,8 +244,8 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) (report tree syntax-tree)
-                    " with at: " at "; at-num: " at-num))
+    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": " (report tree syntax-tree)
+                   " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar:
      (shuffle grammar)
@@ -255,6 +255,11 @@
 
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
+
+     ((fn [rules]
+        (log/debug (str "rules matched(1): " (count rules)))
+        (if (empty? rules) (log/debug (str "step 1: no rules matched for tree: " (syntax-tree) "; tried to adjoin at: " at)))
+        rules))
      
      ;; initialize the rule-to-be-added:
      (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
@@ -262,6 +267,16 @@
      ;; TODO: should be able to remove this:
      (remove #(= :fail %))
 
+     ((fn [rules]
+        (log/debug (str "rules matched(2): " (count rules)))
+        (if (empty? rules) (log/debug (str "step 2: failed to add started? marker to tree: " (syntax-tree tree) " at: " at)))
+        rules))
+
+     ((fn [rules]
+        (log/debug (str "rules matched(3): " (count rules)))
+        (if (empty? rules) (log/warn (str "step 3: returned no successful adjoinings to tree: " (syntax-tree tree) " at: " at)))
+        rules))
+     
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (lazy-map #(u/assoc-in! (u/copy tree)
                              at %))
@@ -269,9 +284,15 @@
      ;; some attempts to adjoin will have failed, so remove those:
      (remove #(= :fail %))
 
+     ((fn [rules]
+        (log/debug (str "rules matched(3): " (count rules)))
+        (if (empty? rules) (log/warn (str "step 2 returned no successful adjoinings at: " at)))
+        rules))
+     
      (lazy-map
       #(do
-         (log/debug (str "creating path in: " (syntax-tree %) " with at: " at " and at-num: " at-num))
+         (log/debug (str "successfully adjoined: " (syntax-tree (u/get-in % at)) " to parent: " (syntax-tree %) " at: " at))
+         (log/debug (str "creating path in: " (syntax-tree %) " at: " at " (numerically: " at-num))
          (log/debug (str " and keys: " (keys %)))
          (u/unify! %
                    (s/create-path-in (concat [:syntax-tree] at-num)
@@ -588,7 +609,7 @@
         (u/get-in spec [:rule])
 
         (= :verb (u/get-in spec [:cat]))
-        (str "V:" (vec (u/strip-refs (u/get-in spec [:subcat]))))
+        (str "subcat 1:" (u/get-in spec [:subcat :1 :cat]))
         true
         (or (u/get-in spec [:rule])
             (u/get-in spec [:canonical])

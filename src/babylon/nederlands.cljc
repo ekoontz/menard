@@ -244,49 +244,33 @@
                           (if false (println))))))))))))
 
 (defn testing-with [grammar index-fn syntax-tree]
-  (-> {:phrasal true
-       :rule "s"
-       :reflexive false
-       :comp {:phrasal true
-              :rule "np"
-              :head {:phrasal false}
-              :comp {:phrasal false}}
-       :head {:phrasal true
-              :rule "vp"
-              :head {:phrasal false}
-              :comp {:phrasal true
-                     :rule "np"
-                     :head {:phrasal false}
-                     :comp {:phrasal false}}}}
-      ((fn [tree]
-         (log/debug (str "1.."))
-         (first (g/add-rule tree grammar syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "2.."))         
-         (first (g/add-rule tree grammar syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "3.."))         
-         (first (g/add-lexeme tree index-fn syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "4.."))
-         (first (g/add-rule tree grammar syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "5.." (syntax-tree tree)))         
-         (first (g/add-lexeme tree index-fn syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "6.."))         
-         (first (g/add-lexeme tree index-fn syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "7.."))         
-         (first (g/add-rule tree grammar syntax-tree))))
-      ((fn [tree]
-         (log/debug (str "8.."))
-         (let [results (g/add-lexeme tree index-fn syntax-tree)]
-           (log/debug (str "results empty? " (empty? results)))
-           (first results))))
-      ((fn [tree]
-         (log/debug (str "9.." (type tree)))         
-         (first (g/add-lexeme tree index-fn syntax-tree))))))
+  (let [add-rule (fn [tree]
+                   (first (g/add-rule tree grammar syntax-tree)))
+        add-lexeme (fn [tree]
+                     (first (g/add-lexeme tree index-fn syntax-tree)))]
+    (-> {:phrasal true
+         :rule "s"
+         :reflexive false
+         :comp {:phrasal true
+                :rule "np"
+                :head {:phrasal false}
+                :comp {:phrasal false}}
+         :head {:phrasal true
+                :rule "vp"
+                :head {:phrasal false}
+                :comp {:phrasal true
+                       :rule "np"
+                       :head {:phrasal false}
+                       :comp {:phrasal false}}}}
+        add-rule
+        add-rule
+        add-lexeme
+        add-rule
+        add-lexeme
+        add-lexeme
+        add-rule
+        add-lexeme
+        add-lexeme)))
 
 (defn testing []
   (let [testing (fn []

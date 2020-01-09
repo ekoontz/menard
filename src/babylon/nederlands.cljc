@@ -243,7 +243,7 @@
                                 println))
                           (if false (println))))))))))))
 
-(defn testing-with [grammar index-fn syntax-tree]
+(defn generate-until-done [tree grammar index-fn syntax-tree]
   (let [add-rule (fn [tree]
                    (first (g/add-rule tree grammar syntax-tree)))
         add-lexeme (fn [tree]
@@ -255,31 +255,32 @@
                       (add-rule tree)
                       true
                       (add-lexeme tree))))]
-    (-> {:phrasal true
-         :rule "s"
-         :reflexive false
-         :comp {:phrasal true
-                :rule "np"
-                :head {:phrasal false}
-                :comp {:phrasal false}}
-         :head {:phrasal true
-                :rule "vp"
-                :head {:phrasal false}
-                :comp {:phrasal true
-                       :rule "np"
-                       :head {:phrasal false}
-                       :comp {:phrasal false}}}}
-        add
-        add
-        add
-        add
-        add
-        add
-        add
-        add
-        add)))
+    (cond (u/get-in tree [:babylon.generate/done?]) tree
+          true (generate-until-done (add tree) grammar index-fn syntax-tree))))
+
+(defn testing-with [grammar index-fn syntax-tree]
+  (generate-until-done
+   {:phrasal true
+    :rule "s"
+    :reflexive false
+    :comp {:phrasal true
+           :rule "np"
+           :head {:phrasal true
+                  :comp {:phrasal true}}
+           :comp {:phrasal false}}
+    :head {:phrasal true
+           :rule "vp"
+           :head {:phrasal false}
+           :comp {:phrasal true
+                  :rule "np"
+                  :head {:phrasal true
+                         :comp {:phrasal true}}
+                  :comp {:phrasal false}}}}
+   grammar index-fn syntax-tree))
 
 (defn testing []
   (let [testing (fn []
                   (testing-with grammar index-fn syntax-tree))]
-    (repeatedly #(println (str " " (sentence-punctuation (morph (testing)) :decl))))))
+    (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
+                     1))))
+

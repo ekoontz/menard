@@ -37,7 +37,9 @@ For the demo, a Dutch sentence is generated for each specification listed in
 Each expression is then translated into English, as shown in the output below:
 
 ```
-user=> (babylon.translate/demo)
+user=> (load "babylon")
+nil
+user=> (babylon/demo)
 # 'een huis'; 1 example:
 ---
 Een huis.|
@@ -45,26 +47,26 @@ Een huis.|
 
 # NP with no modifiers; 10 examples:
 ---
-De stoelen.|
-           |The chairs.
-Die groepen.|
-            |Those groups.
-Die moeders.|
-            |Those mothers.
-Zijn fietsen.|
-             |His bikes.
-Zijn gebeiden.|
-              |His areas.
-De dame.|
-        |The lady.
-Uw kinderen.|
-            |Your children.
-Haar huis.|
-          |Her house.
-Hun honden.|
-           |Their dogs.
-Dit been.|
-         |This leg.
+Onze mannen.|
+            |Our men.
+Uw boeken.|
+          |Your books.
+Hun jassen.|
+           |Their coats.
+Hun dame.|
+         |Their lady.
+Deze landen.|
+            |These countries.
+De mannen.|
+          |The men.
+De feitten.|
+           |The facts.
+Mijn gebeid.|
+            |My area.
+Deze tafel.|
+           |This table.
+Een vrouw.|
+          |A woman.
 
 # 'de grote boeken'; 1 example:
 ---
@@ -73,54 +75,54 @@ De grote boeken.|
 
 # NP with one modifier; 10 examples:
 ---
-Die lieve hond.|
-               |That nice dog.
-Dat grote bedrijf.|
-                  |That big business.
-Mijn kleine zaken.|
-                  |My small cases.
-Haar vieze leven.|
-                 |Her dirty life.
-Uw lieve plaats.|
-                |Your nice lot.
-Uw kleine families.|
-                   |Your small families.
-Mijn lieve hond.|
-                |My nice dog.
-Zijn vieze haren.|
-                 |His dirty hairs.
-Zijn lieve plaats.|
-                  |His nice lot.
-Zijn lieve oog.|
-               |Its nice eye.
+Deze lieve oogen.|
+                 |These nice eyes.
+Onze vieze familie.|
+                   |Our dirty family.
+Hun slimme levens.|
+                  |Their smart lives.
+Hun grote meisjes.|
+                  |Their big girls.
+Hun oude hond.|
+              |Their old dog.
+Uw stomme kittens.|
+                  |Your stupid kittens.
+De slimme overheden.|
+                    |The smart governments.
+Zijn enge geld.|
+               |His scary money.
+Mijn enge jas.|
+              |My scary coat.
+De oude zaken.|
+              |The old cases.
 
 # 'een heel klein druif'; 1 example:
 ---
-Een erg klein druif.|
-                    |A very small grape.
+Een heel klein druif.|
+                     |A very small grape.
 
 # NP with one modifier, which is itself modified; 10 examples:
 ---
-Het erg lief bedrijf.|
-                     |The very nice business.
-Jouw echt sterk katten.|
-                       |Your really strong cats.
-Zijn erg oud bedrijf.|
-                     |Its very old business.
-Deze erg klein banen.|
-                     |These very small jobs.
-Deze ongewoon klein plaatsen.|
-                             |These unusually small lots.
-Onze erg groot meisjes.|
-                       |Our very big girls.
-Deze heel lief hand.|
-                    |This very nice hand.
-Zijn echt sterk meisje.|
-                       |Its really strong girl.
-Zijn heel klein thuizen.|
-                        |Its very small homes.
-Deze heel oud dame.|
-                   |This very old lady.
+Jouw echt slim dames.|
+                     |Your really smart ladies.
+Zijn heel eng zaken.|
+                    |His very scary cases.
+Zijn eigenlijk slim plaatsen.|
+                             |His actually smart lots.
+De erg vies kittens.|
+                    |The very dirty kittens.
+Zijn eigenlijk vies tafel.|
+                          |His actually dirty table.
+Mijn eigenlijk klein thuis.|
+                           |My actually small home.
+Uw ongewoon slim jongens.|
+                         |Your unusually smart boys.
+Hun eigenlijk vies huis.|
+                        |Their actually dirty house.
+De heel lief jassen.|
+                    |The very nice coats.
+Mijn ongewoon lief druiven.|
+                           |My unusually nice grapes.
 
 # 'De heel klein oud fietsen'.; 1 example:
 ---
@@ -134,74 +136,120 @@ De erg sterk slimme vrouwen zingen.|
 
 # Sentence whose subject has two modifiers, the first of which is itself modified; 10 examples:
 ---
-Uw heel lief stomme bedrijf ziet.|
-                                 |Your very nice stupid business sees.
-Die eigenlijk slim lieve mannen slapen.|
-                                       |Those actually smart nice men sleep.
-Die heel groot vieze gebeiden werken.|
-                                     |Those very big dirty areas work.
-Uw erg slim grote dag werkt.|
-                            |Your very smart big day works.
-Uw eigenlijk klein oude leven ziet.|
-                                   |Your actually small old life sees.
-Mijn heel groot grote jongens zien.|
-                                   |My very big big boys see.
-De eigenlijk slim oude baby's slapen.|
-                                     |The actually smart old babies sleep.
-Haar eigenlijk oud grote kitten werkt.|
-                                      |Her actually old big kitten works.
-Jouw erg vies stomme kat leest.|
-                               |Your very dirty stupid cat reads.
-Dit eigenlijk oud sterke leven leest.|
-                                     |This actually old strong life reads.
+Onze eigenlijk waar sterke huizen slapen.|
+                                         |Our actually true strong houses sleep.
+Die heel waar kleine jas werkt.|
+                               |That very true small coat works.
+Uw ongewoon klein grote groepen werken.|
+                                       |Your unusually small big groups work.
+Zijn ongewoon waar oude landen slapen.|
+                                      |His unusually true old countries sleep.
+Uw echt sterk oude kat leest.|
+                             |Your really strong old cat reads.
+Mijn heel klein vieze leven slaapt.|
+                                   |My very small dirty life sleeps.
+Deze erg vies vieze jongen zingt.|
+                                 |This very dirty dirty boy sings.
+Deze erg lief sterke families slapen.|
+                                     |These very nice strong families sleep.
+Zijn ongewoon eng vieze haren zingen.|
+                                     |His unusually scary dirty hairs sing.
+Zijn heel sterk enge feitten slapen.|
+                                    |His very strong scary facts sleep.
+
+# Sentence whose subject has only one modifier.; 10 examples:
+---
+Een vieze hond slaapt.|
+                      |A dirty dog sleeps.
+Zijn stomme heren slapen.|
+                         |Its stupid gentlemen sleep.
+Haar kleine druif zingt.|
+                        |Her small grape sings.
+Hun vieze stoel werkt.|
+                      |Their dirty chair works.
+De enge heer zingt.|
+                   |The scary man sings.
+Uw waare jassen zien.|
+                     |Your true coats see.
+Jouw vieze mannen zien.|
+                       |Your dirty men see.
+Dat stomme thuis leest.|
+                       |That stupid home reads.
+Hun lieve benen werken.|
+                       |Their nice legs work.
+Mijn enge kind zingt.|
+                     |My scary child sings.
 
 # Sentence with non-reflexive direct object; 10 examples:
 ---
-U ziet hun.|
-           |You see him.
-Jij ziet mij.|
-             |You see me.
-Wij zien haar.|
-              |We see her.
+Jullie zien die.|
+                |You see them.
+Saskia ziet die.|
+                |Saskia sees them.
+Ik zie u.|
+         |I see you.
+Het ziet jou.|
+             |It sees you.
+Jullie zien hen.|
+                |You see him.
 U ziet hen.|
            |You see him.
-Jullie zien Guus.|
-                 |You see Guus.
-Ik zie die.|
-           |I see them.
-Het ziet mij.|
-             |It sees me.
 U ziet jou.|
            |You see you.
-Zij ziet u.|
-           |She sees you.
-Jij ziet hun.|
-             |You see him.
+U ziet die.|
+           |You see them.
+Saskia ziet u.|
+              |Saskia sees you.
+Het ziet Saskia.|
+                |It sees Saskia.
 
 # Sentence with reflexive direct object; 10 examples:
 ---
-Ik zie me.|
-          |I see myself.
-Ik zie me.|
-          |I see myself.
-Het ziet zich.|
-              |It sees itself.
 Wij zien ons.|
              |We see ourselves.
-Wij zien ons.|
-             |We see ourselves.
-Het ziet zich.|
-              |It sees itself.
-Zij ziet zich.|
-              |She sees herself.
+Jij ziet je.|
+            |You see yourself.
+Jullie zien je.|
+               |You see yourselves.
+Guus ziet zich.|
+               |Guus sees himself.
 Ik zie me.|
           |I see myself.
-Zij zien zich.|
-              |They see themselves.
-Zij ziet zich.|
-              |She sees herself.
+U ziet u.|
+         |You see yourselves.
+U ziet u.|
+         |You see yourselves.
+Jij ziet je.|
+            |You see yourself.
+Jullie zien je.|
+               |You see yourselves.
+Hij ziet zich.|
+              |He sees himself.
 
-11
+# Sentence that looks like: [s [np een kat] [vp v ziet [np de muis]]]; 10 examples:
+---
+Die landen lezen die oogen.|
+                           |Those countries read that eye.
+Jouw land leest haar familie.|
+                             |Your country reads her families.
+Haar tafels zien hun gelden.|
+                            |Her tables see their moneys.
+Zijn jongen leest dat meisje.|
+                             |His boy reads that girl.
+Een gebeid leest zijn plaats.|
+                             |An area reads his lot.
+Een feit leest uw druiven.|
+                          |A fact reads your grape.
+Uw fiets ziet mijn groepen.|
+                           |Your bike sees my group.
+De banen lezen jouw jas.|
+                        |The jobs read your coat.
+Mijn bedrijf ziet onze moeder.|
+                              |My business sees our mother.
+Mijn fietsen zien uw kittens.|
+                             |My bikes see your kittens.
+
+13
 user=>
 ```
 

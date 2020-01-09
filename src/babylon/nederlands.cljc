@@ -243,7 +243,7 @@
                                 println))
                           (if false (println))))))))))))
 
-(defn generate-until-done [tree grammar index-fn syntax-tree]
+(defn generate [tree grammar index-fn syntax-tree]
   (let [add-rule (fn [tree]
                    (first (g/add-rule tree grammar syntax-tree)))
         add-lexeme (fn [tree]
@@ -255,11 +255,14 @@
                       (add-rule tree)
                       true
                       (add-lexeme tree))))]
-    (cond (u/get-in tree [:babylon.generate/done?]) tree
-          true (generate-until-done (add tree) grammar index-fn syntax-tree))))
+    (cond
+      (nil? tree) tree
+      (:fail tree) tree
+      (u/get-in tree [:babylon.generate/done?]) tree
+      true (generate (add tree) grammar index-fn syntax-tree))))
 
 (defn testing-with [grammar index-fn syntax-tree]
-  (generate-until-done
+  (generate
    {:phrasal true
     :rule "s"
     :reflexive false
@@ -280,7 +283,7 @@
 
 (defn testing []
   (let [testing (fn []
-                  (testing-with grammar index-fn syntax-tree))]
+                  (time (testing-with grammar index-fn syntax-tree)))]
     (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
                      1))))
 

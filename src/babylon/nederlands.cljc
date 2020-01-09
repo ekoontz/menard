@@ -247,7 +247,14 @@
   (let [add-rule (fn [tree]
                    (first (g/add-rule tree grammar syntax-tree)))
         add-lexeme (fn [tree]
-                     (first (g/add-lexeme tree index-fn syntax-tree)))]
+                     (first (g/add-lexeme tree index-fn syntax-tree)))
+        add (fn [tree]
+              (let [at (g/frontier tree)
+                    add-phrasal? (u/get-in tree (concat at [:phrasal]))]
+                (cond add-phrasal?
+                      (add-rule tree)
+                      true
+                      (add-lexeme tree))))]
     (-> {:phrasal true
          :rule "s"
          :reflexive false
@@ -262,15 +269,15 @@
                        :rule "np"
                        :head {:phrasal false}
                        :comp {:phrasal false}}}}
-        add-rule
-        add-rule
-        add-lexeme
-        add-rule
-        add-lexeme
-        add-lexeme
-        add-rule
-        add-lexeme
-        add-lexeme)))
+        add
+        add
+        add
+        add
+        add
+        add
+        add
+        add
+        add)))
 
 (defn testing []
   (let [testing (fn []

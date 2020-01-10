@@ -255,6 +255,7 @@
                       (add-rule tree)
                       true
                       (add-lexeme tree))))]
+    (log/debug (str "intermediate result: " (morph tree)))
     (cond
       (nil? tree) tree
       (:fail tree) tree
@@ -262,7 +263,7 @@
       true (generate (add tree) grammar index-fn syntax-tree))))
 
 (defn testing-with [grammar index-fn syntax-tree]
-  (generate
+  (g/generate
    {:phrasal true
     :rule "s"
     :reflexive false
@@ -287,3 +288,13 @@
     (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
                      1))))
 
+
+
+(defn bigrams []
+  (repeatedly #(println
+                (morph (time
+                        (g/generate
+                         {:phrasal true :head {:phrasal false}
+                          :comp {:phrasal false
+                                 :subcat []}}
+                         grammar index-fn syntax-tree))))))

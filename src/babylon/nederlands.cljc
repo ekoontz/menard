@@ -243,7 +243,7 @@
                                 println))
                           (if false (println))))))))))))
 
-(defn generate [tree grammar index-fn syntax-tree]
+(defn generate-word-by-word [tree grammar index-fn syntax-tree]
   (let [add-rule (fn [tree]
                    (first (g/add-rule tree grammar syntax-tree)))
         add-lexeme (fn [tree]

@@ -288,13 +288,23 @@
     (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
                      1))))
 
+(def bigram
+  {:phrasal true
+   :head {:phrasal false}
+   :comp {:phrasal false}
+   :subcat []})
 
+(def see-bigram
+  {:phrasal true
+   :sem {:pred :see
+         :subj {:pred :i}}
+   :head {:phrasal false}
+   :comp {:phrasal false}
+   :subcat []})
 
 (defn bigrams []
   (repeatedly #(println
                 (morph (time
                         (g/generate
-                         {:phrasal true :head {:phrasal false}
-                          :comp {:phrasal false
-                                 :subcat []}}
+                         bigram
                          grammar index-fn syntax-tree))))))

@@ -1,7 +1,29 @@
 [
- ;; TODO: derive the general case from the specific automatically rather
+ ;; TODO: derive the general case from the specific expression pairs automatically rather
  ;; than having to list these specifications in pairs:
- ;;    (i.e. specific np, general np, specific np with adjective, etc..)
+ ;;    (e.g. specific np, then general np, specific np with adjective, general np with adjective, etc.
+
+ {:note "bigram"
+  :dotimes 1
+  :subcat []
+  :phrasal true
+  :head {:phrasal false}
+  :comp {:phrasal false}}
+
+ {:note "trigram [+. [. .]] "
+  :dotimes 1
+  :subcat []
+  :phrasal true
+  :head {:phrasal false}
+  :comp {:phrasal true}}
+
+ {:note "trigram: [. +[. .]] "
+  :dotimes 1
+  :subcat []
+  :phrasal true
+  :head {:phrasal true}
+  :comp {:phrasal false}}
+
  {:note "'een huis'"
   :dotimes 1
   :rule "np"

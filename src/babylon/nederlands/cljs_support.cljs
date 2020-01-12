@@ -15,7 +15,6 @@
                    vals
                    flatten)))))
 
-(def lexeme-map-atom (atom nil))
 ;; note that we exclude [:exception]s from the lexemes that we use for
 ;; generation since they are only to be used for parsing.
 ;; TODO: this is duplicated in babylon/nederlands.cljc (see def verb-lexicon).

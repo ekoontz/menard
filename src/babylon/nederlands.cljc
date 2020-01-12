@@ -56,10 +56,11 @@
 (def flattened-lexicon
   (flatten (vals lexicon)))
 
-(def verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (u/get-in % [:exception]))
-                     (= (u/get-in % [:cat]) :verb)))))
+#?(:clj
+   (def verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :verb))))))
 
 (defmacro verb-lexicon-macro []
   `~verb-lexicon)
@@ -126,23 +127,25 @@
 
 (declare sentence-punctuation)
 
-(defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) morphology)
+#?(:clj
+   (defn morph
+     ([tree]
+      (cond
+        (map? (u/get-in tree [:syntax-tree]))
+        (s/morph (u/get-in tree [:syntax-tree]) morphology)
 
-     true
-     (s/morph tree morphology)))
+        true
+        (s/morph tree morphology)))
 
-  ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
-     (-> tree
-         morph
-         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
+     ([tree & {:keys [sentence-punctuation?]}]
+      (if sentence-punctuation?
+        (-> tree
+            morph
+            (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
 
-(defn syntax-tree [tree]
-   (s/syntax-tree tree morphology))
+#?(:clj
+   (defn syntax-tree [tree]
+      (s/syntax-tree tree morphology)))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
@@ -153,44 +156,49 @@
          "?"
          ".")))
 
-(defn index-fn [spec]
-  (let [result
-        (cond (= (u/get-in spec [:cat]) :verb)
-              verb-lexicon
+#?(:clj
+   (defn index-fn [spec]
+     (let [result
+           (cond (= (u/get-in spec [:cat]) :verb)
+                 verb-lexicon
 
-              (and (= (u/get-in spec [:cat]))
-                   (not (= :top (u/get-in spec [:cat]))))
-              non-verb-lexicon
+                 (and (= (u/get-in spec [:cat]))
+                      (not (= :top (u/get-in spec [:cat]))))
+                 non-verb-lexicon
 
-              true
-              (lazy-cat verb-lexicon non-verb-lexicon))]
-    (if true
-      (shuffle result)
-      result)))
+                 true
+                 (lazy-cat verb-lexicon non-verb-lexicon))]
+       (if true
+         (shuffle result)
+         result))))
 
-(defn lookup
-  "find lexemes that satisfy _spec_."
-  [spec]
-  (let [spec (let [with-subcat-empty
-                   (unify spec {:subcat []})]
-               (if (= :fail with-subcat-empty)
-                 spec
-                 with-subcat-empty))]
-    (g/get-lexemes spec index-fn syntax-tree)))
+#?(:clj
+   (defn lookup
+     "find lexemes that satisfy _spec_."
+     [spec]
+     (let [spec (let [with-subcat-empty
+                      (unify spec {:subcat []})]
+                  (if (= :fail with-subcat-empty)
+                    spec
+                    with-subcat-empty))]
+       (g/get-lexemes spec index-fn syntax-tree))))
 
-(defn generate
-  "generate one random expression that satisfies _spec_."
-  [spec]
-  (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
-  (g/generate spec grammar index-fn syntax-tree))
+#?(:clj
+   (defn generate
+     "generate one random expression that satisfies _spec_."
+     [spec]
+     (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
+     (g/generate spec grammar index-fn syntax-tree)))
 
-(defn get-lexemes [spec]
-  (g/get-lexemes spec index-fn syntax-tree))
+#?(:clj
+   (defn get-lexemes [spec]
+     (g/get-lexemes spec index-fn syntax-tree)))
 
-(defn generate-n
-  "generate _n_ consecutive in-order expressions that satisfy _spec_."
-  [spec n]
-  (take n (repeatedly #(generate spec))))
+#?(:clj
+   (defn generate-n
+     "generate _n_ consecutive in-order expressions that satisfy _spec_."
+     [spec n]
+     (take n (repeatedly #(generate spec)))))
 
 (defn parse [expression]
   (binding [p/grammar grammar
@@ -201,10 +209,11 @@
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
 
-(defn analyze [surface]
-  (binding [l/lexicon lexicon
-            l/morphology morphology]
-    (l/matching-lexemes surface)))              
+#?(:clj
+   (defn analyze [surface]
+     (binding [l/lexicon lexicon
+               l/morphology morphology]
+       (l/matching-lexemes surface))))              
 
 (defn demo []
   (count
@@ -252,31 +261,33 @@
       (u/get-in tree [:babylon.generate/done?]) tree
       true (generate (add tree) grammar index-fn syntax-tree))))
 
-(defn testing-with [grammar index-fn syntax-tree]
-  (g/generate
-   {:phrasal true
-    :rule "s"
-    :reflexive false
-    :comp {:phrasal true
-           :rule "np"
-           :head {:phrasal true
-                  :comp {:phrasal true}}
-           :comp {:phrasal false}}
-    :head {:phrasal true
-           :rule "vp"
-           :head {:phrasal false}
-           :comp {:phrasal true
-                  :rule "np"
-                  :head {:phrasal true
-                         :comp {:phrasal true}}
-                  :comp {:phrasal false}}}}
-   grammar index-fn syntax-tree))
+#?(:clj
+   (defn testing-with [grammar index-fn syntax-tree]
+     (g/generate
+      {:phrasal true
+       :rule "s"
+       :reflexive false
+       :comp {:phrasal true
+              :rule "np"
+              :head {:phrasal true
+                     :comp {:phrasal true}}
+              :comp {:phrasal false}}
+       :head {:phrasal true
+              :rule "vp"
+              :head {:phrasal false}
+              :comp {:phrasal true
+                     :rule "np"
+                     :head {:phrasal true
+                            :comp {:phrasal true}}
+                     :comp {:phrasal false}}}}
+      grammar index-fn syntax-tree)))
 
-(defn testing []
-  (let [testing (fn []
-                  (time (testing-with grammar index-fn syntax-tree)))]
-    (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
-                     1))))
+#?(:clj
+   (defn testing []
+     (let [testing (fn []
+                     (time (testing-with grammar index-fn syntax-tree)))]
+       (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
+                        1)))))
 
 (def bigram
   {:phrasal true
@@ -292,9 +303,10 @@
    :comp {:phrasal false}
    :subcat []})
 
-(defn bigrams []
-  (repeatedly #(println
-                (morph (time
-                        (g/generate
-                         bigram
-                         grammar index-fn syntax-tree))))))
+#?(:clj
+   (defn bigrams []
+     (repeatedly #(println
+                   (morph (time
+                           (g/generate
+                            bigram
+                            grammar index-fn syntax-tree)))))))

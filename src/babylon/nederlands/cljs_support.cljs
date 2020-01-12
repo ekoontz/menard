@@ -24,7 +24,6 @@
 ;; generation since they are only to be used for parsing.
 ;; TODO: this is duplicated in babylon/nederlands.cljc (see def verb-lexicon).
 (defn lexeme-map []
-    (log/info (str "inside the lexeme-map function...(in babylon (cljs_support))!!"))
     (if (nil? @lexeme-map-atom)
       (do (swap! lexeme-map-atom
                  (fn []
@@ -47,12 +46,11 @@
   ;; for now a somewhat bad index function: simply returns
   ;; lexemes which match the spec's :cat, or, if the :cat isn't
   ;; defined, just return all the lexemes.
-  (log/info (str "inside the index-fn function...(in babylon (cljs_support))!!"))
   (let [result (get (lexeme-map) (u/get-in spec [:cat] :top) nil)]
     (if (not (nil? result))
         (shuffle result)
         (do
-          (log/info (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+          (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
           (lexicon)))))
 
 (declare morphology)
@@ -108,7 +106,7 @@
               (or (nil? times)
                   (< times 2))
               (do
-                (log/info (str "retry #" (if (nil? times) 1 (+ 1 times))))
+                (log/warn (str "retry #" (if (nil? times) 1 (+ 1 times))))
                 (generate spec (if (nil? times) 1 (+ 1 times))))
               true nil)))]
       (cond

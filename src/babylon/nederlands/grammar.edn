@@ -42,7 +42,7 @@
  {:rule "s"
   :cat :verb
   :subcat []
-  :options babylon.nederlands/finite-tenses  
+  :options babylon.nederlands.resources/finite-tenses  
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
           babylon.ug/head-last
@@ -55,7 +55,7 @@
   :cat :verb
   :aux false
   :slash false
-  :options babylon.nederlands/finite-tenses
+  :options babylon.nederlands.resources/finite-tenses
   :head {:aux false}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root

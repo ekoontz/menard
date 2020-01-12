@@ -1,5 +1,6 @@
 (ns babylon.test.nederlands
-  (:require [babylon.nederlands :as nl :refer [analyze expressions generate morph parse syntax-tree]]
+  (:require [babylon.nederlands :as nl :refer [analyze generate morph parse syntax-tree]]
+            #?(:clj [babylon.nederlands.resources :refer [expressions]])
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])

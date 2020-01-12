@@ -1,14 +1,12 @@
 (ns babylon.nederlands
-  (:require #?(:clj [clojure.java.io :as io :refer [resource]])
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
-            [babylon.grammar :as grammar]
-            [babylon.morphology :as m]
+            [babylon.nederlands.resources :as resources]
             [babylon.parse :as p]
             [babylon.serialization :as s]
-            [babylon.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
+            #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]
             [dag_unify.serialization :refer [serialize]]))
@@ -16,109 +14,8 @@
 ;; For generation and parsing of Dutch.
 ;;
 
-#?(:clj
-   (def lexical-rules
-     [(l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn")
-      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn")]))
-
-#?(:clj
-   (defn compile-lexicon-source [source-filename]
-     (-> source-filename
-         l/read-and-eval
-         l/add-exceptions-to-lexicon
-         (l/apply-rules-in-order (nth lexical-rules 0) :0)
-         (l/apply-rules-in-order (nth lexical-rules 1) :1)
-         (l/apply-rules-in-order (nth lexical-rules 2) :2))))
-
-#?(:clj
-   (def lexicon
-     (merge-with concat
-       (compile-lexicon-source "babylon/nederlands/lexicon/adjectives.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/misc.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
-
-(def finite-tenses
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :modal false
-    :sem {:tense :present
-          :aspect :simple}}])
-
-#?(:clj
-   (def grammar
-     (-> "babylon/nederlands/grammar.edn"
-         resource
-         slurp
-         read-string
-         grammar/process)))
-
-(defmacro compile-morphology []
-  `(concat
-     ~(-> "babylon/nederlands/morphology/adjectives.edn"
-          l/read-and-eval)
-     ~(-> "babylon/nederlands/morphology/nouns.edn"
-          l/read-and-eval)
-     ~(-> "babylon/nederlands/morphology/verbs.edn"
-          l/read-and-eval)))
-
-#?(:clj
-   (def morphology
-     (compile-morphology)))
-
-#?(:clj
-   (def expressions
-     (-> "babylon/nederlands/expressions.edn"
-         resource slurp read-string eval)))
-
-#?(:clj
-   (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon lexicon
-                               "src/babylon/nederlands/lexicon/compiled.edn")))
-
-#?(:clj
-   (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar grammar
-                                     "src/babylon/nederlands/grammar/compiled.edn")))
-
-#?(:cljs
-   (defn slurp [x]))
-#?(:cljs
-   (defn read-string [x]))
-#?(:cljs
-   (defn resource [x]))
-#?(:cljs
-   (def morphology nil))
-#?(:cljs
-   (def grammar nil))
-#?(:cljs
-   (def lexicon nil))
-#?(:cljs
-   (def expressions nil))
-
-(defmacro read-compiled-lexicon []
-  `~(-> "babylon/nederlands/lexicon/compiled.edn"
-        resource
-        slurp
-        read-string))
-
-(defmacro read-compiled-grammar []
-  `~(-> "babylon/nederlands/grammar/compiled.edn"
-        resource
-        slurp
-        read-string))
-
-(defmacro read-expressions []
-  `~(-> "babylon/nederlands/expressions.edn"
-        resource
-        slurp
-        read-string))
-
 (declare sentence-punctuation)
+(declare morphology)
 
 (defn morph
   ([tree]
@@ -148,15 +45,12 @@
          ".")))
 
 (def flattened-lexicon
-  (flatten (vals lexicon)))
+  (flatten (vals resources/lexicon)))
 
 (def verb-lexicon
   (->> flattened-lexicon
        (filter #(and (not (u/get-in % [:exception]))
                      (= (u/get-in % [:cat]) :verb)))))
-
-(defmacro verb-lexicon-macro []
-  `~verb-lexicon)
 
 (def non-verb-lexicon
   (->> flattened-lexicon
@@ -192,7 +86,7 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
-  (g/generate spec grammar index-fn syntax-tree))
+  (g/generate spec resources/grammar index-fn syntax-tree))
 
 (defn get-lexemes [spec]
   (g/get-lexemes spec index-fn syntax-tree))
@@ -203,26 +97,26 @@
   (take n (repeatedly #(generate spec))))
 
 (defn parse [expression]
-  (binding [p/grammar grammar
+  (binding [p/grammar resources/grammar
             p/syntax-tree syntax-tree
-            l/lexicon lexicon
+            l/lexicon resources/lexicon
             l/morphology morphology
             p/split-on #"[ ]"
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
 
 (defn analyze [surface]
-  (binding [l/lexicon lexicon
+  (binding [l/lexicon resources/lexicon
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
 (defn demo []
   (count
    (->>
-    (range 0 (count expressions))
+    (range 0 (count resources/expressions))
     (map (fn [index]
            (let [generated-expressions
-                 (->> (repeatedly #(generate (nth expressions index)))
+                 (->> (repeatedly #(generate (nth resources/expressions index)))
                       (take 20)
                       (filter #(not (nil? %))))]
              ;; for each expression:
@@ -284,7 +178,7 @@
 
 (defn testing []
   (let [testing (fn []
-                  (time (testing-with grammar index-fn syntax-tree)))]
+                  (time (testing-with resources/grammar index-fn syntax-tree)))]
     (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
                      1))))
 
@@ -307,4 +201,51 @@
                 (morph (time
                         (g/generate
                          bigram
-                         grammar index-fn syntax-tree))))))
+                         resources/grammar index-fn syntax-tree))))))
+
+(defmacro compile-morphology []
+  `(concat
+     ~(-> "babylon/nederlands/morphology/adjectives.edn"
+          l/read-and-eval)
+     ~(-> "babylon/nederlands/morphology/nouns.edn"
+          l/read-and-eval)
+     ~(-> "babylon/nederlands/morphology/verbs.edn"
+          l/read-and-eval)))
+
+(defmacro read-compiled-lexicon []
+  `~(-> "babylon/nederlands/lexicon/compiled.edn"
+        resource
+        slurp
+        read-string))
+
+(defmacro read-compiled-grammar []
+  `~(-> "babylon/nederlands/grammar/compiled.edn"
+        resource
+        slurp
+        read-string))
+
+(defmacro read-expressions []
+  `~(-> "babylon/nederlands/expressions.edn"
+        resource
+        slurp
+        read-string))
+
+(defmacro verb-lexicon-macro []
+  `~verb-lexicon)
+
+#?(:clj
+   (def morphology
+     (compile-morphology)))
+
+#?(:cljs
+   (defn slurp [x]))
+#?(:cljs
+   (defn read-string [x]))
+#?(:cljs
+   (defn resource [x]))
+#?(:cljs
+   (def morphology nil))
+#?(:cljs
+   (def grammar nil))
+#?(:cljs
+   (def lexicon nil))

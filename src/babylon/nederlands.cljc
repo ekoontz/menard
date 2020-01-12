@@ -53,8 +53,9 @@
         slurp
         read-string))
 
-(def flattened-lexicon
-  (flatten (vals lexicon)))
+#?(:clj
+   (def flattened-lexicon
+     (flatten (vals lexicon))))
 
 #?(:clj
    (def verb-lexicon

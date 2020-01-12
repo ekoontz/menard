@@ -47,10 +47,9 @@
           (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
           (lexicon)))))
 
-(def grammar-atom (atom nil))
 (defn grammar []
-  (or @grammar-atom
-      (swap! grammar-atom
+  (or @nl/grammar-atom
+      (swap! nl/grammar-atom
              (fn []
                (->> (nl/read-compiled-grammar)
                     (map dag_unify.serialization/deserialize))))))

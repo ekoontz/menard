@@ -108,6 +108,9 @@
          read-string
          grammar/process)))
 
+#?(:cljs
+   (def grammar-atom (atom nil)))
+
 (defmacro compile-morphology []
   `(concat
      ~(-> "babylon/nederlands/morphology/adjectives.edn"

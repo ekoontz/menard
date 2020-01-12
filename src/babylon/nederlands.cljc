@@ -1,5 +1,5 @@
 (ns babylon.nederlands
-  (:require #?(:clj [clojure.java.io :as io :refer [resource]])
+  (:require #?(:clj [clojure.java.io :refer [resource]])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
@@ -10,8 +10,7 @@
             [babylon.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]
-            [dag_unify.serialization :refer [serialize]]))
+            [dag_unify.core :as u :refer [pprint unify]]))
 ;;
 ;; For generation and parsing of Dutch.
 ;;
@@ -100,17 +99,7 @@
 
 ;; </lexicon>
 
-#?(:clj
-   (def grammar
-     (-> "babylon/nederlands/grammar.edn"
-         resource
-         slurp
-         read-string
-         grammar/process)))
-
-#?(:cljs
-   (def grammar-atom (atom nil)))
-
+;; <morphology>
 (defmacro compile-morphology []
   `(concat
      ~(-> "babylon/nederlands/morphology/adjectives.edn"
@@ -124,48 +113,7 @@
    (def morphology
      (compile-morphology)))
 
-#?(:clj
-   (def expressions
-     (-> "babylon/nederlands/expressions.edn"
-         resource slurp read-string eval)))
-
-(defmacro read-expressions []
-  `~(-> "babylon/nederlands/expressions.edn"
-        resource
-        slurp
-        read-string))
-
-#?(:cljs
-   (def expressions-atom (atom nil)))
-
-#?(:clj
-   (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar grammar
-                                     "src/babylon/nederlands/grammar/compiled.edn")))
-
-(defmacro read-compiled-grammar []
-  `~(-> "babylon/nederlands/grammar/compiled.edn"
-        resource
-        slurp
-        read-string))
-
-
-#?(:clj
-   (defn syntax-tree [tree]
-      (s/syntax-tree tree morphology)))
-
-#?(:cljs
-   (defn syntax-tree [tree]
-     (s/syntax-tree tree (morphology))))
-
-(defn sentence-punctuation
-  "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
-  [input mood]
-  (str (string/capitalize (first input))
-       (subs input 1 (count input))
-       (if (= mood :interog)
-         "?"
-         ".")))
+(declare sentence-punctuation)
 
 #?(:clj
    (defn morph
@@ -208,6 +156,59 @@
      (or @morphology-atom
          (do (swap! morphology-atom (fn [] (compile-morphology)))
              @morphology-atom))))
+
+;; </morphology>
+
+;; <grammar>
+#?(:clj
+   (def grammar
+     (-> "babylon/nederlands/grammar.edn"
+         resource
+         slurp
+         read-string
+         grammar/process)))
+
+#?(:cljs
+   (def grammar-atom (atom nil)))
+
+#?(:clj
+   (defn write-compiled-grammar []
+     (grammar/write-compiled-grammar grammar
+                                     "src/babylon/nederlands/grammar/compiled.edn")))
+
+(defmacro read-compiled-grammar []
+  `~(-> "babylon/nederlands/grammar/compiled.edn"
+        resource
+        slurp
+        read-string))
+
+;; </grammar>
+
+;; <expressions>
+
+#?(:clj
+   (def expressions
+     (-> "babylon/nederlands/expressions.edn"
+         resource slurp read-string eval)))
+
+(defmacro read-expressions []
+  `~(-> "babylon/nederlands/expressions.edn"
+        resource
+        slurp
+        read-string))
+
+#?(:cljs
+   (def expressions-atom (atom nil)))
+
+;; </expressions>
+
+#?(:clj
+   (defn syntax-tree [tree]
+      (s/syntax-tree tree morphology)))
+
+#?(:cljs
+   (defn syntax-tree [tree]
+     (s/syntax-tree tree (morphology))))
 
 #?(:clj
    (defn index-fn [spec]
@@ -355,6 +356,12 @@
   (or @the-atom
       (swap! the-atom (fn [x] (the-fn @the-atom)))))
 
-
-
+(defn sentence-punctuation
+  "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
+  [input mood]
+  (str (string/capitalize (first input))
+       (subs input 1 (count input))
+       (if (= mood :interog)
+         "?"
+         ".")))
 

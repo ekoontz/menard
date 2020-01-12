@@ -227,17 +227,6 @@
          result))))
 
 #?(:clj
-   (defn lookup
-     "find lexemes that satisfy _spec_."
-     [spec]
-     (let [spec (let [with-subcat-empty
-                      (unify spec {:subcat []})]
-                  (if (= :fail with-subcat-empty)
-                    spec
-                    with-subcat-empty))]
-       (g/get-lexemes spec index-fn syntax-tree))))
-
-#?(:clj
    (defn generate
      "generate one random expression that satisfies _spec_."
      [spec]

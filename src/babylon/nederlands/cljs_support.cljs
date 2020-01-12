@@ -58,10 +58,9 @@
                (->> (nl/read-compiled-grammar)
                     (map dag_unify.serialization/deserialize))))))
 
-(def expressions-atom (atom nil))
 (defn expressions []
-  (or @expressions-atom
-      (do (swap! expressions-atom (fn [] (nl/read-expressions))))))
+  (or @nl/expressions-atom
+      (do (swap! nl/expressions-atom (fn [] (nl/read-expressions))))))
 
 (defn generate [spec & [times]]
   (let [attempt

@@ -121,6 +121,14 @@
      (-> "babylon/nederlands/expressions.edn"
          resource slurp read-string eval)))
 
+(defmacro read-expressions []
+  `~(-> "babylon/nederlands/expressions.edn"
+        resource
+        slurp
+        read-string))
+
+#?(:cljs
+   (def expressions-atom (atom nil)))
 
 #?(:clj
    (defn write-compiled-grammar []
@@ -133,11 +141,6 @@
         slurp
         read-string))
 
-(defmacro read-expressions []
-  `~(-> "babylon/nederlands/expressions.edn"
-        resource
-        slurp
-        read-string))
 
 #?(:clj
    (defn syntax-tree [tree]
@@ -257,32 +260,33 @@
                l/morphology morphology]
        (l/matching-lexemes surface))))              
 
-(defn demo []
-  (count
-   (->>
-    (range 0 (count expressions))
-    (map (fn [index]
-           (let [generated-expressions
-                 (->> (repeatedly #(generate (nth expressions index)))
-                      (take 20)
-                      (filter #(not (nil? %))))]
-             ;; for each expression:
-             ;; generate it, and print the surface form
-             ;; parse the surface form and return the first parse tree.
-             (count
-              (->> generated-expressions
-                   (map (fn [generated-expression]
-                          (-> generated-expression
-                              (morph :sentence-punctuation? true)
-                              println)
-                          (if false
+#(:clj
+  (defn demo []
+    (count
+     (->>
+      (range 0 (count expressions))
+      (map (fn [index]
+             (let [generated-expressions
+                   (->> (repeatedly (fn [] (generate (nth expressions index))))
+                        (take 20)
+                        (filter (fn [generated] (not (nil? generated)))))]
+               ;; for each expression:
+               ;; generate it, and print the surface form
+               ;; parse the surface form and return the first parse tree.
+               (count
+                (->> generated-expressions
+                     (map (fn [generated-expression]
                             (-> generated-expression
-                                morph
-                                parse
-                                first
-                                syntax-tree
-                                println))
-                          (if false (println))))))))))))
+                                (morph :sentence-punctuation? true)
+                                println)
+                            (if false
+                              (-> generated-expression
+                                  morph
+                                  parse
+                                  first
+                                  syntax-tree
+                                  println))
+                            (if false (println)))))))))))))
 
 (defn generate-word-by-word [tree grammar index-fn syntax-tree]
   (let [add-rule (fn [tree]

@@ -1,8 +1,8 @@
 (ns babylon.nederlands.lexicon
   (:require-macros [babylon.nederlands])
   (:require [babylon.nederlands :as nl]
-            [cljslog.core :as log]))
-
+            [cljslog.core :as log]
+            [dag_unify.core :as u]))
 (def lexicon-atom (atom nil))
 
 (defn lexicon []
@@ -40,4 +40,16 @@
                     :adjective (->> (lexicon)                                                          
                                     (filter #(= :adjective (u/get-in % [:cat]))))})))
       @lexeme-map-atom))
+
+(defn index-fn [spec]
+  ;; for now a somewhat bad index function: simply returns
+  ;; lexemes which match the spec's :cat, or, if the :cat isn't
+  ;; defined, just return all the lexemes.
+  (log/info (str "inside the index-fn function...(in babylon)!!"))
+  (let [result (get (lexeme-map) (u/get-in spec [:cat] :top) nil)]
+    (if (not (nil? result))
+        (shuffle result)
+        (do
+          (log/info (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+          (lexicon)))))
 

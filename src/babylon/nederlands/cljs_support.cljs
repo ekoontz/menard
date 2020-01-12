@@ -55,8 +55,11 @@
 
 (def grammar-atom (atom nil))
 (defn grammar []
-  (->> (nl/read-compiled-grammar)
-       (map dag_unify.serialization/deserialize)))
+  (or @grammar-atom
+      (swap! grammar-atom
+             (fn []
+               (->> (nl/read-compiled-grammar)
+                    (map dag_unify.serialization/deserialize))))))
 
 (def expressions-atom (atom nil))
 (defn expressions []

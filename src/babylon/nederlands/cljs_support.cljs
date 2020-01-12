@@ -66,9 +66,6 @@
   (or @expressions-atom
       (do (swap! expressions-atom (fn [] (nl/read-expressions))))))
 
-(defn syntax-tree [tree]
-  (s/syntax-tree tree (nl/morphology)))
-
 (defn generate [spec & [times]]
   (let [attempt
         (try
@@ -76,7 +73,7 @@
                       (grammar)
                       (fn [spec]
                         (shuffle (index-fn spec)))
-                      syntax-tree)
+                      nl/syntax-tree)
           (catch js/Error e
             (cond
               (or (nil? times)
@@ -97,5 +94,5 @@
         (log/error (str "giving up generating after 2 times; sorry."))
         true
         {:structure attempt
-         :syntax-tree (syntax-tree attempt)
+         :syntax-tree (nl/syntax-tree attempt)
          :surface (nl/morph attempt)})))

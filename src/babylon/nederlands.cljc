@@ -143,6 +143,10 @@
    (defn syntax-tree [tree]
       (s/syntax-tree tree morphology)))
 
+#?(:cljs
+   (defn syntax-tree [tree]
+     (s/syntax-tree tree (morphology))))
+
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
   [input mood]

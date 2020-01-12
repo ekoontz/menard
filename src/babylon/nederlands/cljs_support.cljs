@@ -6,6 +6,10 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
+(defn swap-with [atom function]
+  (or @atom
+      (swap! atom (function))))
+
 (defn lexicon []
   (or @nl/lexicon-atom
       (swap! nl/lexicon-atom

@@ -6,18 +6,13 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(defn swap-with [atom function]
-  (or @atom
-      (swap! atom (function))))
-
 (defn lexicon []
-  (or @nl/lexicon-atom
-      (swap! nl/lexicon-atom
-             (fn []
-               (-> (nl/read-compiled-lexicon)
-                   babylon.lexiconfn/deserialize-lexicon              
-                   vals
-                   flatten)))))
+  (nl/swap-with nl/lexicon-atom
+                (fn [x]
+                  (-> (nl/read-compiled-lexicon)
+                      babylon.lexiconfn/deserialize-lexicon              
+                      vals
+                      flatten))))
 
 ;; note that we exclude [:exception]s from the lexemes that we use for
 ;; generation since they are only to be used for parsing.

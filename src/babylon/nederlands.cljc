@@ -347,3 +347,11 @@
                            (g/generate
                             bigram
                             grammar index-fn syntax-tree)))))))
+
+(defn swap-with [the-atom the-fn]
+  (or @the-atom
+      (swap! the-atom (fn [x] (the-fn @the-atom)))))
+
+
+
+

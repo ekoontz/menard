@@ -95,6 +95,8 @@
 
 #?(:cljs
    (def lexicon-atom (atom nil)))
+#?(:cljs
+   (def lexeme-map-atom (atom nil)))
 
 ;; </lexicon>
 

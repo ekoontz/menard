@@ -6,35 +6,8 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(defn lexicon []
-  (nl/swap-with nl/lexicon-atom
-                (fn [x]
-                  (-> (nl/read-compiled-lexicon)
-                      babylon.lexiconfn/deserialize-lexicon              
-                      vals
-                      flatten))))
-
-;; note that we exclude [:exception]s from the lexemes that we use for
-;; generation since they are only to be used for parsing.
-;; TODO: this is duplicated in babylon/nederlands.cljc (see def verb-lexicon).
-(defn lexeme-map []
-  (or @nl/lexeme-map-atom
-      (swap! nl/lexeme-map-atom
-             (fn []
-               {:verb (->> (lexicon)
-                           (filter #(= :verb (u/get-in % [:cat])))
-                           (filter #(not (u/get-in % [:exception]))))
-                :det (->> (lexicon)
-                          (filter #(= :det (u/get-in % [:cat]))))
-                :intensifier (->> (lexicon)
-                                  (filter #(= :intensifier (u/get-in % [:cat]))))
-                :noun (->> (lexicon)
-                           (filter #(= :noun (u/get-in % [:cat])))
-                           (filter #(not (u/get-in % [:exception]))))
-                :top (lexicon)
-                :adjective (->> (lexicon)                                                          
-                                (filter #(= :adjective (u/get-in % [:cat]))))}))))
-
+(declare lexicon)
+(declare lexicon-map)        
 
 (defn index-fn [spec]
   ;; for now a somewhat bad index function: simply returns
@@ -88,3 +61,32 @@
         {:structure attempt
          :syntax-tree (nl/syntax-tree attempt)
          :surface (nl/morph attempt)})))
+
+(defn lexicon []
+  (nl/swap-with nl/lexicon-atom
+                (fn [x]
+                  (-> (nl/read-compiled-lexicon)
+                      babylon.lexiconfn/deserialize-lexicon              
+                      vals
+                      flatten))))
+
+;; note that we exclude [:exception]s from the lexemes that we use for
+;; generation since they are only to be used for parsing.
+;; TODO: this is duplicated in babylon/nederlands.cljc (see def verb-lexicon).
+(defn lexeme-map []
+  (or @nl/lexeme-map-atom
+      (swap! nl/lexeme-map-atom
+             (fn []
+               {:verb (->> (lexicon)
+                           (filter #(= :verb (u/get-in % [:cat])))
+                           (filter #(not (u/get-in % [:exception]))))
+                :det (->> (lexicon)
+                          (filter #(= :det (u/get-in % [:cat]))))
+                :intensifier (->> (lexicon)
+                                  (filter #(= :intensifier (u/get-in % [:cat]))))
+                :noun (->> (lexicon)
+                           (filter #(= :noun (u/get-in % [:cat])))
+                           (filter #(not (u/get-in % [:exception]))))
+                :top (lexicon)
+                :adjective (->> (lexicon)                                                          
+                                (filter #(= :adjective (u/get-in % [:cat]))))}))))

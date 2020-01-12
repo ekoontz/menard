@@ -16,6 +16,8 @@
 ;; For generation and parsing of Dutch.
 ;;
 
+
+;; <lexicon>
 #?(:clj
    (def lexical-rules
      [(l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn")
@@ -39,6 +41,35 @@
        (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
+
+#?(:clj
+   (defn write-compiled-lexicon []
+     (l/write-compiled-lexicon lexicon
+                               "src/babylon/nederlands/lexicon/compiled.edn")))
+
+(defmacro read-compiled-lexicon []
+  `~(-> "babylon/nederlands/lexicon/compiled.edn"
+        resource
+        slurp
+        read-string))
+
+(def flattened-lexicon
+  (flatten (vals lexicon)))
+
+(def verb-lexicon
+  (->> flattened-lexicon
+       (filter #(and (not (u/get-in % [:exception]))
+                     (= (u/get-in % [:cat]) :verb)))))
+
+(defmacro verb-lexicon-macro []
+  `~verb-lexicon)
+
+(def non-verb-lexicon
+  (->> flattened-lexicon
+       (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                     (not (u/get-in % [:exception]))))))
+
+;; </lexicon>
 
 (def finite-tenses
   [;; "hij werkt"
@@ -75,10 +106,6 @@
      (-> "babylon/nederlands/expressions.edn"
          resource slurp read-string eval)))
 
-#?(:clj
-   (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon lexicon
-                               "src/babylon/nederlands/lexicon/compiled.edn")))
 
 #?(:clj
    (defn write-compiled-grammar []
@@ -99,12 +126,6 @@
    (def lexicon nil))
 #?(:cljs
    (def expressions nil))
-
-(defmacro read-compiled-lexicon []
-  `~(-> "babylon/nederlands/lexicon/compiled.edn"
-        resource
-        slurp
-        read-string))
 
 (defmacro read-compiled-grammar []
   `~(-> "babylon/nederlands/grammar/compiled.edn"
@@ -146,22 +167,6 @@
        (if (= mood :interog)
          "?"
          ".")))
-
-(def flattened-lexicon
-  (flatten (vals lexicon)))
-
-(def verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (u/get-in % [:exception]))
-                     (= (u/get-in % [:cat]) :verb)))))
-
-(defmacro verb-lexicon-macro []
-  `~verb-lexicon)
-
-(def non-verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                     (not (u/get-in % [:exception]))))))
 
 (defn index-fn [spec]
   (let [result

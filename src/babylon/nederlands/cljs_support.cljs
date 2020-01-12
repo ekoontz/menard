@@ -53,30 +53,6 @@
           (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
           (lexicon)))))
 
-(declare morphology)
-
-(defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) (morphology))
-
-     true
-     (s/morph tree (morphology))))
-
-  ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
-     (-> tree
-         morph
-         (nl/sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
-
-(def morphology-atom (atom nil))
-
-(defn morphology []
-  (or @morphology-atom
-      (do (swap! morphology-atom (fn [] (nl/compile-morphology)))
-          @morphology-atom)))
-
 (def grammar-atom (atom nil))
 (def expressions-atom (atom nil))
 
@@ -122,4 +98,4 @@
         true
         {:structure attempt
          :syntax-tree (syntax-tree attempt)
-         :surface (morph attempt)})))
+         :surface (nl/morph attempt)})))

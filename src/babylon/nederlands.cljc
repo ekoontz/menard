@@ -16,6 +16,28 @@
 ;; For generation and parsing of Dutch.
 ;;
 
+(def finite-tenses
+  [;; "hij werkt"
+   {:variant :present-simple
+    :abbreviation :simple-present
+    :infl :present
+    :modal false
+    :sem {:tense :present
+          :aspect :simple}}])
+
+(def bigram
+  {:phrasal true
+   :head {:phrasal false}
+   :comp {:phrasal false}
+   :subcat []})
+
+(def see-bigram
+  {:phrasal true
+   :sem {:pred :see
+         :subj {:pred :i}}
+   :head {:phrasal false}
+   :comp {:phrasal false}
+   :subcat []})
 
 ;; <lexicon>
 #?(:clj
@@ -73,15 +95,6 @@
 
 ;; </lexicon>
 
-(def finite-tenses
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :modal false
-    :sem {:tense :present
-          :aspect :simple}}])
-
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"
@@ -126,7 +139,18 @@
         slurp
         read-string))
 
-(declare sentence-punctuation)
+#?(:clj
+   (defn syntax-tree [tree]
+      (s/syntax-tree tree morphology)))
+
+(defn sentence-punctuation
+  "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
+  [input mood]
+  (str (string/capitalize (first input))
+       (subs input 1 (count input))
+       (if (= mood :interog)
+         "?"
+         ".")))
 
 #?(:clj
    (defn morph
@@ -144,18 +168,31 @@
             morph
             (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
 
-#?(:clj
-   (defn syntax-tree [tree]
-      (s/syntax-tree tree morphology)))
+#?(:cljs
+   (defn morph
+     ([tree]
+      (log/info (str "in babylon.nederlands morph.."))
+      (cond
+        (map? (u/get-in tree [:syntax-tree]))
+        (s/morph (u/get-in tree [:syntax-tree]) (morphology))
 
-(defn sentence-punctuation
-  "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
-  [input mood]
-  (str (string/capitalize (first input))
-       (subs input 1 (count input))
-       (if (= mood :interog)
-         "?"
-         ".")))
+        true
+        (s/morph tree (morphology))))
+
+     ([tree & {:keys [sentence-punctuation?]}]
+      (if sentence-punctuation?
+        (-> tree
+            morph
+            (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
+
+#?(:cljs
+   (def morphology-atom (atom nil)))
+
+#?(:cljs
+   (defn morphology []
+     (or @morphology-atom
+         (do (swap! morphology-atom (fn [] (compile-morphology)))
+             @morphology-atom))))
 
 #?(:clj
    (defn index-fn [spec]
@@ -289,20 +326,6 @@
                      (time (testing-with grammar index-fn syntax-tree)))]
        (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
                         1)))))
-
-(def bigram
-  {:phrasal true
-   :head {:phrasal false}
-   :comp {:phrasal false}
-   :subcat []})
-
-(def see-bigram
-  {:phrasal true
-   :sem {:pred :see
-         :subj {:pred :i}}
-   :head {:phrasal false}
-   :comp {:phrasal false}
-   :subcat []})
 
 #?(:clj
    (defn bigrams []

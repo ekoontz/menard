@@ -67,7 +67,7 @@
       (do (swap! expressions-atom (fn [] (nl/read-expressions))))))
 
 (defn syntax-tree [tree]
-  (s/syntax-tree tree (morphology)))
+  (s/syntax-tree tree (nl/morphology)))
 
 (defn generate [spec & [times]]
   (let [attempt

@@ -305,26 +305,25 @@
       (u/get-in tree [:babylon.generate/done?]) tree
       true (generate (add tree) grammar index-fn syntax-tree))))
 
-#?(:clj
-   (defn testing-with [grammar index-fn syntax-tree]
-     (g/generate
-      {:phrasal true
-       :rule "s"
-       :reflexive false
-       :comp {:phrasal true
-              :rule "np"
-              :head {:phrasal true
-                     :comp {:phrasal true}}
-              :comp {:phrasal false}}
-       :head {:phrasal true
-              :rule "vp"
-              :head {:phrasal false}
-              :comp {:phrasal true
-                     :rule "np"
-                     :head {:phrasal true
-                            :comp {:phrasal true}}
-                     :comp {:phrasal false}}}}
-      grammar index-fn syntax-tree)))
+(defn testing-with [grammar index-fn syntax-tree]
+  (g/generate
+   {:phrasal true
+    :rule "s"
+    :reflexive false
+    :comp {:phrasal true
+           :rule "np"
+           :head {:phrasal true
+                  :comp {:phrasal true}}
+           :comp {:phrasal false}}
+    :head {:phrasal true
+           :rule "vp"
+           :head {:phrasal false}
+           :comp {:phrasal true
+                  :rule "np"
+                  :head {:phrasal true
+                         :comp {:phrasal true}}
+                  :comp {:phrasal false}}}}
+   grammar index-fn syntax-tree))
 
 #?(:clj
    (defn testing []

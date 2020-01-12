@@ -112,21 +112,6 @@
      (grammar/write-compiled-grammar grammar
                                      "src/babylon/nederlands/grammar/compiled.edn")))
 
-#?(:cljs
-   (defn slurp [x]))
-#?(:cljs
-   (defn read-string [x]))
-#?(:cljs
-   (defn resource [x]))
-#?(:cljs
-   (def morphology nil))
-#?(:cljs
-   (def grammar nil))
-#?(:cljs
-   (def lexicon nil))
-#?(:cljs
-   (def expressions nil))
-
 (defmacro read-compiled-grammar []
   `~(-> "babylon/nederlands/grammar/compiled.edn"
         resource

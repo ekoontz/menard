@@ -6,15 +6,14 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(def lexicon-atom (atom nil))
 (defn lexicon []
-  (or @lexicon-atom
-      (swap! lexicon-atom
-                (fn []
-                  (-> (nl/read-compiled-lexicon)
-                      babylon.lexiconfn/deserialize-lexicon              
-                      vals
-                      flatten)))))
+  (or @nl/lexicon-atom
+      (swap! nl/lexicon-atom
+             (fn []
+               (-> (nl/read-compiled-lexicon)
+                   babylon.lexiconfn/deserialize-lexicon              
+                   vals
+                   flatten)))))
 
 (def lexeme-map-atom (atom nil))
 ;; note that we exclude [:exception]s from the lexemes that we use for

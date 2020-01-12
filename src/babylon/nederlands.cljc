@@ -93,6 +93,10 @@
        (filter #(and (not (= (u/get-in % [:cat]) :verb))
                      (not (u/get-in % [:exception]))))))
 
+#?(:cljs
+   (def lexicon-atom (atom nil)))
+
+
 ;; </lexicon>
 
 #?(:clj

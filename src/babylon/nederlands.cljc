@@ -96,7 +96,6 @@
 #?(:cljs
    (def lexicon-atom (atom nil)))
 
-
 ;; </lexicon>
 
 #?(:clj

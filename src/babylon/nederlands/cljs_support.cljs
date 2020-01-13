@@ -9,17 +9,6 @@
 (declare lexicon)
 (declare lexicon-map)        
 
-(defn index-fn [spec]
-  ;; for now a somewhat bad index function: simply returns
-  ;; lexemes which match the spec's :cat, or, if the :cat isn't
-  ;; defined, just return all the lexemes.
-  (let [result (get (lexeme-map) (u/get-in spec [:cat] :top) nil)]
-    (if (not (nil? result))
-        (shuffle result)
-        (do
-          (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
-          (lexicon)))))
-
 (defn grammar []
   (or @nl/grammar-atom
       (swap! nl/grammar-atom
@@ -62,13 +51,11 @@
          :syntax-tree (nl/syntax-tree attempt)
          :surface (nl/morph attempt)})))
 
-(defn lexicon []
-  (nl/swap-with nl/lexicon-atom
-                (fn [x]
-                  (-> (nl/read-compiled-lexicon)
-                      babylon.lexiconfn/deserialize-lexicon              
-                      vals
-                      flatten))))
+(def lexicon
+  (-> (nl/read-compiled-lexicon)
+      babylon.lexiconfn/deserialize-lexicon              
+      vals
+      flatten))
 
 ;; note that we exclude [:exception]s from the lexemes that we use for
 ;; generation since they are only to be used for parsing.
@@ -77,16 +64,27 @@
   (or @nl/lexeme-map-atom
       (swap! nl/lexeme-map-atom
              (fn []
-               {:verb (->> (lexicon)
+               {:verb (->> lexicon
                            (filter #(= :verb (u/get-in % [:cat])))
                            (filter #(not (u/get-in % [:exception]))))
-                :det (->> (lexicon)
+                :det (->> lexicon
                           (filter #(= :det (u/get-in % [:cat]))))
-                :intensifier (->> (lexicon)
+                :intensifier (->> lexicon
                                   (filter #(= :intensifier (u/get-in % [:cat]))))
-                :noun (->> (lexicon)
+                :noun (->> lexicon
                            (filter #(= :noun (u/get-in % [:cat])))
                            (filter #(not (u/get-in % [:exception]))))
-                :top (lexicon)
-                :adjective (->> (lexicon)                                                          
+                :top lexicon
+                :adjective (->> lexicon
                                 (filter #(= :adjective (u/get-in % [:cat]))))}))))
+
+(defn index-fn [spec]
+  ;; for now a somewhat bad index function: simply returns
+  ;; lexemes which match the spec's :cat, or, if the :cat isn't
+  ;; defined, just return all the lexemes.
+  (let [result (get (lexeme-map) (u/get-in spec [:cat] :top) nil)]
+    (if (not (nil? result))
+        (shuffle result)
+        (do
+          (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+          lexicon))))

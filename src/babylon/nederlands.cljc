@@ -83,9 +83,7 @@
 
 ;; TODO: move other cljs functions to this file as
 ;; with this one (def morphology).
-
-#?(:clj (def morphology (compile-morphology)))
-#?(:cljs (def morphology (compile-morphology)))
+(def morphology (compile-morphology))
 
 (declare sentence-punctuation)
 

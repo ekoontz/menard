@@ -140,9 +140,6 @@
          read-string
          grammar/process)))
 
-#?(:cljs
-   (def grammar-atom (atom nil)))
-
 #?(:clj
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar grammar

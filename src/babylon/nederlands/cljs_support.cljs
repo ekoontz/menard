@@ -6,12 +6,9 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(defn grammar []
-  (or @nl/grammar-atom
-      (swap! nl/grammar-atom
-             (fn []
-               (->> (nl/read-compiled-grammar)
-                    (map dag_unify.serialization/deserialize))))))
+(def grammar
+  (->> (nl/read-compiled-grammar)
+       (map dag_unify.serialization/deserialize)))
 
 (defn expressions []
   (or @nl/expressions-atom
@@ -21,7 +18,7 @@
   (let [attempt
         (try
           (g/generate spec
-                      (grammar)
+                      grammar
                       (fn [spec]
                         (shuffle (index-fn spec)))
                       nl/syntax-tree)

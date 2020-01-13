@@ -15,29 +15,6 @@
 ;; For generation and parsing of Dutch.
 ;;
 
-(def finite-tenses
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :modal false
-    :sem {:tense :present
-          :aspect :simple}}])
-
-(def bigram
-  {:phrasal true
-   :head {:phrasal false}
-   :comp {:phrasal false}
-   :subcat []})
-
-(def see-bigram
-  {:phrasal true
-   :sem {:pred :see
-         :subj {:pred :i}}
-   :head {:phrasal false}
-   :comp {:phrasal false}
-   :subcat []})
-
 ;; <lexicon>
 #?(:clj
    (def lexical-rules
@@ -151,6 +128,8 @@
 #?(:cljs
    (def morphology-atom (atom nil)))
 
+;; TODO: move other cljs functions to this file as
+;; with this one (defn morphology).
 #?(:cljs
    (defn morphology []
      (or @morphology-atom
@@ -160,6 +139,15 @@
 ;; </morphology>
 
 ;; <grammar>
+(def finite-tenses
+  [;; "hij werkt"
+   {:variant :present-simple
+    :abbreviation :simple-present
+    :infl :present
+    :modal false
+    :sem {:tense :present
+          :aspect :simple}}])
+
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"
@@ -201,6 +189,9 @@
    (def expressions-atom (atom nil)))
 
 ;; </expressions>
+
+
+;; <functions>
 
 #?(:clj
    (defn syntax-tree [tree]
@@ -332,6 +323,12 @@
        (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
                         1)))))
 
+(def bigram
+  {:phrasal true
+   :head {:phrasal false}
+   :comp {:phrasal false}
+   :subcat []})
+
 #?(:clj
    (defn bigrams []
      (repeatedly #(println
@@ -353,3 +350,4 @@
          "?"
          ".")))
 
+;; </functions>

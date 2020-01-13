@@ -81,9 +81,11 @@
      ~(-> "babylon/nederlands/morphology/verbs.edn"
           l/read-and-eval)))
 
-#?(:clj
-   (def morphology
-     (compile-morphology)))
+;; TODO: move other cljs functions to this file as
+;; with this one (def morphology).
+
+#?(:clj (def morphology (compile-morphology)))
+#?(:cljs (def morphology (compile-morphology)))
 
 (declare sentence-punctuation)
 
@@ -109,27 +111,16 @@
       (log/info (str "in babylon.nederlands morph.."))
       (cond
         (map? (u/get-in tree [:syntax-tree]))
-        (s/morph (u/get-in tree [:syntax-tree]) (morphology))
+        (s/morph (u/get-in tree [:syntax-tree]) morphology)
 
         true
-        (s/morph tree (morphology))))
+        (s/morph tree morphology)))
 
      ([tree & {:keys [sentence-punctuation?]}]
       (if sentence-punctuation?
         (-> tree
             morph
             (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
-
-#?(:cljs
-   (def morphology-atom (atom nil)))
-
-;; TODO: move other cljs functions to this file as
-;; with this one (defn morphology).
-#?(:cljs
-   (defn morphology []
-     (or @morphology-atom
-         (do (swap! morphology-atom (fn [] (compile-morphology)))
-             @morphology-atom))))
 
 ;; </morphology>
 
@@ -194,7 +185,7 @@
 
 #?(:cljs
    (defn syntax-tree [tree]
-     (s/syntax-tree tree (morphology))))
+     (s/syntax-tree tree morphology)))
 
 #?(:clj
    (defn index-fn [spec]

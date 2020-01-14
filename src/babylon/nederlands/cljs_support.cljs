@@ -1,13 +1,14 @@
 (ns babylon.nederlands.cljs_support
   (:require-macros [babylon.nederlands])
   (:require [babylon.generate :as g]
+            [babylon.grammar :as gra]
             [babylon.nederlands :as nl]
             [babylon.serialization :as s]
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
 (def grammar
-  (->> (nl/read-compiled-grammar)
+  (->> (gra/read-compiled-grammar)
        (map dag_unify.serialization/deserialize)))
 
 (defn expressions []

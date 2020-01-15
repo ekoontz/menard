@@ -1,5 +1,6 @@
 (ns babylon.nederlands.cljs_support
-  (:require-macros [babylon.nederlands])
+  (:require-macros [babylon.nederlands]
+                   [babylon.grammar])
   (:require [babylon.generate :as g]
             [babylon.grammar :as gra]
             [babylon.nederlands :as nl]
@@ -8,7 +9,7 @@
             [dag_unify.core :as u]))
 
 (def grammar
-  (->> (gra/read-compiled-grammar)
+  (->> (gra/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
        (map dag_unify.serialization/deserialize)))
 
 (defn expressions []

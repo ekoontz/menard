@@ -165,8 +165,8 @@
    (defn write-compiled-grammar [grammar write-to-file]
      (spit write-to-file (vec (map serialize grammar)))))
 
-(defmacro read-compiled-grammar []
-  `~(-> "babylon/nederlands/grammar/compiled.edn"
+(defmacro read-compiled-grammar [filename]
+  `~(-> filename
         clojure.java.io/resource
         slurp
         read-string))

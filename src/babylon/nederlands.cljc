@@ -145,12 +145,6 @@
      (grammar/write-compiled-grammar grammar
                                      "src/babylon/nederlands/grammar/compiled.edn")))
 
-(defmacro read-compiled-grammar []
-  `~(-> "babylon/nederlands/grammar/compiled.edn"
-        resource
-        slurp
-        read-string))
-
 ;; </grammar>
 
 ;; <expressions>

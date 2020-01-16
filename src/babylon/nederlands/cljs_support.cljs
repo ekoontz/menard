@@ -12,9 +12,8 @@
   (->> (gra/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
        (map dag_unify.serialization/deserialize)))
 
-(defn expressions []
-  (or @nl/expressions-atom
-      (do (swap! nl/expressions-atom (fn [] (nl/read-expressions))))))
+(def expressions
+  (nl/read-expressions))
 
 (defn generate [spec & [times]]
   (let [attempt

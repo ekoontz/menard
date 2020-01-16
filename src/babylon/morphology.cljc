@@ -1,5 +1,6 @@
 (ns babylon.morphology
   (:require [babylon.exception :refer [exception]]
+            [babylon.lexiconfn :as l]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]))
@@ -63,3 +64,11 @@ the morphology is a set of rules, each of which looks like:"
       true
       "_")))
 
+(defmacro compile-morphology []
+  `(concat
+     ~(-> "babylon/nederlands/morphology/adjectives.edn"
+          l/read-and-eval)
+     ~(-> "babylon/nederlands/morphology/nouns.edn"
+          l/read-and-eval)
+     ~(-> "babylon/nederlands/morphology/verbs.edn"
+          l/read-and-eval)))

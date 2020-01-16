@@ -1,8 +1,10 @@
 (ns babylon.nederlands.cljs_support
-  (:require-macros [babylon.nederlands]
+  (:require-macros [babylon.morphology]
+                   [babylon.nederlands]
                    [babylon.grammar])
   (:require [babylon.generate :as g]
             [babylon.grammar :as gra]
+            [babylon.morphology :as morph]
             [babylon.nederlands :as nl]
             [babylon.serialization :as s]
             [cljslog.core :as log]
@@ -11,6 +13,9 @@
 (def grammar
   (->> (gra/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
        (map dag_unify.serialization/deserialize)))
+
+(def morphology
+  (->> (morph/compile-morphology)))
 
 (def expressions
   (nl/read-expressions))

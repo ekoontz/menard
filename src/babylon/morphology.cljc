@@ -65,10 +65,13 @@ the morphology is a set of rules, each of which looks like:"
       "_")))
 
 (defmacro compile-morphology []
-  `(concat
-     ~(-> "babylon/nederlands/morphology/adjectives.edn"
-          l/read-and-eval)
-     ~(-> "babylon/nederlands/morphology/nouns.edn"
-          l/read-and-eval)
-     ~(-> "babylon/nederlands/morphology/verbs.edn"
-          l/read-and-eval)))
+  (let [filenames ["babylon/nederlands/morphology/adjectives.edn"
+                   "babylon/nederlands/morphology/nouns.edn"
+                   "babylon/nederlands/morphology/verbs.edn"]]
+   `(concat
+      ~(-> (nth filenames 0)
+           l/read-and-eval)
+      ~(-> (nth filenames 1)
+           l/read-and-eval)
+      ~(-> (nth filenames 2)
+           l/read-and-eval))))

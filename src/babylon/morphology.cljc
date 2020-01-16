@@ -68,7 +68,7 @@ the morphology is a set of rules, each of which looks like:"
   (let [filenames ["babylon/nederlands/morphology/adjectives.edn"
                    "babylon/nederlands/morphology/nouns.edn"
                    "babylon/nederlands/morphology/verbs.edn"]]
-   `(concat
+    `(concat
       ~(-> (nth filenames 0)
            l/read-and-eval)
       ~(-> (nth filenames 1)

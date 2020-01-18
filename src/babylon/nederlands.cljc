@@ -189,16 +189,6 @@
   (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
   (g/generate spec grammar index-fn syntax-tree))
 
-#?(:clj
-   (defn get-lexemes [spec]
-     (g/get-lexemes spec index-fn syntax-tree)))
-
-#?(:clj
-   (defn generate-n
-     "generate _n_ consecutive in-order expressions that satisfy _spec_."
-     [spec n]
-     (take n (repeatedly #(generate spec)))))
-
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
@@ -241,66 +231,6 @@
                                   syntax-tree
                                   println))
                             (if false (println)))))))))))))
-
-(defn generate-word-by-word [tree grammar index-fn syntax-tree]
-  (let [add-rule (fn [tree]
-                   (first (g/add-rule tree grammar syntax-tree)))
-        add-lexeme (fn [tree]
-                     (first (g/add-lexeme tree index-fn syntax-tree)))
-        add (fn [tree]
-              (let [at (g/frontier tree)
-                    add-phrasal? (u/get-in tree (concat at [:phrasal]))]
-                (cond add-phrasal?
-                      (add-rule tree)
-                      true
-                      (add-lexeme tree))))]
-    (log/debug (str "intermediate result: " (morph tree)))
-    (cond
-      (nil? tree) tree
-      (:fail tree) tree
-      (u/get-in tree [:babylon.generate/done?]) tree
-      true (generate (add tree) grammar index-fn syntax-tree))))
-
-(defn testing-with [grammar index-fn syntax-tree]
-  (g/generate
-   {:phrasal true
-    :rule "s"
-    :reflexive false
-    :comp {:phrasal true
-           :rule "np"
-           :head {:phrasal true
-                  :comp {:phrasal true}}
-           :comp {:phrasal false}}
-    :head {:phrasal true
-           :rule "vp"
-           :head {:phrasal false}
-           :comp {:phrasal true
-                  :rule "np"
-                  :head {:phrasal true
-                         :comp {:phrasal true}}
-                  :comp {:phrasal false}}}}
-   grammar index-fn syntax-tree))
-
-#?(:clj
-   (defn testing []
-     (let [testing (fn []
-                     (time (testing-with grammar index-fn syntax-tree)))]
-       (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
-                        1)))))
-
-(def bigram
-  {:phrasal true
-   :head {:phrasal false}
-   :comp {:phrasal false}
-   :subcat []})
-
-#?(:clj
-   (defn bigrams []
-     (repeatedly #(println
-                   (morph (time
-                           (g/generate
-                            bigram
-                            grammar index-fn syntax-tree)))))))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

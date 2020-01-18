@@ -193,7 +193,8 @@
 
 #?(:cljs
    (def expressions
-     (grammar/read-expressions "babylon/nederlands/expressions.edn")))
+     (-> "babylon/nederlands/expressions.edn"
+         grammar/read-expressions)))
 
 ;; </expressions>
 

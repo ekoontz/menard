@@ -203,44 +203,11 @@
 (defn syntax-tree [tree]
   (s/syntax-tree tree morphology))
 
-#?(:clj
-   (defn generate
-     "generate one random expression that satisfies _spec_."
-     [spec]
-     (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
-     (g/generate spec grammar index-fn syntax-tree)))
-
-#?(:cljs
-   (defn generate [spec & [times]]
-     (let [attempt
-           (try
-             (g/generate spec
-                         grammar
-                         (fn [spec]
-                           (shuffle (index-fn spec)))
-                         syntax-tree)
-             (catch js/Error e
-               (cond
-                 (or (nil? times)
-                     (< times 2))
-                 (do
-                   (log/warn (str "retry #" (if (nil? times) 1 (+ 1 times))))
-                   (generate spec (if (nil? times) 1 (+ 1 times))))
-                 true nil)))]
-         (cond
-           (and (or (nil? times)
-                    (< times 2))
-                (or (= :fail attempt)
-                    (nil? attempt)))
-           (do
-             (log/info (str "retry #" (if (nil? times) 1 (+ 1 times))))
-             (generate spec (if (nil? times) 1 (+ 1 times))))
-           (or (nil? attempt) (= :fail attempt))
-           (log/error (str "giving up generating after 2 times; sorry."))
-           true
-           {:structure attempt
-            :syntax-tree (syntax-tree attempt)
-            :surface (morph attempt)}))))
+(defn generate
+  "generate one random expression that satisfies _spec_."
+  [spec]
+  (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
+  (g/generate spec grammar index-fn syntax-tree))
 
 #?(:clj
    (defn get-lexemes [spec]

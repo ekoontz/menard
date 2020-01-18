@@ -198,11 +198,11 @@
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
 
-#?(:clj
-   (defn analyze [surface]
-     (binding [l/lexicon lexicon
-               l/morphology morphology]
-       (l/matching-lexemes surface))))              
+
+(defn analyze [surface]
+  (binding [l/lexicon lexicon
+            l/morphology morphology]
+    (l/matching-lexemes surface)))
 
 #(:clj
   (defn demo []

@@ -31,7 +31,6 @@
          (l/apply-rules-in-order (nth lexical-rules 0) :0)
          (l/apply-rules-in-order (nth lexical-rules 1) :1)
          (l/apply-rules-in-order (nth lexical-rules 2) :2))))
-
 #?(:clj
    (def lexicon
      (merge-with concat
@@ -47,12 +46,10 @@
          l/deserialize-lexicon              
          vals
          flatten)))
-
 #?(:clj
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon lexicon
                                "src/babylon/nederlands/lexicon/compiled.edn")))
-
 #?(:clj
    (def flattened-lexicon
      (flatten (vals lexicon))))
@@ -62,14 +59,11 @@
      (->> flattened-lexicon
           (filter #(and (not (u/get-in % [:exception]))
                         (= (u/get-in % [:cat]) :verb))))))
-
 #?(:clj
    (def non-verb-lexicon
      (->> flattened-lexicon
           (filter #(and (not (= (u/get-in % [:cat]) :verb))
                         (not (u/get-in % [:exception])))))))
-
-
 #?(:clj
    (defn index-fn [spec]
      (let [result

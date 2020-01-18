@@ -1,15 +1,7 @@
 (ns babylon.nederlands.cljs_support
-  (:require-macros [babylon.morphology]
-                   [babylon.grammar]
-                   [babylon.lexiconfn])
   (:require [babylon.generate :as g]
-            [babylon.grammar :as gra]
-            [babylon.lexiconfn :as l]
-            [babylon.morphology :as morph]
             [babylon.nederlands :as nl]
-            [babylon.serialization :as s]
-            [cljslog.core :as log]
-            [dag_unify.core :as u]))
+            [cljslog.core :as log]))
 
 (defn generate [spec & [times]]
   (let [attempt

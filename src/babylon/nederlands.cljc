@@ -75,10 +75,11 @@
 
 ;; TODO: move other cljs functions to this file as
 ;; with this one (def morphology).
-(def morphology (m/compile-morphology
-                 ["babylon/nederlands/morphology/adjectives.edn"
-                  "babylon/nederlands/morphology/nouns.edn"
-                  "babylon/nederlands/morphology/verbs.edn"]))
+#?(:clj
+   (def morphology (m/compile-morphology
+                    ["babylon/nederlands/morphology/adjectives.edn"
+                     "babylon/nederlands/morphology/nouns.edn"
+                     "babylon/nederlands/morphology/verbs.edn"])))
 
 (declare sentence-punctuation)
 
@@ -114,6 +115,12 @@
         (-> tree
             morph
             (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
+
+
+#?(:clj
+   (defn write-compiled-morphology []
+     (m/write-compiled-morphology morphology
+                                  "src/babylon/nederlands/morphology/compiled.edn")))
 
 ;; </morphology>
 
@@ -306,10 +313,6 @@
                            (g/generate
                             bigram
                             grammar index-fn syntax-tree)))))))
-
-(defn swap-with [the-atom the-fn]
-  (or @the-atom
-      (swap! the-atom (fn [x] (the-fn @the-atom)))))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

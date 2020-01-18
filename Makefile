@@ -13,10 +13,15 @@ src/babylon/english/lexicon/compiled.edn: $(shell find src/babylon/english/lexic
 src/babylon/nederlands/lexicon/compiled.edn: $(shell find src/babylon/nederlands/lexicon -name "*.edn" -not -name compiled.edn)
 	echo "(do (load \"babylon\")(babylon.nederlands/write-compiled-lexicon))" | lein repl
 
-compile: src/babylon/english/lexicon/compiled.edn src/babylon/nederlands/lexicon/compiled.edn
+src/babylon/nederlands/morphology/compiled.edn: $(shell find src/babylon/nederlands/morphology -name "*.edn" -not -name compiled.edn)
+	echo "(do (load \"babylon\")(babylon.nederlands/write-compiled-morphology))" | lein repl
+
+compile: src/babylon/english/lexicon/compiled.edn src/babylon/nederlands/lexicon/compiled.edn \
+ src/babylon/nederlands/morphology/compiled.edn
 
 /Users/ekoontz/babylon/target/babylon-0.0.1-SNAPSHOT.jar: compile
 	lein install
 
 clean:
-	- rm src/babylon/english/lexicon/compiled.edn src/babylon/nederlands/lexicon/compiled.edn
+	- rm $(find . -name compiled.edn)
+

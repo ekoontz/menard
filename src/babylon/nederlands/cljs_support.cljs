@@ -15,7 +15,8 @@
        (map dag_unify.serialization/deserialize)))
 
 (def morphology
-  (->> (morph/compile-morphology)))
+  (->> (morph/read-compiled-morphology "babylon/nederlands/morphology/compiled.edn")
+       (map dag_unify.serialization/deserialize)))
 
 (def expressions
   (nl/read-expressions))

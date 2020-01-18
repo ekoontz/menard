@@ -3,7 +3,8 @@
             [babylon.lexiconfn :as l]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [unify]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.serialization :refer [serialize]]))
 
 (defn morph-leaf
   "apply morphology to a leaf node of a tree; where
@@ -70,3 +71,13 @@ the morphology is a set of rules, each of which looks like:"
     ~(vec (map (fn [filename]
                  (l/read-and-eval filename))
                filenames))))
+
+#?(:clj
+   (defn write-compiled-morphology [morphology write-to-file]
+     (spit write-to-file (vec (map serialize morphology)))))
+
+(defmacro read-compiled-morphology [filename]
+  `~(-> filename
+        clojure.java.io/resource
+        slurp
+        read-string))

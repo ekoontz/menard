@@ -157,7 +157,8 @@
          resource slurp read-string eval)))
 
 #?(:cljs
-   (def expressions-atom (atom nil)))
+   (def expressions
+     (grammar/read-expressions "babylon/nederlands/expressions.edn")))
 
 ;; </expressions>
 

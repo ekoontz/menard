@@ -11,9 +11,6 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(def expressions
-  (gra/read-expressions "babylon/nederlands/expressions.edn"))
-
 (defn generate [spec & [times]]
   (let [attempt
         (try

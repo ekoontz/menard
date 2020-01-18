@@ -132,38 +132,20 @@
 
 (declare sentence-punctuation)
 
-#?(:clj
-   (defn morph
-     ([tree]
-      (cond
-        (map? (u/get-in tree [:syntax-tree]))
-        (s/morph (u/get-in tree [:syntax-tree]) morphology)
+(defn morph
+  ([tree]
+   (cond
+     (map? (u/get-in tree [:syntax-tree]))
+     (s/morph (u/get-in tree [:syntax-tree]) morphology)
 
-        true
-        (s/morph tree morphology)))
+     true
+     (s/morph tree morphology)))
 
-     ([tree & {:keys [sentence-punctuation?]}]
-      (if sentence-punctuation?
-        (-> tree
-            morph
-            (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
-
-#?(:cljs
-   (defn morph
-     ([tree]
-      (log/info (str "in babylon.nederlands morph.."))
-      (cond
-        (map? (u/get-in tree [:syntax-tree]))
-        (s/morph (u/get-in tree [:syntax-tree]) morphology)
-
-        true
-        (s/morph tree morphology)))
-
-     ([tree & {:keys [sentence-punctuation?]}]
-      (if sentence-punctuation?
-        (-> tree
-            morph
-            (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
+  ([tree & {:keys [sentence-punctuation?]}]
+   (if sentence-punctuation?
+     (-> tree
+         morph
+         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
 
 #?(:clj
    (defn write-compiled-morphology []

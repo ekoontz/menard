@@ -72,6 +72,10 @@
                     ["babylon/nederlands/morphology/adjectives.edn"
                      "babylon/nederlands/morphology/nouns.edn"
                      "babylon/nederlands/morphology/verbs.edn"])))
+#(?:cljs
+  (def morphology
+    (->> (m/read-compiled-morphology "babylon/nederlands/morphology/compiled.edn")
+         (map dag_unify.serialization/deserialize))))
 
 (declare sentence-punctuation)
 
@@ -107,7 +111,6 @@
         (-> tree
             morph
             (sentence-punctuation (u/get-in tree [:sem :mood] :decl)))))))
-
 
 #?(:clj
    (defn write-compiled-morphology []

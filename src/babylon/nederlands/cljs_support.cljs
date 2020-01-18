@@ -11,10 +11,6 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(def morphology
-  (->> (morph/read-compiled-morphology "babylon/nederlands/morphology/compiled.edn")
-       (map dag_unify.serialization/deserialize)))
-
 (def expressions
   (gra/read-expressions "babylon/nederlands/expressions.edn"))
 

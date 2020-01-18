@@ -196,6 +196,36 @@
          (shuffle result)
          result))))
 
+#?(:cljs
+   ;; note that we exclude [:exception]s from the lexemes that we use for
+   ;; generation since they are only to be used for parsing.
+   (def lexeme-map
+     {:verb (->> lexicon
+                 (filter #(= :verb (u/get-in % [:cat])))
+                 (filter #(not (u/get-in % [:exception]))))
+      :det (->> lexicon
+                (filter #(= :det (u/get-in % [:cat]))))
+      :intensifier (->> lexicon
+                        (filter #(= :intensifier (u/get-in % [:cat]))))
+      :noun (->> lexicon
+                 (filter #(= :noun (u/get-in % [:cat])))
+                 (filter #(not (u/get-in % [:exception]))))
+      :top lexicon
+      :adjective (->> lexicon
+                      (filter #(= :adjective (u/get-in % [:cat]))))}))
+
+#?(:cljs
+   (defn index-fn [spec]
+     ;; for now a somewhat bad index function: simply returns
+     ;; lexemes which match the spec's :cat, or, if the :cat isn't
+     ;; defined, just return all the lexemes.
+     (let [result (get lexeme-map (u/get-in spec [:cat] :top) nil)]
+       (if (not (nil? result))
+           (shuffle result)
+           (do
+             (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+             lexicon)))))
+
 #?(:clj
    (defn generate
      "generate one random expression that satisfies _spec_."

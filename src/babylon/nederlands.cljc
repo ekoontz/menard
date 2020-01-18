@@ -1,5 +1,5 @@
 (ns babylon.nederlands
-;;  (:require-macros [babylon.grammar])
+  (:require-macros [babylon.grammar])
   (:require #?(:clj [clojure.java.io :refer [resource]])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
@@ -134,10 +134,10 @@
          read-string
          grammar/process)))
 
-;;#?(:cljs
-;;   (def g2
-;;     (->> (babylon.grammar/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
-;;          (map dag_unify.serialization/deserialize))))
+#?(:cljs
+   (def grammar
+     (->> (babylon.grammar/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
+          (map dag_unify.serialization/deserialize))))
 
 #?(:clj
    (defn write-compiled-grammar []

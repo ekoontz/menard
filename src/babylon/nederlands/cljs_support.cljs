@@ -11,10 +11,6 @@
             [cljslog.core :as log]
             [dag_unify.core :as u]))
 
-(def grammar
-  (->> (gra/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
-       (map dag_unify.serialization/deserialize)))
-
 (def morphology
   (->> (morph/read-compiled-morphology "babylon/nederlands/morphology/compiled.edn")
        (map dag_unify.serialization/deserialize)))
@@ -26,7 +22,7 @@
   (let [attempt
         (try
           (g/generate spec
-                      grammar
+                      nl/grammar
                       (fn [spec]
                         (shuffle (index-fn spec)))
                       nl/syntax-tree)

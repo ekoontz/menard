@@ -63,10 +63,11 @@
           (filter #(and (not (u/get-in % [:exception]))
                         (= (u/get-in % [:cat]) :verb))))))
 
-(def non-verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                     (not (u/get-in % [:exception]))))))
+#?(:clj
+   (def non-verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                        (not (u/get-in % [:exception])))))))
 
 ;; </lexicon>
 

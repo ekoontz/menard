@@ -1,9 +1,11 @@
 (ns babylon.nederlands.cljs_support
   (:require-macros [babylon.morphology]
                    [babylon.nederlands]
-                   [babylon.grammar])
+                   [babylon.grammar]
+                   [babylon.lexiconfn])
   (:require [babylon.generate :as g]
             [babylon.grammar :as gra]
+            [babylon.lexiconfn :as l]
             [babylon.morphology :as morph]
             [babylon.nederlands :as nl]
             [babylon.serialization :as s]
@@ -53,8 +55,8 @@
          :surface (nl/morph attempt)})))
 
 (def lexicon
-  (-> (nl/read-compiled-lexicon)
-      babylon.lexiconfn/deserialize-lexicon              
+  (-> (l/read-compiled-lexicon "babylon/nederlands/lexicon/compiled.edn")
+      l/deserialize-lexicon              
       vals
       flatten))
 

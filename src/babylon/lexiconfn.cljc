@@ -1,7 +1,7 @@
 (ns babylon.lexiconfn
   (:require
    [babylon.exception :refer [exception]]
-   #?(:clj [clojure.java.io :as io])
+   #?(:clj [clojure.java.io :as io :refer [resource]])
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
@@ -236,3 +236,9 @@
           (vec (map dag_unify.serialization/deserialize
                     serializations)))
         (vals map-with-serializations))))
+
+(defmacro read-compiled-lexicon [filename]
+  `~(-> filename
+        resource
+        slurp
+        read-string))

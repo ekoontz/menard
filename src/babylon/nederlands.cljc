@@ -45,12 +45,6 @@
      (l/write-compiled-lexicon lexicon
                                "src/babylon/nederlands/lexicon/compiled.edn")))
 
-(defmacro read-compiled-lexicon []
-  `~(-> "babylon/nederlands/lexicon/compiled.edn"
-        resource
-        slurp
-        read-string))
-
 #?(:clj
    (def flattened-lexicon
      (flatten (vals lexicon))))

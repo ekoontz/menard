@@ -87,7 +87,7 @@
                      :rest {:first {:pred :smart}}}
                :quant :def}}}
 
- {:note "Sentence whose subject has two modifiers, the first of which is itself modified"
+ {:note "e.g. 'De heel sterk slimme vrouen zingen'."
   :dotimes 10
   :rule "s" 
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}

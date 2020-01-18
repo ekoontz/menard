@@ -1,5 +1,5 @@
 (ns babylon.nederlands
-  (:require-macros [babylon.grammar])
+  #?(:cljs (:require-macros [babylon.grammar]))
   (:require #?(:clj [clojure.java.io :refer [resource]])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]

@@ -71,13 +71,3 @@ the morphology is a set of rules, each of which looks like:"
     ~(vec (map (fn [filename]
                  (l/read-and-eval filename))
                filenames))))
-
-#?(:clj
-   (defn write-compiled-morphology [morphology write-to-file]
-     (spit write-to-file (vec (map serialize morphology)))))
-
-(defmacro read-compiled-morphology [filename]
-  `~(-> filename
-        clojure.java.io/resource
-        slurp
-        read-string))

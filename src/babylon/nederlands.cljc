@@ -120,15 +120,10 @@
 
 ;; <morphology>
 
-#?(:clj
-   (def morphology (m/compile-morphology
-                    ["babylon/nederlands/morphology/adjectives.edn"
-                     "babylon/nederlands/morphology/nouns.edn"
-                     "babylon/nederlands/morphology/verbs.edn"])))
-#?(:cljs
-   (def morphology
-     (->> (m/read-compiled-morphology "babylon/nederlands/morphology/compiled.edn")
-          (map dag_unify.serialization/deserialize))))
+(def morphology (m/compile-morphology
+                 ["babylon/nederlands/morphology/adjectives.edn"
+                  "babylon/nederlands/morphology/nouns.edn"
+                  "babylon/nederlands/morphology/verbs.edn"]))
 
 (declare sentence-punctuation)
 
@@ -146,11 +141,6 @@
      (-> tree
          morph
          (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
-
-#?(:clj
-   (defn write-compiled-morphology []
-     (m/write-compiled-morphology morphology
-                                  "src/babylon/nederlands/morphology/compiled.edn")))
 
 ;; </morphology>
 

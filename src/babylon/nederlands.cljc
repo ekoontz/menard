@@ -73,13 +73,14 @@
 
 ;; <morphology>
 (defmacro compile-morphology []
-  `(concat
-     ~(-> "babylon/nederlands/morphology/adjectives.edn"
-          l/read-and-eval)
-     ~(-> "babylon/nederlands/morphology/nouns.edn"
-          l/read-and-eval)
-     ~(-> "babylon/nederlands/morphology/verbs.edn"
-          l/read-and-eval)))
+  (let [filenames ["babylon/nederlands/morphology/adjectives.edn"
+                   "babylon/nederlands/morphology/nouns.edn"
+                   "babylon/nederlands/morphology/verbs.edn"]]
+    `(reduce
+      concat
+      ~(vec (map (fn [filename]
+                   (l/read-and-eval filename))
+                 filenames)))))
 
 ;; TODO: move other cljs functions to this file as
 ;; with this one (def morphology).

@@ -200,14 +200,8 @@
 
 ;; <functions>
 
-#?(:clj
-   (defn syntax-tree [tree]
-      (s/syntax-tree tree morphology)))
-
-#?(:cljs
-   (defn syntax-tree [tree]
-     (s/syntax-tree tree morphology)))
-
+(defn syntax-tree [tree]
+  (s/syntax-tree tree morphology))
 
 #?(:clj
    (defn generate

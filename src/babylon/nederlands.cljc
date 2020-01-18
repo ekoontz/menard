@@ -41,6 +41,13 @@
        (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
 
+#?(:cljs
+   (def lexicon
+     (-> (l/read-compiled-lexicon "babylon/nederlands/lexicon/compiled.edn")
+         l/deserialize-lexicon              
+         vals
+         flatten)))
+
 #?(:clj
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon lexicon

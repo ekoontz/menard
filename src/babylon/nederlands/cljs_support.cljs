@@ -42,28 +42,22 @@
          :syntax-tree (nl/syntax-tree attempt)
          :surface (nl/morph attempt)})))
 
-(def lexicon
-  (-> (l/read-compiled-lexicon "babylon/nederlands/lexicon/compiled.edn")
-      l/deserialize-lexicon              
-      vals
-      flatten))
-
 ;; note that we exclude [:exception]s from the lexemes that we use for
 ;; generation since they are only to be used for parsing.
 ;; TODO: this is duplicated in babylon/nederlands.cljc (see def verb-lexicon).
 (def lexeme-map
-  {:verb (->> lexicon
+  {:verb (->> nl/lexicon
               (filter #(= :verb (u/get-in % [:cat])))
               (filter #(not (u/get-in % [:exception]))))
-   :det (->> lexicon
+   :det (->> nl/lexicon
              (filter #(= :det (u/get-in % [:cat]))))
    :intensifier (->> lexicon
                      (filter #(= :intensifier (u/get-in % [:cat]))))
-   :noun (->> lexicon
+   :noun (->> nl/lexicon
               (filter #(= :noun (u/get-in % [:cat])))
               (filter #(not (u/get-in % [:exception]))))
-   :top lexicon
-   :adjective (->> lexicon
+   :top nl/lexicon
+   :adjective (->> nl/lexicon
                    (filter #(= :adjective (u/get-in % [:cat]))))})
 
 (defn index-fn [spec]

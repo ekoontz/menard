@@ -1,6 +1,5 @@
 (ns babylon.nederlands.cljs_support
   (:require-macros [babylon.morphology]
-                   [babylon.nederlands]
                    [babylon.grammar]
                    [babylon.lexiconfn])
   (:require [babylon.generate :as g]
@@ -21,7 +20,7 @@
        (map dag_unify.serialization/deserialize)))
 
 (def expressions
-  (nl/read-expressions))
+  (gra/read-expressions "babylon/nederlands/expressions.edn"))
 
 (defn generate [spec & [times]]
   (let [attempt

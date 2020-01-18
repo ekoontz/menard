@@ -1,4 +1,5 @@
 (ns babylon.nederlands
+;;  (:require-macros [babylon.grammar])
   (:require #?(:clj [clojure.java.io :refer [resource]])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
@@ -54,9 +55,6 @@
      (->> flattened-lexicon
           (filter #(and (not (u/get-in % [:exception]))
                         (= (u/get-in % [:cat]) :verb))))))
-
-(defmacro verb-lexicon-macro []
-  `~verb-lexicon)
 
 (def non-verb-lexicon
   (->> flattened-lexicon
@@ -136,6 +134,11 @@
          read-string
          grammar/process)))
 
+;;#?(:cljs
+;;   (def g2
+;;     (->> (babylon.grammar/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
+;;          (map dag_unify.serialization/deserialize))))
+
 #?(:clj
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar grammar
@@ -149,12 +152,6 @@
    (def expressions
      (-> "babylon/nederlands/expressions.edn"
          resource slurp read-string eval)))
-
-(defmacro read-expressions []
-  `~(-> "babylon/nederlands/expressions.edn"
-        resource
-        slurp
-        read-string))
 
 #?(:cljs
    (def expressions-atom (atom nil)))

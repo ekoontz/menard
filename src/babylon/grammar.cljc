@@ -171,3 +171,9 @@
         slurp
         read-string))
 
+
+(defmacro read-expressions [filename]
+  `~(-> filename
+        clojure.java.io/resource
+        slurp
+        read-string))

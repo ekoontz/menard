@@ -114,7 +114,7 @@
            (shuffle result)
            (do
              (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
-             lexicon))))) ;; but not shuffling it because it's too big.
+             lexicon)))))
 
 ;; </lexicon>
 
@@ -164,9 +164,6 @@
     :sem {:tense :present
           :aspect :simple}}])
 
-;; finite-tenses (above) is referenced
-;; by some rules within the file mentioned
-;; below (grammar.edn).
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"
@@ -214,55 +211,89 @@
      (g/generate spec grammar index-fn syntax-tree)))
 
 #?(:cljs
-   (defn generate
-     "generate one random expression that satisfies _spec_."
-     [spec]
-     (let [expression (g/generate spec grammar index-fn syntax-tree)]
-       {:structure expression
-        :syntax-tree (syntax-tree expression)
-        :surface (morph expression)})))
+   (defn generate [spec & [times]]
+     (let [attempt
+           (try
+             (g/generate spec
+                         grammar
+                         (fn [spec]
+                           (shuffle (index-fn spec)))
+                         syntax-tree)
+             (catch js/Error e
+               (cond
+                 (or (nil? times)
+                     (< times 2))
+                 (do
+                   (log/warn (str "retry #" (if (nil? times) 1 (+ 1 times))))
+                   (generate spec (if (nil? times) 1 (+ 1 times))))
+                 true nil)))]
+         (cond
+           (and (or (nil? times)
+                    (< times 2))
+                (or (= :fail attempt)
+                    (nil? attempt)))
+           (do
+             (log/info (str "retry #" (if (nil? times) 1 (+ 1 times))))
+             (generate spec (if (nil? times) 1 (+ 1 times))))
+           (or (nil? attempt) (= :fail attempt))
+           (log/error (str "giving up generating after 2 times; sorry."))
+           true
+           {:structure attempt
+            :syntax-tree (syntax-tree attempt)
+            :surface (morph attempt)}))))
+
+#?(:clj
+   (defn get-lexemes [spec]
+     (g/get-lexemes spec index-fn syntax-tree)))
+
+#?(:clj
+   (defn generate-n
+     "generate _n_ consecutive in-order expressions that satisfy _spec_."
+     [spec n]
+     (take n (repeatedly #(generate spec)))))
+
+(defn parse [expression]
+  (binding [p/grammar grammar
+            p/syntax-tree syntax-tree
+            l/lexicon lexicon
+            l/morphology morphology
+            p/split-on #"[ ]"
+            p/lookup-fn l/matching-lexemes]
+    (p/parse expression morph)))
+
+#?(:clj
+   (defn analyze [surface]
+     (binding [l/lexicon lexicon
+               l/morphology morphology]
+       (l/matching-lexemes surface))))              
 
 #(:clj
-  (defn parse [expression]
-    (binding [p/grammar grammar
-              p/syntax-tree syntax-tree
-              l/lexicon lexicon
-              l/morphology morphology
-              p/split-on #"[ ]"
-              p/lookup-fn l/matching-lexemes]
-      (p/parse expression morph))))
-
-(defn analyze [surface]
-  (binding [l/lexicon lexicon
-            l/morphology morphology]
-    (l/matching-lexemes surface)))              
-
-(defn demo []
-  (count
-   (->>
-    (range 0 (count expressions))
-    (map (fn [index]
-           (let [generated-expressions
-                 (->> (repeatedly (fn [] (generate (nth expressions index))))
-                      (take 20)
-                      (filter (fn [generated] (not (nil? generated)))))]
-             ;; for each expression:
-             ;; generate it, and print the surface form
-             ;; parse the surface form and return the first parse tree.
-             (count
-              (->> generated-expressions
-                   (map (fn [generated-expression]
-                          (-> generated-expression
-                              (morph :sentence-punctuation? true)
-                              println)
-                          (if false
+  (defn demo []
+    (count
+     (->>
+      (range 0 (count expressions))
+      (map (fn [index]
+             (let [generated-expressions
+                   (->> (repeatedly (fn [] (generate (nth expressions index))))
+                        (take 20)
+                        (filter (fn [generated] (not (nil? generated)))))]
+               ;; for each expression:
+               ;; generate it, and print the surface form
+               ;; parse the surface form and return the first parse tree.
+               (count
+                (->> generated-expressions
+                     (map (fn [generated-expression]
                             (-> generated-expression
-                                morph
-                                parse
-                                first
-                                syntax-tree
-                                println))
-                          (if false (println))))))))))))
+                                (morph :sentence-punctuation? true)
+                                println)
+                            (if false
+                              (-> generated-expression
+                                  morph
+                                  parse
+                                  first
+                                  syntax-tree
+                                  println))
+                            (if false (println)))))))))))))
 
 (defn generate-word-by-word [tree grammar index-fn syntax-tree]
   (let [add-rule (fn [tree]
@@ -303,11 +334,12 @@
                   :comp {:phrasal false}}}}
    grammar index-fn syntax-tree))
 
-(defn testing []
-  (let [testing (fn []
-                  (time (testing-with grammar index-fn syntax-tree)))]
-    (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
-                     1))))
+#?(:clj
+   (defn testing []
+     (let [testing (fn []
+                     (time (testing-with grammar index-fn syntax-tree)))]
+       (repeatedly #(do (println (str " " (sentence-punctuation (morph (testing)) :decl)))
+                        1)))))
 
 (def bigram
   {:phrasal true
@@ -315,12 +347,13 @@
    :comp {:phrasal false}
    :subcat []})
 
-(defn bigrams []
-  (repeatedly #(println
-                (morph (time
-                        (g/generate
-                         bigram
-                         grammar index-fn syntax-tree))))))
+#?(:clj
+   (defn bigrams []
+     (repeatedly #(println
+                   (morph (time
+                           (g/generate
+                            bigram
+                            grammar index-fn syntax-tree)))))))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

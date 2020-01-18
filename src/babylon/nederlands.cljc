@@ -184,20 +184,9 @@
 
 ;; </grammar>
 
-;; <expressions>
-
-#?(:clj
-   (def expressions
-     (-> "babylon/nederlands/expressions.edn"
-         resource slurp read-string eval)))
-
-#?(:cljs
-   (def expressions
-     (-> "babylon/nederlands/expressions.edn"
-         grammar/read-expressions)))
-
-;; </expressions>
-
+(def expressions
+  (-> "babylon/nederlands/expressions.edn"
+      grammar/read-expressions))
 
 ;; <functions>
 

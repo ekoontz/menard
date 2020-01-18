@@ -132,7 +132,7 @@
         :pred :see}
   :subcat '()}
 
- {:note "Sentence that looks like: [s [np een kat] [vp v ziet [np de muis]]]"
+ {:note "Sentences like: [s [np een kat] [vp v ziet [np de muis]]]"
   :dotimes 10
   :phrasal true
   :rule "s"

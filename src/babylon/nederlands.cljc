@@ -120,8 +120,6 @@
 
 ;; <morphology>
 
-;; TODO: move other cljs functions to this file as
-;; with this one (def morphology).
 #?(:clj
    (def morphology (m/compile-morphology
                     ["babylon/nederlands/morphology/adjectives.edn"

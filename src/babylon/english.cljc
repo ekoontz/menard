@@ -1,4 +1,5 @@
 (ns babylon.english
+  #?(:cljs (:require-macros [babylon.grammar]))
   (:require #?(:clj [clojure.java.io :refer [resource]])
             [clojure.string :as string]
             [babylon.lexiconfn :as l]
@@ -14,6 +15,136 @@
 ;;
 ;; For generation and parsing of English.
 ;;
+;; <lexicon>
+#?(:clj
+   (def lexical-rules
+     [(l/read-and-eval "babylon/english/lexicon/rules/rules-0.edn")
+      (l/read-and-eval "babylon/english/lexicon/rules/rules-1.edn")
+      (l/read-and-eval "babylon/english/lexicon/rules/rules-2.edn")
+      (l/read-and-eval "babylon/english/lexicon/rules/rules-3.edn")]))
+
+#?(:clj
+   (defn compile-lexicon-source [source-filename]
+     (-> source-filename
+         l/read-and-eval
+         l/add-exceptions-to-lexicon
+         (l/apply-rules-in-order (nth lexical-rules 0) :0)
+         (l/apply-rules-in-order (nth lexical-rules 1) :1)
+         (l/apply-rules-in-order (nth lexical-rules 2) :2)
+         (l/apply-rules-in-order (nth lexical-rules 3) :3))))
+#?(:clj
+   (def lexicon
+     (merge-with concat
+       (compile-lexicon-source "babylon/english/lexicon/adjectives.edn")
+       (compile-lexicon-source "babylon/english/lexicon/misc.edn")
+       (compile-lexicon-source "babylon/english/lexicon/nouns.edn")
+       (compile-lexicon-source "babylon/english/lexicon/propernouns.edn")
+       (compile-lexicon-source "babylon/english/lexicon/verbs.edn"))))
+
+#?(:cljs
+   (def lexicon
+     (-> (l/read-compiled-lexicon "babylon/english/lexicon/compiled.edn")
+         l/deserialize-lexicon              
+         vals
+         flatten)))
+
+#?(:clj
+   (defn write-compiled-lexicon []
+     (l/write-compiled-lexicon lexicon
+                               "src/babylon/english/lexicon/compiled.edn")))
+
+#?(:clj
+   (def flattened-lexicon
+     (flatten (vals lexicon))))
+
+#?(:clj
+   (def verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :verb))))))
+
+#?(:clj
+   (def non-verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                        (not (u/get-in % [:exception])))))))
+
+#?(:clj
+   (defn index-fn [spec]
+     (let [result
+           (cond (= (u/get-in spec [:cat]) :verb)
+                 verb-lexicon
+
+                 (and (= (u/get-in spec [:cat]))
+                      (not (= :top (u/get-in spec [:cat]))))
+                 non-verb-lexicon
+
+                 true
+                 (lazy-cat verb-lexicon non-verb-lexicon))]
+       (if true
+         (shuffle result)
+         result))))
+
+#?(:cljs
+   ;; note that we exclude [:exception]s from the lexemes that we use for
+   ;; generation since they are only to be used for parsing.
+   (def lexeme-map
+     {:verb (->> lexicon
+                 (filter #(= :verb (u/get-in % [:cat])))
+                 (filter #(not (u/get-in % [:exception]))))
+      :det (->> lexicon
+                (filter #(= :det (u/get-in % [:cat]))))
+      :intensifier (->> lexicon
+                        (filter #(= :intensifier (u/get-in % [:cat]))))
+      :noun (->> lexicon
+                 (filter #(= :noun (u/get-in % [:cat])))
+                 (filter #(not (u/get-in % [:exception]))))
+      :top lexicon
+      :adjective (->> lexicon
+                      (filter #(= :adjective (u/get-in % [:cat]))))}))
+
+#?(:cljs
+   (defn index-fn [spec]
+     ;; for now a somewhat bad index function: simply returns
+     ;; lexemes which match the spec's :cat, or, if the :cat isn't
+     ;; defined, just return all the lexemes.
+     (let [result (get lexeme-map (u/get-in spec [:cat] :top) nil)]
+       (if (not (nil? result))
+           (shuffle result)
+           (do
+             (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+             lexicon)))))
+
+
+;; </lexicon>
+
+;; <morphology>
+(def morphology (m/compile-morphology
+                 ["babylon/english/morphology/nouns.edn"
+                  "babylon/english/morphology/verbs.edn"]))
+
+(declare an)
+(declare sentence-punctuation)
+
+(defn morph
+  ([tree]
+   (cond
+     (map? (u/get-in tree [:syntax-tree]))
+     (s/morph (u/get-in tree [:syntax-tree]) morphology)
+
+     true
+     (s/morph tree morphology)))
+
+  ([tree & {:keys [sentence-punctuation?]}]
+   (if sentence-punctuation?
+     (-> tree
+         morph
+         an
+         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
+
+;; </morphology>
+
+;; <grammar>
 
 (def finite-tenses
   [;; "would see"
@@ -117,102 +248,6 @@
     :sem {:tense :past
           :aspect :pluperfect}}])
 
-;; <lexicon>
-#?(:clj
-   (def lexical-rules
-     [(l/read-and-eval "babylon/english/lexicon/rules/rules-0.edn")
-      (l/read-and-eval "babylon/english/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "babylon/english/lexicon/rules/rules-2.edn")
-      (l/read-and-eval "babylon/english/lexicon/rules/rules-3.edn")]))
-
-#?(:clj
-   (defn compile-lexicon-source [source-filename]
-     (-> source-filename
-         l/read-and-eval
-         l/add-exceptions-to-lexicon
-         (l/apply-rules-in-order (nth lexical-rules 0) :0)
-         (l/apply-rules-in-order (nth lexical-rules 1) :1)
-         (l/apply-rules-in-order (nth lexical-rules 2) :2)
-         (l/apply-rules-in-order (nth lexical-rules 3) :3))))
-#?(:clj
-   (def lexicon
-     (merge-with concat
-       (compile-lexicon-source "babylon/english/lexicon/adjectives.edn")
-       (compile-lexicon-source "babylon/english/lexicon/misc.edn")
-       (compile-lexicon-source "babylon/english/lexicon/nouns.edn")
-       (compile-lexicon-source "babylon/english/lexicon/propernouns.edn")
-       (compile-lexicon-source "babylon/english/lexicon/verbs.edn"))))
-
-#?(:clj
-   (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon lexicon
-                               "src/babylon/english/lexicon/compiled.edn")))
-
-(defmacro read-compiled-lexicon []
-  `~(-> "babylon/english/lexicon/compiled.edn"
-         resource
-         slurp
-         read-string))
-
-(def flattened-lexicon
-  (flatten (vals lexicon)))
-
-(def verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (u/get-in % [:exception]))
-                     (= (u/get-in % [:cat]) :verb)))))
-  
-(def non-verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                     (not (u/get-in % [:exception]))))))
-
-(defn index-fn [spec]
-  (let [result
-        (cond (= (u/get-in spec [:cat]) :verb)
-              verb-lexicon
-
-              (and (= (u/get-in spec [:cat]))
-                   (not (= :top (u/get-in spec [:cat]))))
-              non-verb-lexicon
-
-              true
-              (lazy-cat verb-lexicon non-verb-lexicon))]
-    (if true
-      (shuffle result)
-      result)))
-
-;; </lexicon>
-
-
-#?(:clj
-   (def morphology
-     (concat
-      (-> "babylon/english/morphology/nouns.edn"
-          l/read-and-eval)
-      (-> "babylon/english/morphology/verbs.edn"
-          l/read-and-eval))))
-
-
-(declare an)
-(declare sentence-punctuation)
-
-(defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) morphology)
-
-     true
-     (s/morph tree morphology)))
-
-  ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
-     (-> tree
-         morph
-         an
-         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
-
 #?(:clj
    (def grammar
      (-> "babylon/english/grammar.edn"
@@ -220,6 +255,19 @@
          slurp
          read-string
          grammar/process)))
+
+#?(:cljs
+   (def grammar
+     (->> (babylon.grammar/read-compiled-grammar
+           "babylon/english/grammar/compiled.edn")
+          (map dag_unify.serialization/deserialize))))
+
+#?(:clj
+   (defn write-compiled-grammar []
+     (grammar/write-compiled-grammar grammar
+                                     "src/babylon/english/grammar/compiled.edn")))
+
+;; </grammar>
 
 (defn syntax-tree [tree]
   (s/syntax-tree tree morphology))
@@ -257,11 +305,7 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [] ;; g/stop-generation-at [:head :comp :head :comp]
-    (try
-      (g/generate spec grammar index-fn syntax-tree)
-     (catch Exception e
-       (log/debug (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
-
+    (g/generate spec grammar index-fn syntax-tree)))
 
 (defn get-lexemes [spec]
   (g/get-lexemes spec index-fn syntax-tree))
@@ -284,10 +328,9 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-#?(:clj
-   (def expressions
-     (-> "babylon/english/expressions.edn"
-         resource slurp read-string eval)))
+(def expressions
+  (-> "babylon/english/expressions.edn"
+      grammar/read-expressions))
 
 (defn demo []
   (count

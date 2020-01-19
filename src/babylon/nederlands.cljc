@@ -155,7 +155,8 @@
 
 #?(:cljs
    (def grammar
-     (->> (babylon.grammar/read-compiled-grammar "babylon/nederlands/grammar/compiled.edn")
+     (->> (babylon.grammar/read-compiled-grammar
+           "babylon/nederlands/grammar/compiled.edn")
           (map dag_unify.serialization/deserialize))))
 
 #?(:clj

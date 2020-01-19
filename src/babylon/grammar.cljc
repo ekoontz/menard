@@ -179,3 +179,9 @@
         clojure.java.io/resource
         slurp
         read-string))
+
+(defmacro read-grammar [filename]
+  `~(-> filename
+        clojure.java.io/resource
+        slurp
+        read-string))

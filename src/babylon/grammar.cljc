@@ -114,7 +114,7 @@
         (map? structure)
         (default-morph-fn structure morphology)))
 
-(defn process [grammar]
+(defn process [grammar & [do-not-eval?]]
   (->> grammar
 
        ;; each member of :unify in a rule is a symbol.
@@ -122,7 +122,9 @@
        ;; combine all of them with the original rule.
        (map #(reduce unify
                      (cons (dissoc % :unify)
-                           (map eval (:unify %)))))
+                           (map (fn [each]
+                                  (if do-not-eval? each (eval each)))
+                                (:unify %)))))
 
        ;; for each member of :option in a rule,
        ;; create a new rule unified with that member.

@@ -256,6 +256,17 @@
          read-string
          grammar/process)))
 
+#?(:cljs
+   (def grammar
+     (->> (babylon.grammar/read-compiled-grammar
+           "babylon/english/grammar/compiled.edn")
+          (map dag_unify.serialization/deserialize))))
+
+#?(:clj
+   (defn write-compiled-grammar []
+     (grammar/write-compiled-grammar grammar
+                                     "src/babylon/english/grammar/compiled.edn")))
+
 ;; </grammar>
 
 (defn syntax-tree [tree]

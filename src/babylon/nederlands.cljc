@@ -151,10 +151,8 @@
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"
-         resource
-         slurp
-         read-string
-         grammar/process)))
+         grammar/read-grammar
+         (grammar/process true))))
 
 #?(:cljs
    (def grammar

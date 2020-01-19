@@ -305,11 +305,7 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [] ;; g/stop-generation-at [:head :comp :head :comp]
-    (try
-      (g/generate spec grammar index-fn syntax-tree)
-     (catch Exception e
-       (log/debug (str "generation failed: " e "; serialized input spec: " (vec (dag_unify.serialization/serialize spec))))))))
-
+    (g/generate spec grammar index-fn syntax-tree)))
 
 (defn get-lexemes [spec]
   (g/get-lexemes spec index-fn syntax-tree))
@@ -332,10 +328,9 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-#?(:clj
-   (def expressions
-     (-> "babylon/english/expressions.edn"
-         resource slurp read-string eval)))
+(def expressions
+  (-> "babylon/english/expressions.edn"
+      grammar/read-expressions))
 
 (defn demo []
   (count

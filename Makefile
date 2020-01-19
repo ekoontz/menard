@@ -19,5 +19,5 @@ compile: src/babylon/english/lexicon/compiled.edn src/babylon/nederlands/lexicon
 	lein install
 
 clean:
-	- rm $(find . -name compiled.edn)
+	- rm $$(find . -name compiled.edn)
 

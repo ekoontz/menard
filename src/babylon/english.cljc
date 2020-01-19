@@ -53,35 +53,98 @@
      (l/write-compiled-lexicon lexicon
                                "src/babylon/english/lexicon/compiled.edn")))
 
-(def flattened-lexicon
-  (flatten (vals lexicon)))
+#?(:clj
+   (def flattened-lexicon
+     (flatten (vals lexicon))))
 
-(def verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (u/get-in % [:exception]))
-                     (= (u/get-in % [:cat]) :verb)))))
-  
-(def non-verb-lexicon
-  (->> flattened-lexicon
-       (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                     (not (u/get-in % [:exception]))))))
+#?(:clj
+   (def verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :verb))))))
 
-(defn index-fn [spec]
-  (let [result
-        (cond (= (u/get-in spec [:cat]) :verb)
-              verb-lexicon
+#?(:clj
+   (def non-verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                        (not (u/get-in % [:exception])))))))
 
-              (and (= (u/get-in spec [:cat]))
-                   (not (= :top (u/get-in spec [:cat]))))
-              non-verb-lexicon
+#?(:clj
+   (defn index-fn [spec]
+     (let [result
+           (cond (= (u/get-in spec [:cat]) :verb)
+                 verb-lexicon
 
-              true
-              (lazy-cat verb-lexicon non-verb-lexicon))]
-    (if true
-      (shuffle result)
-      result)))
+                 (and (= (u/get-in spec [:cat]))
+                      (not (= :top (u/get-in spec [:cat]))))
+                 non-verb-lexicon
+
+                 true
+                 (lazy-cat verb-lexicon non-verb-lexicon))]
+       (if true
+         (shuffle result)
+         result))))
+
+#?(:cljs
+   ;; note that we exclude [:exception]s from the lexemes that we use for
+   ;; generation since they are only to be used for parsing.
+   (def lexeme-map
+     {:verb (->> lexicon
+                 (filter #(= :verb (u/get-in % [:cat])))
+                 (filter #(not (u/get-in % [:exception]))))
+      :det (->> lexicon
+                (filter #(= :det (u/get-in % [:cat]))))
+      :intensifier (->> lexicon
+                        (filter #(= :intensifier (u/get-in % [:cat]))))
+      :noun (->> lexicon
+                 (filter #(= :noun (u/get-in % [:cat])))
+                 (filter #(not (u/get-in % [:exception]))))
+      :top lexicon
+      :adjective (->> lexicon
+                      (filter #(= :adjective (u/get-in % [:cat]))))}))
+
+#?(:cljs
+   (defn index-fn [spec]
+     ;; for now a somewhat bad index function: simply returns
+     ;; lexemes which match the spec's :cat, or, if the :cat isn't
+     ;; defined, just return all the lexemes.
+     (let [result (get lexeme-map (u/get-in spec [:cat] :top) nil)]
+       (if (not (nil? result))
+           (shuffle result)
+           (do
+             (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+             lexicon)))))
+
 
 ;; </lexicon>
+
+;; <morphology>
+(def morphology (m/compile-morphology
+                 ["babylon/english/morphology/nouns.edn"
+                  "babylon/english/morphology/verbs.edn"]))
+
+(declare an)
+(declare sentence-punctuation)
+
+(defn morph
+  ([tree]
+   (cond
+     (map? (u/get-in tree [:syntax-tree]))
+     (s/morph (u/get-in tree [:syntax-tree]) morphology)
+
+     true
+     (s/morph tree morphology)))
+
+  ([tree & {:keys [sentence-punctuation?]}]
+   (if sentence-punctuation?
+     (-> tree
+         morph
+         an
+         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
+
+;; </morphology>
+
+;; <grammar>
 
 (def finite-tenses
   [;; "would see"
@@ -186,40 +249,14 @@
           :aspect :pluperfect}}])
 
 #?(:clj
-   (def morphology
-     (concat
-      (-> "babylon/english/morphology/nouns.edn"
-          l/read-and-eval)
-      (-> "babylon/english/morphology/verbs.edn"
-          l/read-and-eval))))
-
-
-(declare an)
-(declare sentence-punctuation)
-
-(defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) morphology)
-
-     true
-     (s/morph tree morphology)))
-
-  ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
-     (-> tree
-         morph
-         an
-         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
-
-#?(:clj
    (def grammar
      (-> "babylon/english/grammar.edn"
          resource
          slurp
          read-string
          grammar/process)))
+
+;; </grammar>
 
 (defn syntax-tree [tree]
   (s/syntax-tree tree morphology))

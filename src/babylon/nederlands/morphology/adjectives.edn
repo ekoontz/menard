@@ -29,6 +29,11 @@
   :p [#"([aeiou])mme$" "$1m"]
   :u {:cat :adjective
       :modifies-noun true}}
+
+ {:g [#"(a)(a)r$"   "$1re"]
+  :p [#"are$"       "aar"]
+  :u {:cat :adjective
+      :modifies-noun true}}
  
  {:g [#"$"    "e"]
   :p [#"e$"   ""]

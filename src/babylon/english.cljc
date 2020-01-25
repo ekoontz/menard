@@ -130,10 +130,14 @@
   ([tree]
    (cond
      (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) morphology)
+     (-> (u/get-in tree [:syntax-tree])
+         (s/morph morphology)     
+         an)
 
      true
-     (s/morph tree morphology)))
+     (-> tree
+         (s/morph morphology)
+         an)))
 
   ([tree & {:keys [sentence-punctuation?]}]
    (if sentence-punctuation?

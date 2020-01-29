@@ -249,7 +249,7 @@
                    " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar:
-     (shuffle grammar)
+     grammar
 
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))

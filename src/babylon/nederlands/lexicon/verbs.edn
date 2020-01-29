@@ -26,6 +26,10 @@
    :sem {:pred :work}
    :subcat {:2 []}}]
 
+ "veroorzaaken"
+ [{:cat :verb
+   :sem {:pred :cause}}]
+ 
  "zien"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

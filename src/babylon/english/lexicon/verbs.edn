@@ -111,6 +111,9 @@
          :inflected? true
          :sem {:pred :be-able-to}}]
 
+ "cause" [{:cat :verb
+           :sem {:pred :cause}}]
+ 
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle

@@ -253,7 +253,7 @@
           :aspect :pluperfect}}])
 
 #?(:clj
-   (def grammar
+   (def loaded-grammar
      (-> "babylon/english/grammar.edn"
          resource
          slurp

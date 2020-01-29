@@ -7,6 +7,9 @@
  "been" [{:cat :noun
           :agr {:gender :neuter}
           :sem {:pred :leg}}]
+ "beschaving" [{:cat :noun
+                :agr {:gender :common}
+                :sem {:pred :civilization}}]
  "boek" [{:cat :noun
           :agr {:gender :neuter}
           :sem {:pred :book

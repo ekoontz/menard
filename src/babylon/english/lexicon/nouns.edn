@@ -24,6 +24,8 @@
  "children" [{:cat :noun
               :sem {:pred :child}
               :agr {:number :plur}}]
+ "civilization" [{:cat :noun
+                  :sem {:pred :civilization}}]
  "coat" [{:cat :noun
           :sem {:pred :coat}}]
  "company" [{:cat :noun

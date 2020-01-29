@@ -152,7 +152,8 @@
            result))
 
        true
-       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn) (add-rule tree grammar syntax-tree-fn))]
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
+                            (add-rule tree grammar syntax-tree-fn))]
          (cond (and (empty? both)
                     allow-backtracking?)
                (do

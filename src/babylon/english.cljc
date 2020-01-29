@@ -314,7 +314,10 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [] ;; g/stop-generation-at [:head :comp :head :comp]
-    (g/generate spec grammar index-fn syntax-tree)))
+    (log/debug (str "english generate: " (u/strip-refs spec)))
+    (g/generate spec
+                grammar
+                index-fn syntax-tree)))
 
 (defn get-lexemes [spec]
   (g/get-lexemes spec index-fn syntax-tree))

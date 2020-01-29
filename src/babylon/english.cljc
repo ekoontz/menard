@@ -261,10 +261,15 @@
          grammar/process)))
 
 #?(:cljs
-   (def grammar
+   (def loaded-grammar
      (->> (babylon.grammar/read-compiled-grammar
            "babylon/english/grammar/compiled.edn")
           (map dag_unify.serialization/deserialize))))
+
+(def grammar
+  (sort (fn [x y] 
+          (not (u/get-in x [:comp :phrasal] false)))
+        loaded-grammar))
 
 #?(:clj
    (defn write-compiled-grammar []

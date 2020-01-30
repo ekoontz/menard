@@ -34,6 +34,8 @@
              :sem {:pred :country}}]
  "day" [{:cat :noun
          :sem {:pred :day}}]
+ "development" [{:cat :noun
+                 :sem {:pred :development}}]
  "dog" [{:cat :noun
          :sem {:pred :dog}}]
  "eye" [{:cat :noun
@@ -141,6 +143,8 @@
           {:cat :noun
            :sem {:pred :sheep}
            :agr {:number :plur}}]
+ "solution" [{:cat :noun
+           :sem {:pred :solution}}]
  "state" [{:cat :noun
            :sem {:pred :state}}]
  "story" [{:cat :noun

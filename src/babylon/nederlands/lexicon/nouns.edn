@@ -102,9 +102,15 @@
  "man" [{:cat :noun
          :sem {:pred :man}
          :agr {:gender :common}}]
+ "ontwikkeling" [{:cat :noun
+                  :sem {:pred :development}
+                  :agr {:gender :common}}]
  "oog" [{:cat :noun
          :sem {:pred :eye}
          :agr {:gender :neuter}}]
+ "oplossing" [{:cat :noun
+               :sem {:pred :solution}
+               :agr {:gender :common}}]
  "overheid" [{:cat :noun
               :sem {:pred :government}
               :agr {:gender :common}}]

@@ -5,7 +5,7 @@
 
  {:note "intensifier adjective"
   :dotimes 1
-  :cat :adjective  
+  :cat :adjective
   :subcat []
   :phrasal true
   :head {:phrasal false}

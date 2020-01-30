@@ -133,11 +133,11 @@
                        (->> (eval (:options base-rule [:top]))
                             (map (fn [option]
                                    (unify base-rule option)))
+                            (filter #(not (= % :fail)))                            
                             (map (fn [each]
                                    (-> each
                                        (dissoc :options)
-                                       (dissoc :dag_unify.serialization/serialized))))
-                            (filter #(not (= % :fail))))]
+                                       (dissoc :dag_unify.serialization/serialized)))))]
                    result)))
 
        (filter (fn [input-rule]

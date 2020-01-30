@@ -52,7 +52,7 @@
 (def count-adds (atom 0))
 
 (defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
-  (swap! count-adds (fn [x] 0))
+  (reset! count-adds 0)
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
     (log/debug (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add(s)"))

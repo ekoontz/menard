@@ -100,5 +100,15 @@
                              (translate expr)))))
              (println)))))))
 
+(defn translate-with-target-spec [spec]
+  (let [target (-> spec
+                   nl/generate)
+        source (-> target
+                   nl-to-en-spec
+                   en/generate)]
+    {:source (en/morph source)
+     :target (en/morph target)}))
 
+                       
+                   
 

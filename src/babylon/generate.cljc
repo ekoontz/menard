@@ -55,7 +55,8 @@
   (reset! count-adds 0)
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-    (log/debug (str "generated: " (syntax-tree-fn result) " with: "  @count-adds " add(s)"))
+    (log/debug (str "generated: " (report result syntax-tree-fn) " with: "
+                   @count-adds " add" (if (not (= @count-adds 1)) "s" "")))
     result))
 
 (defn generate-all

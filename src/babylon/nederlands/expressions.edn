@@ -71,16 +71,16 @@
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
  
- {:note "'De heel klein oud fietsen'."
-  :menuable? false
+ {:note "det [[intensifier adj] noun]"
+  :menuable? true
   :dotimes 1
   :agr {:number :plur}
   :rule "np"
-  :sem {:mod {:first {:pred :small
-                      :mod {:first {:pred :very}}}
-              :rest {:first {:pred :old}}}
-        :pred :bike
-        :quant :def}}
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}
+              :rest {:first {:pred :top}}}
+        :pred :top
+        :quant :top}}
  
  {:note "'De heel sterk slimme vrouen zingen'."
   :dotimes 1

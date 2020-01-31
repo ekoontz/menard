@@ -24,12 +24,14 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename]
-     (-> source-filename
-         l/read-and-eval
-         l/add-exceptions-to-lexicon
-         (l/apply-rules-in-order (nth lexical-rules 0) :0)
-         (l/apply-rules-in-order (nth lexical-rules 1) :1)
-         (l/apply-rules-in-order (nth lexical-rules 2) :2))))
+     (binding [babylon.lexiconfn/include-derivation? false]
+       (-> source-filename
+           l/read-and-eval
+           l/add-exceptions-to-lexicon
+           (l/apply-rules-in-order (nth lexical-rules 0) :0)
+           (l/apply-rules-in-order (nth lexical-rules 1) :1)
+           (l/apply-rules-in-order (nth lexical-rules 2) :2)))))
+
 #?(:clj
    (def lexicon
      (merge-with concat

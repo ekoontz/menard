@@ -8,8 +8,13 @@
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.dissoc :as d]))
 
-;; These functions are used to a convert human-friendly lexicon
+;; This is used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
+
+;; add debugging information.
+;; TODO: use a general-purpose 'debug' flag
+;; and set this to true if that flag is on.
+(def ^:dynamic include-derivation? true)
 
 (defn apply-rule [rule lexeme consequent antecedent rule-group]
   (let [result (unify lexeme consequent)]
@@ -25,10 +30,11 @@
             (exception error-message))
           true
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
-              [(unify result
-                      (if rule
-                        {:derivation {rule-group {rule {:match? true}}}}
-                        :top))]))))
+              (log/debug (str "include-derivation? set to: " include-derivation?))
+              [(if (and include-derivation? rule)
+                 (unify result
+                        {:derivation {rule-group {rule {:match? true}}}})
+                 result)]))))
 
 (defn apply-rules [rules lexeme if-no-rules-matched? rule-group]
   (let [with-rules

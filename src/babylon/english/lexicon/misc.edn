@@ -280,7 +280,6 @@
                :subcat {:1 {:cat :adjective
                             :phrasal false}
                         :2 []}}]
-
  
  "very" [{:cat :intensifier
           :sem {:pred :very}}]

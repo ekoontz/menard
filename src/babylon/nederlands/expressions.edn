@@ -11,7 +11,7 @@
   :head {:phrasal false}
   :comp {:phrasal false}}
 
- {:note "determiner noun"
+ {:note "det noun"
   :dotimes 1
   :cat :noun
   :subcat []
@@ -27,7 +27,7 @@
   :head {:phrasal false}
   :comp {:phrasal false}}
 
- {:note "[det noun] verb"
+ {:note "det noun | verb"
   :dotimes 1
   :subcat []
   :phrasal true
@@ -36,7 +36,7 @@
   :comp {:phrasal true
          :cat :noun}}
 
- {:note "determiner [adj noun]"
+ {:note "det | adj noun"
   :dotimes 1
   :subcat []
   :phrasal true
@@ -71,7 +71,7 @@
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
  
- {:note "det [[intensifier adj] noun]"
+ {:note "det [intensifier adj | noun]"
   :menuable? true
   :dotimes 1
   :agr {:number :plur}
@@ -95,9 +95,9 @@
                      :rest {:first {:pred :smart}}}
                :quant :def}}}
 
- {:note "[det [[intensifier adj] noun]] verb"
+ {:note "[det [intensifier adj | noun]] verb"
   :dotimes 10
-  :rule "s" 
+  :rule "s"
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 

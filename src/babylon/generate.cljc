@@ -189,21 +189,21 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
-  (->> (lexicon-index-fn spec)
-       lazy-seq
-       (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
-       (map #(unify % spec))
-       (filter #(not (= :fail %)))
-       (map #(u/assoc-in! % [::done?] true))
-       (#(do
-           (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
-           (if (not (empty? %))
-             (log/debug (str "get-lexeme: " 
-                             (cond (= 1 (count %))
-                                   "only one "
-                                   true "first of " (count %) " lexemes ")
-                             "found: '" (syntax-tree (first %)) "'")))
-           %))))
+  (let [spec (u/copy spec)]
+    (->> (lexicon-index-fn spec)
+         lazy-seq
+         (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
+         (map #(unify % spec))
+         (filter #(not (= :fail %)))
+         (#(do
+             (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
+             (if (not (empty? %))
+               (log/debug (str "get-lexeme: " 
+                               (cond (= 1 (count %))
+                                     "only one "
+                                     true "first of " (count %) " lexemes ")
+                               "found: '" (syntax-tree (first %)) "'")))
+             %)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))

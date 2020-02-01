@@ -259,10 +259,7 @@
          resource
          slurp
          read-string
-         grammar/process
-         ((fn [grammar]
-            (->> grammar
-                 (map #(u/assoc-in % [:babylon.generate/started?] true))))))))
+         grammar/process)))
 
 #?(:cljs
    (def loaded-grammar

@@ -261,56 +261,27 @@
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
 
-     ((fn [rules]
-        (log/debug (str "rules matched(1): " (count rules)))
-        (if (empty? rules) (log/debug (str "step 1 no rules matched for tree: " (syntax-tree) "; tried to adjoin at: " at)))
-        rules))
-     
      ;; initialize the rule-to-be-added:
-     (lazy-map #(u/assoc-in % [:babylon.generate/started?] true))
-
-     ((fn [rules]
-        (log/debug (str "rules matched(2): " (count rules)))
-        (if (empty? rules) (log/debug (str "step 2 failed to add started? marker to tree: " (syntax-tree tree) " at: " at)))
-        rules))
-
-     ;; TODO: should be able to remove this:
-     (remove #(= :fail %))
-
-
-     ((fn [rules]
-        (log/debug (str "rules matched(3): " (count rules)))
-        (if (empty? rules) (log/debug (str "step 3 returned no successful adjoinings to tree: " (syntax-tree tree) " at: " at)))
-        rules))
+     (map #(u/assoc-in % [:babylon.generate/started?] true))
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
-     (lazy-map #(u/assoc-in! (u/copy tree)
-                             at %))
+     (map #(u/assoc-in! (u/copy tree)
+                        at %))
 
      ;; some attempts to adjoin will have failed, so remove those:
      (remove #(= :fail %))
-
-     ((fn [rules]
-        (log/debug (str "rules matched(4): " (count rules)))
-        (if (empty? rules) (log/debug (str "step 3 returned no successful adjoinings at: " at)))
-        rules))
      
-     (lazy-map
-      #(do
-         (log/debug (str "successfully adjoined: " (syntax-tree (u/get-in % at)) " to parent: " (syntax-tree %) " at: " at))
-         (log/debug (str "creating path in: " (syntax-tree %) " at: " at " (numerically: " at-num))
-         (log/debug (str " and keys: " (keys %)))
-         (u/unify! %
-                   (s/create-path-in (concat [:syntax-tree] at-num)
-                                     (let [one-is-head? (headness? % (concat at [:1]))] 
-                                       {:head? (= :head (last at))
-                                        :1 {:head? one-is-head?}
-                                        :2 {:head? (not one-is-head?)}
-                                        :variant (u/get-in % [:variant])
-                                        :rule
-                                        (do (log/debug (str "getting rule for: " (syntax-tree %) "; rule-name is: " rule-name))
-                                            (or rule-name
-                                                (u/get-in % (concat at [:rule]))))}))))))))
+     (map
+      #(u/unify! %
+                 (s/create-path-in (concat [:syntax-tree] at-num)
+                                   (let [one-is-head? (headness? % (concat at [:1]))]
+                                     {:head? (= :head (last at))
+                                      :1 {:head? one-is-head?}
+                                      :2 {:head? (not one-is-head?)}
+                                      :variant (u/get-in % [:variant])
+                                      :rule
+                                      (or rule-name
+                                          (u/get-in % (concat at [:rule])))})))))))
 
 (defn make-word []
   {:agr (atom :top)

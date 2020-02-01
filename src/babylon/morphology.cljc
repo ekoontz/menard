@@ -11,15 +11,17 @@
 the morphology is a set of rules, each of which looks like:"
   [structure morphology]
   (log/debug (str "morph-leaf:" (u/strip-refs structure)))
-  (let [matching-rules
-        (if (or (not (u/get-in structure [:inflected?]))
-                (= :top (u/get-in structure [:inflected?])))
+  (let [structure (u/strip-refs structure)
+        canonical (u/get-in structure [:canonical])
+        inflected? (u/get-in structure [:inflected?])
+        matching-rules
+        (if (or (not inflected?)
+                (= :top inflected?))
           (filter (fn [rule]
-                    (let [{u :u [from to] :g} rule
-                          unified (unify u structure)]
-                      (and (not (= :fail unified))
-                           (string? (u/get-in structure [:canonical] :top))
-                           (re-find from (str (u/get-in structure [:canonical] ""))))))
+                    (let [{u :u [from to] :g} rule]
+                      (and (string? canonical)
+                           (re-find from canonical)
+                           (not (= :fail (unify u structure))))))
                   morphology))
         exceptions (u/get-in structure [:exceptions])
         exceptionless (if exceptions

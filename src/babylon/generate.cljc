@@ -194,10 +194,9 @@
   ;; done as part of the unify below will be O(1).
   (let [spec (u/copy (u/strip-refs spec))]
     (->> (lexicon-index-fn spec)
-         lazy-seq
-         (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
          (map #(unify % spec))
          (filter #(not (= :fail %)))
+         (filter #(or (nil? lexical-filter) (lexical-filter %)))
          (#(do
              (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
              (if (not (empty? %))

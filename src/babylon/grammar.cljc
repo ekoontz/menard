@@ -165,7 +165,8 @@
                        true
                        (let [warn-message (str "rule: " (u/get-in input-rule [:rule]) " has no :cat value specified: might overgeneralize unexpectedly.")]
                          (log/warn warn-message)
-                         true))))))
+                         true))))
+       (map u/copy)))
 
 #?(:clj
    (defn write-compiled-grammar [grammar write-to-file]

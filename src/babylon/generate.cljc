@@ -189,10 +189,10 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
-  ;; this initial copying of _spec_ improves performance of (unify) below; since _spec_ will now have its
-  ;; serialized form stored within it, so the u/copy of it that is done as part of the unify below
-  ;; is will be O(1).
-  (let [spec (u/copy spec)]
+  ;; this initial copying and strip-refs of _spec_ improves performance of (unify) below; since _spec_ will
+  ;; now: have no reentrances, and have its serialized form stored within it, so the u/copy of it that is
+  ;; done as part of the unify below will be O(1).
+  (let [spec (u/copy (u/strip-refs spec))]
     (->> (lexicon-index-fn spec)
          lazy-seq
          (filter #(and (or (nil? lexical-filter) (lexical-filter %))))

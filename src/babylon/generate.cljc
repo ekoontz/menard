@@ -98,7 +98,7 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: "
-                     (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+                      (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -189,6 +189,9 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
+  ;; this initial copying of _spec_ improves performance of (unify) below; since _spec_ will now have its
+  ;; serialized form stored within it, so the u/copy of it that is done as part of the unify below
+  ;; is will be O(1).
   (let [spec (u/copy spec)]
     (->> (lexicon-index-fn spec)
          lazy-seq

@@ -260,9 +260,6 @@
 
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
-
-     ;; initialize the rule-to-be-added:
-     (map #(u/assoc-in % [:babylon.generate/started?] true))
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map #(u/assoc-in! (u/copy tree)

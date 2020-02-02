@@ -118,28 +118,21 @@
 (def nest-mod
   (let [arg (atom :top)
         context (atom :top)
-        iobj (atom :top)
         mod (atom :top)
-        obj (atom :top)
         pred (atom :top)
         quant (atom :top)
-        ref (atom :top)
-        subj (atom :top)]
+        ref (atom :top)]
     {:sem {:arg arg
            :context context
            :mod mod
-           :obj obj
            :pred pred
            :quant quant
-           :ref ref
-           :subj subj}
+           :ref ref}
      :head {:sem {:arg arg
                   :context context
-                  :obj obj
                   :pred pred
                   :quant quant
-                  :ref ref
-                  :subj subj}
+                  :ref ref}
             :mod mod}}))
 
 (def nominal-phrase

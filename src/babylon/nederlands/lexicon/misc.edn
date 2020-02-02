@@ -1,5 +1,12 @@
 ;; 'F.' means Carol Fehringer, "A Reference Grammar of Dutch", 1999 ,Cambridge University Press.
-{"dat" [{:cat :det
+{"behoorlijk"
+ [{:cat :intensifier
+   :sem {:pred :quite}
+   :subcat {:1 {:cat :adjective
+                :phrasal false}
+            :2 []}}]
+
+ "dat" [{:cat :det
          :sem {:pred :that}
          :agr {:number :sing
                :gender :neuter}}]

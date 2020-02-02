@@ -155,6 +155,12 @@
                 :pronoun true
                 :reflexive true}]
 
+ "quite" [{:cat :intensifier
+            :sem {:pred :quite}
+            :subcat {:1 {:cat :adjective
+                         :phrasal false}
+                     :2 []}}]
+
  "really" [{:cat :intensifier
             :sem {:pred :really}
             :subcat {:1 {:cat :adjective

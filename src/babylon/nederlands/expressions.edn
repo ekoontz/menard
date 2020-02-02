@@ -3,6 +3,7 @@
  ;; than having to list these specifications in pairs:
  ;;    (e.g. specific np, then general np, specific np with adjective, general np with adjective, etc.
 
+ ;; 0
  {:note "intensifier adjective"
   :dotimes 1
   :cat :adjective
@@ -11,6 +12,7 @@
   :head {:phrasal false}
   :comp {:phrasal false}}
 
+ ;; 1
  {:note "det noun"
   :dotimes 1
   :cat :noun
@@ -19,14 +21,16 @@
   :head {:phrasal false}
   :comp {:phrasal false}}
 
+ ;; 2
  {:note "noun verb"
   :dotimes 1
   :subcat []
   :cat :verb
   :phrasal true
-  :head {:phrasal false}
-  :comp {:phrasal false}}
+  :target {:head {:phrasal false}
+           :comp {:phrasal false}}}
 
+  ;; 3
  {:note "det noun | verb"
   :dotimes 1
   :subcat []
@@ -34,7 +38,8 @@
   :head {:phrasal false
          :cat :verb}
   :comp {:phrasal true
-         :cat :noun}}
+         :cat :noun}
+  :target {:head {:phrasal false}}}
 
  {:note "det | adj noun"
   :dotimes 1
@@ -95,6 +100,7 @@
                      :rest {:first {:pred :smart}}}
                :quant :def}}}
 
+ ;; 10
  {:note "[det [intensifier adj | noun]] verb"
   :dotimes 10
   :rule "s"
@@ -108,11 +114,11 @@
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
+ ;; 12
  {:note "Sentence with object"
   :dotimes 10
   :reflexive false
   :target {:rule "s"
-           :comp {:phrasal false}
            :head {:phrasal true
                   :comp {:phrasal false}
                   :head {:phrasal false}
@@ -123,16 +129,11 @@
   :sem {:pred :see
         :obj {:top :top}}}
 
+ ;; 13
  {:note "Sentence with reflexive object"
   :dotimes 10
   ;; TODO: get rid of :target hints if possible: kind of a crutch that should
   ;; be replaced by appropriate generation constraints on the target language.
-  :target {:rule "s"
-           :comp {:phrasal false}
-           :head {:phrasal true
-                  :comp {:phrasal false}
-                  :head {:phrasal false}
-                  :rule "vp"}}
   :generic true
   :cat :verb
   :modal false

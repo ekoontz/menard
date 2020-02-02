@@ -26,5 +26,22 @@
        :pronoun false
        :propernoun true}
   :then [{:agr {:number :sing
-                :person :3rd}}]}]
+                :person :3rd}}]}
+
+ ;; generate transitive, non-reflexive and intransitive versions:
+ {:rule :transitivize
+  :if {:cat :verb
+       :modal false
+       :reflexive ::unspec
+       :subcat {:2 ::unspec}}
+  :then (let [obj-sem (atom :top)]
+          [{:sem {:obj obj-sem}
+            :modal false
+            :reflexive false
+            :subcat {:2 {:cat :noun
+                         :subcat []
+                         :sem obj-sem}}}
+           {:sem {:obj :unspec}
+            :modal false            
+            :subcat {:2 []}}])}]
 

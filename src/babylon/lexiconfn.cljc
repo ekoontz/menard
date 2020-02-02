@@ -53,7 +53,7 @@
     (cond (not (empty? with-rules))
           with-rules
 
-          if-no-rules-matched?
+          (and if-no-rules-matched? include-derivation?)
           [(unify lexeme {:derivation {rule-group {::no-rules-matched? true}}})]
           true
           [lexeme])))

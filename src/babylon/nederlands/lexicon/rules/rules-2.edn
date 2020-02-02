@@ -47,4 +47,13 @@
                          :cat :noun
                          :case :acc
                          :reflexive true
-                         :sem obj}}})]}]
+                         :sem obj}}})]}
+
+ {:rule :intransitive
+  :if {:cat :verb
+       :reflexive ::unspec
+       :subcat {:2 []}}
+  :then [{:sem {:obj :unspec}
+          :reflexive false}]
+  :subcat {:2 []}}]
+

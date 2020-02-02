@@ -169,7 +169,7 @@
                                  (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                  (last at))))
                (empty? both)
-               (exception (str "dead end: " (syntax-tree-fn tree) " at: " at))
+               (exception (str "dead end: " (syntax-tree-fn tree) " at: " at "; looking for: " (u/strip-refs (u/get-in spec []))))
 
                true both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))

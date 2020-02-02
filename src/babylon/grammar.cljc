@@ -166,7 +166,8 @@
                        (let [warn-message (str "rule: " (u/get-in input-rule [:rule]) " has no :cat value specified: might overgeneralize unexpectedly.")]
                          (log/warn warn-message)
                          true))))
-       (map u/copy)))
+
+       (map #(u/assoc-in % [:babylon.generate/started?] true))))
 
 #?(:clj
    (defn write-compiled-grammar [grammar write-to-file]

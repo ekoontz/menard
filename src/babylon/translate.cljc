@@ -60,8 +60,8 @@
                (u/get-in % [:target] :top)))
 
       ;; 2.b. generate from this spec:
-      (#(or (en-generate % false)
-            (en-generate % true)))
+      (#(en-generate % false))
+
 
       ;; 2.c. print the surface form of the target expression:
       (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))

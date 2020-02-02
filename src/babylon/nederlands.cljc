@@ -60,23 +60,47 @@
      (->> flattened-lexicon
           (filter #(and (not (u/get-in % [:exception]))
                         (= (u/get-in % [:cat]) :verb))))))
+
 #?(:clj
-   (def non-verb-lexicon
+   (def adjective-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :adjective))))))
+
+#?(:clj
+   (def noun-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :noun))))))
+
+#?(:clj
+   (def misc-lexicon
      (->> flattened-lexicon
           (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                        (not (= (u/get-in % [:cat]) :adjective))
+                        (not (= (u/get-in % [:cat]) :noun))
                         (not (u/get-in % [:exception])))))))
+
 #?(:clj
    (defn index-fn [spec]
-     (let [result
+     (log/debug (str "spec: " (u/strip-refs spec)))
+     (let [pre-result
            (cond (= (u/get-in spec [:cat]) :verb)
                  verb-lexicon
 
-                 (and (= (u/get-in spec [:cat]))
-                      (not (= :top (u/get-in spec [:cat]))))
-                 non-verb-lexicon
+                 (= (u/get-in spec [:cat]) :adjective)
+                 adjective-lexicon
 
-                 true
-                 (lazy-cat verb-lexicon non-verb-lexicon))]
+                 (= (u/get-in spec [:cat]) :noun)
+                 noun-lexicon
+                 
+                 true misc-lexicon)
+           spec (if true spec (u/copy (u/strip-refs spec)))
+           result (if true
+                    pre-result
+                    (->> pre-result
+                         (map #(unify % spec))
+                         (filter #(not (= :fail %)))))]
        (if true
          (shuffle result)
          result))))

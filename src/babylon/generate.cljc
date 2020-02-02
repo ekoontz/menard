@@ -235,9 +235,7 @@
                   (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
                                   " at: " at " to: " (report tree syntax-tree)))
                   (-> tree
-                      ((fn [tree]
-                         (cond generate-only-one? tree
-                               true (u/copy tree))))
+                      u/copy
                       (u/assoc-in! done-at true)
                       (u/assoc-in! at candidate-lexeme)
                       (update-syntax-tree at syntax-tree)

@@ -96,8 +96,7 @@
              (println "---")
              (count
               (->> source-expressions
-                   (mapcat (fn [expr]
-                             (translate expr)))))
+                   (mapcat translate)))
              (println)))))))
 
 (defn translate-with-target-spec [spec]
@@ -108,7 +107,3 @@
                    en/generate)]
     {:source (en/morph source)
      :target (en/morph target)}))
-
-                       
-                   
-

@@ -24,7 +24,7 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename]
-     (binding [babylon.lexiconfn/include-derivation? false]
+     (binding [babylon.lexiconfn/include-derivation? true]
        (-> source-filename
            l/read-and-eval
            l/add-exceptions-to-lexicon

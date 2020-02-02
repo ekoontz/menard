@@ -125,6 +125,8 @@
 
  {:note "Sentence with reflexive object"
   :dotimes 10
+  ;; TODO: get rid of :target hints if possible: kind of a crutch that should
+  ;; be replaced by appropriate generation constraints on the target language.
   :target {:rule "s"
            :comp {:phrasal false}
            :head {:phrasal true

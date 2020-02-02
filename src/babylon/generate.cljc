@@ -49,13 +49,20 @@
   (str "#" (count (str tree)) " " (syntax-tree tree)))
 
 (def count-adds (atom 0))
+(def count-lexeme-fails (atom 0))
+(def count-rule-fails (atom 0))
 
 (defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
   (reset! count-adds 0)
+  (reset! count-lexeme-fails 0)
+  (reset! count-rule-fails 0)
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-    (log/debug (str "generated: " (report result syntax-tree-fn) " with: "
-                   @count-adds " add" (if (not (= @count-adds 1)) "s" "")))
+    (log/debug (str "generated: " (report result syntax-tree-fn) " with "
+                    @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
+                    @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
+                    @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
+                    "."))
     result))
 
 (defn generate-all
@@ -194,7 +201,10 @@
   (let [spec (u/copy (u/strip-refs spec))]
     (->> (lexicon-index-fn spec)
          (map #(unify % spec))
-         (filter #(not (= :fail %)))
+         (filter #(or (not (= :fail %))
+                      (do
+                        (swap! count-lexeme-fails inc)
+                        false)))
          (filter #(or (nil? lexical-filter) (lexical-filter %)))
          (#(do
              (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
@@ -265,10 +275,13 @@
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map #(u/assoc-in! (u/copy tree)
-                        at %))
+                        at (u/copy %)))
 
      ;; some attempts to adjoin will have failed, so remove those:
-     (remove #(= :fail %))
+     (filter #(or (not (= :fail %))
+                  (do
+                    (swap! count-rule-fails inc)
+                    false)))
      
      (map
       #(u/unify! %

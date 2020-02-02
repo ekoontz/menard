@@ -1,6 +1,8 @@
 #TODO: Adopt the excellent recommendations written here:
 # https://tech.davis-hansson.com/p/make/
 # (other than the ones already adopted so far).
+#TODO: even better, move this all to project.clj, rather than having two
+#build files to maintain.
 SHELL := bash
 .PHONY: all install compile clean
 all: install

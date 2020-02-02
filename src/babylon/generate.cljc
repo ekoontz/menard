@@ -308,6 +308,18 @@
   
   (let [retval
         (cond
+          (= :fail tree)
+          []
+          
+          (= (u/get-in tree [::done?]) true)
+          []
+          
+          (= (u/get-in tree [:phrasal]) false)
+          []
+
+          (empty? tree)
+          []
+
           (= ::none (u/get-in tree [::started?] ::none))
           []
           

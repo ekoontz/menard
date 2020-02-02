@@ -16,7 +16,6 @@
 (declare generate-all)
 (declare get-lexemes)
 (declare headness?)
-(declare lazy-map)
 (declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)
@@ -222,23 +221,23 @@
               (cond
                 generate-only-one? (take 1 lexemes)
                 true lexemes)))
-           (lazy-map (fn [candidate-lexeme]
-                       (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                      " at: " at " to: " (report tree syntax-tree)))
-                       (-> tree
-                           ((fn [tree]
-                              (cond generate-only-one? tree
-                                    true (u/copy tree))))
-                           (u/assoc-in! done-at true)
-                           (u/assoc-in! at candidate-lexeme)
-                           (update-syntax-tree at syntax-tree)
-                           (truncate-at at syntax-tree)
-                           (foldup at syntax-tree)
-                           (#(do
-                               (if (= :fail %)
-                                 (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
-                                 (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
-                               %)))))))))
+           (map (fn [candidate-lexeme]
+                  (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
+                                  " at: " at " to: " (report tree syntax-tree)))
+                  (-> tree
+                      ((fn [tree]
+                         (cond generate-only-one? tree
+                               true (u/copy tree))))
+                      (u/assoc-in! done-at true)
+                      (u/assoc-in! at candidate-lexeme)
+                      (update-syntax-tree at syntax-tree)
+                      (truncate-at at syntax-tree)
+                      (foldup at syntax-tree)
+                      (#(do
+                          (if (= :fail %)
+                            (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
+                            (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
+                          %)))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
   (log/debug (str "add-rule: " (report tree syntax-tree)))
@@ -572,12 +571,6 @@
           (log/debug (str "HEAD(alone):" head))
           (dissoc m head))))
     m))
-
-(defn lazy-map [f items]
-  (when (not (empty? items))
-    (cons (f (first items))
-          (lazy-seq (lazy-map f (rest items))))))
-
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.

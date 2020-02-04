@@ -1,10 +1,12 @@
 {"eng" [{:cat :adjective :sem {:pred :scary}}]
+ "ernstig" [{:cat :adjective :sem {:pred :serious}}]
  "groot" [{:cat :adjective :sem {:pred :big}}]
  "klein" [{:cat :adjective :sem {:pred :small}}]
- "lief"  [{:cat :adjective :sem {:pred :nice}}]
- "oud"   [{:cat :adjective :sem {:pred :old}}]
- "slim"  [{:cat :adjective :sem {:pred :smart}}]
+ "lief" [{:cat :adjective :sem {:pred :nice}}]
+ "oud" [{:cat :adjective :sem {:pred :old}}]
+ "slim" [{:cat :adjective :sem {:pred :smart}}]
  "sterk" [{:cat :adjective :sem {:pred :strong}}]
- "stom"  [{:cat :adjective :sem {:pred :stupid}}]
- "vies"  [{:cat :adjective :sem {:pred :dirty}}]
- "waar"  [{:cat :adjective :sem {:pred :true}}]}
+ "stom" [{:cat :adjective :sem {:pred :stupid}}]
+ "verwarrend" [{:cat :adjective :sem {:pred :confusing}}]
+ "vies" [{:cat :adjective :sem {:pred :dirty}}]
+ "waar" [{:cat :adjective :sem {:pred :true}}]}

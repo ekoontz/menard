@@ -76,8 +76,7 @@
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
  
- {:note "det [intensifier adj | noun]"
-  :menuable? true
+ {:note "det [intensifier adj | adj noun]"
   :dotimes 1
   :agr {:number :plur}
   :rule "np"
@@ -101,15 +100,15 @@
                :quant :def}}}
 
  ;; 10
- {:note "[det [intensifier adj | noun]] verb"
+ {:note "[det [intensifier adj | adj noun]] verb"
   :dotimes 10
   :rule "s"
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
- {:note "Sentence whose subject has only one modifier."
+ ;; 11
+ {:note "[det | adj noun] verb"
   :dotimes 10
-  :menuable? false  
   :rule "s" 
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}

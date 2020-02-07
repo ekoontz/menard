@@ -134,7 +134,7 @@
        (let [result
              (add-rule tree grammar syntax-tree-fn)]
          (if (and diagnostics? (empty? result))
-           (log/warn (str "no rules matched spec: " (u/strip-refs spec) ": dead end.")))
+           (log/warn (str "no rules matched spec: " (u/strip-refs spec) ".")))
          result)
 
        (or (= false (u/get-in tree (concat at [:phrasal])))
@@ -169,7 +169,9 @@
                                  (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                  (last at))))
                (empty? both)
-               (exception (str "dead end: " (syntax-tree-fn tree) " at: " at "; looking for: " (u/strip-refs (u/get-in spec []))))
+               (exception (str "dead end: " (syntax-tree-fn tree)
+                               " at: " at "; looking for: "
+                               (u/strip-refs (u/get-in spec []))))
 
                true both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))

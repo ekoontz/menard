@@ -595,6 +595,7 @@
 
         ;; everything below is disabled (because of the 'cond true' above).
         (u/get-in spec [:rule])
+        (u/get-in spec [:rule])
 
         (= :verb (u/get-in spec [:cat]))
         (str "subcat 1:" (u/get-in spec [:subcat :1 :cat]))

@@ -230,6 +230,11 @@
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
            ((fn [lexemes]
+              (if (empty? lexemes)
+                (log/warn (str "add-lexeme: found no lexemes with spec: " (summary-fn spec))))
+              lexemes))
+           
+           ((fn [lexemes]
               (cond
                 generate-only-one? (take 1 lexemes)
                 true lexemes)))

@@ -15,45 +15,118 @@
                          :agr agr
                          :sem {:pred quant}}
                      :2 []}})]}
- {:rule :object
+
+  
+ {:rule :transitive-verbs ;; "sees" in "she sees him"
   :if {:cat :verb
-       :reflexive ::unspec
-       :subcat {:2 ::unspec}}
-  :then [;; 1. a verb gets an intransitive sense:
-         {:sem {:obj :unspec}
-          :reflexive false
-          :subcat {:2 []}}
-         ;; 2. het krijgt een non-reflexive noun object:
-         (let [obj (atom :top)]
-           {:reflexive false
+       :subcat {:2 {:cat :noun}}}
+  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
+         (let [subj (atom :top)
+               obj (atom :top)]
+           {:derivation {:2 {:transitive-verbs {:reflexive false}}}
+            :reflexive false
             :sem {:obj obj}
-            :subcat {:2 {:subcat []
-                         :cat :noun
-                         :case :acc
+            :subcat {:2 {:cat :noun
                          :reflexive false
+                         :case :acc
                          :sem obj}}})
-         ;; 3. reflexive:
+
+         ;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
-               agr (atom :top)
                subj (atom {:ref ref})
-               obj (atom {:ref ref})]
-           {:reflexive true
+               obj (atom {:ref ref})
+               agr (atom :top)]
+           {:derivation {:2 {:transitive-verbs {:reflexive true}}}
+            :agr agr
+            :reflexive true
             :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:agr agr
                          :sem subj}
                      :2 {:agr agr
-                         :subcat []
-                         :cat :noun
-                         :case :acc
+                         :phrasal false
                          :reflexive true
-                         :sem obj}}})]}
+                         :cat :noun
+                         :sem obj
+                         :case :acc}}})]}
 
- {:rule :intransitive
+ {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
-       :reflexive ::unspec
+       :subcat {:2 {:cat :prep}
+                :3 []}}
+  :then [(let [iobj (atom :top)]
+           {:sem {:iobj iobj}
+            :subcat {:2 {:cat :prep
+                         :sem {:obj iobj}}}})]}
+
+ {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 {:cat :noun}}}
+  :then [(let [iobj (atom :top)
+               obj (atom :top)]
+           {:sem {:iobj iobj
+                  :obj obj}
+            :subcat {:2 {:cat :prep
+                         :sem {:obj iobj}
+                         :subcat []}
+                     :3 {:cat :noun
+                         :case :acc
+                         :sem obj
+                         :subcat []}}})]}
+ 
+ {:rule :intransitive-verbs
+  :if {:cat :verb
+       :aux false
        :subcat {:2 []}}
   :then [{:sem {:obj :unspec}
-          :reflexive false}]
-  :subcat {:2 []}}]
+          :reflexive false
+          :subcat {:2 []}}]}
+
+ {:rule :aux-verbs-with-verb-arg
+  :if {:cat :verb
+       :aux true
+       :subcat {:2 {:cat :verb}}}
+  :then (let [agr (atom :top)
+              sem (atom :top)
+              subject (atom {:agr agr
+                             :cat :noun
+                             :subcat []})
+              reflexive (atom :top)
+              verb-argument
+              {:agr agr
+               :modal false
+               :reflexive reflexive
+               :slash false
+               :aux false
+               :cat :verb
+               :sem sem
+               :subcat {:1 subject
+                        :2 []}}
+              verb-argument-slash
+              {:agr agr
+               :modal false
+               :reflexive reflexive
+               :slash true
+               :aux false
+               :cat :verb
+               :sem sem
+               :subcat {:1 subject
+                        :2 {:top :top}}}]
+          
+          [;; [s .she *[vp-aux *has .seen]]
+           {:agr agr
+            :derivation {:2 {:aux-verbs-with-verb-arg {:sense 1}}}
+            :reflexive reflexive
+            :sem sem
+            :subcat {:1 subject
+                     :2 verb-argument}}
+
+           ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
+           {:agr agr
+            :derivation {:2 {:aux-verbs-with-verb-arg {:sense 2}}}
+            :reflexive reflexive
+            :sem sem
+            :subcat {:1 subject
+                     :2 verb-argument-slash}}])}]
 

@@ -3,6 +3,7 @@
        :pronoun true}
   :then [{:inflected? true
           :subcat []}]}
+
  {:rule :dont-inflect-propernouns
   :if {:cat :noun
        :propernoun true}
@@ -10,16 +11,17 @@
           :subcat []}]}
 
  {:rule :subject-verb-agreement
-  :if {:cat :verb}
-  :then
-  (let [agr (atom :top)
-        subj (atom :top)]
-    [{:sem {:subj subj}
-      :agr agr
-      :subcat {:1 {:cat :noun
-                   :case :nom
-                   :sem subj
-                   :agr agr}}}])}
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)
+               subj (atom :top)]
+           {:agr agr
+            :sem {:subj subj}
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :sem subj
+                         :subcat []}}})]}
 
  {:rule :propernouns-are-3rd-person-singular
   :if {:cat :noun
@@ -28,20 +30,132 @@
   :then [{:agr {:number :sing
                 :person :3rd}}]}
 
- ;; generate transitive, non-reflexive and intransitive versions:
- {:rule :transitivize
+ {:rule :modal-infinitive
   :if {:cat :verb
-       :modal false
-       :reflexive ::unspec
-       :subcat {:2 ::unspec}}
-  :then (let [obj-sem (atom :top)]
-          [{:sem {:obj obj-sem}
-            :modal false
+       :modal :infinitive}
+  :then [{:sem {:obj :unspec}
+          :reflexive false
+          :subcat {:2 []}}
+         (let [subj (atom :top)
+               subcat-subj (atom {:sem subj})
+               obj (atom {:subj subj})]
+           {:reflexive false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:infl :infinitive
+                         :cat :verb
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj
+                                  :2 []}}}})
+         (let [subj (atom :top)
+               agr (atom :top)
+               subcat-subj (atom {:agr agr
+                                  :sem subj})
+               obj (atom {:subj subj})]
+           {:reflexive true
+            :agr agr
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:infl :infinitive
+                         :agr agr
+                         :cat :verb
+                         :reflexive true
+                         :sem obj
+                         :subcat {:1 subcat-subj
+                                  :2 []}}}})]}
+ 
+ ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
+ ;; modal-base is simpler and clearer.
+ {:rule :modal-base
+  :if {:cat :verb
+       :modal :base}
+  :then (let [agr (atom :top)
+              subj (atom :top)
+              subcat-subj (atom {:sem subj})
+              obj (atom {:subj subj})]
+          [;; "I can"
+           {:derivation {:1 {:modal-base {:marker 1}}}
+            :sem {:obj :unspec}
+            :infl :base
+            :subcat {:2 []}} ;; "can"
+
+           ;;  "can <vp[base,nonmodal]>" non-reflexive
+           {:derivation {:1 {:modal-base {:marker 2}}}
+            :sem {:subj subj
+                  :obj obj}
+            :infl :base
             :reflexive false
-            :subcat {:2 {:cat :noun
-                         :subcat []
-                         :sem obj-sem}}}
-           {:sem {:obj :unspec}
-            :modal false            
-            :subcat {:2 []}}])}]
+            :subcat {:2 {:aux false
+                         :infl :base
+                         :cat :verb
+                         :modal false
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+
+           ;;  "can <vp[base,nonmodal]>" reflexive
+           {:derivation {:1 {:modal-base {:marker 3}}}
+            :agr agr
+            :sem {:subj subj
+                  :obj obj}
+            :infl :base
+            :reflexive true
+            :subcat {:1 {:agr agr}
+                     :2 {:aux false
+                         :agr agr
+                         :infl :base
+                         :modal false
+                         :cat :verb
+                         :reflexive true
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+
+           ;;  "can <vp[base,infinitive modal]>" non-reflexive
+           {:derivation {:1 {:modal-base {:marker 2}}}
+            :sem {:subj subj
+                  :obj obj}
+            :infl :base
+            :reflexive false
+            :subcat {:2 {:aux false
+                         :infl :base
+                         :cat :verb
+                         :modal :infinitive
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+
+           ;;  "can <vp[base,infinitive modal]>" reflexive
+           {:derivation {:1 {:modal-base {:marker 3}}}
+            :agr agr
+            :sem {:subj subj
+                  :obj obj}
+            :infl :base
+            :reflexive true
+            :subcat {:1 {:agr agr}
+                     :2 {:aux false
+                         :agr agr
+                         :infl :base
+                         :modal :infinitive
+                         :cat :verb
+                         :reflexive true
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}])}
+ {:rule :aux-verbs
+  :if {:cat :verb
+       :aux true
+       :subcat {:1 {:cat :noun}}}
+  :then (let [agr (atom :top)
+              subject (atom {:agr agr
+                             :cat :noun
+                             :subcat []})]
+          [{:agr agr
+            :subcat {:1 subject}}])}
+
+ {:rule :ditransitive-false
+  :if {:cat :verb
+       :subcat {:3 ::unspec}}
+  :then [{:cat :verb
+          :subcat {:3 []}}]}]
+
 

@@ -20,7 +20,8 @@
    (def lexical-rules
      [(l/read-and-eval "babylon/nederlands/lexicon/rules/rules-0.edn")
       (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn")]))
+      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-2.edn")
+      (l/read-and-eval "babylon/nederlands/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename]
@@ -30,7 +31,8 @@
            l/add-exceptions-to-lexicon
            (l/apply-rules-in-order (nth lexical-rules 0) :0)
            (l/apply-rules-in-order (nth lexical-rules 1) :1)
-           (l/apply-rules-in-order (nth lexical-rules 2) :2)))))
+           (l/apply-rules-in-order (nth lexical-rules 2) :2)
+           (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
 
 #?(:clj
    (def lexicon

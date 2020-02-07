@@ -82,4 +82,35 @@
        :pronoun true
        :reflexive ::unspec
        :propernoun false}
-  :then [{:reflexive false}]}]
+  :then [{:reflexive false}]}
+
+ ;; if a verb does not specify a particular
+ ;; transitivity, generate both transitive and intransitive forms
+ ;; of the verb, where the second form has a noun second argument.
+ {:rule :subcat-unspecified-nonaux
+  :if {:cat :verb
+       :aux false
+       :modal false
+       :subcat {:1 {:cat :noun}
+                :2 ::unspec}}
+  :then [{:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 []}}
+         {:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 {:cat :noun
+                       :subcat []}}}]}
+
+ {:rule :modal-false-by-default
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+ 
+ {:rule :aux-default-is-false
+  :if {:cat :verb
+       :aux ::unspec}
+  :then [{:aux false}]}]
+
+
+
+

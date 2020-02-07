@@ -46,6 +46,7 @@
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
           babylon.ug/head-last
+          babylon.ug/head-modal
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/subcat-1]}
@@ -59,6 +60,7 @@
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
           babylon.ug/head-last
+          babylon.ug/head-modal
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/subcat-1]}

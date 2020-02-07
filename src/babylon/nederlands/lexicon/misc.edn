@@ -246,7 +246,7 @@
          :pronoun true
          :sem {:pred :we}}]
 
- ;; F.95: 'zich' can also be used for 2nd person
+ ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:cat :noun
           :case :acc

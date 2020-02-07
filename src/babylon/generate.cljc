@@ -590,7 +590,10 @@
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
 (defn summary-fn [spec]
-  (cond (u/get-in spec [:rule])
+  (cond true
+        (u/strip-refs spec)
+
+        ;; everything below is disabled (because of the 'cond true' above).
         (u/get-in spec [:rule])
 
         (= :verb (u/get-in spec [:cat]))

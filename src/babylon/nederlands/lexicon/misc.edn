@@ -105,7 +105,8 @@
                :number :sing}}
         {:cat :noun
          :pronoun true
-         :sem {:pred :it}
+         :sem {:pred :it
+               :ref {:human false}}
          :agr {:person :3rd
                :number :sing
                :gender :masc}

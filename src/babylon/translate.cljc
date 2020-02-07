@@ -21,7 +21,7 @@
 (defn nl-to-en-spec [nl-expression]
   (log/debug (str "input:  " nl-expression))
   (let [retval
-        {:agr {:number (u/get-in nl-expression [:agr :number] :top)}
+        {:agr (u/get-in nl-expression [:agr] :top)
          :cat (u/get-in nl-expression [:cat])
          :modal (u/get-in nl-expression [:modal] false)
          :phrasal true

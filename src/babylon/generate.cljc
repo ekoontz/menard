@@ -130,7 +130,9 @@
          (log/debug (str "add: rule is set to: " rule-at))
          (add-rule tree grammar syntax-tree-fn (:rule rule-at) (= true phrase-at)))
 
-       (= true (u/get-in tree (concat at [:phrasal])))
+       (or (= true (u/get-in tree (concat at [:phrasal])))
+           (u/get-in tree (concat at [:head]))
+           (u/get-in tree (concat at [:comp])))
        (let [result
              (add-rule tree grammar syntax-tree-fn)]
          (if (and diagnostics? (empty? result))
@@ -139,9 +141,10 @@
 
        (or (= false (u/get-in tree (concat at [:phrasal])))
            (and (u/get-in tree (concat at [:canonical]))
+                (= ::unspec (u/get-in tree (concat at [:head])))
+                (= ::unspec (u/get-in tree (concat at [:comp])))
                 (not (= :top
                         (u/get-in tree (concat at [:canonical]))))))
-
        (do
          (log/debug (str "add: only adding lexemes at: " at))
          (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)]
@@ -231,7 +234,9 @@
 
            ((fn [lexemes]
               (if (empty? lexemes)
-                (log/warn (str "add-lexeme: found no lexemes with spec: " (summary-fn spec))))
+                ;; TODO: try to eliminate the occurance of these occurances: in order to
+                ;; investigate this throw an exception rather than log/debug'ing them.
+                (log/debug (str "add-lexeme: found no lexemes with spec: " (summary-fn spec))))
               lexemes))
            
            ((fn [lexemes]

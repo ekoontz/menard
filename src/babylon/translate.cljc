@@ -21,7 +21,12 @@
 (defn nl-to-en-spec [nl-expression]
   (log/debug (str "input:  " nl-expression))
   (let [retval
-        {:agr (u/get-in nl-expression [:agr] :top)
+        {:agr {:number (u/get-in nl-expression [:agr :number] :top)
+               :person (u/get-in nl-expression [:agr :person] :top)
+               :gender (let [gender (u/get-in nl-expression [:agr :person] :top)]
+                         (cond (or (= gender :masc) (= gender :fem))
+                               gender
+                               true :top))}
          :cat (u/get-in nl-expression [:cat])
          :modal (u/get-in nl-expression [:modal] false)
          :phrasal true

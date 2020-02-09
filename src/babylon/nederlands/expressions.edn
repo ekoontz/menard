@@ -143,8 +143,7 @@
         :pred :see}
   :subcat '()}
 
- {:note "e.g.: [np een kat] [vp v ziet [np de muis]]"
-  :menuable? false
+ {:note "[s np [vp v np]]"
   :dotimes 10
   :phrasal true
   :rule "s"

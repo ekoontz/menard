@@ -143,7 +143,7 @@
                 (not (= :top
                         (u/get-in tree (concat at [:canonical]))))))
        (do
-         (log/info (str "add: condition 3: only adding lexemes at: " at))
+         (log/debug (str "add: only adding lexemes at: " at))
          (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)]
            (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree-fn result))))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
@@ -162,7 +162,6 @@
        true
        (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
                             (add-rule tree grammar syntax-tree-fn))]
-         (log/info (str "add: condition 4: adding both lexemes and phrases at: " at))
          (cond (and (empty? both)
                     allow-backtracking?)
                (do

@@ -146,6 +146,14 @@
  {:note "[s np [vp v np]]"
   :dotimes 5
   :phrasal true
+  :head {:phrasal true
+         :rule "vp"
+ {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
+  :dotimes 5
+         :comp {:phrasal true
+                :rule "vp"
+  :dotimes 5
+  :phrasal true
   :rule "s"
   :reflexive false
   :comp {:phrasal true

@@ -40,23 +40,7 @@
 
  {:rule "s"
   :cat :verb
-  :comp {:phrasal true}
   :subcat []
-  :options babylon.english/finite-tenses  
-  :unify [babylon.ug/head-aux
-          babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-modal
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/subcat-1]}
-
- {:rule "s"
-  :cat :verb
-  :comp {:phrasal false}
-  :subcat []
-  :sem {:subj {:quant :unspec ;; e.g. "dogs sleep": no quantifier
-               :mod []}}
   :options babylon.english/finite-tenses  
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
@@ -72,6 +56,7 @@
   :slash false
   :options babylon.english/tenses
   :head {:aux false}
+  :comp {:phrasal false}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-modal

@@ -162,19 +162,10 @@
 
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
-  :phrasal true
   :rule "s"
-  :reflexive false
-  :comp {:phrasal false}
-  :head {:phrasal true
-         :rule "vp"
-         :head {:phrasal false
-                :canonical "probeeren"}
-         :comp {:phrasal true
-                :cat :verb
-                :rule "vp-inf"
-                :head {:phrasal false}
-                :comp {:phrasal false}}}}
+  :head {:rule "vp"
+         :comp {:cat :verb
+                :infl :infinitive}}}
  
  {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. 'she asked them to leave'
   :dotimes 5

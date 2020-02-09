@@ -103,9 +103,9 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: "
-                     (summary-fn spec) "; looking for "
-                     "phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+      (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: "
+                      (summary-fn spec) "; looking for "
+                      "phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -117,7 +117,7 @@
      (cond
        (u/get-in tree [:babylon.generate/done?])
        (do
-         (log/info (str "add: condition 1."))
+         (log/debug (str "add: condition 1."))
          [tree])
        (= tree :fail)
        (exception (str "add: tree is unexpectedly :fail."))
@@ -146,7 +146,7 @@
                 (not (= :top
                         (u/get-in tree (concat at [:canonical]))))))
        (do
-         (log/info (str "add: condition 3: only adding lexemes at: " at))
+         (log/debug (str "add: condition 3: only adding lexemes at: " at))
          (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)
                canonical-form (u/get-in tree (concat (frontier tree) [:canonical]))
                matching-canonical-forms (if (string? canonical-form)

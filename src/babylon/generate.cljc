@@ -125,17 +125,14 @@
         (and (not (= ::none rule-at))
              (not (= :top rule-at)))
         (and (not (= ::none phrase-at))
-             (not (= :top phrase-at))))
-       (do
-         (log/debug (str "add: rule is set to: " rule-at))
-         (add-rule tree grammar syntax-tree-fn (:rule rule-at) (= true phrase-at)))
-
-       (or (= true (u/get-in tree (concat at [:phrasal])))
-           (u/get-in tree (concat at [:head]))
-           (u/get-in tree (concat at [:comp])))
+             (not (= :top phrase-at)))
+        (= true (u/get-in tree (concat at [:phrasal])))
+        (u/get-in tree (concat at [:head]))
+        (u/get-in tree (concat at [:comp])))
        (let [result
              (add-rule tree grammar syntax-tree-fn)]
-         (if (and diagnostics? (empty? result))
+         (log/info (str "add: condition 2: only adding rules at: " at))
+         (if (empty? result)
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ".")))
          result)
 

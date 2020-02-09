@@ -55,7 +55,8 @@
   :cat :verb
   :comp {:phrasal false}
   :subcat []
-  :sem {:subj {:mod []}}
+  :sem {:subj {:quant :unspec ;; e.g. "dogs sleep": no quantifier
+               :mod []}}
   :options babylon.english/finite-tenses  
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root

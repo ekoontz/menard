@@ -89,7 +89,7 @@
                                           1)
                  source-expressions
                  (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-                      (filter #(not (nil? %))) ;; a nil means that generation failed, so retry.
+;;                      (filter #(not (nil? %))) ;; a nil means that generation failed, so retry.
                       (take generate-this-many))]
 
              ;; for each expression:

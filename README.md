@@ -37,219 +37,187 @@ For the demo, a Dutch sentence is generated for each specification listed in
 Each expression is then translated into English, as shown in the output below:
 
 ```
-user=> (load "babylon")
+% lein repl
+nREPL server started on port 63640 on host 127.0.0.1 - nrepl://127.0.0.1:63640
+REPL-y 0.4.3, nREPL 0.6.0
+Clojure 1.10.1
+OpenJDK 64-Bit Server VM 12.0.1+12
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+ Results: Stored in vars *1, *2, *3, an exception in *e
+
+user=> (load "babylon/translate")
 nil
-user=> (babylon/demo)
+user=> (babylon.translate/demo)
+# intensifier adjective; 1 example:
+---
+Behoorlijk sterk.|
+                 |Quite strong.
+
+# det noun; 1 example:
+---
+Deze gelden.|
+            |These moneys.
+
+# noun verb; 1 example:
+---
+Wij slapen.|
+           |We sleep.
+
+# det noun | verb; 1 example:
+---
+De ontwikkelingen veroorzaaken.|
+                               |The developments cause.
+
+# det | adj noun; 1 example:
+---
+De nieuwsgierige handen.|
+                        |The curious hands.
+
 # 'een huis'; 1 example:
 ---
 Een huis.|
          |A house.
-
-# NP with no modifiers; 10 examples:
----
-Onze mannen.|
-            |Our men.
-Uw boeken.|
-          |Your books.
-Hun jassen.|
-           |Their coats.
-Hun dame.|
-         |Their lady.
-Deze landen.|
-            |These countries.
-De mannen.|
-          |The men.
-De feitten.|
-           |The facts.
-Mijn gebeid.|
-            |My area.
-Deze tafel.|
-           |This table.
-Een vrouw.|
-          |A woman.
 
 # 'de grote boeken'; 1 example:
 ---
 De grote boeken.|
                 |The big books.
 
-# NP with one modifier; 10 examples:
----
-Deze lieve oogen.|
-                 |These nice eyes.
-Onze vieze familie.|
-                   |Our dirty family.
-Hun slimme levens.|
-                  |Their smart lives.
-Hun grote meisjes.|
-                  |Their big girls.
-Hun oude hond.|
-              |Their old dog.
-Uw stomme kittens.|
-                  |Your stupid kittens.
-De slimme overheden.|
-                    |The smart governments.
-Zijn enge geld.|
-               |His scary money.
-Mijn enge jas.|
-              |My scary coat.
-De oude zaken.|
-              |The old cases.
-
 # 'een heel klein druif'; 1 example:
 ---
 Een heel klein druif.|
                      |A very small grape.
 
-# NP with one modifier, which is itself modified; 10 examples:
+# det [intensifier adj | adj noun]; 1 example:
 ---
-Jouw echt slim dames.|
-                     |Your really smart ladies.
-Zijn heel eng zaken.|
-                    |His very scary cases.
-Zijn eigenlijk slim plaatsen.|
-                             |His actually smart lots.
-De erg vies kittens.|
-                    |The very dirty kittens.
-Zijn eigenlijk vies tafel.|
-                          |His actually dirty table.
-Mijn eigenlijk klein thuis.|
-                           |My actually small home.
-Uw ongewoon slim jongens.|
-                         |Your unusually smart boys.
-Hun eigenlijk vies huis.|
-                        |Their actually dirty house.
-De heel lief jassen.|
-                    |The very nice coats.
-Mijn ongewoon lief druiven.|
-                           |My unusually nice grapes.
-
-# 'De heel klein oud fietsen'.; 1 example:
----
-De erg klein oude fietsen.|
-                          |The very small old bikes.
+Onze behoorlijk ernstig ernstige ontwikkelingen.|
+                                                |Our quite serious serious developments.
 
 # 'De heel sterk slimme vrouen zingen'.; 1 example:
 ---
-De erg sterk slimme vrouwen zingen.|
-                                   |The very strong smart women sing.
+De heel sterk slimme vrouwen zingen.|
+                                    |The very strong smart women sing.
 
-# Sentence whose subject has two modifiers, the first of which is itself modified; 10 examples:
+# [det [intensifier adj | adj noun]] verb; 10 examples:
 ---
-Onze eigenlijk waar sterke huizen slapen.|
-                                         |Our actually true strong houses sleep.
-Die heel waar kleine jas werkt.|
-                               |That very true small coat works.
-Uw ongewoon klein grote groepen werken.|
-                                       |Your unusually small big groups work.
-Zijn ongewoon waar oude landen slapen.|
-                                      |His unusually true old countries sleep.
-Uw echt sterk oude kat leest.|
-                             |Your really strong old cat reads.
-Mijn heel klein vieze leven slaapt.|
-                                   |My very small dirty life sleeps.
-Deze erg vies vieze jongen zingt.|
-                                 |This very dirty dirty boy sings.
-Deze erg lief sterke families slapen.|
-                                     |These very nice strong families sleep.
-Zijn ongewoon eng vieze haren zingen.|
-                                     |His unusually scary dirty hairs sing.
-Zijn heel sterk enge feitten slapen.|
-                                    |His very strong scary facts sleep.
+Haar erg sterk zelfverzekerdee gebeiden zien.|
+                                             |Her very strong confident areas see.
+Zijn erg ernstig kleine maanden slapen.|
+                                       |His very serious small months sleep.
+Hun ongewoon opgevonden oude fietsen zien.|
+                                          |Their unusually excited old bikes see.
+Zijn ongewoon verdrietig kleine levens werken.|
+                                              |Its unusually sad small lives work.
+Hun erg oud stomme plaatsen zien.|
+                                 |Their very old stupid lots see.
+Onze eigenlijk slim verwarde kinderen lezen.|
+                                            |Our actually smart confused children read.
+Mijn erg bedroefd zelfverzekerdee katten zingen.|
+                                                |My very sad confident cats sing.
+De heel nieuwsgierig opgevondene heren lezen.|
+                                             |The very curious excited men read.
+Mijn erg sterk lieve kinderen lezen.|
+                                    |My very strong nice children read.
+Die erg zelfverzekerde grote beschavingen zingen.|
+                                                 |Those very confident big civilizations sing.
 
-# Sentence whose subject has only one modifier.; 10 examples:
+# [det | adj noun] verb; 10 examples:
 ---
-Een vieze hond slaapt.|
-                      |A dirty dog sleeps.
-Zijn stomme heren slapen.|
-                         |Its stupid gentlemen sleep.
-Haar kleine druif zingt.|
-                        |Her small grape sings.
-Hun vieze stoel werkt.|
-                      |Their dirty chair works.
-De enge heer zingt.|
-                   |The scary man sings.
-Uw waare jassen zien.|
-                     |Your true coats see.
-Jouw vieze mannen zien.|
-                       |Your dirty men see.
-Dat stomme thuis leest.|
-                       |That stupid home reads.
-Hun lieve benen werken.|
-                       |Their nice legs work.
-Mijn enge kind zingt.|
-                     |My scary child sings.
+Zijn ernstige oplossingen werken.|
+                                 |His serious solutions work.
+Onze ongeruste druiven zingen.|
+                              |Our anxious grapes sing.
+De eenzaamme thuizen slapen.|
+                            |The lonely homes sleep.
+De oude handen lezen.|
+                     |The old hands read.
+Haar bedroefde landen zien.|
+                           |Her sad countries see.
+Hun enge dames veroorzaaken.|
+                            |Their scary ladies cause.
+Uw verwarrende kittens werken.|
+                              |Your confusing kittens work.
+De verwarde huizen zingen.|
+                          |The confused houses sing.
+Zijn oude fietsen zingen.|
+                         |His old bikes sing.
+Jouw verlegene haren zingen.|
+                            |Your shy hairs sing.
 
-# Sentence with non-reflexive direct object; 10 examples:
+# Sentence with object; 10 examples:
 ---
-Jullie zien die.|
-                |You see them.
-Saskia ziet die.|
-                |Saskia sees them.
-Ik zie u.|
-         |I see you.
-Het ziet jou.|
-             |It sees you.
-Jullie zien hen.|
+Wij zien haar.|
+              |We see her.
+Jullie zien hun.|
                 |You see him.
-U ziet hen.|
+Het ziet hem.|
+             |It sees him.
+Wij zien Guus.|
+              |We see Guus.
+Jullie zien u.|
+              |You see you.
+Jullie zien mij.|
+                |You see me.
+Jullie zien jou.|
+                |You see you.
+Het ziet hen.|
+             |It sees him.
+U ziet hun.|
            |You see him.
-U ziet jou.|
-           |You see you.
-U ziet die.|
-           |You see them.
-Saskia ziet u.|
-              |Saskia sees you.
-Het ziet Saskia.|
-                |It sees Saskia.
+Mijn dames zien Guus.|
+                     |My ladies see Guus.
 
-# Sentence with reflexive direct object; 10 examples:
+# Sentence with reflexive object; 10 examples:
 ---
-Wij zien ons.|
-             |We see ourselves.
+Zij ziet zich.|
+              |She sees herself.
+Zij zien zich.|
+              |They see themselves.
 Jij ziet je.|
             |You see yourself.
-Jullie zien je.|
-               |You see yourselves.
-Guus ziet zich.|
-               |Guus sees himself.
-Ik zie me.|
-          |I see myself.
 U ziet u.|
          |You see yourselves.
 U ziet u.|
-         |You see yourselves.
-Jij ziet je.|
-            |You see yourself.
+         |You see yourself.
+U ziet u.|
+         |You see yourself.
 Jullie zien je.|
                |You see yourselves.
-Hij ziet zich.|
-              |He sees himself.
+Jullie zien je.|
+               |You see yourselves.
+U ziet u.|
+         |You see yourself.
+Saskia ziet zich.|
+                 |Saskia sees herself.
 
-# Sentence that looks like: [s [np een kat] [vp v ziet [np de muis]]]; 10 examples:
+# e.g.: [np een kat] [vp v ziet [np de muis]]; 10 examples:
 ---
-Die landen lezen die oogen.|
-                           |Those countries read that eye.
-Jouw land leest haar familie.|
-                             |Your country reads her families.
-Haar tafels zien hun gelden.|
-                            |Her tables see their moneys.
-Zijn jongen leest dat meisje.|
-                             |His boy reads that girl.
-Een gebeid leest zijn plaats.|
-                             |An area reads his lot.
-Een feit leest uw druiven.|
-                          |A fact reads your grape.
-Uw fiets ziet mijn groepen.|
-                           |Your bike sees my group.
-De banen lezen jouw jas.|
-                        |The jobs read your coat.
-Mijn bedrijf ziet onze moeder.|
-                              |My business sees our mother.
-Mijn fietsen zien uw kittens.|
-                             |My bikes see your kittens.
+Onze moeders lezen zijn benen.|
+                              |Our mothers read its legs.
+Hun katten veroorzaaken zijn zaken.|
+                                   |Their cats cause its cases.
+Uw fietsen veroorzaaken haar zaken.|
+                                   |Your bikes cause her cases.
+Mijn levens veroorzaaken zijn groepen.|
+                                      |My lives cause its groups.
+Hun ontwikkelingen zien zijn gebeiden.|
+                                      |Their developments see its areas.
+De haren veroorzaaken hun gebeiden.|
+                                   |The hairs cause their area.
+Haar heren lezen hun dames.|
+                           |Men read their lady.
+De dagen zien deze dagen.|
+                         |The days see these days.
+Deze thuizen lezen zijn zaken.|
+                              |These homes read its cases.
+Zijn mannen veroorzaaken onze gelden.|
+                                     |Men cause our money.
 
-13
+15
 user=>
 ```
 

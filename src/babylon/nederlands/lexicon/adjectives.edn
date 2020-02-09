@@ -19,6 +19,6 @@
  "verwarrend" [{:cat :adjective :sem {:pred :confusing}}]
  "vies" [{:cat :adjective :sem {:pred :dirty}}]
  "waar" [{:cat :adjective :sem {:pred :true}}]
- "zelfverzekerde" [{:cat :adjective :sem {:pred :confident}}]
+ "zelfverzekerd" [{:cat :adjective :sem {:pred :confident}}]
  "zenuwachtig" [{:cat :adjective :sem {:pred :nervous}}]}
 

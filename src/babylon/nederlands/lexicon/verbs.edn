@@ -12,6 +12,14 @@
      :cat :verb
      :sem {:pred :read}}])
 
+
+ "probeeren"
+ [{:cat :verb
+   :sem {:pred :try}
+   :subcat {:2 {:cat :verb
+                :subcat {:1 {:top :top} :2 []}
+                :infl :infinitive}}}]
+ 
  "slapen"
  (let [exceptions [{:infl :present
                     :agr {:person :3rd :number :sing}

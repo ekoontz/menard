@@ -101,21 +101,21 @@
 
  ;; 10
  {:note "[det [intensifier adj | adj noun]] verb"
-  :dotimes 10
+  :dotimes 5
   :rule "s"
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
  ;; 11
  {:note "[det | adj noun] verb"
-  :dotimes 10
+  :dotimes 5
   :rule "s" 
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
  ;; 12
  {:note "Sentence with object"
-  :dotimes 10
+  :dotimes 5
   :reflexive false
   :target {:rule "s"
            :head {:phrasal true
@@ -130,7 +130,7 @@
 
  ;; 13
  {:note "Sentence with reflexive object"
-  :dotimes 10
+  :dotimes 5
   ;; TODO: get rid of :target hints if possible: kind of a crutch that should
   ;; be replaced by appropriate generation constraints on the target language.
   :generic true
@@ -144,7 +144,7 @@
   :subcat '()}
 
  {:note "[s np [vp v np]]"
-  :dotimes 10
+  :dotimes 5
   :phrasal true
   :rule "s"
   :reflexive false

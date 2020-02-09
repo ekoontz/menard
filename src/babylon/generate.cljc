@@ -104,7 +104,8 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/info (str (report tree syntax-tree-fn) " add at:" at " with spec: "
-                     (summary-fn spec) " with phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+                     (summary-fn spec) "; looking for "
+                     "phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -131,7 +132,9 @@
         (u/get-in tree (concat at [:comp])))
        (let [result
              (add-rule tree grammar syntax-tree-fn)]
-         (log/info (str "add: condition 2: only adding rules at: " at))
+         (log/debug (str "add: condition 2: only adding rules at: " at))
+         (log/debug (str "  rule-at: " rule-at "; phrase-at:" phrase-at))
+         (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
          (if (empty? result)
            (log/warn (str "no rules matched spec: " (u/strip-refs spec) ".")))
          result)
@@ -143,9 +146,21 @@
                 (not (= :top
                         (u/get-in tree (concat at [:canonical]))))))
        (do
-         (log/debug (str "add: only adding lexemes at: " at))
-         (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)]
+         (log/info (str "add: condition 3: only adding lexemes at: " at))
+         (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)
+               canonical-form (u/get-in tree (concat (frontier tree) [:canonical]))
+               matching-canonical-forms (if (string? canonical-form)
+                                          (get-lexemes {:canonical canonical-form
+                                                        :cat (u/get-in tree (concat (frontier tree) [:cat]) :top)}
+                                                       lexicon-index-fn
+                                                       syntax-tree-fn))]
            (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree-fn result))))
+           (if (and (empty? result) (string? canonical-form))
+             (vec (map
+                   (fn [matching-lexeme]
+                     (log/info (str " canonically matching lexeme for: " canonical-form ", but "
+                                    (u/fail-path matching-lexeme (u/get-in tree (frontier tree))))))
+                   matching-canonical-forms)))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
                     (empty? result)
                     diagnostics?)
@@ -153,7 +168,7 @@
                    (str "no lexemes match for tree: " (syntax-tree-fn tree)
                         " at: " (frontier tree)
                         "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
-               (when die-on-no-matching-lexemes?
+               (when (and false die-on-no-matching-lexemes?)
                  (log/error message)
                  (exception message))
                (log/warn message)))
@@ -202,12 +217,23 @@
   ;; done as part of the unify below will be O(1).
   (let [spec (u/copy (u/strip-refs spec))]
     (->> (lexicon-index-fn spec)
+         (#(do (log/debug (str "get-lexeme: index-fn returned this many:" (count %)))
+               %))
+         (#(do (log/debug (str "get-lexeme: pre-unify: "
+                               (vec (map (fn [matching-lexeme]
+                                           (u/fail-path matching-lexeme spec))
+                                         %))))
+               %))
          (map #(unify % spec))
+         (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
+               %))
          (filter #(or (not (= :fail %))
                       (do
                         (swap! count-lexeme-fails inc)
                         false)))
          (filter #(or (nil? lexical-filter) (lexical-filter %)))
+         (#(do (log/debug (str "get-lexeme: post-lexical-filter returned this many:" (count %)))
+               %))
          (#(do
              (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
              (if (not (empty? %))

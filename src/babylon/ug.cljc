@@ -165,6 +165,7 @@
      :subcat []
      :comp complement}))
 
+;; [parent:[1]<..> head[1]<..> .comp]
 (def subcat-1-1
   (let [agr (atom :top)
         subcat-1 (atom :top)]
@@ -173,7 +174,7 @@
      :agr agr
      :subcat subcat-1}))
 
-;; *head<1,2> + [2] comp] -> [parent <1>]
+;; [parent:<1> +head<1,2> .[2] comp]
 (def subcat-2
   (let [agr (atom :top)
         complement-1 (atom {:top :top})
@@ -187,4 +188,17 @@
               :2 []
               :3 []}
      :comp complement-2}))
+
+;; [parent:subcat:[3] +head<2> .[2] subcat:[3]]
+(def subcat-lift
+  (let [agr (atom :top)
+        subcat-of-complement (atom {:top :top})
+        head-argument (atom {:subcat subcat-of-complement})]
+    {:head {:agr agr
+            :subcat {:1 head-argument
+                     :2 []}}
+     :agr agr
+     :subcat subcat-of-complement
+     :comp head-argument}))
+
 

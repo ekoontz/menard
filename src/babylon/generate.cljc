@@ -617,12 +617,12 @@
   (or (not (= :verb (u/get-in expression [:cat])))
       (and
          (or (= false (u/get-in expression [:reflexive] false))
-             (= :top (u/get-in expression [:reflexive])))
-         (or
-             (= ::unspec (:ref (u/get-in expression [:sem :subj]) ::unspec))
-             (= ::unspec (:ref (u/get-in expression [:sem :obj]) ::unspec))                         
-             (not (= (:ref (u/get-in expression [:sem :subj]))
-                     (:ref (u/get-in expression [:sem :obj]))))))
+             (= :top (u/get-in expression [:reflexive] :top)))
+         (or 
+             (= :top (:ref (u/get-in expression [:sem :subj]) :top))
+             (or 
+                 (not (= (:ref (u/get-in expression [:sem :subj]))
+                         (:ref (u/get-in expression [:sem :obj])))))))
       (and
         (= true (u/get-in expression [:reflexive] false))
         (= (:ref (u/get-in expression [:sem :subj]))

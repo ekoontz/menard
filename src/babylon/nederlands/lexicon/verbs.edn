@@ -21,6 +21,7 @@
            :subj subject-sem
            :obj object-sem}
      :subcat {:2 {:cat :verb
+                  :phrasal true
                   :sem object-sem
                   :subcat {:1 {:top :top} :2 []}
                   :infl :infinitive}}})]

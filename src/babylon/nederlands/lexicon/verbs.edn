@@ -29,6 +29,17 @@
     :sem {:pred :sleep}
     :subcat {:2 []}}])
 
+ "te"
+ [(let [sem (atom :top)]
+    {:cat :verb
+     :te true
+     :sem sem
+     :subcat {:1 {:cat :verb
+                  :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf te te]"
+                  :infl :infinitive
+                  :sem sem}
+              :2 []}})]
+ 
  "werken"
  [{:cat :verb
    :sem {:pred :work}

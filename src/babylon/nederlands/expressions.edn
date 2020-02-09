@@ -148,12 +148,33 @@
   :phrasal true
   :rule "s"
   :reflexive false
+  :comp {:phrasal true
+         :rule "np"
+         :head {:phrasal false}
+         :comp {:phrasal false}}
   :head {:phrasal true
          :rule "vp"
+         :head {:phrasal false}
+         :comp {:phrasal true
+                :rule "np"
+                :head {:phrasal false}
+                :comp {:phrasal false}}}}
+
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
+  :phrasal true
+  :rule "s"
+  :reflexive false
+  :comp {:phrasal false}
+  :head {:phrasal true
+         :rule "vp"
+         :head {:phrasal false}
          :comp {:phrasal true
                 :rule "vp"
+                :head {:phrasal false}
+                :comp {:phrasal false}}}}
+ 
+ {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. 'she asked them to leave'
   :dotimes 5
   :phrasal true
   :rule "s"
@@ -169,4 +190,5 @@
                 :rule "np"
                 :head {:phrasal false}
                 :comp {:phrasal false}}}}]
-                    
+
+

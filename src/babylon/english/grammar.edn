@@ -78,4 +78,19 @@
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-2]}]
+          babylon.ug/subcat-2]}
+
+ {:rule "infinitive" ;; 'to sleep','to see the cat', 'to try to sleep', 'to try to see the cat'
+  :cat :verb
+  :modal :infinitive
+  :head {:cat :particle
+         :phrasal false
+         :infl :infinitive}
+  :options [{:modal false}
+            {:modal :infinitive}]
+  :unify [babylon.ug/comp-is-root
+          babylon.ug/head-first
+          babylon.ug/head-rule
+          babylon.ug/head-modal
+          babylon.ug/head-sem
+          babylon.ug/subcat-lift]}]

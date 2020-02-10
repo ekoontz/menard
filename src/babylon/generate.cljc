@@ -136,7 +136,7 @@
          (log/debug (str "  rule-at: " rule-at "; phrase-at:" phrase-at))
          (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
          (if (empty? result)
-           (log/warn (str "no rules matched spec: " (u/strip-refs spec) ".")))
+           (log/warn (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) ".")))
          result)
 
        (or (= false (u/get-in tree (concat at [:phrasal])))

@@ -163,9 +163,7 @@
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
   :rule "s"
-  :head {:rule "vp"
-         :comp {:cat :verb
-                :infl :infinitive}}}
+  :sem {:pred :try}}
  
  {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. 'she asked them to leave'
   :dotimes 5

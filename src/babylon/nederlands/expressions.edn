@@ -152,11 +152,8 @@
          :comp {:phrasal false}}
   :head {:phrasal true
          :rule "vp"
-         :head {:phrasal false}
-         :comp {:phrasal true
-                :rule "np"
-                :head {:phrasal false}
-                :comp {:phrasal false}}}}
+         :head {:subcat {:2 {:cat :noun}}}
+         :comp {:rule "np"}}}
 
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5

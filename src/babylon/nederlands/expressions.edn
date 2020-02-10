@@ -139,17 +139,14 @@
   :sem {:tense :present
         :aspect :simple
         :pred :see}
-  :subcat '()}
+  :subcat []}
 
  {:note "[s np [vp v np]]"
   :dotimes 5
   :phrasal true
   :rule "s"
   :reflexive false
-  :comp {:phrasal true
-         :rule "np"
-         :head {:phrasal false}
-         :comp {:phrasal false}}
+  :comp {:rule "np"}
   :head {:phrasal true
          :rule "vp"
          :head {:subcat {:2 {:cat :noun}}}

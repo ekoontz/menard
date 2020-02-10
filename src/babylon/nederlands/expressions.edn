@@ -131,8 +131,6 @@
  ;; 13
  {:note "Sentence with reflexive object"
   :dotimes 5
-  ;; TODO: get rid of :target hints if possible: kind of a crutch that should
-  ;; be replaced by appropriate generation constraints on the target language.
   :generic true
   :cat :verb
   :modal false

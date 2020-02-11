@@ -38,7 +38,6 @@
  "te"
  [(let [sem (atom :top)]
     {:cat :verb
-     :te true
      :sem sem
      :subcat {:1 {:cat :verb
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf te te]"

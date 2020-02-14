@@ -73,7 +73,7 @@
   :infl :infinitive
   :head {:canonical "te"}
   :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
+          babylon.ug/comp-is-root
           babylon.ug/head-modal
           babylon.ug/head-reflexive
           babylon.ug/head-rule

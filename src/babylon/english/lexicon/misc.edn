@@ -264,21 +264,13 @@
 
        ;; "to sleep"
        (let [sem (atom :top)]
-         {:cat :particle
-          :infl :infinitive
+         {:cat :verb
           :inflected? true
           :sem sem
-
-          ;; "to" takes a verb or verb phrase which itself needs a subject -
-          ;; the subject is the {:cat :noun :case :nom} below.
-          :subcat {:1 {:aux false
-                       :cat :verb
-                       :sem sem
-                       :subcat {:1 {:cat :noun
-                                    :case :nom}
-                                :2 []}
-                       :modal false
-                       :infl :base}
+          :subcat {:1 {:cat :verb
+                       :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
+                       :infl :base
+                       :sem sem}
                    :2 []}})]
 
  "unusually" [{:cat :intensifier

@@ -141,6 +141,7 @@
         :pred :see}
   :subcat []}
 
+ ;; 14
  {:note "[s np [vp v np]]"
   :dotimes 5
   :phrasal true
@@ -152,6 +153,7 @@
          :head {:subcat {:2 {:cat :noun}}}
          :comp {:rule "np"}}}
 
+ ;; 15
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
   :rule "s"

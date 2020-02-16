@@ -82,8 +82,9 @@
 
  {:rule "vp-inf" ;; [vp +to .sleep]
   :cat :verb
-  :head {:canonical "to"}
-  :comp {:canonical "sleep"}
+  :infl :infinitive
+  :head {:canonical "to"
+         :phrasal false}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
           babylon.ug/head-modal

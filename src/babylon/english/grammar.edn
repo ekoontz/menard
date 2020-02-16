@@ -70,7 +70,8 @@
   :aux false
   :slash false
   :options babylon.english/tenses
-  :head {:aux false}
+  :head {:aux false
+         :phrasal false}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-modal

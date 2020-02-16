@@ -31,11 +31,7 @@
          ;; TODO: fix the difference in meaning of :modal from nl to en: 'hij probeert te slapen' where modal is false.
          :modal :top
          :phrasal true
-         :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
-                          false
-                          true
-                          (u/get-in nl-expression [:reflexive] :top))
-
+         :reflexive (u/get-in nl-expression [:reflexive] :top)
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]
     (log/debug (str "English spec to generate: " (u/strip-refs retval)))

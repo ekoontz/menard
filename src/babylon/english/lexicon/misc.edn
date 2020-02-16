@@ -260,18 +260,7 @@
  
  "to" [;; "to the park"
        {:cat :prep
-        :sem {:pred :to}}
-
-       ;; "to sleep"
-       (let [sem (atom :top)]
-         {:cat :verb
-          :inflected? true
-          :sem sem
-          :subcat {:1 {:cat :verb
-                       :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
-                       :infl :base
-                       :sem sem}
-                   :2 []}})]
+        :sem {:pred :to}}]
 
  "unusually" [{:cat :intensifier
                :sem {:pred :unusually}

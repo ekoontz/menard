@@ -76,7 +76,7 @@
            (cond (= (u/get-in spec [:cat]) :verb)
                  verb-lexicon
 
-                 (and (= (u/get-in spec [:cat]))
+                 (and (u/get-in spec [:cat])
                       (not (= :top (u/get-in spec [:cat]))))
                  non-verb-lexicon
 

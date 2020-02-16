@@ -44,6 +44,7 @@
                   :obj obj}
             :subcat {:2 {:infl :infinitive
                          :cat :verb
+                         :phrasal true
                          :reflexive false
                          :sem obj
                          :subcat {:1 subcat-subj
@@ -59,6 +60,7 @@
                   :obj obj}
             :subcat {:2 {:infl :infinitive
                          :agr agr
+                         :phrasal true
                          :cat :verb
                          :reflexive true
                          :sem obj

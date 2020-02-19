@@ -124,7 +124,6 @@
                   :rule "vp"}}
   :cat :verb
   :subcat []
-  :modal false
   :sem {:pred :see
         :obj {:top :top}}}
 
@@ -133,7 +132,6 @@
   :dotimes 5
   :generic true
   :cat :verb
-  :modal false
   :phrasal true
   :reflexive true
   :sem {:tense :present
@@ -157,7 +155,8 @@
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
   :rule "s"
-  :sem {:pred :try}}
+  :sem {:pred :try
+        :obj {:top :top}}}
  
  {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. 'she asked them to leave'
   :dotimes 5

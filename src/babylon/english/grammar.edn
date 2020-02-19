@@ -46,7 +46,6 @@
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
           babylon.ug/head-last
-          babylon.ug/head-modal
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/subcat-1]}
@@ -60,7 +59,6 @@
   :unify [babylon.ug/head-aux
           babylon.ug/head-is-root
           babylon.ug/head-last
-          babylon.ug/head-modal
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/subcat-1]}
@@ -73,7 +71,6 @@
   :head {:aux false}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
-          babylon.ug/head-modal
           babylon.ug/head-reflexive
           babylon.ug/head-rule
           babylon.ug/head-sem
@@ -87,7 +84,6 @@
          :phrasal false}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
-          babylon.ug/head-modal
           babylon.ug/head-reflexive
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash

@@ -12,19 +12,10 @@
      :cat :verb
      :sem {:pred :read}}])
 
-
  "probeeren"
- [(let [subject-sem (atom :top)
-        object-sem (atom {:subj subject-sem})]
-    {:cat :verb
-     :sem {:pred :try
-           :subj subject-sem
-           :obj object-sem}
-     :subcat {:2 {:cat :verb
-                  :phrasal true
-                  :sem object-sem
-                  :subcat {:1 {:top :top} :2 []}
-                  :infl :infinitive}}})]
+ [{:cat :verb
+   :modal :infinitive
+   :sem {:pred :try}}]
  
  "slapen"
  (let [exceptions [{:infl :present

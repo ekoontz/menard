@@ -28,8 +28,6 @@
                                gender
                                true :top))}
          :cat (u/get-in nl-expression [:cat])
-         ;; TODO: fix the difference in meaning of :modal from nl to en: 'hij probeert te slapen' where modal is false.
-         :modal :top
          :phrasal true
          :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
                           false

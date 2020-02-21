@@ -118,5 +118,13 @@
 
 (defn fast-demo []
   (count (map (fn [i]
-                (vec (take 3 (repeatedly #(-> (nth nl/expressions i) nl/generate nl/morph ((fn [arg] (str "|" i "     " arg))) println)))))
+                (vec (take 3 (repeatedly #(-> (nth nl/expressions i)
+                                              nl/generate
+                                              ((fn [tree]
+                                                 (nl/morph tree
+                                                           :sentence-punctuation? true)))
+                                              ((fn [arg] (str "|" i "     " arg)))
+                                              println)))))
               (range 0 (count nl/expressions)))))
+
+

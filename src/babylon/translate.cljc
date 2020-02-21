@@ -114,3 +114,9 @@
                    en/generate)]
     {:source (en/morph source)
      :target (en/morph target)}))
+
+
+(defn fast-demo []
+  (count (map (fn [i]
+                (vec (take 3 (repeatedly #(-> (nth nl/expressions i) nl/generate nl/morph ((fn [arg] (str "|" i "     " arg))) println)))))
+              (range 0 (count nl/expressions)))))

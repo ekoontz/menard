@@ -41,10 +41,12 @@
          :cat :noun}
   :target {:head {:phrasal false}}}
 
+ ;; 4
  {:note "det | adj noun"
   :dotimes 1
   :subcat []
   :phrasal true
+  :cat :noun
   :head {:phrasal true}
   :comp {:phrasal false}}
 

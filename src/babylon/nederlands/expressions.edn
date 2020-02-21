@@ -167,6 +167,8 @@
         :obj {:top :top}}}
 
  ;; 16
+ ;; TODO: currently :note and actual expression generated are not in agreement:
+ ;;   currently generates [s np [vp v np]].
  {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. 'she asked them to leave'
   :dotimes 5
   :phrasal true

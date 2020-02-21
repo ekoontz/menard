@@ -155,8 +155,10 @@
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
   :rule "s"
+  :reflexive false
   :head {:rule "vp"
          :comp {:rule "vp-inf"
+                :cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
   :sem {:pred :try

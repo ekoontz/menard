@@ -163,7 +163,8 @@
                        :reflexive false}}}
   :sem {:pred :try
         :obj {:top :top}}}
- 
+
+ ;; 16
  {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. 'she asked them to leave'
   :dotimes 5
   :phrasal true
@@ -177,6 +178,7 @@
          :rule "vp"
          :head {:phrasal false}
          :comp {:phrasal true
+                :cat :noun
                 :rule "np"
                 :head {:phrasal false}
                 :comp {:phrasal false}}}}]

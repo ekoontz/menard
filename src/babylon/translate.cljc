@@ -122,13 +122,22 @@
 
 (defn fast-demo []
   (count (map (fn [i]
-                (vec (take 3 (repeatedly #(-> (nth nl/expressions i)
+                (vec (take 1 (repeatedly #(-> (nth nl/expressions i)
                                               nl/generate
                                               ((fn [tree]
-                                                 (nl/morph tree
-                                                           :sentence-punctuation? true)))
-                                              ((fn [arg] (str "|" i "     " arg)))
-                                              println)))))
+                                                 (println
+                                                  (str i ". "
+                                                       (nl/morph tree
+                                                                 :sentence-punctuation? true)))
+                                                 tree))
+                                              nl-to-en-spec
+                                              en/generate
+                                              ((fn [tree]
+                                                 (println
+                                                  (str "   "
+                                                       (en/morph tree
+                                                                 :sentence-punctuation? true)))))
+                                              println
+                                              ((fn [nothing]
+                                                 "")))))))
               (range 0 (count nl/expressions)))))
-
-

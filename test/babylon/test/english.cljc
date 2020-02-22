@@ -22,7 +22,3 @@
                                           morph
                                           parse))
                                     expressions))))))
-
-(deftest foo
-  "foo"
-  (take 10 (repeatedly (fn [] (-> (nth nl/expressions 13) nl/generate (#(do (println (str " nl: " (nl/morph %))) %)) nl-to-en-spec en/generate en/morph (#(str "en: " %)) println println)))))

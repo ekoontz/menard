@@ -71,9 +71,6 @@
       ;; 2.a. create a specification for generation:
       nl-to-en-spec
 
-      (#(unify %
-               (u/get-in % [:target] :top)))
-
       ;; 2.b. generate from this spec:
       (#(en-generate % false))
 

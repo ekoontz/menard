@@ -37,9 +37,16 @@
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]
     (log/debug (str "English spec to generate: " (u/strip-refs retval)))
-    (unify
-     retval
-     (u/get-in nl-expression [:target] :top))))
+    (let [final-check
+          (unify
+           retval
+           (u/get-in nl-expression [:target] :top))]
+      (if (= :fail final-check)
+        (do (log/warn (str "something was wrong with the :target spec: "
+                           (u/fail-path retval (u/get-in nl-expression [:target] :top)) " "
+                           ", so ignoring it."))
+            retval)
+        final-check))))
 
 (defn en-generate [spec allow-backtracking?]
   (binding [g/allow-backtracking? allow-backtracking?

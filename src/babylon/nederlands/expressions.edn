@@ -117,8 +117,6 @@
  {:note "Sentence with object"
   :dotimes 5
   :reflexive false
-  :agr {:number :sing
-        :person :3rd}
   :target {:head {:comp {:phrasal false}
                   :rule "vp"}}
   :cat :verb

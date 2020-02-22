@@ -171,7 +171,6 @@
    {:variant :present-simple
     :abbreviation :simple-present
     :infl :present
-    :modal false
     :sem {:tense :present
           :aspect :simple}}])
 

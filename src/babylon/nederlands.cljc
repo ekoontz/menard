@@ -174,6 +174,14 @@
     :sem {:tense :present
           :aspect :simple}}])
 
+(def finite-plus-inf-tense
+  (concat finite-tenses
+          [;; "te [vp(:infinitive) zien de kat]"
+           {:variant :infinitive
+            :abbreviation :inf
+            :infl :base
+            :sem {:tense :infinitive}}]))
+
 #?(:clj
    (def grammar
      (-> "babylon/nederlands/grammar.edn"

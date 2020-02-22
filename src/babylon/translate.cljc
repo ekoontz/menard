@@ -23,7 +23,7 @@
   (let [retval
         {:agr {:number (u/get-in nl-expression [:agr :number] :top)
                :person (u/get-in nl-expression [:agr :person] :top)
-               :gender (let [gender (u/get-in nl-expression [:agr :person] :top)]
+               :gender (let [gender (u/get-in nl-expression [:agr :gender] :top)]
                          (cond (or (= gender :masc) (= gender :fem))
                                gender
                                true :top))}

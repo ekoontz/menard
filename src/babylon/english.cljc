@@ -168,23 +168,6 @@
    {:variant :present-simple
     :abbreviation :simple-present
     :infl :present
-    :modal false
-    :sem {:tense :present
-          :aspect :simple}}
-
-   ;; "can see"
-   {:variant :modal
-    :infl :base
-    :modal :base
-    :head {:modal :base}
-    :sem {:tense :present
-          :aspect :simple}}
-
-   ;; "tries to see"
-   {:variant :modal-present
-    :infl :present
-    :modal :infinitive
-    :head {:modal :infinitive}
     :sem {:tense :present
           :aspect :simple}}
 

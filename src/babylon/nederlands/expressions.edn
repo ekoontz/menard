@@ -26,9 +26,7 @@
   :dotimes 1
   :subcat []
   :cat :verb
-  :phrasal true
-  :target {:head {:phrasal false}
-           :comp {:phrasal false}}}
+  :phrasal true}
 
   ;; 3
  {:note "det noun | verb"
@@ -119,10 +117,9 @@
  {:note "Sentence with object"
   :dotimes 5
   :reflexive false
-  :target {:rule "s"
-           :head {:phrasal true
-                  :comp {:phrasal false}
-                  :head {:phrasal false}
+  :agr {:number :sing
+        :person :3rd}
+  :target {:head {:comp {:phrasal false}
                   :rule "vp"}}
   :cat :verb
   :subcat []

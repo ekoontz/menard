@@ -164,22 +164,14 @@
  ;; 16
  ;; TODO: currently :note and actual expression generated are not in agreement:
  ;;   currently generates [s np [vp v np]].
- {:note "[s n [vp v [vp n [vp:inf to v]]]]" ;; e.g. *'zij probeeren de kat te zien'
+ ;; p. 37
+ {:note "[s(:present-simple) .hij +[vp(:present-simple) +probeert .[vp-np(:present-simple) .hem +[vp-inf(:present-simple) +te .lezen]]]]"
   :dotimes 5
   :phrasal true
   :rule "s"
   :reflexive false
-  :comp {:phrasal true
-         :rule "np"
-         :head {:phrasal false}
-         :comp {:phrasal false}}
-  :head {:phrasal true
-         :rule "vp"
-         :head {:phrasal false}
-         :comp {:phrasal true
-                :cat :noun
-                :rule "np"
-                :head {:phrasal false}
-                :comp {:phrasal false}}}}]
+  :head {:rule "vp"
+         :comp {:rule "vp-np"
+                :head {:rule "vp-inf"}}}}]
 
 

@@ -174,6 +174,13 @@
     :sem {:tense :present
           :aspect :simple}}])
 
+(def inf-tense
+  [;; "te [vp(:infinitive) zien de kat]"
+   {:variant :infinitive
+    :abbreviation :inf
+    :infl :infinitive
+    :sem {:tense :infinitive}}])
+
 (def finite-plus-inf-tense
   [;; "hij werkt"
    {:variant :present-simple

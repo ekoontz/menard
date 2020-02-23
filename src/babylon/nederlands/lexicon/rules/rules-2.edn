@@ -78,6 +78,7 @@
  {:rule :intransitive-verbs
   :if {:cat :verb
        :aux false
+       :normal-transitive-defaults? true
        :subcat {:2 []}}
   :then [{:sem {:obj :unspec}
           :reflexive false

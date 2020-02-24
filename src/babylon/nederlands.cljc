@@ -271,6 +271,14 @@
                                   println))
                             (if false (println)))))))))))))
 
+(defn demo-10 [index]
+  (->>
+   (repeatedly #(println (-> (nth expressions index)
+                             generate
+                             ((fn [x] (morph x :sentence-punctuation? true))))))
+   (take 10)
+   count))
+
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
   [input mood]
@@ -281,3 +289,5 @@
          ".")))
 
 ;; </functions>
+
+

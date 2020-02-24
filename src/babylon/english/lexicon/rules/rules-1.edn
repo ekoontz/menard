@@ -30,14 +30,18 @@
        :propernoun true}
   :then [{:inflected? true}]}
 
+ ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
+ ;; modal-infinitive is simpler and clearer.
  {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}
-  :then [{:sem {:obj :unspec}
+  :then [;; intransitive: "she tries"
+         {:sem {:obj :unspec}
           :reflexive false
           :subcat {:2 []}}
+
+         ;; transitive and non-reflexive: "she tries to see it"
          (let [subj (atom :top)
-               subcat-subj (atom {:sem subj})
                obj (atom {:subj subj})]
            {:reflexive false
             :sem {:subj subj
@@ -47,24 +51,26 @@
                          :phrasal true
                          :reflexive false
                          :sem obj
-                         :subcat {:1 subcat-subj
+                         :subcat {:1 {:sem subj}
                                   :2 []}}}})
-         (let [subj (atom :top)
-               agr (atom :top)
-               subcat-subj (atom {:agr agr
-                                  :sem subj})
-               obj (atom {:subj subj})]
+
+         ;; transitive and reflexive: "she tries to see herself"
+         (let [subj-ref (atom :top)
+               subj (atom {:ref subj-ref})
+               obj (atom {:subj subj
+                          :obj {:ref subj-ref}})
+               agr (atom :top)]
            {:reflexive true
             :agr agr
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:infl :infinitive
-                         :agr agr
+            :subcat {:2 {:agr agr
+                         :infl :infinitive
                          :phrasal true
                          :cat :verb
                          :reflexive true
                          :sem obj
-                         :subcat {:1 subcat-subj
+                         :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
  
  ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
@@ -156,6 +162,7 @@
 
  {:rule :ditransitive-false
   :if {:cat :verb
+       :normal-transitive-defaults? true
        :subcat {:3 ::unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}]

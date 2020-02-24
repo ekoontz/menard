@@ -30,6 +30,21 @@
   :then [{:agr {:number :sing
                 :person :3rd}}]}
 
+
+ ;; TODO: there are unification cycles
+ ;; and non-halting generations
+ ;; with verbs that are {:modal :infinitive}, e.g.:
+ ;; we try to generate 'probeert te proberen' as shown
+ ;; in the test case.
+ (comment "test case to cause the cycle: try to generate the following:"
+          {:rule "s"
+           :head {:rule "vp"
+                  :comp {:rule "vp-np"
+                         :cat :verb
+                         :head {:cat :verb
+                                :rule "vp-inf"
+                                :comp {:modal :infinitive}}}}})
+
  {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}
@@ -48,6 +63,18 @@
                          :sem obj
                          :subcat {:1 subcat-subj
                                   :2 []}}}})
+         ;; TODO: reflexive doesn't work yet:
+         ;; trying to generate with {:reflexive true} does not
+         ;; generate a reflexive sentence
+         (comment "test case: try to generate the following:"
+                  {:rule "s"
+                   :reflexive true
+                   :head {:rule "vp"
+                          :comp {:rule "vp-np"
+                                 :cat :verb
+                                 :head {:cat :verb
+                                        :rule "vp-inf"
+                                        :comp {:modal false}}}}})
          (let [subj (atom :top)
                agr (atom :top)
                subcat-subj (atom {:agr agr

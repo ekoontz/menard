@@ -71,7 +71,8 @@
             (catch Exception e
               (do (log/warn (str "unify exception: "
                                  "parent: " (syntax-tree parent) "; "
-                                 "comp: " (syntax-tree comp) ": " e))
+                                 "comp: " (syntax-tree comp) ": " e ". "
+                                 "Returning :fail."))
                   :fail)))]
       (if (not (= :fail result))
         (do

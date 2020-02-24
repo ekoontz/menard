@@ -167,6 +167,7 @@
  
  {:rule :intransitive-verbs
   :if {:cat :verb
+       :normal-transitive-defaults? true
        :aux false
        :subcat {:2 []}}
   :then [{:sem {:obj :unspec}

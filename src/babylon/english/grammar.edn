@@ -85,6 +85,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
           babylon.ug/head-reflexive
+          babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-lift]}]

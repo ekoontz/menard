@@ -90,7 +90,8 @@
 
             true
             (lazy-cat
-             (generate-all (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
+             (generate-all
+              (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
@@ -104,8 +105,9 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: "
-                      (summary-fn spec) "; looking for "
-                      "phrasal: " (u/get-in tree (concat at [:phrasal]) ::none))))
+                      (summary-fn spec)
+                      (if (u/get-in tree (concat at [:phrasal]))
+                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -136,7 +138,15 @@
          (log/debug (str "  rule-at: " rule-at "; phrase-at:" phrase-at))
          (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
          (if (empty? result)
-           (log/warn (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) ".")))
+           (if (u/get-in spec [:rule])
+             (log/warn (str (report tree syntax-tree-fn) ": no rule: " (u/get-in spec [:rule]) " matched. fail-paths were: "
+                            (vec
+                             (->> grammar
+                                  (filter #(= (u/get-in spec [:rule])
+                                              (u/get-in % [:rule])))
+                                  (map (fn [rule]
+                                         (u/fail-path spec rule)))))))
+             (log/warn (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) "."))))
          result)
 
        (or (= false (u/get-in tree (concat at [:phrasal])))

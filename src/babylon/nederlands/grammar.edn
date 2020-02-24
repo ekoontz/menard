@@ -64,7 +64,6 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-2]}
 
-
  {:rule "vp-np" ;; [vp .[np de kat] [vp-inf +te .zien]]
   :cat :verb
   :aux false

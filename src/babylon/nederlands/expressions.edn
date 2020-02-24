@@ -162,16 +162,19 @@
         :obj {:top :top}}}
 
  ;; 16
- ;; TODO: currently :note and actual expression generated are not in agreement:
- ;;   currently generates [s np [vp v np]].
- ;; p. 37
- {:note "[s(:present-simple) .hij +[vp(:present-simple) +probeert .[vp-np(:present-simple) .hem +[vp-inf(:present-simple) +te .lezen]]]]"
+ ;; ARGD, p. 37
+ {:note "e.g. Jouw families probeeren mijn honden te zien."
   :dotimes 5
   :phrasal true
   :rule "s"
   :reflexive false
+  :comp {:phrasal true}
   :head {:rule "vp"
          :comp {:rule "vp-np"
-                :head {:rule "vp-inf"}}}}]
+                :comp {:phrasal true}
+                :cat :verb
+                :head {:cat :verb
+                       :rule "vp-inf"
+                       :comp {:modal false}}}}}]
 
 

@@ -30,7 +30,6 @@
   :then [{:agr {:number :sing
                 :person :3rd}}]}
 
-
  ;; TODO: there are unification cycles
  ;; and non-halting generations
  ;; with verbs that are {:modal :infinitive}, e.g.:
@@ -61,7 +60,7 @@
                          :cat :verb
                          :reflexive false
                          :sem obj
-                         :subcat {:1 subcat-subj
+                         :subcat {:1 {:sem subj}
                                   :2 []}}}})
          ;; TODO: reflexive doesn't work yet:
          ;; trying to generate with {:reflexive true} does not

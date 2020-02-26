@@ -47,11 +47,13 @@
  {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}
-  :then [{:sem {:obj :unspec}
+  :then [;; intransitive: "zij probeert"
+         {:sem {:obj :unspec}
           :reflexive false
           :subcat {:2 []}}
+
+         ;; transitive and non-reflexive: "zij probeert het te zien"
          (let [subj (atom :top)
-               subcat-subj (atom {:sem subj})
                obj (atom {:subj subj})]
            {:reflexive false
             :sem {:subj subj
@@ -62,35 +64,25 @@
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})
-         ;; TODO: reflexive doesn't work yet:
-         ;; trying to generate with {:reflexive true} does not
-         ;; generate a reflexive sentence
-         (comment "test case: try to generate the following:"
-                  {:rule "s"
-                   :reflexive true
-                   :head {:rule "vp"
-                          :comp {:rule "vp-np"
-                                 :cat :verb
-                                 :head {:cat :verb
-                                        :rule "vp-inf"
-                                        :comp {:modal false}}}}})
-         (let [subj (atom :top)
-               agr (atom :top)
-               subcat-subj (atom {:agr agr
-                                  :sem subj})
-               obj (atom {:subj subj})]
+
+         ;; transitive and reflexive: "zij probeert zich te zien"
+         (let [subj-ref (atom :top)
+               subj (atom {:ref subj-ref})
+               obj (atom {:subj subj
+                          :obj {:ref subj-ref}})
+               agr (atom :top)]
            {:reflexive true
             :agr agr
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:infl :infinitive
-                         :agr agr
+            :subcat {:2 {:agr agr
+                         :infl :infinitive
                          :cat :verb
                          :reflexive true
                          :sem obj
-                         :subcat {:1 subcat-subj
+                         :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
- 
+
  ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
  ;; modal-base is simpler and clearer.
  {:rule :modal-base

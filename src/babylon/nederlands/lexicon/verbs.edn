@@ -27,13 +27,16 @@
     :subcat {:2 []}}])
 
  "te"
- [(let [sem (atom :top)]
+ [(let [sem (atom :top)
+        reflexive? (atom :top)]
     {:cat :verb
      :infl :infinitive
      :inflected? true
      :normal-transitive-defaults? false
+     :reflexive reflexive?
      :sem sem
      :subcat {:1 {:cat :verb
+                  :reflexive reflexive?
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf te te]"
                   :infl :base
                   :sem sem}

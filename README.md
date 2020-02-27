@@ -38,7 +38,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 63640 on host 127.0.0.1 - nrepl://127.0.0.1:63640
+nREPL server started on port 61060 on host 127.0.0.1 - nrepl://127.0.0.1:61060
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -49,33 +49,31 @@ OpenJDK 64-Bit Server VM 12.0.1+12
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
-user=> (load "babylon/translate")
-nil
-user=> (babylon.translate/demo)
+user=> (do (load "babylon/translate") (babylon.translate/demo))
 # intensifier adjective; 1 example:
 ---
-Behoorlijk sterk.|
-                 |Quite strong.
+Eigenlijk oud.|
+              |Actually old.
 
 # det noun; 1 example:
 ---
-Deze gelden.|
-            |These moneys.
+Die maanden.|
+            |Those months.
 
 # noun verb; 1 example:
 ---
-Wij slapen.|
-           |We sleep.
+Ik probeer.|
+           |I try.
 
 # det noun | verb; 1 example:
 ---
-De ontwikkelingen veroorzaaken.|
-                               |The developments cause.
+Jouw overheden werken.|
+                      |Your governments work.
 
 # det | adj noun; 1 example:
 ---
-De nieuwsgierige handen.|
-                        |The curious hands.
+Haar grote zaken.|
+                 |Her big cases.
 
 # 'een huis'; 1 example:
 ---
@@ -94,130 +92,106 @@ Een heel klein druif.|
 
 # det [intensifier adj | adj noun]; 1 example:
 ---
-Onze behoorlijk ernstig ernstige ontwikkelingen.|
-                                                |Our quite serious serious developments.
+Haar heel waar slimme banen.|
+                            |Her very true smart jobs.
 
 # 'De heel sterk slimme vrouen zingen'.; 1 example:
 ---
 De heel sterk slimme vrouwen zingen.|
                                     |The very strong smart women sing.
 
-# [det [intensifier adj | adj noun]] verb; 10 examples:
+# [det [intensifier adj | adj noun]] verb; 5 examples:
 ---
-Haar erg sterk zelfverzekerdee gebeiden zien.|
-                                             |Her very strong confident areas see.
-Zijn erg ernstig kleine maanden slapen.|
-                                       |His very serious small months sleep.
-Hun ongewoon opgevonden oude fietsen zien.|
-                                          |Their unusually excited old bikes see.
-Zijn ongewoon verdrietig kleine levens werken.|
-                                              |Its unusually sad small lives work.
-Hun erg oud stomme plaatsen zien.|
-                                 |Their very old stupid lots see.
-Onze eigenlijk slim verwarde kinderen lezen.|
-                                            |Our actually smart confused children read.
-Mijn erg bedroefd zelfverzekerdee katten zingen.|
-                                                |My very sad confident cats sing.
-De heel nieuwsgierig opgevondene heren lezen.|
-                                             |The very curious excited men read.
-Mijn erg sterk lieve kinderen lezen.|
-                                    |My very strong nice children read.
-Die erg zelfverzekerde grote beschavingen zingen.|
-                                                 |Those very confident big civilizations sing.
+De eigenlijk groot verlegene maanden zien.|
+                                          |The actually big shy months see.
+Die heel opgevonden vieze thuizen werken.|
+                                         |Those very excited dirty homes work.
+Zijn erg zelfverzekerd verwarde jongens probeeren.|
+                                                  |His very confident confused boys try.
+Onze eigenlijk klein telurgestelde beschavingen zingen.|
+                                                       |Our actually small disappointed civilizations sing.
+Zijn ongewoon verwarrend eenzaamme gelden slapen.|
+                                                 |Its unusually confusing lonely moneys sleep.
 
-# [det | adj noun] verb; 10 examples:
+# [det | adj noun] verb; 5 examples:
 ---
-Zijn ernstige oplossingen werken.|
-                                 |His serious solutions work.
-Onze ongeruste druiven zingen.|
-                              |Our anxious grapes sing.
-De eenzaamme thuizen slapen.|
-                            |The lonely homes sleep.
-De oude handen lezen.|
-                     |The old hands read.
-Haar bedroefde landen zien.|
-                           |Her sad countries see.
-Hun enge dames veroorzaaken.|
-                            |Their scary ladies cause.
-Uw verwarrende kittens werken.|
-                              |Your confusing kittens work.
-De verwarde huizen zingen.|
-                          |The confused houses sing.
-Zijn oude fietsen zingen.|
-                         |His old bikes sing.
-Jouw verlegene haren zingen.|
-                            |Your shy hairs sing.
+Hun lieve fietsen slapen.|
+                         |Their nice bikes sleep.
+De grote katten zien.|
+                     |The big cats see.
+Zijn bedroefde huizen probeeren.|
+                                |Its sad houses try.
+Die zenuwachtige katten werken.|
+                               |Those nervous cats work.
+Zijn verwarrende dagen zien.|
+                            |His confusing days see.
 
-# Sentence with object; 10 examples:
+# Sentence with object; 5 examples:
 ---
-Wij zien haar.|
-              |We see her.
-Jullie zien hun.|
-                |You see him.
-Het ziet hem.|
-             |It sees him.
-Wij zien Guus.|
-              |We see Guus.
-Jullie zien u.|
-              |You see you.
-Jullie zien mij.|
-                |You see me.
-Jullie zien jou.|
-                |You see you.
-Het ziet hen.|
-             |It sees him.
-U ziet hun.|
-           |You see him.
-Mijn dames zien Guus.|
-                     |My ladies see Guus.
+Zijn plaatsen zien Guus.|
+                        |His lots see Guus.
+Mijn haren zien mij.|
+                    |My hairs see me.
+Jij ziet u.|
+           |You see you.
+De jongens zien jou.|
+                    |The boys see you.
+Zijn mannen zien hun.|
+                     |His men see him.
 
-# Sentence with reflexive object; 10 examples:
+# Sentence with reflexive object; 5 examples:
 ---
-Zij ziet zich.|
-              |She sees herself.
-Zij zien zich.|
-              |They see themselves.
+Jullie zien je.|
+               |You see yourselves.
 Jij ziet je.|
             |You see yourself.
-U ziet u.|
-         |You see yourselves.
-U ziet u.|
-         |You see yourself.
+Hij ziet zich.|
+              |He sees himself.
 U ziet u.|
          |You see yourself.
-Jullie zien je.|
-               |You see yourselves.
-Jullie zien je.|
-               |You see yourselves.
-U ziet u.|
-         |You see yourself.
-Saskia ziet zich.|
-                 |Saskia sees herself.
+Jij ziet je.|
+            |You see yourself.
 
-# e.g.: [np een kat] [vp v ziet [np de muis]]; 10 examples:
+# [s np [vp v np]]; 5 examples:
 ---
-Onze moeders lezen zijn benen.|
-                              |Our mothers read its legs.
-Hun katten veroorzaaken zijn zaken.|
-                                   |Their cats cause its cases.
-Uw fietsen veroorzaaken haar zaken.|
-                                   |Your bikes cause her cases.
-Mijn levens veroorzaaken zijn groepen.|
-                                      |My lives cause its groups.
-Hun ontwikkelingen zien zijn gebeiden.|
-                                      |Their developments see its areas.
-De haren veroorzaaken hun gebeiden.|
-                                   |The hairs cause their area.
-Haar heren lezen hun dames.|
-                           |Men read their lady.
-De dagen zien deze dagen.|
-                         |The days see these days.
-Deze thuizen lezen zijn zaken.|
-                              |These homes read its cases.
-Zijn mannen veroorzaaken onze gelden.|
-                                     |Men cause our money.
+Uw fietsen zien haar huizen.|
+                            |Your bikes see her house.
+Onze zaken lezen zijn tafels.|
+                             |Our cases read its tables.
+De ontwikkelingen lezen hun benen.|
+                                  |The developments read their legs.
+De oogen zien deze haren.|
+                         |The eyes see this hair.
+Zijn meisjes zien jouw tafels.|
+                              |His girls see your table.
 
-15
+# [s n [vp v [vp:inf to v]]]; 5 examples:
+---
+Wij probeeren te werken.|
+                        |We try to work.
+Wij probeeren te probeeren.|
+                           |We try to try.
+Jullie probeeren te veroorzaaken.|
+                                 |You try to cause.
+Jullie probeeren te slapen.|
+                           |You try to sleep.
+Hij probeert te zingen.|
+                       |He tries to sing.
+
+# e.g. Jouw families probeeren mijn honden te zien.; 5 examples:
+---
+Onze groepen probeeren die kinderen te lezen.|
+                                             |Our groups try to read that child.
+Deze bedrijven probeeren die thuizen te lezen.|
+                                              |These businesses try to read that home.
+Haar zaken probeeren haar kinderen te veroorzaaken.|
+                                                   |Her cases try to cause her child.
+Zijn bedrijven probeeren mijn beschavingen te veroorzaaken.|
+                                                           |Its businesses try to cause my civilizations.
+Deze groepen probeeren zijn haren te lezen.|
+                                           |These groups try to read its hair.
+
+17
 user=>
 ```
 

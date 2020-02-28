@@ -60,10 +60,7 @@
                     :surface "ziet"}
                    {:infl :present
                     :agr {:person :3rd :number :sing}
-                    :surface "ziet"}
-                   {:infl :present
-                    :agr {:number :plur}
-                    :surface "zien"}]]
+                    :surface "ziet"}]]
    [{:exceptions exceptions
      :cat :verb
      :sem {:pred :see}}])

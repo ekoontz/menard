@@ -339,7 +339,6 @@
    :exceptions (atom :top)
    :cat (atom :top)
    :infl (atom :top)
-   :sem (atom :top)
    :inflected? (atom :top)
    :root (atom :top)})
 

@@ -177,7 +177,7 @@
                    (str "no lexemes match for tree: " (syntax-tree-fn tree)
                         " at: " (frontier tree)
                         "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
-               (when (and false die-on-no-matching-lexemes?)
+               (when die-on-no-matching-lexemes?
                  (log/error message)
                  (exception message))
                (log/warn message)))

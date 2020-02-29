@@ -255,7 +255,7 @@
              (map (fn [token]
                     (lookup-fn token))
                   tokenizations))]
-        (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
+        (log/warn (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (map (fn [token]
                                            (str token ":" (count (get analyses token)) ""))

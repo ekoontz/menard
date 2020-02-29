@@ -166,7 +166,7 @@
                              (get lexicon surface))]
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
-        (log/warn (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
+        (log/debug (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
       (log/debug (str "found: " (count from-regular-morphology) " analyzed form"
                      (if (not (= (count from-regular-morphology) 1))
                        "s")

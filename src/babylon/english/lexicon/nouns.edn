@@ -20,10 +20,8 @@
            :sem {:pred :chair}}]
  "child" [{:cat :noun
            :sem {:pred :child}
-           :agr {:number :sing}}]
- "children" [{:cat :noun
-              :sem {:pred :child}
-              :agr {:number :plur}}]
+           :exceptions [{:agr {:number :plur}
+                         :surface "children"}]}]
  "civilization" [{:cat :noun
                   :sem {:pred :civilization}}]
  "coat" [{:cat :noun
@@ -48,14 +46,9 @@
                :sem {:pred :man
                      :context :polite}
                :agr {:gender :man
-                     :human true
-                     :number :sing}}]
- "gentlemen" [{:cat :noun
-               :sem {:pred :man
-                     :context :polite}
-               :agr {:gender :man
-                     :human true
-                     :number :plur}}]
+                     :human true}
+               :exceptions [{:surface "gentlemen"
+                             :agr {:number :plur}}]}]
  "girl" [{:cat :noun
           :sem {:pred :girl}
           :agr {:human true
@@ -92,13 +85,9 @@
  "man" [{:cat :noun
          :sem {:pred :man}
          :agr {:gender :masc
-               :human true
-               :number :sing}}]
- "men" [{:cat :noun
-         :sem {:pred :man}
-         :agr {:gender :masc
-               :human true
-               :number :plur}}]
+               :human true}
+         :exceptions [{:surface "men"
+                       :agr {:number :plur}}]}]
  "money" [{:cat :noun
            :sem {:pred :money}}]
  "month" [{:cat :noun
@@ -139,10 +128,9 @@
             :sem {:pred :school}}]
  "sheep" [{:cat :noun
            :sem {:pred :sheep}
-           :agr {:number :sing}}
-          {:cat :noun
-           :sem {:pred :sheep}
-           :agr {:number :plur}}]
+           :agr {:number :sing}
+           :exceptions [{:agr {:number :plur}
+                         :surface "sheep"}]}]
  "solution" [{:cat :noun
            :sem {:pred :solution}}]
  "state" [{:cat :noun
@@ -171,14 +159,9 @@
            :sem {:pred :woman
                  :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem
-                 :human true
-                 :number :sing}}]
- "women" [{:cat :noun
-           :sem {:pred :woman
-                 :context :neutral} ;; i.e. :neutral meaning 'not polite'
-           :agr {:gender :fem
-                 :human true
-                 :number :plur}}]
+                 :human true}
+           :exceptions [{:surface "women"
+                         :agr {:number :plur}}]}]
  "word" [{:cat :noun
           :sem {:pred :word}}]
  "work" [{:cat :noun

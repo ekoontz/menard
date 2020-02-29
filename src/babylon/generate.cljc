@@ -104,8 +104,7 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str (report tree syntax-tree-fn) " add at:" at " with spec: "
-                      (summary-fn spec)
+      (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
                       (if (u/get-in tree (concat at [:phrasal]))
                         (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
@@ -168,7 +167,7 @@
            (if (and (empty? result) (string? canonical-form))
              (vec (map
                    (fn [matching-lexeme]
-                     (log/info (str " canonically matching lexeme for: " canonical-form ", but "
+                     (log/debug (str " canonically matching lexeme for: " canonical-form ", but "
                                     (u/fail-path matching-lexeme (u/get-in tree (frontier tree))))))
                    matching-canonical-forms)))
            (if (and (= false (u/get-in tree (concat at [:phrasal])))
@@ -322,7 +321,6 @@
                   (do
                     (swap! count-rule-fails inc)
                     false)))
-     
      (map
       #(u/unify! %
                  (s/create-path-in (concat [:syntax-tree] at-num)

@@ -1,4 +1,10 @@
-[{:rule :adjectives-have-empty-modifiers
+[
+ {:rule :noun-semantics
+  :if {:cat :noun}
+  :then [(let [number (atom :top)]
+           {:agr {:number number}
+            :sem {:ref {:number number}}})]}
+ {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}

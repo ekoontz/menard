@@ -1,5 +1,4 @@
-[
- {:rule :quantified-noun
+[{:rule :quantified-noun
   :if {:cat :noun
        :subcat {:1 {:cat :det}}}
   :then [(let [quant (atom :top)]

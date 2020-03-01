@@ -1,5 +1,4 @@
-[
- {:rule :noun-semantics
+[{:rule :noun-semantics
   :if {:cat :noun}
   :then [(let [number (atom :top)]
            {:agr {:number number}

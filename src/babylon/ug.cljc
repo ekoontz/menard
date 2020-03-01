@@ -201,4 +201,7 @@
      :subcat subcat-of-complement
      :comp head-argument}))
 
-
+(def shared-number
+  (let [number (atom :top)]
+    {:sem {:ref {:number number}}
+     :agr {:number number}}))

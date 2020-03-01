@@ -36,6 +36,7 @@
           babylon.ug/head-last
           babylon.ug/head-rule
           babylon.ug/nest-mod
+          babylon.ug/shared-number
           babylon.ug/subcat-1]}
 
  {:rule "s"

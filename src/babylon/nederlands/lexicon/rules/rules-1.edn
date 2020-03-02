@@ -30,11 +30,8 @@
   :then [{:agr {:number :sing
                 :person :3rd}}]}
 
- ;; TODO: there are unification cycles
- ;; and non-halting generations
- ;; with verbs that are {:modal :infinitive}, e.g.:
- ;; we try to generate 'probeert te proberen' as shown
- ;; in the test case.
+ ;; TODO: there are over- and under-
+ ;; generation problems with generating the following:
  (comment "test case to cause the cycle: try to generate the following:"
           {:rule "s"
            :head {:rule "vp"

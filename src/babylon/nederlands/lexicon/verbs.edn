@@ -1,4 +1,9 @@
-{"lezen"
+{"komen"
+ [{:cat :verb
+   :sem {:pred :come}
+   :subcat {:2 []}}]
+
+ "lezen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
                     :surface "lees"}

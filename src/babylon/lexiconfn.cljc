@@ -227,7 +227,9 @@
   (zipmap
    (keys the-map)
    (map (fn [value-is-a-seq]
-          (vec (map serialize value-is-a-seq)))
+          (vec (->> value-is-a-seq
+                    (map #(if (map? %) (dissoc % :derivation) %))
+                    (map serialize))))
         (vals the-map))))
 
 #?(:clj

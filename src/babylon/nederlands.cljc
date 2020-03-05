@@ -237,6 +237,8 @@
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
 
+(defn add [spec]
+  (g/add spec grammar index-fn syntax-tree))
 
 (defn analyze [surface]
   (binding [l/lexicon lexicon
@@ -287,6 +289,49 @@
        (if (= mood :interog)
          "?"
          ".")))
+
+(defn add-until-done [tree]
+  (if (u/get-in tree [:babylon.generate/done?])
+    ;; we are done: just return a list of the finished tree:
+    [tree]
+      
+    ;; not done yet; keep going.
+    (-> tree add first add-until-done)))
+
+(defn incremental-demo
+  "shows how we can pre-compute a partial tree in the 'start'
+   variable and then more quickly generate a sentence since there is less new material needed to add.
+   Shows the tradeoff between variety and timing: the sentences are more similar the more we pre-compute
+   in the start, and more different and slower the sentences are the less we pre-compute."
+  []
+  (let [spec {:phrasal true
+              :rule "s"
+              :comp {:phrasal true}
+              :head {:rule "vp"
+                     :phrasal true
+                     :head {:phrasal false
+                            :canonical "probeeren"}
+                     :comp {:rule "vp-np"
+                            :phrasal true
+                            :comp {:phrasal true}
+                            :head {:rule "vp-inf"}}}}
+        start (-> spec
+                  add first
+                  add first
+                  add first
+                  add first
+                  add first
+                  add first
+                  add first
+                  add first
+                  add first
+                  add first)]
+    (log/info (str "ok, now actually generating.."))
+    (count (take 1 (repeatedly #(println (-> start
+                                             add-until-done first
+                                             time
+                                             (morph :sentence-punctuation? true))))))))
+  
 
 ;; </functions>
 

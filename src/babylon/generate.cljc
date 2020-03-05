@@ -104,9 +104,9 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
-                      (if (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+      (log/info (str "add: " (report tree syntax-tree-fn) " at:" at
+                     (if (u/get-in tree (concat at [:phrasal]))
+                       (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -292,7 +292,7 @@
                           %)))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
-  (log/debug (str "add-rule: " (report tree syntax-tree)))
+  (log/info (str "add-rule: " (report tree syntax-tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -300,7 +300,7 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": " (report tree syntax-tree)
+    (log/info (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": " (report tree syntax-tree)
                    " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar:
@@ -377,9 +377,11 @@
                (= (u/get-in tree [::started?] true) true)
                (not (u/get-in tree [:comp ::done?])))
           (cons :comp (frontier (u/get-in tree [:comp])))
+
+          true []
           
           true
-          (exception (str "could not determine frontier for this tree: " tree)))]
+          (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
 
 (defn truncate-at [tree at syntax-tree]

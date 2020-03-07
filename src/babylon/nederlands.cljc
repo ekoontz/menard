@@ -223,7 +223,7 @@
               (let [generated-expression (generate spec)]
                 (merge spec
                        {:example (morph generated-expression)
-                        :size @g/count-adds}))))))
+                        :size (fn [] @g/count-adds)}))))))
 ;; <functions>
 
 (defn syntax-tree [tree]

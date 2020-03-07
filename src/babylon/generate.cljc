@@ -148,7 +148,7 @@
                                               (u/get-in % [:rule])))
                                   (map (fn [rule]
                                          (u/fail-path spec rule)))))))
-             (if warn-on-no-matches? (log/warn (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) ".")))))
+             (if warn-on-no-matches? (log/debug (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) ".")))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
          result)
 

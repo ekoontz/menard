@@ -237,8 +237,8 @@
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
 
-(defn add [spec]
-  (g/add spec grammar index-fn syntax-tree))
+(defn add [tree]
+  (g/add tree grammar index-fn syntax-tree))
 
 (defn analyze [surface]
   (binding [l/lexicon lexicon

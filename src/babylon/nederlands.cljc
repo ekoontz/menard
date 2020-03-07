@@ -287,64 +287,9 @@
          "?"
          ".")))
 
-
-(defn add [tree]
-  (g/add tree grammar index-fn syntax-tree))
-
-(defn add-until-done [tree]
-  (if (u/get-in tree [:babylon.generate/done?])
-    ;; we are done: just return a list of the finished tree:
-    [tree]
-      
-    ;; not done yet; keep going.
-    (-> tree add first add-until-done)))
-
-(defn add-until
-  "to the tree _tree_, do (add) _n_ times."
-  [tree n]
-  (cond
-
-   (= true (u/get-in tree [:babylon.generate/done?]))
-   (do
-     (log/warn "do-until: tree is done already with n=" n " steps still asked for: original caller should call add-until with a smaller _n_.")
-     tree)
-
-   ;; n=0: we're done; return:
-   (= n 0) tree
-
-   ;; main case: add and call again with n=n-1:
-   true
-   (add-until (-> tree add first)
-              (- n 1))))
-
-(defn generate-seedlike
-  "Return a lazy sequence of sentences, all of which are generated starting with a seed tree that itself
-     is generated from _spec_. The seed tree's size is set by _seed-tree-size_, which means how big to make the seed tree:
-   A bigger seed tree size means step 1 takes longer, but step 2 is shorter, and step 2's output sentences are more similar to each other.
-   A smaller seed tree size means step 1 runs shorter, but step 2 is longer, and step 2's output sentences are more distinct from each other.
-   So the tradeoff if between variety and speed: the sentences are more similar the more we pre-compute
-   in the start, and the more different and slower the sentences are the less we pre-compute.
-   For example, for expression 16: total size is 13, and current measurements are:
-    - if seed-tree-size=13, then initial seed takes 1500 ms and each child tree takes    0 ms (because tree is already fully done).
-    - if seed-tree-size=12, then initial seed takes 1375 ms and each child tree takes   35 ms.
-    - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms.
-    - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms."
-  [spec seed-tree-size]
-  (let [debug (log/info (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
-        seed-tree (-> spec
-                      ((fn [tree]
-                         ;; add to the tree until it's reached the desired size:
-                         (add-until tree seed-tree-size)))
-                      time)]
-    (log/info (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
-    (lazy-seq
-     (repeatedly #(-> seed-tree
-                      add-until-done
-                      first)))))
-
 (defn incremental-demo
   []
-  (count (->> (generate-seedlike (nth expressions 16) 7)
+  (count (->> (g/generate-seedlike (nth expressions 16) 10 grammar index-fn syntax-tree)
               (take 10)
               (map #(morph % :sentence-punctuation? true))
               (map println))))

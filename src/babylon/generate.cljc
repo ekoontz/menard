@@ -44,8 +44,9 @@
   because folding might have occurred."
   [])
 (def ^:dynamic die-on-no-matching-lexemes? true)
-(def ^:dynamic warn-on-no-matches? false)
-
+(def ^:dynamic warn-on-no-matches?
+  "warn in (add-rule) if no grammar rules matched the given spec."
+  true)
 
 (defn report [tree syntax-tree]
   (str "#" (count (str tree)) " " (syntax-tree tree)))

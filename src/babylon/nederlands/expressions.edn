@@ -162,15 +162,11 @@
  {:note "e.g. Jouw families probeeren mijn honden te zien."
   :dotimes 5
   :phrasal true
-  :rule "s"
-  :reflexive false
   :comp {:phrasal true}
-  :head {:rule "vp"
-         :comp {:rule "vp-np"
-                :comp {:phrasal true}
-                :cat :verb
-                :head {:cat :verb
-                       :rule "vp-inf"
-                       :comp {:modal false}}}}}]
-
+  :head {:phrasal true
+         :head {:phrasal false
+                :reflexive false
+                :modal :infinitive}
+         :comp {:comp {:phrasal true}
+                :head {:phrasal true}}}}]
 

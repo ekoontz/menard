@@ -162,6 +162,7 @@
  {:note "e.g. Jouw families probeeren mijn honden te zien."
   :dotimes 5
   :phrasal true
+  :rule "s"
   :comp {:phrasal true}
   :head {:phrasal true
          :head {:phrasal false

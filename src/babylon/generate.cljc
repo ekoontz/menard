@@ -104,9 +104,9 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/info (str "add: " (report tree syntax-tree-fn) " at:" at
-                     (if (u/get-in tree (concat at [:phrasal]))
-                       (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+      (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
+                      (if (u/get-in tree (concat at [:phrasal]))
+                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -146,6 +146,7 @@
                                   (map (fn [rule]
                                          (u/fail-path spec rule)))))))
              (log/warn (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) "."))))
+         (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
          result)
 
        (or (= false (u/get-in tree (concat at [:phrasal])))
@@ -259,7 +260,9 @@
         done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:" (summary-fn spec) "; generate-only-one? " generate-only-one?))
+    (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
+                    (summary-fn spec) "; generate-only-one? " generate-only-one?
+                    "; phrasal: " (u/get-in spec [:phrasal])))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
@@ -277,6 +280,8 @@
                 true lexemes)))
            (map (fn [candidate-lexeme]
                   (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
+                                  " with derivation: " (u/get-in candidate-lexeme [:derivation])
+                                  " and subcat 2: " (u/get-in candidate-lexeme [:subcat :2])
                                   " at: " at " to: " (report tree syntax-tree)))
                   (-> tree
                       u/copy
@@ -292,10 +297,10 @@
                           (if (= :fail %)
                             (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
                             (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
+                          (log/debug (str "finally returning: " (syntax-tree %)))
                           %)))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
-  (log/info (str "add-rule: " (report tree syntax-tree)))
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -303,8 +308,8 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/info (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": " (report tree syntax-tree)
-                   " at: " at " (numerically): " at-num))
+    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
+                   (report tree syntax-tree) " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar:
      grammar
@@ -316,8 +321,11 @@
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
 
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
-     (map #(u/assoc-in! (u/copy tree)
-                        at (u/copy %)))
+     (map (fn [rule]
+            (do
+              (log/debug (str "adding a rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant])))
+              (u/assoc-in! (u/copy tree)
+                           at (u/copy rule)))))
 
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))

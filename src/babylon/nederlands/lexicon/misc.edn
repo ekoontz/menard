@@ -127,7 +127,7 @@
          :case :acc
          :cat :noun
          :pronoun true
-         :sem {:pred :he
+         :sem {:pred :they
                :ref {:human true}}}
         {:cat :det
          :sem {:pred :they}}]

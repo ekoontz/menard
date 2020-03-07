@@ -724,9 +724,8 @@
         seed-tree (-> spec
                       ((fn [tree]
                          ;; add to the tree until it's reached the desired size:
-                         (add-until tree grammar index-fn syntax-tree seed-tree-size)))
-                      time)]
-    (log/info (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
+                         (add-until tree grammar index-fn syntax-tree seed-tree-size))))]
+    (log/debug (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
     (repeatedly #(-> seed-tree
                      (add-until-done grammar index-fn syntax-tree)
                      first))))

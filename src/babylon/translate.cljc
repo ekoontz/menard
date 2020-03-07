@@ -95,11 +95,11 @@
                                           1)
                  source-expressions
                  (let [spec (nth nl/expressions index)
-                       size (:size (nth nl/expressions index))]
+                       size ((:size (nth nl/expressions index)))]
                    (->>
                     (cond (and (> size 10)
                                (> generate-this-many 1))
-                          (nl/generate-seedlike spec (int (* size 3/4)))
+                          (nl/generate-seedlike spec (int (* size 0.75)))
                           true
                           (repeatedly #(nl/generate spec)))
                     (take generate-this-many)))]

@@ -237,9 +237,6 @@
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
 
-(defn add [tree]
-  (g/add tree grammar index-fn syntax-tree))
-
 (defn analyze [surface]
   (binding [l/lexicon lexicon
             l/morphology morphology]
@@ -290,6 +287,10 @@
          "?"
          ".")))
 
+
+(defn add [tree]
+  (g/add tree grammar index-fn syntax-tree))
+
 (defn add-until-done [tree]
   (if (u/get-in tree [:babylon.generate/done?])
     ;; we are done: just return a list of the finished tree:
@@ -298,42 +299,57 @@
     ;; not done yet; keep going.
     (-> tree add first add-until-done)))
 
+(defn add-until
+  "to the tree _tree_, do (add) _n_ times."
+  [tree n]
+  (cond
+
+   (= true (u/get-in tree [:babylon.generate/done?]))
+   (do
+     (log/warn "do-until: tree is done already with n=" n " steps still asked for: original caller should call add-until with a smaller _n_.")
+     tree)
+
+   ;; n=0: we're done; return:
+   (= n 0) tree
+
+   ;; main case: add and call again with n=n-1:
+   true
+   (add-until (-> tree add first)
+              (- n 1))))
+
 (defn incremental-demo
   "shows how we can pre-compute a partial tree in the 'start'
    variable and then more quickly generate a sentence since there is less new material needed to add.
    Shows the tradeoff between variety and timing: the sentences are more similar the more we pre-compute
    in the start, and more different and slower the sentences are the less we pre-compute."
   []
-  (let [spec {:phrasal true
-              :rule "s"
-              :comp {:phrasal true}
-              :head {:phrasal true
-                     :head {:phrasal false
-                            :reflexive false
-                            :modal :infinitive}
-                     :comp {:comp {:phrasal true}
-                            :head {:phrasal true}}}}
-        start (-> spec
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  add first
-                  time)]
-    (log/info (str "ok, now actually generating.."))
-    (count (take 5 (repeatedly #(println (-> start
-                                             add-until-done first
+  (let [;; how big to make the seed tree:
+        ;; bigger seed tree size means step 1 takes longer, but step 2 is shorter, and step 2's output sentences are more similar to each other.
+        ;; small seed tree size means step 1 runs shorter, but step 2 is longer, and step 2's output sentences are more distinct from each other.
+        ;; for example, for expression 16: total size is 14.
+        ;;   - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms."
+        ;;   - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms.
+        seed-tree-size 10
+
+        spec
+        (-> (nth expressions 16)
+
+            ;; TODO: add this to the expression itself:
+            (merge {:rule "s"}))
+        debug (log/info (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
+        seed-tree (-> spec
+                      ((fn [tree]
+                         ;; add to the tree until it's reached the desired size:
+                         (add-until tree seed-tree-size)))
+                      time)]
+    (log/info (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
+    (count (take 5 (repeatedly #(println (-> seed-tree
+                                             add-until-done
+                                             first
                                              time
                                              ;;                                              syntax-tree)))))))
                                              (morph :sentence-punctuation? true))))))))
-  
+
 
 ;; </functions>
 

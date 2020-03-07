@@ -213,6 +213,9 @@
 
 ;; </grammar>
 
+(declare generate)
+(declare syntax-tree)
+
 (def expressions
   (->> (-> "babylon/nederlands/expressions.edn"
            grammar/read-expressions)

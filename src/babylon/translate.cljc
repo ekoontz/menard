@@ -81,7 +81,6 @@
 
       println))
 
-
 (defn demo [ & [index]]
   (count
    (->>
@@ -95,9 +94,15 @@
                                           true
                                           1)
                  source-expressions
-                 (->> (repeatedly #(nl/generate (nth nl/expressions index)))
-;;                      (filter #(not (nil? %))) ;; a nil means that generation failed, so retry.
-                      (take generate-this-many))]
+                 (let [spec (nth nl/expressions index)
+                       size (:size (nth nl/expressions index))]
+                   (->>
+                    (cond (and (> size 10)
+                               (> generate-this-many 1))
+                          (nl/generate-seedlike spec (int (* size 3/4)))
+                          true
+                          (repeatedly #(nl/generate spec)))
+                    (take generate-this-many)))]
 
              ;; for each expression:
              ;; generate it, and print the surface form

@@ -281,7 +281,10 @@
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
-                      (u/assoc-in! at candidate-lexeme)
+                      ((fn [tree]
+                         (try (u/assoc-in! tree at candidate-lexeme)
+                              (catch Exception e
+                                :fail))))
                       (update-syntax-tree at syntax-tree)
                       (truncate-at at syntax-tree)
                       (foldup at syntax-tree)

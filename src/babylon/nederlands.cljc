@@ -214,9 +214,13 @@
 ;; </grammar>
 
 (def expressions
-  (-> "babylon/nederlands/expressions.edn"
-      grammar/read-expressions))
-
+  (->> (-> "babylon/nederlands/expressions.edn"
+           grammar/read-expressions)
+       (map (fn [spec]
+              (let [generated-expression (generate spec)]
+                (merge spec
+                       {:example (morph generated-expression)
+                        :size @g/count-adds}))))))
 ;; <functions>
 
 (defn syntax-tree [tree]
@@ -227,6 +231,10 @@
   [spec]
   (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
   (g/generate spec grammar index-fn syntax-tree))
+
+(defn generate-seedlike
+  [spec seed-size]
+  (g/generate-seedlike spec seed-size grammar index-fn syntax-tree))
 
 (defn parse [expression]
   (binding [p/grammar grammar
@@ -289,7 +297,7 @@
 
 (defn incremental-demo
   []
-  (count (->> (g/generate-seedlike (nth expressions 16) 10 grammar index-fn syntax-tree)
+  (count (->> (generate-seedlike (nth expressions 16) 10)
               (take 10)
               (map #(morph % :sentence-punctuation? true))
               (map println))))

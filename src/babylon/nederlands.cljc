@@ -333,11 +333,7 @@
         ;;   - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms.
         seed-tree-size 10
 
-        spec
-        (-> (nth expressions 16)
-
-            ;; TODO: add this to the expression itself:
-            (merge {:rule "s"}))
+        spec (nth expressions 16)
         debug (log/info (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
         seed-tree (-> spec
                       ((fn [tree]
@@ -353,6 +349,31 @@
                                              (morph :sentence-punctuation? true))))))))
 
 
-;; </functions>
+(defn generate-seedlike
+  "Return a lazy sequence of sentences, all of which are generated starting with a seed tree that itself
+  is generated from _spec_. The seed tree's size is set by _seed-tree-size_, which means how big to make the seed tree:
+  A bigger seed tree size means step 1 takes longer, but step 2 is shorter, and step 2's output sentences are more similar to each other.
+  A smaller seed tree size means step 1 runs shorter, but step 2 is longer, and step 2's output sentences are more distinct from each other.
+   For example, for expression 16: total size is 13, and current measurements are:
+    - if seed-tree-size=13, then initial seed takes 1500 ms and each child tree takes    0 ms (because tree is already fully done).
+    - if seed-tree-size=12, then initial seed takes 1375 ms and each child tree takes   35 ms.
+    - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms.
+    - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms."
+  [spec seed-tree-size]
+  (let [debug (log/info (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
+        seed-tree (-> spec
+                      ((fn [tree]
+                         ;; add to the tree until it's reached the desired size:
+                         (add-until tree seed-tree-size)))
+                      time)]
+    (log/info (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
+    (lazy-seq
+     (repeatedly #(-> seed-tree
+                      add-until-done
+                      first)))))
+
+(defn incremental-demo-2
+  []
+  (count (->> (generate-seedlike (nth expressions 16) 10) (take 50) (map morph) (map println))))
 
 

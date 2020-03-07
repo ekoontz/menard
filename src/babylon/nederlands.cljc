@@ -326,7 +326,9 @@
   (let [;; how big to make the seed tree:
         ;; bigger seed tree size means step 1 takes longer, but step 2 is shorter, and step 2's output sentences are more similar to each other.
         ;; small seed tree size means step 1 runs shorter, but step 2 is longer, and step 2's output sentences are more distinct from each other.
-        ;; for example, for expression 16: total size is 14.
+        ;; for example, for expression 16: total size is 13, and current measurements are:
+        ;;   - if seed-tree-size=13, then initial seed takes 1500 ms and each child tree takes    0 ms (because tree is already fully done).
+        ;;   - if seed-tree-size=12, then initial seed takes 1375 ms and each child tree takes   35 ms."
         ;;   - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms."
         ;;   - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms.
         seed-tree-size 10

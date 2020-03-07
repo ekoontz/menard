@@ -307,14 +307,12 @@
   (let [spec {:phrasal true
               :rule "s"
               :comp {:phrasal true}
-              :head {:rule "vp"
-                     :phrasal true
+              :head {:phrasal true
                      :head {:phrasal false
-                            :canonical "probeeren"}
-                     :comp {:rule "vp-np"
-                            :phrasal true
-                            :comp {:phrasal true}
-                            :head {:rule "vp-inf"}}}}
+                            :reflexive false
+                            :modal :infinitive}
+                     :comp {:comp {:phrasal true}
+                            :head {:phrasal true}}}}
         start (-> spec
                   add first
                   add first
@@ -325,11 +323,15 @@
                   add first
                   add first
                   add first
-                  add first)]
+                  add first
+                  add first
+                  add first
+                  time)]
     (log/info (str "ok, now actually generating.."))
-    (count (take 1 (repeatedly #(println (-> start
+    (count (take 5 (repeatedly #(println (-> start
                                              add-until-done first
                                              time
+                                             ;;                                              syntax-tree)))))))
                                              (morph :sentence-punctuation? true))))))))
   
 

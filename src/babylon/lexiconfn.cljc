@@ -229,7 +229,10 @@
    (map (fn [value-is-a-seq]
           (vec (->> value-is-a-seq
                     (map #(if (map? %) (dissoc % :derivation) %))
-                    (map serialize))))
+                    (map #(let [serialized (serialize %)]
+                            (if (= serialized :dag_unify.serialization/no-sharing)
+                              [[[] (dissoc % :dag_unify.serialization/serialized)]]
+                              serialized))))))
         (vals the-map))))
 
 #?(:clj

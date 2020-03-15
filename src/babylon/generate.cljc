@@ -27,8 +27,8 @@
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
-;; TODO: add allow-truncation?
-(def allow-folding? true)
+(def allow-folding? false)
+(def allow-truncation? true)
 (def ^:dynamic generate-only-one? true)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
@@ -294,7 +294,9 @@
                               (catch Exception e
                                 :fail))))
                       (update-syntax-tree at syntax-tree)
-                      (truncate-at at syntax-tree)
+                      (#(if allow-truncation?
+                          (truncate-at % at syntax-tree)
+                          %))
                       (foldup at syntax-tree)
                       (#(do
                           (if (= :fail %)

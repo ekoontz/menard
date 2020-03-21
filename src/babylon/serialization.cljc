@@ -1,7 +1,9 @@
 (ns babylon.serialization
   (:require
    [babylon.grammar :refer [default-morph-fn]]
-   [dag_unify.core :as u]))
+   [dag_unify.core :as u]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])))
 
 (defn morph [tree morphology]
   (cond

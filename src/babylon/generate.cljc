@@ -107,9 +107,9 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
-                      (if (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+      (log/info (str "add: " (report tree syntax-tree-fn) " at:" at
+                     (if (u/get-in tree (concat at [:phrasal]))
+                       (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -205,9 +205,8 @@
      (filter #(reflexive-violations % syntax-tree-fn)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
   (cond (= :fail tree)
-        tree
+        :fail
         true
         (let [head? (headness? tree at)
               ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
@@ -215,10 +214,15 @@
               numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
               word (merge (make-word)
                           {:head? head?})]
-          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-          (u/unify! tree
-                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                           (s/create-path-in at word))))))
+          (log/info (str "updating syntax-tree: input:        " (report tree syntax-tree) " at: " at
+                         "; numerically-at: " numerically-at "; serialized: "
+                         (dag_unify.serialization/serialize tree)))
+          (let [retval
+                (u/unify! tree
+                          (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                                 (s/create-path-in at word)))]
+            (log/info (str "updating syntax-tree: afterwards: " (report retval syntax-tree) " at: " at "; serialized: " (dag_unify.serialization/serialize tree)))
+            retval))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
@@ -250,11 +254,16 @@
          (#(do
              (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
              (if (not (empty? %))
-               (log/debug (str "get-lexeme: " 
-                               (cond (= 1 (count %))
-                                     "only one "
-                                     true "first of " (count %) " lexemes ")
-                               "found: '" (syntax-tree (first %)) "'")))
+               (do
+                 (log/debug (str "get-lexeme: " 
+                                 (cond (= 1 (count %))
+                                       "only one "
+                                       true "first of " (count %) " lexemes ")
+                                 "found: '" (syntax-tree (first %)) "'"))
+                 (log/debug (str "  get-lexeme(1): "
+                                 (dag_unify.serialization/serialize (first %))))
+                 (log/debug (str "  get-lexeme(2): "
+                                 (dag_unify.serialization/serialize (first %))))))
              %)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
@@ -686,7 +695,7 @@
     ;; not done yet; keep going.
     (-> tree (add grammar index-fn syntax-tree) first (add-until-done grammar index-fn syntax-tree))))
 
-(defn- add-until
+(defn add-until
   "to the tree _tree_, do (add) _n_ times."
   [tree grammar index-fn syntax-tree n]
   (cond

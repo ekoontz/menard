@@ -2,6 +2,8 @@
 ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
+       :modal false
+       :reflexive ::unspec
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then (let [iobj (atom :top)
@@ -20,6 +22,7 @@
 
  {:rule :ditransitive-reflexivity
   :if {:cat :verb
+       :modal false
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}
   :then (let [obj (atom :top)

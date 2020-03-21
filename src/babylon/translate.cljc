@@ -95,7 +95,7 @@
                                           1)
                  source-expressions
                  (let [spec (nth nl/expressions index)
-                       size @(nth nl/expression-sizes index)]
+                       size ((:size (nth nl/expressions index)))]
                    (->>
                     (cond (and (> size 10)
                                (> generate-this-many 1))

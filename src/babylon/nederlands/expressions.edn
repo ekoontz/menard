@@ -25,8 +25,6 @@
  {:note "noun verb"
   :dotimes 1
   :subcat []
-  :agr {:person :3rd
-        :number :sing}
   :cat :verb
   :phrasal true}
 
@@ -34,7 +32,6 @@
  {:note "det noun | verb"
   :dotimes 1
   :subcat []
-  :agr {:number :sing}
   :phrasal true
   :head {:phrasal false
          :cat :verb}
@@ -164,7 +161,6 @@
  ;; ARGD, p. 37
  {:note "e.g. Jouw families probeeren mijn honden te zien."
   :dotimes 5
-  :agr {:number :sing}
   :phrasal true
   :rule "s"
   :comp {:phrasal true}

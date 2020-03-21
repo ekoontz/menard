@@ -217,16 +217,13 @@
 (declare syntax-tree)
 
 (def expressions
-  (-> "babylon/nederlands/expressions.edn"
-      grammar/read-expressions))
-
-(def expression-sizes
-  (->> expressions
-       (map (fn [expression]
-              (atom (do
-                      (generate expression)
-                      @g/count-adds))))))
-
+  (->> (-> "babylon/nederlands/expressions.edn"
+           grammar/read-expressions)
+       (map (fn [spec]
+              (let [generated-expression (generate spec)]
+                (merge spec
+                       {:example (morph generated-expression)
+                        :size (fn [] @g/count-adds)}))))))
 ;; <functions>
 
 (defn syntax-tree [tree]
@@ -235,8 +232,8 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [u/use-new-serializer? true] ;;  g/stop-generation-at [:head :comp :head :comp]
-    (g/generate spec grammar index-fn syntax-tree)))
+  (binding []) ;;  g/stop-generation-at [:head :comp :head :comp]
+  (g/generate spec grammar index-fn syntax-tree))
 
 (defn generate-seedlike
   [spec seed-size]
@@ -307,151 +304,5 @@
               (take 10)
               (map #(morph % :sentence-punctuation? true))
               (map println))))
-
-
-(defn unify-test []
-  (-> (nth expressions 3)
-      (g/add grammar index-fn syntax-tree)
-      first
-;;      (g/add grammar index-fn syntax-tree)
-;;      first
-;;      (g/add grammar index-fn syntax-tree)
-;;      first
-;;      (g/add grammar index-fn syntax-tree)
-;;      first
-;;      (g/add grammar index-fn syntax-tree)
-;;      first
-      ))
-
-(defn do-2 []
-  (-> (nth expressions 3)
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first))
-
-(defn do-3 []
-  (-> (nth expressions 3)
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first))
-
-(defn add-1 [structure]
-  (-> structure
-      (g/add grammar index-fn syntax-tree)
-      first))
-
-(defn do-4 []
-  (-> (nth expressions 3)
-;;      (unify {:agr {:number :sing}})
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first))
-
-(defn do-5 []
-  (-> (nth expressions 3)
-      (unify {:agr {:number :sing}})
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first
-      (g/add grammar index-fn syntax-tree)
-      first))
-
-(defn resolve-up-to [obj]
-  (if (or (not (u/ref? obj))
-          (and (u/ref? obj)
-               (not (u/ref? @obj))))
-    obj
-    (resolve-up-to @obj)))
-
-(defn get-up-to [structure path]
-  (let [penultimate (u/get-in structure (butlast path))]
-    (str path ": " ((last path) (resolve-up-to penultimate)) " => " (u/get-in structure path))))
-  
-(defn report [structure]
-  (log/info (get-up-to structure [:head :agr]))
-  (log/info (get-up-to structure [:1 :agr]))  
-  (comment (log/info (get-up-to structure [:syntax-tree :2 :agr])))
-  
-  (comment (log/info (get-up-to structure [:head])))
-  (comment (log/info (get-up-to structure [:comp])))
-
-  (comment (log/info (get-up-to structure [:head :subcat :1])))
-
-  (comment (log/info (get-up-to structure [:head :agr])))
-  (comment (log/info (get-up-to structure [:comp :agr])))
-
-;;  (log/info (get-up-to structure [:syntax-tree :1 :agr]))
-;;  (log/info (get-up-to structure [:syntax-tree :2 :agr]))
-;;  (log/info (get-up-to structure [:syntax-tree :1 :2 :agr])))
-  )
-
-(defn old-2 []
-  (binding [u/use-new-serializer? false]
-    (do-2)))
-
-(defn new-2 []
-  (binding [u/use-new-serializer? true]
-    (do-2)))
-
-(defn old-3 []
-  (binding [u/use-new-serializer? false
-            u/log-serializing? true]
-    (->
-     (binding [u/use-new-serializer? true]
-       (do-2))
-     (g/add grammar index-fn syntax-tree)
-     first)))
-
-(defn new-3 []
-  (binding [u/use-new-serializer? true
-            u/log-serializing? false]
-    (-> (do-2)
-        ((fn [tree]
-           (binding [u/use-new-serializer? true
-                     u/log-serializing? true]
-             (g/add tree grammar index-fn syntax-tree))))
-        first)))
-
-(defn old-4 []
-  (binding [u/use-new-serializer? false]
-    (do-4)))
-
-(defn new-4 []
-  (binding [u/use-new-serializer? true]
-    (do-4)))
-
-(defn old-5 []
-  (binding [u/use-new-serializer? false]
-    (do-5)))
-
-(defn new-5 []
-  (binding [u/use-new-serializer? true]
-    (do-5)))
-
-(defn comparing-copies []
-  (println (str "old:"))
-  (report (binding [u/use-new-serializer? false
-                    u/log-serializing? false]
-            (u/copy (do-2))))
-  (println)
-  (println (str "new:"))  
-  (report (binding [u/use-new-serializer? true
-                    u/log-serializing? false]
-            (u/copy (do-2)))))
-
 
 

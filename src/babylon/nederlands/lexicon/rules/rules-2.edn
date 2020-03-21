@@ -61,7 +61,6 @@
 
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb
-       :modal false
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}
   :then [(let [iobj (atom :top)

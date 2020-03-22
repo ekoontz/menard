@@ -26,3 +26,4 @@ compiled/
 *.orig
 *.rej
 compiled.edn
+profiling/*.jstack

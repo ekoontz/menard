@@ -338,24 +338,10 @@
 
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map (fn [rule]
-            (let [debug
-                  (log/info (str "ORIGINAL TREE(OLD): " (count (dag_unify.serialization/serialize tree))))
-                  debug
-                  (log/info (str "ORIGINAL TREE(NEW): " (count (dag_unify.serialization/serialize2 tree))))
-                  old-style-copy
-                  (if u/use-new-serializer?
-                    (binding [u/log-serializing? false
-                              u/use-new-serializer? false]
-                      (u/copy tree)))
-                  new-style-copy
-                  (if u/use-new-serializer?
-                    (binding [u/log-serializing? false
-                              u/use-new-serializer? true]
-                      (u/copy tree)))]
-              (if log-generation? (log/info (str "add-rule: " (report tree syntax-tree) " adding rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant]))))
-              (binding [u/log-serializing? log-generation?]
-                (u/assoc-in! (u/copy tree)
-                             at (u/copy rule))))))
+            (if log-generation? (log/info (str "add-rule: " (report tree syntax-tree) " adding rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant]))))
+            (binding [u/log-serializing? log-generation?]
+              (u/assoc-in! (u/copy tree)
+                           at (u/copy rule)))))
 
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))

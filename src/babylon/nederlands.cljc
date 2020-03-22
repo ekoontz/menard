@@ -235,8 +235,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [u/use-new-serializer? true] ;;  g/stop-generation-at [:head :comp :head :comp]
-    (g/generate spec grammar index-fn syntax-tree)))
+  (g/generate spec grammar index-fn syntax-tree))
 
 (defn generate-seedlike
   [spec seed-size]

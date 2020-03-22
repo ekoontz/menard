@@ -216,14 +216,13 @@
               word (merge (make-word)
                           {:head? head?})]
           (if log-generation?
-            (log/info (str "updating syntax-tree: input:        " (report tree syntax-tree) " at: " at
-                           "; numerically-at: " numerically-at "; serialized: "
-                           (dag_unify.serialization/serialize tree))))
+            (log/debug (str "updating syntax-tree: input:        " (report tree syntax-tree) " at: " at
+                           "; numerically-at: " numerically-at)))
           (let [retval
                 (u/unify! tree
                           (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                                  (s/create-path-in at word)))]
-            (if log-generation? (log/info (str "updating syntax-tree: afterwards: " (report retval syntax-tree) " at: " at "; serialized: " (dag_unify.serialization/serialize tree))))
+            (if log-generation? (log/debug (str "updating syntax-tree: afterwards: " (report retval syntax-tree) " at: " at)))
             retval))))
 
 (defn get-lexemes
@@ -339,7 +338,7 @@
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map (fn [rule]
             (if log-generation? (log/info (str "add-rule: " (report tree syntax-tree) " adding rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant]))))
-            (binding [u/log-serializing? log-generation?]
+            (binding [u/log-serializing? false]
               (u/assoc-in! (u/copy tree)
                            at (u/copy rule)))))
 

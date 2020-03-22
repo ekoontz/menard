@@ -216,23 +216,10 @@
               numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
               word (merge (make-word)
                           {:head? head?})]
-<<<<<<< HEAD
           (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
           (u/unify! tree
                     (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                            (s/create-path-in at word))))))
-=======
-          (if log-generation?
-            (log/info (str "updating syntax-tree: input:        " (report tree syntax-tree) " at: " at
-                           "; numerically-at: " numerically-at "; serialized: "
-                           (dag_unify.serialization/serialize tree))))
-          (let [retval
-                (u/unify! tree
-                          (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                                 (s/create-path-in at word)))]
-            (if log-generation? (log/info (str "updating syntax-tree: afterwards: " (report retval syntax-tree) " at: " at "; serialized: " (dag_unify.serialization/serialize tree))))
-            retval))))
->>>>>>>     more diagnostics to figure out bugs in dag_unify's development branch 'serialize-2.2'
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 

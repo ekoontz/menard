@@ -97,7 +97,7 @@
                  (let [spec (nth nl/expressions index)
                        size ((:size (nth nl/expressions index)))]
                    (->>
-                    (cond (and (> size 10)
+                    (cond (and (> size 20)
                                (> generate-this-many 1))
                           (nl/generate-seedlike spec (int (* size 0.75)))
                           true

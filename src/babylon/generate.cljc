@@ -329,7 +329,7 @@
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map (fn [rule]
             (if log-generation? (log/info (str "add-rule: " (report tree syntax-tree) " adding rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant]))))
-            (binding [u/log-serializing? log-generation?]
+            (binding [u/log-serializing? false]
               (u/assoc-in! (u/copy tree)
                            at (u/copy rule)))))
 

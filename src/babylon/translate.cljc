@@ -81,14 +81,16 @@
 
       println))
 
-(defn demo [ & [index]]
+(defn demo [ & [index this-many]]
   (count
    (->>
     (range 0 (count nl/expressions))
     (filter (fn [each-index]
               (or (nil? index) (= index each-index))))
     (map (fn [index]
-           (let [generate-this-many (cond (:dotimes (nth nl/expressions index))
+           (let [generate-this-many (cond this-many this-many
+
+                                          (:dotimes (nth nl/expressions index))
                                           (:dotimes (nth nl/expressions index))
 
                                           true

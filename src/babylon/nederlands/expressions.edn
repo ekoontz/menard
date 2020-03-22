@@ -172,6 +172,7 @@
          :head {:phrasal false
                 :reflexive false
                 :modal :infinitive}
-         :comp {:comp {:phrasal true}
+         :comp {:rule "vp-np"
+                :comp {:phrasal true}
                 :head {:phrasal true}}}}]
 

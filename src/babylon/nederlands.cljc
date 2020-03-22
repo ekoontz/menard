@@ -382,6 +382,7 @@
     (str path ": " ((last path) (resolve-up-to penultimate)) " => " (u/get-in structure path))))
   
 (defn report [structure]
+  (log/info (str "report: " (g/report structure syntax-tree)))
   (log/info (get-up-to structure [:head :agr]))
   (log/info (get-up-to structure [:1 :agr]))  
   (comment (log/info (get-up-to structure [:syntax-tree :2 :agr])))
@@ -408,13 +409,15 @@
     (do-2)))
 
 (defn old-3 []
-  (binding [u/use-new-serializer? false
-            u/log-serializing? true]
-    (->
-     (binding [u/use-new-serializer? true]
-       (do-2))
-     (g/add grammar index-fn syntax-tree)
-     first)))
+  (binding [u/use-new-serializer? true
+            u/log-serializing? false]
+    (-> (do-2)
+        ((fn [tree]
+           (binding [u/use-new-serializer? false
+                     g/log-generation? false
+                     u/log-serializing? false]
+             (g/add tree grammar index-fn syntax-tree))))
+        first)))
 
 (defn new-3 []
   (binding [u/use-new-serializer? true
@@ -422,7 +425,8 @@
     (-> (do-2)
         ((fn [tree]
            (binding [u/use-new-serializer? true
-                     u/log-serializing? true]
+                     g/log-generation? false
+                     u/log-serializing? false]
              (g/add tree grammar index-fn syntax-tree))))
         first)))
 
@@ -453,5 +457,77 @@
                     u/log-serializing? false]
             (u/copy (do-2)))))
 
+(def original-tree
+  (let [ref1 (atom false)
+        ref2 (atom :verb)
+        ref3 (atom :top)
+        ref4 (atom ref2)
+        ref5 (atom :top)
+        ref6 (atom :present)
+        ref7 (atom ref6)
+        ref8 (atom {:number :sing})
+        ref9 (atom ref8)
+        ref10 (atom :top)
+        ref11 (atom {:tense :present
+                     :aspect :simple
+                     :obj :unspec
+                     :subj ref10
+                     :pred :try})
+        ref12 (atom ref11)
+        ref13 (atom "probeeren")
+        ref14 (atom ref13)
+        ref15 (atom ref13)
+        ref16 (atom :top)
+        ref17 (atom false)
+        ref18 (atom :top)
+        ref19 (atom ref8)
+        ref20 (atom {:agr ref19
+                     :head-derivation ref3
+                     :derivation ref3
+                     :sem ref10})
+        ref21 :derivation-who-cares
+        ref22 (atom {:agr ref8
+                     :aux ref1
+                     :canonical ref13
+                     :cat ref2
+                     :derivation ref21
+                     :exceptions ref16
+                     :infl ref6
+                     :inflected? ref5
+                     :interogative? ref18
+                     :reflexive ref17
+                     :root ref13
+                     :sem ref11
+                     :subcat {:1 {:agr ref19
+                                  :derivation ref3
+                                  :head-derivation ref3}}})
+        ]
+    {:agr ref8
+     :aux ref1
+     :cat ref2
+     :comp ref20
+     :comp-derivation ref3
+     :head ref22
+     :head-derivation ref21
+     :infl ref6
+     :interogative? ref18
+     :reflexive ref17
+     :root ref13
+     :sem ref11
+     :syntax-tree {:2 {:agr ref9
+                       :canonical ref15
+                       :cat ref4
+                       :exceptions ref16
+                       :infl ref7
+                       :inflected? ref5
+                       :root ref14
+                       :sem ref12}}
+     :1 ref20
+     :2 ref22}))
+
+
+
+
+    
 
 

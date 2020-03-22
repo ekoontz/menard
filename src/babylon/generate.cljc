@@ -216,10 +216,23 @@
               numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
               word (merge (make-word)
                           {:head? head?})]
+<<<<<<< HEAD
           (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
           (u/unify! tree
                     (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                            (s/create-path-in at word))))))
+=======
+          (if log-generation?
+            (log/info (str "updating syntax-tree: input:        " (report tree syntax-tree) " at: " at
+                           "; numerically-at: " numerically-at "; serialized: "
+                           (dag_unify.serialization/serialize tree))))
+          (let [retval
+                (u/unify! tree
+                          (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                                 (s/create-path-in at word)))]
+            (if log-generation? (log/info (str "updating syntax-tree: afterwards: " (report retval syntax-tree) " at: " at "; serialized: " (dag_unify.serialization/serialize tree))))
+            retval))))
+>>>>>>>     more diagnostics to figure out bugs in dag_unify's development branch 'serialize-2.2'
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
@@ -314,8 +327,8 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
-                   (report tree syntax-tree) " at: " at " (numerically): " at-num))
+    (if log-generation? (log/info (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
+                                       (report tree syntax-tree) " at: " at " (numerically): " at-num)))
     (->>
      ;; start with the whole grammar:
      grammar
@@ -328,10 +341,24 @@
 
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map (fn [rule]
-            (do
-              (log/debug (str "adding a rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant])))
-              (u/assoc-in! (u/copy tree)
-                           at (u/copy rule)))))
+            (let [debug
+                  (log/info (str "ORIGINAL TREE(OLD): " (count (dag_unify.serialization/serialize tree))))
+                  debug
+                  (log/info (str "ORIGINAL TREE(NEW): " (count (dag_unify.serialization/serialize2 tree))))
+                  old-style-copy
+                  (if u/use-new-serializer?
+                    (binding [u/log-serializing? false
+                              u/use-new-serializer? false]
+                      (u/copy tree)))
+                  new-style-copy
+                  (if u/use-new-serializer?
+                    (binding [u/log-serializing? false
+                              u/use-new-serializer? true]
+                      (u/copy tree)))]
+              (if log-generation? (log/info (str "add-rule: " (report tree syntax-tree) " adding rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant]))))
+              (binding [u/log-serializing? log-generation?]
+                (u/assoc-in! (u/copy tree)
+                             at (u/copy rule))))))
 
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))

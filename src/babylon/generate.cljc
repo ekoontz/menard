@@ -202,7 +202,7 @@
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
                                " at: " at "; looking for: "
-                               (u/strip-refs (u/get-in spec []))))
+                               (u/get-in spec [])))
 
                true both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))

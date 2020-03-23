@@ -167,5 +167,9 @@
                 :modal :infinitive}
          :comp {:rule "vp-np"
                 :comp {:phrasal true}
-                :head {:phrasal true}}}}]
-
+                :head {:phrasal true}}}
+  :target {:rule "s"
+           :comp {:rule "np"}
+           :head {:rule "vp"
+                  :comp {:rule "vp-inf"
+                         :comp {:rule "vp"}}}}}]

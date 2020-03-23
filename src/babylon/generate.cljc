@@ -109,10 +109,10 @@
         spec (u/get-in tree at)]
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
-    (if (and log-generation? (not (= tree :fail)))
-      (log/info (str "add: " (report tree syntax-tree-fn) " at: " at
-                     (if (u/get-in tree (concat at [:phrasal]))
-                       (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+    (if (not (= tree :fail))
+      (log/debug (str "add: " (report tree syntax-tree-fn) " at: " at
+                      (if (u/get-in tree (concat at [:phrasal]))
+                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))

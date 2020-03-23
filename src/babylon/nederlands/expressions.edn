@@ -36,8 +36,7 @@
   :head {:phrasal false
          :cat :verb}
   :comp {:phrasal true
-         :cat :noun}
-  :target {:head {:phrasal false}}}
+         :cat :noun}}
 
  ;; 4
  {:note "det | adj noun"
@@ -113,8 +112,6 @@
  {:note "Sentence with object"
   :dotimes 5
   :reflexive false
-  :target {:head {:comp {:phrasal false}
-                  :rule "vp"}}
   :cat :verb
   :subcat []
   :sem {:pred :see

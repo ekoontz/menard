@@ -160,14 +160,27 @@
   :dotimes 5
   :phrasal true
   :rule "s"
-  :comp {:phrasal true}
-  :head {:phrasal true
+  :comp {:phrasal true
+         :head {:phrasal true
+                :comp {:phrasal true}
+                :head {:phrasal true}}}
+  :head {:rule "vp"
+         :phrasal true
          :head {:phrasal false
                 :reflexive false
                 :modal :infinitive}
          :comp {:rule "vp-np"
-                :comp {:phrasal true}
-                :head {:phrasal true}}}
+                :comp {:phrasal true
+                       :rule "np"
+                       :head {:phrasal true
+
+                              ;; setting this to 'true' causes a stack overflow
+                              ;; during dag_unify's serialization
+                              :comp {:phrasal false}}}
+
+                :head {:rule "vp-inf"
+                       :comp {:modal false}
+                       :phrasal true}}}
   :target {:rule "s"
            :comp {:rule "np"}
            :head {:rule "vp"

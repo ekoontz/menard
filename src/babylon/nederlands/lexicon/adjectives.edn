@@ -12,7 +12,7 @@
  "slim" [{:cat :adjective :sem {:pred :smart}}]
  "sterk" [{:cat :adjective :sem {:pred :strong}}]
  "stom" [{:cat :adjective :sem {:pred :stupid}}]
- "telurgesteld" [{:cat :adjective :sem {:pred :disappointed}}]
+ "teleurgesteld" [{:cat :adjective :sem {:pred :disappointed}}]
  "verdrietig" [{:cat :adjective :sem {:pred :sad}}]
  "verlegen" [{:cat :adjective :sem {:pred :shy}}]
  "verward" [{:cat :adjective :sem {:pred :confused}}]

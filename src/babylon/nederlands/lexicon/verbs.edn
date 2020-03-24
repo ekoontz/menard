@@ -17,10 +17,20 @@
      :cat :verb
      :sem {:pred :read}}])
 
- "probeeren"
- [{:cat :verb
-   :modal :infinitive
-   :sem {:pred :try}}]
+ "proberen"
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "probeer"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "probeert"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "probeert"}]]
+   [{:cat :verb
+     :modal :infinitive
+     :sem {:pred :try}
+     :exceptions exceptions}])
  
  "slapen"
  (let [exceptions [{:infl :present

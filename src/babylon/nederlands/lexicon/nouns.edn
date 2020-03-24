@@ -104,7 +104,10 @@
                   :agr {:gender :common}}]
  "oog" [{:cat :noun
          :sem {:pred :eye}
-         :agr {:gender :neuter}}]
+         :agr {:gender :neuter}
+         :exceptions [{:agr {:number :plur}
+                       :surface "ogen"}]}]
+
  "oplossing" [{:cat :noun
                :sem {:pred :solution}
                :agr {:gender :common}}]

@@ -38,7 +38,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 65440 on host 127.0.0.1 - nrepl://127.0.0.1:65440
+nREPL server started on port 53682 on host 127.0.0.1 - nrepl://127.0.0.1:53682
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -52,28 +52,28 @@ OpenJDK 64-Bit Server VM 12.0.1+12
 user=> (do (load "babylon/translate") (babylon.translate/demo))
 # intensifier adjective; 1 example:
 ---
-Echt telurgesteld.|
-                  |Really disappointed.
+Ongewoon ernstig.|
+                 |Unusually serious.
 
 # det noun; 1 example:
 ---
-Haar zaken.|
-           |Her cases.
+Deze hond.|
+          |This dog.
 
 # noun verb; 1 example:
 ---
-Saskia probeert.|
-                |Saskia tries.
+Ik probeer.|
+           |I try.
 
 # det noun | verb; 1 example:
 ---
-Haar meisje werkt.|
-                  |Her girl works.
+Mijn vrouwen veroorzaaken.|
+                          |My women cause.
 
 # det | adj noun; 1 example:
 ---
-De sterke jassen.|
-                 |The strong coats.
+Zijn verlegene kat.|
+                   |Its shy cat.
 
 # 'een huis'; 1 example:
 ---
@@ -92,8 +92,8 @@ Een erg klein druif.|
 
 # det [intensifier adj | adj noun]; 1 example:
 ---
-Jouw behoorlijk slim sterke fietsen.|
-                                    |Your quite smart strong bikes.
+Die heel zenuwachtig verwarrende feitten.|
+                                         |Those very nervous confusing facts.
 
 # 'De heel sterk slimme vrouen zingen'.; 1 example:
 ---
@@ -102,94 +102,94 @@ De erg sterk slimme vrouwen zingen.|
 
 # [det [intensifier adj | adj noun]] verb; 5 examples:
 ---
-Die echt vies slimme bedrijven slapen.|
-                                      |Those really dirty smart businesses sleep.
-Die echt zelfverzekerd zelfverzekerde dag slaapt.|
-                                                 |That really confident confident day sleeps.
-Onze ongewoon nieuwsgierig ernstige ontwikkelingen slapen.|
-                                                          |Our unusually curious serious developments sleep.
-Hun echt verward zenuwachtige druif werkt.|
-                                          |Their really confused nervous grape works.
-Het echt waar bedroefde kind leest.|
-                                   |The really true sad child reads.
+Deze erg groot verdrietige kittens veroorzaaken.|
+                                                |These very big sad kittens cause.
+Zijn ongewoon opgevonden stomme plaats zingt.|
+                                             |Its unusually excited stupid lot sings.
+Uw ongewoon sterk slimme haren veroorzaaken.|
+                                            |Your unusually strong smart hairs cause.
+Zijn ongewoon zenuwachtig verwarrende plaats probeert.|
+                                                      |Its unusually nervous confusing lot tries.
+Uw ongewoon sterk nieuwsgierige banen proberen.|
+                                               |Your unusually strong curious jobs try.
 
 # [det | adj noun] verb; 5 examples:
 ---
-Die vieze meisjes veroorzaaken.|
-                               |Those dirty girls cause.
-Haar telurgestelde benen lezen.|
-                               |Her disappointed legs read.
-Dat stomme bedrijf zingt.|
-                         |That stupid business sings.
-Onze ernstige hand ziet.|
-                        |Our serious hand sees.
-Zijn ongeruste geld werkt.|
-                          |His anxious money works.
+Jouw grote boeken zien.|
+                       |Your big books see.
+Haar kleine beschavingen veroorzaaken.|
+                                      |Her small civilizations cause.
+Ons bedroefde huis zingt.|
+                         |Our sad house sings.
+Jouw sterke baby werkt.|
+                       |Your strong baby works.
+Een kleine moeder werkt.|
+                        |A small mother works.
 
 # Sentence with object; 5 examples:
 ---
-Guus ziet mij.|
-              |Guus sees me.
-Zij ziet hem.|
-             |She sees him.
-Ik zie u.|
-         |I see you.
-Hij ziet die.|
-             |He sees them.
-Jij ziet haar.|
-              |You see her.
+U ziet die.|
+           |You see them.
+Hij ziet mij.|
+             |He sees me.
+Zij zien haar.|
+              |They see her.
+Jij ziet hen.|
+             |You see them.
+Zij zien u.|
+           |They see you.
 
 # Sentence with reflexive object; 5 examples:
 ---
-Ik zie me.|
-          |I see myself.
-Ik zie me.|
-          |I see myself.
 U ziet u.|
          |You see yourselves.
 Het ziet zich.|
               |It sees itself.
-Jij ziet je.|
-            |You see yourself.
+Zij zien zich.|
+              |They see themselves.
+Het ziet zich.|
+              |It sees itself.
+Ik zie me.|
+          |I see myself.
 
 # [s np [vp v np]]; 5 examples:
 ---
-Jouw ontwikkeling leest die baan.|
-                                 |Your development reads that job.
-Haar handen zien uw thuis.|
-                          |Her hands see your home.
-Zijn dagen lezen de zaken.|
-                          |His days read the cases.
-Haar vrouwen veroorzaaken zijn benen.|
-                                     |Her women cause his legs.
-De benen lezen onze plaatsen.|
-                             |The legs read our lots.
+Uw gebeid ziet hun maand.|
+                         |Your area sees their month.
+De dames zien de dagen.|
+                       |The ladies see the days.
+Zijn jas veroorzaakt het feit.|
+                              |Its coat causes the fact.
+De overheden veroorzaaken hun familie.|
+                                      |The governments cause their family.
+Hun beschaving veroorzaakt zijn meisjes.|
+                                        |Their civilization causes his girls.
 
 # [s n [vp v [vp:inf to v]]]; 5 examples:
 ---
-Zij probeert te zingen.|
-                       |She tries to sing.
-Zij probeert te komen.|
-                      |She tries to come.
-Jij probeert te lezen.|
-                      |You try to read.
-Hij probeert te lezen.|
-                      |He tries to read.
-Ik probeer te veroorzaaken.|
-                           |I try to cause.
+Zij proberen te proberen.|
+                         |They try to try.
+Zij proberen te zingen.|
+                       |They try to sing.
+Zij proberen te veroorzaaken.|
+                             |They try to cause.
+Hij probeert te slapen.|
+                       |He tries to sleep.
+Saskia probeert te zien.|
+                        |Saskia tries to see.
 
 # e.g. Jouw families probeeren mijn honden te zien.; 5 examples:
 ---
-Die families probeeren uw baby's te zien.|
-                                         |Those families try to see your babies.
-Zijn handen probeeren hun thuis te zien.|
-                                        |His hands try to see their home.
-Dit huis probeert een jas te veroorzaaken.|
-                                          |This house tries to cause a coat.
-Die baan probeert hun dagen te lezen.|
-                                     |That job tries to read their days.
-Hun handen probeeren die lezen te probeeren.|
-                                            |Their hands try to try to read them.
+Een behoorlijk lief ongerust meisje probeert mijn teleurgestelde feitten te zien.|
+                                                                                 |A quite nice anxious girl tries to see my disappointed facts.
+Onze eigenlijk ongerust slimme zaken proberen hun nieuwsgierige been te lezen.|
+                                                                              |Our actually anxious smart cases try to read their curious leg.
+De erg verwarrend grote jassen proberen haar stomme familie te lezen.|
+                                                                     |The very confusing big coats try to read her stupid family.
+Zijn eigenlijk zelfverzekerd verdrietige kittens proberen die stomme man te veroorzaaken.|
+                                                                                         |Its actually confident sad kittens try to cause that stupid man.
+Zijn echt nieuwsgierig zelfverzekerde plaatsen proberen dit enge leven te lezen.|
+                                                                                |Its really curious confident lots try to read this scary life.
 
 17
 user=>

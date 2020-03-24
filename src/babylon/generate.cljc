@@ -181,13 +181,14 @@
                     (empty? result)
                     diagnostics?)
              (let [message
-                   (str "no lexemes match for tree: " (syntax-tree-fn tree)
-                        " at: " (frontier tree)
-                        "; lexeme spec: " (u/strip-refs (u/get-in tree (frontier tree))))]
+                   (fn []
+                     (str "no lexemes match for tree: " (syntax-tree-fn tree)
+                          " at: " (frontier tree)
+                          "; lexeme spec: " (if false (u/strip-refs (u/get-in tree (frontier tree))))))]
                (when die-on-no-matching-lexemes?
-                 (log/error message)
-                 (exception message))
-               (log/warn message)))
+                 (log/error (message))
+                 (exception (message)))
+               (log/warn (message))))
            result))
 
        true

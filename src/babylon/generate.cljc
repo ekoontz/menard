@@ -228,37 +228,33 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
-  ;; this initial copying and strip-refs of _spec_ improves performance of (unify) below; since _spec_ will
-  ;; now: have no reentrances, and have its serialized form stored within it, so the u/copy of it that is
-  ;; done as part of the unify below will be O(1).
-  (let [spec (u/copy (u/strip-refs spec))]
-    (->> (lexicon-index-fn spec)
-         (#(do (log/debug (str "get-lexeme: index-fn returned this many:" (count %)))
-               %))
-         (#(do (log/debug (str "get-lexeme: pre-unify: "
-                               (vec (map (fn [matching-lexeme]
-                                           (u/fail-path matching-lexeme spec))
-                                         %))))
-               %))
-         (map #(unify % spec))
-         (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
-               %))
-         (filter #(or (not (= :fail %))
-                      (do
-                        (swap! count-lexeme-fails inc)
-                        false)))
-         (filter #(or (nil? lexical-filter) (lexical-filter %)))
-         (#(do (log/debug (str "get-lexeme: post-lexical-filter returned this many:" (count %)))
-               %))
-         (#(do
-             (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
-             (if (not (empty? %))
-               (log/debug (str "get-lexeme: " 
-                               (cond (= 1 (count %))
-                                     "only one "
-                                     true "first of " (count %) " lexemes ")
-                               "found: '" (syntax-tree (first %)) "'")))
-             %)))))
+  (->> (lexicon-index-fn spec)
+       (#(do (log/debug (str "get-lexeme: index-fn returned this many:" (count %)))
+             %))
+       (#(do (log/debug (str "get-lexeme: pre-unify: "
+                             (vec (map (fn [matching-lexeme]
+                                         (u/fail-path matching-lexeme spec))
+                                       %))))
+             %))
+       (map #(unify % spec))
+       (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
+             %))
+       (filter #(or (not (= :fail %))
+                    (do
+                      (swap! count-lexeme-fails inc)
+                      false)))
+       (filter #(or (nil? lexical-filter) (lexical-filter %)))
+       (#(do (log/debug (str "get-lexeme: post-lexical-filter returned this many:" (count %)))
+             %))
+       (#(do
+           (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
+           (if (not (empty? %))
+             (log/debug (str "get-lexeme: " 
+                             (cond (= 1 (count %))
+                                   "only one "
+                                   true "first of " (count %) " lexemes ")
+                             "found: '" (syntax-tree (first %)) "'")))
+           %))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))

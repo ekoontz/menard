@@ -101,7 +101,7 @@
                    (->>
                     (cond (and (> size 20)
                                (> generate-this-many 1))
-                          (nl/generate-seedlike spec (int (* size 0.75)))
+                          (nl/generate-seedlike spec (int (* size 0.3)))
                           true
                           (repeatedly #(nl/generate spec)))
                     (take generate-this-many)))]

@@ -3,6 +3,21 @@
    :sem {:pred :come}
    :subcat {:2 []}}]
 
+ "kunnen"
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "kan"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "kunt"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "kan"}]]
+   [{:exceptions exceptions
+     :cat :verb
+     :modal :base
+     :sem {:pred :be-able-to}}])
+
  "lezen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

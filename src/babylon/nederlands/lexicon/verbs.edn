@@ -3,7 +3,7 @@
    :sem {:pred :come}
    :subcat {:2 []}}]
 
- "kunnen"
+ "kunnen" ;; F. 40.1
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
                     :surface "kan"}

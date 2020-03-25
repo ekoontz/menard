@@ -7,12 +7,26 @@
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
                     :surface "kan"}
+
                    {:infl :present
+                    :subj {:ref {:context :informal}}
                     :agr {:person :2nd :number :sing}
                     :surface "kunt"}
+
                    {:infl :present
+                    :subj {:ref {:context :informal}}
+                    :agr {:person :2nd :number :sing}
+                    :surface "kan"}
+
+                   {:infl :present
+                    :subj {:ref {:context :polite}}
+                    :agr {:person :2nd :number :sing}
+                    :surface "kunt"}
+                   
+                    {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "kan"}]]
+
    [{:exceptions exceptions
      :cat :verb
      :modal :base

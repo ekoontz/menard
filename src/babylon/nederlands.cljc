@@ -235,6 +235,12 @@
   (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
     (g/generate spec grammar index-fn syntax-tree)))
 
+(defn generate-all
+  "generate all expressions that satisfy _spec_."
+  [spec]
+  (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
+    (g/generate-all [spec] grammar index-fn syntax-tree)))
+
 (defn generate-seedlike
   [spec seed-size]
   (g/generate-seedlike spec seed-size grammar index-fn syntax-tree))

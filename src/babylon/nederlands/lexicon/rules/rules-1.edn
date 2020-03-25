@@ -92,14 +92,12 @@
           [;; "I can"
            {:derivation {:1 {:modal-base {:marker 1}}}
             :sem {:obj :unspec}
-            :infl :base
             :subcat {:2 []}} ;; "can"
 
            ;;  "can <vp[base,nonmodal]>" non-reflexive
            {:derivation {:1 {:modal-base {:marker 2}}}
             :sem {:subj subj
                   :obj obj}
-            :infl :base
             :reflexive false
             :subcat {:2 {:aux false
                          :infl :base
@@ -114,7 +112,6 @@
             :agr agr
             :sem {:subj subj
                   :obj obj}
-            :infl :base
             :reflexive true
             :subcat {:1 {:agr agr}
                      :2 {:aux false
@@ -130,7 +127,6 @@
            {:derivation {:1 {:modal-base {:marker 2}}}
             :sem {:subj subj
                   :obj obj}
-            :infl :base
             :reflexive false
             :subcat {:2 {:aux false
                          :infl :base
@@ -145,7 +141,6 @@
             :agr agr
             :sem {:subj subj
                   :obj obj}
-            :infl :base
             :reflexive true
             :subcat {:1 {:agr agr}
                      :2 {:aux false

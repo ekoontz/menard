@@ -147,12 +147,12 @@
   :rule "s"
   :reflexive false
   :head {:rule "vp"
+         :head {:modal :infinitive}
          :comp {:rule "vp-inf"
                 :cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
-  :sem {:pred :try
-        :obj {:top :top}}}
+  :sem {:obj {:top :top}}}
 
  ;; 16
  ;; ARGD, p. 37

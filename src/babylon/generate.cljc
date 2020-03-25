@@ -27,7 +27,7 @@
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
-;; TODO: allow-folding?=false doesn't work reliably:
+;; TODO: generation with allow-folding?=false doesn't work reliably:
 ;; either fix or might be time to not support allow-folding?=false anymore.
 (def allow-folding? true)
 (def allow-truncation? true)

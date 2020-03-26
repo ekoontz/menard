@@ -5,7 +5,8 @@
    [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
    [dag_unify.core :as u :refer [unify]]
-   [dag_unify.serialization :as s]))
+   [dag_unify.serialization :as s]
+   [dag_unify.dissoc :as d]))
 
 (declare add)
 (declare add-lexeme)
@@ -31,7 +32,6 @@
 ;; either fix or might be time to not support allow-folding?=false anymore.
 (def allow-folding? true)
 (def allow-truncation? true)
-(def ^:dynamic generate-only-one? false)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -177,26 +177,10 @@
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
                                " at: " at "; looking for: "
-                               (s/serialize spec)))
+                               (vec (s/serialize spec))))
 
                true both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))
-
-(defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
-  (cond (= :fail tree)
-        tree
-        true
-        (let [head? (headness? tree at)
-              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
-              ;; if folding occurs.
-              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-              word (merge (make-word)
-                          {:head? head?})]
-          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-          (u/unify! tree
-                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                           (s/create-path-in at word))))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
@@ -218,18 +202,9 @@
                     (do
                       (swap! count-lexeme-fails inc)
                       false)))
-       (filter #(or (nil? lexical-filter) (lexical-filter %)))
-       (#(do (log/debug (str "get-lexeme: post-lexical-filter returned this many:" (count %)))
-             %))
-       (#(do
-           (log/debug (str "get-lexeme: found this many lexemes:" (count %)))
-           (if (not (empty? %))
-             (log/debug (str "get-lexeme: " 
-                             (cond (= 1 (count %))
-                                   "only one "
-                                   true "first of " (count %) " lexemes ")
-                             "found: '" (syntax-tree (first %)) "'")))
-           %))))
+       (filter #(or (nil? lexical-filter) (lexical-filter %)))))
+
+(declare update-syntax-tree)
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
@@ -238,15 +213,13 @@
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
-                    (summary-fn spec) "; generate-only-one? " generate-only-one?
-                    "; phrasal: " (u/get-in spec [:phrasal])))
+                    (summary-fn spec) "; phrasal: " (u/get-in spec [:phrasal])))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
            ;; need this to prevent eagerly generating a tree for every matching lexeme:
-           ((fn [x]
-              (take (count x) x)))
+           (#(take (count %) %))
 
            (map (fn [candidate-lexeme]
                   (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
@@ -309,6 +282,22 @@
                                       :rule
                                       (or rule-name
                                           (u/get-in % (concat at [:rule])))})))))))
+
+(defn update-syntax-tree [tree at syntax-tree]
+  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
+  (cond (= :fail tree)
+        tree
+        true
+        (let [head? (headness? tree at)
+              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
+              ;; if folding occurs.
+              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
+              word (merge (make-word)
+                          {:head? head?})]
+          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
+          (u/unify! tree
+                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                           (s/create-path-in at word))))))
 
 (defn make-word []
   {:agr (atom :top)
@@ -565,6 +554,7 @@
         (remove-trailing-comps (butlast at))
         true at))
 
+;; TODO: consider using dag_unify.dissoc/dissoc-in.
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
 (defn dissoc-in
   "Dissociate a value in a nested associative structure, identified by a sequence

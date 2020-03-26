@@ -300,7 +300,7 @@
                     false)))
      (map
       #(u/unify! %
-                 (s/create-path-in (concat [:syntax-tree] at-num)
+                 (assoc-in {} (concat [:syntax-tree] at-num)
                                    (let [one-is-head? (headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
                                       :1 {:head? one-is-head?}

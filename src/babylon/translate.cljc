@@ -50,8 +50,7 @@
 
 (defn en-generate [spec allow-backtracking?]
   (binding [g/allow-backtracking? allow-backtracking?
-            g/die-on-no-matching-lexemes? false
-            g/generate-only-one? false]
+            g/die-on-no-matching-lexemes? false]
     (en/generate spec)))
 
 (defn translate [source-expression]

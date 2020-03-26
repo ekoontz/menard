@@ -185,4 +185,16 @@
            :comp {:rule "np"}
            :head {:rule "vp"
                   :comp {:rule "vp-inf"
-                         :comp {:rule "vp"}}}}}]
+                         :comp {:rule "vp"}}}}}
+
+ ;; 17
+ {:rule "s"
+  :head {:rule "vp"
+         :head {:phrasal false
+                :canonical "kunnen"}
+         :comp {:phrasal false
+                :canonical "slapen"}}
+  :comp {:phrasal false
+         :canonical "jullie"}}]
+
+

@@ -31,7 +31,7 @@
 ;; either fix or might be time to not support allow-folding?=false anymore.
 (def allow-folding? true)
 (def allow-truncation? true)
-(def ^:dynamic generate-only-one? true)
+(def ^:dynamic generate-only-one? false)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -163,33 +163,7 @@
                         (u/get-in tree (concat at [:canonical]))))))
        (do
          (log/debug (str "add: condition 3: only adding lexemes at: " at))
-         (let [result (add-lexeme tree lexicon-index-fn syntax-tree-fn)
-               canonical-form (u/get-in tree (concat (frontier tree) [:canonical]))
-               matching-canonical-forms (if (string? canonical-form)
-                                          (get-lexemes {:canonical canonical-form
-                                                        :cat (u/get-in tree (concat (frontier tree) [:cat]) :top)}
-                                                       lexicon-index-fn
-                                                       syntax-tree-fn))]
-           (log/debug (str "add: added lexeme; result: " (vec (map syntax-tree-fn result))))
-           (if (and (empty? result) (string? canonical-form))
-             (vec (map
-                   (fn [matching-lexeme]
-                     (log/debug (str " canonically matching lexeme for: " canonical-form ", but "
-                                    (u/fail-path matching-lexeme (u/get-in tree (frontier tree))))))
-                   matching-canonical-forms)))
-           (if (and (= false (u/get-in tree (concat at [:phrasal])))
-                    (empty? result)
-                    diagnostics?)
-             (let [message
-                   (fn []
-                     (str "no lexemes match for tree: " (syntax-tree-fn tree)
-                          " at: " (frontier tree)
-                          "; lexeme spec: " (if false (u/strip-refs (u/get-in tree (frontier tree))))))]
-               (when die-on-no-matching-lexemes?
-                 (log/error (message))
-                 (exception (message)))
-               (log/warn (message))))
-           result))
+         (add-lexeme tree lexicon-index-fn syntax-tree-fn))
 
        true
        (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
@@ -270,17 +244,10 @@
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
-           ((fn [lexemes]
-              (if (empty? lexemes)
-                ;; TODO: try to eliminate the occurance of these occurances: in order to
-                ;; investigate this throw an exception rather than log/debug'ing them.
-                (log/debug (str "add-lexeme: found no lexemes with spec: " (summary-fn spec))))
-              lexemes))
-           
-           ((fn [lexemes]
-              (cond
-                generate-only-one? (take 1 lexemes)
-                true lexemes)))
+           ;; need this to prevent eagerly generating a tree for every matching lexeme:
+           ((fn [x]
+              (take (count x) x)))
+
            (map (fn [candidate-lexeme]
                   (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
                                   " with derivation: " (u/get-in candidate-lexeme [:derivation])
@@ -297,13 +264,7 @@
                       (#(if allow-truncation?
                           (truncate-at % at syntax-tree)
                           %))
-                      (foldup at syntax-tree)
-                      (#(do
-                          (if (= :fail %)
-                            (log/warn (str "failed to add '" (u/get-in candidate-lexeme [:canonical]) "'"))
-                            (log/debug (str "successfully added lexeme: '" (u/get-in candidate-lexeme [:canonical]) "': " (syntax-tree %))))
-                          (log/debug (str "finally returning: " (syntax-tree %)))
-                          %)))))))))
+                      (foldup at syntax-tree))))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
   (let [at (frontier tree)

@@ -172,12 +172,7 @@
          :comp {:rule "vp-np"
                 :comp {:phrasal true
                        :rule "np"
-                       :head {:phrasal true
-
-                              ;; setting this to 'true' causes a stack overflow
-                              ;; during dag_unify's serialization
-                              :comp {:phrasal false}}}
-
+                       :head {:rule "nbar"}}
                 :head {:rule "vp-inf"
                        :comp {:modal false}
                        :phrasal true}}}

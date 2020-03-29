@@ -218,12 +218,8 @@
 
 (def expressions
   (->> (-> "babylon/nederlands/expressions.edn"
-           grammar/read-expressions)
-       (map (fn [spec]
-              (let [generated-expression (generate spec)]
-                (merge spec
-                       {:example (morph generated-expression)
-                        :size (fn [] @g/count-adds)}))))))
+           grammar/read-expressions)))
+
 ;; <functions>
 
 (defn syntax-tree [tree]
@@ -258,34 +254,6 @@
   (binding [l/lexicon lexicon
             l/morphology morphology]
     (l/matching-lexemes surface)))
-
-#(:clj
-  (defn demo []
-    (count
-     (->>
-      (range 0 (count expressions))
-      (map (fn [index]
-             (let [generated-expressions
-                   (->> (repeatedly (fn [] (generate (nth expressions index))))
-                        (take 20)
-                        (filter (fn [generated] (not (nil? generated)))))]
-               ;; for each expression:
-               ;; generate it, and print the surface form
-               ;; parse the surface form and return the first parse tree.
-               (count
-                (->> generated-expressions
-                     (map (fn [generated-expression]
-                            (-> generated-expression
-                                (morph :sentence-punctuation? true)
-                                println)
-                            (if false
-                              (-> generated-expression
-                                  morph
-                                  parse
-                                  first
-                                  syntax-tree
-                                  println))
-                            (if false (println)))))))))))))
 
 (defn demo-10 [index]
   (->>

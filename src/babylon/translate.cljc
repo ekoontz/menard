@@ -95,16 +95,10 @@
                                           true
                                           1)
                  source-expressions
-                 (let [spec (nth nl/expressions index)
-                       size ((:size (nth nl/expressions index)))]
+                 (let [spec (nth nl/expressions index)]
                    (->>
-                    (cond (and (> size 20)
-                               (> generate-this-many 1))
-                          (nl/generate-seedlike spec (int (* size 0.3)))
-                          true
-                          (repeatedly #(nl/generate spec)))
+                    (repeatedly #(nl/generate spec))
                     (take generate-this-many)))]
-
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.

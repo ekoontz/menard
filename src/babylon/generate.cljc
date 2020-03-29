@@ -111,8 +111,8 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
-                      (if (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+                     (if (u/get-in tree (concat at [:phrasal]))
+                       (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
@@ -237,7 +237,9 @@
                       (#(if allow-truncation?
                           (truncate-at % at syntax-tree)
                           %))
-                      (foldup at syntax-tree))))))))
+                      (foldup at syntax-tree))))
+
+           (remove #(= :fail %))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
   (let [at (frontier tree)
@@ -281,7 +283,9 @@
                                       :variant (u/get-in % [:variant])
                                       :rule
                                       (or rule-name
-                                          (u/get-in % (concat at [:rule])))})))))))
+                                          (u/get-in % (concat at [:rule])))}))))
+
+     (remove #(= % :fail)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))

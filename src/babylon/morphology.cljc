@@ -11,7 +11,7 @@
 the morphology is a set of rules, each of which looks like:"
   [structure morphology]
   (log/debug (str "morph-leaf:" (u/strip-refs structure)))
-  (let [structure (u/strip-refs structure)
+  (let [structure structure
         canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?])
         matching-rules

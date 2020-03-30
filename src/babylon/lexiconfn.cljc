@@ -184,10 +184,11 @@
   [canonical lexeme]
   (map (fn [exception]
          (let [u-result
-               (unify (d/dissoc-in lexeme [:exceptions])
-                      exception
-                      {:exception true
-                       :canonical canonical})
+               (reduce unify
+                       [(d/dissoc-in lexeme [:exceptions])
+                        exception
+                        {:exception true
+                         :canonical canonical}])
                result
                (if (not (= :fail u-result))
                  {(:surface exception)

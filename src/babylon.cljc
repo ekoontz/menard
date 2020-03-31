@@ -4,7 +4,8 @@
             [babylon.translate :as translate]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]))
+            [dag_unify.diagnostics :refer [pprint]]
+            [dag_unify.core :as u :refer [unify]]))
 
 (defn demo []
   (translate/demo))

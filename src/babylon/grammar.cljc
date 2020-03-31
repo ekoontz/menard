@@ -171,7 +171,7 @@
 
 #?(:clj
    (defn write-compiled-grammar [grammar write-to-file]
-     (spit write-to-file (vec (map serialize grammar)))))
+     (spit write-to-file (vec (->> grammar (map serialize) (map vec))))))
 
 (defmacro read-compiled-grammar [filename]
   `~(-> filename

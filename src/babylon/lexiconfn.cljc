@@ -235,7 +235,8 @@
                     (map #(let [serialized (serialize %)]
                             (if (= serialized :dag_unify.serialization/no-sharing)
                               [[[] (dissoc % :dag_unify.serialization/serialized)]]
-                              serialized))))))
+                              serialized)))
+                    (map vec))))
         (vals the-map))))
 
 #?(:clj

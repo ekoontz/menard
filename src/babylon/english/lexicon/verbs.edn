@@ -108,6 +108,7 @@
 
  "can" [{:modal :base
          :cat :verb
+         :infl :present
          :inflected? true
          :sem {:pred :be-able-to}}]
 

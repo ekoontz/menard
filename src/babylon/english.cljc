@@ -285,16 +285,6 @@
          "?"
          ".")))
 
-(defn lookup
-  "find lexemes that satisfy _spec_."
-  [spec]
-  (let [spec (let [with-subcat-empty
-                   (unify spec {:subcat []})]
-               (if (= :fail with-subcat-empty)
-                 spec
-                 with-subcat-empty))]
-    (g/get-lexemes spec)))
-
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
@@ -333,10 +323,11 @@
   (count
    (->>
     (range 0 (count expressions))
-    (pmap (fn [index]
-            (let [generated-expression (first (->> (take 3 (repeatedly #(generate (nth expressions index))))
-                                                   (filter #(not (nil? %)))))]
-              (println (morph generated-expression
-                              :sentence-punctuation? true))
-              (println (syntax-tree generated-expression))
-              (println)))))))
+    (map (fn [index]
+           (let [generated-expression (first (->> (take 3 (repeatedly #(generate (nth expressions index))))
+                                                  (filter #(not (nil? %)))))]
+             (println (morph generated-expression
+                             :sentence-punctuation? true))
+             (println (syntax-tree generated-expression))
+             (println)))))))
+

@@ -187,9 +187,5 @@
   :head {:rule "vp"
          :head {:phrasal false
                 :canonical "kunnen"}
-         :comp {:phrasal false
-                :canonical "slapen"}}
-  :comp {:phrasal false
-         :canonical "jullie"}}]
-
-
+         :comp {:phrasal false}}
+  :comp {:phrasal false}}]

@@ -72,7 +72,7 @@
       nl-to-en-spec
 
       ;; 2.b. generate from this spec:
-      (#(en-generate % false))
+      (#(en-generate % true))
 
 
       ;; 2.c. print the surface form of the target expression:

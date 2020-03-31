@@ -33,7 +33,7 @@
 ;; either fix or might be time to not support allow-folding?=false anymore.
 (def allow-folding? true)
 (def allow-truncation? true)
-(def ^:dynamic allow-backtracking? false)
+(def ^:dynamic allow-backtracking? true)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
 

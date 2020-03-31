@@ -4,13 +4,14 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag]
             [dag_unify.serialization :refer [serialize]]))
 
 (defn morph-leaf
   "apply morphology to a leaf node of a tree; where
 the morphology is a set of rules, each of which looks like:"
   [structure morphology]
-  (log/debug (str "morph-leaf:" (u/strip-refs structure)))
+  (log/debug (str "morph-leaf:" (diag/strip-refs structure)))
   (let [structure structure
         canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?])
@@ -32,7 +33,7 @@ the morphology is a set of rules, each of which looks like:"
                           (map #(unify exceptionless %)
                                exceptions))))]
     (if first-matching-exception
-      (log/debug (str "morph-leaf: " (u/strip-refs first-matching-exception))))
+      (log/debug (str "morph-leaf: " (diag/strip-refs first-matching-exception))))
     (cond
       first-matching-exception
       (morph-leaf first-matching-exception morphology)
@@ -45,13 +46,13 @@ the morphology is a set of rules, each of which looks like:"
       
       (nil? matching-rules)
       (exception (str "No rules matched for:"
-                      (u/strip-refs structure)))
+                      (diag/strip-refs structure)))
 
       (not (seq? matching-rules))
       (exception (str "syntax error in matching rules: "
                       "should be a sequence but it's a: "
                       (type matching-rules)
-                      " for matching: " (u/strip-refs structure)))
+                      " for matching: " (diag/strip-refs structure)))
       
       (not (empty? matching-rules))
       (let [{[from to] :g} (first matching-rules)]

@@ -5,6 +5,7 @@
    [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
    [dag_unify.core :as u :refer [unify]]
+   [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :as s]
    [dag_unify.dissoc :as d]))
 
@@ -115,7 +116,7 @@
                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
-      (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (u/strip-refs spec))))
+      (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (exception (str "add: phrasal is false but rule is specified: "
@@ -150,8 +151,8 @@
                                   (filter #(= (u/get-in spec [:rule])
                                               (u/get-in % [:rule])))
                                   (map (fn [rule]
-                                         (u/fail-path spec rule)))))))
-             (if warn-on-no-matches? (log/debug (str (report tree syntax-tree-fn) ": no rules matched spec: " (u/strip-refs spec) ".")))))
+                                         (diag/fail-path spec rule)))))))
+             (if warn-on-no-matches? (log/debug (str (report tree syntax-tree-fn) ": no rules matched spec: " (diag/strip-refs spec) ".")))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
          result)
 
@@ -192,7 +193,7 @@
              %))
        (#(do (log/debug (str "get-lexeme: pre-unify: "
                              (vec (map (fn [matching-lexeme]
-                                         (u/fail-path matching-lexeme spec))
+                                         (diag/fail-path matching-lexeme spec))
                                        %))))
              %))
        (map #(unify % spec))
@@ -519,7 +520,7 @@
          (-> syntax-tree :2 :head?))
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
-    true (exception (str "unhandled: " (u/strip-refs syntax-tree)))))
+    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
 
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
@@ -599,7 +600,7 @@
 ;; be customized per-language.
 (defn summary-fn [spec]
   (cond true
-        (u/strip-refs spec)
+        (diag/strip-refs spec)
 
         ;; everything below is disabled (because of the 'cond true' above).
         (u/get-in spec [:rule])

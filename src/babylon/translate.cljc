@@ -4,7 +4,8 @@
             [babylon.generate :as g]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag :refer [pprint]]))
 
 (def generate-this-many 1)
 
@@ -36,14 +37,14 @@
 
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]
-    (log/debug (str "English spec to generate: " (u/strip-refs retval)))
+    (log/debug (str "English spec to generate: " (diag/strip-refs retval)))
     (let [final-check
           (unify
            retval
            (u/get-in nl-expression [:target] :top))]
       (if (= :fail final-check)
         (do (log/warn (str "something was wrong with the :target spec: "
-                           (u/fail-path retval (u/get-in nl-expression [:target] :top)) " "
+                           (diag/fail-path retval (u/get-in nl-expression [:target] :top)) " "
                            ", so ignoring it."))
             retval)
         final-check))))

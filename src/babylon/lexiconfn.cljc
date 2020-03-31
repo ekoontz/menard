@@ -6,6 +6,7 @@
    #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
    [dag_unify.core :as u :refer [unify]]
+   [dag_unify.diagnostics :as diag]
    [dag_unify.dissoc :as d]))
 
 ;; This is used to a convert human-friendly lexicon
@@ -25,7 +26,7 @@
                                    ", but failed to unify lexeme:" (vec (s/serialize lexeme))
                                    " and consequent: " (vec (s/serialize consequent))
                                    "; fail-path: "
-                                   (u/fail-path lexeme consequent))]
+                                   (diag/fail-path lexeme consequent))]
             (log/error error-message)
             (exception error-message))
           true
@@ -115,14 +116,15 @@
           (mapcat (fn [canonical-form]
                     (filter (fn [lexeme]
                               (if (not (= :fail lexeme))
-                                (log/debug (str "matching lexeme: " (u/strip-refs lexeme))))
+                                (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
                               (not (= :fail lexeme)))
                             (map (fn [lexeme]
-                                   (unify (:u canonical-form)
-                                          {:inflected? false}
-                                          {:surface surface
-                                           :canonical (:canonical canonical-form)}
-                                          lexeme))
+                                   (reduce
+                                    unify [(:u canonical-form)
+                                           {:inflected? false}
+                                           {:surface surface
+                                            :canonical (:canonical canonical-form)}
+                                           lexeme]))
                                  (get lexicon (:canonical canonical-form)))))
                   canonical-forms))
 

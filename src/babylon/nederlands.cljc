@@ -10,7 +10,8 @@
             [babylon.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag :refer [pprint]]))
 ;;
 ;; For generation and parsing of Dutch.
 ;;
@@ -85,7 +86,7 @@
 
 #?(:clj
    (defn index-fn [spec]
-     (log/debug (str "spec: " (u/strip-refs spec)))
+     (log/debug (str "spec: " (diag/strip-refs spec)))
      (let [pre-result
            (cond (= (u/get-in spec [:cat]) :verb)
                  verb-lexicon
@@ -97,7 +98,7 @@
                  noun-lexicon
                  
                  true misc-lexicon)
-           spec (if true spec (u/copy (u/strip-refs spec)))
+           spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
                     pre-result
                     (->> pre-result

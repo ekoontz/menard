@@ -11,7 +11,8 @@
             [babylon.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag :refer [pprint]]))
 ;;
 ;; For generation and parsing of English.
 ;;
@@ -298,7 +299,7 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [] ;; g/stop-generation-at [:head :comp :head :comp]
-    (log/debug (str "english generate: " (u/strip-refs spec)))
+    (log/debug (str "english generate: " (diag/strip-refs spec)))
     (g/generate spec
                 grammar
                 index-fn syntax-tree)))

@@ -4,7 +4,8 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
-   [dag_unify.core :as u]))
+   [dag_unify.core :as u]
+   [dag_unify.diagnostics :as diag]))
 
 (def parse-only-one? false)
 
@@ -45,7 +46,7 @@
           [result])
         (log/debug
          (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
-              " " (u/fail-path parent {:head head})))))))
+              " " (diag/fail-path parent {:head head})))))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"
@@ -79,7 +80,7 @@
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
           [result])
         (log/debug (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
-                        " " (u/fail-path parent {:comp comp})))))))
+                        " " (diag/fail-path parent {:comp comp})))))))
 
 (defn over [parents child1 child2]
   (mapcat

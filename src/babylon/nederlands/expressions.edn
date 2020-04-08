@@ -188,4 +188,105 @@
          :head {:phrasal false
                 :canonical "kunnen"}
          :comp {:phrasal false}}
-  :comp {:phrasal false}}]
+  :comp {:phrasal false}}
+
+ ;; 18
+ {:note "no stack overflow."
+  :dotimes 1
+  :rule "vp"
+  :comp {:rule "vp-np"
+         :phrasal true
+         :comp {:phrasal true
+                :rule "np"
+                :head {:rule "nbar"
+                       :comp {:rule "intensifier"}
+                       :head {:phrasal true}}}}}
+ ;; 19
+ {:note "stack overflow"
+  :dotimes 1
+  :rule "s"
+  :head {:rule "vp"
+         :comp {:rule "vp-np"
+                :phrasal true
+                :head {:rule "vp-inf"
+                       :phrasal true
+                       :head {:phrasal false}
+                       :comp {:phrasal false}}
+                :comp {:phrasal true
+                       :rule "np"
+                       :head {:rule "nbar"
+                              :comp {:rule "intensifier"}
+                              :head {:phrasal true}}}}}}
+ 
+ {:note "this is ok"
+  :dotimes 1
+  :rule "vp-inf"
+  :phrasal true
+  :head {:phrasal false}
+  :comp {:phrasal false}}
+
+ {:note "this is ok too"
+  :head {:note "vp-inf"
+         :dotimes 1
+         :rule "vp-inf"
+         :phrasal true
+         :head {:phrasal false}
+         :comp {:phrasal false}}}
+
+ {:note "this is ok too"
+  :rule "vp"
+  :comp {:rule "vp-np"
+         :phrasal true
+         :head {:rule "vp-inf"
+                :phrasal true
+                :head {:phrasal false}
+                :comp {:phrasal false}}}}
+
+ ;; [s(:present-simple) .[np(:present-simple) .uw +[nbar(:present-simple) .[intensifier(:present-simple) +behoorlijk .slim] +[nbar(:present-simple) .lieve +oplossingen]]] +[vp(:present-simple) +proberen .[vp-np(:present-simple) .[np(:present-simple) .zijn +[nbar(:present-simple) .ongeruste +been]] +[vp-inf(:present-simple) +te .lezen]]]]
+
+ {:note "derived from a syntax tree"
+  :rule "s",
+  :1
+  {:rule "np",
+   :1
+   {:canonical "haar"}
+   :2
+   {:rule "nbar",
+    :1
+    {:rule "intensifier",
+     :1
+     {:canonical "heel"}
+     :2
+     {:canonical "verdrietig"}}
+    :2
+    {:variant :present-simple,
+     :rule "nbar",
+     :1
+     {:canonical "zelfverzekerd"},
+     :2
+     {:canonical "beschaving"}}}},
+  :2
+  {:rule "vp",
+   :1
+   {:canonical "proberen",},
+   :2
+   {:rule "vp-np",
+    :1
+    {:rule "np",
+     :1
+     {:canonical "mijn",},
+     :2
+     {:rule "nbar",
+      :1
+      {:canonical "stom",},
+      :2
+      {:canonical "overheid",}}},
+    :2
+    {:rule "vp-inf",
+     :1
+     {:canonical "te",},
+     :2
+     {:canonical "veroorzaaken"}}}}}
+ 
+ ]
+

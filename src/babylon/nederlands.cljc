@@ -10,8 +10,8 @@
             [babylon.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [unify]]
-            [dag_unify.diagnostics :as diag :refer [pprint]]))
+            [dag_unify.core :as u :refer [pprint unify]]
+            [dag_unify.diagnostics :as diag]))
 ;;
 ;; For generation and parsing of Dutch.
 ;;

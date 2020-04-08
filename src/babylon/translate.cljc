@@ -4,8 +4,8 @@
             [babylon.generate :as g]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [unify]]
-            [dag_unify.diagnostics :as diag :refer [pprint]]))
+            [dag_unify.core :as u :refer [pprint unify]]
+            [dag_unify.diagnostics :as diag]))
 
 (def generate-this-many 1)
 

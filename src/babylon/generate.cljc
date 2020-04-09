@@ -36,6 +36,7 @@
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
+(def ^:dynamic max-depth 15)
 
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path

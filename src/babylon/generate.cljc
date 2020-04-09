@@ -53,6 +53,9 @@
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
 
+(defn tree-pruning? []
+  (and allow-folding? allow-truncation?))
+
 (defn report [tree syntax-tree]
   (if true
     (syntax-tree tree)

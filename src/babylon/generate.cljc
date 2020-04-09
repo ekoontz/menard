@@ -122,8 +122,8 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str "add: start: " (report tree syntax-tree-fn) " at:" at
-                     (if (u/get-in tree (concat at [:phrasal]))
-                       (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
+                      (if (u/get-in tree (concat at [:phrasal]))
+                        (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
     (log/debug (str "add: " (report tree syntax-tree-fn)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
@@ -155,15 +155,17 @@
          (log/debug (str "  rule-at: " rule-at "; phrase-at:" phrase-at))
          (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
          (if (empty? result)
-           (if (u/get-in spec [:rule])
-             (log/warn (str (report tree syntax-tree-fn) ": no rule: " (u/get-in spec [:rule]) " matched. fail-paths were: "
-                            (vec
-                             (->> grammar
-                                  (filter #(= (u/get-in spec [:rule])
-                                              (u/get-in % [:rule])))
-                                  (map (fn [rule]
-                                         (diag/fail-path spec rule)))))))
-             (if warn-on-no-matches? (log/debug (str (report tree syntax-tree-fn) ": no rules matched spec: " (diag/strip-refs spec) ".")))))
+           (let [fail-paths
+                 (vec 
+                  (->> grammar
+                       (filter #(= (u/get-in spec [:rule])
+                                   (u/get-in % [:rule])))
+                       (map (fn [rule]
+                              (diag/fail-path spec rule)))))]
+             (if (u/get-in spec [:rule])
+               (log/warn (str (report tree syntax-tree-fn) ": no rule: " (u/get-in spec [:rule]) " matched spec: " (syntax-tree-fn (u/get-in tree at))
+                              (if (not (empty? fail-paths))
+                                fail-paths))))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
          result)
 

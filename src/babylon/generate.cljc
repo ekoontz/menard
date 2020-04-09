@@ -113,9 +113,9 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
-                      (if (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+      (log/debug (str "add: start: " (report tree syntax-tree-fn) " at:" at
+                     (if (u/get-in tree (concat at [:phrasal]))
+                       (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
     (log/debug (str "add: " (report tree syntax-tree-fn)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
@@ -166,11 +166,13 @@
                 (not (= :top
                         (u/get-in tree (concat at [:canonical]))))))
        (do
-         (log/debug (str "add: condition 3: only adding lexemes at: " at))
+         (log/debug (str "add: condition 3: only adding lexemes at: " at "; spec: " (syntax-tree-fn
+                                                                                    (u/get-in tree at))))
          (add-lexeme tree lexicon-index-fn syntax-tree-fn))
 
        true
-       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
+       (let [debug (log/debug (str "add: adding both lexemes and rules."))
+             both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
                             (add-rule tree grammar syntax-tree-fn))]
          (cond (and (empty? both)
                     allow-backtracking?)
@@ -263,7 +265,10 @@
             rule))
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
-     (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
+     (filter #(or (nil? rule-name)
+                  (do
+                    (log/debug (str "add-rule: looking for rule named: " (u/get-in % [:rule])))
+                    (= (u/get-in % [:rule]) rule-name))))
 
      (map (fn [rule]
             (log/debug (str "round 1: " (u/get-in rule [:rule])))
@@ -278,6 +283,13 @@
             rule))
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
+     ;;
+     ;;          tree->     /\
+     ;;                     \ ..
+     ;;                     /..
+     ;;                    /
+     ;; path points to -> [] <- add child here
+     ;;
      (map (fn [rule]
             (log/debug (str "round 2.5: adding: " (u/get-in rule [:rule]) " to: " (report tree syntax-tree)
                             " at: " at-num "; " (if (u/get-in rule [:variant])
@@ -318,7 +330,7 @@
      (remove #(= % :fail))
 
      (map (fn [tree]
-            (log/info (str "add-rule: returning: " (syntax-tree tree)))
+            (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
@@ -711,7 +723,7 @@
     - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms.
     - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms."
   [spec seed-tree-size grammar index-fn syntax-tree]
-  (let [debug (log/info (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
+  (let [debug (log/debug (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
         seed-tree (-> spec
                       ((fn [tree]
                          ;; add to the tree until it's reached the desired size:

@@ -91,8 +91,10 @@
       (cond (= :fail tree)
             []
 
-            (> (count frontier) 5)
-            []
+            (> (count frontier) max-depth)
+            (do
+              (log/warn (str "the depth got too deep on this tree: " (syntax-tree-fn tree) "; giving up on it."))
+              [])
             
             (or (u/get-in tree [:babylon.generate/done?])
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))

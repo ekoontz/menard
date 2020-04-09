@@ -172,7 +172,8 @@
          :comp {:rule "vp-np"
                 :comp {:phrasal true
                        :rule "np"
-                       :head {:rule "nbar"}}
+                       :head {:rule "nbar"
+                              :comp {:phrasal true}}}
                 :head {:rule "vp-inf"
                        :comp {:modal false}
                        :phrasal true}}}

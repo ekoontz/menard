@@ -256,12 +256,13 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))
 
-(defn demo-10 [index]
+(defn demo [index & [this-many]]
   (->>
    (repeatedly #(println (-> (nth expressions index)
                              generate
+                             time
                              ((fn [x] (morph x :sentence-punctuation? true))))))
-   (take 10)
+   (take (or this-many 10))
    count))
 
 (defn sentence-punctuation

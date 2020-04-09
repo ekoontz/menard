@@ -57,9 +57,11 @@
   (and allow-folding? allow-truncation?))
 
 (defn report [tree syntax-tree]
-  (if true
-    (syntax-tree tree)
-    (str "#" (count (str tree)) " " (syntax-tree tree))))
+  (if (tree-pruning?)
+    (str "#" (count (str tree)) " " (syntax-tree tree))
+
+    ;; We don't call if tree-pruning? is false, since it would be very time-expensive:
+    (syntax-tree tree)))
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))

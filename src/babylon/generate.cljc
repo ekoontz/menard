@@ -31,9 +31,9 @@
 (def diagnostics? false)
 ;; TODO: generation with allow-folding?=false doesn't work reliably:
 ;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? true)
-(def allow-truncation? true)
-(def ^:dynamic allow-backtracking? true)
+(def allow-folding? false)
+(def allow-truncation? false)
+(def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
 
@@ -53,7 +53,9 @@
   true)
 
 (defn report [tree syntax-tree]
-  (str "#" (count (str tree)) " " (syntax-tree tree)))
+  (if true
+    (syntax-tree tree)
+    (str "#" (count (str tree)) " " (syntax-tree tree))))
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
@@ -112,8 +114,9 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str "add: " (report tree syntax-tree-fn) " at:" at
-                     (if (u/get-in tree (concat at [:phrasal]))
-                       (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+                      (if (u/get-in tree (concat at [:phrasal]))
+                        (str "; looking for phrasal: " (u/get-in tree (concat at [:phrasal])))))))
+    (log/debug (str "add: " (report tree syntax-tree-fn)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
@@ -177,8 +180,7 @@
                                  (last at))))
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
-                               " at: " at "; looking for: "
-                               (vec (s/serialize spec))))
+                               " at: " at))
 
                true both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))
@@ -250,29 +252,53 @@
               true nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (numeric-frontier (:syntax-tree tree {}))]
-    (if log-generation? (log/info (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
-                                       (report tree syntax-tree) " at: " at " (numerically): " at-num)))
+    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
+                    (report tree syntax-tree) " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)
+
+     (map (fn [rule]
+            (log/debug (str "round 0: " (u/get-in rule [:rule])))
+            rule))
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name) (= (u/get-in % [:rule]) rule-name)))
 
+     (map (fn [rule]
+            (log/debug (str "round 1: " (u/get-in rule [:rule])))
+            (log/debug (str "round 1.5: checking cat:" cat))
+            rule))
+     
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
 
+     (map (fn [rule]
+            (log/debug (str "round 2:           " (u/get-in rule [:rule])))
+            rule))
+     
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      (map (fn [rule]
-            (if log-generation? (log/info (str "add-rule: " (report tree syntax-tree) " adding rule: " (u/get-in rule [:rule]) "; with variant: " (u/get-in rule [:variant]))))
-            (u/assoc-in! (u/copy tree)
-                         at (u/copy rule))))
+            (log/debug (str "round 2.5: adding: " (u/get-in rule [:rule]) " to: " (report tree syntax-tree)
+                            " at: " at-num "; " (if (u/get-in rule [:variant])
+                                                  "with variant: " (u/get-in rule [:variant]))))
+            (u/assoc-in tree
+                         at rule)))
 
+     (map (fn [tree]
+            (log/debug (str "round 3: " (syntax-tree tree)))
+            tree))
+     
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
                     (swap! count-rule-fails inc)
                     false)))
+     
+     (map (fn [tree]
+            (log/debug (str "round 4: " (syntax-tree tree)))
+            tree))
+
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
@@ -285,7 +311,15 @@
                                       (or rule-name
                                           (u/get-in % (concat at [:rule])))}))))
 
-     (remove #(= % :fail)))))
+     (map (fn [tree]
+            (log/debug (str "round 5: " (syntax-tree tree)))
+            tree))
+
+     (remove #(= % :fail))
+
+     (map (fn [tree]
+            (log/info (str "add-rule: returning: " (syntax-tree tree)))
+            tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))

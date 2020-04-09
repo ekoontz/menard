@@ -11,7 +11,7 @@
   "apply morphology to a leaf node of a tree; where
 the morphology is a set of rules, each of which looks like:"
   [structure morphology]
-  (log/debug (str "morph-leaf:" (diag/strip-refs structure)))
+  (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)))
   (let [structure structure
         canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?])
@@ -22,7 +22,9 @@ the morphology is a set of rules, each of which looks like:"
                     (let [{u :u [from to] :g} rule]
                       (and (string? canonical)
                            (re-find from canonical)
-                           (not (= :fail (unify u structure))))))
+                           (let [debug (log/debug (str "unifying: u: " u " and structure: " structure " => "
+                                                      (unify u structure)))]
+                             (not (= :fail (unify u structure)))))))
                   morphology))
         exceptions (u/get-in structure [:exceptions])
         exceptionless (if exceptions

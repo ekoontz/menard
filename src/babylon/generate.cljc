@@ -248,28 +248,15 @@
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)
-
-     (map (fn [rule]
-            (log/debug (str "round 0: " (u/get-in rule [:rule])))
-            rule))
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name)
                   (do
                     (log/debug (str "add-rule: looking for rule named: " (u/get-in % [:rule])))
                     (= (u/get-in % [:rule]) rule-name))))
-
-     (map (fn [rule]
-            (log/debug (str "round 1: " (u/get-in rule [:rule])))
-            (log/debug (str "round 1.5: checking cat:" cat))
-            rule))
      
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
-
-     (map (fn [rule]
-            (log/debug (str "round 2:           " (u/get-in rule [:rule])))
-            rule))
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      ;;
@@ -280,26 +267,14 @@
      ;; path points to -> [] <- add child here
      ;;
      (map (fn [rule]
-            (log/debug (str "round 2.5: adding: " (u/get-in rule [:rule]) " to: " (report tree syntax-tree)
-                            " at: " at-num "; " (if (u/get-in rule [:variant])
-                                                  "with variant: " (u/get-in rule [:variant]))))
             (u/assoc-in tree
                          at rule)))
-
-     (map (fn [tree]
-            (log/debug (str "round 3: " (syntax-tree tree)))
-            tree))
      
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
                     (swap! count-rule-fails inc)
                     false)))
-     
-     (map (fn [tree]
-            (log/debug (str "round 4: " (syntax-tree tree)))
-            tree))
-
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
@@ -310,17 +285,8 @@
                                       :variant (u/get-in % [:variant])
                                       :rule
                                       (or rule-name
-                                          (u/get-in % (concat at [:rule])))}))))
+                                          (u/get-in % (concat at [:rule])))})))))))
 
-     (map (fn [tree]
-            (log/debug (str "round 5: " (syntax-tree tree)))
-            tree))
-
-     (remove #(= % :fail))
-
-     (map (fn [tree]
-            (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
-            tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug "updating syntax-tree:" (report tree syntax-tree) " at: " at)

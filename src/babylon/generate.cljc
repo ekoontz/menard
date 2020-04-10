@@ -13,7 +13,6 @@
 (declare add-lexeme)
 (declare add-rule)
 (declare dissoc-in)
-(declare foldup)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
@@ -24,15 +23,10 @@
 (declare reflexive-violations)
 (declare remove-trailing-comps)
 (declare summary-fn)
-(declare truncate-at)
 (declare update-syntax-tree)
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
-;; TODO: generation with allow-folding?=false doesn't work reliably:
-;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? false)
-(def allow-truncation? false)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -42,26 +36,15 @@
  "To use: in your own namespace, override this variable with the path
   before whose generation you want to stop.
   Generation will stop immediately
-  when (frontier tree) is equal to this path.
-  Note that the path must be given
-  as where the generator is according to (frontier), which may
-  differ from the path to the same node as in the logical syntax tree,
-  because folding might have occurred."
+  when (frontier tree) is equal to this path."
   [])
 (def ^:dynamic die-on-no-matching-lexemes? true)
 (def ^:dynamic warn-on-no-matches?
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
 
-(defn tree-pruning? []
-  (and allow-folding? allow-truncation?))
-
 (defn report [tree syntax-tree]
-  (if (tree-pruning?)
-    (str "#" (count (str tree)) " " (syntax-tree tree))
-
-    ;; We don't call if tree-pruning? is false, since it would be very time-expensive:
-    (syntax-tree tree)))
+  (syntax-tree tree))
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
@@ -248,11 +231,7 @@
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
                                 :fail))))
-                      (update-syntax-tree at syntax-tree)
-                      (#(if allow-truncation?
-                          (truncate-at % at syntax-tree)
-                          %))
-                      (foldup at syntax-tree))))
+                      (update-syntax-tree at syntax-tree))))
 
            (remove #(= :fail %))))))
 
@@ -344,13 +323,11 @@
             tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
+  (log/debug "updating syntax-tree:" (report tree syntax-tree) " at: " at)
   (cond (= :fail tree)
         tree
         true
         (let [head? (headness? tree at)
-              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
-              ;; if folding occurs.
               numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
               word (merge (make-word)
                           {:head? head?})]
@@ -410,132 +387,6 @@
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
 
-(defn truncate-at [tree at syntax-tree]
-  (cond
-    (= :fail tree)
-    tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
-
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
-          (-> tree
-              (dissoc-in compless-at)
-              (dissoc-in (numeric-path tree compless-at))
-              (dissoc :dag_unify.serialization/serialized)
-              (u/assoc-in! (concat compless-at [::done?]) true)
-              (dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (dissoc-in (concat (butlast compless-at) [:1]))
-              (dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
-        tree))))
-
-;; fold up a tree like this:
-;;
-;;       grandparent
-;;      /   \ C
-;;   H /    parent
-;;   uncle  / \
-;;         /   \
-;;      H /     \
-;;      nephew   _ complement-of-nephew
-;;
-;; into:
-;;
-;;      grandparent
-;;      /         \ C
-;;   H /           \
-;;    uncle+nephew   _ complement-of-nephew
-;;
-(defn foldable?
-  "determine whether the given _tree_ is foldable, if the given _at_ points to a nephew"
-  [tree at syntax-tree]
-  (let [st (syntax-tree tree)
-        grandparent (u/get-in tree (-> at butlast butlast))
-        parent (u/get-in tree (-> at butlast))
-        uncle (u/get-in grandparent [:head])
-        cond1 (not (empty? (-> at butlast butlast)))
-        cond2 (= (get parent :head)
-                 (get parent :1))
-        cond3 (= (get grandparent :head)
-                 (get grandparent :1))
-        cond4 (not (nil? (u/get-in tree (-> at butlast (concat [:comp])))))
-        cond5 (nil? (u/get-in tree (concat at [:subcat :3])))]
-    (cond (and cond1 cond2 cond3 cond4 cond5)
-          (do (log/debug (str "FOLD OK: " (syntax-tree tree) " at: " at))
-              true)
-          (false? cond1)
-          (do (log/debug (str "cond1? " cond1 " " st " at: " at))
-              false)
-          (false? cond2)
-          (do (log/debug (str "cond2? " cond3 " " st " at: " at))
-              false)
-          (false? cond3)
-          (do (log/debug (str "cond3? " cond3 " " st " at: " at))
-              false)
-          (false? cond4)
-          (do (log/debug (str "cond4? " cond4 " " st " at: " at))
-              false)
-          (false? cond5)
-          (do (log/debug (str "cond5? " cond5 " " st " at: " at))
-              false)
-          
-          true (exception (str "should never get here: did you miss adding a cond-check in foldable?")))))
-
-;; fold up a tree like this:
-;;
-;;       grandparent
-;;      /   \ C
-;;   H /    parent
-;;   uncle  / \
-;;         /   \
-;;      H /     \
-;;      nephew   _ nephew complement
-;;
-;; into:
-;;
-;;      grandparent
-;;      /         \ C
-;;   H /           \
-;;    uncle+nephew   _ nephew complement
-;;
-(defn foldup [tree at syntax-tree]
-  (cond
-    (u/get-in tree [::done?]) tree
-    
-    (and allow-folding? (foldable? tree at syntax-tree))
-    (let [grandparent (u/get-in tree (-> at butlast butlast))
-          nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (log/debug (str "folding    " at " " (report tree syntax-tree)))
-      (log/debug (str "nephew-complement: " (report nephew-complement syntax-tree)))
-      (swap! (get grandparent :comp)
-             (fn [old] nephew-complement))
-      (dissoc tree :dag_unify.serialization/serialized))
-    true
-    tree))
-
 (defn numeric-frontier [syntax-tree]
   (cond
     (and (map? syntax-tree)
@@ -577,23 +428,6 @@
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
     true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
-(defn numeric-path
-  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
-  [tree at]
-  (cond
-    (empty? at) []
-
-    (or (and (= (first at) :head)
-             (= (get tree :head)
-                (get tree :1)))
-        (and (= (first at) :comp)
-             (= (get tree :comp)
-                (get tree :1))))
-    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
-
-    true
-    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
 
 (defn headness? [tree at]
   (or

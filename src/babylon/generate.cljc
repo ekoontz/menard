@@ -237,7 +237,7 @@
                           (tr/update-syntax-tree % at syntax-tree)
                           %))
                       (#(if allow-truncation?
-                          (tr/truncate-at % at syntax-tree (find-done-at %))
+                          (tr/truncate-at % at syntax-tree (find-done-at at))
                           %))
                       (#(if allow-folding?
                           (tr/foldup % at syntax-tree)

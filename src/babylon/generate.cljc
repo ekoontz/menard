@@ -12,17 +12,13 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
+(declare find-done-at)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
 (declare reflexive-violations)
-(declare find-done-at)
-
-;; enable additional checks and logging that makes generation slower:
-(def diagnostics? false)
 
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic lexical-filter nil)
 (def ^:dynamic max-depth 15)
 
 (def ^:dynamic stop-generation-at
@@ -185,8 +181,7 @@
        (filter #(or (not (= :fail %))
                     (do
                       (swap! count-lexeme-fails inc)
-                      false)))
-       (filter #(or (nil? lexical-filter) (lexical-filter %)))))
+                      false)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))

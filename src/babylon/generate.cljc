@@ -17,7 +17,7 @@
 (declare generate-all)
 (declare get-lexemes)
 (declare reflexive-violations)
-(declare remove-trailing-comps)
+(declare find-done-at)
 (declare summary-fn)
 
 ;; enable additional checks and logging that makes generation slower:
@@ -215,7 +215,7 @@
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
-        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
+        done-at (concat (find-done-at at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
@@ -241,7 +241,7 @@
                                 :fail))))
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (tr/truncate-at % at syntax-tree)
+                          (tr/truncate-at % at syntax-tree (find-done-at %))
                           %))
                       (tr/foldup at syntax-tree))))
 
@@ -375,11 +375,11 @@
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
 
-(defn remove-trailing-comps [at]
+(defn find-done-at [at]
   (cond (empty? at) at
         (= :comp
            (last at))
-        (remove-trailing-comps (butlast at))
+        (find-done-at (butlast at))
         true at))
 
 ;; TODO: move this to a ^:dynamic: variable so it can

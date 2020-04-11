@@ -14,7 +14,6 @@
 (declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)
-(declare remove-trailing-comps)
 
 (def allow-folding? false)
 
@@ -98,7 +97,7 @@
        (get (u/get-in tree (butlast at)) :head)))))
 
 
-(defn truncate-at [tree at syntax-tree]
+(defn truncate-at [tree at syntax-tree done-at]
   (cond
     (= :fail tree)
     tree
@@ -113,14 +112,14 @@
       ;; TODO: also truncate :head at this point, too:
       (log/debug (str "truncate@: " at "(at) " (syntax-tree tree)))
       (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
+        (let [compless-at (if (empty? done-at)
                             ;; in this case, we have just added the final :comp at the
                             ;; root of the tree, so simply truncate that:
                             [:comp]
 
                             ;; otherwise, ascend the tree as high as there are :comps
                             ;; trailing _at_.
-                            (remove-trailing-comps at))]
+                            done-at)]
           (log/debug (str "truncate@: " compless-at " (Compless at) " (syntax-tree tree)))
           (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (syntax-tree tree)))
           (-> tree
@@ -223,13 +222,6 @@
       (dissoc tree :dag_unify.serialization/serialized))
     true
     tree))
-
-(defn remove-trailing-comps [at]
-  (cond (empty? at) at
-        (= :comp
-           (last at))
-        (remove-trailing-comps (butlast at))
-        true at))
 
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."

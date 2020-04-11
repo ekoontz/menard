@@ -19,15 +19,10 @@
 (declare get-lexemes)
 (declare reflexive-violations)
 
-;; enable additional checks and logging that makes generation slower:
-(def diagnostics? false)
-;; TODO: generation with allow-folding?=false doesn't work reliably:
-;; either fix or might be time to not support allow-folding?=false anymore.
 (def allow-folding? false)
 (def allow-truncation? false)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
-(def ^:dynamic log-generation? false)
 (def ^:dynamic max-depth 15)
 
 (def ^:dynamic stop-generation-at
@@ -215,8 +210,7 @@
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
         done-at (concat (find-done-at at) [:babylon.generate/done?])
-        spec (u/get-in tree at)
-        diagnose? false]
+        spec (u/get-in tree at)]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
                     (syntax-tree spec) "; phrasal: " (u/get-in spec [:phrasal])))
     (if (= true (u/get-in spec [:phrasal]))

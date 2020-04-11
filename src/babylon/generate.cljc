@@ -18,12 +18,8 @@
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
-(declare headness?)
-(declare make-word)
-(declare numeric-frontier)
 (declare reflexive-violations)
 (declare remove-trailing-comps)
-(declare summary-fn)
 (declare truncate-at)
 
 ;; enable additional checks and logging that makes generation slower:
@@ -260,7 +256,7 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         cat (u/get-in tree (concat at [:cat]))
-        at-num (numeric-frontier (:syntax-tree tree {}))]
+        at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
                     (report tree syntax-tree) " at: " at " (numerically): " at-num))
     (->>
@@ -321,7 +317,7 @@
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (headness? % (concat at [:1]))]
+                                   (let [one-is-head? (tr/headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
                                       :1 {:head? one-is-head?}
                                       :2 {:head? (not one-is-head?)}
@@ -422,61 +418,6 @@
                                  (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
                  (cond true tree)))))
         tree))))
-
-
-(defn numeric-frontier [syntax-tree]
-  (cond
-    (and (map? syntax-tree)
-         (:syntax-tree syntax-tree))
-    (numeric-frontier (:syntax-tree syntax-tree))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :canonical))
-    :done
-
-    (and (map? syntax-tree)
-         (nil? (-> syntax-tree :1))
-         (nil? (-> syntax-tree :2)))
-    []
-
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :2)))
-         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-    
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :1)))
-         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-
-    (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :done)
-         (= (-> syntax-tree :2 numeric-frontier) :done))
-    :done
-
-    (nil? syntax-tree) []
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :1 :head?))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :2 :head?))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-    
-    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at

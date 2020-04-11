@@ -4,6 +4,7 @@
    #?(:cljs [cljslog.core :as log])
    [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
+   [babylon.truncate :as tr]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]))
 
@@ -16,6 +17,8 @@
 (declare get-lexemes)
 (declare reflexive-violations)
 
+(def allow-folding? true)
+(def allow-truncation? true)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic max-depth 15)
 
@@ -25,6 +28,13 @@
   Generation will stop immediately
   when (frontier tree) is equal to this path."
   [])
+(def ^:dynamic die-on-no-matching-lexemes? true)
+(def ^:dynamic warn-on-no-matches?
+  "warn in (add-rule) if no grammar rules matched the given spec."
+  true)
+
+(defn report [tree syntax-tree]
+  (syntax-tree tree))
 
 (def count-adds (atom 0))
 (def count-rule-fails (atom 0))
@@ -193,7 +203,6 @@
                       u/copy
                       (u/assoc-in! done-at true)
                       (u/assoc-in! at candidate-lexeme))))
-
            (remove #(= :fail %))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]

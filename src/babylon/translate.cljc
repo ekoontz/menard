@@ -50,8 +50,7 @@
         final-check))))
 
 (defn en-generate [spec allow-backtracking?]
-  (binding [g/allow-backtracking? allow-backtracking?
-            g/die-on-no-matching-lexemes? false]
+  (binding [g/allow-backtracking? allow-backtracking?]
     (en/generate spec)))
 
 (defn translate [source-expression]

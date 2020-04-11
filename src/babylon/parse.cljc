@@ -15,8 +15,14 @@
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree)
 (def ^:dynamic truncate? true)
-
 (def ^:dynamic split-on #"[ ']")
+
+(defn pmap-if-available [fn args]
+  #?(:clj
+     (pmap fn args))
+  #?(:cljs
+     (map fn args)))
+
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
@@ -125,7 +131,7 @@
           ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
           spanpairs (fn [n]
                       (mapcat (fn [x]
-                                (map
+                                (pmap-if-available
                                  (fn [y]
                                    [x y])
                                  (range (+ x 1) (+ n 1))))
@@ -157,7 +163,7 @@
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))
-                     (map
+                     (pmap-if-available
                       (fn [span-pair]
                         
                         ;; create a new key/value pair: [i,j] => parses,

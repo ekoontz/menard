@@ -240,7 +240,7 @@
                                 :fail))))
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (truncate-at % at syntax-tree)
+                          (tr/truncate-at % at syntax-tree)
                           %))
                       (tr/foldup at syntax-tree))))
 
@@ -373,43 +373,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-(defn truncate-at [tree at syntax-tree]
-  (cond
-    (= :fail tree)
-    tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (tr/remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
-
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (tr/remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (syntax-tree tree)))
-          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (Numeric-path at) " (syntax-tree tree)))
-          (-> tree
-              (tr/dissoc-in compless-at)
-              (tr/dissoc-in (tr/numeric-path tree compless-at))
-              (u/assoc-in! (concat compless-at [::done?]) true)
-              (tr/dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (tr/dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (tr/dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (tr/dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (tr/dissoc-in (concat (butlast compless-at) [:1]))
-              (tr/dissoc-in (concat (butlast compless-at) [:2]))))
-        tree))))
 
 (defn reflexive-violations [expression syntax-tree-fn]
   (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))

@@ -199,17 +199,10 @@
            (#(take (count %) %))
 
            (map (fn [candidate-lexeme]
-                  (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                  " with derivation: " (u/get-in candidate-lexeme [:derivation])
-                                  " and subcat 2: " (u/get-in candidate-lexeme [:subcat :2])
-                                  " at: " at " to: " (syntax-tree tree)))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
-                      ((fn [tree]
-                         (try (u/assoc-in! tree at candidate-lexeme)
-                              (catch Exception e
-                                :fail)))))))
+                      (u/assoc-in! at candidate-lexeme))))
 
            (remove #(= :fail %))))))
 

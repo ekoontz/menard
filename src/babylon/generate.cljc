@@ -18,7 +18,6 @@
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
-(declare headness?)
 (declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)
@@ -26,7 +25,6 @@
 (declare remove-trailing-comps)
 (declare summary-fn)
 (declare truncate-at)
-(declare update-syntax-tree)
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
@@ -220,8 +218,6 @@
                       false)))
        (filter #(or (nil? lexical-filter) (lexical-filter %)))))
 
-(declare update-syntax-tree)
-
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
@@ -249,9 +245,9 @@
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
                                 :fail))))
-                      (update-syntax-tree at syntax-tree)
+                      (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (truncate-at % at syntax-tree)
+                          (tr/truncate-at % at syntax-tree)
                           %))
                       (tr/foldup at syntax-tree))))
 
@@ -325,7 +321,7 @@
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (headness? % (concat at [:1]))]
+                                   (let [one-is-head? (tr/headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
                                       :1 {:head? one-is-head?}
                                       :2 {:head? (not one-is-head?)}
@@ -343,32 +339,6 @@
      (map (fn [tree]
             (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree)))))
-
-(defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
-  (cond (= :fail tree)
-        tree
-        true
-        (let [head? (headness? tree at)
-              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
-              ;; if folding occurs.
-              numerically-at (tr/numeric-frontier (u/get-in tree [:syntax-tree]))
-              word (merge (make-word)
-                          {:head? head?})]
-          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-          (u/unify! tree
-                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                           (s/create-path-in at word))))))
-
-(defn make-word []
-  {:agr (atom :top)
-   :canonical (atom :top)
-   :exceptions (atom :top)
-   :cat (atom :top)
-   :infl (atom :top)
-   :sem (atom :top)
-   :inflected? (atom :top)
-   :root (atom :top)})
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -410,60 +380,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-(defn truncate-at [tree at syntax-tree]
-  (cond
-    (= :fail tree)
-    tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
-
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
-          (-> tree
-              (dissoc-in compless-at)
-              (dissoc-in (tr/numeric-path tree compless-at))
-              (dissoc :dag_unify.serialization/serialized)
-              (u/assoc-in! (concat compless-at [::done?]) true)
-              (dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (dissoc-in (concat (butlast compless-at) [:1]))
-              (dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
-        tree))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at

@@ -269,10 +269,3 @@
        (if (= mood :interog)
          "?"
          ".")))
-
-(defn incremental-demo
-  []
-  (count (->> (generate-seedlike (nth expressions 16) 10)
-              (take 10)
-              (map #(morph % :sentence-punctuation? true))
-              (map println))))

@@ -243,7 +243,9 @@
                       (#(if allow-truncation?
                           (tr/truncate-at % at syntax-tree (find-done-at %))
                           %))
-                      (tr/foldup at syntax-tree))))
+                      (#(if allow-folding?
+                          (tr/foldup % at syntax-tree)
+                          %)))))
 
            (remove #(= :fail %))))))
 

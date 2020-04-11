@@ -15,8 +15,6 @@
 (declare numeric-frontier)
 (declare numeric-path)
 
-(def allow-folding? false)
-
 (defn update-syntax-tree [tree at syntax-tree]
   (cond (= :fail tree)
         tree
@@ -212,7 +210,7 @@
   (cond
     (u/get-in tree [::done?]) tree
     
-    (and allow-folding? (foldable? tree at syntax-tree))
+    (foldable? tree at syntax-tree)
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
       (log/debug (str "folding    " at " " (syntax-tree tree)))

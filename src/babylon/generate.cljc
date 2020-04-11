@@ -288,9 +288,7 @@
     retval))
 
 (defn find-done-at [at]
-  (cond (empty? at) at
-        (= :comp
-           (last at))
+  (cond (= :comp (last at))
         (find-done-at (butlast at))
         true at))
 

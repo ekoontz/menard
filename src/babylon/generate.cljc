@@ -232,7 +232,10 @@
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
                                 :fail))))
-                      (tr/update-syntax-tree at syntax-tree)
+                      (#(if (or allow-folding?
+                                allow-truncation?)
+                          (tr/update-syntax-tree % at syntax-tree)
+                          %))
                       (#(if allow-truncation?
                           (tr/truncate-at % at syntax-tree (find-done-at %))
                           %))

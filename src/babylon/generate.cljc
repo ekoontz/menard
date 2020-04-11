@@ -32,8 +32,8 @@
 (def diagnostics? false)
 ;; TODO: generation with allow-folding?=false doesn't work reliably:
 ;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? false)
-(def allow-truncation? false)
+(def allow-folding? true)
+(def allow-truncation? true)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)

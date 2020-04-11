@@ -238,10 +238,6 @@
   (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
     (g/generate-all [spec] grammar index-fn syntax-tree)))
 
-(defn generate-seedlike
-  [spec seed-size]
-  (g/generate-seedlike spec seed-size grammar index-fn syntax-tree))
-
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree

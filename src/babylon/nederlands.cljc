@@ -238,10 +238,6 @@
   (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
     (g/generate-all [spec] grammar index-fn syntax-tree)))
 
-(defn generate-seedlike
-  [spec seed-size]
-  (g/generate-seedlike spec seed-size grammar index-fn syntax-tree))
-
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
@@ -273,10 +269,3 @@
        (if (= mood :interog)
          "?"
          ".")))
-
-(defn incremental-demo
-  []
-  (count (->> (generate-seedlike (nth expressions 16) 10)
-              (take 10)
-              (map #(morph % :sentence-punctuation? true))
-              (map println))))

@@ -23,11 +23,9 @@
 (def diagnostics? false)
 ;; TODO: generation with allow-folding?=false doesn't work reliably:
 ;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? true)
+(def allow-folding? false)
 (def allow-truncation? true)
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic lexical-filter nil)
-(def ^:dynamic log-generation? false)
 (def ^:dynamic max-depth 15)
 
 (def ^:dynamic stop-generation-at
@@ -45,15 +43,8 @@
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
 
-(defn tree-pruning? []
-  (and allow-folding? allow-truncation?))
-
 (defn report [tree syntax-tree]
-  (if (tree-pruning?)
-    (str "#" (count (str tree)) " " (syntax-tree tree))
-
-    ;; We don't call if tree-pruning? is false, since it would be very time-expensive:
-    (syntax-tree tree)))
+  (syntax-tree tree))
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
@@ -195,21 +186,11 @@
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
   (->> (lexicon-index-fn spec)
-       (#(do (log/debug (str "get-lexeme: index-fn returned this many:" (count %)))
-             %))
-       (#(do (log/debug (str "get-lexeme: pre-unify: "
-                             (vec (map (fn [matching-lexeme]
-                                         (diag/fail-path matching-lexeme spec))
-                                       %))))
-             %))
        (map #(unify % spec))
-       (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
-             %))
        (filter #(or (not (= :fail %))
                     (do
                       (swap! count-lexeme-fails inc)
-                      false)))
-       (filter #(or (nil? lexical-filter) (lexical-filter %)))))
+                      false)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
@@ -227,10 +208,6 @@
            (#(take (count %) %))
 
            (map (fn [candidate-lexeme]
-                  (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                  " with derivation: " (u/get-in candidate-lexeme [:derivation])
-                                  " and subcat 2: " (u/get-in candidate-lexeme [:subcat :2])
-                                  " at: " at " to: " (report tree syntax-tree)))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -243,7 +220,6 @@
                           (tr/truncate-at % at syntax-tree)
                           %))
                       (tr/foldup at syntax-tree))))
-
            (remove #(= :fail %))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
@@ -392,57 +368,3 @@
         (= true (u/get-in expression [:reflexive] false))
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
-
-(defn- add-until-done [tree grammar index-fn syntax-tree]
-  (if (u/get-in tree [:babylon.generate/done?])
-    ;; we are done: just return a list of the finished tree:
-    [tree]
-
-    ;; not done yet; keep going.
-    (-> tree (add grammar index-fn syntax-tree) first (add-until-done grammar index-fn syntax-tree))))
-
-(defn- add-until
-  "to the tree _tree_, do (add) _n_ times."
-  [tree grammar index-fn syntax-tree n]
-  (cond
-
-   (= true (u/get-in tree [:babylon.generate/done?]))
-   (do
-     (log/warn "do-until: tree is done already with n=" n " steps still asked for: original caller should call add-until with a smaller _n_.")
-     tree)
-
-   ;; n=0: we're done; return:
-   (= n 0) tree
-
-   ;; main case: add and call again with n=n-1:
-   true
-   (add-until (-> tree
-                  (add grammar index-fn syntax-tree)
-                  first)
-              grammar
-              index-fn
-              syntax-tree
-              (- n 1))))
-
-(defn generate-seedlike
-  "Return a lazy sequence of sentences, all of which are generated starting with a seed tree that itself
-     is generated from _spec_. The seed tree's size is set by _seed-tree-size_, which means how big to make the seed tree:
-   A bigger seed tree size means step 1 takes longer, but step 2 is shorter, and step 2's output sentences are more similar to each other.
-   A smaller seed tree size means step 1 runs shorter, but step 2 is longer, and step 2's output sentences are more distinct from each other.
-   So the tradeoff if between variety and speed: the sentences are more similar the more we pre-compute
-   in the start, and the more different and slower the sentences are the less we pre-compute.
-   For example, for expression 16: total size is 13, and current measurements are:
-    - if seed-tree-size=13, then initial seed takes 1500 ms and each child tree takes    0 ms (because tree is already fully done).
-    - if seed-tree-size=12, then initial seed takes 1375 ms and each child tree takes   35 ms.
-    - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms.
-    - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms."
-  [spec seed-tree-size grammar index-fn syntax-tree]
-  (let [debug (log/debug (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
-        seed-tree (-> spec
-                      ((fn [tree]
-                         ;; add to the tree until it's reached the desired size:
-                         (add-until tree grammar index-fn syntax-tree seed-tree-size))))]
-    (log/debug (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
-    (repeatedly #(-> seed-tree
-                     (add-until-done grammar index-fn syntax-tree)
-                     first))))

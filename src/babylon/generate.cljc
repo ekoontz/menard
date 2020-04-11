@@ -7,8 +7,8 @@
    [babylon.truncate :as tr]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]
-   [dag_unify.serialization :as s]
-   [dag_unify.dissoc :as d]))
+   [dag_unify.dissoc :as d]
+   [dag_unify.serialization :as s]))
 
 (declare add)
 (declare add-lexeme)
@@ -21,7 +21,6 @@
 (declare headness?)
 (declare make-word)
 (declare numeric-frontier)
-(declare numeric-path)
 (declare reflexive-violations)
 (declare remove-trailing-comps)
 (declare summary-fn)
@@ -426,7 +425,7 @@
       ;; TODO: also truncate :head at this point, too:
       (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
       (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
+        (let [compless-at (if (empty? (tr/remove-trailing-comps at))
                             ;; in this case, we have just added the final :comp at the
                             ;; root of the tree, so simply truncate that:
                             [:comp]
@@ -434,11 +433,11 @@
                             ;; otherwise, ascend the tree as high as there are :comps
                             ;; trailing _at_.
                             (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
+          (log/debug (str "truncate@: " compless-at " (Compless at) " (syntax-tree tree)))
+          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (Numeric-path at) " (syntax-tree tree)))
           (-> tree
               (dissoc-in compless-at)
-              (dissoc-in (numeric-path tree compless-at))
+              (dissoc-in (tr/numeric-path tree compless-at))
               (dissoc :dag_unify.serialization/serialized)
               (u/assoc-in! (concat compless-at [::done?]) true)
               (dissoc-in (concat (butlast compless-at) [:head :subcat]))
@@ -495,23 +494,6 @@
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
     true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
-(defn numeric-path
-  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
-  [tree at]
-  (cond
-    (empty? at) []
-
-    (or (and (= (first at) :head)
-             (= (get tree :head)
-                (get tree :1)))
-        (and (= (first at) :comp)
-             (= (get tree :comp)
-                (get tree :1))))
-    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
-
-    true
-    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
 
 (defn headness? [tree at]
   (or

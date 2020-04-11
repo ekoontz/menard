@@ -97,7 +97,6 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-
 (defn truncate-at [tree at syntax-tree]
   (cond
     (= :fail tree)

@@ -264,9 +264,9 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         cat (u/get-in tree (concat at [:cat]))
-        at-num (numeric-frontier (:syntax-tree tree {}))]
+        at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
-                    (report tree syntax-tree) " at: " at " (numerically): " at-num))
+                    (report tree syntax-tree) " at: " at " numerically): " at-num))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)
@@ -352,7 +352,7 @@
         (let [head? (headness? tree at)
               ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
               ;; if folding occurs.
-              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
+              numerically-at (tr/numeric-frontier (u/get-in tree [:syntax-tree]))
               word (merge (make-word)
                           {:head? head?})]
           (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
@@ -435,10 +435,10 @@
                             ;; trailing _at_.
                             (remove-trailing-comps at))]
           (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
+          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
           (-> tree
               (dissoc-in compless-at)
-              (dissoc-in (numeric-path tree compless-at))
+              (dissoc-in (tr/numeric-path tree compless-at))
               (dissoc :dag_unify.serialization/serialized)
               (u/assoc-in! (concat compless-at [::done?]) true)
               (dissoc-in (concat (butlast compless-at) [:head :subcat]))
@@ -452,66 +452,6 @@
                                  (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
                  (cond true tree)))))
         tree))))
-
-
-(defn numeric-frontier [syntax-tree]
-  (cond
-    (and (map? syntax-tree)
-         (:syntax-tree syntax-tree))
-    (numeric-frontier (:syntax-tree syntax-tree))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :canonical))
-    :done
-
-    (and (map? syntax-tree)
-         (nil? (-> syntax-tree :1))
-         (nil? (-> syntax-tree :2)))
-    []
-
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :2)))
-         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-    
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :1)))
-         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-
-    (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :done)
-         (= (-> syntax-tree :2 numeric-frontier) :done))
-    :done
-
-    (nil? syntax-tree) []
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :1 :head?))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :2 :head?))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-    
-    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
-(defn numeric-path
-  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
-  [tree at]
-  (cond
-    (empty? at) []
-
-    (or (and (= (first at) :head)
-             (= (get tree :head)
-                (get tree :1)))
-        (and (= (first at) :comp)
-             (= (get tree :comp)
-                (get tree :1))))
-    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
-
-    true
-    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
 
 (defn headness? [tree at]
   (or

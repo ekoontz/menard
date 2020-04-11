@@ -247,13 +247,14 @@
     true
     (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
 
-;; TODO: consider using dag_unify.dissoc/dissoc-in.
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
 (defn dissoc-in
   "Dissociate a value in a nested associative structure, identified by a sequence
   of keys. Any collections left empty by the operation will be dissociated from
   their containing structures."
   [m ks]
+  ;; TODO: consider using dag_unify.dissoc/dissoc-in rather than this to
+  ;; simplify.
   (if-let [[head & tail] ks]
     (do
       (log/debug (str "ks: " ks))

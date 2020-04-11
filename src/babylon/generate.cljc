@@ -408,11 +408,7 @@
               (tr/dissoc-in (concat (butlast compless-at) [:head :sem]))
               (tr/dissoc-in (concat (butlast compless-at) [:head :exceptions]))
               (tr/dissoc-in (concat (butlast compless-at) [:1]))
-              (tr/dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
+              (tr/dissoc-in (concat (butlast compless-at) [:2]))))
         tree))))
 
 (defn reflexive-violations [expression syntax-tree-fn]

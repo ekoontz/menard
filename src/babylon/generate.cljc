@@ -25,8 +25,11 @@
 (declare summary-fn)
 (declare update-syntax-tree)
 
+(def build-syntax-tree? true)
+
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
+
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -105,8 +108,8 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str "add: start: " (report tree syntax-tree-fn) " at:" at
-                      (if (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
+                     (if (u/get-in tree (concat at [:phrasal]))
+                       (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
     (log/debug (str "add: " (report tree syntax-tree-fn)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
@@ -231,7 +234,10 @@
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
                                 :fail))))
-                      (update-syntax-tree at syntax-tree))))
+                      ((fn [tree]
+                         (if build-syntax-tree?
+                           (update-syntax-tree tree at syntax-tree)
+                           tree))))))
 
            (remove #(= :fail %))))))
 
@@ -276,17 +282,18 @@
                     (swap! count-rule-fails inc)
                     false)))
      (map
-      #(u/unify! %
-                 (assoc-in {} (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (headness? % (concat at [:1]))]
-                                     {:head? (= :head (last at))
-                                      :1 {:head? one-is-head?}
-                                      :2 {:head? (not one-is-head?)}
-                                      :variant (u/get-in % [:variant])
-                                      :rule
-                                      (or rule-name
-                                          (u/get-in % (concat at [:rule])))})))))))
-
+      #(if (not build-syntax-tree?)
+         %
+         (u/unify! %
+                   (assoc-in {} (concat [:syntax-tree] at-num)
+                             (let [one-is-head? (headness? % (concat at [:1]))]
+                               {:head? (= :head (last at))
+                                :1 {:head? one-is-head?}
+                                :2 {:head? (not one-is-head?)}
+                                :variant (u/get-in % [:variant])
+                                :rule
+                                (or rule-name
+                                    (u/get-in % (concat at [:rule])))}))))))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug "updating syntax-tree:" (report tree syntax-tree) " at: " at)

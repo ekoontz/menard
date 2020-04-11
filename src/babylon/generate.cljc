@@ -12,20 +12,14 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
-(declare dissoc-in)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
 (declare headness?)
 (declare make-word)
-(declare numeric-frontier)
-(declare numeric-path)
 (declare reflexive-violations)
 (declare remove-trailing-comps)
 (declare summary-fn)
-(declare update-syntax-tree)
-
-(def build-syntax-tree? true)
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
@@ -205,8 +199,6 @@
                       false)))
        (filter #(or (nil? lexical-filter) (lexical-filter %)))))
 
-(declare update-syntax-tree)
-
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
@@ -233,11 +225,7 @@
                       ((fn [tree]
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
-                                :fail))))
-                      ((fn [tree]
-                         (if build-syntax-tree?
-                           (update-syntax-tree tree at syntax-tree)
-                           tree))))))
+                                :fail)))))))
 
            (remove #(= :fail %))))))
 
@@ -247,10 +235,9 @@
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
-        cat (u/get-in tree (concat at [:cat]))
-        at-num (numeric-frontier (:syntax-tree tree {}))]
+        cat (u/get-in tree (concat at [:cat]))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
-                    (report tree syntax-tree) " at: " at " (numerically): " at-num))
+                    (report tree syntax-tree) " at: " at))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)
@@ -280,44 +267,7 @@
      (filter #(or (not (= :fail %))
                   (do
                     (swap! count-rule-fails inc)
-                    false)))
-     (map
-      #(if (not build-syntax-tree?)
-         %
-         (u/unify! %
-                   (assoc-in {} (concat [:syntax-tree] at-num)
-                             (let [one-is-head? (headness? % (concat at [:1]))]
-                               {:head? (= :head (last at))
-                                :1 {:head? one-is-head?}
-                                :2 {:head? (not one-is-head?)}
-                                :variant (u/get-in % [:variant])
-                                :rule
-                                (or rule-name
-                                    (u/get-in % (concat at [:rule])))}))))))))
-
-(defn update-syntax-tree [tree at syntax-tree]
-  (log/debug "updating syntax-tree:" (report tree syntax-tree) " at: " at)
-  (cond (= :fail tree)
-        tree
-        true
-        (let [head? (headness? tree at)
-              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-              word (merge (make-word)
-                          {:head? head?})]
-          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-          (u/unify! tree
-                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                           (s/create-path-in at word))))))
-
-(defn make-word []
-  {:agr (atom :top)
-   :canonical (atom :top)
-   :exceptions (atom :top)
-   :cat (atom :top)
-   :infl (atom :top)
-   :sem (atom :top)
-   :inflected? (atom :top)
-   :root (atom :top)})
+                    false))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -360,104 +310,12 @@
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
 
-(defn numeric-frontier [syntax-tree]
-  (cond
-    (and (map? syntax-tree)
-         (:syntax-tree syntax-tree))
-    (numeric-frontier (:syntax-tree syntax-tree))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :canonical))
-    :done
-
-    (and (map? syntax-tree)
-         (nil? (-> syntax-tree :1))
-         (nil? (-> syntax-tree :2)))
-    []
-
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :2)))
-         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-    
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :1)))
-         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-
-    (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :done)
-         (= (-> syntax-tree :2 numeric-frontier) :done))
-    :done
-
-    (nil? syntax-tree) []
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :1 :head?))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :2 :head?))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-    
-    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
-
 (defn remove-trailing-comps [at]
   (cond (empty? at) at
         (= :comp
            (last at))
         (remove-trailing-comps (butlast at))
         true at))
-
-;; TODO: consider using dag_unify.dissoc/dissoc-in.
-;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
-(defn dissoc-in
-  "Dissociate a value in a nested associative structure, identified by a sequence
-  of keys. Any collections left empty by the operation will be dissociated from
-  their containing structures."
-  [m ks]
-  (if-let [[head & tail] ks]
-    (do
-      (log/debug (str "ks: " ks))
-      (log/debug (str "HEAD: " head))
-      (log/debug (str "TAIL: " tail))      
-      (cond
-        tail
-        (let [v (dissoc-in (u/get-in m [head]) tail)]
-          (cond
-            (empty? v)
-            (dissoc m head)
-            true
-            (do
-              (log/debug (str "type of head: " (get m head)))
-              (cond
-                (u/ref? (get m head))
-                (do
-                  (log/debug (str "doing swap!"))
-                  (swap! (get m head)
-                         (fn [x] v))
-                  m)
-                true
-                (do
-                  (log/debug (str "doing default: " assoc))
-                  (assoc m head v))))))
-        true
-        (do
-          (log/debug (str "HEAD(alone):" head))
-          (dissoc m head))))
-    m))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.
@@ -495,57 +353,3 @@
         (= true (u/get-in expression [:reflexive] false))
         (= (:ref (u/get-in expression [:sem :subj]))
            (:ref (u/get-in expression [:sem :obj]))))))
-
-(defn- add-until-done [tree grammar index-fn syntax-tree]
-  (if (u/get-in tree [:babylon.generate/done?])
-    ;; we are done: just return a list of the finished tree:
-    [tree]
-
-    ;; not done yet; keep going.
-    (-> tree (add grammar index-fn syntax-tree) first (add-until-done grammar index-fn syntax-tree))))
-
-(defn- add-until
-  "to the tree _tree_, do (add) _n_ times."
-  [tree grammar index-fn syntax-tree n]
-  (cond
-
-   (= true (u/get-in tree [:babylon.generate/done?]))
-   (do
-     (log/warn "do-until: tree is done already with n=" n " steps still asked for: original caller should call add-until with a smaller _n_.")
-     tree)
-
-   ;; n=0: we're done; return:
-   (= n 0) tree
-
-   ;; main case: add and call again with n=n-1:
-   true
-   (add-until (-> tree
-                  (add grammar index-fn syntax-tree)
-                  first)
-              grammar
-              index-fn
-              syntax-tree
-              (- n 1))))
-
-(defn generate-seedlike
-  "Return a lazy sequence of sentences, all of which are generated starting with a seed tree that itself
-     is generated from _spec_. The seed tree's size is set by _seed-tree-size_, which means how big to make the seed tree:
-   A bigger seed tree size means step 1 takes longer, but step 2 is shorter, and step 2's output sentences are more similar to each other.
-   A smaller seed tree size means step 1 runs shorter, but step 2 is longer, and step 2's output sentences are more distinct from each other.
-   So the tradeoff if between variety and speed: the sentences are more similar the more we pre-compute
-   in the start, and the more different and slower the sentences are the less we pre-compute.
-   For example, for expression 16: total size is 13, and current measurements are:
-    - if seed-tree-size=13, then initial seed takes 1500 ms and each child tree takes    0 ms (because tree is already fully done).
-    - if seed-tree-size=12, then initial seed takes 1375 ms and each child tree takes   35 ms.
-    - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms.
-    - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms."
-  [spec seed-tree-size grammar index-fn syntax-tree]
-  (let [debug (log/debug (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
-        seed-tree (-> spec
-                      ((fn [tree]
-                         ;; add to the tree until it's reached the desired size:
-                         (add-until tree grammar index-fn syntax-tree seed-tree-size))))]
-    (log/debug (str "doing step 2: generate trees based on step 1's seed tree: " (syntax-tree seed-tree)))
-    (repeatedly #(-> seed-tree
-                     (add-until-done grammar index-fn syntax-tree)
-                     first))))

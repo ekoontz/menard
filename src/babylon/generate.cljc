@@ -203,6 +203,15 @@
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
+
+                      ;; do the actual adjoining of the child within the _tree_'s path _at_:
+                      ;;
+                      ;;            tree->     /\
+                      ;;                       \ ..
+                      ;;                       /..
+                      ;;                      /
+                      ;; path points here -> [] <- add candidate-lexeme here
+                      ;;
                       ((fn [tree]
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
@@ -242,11 +251,11 @@
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      ;;
-     ;;          tree->     /\
-     ;;                     \ ..
-     ;;                     /..
-     ;;                    /
-     ;; path points to -> [] <- add child here
+     ;;            tree->     /\
+     ;;                       \ ..
+     ;;                       /..
+     ;;                      /
+     ;; path points here -> [] <- add candidate grammar rule here
      ;;
      (map (fn [rule]
             (u/assoc-in tree
@@ -257,7 +266,6 @@
                   (do
                     (swap! count-rule-fails inc)
                     false)))
-
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)

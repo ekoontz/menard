@@ -17,6 +17,11 @@
 (declare get-lexemes)
 (declare reflexive-violations)
 
+#?(:clj (def ^:dynamic allow-folding? false))
+#?(:clj (def ^:dynamic allow-truncation? false))
+#?(:cljs (def ^:dynamic allow-folding? true))
+#?(:cljs (def ^:dynamic allow-truncation? true))
+
 (def ^:dynamic allow-folding? false)
 (def ^:dynamic allow-truncation? false)
 

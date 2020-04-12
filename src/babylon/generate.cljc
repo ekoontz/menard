@@ -248,7 +248,7 @@
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
                                 :fail))))
-                      (update-syntax-tree at syntax-tree)
+                      (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
                           (truncate-at % at syntax-tree)
                           %))
@@ -342,22 +342,6 @@
      (map (fn [tree]
             (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree)))))
-
-(defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
-  (cond (= :fail tree)
-        tree
-        true
-        (let [head? (headness? tree at)
-              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
-              ;; if folding occurs.
-              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-              word (merge (tr/make-word)
-                          {:head? head?})]
-          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-          (u/unify! tree
-                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                           (s/create-path-in at word))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

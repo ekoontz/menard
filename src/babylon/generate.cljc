@@ -526,7 +526,7 @@
   (cond
     (u/get-in tree [::done?]) tree
     
-    (and allow-folding? (foldable? tree at syntax-tree))
+    (foldable? tree at syntax-tree)
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
       (log/debug (str "folding    " at " " (report tree syntax-tree)))

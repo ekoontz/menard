@@ -332,16 +332,6 @@
             (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree)))))
 
-(defn make-word []
-  {:agr (atom :top)
-   :canonical (atom :top)
-   :exceptions (atom :top)
-   :cat (atom :top)
-   :infl (atom :top)
-   :sem (atom :top)
-   :inflected? (atom :top)
-   :root (atom :top)})
-
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]

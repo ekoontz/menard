@@ -22,7 +22,6 @@
 (declare numeric-path)
 (declare reflexive-violations)
 (declare remove-trailing-comps)
-(declare summary-fn)
 (declare update-syntax-tree)
 
 ;; enable additional checks and logging that makes generation slower:
@@ -51,15 +50,8 @@
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
 
-(defn tree-pruning? []
-  (and allow-folding? allow-truncation?))
-
 (defn report [tree syntax-tree]
-  (if (tree-pruning?)
-    (str "#" (count (str tree)) " " (syntax-tree tree))
-
-    ;; We don't call if tree-pruning? is false, since it would be very time-expensive:
-    (syntax-tree tree)))
+  (syntax-tree tree))
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
@@ -226,7 +218,7 @@
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
-                    (summary-fn spec) "; phrasal: " (u/get-in spec [:phrasal])))
+                    (syntax-tree spec) "; phrasal: " (u/get-in spec [:phrasal])))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
@@ -536,24 +528,6 @@
           (log/debug (str "HEAD(alone):" head))
           (dissoc m head))))
     m))
-
-;; TODO: move this to a ^:dynamic: variable so it can
-;; be customized per-language.
-(defn summary-fn [spec]
-  (cond true
-        (diag/strip-refs spec)
-
-        ;; everything below is disabled (because of the 'cond true' above).
-        (u/get-in spec [:rule])
-        (u/get-in spec [:rule])
-
-        (= :verb (u/get-in spec [:cat]))
-        (str "subcat 1:" (u/get-in spec [:subcat :1 :cat]))
-        true
-        (or (u/get-in spec [:rule])
-            (u/get-in spec [:canonical])
-            (u/get-in spec [:sem :pred])
-            (u/get-in spec [:cat]))))
 
 (defn reflexive-violations [expression syntax-tree-fn]
   (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))

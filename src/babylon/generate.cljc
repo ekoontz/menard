@@ -13,14 +13,11 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
-(declare dissoc-in)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
 (declare reflexive-violations)
-(declare remove-trailing-comps)
 (declare summary-fn)
-(declare truncate-at)
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
@@ -214,7 +211,7 @@
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
-        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
+        done-at (concat (tr/remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
@@ -242,7 +239,7 @@
                       (#(if allow-truncation?
                           (do
                             (log/debug (str "doing truncation."))
-                            (truncate-at % at syntax-tree))
+                            (tr/truncate-at % at syntax-tree))
                           %))
                       (#(if allow-folding?
                           (do
@@ -379,93 +376,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-(defn truncate-at [tree at syntax-tree]
-  (cond
-    (= :fail tree)
-    tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
-
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
-          (-> tree
-              (dissoc-in compless-at)
-              (dissoc-in (tr/numeric-path tree compless-at))
-              (dissoc :dag_unify.serialization/serialized)
-              (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)
-              (dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (dissoc-in (concat (butlast compless-at) [:1]))
-              (dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
-        tree))))
-
-(defn remove-trailing-comps [at]
-  (cond (empty? at) at
-        (= :comp
-           (last at))
-        (remove-trailing-comps (butlast at))
-        true at))
-
-;; TODO: consider using dag_unify.dissoc/dissoc-in.
-;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
-(defn dissoc-in
-  "Dissociate a value in a nested associative structure, identified by a sequence
-  of keys. Any collections left empty by the operation will be dissociated from
-  their containing structures."
-  [m ks]
-  (if-let [[head & tail] ks]
-    (do
-      (log/debug (str "ks: " ks))
-      (log/debug (str "HEAD: " head))
-      (log/debug (str "TAIL: " tail))      
-      (cond
-        tail
-        (let [v (dissoc-in (u/get-in m [head]) tail)]
-          (cond
-            (empty? v)
-            (dissoc m head)
-            true
-            (do
-              (log/debug (str "type of head: " (get m head)))
-              (cond
-                (u/ref? (get m head))
-                (do
-                  (log/debug (str "doing swap!"))
-                  (swap! (get m head)
-                         (fn [x] v))
-                  m)
-                true
-                (do
-                  (log/debug (str "doing default: " assoc))
-                  (assoc m head v))))))
-        true
-        (do
-          (log/debug (str "HEAD(alone):" head))
-          (dissoc m head))))
-    m))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.

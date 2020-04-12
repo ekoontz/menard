@@ -3,7 +3,9 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [babylon.exception :refer [exception]]
+   [babylon.fold :as fold]
    [babylon.serialization :as ser]
+   [babylon.truncate :as tr]   
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :as s]
@@ -13,7 +15,6 @@
 (declare add-lexeme)
 (declare add-rule)
 (declare dissoc-in)
-(declare foldup)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
@@ -252,7 +253,7 @@
                       (#(if allow-folding?
                           (do
                             (log/debug (str "doing folding."))
-                            (foldup % at syntax-tree))
+                            (fold/foldup % at syntax-tree))
                           %)))))
 
            (remove #(= :fail %))))))

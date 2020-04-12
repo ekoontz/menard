@@ -24,9 +24,6 @@
 #?(:cljs (def ^:dynamic allow-folding? true))
 #?(:cljs (def ^:dynamic allow-truncation? true))
 
-(def ^:dynamic allow-folding? false)
-(def ^:dynamic allow-truncation? false)
-
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -211,7 +208,7 @@
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
-        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
+        done-at (concat (tr/remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
@@ -367,14 +364,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-
-(defn remove-trailing-comps [at]
-  (cond (empty? at) at
-        (= :comp
-           (last at))
-        (remove-trailing-comps (butlast at))
-        true at))
 
 (defn reflexive-violations [expression syntax-tree-fn]
   (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))

@@ -83,10 +83,10 @@
               (log/warn (str "the depth got too deep on this tree: " (syntax-tree-fn tree) "; giving up on it."))
               [])
             
-            (or (u/get-in tree [:babylon.generate/done?])
+            (or (u/get-in tree [::done?])
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
-              (if (not (u/get-in tree [:babylon.generate/done?]))
+              (if (not (u/get-in tree [::done?]))
                 (log/debug (str "early stop of generation: " (report tree syntax-tree-fn) " at: " frontier)))
               (lazy-seq
                (cons tree
@@ -121,7 +121,7 @@
                       (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree))))
     (->>
      (cond
-       (u/get-in tree [:babylon.generate/done?])
+       (u/get-in tree [::done?])
        (do
          (log/debug (str "add: condition 1."))
          [tree])
@@ -209,7 +209,7 @@
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
-        done-at (concat (tr/remove-trailing-comps at) [:babylon.generate/done?])
+        done-at (concat (tr/remove-trailing-comps at) [::done?])
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
@@ -343,7 +343,7 @@
           (= :fail tree)
           []
           
-          (= (u/get-in tree [:babylon.generate/done?]) true)
+          (= (u/get-in tree [::done?]) true)
           []
           
           (= (u/get-in tree [:phrasal]) false)
@@ -355,18 +355,18 @@
           (= ::none (u/get-in tree [::started?] ::none))
           []
           
-          (and (u/get-in tree [:head :babylon.generate/done?])
-               (u/get-in tree [:comp :babylon.generate/done?]))
+          (and (u/get-in tree [:head ::done?])
+               (u/get-in tree [:comp ::done?]))
           []
 
           (and (= (u/get-in tree [:phrasal] true) true)
                (= (u/get-in tree [::started?] true) true)
-               (not (u/get-in tree [:head :babylon.generate/done?])))
+               (not (u/get-in tree [:head ::done?])))
           (cons :head (frontier (u/get-in tree [:head])))
 
           (and (= (u/get-in tree [:phrasal] true) true)
                (= (u/get-in tree [::started?] true) true)
-               (not (u/get-in tree [:comp :babylon.generate/done?])))
+               (not (u/get-in tree [:comp ::done?])))
           (cons :comp (frontier (u/get-in tree [:comp])))
 
           true []
@@ -413,7 +413,7 @@
            (:ref (u/get-in expression [:sem :obj]))))))
 
 (defn- add-until-done [tree grammar index-fn syntax-tree]
-  (if (u/get-in tree [:babylon.generate/done?])
+  (if (u/get-in tree [::done?])
     ;; we are done: just return a list of the finished tree:
     [tree]
 
@@ -425,7 +425,7 @@
   [tree grammar index-fn syntax-tree n]
   (cond
 
-   (= true (u/get-in tree [:babylon.generate/done?]))
+   (= true (u/get-in tree [::done?]))
    (do
      (log/warn "do-until: tree is done already with n=" n " steps still asked for: original caller should call add-until with a smaller _n_.")
      tree)

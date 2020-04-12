@@ -18,15 +18,15 @@
 (declare get-lexemes)
 (declare headness?)
 (declare reflexive-violations)
-(declare remove-trailing-comps)
-(declare update-syntax-tree)
 
-;; enable additional checks and logging that makes generation slower:
-(def diagnostics? false)
-;; TODO: generation with allow-folding?=false doesn't work reliably:
-;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? true)
-(def allow-truncation? true)
+#?(:clj (def ^:dynamic allow-folding? false))
+#?(:clj (def ^:dynamic allow-truncation? false))
+#?(:cljs (def ^:dynamic allow-folding? true))
+#?(:cljs (def ^:dynamic allow-truncation? true))
+
+(def ^:dynamic allow-folding? false)
+(def ^:dynamic allow-truncation? false)
+
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)

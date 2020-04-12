@@ -11,7 +11,6 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
-(declare find-done-at)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
@@ -188,7 +187,7 @@
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))
   (let [at (frontier tree)
-        done-at (concat (find-done-at at) [:babylon.generate/done?])
+        done-at (concat (tr/remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "

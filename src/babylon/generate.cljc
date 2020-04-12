@@ -243,10 +243,7 @@
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
-                      ((fn [tree]
-                         (try (u/assoc-in! tree at candidate-lexeme)
-                              (catch Exception e
-                                :fail))))
+                      (u/assoc-in! at candidate-lexeme)
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
                           (tr/truncate-at % at syntax-tree)

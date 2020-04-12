@@ -206,8 +206,6 @@
                       false)))
        (filter #(or (nil? lexical-filter) (lexical-filter %)))))
 
-(declare update-syntax-tree)
-
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)

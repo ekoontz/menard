@@ -13,8 +13,6 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
-(declare dissoc-in)
-(declare foldup)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
@@ -247,7 +245,9 @@
                       (#(if allow-truncation?
                           (tr/truncate-at % at syntax-tree)
                           %))
-                      (foldup at syntax-tree))))
+                      (#(if allow-folding?
+                          (tr/foldup % at syntax-tree)
+                          %)))))
 
            (remove #(= :fail %))))))
 
@@ -405,247 +405,12 @@
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
 
-(defn truncate-at [tree at syntax-tree]
-  (cond
-    (= :fail tree)
-    tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
-
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (tr/numeric-path at) " (report tree syntax-tree)))
-          (-> tree
-              (dissoc-in compless-at)
-              (dissoc-in (tr/numeric-path tree compless-at))
-              (dissoc :dag_unify.serialization/serialized)
-              (u/assoc-in! (concat compless-at [::done?]) true)
-              (dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (dissoc-in (concat (butlast compless-at) [:1]))
-              (dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
-        tree))))
-
-;; fold up a tree like this:
-;;
-;;       grandparent
-;;      /   \ C
-;;   H /    parent
-;;   uncle  / \
-;;         /   \
-;;      H /     \
-;;      nephew   _ complement-of-nephew
-;;
-;; into:
-;;
-;;      grandparent
-;;      /         \ C
-;;   H /           \
-;;    uncle+nephew   _ complement-of-nephew
-;;
-(defn foldable?
-  "determine whether the given _tree_ is foldable, if the given _at_ points to a nephew"
-  [tree at syntax-tree]
-  (let [st (syntax-tree tree)
-        grandparent (u/get-in tree (-> at butlast butlast))
-        parent (u/get-in tree (-> at butlast))
-        uncle (u/get-in grandparent [:head])
-        cond1 (not (empty? (-> at butlast butlast)))
-        cond2 (= (get parent :head)
-                 (get parent :1))
-        cond3 (= (get grandparent :head)
-                 (get grandparent :1))
-        cond4 (not (nil? (u/get-in tree (-> at butlast (concat [:comp])))))
-        cond5 (nil? (u/get-in tree (concat at [:subcat :3])))]
-    (cond (and cond1 cond2 cond3 cond4 cond5)
-          (do (log/debug (str "FOLD OK: " (syntax-tree tree) " at: " at))
-              true)
-          (false? cond1)
-          (do (log/debug (str "cond1? " cond1 " " st " at: " at))
-              false)
-          (false? cond2)
-          (do (log/debug (str "cond2? " cond3 " " st " at: " at))
-              false)
-          (false? cond3)
-          (do (log/debug (str "cond3? " cond3 " " st " at: " at))
-              false)
-          (false? cond4)
-          (do (log/debug (str "cond4? " cond4 " " st " at: " at))
-              false)
-          (false? cond5)
-          (do (log/debug (str "cond5? " cond5 " " st " at: " at))
-              false)
-          
-          true (exception (str "should never get here: did you miss adding a cond-check in foldable?")))))
-
-;; fold up a tree like this:
-;;
-;;       grandparent
-;;      /   \ C
-;;   H /    parent
-;;   uncle  / \
-;;         /   \
-;;      H /     \
-;;      nephew   _ nephew complement
-;;
-;; into:
-;;
-;;      grandparent
-;;      /         \ C
-;;   H /           \
-;;    uncle+nephew   _ nephew complement
-;;
-(defn foldup [tree at syntax-tree]
-  (cond
-    (u/get-in tree [::done?]) tree
-    
-    (and allow-folding? (foldable? tree at syntax-tree))
-    (let [grandparent (u/get-in tree (-> at butlast butlast))
-          nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (log/debug (str "folding    " at " " (report tree syntax-tree)))
-      (log/debug (str "nephew-complement: " (report nephew-complement syntax-tree)))
-      (swap! (get grandparent :comp)
-             (fn [old] nephew-complement))
-      (dissoc tree :dag_unify.serialization/serialized))
-    true
-    tree))
-
-(defn numeric-frontier [syntax-tree]
-  (cond
-    (and (map? syntax-tree)
-         (:syntax-tree syntax-tree))
-    (tr/numeric-frontier (:syntax-tree syntax-tree))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :canonical))
-    :done
-
-    (and (map? syntax-tree)
-         (nil? (-> syntax-tree :1))
-         (nil? (-> syntax-tree :2)))
-    []
-
-    (and (map? syntax-tree)
-         (= :done (tr/numeric-frontier (-> syntax-tree :2)))
-         (not (= :done (tr/numeric-frontier (-> syntax-tree :1)))))
-    (cons :1 (tr/numeric-frontier (-> syntax-tree :1)))
-    
-    (and (map? syntax-tree)
-         (= :done (tr/numeric-frontier (-> syntax-tree :1)))
-         (not (= :done (tr/numeric-frontier (-> syntax-tree :2)))))
-    (cons :2 (tr/numeric-frontier (-> syntax-tree :2)))
-
-    (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :done)
-         (= (-> syntax-tree :2 numeric-frontier) :done))
-    :done
-
-    (nil? syntax-tree) []
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :1 :head?))
-    (cons :1 (tr/numeric-frontier (-> syntax-tree :1)))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :2 :head?))
-    (cons :2 (tr/numeric-frontier (-> syntax-tree :2)))
-    
-    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
-(defn numeric-path
-  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
-  [tree at]
-  (cond
-    (empty? at) []
-
-    (or (and (= (first at) :head)
-             (= (get tree :head)
-                (get tree :1)))
-        (and (= (first at) :comp)
-             (= (get tree :comp)
-                (get tree :1))))
-    (cons :1 (tr/numeric-path (u/get-in tree [(first at)]) (rest at)))
-
-    true
-    (cons :2 (tr/numeric-path (u/get-in tree [(first at)]) (rest at)))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
-
 (defn remove-trailing-comps [at]
   (cond (empty? at) at
         (= :comp
            (last at))
         (remove-trailing-comps (butlast at))
         true at))
-
-;; TODO: consider using dag_unify.dissoc/dissoc-in.
-;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
-(defn dissoc-in
-  "Dissociate a value in a nested associative structure, identified by a sequence
-  of keys. Any collections left empty by the operation will be dissociated from
-  their containing structures."
-  [m ks]
-  (if-let [[head & tail] ks]
-    (do
-      (log/debug (str "ks: " ks))
-      (log/debug (str "HEAD: " head))
-      (log/debug (str "TAIL: " tail))      
-      (cond
-        tail
-        (let [v (dissoc-in (u/get-in m [head]) tail)]
-          (cond
-            (empty? v)
-            (dissoc m head)
-            true
-            (do
-              (log/debug (str "type of head: " (get m head)))
-              (cond
-                (u/ref? (get m head))
-                (do
-                  (log/debug (str "doing swap!"))
-                  (swap! (get m head)
-                         (fn [x] v))
-                  m)
-                true
-                (do
-                  (log/debug (str "doing default: " assoc))
-                  (assoc m head v))))))
-        true
-        (do
-          (log/debug (str "HEAD(alone):" head))
-          (dissoc m head))))
-    m))
 
 ;; TODO: move this to a ^:dynamic: variable so it can
 ;; be customized per-language.

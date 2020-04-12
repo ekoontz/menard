@@ -13,7 +13,6 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
-(declare foldup)
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
@@ -237,7 +236,7 @@
                       (#(if allow-truncation?
                           (tr/truncate-at % at syntax-tree)
                           %))
-                      (foldup at syntax-tree))))
+                      (tr/foldup at syntax-tree))))
 
            (remove #(= :fail %))))))
 

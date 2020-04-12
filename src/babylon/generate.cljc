@@ -13,7 +13,6 @@
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
-(declare dissoc-in)
 (declare foldup)
 (declare frontier)
 (declare generate-all)
@@ -408,44 +407,6 @@
            (last at))
         (remove-trailing-comps (butlast at))
         true at))
-
-;; TODO: consider using dag_unify.dissoc/dissoc-in.
-;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
-(defn dissoc-in
-  "Dissociate a value in a nested associative structure, identified by a sequence
-  of keys. Any collections left empty by the operation will be dissociated from
-  their containing structures."
-  [m ks]
-  (if-let [[head & tail] ks]
-    (do
-      (log/debug (str "ks: " ks))
-      (log/debug (str "HEAD: " head))
-      (log/debug (str "TAIL: " tail))      
-      (cond
-        tail
-        (let [v (dissoc-in (u/get-in m [head]) tail)]
-          (cond
-            (empty? v)
-            (dissoc m head)
-            true
-            (do
-              (log/debug (str "type of head: " (get m head)))
-              (cond
-                (u/ref? (get m head))
-                (do
-                  (log/debug (str "doing swap!"))
-                  (swap! (get m head)
-                         (fn [x] v))
-                  m)
-                true
-                (do
-                  (log/debug (str "doing default: " assoc))
-                  (assoc m head v))))))
-        true
-        (do
-          (log/debug (str "HEAD(alone):" head))
-          (dissoc m head))))
-    m))
 
 (defn reflexive-violations [expression syntax-tree-fn]
   (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))

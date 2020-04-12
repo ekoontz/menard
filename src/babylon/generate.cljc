@@ -6,9 +6,7 @@
    [babylon.serialization :as ser]
    [babylon.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
-   [dag_unify.diagnostics :as diag]
-   [dag_unify.serialization :as s]
-   [dag_unify.dissoc :as d]))
+   [dag_unify.diagnostics :as diag]))
 
 (declare add)
 (declare add-lexeme)
@@ -17,11 +15,6 @@
 (declare generate-all)
 (declare get-lexemes)
 (declare reflexive-violations)
-
-;; enable additional checks and logging that makes generation slower:
-(def diagnostics? false)
-;; TODO: generation with allow-folding?=false doesn't work reliably:
-;; either fix or might be time to not support allow-folding?=false anymore.
 
 (def ^:dynamic allow-folding? false)
 (def ^:dynamic allow-truncation? false)
@@ -46,9 +39,6 @@
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
 
-(defn report [tree syntax-tree]
-  (syntax-tree tree))
-
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
@@ -59,7 +49,7 @@
   (reset! count-rule-fails 0)
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-    (log/debug (str "generated: " (report result syntax-tree-fn) " with "
+    (log/debug (str "generated: " (syntax-tree-fn result) " with "
                     @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
                     @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
                     @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
@@ -73,7 +63,7 @@
   (if (not (empty? trees))
     (let [tree (first trees)
           frontier (frontier tree)]
-      (log/debug (str "generate-all: " frontier ": " (report tree syntax-tree-fn)))
+      (log/debug (str "generate-all: " frontier ": " (syntax-tree-fn tree)))
       (cond (= :fail tree)
             []
 
@@ -86,7 +76,7 @@
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
               (if (not (u/get-in tree [::done?]))
-                (log/debug (str "early stop of generation: " (report tree syntax-tree-fn) " at: " frontier)))
+                (log/debug (str "early stop of generation: " (syntax-tree-fn tree) " at: " frontier)))
               (lazy-seq
                (cons tree
                      (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
@@ -107,13 +97,13 @@
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
-      (log/debug (str "add: start: " (report tree syntax-tree-fn) " at:" at
+      (log/debug (str "add: start: " (syntax-tree-fn tree) " at:" at
                       (if (u/get-in tree (concat at [:phrasal]))
                         (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
-    (log/debug (str "add: " (report tree syntax-tree-fn)))
+    (log/debug (str "add: " (syntax-tree-fn tree)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
-      (log/debug (str (report tree syntax-tree-fn) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
+      (log/debug (str (syntax-tree-fn tree) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
              (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
       (exception (str "add: phrasal is false but rule is specified: "
@@ -149,7 +139,7 @@
                        (map (fn [rule]
                               (diag/fail-path spec rule)))))]
              (if (u/get-in spec [:rule])
-               (log/warn (str (report tree syntax-tree-fn) ": no rule: " (u/get-in spec [:rule]) " matched spec: " (syntax-tree-fn (u/get-in tree at))
+               (log/warn (str (syntax-tree-fn tree) ": no rule: " (u/get-in spec [:rule]) " matched spec: " (syntax-tree-fn (u/get-in tree at))
                               (if (not (empty? fail-paths))
                                 fail-paths))))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
@@ -206,12 +196,12 @@
        (filter #(or (nil? lexical-filter) (lexical-filter %)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
-  (log/debug (str "add-lexeme: " (report tree syntax-tree)))
+  (log/debug (str "add-lexeme: " (syntax-tree tree)))
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [::done?])
         spec (u/get-in tree at)
         diagnose? false]
-    (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
+    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec:"
                     (syntax-tree spec) "; phrasal: " (u/get-in spec [:phrasal])))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
@@ -224,7 +214,7 @@
                   (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
                                   " with derivation: " (u/get-in candidate-lexeme [:derivation])
                                   " and subcat 2: " (u/get-in candidate-lexeme [:subcat :2])
-                                  " at: " at " to: " (report tree syntax-tree)))
+                                  " at: " at " to: " (syntax-tree tree)))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -255,7 +245,7 @@
         cat (u/get-in tree (concat at [:cat]))
         at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
-                    (report tree syntax-tree) " at: " at " (numerically): " at-num))
+                    (syntax-tree tree) " at: " at " (numerically): " at-num))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)
@@ -291,7 +281,7 @@
      ;; path points to -> [] <- add child here
      ;;
      (map (fn [rule]
-            (log/debug (str "round 2.5: adding: " (u/get-in rule [:rule]) " to: " (report tree syntax-tree)
+            (log/debug (str "round 2.5: adding: " (u/get-in rule [:rule]) " to: " (syntax-tree tree)
                             " at: " at-num "; " (if (u/get-in rule [:variant])
                                                   "with variant: " (u/get-in rule [:variant]))))
             (u/assoc-in tree

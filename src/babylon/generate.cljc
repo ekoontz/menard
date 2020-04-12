@@ -4,6 +4,7 @@
    #?(:cljs [cljslog.core :as log])
    [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
+   [babylon.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :as s]

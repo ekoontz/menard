@@ -40,15 +40,18 @@
   true)
 
 (def count-adds (atom 0))
+(def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
 
 (defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
   (reset! count-adds 0)
+  (reset! count-lexeme-fails 0)
   (reset! count-rule-fails 0)
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
     (log/debug (str "generated: " (syntax-tree-fn result) " with "
                     @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
+                    @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
                     @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
                     "."))
     result))
@@ -182,8 +185,10 @@
                                        %))))
              %))
        (map #(unify % spec))
-       (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
-             %))))
+       (filter #(or (not (= :fail %))
+                    (do
+                      (swap! count-lexeme-fails inc)
+                      false)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))

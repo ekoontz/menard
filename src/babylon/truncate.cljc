@@ -16,8 +16,6 @@
 (declare numeric-path)
 (declare remove-trailing-comps)
 
-(def allow-folding? false)
-
 (defn update-syntax-tree [tree at syntax-tree]
   (cond (= :fail tree)
         tree
@@ -210,16 +208,15 @@
 ;;
 (defn foldup [tree at syntax-tree]
   (cond
-    (u/get-in tree [::done?]) tree
+    (u/get-in tree [:babylon.generate/done?]) tree
     
-    (and allow-folding? (foldable? tree at syntax-tree))
+    (foldable? tree at syntax-tree)
     (let [grandparent (u/get-in tree (-> at butlast butlast))
           nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
       (log/debug (str "folding    " at " " (syntax-tree tree)))
       (log/debug (str "nephew-complement: " (syntax-tree nephew-complement)))
       (swap! (get grandparent :comp)
-             (fn [old] nephew-complement))
-      (dissoc tree :dag_unify.serialization/serialized))
+             (fn [old] nephew-complement)))
     true
     tree))
 

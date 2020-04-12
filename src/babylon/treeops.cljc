@@ -75,3 +75,84 @@
       (dissoc tree :dag_unify.serialization/serialized))
     true
     tree))
+
+(defn headness? [tree at]
+  (or
+   (= (last at) :head)
+   (and
+    (= (last at) :1)
+    (= (get (u/get-in tree (butlast at)) :1)
+       (get (u/get-in tree (butlast at)) :head)))
+   (and
+    (= (last at) :1)
+    (= (get (u/get-in tree (butlast at)) :1)
+       (get (u/get-in tree (butlast at)) :head)))))
+
+(defn make-word []
+  {:agr (atom :top)
+   :canonical (atom :top)
+   :exceptions (atom :top)
+   :cat (atom :top)
+   :infl (atom :top)
+   :sem (atom :top)
+   :inflected? (atom :top)
+   :root (atom :top)})
+
+(defn numeric-frontier [syntax-tree]
+  (cond
+    (and (map? syntax-tree)
+         (:syntax-tree syntax-tree))
+    (numeric-frontier (:syntax-tree syntax-tree))
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :canonical))
+    :done
+
+    (and (map? syntax-tree)
+         (nil? (-> syntax-tree :1))
+         (nil? (-> syntax-tree :2)))
+    []
+
+    (and (map? syntax-tree)
+         (= :done (numeric-frontier (-> syntax-tree :2)))
+         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
+    (cons :1 (numeric-frontier (-> syntax-tree :1)))
+    
+    (and (map? syntax-tree)
+         (= :done (numeric-frontier (-> syntax-tree :1)))
+         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
+    (cons :2 (numeric-frontier (-> syntax-tree :2)))
+
+    (and (map? syntax-tree)
+         (= (-> syntax-tree :1 numeric-frontier) :done)
+         (= (-> syntax-tree :2 numeric-frontier) :done))
+    :done
+
+    (nil? syntax-tree) []
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :1 :head?))
+    (cons :1 (numeric-frontier (-> syntax-tree :1)))
+
+    (and (map? syntax-tree)
+         (-> syntax-tree :2 :head?))
+    (cons :2 (numeric-frontier (-> syntax-tree :2)))
+    
+    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
+
+(defn update-syntax-tree [tree at syntax-tree]
+  (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
+  (cond (= :fail tree)
+        tree
+        true
+        (let [head? (headness? tree at)
+              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
+              ;; if folding occurs.
+              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
+              word (merge (make-word)
+                          {:head? head?})]
+          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
+          (u/unify! tree
+                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
+                           (s/create-path-in at word))))))
+

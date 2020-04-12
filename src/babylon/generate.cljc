@@ -243,9 +243,7 @@
                          (try (u/assoc-in! tree at candidate-lexeme)
                               (catch Exception e
                                 :fail))))
-                      (#(if (or true allow-truncation? allow-folding?)
-                          (update-syntax-tree % at syntax-tree)
-                          %))
+                      (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
                           (do
                             (log/debug (str "doing truncation."))
@@ -266,7 +264,7 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
         cat (u/get-in tree (concat at [:cat]))
-        at-num (numeric-frontier (:syntax-tree tree {}))]
+        at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
                     (report tree syntax-tree) " at: " at " (numerically): " at-num))
     (->>
@@ -327,7 +325,7 @@
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (headness? % (concat at [:1]))]
+                                   (let [one-is-head? (tr/headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
                                       :1 {:head? one-is-head?}
                                       :2 {:head? (not one-is-head?)}
@@ -345,32 +343,6 @@
      (map (fn [tree]
             (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree)))))
-
-(defn update-syntax-tree [tree at syntax-tree]
-  (log/debug (str "updating syntax-tree:" (report tree syntax-tree) " at: " at))
-  (cond (= :fail tree)
-        tree
-        true
-        (let [head? (headness? tree at)
-              ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
-              ;; if folding occurs.
-              numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-              word (merge (make-word)
-                          {:head? head?})]
-          (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
-          (u/unify! tree
-                    (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
-                           (s/create-path-in at word))))))
-
-(defn make-word []
-  {:agr (atom :top)
-   :canonical (atom :top)
-   :exceptions (atom :top)
-   :cat (atom :top)
-   :infl (atom :top)
-   :sem (atom :top)
-   :inflected? (atom :top)
-   :root (atom :top)})
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -455,48 +427,6 @@
                  (cond true tree)))))
         tree))))
 
-(defn numeric-frontier [syntax-tree]
-  (cond
-    (and (map? syntax-tree)
-         (:syntax-tree syntax-tree))
-    (numeric-frontier (:syntax-tree syntax-tree))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :canonical))
-    :done
-
-    (and (map? syntax-tree)
-         (nil? (-> syntax-tree :1))
-         (nil? (-> syntax-tree :2)))
-    []
-
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :2)))
-         (not (= :done (numeric-frontier (-> syntax-tree :1)))))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-    
-    (and (map? syntax-tree)
-         (= :done (numeric-frontier (-> syntax-tree :1)))
-         (not (= :done (numeric-frontier (-> syntax-tree :2)))))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-
-    (and (map? syntax-tree)
-         (= (-> syntax-tree :1 numeric-frontier) :done)
-         (= (-> syntax-tree :2 numeric-frontier) :done))
-    :done
-
-    (nil? syntax-tree) []
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :1 :head?))
-    (cons :1 (numeric-frontier (-> syntax-tree :1)))
-
-    (and (map? syntax-tree)
-         (-> syntax-tree :2 :head?))
-    (cons :2 (numeric-frontier (-> syntax-tree :2)))
-    
-    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
-
 (defn numeric-path
   "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
   [tree at]
@@ -513,18 +443,6 @@
 
     true
     (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at

@@ -17,15 +17,10 @@
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
-(declare headness?)
-(declare make-word)
-(declare numeric-frontier)
-(declare numeric-path)
 (declare reflexive-violations)
 (declare remove-trailing-comps)
 (declare summary-fn)
 (declare truncate-at)
-(declare update-syntax-tree)
 
 ;; enable additional checks and logging that makes generation slower:
 (def diagnostics? false)
@@ -409,10 +404,10 @@
                             ;; trailing _at_.
                             (remove-trailing-comps at))]
           (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
+          (log/debug (str "truncate@: " (tr/numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
           (-> tree
               (dissoc-in compless-at)
-              (dissoc-in (numeric-path tree compless-at))
+              (dissoc-in (tr/numeric-path tree compless-at))
               (dissoc :dag_unify.serialization/serialized)
               (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)
               (dissoc-in (concat (butlast compless-at) [:head :subcat]))
@@ -426,23 +421,6 @@
                                  (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
                  (cond true tree)))))
         tree))))
-
-(defn numeric-path
-  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
-  [tree at]
-  (cond
-    (empty? at) []
-
-    (or (and (= (first at) :head)
-             (= (get tree :head)
-                (get tree :1)))
-        (and (= (first at) :comp)
-             (= (get tree :comp)
-                (get tree :1))))
-    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
-
-    true
-    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at

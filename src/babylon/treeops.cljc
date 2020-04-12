@@ -156,3 +156,19 @@
                     (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                            (s/create-path-in at word))))))
 
+(defn numeric-path
+  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
+  [tree at]
+  (cond
+    (empty? at) []
+
+    (or (and (= (first at) :head)
+             (= (get tree :head)
+                (get tree :1)))
+        (and (= (first at) :comp)
+             (= (get tree :comp)
+                (get tree :1))))
+    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
+
+    true
+    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))

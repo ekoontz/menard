@@ -19,7 +19,6 @@
 (declare generate-all)
 (declare get-lexemes)
 (declare headness?)
-(declare numeric-path)
 (declare reflexive-violations)
 (declare remove-trailing-comps)
 (declare update-syntax-tree)
@@ -311,7 +310,7 @@
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (headness? % (concat at [:1]))]
+                                   (let [one-is-head? (tr/headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
                                       :1 {:head? one-is-head?}
                                       :2 {:head? (not one-is-head?)}
@@ -454,35 +453,6 @@
       (dissoc tree :dag_unify.serialization/serialized))
     true
     tree))
-
-(defn numeric-path
-  "convert a path made of [:head,:comp]s into one made of [:1,:2]s."
-  [tree at]
-  (cond
-    (empty? at) []
-
-    (or (and (= (first at) :head)
-             (= (get tree :head)
-                (get tree :1)))
-        (and (= (first at) :comp)
-             (= (get tree :comp)
-                (get tree :1))))
-    (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
-
-    true
-    (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
-
-(defn headness? [tree at]
-  (or
-   (= (last at) :head)
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))
-   (and
-    (= (last at) :1)
-    (= (get (u/get-in tree (butlast at)) :1)
-       (get (u/get-in tree (butlast at)) :head)))))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at

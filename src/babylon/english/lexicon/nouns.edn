@@ -80,6 +80,8 @@
           :sem {:pred :leg}}]
  "life" [{:cat :noun
           :sem {:pred :life}}]
+ "loneliness" [{:cat :noun
+                :sem {:pred :loneliness}}]
  "lot" [{:cat :noun
          :sem {:pred :lot}}]
  "man" [{:cat :noun

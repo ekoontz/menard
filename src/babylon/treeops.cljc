@@ -69,8 +69,7 @@
       (log/debug (str "folding    " at " " (syntax-tree tree)))
       (log/debug (str "nephew-complement: " (syntax-tree nephew-complement)))
       (swap! (get grandparent :comp)
-             (fn [old] nephew-complement))
-      (dissoc tree :dag_unify.serialization/serialized))
+             (fn [old] nephew-complement)))
     true
     tree))
 
@@ -244,7 +243,6 @@
           (-> tree
               (dissoc-in compless-at)
               (dissoc-in (numeric-path tree compless-at))
-              (dissoc :dag_unify.serialization/serialized)
               (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)
               (dissoc-in (concat (butlast compless-at) [:head :subcat]))
               (dissoc-in (concat (butlast compless-at) [:head :derivation]))

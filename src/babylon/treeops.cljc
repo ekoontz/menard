@@ -1,4 +1,4 @@
-(ns babylon.fold
+(ns babylon.treeops
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])

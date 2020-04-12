@@ -98,8 +98,8 @@
       (exception (str "add: value at: " at " is fail.")))
     (if (not (= tree :fail))
       (log/debug (str "add: start: " (syntax-tree-fn tree) " at:" at
-                     (if (u/get-in tree (concat at [:phrasal]))
-                       (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
+                      (if (u/get-in tree (concat at [:phrasal]))
+                        (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
     (log/debug (str "add: " (syntax-tree-fn tree)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
@@ -179,11 +179,6 @@
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
   (->> (lexicon-index-fn spec)
-       (#(do (log/debug (str "get-lexeme: pre-unify: "
-                             (vec (map (fn [matching-lexeme]
-                                         (diag/fail-path matching-lexeme spec))
-                                       %))))
-             %))
        (map #(unify % spec))
        (filter #(or (not (= :fail %))
                     (do
@@ -206,10 +201,6 @@
            (#(take (count %) %))
 
            (map (fn [candidate-lexeme]
-                  (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
-                                  " with derivation: " (u/get-in candidate-lexeme [:derivation])
-                                  " and subcat 2: " (u/get-in candidate-lexeme [:subcat :2])
-                                  " at: " at " to: " (syntax-tree tree)))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -219,14 +210,10 @@
                                 :fail))))
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (do
-                            (log/debug (str "doing truncation."))
-                            (tr/truncate-at % at syntax-tree))
+                          (tr/truncate-at % at syntax-tree)
                           %))
                       (#(if allow-folding?
-                          (do
-                            (log/debug (str "doing folding."))
-                            (tr/foldup % at syntax-tree))
+                          (tr/foldup % at syntax-tree)
                           %)))))
 
            (remove #(= :fail %))))))
@@ -271,10 +258,6 @@
                   (do
                     (swap! count-rule-fails inc)
                     false)))
-     
-     (map (fn [tree]
-            (log/debug (str "round 4: " (syntax-tree tree)))
-            tree))
 
      (map
       #(u/unify! %
@@ -287,10 +270,6 @@
                                       :rule
                                       (or rule-name
                                           (u/get-in % (concat at [:rule])))}))))
-
-     (map (fn [tree]
-            (log/debug (str "round 5: " (syntax-tree tree)))
-            tree))
 
      (remove #(= % :fail))
 
@@ -338,11 +317,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-(defn find-done-at [at]
-  (cond (= :comp (last at))
-        (find-done-at (butlast at))
-        true at))
 
 (defn reflexive-violations [expression syntax-tree-fn]
   (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))

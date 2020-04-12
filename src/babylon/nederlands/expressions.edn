@@ -156,7 +156,7 @@
 
  ;; 16
  ;; ARGD, p. 37
- {:note "'Haar heel verdrietig zelfverzekerde beschaving probeert mijn heel verdrietig overheid te veroorzaaken.'/'Her very sad confident civilization tries to cause my very sad government.'"
+ {:note "modals+infinitive"
   :dotimes 5
   :phrasal true
   :rule "s"
@@ -184,7 +184,8 @@
                          :comp {:rule "vp"}}}}}
 
  ;; 17
- {:rule "s"
+ {:note "using 'kunnen'"
+  :rule "s"
   :head {:rule "vp"
          :head {:phrasal false
                 :canonical "kunnen"}

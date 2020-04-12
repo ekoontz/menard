@@ -31,8 +31,10 @@
 (def diagnostics? false)
 ;; TODO: generation with allow-folding?=false doesn't work reliably:
 ;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? false)
-(def allow-truncation? false)
+
+(def ^:dynamic allow-folding? false)
+(def ^:dynamic allow-truncation? false)
+
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -53,15 +55,8 @@
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
 
-(defn tree-pruning? []
-  (and allow-folding? allow-truncation?))
-
 (defn report [tree syntax-tree]
-  (if (tree-pruning?)
-    (str "#" (count (str tree)) " " (syntax-tree tree))
-
-    ;; We don't call if tree-pruning? is false, since it would be very time-expensive:
-    (syntax-tree tree)))
+  (syntax-tree tree))
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
@@ -250,9 +245,15 @@
                                 :fail))))
                       (update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (truncate-at % at syntax-tree)
+                          (do
+                            (log/debug (str "doing truncation."))
+                            (truncate-at % at syntax-tree))
                           %))
-                      (foldup at syntax-tree))))
+                      (#(if allow-folding?
+                          (do
+                            (log/debug (str "doing folding."))
+                            (foldup % at syntax-tree))
+                          %)))))
 
            (remove #(= :fail %))))))
 

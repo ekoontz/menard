@@ -217,11 +217,11 @@
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (report tree syntax-tree)))
   (let [at (frontier tree)
-        done-at (concat (remove-trailing-comps at) [:babylon.generate/done?])
+        done-at (concat (tr/remove-trailing-comps at) [:babylon.generate/done?])
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (report tree syntax-tree) " at: " at " with spec:"
-                    (summary-fn spec) "; phrasal: " (u/get-in spec [:phrasal])))
+                    (syntax-tree spec) "; phrasal: " (u/get-in spec [:phrasal])))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
@@ -404,31 +404,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-(defn remove-trailing-comps [at]
-  (cond (empty? at) at
-        (= :comp
-           (last at))
-        (remove-trailing-comps (butlast at))
-        true at))
-
-;; TODO: move this to a ^:dynamic: variable so it can
-;; be customized per-language.
-(defn summary-fn [spec]
-  (cond true
-        (diag/strip-refs spec)
-
-        ;; everything below is disabled (because of the 'cond true' above).
-        (u/get-in spec [:rule])
-        (u/get-in spec [:rule])
-
-        (= :verb (u/get-in spec [:cat]))
-        (str "subcat 1:" (u/get-in spec [:subcat :1 :cat]))
-        true
-        (or (u/get-in spec [:rule])
-            (u/get-in spec [:canonical])
-            (u/get-in spec [:sem :pred])
-            (u/get-in spec [:cat]))))
 
 (defn reflexive-violations [expression syntax-tree-fn]
   (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))

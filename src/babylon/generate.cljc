@@ -202,6 +202,16 @@
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
+                      (#(if (and (not (= % :fail))
+                                 (or allow-folding? allow-truncation?))
+                          (tr/update-syntax-tree % at syntax-tree)
+                          %))
+                      (#(if allow-truncation?
+                          (tr/truncate-at % at syntax-tree)
+                          %))
+                      (#(if allow-folding?
+                          (tr/foldup % at syntax-tree)
+                          %))
                       (u/assoc-in! at candidate-lexeme))))
            (remove #(= :fail %))))))
 

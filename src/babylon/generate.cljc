@@ -4,7 +4,7 @@
    #?(:cljs [cljslog.core :as log])
    [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
-   [babylon.truncate :as tr]
+   [babylon.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]))
 
@@ -17,8 +17,9 @@
 (declare get-lexemes)
 (declare reflexive-violations)
 
-(def allow-folding? true)
-(def allow-truncation? true)
+(def ^:dynamic allow-folding? false)
+(def ^:dynamic allow-truncation? false)
+
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic max-depth 15)
 
@@ -32,9 +33,6 @@
 (def ^:dynamic warn-on-no-matches?
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
-
-(defn report [tree syntax-tree]
-  (syntax-tree tree))
 
 (def count-adds (atom 0))
 (def count-rule-fails (atom 0))
@@ -66,10 +64,10 @@
               (log/warn (str "the depth got too deep on this tree: " (syntax-tree-fn tree) "; giving up on it."))
               [])
             
-            (or (u/get-in tree [:babylon.generate/done?])
+            (or (u/get-in tree [::done?])
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
-              (if (not (u/get-in tree [:babylon.generate/done?]))
+              (if (not (u/get-in tree [::done?]))
                 (log/debug (str "early stop of generation: " (syntax-tree-fn tree) " at: " frontier)))
               (lazy-seq
                (cons tree
@@ -104,7 +102,7 @@
                       (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree))))
     (->>
      (cond
-       (u/get-in tree [:babylon.generate/done?])
+       (u/get-in tree [::done?])
        (do
          (log/debug (str "add: condition 1."))
          [tree])
@@ -181,7 +179,11 @@
        (map #(unify % spec))
        (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
              %))
-       (remove #(= % :fail))))
+       (filter #(or (not (= :fail %))
+                    (do
+                      (swap! count-lexeme-fails inc)
+                      false)))
+       (filter #(or (nil? lexical-filter) (lexical-filter %)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))
@@ -199,20 +201,29 @@
            (#(take (count %) %))
 
            (map (fn [candidate-lexeme]
+                  (log/debug (str "adding lex: '"  (u/get-in candidate-lexeme [:canonical]) "'"
+                                  " with derivation: " (u/get-in candidate-lexeme [:derivation])
+                                  " and subcat 2: " (u/get-in candidate-lexeme [:subcat :2])
+                                  " at: " at " to: " (syntax-tree tree)))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
-                      (#(if (and (not (= % :fail))
-                                 (or allow-folding? allow-truncation?))
-                          (tr/update-syntax-tree % at syntax-tree)
-                          %))
+                      ((fn [tree]
+                         (try (u/assoc-in! tree at candidate-lexeme)
+                              (catch Exception e
+                                :fail))))
+                      (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (tr/truncate-at % at syntax-tree)
+                          (do
+                            (log/debug (str "doing truncation."))
+                            (tr/truncate-at % at syntax-tree))
                           %))
                       (#(if allow-folding?
-                          (tr/foldup % at syntax-tree)
-                          %))
-                      (u/assoc-in! at candidate-lexeme))))
+                          (do
+                            (log/debug (str "doing folding."))
+                            (tr/foldup % at syntax-tree))
+                          %)))))
+
            (remove #(= :fail %))))))
 
 (defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
@@ -250,8 +261,36 @@
                         at rule)))
      
      ;; some attempts to adjoin will have failed, so remove those:
-     (remove #(and (= :fail %)
-                   (swap! count-rule-fails inc))))))
+     (filter #(or (not (= :fail %))
+                  (do
+                    (swap! count-rule-fails inc)
+                    false)))
+     
+     (map (fn [tree]
+            (log/debug (str "round 4: " (syntax-tree tree)))
+            tree))
+
+     (map
+      #(u/unify! %
+                 (assoc-in {} (concat [:syntax-tree] at-num)
+                                   (let [one-is-head? (tr/headness? % (concat at [:1]))]
+                                     {:head? (= :head (last at))
+                                      :1 {:head? one-is-head?}
+                                      :2 {:head? (not one-is-head?)}
+                                      :variant (u/get-in % [:variant])
+                                      :rule
+                                      (or rule-name
+                                          (u/get-in % (concat at [:rule])))}))))
+
+     (map (fn [tree]
+            (log/debug (str "round 5: " (syntax-tree tree)))
+            tree))
+
+     (remove #(= % :fail))
+
+     (map (fn [tree]
+            (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
+            tree)))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

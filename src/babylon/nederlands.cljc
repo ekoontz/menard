@@ -261,6 +261,17 @@
    (take (or this-many 10))
    count))
 
+(defn demo-with-pruning [index & [this-many]]
+  (binding [g/allow-folding? true
+            g/allow-truncation? true]
+    (->>
+     (repeatedly #(println (-> (nth expressions index)
+                               generate
+                               time
+                               ((fn [x] (morph x :sentence-punctuation? true))))))
+     (take (or this-many 10))
+     count)))
+
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
   [input mood]

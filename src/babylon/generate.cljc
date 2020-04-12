@@ -25,8 +25,6 @@
 (def ^:dynamic allow-truncation? false)
 
 (def ^:dynamic allow-backtracking? false)
-(def ^:dynamic lexical-filter nil)
-(def ^:dynamic log-generation? false)
 (def ^:dynamic max-depth 15)
 
 (def ^:dynamic stop-generation-at
@@ -43,9 +41,6 @@
 (def ^:dynamic warn-on-no-matches?
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
-
-(defn tree-pruning? []
-  (and allow-folding? allow-truncation?))
 
 (defn report [tree syntax-tree]
   (syntax-tree tree))
@@ -203,8 +198,7 @@
        (filter #(or (not (= :fail %))
                     (do
                       (swap! count-lexeme-fails inc)
-                      false)))
-       (filter #(or (nil? lexical-filter) (lexical-filter %)))))
+                      false)))))
 
 (declare update-syntax-tree)
 
@@ -268,11 +262,6 @@
                   (do
                     (log/debug (str "add-rule: looking for rule named: " (u/get-in % [:rule])))
                     (= (u/get-in % [:rule]) rule-name))))
-
-     (map (fn [rule]
-            (log/debug (str "round 1: " (u/get-in rule [:rule])))
-            (log/debug (str "round 1.5: checking cat:" cat))
-            rule))
      
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
@@ -290,25 +279,14 @@
      ;; path points to -> [] <- add child here
      ;;
      (map (fn [rule]
-            (log/debug (str "round 2.5: adding: " (u/get-in rule [:rule]) " to: " (report tree syntax-tree)
-                            " at: " at-num "; " (if (u/get-in rule [:variant])
-                                                  "with variant: " (u/get-in rule [:variant]))))
             (u/assoc-in tree
                          at rule)))
-
-     (map (fn [tree]
-            (log/debug (str "round 3: " (syntax-tree tree)))
-            tree))
      
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
                     (swap! count-rule-fails inc)
                     false)))
-     
-     (map (fn [tree]
-            (log/debug (str "round 4: " (syntax-tree tree)))
-            tree))
 
      (map
       #(u/unify! %

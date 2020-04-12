@@ -24,7 +24,6 @@
 (declare reflexive-violations)
 (declare remove-trailing-comps)
 (declare summary-fn)
-(declare truncate-at)
 (declare update-syntax-tree)
 
 ;; enable additional checks and logging that makes generation slower:
@@ -250,7 +249,7 @@
                                 :fail))))
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
-                          (truncate-at % at syntax-tree)
+                          (tr/truncate-at % at syntax-tree)
                           %))
                       (foldup at syntax-tree))))
 
@@ -383,48 +382,6 @@
           true
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
-
-(defn truncate-at [tree at syntax-tree]
-  (cond
-    (= :fail tree)
-    tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (report tree syntax-tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
-
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (report tree syntax-tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (report tree syntax-tree)))
-          (-> tree
-              (dissoc-in compless-at)
-              (dissoc-in (numeric-path tree compless-at))
-              (dissoc :dag_unify.serialization/serialized)
-              (u/assoc-in! (concat compless-at [::done?]) true)
-              (dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (dissoc-in (concat (butlast compless-at) [:1]))
-              (dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (report tree syntax-tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
-        tree))))
 
 ;; fold up a tree like this:
 ;;

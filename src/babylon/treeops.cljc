@@ -69,7 +69,8 @@
       (log/debug (str "folding    " at " " (syntax-tree tree)))
       (log/debug (str "nephew-complement: " (syntax-tree nephew-complement)))
       (swap! (get grandparent :comp)
-             (fn [old] nephew-complement)))
+             (fn [old] nephew-complement))
+      tree)
     true
     tree))
 

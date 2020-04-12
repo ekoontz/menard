@@ -369,37 +369,6 @@
           (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
     retval))
 
-;; fold up a tree like this:
-;;
-;;       grandparent
-;;      /   \ C
-;;   H /    parent
-;;   uncle  / \
-;;         /   \
-;;      H /     \
-;;      nephew   _ nephew complement
-;;
-;; into:
-;;
-;;      grandparent
-;;      /         \ C
-;;   H /           \
-;;    uncle+nephew   _ nephew complement
-;;
-(defn foldup [tree at syntax-tree]
-  (cond
-    (u/get-in tree [::done?]) tree
-    
-    (and allow-folding? (tr/foldable? tree at syntax-tree))
-    (let [grandparent (u/get-in tree (-> at butlast butlast))
-          nephew-complement (u/get-in tree (-> at butlast (concat [:comp])))]
-      (log/debug (str "folding    " at " " (report tree syntax-tree)))
-      (log/debug (str "nephew-complement: " (report nephew-complement syntax-tree)))
-      (swap! (get grandparent :comp)
-             (fn [old] nephew-complement))
-      (dissoc tree :dag_unify.serialization/serialized))
-    true
-    tree))
 
 (defn remove-trailing-comps [at]
   (cond (empty? at) at

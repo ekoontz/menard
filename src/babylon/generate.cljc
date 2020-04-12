@@ -178,12 +178,7 @@
              %))
        (map #(unify % spec))
        (#(do (log/debug (str "get-lexeme: post-spec unify returned this many:" (count %)))
-             %))
-       (filter #(or (not (= :fail %))
-                    (do
-                      (swap! count-lexeme-fails inc)
-                      false)))
-       (filter #(or (nil? lexical-filter) (lexical-filter %)))))
+             %))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))
@@ -232,7 +227,8 @@
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               true nil)
-        cat (u/get-in tree (concat at [:cat]))]
+        cat (u/get-in tree (concat at [:cat]))
+        at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
                     (syntax-tree tree) " at: " at))
     (->>

@@ -4,6 +4,7 @@
    #?(:cljs [cljslog.core :as log])
    [babylon.exception :refer [exception]]
    [babylon.serialization :as ser]
+   [babylon.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :as s]
@@ -18,7 +19,6 @@
 (declare generate-all)
 (declare get-lexemes)
 (declare headness?)
-(declare make-word)
 (declare numeric-frontier)
 (declare numeric-path)
 (declare reflexive-violations)
@@ -31,8 +31,8 @@
 (def diagnostics? false)
 ;; TODO: generation with allow-folding?=false doesn't work reliably:
 ;; either fix or might be time to not support allow-folding?=false anymore.
-(def allow-folding? false)
-(def allow-truncation? false)
+(def allow-folding? true)
+(def allow-truncation? true)
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic log-generation? false)
@@ -352,22 +352,12 @@
               ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
               ;; if folding occurs.
               numerically-at (numeric-frontier (u/get-in tree [:syntax-tree]))
-              word (merge (make-word)
+              word (merge (tr/make-word)
                           {:head? head?})]
           (log/debug (str "update-syntax-tree: at: " at "; numerically-at:" numerically-at))
           (u/unify! tree
                     (merge (s/create-path-in (concat [:syntax-tree] numerically-at) word)
                            (s/create-path-in at word))))))
-
-(defn make-word []
-  {:agr (atom :top)
-   :canonical (atom :top)
-   :exceptions (atom :top)
-   :cat (atom :top)
-   :infl (atom :top)
-   :sem (atom :top)
-   :inflected? (atom :top)
-   :root (atom :top)})
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

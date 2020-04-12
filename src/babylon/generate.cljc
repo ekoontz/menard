@@ -379,7 +379,7 @@
           (= :fail tree)
           []
           
-          (= (u/get-in tree [::done?]) true)
+          (= (u/get-in tree [:babylon.generate/done?]) true)
           []
           
           (= (u/get-in tree [:phrasal]) false)
@@ -391,18 +391,18 @@
           (= ::none (u/get-in tree [::started?] ::none))
           []
           
-          (and (u/get-in tree [:head ::done?])
-               (u/get-in tree [:comp ::done?]))
+          (and (u/get-in tree [:head :babylon.generate/done?])
+               (u/get-in tree [:comp :babylon.generate/done?]))
           []
 
           (and (= (u/get-in tree [:phrasal] true) true)
                (= (u/get-in tree [::started?] true) true)
-               (not (u/get-in tree [:head ::done?])))
+               (not (u/get-in tree [:head :babylon.generate/done?])))
           (cons :head (frontier (u/get-in tree [:head])))
 
           (and (= (u/get-in tree [:phrasal] true) true)
                (= (u/get-in tree [::started?] true) true)
-               (not (u/get-in tree [:comp ::done?])))
+               (not (u/get-in tree [:comp :babylon.generate/done?])))
           (cons :comp (frontier (u/get-in tree [:comp])))
 
           true []
@@ -440,7 +440,7 @@
               (dissoc-in compless-at)
               (dissoc-in (numeric-path tree compless-at))
               (dissoc :dag_unify.serialization/serialized)
-              (u/assoc-in! (concat compless-at [::done?]) true)
+              (u/assoc-in! (concat compless-at [:babylon.generate/done?]) true)
               (dissoc-in (concat (butlast compless-at) [:head :subcat]))
               (dissoc-in (concat (butlast compless-at) [:head :derivation]))
               (dissoc-in (concat (butlast compless-at) [:head :sem]))
@@ -524,7 +524,7 @@
 ;;
 (defn foldup [tree at syntax-tree]
   (cond
-    (u/get-in tree [::done?]) tree
+    (u/get-in tree [:babylon.generate/done?]) tree
     
     (foldable? tree at syntax-tree)
     (let [grandparent (u/get-in tree (-> at butlast butlast))

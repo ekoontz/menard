@@ -38,11 +38,12 @@
 #?(:clj
    (def lexicon
      (merge-with concat
-       (compile-lexicon-source "babylon/nederlands/lexicon/adjectives.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/misc.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
-       (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
+                 (compile-lexicon-source "babylon/nederlands/lexicon/adjectives.edn")
+                 (compile-lexicon-source "babylon/nederlands/lexicon/adverbs.edn")
+                 (compile-lexicon-source "babylon/nederlands/lexicon/misc.edn")
+                 (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
+                 (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
+                 (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
 
 #?(:cljs
    (def lexicon
@@ -145,6 +146,7 @@
 (def morphology (m/compile-morphology
                  ["babylon/nederlands/morphology/adjectives.edn"
                   "babylon/nederlands/morphology/nouns.edn"
+                  "babylon/nederlands/morphology/misc.edn"
                   "babylon/nederlands/morphology/verbs.edn"]))
 
 (declare sentence-punctuation)

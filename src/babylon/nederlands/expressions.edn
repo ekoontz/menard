@@ -193,6 +193,10 @@
   :comp {:phrasal false}}
 
 
+ {:note "corona"
+  :rule "s"
+  :comment "Corona en eenzaamheid moten we samen bestrijden"}
+ 
  ]
 
 

@@ -30,6 +30,9 @@
  "druif" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :grape}}]
+ "eenzaamheid" [{:cat :noun
+                 :agr {:gender :common}
+                 :sem {:pred :loneliness}}]
  "familie" [{:cat :noun
              :agr {:gender :common}
              :sem {:pred :family}}]

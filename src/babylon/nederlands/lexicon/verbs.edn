@@ -1,4 +1,9 @@
-{"komen"
+{
+ "bestrijden"
+ [{:cat :verb
+   :sem {:pred :overcome}}]
+
+ "komen"
  [{:cat :verb
    :sem {:pred :come}
    :subcat {:2 []}}]
@@ -31,7 +36,7 @@
      :cat :verb
      :modal :base
      :sem {:pred :be-able-to}}])
-
+ 
  "lezen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -46,6 +51,20 @@
      :cat :verb
      :sem {:pred :read}}])
 
+ "moeten" ;; F. 40.1
+ (let [exceptions [{:infl :present
+                    :agr {:number :sing}
+                    :surface "moet"}
+
+                   {:infl :present
+                    :agr {:number :plur}
+                    :surface "moeten"}]]
+
+   [{:exceptions exceptions
+     :cat :verb
+     :modal :base
+     :sem {:pred :must}}])
+ 
  "proberen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

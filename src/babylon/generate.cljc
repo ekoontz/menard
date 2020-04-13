@@ -21,9 +21,6 @@
 #?(:cljs (def ^:dynamic allow-folding? true))
 #?(:cljs (def ^:dynamic allow-truncation? true))
 
-(def ^:dynamic allow-folding? false)
-(def ^:dynamic allow-truncation? false)
-
 (def ^:dynamic allow-backtracking? false)
 (def ^:dynamic max-depth 15)
 
@@ -212,10 +209,7 @@
                       ;;                      /
                       ;; path points here -> [] <- add candidate-lexeme here
                       ;;
-                      ((fn [tree]
-                         (try (u/assoc-in! tree at candidate-lexeme)
-                              (catch Exception e
-                                :fail))))
+                      (u/assoc-in! at candidate-lexeme)
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if allow-truncation?
                           (tr/truncate-at % at syntax-tree)

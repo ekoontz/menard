@@ -243,7 +243,7 @@
              (filter map? (get all-parses
                                [0 token-count]))
              :all-parses all-parses}]
-        (:complete-parses result))))
+        result)))
 
 (defn parse
   "Return a list of all possible parse trees for a string.
@@ -255,17 +255,25 @@
   ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
   (let [tokenizations (filter #(not (empty? %)) (string/split input split-on))
         result (parse-tokens tokenizations morph)]
-    (if (empty? result)
+    (if (empty? (:complete-parses result))
       (let [analyses
             (zipmap
              tokenizations
              (map (fn [token]
                     (lookup-fn token))
-                  tokenizations))]
+                  tokenizations))
+            partial-parses (->> (vals (:all-parses result))
+                                (map (fn [x] (->> x (filter map?))))
+                                (filter #(not (empty? %))))]
         (log/warn (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (map (fn [token]
                                            (str token ":" (count (get analyses token)) ""))
-                                         tokenizations)))))
+                                         tokenizations))
+                       (str "; partial parses: " (count (mapcat (fn [parses-for-span]
+                                                                  (map syntax-tree parses-for-span))
+                                                                partial-parses)) ".")))
+        (flatten partial-parses))
       (do (log/debug (str "parsed input:    \"" input "\""))
-          result))))
+          (:complete-parses result)))))
+

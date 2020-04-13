@@ -228,7 +228,7 @@
 (defn syntax-tree [tree]
   (s/syntax-tree tree morphology))
 
-#?(:clj (def ^:dynamic grammar-for-generation grammar))
+(def ^:dynamic grammar-for-generation grammar)
 
 (defn generate
   "generate one random expression that satisfies _spec_."

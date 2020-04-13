@@ -1,4 +1,12 @@
-[{:rule "intensifier" ;; 'heel groot'
+[
+
+ {:rule "conj+n" ;; 'en eenzamheid'
+  :cat :noun
+  :head {:cat :conjunction}
+  :unify [babylon.ug/subcat-1-1
+          babylon.ug/head-first]}
+ 
+ {:rule "intensifier" ;; 'heel groot'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}

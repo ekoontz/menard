@@ -30,11 +30,21 @@
 
 (deftest all-expressions-work
   (let [generate-per-expression 5
+
+        ;; exclude non-production expressions:
+        expressions (->> expressions
+                         (filter #(= true (u/get-in % [:prod?] true))))
+
+        ;; exclude non-production grammar rules:
+        grammar (->> nl/grammar
+                     (filter #(= true (u/get-in % [:prod?] true))))
         expression-sets
         (->>
          (range 0 (count expressions))
          (pmap (fn [index]
-                 (take generate-per-expression (repeatedly #(generate (nth expressions index)))))))]
+                 (take generate-per-expression
+                       (repeatedly #(binding [nl/grammar-for-generation grammar]
+                                      (generate (nth expressions index))))))))]
     (is (= (count expressions)
            (count expression-sets)))
     (is (empty?

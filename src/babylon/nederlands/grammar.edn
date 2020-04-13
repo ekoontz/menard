@@ -1,5 +1,14 @@
 [
 
+ {:rule "adverb" ;; 'samen bestrijden'
+  :cat :verb
+  :head {:cat :adverb}
+  :comp {:cat :verb}
+  :unify [babylon.ug/comp-is-root
+          babylon.ug/head-first
+          babylon.ug/parent-sem
+          babylon.ug/subcat-1-1]}
+
  {:rule "conj+n" ;; 'en eenzamheid'
   :cat :noun
   :head {:cat :conjunction}

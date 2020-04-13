@@ -228,11 +228,13 @@
 (defn syntax-tree [tree]
   (s/syntax-tree tree morphology))
 
+#?(:clj (def ^:dynamic grammar-for-generation grammar))
+
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-    (g/generate spec grammar index-fn syntax-tree)))
+    (g/generate spec grammar-for-generation index-fn syntax-tree)))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."

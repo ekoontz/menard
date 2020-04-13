@@ -92,8 +92,9 @@
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-lift]}
-
+ 
  {:rule "new-vp-rule" ;; 'moeten we bestrijden'
+  :prod? false
   :cat :verb
   :aux false
   :slash false
@@ -103,8 +104,9 @@
   :comp {:head {:canonical "bestrijden"}
          :comp {:canonical "we"}}
   :unify [babylon.ug/head-first]}
-
+ 
  {:rule "adverb" ;; 'samen bestrijden'
+  :prod? false
   :cat :verb
   :head {:cat :adverb
          :canonical "samen"}
@@ -114,14 +116,16 @@
           babylon.ug/head-first
           babylon.ug/parent-sem
           babylon.ug/subcat-1-1]}
-
+ 
  {:rule "conj+n" ;; 'en eenzamheid'
+  :prod? false
   :cat :noun
   :head {:cat :conjunction
          :canonical "en"}
   :comp {:canonical "eenzamheid"}
   :unify [babylon.ug/subcat-1-1
-          babylon.ug/head-first]}
- ]
+          babylon.ug/head-first]}]
+
+
 
  

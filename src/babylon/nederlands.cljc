@@ -243,6 +243,7 @@
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
+            l/lexicon lexicon
             l/morphology morphology
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))

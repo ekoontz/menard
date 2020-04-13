@@ -190,6 +190,7 @@
                        [(d/dissoc-in lexeme [:exceptions])
                         exception
                         {:exception true
+                         :inflected? true
                          :canonical canonical}])
                result
                (if (not (= :fail u-result))

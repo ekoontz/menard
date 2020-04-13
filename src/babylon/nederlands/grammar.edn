@@ -1,5 +1,4 @@
-[ 
- {:rule "intensifier" ;; 'heel groot'
+[{:rule "intensifier" ;; 'heel groot'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}

@@ -129,10 +129,10 @@
                   canonical-forms))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
-                             (if (not (= (count from-inflected) 1))
-                               "s")
-                             " before looking"
-                             " at exceptions."))
+                              (if (not (= (count from-inflected) 1))
+                                "s")
+                              " before looking"
+                              " at exceptions."))
         ;; however, some (or even all) of the hypotheses might be wrong, if the verb has
         ;; any exceptions. Then, the exceptional surface forms should pre-empt and exclude these hypotheses.
         ;; For example, applying the rules for regular verbs in English, for infl present and agr 3rd sing,

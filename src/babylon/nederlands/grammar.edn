@@ -108,13 +108,14 @@
  {:rule "adverb" ;; 'samen bestrijden'
   :prod? false
   :cat :verb
-  :head {:cat :adverb
-         :canonical "samen"}
-  :comp {:cat :verb
+  :head {:cat :verb
          :canonical "bestrijden"}
-  :unify [babylon.ug/comp-is-root
-          babylon.ug/head-first
-          babylon.ug/parent-sem
+  :comp {:cat :adverb
+         :canonical "samen"}
+  :unify [babylon.ug/cons-mod
+          babylon.ug/head-is-root
+          babylon.ug/head-last
+          babylon.ug/parent-sem-is-head-sem
           babylon.ug/subcat-1-1]}
  
  {:rule "conj+n" ;; 'en eenzaamheid'

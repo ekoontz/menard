@@ -117,15 +117,11 @@
           babylon.ug/parent-sem
           babylon.ug/subcat-1-1]}
  
- {:rule "conj+n" ;; 'en eenzamheid'
+ {:rule "conj+n" ;; 'en eenzaamheid'
   :prod? false
   :cat :noun
   :head {:cat :conjunction
          :canonical "en"}
-  :comp {:canonical "eenzamheid"}
+  :comp {:canonical "eenzaamheid"}
   :unify [babylon.ug/subcat-1-1
           babylon.ug/head-first]}]
-
-
-
- 

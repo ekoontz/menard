@@ -14,7 +14,7 @@
     []))
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree)
-(def ^:dynamic truncate? true)
+(def ^:dynamic truncate? false)
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 2)
 

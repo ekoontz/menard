@@ -129,5 +129,39 @@
             :reflexive reflexive
             :sem sem
             :subcat {:1 subject
-                     :2 verb-argument-slash}}])}]
+                     :2 verb-argument-slash}}])}
+ {:rule :reflexivity
+  :if {:cat :verb
+       :modal :base
+       :subcat {:2 {:top :top}}}
+  :then (let [subj (atom :top)
+              subcat-subj (atom {:sem subj})
+              obj (atom :top)]
+          [;;  "can <vp[base,nonmodal]>" non-reflexive
+           {:sem {:subj subj
+                  :obj obj}
+            :reflexive false
+            :subcat {:2 {:aux false
+                         :infl :base
+                         :cat :verb
+                         :reflexive false
+                         :sem obj
+                         :subcat {:1 subcat-subj}}}}
+           
+           ;;  "can <vp[base,nonmodal]>" reflexive
+           (let [agr (atom :top)]
+             {:agr agr
+              :sem {:subj subj
+                    :obj obj}
+              :reflexive true
+              :subcat {:1 {:agr agr}
+                       :2 {:aux false
+                           :agr agr
+                           :infl :base
+                           :cat :verb
+                           :reflexive true
+                           :sem obj
+                           :subcat {:1 subcat-subj}}}})])}]
+         
+
 

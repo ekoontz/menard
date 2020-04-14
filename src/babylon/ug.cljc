@@ -139,10 +139,13 @@
   {:reflexive false
    :agr {:person :3rd}})
 
-(def parent-sem
+(def parent-sem-is-head-sem
   (let [sem (atom :top)]
     {:sem sem
-     :head {:parent-sem sem}}))      
+     :head {:sem sem}}))
+
+;; alias for the above: prefer the above in the future:
+(def parent-sem parent-sem-is-head-sem)
 
 (def shared-agr
   (let [shared (atom :top)]

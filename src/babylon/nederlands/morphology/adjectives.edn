@@ -1,7 +1,6 @@
 [
  ;; F. p 4 "Adjectives have no ending if they precede a singular neuter noun in an indefinite context: i.e.
  ;;         after een 'a', geen 'no/not a', elk 'each'.."
- ;; all the 
  {:g [#"" ""]
   :p [#"" ""]
   :u {:cat :adjective
@@ -17,27 +16,37 @@
   :u {:cat :adjective
       :modifies-noun true}}
 
- {:g [#"f$"   "ve"]
+ {;; lief -> lieve
+  :g [#"f$"   "ve"]
+  ;; lieve -> lief
   :p [#"ve$"  "f"]
   :u {:cat :adjective
       :modifies-noun true}}
-
- {:g [#"s$"   "ze"]
+ 
+ {;; vies -> vieze
+  :g [#"s$"   "ze"]
+  ;; vieze -> vies
   :p [#"ze$"  "s"]
   :u {:cat :adjective
       :modifies-noun true}}
 
- {:g [#"([aeiou])m$"   "$1mme"]
+ {;; stom -> stomme
+  :g [#"([aeiou])m$"   "$1mme"]
+  ;; stomme -> stom
   :p [#"([aeiou])mme$" "$1m"]
   :u {:cat :adjective
       :modifies-noun true}}
 
- {:g [#"(a)(a)r$"   "$1re"]
+ {;; openbaar -> openbare
+  :g [#"(a)(a)r$"   "$1re"]
+  ;; openbare -> openbaar
   :p [#"are$"       "aar"]
   :u {:cat :adjective
       :modifies-noun true}}
  
- {:g [#"$"    "e"]
+ {;; TODO: add examples and verify that this is right
+  :g [#"$"    "e"]
+  ;; TODO: add examples and verify that this is right
   :p [#"e$"   ""]
   :u {:cat :adjective
       :modifies-noun true}}]

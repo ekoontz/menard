@@ -10,8 +10,10 @@
       :sem {:quant :indef}
       :modifies-noun true}}
 
- {:g [#"oot$" "ote"]
-  :p [#"ote$" "oot"]
+ {;; groot -> grote
+  :g [#"ot$" "te"]
+  ;; grote -> groot
+  :p [#"te$" "ot"]
   :u {:cat :adjective
       :modifies-noun true}}
 

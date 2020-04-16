@@ -1,7 +1,7 @@
 [{:g [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
   :p [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-sing true}}
+      :inflection :noun-sing
       :pronoun false
       :regular true
       :agr {:number :sing}}}
@@ -10,7 +10,7 @@
  {:g [#"(a|i|o|u|y)$"  "$1's"] ;; baby  -> baby's
   :p [#"^(.*)'s$"      "$1"]   ;; baby's -> baby
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:apostrophe-s-plural true}}
+      :inflection :apostrophe-s-plural
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -19,7 +19,7 @@
  {:g [#"(heid)$"  "heden"] ;; mogelijkheid -> mogelijkheden
   :p [#"heden$"   "heid"]
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:heid-suffix true}}
+      :inflection :heid-suffix
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -28,18 +28,17 @@
  {:g [#"([^aeiouy])(e|el|em|en|er|ie)$"  "$1$2s"] ;; tafel  -> tafels
   :p [#"^(.*)s$"   "$1"]          ;; tafels -> tafel 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:s-plural true}}
+      :inflection :s-plural
       :pronoun false
       :agr {:number :plur}
       :regular true}}
 
  ;; TODO: nouns end in 's' if they end in
  ;; "aar(d), -erd,-ier when referring to people" (F. p 55).
- 
  {:g [#"^(.*)aa(.)$"     "$1a$2en"] ;; haar   -> haren
   :p [#"^(.*)a(.)en$"    "$1aa$2"]  ;; haren -> haar
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-vowel true}}
+      :inflection :morphology-noun-plur-repeated-vowel
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -47,7 +46,7 @@
  {:g [#"^(.*)ee(.)$"     "$1e$2en"] ;; been   -> benen
   :p [#"^(.*)e([nr])en$" "$1ee$2"]  ;; benen -> been
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-vowel true}}
+      :inflection :morphology-noun-plur-repeated-vowel
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -55,7 +54,7 @@
  {:g [#"^(.*ui)s$"    "$1zen"] ;; huis   -> huizen
   :p [#"^(.*ui)zen$"  "$1s"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-s2z true}}
+      :inflection :morphology-noun-plur-s2z
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -66,7 +65,7 @@
  {:g [#"^(.*[^t])s$"    "$1ssen"] 
   :p [#"^(.*[^t])ssen$" "$1s"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
+      :inflection :morphology-noun-plur-repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -74,7 +73,7 @@
  {:g [#"^(.*)t$"    "$1tten"] ;; kat    -> katten
   :p [#"^(.*)tten$"  "$1t"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
+      :inflection :morphology-noun-plur-repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -82,7 +81,7 @@
  {:g [#"^(.*)n$"    "$1nnen"] ;; man    -> mannen
   :p [#"^(.*)nnen$"  "$1n"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-repeated-consonant true}}
+      :inflection :morphology-noun-plur-repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -90,7 +89,7 @@
  {:g [#"^(.*)f$"    "$1ven"] ;; druif   -> druiven
   :p [#"^(.*)ven$"  "$1f"] 
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-f2v true}}
+      :inflection :morphology-noun-plur-f2v
       :pronoun false
       :agr {:number :plur}
       :regular true}}
@@ -101,7 +100,7 @@
  {:g [#"^(.*)$"       "$1en"] ;; hond   -> honden
   :p [#"^(.*)en$"      "$1"]  ;; honden -> dog
   :u {:cat :noun
-      :derivation {:runtime-noun-analysis {:morphology-noun-plur-otherwise true}}
+      :inflection :morphology-noun-plur-otherwise
       :pronoun false
       :agr {:number :plur}
       :regular true}}]

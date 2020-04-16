@@ -156,6 +156,8 @@
                      (list span-pair)}))
                 spans))))))
 
+(declare truncate)
+
 (defn parses [input n span-map morph]
   (cond
     (= n 1) input
@@ -227,6 +229,15 @@
                       ;; </value>
                       
                       (get span-map n)))))))
+
+(defn truncate [tree]
+  (-> tree
+      (assoc :syntax-tree (syntax-tree tree))
+      (assoc :surface (morph tree))
+      (dissoc :head)
+      (dissoc :comp)
+      (dissoc :1)
+      (dissoc :2)))
 
 (defn parse-tokens [tokens morph]
   "Return a list of all possible parse trees for a list of tokens."

@@ -16,7 +16,7 @@
 (def ^:dynamic syntax-tree)
 (def ^:dynamic truncate? true)
 (def ^:dynamic split-on #"[ ']")
-(def ^:dynamic take-this-many 2)
+(def ^:dynamic take-this-many 10)
 
 (defn pmap-if-available [fn args]
   #?(:clj
@@ -189,15 +189,19 @@
                                                      right-strings)
                                left-signs (concat left-lexemes (filter map? left))
                                right-signs (concat right-lexemes (filter map? right))
-                               over-results (take take-this-many (shuffle (over grammar left-signs right-signs)))]
+                               all-results (over grammar left-signs right-signs)
+                               taken-results (take take-this-many (shuffle all-results))
+                               taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (concat
                             (if (and (not (empty? left-signs))
                                      (not (empty? right-signs)))
                               (do
                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
                                                 (string/join ", " (set (map syntax-tree right-signs)))))
+                                (if (> (count taken-plus-one-results) (count taken-results))
+                                  (log/warn (str "more than " take-this-many " parses; first: " (syntax-tree (first taken-results)))))
                                 (->>
-                                 over-results
+                                 taken-results
                                  (map (fn [tree]
                                         (cond truncate?
                                               (-> tree

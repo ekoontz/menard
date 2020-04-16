@@ -205,13 +205,9 @@
                                 (->>
                                  taken-results
                                  (map (fn [tree]
-                                        (cond truncate?
-                                              (-> tree
-                                                  (assoc :syntax-tree (syntax-tree tree))
-                                                  (assoc :surface (morph tree))
-                                                  (dissoc :head) (dissoc :comp)
-                                                  (dissoc :1) (dissoc :2))
-                                              true tree)))
+                                        (if truncate?
+                                          (truncate tree syntax-tree morph)
+                                          tree)))
 
                                  ;; if returning more than one parse,
                                  ;; you must run (vec) on the return value of this (map).
@@ -230,7 +226,7 @@
                       
                       (get span-map n)))))))
 
-(defn truncate [tree]
+(defn truncate [tree syntax-tree morph]
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))

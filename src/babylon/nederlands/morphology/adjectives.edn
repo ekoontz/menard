@@ -6,7 +6,7 @@
   :u {:cat :adjective
       :agr {:gender :neuter
             :number :sing}
-      :sem {:quant :indef}
+      :sem {:definite? false}
       :inflection :adj-no-e-suffix
       :modifies-noun true}}
 
@@ -15,19 +15,20 @@
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
-      :agr {:gender :common
-            :number :sing}
-      :modifies-noun true}}
- {:g [#"ot$" "te"]
-  :p [#"te$" "ot"]
-  :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
+      :sem {:definite? true}
       :agr {:number :sing}
-      :sem {:quant :def}
+      :modifies-noun true}}
+ {:g [#"ot$" "te"]
+  :p [#"te$" "ot"]
+  :u {:cat :adjective
+      :sem {:definite? false}
+      :agr {:gender :common
+            :number :sing}
       :modifies-noun true}}
 
  ;; generation: lief -> lieve
@@ -35,41 +36,41 @@
  {:g [#"f$"   "ve"]
   :p [#"ve$"  "f"]
   :u {:cat :adjective
-      :agr {:gender :common
-            :number :sing}
-      :modifies-noun true}}
- {:g [#"f$"   "ve"]
-  :p [#"ve$"  "f"]
-  :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"f$"   "ve"]
   :p [#"ve$"  "f"]
   :u {:cat :adjective
-      :agr {:gender :neuter
-            :number :sing}
-      :sem {:quant :def}
+      :sem {:definite? true}
+      :agr {:number :sing}
       :modifies-noun true}}
- 
+ {:g [#"f$"   "ve"]
+  :p [#"ve$"  "f"]
+  :u {:cat :adjective
+      :sem {:definite? true}
+      :agr {:gender :common
+            :number :sing}
+      :modifies-noun true}}
+
  ;; generation: vies -> vieze
  ;; parsing:    vieze -> vies
  {:g [#"s$"   "ze"]
   :p [#"ze$"  "s"]
   :u {:cat :adjective
-      :agr {:gender :common
-            :number :sing}
-      :modifies-noun true}}
- {:g [#"s$"   "ze"]
-  :p [#"ze$"  "s"]
-  :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"s$"   "ze"]
   :p [#"ze$"  "s"]
   :u {:cat :adjective
-      :agr {:gender :neuter
+      :agr {:number :sing}
+      :sem {:definite? true}
+      :modifies-noun true}}
+ {:g [#"s$"   "ze"]
+  :p [#"ze$"  "s"]
+  :u {:cat :adjective
+      :sem {:definite? false}
+      :agr {:gender :common
             :number :sing}
-      :sem {:quant :def}
       :modifies-noun true}}
 
  ;; generation: stom -> stomme
@@ -77,20 +78,20 @@
  {:g [#"([aeiou])m$"   "$1mme"]
   :p [#"([aeiou])mme$" "$1m"]
   :u {:cat :adjective
-      :agr {:gender :common
-            :number :sing}
-      :modifies-noun true}}
- {:g [#"([aeiou])m$"   "$1mme"]
-  :p [#"([aeiou])mme$" "$1m"]
-  :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"([aeiou])m$"   "$1mme"]
   :p [#"([aeiou])mme$" "$1m"]
   :u {:cat :adjective
-      :agr {:gender :neuter 
+      :agr {:number :sing}
+      :sem {:definite? true}
+      :modifies-noun true}}
+ {:g [#"([aeiou])m$"   "$1mme"]
+  :p [#"([aeiou])mme$" "$1m"]
+  :u {:cat :adjective
+      :sem {:definite? false}
+      :agr {:gender :common
             :number :sing}
-      :sem {:quant :def}
       :modifies-noun true}}
 
  ;; generation: openbaar -> openbare
@@ -98,40 +99,40 @@
  {:g [#"(a)(a)r$"   "$1re"]
   :p [#"are$"       "aar"]
   :u {:cat :adjective
-      :agr {:gender :common
-            :number :sing}
-      :modifies-noun true}}
- {:g [#"(a)(a)r$"   "$1re"]
-  :p [#"are$"       "aar"]
-  :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"(a)(a)r$"   "$1re"]
   :p [#"are$"       "aar"]
   :u {:cat :adjective
-      :agr {:gender :neuter
+      :sem {:definite? true}
+      :agr {:number :sing}      
+      :modifies-noun true}}
+ {:g [#"(a)(a)r$"   "$1re"]
+  :p [#"are$"       "aar"]
+  :u {:cat :adjective
+      :sem {:definite? false}
+      :agr {:gender :common
             :number :sing}
-      :sem {:quant :def}
       :modifies-noun true}}
 
  ;; generation: klein -> kleine
  ;; parsing:    kleine -> klein
- {:g [#"$"    "e"]
-  :p [#"e$" ""]
-  :u {:cat :adjective
-      :agr {:gender :common
-            :number :sing}
-      :modifies-noun true}}
- {:g [#"$"    "e"]
+ {:g [#"$"  "e"]
   :p [#"e$" ""]
   :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
- {:g [#"$"    "e"]
+ {:g [#"$"  "e"]
   :p [#"e$" ""]
   :u {:cat :adjective
-      :agr {:gender :neuter
+      :sem {:definite? true}
+      :agr {:number :sing}
+      :modifies-noun true}}
+ {:g [#"$"  "e"]
+  :p [#"e$" ""]
+  :u {:cat :adjective
+      :sem {:definite? false}
+      :agr {:gender :common
             :number :sing}
-      :sem {:quant :def}
       :modifies-noun true}}
  ]

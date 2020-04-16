@@ -154,9 +154,9 @@
 
 (def shared-def
   (let [shared (atom :top)]
-    {:definite? shared
-     :comp {:definite? shared}
-     :head {:definite? shared}}))
+    {:sem {:definite? shared}
+     :comp {:sem {:definite? shared}}
+     :head {:sem {:definite? shared}}}))
 
 (def subcat-1
   (let [complement (atom {:subcat []})

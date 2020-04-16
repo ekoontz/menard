@@ -5,6 +5,7 @@
   :unify [babylon.ug/comp-is-root
           babylon.ug/head-first
           babylon.ug/parent-sem
+          babylon.ug/shared-def
           babylon.ug/subcat-1]}
 
  {:rule "nbar" ;; '[nbar .groet +kat]'
@@ -21,8 +22,8 @@
           babylon.ug/head-is-root
           babylon.ug/head-rule
           babylon.ug/nominal-phrase
-          babylon.ug/shared-quant
           babylon.ug/shared-agr
+          babylon.ug/shared-def
           babylon.ug/subcat-1-1]}
 
  {:rule "np"
@@ -37,6 +38,7 @@
           babylon.ug/head-last
           babylon.ug/head-rule
           babylon.ug/nest-mod
+          babylon.ug/shared-def
           babylon.ug/shared-number
           babylon.ug/subcat-1]}
 

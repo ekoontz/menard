@@ -52,23 +52,23 @@
   :rule "np"
   :agr {:number :sing}
   :sem {:mod []
-        :pred :house
-        :quant :indef}}
+        :definite? false
+        :pred :house}}
 
  {:note "'de grote boeken'"
   :dotimes 1
   :rule "np"
   :agr {:number :plur}  
+  :definite? true
   :sem {:mod {:first {:pred :big}}
-        :quant :def
         :pred :book}}
  
  {:note "'een heel klein druif'"
   :dotimes 1
   :rule "np"
   :agr {:number :sing}
+  :definite? false
   :sem {:pred :grape
-        :quant :indef
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
  
@@ -79,8 +79,7 @@
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
-        :pred :top
-        :quant :top}}
+        :pred :top}}
  
  {:note "'De heel sterk slimme vrouen zingen'."
   :dotimes 1

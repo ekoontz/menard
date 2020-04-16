@@ -105,28 +105,26 @@
         ;; We then use the :u key, also in the rule, to find the agreement and infl
         ;; specificities of this inflected form.
         from-inflected
-        (let [canonical-forms
-              (filter #(not (nil? %))
-                      (map (fn [rule]
-                             (let [{u :u [from to] :p} rule]
-                               (if (re-find from surface)
-                                 {:canonical (clojure.string/replace surface from to)
-                                  :u u})))
-                           morphology))]
-          (mapcat (fn [canonical-form]
-                    (filter (fn [lexeme]
-                              (if (not (= :fail lexeme))
-                                (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
-                              (not (= :fail lexeme)))
-                            (map (fn [lexeme]
-                                   (reduce
-                                    unify [(:u canonical-form)
-                                           {:inflected? false}
-                                           {:surface surface
-                                            :canonical (:canonical canonical-form)}
-                                           lexeme]))
-                                 (get lexicon (:canonical canonical-form)))))
-                  canonical-forms))
+        (->> morphology
+             (map (fn [rule]
+                    (let [{u :u [from to] :p} rule]
+                      (if (re-find from surface)
+                        {:canonical (clojure.string/replace surface from to)
+                         :u u}))))
+             (filter #(not (nil? %)))
+             (mapcat (fn [canonical-form]
+                       (filter (fn [lexeme]
+                                 (if (not (= :fail lexeme))
+                                   (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
+                                 (not (= :fail lexeme)))
+                               (map (fn [lexeme]
+                                      (reduce
+                                       unify [(:u canonical-form)
+                                              {:inflected? false}
+                                              {:surface surface
+                                               :canonical (:canonical canonical-form)}
+                                              lexeme]))
+                                    (get lexicon (:canonical canonical-form)))))))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
                               (if (not (= (count from-inflected) 1))

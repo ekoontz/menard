@@ -152,10 +152,11 @@
     {:comp {:agr shared}
      :head {:agr shared}}))
 
-(def shared-quant
+(def shared-def
   (let [shared (atom :top)]
-    {:comp {:sem {:quant shared}}
-     :head {:sem {:quant shared}}}))
+    {:definite? shared
+     :comp {:definite? shared}
+     :head {:definite? shared}}))
 
 (def subcat-1
   (let [complement (atom {:subcat []})

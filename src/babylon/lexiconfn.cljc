@@ -113,18 +113,19 @@
                          :u u}))))
              (filter #(not (nil? %)))
              (mapcat (fn [canonical-form]
-                       (filter (fn [lexeme]
-                                 (if (not (= :fail lexeme))
-                                   (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
-                                 (not (= :fail lexeme)))
-                               (map (fn [lexeme]
-                                      (reduce
-                                       unify [(:u canonical-form)
-                                              {:inflected? false}
-                                              {:surface surface
-                                               :canonical (:canonical canonical-form)}
-                                              lexeme]))
-                                    (get lexicon (:canonical canonical-form)))))))
+                       (->>
+                        (get lexicon (:canonical canonical-form))
+                        (map (fn [lexeme]
+                               (reduce
+                                unify [(:u canonical-form)
+                                       {:inflected? false}
+                                       {:surface surface
+                                        :canonical (:canonical canonical-form)}
+                                       lexeme])))
+                        (filter (fn [lexeme]
+                                  (if (not (= :fail lexeme))
+                                    (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
+                                  (not (= :fail lexeme))))))))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
                               (if (not (= (count from-inflected) 1))

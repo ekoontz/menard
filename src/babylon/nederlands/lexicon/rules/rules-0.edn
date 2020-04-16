@@ -32,20 +32,14 @@
   :if {:cat :intensifier}
   :then [(let [adj-mod (atom :top)
                adj-pred (atom :top)
-               agr (atom :top)
-               intensifier-sem (atom :top)
-               quant (atom :top)]
-           {:agr agr
-            :parent-sem {:pred adj-pred
+               intensifier-sem (atom :top)]
+           {:parent-sem {:pred adj-pred
                          :mod {:first intensifier-sem
-                               :rest adj-mod}
-                         :quant quant}
+                               :rest adj-mod}}
             :sem intensifier-sem
-            :subcat {:1 {:agr agr
-                         :cat :adjective
+            :subcat {:1 {:cat :adjective
                          :sem {:pred adj-pred
-                               :mod adj-mod
-                               :quant quant}}
+                               :mod adj-mod}}
                      :2 []}})]}
 
  {:rule :nouns-are-not-pronouns

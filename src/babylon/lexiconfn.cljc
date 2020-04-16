@@ -115,16 +115,12 @@
              (mapcat (fn [tuple]
                        (->> (get lexicon (:canonical tuple))
                             (map (fn [lexeme]
-                                   (unify lexeme (:u tuple)))))))
-             (map (fn [lexeme]
-                    (reduce
-                     unify [{:inflected? false
-                             :surface surface}
-                            lexeme])))
-             (filter (fn [lexeme]
-                       (if (not (= :fail lexeme))
-                         (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
-                       (not (= :fail lexeme)))))
+                                   (reduce
+                                    unify [lexeme
+                                           (:u tuple)
+                                           {:inflected? false
+                                            :surface surface}]))))))
+             (filter #(not (= :fail %))))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
                               (if (not (= (count from-inflected) 1))

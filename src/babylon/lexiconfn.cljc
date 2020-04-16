@@ -112,20 +112,19 @@
                         {:canonical (clojure.string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
-             (mapcat (fn [canonical-form]
-                       (->>
-                        (get lexicon (:canonical canonical-form))
-                        (map (fn [lexeme]
-                               (reduce
-                                unify [(:u canonical-form)
-                                       {:inflected? false}
-                                       {:surface surface
-                                        :canonical (:canonical canonical-form)}
-                                       lexeme])))
-                        (filter (fn [lexeme]
-                                  (if (not (= :fail lexeme))
-                                    (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
-                                  (not (= :fail lexeme))))))))
+             (mapcat (fn [tuple]
+                       (->> (get lexicon (:canonical tuple))
+                            (map (fn [lexeme]
+                                   (unify lexeme (:u tuple)))))))
+             (map (fn [lexeme]
+                    (reduce
+                     unify [{:inflected? false
+                             :surface surface}
+                            lexeme])))
+             (filter (fn [lexeme]
+                       (if (not (= :fail lexeme))
+                         (log/debug (str "matching lexeme: " (diag/strip-refs lexeme))))
+                       (not (= :fail lexeme)))))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
                               (if (not (= (count from-inflected) 1))

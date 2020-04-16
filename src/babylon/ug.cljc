@@ -26,9 +26,12 @@
 ;;
 (def cons-mod
   (let [ref (atom :top)
+        quant (atom :top)
         head-mod (atom :top)
-        sem (atom {:ref ref})
-        comp-sem (atom {:arg ref})]
+        sem (atom {:ref ref
+                   :quant quant})
+        comp-sem (atom {:arg ref
+                        :quant quant})]
     {:mod {:first comp-sem
            :rest head-mod}
      :sem sem

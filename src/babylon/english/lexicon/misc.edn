@@ -113,6 +113,10 @@
             :pronoun true
             :reflexive true}]
 
+ "no" [{:cat :det
+        :definite? false
+        :sem {:pred :none}}] ;; no [:agr :number]: could be :plur or :sing.
+ 
  "not" (let [sem (atom {:polarity :negative})
              infl-base (atom :base)
              infl-gerund (atom :gerund)

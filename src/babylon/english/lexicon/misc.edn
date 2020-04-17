@@ -1,5 +1,5 @@
 {"a" [{:cat :det
-       :sem {:pred :indef}
+       :sem {:pred :some}
        :agr {:number :sing}}]
  "actually" [{:cat :intensifier
               :sem {:pred :actually}
@@ -7,7 +7,7 @@
                            :phrasal false}
                        :2 []}}]
  "an" [{:exception true
-        :sem {:pred :indef}
+        :sem {:pred :some}
         :cat :det :agr {:number :sing}}]
 
  "at" [{:cat :prep
@@ -224,7 +224,7 @@
           :sem {:pred :that}}]
  
  "the" [{:cat :det
-         :sem {:pred :def}}]
+         :sem {:pred :the}}]
 
  "them" [{:case :acc
           :cat :noun

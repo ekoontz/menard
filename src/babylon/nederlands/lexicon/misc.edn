@@ -65,6 +65,9 @@
          :sem {:pred :some}
          :agr {:number :sing}}]
 
+ "en" [{:cat :conjunction
+        :sem {:pred :and}}]
+
  "erg" [{:cat :intensifier
          :sem {:pred :very}
          :subcat {:1 {:cat :adjective
@@ -263,6 +266,15 @@
         :definite? true
         :sem {:pred :you
               :context :polite}}]
+
+
+ ;; TODO: any difference in usage between 'we' and 'wij'?
+ "we" [{:agr {:person :1st
+              :number :plur}
+        :case :nom
+        :cat :noun
+        :pronoun true
+        :sem {:pred :we}}]
 
  "wij" [{:agr {:person :1st
                :number :plur}

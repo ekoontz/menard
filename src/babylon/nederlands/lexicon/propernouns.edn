@@ -1,12 +1,20 @@
-{"Guus" [{:cat :noun
-             :agr {:gender :masc
-                   :human true
-                   :number :sing
-                   :person :3rd}
-             :sem {:ref {:human true}
-                   :pred :guus}
-             :pronoun false
-             :propernoun true}]
+{"Corona" [{:cat :noun
+            :agr {:human false
+                  :number :sing
+                  :person :3rd}
+            :sem {:ref {:human false}
+                  :pred :corona}
+            :pronoun false
+            :propernoun true}]
+ "Guus" [{:cat :noun
+          :agr {:gender :masc
+                :human true
+                :number :sing
+                :person :3rd}
+          :sem {:ref {:human true}
+                :pred :guus}
+          :pronoun false
+          :propernoun true}]
  "Saskia" [{:cat :noun
             :agr {:gender :fem
                   :human true

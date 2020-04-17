@@ -193,6 +193,12 @@
       (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
+           (#(if (and (empty? %)
+                      (= false allow-backtracking?)
+                      (= false (u/get-in spec [:phrasal] ::none)))
+               (exception (str "no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
+               %))
+
            ;; need this to prevent eagerly generating a tree for every matching lexeme:
            (#(take (count %) %))
 

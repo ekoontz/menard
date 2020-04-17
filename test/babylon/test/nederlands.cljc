@@ -10,21 +10,21 @@
          (morph (generate {:rule "np"
                            :root "huis"
                            :agr {:number :sing}
-                           :sem {:quant :def
+                           :sem {:quant :the
                                  :mod {:first {:pred :old}}}
                            :head {:rule "nbar"}}))))
   (is (= "een oud huis"
          (morph (generate {:rule "np"
                            :root "huis"
                            :agr {:number :sing}
-                           :sem {:quant :indef
+                           :sem {:quant :some
                                  :mod {:first {:pred :old}}}
                            :head {:rule "nbar"}}))))
   (is (= "de oude huizen"
          (morph (generate {:rule "np"
                            :root "huis"
                            :agr {:number :plur}
-                           :sem {:quant :def
+                           :sem {:quant :the
                                  :mod {:first {:pred :old}}}
                            :head {:rule "nbar"}})))))
 

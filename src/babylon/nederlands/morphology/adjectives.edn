@@ -1,12 +1,12 @@
 [
  ;; F. p 4 "Adjectives have no ending if they precede a singular neuter noun in an indefinite context: i.e.
  ;;         after een 'a', geen 'no/not a', elk 'each'.."
- {:g [#"" ""]
+ {:g [#"$" ""]
   :p [#"([^e])" "$1"]
   :u {:cat :adjective
       :agr {:gender :neuter
             :number :sing}
-      :sem {:definite? false}
+      :definite? false
       :inflection :adj-no-e-suffix
       :modifies-noun true}}
 
@@ -20,13 +20,13 @@
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
-      :sem {:definite? true}
+      :definite? true
       :agr {:number :sing}
       :modifies-noun true}}
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
-      :sem {:definite? false}
+      :definite? false
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
@@ -41,13 +41,13 @@
  {:g [#"f$"   "ve"]
   :p [#"ve$"  "f"]
   :u {:cat :adjective
-      :sem {:definite? true}
+      :definite? true
       :agr {:number :sing}
       :modifies-noun true}}
  {:g [#"f$"   "ve"]
   :p [#"ve$"  "f"]
   :u {:cat :adjective
-      :sem {:definite? true}
+      :definite? true
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
@@ -63,12 +63,12 @@
   :p [#"ze$"  "s"]
   :u {:cat :adjective
       :agr {:number :sing}
-      :sem {:definite? true}
+      :definite? true
       :modifies-noun true}}
  {:g [#"s$"   "ze"]
   :p [#"ze$"  "s"]
   :u {:cat :adjective
-      :sem {:definite? false}
+      :definite? false
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
@@ -84,12 +84,12 @@
   :p [#"([aeiou])mme$" "$1m"]
   :u {:cat :adjective
       :agr {:number :sing}
-      :sem {:definite? true}
+      :definite? true
       :modifies-noun true}}
  {:g [#"([aeiou])m$"   "$1mme"]
   :p [#"([aeiou])mme$" "$1m"]
   :u {:cat :adjective
-      :sem {:definite? false}
+      :definite? false
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
@@ -104,13 +104,13 @@
  {:g [#"(a)(a)r$"   "$1re"]
   :p [#"are$"       "aar"]
   :u {:cat :adjective
-      :sem {:definite? true}
+      :definite? true
       :agr {:number :sing}      
       :modifies-noun true}}
  {:g [#"(a)(a)r$"   "$1re"]
   :p [#"are$"       "aar"]
   :u {:cat :adjective
-      :sem {:definite? false}
+      :definite? false
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
@@ -125,13 +125,13 @@
  {:g [#"$"  "e"]
   :p [#"e$" ""]
   :u {:cat :adjective
-      :sem {:definite? true}
+      :definite? true
       :agr {:number :sing}
       :modifies-noun true}}
  {:g [#"$"  "e"]
   :p [#"e$" ""]
   :u {:cat :adjective
-      :sem {:definite? false}
+      :definite? false
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}

@@ -40,21 +40,28 @@
 
  ;; 4
  {:note "det | adj noun"
+  :agr {:number :sing
+        :gender :neuter}
   :dotimes 1
+  :sem {:pred :girl
+        :mod {:first {:pred :confusing}}
+        :quant :we}
   :subcat []
   :phrasal true
   :cat :noun
   :head {:phrasal true}
   :comp {:phrasal false}}
 
+ ;; 5
  {:note "'een huis'"
   :dotimes 1
   :rule "np"
   :agr {:number :sing}
   :sem {:mod []
-        :definite? false
+        :quant :some
         :pred :house}}
 
+ ;; 6
  {:note "'de grote boeken'"
   :dotimes 1
   :rule "np"
@@ -62,25 +69,45 @@
   :sem {:mod {:first {:pred :big}}
         :pred :book}}
  
+ ;; 7
  {:note "'een heel klein druif'"
   :dotimes 1
   :rule "np"
   :agr {:number :sing}
   :definite? false
   :sem {:pred :grape
-        :definite? false        
+        :quant :some
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
- 
- {:note "det [intensifier adj | adj noun]"
+
+ ;; 8
+ ;; Generate some noun phrases where the
+ ;; modifying adjective has no '-e' suffix,
+ ;; e.g. 'een heel lief oud thuis'
+ {:note "[det [[intensifier adj] noun]]"
   :dotimes 1
-  :agr {:number :plur}
+  :agr {:number :sing
+        :gender :neuter}
+  :definite? false
+  :rule "np"
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}
+              :rest {:first {:pred :top}}}
+        :pred :top}}
+
+ ;; 9
+ ;; Generate some noun phrases but with less constraints,
+ ;; so usually the adjective *will* have the -e suffix.
+ ;; e.g. 'een behoorlijk vies grote tafel'
+ {:note "[det [[intensifier adj] noun]]"
+  :dotimes 1
   :rule "np"
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}}
  
+ ;; 10
  {:note "'De heel sterk slimme vrouen zingen'."
   :dotimes 1
   :rule "s"
@@ -90,24 +117,23 @@
                :context :neutral
                :mod {:first {:pred :strong
                              :mod {:first {:pred :very}}}
-                     :rest {:first {:pred :smart}}}
-               :quant :the}}}
+                     :rest {:first {:pred :smart}}}}}}
 
- ;; 10
+ ;; 11
  {:note "[det [intensifier adj | adj noun]] verb"
   :dotimes 5
   :rule "s"
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
- ;; 11
+ ;; 12
  {:note "[det | adj noun] verb"
   :dotimes 5
   :rule "s" 
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
- ;; 12
+ ;; 13
  {:note "Sentence with object"
   :dotimes 5
   :reflexive false
@@ -116,7 +142,7 @@
   :sem {:pred :see
         :obj {:top :top}}}
 
- ;; 13
+ ;; 14
  {:note "Sentence with reflexive object"
   :dotimes 5
   :generic true
@@ -128,7 +154,7 @@
         :pred :see}
   :subcat []}
 
- ;; 14
+ ;; 15
  {:note "[s np [vp v np]]"
   :dotimes 5
   :phrasal true
@@ -140,7 +166,7 @@
          :head {:subcat {:2 {:cat :noun}}}
          :comp {:rule "np"}}}
 
- ;; 15
+ ;; 16
  {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
   :rule "s"
@@ -153,7 +179,7 @@
                        :reflexive false}}}
   :sem {:obj {:top :top}}}
 
- ;; 16
+ ;; 17
  ;; ARGD, p. 37
  {:note "modals+infinitive"
   :dotimes 5
@@ -182,7 +208,7 @@
                   :comp {:rule "vp-inf"
                          :comp {:rule "vp"}}}}}
 
- ;; 17
+ ;; 18
  {:note "using 'kunnen'"
   :rule "s"
   :head {:rule "vp"

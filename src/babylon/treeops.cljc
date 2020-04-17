@@ -89,12 +89,13 @@
 (defn make-word []
   {:agr (atom :top)
    :canonical (atom :top)
-   :exceptions (atom :top)
    :cat (atom :top)
+   :definite? (atom :top)
+   :exceptions (atom :top)
    :infl (atom :top)
-   :sem (atom :top)
    :inflected? (atom :top)
-   :root (atom :top)})
+   :root (atom :top)
+   :sem (atom :top)})
 
 (defn numeric-frontier [syntax-tree]
   (cond

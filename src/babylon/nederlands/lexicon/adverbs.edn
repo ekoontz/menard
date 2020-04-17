@@ -1,0 +1,4 @@
+{
+ "samen" [{:cat :adverb
+           :sem {:pred :together}}]
+ }

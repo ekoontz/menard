@@ -39,6 +39,7 @@
    (def lexicon
      (merge-with concat
        (compile-lexicon-source "babylon/nederlands/lexicon/adjectives.edn")
+       (compile-lexicon-source "babylon/nederlands/lexicon/adverbs.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/misc.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")

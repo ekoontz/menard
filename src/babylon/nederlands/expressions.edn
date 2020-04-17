@@ -91,7 +91,7 @@
                :mod {:first {:pred :strong
                              :mod {:first {:pred :very}}}
                      :rest {:first {:pred :smart}}}
-               :quant :def}}}
+               :quant :the}}}
 
  ;; 10
  {:note "[det [intensifier adj | adj noun]] verb"

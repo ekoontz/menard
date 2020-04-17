@@ -14,7 +14,7 @@
 
  ;; <F. p30-31, 54-55, 70>
  "de" [{:cat :det
-        :sem {:pred :def
+        :sem {:pred :the
               :definite? true}              
         :agr {:gender :common}}
        {:cat :det
@@ -115,7 +115,7 @@
                :ref {:human true}}}]
 
  "het" [{:cat :det
-         :sem {:pred :def
+         :sem {:pred :the
                :definite? true}
          :agr {:gender :neuter
                :number :sing}}

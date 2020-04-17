@@ -11,6 +11,6 @@
   :cat :noun
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}}
-        :quant :indef
+        :quant :some
         :pred :top}}]
 

@@ -12,6 +12,14 @@
                    :pred :antonio}
              :pronoun false
              :propernoun true}]
+ "Corona" [{:cat :noun
+            :agr {:human false
+                  :number :sing
+                  :person :3rd}
+            :sem {:ref {:human false}
+                  :pred :corona}
+            :pronoun false
+            :propernoun true}]
  "Guus" [{:cat :noun
           :agr {:gender :masc
                 :human true}

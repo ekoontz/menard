@@ -59,7 +59,6 @@
   :dotimes 1
   :rule "np"
   :agr {:number :plur}  
-  :definite? true
   :sem {:mod {:first {:pred :big}}
         :pred :book}}
  
@@ -69,6 +68,7 @@
   :agr {:number :sing}
   :definite? false
   :sem {:pred :grape
+        :definite? false        
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}}}}
  

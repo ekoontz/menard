@@ -182,7 +182,7 @@
          :reflexive false}]
 
  "some" [{:cat :det
-          :sem {:pred :indef}
+          :sem {:pred :some}
           :agr {:number :plur}}]
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp

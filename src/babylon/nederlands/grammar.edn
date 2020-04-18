@@ -103,11 +103,13 @@
          :canonical "bestrijden"}
   :comp {:cat :adverb
          :canonical "samen"}
-  :unify [babylon.ug/cons-mod
-          babylon.ug/head-is-root
+  :unify [
+;;          babylon.ug/cons-mod
+;;          babylon.ug/head-is-root
           babylon.ug/head-last
-          babylon.ug/parent-sem
-          babylon.ug/subcat-1-1]}
+;;          babylon.ug/parent-sem
+;;          babylon.ug/subcat-d
+          ]}
 
  {:rule "we-samen-bestrijden"
   :prod? false

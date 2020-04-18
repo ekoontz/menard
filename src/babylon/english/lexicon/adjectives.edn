@@ -60,6 +60,7 @@
  "smart" [{:cat :adjective :sem {:pred :smart}}]
  "social" [{:cat :adjective :sem {:pred :social}}]
  "special" [{:cat :adjective :sem {:pred :special}}]
+ "stingy" [{:cat :adjective :sem {:pred :stingy}}]
  "strong" [{:cat :adjective :sem {:pred :strong}}]
  "stupid" [{:cat :adjective :sem {:pred :stupid}}]
  "sure" [{:cat :adjective :sem {:pred :sure}}]

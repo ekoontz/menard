@@ -2,6 +2,7 @@
  "eenzaam" [{:cat :adjective :sem {:pred :lonely}}]
  "eng" [{:cat :adjective :sem {:pred :scary}}]
  "ernstig" [{:cat :adjective :sem {:pred :serious}}]
+ "gierig" [{:cat :adjective :sem {:pred :stingy}}]
  "groot" [{:cat :adjective :sem {:pred :big}}]
  "inhalig" [{:cat :adjective :sem {:pred :greedy}}]
  "klein" [{:cat :adjective :sem {:pred :small}}]

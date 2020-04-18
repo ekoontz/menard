@@ -158,6 +158,11 @@
      :comp {:definite? shared}
      :head {:definite? shared}}))
 
+(def shared-number
+  (let [number (atom :top)]
+    {:sem {:ref {:number number}}
+     :agr {:number number}}))
+
 (def subcat-1
   (let [complement (atom {:subcat []})
         agr (atom :top)
@@ -205,7 +210,3 @@
      :subcat subcat-of-complement
      :comp head-argument}))
 
-(def shared-number
-  (let [number (atom :top)]
-    {:sem {:ref {:number number}}
-     :agr {:number number}}))

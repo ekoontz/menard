@@ -167,7 +167,7 @@
 ;;     /  \
 ;;   h<1>  1:c
 ;;
-(def subcat-1
+(def subcat-a
   (let [complement (atom {:subcat []})
         mod (atom :top)]
     {:head {:slash false
@@ -179,7 +179,7 @@
 ;;     /   \
 ;;   h<1>   c
 ;;
-(def subcat-1-1
+(def subcat-b
   (let [subcat-1 (atom :top)]
     {:head {:subcat subcat-1}
      :subcat subcat-1}))
@@ -188,7 +188,7 @@
 ;;     /   \
 ;;  h<1,2>  2
 ;;
-(def subcat-2
+(def subcat-c
   (let [complement-1 (atom {:top :top})
         complement-2 (atom {:top :top})]
     {:head {:subcat {:1 complement-1
@@ -202,7 +202,7 @@
 ;;     /   \
 ;;   h<2>   2:<1>
 ;;
-(def subcat-lift
+(def subcat-d
   (let [subcat-of-complement (atom {:top :top})
         comp (atom {:subcat subcat-of-complement})]
     {:head {:subcat {:1 comp

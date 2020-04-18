@@ -6,7 +6,7 @@
   :unify [babylon.ug/comp-is-root
           babylon.ug/head-first
           babylon.ug/parent-sem
-          babylon.ug/subcat-1]}
+          babylon.ug/subcat-a]}
  
  {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
@@ -23,7 +23,7 @@
           babylon.ug/head-rule
           babylon.ug/nominal-phrase
           babylon.ug/shared-agr
-          babylon.ug/subcat-1-1]}
+          babylon.ug/subcat-b]}
 
  {:rule "np"
   :reflexive false
@@ -36,7 +36,7 @@
           babylon.ug/head-rule
           babylon.ug/nest-mod
           babylon.ug/shared-number
-          babylon.ug/subcat-1]}
+          babylon.ug/subcat-a]}
 
  {:rule "s"
   :cat :verb
@@ -47,7 +47,7 @@
           babylon.ug/head-last
           babylon.ug/head-rule
           babylon.ug/head-sem
-          babylon.ug/subcat-1]}
+          babylon.ug/subcat-a]}
 
  {:rule "vp" ;; [vp +see .it]
   :cat :verb
@@ -61,7 +61,7 @@
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-2]}
+          babylon.ug/subcat-c]}
 
  {:rule "vp-inf" ;; [vp +to .sleep]
   :cat :verb
@@ -74,4 +74,4 @@
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-lift]}]
+          babylon.ug/subcat-d]}]

@@ -145,6 +145,7 @@
 
 (def morphology (m/compile-morphology
                  ["babylon/nederlands/morphology/adjectives.edn"
+                  "babylon/nederlands/morphology/misc.edn"
                   "babylon/nederlands/morphology/nouns.edn"
                   "babylon/nederlands/morphology/verbs.edn"]))
 

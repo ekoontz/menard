@@ -216,13 +216,6 @@
                 :canonical "kunnen"}
          :comp {:phrasal false}}
   :comp {:phrasal false}}
-
-
- ;; 18
- {:note "corona sentence from de Krant van de Gemente van Amsterdam"
-  :rule "s"
-  :prod? false
-  :comment "Corona en eenzaamheid moeten we samen bestrijden"}
  ]
 
 

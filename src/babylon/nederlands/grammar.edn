@@ -93,4 +93,30 @@
           babylon.ug/head-rule
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-d]}]
+          babylon.ug/subcat-d]}
+
+ {:rule "adverb" ;; 'samen bestrijden'
+  :prod? false
+  :cat :verb
+  :head {:cat :verb
+         :infl :base
+         :canonical "bestrijden"}
+  :comp {:cat :adverb
+         :canonical "samen"}
+  :unify [babylon.ug/cons-mod
+          babylon.ug/head-is-root
+          babylon.ug/head-last
+          babylon.ug/parent-sem
+          babylon.ug/subcat-1-1]}
+
+ {:rule "we-samen-bestrijden"
+  :prod? false
+  :cat :verb
+  :comp {:canonical "we"
+         :phrasal false}
+  :head {:rule "adverb"
+         :phrasal true}
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/parent-sem]}
+ ]

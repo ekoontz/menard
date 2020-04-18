@@ -163,6 +163,10 @@
     {:sem {:ref {:number number}}
      :agr {:number number}}))
 
+;;      <>
+;;     /  \
+;;   h<1>  1:c
+;;
 (def subcat-1
   (let [complement (atom {:subcat []})
         mod (atom :top)]
@@ -171,13 +175,19 @@
      :subcat []
      :comp complement}))
 
-;; [parent:[1]<..> head[1]<..> .comp]
+;;      <1>
+;;     /   \
+;;   h<1>   c
+;;
 (def subcat-1-1
   (let [subcat-1 (atom :top)]
     {:head {:subcat subcat-1}
      :subcat subcat-1}))
 
-;; [parent:<1> +head<1,2> .[2] comp]
+;;      <1>
+;;     /   \
+;;  h<1,2>  2
+;;
 (def subcat-2
   (let [complement-1 (atom {:top :top})
         complement-2 (atom {:top :top})]
@@ -185,16 +195,18 @@
                      :2 complement-2
                      :3 []}}
      :subcat {:1 complement-1
-              :2 []
-              :3 []}
+              :2 []}
      :comp complement-2}))
 
-;; [parent:subcat:[3] +head<2> .[2] subcat:[3]]
+;;      <1>
+;;     /   \
+;;   h<2>   2:<1>
+;;
 (def subcat-lift
   (let [subcat-of-complement (atom {:top :top})
-        head-argument (atom {:subcat subcat-of-complement})]
-    {:head {:subcat {:1 head-argument
+        comp (atom {:subcat subcat-of-complement})]
+    {:head {:subcat {:1 comp
                      :2 []}}
      :subcat subcat-of-complement
-     :comp head-argument}))
+     :comp comp}))
 

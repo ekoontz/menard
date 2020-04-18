@@ -12,6 +12,8 @@
 ;; This is used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
 
+;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
+
 ;; add debugging information.
 ;; TODO: use a general-purpose 'debug' flag
 ;; and set this to true if that flag is on.
@@ -153,12 +155,12 @@
              (filter #(not (= :fail %))))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
-                              (if (not (= (count from-inflected) 1))
-                                "s")
-                              " before looking"
-                              " at exceptions."))
-        ;; however, some (or even all) of the hypotheses might be wrong, if the verb has
-        ;; any exceptions. Then, the exceptional surface forms should pre-empt and exclude these hypotheses.
+                             (if (not (= (count from-inflected) 1))
+                               "s")
+                             " before looking"
+                             " at exceptions."))
+        ;; Some (or even all) of the hypotheses in _from-inflected_ might be wrong, if the verb has
+        ;; any exceptions. Below, the exceptional surface forms are used to  cancel these potential overgeneralizations.
         ;; For example, applying the rules for regular verbs in English, for infl present and agr 3rd sing,
         ;; the singular form of "be" is "bes", but there is an exceptional form "is" that should
         ;; be used instead. So this filter removes the spurious "bes" from the hypotheses generated
@@ -189,9 +191,8 @@
           ;; 2.a. If there are no inflected forms (i.e. 1. is empty), then return any forms from the lexicon
           ;;      that are the same as the input. This is for words that aren't inflected, for example
           ;;      determiners, prepositions, pronouns, etc; in general, closed-class lexemes.
-          ;; 2.b. If there are inflected forms, return any forms from the lexicom where the canonical form
-          ;;      of the verb is different from the input. This is for the
-          ;;      rest of words, (i.e. open-class lexemes).
+          ;; 2.b. If there are inflected forms, return any forms from the lexicon where the canonical form
+          ;;      of the verb is different from the input. This is for the rest of words, (i.e. open-class lexemes).
           exceptions (filter #(or (= true (:exception %))
                                   (= true (:inflected? %)))
                              (get lexicon surface))]

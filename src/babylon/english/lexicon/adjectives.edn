@@ -23,6 +23,7 @@
  "full" [{:cat :adjective :sem {:pred :full}}]
  "good" [{:cat :adjective :sem {:pred :good}}]
  "great" [{:cat :adjective :sem {:pred :great}}]
+ "greedy" [{:cat :adjective :sem {:pred :greedy}}] 
  "hard" [{:cat :adjective :sem {:pred :hard}}]
  "high" [{:cat :adjective :sem {:pred :high}}]
  "human" [{:cat :adjective :sem {:pred :human}}]

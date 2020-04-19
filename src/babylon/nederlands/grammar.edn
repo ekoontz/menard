@@ -99,9 +99,13 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-d]}
 
- {:rule "adverb" ;; '[.samen +bestrijden]'
+ {:rule "s-b" ;; '[.samen +bestrijden]'
   :prod? false
   :cat :verb
+  :subcat {:1 {:top :top}
+           :2 {:top :top}
+           :3 []}
+  :reflexive false
   :head {:cat :verb
          :infl :base
          :canonical "bestrijden"}
@@ -115,15 +119,34 @@
           babylon.ug/subcat-b
           ]}
  
- {:rule "we-samen-bestrijden"
+ {:rule "w-s-b"
   :prod? false
   :cat :verb
   :comp {:canonical "we"
          :phrasal false}
-  :head {:rule "adverb"
+  :head {:rule "s-b"
          :phrasal true}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-sem
-          babylon.ug/nest-mod]}
+          babylon.ug/nest-mod
+          babylon.ug/subcat-e
+          ]}
+
+ {:rule "m-w-s-b"
+  :prod? false
+  :cat :verb
+  :subcat {:1 {:top :top}
+           :2 []}
+  :head {:canonical "moeten"
+         :subcat {:1 {:top :top}
+                  :2 []}
+         :phrasal false}
+  :comp {:rule "w-s-b"
+         :phrasal true}
+  :unify [babylon.ug/head-first
+;;          babylon.ug/subcat-f
+          ]}
+
+
  ]

@@ -95,7 +95,7 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-d]}
 
- {:rule "adverb" ;; 'samen bestrijden'
+ {:rule "adverb" ;; '[.samen +bestrijden]'
   :prod? false
   :cat :verb
   :head {:cat :verb
@@ -106,9 +106,11 @@
   :unify [babylon.ug/cons-mod
           babylon.ug/head-is-root
           babylon.ug/head-last
-          babylon.ug/parent-sem
-          babylon.ug/subcat-1-1]}
-
+          babylon.ug/head-rule
+          babylon.ug/head-sem
+          babylon.ug/subcat-b
+          ]}
+ 
  {:rule "we-samen-bestrijden"
   :prod? false
   :cat :verb

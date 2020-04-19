@@ -210,3 +210,26 @@
      :subcat subcat-of-complement
      :comp comp}))
 
+;;      <2>
+;;     /   \
+;;  h<1,2>  1
+;;
+(def subcat-e
+  (let [complement-1 (atom {:top :top})
+        complement-2 (atom {:top :top})]
+    {:head {:subcat {:1 complement-1
+                     :2 complement-2
+                     :3 []}}
+     :subcat {:1 complement-2
+              :2 []}
+     :comp complement-1}))
+
+;;      <3>
+;;     /   \
+;;  h<1>  1:<3>
+;;
+(def subcat-f
+  (let [complement (atom :top)]
+    {:head {:subcat {:1 complement
+                     :2 []}}
+     :comp complement}))

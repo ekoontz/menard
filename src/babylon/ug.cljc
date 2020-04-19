@@ -26,6 +26,18 @@
 ;;
 (def cons-mod
   (let [ref (atom :top)
+        head-mod (atom :top)
+        sem (atom {:ref ref})
+        comp-sem (atom {:arg ref})]
+    {:mod {:first comp-sem
+           :rest head-mod}
+     :sem sem
+     :head {:sem sem
+            :mod head-mod}
+     :comp {:sem comp-sem}}))
+
+(def cons-mod-nominal
+  (let [ref (atom :top)
         quant (atom :top)
         head-mod (atom :top)
         sem (atom {:ref ref
@@ -119,6 +131,21 @@
      :head {:sem sem}}))
 
 (def nest-mod
+  (let [arg (atom :top)
+        context (atom :top)
+        mod (atom :top)
+        pred (atom :top)
+        ref (atom :top)]
+    {:sem {:context context
+           :mod mod
+           :pred pred}
+     :head {:sem {:context context
+                  :pred pred}
+            :mod mod}}))
+
+;; same as above but also has :arg and :quant, which are used by
+;; {:cat :noun} phrases.
+(def nest-mod-nominal
   (let [arg (atom :top)
         context (atom :top)
         mod (atom :top)

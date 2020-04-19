@@ -17,7 +17,7 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [babylon.ug/cons-mod
+  :unify [babylon.ug/cons-mod-nominal
           babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-rule
@@ -37,7 +37,7 @@
   :unify [babylon.ug/head-is-root
           babylon.ug/head-last
           babylon.ug/head-rule
-          babylon.ug/nest-mod
+          babylon.ug/nest-mod-nominal
           babylon.ug/shared-def
           babylon.ug/shared-number
           babylon.ug/subcat-a]}
@@ -119,7 +119,7 @@
           babylon.ug/subcat-b
           ]}
  
- {:rule "w-s-b"
+ {:rule "w-s-b" ;; [w-s-b .we +[s-b .samen +bestrijden]]
   :prod? false
   :cat :verb
   :comp {:canonical "we"
@@ -133,19 +133,20 @@
           babylon.ug/subcat-e
           ]}
 
- {:rule "m-w-s-b"
+ {:rule "m-w-s-b" ;; "[m-w-s-b +moeten .[w-s-b .we +[s-b .samen +bestrijden]]]"
   :prod? false
   :cat :verb
   :subcat {:1 {:top :top}
            :2 []}
+  :reflexive false
   :head {:canonical "moeten"
-         :subcat {:1 {:top :top}
-                  :2 []}
          :phrasal false}
   :comp {:rule "w-s-b"
          :phrasal true}
   :unify [babylon.ug/head-first
-;;          babylon.ug/subcat-f
+          babylon.ug/subcat-f
+          babylon.ug/comp-is-root
+          babylon.ug/head-sem
           ]}
 
 

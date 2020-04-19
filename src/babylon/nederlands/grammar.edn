@@ -122,6 +122,8 @@
  {:rule "w-s-b" ;; [w-s-b .we +[s-b .samen +bestrijden]]
   :prod? false
   :cat :verb
+  :reflexive false
+  :infl :present
   :comp {:canonical "we"
          :phrasal false}
   :head {:rule "s-b"
@@ -139,8 +141,8 @@
   :subcat {:1 {:top :top}
            :2 []}
   :reflexive false
-  :infl :present
   :head {:canonical "moeten"
+         :subcat {:2 {:modal false}}
          :phrasal false}
   :comp {:rule "w-s-b"
          :phrasal true}

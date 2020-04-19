@@ -130,6 +130,7 @@
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument-slash}}])}
+
  {:rule :reflexivity
   :if {:cat :verb
        :modal :base

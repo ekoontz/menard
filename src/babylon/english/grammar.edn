@@ -17,7 +17,7 @@
                   :2 []}}
   :slash false
   :comp {:cat :adjective}
-  :unify [babylon.ug/cons-mod
+  :unify [babylon.ug/cons-mod-nominal
           babylon.ug/head-is-root
           babylon.ug/head-last
           babylon.ug/head-rule
@@ -34,7 +34,7 @@
   :unify [babylon.ug/head-is-root
           babylon.ug/head-last
           babylon.ug/head-rule
-          babylon.ug/nest-mod
+          babylon.ug/nest-mod-nominal
           babylon.ug/shared-number
           babylon.ug/subcat-a]}
 

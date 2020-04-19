@@ -40,13 +40,8 @@
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
     (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
-          result (try (u/unify parent
-                               {:head head})
-                      (catch Exception e
-                        (do
-                          (log/debug (str "overh caught unification failure: "
-                                          (syntax-tree parent) "; head: " (syntax-tree head)))
-                          :fail)))]
+          result (u/unify parent
+                          {:head head})]
       (if (not (= :fail result))
         (do
           (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))

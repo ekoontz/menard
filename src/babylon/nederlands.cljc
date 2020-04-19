@@ -256,12 +256,25 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))
 
-(defn demo [index & [this-many]]
+(defn generate-demo [index & [this-many]]
   (->>
    (repeatedly #(println (-> (nth expressions index)
                              generate
                              time
                              ((fn [x] (morph x :sentence-punctuation? true))))))
+   (take (or this-many 10))
+   count))
+
+(defn parse-demo [index & [this-many]]
+  (->>
+   (repeatedly #(println (-> (nth expressions index)
+                             generate
+                             morph
+                             ((fn [x] "deze erg enge verwarde jassen proberen hun eigenlijk lieve overheid te lezen"))
+                             parse
+                             time
+                             first
+                             ((fn [x] (syntax-tree x))))))
    (take (or this-many 10))
    count))
 

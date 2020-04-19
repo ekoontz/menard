@@ -139,11 +139,13 @@
   :subcat {:1 {:top :top}
            :2 []}
   :reflexive false
+  :infl :present
   :head {:canonical "moeten"
          :phrasal false}
   :comp {:rule "w-s-b"
          :phrasal true}
   :unify [babylon.ug/head-first
+          babylon.ug/head-rule
           babylon.ug/subcat-f
           babylon.ug/comp-is-root
           babylon.ug/head-sem

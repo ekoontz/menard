@@ -67,12 +67,16 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-c]}
 
- {:rule "vp-np" ;; [vp .[np de kat] [vp-inf +te .zien]]
+ {:rule "vp-np" ;; [vp-np .[np de kat] [vp-inf +te .zien]]
   :cat :verb
   :aux false
   :slash false
   :options babylon.nederlands/inf-tense
   :head {:aux false}
+
+  ;; TODO: remove: should be handled by head:
+  :comp {:cat :noun}
+
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-reflexive

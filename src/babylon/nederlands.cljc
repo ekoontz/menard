@@ -270,7 +270,6 @@
    (repeatedly #(println (-> (nth expressions index)
                              generate
                              morph
-                             ((fn [x] "deze erg enge verwarde jassen proberen hun eigenlijk lieve overheid te lezen"))
                              parse
                              time
                              first

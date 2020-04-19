@@ -115,11 +115,4 @@
   :if {:cat :verb
        :aux ::unspec}
   :then [{:aux false}]}
-
- {:rule :verb-base
-  :if {:cat :verb
-       :inflected? false
-       :infl ::unspec}
-  :then [{:infl :top}
-         {:infl :base
-          :inflected? true}]}]
+ ]

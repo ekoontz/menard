@@ -226,10 +226,22 @@
 
 ;;      <3>
 ;;     /   \
-;;  h<1>  1:<3>
+;;  h<2>   <3>
 ;;
 (def subcat-f
-  (let [complement (atom :top)]
-    {:head {:subcat {:1 complement
-                     :2 []}}
-     :comp complement}))
+  (let [complement-subcat (atom :top)
+        subject (atom :top)
+        complement-semantics (atom {:subj subject})
+        ]
+    {:comp {:subcat complement-subcat
+            :sem complement-semantics}
+     :head {:sem {:subj subject
+                  :obj
+                  ;;:top
+                                    complement-semantics
+                  }}
+     :subcat complement-subcat}))
+
+
+
+

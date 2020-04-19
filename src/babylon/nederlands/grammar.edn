@@ -135,14 +135,16 @@
           babylon.ug/subcat-e
           ]}
 
+ ;; (->> "moeten we samen bestrijden" parse (map syntax-tree))
  {:rule "m-w-s-b" ;; "[m-w-s-b +moeten .[w-s-b .we +[s-b .samen +bestrijden]]]"
   :prod? false
   :cat :verb
-  :subcat {:1 {:top :top}
-           :2 []}
+
+  ;; should not need to specify this, but if we don't, we
+  ;; get 2 parses (one where {:reflexive true}, and one (expected) {:reflexive false}
   :reflexive false
+
   :head {:canonical "moeten"
-         :subcat {:2 {:modal false}}
          :phrasal false}
   :comp {:rule "w-s-b"
          :phrasal true}

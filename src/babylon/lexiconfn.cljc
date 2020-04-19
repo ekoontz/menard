@@ -115,23 +115,43 @@
                          :u u}))))
              (filter #(not (nil? %)))
 
-             ;; Now we have a set of tuples of the form {:u U, :canonical C, :p P}, each of
-             ;; which is a guess about the word, where:
-             ;; - C is the canonical form (i.e. the base, normalized version of the surface form)
-             ;; - U is what must unify with the lexical forms found  that we will each hypothesis is a difference such rule.
-             ;; Furthermore, define L to be the lexemes in the lexicon which have the same canonical form (i.e. have {:canonical C}).
-             ;; First we get L.
-             ;; Next, for each lexeme in L, we unify with U, and also with {:inflected? false}
-             ;; Finally, we add {:surface surface} to the output.
+             ((fn [rules]
+                (log/debug (str "found: " (count rules) " matching rules."))
+                rules))
+
+             ;; Now we have a set of tuples T, each meber of which has form: {:u U, :canonical C, :p P}, and
+             ;; each of which is a guess about the word, where:
+             ;; - C is the canonical form: the base, normalized version of the surface form _surface_.
+             ;; - U is what must unify with the lexical forms found, for this guess to be valid.
+             ;;
+             ;; Furthermore, define L to be the lexemes in the lexicon which have the same canonical form (i.e. have {:canonical C} for some member of the set of tuples T.
+             ;; First we get this set L:
              (mapcat (fn [tuple]
-                       (->> (get lexicon (:canonical tuple))
-                            (map (fn [lexeme]
-                                   (reduce
-                                    unify [lexeme
-                                           (:u tuple)
-                                           {:inflected? false
-                                            :surface surface}]))))))
-             ;; Remove fails
+                       (->>
+                        (get lexicon (:canonical tuple))
+
+                        ;; remove exceptions:
+                        (filter #(= false (u/get-in % [:inflected?] false)))
+
+                        ;; and unify with its respective U:
+                        (map #(unify % (:u tuple))))))
+
+             ;; remove all the guesses that failed unification with U:
+             (filter #(not (= :fail %)))
+
+             ((fn [lexemes]
+                (log/debug (str "found: " (count lexemes) " inflections."))
+                lexemes))
+             
+             (map (fn [lexeme]
+                    (log/debug (str "  " surface " -> " (u/get-in lexeme [:canonical])))
+                    lexeme))
+
+             ;; Finally, we add {:surface surface} to the output:
+             (map (fn [lexeme]
+                    (unify lexeme
+                           {:surface surface})))
+
              (filter #(not (= :fail %))))
 
         debug (log/debug (str "found: " (count from-inflected) " inflected form"
@@ -147,16 +167,21 @@
         ;; from _from_inflected_ above.
         filter-against-exceptions
         (filter (fn [analyze-hypothesis]
-                  (log/debug (str "inflection guess: " analyze-hypothesis))
+                  (log/debug (str "== filtering possible inflection: " (u/get-in analyze-hypothesis [:surface]) " -> " (u/get-in analyze-hypothesis [:canonical])))
                   (let [filter-with
                         {:infl (u/get-in analyze-hypothesis [:infl])
                          :agr (u/get-in analyze-hypothesis [:agr])}]
                     (log/debug (str "filtering with: " filter-with))
-                    (log/debug (str "unify map: " (vec (map #(unify % filter-with)
-                                                           (:exceptions analyze-hypothesis)))))
+                    (if (not (empty? (:exceptions analyze-hypothesis)))
+                      (log/debug (str " count of exceptions found for this guess: " (count (:exceptions analyze-hypothesis)))))
                     (empty? (filter #(not (= :fail (unify % filter-with)))
                                     (:exceptions analyze-hypothesis)))))
-                from-inflected)]
+                from-inflected)
+
+        debug (log/debug (str "this many inflected forms after filtering against exceptions: "
+                              (count filter-against-exceptions)))
+
+        ]
     (let [from-regular-morphology
           (vec (set filter-against-exceptions))
           ;; the lexicon contains both canonical forms and exceptions.
@@ -174,17 +199,20 @@
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
         (log/debug (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
-      (log/debug (str "found: " (count from-regular-morphology) " analyzed form"
+      (log/debug (str "found: " (count from-regular-morphology) " regular analyzed form"
                      (if (not (= (count from-regular-morphology) 1))
                        "s")
-                     "."))
+                     " for surface form: " surface "."))
       (log/debug (str "found: " (count exceptions) " exception"
                      (if (not (= count exceptions 1))
-                         "s")
-                     "."))
-      (concat
-       from-regular-morphology
-       exceptions))))
+                       "s")
+                     " for surface form: " surface "."))
+      (let [result
+            (concat
+             from-regular-morphology
+             exceptions)]
+        (log/debug (str "returning: " (count result) " analyses for: " surface "."))
+        result))))
 
 (defn exceptions
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"

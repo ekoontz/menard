@@ -99,7 +99,7 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-d]}
 
- {:rule "s-b" ;; '[.samen +bestrijden]'
+ {:rule "adverb" ;; '[.samen +bestrijden]'
   :prod? false
   :cat :verb
   :subcat {:1 {:top :top}
@@ -127,7 +127,7 @@
   :infl :present
   :comp {:canonical "we"
          :phrasal false}
-  :head {:rule "s-b"
+  :head {:rule "adverb"
          :phrasal true}
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root

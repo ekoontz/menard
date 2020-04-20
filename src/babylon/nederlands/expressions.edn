@@ -221,7 +221,7 @@
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
   :rule "s"
   :prod? false
-  :head {:rule "inverted-modal"}
+  :head {:rule "objectless-vp"}
   :comment "Corona en eenzaamheid moeten we samen bestrijden"}
  ]
 

@@ -117,7 +117,7 @@
           babylon.ug/head-sem
           babylon.ug/subcat-b
           ]}
- 
+
  {:rule "subject-and-adverb" ;; [subject-and-adverb .we +[adverb .samen +bestrijden]]
   :prod? false
   :cat :verb
@@ -154,5 +154,14 @@
           babylon.ug/head-sem
           ]}
 
-
+ {:rule "im2"
+  :prod? false
+  :cat :verb
+  :reflexive false
+  :head {:phrasal false
+         :canonical "moeten"}
+  :comp {:phrasal false
+         :canical "we"}
+  :unify [babylon.ug/head-first]}
+ 
  ]

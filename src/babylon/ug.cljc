@@ -267,7 +267,3 @@
             :subcat {:1 {:sem subject}}}
      :comp complement
      :subcat complement-subcat}))
-
-
-
-

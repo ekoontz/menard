@@ -132,29 +132,7 @@
           babylon.ug/subcat-e
           ]}
 
- ;; TODO: enforce agreement between head verb and subject of subject-and-adverb-phrase
- {:rule "inverted-modal" ;; "[inverted-modal +moeten .[subject-and-adverb .we +[adverb .samen +bestrijden]]]"
-  :prod? false
-  :cat :verb
-
-  ;; should not need to specify this, but if we don't, we
-  ;; get 2 parses (one where {:reflexive true},
-  ;; and one (expected) {:reflexive false}:
-  :reflexive false
-
-  :head {:modal :base
-         :phrasal false
-         :subcat {:2 {:modal false}}}
-  :comp {:rule "subject-and-adverb"
-         :phrasal true}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-rule
-          babylon.ug/subcat-f
-          babylon.ug/comp-is-root
-          babylon.ug/head-sem
-          ]}
-
- {:rule "inverted-modal-2"
+ {:rule "inverted-modal"
   :prod? false
   :cat :verb
   :reflexive false
@@ -174,9 +152,7 @@
   :prod? false
   :cat :verb
   :reflexive false
-  :head {:rule "inverted-modal-2"
-         :phrasal true}
-  :comp {:rule "adverb"
+  :head {:rule "inverted-modal"
          :phrasal true}
   :unify [babylon.ug/head-first
           babylon.ug/head-sem

@@ -251,23 +251,6 @@
               :2 []}
      :comp complement-1}))
 
-;;          <3..>
-;;          /    \
-;;  h<[:sem 1],2>  2[:sem|:subj 1]
-;;                  [<3..>       ]
-;;
-(def subcat-f
-  (let [complement-subcat (atom :top)
-        subject (atom :top)
-        complement-semantics (atom {:subj subject})
-        complement (atom {:sem complement-semantics
-                          :subcat complement-subcat})]
-    {:head {:sem {:subj subject
-                  :obj complement-semantics}
-            :subcat {:1 {:sem subject}}}
-     :comp complement
-     :subcat complement-subcat}))
-
 (def subcat-g
   (let [subject-argument (atom :top)
         verb-argument (atom :top)]

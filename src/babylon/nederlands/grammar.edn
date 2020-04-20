@@ -143,6 +143,7 @@
          :subcat {:2 {:modal false}}}
   :comp {:phrasal false
          :canonical "we"}
+  :options babylon.nederlands/finite-tenses  
   :unify [babylon.ug/head-first
           babylon.ug/head-rule
           babylon.ug/head-sem

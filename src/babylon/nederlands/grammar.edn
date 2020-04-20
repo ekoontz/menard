@@ -105,6 +105,7 @@
   :subcat {:1 {:top :top}
            :2 {:top :top}
            :3 []}
+  :mod {:rest []}
   :reflexive false
   :head {:cat :verb
          :infl :base
@@ -141,7 +142,8 @@
   :cat :verb
 
   ;; should not need to specify this, but if we don't, we
-  ;; get 2 parses (one where {:reflexive true}, and one (expected) {:reflexive false}
+  ;; get 2 parses (one where {:reflexive true},
+  ;; and one (expected) {:reflexive false}:
   :reflexive false
 
   :head {:canonical "moeten"

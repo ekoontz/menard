@@ -154,14 +154,33 @@
           babylon.ug/head-sem
           ]}
 
- {:rule "im2"
+ {:rule "inverted-modal-2"
   :prod? false
   :cat :verb
   :reflexive false
   :head {:phrasal false
-         :canonical "moeten"}
+         :modal :base
+         :infl :present
+         :canonical "moeten"
+         :subcat {:2 {:modal false}}}
   :comp {:phrasal false
-         :canical "we"}
-  :unify [babylon.ug/head-first]}
- 
+         :canonical "we"}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-rule
+          babylon.ug/head-sem
+          babylon.ug/subcat-g]}
+
+ {:rule "objectless-vp"
+  :prod? false
+  :cat :verb
+  :reflexive false
+  :head {:rule "inverted-modal-2"
+         :phrasal true}
+  :comp {:rule "adverb"
+         :phrasal true}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-sem
+          babylon.ug/nest-mod
+          babylon.ug/subcat-h]}
+
  ]

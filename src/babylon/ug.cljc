@@ -267,3 +267,25 @@
             :subcat {:1 {:sem subject}}}
      :comp complement
      :subcat complement-subcat}))
+
+(def subcat-g
+  (let [subject-argument (atom :top)
+        verb-argument (atom :top)]
+    {:subcat {:1 verb-argument
+              :2 []}
+     :comp subject-argument
+     :head {:subcat {:1 subject-argument
+                     :2 verb-argument
+                     :3 []}}}))
+
+(def subcat-h
+  (let [one (atom :top)
+        mod (atom :top)
+        sem (atom :top)
+        two (atom {:mod mod
+                   :sem sem
+                   :subcat {:2 one}})]
+    {:sem {:obj {:mod mod}}
+     :subcat {:1 one}
+     :head {:subcat {:1 two}}
+     :comp two}))

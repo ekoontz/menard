@@ -264,8 +264,7 @@
                           :subcat complement-subcat})]
     {:head {:sem {:subj subject
                   :obj complement-semantics}
-            :subcat {:1 {:sem subject}
-                     :2 {:modal false}}}
+            :subcat {:1 {:sem subject}}}
      :comp complement
      :subcat complement-subcat}))
 

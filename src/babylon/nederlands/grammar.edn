@@ -108,10 +108,8 @@
   :mod {:rest []}
   :reflexive false
   :head {:cat :verb
-         :infl :base
-         :canonical "bestrijden"}
-  :comp {:cat :adverb
-         :canonical "samen"}
+         :infl :base}
+  :comp {:cat :adverb}
   :unify [babylon.ug/cons-mod
           babylon.ug/head-is-root
           babylon.ug/head-last
@@ -120,13 +118,11 @@
           babylon.ug/subcat-b
           ]}
  
- {:rule "w-s-b" ;; [w-s-b .we +[s-b .samen +bestrijden]]
+ {:rule "subject-and-adverb" ;; [subject-and-adverb .we +[adverb .samen +bestrijden]]
   :prod? false
   :cat :verb
   :reflexive false
   :infl :present
-  :comp {:canonical "we"
-         :phrasal false}
   :head {:rule "adverb"
          :phrasal true}
   :unify [babylon.ug/head-last
@@ -136,8 +132,8 @@
           babylon.ug/subcat-e
           ]}
 
- ;; (->> "moeten we samen bestrijden" parse (map syntax-tree))
- {:rule "m-w-s-b" ;; "[m-w-s-b +moeten .[w-s-b .we +[s-b .samen +bestrijden]]]"
+ ;; TODO: enforce agreement between head verb and subject of subject-and-adverb-phrase
+ {:rule "inverted-modal" ;; "[inverted-modal +moeten .[subject-and-adverb .we +[adverb .samen +bestrijden]]]"
   :prod? false
   :cat :verb
 
@@ -146,9 +142,10 @@
   ;; and one (expected) {:reflexive false}:
   :reflexive false
 
-  :head {:canonical "moeten"
-         :phrasal false}
-  :comp {:rule "w-s-b"
+  :head {:modal :base
+         :phrasal false
+         :subcat {:2 {:modal false}}}
+  :comp {:rule "subject-and-adverb"
          :phrasal true}
   :unify [babylon.ug/head-first
           babylon.ug/head-rule

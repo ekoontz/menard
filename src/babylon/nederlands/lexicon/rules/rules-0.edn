@@ -115,4 +115,9 @@
   :if {:cat :verb
        :aux ::unspec}
   :then [{:aux false}]}
+
+ {:rule :empty-mod
+  :if {:cat :verb :mod ::unspec}
+  :then [{:mod []}]}
+
  ]

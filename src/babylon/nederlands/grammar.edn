@@ -108,7 +108,7 @@
   :mod {:rest []}
   :reflexive false
   :head {:cat :verb
-         :infl :base}
+         :infl :infinitive}
   :comp {:cat :adverb}
   :unify [babylon.ug/cons-mod
           babylon.ug/head-is-root
@@ -137,7 +137,7 @@
   :cat :verb
   :reflexive false
   :head {:phrasal false
-         :modal :base
+         :modal :infinitive
          :infl :present
          :subcat {:2 {:modal false}}}
   :options babylon.nederlands/finite-tenses  

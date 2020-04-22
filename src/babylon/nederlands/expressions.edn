@@ -172,7 +172,7 @@
   :rule "s"
   :reflexive false
   :head {:rule "vp"
-         :head {:modal :infinitive}
+         :head {:modal :te}
          :comp {:rule "vp-inf"
                 :cat :verb
                 :head {:phrasal false
@@ -193,7 +193,7 @@
          :phrasal true
          :head {:phrasal false
                 :reflexive false
-                :modal :infinitive}
+                :modal :te}
          :comp {:rule "vp-np"
                 :comp {:phrasal true
                        :rule "np"

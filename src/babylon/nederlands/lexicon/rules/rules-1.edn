@@ -39,11 +39,11 @@
                          :cat :verb
                          :head {:cat :verb
                                 :rule "vp-inf"
-                                :comp {:modal :infinitive}}}}})
+                                :comp {:modal :te}}}}})
 
  {:rule :modal-infinitive
   :if {:cat :verb
-       :modal :infinitive}
+       :modal :te}
   :then [;; intransitive: "zij probeert"
          {:sem {:obj :unspec}
           :reflexive false
@@ -82,29 +82,29 @@
 
  {:rule :modal-base
   :if {:cat :verb
-       :modal :base}
+       :modal :infinitive}
   :then (let [subj (atom :top)
               obj (atom {:subj subj})]
-          [;; "I can"
+          [;; "ik kan"
            {:sem {:obj :unspec}
-            :subcat {:2 []}} ;; "can"
+            :subcat {:2 []}}
 
-           ;;  "can <vp[base,nonmodal]>"
+           ;;  "ik kan fietsen"
            {:sem {:subj subj
                   :obj obj}
             :subcat {:2 {:aux false
-                         :infl :base
+                         :infl :infinitive
                          :cat :verb
                          :modal false
                          :sem obj}}}
 
-           ;;  "can <vp[base,infinitive modal]>"
+           ;;  "hij probeert te leren"
            {:sem {:subj subj
                   :obj obj}
             :subcat {:2 {:aux false
-                         :infl :base
+                         :infl :infinitive
                          :cat :verb
-                         :modal :infinitive
+                         :modal :te
                          :sem obj}}}])}
 
  {:rule :aux-verbs

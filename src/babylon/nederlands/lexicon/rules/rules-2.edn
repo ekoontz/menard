@@ -1,3 +1,4 @@
+;; TODO: vertaalen alle voorbeelden comments van Engels tot Nederlands
 [{:rule :common-noun
   :if {:cat :noun
        :propernoun false
@@ -133,7 +134,7 @@
 
  {:rule :reflexivity
   :if {:cat :verb
-       :modal :base
+       :modal :infinitive
        :subcat {:2 {:top :top}}}
   :then (let [subj (atom :top)
               subcat-subj (atom {:sem subj})
@@ -143,7 +144,7 @@
                   :obj obj}
             :reflexive false
             :subcat {:2 {:aux false
-                         :infl :base
+                         :infl :infinitive
                          :cat :verb
                          :reflexive false
                          :sem obj
@@ -158,7 +159,7 @@
               :subcat {:1 {:agr agr}
                        :2 {:aux false
                            :agr agr
-                           :infl :base
+                           :infl :infinitive
                            :cat :verb
                            :reflexive true
                            :sem obj

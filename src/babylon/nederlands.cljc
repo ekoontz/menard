@@ -194,7 +194,7 @@
    ;; "te [vp(:infinitive) zien de kat]"
    {:variant :infinitive
     :abbreviation :inf
-    :infl :base
+    :infl :infinitive
     :sem {:tense :infinitive}}])
 
 #?(:clj

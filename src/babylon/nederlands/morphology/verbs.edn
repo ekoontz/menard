@@ -2,7 +2,7 @@
  {:g [#"^(.*)$"   "$1"] ;; werken -> werken
   :p [#"^(.*)$"   "$1"] ;; werken -> werken
   :u {:cat :verb
-      :infl :base}}
+      :infl :infinitive}}
 
 ;; <F. p. 108>
 ;; inflection: present

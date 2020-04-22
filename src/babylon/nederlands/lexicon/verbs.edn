@@ -34,7 +34,7 @@
 
    [{:exceptions exceptions
      :cat :verb
-     :modal :base
+     :modal :infinitive
      :sem {:pred :be-able-to}}])
 
  "lezen"
@@ -62,7 +62,7 @@
 
    [{:exceptions exceptions
      :cat :verb
-     :modal :base
+     :modal :infinitive
      :sem {:pred :must}}])
 
  "proberen"
@@ -76,7 +76,7 @@
                     :agr {:person :3rd :number :sing}
                     :surface "probeert"}]]
    [{:cat :verb
-     :modal :infinitive
+     :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
  
@@ -102,7 +102,7 @@
                   :modal false
                   :reflexive reflexive?
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf te te]"
-                  :infl :base
+                  :infl :infinitive
                   :sem sem}
               :2 []}})]
  

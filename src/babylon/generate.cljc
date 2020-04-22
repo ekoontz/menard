@@ -21,7 +21,7 @@
 #?(:cljs (def ^:dynamic allow-folding? true))
 #?(:cljs (def ^:dynamic allow-truncation? true))
 
-(def ^:dynamic allow-backtracking? false)
+(def ^:dynamic allow-backtracking? true)
 (def ^:dynamic max-depth 15)
 
 (def ^:dynamic stop-generation-at

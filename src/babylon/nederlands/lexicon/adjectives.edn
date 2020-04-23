@@ -1,5 +1,6 @@
 {"bedroefd" [{:cat :adjective :sem {:pred :sad}}]
  "eenzaam" [{:cat :adjective :sem {:pred :lonely}}]
+ "eigenwijs" [{:cat :adjective :sem {:pred :stubborn}}]
  "eng" [{:cat :adjective :sem {:pred :scary}}]
  "ernstig" [{:cat :adjective :sem {:pred :serious}}]
  "gierig" [{:cat :adjective :sem {:pred :stingy}}]

@@ -62,6 +62,7 @@
  "special" [{:cat :adjective :sem {:pred :special}}]
  "stingy" [{:cat :adjective :sem {:pred :stingy}}]
  "strong" [{:cat :adjective :sem {:pred :strong}}]
+ "stubborn" [{:cat :adjective :sem {:pred :stubborn}}]
  "stupid" [{:cat :adjective :sem {:pred :stupid}}]
  "sure" [{:cat :adjective :sem {:pred :sure}}]
  "tall" [{:cat :adjective :sem {:pred :tall}}]

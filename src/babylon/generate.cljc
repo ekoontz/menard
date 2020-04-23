@@ -135,9 +135,9 @@
                        (map (fn [rule]
                               (diag/fail-path spec rule)))))]
              (if (u/get-in spec [:rule])
-               (log/warn (str (syntax-tree-fn tree) ": no rule: " (u/get-in spec [:rule]) " matched spec: " (syntax-tree-fn (u/get-in tree at))
-                              (if (not (empty? fail-paths))
-                                fail-paths))))))
+               (exception (str (syntax-tree-fn tree) ": no rule: " (u/get-in spec [:rule]) " matched spec: " (syntax-tree-fn (u/get-in tree at))
+                               (if (not (empty? fail-paths))
+                                 fail-paths))))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
          result)
 

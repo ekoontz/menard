@@ -118,20 +118,6 @@
           babylon.ug/subcat-b
           ]}
 
- {:rule "subject-and-adverb" ;; [subject-and-adverb .we +[adverb .samen +bestrijden]]
-  :prod? false
-  :cat :verb
-  :reflexive false
-  :infl :present
-  :head {:rule "adverb"
-         :phrasal true}
-  :unify [babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/head-sem
-          babylon.ug/nest-mod
-          babylon.ug/subcat-e
-          ]}
-
  {:rule "inverted-modal"
   :prod? false
   :cat :verb

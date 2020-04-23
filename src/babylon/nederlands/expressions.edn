@@ -221,8 +221,13 @@
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
   :rule "s"
   :prod? false
-  :head {:rule "objectless-vp"}
-  :comment "Corona en eenzaamheid moeten we samen bestrijden"}
+  :comment "Corona en eenzaamheid moeten we samen bestrijden"
+  :phrasal true,
+  :head {:rule "objectless-vp",
+         :head {:rule "inverted-modal"},
+         :comp {:rule "adverb", :phrasal true}}}
+
+
  ]
 
 

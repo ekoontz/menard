@@ -56,6 +56,16 @@
             :mod head-mod}
      :comp {:sem comp-sem}}))
 
+(def cons-mod-adverb
+  (let [head-mod (atom :top)
+        subj-ref (atom :top)
+        comp-sem (atom {:subj subj-ref})]
+    {:mod {:first comp-sem
+           :rest head-mod}
+     :head {:sem {:subj {:ref subj-ref}}
+            :mod head-mod}
+     :comp {:sem comp-sem}}))
+
 (def head-aux
   (let [aux (atom :top)]
     {:aux aux
@@ -135,6 +145,12 @@
     {:sem sem
      :head {:sem sem}}))
 
+;; TODO: break this into
+;; smaller units for specific
+;; usages, as was done with cons-mod
+;; above. e.g. 'subj' only applies
+;; for {:cat :verb}; 'ref' only
+;; applies for {:cat :noun}; etc.
 (def nest-mod
   (let [arg (atom :top)
         context (atom :top)

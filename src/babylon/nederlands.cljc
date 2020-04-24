@@ -233,7 +233,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
+  (binding [g/max-depth (:max-depth spec g/max-depth)]
     (g/generate spec grammar-for-generation index-fn syntax-tree)))
 
 (defn generate-all

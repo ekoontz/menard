@@ -110,7 +110,7 @@
   :head {:cat :verb
          :infl :infinitive}
   :comp {:cat :adverb}
-  :unify [babylon.ug/cons-mod
+  :unify [babylon.ug/cons-mod-adverb
           babylon.ug/head-is-root
           babylon.ug/head-last
           babylon.ug/head-rule

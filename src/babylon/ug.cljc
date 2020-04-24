@@ -31,6 +31,9 @@
         comp-sem (atom {:arg ref})]
     {:mod {:first comp-sem
            :rest head-mod}
+
+     ;; TODO: don't need this sem=sem; remove;
+     ;; the head-sem def handles that.
      :sem sem
      :head {:sem sem
             :mod head-mod}
@@ -46,6 +49,8 @@
                         :quant quant})]
     {:mod {:first comp-sem
            :rest head-mod}
+     ;; TODO: don't need this sem=sem; remove;
+     ;; the head-sem def handles that.
      :sem sem
      :head {:sem sem
             :mod head-mod}

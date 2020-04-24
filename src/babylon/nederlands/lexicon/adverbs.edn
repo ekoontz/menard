@@ -1,4 +1,5 @@
 {
  "samen" [{:cat :adverb
-           :sem {:pred :together}}]
+           :sem {:pred :together
+                 :subj {:number :plur}}}]
  }

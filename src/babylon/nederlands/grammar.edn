@@ -1,4 +1,4 @@
-[{:rule "intensifier" ;; 'heel groot'
+[{:rule "intensifier" ;; '+heel .groot'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}
@@ -8,7 +8,7 @@
           babylon.ug/shared-def
           babylon.ug/subcat-a]}
 
- {:rule "nbar" ;; '[nbar .groet +kat]'
+ {:rule "nbar" ;; '.groet +kat'
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -26,7 +26,7 @@
           babylon.ug/shared-def
           babylon.ug/subcat-b]}
 
- {:rule "np"
+ {:rule "np" ;; '.de +kat'
   :reflexive false
   :agr {:person :3rd}
   :cat :noun
@@ -53,7 +53,7 @@
           babylon.ug/head-sem
           babylon.ug/subcat-a]}
 
- {:rule "vp" ;; [vp +see .it]
+ {:rule "vp" ;; [vp +zie .het]
   :cat :verb
   :aux false
   :slash false
@@ -85,7 +85,7 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-c]}
 
- {:rule "vp-inf" ;; [vp +te .slapen]
+ {:rule "vp-inf" ;; '+te .slapen'
   :cat :verb
   :aux false
   :slash false
@@ -99,7 +99,7 @@
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-d]}
 
- {:rule "adverb" ;; '[.samen +bestrijden]'
+ {:rule "adverb" ;; '.samen +bestrijden'
   :prod? false
   :cat :verb
   :subcat {:1 {:top :top}
@@ -118,8 +118,9 @@
           babylon.ug/subcat-b
           ]}
 
+ ;; '+moeten .we'
  {:rule "inverted-modal"
-  :prod? false
+  :prod? false 
   :cat :verb
   :reflexive false
   :head {:phrasal false
@@ -132,6 +133,7 @@
           babylon.ug/head-sem
           babylon.ug/subcat-g]}
 
+ ;; +[objectless-vp +[inverted-modal(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
  {:rule "objectless-vp"
   :prod? false
   :cat :verb

@@ -65,7 +65,7 @@
 
             (> (count frontier) max-depth)
             (do
-              (log/warn (str "the depth got too deep on this tree: " (syntax-tree-fn tree) "; giving up on it."))
+              (log/warn (str "too deep: giving up on this tree: " (syntax-tree-fn tree) "."))
               [])
             
             (or (u/get-in tree [::done?])

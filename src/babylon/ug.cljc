@@ -155,12 +155,15 @@
   (let [arg (atom :top)
         context (atom :top)
         mod (atom :top)
+        subj (atom :top)
         pred (atom :top)
         ref (atom :top)]
     {:sem {:context context
            :mod mod
+           :subj {:ref subj}
            :pred pred}
      :head {:sem {:context context
+                  :subj {:ref subj}
                   :pred pred}
             :mod mod}}))
 

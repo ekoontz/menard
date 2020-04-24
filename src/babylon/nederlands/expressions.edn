@@ -173,7 +173,7 @@
   :reflexive false
   :head {:rule "vp"
          :head {:modal :te}
-         :comp {:rule "vp-inf"
+         :comp {:rule "vp-te"
                 :cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
@@ -199,13 +199,13 @@
                        :rule "np"
                        :head {:rule "nbar"
                               :comp {:phrasal true}}}
-                :head {:rule "vp-inf"
+                :head {:rule "vp-te"
                        :comp {:modal false}
                        :phrasal true}}}
   :target {:rule "s"
            :comp {:rule "np"}
            :head {:rule "vp"
-                  :comp {:rule "vp-inf"
+                  :comp {:rule "vp-te"
                          :comp {:rule "vp"}}}}}
 
  ;; 18

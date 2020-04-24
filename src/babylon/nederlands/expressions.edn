@@ -225,13 +225,9 @@
   :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal true,
   :sem {:pred :must
+        :mod {:first {:pred :together}}
         :obj {:obj {:pred :corona}
-              :pred :overcome}}
-  :head {:rule "objectless-vp",
-         :head {:rule "inverted-modal"},
-         :comp {:rule "adverb", :phrasal true}}}
-
-
+              :pred :overcome}}}
  ]
 
 

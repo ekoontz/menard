@@ -96,7 +96,6 @@
       (log/debug (str "add: start: " (syntax-tree-fn tree) " at:" at
                       (if (u/get-in tree (concat at [:phrasal]))
                         (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
-    (log/debug (str "add: " (syntax-tree-fn tree)))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (syntax-tree-fn tree) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))

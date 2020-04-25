@@ -224,6 +224,7 @@
   :prod? false
   :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal true,
+  :subcat []
   :sem {:pred :must
         :mod {:first {:pred :together}}
         :obj {:obj {:pred :corona}

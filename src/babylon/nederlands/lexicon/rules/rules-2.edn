@@ -30,6 +30,7 @@
             :subcat {:2 {:cat :noun
                          :reflexive false
                          :case :acc
+                         :subcat []
                          :sem obj}}})
 
          ;; reflexive: subject and object are the same semantically and by agreement.
@@ -48,6 +49,7 @@
                          :phrasal false
                          :reflexive true
                          :cat :noun
+                         :subcat []
                          :sem obj
                          :case :acc}}})]}
 

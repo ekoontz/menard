@@ -68,15 +68,8 @@
               comp-children))
     true
     (let [result
-          (try
-            (u/unify! (u/copy parent)
-                      {:comp (u/copy comp)})
-            (catch Exception e
-              (do (log/warn (str "unify exception: "
-                                 "parent: " (syntax-tree parent) "; "
-                                 "comp: " (syntax-tree comp) ": " e ". "
-                                 "Returning :fail."))
-                  :fail)))]
+          (u/unify! (u/copy parent)
+                    {:comp (u/copy comp)})]
       (if (not (= :fail result))
         (do
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))

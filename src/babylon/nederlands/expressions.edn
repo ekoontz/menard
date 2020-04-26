@@ -167,11 +167,11 @@
          :comp {:rule "np"}}}
 
  ;; 16
- {:note "[s n [vp v [vp:inf to v]]]" ;; e.g. 'she wants to leave'
+ {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'she wants to leave'
   :dotimes 5
   :rule "s"
   :reflexive false
-  :head {:rule "vp"
+  :head {:rule "vp-modal-te"
          :head {:modal :te}
          :comp {:rule "vp-te"
                 :cat :verb

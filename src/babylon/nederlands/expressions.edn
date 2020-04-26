@@ -135,6 +135,7 @@
  
  ;; 13
  {:note "Sentence with object"
+  :max-depth 3
   :dotimes 5
   :reflexive false
   :cat :verb

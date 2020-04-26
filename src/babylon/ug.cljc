@@ -189,6 +189,11 @@
                   :ref ref}
             :mod mod}}))
 
+(def nest-comp-mod
+  (let [mod (atom :top)]
+    {:sem {:obj {:mod mod}}
+     :comp {:mod mod}}))
+
 (def nominal-phrase
   {:reflexive false
    :agr {:person :3rd}})
@@ -284,7 +289,6 @@
      :head {:subcat {:1 subject-argument
                      :2 verb-argument
                      :3 []}}}))
-
 (def subcat-h
   (let [one (atom :top)
         mod (atom :top)
@@ -295,4 +299,16 @@
     {:sem {:obj {:mod mod}}
      :subcat {:1 one}
      :head {:subcat {:1 two}}
+     :comp two}))
+
+(def subcat-i
+  (let [one   (atom :top)
+        three (atom :top)
+        two   (atom {:subcat {:1 one
+                              :2 three}})]
+    {:sem {:mod []}
+     :subcat {:1 one
+              :2 three}
+     :head {:subcat {:1 one
+                     :2 two}}
      :comp two}))

@@ -58,7 +58,9 @@
   :aux false
   :slash false
   :options babylon.nederlands/finite-plus-inf-tense
-  :head {:aux false}
+  :head {:aux false
+         :modal false}
+
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
@@ -66,6 +68,42 @@
           babylon.ug/head-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-c]}
+
+ {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[te slapen]]
+  :cat :verb
+  :aux false
+  :slash false
+  :options babylon.nederlands/finite-plus-inf-tense
+  :head {:aux false
+         :modal :te}
+
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/head-reflexive
+          babylon.ug/head-rule
+          babylon.ug/head-sem
+          babylon.ug/slash-is-head-slash
+          babylon.ug/subcat-c]}
+
+ ;; the object of the non-modal verb (in the complement)
+ ;; is copied up:
+ {:rule "vp-infinitive" ;; [vp +moet .bestrijden]
+  :cat :verb
+  :aux false
+  :slash false
+  :options babylon.nederlands/finite-plus-inf-tense
+  :head {:aux false
+         :modal :infinitive}
+
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/nest-comp-mod
+          babylon.ug/head-reflexive
+          babylon.ug/head-rule
+          babylon.ug/head-sem
+          babylon.ug/nest-mod
+          babylon.ug/slash-is-head-slash
+          babylon.ug/subcat-i]}
 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb
@@ -143,6 +181,4 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-sem
           babylon.ug/nest-mod
-          babylon.ug/subcat-h]}
-
- ]
+          babylon.ug/subcat-h]}]

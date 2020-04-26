@@ -225,9 +225,10 @@
   :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal true,
   :subcat []
+  :reflexive false
   :sem {:pred :must
-        :mod {:first {:pred :together}}
         :obj {:obj {:pred :corona}
+              :mod {:first {:pred :together}}
               :pred :overcome}}}
  ]
 

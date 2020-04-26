@@ -41,7 +41,7 @@
                                 :rule "vp-inf"
                                 :comp {:modal :te}}}}})
 
- {:rule :modal-infinitive
+ {:rule :modal-te
   :if {:cat :verb
        :modal :te}
   :then [;; intransitive: "zij probeert"
@@ -79,7 +79,7 @@
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
- {:rule :modal-base
+ {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}
   :then (let [subj (atom :top)
@@ -87,6 +87,7 @@
                                            :obj ::unspec})
               obj-with-subject-and-object (atom {:subj subj
                                                  :obj {:top :top}})]
+              
           [;; "ik kan"
            {:sem {:obj ::unspec}
             :subcat {:2 []}}

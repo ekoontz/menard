@@ -45,7 +45,7 @@
   :if {:cat :verb
        :modal :te}
   :then [;; intransitive: "zij probeert"
-         {:sem {:obj :unspec}
+         {:sem {:obj ::unspec}
           :reflexive false
           :subcat {:2 []}}
 
@@ -79,34 +79,38 @@
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
-
  {:rule :modal-base
   :if {:cat :verb
        :modal :infinitive}
   :then (let [subj (atom :top)
-              obj (atom {:subj subj})]
+              obj-with-subject-only (atom {:subj subj
+                                           :obj ::unspec})
+              obj-with-subject-and-object (atom {:subj subj
+                                                 :obj {:top :top}})]
           [;; "ik kan"
-           {:sem {:obj :unspec}
+           {:sem {:obj ::unspec}
             :subcat {:2 []}}
 
            ;;  "ik kan fietsen"
-           {:sem {:subj subj
-                  :obj obj}
+           {:foo :modal-base-with-a-intransitive-verb
+            :sem {:subj subj
+                  :obj obj-with-subject-only}
             :subcat {:2 {:aux false
                          :infl :infinitive
                          :cat :verb
                          :modal false
-                         :sem obj}}}
+                         :sem obj-with-subject-only}}}
 
-           ;;  "hij probeert te leren"
-           {:sem {:subj subj
-                  :obj obj}
+           ;;  "ik kan het zien"
+           {:foo :modal-base-with-a-transitive-verb
+            :sem {:subj subj
+                  :obj obj-with-subject-and-object}
             :subcat {:2 {:aux false
                          :infl :infinitive
                          :cat :verb
-                         :modal :te
-                         :sem obj}}}])}
-
+                         :modal false
+                         :sem obj-with-subject-and-object}}}])}
+           
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true

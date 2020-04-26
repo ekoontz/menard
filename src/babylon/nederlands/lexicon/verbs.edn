@@ -93,7 +93,7 @@
  [(let [sem (atom :top)
         reflexive? (atom :top)]
     {:cat :verb
-     :infl :infinitive
+     :infl :te
      :inflected? true
      :normal-transitive-defaults? false
      :reflexive reflexive?

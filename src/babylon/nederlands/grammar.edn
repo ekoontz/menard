@@ -127,7 +127,7 @@
   :cat :verb
   :aux false
   :slash false
-  :infl :infinitive
+  :infl :te
   :head {:canonical "te"}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root

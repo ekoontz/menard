@@ -74,8 +74,10 @@
         (do
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
           [result])
-        (log/debug (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
-                        " " (diag/fail-path parent {:comp comp})))))))
+        (do
+          (log/debug (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
+                         " " (diag/fail-path parent {:comp comp})))
+          [])))))
 
 (defn over [parents child1 child2]
   (mapcat

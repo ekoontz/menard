@@ -190,7 +190,7 @@
          :head {:phrasal true
                 :comp {:phrasal true}
                 :head {:phrasal true}}}
-  :head {:rule "vp"
+  :head {:rule "vp-modal-te"
          :phrasal true
          :head {:phrasal false
                 :reflexive false
@@ -206,7 +206,7 @@
   :target {:rule "s"
            :comp {:rule "np"}
            :head {:rule "vp"
-                  :comp {:rule "vp-te"
+                  :comp {:rule "vp"
                          :comp {:rule "vp"}}}}}
 
  ;; 18

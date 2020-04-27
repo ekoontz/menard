@@ -59,6 +59,10 @@
                          :cat :verb
                          :reflexive false
                          :sem obj
+
+                         ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:                         
+                         :phrasal true
+
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})
 
@@ -77,6 +81,10 @@
                          :cat :verb
                          :reflexive true
                          :sem obj
+
+                         ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:
+                         :phrasal true
+
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
  {:rule :modal-infinitive

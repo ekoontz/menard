@@ -1,4 +1,7 @@
-;; 'F.' means Carol Fehringer, "A Reference Grammar of Dutch", 1999 ,Cambridge University Press.
+;; TODO: F.49: distinguish between stressed and unstressed for:
+;; - jij (je)
+;; - wij (we)
+;; - zij (ze)
 {"behoorlijk"
  [{:cat :intensifier
    :sem {:pred :quite}
@@ -267,8 +270,6 @@
         :sem {:pred :you
               :context :polite}}]
 
-
- ;; TODO: any difference in usage between 'we' and 'wij'?
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom

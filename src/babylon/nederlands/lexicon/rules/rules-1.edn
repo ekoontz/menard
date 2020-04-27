@@ -55,7 +55,7 @@
            {:reflexive false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:infl :infinitive
+            :subcat {:2 {:infl :te
                          :cat :verb
                          :reflexive false
                          :sem obj
@@ -73,7 +73,7 @@
             :sem {:subj subj
                   :obj obj}
             :subcat {:2 {:agr agr
-                         :infl :infinitive
+                         :infl :te
                          :cat :verb
                          :reflexive true
                          :sem obj

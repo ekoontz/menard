@@ -213,7 +213,7 @@
  ;; 18
  {:note "using 'kunnen'"
   :rule "s"
-  :head {:rule "vp"
+  :head {:rule "vp-infinitive"
          :head {:phrasal false
                 :canonical "kunnen"}
          :comp {:phrasal false}}

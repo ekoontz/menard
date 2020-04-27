@@ -147,6 +147,7 @@
  {:note "Sentence with reflexive object"
   :dotimes 5
   :generic true
+  :max-depth 3
   :cat :verb
   :phrasal true
   :reflexive true

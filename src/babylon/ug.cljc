@@ -145,12 +145,12 @@
     {:sem sem
      :head {:sem sem}}))
 
-;; TODO: break this into
-;; smaller units for specific
+;; TODO: remove this:
+;; instead use smaller units for specific
 ;; usages, as was done with cons-mod
 ;; above. e.g. 'subj' only applies
-;; for {:cat :verb}; 'ref' only
-;; applies for {:cat :noun}; etc.
+;; for {:cat :verb}, ('ref' only): nest-comp-mod;
+;; for {:cat :noun}, nest-mod-nominal
 (def nest-mod
   (let [arg (atom :top)
         context (atom :top)
@@ -193,6 +193,11 @@
   (let [mod (atom :top)]
     {:sem {:obj {:mod mod}}
      :comp {:mod mod}}))
+
+(def nest-head-mod
+  (let [mod (atom :top)]
+    {:sem {:mod mod}
+     :head {:sem {:mod mod}}}))
 
 (def nominal-phrase
   {:reflexive false

@@ -169,7 +169,7 @@
          :comp {:rule "np"}}}
 
  ;; 16
- {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'she wants to leave'
+ {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
   :dotimes 5
   :rule "s"
   :reflexive false

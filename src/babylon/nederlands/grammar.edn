@@ -61,11 +61,15 @@
   :head {:aux false
          :modal false}
 
+  ;; TODO: move this contraint to lexicon (the head verb)
+  :sem {:mod []}
+  
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
           babylon.ug/head-rule
           babylon.ug/head-sem
+          babylon.ug/nest-head-mod
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-c]}
 
@@ -101,7 +105,6 @@
           babylon.ug/head-reflexive
           babylon.ug/head-rule
           babylon.ug/head-sem
-          babylon.ug/nest-mod
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-i]}
 
@@ -115,11 +118,15 @@
   ;; TODO: remove: should be handled by head:
   :comp {:cat :noun}
 
+  ;; TODO: move this contraint to lexicon (the head verb)
+  :sem {:mod []}
+  
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/head-reflexive
           babylon.ug/head-rule
           babylon.ug/head-sem
+          babylon.ug/nest-head-mod
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-c]}
 
@@ -180,5 +187,5 @@
          :phrasal true}
   :unify [babylon.ug/head-first
           babylon.ug/head-sem
-          babylon.ug/nest-mod
+          babylon.ug/nest-comp-mod
           babylon.ug/subcat-h]}]

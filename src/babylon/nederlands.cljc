@@ -181,7 +181,7 @@
   [;; "te [vp(:infinitive) zien de kat]"
    {:variant :infinitive
     :abbreviation :inf
-    :infl :infinitive
+    :infl :te
     :sem {:tense :infinitive}}])
 
 (def finite-plus-inf-tense

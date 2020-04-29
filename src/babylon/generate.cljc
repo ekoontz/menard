@@ -142,8 +142,8 @@
 
        (or (= false (u/get-in tree (concat at [:phrasal])))
            (and (u/get-in tree (concat at [:canonical]))
-                (= ::unspec (u/get-in tree (concat at [:head])))
-                (= ::unspec (u/get-in tree (concat at [:comp])))
+                (= ::unspec (u/get-in tree (concat at [:head]) ::unspec))
+                (= ::unspec (u/get-in tree (concat at [:comp]) ::unspec))
                 (not (= :top
                         (u/get-in tree (concat at [:canonical]))))))
        (do

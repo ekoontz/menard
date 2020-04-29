@@ -5,12 +5,12 @@
             :sem {:ref {:number number}}})]}
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
-       :sem {:mod ::unspec}}
+       :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :verbs-have-empty-modifiers
   :if {:cat :verbx
-       :mod ::unspec}
+       :mod :unspec}
   :then [{:mod []}]}
 
  {:rule :dont-inflect-complementizers
@@ -49,36 +49,36 @@
 
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun
-       :pronoun ::unspec}
+       :pronoun :unspec}
   :then [{:pronoun false}]}
 
  {:rule :nouns-are-not-propernouns
   :if {:cat :noun
-       :propernoun ::unspec}
+       :propernoun :unspec}
   :then [{:propernoun false}]}
 
  {:rule :nouns-have-empty-modifiers
   :if {:cat :noun
        :pronoun false
-       :mod ::unspec}
+       :mod :unspec}
   :then [{:mod []}]}
 
  {:rule :politeness-is-unspecified
   :if {:cat :noun
-       :sem {:context ::unspec}}
+       :sem {:context :unspec}}
   :then [{:sem {:context :unspec}}]}
 
  {:rule :pronoun-have-empty-modifiers
   :if {:cat :noun
        :pronoun true
-       :sem {:mod ::unspec}}
+       :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :propernouns-have-empty-modifiers
   :if {:cat :noun
        :pronoun false
        :propernoun true
-       :sem {:mod ::unspec}}
+       :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :propernouns-are-nonreflexive
@@ -90,7 +90,7 @@
  {:rule :pronouns-are-nonreflexive
   :if {:cat :noun
        :pronoun true
-       :reflexive ::unspec
+       :reflexive :unspec
        :propernoun false}
   :then [{:reflexive false}]}
 
@@ -102,7 +102,7 @@
        :aux false
        :modal false
        :subcat {:1 {:cat :noun}
-                :2 ::unspec}}
+                :2 :unspec}}
   :then [{:subcat {:1 {:cat :noun
                        :subcat []}
                    :2 []}}
@@ -113,16 +113,16 @@
 
  {:rule :modal-false-by-default
   :if {:cat :verb
-       :modal ::unspec}
+       :modal :unspec}
   :then [{:modal false}]}
  
  {:rule :aux-default-is-false
   :if {:cat :verb
-       :aux ::unspec}
+       :aux :unspec}
   :then [{:aux false}]}
 
  {:rule :empty-mod
-  :if {:cat :verb :mod ::unspec}
+  :if {:cat :verb :mod :unspec}
   :then [{:mod []}]}
 
  ]

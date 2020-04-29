@@ -45,7 +45,7 @@
   :if {:cat :verb
        :modal :te}
   :then [;; intransitive: "zij probeert"
-         {:sem {:obj ::unspec}
+         {:sem {:obj :unspec}
           :reflexive false
           :subcat {:2 []}}
 
@@ -92,12 +92,12 @@
        :modal :infinitive}
   :then (let [subj (atom :top)
               obj-with-subject-only (atom {:subj subj
-                                           :obj ::unspec})
+                                           :obj :unspec})
               obj-with-subject-and-object (atom {:subj subj
                                                  :obj {:top :top}})]
               
           [;; "ik kan"
-           {:sem {:obj ::unspec}
+           {:sem {:obj :unspec}
             :subcat {:2 []}}
 
            ;;  "ik kan fietsen"
@@ -134,7 +134,7 @@
  {:rule :ditransitive-false
   :if {:cat :verb
        :normal-transitive-defaults? true
-       :subcat {:3 ::unspec}}
+       :subcat {:3 :unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}]
 

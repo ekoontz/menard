@@ -108,7 +108,7 @@ Here we'll use the example sentence "the small orange cat that you see hunts a g
 ## `[s [np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]] [vmod [vp hunts a mouse] stealthily]]`
 
 `s` is neither `nest-mod`, `cons-mod`, nor `:cons-and-nest-mod`: neither child should have a
-`:mod` feature. This is enforced with `:mod ::unspec` as shown below:
+`:mod` feature. This is enforced with `:mod :unspec` as shown below:
 
 
 ### Input to generation
@@ -148,9 +148,9 @@ Here we'll use the example sentence "the small orange cat that you see hunts a g
                      :arg [1]}>}
        :mod <{:pred :stealth
               :arg [2]}>}
- :mod ::unspec}
- :head {:mod ::unspec}
- :comp {:mod ::unspec}}
+ :mod :unspec}
+ :head {:mod :unspec}
+ :comp {:mod :unspec}}
 ```
 
 ## `[np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]]`
@@ -183,9 +183,9 @@ Here we'll use the example sentence "the small orange cat that you see hunts a g
               :arg [1]}
              {:pred :orange
               :arg [1]}>
- :mod ::unspec}
- :head {:mod ::unspec}
- :comp {:mod ::unspec}}
+ :mod :unspec}
+ :head {:mod :unspec}
+ :comp {:mod :unspec}}
 ```
 
 ## `[nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]`
@@ -249,7 +249,7 @@ The inner `nmod`: `:sem` and `:mod` are, as in the parent, siblings:
 ## `[cp that [s/ you see]]`
 
 Like `s`. `cp` is neither `nest-mod`, `cons-mod`, nor `cons-and-nest-mod`: neither child should have a 
-`:mod` feature. This is enforced with `:mod ::unspec` on the rule.
+`:mod` feature. This is enforced with `:mod :unspec` on the rule.
 
 
 ### Input to generation
@@ -268,9 +268,9 @@ Like `s`. `cp` is neither `nest-mod`, `cons-mod`, nor `cons-and-nest-mod`: neith
  :sem {:pred :see
        :obj {:ref [1]}
        :subj {:pred :you}}>}
- :mod ::unspec
- :head {:mod ::unspec}
- :comp {:mod ::unspec}}
+ :mod :unspec
+ :head {:mod :unspec}
+ :comp {:mod :unspec}}
 ```
 
 ## `[vmod [vp hunts a grey mouse] stealthily]`
@@ -305,15 +305,15 @@ Since `vmod` is `cons-and-nest-mod`, the `[:sem :mod]` is a list with one member
 	   :ref [2]
 	   :mod <{:pred :stealth
 	          :arg [2]}>}}
- :mod ::unspec
- :head {:mod ::unspec}
- :comp {:mod ::unspec}}
+ :mod :unspec
+ :head {:mod :unspec}
+ :comp {:mod :unspec}}
 ```
 
 ## `[vp hunts a grey mouse]`
 
 Like `s` and `cp`, `vp` is neither `nest-mod`, `cons-mod` nor `cons-and-nest-mod`: neither child should have a
-`:mod` feature. This is enforced with `:mod ::unspec`.
+`:mod` feature. This is enforced with `:mod :unspec`.
 
 
 
@@ -339,7 +339,7 @@ Like `s` and `cp`, `vp` is neither `nest-mod`, `cons-mod` nor `cons-and-nest-mod
 	         :mod <{:ref [3]
 			        :pred :grey}>}
 	   :ref [2]
- :mod ::unspec
- :head {:mod ::unspec}
- :comp {:mod ::unspec}}
+ :mod :unspec
+ :head {:mod :unspec}
+ :comp {:mod :unspec}}
 ```

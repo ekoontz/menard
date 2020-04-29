@@ -1,6 +1,6 @@
 [{:rule :determiner-expansion
   :if {:cat :det
-       :agr ::unspec}
+       :agr :unspec}
   :then [{:agr {:number :sing}}
          {:agr {:number :plur}}]}
 
@@ -8,8 +8,8 @@
   :if {:cat :noun
        :propernoun false
        :pronoun false
-       :subcat ::unspec
-       :agr {:number ::unspec}}
+       :subcat :unspec
+       :agr {:number :unspec}}
   :then [(let [agr (atom {:number :sing
                           :person :3rd})]
            ;; "a/the dog sleeps"
@@ -45,7 +45,7 @@
        :propernoun false
        :pronoun false
        :regular false
-       :subcat ::unspec
+       :subcat :unspec
        :agr {:number :plur}}
   :then [(let [agr (atom {:number :plur
                           :person :3rd})]
@@ -70,7 +70,7 @@
        :propernoun false
        :pronoun false
        :regular false
-       :subcat ::unspec
+       :subcat :unspec
        :agr {:number :sing}}
   :then [(let [agr (atom {:number :sing
                           :person :3rd})]

@@ -1,7 +1,7 @@
 [{:rule :irregular-common-noun
   :if {:cat :noun
-       :pronoun ::unspec
-       :propernoun ::unspec
+       :pronoun :unspec
+       :propernoun :unspec
        :regular false}
   :then [{:pronoun false
           :regular false
@@ -158,6 +158,6 @@
  {:rule :ditransitive-false
   :if {:cat :verb
        :normal-transitive-defaults? true
-       :subcat {:3 ::unspec}}
+       :subcat {:3 :unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}]

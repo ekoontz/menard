@@ -223,7 +223,7 @@
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
   :max-depth 3
   :rule "s"
-  :prod? false
+  :prod? true
   :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal true,
   :subcat []
@@ -232,6 +232,21 @@
         :obj {:obj {:pred :corona}
               :mod {:first {:pred :together}}
               :pred :overcome}}}
+
+ ;; 20
+ {:note "Generalization of the previous:"
+  :max-depth 3
+  :rule "s"
+  :prod? true
+  :phrasal true,
+  :subcat []
+  :reflexive false
+  :sem {:pred :must
+        :obj {:obj {:pred :top}
+              :mod {:first {:pred :top}}
+              :pred :top}}}
+
+
  ]
 
 

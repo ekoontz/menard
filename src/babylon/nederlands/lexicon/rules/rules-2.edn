@@ -3,7 +3,7 @@
   :if {:cat :noun
        :propernoun false
        :pronoun false
-       :subcat ::unspec}
+       :subcat :unspec}
   :then [(let [agr (atom {:person :3rd})
                quant (atom :top)]
            {:cat :noun
@@ -83,7 +83,7 @@
        :aux false
        :normal-transitive-defaults? true
        :subcat {:2 []}}
-  :then [{:sem {:obj ::unspec}
+  :then [{:sem {:obj :unspec}
           :reflexive false
           :subcat {:2 []}}]}
 

@@ -5,14 +5,14 @@
             :sem {:ref {:number number}}})]}
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
-       :sem {:mod ::unspec}}
+       :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
  {:rule :regular-noun
   :if {:cat :noun
-       :agr {:number ::unspec}
-       :pronoun ::unspec
-       :propernoun ::unspec
-       :regular ::unspec}
+       :agr {:number :unspec}
+       :pronoun :unspec
+       :propernoun :unspec
+       :regular :unspec}
   :then [{:regular true
           :pronoun false
           :propernoun false}]}
@@ -20,7 +20,7 @@
  {:rule :common-nouns-are-inhuman-by-default
   :if {:cat :noun
        :pronoun false
-       :agr {:human ::unspec}}
+       :agr {:human :unspec}}
   :then [{:agr {:human false}}]}
 
  {:rule :complementizer
@@ -71,7 +71,7 @@
        :aux false
        :modal false
        :subcat {:1 {:cat :noun}
-                :2 ::unspec}}
+                :2 :unspec}}
   :then [{:modal false
           :subcat {:1 {:cat :noun
                        :subcat []}
@@ -84,7 +84,7 @@
  
  {:rule :aux-default-is-false
   :if {:cat :verb
-       :aux ::unspec}
+       :aux :unspec}
   :then [{:aux false}]}
 
  ;; <non-inflecting rules>
@@ -135,34 +135,34 @@
 
  {:rule :modal-default-false
   :if {:cat :verb
-       :modal ::unspec}
+       :modal :unspec}
   :then [{:modal false}]}
 
  {:rule :pronouns-are-not-reflexive-by-default
   :if {:cat :noun
        :pronoun true
-       :reflexive ::unspec}
+       :reflexive :unspec}
   :then [{:reflexive false}]}
 
  {:rule :pronouns-are-not-wh-words-by-default
   :if {:cat :noun
        :pronoun true
-       :wh-word ::unspec}
+       :wh-word :unspec}
   :then [{:wh-word false}]}
 
  {:rule :nouns-have-empty-modifiers
   :if {:cat :noun
-       :mod ::unspec}
+       :mod :unspec}
   :then [{:mod []}]}
 
  {:rule :pronoun-have-empty-modifiers
   :if {:cat :noun
        :pronoun true
-       :sem {:mod ::unspec}}
+       :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :propernouns-have-empty-modifiers
   :if {:cat :noun
        :propernoun true
-       :sem {:mod ::unspec}}
+       :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}]

@@ -145,7 +145,7 @@
           babylon.ug/subcat-d]}
 
  {:rule "adverb" ;; '.samen +bestrijden'
-  :prod? false
+  :prod? true
   :cat :verb
   :subcat {:1 {:top :top}
            :2 {:top :top}
@@ -165,7 +165,7 @@
 
  ;; '+moeten .we'
  {:rule "inverted-modal"
-  :prod? false 
+  :prod? true 
   :cat :verb
   :reflexive false
   :head {:phrasal false
@@ -180,7 +180,7 @@
 
  ;; +[objectless-vp +[inverted-modal(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
  {:rule "objectless-vp"
-  :prod? false
+  :prod? true
   :cat :verb
   :reflexive false
   :head {:rule "inverted-modal"

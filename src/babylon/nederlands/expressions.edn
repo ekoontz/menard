@@ -207,7 +207,7 @@
   :target {:rule "s"
            :comp {:rule "np"}
            :head {:rule "vp"
-                  :comp {:rule "vp"
+                  :comp {:rule "vp-inf"
                          :comp {:rule "vp"}}}}}
 
  ;; 18
@@ -244,10 +244,4 @@
   :sem {:pred :must
         :obj {:obj {:pred :top}
               :mod {:first {:pred :top}}
-              :pred :top}}}
-
-
- ]
-
-
-
+              :pred :top}}}]

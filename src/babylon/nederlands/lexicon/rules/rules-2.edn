@@ -142,24 +142,11 @@
   [;; transitive and non-reflexive: "zij probeert het te zien"
    {:reflexive false
     :subcat {:2 {:reflexive false
-                 
-                 ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:                         
-                 :phrasal true
                  :subcat {:2 []}}}}
    
    ;; transitive and reflexive: "zij probeert zich te zien"
-   (let [subj-ref (atom :top)
-         subj (atom {:ref subj-ref})
-         obj (atom {:subj subj
-                    :obj {:ref subj-ref}})]
-     {:reflexive true
-      :subcat {:2 {:reflexive true
-                   ;; this {:phrasal true} is
-                   ;; needed to prevent "probeert X" where
-                   ;; X is any infinitive verb (which will
-                   ;; have :infl :top, so will wrongly unify here:
-                   :phrasal true
-                   :subcat {:2 []}}}})]}
+   {:reflexive true
+    :subcat {:2 {:reflexive true}}}]}
  
  {:rule :reflexivity-infinitive
   :if {:cat :verb

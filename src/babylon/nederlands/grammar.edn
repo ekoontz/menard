@@ -165,7 +165,7 @@
 
  ;; '+moeten .we'
  {:rule "inverted-modal"
-  :prod? true 
+  :prod? true
   :cat :verb
   :reflexive false
   :head {:phrasal false

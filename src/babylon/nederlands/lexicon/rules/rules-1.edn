@@ -65,8 +65,7 @@
             :subcat {:2 []}}
 
            ;;  "ik kan fietsen"
-           {:sem {:subj subj
-                  :obj obj-with-subject-only}
+           {:sem {:obj obj-with-subject-only}
             :subcat {:2 {:aux false
                          :infl :infinitive
                          :cat :verb
@@ -74,8 +73,7 @@
                          :sem obj-with-subject-only}}}
 
            ;;  "ik kan het zien"
-           {:sem {:subj subj
-                  :obj obj-with-subject-and-object}
+           {:sem {:obj obj-with-subject-and-object}
             :subcat {:2 {:aux false
                          :infl :infinitive
                          :cat :verb

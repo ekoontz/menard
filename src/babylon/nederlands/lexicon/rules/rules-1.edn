@@ -40,7 +40,6 @@
                          :head {:cat :verb
                                 :rule "vp-inf"
                                 :comp {:modal :te}}}}})
-
  {:rule :modal-te
   :if {:cat :verb
        :modal :te}
@@ -49,44 +48,9 @@
           :reflexive false
           :subcat {:2 []}}
 
-         ;; transitive and non-reflexive: "zij probeert het te zien"
-         (let [subj (atom :top)
-               obj (atom {:subj subj})]
-           {:reflexive false
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:2 {:infl :te
-                         :cat :verb
-                         :reflexive false
-                         :sem obj
+         ;; transitive
+         {:subcat {:2 {:top :top}}}]}
 
-                         ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:                         
-                         :phrasal true
-
-                         :subcat {:1 {:sem subj}
-                                  :2 []}}}})
-
-         ;; transitive and reflexive: "zij probeert zich te zien"
-         (let [subj-ref (atom :top)
-               subj (atom {:ref subj-ref})
-               obj (atom {:subj subj
-                          :obj {:ref subj-ref}})
-               agr (atom :top)]
-           {:reflexive true
-            :agr agr
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:2 {:agr agr
-                         :infl :te
-                         :cat :verb
-                         :reflexive true
-                         :sem obj
-
-                         ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:
-                         :phrasal true
-
-                         :subcat {:1 {:sem subj}
-                                  :2 []}}}})]}
  {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}
@@ -101,8 +65,7 @@
             :subcat {:2 []}}
 
            ;;  "ik kan fietsen"
-           {:foo :modal-base-with-a-intransitive-verb
-            :sem {:subj subj
+           {:sem {:subj subj
                   :obj obj-with-subject-only}
             :subcat {:2 {:aux false
                          :infl :infinitive
@@ -111,8 +74,7 @@
                          :sem obj-with-subject-only}}}
 
            ;;  "ik kan het zien"
-           {:foo :modal-base-with-a-transitive-verb
-            :sem {:subj subj
+           {:sem {:subj subj
                   :obj obj-with-subject-and-object}
             :subcat {:2 {:aux false
                          :infl :infinitive

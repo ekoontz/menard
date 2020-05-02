@@ -134,6 +134,43 @@
             :subcat {:1 subject
                      :2 verb-argument-slash}}])}
 
+ {:rule :reflexivity-te
+  :if {:cat :verb
+       :modal :te
+       :subcat {:2 {:top :top}}}
+  :then          ;; transitive and non-reflexive: "zij probeert het te zien"
+  [(let [subj (atom :top)
+         obj (atom {:subj subj})]
+     {:reflexive false
+      :sem {:obj obj}
+      :subcat {:2 {:infl :te
+                   :cat :verb
+                   :reflexive false
+                   :sem obj
+                   
+                   ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:                         
+                   :phrasal true
+                   :subcat {:2 []}}}})
+   
+   ;; transitive and reflexive: "zij probeert zich te zien"
+   (let [subj-ref (atom :top)
+         subj (atom {:ref subj-ref})
+         obj (atom {:subj subj
+                    :obj {:ref subj-ref}})
+         agr (atom :top)]
+     {:reflexive true
+      :agr agr
+      :sem {:obj obj}
+      :subcat {:2 {:agr agr
+                   :infl :te
+                   :cat :verb
+                   :reflexive true
+                   :sem obj
+                   
+                   ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:
+                   :phrasal true
+                   :subcat {:2 []}}}})]}
+ 
  {:rule :reflexivity-infinitive
   :if {:cat :verb
        :modal :infinitive
@@ -146,48 +183,7 @@
           {:reflexive true
            :subcat {:2 {:reflexive true}}}]}
 
- {:rule :reflexivity-te
-  :if {:cat :verb
-       :modal :te
-       :subcat {:2 {:top :top}}}
-  :then          ;; transitive and non-reflexive: "zij probeert het te zien"
-  [(let [subj (atom :top)
-         obj (atom {:subj subj})]
-     {:reflexive false
-      :sem {:subj subj
-            :obj obj}
-      :subcat {:2 {:infl :te
-                   :cat :verb
-                   :reflexive false
-                   :sem obj
-                   
-                   ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:                         
-                   :phrasal true
-                   
-                   :subcat {:1 {:sem subj}
-                            :2 []}}}})
-   
-   ;; transitive and reflexive: "zij probeert zich te zien"
-   (let [subj-ref (atom :top)
-         subj (atom {:ref subj-ref})
-         obj (atom {:subj subj
-                    :obj {:ref subj-ref}})
-         agr (atom :top)]
-     {:reflexive true
-      :agr agr
-      :sem {:subj subj
-            :obj obj}
-      :subcat {:2 {:agr agr
-                   :infl :te
-                   :cat :verb
-                   :reflexive true
-                   :sem obj
-                   
-                   ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:
-                   :phrasal true
-                   
-                   :subcat {:1 {:sem subj}
-                            :2 []}}}})]}]
+]
 
          
 

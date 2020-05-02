@@ -48,7 +48,7 @@
           :reflexive false
           :subcat {:2 []}}
 
-         ;; transitive
+         ;; transitive: "zij probeert te zien"
          {:subcat {:2 {:top :top}}}]}
 
  {:rule :modal-infinitive

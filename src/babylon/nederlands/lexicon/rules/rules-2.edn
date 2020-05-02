@@ -145,10 +145,7 @@
            {:sem {:subj subj
                   :obj obj}
             :reflexive false
-            :subcat {:2 {:aux false
-                         :infl :infinitive
-                         :cat :verb
-                         :reflexive false
+            :subcat {:2 {:reflexive false
                          :sem obj
                          :subcat {:1 subcat-subj}}}}
            
@@ -159,10 +156,7 @@
                     :obj obj}
               :reflexive true
               :subcat {:1 {:agr agr}
-                       :2 {:aux false
-                           :agr agr
-                           :infl :infinitive
-                           :cat :verb
+                       :2 {:agr agr
                            :reflexive true
                            :sem obj
                            :subcat {:1 subcat-subj}}}})])}

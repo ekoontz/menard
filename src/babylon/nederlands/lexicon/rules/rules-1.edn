@@ -51,7 +51,9 @@
             :subcat {:2 []}}
 
            ;; transitive: "zij probeert te zien"
-           {:subcat {:2 {:cat :verb
+           {:sem {:obj obj}
+            :subcat {:2 {:cat :verb
+                         :sem obj
                          :infl :te}}})]}
 
  {:rule :modal-infinitive

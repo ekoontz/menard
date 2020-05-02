@@ -147,14 +147,10 @@
                          :subcat {:1 subcat-subj}}}}
            
            ;;  "can <vp[base,nonmodal]>" reflexive
-           (let [agr (atom :top)]
-             {:agr agr
-              :sem {:subj subj}
-              :reflexive true
-              :subcat {:1 {:agr agr}
-                       :2 {:agr agr
-                           :reflexive true
-                           :subcat {:1 subcat-subj}}}})])}
+           {:sem {:subj subj}
+            :reflexive true
+            :subcat {:2 {:reflexive true
+                         :subcat {:1 subcat-subj}}}}])}
 
  {:rule :reflexivity-te
   :if {:cat :verb

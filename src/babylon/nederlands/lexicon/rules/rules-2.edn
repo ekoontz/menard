@@ -140,15 +140,13 @@
        :subcat {:2 {:top :top}}}
   :then (let [subj (atom :top)
               subcat-subj (atom {:sem subj})]
-          [;;  "can <vp[base,nonmodal]>" non-reflexive
-           {:sem {:subj subj}
-            :reflexive false
+          [;;  "kan <vp[base,nonmodal]>" non-reflexive
+           {:reflexive false
             :subcat {:2 {:reflexive false
                          :subcat {:1 subcat-subj}}}}
            
-           ;;  "can <vp[base,nonmodal]>" reflexive
-           {:sem {:subj subj}
-            :reflexive true
+           ;;  "kan <vp[base,nonmodal]>" reflexive
+           {:reflexive true
             :subcat {:2 {:reflexive true
                          :subcat {:1 subcat-subj}}}}])}
 

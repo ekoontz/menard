@@ -71,7 +71,8 @@
                          :infl :infinitive
                          :cat :verb
                          :modal false
-                         :sem obj-with-subject-only}}}
+                         :sem obj-with-subject-only
+                         :subcat {:1 {:sem subj}}}}}
 
            ;;  "ik kan het zien"
            {:sem {:subj subj
@@ -80,6 +81,7 @@
                          :infl :infinitive
                          :cat :verb
                          :modal false
+                         :subcat {:1 {:sem subj}}
                          :sem obj-with-subject-and-object}}}])}
            
  {:rule :aux-verbs

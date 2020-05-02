@@ -44,13 +44,15 @@
   :if {:cat :verb
        :modal :te}
   :then [;; intransitive: "zij probeert"
-         {:sem {:obj :unspec}
-          :reflexive false
-          :subcat {:2 []}}
+         (let [subj (atom :top)
+               obj (atom {:subj subj})]
+           {:sem {:obj :unspec}
+            :reflexive false
+            :subcat {:2 []}}
 
-         ;; transitive: "zij probeert te zien"
-         {:subcat {:2 {:cat :verb
-                       :infl :te}}}]}
+           ;; transitive: "zij probeert te zien"
+           {:subcat {:2 {:cat :verb
+                         :infl :te}}})]}
 
  {:rule :modal-infinitive
   :if {:cat :verb

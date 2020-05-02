@@ -138,8 +138,9 @@
   :if {:cat :verb
        :modal :te
        :subcat {:2 {:top :top}}}
-  :then          ;; transitive and non-reflexive: "zij probeert het te zien"
-  [(let [subj (atom :top)
+  :then          
+  [;; transitive and non-reflexive: "zij probeert het te zien"
+   (let [subj (atom :top)
          obj (atom {:subj subj})]
      {:reflexive false
       :sem {:obj obj}
@@ -154,16 +155,16 @@
    (let [subj-ref (atom :top)
          subj (atom {:ref subj-ref})
          obj (atom {:subj subj
-                    :obj {:ref subj-ref}})
-         agr (atom :top)]
+                    :obj {:ref subj-ref}})]
      {:reflexive true
-      :agr agr
       :sem {:obj obj}
-      :subcat {:2 {:agr agr
-                   :reflexive true
+      :subcat {:2 {:reflexive true
                    :sem obj
                    
-                   ;; needed to prevent "probeert X" where X is any infinitive verb (which will have :infl :top, so will wrongly unify here:
+                   ;; this {:phrasal true} is
+                   ;; needed to prevent "probeert X" where
+                   ;; X is any infinitive verb (which will
+                   ;; have :infl :top, so will wrongly unify here:
                    :phrasal true
                    :subcat {:2 []}}}})]}
  

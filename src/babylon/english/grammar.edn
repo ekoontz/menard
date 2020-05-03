@@ -49,7 +49,7 @@
           babylon.ug/head-sem
           babylon.ug/subcat-a]}
 
- {:rule "vp" ;; [vp +see .it]
+ {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
   :cat :verb
   :aux false
   :slash false

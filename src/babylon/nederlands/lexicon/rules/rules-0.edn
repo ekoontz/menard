@@ -8,10 +8,10 @@
        :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
- {:rule :verbs-have-empty-modifiers
-  :if {:cat :verbx
-       :mod :unspec}
-  :then [{:mod []}]}
+ {:rule :aux-default-is-false
+  :if {:cat :verb
+       :aux :unspec}
+  :then [{:aux false}]}
 
  {:rule :dont-inflect-complementizers
   :if {:cat :comp}
@@ -115,14 +115,10 @@
   :if {:cat :verb
        :modal :unspec}
   :then [{:modal false}]}
- 
- {:rule :aux-default-is-false
+
+ {:rule :verbs-have-empty-modifiers
   :if {:cat :verb
-       :aux :unspec}
-  :then [{:aux false}]}
-
- {:rule :empty-mod
-  :if {:cat :verb :mod :unspec}
+       :mod :unspec}
   :then [{:mod []}]}
-
+ 
  ]

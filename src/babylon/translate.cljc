@@ -5,6 +5,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]
+            [dag_unify.serialization :refer [serialize]]            
             [dag_unify.diagnostics :as diag]))
 
 (def generate-this-many 1)
@@ -38,7 +39,7 @@
 
          :sem (u/get-in nl-expression [:sem])
          :subcat []}]
-    (log/debug (str "English spec to generate: " (diag/strip-refs retval)))
+    (log/debug (str "English spec to generate: " (serialize retval)))
     (let [final-check
           (unify
            retval
@@ -73,7 +74,6 @@
 
       ;; 2.b. generate from this spec:
       (#(en-generate % true))
-
 
       ;; 2.c. print the surface form of the target expression:
       (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))

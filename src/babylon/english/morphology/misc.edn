@@ -1,0 +1,10 @@
+[{:g [#"^(.*)$"       "$1"] ;; adverbs don't inflect in English
+  :p [#"^(.*)$"       "$1"] 
+  :u {:cat :adverb}}
+ {:g [#"^(.*)$"       "$1"] ;; conjugations don't inflect in English
+  :p [#"^(.*)$"       "$1"]
+  :u {:cat :conjunction}}]
+
+
+
+

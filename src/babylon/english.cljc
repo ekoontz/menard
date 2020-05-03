@@ -37,11 +37,12 @@
 #?(:clj
    (def lexicon
      (merge-with concat
-       (compile-lexicon-source "babylon/english/lexicon/adjectives.edn")
-       (compile-lexicon-source "babylon/english/lexicon/misc.edn")
-       (compile-lexicon-source "babylon/english/lexicon/nouns.edn")
-       (compile-lexicon-source "babylon/english/lexicon/propernouns.edn")
-       (compile-lexicon-source "babylon/english/lexicon/verbs.edn"))))
+                 (compile-lexicon-source "babylon/english/lexicon/adjectives.edn")
+                 (compile-lexicon-source "babylon/english/lexicon/adverbs.edn")
+                 (compile-lexicon-source "babylon/english/lexicon/misc.edn")
+                 (compile-lexicon-source "babylon/english/lexicon/nouns.edn")
+                 (compile-lexicon-source "babylon/english/lexicon/propernouns.edn")
+                 (compile-lexicon-source "babylon/english/lexicon/verbs.edn"))))
 
 #?(:cljs
    (def lexicon
@@ -122,7 +123,8 @@
 
 ;; <morphology>
 (def morphology (m/compile-morphology
-                 ["babylon/english/morphology/nouns.edn"
+                 ["babylon/english/morphology/misc.edn"
+                  "babylon/english/morphology/nouns.edn"
                   "babylon/english/morphology/verbs.edn"]))
 
 (declare an)

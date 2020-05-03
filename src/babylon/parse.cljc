@@ -76,7 +76,7 @@
           [result])
         (do
           (log/debug (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)
-                         " " (diag/fail-path parent {:comp comp})))
+                          " " (diag/fail-path parent {:comp comp})))
           [])))))
 
 (defn over [parents child1 child2]

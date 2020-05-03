@@ -8,6 +8,14 @@
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]))
 
+;; See:
+;; - english.cljc/generate
+;; - nederlands.cljc/generate
+;; for example usage.
+;; for diagnostics; start with
+;; changing the log/debug in (defn add) (below)
+;; to log/info.
+
 (declare add)
 (declare add-lexeme)
 (declare add-rule)

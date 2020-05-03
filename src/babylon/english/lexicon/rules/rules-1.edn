@@ -72,14 +72,10 @@
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
- 
- ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
- ;; modal-base is simpler and clearer.
- {:rule :modal-base
+  {:rule :modal-base
   :if {:cat :verb
        :modal :base}
-  :then (let [agr (atom :top)
-              subj (atom :top)
+  :then (let [subj (atom :top)
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
           [;; "I can"
@@ -95,30 +91,12 @@
             :inflected? true
             :sem {:subj subj
                   :obj obj}
-            :reflexive false
             :subcat {:2 {:aux false
                          :infl :base
                          :cat :verb
                          :modal false
-                         :reflexive false
-                         :sem obj
-                         :subcat {:1 subcat-subj}}}}
-
-           ;;  "can <vp[base,nonmodal]>" reflexive
-           {:derivation {:1 {:modal-base {:marker 3}}}
-            :infl :present
-            :inflected? true
-            :sem {:subj subj
-                  :obj obj}
-            :reflexive true
-            :subcat {:2 {:aux false
-                         :infl :base
-                         :modal false
-                         :cat :verb
-                         :reflexive true
                          :sem obj
                          :subcat {:1 subcat-subj}}}}])}
- 
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true

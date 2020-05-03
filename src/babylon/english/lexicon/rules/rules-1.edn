@@ -96,7 +96,19 @@
                          :cat :verb
                          :modal false
                          :sem obj
-                         :subcat {:1 subcat-subj}}}}])}
+                         :subcat {:1 subcat-subj
+                                  ;; the complement has only [:subcat :1]
+                                  ;; and no [:subcat :2]: 
+                                  ;; e.g. in both:
+                                  ;; "can [sleep]" : intransitive.
+                                  ;; "can [see it]": transitive with object.
+                                  ;; The bracketed expressions in each of the
+                                  ;; examples above subcategorizes only for
+                                  ;; the subject, with the object
+                                  ;; either not existing ("sleep") or already
+                                  ;; satisfied ("see it").
+                                  :2 []
+                                  }}}}])}
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true

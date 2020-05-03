@@ -165,4 +165,11 @@
   :if {:cat :noun
        :propernoun true
        :sem {:mod :unspec}}
-  :then [{:sem {:mod []}}]}]
+  :then [{:sem {:mod []}}]}
+
+ {:rule :verbs-have-empty-modifiers
+  :if {:cat :verbx
+       :mod :unspec}
+  :then [{:mod []}]}
+
+ ]

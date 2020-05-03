@@ -29,6 +29,7 @@
                                gender
                                true :top))}
          :cat (u/get-in nl-expression [:cat])
+         :max-depth (u/get-in nl-expression [:target :max-depth] g/max-depth)
          :phrasal true
          :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
                           false

@@ -290,7 +290,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [] ;; g/stop-generation-at [:head :comp :head :comp]
+  (binding [g/max-depth (get-in spec [:max-depth] g/max-depth)]
     (log/debug (str "english generate: " (diag/strip-refs spec)))
     (g/generate spec
                 grammar

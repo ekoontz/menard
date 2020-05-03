@@ -1,8 +1,8 @@
-[{:g [#"^(.*)$"       "$1"] ;; conjugations don't inflect, ..
-  :p [#"^(.*)$"       "$1"] ;; .. to my knowledge.
+[{:g [#"^(.*)$"       "$1"] ;; adverbs don't inflect in Dutch
+  :p [#"^(.*)$"       "$1"] ;; .. to the best of my knowledge.
   :u {:cat :adverb}}
- {:g [#"^(.*)$"       "$1"] ;; conjugations don't inflect, ..
-  :p [#"^(.*)$"       "$1"] ;; .. to my knowledge.
+ {:g [#"^(.*)$"       "$1"] ;; conjugations don't inflect in Dutch
+  :p [#"^(.*)$"       "$1"] ;; .. to the best of my knowledge.
   :u {:cat :conjunction}}]
 
 

@@ -108,13 +108,10 @@
            {:derivation {:1 {:modal-base {:marker 3}}}
             :infl :present
             :inflected? true
-            :agr agr
             :sem {:subj subj
                   :obj obj}
             :reflexive true
-            :subcat {:1 {:agr agr}
-                     :2 {:aux false
-                         :agr agr
+            :subcat {:2 {:aux false
                          :infl :base
                          :modal false
                          :cat :verb

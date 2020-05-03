@@ -112,7 +112,7 @@
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
-               obj (atom :top)]
+               obj (atom {:top :top})]
            {:derivation {:2 {:transitive-verbs {:reflexive false}}}
             :reflexive false
             :sem {:obj obj}

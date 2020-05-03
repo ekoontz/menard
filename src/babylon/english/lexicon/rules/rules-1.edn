@@ -114,36 +114,8 @@
                          :cat :verb
                          :reflexive true
                          :sem obj
-                         :subcat {:1 subcat-subj}}}}
-
-           ;;  "can <vp[base,infinitive modal]>" non-reflexive
-           {:derivation {:1 {:modal-base {:marker 2}}}
-            :sem {:subj subj
-                  :obj obj}
-            :reflexive false
-            :subcat {:2 {:aux false
-                         :infl :base
-                         :cat :verb
-                         :modal :infinitive
-                         :reflexive false
-                         :sem obj
-                         :subcat {:1 subcat-subj}}}}
-
-           ;;  "can <vp[base,infinitive modal]>" reflexive
-           {:derivation {:1 {:modal-base {:marker 3}}}
-            :agr agr
-            :sem {:subj subj
-                  :obj obj}
-            :reflexive true
-            :subcat {:1 {:agr agr}
-                     :2 {:aux false
-                         :agr agr
-                         :infl :base
-                         :modal :infinitive
-                         :cat :verb
-                         :reflexive true
-                         :sem obj
                          :subcat {:1 subcat-subj}}}}])}
+ 
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true

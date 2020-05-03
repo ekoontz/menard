@@ -38,6 +38,23 @@
           babylon.ug/shared-number
           babylon.ug/subcat-a]}
 
+ {:rule "adverb" ;; '[adverb +[vp +eat .dinner] .together]'
+  :prod? true
+  :cat :verb
+  :subcat {:1 {:top :top}
+           :2 []}
+  :mod {:rest []}
+  :reflexive false
+  :head {:cat :verb}
+  :comp {:cat :adverb}
+  :unify [babylon.ug/nest-comp-sem
+          babylon.ug/head-is-root
+          babylon.ug/head-first
+          babylon.ug/head-rule
+          babylon.ug/head-sem
+          babylon.ug/subcat-b
+          ]}
+
  {:rule "s"
   :cat :verb
   :subcat []

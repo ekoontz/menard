@@ -387,8 +387,11 @@
           :cat :verb
           :inflected? true
           :sem {:pred :must}}]
- "overcome" [{:cat :verb
-              :sem {:pred :overcome}}]
+ "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
+                              {:infl :past-participle :surface "overcame"}]]
+              [{:cat :verb
+                :exceptions exceptions
+                :sem {:pred :overcome}}])
  "need" [{:cat :verb
           :sem {:pred :need}
           :modal :infinitive}]

@@ -194,6 +194,11 @@
     {:sem {:obj {:mod mod}}
      :comp {:mod mod}}))
 
+(def nest-comp-sem
+  (let [mod (atom :top)]
+    {:sem {:mod mod}
+     :comp {:sem mod}}))
+
 (def nest-head-mod
   (let [mod (atom :top)]
     {:sem {:mod mod}

@@ -39,13 +39,15 @@
           babylon.ug/subcat-a]}
 
  {:rule "adverb" ;; '[adverb +[vp +eat .dinner] .together]'
+  :adverb? true ;; a. first part of rathole prevention, see .b. below.
   :prod? true
   :cat :verb
   :subcat {:1 {:top :top}
            :2 []}
   :mod {:rest []}
   :reflexive false
-  :head {:cat :verb}
+  :head {:cat :verb
+         :adverb? false} ;; b. second part of rathole prevention.
   :comp {:cat :adverb}
   :unify [babylon.ug/nest-comp-sem
           babylon.ug/head-is-root

@@ -84,11 +84,15 @@
               obj (atom {:subj subj})]
           [;; "I can"
            {:derivation {:1 {:modal-base {:marker 1}}}
+            :infl :present
+            :inflected? true
             :sem {:obj :unspec}
             :subcat {:2 []}} ;; "can"
 
            ;;  "can <vp[base,nonmodal]>" non-reflexive
            {:derivation {:1 {:modal-base {:marker 2}}}
+            :infl :present
+            :inflected? true
             :sem {:subj subj
                   :obj obj}
             :reflexive false
@@ -102,6 +106,8 @@
 
            ;;  "can <vp[base,nonmodal]>" reflexive
            {:derivation {:1 {:modal-base {:marker 3}}}
+            :infl :present
+            :inflected? true
             :agr agr
             :sem {:subj subj
                   :obj obj}

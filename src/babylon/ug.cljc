@@ -188,7 +188,11 @@
                   :quant quant
                   :ref ref}
             :mod mod}}))
-
+(comment
+  {:sem
+   {:obj
+    {:mod [[1] :top]}}
+   :comp {:mod [1]}})
 (def nest-comp-mod
   (let [mod (atom :top)]
     {:sem {:obj {:mod mod}}

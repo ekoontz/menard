@@ -17,6 +17,7 @@
 (def ^:dynamic truncate? true)
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 10)
+(def ^:dynamic debug-rule-for-comp nil)
 
 (defn pmap-if-available [fn args]
   #?(:clj
@@ -75,7 +76,7 @@
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
           [result])
         (do
-          (when (= (:rule parent) "objectless-vp")
+          (when (and debug-rule-for-comp (= (:rule parent) debug-rule-for-comp))
             (log/info (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
             (log/info (str " "
                            (let [fp (u/fail-path2 (u/copy parent)

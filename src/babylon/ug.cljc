@@ -56,14 +56,21 @@
             :mod head-mod}
      :comp {:sem comp-sem}}))
 
+;; TODO: factor out the :subj stuff.
+(comment
+  {:sem {:mod {:first [[1] {:subj [[2] :top]}]}
+         :rest [[3] :top]}
+   :head {:sem {:subj {:ref [2]}
+                :mod [3]}}
+   :comp {:sem [1]}})
 (def cons-mod-adverb
   (let [head-mod (atom :top)
         subj-ref (atom :top)
         comp-sem (atom {:subj subj-ref})]
-    {:mod {:first comp-sem
+    {:sem {:mod {:first comp-sem}
            :rest head-mod}
-     :head {:sem {:subj {:ref subj-ref}}
-            :mod head-mod}
+     :head {:sem {:subj {:ref subj-ref}
+                  :mod head-mod}}
      :comp {:sem comp-sem}}))
 
 (def head-aux

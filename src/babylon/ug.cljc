@@ -301,15 +301,15 @@
               :2 []}
      :comp complement-1}))
 
-(def subcat-g
-  (let [subject-argument (atom :top)
-        verb-argument (atom :top)]
-    {:subcat {:1 verb-argument
-              :2 []}
-     :comp subject-argument
-     :head {:subcat {:1 subject-argument
-                     :2 verb-argument
-                     :3 []}}}))
+;; TODO: remove this rule: should be handled by a lexical rule.
+(comment
+  {:subcat {:1 [[2] :top],
+            :2 []},
+   :comp [[1] :top],
+   :head {:subcat {:1 [1],
+                   :2 [2],
+                   :3 []}}})
+
 (def subcat-h
   (let [one (atom :top)
         mod (atom :top)

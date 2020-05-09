@@ -176,7 +176,8 @@
   :unify [ug/head-first
           ug/head-rule
           ug/head-sem
-          ug/subcat-g]}
+          ug/subcat-e
+          ]}
 
  ;; +[vp-slash-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
  {:rule "vp-slash-object"

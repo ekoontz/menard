@@ -167,11 +167,6 @@
      :head {:sem {:mod :top}}
      :comp {:sem mod}}))
 
-(def nest-head-mod
-  (let [mod (atom :top)]
-    {:sem {:mod mod}
-     :head {:sem {:mod mod}}}))
-
 (def nominal-phrase
   {:reflexive false
    :agr {:person :3rd}})

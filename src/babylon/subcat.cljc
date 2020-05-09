@@ -18,10 +18,11 @@
      :subcat []
      :comp complement}))
 
-;;      <1>
-;;     /   \
-;;   h<1>   c
-;;
+;; In this rule, the complement
+;; is not an argument of the head
+;; e.g. adverb+verb or adj+noun, so the
+;; subcat list of the parent is simply
+;; the same as that of the head.
 (comment
   {:subcat [[1] :top]
    :head {:subcat [1]}})
@@ -29,7 +30,6 @@
   (let [one (atom :top)]
     {:subcat one
      :head {:subcat one}}))
-
 
 ;;      <1>
 ;;     /   \

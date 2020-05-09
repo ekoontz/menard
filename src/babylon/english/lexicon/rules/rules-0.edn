@@ -168,7 +168,7 @@
   :then [{:sem {:mod []}}]}
 
  {:rule :verbs-have-empty-modifiers
-  :if {:cat :verbx
+  :if {:cat :verb
        :mod :unspec}
   :then [{:mod []}]}
 

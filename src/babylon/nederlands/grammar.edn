@@ -164,7 +164,7 @@
           ]}
 
  ;; '+moeten .we'
- {:rule "inverted-modal"
+ {:rule "modal+subject"
   :prod? true
   :cat :verb
   :reflexive false
@@ -178,12 +178,12 @@
           ug/head-sem
           ug/subcat-g]}
 
- ;; +[objectless-vp +[inverted-modal(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
- {:rule "objectless-vp"
+ ;; +[vp-slash-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
+ {:rule "vp-slash-object"
   :prod? true
   :cat :verb
   :reflexive false
-  :head {:rule "inverted-modal"
+  :head {:rule "modal+subject"
          :phrasal true}
   :unify [ug/head-first
           ug/head-sem

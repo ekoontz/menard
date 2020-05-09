@@ -301,15 +301,6 @@
               :2 []}
      :comp complement-1}))
 
-;; TODO: remove this rule: should be handled by a lexical rule.
-(comment
-  {:subcat {:1 [[2] :top],
-            :2 []},
-   :comp [[1] :top],
-   :head {:subcat {:1 [1],
-                   :2 [2],
-                   :3 []}}})
-
 (def subcat-h
   (let [one (atom :top)
         mod (atom :top)

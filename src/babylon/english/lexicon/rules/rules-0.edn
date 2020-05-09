@@ -172,4 +172,10 @@
        :mod :unspec}
   :then [{:mod []}]}
 
+ {:rule :verbs-have-empty-sem-modifiers
+  :if {:cat :verb
+       :sem {:mod :unspec}}
+  :then [{:sem {:mod []}}]}
+
+ 
  ]

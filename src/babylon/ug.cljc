@@ -203,6 +203,13 @@
     {:sem {:mod mod}
      :comp {:sem mod}}))
 
+(def nest-comp-sem-as-first
+  (let [mod (atom :top)
+        head-mod (atom :top)]
+    {:sem {:mod {:first mod}}
+     :head {:sem {:mod :top}}
+     :comp {:sem mod}}))
+
 (def nest-head-mod
   (let [mod (atom :top)]
     {:sem {:mod mod}

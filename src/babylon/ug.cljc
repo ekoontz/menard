@@ -160,11 +160,13 @@
     {:sem {:obj {:mod mod}}
      :comp {:mod mod}}))
 
-(def nest-comp-sem-as-first
-  (let [mod (atom :top)
-        head-mod (atom :top)]
+
+(comment
+  {:sem {:mod {:first [[1] :top]}},
+   :comp {:sem [1]}})
+(def nest-comp-sem-as-first-mod
+  (let [mod (atom :top)]
     {:sem {:mod {:first mod}}
-     :head {:sem {:mod :top}}
      :comp {:sem mod}}))
 
 (def nominal-phrase

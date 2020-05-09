@@ -48,7 +48,7 @@
   :head {:cat :verb
          :adverb? false} ;; b. second part of rathole prevention.
   :comp {:cat :adverb}
-  :unify [ug/nest-comp-sem-as-first
+  :unify [ug/nest-comp-sem-as-first-mod
           ug/head-is-root
           ug/head-first
           ug/head-rule

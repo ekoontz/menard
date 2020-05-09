@@ -22,10 +22,14 @@
 ;;     /   \
 ;;   h<1>   c
 ;;
+(comment
+  {:subcat [[1] :top]
+   :head {:subcat [1]}})
 (def b
-  (let [subcat-1 (atom :top)]
-    {:head {:subcat subcat-1}
-     :subcat subcat-1}))
+  (let [one (atom :top)]
+    {:subcat one
+     :head {:subcat one}}))
+
 
 ;;      <1>
 ;;     /   \

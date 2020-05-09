@@ -34,6 +34,10 @@
          :sem {:pred :day}}]
  "development" [{:cat :noun
                  :sem {:pred :development}}]
+ "dinner" [{:cat :noun
+            :sem {:pred :dinner}
+            :subcat []}] ;; "eats dinner"
+
  "dog" [{:cat :noun
          :sem {:pred :dog}}]
  "eye" [{:cat :noun

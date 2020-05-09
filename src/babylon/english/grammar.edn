@@ -37,7 +37,7 @@
           ug/shared-number
           su/a]}
 
- {:rule "adverb" ;; '[adverb +[vp +eat .dinner] .together]'
+ {:rule "adverb" ;; '[adverb +[vp +overcome .Corona] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
   :prod? true
   :cat :verb

@@ -2,11 +2,11 @@
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}
-  :unify [babylon.ug/comp-is-root
-          babylon.ug/head-first
-          babylon.ug/parent-sem
-          babylon.ug/shared-def
-          babylon.ug/subcat-a]}
+  :unify [ug/comp-is-root
+          ug/head-first
+          ug/parent-sem
+          ug/shared-def
+          ug/subcat-a]}
 
  {:rule "nbar" ;; '.groet +kat'
   :cat :noun
@@ -17,14 +17,14 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [babylon.ug/cons-mod-nominal
-          babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/head-rule
-          babylon.ug/nominal-phrase
-          babylon.ug/shared-agr
-          babylon.ug/shared-def
-          babylon.ug/subcat-b]}
+  :unify [ug/cons-mod-nominal
+          ug/head-last
+          ug/head-is-root
+          ug/head-rule
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/shared-def
+          ug/subcat-b]}
 
  {:rule "np" ;; '.de +kat'
   :reflexive false
@@ -34,24 +34,24 @@
   :comp {:phrasal false}
   :options [{:agr {:number :plur}}
             {:agr {:number :sing}}]
-  :unify [babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-rule
-          babylon.ug/nest-mod-nominal
-          babylon.ug/shared-def
-          babylon.ug/shared-number
-          babylon.ug/subcat-a]}
+  :unify [ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/nest-mod-nominal
+          ug/shared-def
+          ug/shared-number
+          ug/subcat-a]}
 
  {:rule "s"
   :cat :verb
   :subcat []
   :options babylon.nederlands/finite-tenses  
-  :unify [babylon.ug/head-aux
-          babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/subcat-a]}
+  :unify [ug/head-aux
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/head-sem
+          ug/subcat-a]}
 
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
@@ -64,14 +64,14 @@
   ;; TODO: move this contraint to lexicon (the head verb)
   :sem {:mod []}
   
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/nest-head-mod
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-c]}
+  :unify [ug/head-first
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/nest-head-mod
+          ug/slash-is-head-slash
+          ug/subcat-c]}
 
  {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[te slapen]]
   :cat :verb
@@ -81,13 +81,13 @@
   :head {:aux false
          :modal :te}
 
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-c]}
+  :unify [ug/head-first
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash
+          ug/subcat-c]}
 
  ;; the object of the non-modal verb (in the complement)
  ;; is copied up:
@@ -99,14 +99,14 @@
   :head {:aux false
          :modal :infinitive}
 
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/nest-comp-mod
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-i]}
+  :unify [ug/head-first
+          ug/head-is-root
+          ug/nest-comp-mod
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash
+          ug/subcat-i]}
 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb
@@ -121,14 +121,14 @@
   ;; TODO: move this contraint to lexicon (the head verb)
   :sem {:mod []}
   
-  :unify [babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/nest-head-mod
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-c]}
+  :unify [ug/head-last
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/nest-head-mod
+          ug/slash-is-head-slash
+          ug/subcat-c]}
 
  {:rule "vp-te" ;; '+te .slapen'
   :cat :verb
@@ -136,13 +136,13 @@
   :slash false
   :infl :te
   :head {:canonical "te"}
-  :unify [babylon.ug/head-first
-          babylon.ug/comp-is-root
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-d]}
+  :unify [ug/head-first
+          ug/comp-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash
+          ug/subcat-d]}
 
  {:rule "adverb" ;; '.samen +bestrijden'
   :prod? true
@@ -155,12 +155,12 @@
   :head {:cat :verb
          :infl :infinitive}
   :comp {:cat :adverb}
-  :unify [babylon.ug/cons-mod-adverb
-          babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/subcat-b
+  :unify [ug/cons-mod-adverb
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/head-sem
+          ug/subcat-b
           ]}
 
  ;; '+moeten .we'
@@ -173,10 +173,10 @@
          :infl :present
          :subcat {:2 {:modal false}}}
   :options babylon.nederlands/finite-tenses  
-  :unify [babylon.ug/head-first
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/subcat-g]}
+  :unify [ug/head-first
+          ug/head-rule
+          ug/head-sem
+          ug/subcat-g]}
 
  ;; +[objectless-vp +[inverted-modal(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
  {:rule "objectless-vp"
@@ -185,7 +185,7 @@
   :reflexive false
   :head {:rule "inverted-modal"
          :phrasal true}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-sem
-          babylon.ug/nest-comp-mod
-          babylon.ug/subcat-h]}]
+  :unify [ug/head-first
+          ug/head-sem
+          ug/nest-comp-mod
+          ug/subcat-h]}]

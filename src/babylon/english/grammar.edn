@@ -1,12 +1,11 @@
-[
- {:rule "intensifier" ;; 'very small'
+[{:rule "intensifier" ;; 'very small'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}
-  :unify [babylon.ug/comp-is-root
-          babylon.ug/head-first
-          babylon.ug/parent-sem
-          babylon.ug/subcat-a]}
+  :unify [ug/comp-is-root
+          ug/head-first
+          ug/parent-sem
+          ug/subcat-a]}
  
  {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
@@ -17,13 +16,13 @@
                   :2 []}}
   :slash false
   :comp {:cat :adjective}
-  :unify [babylon.ug/cons-mod-nominal
-          babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-rule
-          babylon.ug/nominal-phrase
-          babylon.ug/shared-agr
-          babylon.ug/subcat-b]}
+  :unify [ug/cons-mod-nominal
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/subcat-b]}
 
  {:rule "np"
   :reflexive false
@@ -31,12 +30,12 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-rule
-          babylon.ug/nest-mod-nominal
-          babylon.ug/shared-number
-          babylon.ug/subcat-a]}
+  :unify [ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/nest-mod-nominal
+          ug/shared-number
+          ug/subcat-a]}
 
  {:rule "adverb" ;; '[adverb +[vp +eat .dinner] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
@@ -49,24 +48,23 @@
   :head {:cat :verb
          :adverb? false} ;; b. second part of rathole prevention.
   :comp {:cat :adverb}
-  :unify [babylon.ug/nest-comp-sem
-          babylon.ug/head-is-root
-          babylon.ug/head-first
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/subcat-b
+  :unify [ug/nest-comp-sem-as-first
+          ug/head-is-root
+          ug/head-first
+          ug/head-rule
+          ug/subcat-b
           ]}
 
  {:rule "s"
   :cat :verb
   :subcat []
   :options babylon.english/finite-tenses  
-  :unify [babylon.ug/head-aux
-          babylon.ug/head-is-root
-          babylon.ug/head-last
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/subcat-a]}
+  :unify [ug/head-aux
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/head-sem
+          ug/subcat-a]}
 
  {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
   :cat :verb
@@ -74,23 +72,23 @@
   :slash false
   :options babylon.english/tenses
   :head {:aux false}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-c]}
+  :unify [ug/head-first
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash
+          ug/subcat-c]}
 
  {:rule "vp-inf" ;; [vp +to .sleep]
   :cat :verb
   :infl :infinitive
   :head {:canonical "to"
          :phrasal false}
-  :unify [babylon.ug/head-first
-          babylon.ug/comp-is-root
-          babylon.ug/head-reflexive
-          babylon.ug/head-rule
-          babylon.ug/head-sem
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-d]}]
+  :unify [ug/head-first
+          ug/comp-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash
+          ug/subcat-d]}]

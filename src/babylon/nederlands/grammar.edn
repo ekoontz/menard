@@ -156,6 +156,7 @@
          :infl :infinitive}
   :comp {:cat :adverb}
   :unify [ug/cons-mod-adverb
+          ug/subj-ref
           ug/head-is-root
           ug/head-last
           ug/head-rule

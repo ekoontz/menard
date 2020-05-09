@@ -49,7 +49,7 @@
           [result])
         (log/debug
          (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
-              " " (u/fail-path2 parent {:head head})))))))
+              " " (diag/fail-path parent {:head head})))))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"
@@ -79,8 +79,8 @@
           (when (and debug-rule-for-comp (= (:rule parent) debug-rule-for-comp))
             (log/info (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
             (log/info (str " "
-                           (let [fp (u/fail-path2 (u/copy parent)
-                                                  {:comp (u/copy comp)})]
+                           (let [fp (diag/fail-path (u/copy parent)
+                                                    {:comp (u/copy comp)})]
                              
                              (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp))))))
           [])))))

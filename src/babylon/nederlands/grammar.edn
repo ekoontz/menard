@@ -188,5 +188,4 @@
          :phrasal true}
   :unify [ug/head-first
           ug/head-sem
-          ug/nest-comp-mod
           su/h]}]

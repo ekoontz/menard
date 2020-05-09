@@ -150,6 +150,23 @@
                   :quant quant
                   :ref ref}
             :mod mod}}))
+
+(def nest-mod-verbal
+  (let [pred (atom :top)
+        subj (atom :top)
+        obj (atom :top)
+        tense (atom :top)
+        aspect (atom :top)]
+    {:sem {:pred pred
+           :aspect aspect
+           :tense tense
+           :subj subj
+           :obj obj}
+     :head {:sem {:pred pred
+                  :aspect aspect
+                  :tense tense
+                  :subj subj
+                  :obj obj}}}))
 (comment
   {:sem
    {:obj

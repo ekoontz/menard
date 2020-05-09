@@ -163,7 +163,7 @@
           ug/subcat-b
           ]}
 
- ;; '+moeten .we'
+ ;; [modal+subject(:present-simple) +moeten .jullie]
  {:rule "modal+subject"
   :prod? true
   :cat :verb

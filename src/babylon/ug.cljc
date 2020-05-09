@@ -154,16 +154,19 @@
   {:sem
    {:obj
     {:mod [[1] :top]}}
-   :comp {:mod [1]}})
+   :comp
+   {:mod [1]}})
 (def nest-comp-mod
   (let [mod (atom :top)]
     {:sem {:obj {:mod mod}}
      :comp {:mod mod}}))
 
-
 (comment
-  {:sem {:mod {:first [[1] :top]}},
-   :comp {:sem [1]}})
+  {:sem
+   {:mod
+    {:first [[1] :top]}},
+   :comp
+   {:sem [1]}})
 (def nest-comp-sem-as-first-mod
   (let [mod (atom :top)]
     {:sem {:mod {:first mod}}

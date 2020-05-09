@@ -129,30 +129,8 @@
     {:sem sem
      :head {:sem sem}}))
 
-;; TODO: remove this:
-;; instead use smaller units for specific
-;; usages, as was done with cons-mod
-;; above. e.g. 'subj' only applies
-;; for {:cat :verb}, ('ref' only): nest-comp-mod;
-;; for {:cat :noun}, nest-mod-nominal
-(def nest-mod
-  (let [arg (atom :top)
-        context (atom :top)
-        mod (atom :top)
-        subj (atom :top)
-        pred (atom :top)
-        ref (atom :top)]
-    {:sem {:context context
-           :mod mod
-           :subj {:ref subj}
-           :pred pred}
-     :head {:sem {:context context
-                  :subj {:ref subj}
-                  :pred pred}
-            :mod mod}}))
-
-;; same as above but also has :arg and :quant, which are used by
-;; {:cat :noun} phrases.
+;; Nest the head's :mod inside the parent's [:sem], and also
+;; copy all of the head's :sem keys into the parent's :sem.
 (def nest-mod-nominal
   (let [arg (atom :top)
         context (atom :top)

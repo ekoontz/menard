@@ -6,7 +6,7 @@
           ug/head-first
           ug/parent-sem
           ug/shared-def
-          ug/subcat-a]}
+          su/a]}
 
  {:rule "nbar" ;; '.groet +kat'
   :cat :noun
@@ -24,7 +24,7 @@
           ug/nominal-phrase
           ug/shared-agr
           ug/shared-def
-          ug/subcat-b]}
+          su/b]}
 
  {:rule "np" ;; '.de +kat'
   :reflexive false
@@ -40,7 +40,7 @@
           ug/nest-mod-nominal
           ug/shared-def
           ug/shared-number
-          ug/subcat-a]}
+          su/a]}
 
  {:rule "s"
   :cat :verb
@@ -51,7 +51,7 @@
           ug/head-last
           ug/head-rule
           ug/head-sem
-          ug/subcat-a]}
+          su/a]}
 
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
@@ -71,7 +71,7 @@
           ug/head-sem
           ug/nest-head-mod
           ug/slash-is-head-slash
-          ug/subcat-c]}
+          su/c]}
 
  {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[te slapen]]
   :cat :verb
@@ -87,7 +87,7 @@
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
-          ug/subcat-c]}
+          su/c]}
 
  ;; the object of the non-modal verb (in the complement)
  ;; is copied up:
@@ -106,7 +106,7 @@
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
-          ug/subcat-i]}
+          su/i]}
 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb
@@ -128,7 +128,7 @@
           ug/head-sem
           ug/nest-head-mod
           ug/slash-is-head-slash
-          ug/subcat-c]}
+          su/c]}
 
  {:rule "vp-te" ;; '+te .slapen'
   :cat :verb
@@ -142,7 +142,7 @@
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
-          ug/subcat-d]}
+          su/d]}
 
  {:rule "adverb" ;; '.samen +bestrijden'
   :prod? true
@@ -160,7 +160,7 @@
           ug/head-last
           ug/head-rule
           ug/head-sem
-          ug/subcat-b
+          su/b
           ]}
 
  ;; [modal+subject(:present-simple) +moeten .jullie]
@@ -176,7 +176,7 @@
   :unify [ug/head-first
           ug/head-rule
           ug/head-sem
-          ug/subcat-e
+          su/e
           ]}
 
  ;; +[vp-slash-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
@@ -189,4 +189,4 @@
   :unify [ug/head-first
           ug/head-sem
           ug/nest-comp-mod
-          ug/subcat-h]}]
+          su/h]}]

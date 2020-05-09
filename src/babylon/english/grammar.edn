@@ -5,7 +5,7 @@
   :unify [ug/comp-is-root
           ug/head-first
           ug/parent-sem
-          ug/subcat-a]}
+          su/a]}
  
  {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
@@ -22,7 +22,7 @@
           ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
-          ug/subcat-b]}
+          su/b]}
 
  {:rule "np"
   :reflexive false
@@ -35,7 +35,7 @@
           ug/head-rule
           ug/nest-mod-nominal
           ug/shared-number
-          ug/subcat-a]}
+          su/a]}
 
  {:rule "adverb" ;; '[adverb +[vp +eat .dinner] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
@@ -52,7 +52,7 @@
           ug/head-is-root
           ug/head-first
           ug/head-rule
-          ug/subcat-b
+          su/b
           ]}
 
  {:rule "s"
@@ -64,7 +64,7 @@
           ug/head-last
           ug/head-rule
           ug/head-sem
-          ug/subcat-a]}
+          su/a]}
 
  {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
   :cat :verb
@@ -78,7 +78,7 @@
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
-          ug/subcat-c]}
+          su/c]}
 
  {:rule "vp-inf" ;; [vp +to .sleep]
   :cat :verb
@@ -91,4 +91,4 @@
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
-          ug/subcat-d]}]
+          su/d]}]

@@ -12,33 +12,6 @@
      :comp {:root root
             :canonical root}}))
 
-;; this is used for adjunct phrase structure rules
-;; e.g. in "sits on the chair", "on the chair" is
-;; an adjunct:
-;;
-;; vp-adj [ sem 1       ]
-;; |      [ mod <2,3>   ]
-;; |
-;; |`-v   [ sem 1       ]
-;; |
-;;  `-pp  [ sem 2[arg 1]]
-;;        [ mod 3       ]
-;;
-(def cons-mod
-  (let [ref (atom :top)
-        head-mod (atom :top)
-        sem (atom {:ref ref})
-        comp-sem (atom {:arg ref})]
-    {:mod {:first comp-sem
-           :rest head-mod}
-
-     ;; TODO: don't need this sem=sem; remove;
-     ;; the head-sem def handles that.
-     :sem sem
-     :head {:sem sem
-            :mod head-mod}
-     :comp {:sem comp-sem}}))
-
 (def cons-mod-nominal
   (let [ref (atom :top)
         quant (atom :top)

@@ -24,10 +24,10 @@
 (declare get-lexemes)
 (declare reflexive-violations)
 
-#?(:clj (def ^:dynamic allow-folding? false))
-#?(:clj (def ^:dynamic allow-truncation? false))
-#?(:cljs (def ^:dynamic allow-folding? true))
-#?(:cljs (def ^:dynamic allow-truncation? true))
+#?(:clj (def ^:dynamic fold? false))
+#?(:clj (def ^:dynamic truncate? false))
+#?(:cljs (def ^:dynamic fold? true))
+#?(:cljs (def ^:dynamic truncate? true))
 
 (def ^:dynamic allow-backtracking? true)
 (def ^:dynamic max-depth 15)
@@ -224,10 +224,10 @@
                       ;;
                       (u/assoc-in! at candidate-lexeme)
                       (tr/update-syntax-tree at syntax-tree)
-                      (#(if allow-truncation?
+                      (#(if truncate?
                           (tr/truncate-at % at syntax-tree)
                           %))
-                      (#(if allow-folding?
+                      (#(if fold?
                           (tr/foldup % at syntax-tree)
                           %)))))
 

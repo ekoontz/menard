@@ -280,8 +280,8 @@
    count))
 
 (defn demo-with-pruning [index & [this-many]]
-  (binding [g/allow-folding? true
-            g/allow-truncation? true]
+  (binding [g/fold? true
+            g/truncate? true]
     (->>
      (repeatedly #(println (-> (nth expressions index)
                                generate

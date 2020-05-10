@@ -151,23 +151,6 @@
                   :ref ref}
             :mod mod}}))
 
-(def copy-verbal-head-sem-to-sem
-  (let [pred (atom :top)
-        subj (atom :top)
-        obj (atom :top)
-        tense (atom :top)
-        aspect (atom :top)]
-    {:cat :verb
-     :sem {:pred pred
-           :aspect aspect
-           :tense tense
-           :subj subj
-           :obj obj}
-     :head {:sem {:pred pred
-                  :aspect aspect
-                  :tense tense
-                  :subj subj
-                  :obj obj}}}))
 (comment
   {:sem
    {:obj

@@ -157,7 +157,8 @@
         obj (atom :top)
         tense (atom :top)
         aspect (atom :top)]
-    {:sem {:pred pred
+    {:cat :verb
+     :sem {:pred pred
            :aspect aspect
            :tense tense
            :subj subj

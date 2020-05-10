@@ -151,7 +151,7 @@
                   :ref ref}
             :mod mod}}))
 
-(def nest-mod-verbal
+(def copy-verbal-head-sem-to-sem
   (let [pred (atom :top)
         subj (atom :top)
         obj (atom :top)
@@ -184,7 +184,7 @@
     {:first [[1] :top]}},
    :comp
    {:sem [1]}})
-(def nest-comp-sem-as-first-mod
+(def sem-mod-first-is-comp-sem
   (let [mod (atom :top)]
     {:sem {:mod {:first mod}}
      :comp {:sem mod}}))

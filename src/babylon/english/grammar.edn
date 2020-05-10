@@ -39,7 +39,7 @@
 
  {:rule "adverb" ;; '[adverb +[vp +overcome .Corona] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
-  :options babylon.english/finite-tenses  
+  :options babylon.english/tenses
   :prod? true
   :cat :verb
   :subcat {:1 {:top :top}
@@ -55,7 +55,7 @@
           ug/sem-mod-first-is-comp-sem
           ug/copy-verbal-head-sem-to-sem
           su/b]}
-
+ 
  {:rule "s"
   :cat :verb
   :subcat []

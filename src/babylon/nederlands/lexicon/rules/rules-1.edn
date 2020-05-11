@@ -46,13 +46,17 @@
   :then [;; intransitive: "zij probeert"
          (let [subj (atom :top)
                obj (atom {:subj subj})]
-           {:sem {:obj :unspec}
+           {:sem {:subj subj
+                  :obj :unspec}
             :reflexive false
-            :subcat {:2 []}}
+            :subcat {:1 {:sem subj}
+                     :2 []}}
 
            ;; transitive: "zij probeert te zien"
-           {:sem {:obj obj}
-            :subcat {:2 {:cat :verb
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:subj subj}
+                     :2 {:cat :verb
                          :phrasal true
                          :sem obj
                          :subcat {:2 []}

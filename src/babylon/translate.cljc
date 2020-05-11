@@ -96,7 +96,7 @@
                                           (:dotimes (nth nl/expressions index))
 
                                           true
-                                          1)
+                                          5)
                  source-expressions
                  (let [spec (nth nl/expressions index)]
                    (->>

@@ -5,7 +5,6 @@
 
  ;; 0
  {:note "intensifier adjective"
-  :dotimes 1
   :cat :adjective
   :subcat []
   :phrasal true
@@ -14,7 +13,6 @@
 
  ;; 1
  {:note "det noun"
-  :dotimes 1
   :cat :noun
   :subcat []
   :phrasal true
@@ -23,14 +21,12 @@
 
  ;; 2
  {:note "noun verb"
-  :dotimes 1
   :subcat []
   :cat :verb
   :phrasal true}
 
   ;; 3
  {:note "det noun | verb"
-  :dotimes 1
   :subcat []
   :phrasal true
   :head {:phrasal false
@@ -63,16 +59,16 @@
 
  ;; 6
  {:note "'de grote boeken'"
-  :dotimes 1
   :rule "np"
+  :dotimes 1
   :agr {:number :plur}  
   :sem {:mod {:first {:pred :big}}
         :pred :book}}
  
  ;; 7
  {:note "'een heel klein druif'"
-  :dotimes 1
   :rule "np"
+  :dotimes 1
   :agr {:number :sing}
   :definite? false
   :sem {:pred :grape
@@ -85,7 +81,6 @@
  ;; modifying adjective has no '-e' suffix,
  ;; e.g. 'een heel lief oud thuis'
  {:note "[det [[intensifier adj] noun]]"
-  :dotimes 1
   :agr {:number :sing
         :gender :neuter}
   :definite? false
@@ -100,7 +95,6 @@
  ;; so usually the adjective *will* have the -e suffix.
  ;; e.g. 'een behoorlijk vies grote tafel'
  {:note "[det [[intensifier adj] noun]]"
-  :dotimes 1
   :rule "np"
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
@@ -136,7 +130,6 @@
  ;; 13
  {:note "Sentence with object"
   :max-depth 3
-  :dotimes 5
   :reflexive false
   :cat :verb
   :subcat []
@@ -145,7 +138,6 @@
 
  ;; 14
  {:note "Sentence with reflexive object"
-  :dotimes 5
   :generic true
   :max-depth 3
   :cat :verb
@@ -158,7 +150,6 @@
 
  ;; 15
  {:note "[s np [vp v np]]"
-  :dotimes 5
   :phrasal true
   :rule "s"
   :reflexive false
@@ -170,7 +161,6 @@
 
  ;; 16
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
-  :dotimes 5
   :rule "s"
   :reflexive false
   :head {:rule "vp-modal-te"
@@ -184,7 +174,6 @@
  ;; 17
  ;; ARGD, p. 37
  {:note "modals+infinitive"
-  :dotimes 5
   :phrasal true
   :rule "s"
   :comp {:phrasal true
@@ -221,6 +210,7 @@
 
  ;; 19
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
+  :dotimes 1
   :max-depth 3
   :rule "s"
   :prod? true
@@ -229,6 +219,7 @@
   :subcat []
   :reflexive false
   :sem {:pred :must
+        :subj {:pred :we}
         :obj {:obj {:pred :corona}
               :mod {:first {:pred :together}}
               :pred :overcome}}}

@@ -218,6 +218,9 @@
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :eat}}])
+
+ "explain" [{:cat :verb :sem {:pred :explain}}]
+
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :feel}}])

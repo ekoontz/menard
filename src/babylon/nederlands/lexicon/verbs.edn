@@ -105,6 +105,8 @@
                   :infl :infinitive
                   :sem sem}
               :2 []}})]
+
+ "uitgeleggen" [{:cat :verb :sem {:pred :explain}}]
  
  "werken"
  [{:cat :verb

@@ -140,6 +140,7 @@
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
+          ug/sem-mod-is-comp-mod
           su/d]}
 
  {:rule "adverb" ;; '.samen +bestrijden'

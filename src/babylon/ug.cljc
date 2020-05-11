@@ -190,6 +190,11 @@
     {:sem {:mod {:first mod}}
      :comp {:sem mod}}))
 
+(def sem-mod-is-comp-mod
+  (let [mod (atom :top)]
+    {:sem {:mod mod}
+     :comp {:mod mod}}))
+
 (def nominal-phrase
   {:reflexive false
    :agr {:person :3rd}})

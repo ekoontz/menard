@@ -36,12 +36,7 @@
 
  ;; 4
  {:note "det | adj noun"
-  :agr {:number :sing
-        :gender :neuter}
-  :dotimes 1
-  :sem {:pred :girl
-        :mod {:first {:pred :confusing}}
-        :quant :we}
+  :sem {:mod {:first {:top :top}}}
   :subcat []
   :phrasal true
   :cat :noun

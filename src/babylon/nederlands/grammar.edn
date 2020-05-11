@@ -51,6 +51,7 @@
           ug/head-last
           ug/head-rule
           ug/head-sem
+          ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           su/a]}
 
  {:rule "vp" ;; [vp +zie .het]
@@ -61,14 +62,12 @@
   :head {:aux false
          :modal false}
 
-  ;; TODO: move this contraint to lexicon (the head verb)
-  :sem {:mod []}
-  
   :unify [ug/head-first
           ug/head-is-root
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
+          ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           ug/slash-is-head-slash
           su/c]}
 
@@ -85,6 +84,7 @@
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
+          ug/sem-mod-is-empty
           ug/slash-is-head-slash
           su/c]}
 
@@ -116,15 +116,13 @@
 
   ;; TODO: remove: should be handled by head:
   :comp {:cat :noun}
-
-  ;; TODO: move this contraint to lexicon (the head verb)
-  :sem {:mod []}
   
   :unify [ug/head-last
           ug/head-is-root
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
+          ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           ug/slash-is-head-slash
           su/c]}
 

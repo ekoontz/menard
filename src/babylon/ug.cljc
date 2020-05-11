@@ -219,3 +219,6 @@
   (let [number (atom :top)]
     {:sem {:ref {:number number}}
      :agr {:number number}}))
+
+(def sem-mod-is-empty
+  {:sem {:mod []}})

@@ -246,7 +246,7 @@
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
-            p/truncate? false
+            p/truncate? true
             l/lexicon lexicon
             l/morphology morphology
             p/split-on #"[ ]"

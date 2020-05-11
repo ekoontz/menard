@@ -19,7 +19,8 @@
  "de" [{:cat :det
         :definite? true
         :sem {:pred :the}
-        :agr {:gender :common}}
+        :agr {:gender :common
+              :number :sing}}
        {:cat :det
         :definite? true
         :sem {:pred :the}

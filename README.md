@@ -38,7 +38,7 @@ Each expression is then translated into English, as shown in the output below:
 
 ```
 % lein repl
-nREPL server started on port 56066 on host 127.0.0.1 - nrepl://127.0.0.1:56066
+nREPL server started on port 56520 on host 127.0.0.1 - nrepl://127.0.0.1:56520
 REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.1
 OpenJDK 64-Bit Server VM 12.0.1+12
@@ -50,30 +50,70 @@ OpenJDK 64-Bit Server VM 12.0.1+12
  Results: Stored in vars *1, *2, *3, an exception in *e
 
 user=> (do (load "babylon/translate") (babylon.translate/demo))
-# intensifier adjective; 1 example:
+# intensifier adjective; 5 examples:
 ---
-Ongewoon eng.|
-             |Unusually scary.
+Echt opgevonden.|
+                |Really excited.
+Behoorlijk nieuwsgierig.|
+                        |Quite curious.
+Ongewoon eenzaam.|
+                 |Unusually lonely.
+Erg eigenwijs.|
+              |Very stubborn.
+Echt vies.|
+          |Really dirty.
 
-# det noun; 1 example:
+# det noun; 5 examples:
 ---
-Onze stoelen.|
-             |Our chairs.
+Jouw meisjes.|
+             |Your girls.
+Uw fiets.|
+         |Your bike.
+Onze ontwikkeling.|
+                  |Our development.
+Onze banen.|
+           |Our jobs.
+De stoel.|
+         |The chair.
 
-# noun verb; 1 example:
+# noun verb; 5 examples:
 ---
-U zingt.|
-        |You sing.
+Jullie komen.|
+             |You come.
+Jij werkt.|
+          |You work.
+Corona veroorzaakt.|
+                   |Corona causes.
+Zij veroorzaaken.|
+                 |They cause.
+Guus kan.|
+         |Guus can.
 
-# det noun | verb; 1 example:
+# det noun | verb; 5 examples:
 ---
-Zijn druif leest.|
-                 |His grape reads.
+De dagen kunnen.|
+                |The days can.
+Deze katten komen.|
+                  |These cats come.
+Onze heren zien.|
+                |Our gentlemen see.
+Uw ontwikkelingen werken.|
+                         |Your developments work.
+Onze boeken zingen.|
+                   |Our books sing.
 
-# det | adj noun; 1 example:
+# det | adj noun; 5 examples:
 ---
-Haar ongeruste boeken.|
-                      |Her anxious books.
+Deze vieze heren.|
+                 |These dirty gentlemen.
+Hun lieve huizen.|
+                 |Their nice houses.
+Haar zelfverzekerde bedrijven.|
+                              |Her confident businesses.
+Dit verlegene geld.|
+                   |This shy money.
+Geen teleurgesteld thuis.|
+                         |No disappointed home.
 
 # 'een huis'; 1 example:
 ---
@@ -87,115 +127,163 @@ De grote boeken.|
 
 # 'een heel klein druif'; 1 example:
 ---
-Een erg klein druif.|
-                    |A very small grape.
+Een heel klein druif.|
+                     |A very small grape.
 
-# det [intensifier adj | adj noun]; 1 example:
+# [det [[intensifier adj] noun]]; 5 examples:
 ---
-De erg nieuwsgierig ernstige kittens.|
-                                     |The very curious serious kittens.
+Geen behoorlijk sterk ernstig vrouw.|
+                                    |No quite strong serious woman.
+Geen behoorlijk inhalig verward kind.|
+                                     |No quite greedy confused child.
+Geen ongewoon ernstig lief boek.|
+                                |No unusually serious nice book.
+Geen heel vies lief land.|
+                         |No very dirty nice country.
+Geen heel verwarrend ongerust geld.|
+                                   |No very confusing anxious money.
+
+# [det [[intensifier adj] noun]]; 5 examples:
+---
+De echt kleine verwarrende hand.|
+                                |The really small confusing hand.
+Een ongewoon lief vies feit.|
+                            |An unusually nice dirty fact.
+Ons heel inhalige opgevondene haar.|
+                                   |Our very greedy excited hair.
+Hun ongewoon teleurgestelde ongeruste druif.|
+                                            |Their unusually disappointed anxious grape.
+Mijn echt enge stomme maanden.|
+                              |My really scary stupid months.
 
 # 'De heel sterk slimme vrouen zingen'.; 1 example:
 ---
-De heel sterk slimme vrouwen zingen.|
-                                    |The very strong smart women sing.
+Zijn heel sterke slimme vrouwen zingen.|
+                                       |Its very strong smart women sing.
 
 # [det [intensifier adj | adj noun]] verb; 5 examples:
 ---
-Een echt ernstig ware plaats komt.|
-                                  |A really serious true lot comes.
-Onze behoorlijk slim zelfverzekerde moeder komt.|
-                                                |Our quite smart confident mother comes.
-Uw heel klein verdrietige man werkt.|
-                                    |Your very small sad man works.
-Hun eigenlijk lief zelfverzekerde handen slapen.|
-                                                |Their actually nice confident hands sleep.
-Deze erg stom zelfverzekerde landen veroorzaaken.|
-                                                 |These very stupid confident countries cause.
+Haar echt opgevondene sterke baby moet.|
+                                       |Her really excited strong baby must.
+Jouw erg grote enge gebeiden zien.|
+                                  |Your very big scary areas see.
+Deze ongewoon ongeruste verdrietige benen kunnen.|
+                                                 |These unusually anxious sad legs can.
+Uw echt oude zelfverzekerde land kan.|
+                                     |Your really old confident country can.
+Ons ongewoon gierige ongeruste gebeid slaapt.|
+                                             |Our unusually stingy anxious area sleeps.
 
 # [det | adj noun] verb; 5 examples:
 ---
-Haar verwarrende fietsen komen.|
-                               |Her confusing bikes come.
-Deze ernstige zaken komen.|
-                          |These serious cases come.
-Zijn zelfverzekerde moeder werkt.|
-                                 |Its confident mother works.
-Een waar feit slaapt.|
-                     |A true fact sleeps.
-De sterke ogen komen.|
-                     |The strong eyes come.
+Dit ernstige gebeid zingt.|
+                          |This serious area sings.
+De verlegene mannen zingen.|
+                           |The shy men sing.
+Uw vieze honden veroorzaaken.|
+                             |Your dirty dogs cause.
+Zijn stomme druif slaapt.|
+                         |His stupid grape sleeps.
+Zijn ernstige haren zingen.|
+                           |Its serious hairs sing.
 
 # Sentence with object; 5 examples:
 ---
-Zij zien Guus.|
-              |They see Guus.
-Guus ziet hun.|
-              |Guus sees them.
-Ik zie hen.|
-           |I see them.
-Jij ziet hen.|
-             |You see them.
 Jij ziet haar.|
               |You see her.
+Corona ziet hun.|
+                |Corona sees them.
+U ziet hem.|
+           |You see him.
+Hij ziet Guus.|
+              |He sees Guus.
+Het ziet u.|
+           |It sees you.
 
 # Sentence with reflexive object; 5 examples:
 ---
+Wij zien ons.|
+             |We see ourselves.
 Ik zie me.|
           |I see myself.
-U ziet u.|
-         |You see yourselves.
-U ziet u.|
-         |You see yourselves.
+Wij zien ons.|
+             |We see ourselves.
+Zij ziet zich.|
+              |She sees herself.
 Jullie zien je.|
                |You see yourselves.
-Zij zien zich.|
-              |They see themselves.
 
 # [s np [vp v np]]; 5 examples:
 ---
-Mijn oplossing leest jouw kitten.|
-                                 |My solution reads your kitten.
-Zijn huis ziet deze hond.|
-                         |His house sees this dog.
-Onze tafel ziet de jongen.|
-                          |Our table sees the boy.
-Haar geld veroorzaakt uw stoelen.|
-                                 |Her money causes your chairs.
-Zijn kittens zien jouw jongen.|
-                              |Its kittens see your boy.
+Haar zaak veroorzaakt zijn dagen.|
+                                 |Her case causes its days.
+Hun haren uitgeleggen zijn jongens.|
+                                   |Their hairs explain its boys.
+Hun fietsen bestrijden deze huizen.|
+                                   |Their bikes overcome these houses.
+Dat leven bestrijdt zijn meisje.|
+                                |That life overcomes its girl.
+De druiven lezen haar familie.|
+                              |The grapes read her family.
 
-# [s n [vp v [vp:inf to v]]]; 5 examples:
+# [s n [vp-modal-te v [vp-te:inf to v]]]; 5 examples:
 ---
-Jij probeert te zien.|
-                     |You try to see.
-Het probeert te slapen.|
-                       |It tries to sleep.
-Ik probeer te slapen.|
-                     |I try to sleep.
-Wij proberen te werken.|
-                       |We try to work.
-Wij proberen te komen.|
-                      |We try to come.
+Guus probeert te zingen.|
+                        |Guus tries to sing.
+Wij proberen te uitgeleggen.|
+                            |We try to explain.
+Hij probeert te slapen.|
+                       |He tries to sleep.
+Zij proberen te bestrijden.|
+                           |They try to overcome.
+Jij probeert te veroorzaaken.|
+                             |You try to cause.
 
-# 'Haar heel verdrietig zelfverzekerde beschaving probeert mijn heel verdrietig overheid te veroorzaaken.'/'Her very sad confident civilization tries to cause my very sad government.'; 5 examples:
+# modals+infinitive; 5 examples:
 ---
-Hun erg sterk slimme man probeert uw heel zelfverzekerd dame te zien.|
-                                                                     |Their very strong smart man tries to see your very confident lady.
-Hun heel opgevonden ernstige moeders proberen uw eigenlijk oud thuizen te veroorzaaken.|
-                                                                                       |Their very excited serious mothers try to cause your actually old homes.
-Deze ongewoon verward eenzaamme beschavingen proberen zijn eigenlijk opgevonden kind te veroorzaaken.|
-                                                                                                     |These unusually confused lonely civilizations try to cause his actually excited child.
-Onze echt klein zenuwachtige levens proberen mijn ongewoon verwarrend heer te veroorzaaken.|
-                                                                                           |Our really small nervous lives try to cause my unusually confusing man.
-Hun behoorlijk vies lieve dagen proberen de erg oud oplossingen te zien.|
-                                                                        |Their quite dirty nice days try to see the very old solutions.
+Jouw erg kleine ernstige bedrijf probeert hun ongewoon enge baby's te bestrijden.|
+                                                                                 |Your very small serious business tries to overcome their unusually scary babies.
+Zijn ongewoon zenuwachtige kleine fiets probeert haar behoorlijk eenzaamme baby's te lezen.|
+                                                                                           |His unusually nervous small bike tries to read her quite lonely babies.
+Uw heel lieve oude dames proberen uw behoorlijk eigenwijze moeder te veroorzaaken.|
+                                                                                  |Your very nice old ladies try to cause your quite stubborn mother.
+Zijn echt stomme nieuwsgierige banen proberen jouw ongewoon ernstige jongens te veroorzaaken.|
+                                                                                             |His really stupid curious jobs try to cause your unusually serious boys.
+Die echt nieuwsgierige grote mannen proberen zijn eigenlijk verwarrende ogen te uitgeleggen.|
+                                                                                            |Those really curious big men try to explain his actually confusing eyes.
 
+# using 'kunnen'; 5 examples:
 ---
-Wij kunnen zingen.|
-                  |We can sing.
+Jullie kunnen uitgeleggen.|
+                          |You can explain.
+Hij kan zingen.|
+               |He can sing.
+Jij kunt zingen.|
+                |You can sing.
+We kunnen bestrijden.|
+                     |We can overcome.
+Zij kunnen zien.|
+                |They can see.
 
-18
+# corona sentence from de Krant van de Gemente van Amsterdam; 1 example:
+---
+Corona moeten wij samen bestrijden.|
+                                   |We must overcome Corona together.
+
+# Generalization of the previous:; 5 examples:
+---
+Guus moeten wij samen zien.|
+                           |We must see Guus together.
+Jou moeten u samen uitgeleggen.|
+                               |You must explain you together.
+Corona moeten jullie samen uitgeleggen.|
+                                       |You must explain Corona together.
+Hem moeten zij samen zien.|
+                          |They must see him together.
+Mij moeten wij samen uitgeleggen.|
+                                 |We must explain me together.
+
+21
 user=>
 ```
 

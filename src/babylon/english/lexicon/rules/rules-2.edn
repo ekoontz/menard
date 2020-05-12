@@ -35,7 +35,7 @@
           :reflexive false
           :propernoun false
           :pronoun false
-          :sem {:quant :unspec}
+          :sem {:quant :some}
           :agr {:number :plur
                 :person :3rd}
           :subcat []}]}

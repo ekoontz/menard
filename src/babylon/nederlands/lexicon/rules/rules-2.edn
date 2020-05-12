@@ -8,8 +8,6 @@
                quant (atom :top)]
            {:cat :noun
             :reflexive false
-            :propernoun false
-            :pronoun false
             :agr agr
             :sem {:quant quant}
             :subcat {:1 {:cat :det

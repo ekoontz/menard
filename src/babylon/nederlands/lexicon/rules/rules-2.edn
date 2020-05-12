@@ -13,8 +13,13 @@
             :subcat {:1 {:cat :det
                          :agr agr
                          :sem {:pred quant}}
-                     :2 []}})]}
-
+                     :2 []}})
+         {:cat :noun
+          :reflexive false
+          :agr {:number :plur
+                :person :3rd}
+          :sem {:quant :some}
+          :subcat []}]}
   
  {:rule :transitive-verbs ;; "ziet" in "zij ziet mij"
   :if {:cat :verb

@@ -266,6 +266,10 @@
        {:cat :prep
         :sem {:pred :to}}]
 
+ "two" [{:cat :det
+          :agr {:number :plur}
+          :sem {:pred :two}}]
+
  "unusually" [{:cat :intensifier
                :sem {:pred :unusually}
                :subcat {:1 {:cat :adjective

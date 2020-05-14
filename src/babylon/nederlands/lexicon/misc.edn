@@ -251,6 +251,10 @@
           :definite? true
           :agr {:number :plur}
           :sem {:pred :we}}]
+
+ "twee" [{:cat :det
+          :agr {:number :plur}
+          :sem {:pred :two}}]
  
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.

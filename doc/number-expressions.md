@@ -58,6 +58,17 @@ babylon.nederlands>
 Edit rules and lexemes if necessary to remove bad parses of the expression (expressions with 
 the undesired semantics).
 
+```
+git:
+babylon.nederlands> (->> (-> "vier en twentig" parse) (map syntax-tree))
+("[number-expression-outer .vier +[number-expression-inner +en .twentig]]")
+babylon.nederlands> (->> (-> "vier en twentig" parse) (map #(u/get-in % [:sem])) (map u/pprint))
+({:pred :add,
+  :arg2 {:pred :four, :base 1},
+  :arg1 {:pred :two, :base 10}})
+babylon.nederlands> 
+```
+
 # do(until(generate-only-good-sentences))
 
 Starting with the semantics `semantics-of-parse` of the parse from the last section, 

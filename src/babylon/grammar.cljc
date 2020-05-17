@@ -167,6 +167,7 @@
                          (log/warn warn-message)
                          true))))
 
+       (map #(u/assoc-in % [:phrasal] true))
        (map #(u/assoc-in % [:babylon.generate/started?] true))))
 
 #?(:clj

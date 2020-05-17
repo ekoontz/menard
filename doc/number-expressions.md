@@ -28,6 +28,21 @@ babylon.nederlands>
 Edit rules and lexemes until you can parse the expression, and the semantics
 of this expression are as expected.
 
+## Part 1: get "en twentig" parsing
+
+```
+(->> 
+  (-> "en twentig" parse) 
+  (map #(u/get-in % [:sem])) 
+  (map u/pprint))
+
+=>
+
+({:pred :two, :base 10})
+```
+
+## Part 2: get "[vier [en twentig]]" parsing
+
 # do(until(remove-bad-parses))
 
 Edit rules and lexemes if necessary to remove bad parses of the expression (expressions with 

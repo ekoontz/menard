@@ -1,8 +1,9 @@
 [
  {:rule "number-expression"
-  :unify [ug/head-first]
-
-  }
+  :unify [ug/head-first ug/sem-is-comp-sem]
+  :cat :conj
+  :head {:cat :conjunction}
+  :comp {:cat :det}}
 
  {:rule "intensifier" ;; '+heel .groot'
   :cat :adjective

@@ -206,7 +206,7 @@
         spec (u/get-in tree at)
         diagnose? false]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
-                    (syntax-tree spec)))
+                    (dag_unify.serialization/serialize spec)))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)

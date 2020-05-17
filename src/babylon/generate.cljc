@@ -7,15 +7,19 @@
    [babylon.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]))
-
 ;; See:
 ;; - english.cljc/generate
 ;; - nederlands.cljc/generate
 ;; for example usage.
-;; for diagnostics; start with
+;; Diagnostics:
+;; 1. Start with
 ;; changing the log/debug in (defn add) (below)
 ;; to log/info.
-
+;; 2. change other log/debugs to log/infos.
+;; Profiling:
+;; Turn on (def ^:dynamic profiling?) in your namespace with:
+;; (binding [babylon.generate/profiling? true]
+;;     (babylon.generate ..))
 (declare add)
 (declare add-lexeme)
 (declare add-rule)
@@ -26,19 +30,23 @@
 
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
+
+;; clojurescript is much slower without these settings:
+;; TODO: investigate why that only holds true for
+;; .cljs and not .clj.
 #?(:cljs (def ^:dynamic fold? true))
 #?(:cljs (def ^:dynamic truncate? true))
 
 (def ^:dynamic allow-backtracking? true)
+(def ^:dynamic die-on-no-matching-lexemes? true)
 (def ^:dynamic max-depth 15)
-
+(def ^:dynamic profiling? true)
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path
   before whose generation you want to stop.
   Generation will stop immediately
   when (frontier tree) is equal to this path."
   [])
-(def ^:dynamic die-on-no-matching-lexemes? true)
 (def ^:dynamic warn-on-no-matches?
   "warn in (add-rule) if no grammar rules matched the given spec."
   true)
@@ -53,11 +61,12 @@
   (reset! count-rule-fails 0)
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-    (log/debug (str "generated: " (syntax-tree-fn result) " with "
-                    @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
-                    @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
-                    @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
-                    "."))
+    (when profiling?
+      (log/info (str "generated: " (syntax-tree-fn result) " with "
+                     @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
+                     @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
+                     @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
+                     ".")))
     result))
 
 (defn generate-all
@@ -92,7 +101,7 @@
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
-  (swap! count-adds (fn [x] (+ 1 @count-adds)))
+  (if profiling? (swap! count-adds (fn [x] (+ 1 @count-adds))))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -183,6 +192,12 @@
   [spec lexicon-index-fn syntax-tree]
   (log/debug (str "get-lexemes with spec: " (dag_unify.serialization/serialize spec)))
   (->> (lexicon-index-fn spec)
+
+       (#(do
+           (when profiling?
+             (log/info (str "returned: " (count %) " lexeme(s) found.")))
+           %))
+
        (map (fn [lexeme]
               {:lexeme lexeme
                :unify (unify lexeme spec)}))
@@ -194,7 +209,7 @@
 
                          true (do
                                 (log/debug (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
-                                (swap! count-lexeme-fails inc)
+                                (if profiling? (swap! count-lexeme-fails inc))
                                 false)))))
        (map :unify)))
 
@@ -281,7 +296,7 @@
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
-                    (swap! count-rule-fails inc)
+                    (if profiling? (swap! count-rule-fails inc))
                     false)))
      (map
       #(u/unify! %

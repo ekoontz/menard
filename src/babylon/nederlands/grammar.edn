@@ -1,6 +1,8 @@
 [
  {:rule "number-expression-outer"
-  :unify [ug/head-last]
+  :unify [ug/addition-semantics
+          ug/head-last
+          ]
   :cat :conj
   :head {:cat :conjunction
          :phrasal true}

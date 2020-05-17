@@ -251,10 +251,10 @@
            :sem {:times 1
                  :pred 9}}]
 
- "null" [{:cat :det
-          :agr {:number :plur}
-          :sem {:times 1
-                :pred 0}}]
+ "nul" [{:cat :det
+         :agr {:number :plur}
+         :sem {:times 1
+               :pred 0}}]
  
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}

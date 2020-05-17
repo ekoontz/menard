@@ -61,31 +61,33 @@
      (flatten (vals lexicon))))
 
 #?(:clj
-   (def verb-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (u/get-in % [:exception]))
-                        (= (u/get-in % [:cat]) :verb))))))
-
-#?(:clj
    (def adjective-lexicon
      (->> flattened-lexicon
           (filter #(and (not (u/get-in % [:exception]))
                         (= (u/get-in % [:cat]) :adjective))))))
-
+#?(:clj
+   (def det-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :det))))))
 #?(:clj
    (def noun-lexicon
      (->> flattened-lexicon
           (filter #(and (not (u/get-in % [:exception]))
                         (= (u/get-in % [:cat]) :noun))))))
-
 #?(:clj
    (def misc-lexicon
      (->> flattened-lexicon
           (filter #(and (not (= (u/get-in % [:cat]) :verb))
                         (not (= (u/get-in % [:cat]) :adjective))
+                        (not (= (u/get-in % [:cat]) :det))
                         (not (= (u/get-in % [:cat]) :noun))
                         (not (u/get-in % [:exception])))))))
-
+#?(:clj
+   (def verb-lexicon
+     (->> flattened-lexicon
+          (filter #(and (not (u/get-in % [:exception]))
+                        (= (u/get-in % [:cat]) :verb))))))
 #?(:clj
    (defn index-fn [spec]
      (log/debug (str "spec: " (diag/strip-refs spec)))
@@ -98,6 +100,9 @@
 
                  (= (u/get-in spec [:cat]) :noun)
                  noun-lexicon
+
+                 (= (u/get-in spec [:cat]) :det)
+                 det-lexicon
                  
                  true misc-lexicon)
            spec (if true spec (u/copy (diag/strip-refs spec)))

@@ -1,4 +1,10 @@
-[{:rule "intensifier" ;; '+heel .groot'
+[
+ {:rule "number-expression"
+  :unify [ug/head-first]
+
+  }
+
+ {:rule "intensifier" ;; '+heel .groot'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}

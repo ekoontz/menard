@@ -47,7 +47,7 @@ git: 511f3152
 ## Part 2: get "[vier [en twentig]]" parsing
 
 ```
-git:
+git:b4c284d7
 babylon.nederlands> (->> (-> "vier en twentig" parse) (map syntax-tree))
 ("[number-expression-outer .vier +[number-expression-inner +en .twentig]]")
 babylon.nederlands> 

@@ -28,6 +28,11 @@ babylon.nederlands>
 Edit rules and lexemes until you can parse the expression, and the semantics
 of this expression are as expected.
 
+# do(until(remove-bad-parses))
+
+Edit rules and lexemes if necessary to remove bad parses of the expression (expressions with 
+the undesired semantics).
+
 # do(until(generate-only-good-sentences))
 
 Starting with the semantics `semantics-of-parse` of the parse from the last section, 

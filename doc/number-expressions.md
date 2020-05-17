@@ -31,6 +31,7 @@ of this expression are as expected.
 ## Part 1: get "en twentig" parsing
 
 ```
+git: 511f3152
 (->> 
   (-> "en twentig" parse) 
   (map #(u/get-in % [:sem])) 

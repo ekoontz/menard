@@ -5,13 +5,15 @@
   :cat :det
   :head {:cat :conjunction
          :phrasal true}
-  :comp {:cat :det}}
+  :comp {:cat :det
+         :sem {:times 1}}}
 
  {:rule "number-expression-inner"
   :unify [ug/head-first ug/sem-is-comp-sem]
   :cat :conjunction
   :head {:cat :conjunction}
-  :comp {:cat :det}}
+  :comp {:cat :det
+         :sem {:times 10}}}
 
  {:rule "intensifier" ;; '+heel .groot'
   :cat :adjective

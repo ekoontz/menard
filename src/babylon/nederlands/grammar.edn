@@ -3,7 +3,7 @@
   :unify [ug/addition-semantics
           ug/head-last
           ]
-  :cat :conj
+  :cat :det
   :head {:cat :conjunction
          :phrasal true}
   :comp {:cat :det}}

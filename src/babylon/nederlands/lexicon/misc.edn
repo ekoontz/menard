@@ -5,8 +5,8 @@
 {
  "acht" [{:cat :det
           :agr {:number :plur}
-          :sem {:pred :eight
-                :base 1}}]
+          :sem {:pred 8
+                :times 1}}]
 
  "behoorlijk"
  [{:cat :intensifier
@@ -67,8 +67,8 @@
 
  "drie" [{:cat :det
           :agr {:number :plur}
-          :sem {:pred :three
-                :base 1}}]
+          :sem {:pred 3
+                :times 1}}]
 
  "echt" [{:cat :intensifier
           :sem {:pred :really}
@@ -82,14 +82,14 @@
          :agr {:number :sing}}]
 
  "eén" [{:cat :det
-         :sem {:pred :one
-               :base 1}
+         :sem {:pred 1
+               :times 1}
          :agr {:number :sing}}]
 
  "elf" [{:cat :det
-           :agr {:number :plur}
-         :sem {:pred :one
-               :base 10}}]
+         :agr {:number :plur}
+         :sem {:pred 11
+               :times 1}}]
 
  "en" [{:cat :conjunction
         :sem {:pred :and}}]
@@ -248,13 +248,13 @@
 
  "negen" [{:cat :det
            :agr {:number :plur}
-           :sem {:base 1
-                 :pred :nine}}]
+           :sem {:times 1
+                 :pred 9}}]
 
  "null" [{:cat :det
           :agr {:number :plur}
-          :sem {:base 1
-                :pred :zero}}]
+          :sem {:times 1
+                :pred 0}}]
  
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}
@@ -286,23 +286,23 @@
 
  "teen" [{:cat :det
            :agr {:number :plur}
-          :sem {:pred :ten
-                :base 1}}] 
+          :sem {:pred 10
+                :times 1}}] 
 
  "twalf" [{:cat :det
            :agr {:number :plur}
-           :sem {:pred :twelve
-                 :base 10}}]
+           :sem {:pred 12
+                 :times 1}}]
 
  "twee" [{:cat :det
           :agr {:number :plur}
-          :sem {:pred :two
-                :base 1}}]
+          :sem {:pred 2
+                :times 1}}]
 
  "twentig" [{:cat :det
              :agr {:number :plur}
-             :sem {:base 10
-                   :pred :two}}]
+             :sem {:times 10
+                   :pred 2}}]
  
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
@@ -325,13 +325,13 @@
 
  "vier" [{:cat :det
           :agr {:number :plur}
-          :sem {:pred :four
-                :base 1}}]
+          :sem {:pred 4
+                :times 1}}]
 
  "vijf" [{:cat :det
           :agr {:number :plur}
-          :sem {:pred :five
-                :base 1}}]
+          :sem {:pred 5
+                :times 1}}]
 
  "we" [{:agr {:person :1st
               :number :plur}
@@ -349,13 +349,13 @@
 
  "zes" [{:cat :det
          :agr {:number :plur}
-         :sem {:pred :six
-               :base 1}}]
+         :sem {:pred 6
+               :times 1}}]
  
  "zeven" [{:cat :det
            :agr {:number :plur}
-           :sem {:pred :seven
-                 :base 1}}]
+           :sem {:pred 7
+                 :times 1}}]
  
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')

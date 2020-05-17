@@ -42,6 +42,15 @@
      :head {:sem {:mod head-mod}}
      :comp {:sem comp-sem}}))
 
+(def addition-semantics
+  (let [arg1 (atom :top)
+        arg2 (atom :top)]
+  {:sem {:pred :add
+         :arg1 arg1
+         :arg2 arg2}
+   :head {:sem arg1}
+   :comp {:sem arg2}}))
+
 (comment {:head {:sem {:subj {:ref [[1] :top]}}}
           :comp {:sem {:subj [1]}}})
 (def subj-ref

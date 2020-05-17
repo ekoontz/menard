@@ -42,7 +42,16 @@ git: 511f3152
 ({:pred :two, :base 10})
 ```
 
+
+
 ## Part 2: get "[vier [en twentig]]" parsing
+
+```
+git:
+babylon.nederlands> (->> (-> "vier en twentig" parse) (map syntax-tree))
+("[number-expression-outer .vier +[number-expression-inner +en .twentig]]")
+babylon.nederlands> 
+```
 
 # do(until(remove-bad-parses))
 

@@ -1,7 +1,14 @@
 [
- {:rule "number-expression"
-  :unify [ug/head-first ug/sem-is-comp-sem]
+ {:rule "number-expression-outer"
+  :unify [ug/head-last]
   :cat :conj
+  :head {:cat :conjunction
+         :phrasal true}
+  :comp {:cat :det}}
+
+ {:rule "number-expression-inner"
+  :unify [ug/head-first ug/sem-is-comp-sem]
+  :cat :conjunction
   :head {:cat :conjunction}
   :comp {:cat :det}}
 

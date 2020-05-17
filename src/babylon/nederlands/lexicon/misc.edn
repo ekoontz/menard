@@ -2,7 +2,12 @@
 ;; - jij (je)
 ;; - wij (we)
 ;; - zij (ze)
-{"behoorlijk"
+{
+ "acht" [{:cat :det
+           :agr {:number :plur}
+           :sem {:pred :eight}}]
+
+ "behoorlijk"
  [{:cat :intensifier
    :sem {:pred :quite}
    :subcat {:1 {:cat :adjective
@@ -59,15 +64,28 @@
          :agr {:number :sing
                :gender :neuter}}]
 
+ "drie" [{:cat :det
+          :agr {:number :plur}
+          :sem {:pred :three}}]
+
  "echt" [{:cat :intensifier
           :sem {:pred :really}
           :subcat {:1 {:cat :adjective
                         :phrasal false}
                     :2 []}}]
  "een" [{:cat :det
+         ;; TODO: I think :definite can be removed: has no effect.
          :definite? false
          :sem {:pred :some}
          :agr {:number :sing}}]
+
+ "eén" [{:cat :det
+         :sem {:pred :one}
+         :agr {:number :sing}}]
+
+ "elf" [{:cat :det
+           :agr {:number :plur}
+           :sem {:pred :eleven}}]
 
  "en" [{:cat :conjunction
         :sem {:pred :and}}]
@@ -224,6 +242,10 @@
           :definite? true
           :sem {:pred :i}}]
 
+ "negen" [{:cat :det
+           :agr {:number :plur}
+           :sem {:pred :nine}}]
+
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}
               :subcat {:1 {:cat :adjective
@@ -252,6 +274,14 @@
           :agr {:number :plur}
           :sem {:pred :we}}]
 
+ "teen" [{:cat :det
+           :agr {:number :plur}
+           :sem {:pred :ten}}]
+
+ "twalf" [{:cat :det
+           :agr {:number :plur}
+           :sem {:pred :twelve}}]
+
  "twee" [{:cat :det
           :agr {:number :plur}
           :sem {:pred :two}}]
@@ -275,6 +305,14 @@
         :sem {:pred :you
               :context :polite}}]
 
+ "vier" [{:cat :det
+          :agr {:number :plur}
+          :sem {:pred :four}}]
+
+ "vijf" [{:cat :det
+          :agr {:number :plur}
+          :sem {:pred :five}}]
+
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom
@@ -289,6 +327,14 @@
          :pronoun true
          :sem {:pred :we}}]
 
+ "zes" [{:cat :det
+         :agr {:number :plur}
+         :sem {:pred :six}}]
+ 
+ "zeven" [{:cat :det
+           :agr {:number :plur}
+           :sem {:pred :seven}}]
+ 
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:cat :noun

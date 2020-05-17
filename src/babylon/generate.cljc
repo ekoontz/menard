@@ -196,7 +196,7 @@
                                 (log/debug (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
                                 (swap! count-lexeme-fails inc)
                                 false)))))
-       (map :lexeme)))
+       (map :unify)))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))

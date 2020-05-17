@@ -181,22 +181,12 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn syntax-tree]
-  (log/debug (str "get-lexemes with spec: " (dag_unify.serialization/serialize spec)))
   (->> (lexicon-index-fn spec)
-       (map (fn [lexeme]
-              {:lexeme lexeme
-               :unify (unify lexeme spec)}))
-       (filter (fn [tuple]
-                 (let [lexeme (:lexeme tuple)
-                       unify (:unify tuple)]
-                   (cond (not (= :fail unify))
-                         true
-
-                         true (do
-                                (log/debug (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
-                                (swap! count-lexeme-fails inc)
-                                false)))))
-       (map :lexeme)))
+       (map #(unify % spec))
+       (filter #(or (not (= :fail %))
+                    (do
+                      (swap! count-lexeme-fails inc)
+                      false)))))
 
 (defn add-lexeme [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))

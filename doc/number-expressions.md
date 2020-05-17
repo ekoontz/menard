@@ -42,8 +42,6 @@ git: 511f3152
 ({:pred :two, :base 10})
 ```
 
-
-
 ## Part 2: get "[vier [en twentig]]" parsing
 
 ```

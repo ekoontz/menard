@@ -179,6 +179,11 @@
     {:sem {:obj {:mod mod}}
      :comp {:mod mod}}))
 
+(def sem-is-comp-sem
+  (let [sem (atom :top)]
+    {:sem sem
+     :comp {:sem sem}}))
+
 (comment
   {:sem
    {:mod

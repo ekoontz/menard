@@ -14,6 +14,15 @@ It's ok if there are other incorrect analyses if said analyses are useful
 in other expressions. These analyses will be filtered out during parsing in the
 next step.
 
+Done:
+```
+(->> (-> "vier en twentig" (clojure.string/split #" ")) (map analyze) flatten (map (fn [x] {:sem (u/get-in x [:sem]) :cat (u/get-in x [:cat])})))
+({:sem {:pred :four, :base 1}, :cat :det}
+ {:sem {:pred :and}, :cat :conjunction}
+ {:sem {:pred :two, :base 10}, :cat :det})
+babylon.nederlands> 
+```
+
 # do(until(a-parse-with-correct-semantics))
 
 Edit rules and lexemes until you can parse the expression, and the semantics

@@ -70,10 +70,10 @@
           :sem {:pred 3
                 :times 1}}]
 
- "drietig" [{:cat :det
-             :agr {:number :plur}
-             :sem {:times 10
-                   :pred 3}}]
+ "dertig" [{:cat :det
+            :agr {:number :plur}
+            :sem {:times 10
+                  :pred 3}}]
 
  "echt" [{:cat :intensifier
           :sem {:pred :really}
@@ -340,7 +340,7 @@
           :sem {:pred 4
                 :times 1}}]
 
- "viertig" [{:cat :det
+ "veertig" [{:cat :det
              :agr {:number :plur}
              :sem {:times 10
                    :pred 4}}]

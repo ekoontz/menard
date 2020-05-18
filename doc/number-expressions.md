@@ -80,4 +80,27 @@ and iterate generating on this, adding information to this starting spec until:
 - Is reasonably "clean", i.e. anything unneeded for the correct generation is
   is removed.
 
-
+Done with this:
+```
+git:
+(u/pprint spec)
+{:phrasal true,
+ :comp {:phrasal :top},
+ :cat :noun,
+ :subcat [],
+ :sem
+ {:pred :top,
+  :ref {:number :plur},
+  :mod [],
+  :arg :top,
+  :quant :add,
+  :context :unspec}}
+babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate morph println))))
+negen en twentig honden
+zes en vijftig meisjes
+2
+babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate (u/get-in [:sem]) u/pprint println))))
+{:pred :loneliness, :arg2 {:pred 8, :times 1}, :ref {:number :plur}, :mod [], :arg :top, :quant :add, :context :unspec, :arg1 {:pred 5, :times 10}}
+{:pred :solution, :arg2 {:pred 5, :times 1}, :ref {:number :plur}, :mod [], :arg :top, :quant :add, :context :unspec, :arg1 {:pred 5, :times 10}}
+2
+```

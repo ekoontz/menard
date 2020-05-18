@@ -286,7 +286,7 @@
           :sem {:pred :we}}]
 
  "teen" [{:cat :det
-           :agr {:number :plur}
+          :agr {:number :plur}
           :sem {:pred 10
                 :less-than-10? false
                 :times 1}}] 

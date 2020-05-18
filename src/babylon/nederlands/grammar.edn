@@ -6,8 +6,8 @@
   :head {:cat :conjunction
          :phrasal true}
   :comp {:cat :det
-         :sem {:less-than-10? true
-               :times 1}}}
+         :less-than-10? true
+         :sem {:times 1}}}
 
  {:rule "number-expression-inner" ;; +[+en .twentig]
   :unify [ug/head-first ug/sem-is-comp-sem]

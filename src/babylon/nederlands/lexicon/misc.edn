@@ -88,8 +88,8 @@
 
  "elf" [{:cat :det
          :agr {:number :plur}
+         :less-than-10? false               
          :sem {:pred 11
-               :less-than-10? false               
                :times 1}}]
 
  "en" [{:cat :conjunction
@@ -253,6 +253,10 @@
                  :pred 9}}]
 
  "nul" [{:cat :det
+         ;; it is less than 10 of course, but we're using :less-than-10=false
+         ;; here to prevent e.g. "nul en twentig", so it's
+         ;; used in the same to prevent e.g. "twalf en twintig".
+         :less-than-10? false
          :agr {:number :plur}
          :sem {:times 1
                :pred 0}}]
@@ -287,14 +291,14 @@
 
  "teen" [{:cat :det
           :agr {:number :plur}
+          :less-than-10? false
           :sem {:pred 10
-                :less-than-10? false
                 :times 1}}] 
 
  "twalf" [{:cat :det
            :agr {:number :plur}
+           :less-than-10? false
            :sem {:pred 12
-                 :less-than-10? false
                  :times 1}}]
 
  "twee" [{:cat :det

@@ -70,6 +70,11 @@
           :sem {:pred 3
                 :times 1}}]
 
+ "drietig" [{:cat :det
+             :agr {:number :plur}
+             :sem {:times 10
+                   :pred 3}}]
+
  "echt" [{:cat :intensifier
           :sem {:pred :really}
           :subcat {:1 {:cat :adjective
@@ -335,10 +340,20 @@
           :sem {:pred 4
                 :times 1}}]
 
+ "viertig" [{:cat :det
+             :agr {:number :plur}
+             :sem {:times 10
+                   :pred 4}}]
+
  "vijf" [{:cat :det
           :agr {:number :plur}
           :sem {:pred 5
                 :times 1}}]
+
+ "vijftig" [{:cat :det
+             :agr {:number :plur}
+             :sem {:pred 5
+                   :times 10}}]
 
  "we" [{:agr {:person :1st
               :number :plur}

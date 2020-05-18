@@ -129,6 +129,9 @@
  "thuis" [{:cat :noun
            :agr {:gender :neuter}
            :sem {:pred :home}}]
+ "vogel" [{:cat :noun
+           :agr {:gender :common}
+           :sem {:pred :bird}}]
  "vrouw" [{:cat :noun
            :agr {:gender :neuter}
            :sem {:pred :woman

@@ -82,7 +82,7 @@ and iterate generating on this, adding information to this starting spec until:
 
 Done with this:
 ```
-git:
+git:65956c87
 (u/pprint spec)
 {:phrasal true,
  :comp {:phrasal :top},

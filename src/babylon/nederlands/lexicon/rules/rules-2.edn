@@ -5,14 +5,20 @@
        :pronoun false
        :subcat :unspec}
   :then [(let [agr (atom {:person :3rd})
-               quant (atom :top)]
+               quant (atom :top)
+               arg1 (atom :top)
+               arg2 (atom :top)]
            {:cat :noun
             :reflexive false
             :agr agr
-            :sem {:quant quant}
+            :sem {:quant quant
+                  :arg1 arg1
+                  :arg2 arg2}
             :subcat {:1 {:cat :det
                          :agr agr
-                         :sem {:pred quant}}
+                         :sem {:arg1 arg1
+                               :arg2 arg2
+                               :pred quant}}
                      :2 []}})
          {:cat :noun
           :reflexive false

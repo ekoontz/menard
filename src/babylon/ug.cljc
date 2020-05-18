@@ -160,6 +160,14 @@
                   :ref ref}
             :mod mod}}))
 
+(def sem-args-shared-with-head
+  (let [arg1 (atom :top)
+        arg2 (atom :top)]
+    {:sem {:arg1 arg1
+           :arg2 arg2}
+     :head {:sem {:arg1 arg1
+                  :arg2 arg2}}}))
+
 (def copy-verbal-head-sem-to-sem
   (let [pred (atom :top)
         subj (atom :top)

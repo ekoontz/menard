@@ -57,6 +57,7 @@
           ug/nest-mod-nominal
           ug/shared-def
           ug/shared-number
+          ug/sem-args-shared-with-head
           su/a]}
 
  {:rule "s"

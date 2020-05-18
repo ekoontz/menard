@@ -110,6 +110,14 @@
        :normal-transitive-defaults? true
        :subcat {:3 :unspec}}
   :then [{:cat :verb
-          :subcat {:3 []}}]}]
+          :subcat {:3 []}}]}
+
+ {:rule :determiners-not-numbers-by-default
+  :if {:cat :det
+       :sem {:times 1
+             :less-than-10? :unspec}}
+  :then [{:sem {:less-than-10? true}}]}]
+ 
+
 
 

@@ -89,6 +89,7 @@
  "elf" [{:cat :det
          :agr {:number :plur}
          :sem {:pred 11
+               :less-than-10? false               
                :times 1}}]
 
  "en" [{:cat :conjunction
@@ -287,11 +288,13 @@
  "teen" [{:cat :det
            :agr {:number :plur}
           :sem {:pred 10
+                :less-than-10? false
                 :times 1}}] 
 
  "twalf" [{:cat :det
            :agr {:number :plur}
            :sem {:pred 12
+                 :less-than-10? false
                  :times 1}}]
 
  "twee" [{:cat :det

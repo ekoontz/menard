@@ -98,7 +98,7 @@ For example, "de vier en twintig vogels".
 
 ...
 
-Part 1 done:
+Parts 1,2,3 done:
 
 ```
 babylon.nederlands> (->> "de vier en twentig honden" parse (map syntax-tree))
@@ -119,4 +119,17 @@ babylon.nederlands> (->> "de vier en twentig honden" parse (map #(u/get-in % [:s
   :context :unspec,
   :arg1 :top})
 ```
+
+## Part 4: do(until(generate-only-good-sentences))
+
+Starting with the semantics `semantics-of-parse` of the parse from the last section, 
+create: 
+```
+{:sem semantics-of-parse}
+``` 
+
+and iterate generating on this, adding information to this starting spec until:
+- It generates only the desired surface forms as expected.
+- Is reasonably "clean", i.e. anything unneeded for the correct generation is
+  is removed.
 

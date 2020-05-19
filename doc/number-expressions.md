@@ -101,6 +101,7 @@ For example, "de vier en twintig vogels".
 Parts 1,2,3 done:
 
 ```
+git:639d1bb3
 babylon.nederlands> (->> "de vier en twentig honden" parse (map syntax-tree))
 ("[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]")
 babylon.nederlands> (->> "de vier en twentig honden" parse (map #(u/get-in % [:sem])) (map u/pprint))

@@ -134,3 +134,41 @@ and iterate generating on this, adding information to this starting spec until:
 - Is reasonably "clean", i.e. anything unneeded for the correct generation is
   is removed.
 
+Not complete yet but showing output at this stage:
+
+```
+git:
+babylon.nederlands> (-> "de vier en twentig honden"
+                        parse 
+                        first
+                        ((fn [input-expression]
+                           (let [spec {:sem (u/get-in input-expression [:sem])
+                                       :cat :noun}]
+                             {:input-expression (-> input-expression syntax-tree)
+                              :generated-expression (-> spec generate syntax-tree)
+                              :spec spec})))
+                        u/pprint)
+
+{:input-expression
+ "[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]",
+ :generated-expression "[np .de +[nbar .vijftig +honden]]",
+ :spec
+ {:sem
+  {:pred :dog,
+   :arg2 :top,
+   :ref [[1] {:number [[2] :plur]}],
+   :mod
+   {:rest [],
+    :first
+    {:arg2 {:pred 4, :mod [], :times 1},
+     :arg [1],
+     :quant [[3] :the],
+     :arg1 {:pred 2, :mod [], :times 10}}},
+   :arg :top,
+   :quant [3],
+   :context :unspec,
+   :arg1 :top},
+  :cat :noun}}
+babylon.nederlands> 
+```
+

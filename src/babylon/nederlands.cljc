@@ -43,6 +43,7 @@
        (compile-lexicon-source "babylon/nederlands/lexicon/adverbs.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/misc.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/nouns.edn")
+       (compile-lexicon-source "babylon/nederlands/lexicon/numbers.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/propernouns.edn")
        (compile-lexicon-source "babylon/nederlands/lexicon/verbs.edn"))))
 

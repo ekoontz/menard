@@ -2,10 +2,10 @@
  {:rule "number-expression-outer" ;; [.vier +[+en .twentig]]
   :unify [ug/addition-semantics
           ug/head-last]
-  :cat :det
+  :cat :adjective
   :head {:cat :conjunction
          :phrasal true}
-  :comp {:cat :det
+  :comp {:cat :adjective
          :less-than-10? true
          :sem {:times 1}}}
 
@@ -13,7 +13,7 @@
   :unify [ug/head-first ug/sem-is-comp-sem]
   :cat :conjunction
   :head {:cat :conjunction}
-  :comp {:cat :det
+  :comp {:cat :adjective
          :sem {:times 10}}}
 
  {:rule "intensifier" ;; '+heel .groot'

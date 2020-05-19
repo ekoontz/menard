@@ -1,32 +1,10 @@
-# Number expressions
+# Number expressions, take 1
 
 Number expressions are phrases like "vier en twentig" or "twenty four".
 
-# Think of a sentence
+## Think of a sentence
 
 For example, "vier en twintig".
-
-# do(until(can-tokenize-all-words-with-correct-semantics))
-
-Edit lexemes and lexical rules until you can analyze all the words in the expression
-and that a subset of these lexemes are of the expected semantics.
-It's ok if there are other incorrect analyses if said analyses are useful
-in other expressions. These analyses will be filtered out during parsing in the
-next step.
-
-Done:
-```
-(->> (-> "vier en twentig" (clojure.string/split #" ")) (map analyze) flatten (map (fn [x] {:sem (u/get-in x [:sem]) :cat (u/get-in x [:cat])})))
-({:sem {:pred :four, :base 1}, :cat :det}
- {:sem {:pred :and}, :cat :conjunction}
- {:sem {:pred :two, :base 10}, :cat :det})
-babylon.nederlands> 
-```
-
-# do(until(a-parse-with-correct-semantics))
-
-Edit rules and lexemes until you can parse the expression, and the semantics
-of this expression are as expected.
 
 ## Part 1: get "en twentig" parsing
 
@@ -51,7 +29,7 @@ babylon.nederlands> (->> (-> "vier en twentig" parse) (map syntax-tree))
 babylon.nederlands> 
 ```
 
-# do(until(remove-bad-parses))
+## Part 3: do(until(remove-bad-parses))
 
 Edit rules and lexemes if necessary to remove bad parses of the expression (expressions with 
 the undesired semantics).
@@ -67,7 +45,7 @@ babylon.nederlands> (->> (-> "vier en twentig" parse) (map #(u/get-in % [:sem]))
 babylon.nederlands> 
 ```
 
-# do(until(generate-only-good-sentences))
+## Part 4: do(until(generate-only-good-sentences))
 
 Starting with the semantics `semantics-of-parse` of the parse from the last section, 
 create: 
@@ -104,3 +82,41 @@ babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate (u/get-in [:se
 {:pred :solution, :arg2 {:pred 5, :times 1}, :ref {:number :plur}, :mod [], :arg :top, :quant :add, :context :unspec, :arg1 {:pred 5, :times 10}}
 2
 ```
+
+# Number expressions, take 2
+
+This time, we're going to have the numbers be adjectives, not determiners, so that
+we can handle things like 'de drie musketiers'.
+
+## Think of a sentence
+
+For example, "de vier en twintig vogels".
+
+## Part 1: get "de vier en twintig vogels" parsing
+
+### Change numbers expressions to be 'adjective-phrases'
+
+...
+
+Part 1 done:
+
+```
+babylon.nederlands> (->> "de vier en twentig honden" parse (map syntax-tree))
+("[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]")
+babylon.nederlands> (->> "de vier en twentig honden" parse (map #(u/get-in % [:sem])) (map u/pprint))
+({:pred :dog,
+  :arg2 :top,
+  :ref [[1] {:number [[2] :plur]}],
+  :mod
+  {:first
+   {:arg2 {:pred 4, :mod [], :times 1},
+    :arg [1],
+    :quant [[3] :the],
+    :arg1 {:pred 2, :mod [], :times 10}},
+   :rest []},
+  :arg :top,
+  :quant [3],
+  :context :unspec,
+  :arg1 :top})
+```
+

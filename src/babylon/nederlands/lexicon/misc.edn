@@ -2,13 +2,7 @@
 ;; - jij (je)
 ;; - wij (we)
 ;; - zij (ze)
-{
- "acht" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred 8
-                :times 1}}]
-
- "behoorlijk"
+{"behoorlijk"
  [{:cat :intensifier
    :sem {:pred :quite}
    :subcat {:1 {:cat :adjective
@@ -65,37 +59,15 @@
          :agr {:number :sing
                :gender :neuter}}]
 
- "drie" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred 3
-                :times 1}}]
-
- "dertig" [{:cat :det
-            :agr {:number :plur}
-            :sem {:times 10
-                  :pred 3}}]
-
  "echt" [{:cat :intensifier
           :sem {:pred :really}
           :subcat {:1 {:cat :adjective
                         :phrasal false}
                     :2 []}}]
  "een" [{:cat :det
-         ;; TODO: I think :definite can be removed: has no effect.
          :definite? false
          :sem {:pred :some}
          :agr {:number :sing}}]
-
- "eén" [{:cat :det
-         :sem {:pred 1
-               :times 1}
-         :agr {:number :sing}}]
-
- "elf" [{:cat :det
-         :agr {:number :plur}
-         :less-than-10? false               
-         :sem {:pred 11
-               :times 1}}]
 
  "en" [{:cat :conjunction
         :sem {:pred :and}}]
@@ -251,20 +223,6 @@
  "mijn" [{:cat :det
           :definite? true
           :sem {:pred :i}}]
-
- "negen" [{:cat :det
-           :agr {:number :plur}
-           :sem {:times 1
-                 :pred 9}}]
-
- "nul" [{:cat :det
-         ;; it is less than 10 of course, but we're using :less-than-10=false
-         ;; here to prevent e.g. "nul en twentig", so it's
-         ;; used in the same to prevent e.g. "twalf en twintig".
-         :less-than-10? false
-         :agr {:number :plur}
-         :sem {:times 1
-               :pred 0}}]
  
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}
@@ -293,28 +251,6 @@
           :definite? true
           :agr {:number :plur}
           :sem {:pred :we}}]
-
- "teen" [{:cat :det
-          :agr {:number :plur}
-          :less-than-10? false
-          :sem {:pred 10
-                :times 1}}] 
-
- "twalf" [{:cat :det
-           :agr {:number :plur}
-           :less-than-10? false
-           :sem {:pred 12
-                 :times 1}}]
-
- "twee" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred 2
-                :times 1}}]
-
- "twentig" [{:cat :det
-             :agr {:number :plur}
-             :sem {:times 10
-                   :pred 2}}]
  
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
@@ -335,26 +271,6 @@
         :sem {:pred :you
               :context :polite}}]
 
- "vier" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred 4
-                :times 1}}]
-
- "veertig" [{:cat :det
-             :agr {:number :plur}
-             :sem {:times 10
-                   :pred 4}}]
-
- "vijf" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred 5
-                :times 1}}]
-
- "vijftig" [{:cat :det
-             :agr {:number :plur}
-             :sem {:pred 5
-                   :times 10}}]
-
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom
@@ -368,16 +284,6 @@
          :cat :noun
          :pronoun true
          :sem {:pred :we}}]
-
- "zes" [{:cat :det
-         :agr {:number :plur}
-         :sem {:pred 6
-               :times 1}}]
- 
- "zeven" [{:cat :det
-           :agr {:number :plur}
-           :sem {:pred 7
-                 :times 1}}]
  
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')

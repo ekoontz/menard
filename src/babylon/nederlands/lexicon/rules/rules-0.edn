@@ -121,8 +121,8 @@
        :mod :unspec}
   :then [{:mod []}]}
  
- {:rule :determiners-not-numbers-by-default
-  :if {:cat :det
-       :sem {:times :unspec}}
-  :then [{:sem {:times nil}}]}
+ {:rule :adjectives-not-numbers-by-default
+  :if {:cat :adjective
+       :number? :unspec}
+  :then [{:number? false}]}
  ]

@@ -180,7 +180,7 @@ babylon.nederlands>
 Able to consistently roundtrip on a number-expression:
 
 ```
-git:
+git:1d3dd95b
 babylon.nederlands> (-> "twentig honden"
                         roundtrip)
 {:input-expression "[nbar .twentig +honden]",

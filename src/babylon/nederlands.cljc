@@ -303,3 +303,23 @@
        (if (= mood :interog)
          "?"
          ".")))
+
+(defn roundtrip [input]
+  (-> input
+      parse 
+      first
+      ((fn [input-expression]
+         (let [spec {:sem (u/get-in input-expression [:sem] :top)
+                     :mod (u/get-in input-expression [:mod] :top)
+                     :phrasal (u/get-in input-expression [:phrasal] :top)
+                     :cat :noun}
+               generated (-> spec generate)]
+           {:input-expression (-> input-expression syntax-tree)
+            :input-spec spec
+            :readability-divider "--------------------------------"
+            :generated-expression (-> generated syntax-tree)
+            :output-structure {:sem (-> generated (u/get-in [:sem]))
+                               :mod (-> generated (u/get-in [:mod]))}})))
+      u/pprint))
+
+

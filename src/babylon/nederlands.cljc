@@ -313,14 +313,15 @@
          (let [spec {:sem (u/get-in input-expression [:sem] :top)
                      :mod (u/get-in input-expression [:mod] :top)
                      :phrasal (u/get-in input-expression [:phrasal] :top)
-                     :cat :noun}
+                     :cat (u/get-in input-expression [:cat] :top)}
                generated (-> spec generate)]
            {:input-expression (-> input-expression syntax-tree)
             :input-spec spec
             :readability-divider "--------------------------------"
             :generated-expression (-> generated syntax-tree)
-            :output-structure {:sem (-> generated (u/get-in [:sem]))
-                               :mod (-> generated (u/get-in [:mod]))}})))
+            :output-structure {:sem (-> generated (u/get-in [:sem] ::unspec))
+                               :cat (-> generated (u/get-in [:cat] ::unspec))
+                               :mod (-> generated (u/get-in [:mod] ::unspec))}})))
       u/pprint))
 
 

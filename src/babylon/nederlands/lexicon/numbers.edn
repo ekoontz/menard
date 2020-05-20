@@ -21,7 +21,9 @@
          :number? true
          :agr {:number :plur}
          :less-than-10? false               
-         :sem {:pred 11
+         :sem {:pred :add
+               :arg1 {:pred 1 :times 1}
+               :arg2 {:pred 1 :times 10}
                :times 1}}]
 
  "negen" [{:cat :adjective
@@ -51,8 +53,9 @@
            :number? true
            :agr {:number :plur}
            :less-than-10? false
-           :sem {:pred 12
-                 :times 1}}]
+           :sem {:pred :add
+                 :arg1 {:pred 2 :times 1}
+                 :arg2 {:pred 1 :times 10}}}]
 
  "twee" [{:cat :adjective
           :number? true

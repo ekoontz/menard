@@ -134,10 +134,13 @@ and iterate generating on this, adding information to this starting spec until:
 - Is reasonably "clean", i.e. anything unneeded for the correct generation is
   is removed.
 
+
+### status
+
 Not complete yet but showing output at this stage:
 
 ```
-git:
+git:1d3dd95b
 babylon.nederlands> (-> "de vier en twentig honden"
                         parse 
                         first
@@ -169,6 +172,46 @@ babylon.nederlands> (-> "de vier en twentig honden"
    :context :unspec,
    :arg1 :top},
   :cat :noun}}
+babylon.nederlands> 
+```
+
+### status
+
+Able to consistently roundtrip on a number-expression:
+
+```
+git:
+babylon.nederlands> (-> "twentig honden"
+                        roundtrip)
+{:input-expression "[nbar .twentig +honden]",
+ :input-spec
+ {:sem
+  {:pred :dog,
+   :arg2 :top,
+   :ref [[1] {:number [[2] :plur]}],
+   :mod [],
+   :quant [[3] :top],
+   :context :unspec,
+   :arg1 :top},
+  :mod
+  {:first {:pred 2, :mod [], :times 10, :arg [1], :quant [3]},
+   :rest []},
+  :phrasal true,
+  :cat :noun},
+ :readability-divider "--------------------------------",
+ :generated-expression "[nbar .twentig +honden]",
+ :output-structure
+ {:sem
+  {:pred :dog,
+   :arg2 :top,
+   :ref [[4] {:number [[5] :plur]}],
+   :mod [],
+   :quant [[6] :top],
+   :context :unspec,
+   :arg1 :top},
+  :mod
+  {:first {:pred 2, :mod [], :times 10, :arg [4], :quant [6]},
+   :rest []}}}
 babylon.nederlands> 
 ```
 

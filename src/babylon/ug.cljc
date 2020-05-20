@@ -45,8 +45,10 @@
 (def addition-semantics
   (let [arg1 (atom :top)
         arg2 (atom :top)]
-  {:sem {:arg1 arg1
-         :arg2 arg2}
+    {:sem {:arg1 arg1
+           :pred :add
+           :times :none
+           :arg2 arg2}
    :head {:sem arg1}
    :comp {:sem arg2}}))
 

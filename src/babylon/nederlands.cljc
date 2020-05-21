@@ -232,7 +232,7 @@
 
 ;; <functions>
 
-(defn syntax-tree [tree]
+(defn syntax-tree [tree & [path]]
   (s/syntax-tree tree morphology))
 
 (def ^:dynamic grammar-for-generation grammar)

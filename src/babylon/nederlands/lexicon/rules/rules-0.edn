@@ -132,8 +132,7 @@
 
  {:rule :conjunctions-subcat
   :if {:cat :conjunction}
-  :then [{:got-here 42
-          :subcat {:1 {:top :top
-                   :2 {:top :top}}}}]}
+  :then [{:subcat {:1 {:top :top}
+                   :2 {:top :top}}}]}
 
  ]

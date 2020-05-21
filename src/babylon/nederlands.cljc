@@ -320,6 +320,7 @@
             :input-spec spec
             :readability-divider "--------------------------------"
             :generated-expression (-> generated syntax-tree)
+            :generated (-> generated morph)
             :output-structure {:sem (-> generated (u/get-in [:sem] ::unspec))
                                :cat (-> generated (u/get-in [:cat] ::unspec))
                                :mod (-> generated (u/get-in [:mod] ::unspec))}})))

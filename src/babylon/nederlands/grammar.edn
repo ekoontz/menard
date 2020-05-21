@@ -64,6 +64,7 @@
   :cat :noun
   :slash false
   :mod []
+  ;; TODO: remove this :options, if possible (test first ofc).
   :options [{:agr {:number :plur}}
             {:agr {:number :sing}}]
   :unify [ug/head-is-root

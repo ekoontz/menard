@@ -22,7 +22,7 @@
 ;; is not an argument of the head
 ;; e.g. adverb+verb or adj+noun, so the
 ;; subcat list of the parent is simply
-;; the same as that of the head.
+;; the same as that of the head:
 (comment
   {:subcat [[1] :top]
    :head {:subcat [1]}})
@@ -31,10 +31,21 @@
     {:subcat one
      :head {:subcat one}}))
 
+;; In this rule, the head is the second
+;; argument of the head, and the parent's
+;; subcat is the remaining, first argument
+;; of the head:
 ;;      <1>
 ;;     /   \
 ;;  h<1,2>  2
 ;;
+(comment
+  {:head {:subcat {:1 [[1] {:top :top}]
+                   :2 [[2] {:top :top}]
+                   :3 []}}
+   :comp [2]
+   :subcat {:1 [1]
+            :2 []}})
 (def c
   (let [complement-1 (atom {:top :top})
         complement-2 (atom {:top :top})]

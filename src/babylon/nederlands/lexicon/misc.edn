@@ -70,13 +70,10 @@
          :agr {:number :sing}}]
 
  "en" [(let [lower (atom :top)
-             higher (atom :top)
-             cat (atom :top)]
+             higher (atom :top)]
          {:cat :conjunction
-          :subcat {:1 {:cat cat
-                       :sem higher}
-                   :2 {:cat cat
-                       :sem lower}
+          :subcat {:1 {:sem higher}
+                   :2 {:sem lower}
                    :3 []}
           :sem {:pred :times
                 :arg1 lower

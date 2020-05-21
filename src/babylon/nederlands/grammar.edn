@@ -8,7 +8,9 @@
          :sem {:times 1}}}
 
  {:rule "number-expression-inner" ;; +[+en .twentig]
-  :unify [ug/head-first ug/sem-is-comp-sem]
+  :unify [ug/head-first
+          ug/head-sem
+          su/c]
   :cat :conjunction
   :head {:cat :conjunction}
   :comp {:cat :adjective

@@ -215,3 +215,18 @@ babylon.nederlands> (-> "twentig honden"
 babylon.nederlands> 
 ```
 
+### status
+
+Able to consistently roundrip:
+
+```
+git:
+(count (take 5 (repeatedly #(-> "de vier en twentig honden" roundtrip :generated-expression println))))
+                        
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
+5
+```

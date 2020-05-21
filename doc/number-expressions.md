@@ -244,3 +244,11 @@ de vier en twentig honden slapen
 de vier en twentig honden slapen
 ```
 
+
+# Number expressions, take 3
+
+Take 2 looks good correctness-wise, except it's rather ugly: the ug
+rule: `addition-semantics` would be better handled lexically. In other
+words, in the expression "vier en twentig" the Dutch conjunction 'en'
+should subcategorize for its arguments "vier" and "twentig".
+

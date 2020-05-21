@@ -215,12 +215,10 @@ babylon.nederlands> (-> "twentig honden"
 babylon.nederlands> 
 ```
 
-### status
-
 Able to consistently roundrip:
 
 ```
-git:
+git:c104f43d
 (count (take 5 (repeatedly #(-> "de vier en twentig honden" roundtrip :generated-expression println))))
                         
 [np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
@@ -230,3 +228,19 @@ git:
 [np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
 5
 ```
+
+Able to consistently roundrip:
+```
+(count (take 10 (repeatedly #(-> "de vier en twentig honden slapen" roundtrip :generated println))))
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+de vier en twentig honden slapen
+```
+

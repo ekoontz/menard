@@ -111,6 +111,7 @@
               (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
+;; TODO: consolidate this with (defn generate).
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (if counts? (swap! count-adds (fn [x] (+ 1 @count-adds))))
   (let [at (frontier tree)

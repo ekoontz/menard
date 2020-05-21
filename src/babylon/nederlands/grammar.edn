@@ -1,7 +1,6 @@
 [
  {:rule "number-expression-outer" ;; [.vier +[+en .twentig]]
-  :unify [ug/addition-semantics
-          ug/head-last]
+  :unify [ug/addition-semantics ug/head-last]
   :cat :adjective
   :head {:cat :conjunction
          :phrasal true}

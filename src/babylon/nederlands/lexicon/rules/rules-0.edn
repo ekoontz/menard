@@ -130,9 +130,10 @@
        :number? :unspec}
   :then [{:number? false}]}
 
- {:rule :conjunctions-subcat
+ {:rule :conjunctions-subcat-adjective
   :if {:cat :conjunction}
-  :then [{:subcat {:1 {:top :top}
-                   :2 {:top :top}}}]}
+  :then [(let [cat (atom :adjective)]
+           {:subcat {:1 {:cat cat}
+                     :2 {:cat cat}}})]}
 
  ]

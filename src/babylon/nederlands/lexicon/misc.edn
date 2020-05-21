@@ -69,8 +69,18 @@
          :sem {:pred :some}
          :agr {:number :sing}}]
 
- "en" [{:cat :conjunction
-        :sem {:pred :and}}]
+ "en" [(let [lower (atom :top)
+             higher (atom :top)
+             cat (atom :top)]
+         {:cat :conjunction
+          :subcat {:1 {:cat cat
+                       :sem higher}
+                   :2 {:cat cat
+                       :sem lower}
+                   :3 []}
+          :sem {:pred :times
+                :arg1 lower
+                :arg2 higher}})]
 
  "erg" [{:cat :intensifier
          :sem {:pred :very}

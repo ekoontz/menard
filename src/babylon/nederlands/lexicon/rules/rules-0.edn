@@ -13,6 +13,10 @@
        :aux :unspec}
   :then [{:aux false}]}
 
+ {:rule :dont-inflect-conjunctions
+  :if {:cat :conjunction}
+  :then [{:inflected? true}]}
+
  {:rule :dont-inflect-complementizers
   :if {:cat :comp}
   :then [{:inflected? true}]}
@@ -125,4 +129,11 @@
   :if {:cat :adjective
        :number? :unspec}
   :then [{:number? false}]}
+
+ {:rule :conjunctions-subcat
+  :if {:cat :conjunction}
+  :then [{:got-here 42
+          :subcat {:1 {:top :top
+                   :2 {:top :top}}}}]}
+
  ]

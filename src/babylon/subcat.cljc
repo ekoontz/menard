@@ -11,8 +11,7 @@
 ;;   h<1>  1:c
 ;;
 (def a
-  (let [complement (atom {:subcat []})
-        mod (atom :top)]
+  (let [complement (atom {:subcat []})]
     {:head {:slash false
             :subcat {:1 complement :2 []}}
      :subcat []

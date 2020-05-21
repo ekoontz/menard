@@ -57,6 +57,7 @@
   :comp {:cat :adjective
          :modifies-noun true}
   :unify [ug/nest-the-comp-mod
+          ug/copy-noun-head-sem-to-sem
           ug/head-last
           ug/head-is-root
           ug/head-rule

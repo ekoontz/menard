@@ -183,6 +183,23 @@
                   :tense tense
                   :subj subj
                   :obj obj}}}))
+
+
+(def copy-noun-head-sem-to-sem
+  (let [pred (atom :top)
+        ref (atom :top)
+        quant (atom :top)
+        context (atom :top)]
+    {:cat :noun
+     :sem {:pred pred
+           :ref ref
+           :quant quant
+           :context context}
+     :head {:sem {:pred pred
+                  :ref ref
+                  :quant quant
+                  :context context}}}))
+
 (comment
   {:sem
    {:obj

@@ -59,6 +59,8 @@
           ug/nominal-phrase
           ug/shared-agr
           ug/shared-def
+          su/b]}
+ 
  {:rule "np" ;; '.de +kat'
   :reflexive false
   :agr {:person :3rd}

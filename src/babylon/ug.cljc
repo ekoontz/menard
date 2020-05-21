@@ -32,9 +32,8 @@
 ;; e.g. "kleine honden" in: "kleine honden slapen":
 ;; [{:sem {:mod [1]} .kliene {:sem [1]} +honden]
 (def nest-the-comp-mod
-  (let [comp-sem (atom :top)
-        sem (atom {:mod comp-sem})]
-    {:sem sem
+  (let [comp-sem (atom :top)]
+    {:sem {:mod comp-sem}
      :comp {:sem comp-sem}}))
 
 (comment

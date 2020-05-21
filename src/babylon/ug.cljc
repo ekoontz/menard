@@ -46,6 +46,7 @@
   (let [arg1 (atom :top)
         arg2 (atom :top)]
     {:sem {:arg1 arg1
+           :mod []
            :pred :add
            :times :none
            :arg2 arg2}

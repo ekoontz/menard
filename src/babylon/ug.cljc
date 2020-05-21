@@ -29,7 +29,8 @@
             :mod head-mod}
      :comp {:sem comp-sem}}))
 
-;; e.g. "[nbar kleine +honden] in "[s [kliene +honden] +slapen]":
+;; e.g. "kleine honden" in: "kleine honden slapen":
+;; [{:sem {:mod [1]} .kliene {:sem [1]} +honden]
 (def nest-the-comp-mod
   (let [comp-sem (atom :top)
         sem (atom {:mod comp-sem})]

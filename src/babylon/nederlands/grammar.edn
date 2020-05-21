@@ -28,9 +28,7 @@
  {:rule "nbar" ;; '.groet +kat'
   :cat :noun
   :head {:pronoun false
-         :propernoun false
-         :subcat {:1 {:top :top}
-                  :2 []}}
+         :propernoun false}
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}

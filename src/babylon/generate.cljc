@@ -40,7 +40,7 @@
 (def ^:dynamic allow-backtracking? true)
 (def ^:dynamic die-on-no-matching-lexemes? true)
 (def ^:dynamic max-depth 15)
-(def ^:dynamic profiling? true)
+(def ^:dynamic profiling? false)
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path
   before whose generation you want to stop.

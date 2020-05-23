@@ -127,8 +127,8 @@
  
  {:rule :adjectives-not-numbers-by-default
   :if {:cat :adjective
-       :number? :unspec}
-  :then [{:number? false}]}
+       :agr {:number? :unspec}}
+  :then [{:agr {:number? false}}]}
 
  {:rule :conjunctions-subcat-adjective
   :if {:cat :conjunction}

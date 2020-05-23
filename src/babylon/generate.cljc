@@ -6,7 +6,7 @@
    [babylon.serialization :as ser]
    [babylon.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
-   [dag_unify.diagnostics :as diag]))
+   [dag_unify.diagnostics :as diag :refer [strip-refs]]))
 ;; See:
 ;; - english.cljc/generate
 ;; - nederlands.cljc/generate
@@ -40,7 +40,9 @@
 (def ^:dynamic allow-backtracking? true)
 (def ^:dynamic die-on-no-matching-lexemes? true)
 (def ^:dynamic max-depth 15)
+(def ^:dynamic max-fails 10000)
 (def ^:dynamic profiling? false)
+(def ^:dynamic counts? (or profiling? (not (nil? max-fails))))
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path
   before whose generation you want to stop.
@@ -56,9 +58,10 @@
 (def count-rule-fails (atom 0))
 
 (defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
-  (reset! count-adds 0)
-  (reset! count-lexeme-fails 0)
-  (reset! count-rule-fails 0)
+  (when counts?
+    (reset! count-adds 0)
+    (reset! count-lexeme-fails 0)
+    (reset! count-rule-fails 0))
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
     (when profiling?
@@ -79,6 +82,14 @@
       (log/debug (str "generate-all: " frontier ": " (syntax-tree-fn tree)))
       (cond (= :fail tree)
             []
+
+            (and counts?
+                 (> (+ @count-lexeme-fails @count-rule-fails)
+                    max-fails))
+            (do
+              (log/info (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
+                             " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) "."))
+              [])
 
             (> (count frontier) max-depth)
             (do
@@ -101,7 +112,7 @@
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
-  (if profiling? (swap! count-adds (fn [x] (+ 1 @count-adds))))
+  (if counts? (swap! count-adds (fn [x] (+ 1 @count-adds))))
   (let [at (frontier tree)
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
@@ -296,7 +307,7 @@
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
-                    (if profiling? (swap! count-rule-fails inc))
+                    (if counts? (swap! count-rule-fails inc))
                     false)))
      (map
       #(u/unify! %

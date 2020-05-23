@@ -233,7 +233,7 @@
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
                     (syntax-tree spec)))
     (if (= true (u/get-in spec [:phrasal]))
-      (exception (str "don't call add-lexeme with phrasal=true! fix your code!"))
+      (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
            (#(if (and (empty? %)
@@ -259,6 +259,9 @@
                       ;; path points here -> [] <- add candidate-lexeme here
                       ;;
                       (u/assoc-in! at candidate-lexeme)
+                      (#(do (when (not (= :fail %))
+                              (log/debug (str "successfully added lexeme: " (strip-refs candidate-lexeme))))
+                            %))
                       (tr/update-syntax-tree at syntax-tree)
                       (#(if truncate?
                           (tr/truncate-at % at syntax-tree)
@@ -326,6 +329,34 @@
      (map (fn [tree]
             (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree)))))
+
+(defn get-lexemes
+  "Get lexemes matching the spec. Use index, where the index 
+   is a function that we call with _spec_ to get a set of lexemes
+   that matches the given _spec_."
+  [spec lexicon-index-fn syntax-tree]
+  (log/debug (str "get-lexemes with spec: " (strip-refs spec)))
+  (->> (lexicon-index-fn spec)
+
+       (#(do
+           (when profiling?
+             (log/info (str "returned: " (count %) " lexeme(s) found.")))
+           %))
+
+       (map (fn [lexeme]
+              {:lexeme lexeme
+               :unify (unify lexeme spec)}))
+       (filter (fn [tuple]
+                 (let [lexeme (:lexeme tuple)
+                       unify (:unify tuple)]
+                   (cond (not (= :fail unify))
+                         true
+
+                         true (do
+                                (log/debug (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
+                                (if counts? (swap! count-lexeme-fails inc))
+                                false)))))
+       (map :unify)))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

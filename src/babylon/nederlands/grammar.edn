@@ -5,8 +5,10 @@
           su/a]
   :cat :adjective
   :head {:cat :conjunction
-         :phrasal true}
+         :phrasal true
+         :rule "number-expression-inner"}
   :comp {:cat :adjective
+         :phrasal false
          :sem {:times 1}}}
 
  {:rule "number-expression-inner" ;; +[+en .twentig]
@@ -14,7 +16,9 @@
           ug/head-sem
           su/c]
   :cat :conjunction
-  :head {:cat :conjunction}
+  :head {:cat :conjunction
+         :phrasal false
+         :canonical "en"}
   :comp {:cat :adjective
          :sem {:times 10}}}
 
@@ -48,7 +52,7 @@
 
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
- {:rule "np" 
+ {:rule "np1" 
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -66,7 +70,7 @@
           ug/shared-def
           su/b]}
  
- {:rule "np" ;; '.de +kat'
+ {:rule "np2" ;; '.de +kat'
   :reflexive false
   :agr {:person :3rd}
   :cat :noun

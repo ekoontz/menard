@@ -4,7 +4,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]
-            [dag_unify.diagnostics :as diag]
+            [dag_unify.diagnostics :as diag :refer [fail-path strip-refs]]
             [dag_unify.serialization :refer [serialize]]))
 
 (defn morph-leaf
@@ -22,9 +22,11 @@ the morphology is a set of rules, each of which looks like:"
                     (let [{u :u [from to] :g} rule]
                       (and (string? canonical)
                            (re-find from canonical)
-                           (let [debug (log/debug (str "unifying: u: " u " and structure: " structure " => "
-                                                      (unify u structure)))]
-                             (not (= :fail (unify u structure)))))))
+                           (let [result (unify u structure)]
+                             (if (not (= :fail result))
+                               (log/debug (str "success: " u " and structure: " (strip-refs structure)))
+                               (log/debug (str "fail:    " u " and structure: " (strip-refs structure) " : " (fail-path u structure))))
+                             (not (= :fail result))))))
                   morphology))
         exceptions (u/get-in structure [:exceptions])
         exceptionless (if exceptions

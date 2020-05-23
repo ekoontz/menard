@@ -11,7 +11,7 @@
   "apply morphology to a leaf node of a tree; where
 the morphology is a set of rules, each of which looks like:"
   [structure morphology]
-  (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)))
+  (log/info (str "morph-leaf structure:" (diag/strip-refs structure)))
   (let [structure structure
         canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?])

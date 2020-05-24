@@ -236,3 +236,16 @@ rule: `addition-semantics` would be better handled lexically. In other
 words, in the expression "vier en twentig" the Dutch conjunction 'en'
 should subcategorize for its arguments "vier" and "twentig".
 
+## Think of a sentence
+
+For example, "de vier en twentig vogels".
+
+## Part 1: get "de vier en twentig vogels" parsing
+
+```
+git:
+(->> "de vier en twentig vogel" parse (map syntax-tree))
+("[np2 .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +vogel]]")
+babylon.nederlands> 
+```
+

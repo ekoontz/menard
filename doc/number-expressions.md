@@ -296,6 +296,45 @@ The second (the ones with 'wat' in the middle) is bad. Its parse is:
 [s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +[np2 .wat +[nbar .kleine +honden]]] +slapen]
 ```
 
-Also the third sounds wrong too. Probably instead of "wat vier en twintig kleine honden slapen", it should be "ongeveer vier en twintig kleine honden slapen".
+Also the third sounds wrong too. Probably instead of:
+  "wat vier en twintig kleine honden slapen", 
+it should be:
+  "ongeveer vier en twintig kleine honden slapen".
 
+A slightly more general spec:
 
+```
+{:sem
+ {:tense :present,
+  :aspect :simple,
+  :pred :sleep,
+  :mod [],
+  :subj
+  {:ref {:number :plur},
+   :mod
+   {:rest {:first {:mod []}, :rest []},
+    :first
+    {:arg2 {:mod [], :times 1},
+     :pred :times,
+     :arg1 {:mod [], :times 10}}},
+   :context :unspec},
+  :obj :unspec},
+ :phrasal true,
+ :subcat [],
+ :cat :verb}
+```
+
+reveals some additional overgeneralizations:
+
+```
+verdrietig en klein opgevondene katten slapen
+jouw klein en veertig acht gebeiden slapen
+sterk en vijftig uw slimme gelden slapen
+jouw twalf en verlegen eenzaamme dagen slapen
+zijn klein en ernstig ernstige dagen slapen
+hun verwarrend en ongerust nul vogels slapen
+bedroefd en stom uw bedroefde levens slapen
+verlegen en klein jouw verwarde haren slapen
+twalf en verdrietig nieuwsgierige levens slapen
+elf en waar teleurgestelde boeken slapen
+```

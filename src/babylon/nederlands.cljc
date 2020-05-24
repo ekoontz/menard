@@ -12,7 +12,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]
-            [dag_unify.diagnostics :as diag]))
+            [dag_unify.diagnostics :as diag :refer [fail-path]]))
 ;;
 ;; For generation and parsing of Dutch.
 ;;

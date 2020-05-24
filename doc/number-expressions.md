@@ -238,14 +238,64 @@ should subcategorize for its arguments "vier" and "twentig".
 
 ## Think of a sentence
 
-For example, "de vier en twentig vogels".
+For example, "vier en twentig kleine honden slapen"
 
-## Part 1: get "de vier en twentig vogels" parsing
+
+## Part 1: get "vier en twentig kleine honden slapen"
 
 ```
-git:
-(->> "de vier en twentig vogel" parse (map syntax-tree))
-("[np2 .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +vogel]]")
-babylon.nederlands> 
+git:4cceaf60
+(->> "vier en twentig kleine honden slapen" parse (map syntax-tree))
+("[s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +[np1 .kleine +honden]] +slapen]")
 ```
+
+Changes since take 2:
+
+- add new indefinite plural article 'wat'('some').
+- 
+
+## Part 2: do(until(generate-only-good-sentences))
+
+Using this spec:
+
+```
+{:sem
+ {:tense :present,
+  :aspect :simple,
+  :pred :sleep,
+  :mod [],
+  :subj
+  {:pred :dog,
+   :ref {:number :plur},
+   :mod
+   {:rest {:first {:pred :small, :mod []}, :rest []},
+    :first
+    {:arg2 {:pred 4, :mod [], :times 1},
+     :pred :times,
+     :arg1 {:pred 2, :mod [], :times 10}}},
+   :quant :some,
+   :context :unspec},
+  :obj :unspec},
+ :mod :top,
+ :phrasal true,
+ :subcat [],
+ :cat :verb}
+```
+
+We get the following expressions:
+
+```
+vier en twentig kleine honden slapen
+vier en twentig wat kleine honden slapen
+wat vier en twentig kleine honden slapen
+```
+
+The second (the ones with 'wat' in the middle) is bad. Its parse is:
+
+```
+[s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +[np2 .wat +[nbar .kleine +honden]]] +slapen]
+```
+
+Also the third sounds wrong too. Probably instead of "wat vier en twentig kleine honden slapen", it should be "ongeveer vier en twentig kleine honden slapen".
+
 

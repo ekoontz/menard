@@ -278,6 +278,11 @@
         :sem {:pred :you
               :context :polite}}]
 
+ "wat" [{:cat :det
+         :definite? false
+         :sem {:pred :some}
+         :agr {:number :plur}}]
+ 
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom

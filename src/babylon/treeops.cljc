@@ -94,7 +94,6 @@
    :exceptions (atom :top)
    :infl (atom :top)
    :inflected? (atom :top)
-   :number? (atom :top)
    :root (atom :top)
    :sem (atom :top)})
 

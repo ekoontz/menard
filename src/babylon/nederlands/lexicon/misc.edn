@@ -69,14 +69,12 @@
          :sem {:pred :some}
          :agr {:number :sing}}]
 
- "en" [(let [lower (atom :top)
-             higher (atom :top)
-             number? (atom :top)]
+ "en" [(let [number? (atom :top)
+             lower (atom {:number? number?})
+             higher (atom {:number? number?})]
          {:cat :conjunction
-          :subcat {:1 {:sem higher
-                       :number? number?}
-                   :2 {:sem lower
-                       :number? number?}
+          :subcat {:1 {:sem higher}
+                   :2 {:sem lower}
                    :3 []}
           :sem {:pred :times
                 :arg1 lower

@@ -1,17 +1,17 @@
 # Number expressions, take 1
 
-Number expressions are phrases like "vier en twentig" or "twenty four".
+Number expressions are phrases like "vier en twintig" or "twinty four".
 
 ## Think of a sentence
 
-For example, "vier en twentig".
+For example, "vier en twintig".
 
-## Part 1: get "en twentig" parsing
+## Part 1: get "en twintig" parsing
 
 ```
 git: 511f3152
 (->> 
-  (-> "en twentig" parse) 
+  (-> "en twintig" parse) 
   (map #(u/get-in % [:sem])) 
   (map u/pprint))
 
@@ -20,12 +20,12 @@ git: 511f3152
 ({:pred :two, :base 10})
 ```
 
-## Part 2: get "[vier [en twentig]]" parsing
+## Part 2: get "[vier [en twintig]]" parsing
 
 ```
 git:b4c284d7
-babylon.nederlands> (->> (-> "vier en twentig" parse) (map syntax-tree))
-("[number-expression-outer .vier +[number-expression-inner +en .twentig]]")
+babylon.nederlands> (->> (-> "vier en twintig" parse) (map syntax-tree))
+("[number-expression-outer .vier +[number-expression-inner +en .twintig]]")
 babylon.nederlands> 
 ```
 
@@ -36,9 +36,9 @@ the undesired semantics).
 
 ```
 git:
-babylon.nederlands> (->> (-> "vier en twentig" parse) (map syntax-tree))
-("[number-expression-outer .vier +[number-expression-inner +en .twentig]]")
-babylon.nederlands> (->> (-> "vier en twentig" parse) (map #(u/get-in % [:sem])) (map u/pprint))
+babylon.nederlands> (->> (-> "vier en twintig" parse) (map syntax-tree))
+("[number-expression-outer .vier +[number-expression-inner +en .twintig]]")
+babylon.nederlands> (->> (-> "vier en twintig" parse) (map #(u/get-in % [:sem])) (map u/pprint))
 ({:pred :add,
   :arg2 {:pred :four, :base 1},
   :arg1 {:pred :two, :base 10}})
@@ -74,7 +74,7 @@ git:65956c87
   :quant :add,
   :context :unspec}}
 babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate morph println))))
-negen en twentig honden
+negen en twintig honden
 zes en vijftig meisjes
 2
 babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate (u/get-in [:sem]) u/pprint println))))
@@ -90,9 +90,9 @@ we can handle things like 'de drie musketiers'.
 
 ## Think of a sentence
 
-For example, "de vier en twentig vogels".
+For example, "de vier en twintig vogels".
 
-## Part 1: get "de vier en twentig vogels" parsing
+## Part 1: get "de vier en twintig vogels" parsing
 
 ### Change numbers expressions to be 'adjective-phrases'
 
@@ -102,9 +102,9 @@ Parts 1,2,3 done:
 
 ```
 git:639d1bb3
-babylon.nederlands> (->> "de vier en twentig honden" parse (map syntax-tree))
-("[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]")
-babylon.nederlands> (->> "de vier en twentig honden" parse (map #(u/get-in % [:sem])) (map u/pprint))
+babylon.nederlands> (->> "de vier en twintig honden" parse (map syntax-tree))
+("[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]")
+babylon.nederlands> (->> "de vier en twintig honden" parse (map #(u/get-in % [:sem])) (map u/pprint))
 ({:pred :dog,
   :arg2 :top,
   :ref [[1] {:number [[2] :plur]}],
@@ -141,7 +141,7 @@ Not complete yet but showing output at this stage:
 
 ```
 git:1d3dd95b
-babylon.nederlands> (-> "de vier en twentig honden"
+babylon.nederlands> (-> "de vier en twintig honden"
                         parse 
                         first
                         ((fn [input-expression]
@@ -153,7 +153,7 @@ babylon.nederlands> (-> "de vier en twentig honden"
                         u/pprint)
 
 {:input-expression
- "[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]",
+ "[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]",
  :generated-expression "[np .de +[nbar .vijftig +honden]]",
  :spec
  {:sem
@@ -181,9 +181,9 @@ Able to consistently roundtrip on a number-expression:
 
 ```
 git:1d3dd95b
-babylon.nederlands> (-> "twentig honden"
+babylon.nederlands> (-> "twintig honden"
                         roundtrip)
-{:input-expression "[nbar .twentig +honden]",
+{:input-expression "[nbar .twintig +honden]",
  :input-spec
  {:sem
   {:pred :dog,
@@ -199,7 +199,7 @@ babylon.nederlands> (-> "twentig honden"
   :phrasal true,
   :cat :noun},
  :readability-divider "--------------------------------",
- :generated-expression "[nbar .twentig +honden]",
+ :generated-expression "[nbar .twintig +honden]",
  :output-structure
  {:sem
   {:pred :dog,
@@ -219,13 +219,13 @@ Able to consistently roundrip:
 
 ```
 git:c104f43d
-(count (take 5 (repeatedly #(-> "de vier en twentig honden" roundtrip :generated-expression println))))
+(count (take 5 (repeatedly #(-> "de vier en twintig honden" roundtrip :generated-expression println))))
                         
-[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
-[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
-[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
-[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
-[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]
+[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]
 5
 ```
 
@@ -233,20 +233,20 @@ git:c104f43d
 
 Take 2 looks good correctness-wise, except it's rather ugly: the ug
 rule: `addition-semantics` would be better handled lexically. In other
-words, in the expression "vier en twentig" the Dutch conjunction 'en'
-should subcategorize for its arguments "vier" and "twentig".
+words, in the expression "vier en twintig" the Dutch conjunction 'en'
+should subcategorize for its arguments "vier" and "twintig".
 
 ## Think of a sentence
 
-For example, "vier en twentig kleine honden slapen"
+For example, "vier en twintig kleine honden slapen"
 
 
-## Part 1: get "vier en twentig kleine honden slapen"
+## Part 1: get "vier en twintig kleine honden slapen"
 
 ```
 git:4cceaf60
-(->> "vier en twentig kleine honden slapen" parse (map syntax-tree))
-("[s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +[np1 .kleine +honden]] +slapen]")
+(->> "vier en twintig kleine honden slapen" parse (map syntax-tree))
+("[s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +[np1 .kleine +honden]] +slapen]")
 ```
 
 Changes since take 2:
@@ -285,17 +285,17 @@ Using this spec:
 We get the following expressions:
 
 ```
-vier en twentig kleine honden slapen
-vier en twentig wat kleine honden slapen
-wat vier en twentig kleine honden slapen
+vier en twintig kleine honden slapen
+vier en twintig wat kleine honden slapen
+wat vier en twintig kleine honden slapen
 ```
 
 The second (the ones with 'wat' in the middle) is bad. Its parse is:
 
 ```
-[s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +[np2 .wat +[nbar .kleine +honden]]] +slapen]
+[s(:present-simple) .[np1 .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +[np2 .wat +[nbar .kleine +honden]]] +slapen]
 ```
 
-Also the third sounds wrong too. Probably instead of "wat vier en twentig kleine honden slapen", it should be "ongeveer vier en twentig kleine honden slapen".
+Also the third sounds wrong too. Probably instead of "wat vier en twintig kleine honden slapen", it should be "ongeveer vier en twintig kleine honden slapen".
 
 

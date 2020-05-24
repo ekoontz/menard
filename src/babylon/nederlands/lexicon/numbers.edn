@@ -34,7 +34,7 @@
 
  "nul" [{:cat :adjective
          ;; it is less than 10 of course, but we're using :less-than-10=false
-         ;; here to prevent e.g. "nul en twentig", so it's
+         ;; here to prevent e.g. "nul en twintig", so it's
          ;; used in the same to prevent e.g. "twalf en twintig".
          :less-than-10? false
          :agr {:number :plur
@@ -63,7 +63,7 @@
           :sem {:pred 2
                 :times 1}}]
 
- "twentig" [{:cat :adjective
+ "twintig" [{:cat :adjective
              :agr {:number :plur
                    :number? true}
              :sem {:times 10

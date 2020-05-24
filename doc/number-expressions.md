@@ -4,7 +4,7 @@ Number expressions are phrases like "vier en twentig" or "twenty four".
 
 ## Think of a sentence
 
-For example, "vier en twintig".
+For example, "vier en twentig".
 
 ## Part 1: get "en twentig" parsing
 
@@ -90,9 +90,9 @@ we can handle things like 'de drie musketiers'.
 
 ## Think of a sentence
 
-For example, "de vier en twintig vogels".
+For example, "de vier en twentig vogels".
 
-## Part 1: get "de vier en twintig vogels" parsing
+## Part 1: get "de vier en twentig vogels" parsing
 
 ### Change numbers expressions to be 'adjective-phrases'
 
@@ -228,22 +228,6 @@ git:c104f43d
 [np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twentig]] +honden]]
 5
 ```
-
-Able to consistently roundrip:
-```
-(count (take 10 (repeatedly #(-> "de vier en twentig honden slapen" roundtrip :generated println))))
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-de vier en twentig honden slapen
-```
-
 
 # Number expressions, take 3
 

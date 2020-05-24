@@ -338,3 +338,15 @@ verlegen en klein jouw verwarde haren slapen
 twalf en verdrietig nieuwsgierige levens slapen
 elf en waar teleurgestelde boeken slapen
 ```
+
+After putting more constraints on number-expressions:
+
+```
+git:1faa6595
+(count (take 5 (repeatedly #(-> expressions (nth 21) generate morph println))))
+twalf en twalf hun verlegene dagen slapen
+elf en twalf wat eenzaamme overheden slapen
+vier en vijftig zeven haren slapen
+die zeven en twalf zes stoelen slapen
+twee en twintig verdrietige honden slapen
+```

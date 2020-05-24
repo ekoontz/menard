@@ -188,7 +188,7 @@
                   :obj obj}}}))
 
 
-(def copy-noun-head-sem-to-sem
+(def noun-head-sem-content-is-sem-content
   (let [pred (atom :top)
         ref (atom :top)
         quant (atom :top)

@@ -74,6 +74,7 @@
   :reflexive false
   :agr {:person :3rd}
   :cat :noun
+  :comp {:cat :det}
   :slash false
   :mod []
   ;; TODO: remove this :options, if possible (test first ofc).

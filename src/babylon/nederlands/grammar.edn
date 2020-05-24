@@ -9,7 +9,8 @@
          :rule "number-expression-inner"}
   :comp {:cat :adjective
          :phrasal false
-         :sem {:times 1}}}
+         :sem {:number? true
+               :times 1}}}
 
  {:rule "number-expression-inner" ;; +[+en .twentig]
   :unify [ug/head-first
@@ -20,7 +21,8 @@
          :phrasal false
          :canonical "en"}
   :comp {:cat :adjective
-         :sem {:times 10}}}
+         :sem {:number? true
+               :times 10}}}
 
  {:rule "intensifier" ;; '+heel .groot'
   :cat :adjective

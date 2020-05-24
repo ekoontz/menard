@@ -230,4 +230,24 @@
   :sem {:pred :must
         :obj {:obj {:pred :top}
               :mod {:first {:pred :top}}
-              :pred :top}}}]
+              :pred :top}}}
+
+ ;; 21
+ {:note "e.g. 'vier en twintig kleine vogels slapen'"
+  :sem
+  {:tense :present,
+   :aspect :simple,
+   :mod [],
+   :subj
+   {:ref {:number :plur},
+    :mod
+    {:rest {:first {:mod []}, :rest []},
+     :first
+     {:arg2 {:mod [], :times 1},
+      :pred :times,
+      :arg1 {:mod [], :times 10}}},
+    :context :unspec},
+   :obj :unspec},
+  :phrasal true,
+  :subcat [],
+  :cat :verb}]

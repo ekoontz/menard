@@ -88,7 +88,8 @@
                     max-fails))
             (do
               (log/info (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
-                             " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) "."))
+                             " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) " at: " frontier "; looking for: "
+                             (strip-refs (u/get-in tree frontier))))
               [])
 
             (> (count frontier) max-depth)

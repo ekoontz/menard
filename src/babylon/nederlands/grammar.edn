@@ -54,7 +54,7 @@
 
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
- {:rule "np1" 
+ {:rule "np" 
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -72,7 +72,7 @@
           ug/shared-def
           su/b]}
  
- {:rule "np2" ;; '.de +kat'
+ {:rule "np" ;; '.de +kat'
   :reflexive false
   :agr {:person :3rd}
   :cat :noun

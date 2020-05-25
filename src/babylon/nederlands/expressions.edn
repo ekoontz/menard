@@ -172,19 +172,13 @@
   :phrasal true
   :rule "s"
   :comp {:phrasal true
-         :head {:phrasal true
-                :comp {:phrasal true}
-                :head {:phrasal true}}}
+         :head {:phrasal true}}
   :head {:rule "vp-modal-te"
          :phrasal true
          :head {:phrasal false
                 :reflexive false
                 :modal :te}
          :comp {:rule "vp-np"
-                :comp {:phrasal true
-                       :rule "np"
-                       :head {:rule "nbar"
-                              :comp {:phrasal true}}}
                 :head {:rule "vp-te"
                        :comp {:modal false}
                        :phrasal true}}}

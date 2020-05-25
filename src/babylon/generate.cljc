@@ -125,7 +125,7 @@
     (if (not (= tree :fail))
       (log/debug (str "add: start: " (syntax-tree-fn tree) " at:" at
                       (if (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for: " (syntax-tree-fn (u/get-in tree at)))))))
+                        (str "; looking for: " (strip-refs (u/get-in tree at)))))))
     (if (and (not (= tree :fail))
              (= [:comp] at))
       (log/debug (str (syntax-tree-fn tree) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
@@ -164,7 +164,10 @@
                        (map (fn [rule]
                               (diag/fail-path spec rule)))))]
              (if (u/get-in spec [:rule])
-               (exception (str (syntax-tree-fn tree) ": no rule: " (u/get-in spec [:rule]) " matched spec: " (syntax-tree-fn (u/get-in tree at))
+               (exception (str (syntax-tree-fn tree) ": no rule: "
+                               (u/get-in spec [:rule]) " matched spec: "
+                               (strip-refs (u/get-in tree at)) "at: " at
+                               "; fail-path:"
                                (if (not (empty? fail-paths))
                                  fail-paths))))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))

@@ -268,10 +268,17 @@
   (->>
    (repeatedly #(println (-> (nth expressions index)
                              generate
-                             time
                              ((fn [x] (morph x :sentence-punctuation? true))))))
    (take (or this-many 10))
    count))
+
+(defn demo []
+  (->> (range 0 (count expressions))
+       (map #(do
+               (println (str % ": " (-> expressions (nth %) :note)))
+               (generate-demo %)
+               (println)))
+       count))
 
 (defn parse-demo [index & [this-many]]
   (->>

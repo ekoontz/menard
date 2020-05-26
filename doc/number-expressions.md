@@ -1,6 +1,6 @@
 # Number expressions, take 1
 
-Number expressions are phrases like "vier en twintig" or "twinty four".
+Number expressions are phrases like "vier en twintig".
 
 ## Think of a sentence
 

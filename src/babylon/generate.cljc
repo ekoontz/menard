@@ -65,7 +65,7 @@
   (let [result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
     (when profiling?
-      (log/info (str "generated: " (syntax-tree-fn result) " with "
+      (log/debug (str "generated: " (syntax-tree-fn result) " with "
                      @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
                      @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
                      @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
@@ -87,7 +87,7 @@
                  (> (+ @count-lexeme-fails @count-rule-fails)
                     max-fails))
             (do
-              (log/info (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
+              (log/debug (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
                              " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) " at: " frontier "; looking for: "
                              (strip-refs (u/get-in tree frontier))))
               [])
@@ -173,12 +173,7 @@
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
          result)
 
-       (or (= false (u/get-in tree (concat at [:phrasal])))
-           (and (u/get-in tree (concat at [:canonical]))
-                (= ::unspec (u/get-in tree (concat at [:head]) ::unspec))
-                (= ::unspec (u/get-in tree (concat at [:comp]) ::unspec))
-                (not (= :top
-                        (u/get-in tree (concat at [:canonical]))))))
+       (= false (u/get-in tree (concat at [:phrasal])))
        (do
          (log/debug (str "add: condition 3: only adding lexemes at: " at "; spec: " (syntax-tree-fn
                                                                                     (u/get-in tree at))))

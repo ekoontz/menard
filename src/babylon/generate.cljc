@@ -175,8 +175,8 @@
 
        (= false (u/get-in tree (concat at [:phrasal])))
        (do
-         (log/debug (str "add: condition 3: only adding lexemes at: " at "; spec: " (syntax-tree-fn
-                                                                                    (u/get-in tree at))))
+         (log/debug (str "add: condition 3: only adding lexemes at: " at
+                        "; spec: " (strip-refs (u/get-in tree at))))
          (add-lexeme tree lexicon-index-fn syntax-tree-fn))
 
        true

@@ -13,26 +13,11 @@
  "at" [{:cat :prep
         :sem {:pred :at}}]
 
- "eight" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred :eight}}]
-
- "eleven" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred :eleven}}]
- 
  "extremely" [{:cat :intensifier
                :sem {:pred :extremely}
                :subcat {:1 {:cat :adjective
                             :phrasal false}
                         :2 []}}]
- "five" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred :five}}]
-
- "four" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred :four}}]
 
  "he" [{:cat :noun
         :case :nom
@@ -168,11 +153,6 @@
  "on" [{:cat :prep
         :sem {:pred :on}}]
 
- "one" [{:cat :det
-         :sem {:pred :one}
-         :agr {:number :sing}}]
-
-
  "our" [{:cat :det
          :sem {:pred :we}}]
  
@@ -195,10 +175,6 @@
             :subcat {:1 {:cat :adjective
                          :phrasal false}
                      :2 []}}]
- 
- "seven" [{:cat :det
-         :agr {:number :plur}
-         :sem {:pred :seven}}]
 
  "she" [{:cat :noun
          :case :nom
@@ -210,17 +186,9 @@
          :pronoun true
          :reflexive false}]
 
- "six" [{:cat :det
-         :agr {:number :plur}
-         :sem {:pred :six}}]
-
  "some" [{:cat :det
           :sem {:pred :some}
           :agr {:number :plur}}]
-
- "ten" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred :ten}}]
 
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
@@ -299,22 +267,10 @@
  "those" [{:cat :det
            :agr {:number :plur}
            :sem {:pred :that}}]
- 
- "three" [{:cat :det
-           :agr {:number :plur}
-           :sem {:pred :three}}]
 
  "to" [;; "to the park"
        {:cat :prep
         :sem {:pred :to}}]
-
- "twelve" [{:cat :det
-            :agr {:number :plur}
-            :sem {:pred :twelve}}]
-
- "two" [{:cat :det
-          :agr {:number :plur}
-          :sem {:pred :two}}]
 
  "unusually" [{:cat :intensifier
                :sem {:pred :unusually}

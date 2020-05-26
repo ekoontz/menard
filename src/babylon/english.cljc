@@ -42,6 +42,7 @@
                  (compile-lexicon-source "babylon/english/lexicon/adverbs.edn")
                  (compile-lexicon-source "babylon/english/lexicon/misc.edn")
                  (compile-lexicon-source "babylon/english/lexicon/nouns.edn")
+                 (compile-lexicon-source "babylon/english/lexicon/numbers.edn")
                  (compile-lexicon-source "babylon/english/lexicon/propernouns.edn")
                  (compile-lexicon-source "babylon/english/lexicon/verbs.edn"))))
 

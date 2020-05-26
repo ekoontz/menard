@@ -313,7 +313,7 @@
 
        (#(do
            (when profiling?
-             (log/info (str "returned: " (count %) " lexeme(s) found.")))
+             (log/debug (str "returned: " (count %) " lexeme(s) found.")))
            %))
 
        (map (fn [lexeme]

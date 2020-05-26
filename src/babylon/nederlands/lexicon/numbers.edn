@@ -99,15 +99,30 @@
          :sem {:pred 6
                :number? true
                :times 1}}]
+
+ "zestig" [{:cat :adjective
+            :agr {:number :plur}
+            :sem {:pred 6
+                  :number? true
+                  :times 10}}]
  
  "zeven" [{:cat :adjective
            :agr {:number :plur}
            :sem {:pred 7
                  :number? true
-                 :times 1}}]}
+                 :times 1}}]
 
 
- 
+ "achtig" [{:cat :adjective
+            :agr {:number :plur}
+            :sem {:pred 8
+                  :number? true
+                  :times 10}}]
 
+ "negentig" [{:cat :adjective
+              :agr {:number :plur}
+              :sem {:pred 9
+                    :number? true
+                    :times 10}}]
 
  }

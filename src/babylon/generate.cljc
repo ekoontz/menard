@@ -165,8 +165,8 @@
              (if (u/get-in spec [:rule])
                (exception (str (syntax-tree-fn tree) ": no rule: "
                                (u/get-in spec [:rule]) " matched spec: "
-                               (strip-refs (u/get-in tree at)) "at: " at
-                               "; fail-path:"
+                               (strip-refs (u/get-in tree at)) " at: " at
+                               "; fail-paths:"
                                (if (not (empty? fail-paths))
                                  fail-paths))))))
          (log/debug (str "add: condition 2: result emptiness:" (empty? result)))

@@ -1,4 +1,12 @@
-[{:rule "intensifier" ;; 'very small'
+[
+
+ {:rule "24"
+  :cat :adjective
+  :head {:cat :adjective}
+  :comp {:cat :adjective}
+  :unify [ug/head-first]}
+ 
+ {:rule "intensifier" ;; 'very small'
   :cat :adjective
   :head {:cat :intensifier}
   :comp {:cat :adjective}

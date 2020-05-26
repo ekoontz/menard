@@ -69,12 +69,17 @@
          :sem {:pred :some}
          :agr {:number :sing}}]
 
- "en" [(let [number? (atom :top)
-             lower (atom {:number? number?})
-             higher (atom {:number? number?})]
+ "en" [(let [number? (atom true)
+             cat (atom :adjective)
+             lower (atom {:number? number?
+                          :times 10})
+             higher (atom {:number? number?
+                           :times 1})]
          {:cat :conjunction
-          :subcat {:1 {:sem higher}
-                   :2 {:sem lower}
+          :subcat {:1 {:cat cat
+                       :sem higher}
+                   :2 {:cat cat
+                       :sem lower}
                    :3 []}
           :sem {:pred :times
                 :arg1 lower
@@ -85,6 +90,7 @@
          :subcat {:1 {:cat :adjective
                       :phrasal false}
                   :2 []}}]
+
  "eigenlijk" [{:cat :intensifier
                :sem {:pred :actually}
                :subcat {:1 {:cat :adjective

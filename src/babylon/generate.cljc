@@ -49,8 +49,8 @@
   when (frontier tree) is equal to this path."
   [])
 (def ^:dynamic warn-on-no-matches?
-  "warn in (add-rule) if no grammar rules matched the given spec."
-  true)
+  "warn in (add-rule) and (add) if no grammar rules matched the given spec"
+  false)
 
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
@@ -154,7 +154,7 @@
          (log/debug (str "add: condition 2: only adding rules at: " at))
          (log/debug (str "  rule-at: " rule-at "; phrase-at:" phrase-at))
          (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
-         (if (empty? result)
+         (if (and warn-on-no-matches? (empty? result))
            (let [fail-paths
                  (vec 
                   (->> grammar
@@ -162,14 +162,12 @@
                                    (u/get-in % [:rule])))
                        (map (fn [rule]
                               (diag/fail-path spec rule)))))]
-             (if (u/get-in spec [:rule])
-               (exception (str (syntax-tree-fn tree) ": no rule: "
-                               (u/get-in spec [:rule]) " matched spec: "
-                               (strip-refs (u/get-in tree at)) " at: " at
-                               "; fail-paths:"
-                               (if (not (empty? fail-paths))
-                                 fail-paths))))))
-         (log/debug (str "add: condition 2: result emptiness:" (empty? result)))
+             (log/warn (str (syntax-tree-fn tree) ": no rule: "
+                            (u/get-in spec [:rule]) " matched spec: "
+                            (strip-refs (u/get-in tree at)) " at: " at
+                            "; fail-paths:"
+                            (if (not (empty? fail-paths))
+                              fail-paths)))))
          result)
 
        (= false (u/get-in tree (concat at [:phrasal])))

@@ -38,7 +38,6 @@
 #?(:cljs (def ^:dynamic truncate? true))
 
 (def ^:dynamic allow-backtracking? true)
-(def ^:dynamic die-on-no-matching-lexemes? true)
 (def ^:dynamic max-depth 15)
 (def ^:dynamic max-fails 10000)
 (def ^:dynamic profiling? false)

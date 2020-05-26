@@ -82,6 +82,62 @@
                  :arg1 {:pred 2 :times 1}
                  :arg2 {:pred 1 :times 10}}}]
 
+ "dertien" [{:cat :adjective
+             :agr {:number :plur}
+             :teen? true
+             :sem {:pred :add
+                   :number? true
+                   :arg1 {:pred 3 :times 1}
+                   :arg2 {:pred 1 :times 10}}}]
+
+ "veertien" [{:cat :adjective
+             :agr {:number :plur}
+             :teen? true
+             :sem {:pred :add
+                   :number? true
+                   :arg1 {:pred 4 :times 1}
+                   :arg2 {:pred 1 :times 10}}}]
+
+ "vijftien" [{:cat :adjective
+             :agr {:number :plur}
+             :teen? true
+             :sem {:pred :add
+                   :number? true
+                   :arg1 {:pred 5 :times 1}
+                   :arg2 {:pred 1 :times 10}}}]
+
+ "zestien" [{:cat :adjective
+             :agr {:number :plur}
+             :teen? true
+             :sem {:pred :add
+                   :number? true
+                   :arg1 {:pred 6 :times 1}
+                   :arg2 {:pred 1 :times 10}}}]
+
+ "zeventien" [{:cat :adjective
+               :agr {:number :plur}
+               :teen? true
+               :sem {:pred :add
+                     :number? true
+                     :arg1 {:pred 7 :times 1}
+                     :arg2 {:pred 1 :times 10}}}]
+
+ "achttien" [{:cat :adjective
+              :agr {:number :plur}
+              :teen? true
+              :sem {:pred :add
+                    :number? true
+                    :arg1 {:pred 8 :times 1}
+                    :arg2 {:pred 1 :times 10}}}]
+
+ "negentien" [{:cat :adjective
+               :agr {:number :plur}
+               :teen? true
+               :sem {:pred :add
+                     :number? true
+                     :arg1 {:pred 8 :times 1}
+                     :arg2 {:pred 1 :times 10}}}]
+ 
  "twintig" [{:cat :adjective
              :agr {:number :plur}
              :sem {:times 10

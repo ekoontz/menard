@@ -19,7 +19,7 @@
 
  "elf" [{:cat :adjective
          :agr {:number :plur}
-         :less-than-10? false               
+         :teen? true
          :sem {:pred :add
                :number? true
                :arg1 {:pred 1 :times 1}
@@ -36,7 +36,8 @@
          ;; it is less than 10 of course, but we're using :less-than-10=false
          ;; here to prevent e.g. "nul en twintig", so it's
          ;; used in the same to prevent e.g. "twalf en twintig".
-         :less-than-10? false
+         :teen? false
+         :nul? false
          :agr {:number :plur}
          :sem {:times 1
                :number? true
@@ -44,14 +45,14 @@
 
  "teen" [{:cat :adjective
           :agr {:number :plur}
-          :less-than-10? false
+          :teen? true
           :sem {:pred 10
                 :number? true
                 :times 1}}] 
 
  "twalf" [{:cat :adjective
            :agr {:number :plur}
-           :less-than-10? false
+           :teen? true
            :sem {:pred :add
                  :number? true
                  :arg1 {:pred 2 :times 1}
@@ -109,3 +110,4 @@
  
 
 
+ }

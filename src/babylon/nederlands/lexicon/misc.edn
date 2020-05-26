@@ -77,6 +77,8 @@
                            :times 1})]
          {:cat :conjunction
           :subcat {:1 {:cat cat
+                       :teen? false
+                       :nul? false
                        :sem higher}
                    :2 {:cat cat
                        :sem lower}

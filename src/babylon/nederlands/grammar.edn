@@ -55,9 +55,15 @@
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
  {:rule "np" 
+  :np? true
   :cat :noun
   :head {:pronoun false
          :propernoun false
+
+         ;; Prevent e.g. *"oude de huizen",
+         ;; whereas e.g. "de oude huizen" is ok:
+         :np? false
+
          :subcat []}
   :slash false
   :comp {:cat :adjective
@@ -73,6 +79,7 @@
           su/b]}
  
  {:rule "np" ;; '.de +kat'
+  :np? true
   :reflexive false
   :agr {:person :3rd}
   :cat :noun

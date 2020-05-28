@@ -171,7 +171,7 @@
            :agr {:number :plur}
            :sem {:pred 6
                  :number? true
-                  :times 10}}]
+                 :times 10}}]
  
  "seventy" [{:cat :adjective
              :agr {:number :plur}

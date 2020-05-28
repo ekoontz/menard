@@ -105,6 +105,13 @@
 
 (def slash-is-head-slash head-slash)
 
+(def head-agr
+  (let [agr (atom :top)]
+    {:agr agr
+     :head {:agr agr}}))
+
+;; TODO: remove head-agr from here and
+;; use head-agr from above.
 ;; TODO: :interogative? into :sem if
 ;; possible, so we don't need to specify it here.
 (def head-rule

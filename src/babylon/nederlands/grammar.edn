@@ -1,20 +1,24 @@
 [
  {:rule "conj-outer" ;; [.vier +[+en .twentig]]
-  :unify [ug/head-last
+  :unify [ug/head-agr
+          ug/head-last
           ug/head-sem
           su/a]
   :cat :adjective
   :head {:cat :conjunction
+         :agr {:number :plur}
          :phrasal true
          :rule "conj-inner"}
   :comp {:phrasal false}}
 
  {:rule "conj-inner" ;; +[+en .twentig]
-  :unify [ug/head-first
+  :unify [ug/head-agr
+          ug/head-first
           ug/head-sem
           su/c]
   :cat :conjunction
   :head {:cat :conjunction
+         :agr {:number :plur}
          :phrasal false
          :canonical "en"}}
 

@@ -43,7 +43,7 @@
   :comp {:cat :adjective
          :modifies-noun true}
   :mod {:first {:number? true}
-        :rest {:first {:number false}}}
+        :rest {:first {:number? false}}}
 
   :unify [ug/cons-mod-nominal
           ug/head-last

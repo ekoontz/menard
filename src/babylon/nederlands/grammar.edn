@@ -32,7 +32,8 @@
           ug/shared-def
           su/a]}
 
- {:rule "nbar" ;; '.groet +kat'
+ ;; [nbar:1 .vier +[nbar:2 .kleine +tafels]]
+ {:rule "nbar"
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -41,6 +42,9 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
+  :mod {:first {:number? true}
+        :rest {:first {:number false}}}
+
   :unify [ug/cons-mod-nominal
           ug/head-last
           ug/head-is-root
@@ -50,6 +54,50 @@
           ug/shared-def
           su/b]}
 
+  ;; [nbar:2 .kleine +tafels]
+ {:rule "nbar"
+  :cat :noun
+  :head {:pronoun false
+         :propernoun false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash false
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :mod {:first {:number? false}
+        :rest []}
+
+  :unify [ug/cons-mod-nominal
+          ug/head-last
+          ug/head-is-root
+          ug/head-rule
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/shared-def
+          su/b]}
+
+ ;; [nbar:3 .vier +tafels]
+ {:rule "nbar"
+  :cat :noun
+  :head {:pronoun false
+         :propernoun false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash false
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :mod {:first {:number? true}
+        :rest []}
+
+  :unify [ug/cons-mod-nominal
+          ug/head-last
+          ug/head-is-root
+          ug/head-rule
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/shared-def
+          su/b]}
+ 
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
  {:rule "np" 

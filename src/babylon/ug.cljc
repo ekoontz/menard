@@ -257,3 +257,13 @@
 
 (def sem-mod-is-empty
   {:sem {:mod []}})
+
+(def times
+  (let [sem1 (atom :top)
+        sem2 (atom :top)]
+    {:head {:sem sem1}
+     :comp {:sem sem2}
+     :sem {:pred :times
+           :arg1 sem1
+           :arg2 sem2}}))
+

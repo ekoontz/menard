@@ -1,32 +1,32 @@
 {
- "nul" [{:cat :adjective
+ "zero" [{:cat :adjective
          ;; it is less than 10 of course, but we're using :less-than-10=false
          ;; here to prevent e.g. "nul en twintig", so it's
          ;; used in the same to prevent e.g. "twalf en twintig".
          :teen? false
-         :nul? false
+         :nul? true
          :agr {:number :plur}
          :sem {:times 1
                :number? true
                :pred 0}}]
 
- "eén" [{:cat :adjective
+ "one" [{:cat :adjective
          :sem {:pred 1
                :number? true
                :times 1}
          :agr {:number :sing}}]
 
- "twee" [{:cat :adjective
+ "two" [{:cat :adjective
           :agr {:number :plur}
           :sem {:pred 2
                 :number? true
                 :times 1}}]
 
- "drie" [{:cat :adjective
-          :agr {:number :plur}
-          :sem {:pred 3
-                :number? true
-                :times 1}}]
+ "three" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:pred 3
+                 :number? true
+                 :times 1}}]
 
  "four" [{:cat :adjective
           :agr {:number :plur}
@@ -34,63 +34,68 @@
                 :number? true
                 :times 1}}]
 
- "vijf" [{:cat :adjective
+ "five" [{:cat :adjective
           :agr {:number :plur}
           :sem {:pred 5
                 :number? true
                 :times 1}}]
 
- "zes" [{:cat :adjective
+ "six" [{:cat :adjective
          :agr {:number :plur}
          :sem {:pred 6
                :number? true
                :times 1}}]
 
- "acht" [{:cat :adjective
-          :agr {:number :plur}
-          :sem {:pred 8
-                :number? true
-                :times 1}}]
+ "seven" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:pred 7
+                 :number? true
+                 :times 1}}]
+
+ "eight" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:pred 8
+                 :number? true
+                 :times 1}}]
  
- "negen" [{:cat :adjective
+ "nine" [{:cat :adjective
            :agr {:number :plur}
            :sem {:times 1
                  :number? true
                  :pred 9}}]
 
- "teen" [{:cat :adjective
-          :agr {:number :plur}
-          :teen? true
-          :sem {:pred 10
-                :number? true
-                :times 1}}] 
-
- "elf" [{:cat :adjective
+ "ten" [{:cat :adjective
          :agr {:number :plur}
          :teen? true
-         :sem {:pred :add
+         :sem {:pred 10
                :number? true
-               :arg1 {:pred 1 :times 1}
-               :arg2 {:pred 1 :times 10}
-               :times 1}}]
+               :times 1}}] 
 
- "twalf" [{:cat :adjective
-           :agr {:number :plur}
-           :teen? true
-           :sem {:pred :add
-                 :number? true
-                 :arg1 {:pred 2 :times 1}
-                 :arg2 {:pred 1 :times 10}}}]
+ "eleven" [{:cat :adjective
+            :agr {:number :plur}
+            :teen? true
+            :sem {:pred :add
+                  :number? true
+                  :arg1 {:pred 1 :times 1}
+                  :arg2 {:pred 1 :times 10}}}]
 
- "dertien" [{:cat :adjective
-             :agr {:number :plur}
-             :teen? true
-             :sem {:pred :add
-                   :number? true
-                   :arg1 {:pred 3 :times 1}
-                   :arg2 {:pred 1 :times 10}}}]
+ "twelve" [{:cat :adjective
+            :agr {:number :plur}
+            :teen? true
+            :sem {:pred :add
+                  :number? true
+                  :arg1 {:pred 2 :times 1}
+                  :arg2 {:pred 1 :times 10}}}]
 
- "veertien" [{:cat :adjective
+ "thirteen" [{:cat :adjective
+              :agr {:number :plur}
+              :teen? true
+              :sem {:pred :add
+                    :number? true
+                    :arg1 {:pred 3 :times 1}
+                    :arg2 {:pred 1 :times 10}}}]
+
+ "fourteen" [{:cat :adjective
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
@@ -98,7 +103,7 @@
                    :arg1 {:pred 4 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "vijftien" [{:cat :adjective
+ "fifteen" [{:cat :adjective
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
@@ -106,7 +111,7 @@
                    :arg1 {:pred 5 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "zestien" [{:cat :adjective
+ "sixteen" [{:cat :adjective
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
@@ -114,7 +119,7 @@
                    :arg1 {:pred 6 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "zeventien" [{:cat :adjective
+ "seventeen" [{:cat :adjective
                :agr {:number :plur}
                :teen? true
                :sem {:pred :add
@@ -122,21 +127,21 @@
                      :arg1 {:pred 7 :times 1}
                      :arg2 {:pred 1 :times 10}}}]
 
- "achttien" [{:cat :adjective
+ "eighteen" [{:cat :adjective
               :agr {:number :plur}
               :teen? true
               :sem {:pred :add
                     :number? true
                     :arg1 {:pred 8 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
-
- "negentien" [{:cat :adjective
-               :agr {:number :plur}
-               :teen? true
-               :sem {:pred :add
-                     :number? true
-                     :arg1 {:pred 8 :times 1}
-                     :arg2 {:pred 1 :times 10}}}]
+ 
+ "nineteen" [{:cat :adjective
+              :agr {:number :plur}
+              :teen? true
+              :sem {:pred :add
+                    :number? true
+                    :arg1 {:pred 9 :times 1}
+                    :arg2 {:pred 1 :times 10}}}]
  
  "twenty" [{:cat :adjective
             :agr {:number :plur}
@@ -144,41 +149,46 @@
                   :number? true                   
                   :pred 2}}]
 
- "veertig" [{:cat :adjective
+ "thirty" [{:cat :adjective
              :agr {:number :plur}
              :sem {:times 10
                    :number? true
-                   :pred 4}}]
+                   :pred 3}}]
 
- "vijftig" [{:cat :adjective
+ "forty" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:times 10
+                 :number? true
+                 :pred 4}}]
+
+ "fifty" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:pred 5
+                 :number? true
+                 :times 10}}]
+
+ "sixty" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:pred 6
+                 :number? true
+                  :times 10}}]
+ 
+ "seventy" [{:cat :adjective
              :agr {:number :plur}
-             :sem {:pred 5
+             :sem {:pred 7
                    :number? true
                    :times 10}}]
 
- "zestig" [{:cat :adjective
-            :agr {:number :plur}
-            :sem {:pred 6
-                  :number? true
-                  :times 10}}]
- 
- "zeven" [{:cat :adjective
-           :agr {:number :plur}
-           :sem {:pred 7
-                 :number? true
-                 :times 1}}]
-
-
- "achtig" [{:cat :adjective
+ "eighty" [{:cat :adjective
             :agr {:number :plur}
             :sem {:pred 8
                   :number? true
                   :times 10}}]
 
- "negentig" [{:cat :adjective
-              :agr {:number :plur}
-              :sem {:pred 9
-                    :number? true
-                    :times 10}}]
+ "ninety" [{:cat :adjective
+            :agr {:number :plur}
+            :sem {:pred 9
+                  :number? true
+                  :times 10}}]
 
  }

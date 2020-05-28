@@ -1,10 +1,11 @@
 [
 
- {:rule "24"
+ {:rule "number-expression"
   :cat :adjective
   :head {:cat :adjective}
   :comp {:cat :adjective}
-  :unify [ug/head-first]}
+  :unify [ug/head-first
+          ug/times]}
  
  {:rule "intensifier" ;; 'very small'
   :cat :adjective

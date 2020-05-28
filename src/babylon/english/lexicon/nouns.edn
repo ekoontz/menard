@@ -4,6 +4,9 @@
           :sem {:pred :baby}}]
  "bike" [{:cat :noun
           :sem {:pred :bike}}]
+ "bird" [{:cat :noun
+          :agr {:gender :neuter}
+          :sem {:pred :bird}}]
  "book" [{:cat :noun
           :sem {:pred :book}}]
  "boy" [{:cat :noun

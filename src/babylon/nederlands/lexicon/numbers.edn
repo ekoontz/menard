@@ -4,7 +4,7 @@
          ;; here to prevent e.g. "nul en twintig", so it's
          ;; used in the same to prevent e.g. "twalf en twintig".
          :teen? false
-         :nul? false
+         :nul? true
          :agr {:number :plur}
          :sem {:times 1
                :number? true
@@ -46,6 +46,12 @@
                :number? true
                :times 1}}]
 
+ "zeven" [{:cat :adjective
+           :agr {:number :plur}
+           :sem {:pred 7
+                 :number? true
+                 :times 1}}]
+
  "acht" [{:cat :adjective
           :agr {:number :plur}
           :sem {:pred 8
@@ -71,9 +77,8 @@
          :sem {:pred :add
                :number? true
                :arg1 {:pred 1 :times 1}
-               :arg2 {:pred 1 :times 10}
-               :times 1}}]
-
+               :arg2 {:pred 1 :times 10}}}]
+ 
  "twalf" [{:cat :adjective
            :agr {:number :plur}
            :teen? true
@@ -144,6 +149,12 @@
                    :number? true                   
                    :pred 2}}]
 
+ "deertig" [{:cat :adjective
+             :agr {:number :plur}
+             :sem {:times 10
+                   :number? true
+                   :pred 3}}]
+
  "veertig" [{:cat :adjective
              :agr {:number :plur}
              :sem {:times 10
@@ -161,13 +172,6 @@
             :sem {:pred 6
                   :number? true
                   :times 10}}]
- 
- "zeven" [{:cat :adjective
-           :agr {:number :plur}
-           :sem {:pred 7
-                 :number? true
-                 :times 1}}]
-
 
  "achtig" [{:cat :adjective
             :agr {:number :plur}

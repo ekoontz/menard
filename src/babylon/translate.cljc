@@ -7,8 +7,8 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]
-            [dag_unify.serialization :refer [serialize]]            
-            [dag_unify.diagnostics :as diag]))
+            [dag_unify.serialization :refer [deserialize serialize]]            
+            [dag_unify.diagnostics :as diag :refer [strip-refs]]))
 
 (def generate-this-many 1)
 

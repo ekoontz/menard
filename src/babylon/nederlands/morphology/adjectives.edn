@@ -11,6 +11,7 @@
   :u {:cat :adjective
       :agr {:gender :neuter
             :number :sing}
+      :sem {:number? false}
       :definite? false
       :inflection :adj-no-e-suffix
       :modifies-noun true}}

@@ -3,6 +3,7 @@
   :then [(let [number (atom :top)]
            {:agr {:number number}
             :sem {:ref {:number number}}})]}
+
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
        :sem {:mod :unspec}}

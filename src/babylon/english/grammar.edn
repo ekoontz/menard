@@ -1,11 +1,19 @@
 [
 
- {:rule "number-expression"
+ ;; we're going to make the first word (e.g. 'eighty')
+ ;; the head, but this is arbitrary; we could have made
+ ;; that the complement.
+ {:rule "number-expression" ;; 'eighty two'
   :cat :adjective
   :head {:cat :adjective
-         :sem {:number? true}}
+         :teen? false
+         :sem {:number? true
+               :times 10}}
   :comp {:cat :adjective
-         :sem {:number? true}}
+         :teen? false
+         :sem {:number? true
+               :times 1}}
+  :sem {:number? true}
   :unify [ug/head-first
           ug/times]}
  

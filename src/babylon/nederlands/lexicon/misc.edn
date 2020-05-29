@@ -85,6 +85,7 @@
                        :sem lower}
                    :3 []}
           :sem {:pred :times
+                :number? true
                 :arg1 lower
                 :arg2 higher}})]
 

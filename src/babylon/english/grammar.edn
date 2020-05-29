@@ -2,8 +2,10 @@
 
  {:rule "number-expression"
   :cat :adjective
-  :head {:cat :adjective}
-  :comp {:cat :adjective}
+  :head {:cat :adjective
+         :sem {:number? true}}
+  :comp {:cat :adjective
+         :sem {:number? true}}
   :unify [ug/head-first
           ug/times]}
  

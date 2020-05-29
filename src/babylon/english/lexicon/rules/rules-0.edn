@@ -177,5 +177,9 @@
        :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
- 
+ {:rule :adjectives-not-numbers-by-default
+  :if {:cat :adjective
+       :sem {:number? :unspec}}
+  :then [{:sem {:number? false}}]}
+
  ]

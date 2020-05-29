@@ -19,6 +19,7 @@
  
  {:rule "intensifier" ;; 'very small'
   :cat :adjective
+  :sem {:number? false}
   :head {:cat :intensifier}
   :comp {:cat :adjective}
   :unify [ug/comp-is-root

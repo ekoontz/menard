@@ -28,7 +28,7 @@
   :comp {:cat :adjective}
   :unify [ug/comp-is-root
           ug/head-first
-          ug/parent-sem
+          ug/parent-sem-head
           ug/shared-def
           su/a]}
 

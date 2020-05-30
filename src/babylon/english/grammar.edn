@@ -24,7 +24,7 @@
   :comp {:cat :adjective}
   :unify [ug/comp-is-root
           ug/head-first
-          ug/parent-sem
+          ug/parent-sem-head
           su/a]}
  
  {:rule "nbar" ;; '[nbar .black +cat]'

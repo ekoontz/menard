@@ -177,10 +177,16 @@
   {:reflexive false
    :agr {:person :3rd}})
 
-(def parent-sem
+(def parent-sem-head
   (let [sem (atom :top)]
     {:sem sem
      :head {:parent-sem sem}}))      
+
+;; use this to 'terminate' phrases that have modifiers:
+(def parent-sem-comp
+  (let [sem (atom :top)]
+    {:sem sem
+     :comp {:parent-sem sem}}))      
 
 (def shared-agr
   (let [shared (atom :top)]

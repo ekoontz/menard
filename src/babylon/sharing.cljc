@@ -10,7 +10,7 @@
 ;; must be done indirectly, so that complements in phrases can
 ;; concatenate their :sems to a larger :mod list, which is then
 ;; finally, after there are no more modifications, put within the
-;; parent's :sem, or more graphically:
+;; parent's :sem, or graphically:
 
 ;; h {:sem {:mod <1,2,3>
 ;; |\       :pred 5

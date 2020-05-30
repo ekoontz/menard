@@ -26,6 +26,8 @@ a new :sem, whose contents are:
 2. all of the keys in the head's :sem.
 
 
+Consider this expression P:
+
 ```
  P {:sem {:mod <1,2,3>
  |\       :pred 5
@@ -48,6 +50,8 @@ a new :sem, whose contents are:
         c{:sem 3}   h {:sem 4
                        :mod <>}
 ```
+
+An example of P would be "de vier kleine vogels".
 
 ## About the topmost c
 
@@ -80,18 +84,31 @@ All of these c's cons their semantics to the existing :mod from the head.
 This c is derived via a 'cons' lexical rule:
 
 ```
+{:sem [1]
+ :head-mod [2]
+ :parent-mod {:first [1]
+              :rest [2]}
 ```
 
+so that c's :sem ([2]) is cons'ed with the :mod of the head.
+
+
 and in the grammar, the P' inherits from this rule:
+
+```
+{:mod [1] {:rest [2]}
+ :head {:mod [2]}
+ :comp {:parent-mod [1]}}
+```
 
 ## Another example
 
 Consider P:
 
 ```
- P    {:sem 4:{:mod <1,2,3>
- |  \          :pred 5,
- |   \         :obj 6, ...}}
+ P {:sem 4:{:mod <1,2,3>
+ |  \       :pred 5,
+ |   \      :obj 6, ...}}
  |    \
  |     \
  |      \
@@ -109,7 +126,7 @@ c{:sem 1} h {:sem 4
                       :mod <>}
 ```
 
-An example of P would be "vier kleine vogels".
+An example of P would be "drie kleine vogels".
 
 This c is derived via a 'cons-and-terminator' rule:
 

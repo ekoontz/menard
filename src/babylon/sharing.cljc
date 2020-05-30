@@ -5,6 +5,41 @@
 ;; it looks very language-dependent (e.g. refers to
 ;; internals of verbs and nouns' semantics).
 
+;; It's used to handle grammatical rules where there is a need
+;; to share information between a parent and a child, but it
+;; must be done indirectly, so that complements in phrases can
+;; concatenate their :sems to a larger :mod list, which is then
+;; finally, after there are no more modifications, put within the
+;; parent's :sem, or more graphically:
+
+;; h {:sem {:mod <1,2,3>
+;; |\       :pred 5
+;; | \      :obj 6, ...}
+;; |  \
+;; c   h {:mod <1,2,3>
+;;     | \:sem 4:{:pred 5,
+;;     |  \       :obj 6, ...}
+;;     |   \
+;;     |    \
+;; c{:sem 1} h {:sem 4
+;;           |\  :mod <2,3>}
+;;           | \ 
+;;   c{:sem 2}  \
+;;               \
+;;                h{:sem 4
+;;                |\:mod <3>}
+;;                | \
+;;                |  \
+;;        c{:sem 3}   h {:sem 4
+;;                       :mod <>}
+;;
+;; In the example above,
+;; at the top parent, we create a new :sem,
+;; which consists of:
+;; 1. the head's :mod
+;; 2. all of the keys within the head's :sem,
+;;    e.g. the :pred, the :obj, etc.
+
 ;; Nest the head's :mod inside the parent's [:sem], and also
 ;; copy all of the head's :sem keys into the parent's :sem.
 (def nest-mod-nominal

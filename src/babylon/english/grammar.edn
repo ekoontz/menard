@@ -53,7 +53,7 @@
   :unify [ug/head-is-root
           ug/head-last
           ug/head-rule
-          ug/nest-mod-nominal
+          sharing/nest-mod-nominal
           ug/shared-number
           su/a]}
 
@@ -73,7 +73,7 @@
           ug/head-first
           ug/head-rule
           ug/sem-mod-first-is-comp-sem
-          ug/copy-verbal-head-sem-to-sem
+          sharing/copy-verbal-head-sem-to-sem
           su/b]}
  
  {:rule "s"

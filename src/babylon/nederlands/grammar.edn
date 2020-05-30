@@ -137,7 +137,7 @@
   :comp {:cat :adjective
          :modifies-noun true}
   :unify [ug/nest-the-comp-mod
-          ug/noun-head-sem-content-is-sem-content
+          sharing/noun-head-sem-content-is-sem-content
           ug/head-last
           ug/head-is-root
           ug/head-rule
@@ -160,10 +160,10 @@
   :unify [ug/head-is-root
           ug/head-last
           ug/head-rule
-          ug/nest-mod-nominal
+          sharing/nest-mod-nominal
           ug/shared-def
           ug/shared-number
-          ug/sem-args-shared-with-head
+          sharing/sem-args-shared-with-head
           su/a]}
 
  {:rule "s"

@@ -66,7 +66,8 @@ This c is derived via a 'terminator' lexical rule:
             :obj [3]
 			:.. whatever else we need to copy from the head..}
  :parent-sem {:sem {:pred [1]
-                    :obj [2]
+                    :subj [2]
+					:obj [3]
 			        :.. these same things we need to copy from the head.}}}
 ```
 
@@ -128,18 +129,56 @@ c{:sem 1} h {:sem 4
 
 An example of P would be "drie kleine vogels".
 
-This c is derived via a 'cons-and-terminator' rule:
+This c is derived via a 'cons-and-terminator' rule, which is a combination of
+the two previous cases we've seen (c and c{:sem 1}).
+
+
+
+The lexical rule for the comp in this case is the terminator:
+
+```
+{:head-sem {:pred [1]
+            :subj [2]
+            :obj [3]
+			:.. whatever else we need to copy from the head..}
+ :parent-sem {:sem {:pred [1]
+                    :subj [2]
+					:obj [3]
+			        :.. these same things we need to copy from the head.}}}
+```
+
+and also the cons:
+
+```
+{:comp {:sem [1]}
+ :sem {:mod <[1],[2]>}
+ :head {:mod <[2]>}}
+```
+
+And in the grammar, the P inherits from this rule:
+
+```
+{:sem [1]
+ :comp {:parent-sem [1]}}
+```
+
+
+
+
+
+
+
+
+
+
 
 
 ```
+{:mod [1] {:rest [2]}
+ :head {:mod [2]}
+ :comp {:parent-mod [1]}}
 ```
-
-and in the grammar, the P inherits from this rule:
-
-```
-```
-
-
+  
 
 
 

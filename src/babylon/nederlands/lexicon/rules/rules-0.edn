@@ -4,6 +4,15 @@
            {:agr {:number number}
             :sem {:ref {:number number}}})]}
 
+ ;; an adjective in the lexicon has no modifiers
+ ;; (i.e. its {:sem {:mod unspec}} is empty)
+ ;; however an adjective might have modifiers
+ ;; within a phrase e.g. in "heel klein",
+ ;; "klein" is modified by "heel":
+ ;;  {:pred :small,
+ ;;   :mod {:first {:pred :very}, :rest []},
+ ;;   :number? false})
+
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
        :sem {:mod :unspec}}

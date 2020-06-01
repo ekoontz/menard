@@ -8,7 +8,8 @@
                           :rest two}})]
     {:sem four
      :mods-nested? true
-     :comp {:sem one
+     :comp {:mods-nested? true
+            :sem one
             :head-sem three
             :head-mod two
             :parent-sem four}
@@ -35,7 +36,8 @@
         four (atom :top)]
     {:mods-nested? true
      :sem {:mod two}
-     :comp {:head-sem three
+     :comp {:mods-nested? true
+            :head-sem three
             :parent-sem four}
      :head {:sem three
             :mods-nested? false

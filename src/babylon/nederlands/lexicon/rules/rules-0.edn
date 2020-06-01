@@ -56,15 +56,16 @@
 
  {:rule :intensifier-semantics
   :if {:cat :intensifier}
-  :then [(let [adj-mod (atom :top)
+  :then [(let [intensifier-sem (atom :top)
+               head-mod (atom :top)
                adj-pred (atom :top)
-               number? (atom false)
-               intensifier-sem (atom :top)]
-           {:parent-sem {:pred adj-pred
+               number? (atom false)]
+           {:sem intensifier-sem
+            :parent-sem {:pred adj-pred
                          :number? number?
                          :mod {:first intensifier-sem
-                               :rest adj-mod}}
-            :sem intensifier-sem
+                               :rest head-mod}}
+            :head-mod head-mod
             :head-sem {:pred adj-pred
                        :number? number?}})]}
  {:rule :nouns-are-not-pronouns

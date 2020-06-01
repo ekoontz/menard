@@ -10,6 +10,7 @@
      :mods-nested? true
      :comp {:sem one
             :head-sem three
+            :head-mod two
             :parent-sem four}
      :head {:sem three
             :mods-nested? false

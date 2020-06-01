@@ -6,7 +6,9 @@
  "gierig" [{:cat :adjective :sem {:pred :stingy}}]
  "groot" [{:cat :adjective :sem {:pred :big}}]
  "inhalig" [{:cat :adjective :sem {:pred :greedy}}]
- "klein" [{:cat :adjective :sem {:pred :small}}]
+ "klein" [{:cat :adjective
+           :mod [] ;; move to lexical rule
+           :sem {:pred :small}}]
  "lief" [{:cat :adjective :sem {:pred :nice}}]
  "nieuwsgierig" [{:cat :adjective :sem {:pred :curious}}]
  "ongerust" [{:cat :adjective :sem {:pred :anxious}}]

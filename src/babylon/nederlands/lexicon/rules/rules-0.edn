@@ -58,11 +58,8 @@
                          :mod {:first intensifier-sem
                                :rest adj-mod}}
             :sem intensifier-sem
-            :subcat {:1 {:cat :adjective
-                         :sem {:pred adj-pred
-                               :number? number?
-                               :mod adj-mod}}
-                     :2 []}})]}
+            :head-sem {:pred adj-pred
+                       :number? number?}})]}
 
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun

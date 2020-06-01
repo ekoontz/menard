@@ -4,10 +4,7 @@
 ;; - zij (ze)
 {"behoorlijk"
  [{:cat :intensifier
-   :sem {:pred :quite}
-   :subcat {:1 {:cat :adjective
-                :phrasal false}
-            :2 []}}]
+   :sem {:pred :quite}}]
 
  "dat" [{:cat :det
          :definite? true
@@ -60,10 +57,8 @@
                :gender :neuter}}]
 
  "echt" [{:cat :intensifier
-          :sem {:pred :really}
-          :subcat {:1 {:cat :adjective
-                        :phrasal false}
-                    :2 []}}]
+          :sem {:pred :really}}]
+
  "een" [{:cat :det
          :definite? false
          :sem {:pred :some}
@@ -90,16 +85,11 @@
                 :arg2 higher}})]
 
  "erg" [{:cat :intensifier
-         :sem {:pred :very}
-         :subcat {:1 {:cat :adjective
-                      :phrasal false}
-                  :2 []}}]
+         :sem {:pred :very}}]
 
  "eigenlijk" [{:cat :intensifier
-               :sem {:pred :actually}
-               :subcat {:1 {:cat :adjective
-                            :phrasal false}
-                        :2 []}}]
+               :sem {:pred :actually}}]
+
  "geen" [{:cat :det
           :definite? false
           :sem {:pred :none}
@@ -118,10 +108,7 @@
           :sem {:pred :she}}]
  
  "heel" [{:cat :intensifier
-          :sem {:pred :very}
-          :subcat {:1 {:cat :adjective
-                        :phrasal false}
-                    :2 []}}]
+          :sem {:pred :very}}]
 
  "hem" [{:agr {:gender :masc
                :number :sing
@@ -243,10 +230,7 @@
           :sem {:pred :i}}]
  
  "ongewoon" [{:cat :intensifier
-              :sem {:pred :unusually}
-              :subcat {:1 {:cat :adjective
-                           :phrasal false}
-                       :2 []}}]
+              :sem {:pred :unusually}}]
  
  "ons" [{:cat :noun
          :case :acc

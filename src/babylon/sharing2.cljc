@@ -4,36 +4,41 @@
   (let [one (atom :top)
         two (atom :top)
         three (atom :top)
-        four (atom {:first one
-                    :rest two})]
+        four (atom {:mod {:first one
+                          :rest two}})]
     {:sem four
-     :comp {:sem one
+     :mods-done? true
+     :comp {:nest? true
+            :sem one
             :head-sem three
             :parent-sem four}
      :head {:sem three
+            :mods-done? false
             :mod two}}))
+
+(def cons-and-no-nest
+  (let [one (atom :top)
+        two (atom :top)
+        three (atom :top)]
+    {:mods-done? false
+     :mod {:first one
+           :rest two}
+     :comp {:nest? false
+            :sem one
+            :parent-sem three}
+     :head {:mod two
+            :mods-done? false}}))
 
 (def nocons-and-nest
   (let [two (atom :top)
         three (atom :top)
         four (atom :top)]
-    {:sem {:mod two}
+    {:mods-done? true
+     :sem {:mod two}
      :comp {:head-sem three
             :parent-sem four}
      :head {:sem three
             :mod two}}))
-
-(def cons-and-nonest
-  (let [one (atom :top)
-        two (atom :top)
-        four (atom :top)]
-    {:mod {:first one
-           :rest two}
-     :comp {:sem one
-            :head-sem four
-            :parent-sem four}
-     :head {:mod {:first one
-                  :rest two}}}))
 
 (def unify-with-this-for-each-of-the-above
   (let [one (atom :top)

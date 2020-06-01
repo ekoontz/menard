@@ -26,18 +26,13 @@
   :cat :adjective
   :head {:cat :adjective}
   :comp {:cat :intensifier}
-  :unify [ug/head-last
-          ug/head-sem
-          sharing2/cons-and-no-nest
-          ]}
+  :unify [ug/head-last ug/head-sem sharing2/cons-and-no-nest]}
 
  {:rule "intensifier-phrase"
   :cat :adjective
   :head {:cat :adjective}
   :comp {:cat :intensifier}
-  :unify [ug/head-last
-          sharing2/cons-and-nest
-          ]}
+  :unify [ug/head-last sharing2/cons-and-nest]}
 
  ;; The next two rules, nbar:1 and nbar:2,
  ;; differ only in the value of [:mod :first :number?]:

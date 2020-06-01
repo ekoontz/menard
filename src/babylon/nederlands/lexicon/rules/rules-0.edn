@@ -5,18 +5,25 @@
             :sem {:ref {:number number}}})]}
 
  ;; an adjective in the lexicon has no modifiers
- ;; (i.e. its {:sem {:mod unspec}} is empty)
+ ;; (i.e. its [:sem :mod] is empty).
  ;; however an adjective might have modifiers
  ;; within a phrase e.g. in "heel klein",
  ;; "klein" is modified by "heel":
  ;;  {:pred :small,
  ;;   :mod {:first {:pred :very}, :rest []},
  ;;   :number? false})
-
+ ;; Note that we set both [:sem :mod] *and* [:mod]
+ ;; to empty - this is because an adjective
+ ;; might be head of an intensifier phrase
+ ;; e.g. 'echt kleine', where we will concatenate
+ ;; a :mod for the adjective and then finally, at
+ ;; a level when no more intensifiers are added,
+ ;; nest this :mod as the parent's [:sem :mod].
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
        :sem {:mod :unspec}}
-  :then [{:sem {:mod []}}]}
+  :then [{:sem {:mod []}
+          :mod []}]}
 
  {:rule :aux-default-is-false
   :if {:cat :verb
@@ -60,7 +67,6 @@
             :sem intensifier-sem
             :head-sem {:pred adj-pred
                        :number? number?}})]}
-
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun
        :pronoun :unspec}

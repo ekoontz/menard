@@ -11,7 +11,7 @@
             :head-sem three
             :parent-sem four}
      :head {:sem three
-            mod two}}))
+            :mod two}}))
 
 (def nocons-and-nest
   (let [two (atom :top)

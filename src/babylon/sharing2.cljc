@@ -8,8 +8,7 @@
                           :rest two}})]
     {:sem four
      :mods-nested? true
-     :comp {:nest? true
-            :sem one
+     :comp {:sem one
             :head-sem three
             :parent-sem four}
      :head {:sem three
@@ -23,7 +22,7 @@
     {:mods-nested? false
      :mod {:first one
            :rest two}
-     :comp {:nest? false
+     :comp {:mods-nested? true
             :sem one
             :parent-sem three}
      :head {:mod two

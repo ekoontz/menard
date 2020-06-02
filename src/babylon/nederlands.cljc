@@ -336,3 +336,11 @@
       u/pprint))
 
 
+(defn map-get [path input]
+  (->>
+   input
+   (map (fn [x]
+          {:tree (syntax-tree x)
+           :path path
+           :v (u/get-in x path)}))
+   (map u/pprint)))

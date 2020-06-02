@@ -48,7 +48,7 @@
      :head {:mod two
             :mods-nested? false}}))
 
-(def nocons-and-nest
+(def nest-only
   (let [two (atom :top)
         three (atom :top)
         four (atom :top)]

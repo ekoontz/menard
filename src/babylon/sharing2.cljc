@@ -35,16 +35,23 @@
             :mods-nested? false
             :mod three}}))
 
+(comment
+  :mods-nested? false
+  :mod {:first [[1] :top]
+        :rest [[2] :top]}
+  :comp {:mods-nested? true
+         :sem [1]}
+  :head {:mod [2]
+         :mods-nested? false}
+  "add a comment here..")
 (def cons-only
   (let [one (atom :top)
-        two (atom :top)
-        three (atom :top)]
+        two (atom :top)]
     {:mods-nested? false
      :mod {:first one
            :rest two}
      :comp {:mods-nested? true
-            :sem one
-            :parent-sem three}
+            :sem one}
      :head {:mod two
             :mods-nested? false}}))
 

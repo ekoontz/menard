@@ -43,11 +43,22 @@
             :mods-nested? false
             :mod two}}))
 
-(def unify-with-this-for-each-of-the-above
+(def promote
   (let [one (atom :top)
-        two (atom :top)]
+        two (atom :top)
+        three (atom :top)]
     {:head-sem one
      :parent-sem two
+     :head-mod three
      :head {:head-sem one
-            :parent-sem two}}))
+            :parent-sem two
+            :head-mod three}}))
+
+(def promote2
+  (let [pred (atom :top)]
+    {:parent-sem {:pred pred}}))
+
+
+
+
 

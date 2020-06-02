@@ -43,35 +43,3 @@
             :mods-nested? false
             :mod two}}))
 
-(comment
-  :def "promote"
-  :head-sem [[2] :top],
-  :parent-sem [[3] :top],
-  :head {:head-mod [1], :head-sem [2], :parent-sem [3]}
-
-  "Complements modify the heads and parents of their phrases by using
-   :head-mod, :head-sem, and :parent-sem. This rule 'promote'
-   allows a head of a lower phrase to modify, as a complement, a parent and head at
-   a phrase above it.
-
-   For example, in: 
-
-      [[.really  +small] +dogs]
-
-   The complement 'small' modifies the semantics of the head 'dogs', by
-   means of 'small's features :head-mod,:head-sem, and :parent-sem.
-   These three features are copied up to [.really +small], so that
-   through that lower phrase, 'small' can modify the semantics of 'dog'
-   at the level of the top-level phrase.
-  
-(def promote
-  (let [one (atom :top)
-        two (atom :top)
-        three (atom :top)]
-    {:head-mod one
-     :head-sem two
-     :parent-sem three
-     :head {:head-mod one
-            :head-sem two
-            :parent-sem three}}))
-

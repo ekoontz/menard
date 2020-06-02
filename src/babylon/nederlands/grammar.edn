@@ -34,8 +34,7 @@
   :cat :adjective
   :head {:cat :adjective}
   :comp {:cat :intensifier}
-  :unify [ug/head-last sharing2/cons-and-nest
-          sharing2/promote]}
+  :unify [ug/head-last sharing2/cons-and-nest]}
 
  ;; The next two rules, nbar:1 and nbar:2,
  ;; differ only in the value of [:mod :first :number?]:

@@ -4,23 +4,20 @@
   :def "cons-and-nest"
 
   :sem [[1]
-        {:mod {:first [[2] :top],
-               :rest [[3] :top]}}],
-  :mods-nested? true,
+        {:mod {:first [[2] :top]
+               :rest [[3] :top]}}]
+  :mods-nested? true
   :comp
-  {:mods-nested? true,
-   :sem [2],
-   :head-sem [[4] :top],
-   :head-mod [3],
-   :parent-sem [1]},
-  :head {:sem [4],
-         :mods-nested? false,
+  {:mods-nested? true
+   :sem [2]
+   :head-sem [[4] :top]
+   :head-mod [3]
+   :parent-sem [1]}
+  :head {:sem [4]
+         :mods-nested? false
          :mod [3]}
-
-  "
-
-
-")
+  "...add a comment here.."
+  )
 (def cons-and-nest
   (let [two (atom :top)
         three (atom :top)
@@ -38,7 +35,7 @@
             :mods-nested? false
             :mod three}}))
 
-(def cons-and-no-nest
+(def cons-only
   (let [one (atom :top)
         two (atom :top)
         three (atom :top)]

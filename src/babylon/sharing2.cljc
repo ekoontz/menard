@@ -16,7 +16,9 @@
   :head {:sem [4]
          :mods-nested? false
          :mod [3]}
-  "...add a comment here.."
+  "used for the top-most adjunct in a phrase,
+   e.g. in '[.vier [.kleine +honden]]', 
+   the top-most adjuct is 'vier'."
   )
 (def cons-and-nest
   (let [two (atom :top)
@@ -67,21 +69,3 @@
      :head {:sem three
             :mods-nested? false
             :mod two}}))
-
-;; TODO: need to move this to lexical entry
-;; for 'kleine' in:
-;;   [np:1 .[.echt +kleine] +honden]
-(def copy-sem-stuff
-  (let [one (atom :top)
-        two (atom :top)
-        three (atom :top)
-        four (atom :top)]
-    {:comp {:parent-sem {:pred one
-                         :quant two
-                         :ref three
-                         :context four}
-            :head-sem {:pred one
-                       :quant two
-                       :ref three
-                       :context four}}}))
-

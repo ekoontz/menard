@@ -17,12 +17,13 @@
         two (atom :top)
         three (atom :top)
         four (atom :top)]
-    {:comp {:parent-sem {:pred one
-                         :quant two
-                         :ref three
-                         :context four}
-            :head-sem {:pred one
-                       :quant two
-                       :ref three
-                       :context four}}}))
+    {:sem {:pred one
+           :quant two
+           :ref three
+           :context four}
+     :head {:pred one
+            :quant two
+            :ref three
+            :context four}}))
+
 

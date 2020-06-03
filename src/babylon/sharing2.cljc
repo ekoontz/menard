@@ -2,40 +2,27 @@
 
 (comment
   :def "cons-and-nest"
-
-  :sem [[1]
-        {:mod {:first [[2] :top]
-               :rest [[3] :top]}}]
+  :sem {:mod {:first [[1] :top]
+              :rest [[2] :top]}}
   :mods-nested? true
-  :comp
-  {:mods-nested? true
-   :sem [2]
-   :head-sem [[4] :top]
-   :head-mod [3]
-   :parent-sem [1]}
-  :head {:sem [4]
-         :mods-nested? false
-         :mod [3]}
+  :comp {:mods-nested? true
+         :sem [1]}
+  :head {:mods-nested? false
+         :mod [2]}
   "used for the top-most adjunct in a phrase,
    e.g. in '[.vier [.kleine +honden]]', 
-   the top-most adjuct is 'vier'."
+   the top-most adjunct is 'vier'."
   )
 (def cons-and-nest
-  (let [two (atom :top)
-        three (atom :top)
-        one (atom {:mod {:first two
-                         :rest three}})
-        four (atom :top)]
-    {:sem one
+  (let [one (atom :top)
+        two (atom :top)]
+    {:sem {:mod {:first one
+                 :rest two}}
      :mods-nested? true
      :comp {:mods-nested? true
-            :sem two
-            :head-sem four
-            :head-mod three
-            :parent-sem one}
-     :head {:sem four
-            :mods-nested? false
-            :mod three}}))
+            :sem one}
+     :head {:mods-nested? false
+            :mod two}}))
 
 (comment
   :mods-nested? false

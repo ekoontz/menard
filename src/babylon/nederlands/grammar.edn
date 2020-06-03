@@ -141,6 +141,7 @@
           sharing2/cons-and-nest
           ug/head-is-root
           ug/head-rule
+          sharing2/copy-sem-stuff
           ug/nominal-phrase
           ug/shared-agr
           ug/shared-def

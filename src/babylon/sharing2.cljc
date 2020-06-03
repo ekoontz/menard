@@ -68,3 +68,23 @@
             :mods-nested? false
             :mod two}}))
 
+;; TODO: need to move this to lexical entry
+;; for 'kleine' in:
+;;   [np:1 .[.echt +kleine] +honden]
+;; so should relate:
+;; 1. [:comp :head-sem] and
+;; 2. [:comp :parent-sem].
+(def copy-sem-stuff
+  (let [one (atom :top)
+        two (atom :top)
+        three (atom :top)
+        four (atom :top)]
+    {:sem {:pred one
+           :quant two
+           :ref three
+           :context four}
+     :comp {:head-sem {:pred one
+                       :quant two
+                       :ref three
+                       :context four}}}))
+

@@ -21,19 +21,10 @@
  ;; nest this :mod as the parent's [:sem :mod].
  {:rule :adjective-semantics
   :if {:cat :adjective}
-  :then [(let [sem (atom {:mod []})
-               head-mod (atom :top)
-               modified-pred (atom :top)
-               number? (atom false)]
+  :then [(let [sem (atom {:mod []})]
            {:sem sem
-            :mod []
-            :parent-sem {:pred modified-pred
-                         :number? number?
-                         :mod {:first sem
-                               :rest head-mod}}
-            :head-mod head-mod
-            :head-sem {:pred modified-pred
-                       :number? number?}})]}
+            :mod []})]}
+
  {:rule :aux-default-is-false
   :if {:cat :verb
        :aux :unspec}
@@ -65,19 +56,9 @@
 
  {:rule :intensifier-semantics
   :if {:cat :intensifier}
-  :then [(let [sem (atom {:mod []})
-               head-mod (atom :top)
-               modified-pred (atom :top)
-               number? (atom false)]
+  :then [(let [sem (atom {:mod []})]
            {:sem sem
-            :mod []
-            :parent-sem {:pred modified-pred
-                         :number? number?
-                         :mod {:first sem
-                               :rest head-mod}}
-            :head-mod head-mod
-            :head-sem {:pred modified-pred
-                       :number? number?}})]}
+            :mod []})]}
 
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun

@@ -33,7 +33,8 @@
           ug/head-rule
           ug/head-sem]}
 
- {:rule "intensifier-phrase"
+ ;; [intensifier-phrase .echt +[intensifier-bar .echt +kleine]]
+ {:rule "intensifier-phrase" 
   :cat :adjective
   :head {:cat :adjective}
   :comp {:cat :intensifier}

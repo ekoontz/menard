@@ -38,7 +38,7 @@
   :cat :adjective
   :head {:cat :adjective}
   :comp {:cat :intensifier}
-  :unify [sem/adjective
+  :unify [nest/adjective
           sharing2/cons-and-nest
           su/b
           ug/head-last]}
@@ -104,7 +104,7 @@
   :mod {:first {:number? false}
         :rest []}
 
-  :unify [sem/noun
+  :unify [nest/noun
           sharing2/cons-only
           su/b          
           ug/head-is-root
@@ -151,7 +151,7 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [sem/noun
+  :unify [nest/noun
           sharing2/cons-and-nest
           su/b
           ug/head-is-root

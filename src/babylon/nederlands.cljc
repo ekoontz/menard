@@ -6,7 +6,7 @@
             [babylon.grammar :as grammar]
             [babylon.morphology :as m]
             [babylon.parse :as p]
-            [babylon.semantic-contents :as sem]
+            [babylon.nesting :as nest]
             [babylon.serialization :as s]
             [babylon.ug :as ug]
             [babylon.sharing :as sharing]

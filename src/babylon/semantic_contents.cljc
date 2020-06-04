@@ -2,7 +2,10 @@
 
 ;; These are rules for sharing
 ;; contents of various word- or phrase-
-;; level maps.
+;; level maps, when nesting applies
+;; (i.e. when the :mod of the head's :sem is nested
+;;  within the parent's :sem).
+
 ;; Needed so that adjuncts can modify
 ;; the semantics of heads.
 ;; The :sem of the head is distinct from
@@ -21,9 +24,12 @@
            :quant two
            :ref three
            :context four}
-     :head {:pred one
-            :quant two
-            :ref three
-            :context four}}))
+     :head {:sem {:pred one
+                  :quant two
+                  :ref three
+                  :context four}}}))
 
-
+(def adjective
+  (let [one (atom :top)]
+    {:sem {:pred one}
+     :head {:sem {:pred one}}}))

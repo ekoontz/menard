@@ -12,6 +12,7 @@
      :comp {:root root
             :canonical root}}))
 
+;; TODO: remove: use nest/ instead.
 (def cons-mod-nominal
   (let [ref (atom :top)
         quant (atom :top)
@@ -29,6 +30,7 @@
             :mod head-mod}
      :comp {:sem comp-sem}}))
 
+;; TODO: remove: use nest/ instead.
 ;; e.g. "kleine honden" in: "kleine honden slapen":
 ;; [{:sem {:mod [1]} .kliene {:sem [1]} +honden]
 (def nest-the-comp-mod
@@ -39,6 +41,7 @@
      :head {:sem {:mod rest-mod}}
      :comp {:sem comp-sem}}))
 
+;; TODO: remove: use nest/ instead.
 (comment
   {:sem {:mod {:first [[1] :top]}
          :rest [[2] :top]}

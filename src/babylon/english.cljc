@@ -6,10 +6,10 @@
             [babylon.generate :as g]
             [babylon.grammar :as grammar]
             [babylon.morphology :as m]
+            [babylon.nesting :as nest]
             [babylon.parse :as p]
             [babylon.serialization :as s]
             [babylon.ug :as ug]
-            [babylon.sharing :as sharing]
             [babylon.subcat :as su]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])

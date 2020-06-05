@@ -115,3 +115,15 @@
                   :ref three
                   :context four}}}))
 
+(def verb
+  (let [one (atom :top)
+        two (atom :top)
+        three (atom :top)
+        four (atom :top)]
+    {:sem {:pred one
+           :subj two
+           :obj three}
+     :head {:sem {:pred one
+                  :subj two
+                  :obj three}}}))
+

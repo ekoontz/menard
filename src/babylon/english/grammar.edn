@@ -36,7 +36,7 @@
                   :2 []}}
   :slash false
   :comp {:cat :adjective}
-  :unify [ug/cons-mod-nominal
+  :unify [nest/cons-only
           ug/head-is-root
           ug/head-last
           ug/head-rule
@@ -50,10 +50,11 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [ug/head-is-root
+  :unify [nest/cons-and-nest
+          nest/noun
+          ug/head-is-root
           ug/head-last
           ug/head-rule
-          sharing/nest-mod-nominal
           ug/shared-number
           su/a]}
 
@@ -69,11 +70,11 @@
   :head {:cat :verb
          :adverb? false} ;; b. second part of rathole prevention.
   :comp {:cat :adverb}
-  :unify [ug/head-is-root
+  :unify [nest/verb
+          ug/head-is-root
           ug/head-first
           ug/head-rule
           ug/sem-mod-first-is-comp-sem
-          sharing/copy-verbal-head-sem-to-sem
           su/b]}
  
  {:rule "s"

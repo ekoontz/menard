@@ -164,7 +164,7 @@
           ug/shared-agr
           ug/shared-def]}
  
- {:rule "np" ;; '.de +kat'
+ {:rule "np:2" ;; '.de +kat'
   :np? true
   :reflexive false
   :agr {:person :3rd}
@@ -175,15 +175,12 @@
   ;; TODO: remove this :options, if possible (test first, of course).
   :options [{:agr {:number :plur}}
             {:agr {:number :sing}}]
-  :unify [su/a
+  :unify [nest/cons-and-nest
+          nest/noun
+          su/a
           ug/head-is-root
           ug/head-last
           ug/head-rule
-
-          ;; TODO: use nest/ instead.
-          sharing/nest-mod-nominal
-          sharing/sem-args-shared-with-head
-
           ug/shared-def
           ug/shared-number]}
 

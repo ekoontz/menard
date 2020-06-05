@@ -39,12 +39,12 @@
   :unify [nest/adjective
           nest/cons-and-nest
           su/b
+          ug/head-is-root          
           ug/head-last]}
 
  ;; The next two rules, nbar:1 and nbar:2,
  ;; differ only in the value of [:mod :first :number?]:
  ;; the value at this path is true in the first, false in the second.
-
  ;; [nbar:1 .vier +[nbar:3 .kleine +tafels]]
  {:rule "nbar:1"
   :cat :noun

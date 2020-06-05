@@ -5,10 +5,18 @@
 ;; level maps, when nesting applies
 ;; (i.e. when the :mod of the head's :sem is nested
 ;;  within the parent's :sem).
-
-
-
-
+;;
+;; A grammatical rule can inherit from
+;; at most one (i.e. could be 0) of:
+;; - cons-and-nest
+;; - cons-only
+;; - nest-only
+;; If it inherits from either cons-and-nest
+;; or nest-only, then it should also inherit
+;; from exactly one of the following (in this
+;; file below in 'part-2'):
+;; - adjective
+;; - noun
 (comment
   :def "cons-and-nest"
   :sem {:mod {:first [[1] :top]
@@ -66,15 +74,28 @@
             :mods-nested? false
             :mod two}}))
 
-;; Needed so that adjuncts can modify
-;; the semantics of heads.
-;; The :sem of the head is distinct from
+;; part 2: part-of-speech-specific
+;; nesting rules.
+;; any grammar rule that is either
+;; cons-or-nest or nest-only
+;; needs to also include one of the
+;; following, depending on the :cat
+;; of the :head (and :cat of the parent)
+;; 
+;; This is because with cons-or-nest or nest-only
+;; rules, the :sem of the head is distinct from
 ;; the :sem of the parent, but all of the
 ;; contents within the :sem *are* shared
 ;; between head and parent.
 ;; The parent's :sem therefore has all of the
 ;; contents of the :head's sem, plus the :mod
-;; of the complement.
+;; of the complement, so that the adjunct complement
+;; can modify the semantics of the heads.
+(def adjective
+  (let [one (atom :top)]
+    {:sem {:pred one}
+     :head {:sem {:pred one}}}))
+
 (def noun
   (let [one (atom :top)
         two (atom :top)
@@ -89,7 +110,3 @@
                   :ref three
                   :context four}}}))
 
-(def adjective
-  (let [one (atom :top)]
-    {:sem {:pred one}
-     :head {:sem {:pred one}}}))

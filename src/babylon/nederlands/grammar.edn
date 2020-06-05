@@ -58,14 +58,17 @@
   :mod {:first {:number? true}
         :rest {:first {:number? false}}}
 
-  :unify [ug/cons-mod-nominal
+  :unify [su/b
+
+          ;; TODO: use nest/ instead.
+          ug/cons-mod-nominal
+
           ug/head-last
           ug/head-is-root
           ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
-          ug/shared-def
-          su/b]}
+          ug/shared-def]}
 
  ;; [nbar:2 .slimme +[nbar:3 .ernstig +gebeid]]
  {:rule "nbar:2"
@@ -80,14 +83,17 @@
   :mod {:first {:number? false}
         :rest {:first {:number? false}}}
 
-  :unify [ug/cons-mod-nominal
+  :unify [su/b
+
+          ;; TODO: use nest/ instead.
+          ug/cons-mod-nominal
+
           ug/head-last
           ug/head-is-root
           ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
-          ug/shared-def
-          su/b]}
+          ug/shared-def]}
  
  ;; [nbar:3 .kleine +tafels]
  {:rule "nbar:3"
@@ -124,14 +130,17 @@
   :mod {:first {:number? true}
         :rest []}
 
-  :unify [ug/cons-mod-nominal
+  :unify [su/b
+
+          ;; TODO: use nest/ instead.
+          ug/cons-mod-nominal
+
           ug/head-last
           ug/head-is-root
           ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
-          ug/shared-def
-          su/b]}
+          ug/shared-def]}
  
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
@@ -168,14 +177,17 @@
   ;; TODO: remove this :options, if possible (test first, of course).
   :options [{:agr {:number :plur}}
             {:agr {:number :sing}}]
-  :unify [ug/head-is-root
+  :unify [su/a
+          ug/head-is-root
           ug/head-last
           ug/head-rule
+
+          ;; TODO: use nest/ instead.
           sharing/nest-mod-nominal
-          ug/shared-def
-          ug/shared-number
           sharing/sem-args-shared-with-head
-          su/a]}
+
+          ug/shared-def
+          ug/shared-number]}
 
  {:rule "s"
   :cat :verb
@@ -232,7 +244,6 @@
   :options babylon.nederlands/finite-plus-inf-tense
   :head {:aux false
          :modal :infinitive}
-
   :unify [ug/head-first
           ug/head-is-root
           ug/nest-comp-mod
@@ -251,7 +262,6 @@
 
   ;; TODO: remove: should be handled by head:
   :comp {:cat :noun}
-  
   :unify [ug/head-last
           ug/head-is-root
           ug/head-reflexive
@@ -287,14 +297,16 @@
   :head {:cat :verb
          :infl :infinitive}
   :comp {:cat :adverb}
-  :unify [ug/cons-mod-adverb
+  :unify [su/b
+
+          ;; TODO: use nest/ instead.
+          ug/cons-mod-adverb
+
           ug/subj-ref
           ug/head-is-root
           ug/head-last
           ug/head-rule
-          ug/head-sem
-          su/b
-          ]}
+          ug/head-sem]}
 
  ;; [modal+subject(:present-simple) +moeten .jullie]
  {:rule "modal+subject"
@@ -306,11 +318,10 @@
          :infl :present
          :subcat {:2 {:modal false}}}
   :options babylon.nederlands/finite-tenses  
-  :unify [ug/head-first
+  :unify [su/e
+          ug/head-first
           ug/head-rule
-          ug/head-sem
-          su/e
-          ]}
+          ug/head-sem]}
 
  ;; +[vp-slash-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
  {:rule "vp-slash-object"
@@ -319,6 +330,6 @@
   :reflexive false
   :head {:rule "modal+subject"
          :phrasal true}
-  :unify [ug/head-first
-          ug/head-sem
-          su/h]}]
+  :unify [su/h
+          ug/head-first
+          ug/head-sem}]

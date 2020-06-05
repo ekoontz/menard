@@ -45,6 +45,9 @@
  ;; The next two rules, nbar:1 and nbar:2,
  ;; differ only in the value of [:mod :first :number?]:
  ;; the value at this path is true in the first, false in the second.
+ ;; TODO: use :options instead to consolidate
+ ;; into one rule.
+ 
  ;; [nbar:1 .vier +[nbar:3 .kleine +tafels]]
  {:rule "nbar:1"
   :cat :noun
@@ -58,14 +61,11 @@
   :mod {:first {:number? true}
         :rest {:first {:number? false}}}
 
-  :unify [su/b
-
-          ;; TODO: use nest/ instead.
-          ug/cons-mod-nominal
-
+  :unify [nest/cons-only
+          nest/noun
+          su/b
           ug/head-last
           ug/head-is-root
-          ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
           ug/shared-def]}
@@ -83,18 +83,18 @@
   :mod {:first {:number? false}
         :rest {:first {:number? false}}}
 
-  :unify [su/b
-
-          ;; TODO: use nest/ instead.
-          ug/cons-mod-nominal
-
+  :unify [nest/cons-only
+          nest/noun
+          su/b
           ug/head-last
           ug/head-is-root
-          ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
           ug/shared-def]}
- 
+
+ ;; TODO: consolidate nbar:3 and
+ ;; and nbar:4 into one rule using :options,
+ ;; just as with nbar:1 and nbar:2.
  ;; [nbar:3 .kleine +tafels]
  {:rule "nbar:3"
   :cat :noun
@@ -130,11 +130,9 @@
   :mod {:first {:number? true}
         :rest []}
 
-  :unify [su/b
-
-          ;; TODO: use nest/ instead.
-          ug/cons-mod-nominal
-
+  :unify [nest/cons-only
+          nest/noun
+          su/b
           ug/head-last
           ug/head-is-root
           ug/head-rule
@@ -333,4 +331,4 @@
          :phrasal true}
   :unify [su/h
           ug/head-first
-          ug/head-sem}]
+          ug/head-sem]}]

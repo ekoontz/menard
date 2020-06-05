@@ -66,7 +66,6 @@
                  :sem one}
           :head {:mod two
                  :mods-nested? false}}))))
-
 (def nest-only
   (let [two (atom :top)
         three (atom :top)

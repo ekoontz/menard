@@ -1,9 +1,9 @@
 [
  {:rule "conj-outer" ;; [.vier +[+en .twentig]]
-  :unify [ug/head-agr
+  :unify [su/a
+          ug/head-agr
           ug/head-last
-          ug/head-sem
-          su/a]
+          ug/head-sem]
   :cat :adjective
   :head {:cat :conjunction
          :agr {:number :plur}
@@ -12,10 +12,10 @@
   :comp {:phrasal false}}
 
  {:rule "conj-inner" ;; +[+en .twentig]
-  :unify [ug/head-agr
+  :unify [su/c
+          ug/head-agr
           ug/head-first
-          ug/head-sem
-          su/c]
+          ug/head-sem]
   :cat :conjunction
   :head {:cat :conjunction
          :agr {:number :plur}
@@ -193,13 +193,14 @@
   :cat :verb
   :subcat []
   :options babylon.nederlands/finite-tenses  
-  :unify [ug/head-aux
+  :unify [su/a
+          ug/head-aux
           ug/head-is-root
           ug/head-last
           ug/head-rule
           ug/head-sem
           ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
-          su/a]}
+          ]}
 
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
@@ -209,14 +210,14 @@
   :head {:aux false
          :modal false}
 
-  :unify [ug/head-first
+  :unify [su/c
+          ug/head-first
           ug/head-is-root
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
           ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
-          ug/slash-is-head-slash
-          su/c]}
+          ug/slash-is-head-slash]}
 
  {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[te slapen]]
   :cat :verb
@@ -226,14 +227,14 @@
   :head {:aux false
          :modal :te}
 
-  :unify [ug/head-first
+  :unify [su/c
+          ug/head-first
           ug/head-is-root
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
           ug/sem-mod-is-empty
-          ug/slash-is-head-slash
-          su/c]}
+          ug/slash-is-head-slash]}
 
  ;; the object of the non-modal verb (in the complement)
  ;; is copied up:
@@ -244,14 +245,14 @@
   :options babylon.nederlands/finite-plus-inf-tense
   :head {:aux false
          :modal :infinitive}
-  :unify [ug/head-first
+  :unify [su/i
+          ug/head-first
           ug/head-is-root
           ug/nest-comp-mod
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
-          ug/slash-is-head-slash
-          su/i]}
+          ug/slash-is-head-slash]}
 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb
@@ -262,14 +263,14 @@
 
   ;; TODO: remove: should be handled by head:
   :comp {:cat :noun}
-  :unify [ug/head-last
+  :unify [su/c
+          ug/head-last
           ug/head-is-root
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
           ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
-          ug/slash-is-head-slash
-          su/c]}
+          ug/slash-is-head-slash]}
 
  {:rule "vp-te" ;; '+te .slapen'
   :cat :verb
@@ -277,14 +278,14 @@
   :slash false
   :infl :te
   :head {:canonical "te"}
-  :unify [ug/head-first
+  :unify [su/d
+          ug/head-first
           ug/comp-is-root
           ug/head-reflexive
           ug/head-rule
           ug/head-sem
           ug/slash-is-head-slash
-          ug/sem-mod-is-comp-mod
-          su/d]}
+          ug/sem-mod-is-comp-mod]}
 
  {:rule "adverb" ;; '.samen +bestrijden'
   :prod? true

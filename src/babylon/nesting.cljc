@@ -1,4 +1,7 @@
-(ns babylon.nesting)
+(ns babylon.nesting
+  (:require
+   [dag_unify.core :as u :refer [unify]]
+   [babylon.ug :as ug]))
 
 ;; These are rules for sharing
 ;; contents of various word- or phrase-
@@ -51,15 +54,18 @@
          :mods-nested? false}
   "add a comment here..")
 (def cons-only
-  (let [one (atom :top)
-        two (atom :top)]
-    {:mods-nested? false
-     :mod {:first one
-           :rest two}
-     :comp {:mods-nested? true
-            :sem one}
-     :head {:mod two
-            :mods-nested? false}}))
+  (-> ug/head-sem
+      (unify ug/head-rule)
+      (unify
+       (let [one (atom :top)
+             two (atom :top)]
+         {:mods-nested? false
+          :mod {:first one
+                :rest two}
+          :comp {:mods-nested? true
+                 :sem one}
+          :head {:mod two
+                 :mods-nested? false}}))))
 
 (def nest-only
   (let [two (atom :top)

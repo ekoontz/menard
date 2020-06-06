@@ -168,7 +168,8 @@
          :cat :verb
          :subcat []
          :head {:subcat {:2 {:cat :noun}}}
-         :comp {:rule "np"}}}
+         :comp {:cat :noun
+                :subcat []}}}
 
  ;; 16
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'

@@ -12,24 +12,21 @@
                            :root "huis"
                            :agr {:number :sing}
                            :sem {:quant :the
-                                 :mod {:first {:pred :old}}}
-                           :head {:rule "nbar"}}))))
+                                 :mod {:first {:pred :old}}}}))))
   (is (= "een oud huis"
          (morph (generate {:cat :noun
                            :subcat []
                            :root "huis"
                            :agr {:number :sing}
                            :sem {:quant :some
-                                 :mod {:first {:pred :old}}}
-                           :head {:rule "nbar"}}))))
+                                 :mod {:first {:pred :old}}}}))))
   (is (= "de oude huizen"
          (morph (generate {:cat :noun
                            :subcat []
                            :root "huis"
                            :agr {:number :plur}
                            :sem {:quant :the
-                                 :mod {:first {:pred :old}}}
-                           :head {:rule "nbar"}})))))
+                                 :mod {:first {:pred :old}}}})))))
 
 (deftest all-expressions-work
   (let [generate-per-expression 5

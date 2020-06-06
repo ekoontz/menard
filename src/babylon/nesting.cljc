@@ -34,9 +34,11 @@
    the top-most adjunct is 'vier'."
   )
 (def cons-and-nest
-  (let [one (atom :top)
+  (let [tmpone (atom :top)
+        one (atom {:ref tmpone})
         two (atom :top)]
-    {:sem {:mod {:first one
+    {:sem {:ref tmpone
+           :mod {:first one
                  :rest two}}
      :mods-nested? true
      :comp {:mods-nested? true
@@ -58,13 +60,15 @@
       (unify ug/head-rule)
       (unify
        (let [one (atom :top)
-             two (atom :top)]
-         {:mods-nested? false
-          :mod {:first one
-                :rest two}
+             two (atom {:ref one})
+             three (atom :top)]
+         {:sem {:ref one}
+          :mods-nested? false
+          :mod {:first two
+                :rest three}
           :comp {:mods-nested? true
-                 :sem one}
-          :head {:mod two
+                 :sem two}
+          :head {:mod three
                  :mods-nested? false}}))))
 (def nest-only
   (let [two (atom :top)

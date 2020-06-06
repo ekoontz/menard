@@ -71,18 +71,21 @@
  ;; 7
  {:note "'een heel klein druif'"
   :dotimes 1
+  :cat :noun
   :agr {:number :sing}
   :definite? false
   :sem {:pred :grape
         :quant :some
         :mod {:first {:pred :small
-                      :mod {:first {:pred :very}}}}}}
+                      :mod {:first {:pred :very}}}
+              :rest []}}}
 
  ;; 8
  ;; Generate some noun phrases where the
  ;; modifying adjective has no '-e' suffix,
  ;; e.g. 'een heel lief oud thuis'
  {:note "[det [[intensifier adj] noun]]"
+  :cat :noun
   :agr {:number :sing
         :gender :neuter}
   :definite? false

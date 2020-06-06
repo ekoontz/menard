@@ -175,7 +175,7 @@
   ;; TODO: remove this :options, if possible (test first, of course).
   :options [{:agr {:number :plur}}
             {:agr {:number :sing}}]
-  :unify [nest/cons-and-nest
+  :unify [nest/nest-only
           nest/noun
           su/a
           ug/head-is-root

@@ -7,21 +7,24 @@
 
 (deftest adjective-agreement
   (is (= "het oude huis"
-         (morph (generate {:rule "np"
+         (morph (generate {:cat :noun
+                           :subcat []
                            :root "huis"
                            :agr {:number :sing}
                            :sem {:quant :the
                                  :mod {:first {:pred :old}}}
                            :head {:rule "nbar"}}))))
   (is (= "een oud huis"
-         (morph (generate {:rule "np"
+         (morph (generate {:cat :noun
+                           :subcat []
                            :root "huis"
                            :agr {:number :sing}
                            :sem {:quant :some
                                  :mod {:first {:pred :old}}}
                            :head {:rule "nbar"}}))))
   (is (= "de oude huizen"
-         (morph (generate {:rule "np"
+         (morph (generate {:cat :noun
+                           :subcat []
                            :root "huis"
                            :agr {:number :plur}
                            :sem {:quant :the

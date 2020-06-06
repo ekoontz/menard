@@ -275,8 +275,18 @@
      ;; path points here -> [] <- add candidate grammar rule here
      ;;
      (map (fn [rule]
-            (u/assoc-in tree
-                        at rule)))
+            (log/debug (str "trying rule: " (:rule rule)))
+            (let [result
+                  (u/assoc-in tree
+                              at rule)]
+              (if (= :fail result)
+                (log/debug
+                 (str "rule: " (:rule rule) " failed: "
+                      (diag/fail-path tree
+                                      (u/assoc-in {}
+                                                  at
+                                                  rule)))))
+              result)))
      
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))

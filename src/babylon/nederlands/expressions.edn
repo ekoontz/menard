@@ -109,6 +109,7 @@
  {:note "'De heel sterk slimme vrouen zingen'."
   :dotimes 1
   :cat :verb
+  :subcat []
   :agr {:number :plur}
   :sem {:pred :sing
         :subj {:pred :woman
@@ -121,6 +122,7 @@
  {:note "[det [intensifier adj | adj noun]] verb"
   :dotimes 5
   :cat :verb
+  :subcat []  
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
@@ -128,6 +130,7 @@
  {:note "[det | adj noun] verb"
   :dotimes 5
   :cat :verb
+  :subcat []  
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
@@ -145,12 +148,12 @@
   :generic true
   :max-depth 3
   :cat :verb
+  :subcat []
   :phrasal true
   :reflexive true
   :sem {:tense :present
         :aspect :simple
-        :pred :see}
-  :subcat []}
+        :pred :see}}
 
  ;; 15
  {:note "[s np [vp v np]]"
@@ -158,9 +161,12 @@
   :cat :verb
   :subcat []
   :reflexive false
-  :comp {:rule "np"}
+  :comp {:phrasal true
+         :cat :noun
+         :subcat []}
   :head {:phrasal true
-         :rule "vp"
+         :cat :verb
+         :subcat []
          :head {:subcat {:2 {:cat :noun}}}
          :comp {:rule "np"}}}
 
@@ -169,10 +175,9 @@
   :cat :verb
   :subcat []
   :reflexive false
-  :head {:rule "vp-modal-te"
+  :head {:cat :verb
          :head {:modal :te}
-         :comp {:rule "vp-te"
-                :cat :verb
+         :comp {:cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
   :sem {:obj {:top :top}}}
@@ -195,7 +200,8 @@
                        :comp {:modal false}
                        :phrasal true}}}
   :target {:rule "s"
-           :comp {:rule "np"}
+           :comp {:cat :noun
+                  :subcat []}
            :head {:rule "vp"
                   :comp {:rule "vp-inf"
                          :comp {:rule "vp"}}}}}

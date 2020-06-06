@@ -57,6 +57,7 @@
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash false
+  :subcat {:1 :top :2 []}
   :comp {:cat :adjective
          :modifies-noun true}
   :mod {:first {:number? true}
@@ -73,6 +74,7 @@
 
  ;; [nbar:2 .slimme +[nbar:3 .ernstig +gebeid]]
  {:rule "nbar:2"
+  :subcat {:1 :top :2 []}
   :cat :noun 
   :head {:pronoun false
          :propernoun false
@@ -98,6 +100,7 @@
  ;; just as with nbar:1 and nbar:2.
  ;; [nbar:3 .kleine +tafels]
  {:rule "nbar:3"
+  :subcat {:1 :top :2 []}
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -121,6 +124,7 @@
  ;; [nbar:4 .vier +tafels]
  {:rule "nbar:4"
   :cat :noun
+  :subcat {:1 :top :2 []}
   :head {:pronoun false
          :propernoun false
          :subcat {:1 {:top :top}
@@ -146,6 +150,7 @@
  {:rule "np:1" 
   :np? true
   :cat :noun
+  :subcat []
   :head {:pronoun false
          :propernoun false
          ;; Prevent e.g. *"oude de huizen",

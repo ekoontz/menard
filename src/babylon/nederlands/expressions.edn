@@ -27,16 +27,18 @@
 
   ;; 3
  {:note "det noun | verb"
+  :cat :verb
   :subcat []
   :phrasal true
-  :head {:phrasal false
-         :cat :verb}
+  :head {:phrasal false}
   :comp {:phrasal true
+         :comp {:cat :det}
          :cat :noun}}
 
  ;; 4
  {:note "det | adj noun"
-  :sem {:mod {:first {:top :top}}}
+  :sem {:mod {:first {:top :top}
+              :rest []}}
   :subcat []
   :phrasal true
   :cat :noun

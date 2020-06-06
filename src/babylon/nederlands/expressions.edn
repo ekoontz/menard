@@ -46,7 +46,9 @@
  ;; 5
  {:note "'een huis'"
   :dotimes 1
-  :rule "np"
+  :cat :noun
+  :subcat []
+  :pronoun false
   :agr {:number :sing}
   :sem {:mod []
         :quant :some
@@ -54,15 +56,15 @@
 
  ;; 6
  {:note "'de grote boeken'"
-  :rule "np"
   :dotimes 1
+  :cat :noun
+  :subcat []
   :agr {:number :plur}  
   :sem {:mod {:first {:pred :big}}
         :pred :book}}
  
  ;; 7
  {:note "'een heel klein druif'"
-  :rule "np"
   :dotimes 1
   :agr {:number :sing}
   :definite? false
@@ -79,7 +81,6 @@
   :agr {:number :sing
         :gender :neuter}
   :definite? false
-  :rule "np"
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}

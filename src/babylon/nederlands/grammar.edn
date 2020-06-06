@@ -24,17 +24,18 @@
 
  {:rule "intensifier-bar" ;; [.echt +kleine]
   :cat :adjective
-  :head {:cat :adjective}
+  :head {:cat :adjective
+         :sem {:number? false}}
   :comp {:cat :intensifier}
   :unify [nest/cons-only
           su/b
           ug/head-is-root
           ug/head-last]}
 
- ;; [intensifier-phrase .echt +[intensifier-bar .echt +kleine]]
  {:rule "intensifier-phrase" 
   :cat :adjective
-  :head {:cat :adjective}
+  :head {:cat :adjective
+         :sem {:number? false}}
   :comp {:cat :intensifier}
   :unify [nest/adjective
           nest/cons-and-nest

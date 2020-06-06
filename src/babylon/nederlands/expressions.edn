@@ -99,7 +99,7 @@
  ;; so usually the adjective *will* have the -e suffix.
  ;; e.g. 'een behoorlijk vies grote tafel'
  {:note "[det [[intensifier adj] noun]]"
-  :rule "np"
+  :cat :noun
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
@@ -108,7 +108,7 @@
  ;; 10
  {:note "'De heel sterk slimme vrouen zingen'."
   :dotimes 1
-  :rule "s"
+  :cat :verb
   :agr {:number :plur}
   :sem {:pred :sing
         :subj {:pred :woman
@@ -120,14 +120,14 @@
  ;; 11
  {:note "[det [intensifier adj | adj noun]] verb"
   :dotimes 5
-  :rule "s"
+  :cat :verb
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first {:top :top}}}}}}
 
  ;; 12
  {:note "[det | adj noun] verb"
   :dotimes 5
-  :rule "s" 
+  :cat :verb
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
@@ -155,7 +155,8 @@
  ;; 15
  {:note "[s np [vp v np]]"
   :phrasal true
-  :rule "s"
+  :cat :verb
+  :subcat []
   :reflexive false
   :comp {:rule "np"}
   :head {:phrasal true
@@ -165,7 +166,8 @@
 
  ;; 16
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
-  :rule "s"
+  :cat :verb
+  :subcat []
   :reflexive false
   :head {:rule "vp-modal-te"
          :head {:modal :te}
@@ -179,7 +181,8 @@
  ;; ARGD, p. 37
  {:note "modals+infinitive"
   :phrasal true
-  :rule "s"
+  :cat :verb
+  :subcat []
   :comp {:phrasal true
          :head {:phrasal true}}
   :head {:rule "vp-modal-te"
@@ -199,7 +202,8 @@
 
  ;; 18
  {:note "using 'kunnen'"
-  :rule "s"
+  :cat :verb
+  :subcat []
   :head {:rule "vp-infinitive"
          :head {:phrasal false
                 :canonical "kunnen"}
@@ -210,11 +214,11 @@
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
   :dotimes 1
   :max-depth 3
-  :rule "s"
+  :cat :verb
+  :subcat []
   :prod? true
   :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal true,
-  :subcat []
   :reflexive false
   :sem {:pred :must
         :subj {:pred :we}
@@ -225,7 +229,7 @@
  ;; 20
  {:note "Generalization of the previous:"
   :max-depth 3
-  :rule "s"
+  :cat :verb
   :prod? true
   :phrasal true,
   :subcat []

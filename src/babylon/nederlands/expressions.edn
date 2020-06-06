@@ -60,7 +60,10 @@
   :cat :noun
   :subcat []
   :agr {:number :plur}  
-  :sem {:mod {:first {:pred :big}}
+  :sem {:mod {:first {:pred :big
+                      :mod []}
+              :rest []}
+        :quant :the
         :pred :book}}
  
  ;; 7

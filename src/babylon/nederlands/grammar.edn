@@ -54,12 +54,16 @@
   :subcat {:1 :top :2 []}
   :comp {:cat :adjective
          :modifies-noun true}
-  :options [{:mod {:first {:number? true}
+  :options [;; vier kleine (but: *kleine vier)
+            {:mod {:first {:number? true}
                    :rest {:first {:number? false}}}}
+            ;; kleine blauwe
             {:mod {:first {:number? false}
                    :rest {:first {:number? false}}}}
+            ;; kleine
             {:mod {:first {:number? false}
                    :rest []}}
+            ;; vier
             {:mod {:first {:number? true}
                    :rest []}}]
   :unify [nest/cons-only

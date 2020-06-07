@@ -43,14 +43,8 @@
           ug/head-is-root          
           ug/head-last]}
 
- ;; The next two rules, nbar:1 and nbar:2,
- ;; differ only in the value of [:mod :first :number?]:
- ;; the value at this path is true in the first, false in the second.
- ;; TODO: use :options instead to consolidate
- ;; into one rule.
- 
- ;; [nbar:1 .vier +[nbar:3 .kleine +tafels]]
- {:rule "nbar:1"
+ ;; [nbar .vier +[nbar .kleine +tafels]]
+ {:rule "nbar"
   :cat :noun
   :head {:pronoun false
          :propernoun false
@@ -60,87 +54,19 @@
   :subcat {:1 :top :2 []}
   :comp {:cat :adjective
          :modifies-noun true}
-  :mod {:first {:number? true}
-        :rest {:first {:number? false}}}
-
+  :options [{:mod {:first {:number? true}
+                   :rest {:first {:number? false}}}}
+            {:mod {:first {:number? false}
+                   :rest {:first {:number? false}}}}
+            {:mod {:first {:number? false}
+                   :rest []}}
+            {:mod {:first {:number? true}
+                   :rest []}}]
   :unify [nest/cons-only
           nest/noun
           su/b
           ug/head-last
           ug/head-is-root
-          ug/nominal-phrase
-          ug/shared-agr
-          ug/shared-def]}
-
- ;; [nbar:2 .slimme +[nbar:3 .ernstig +gebeid]]
- {:rule "nbar:2"
-  :subcat {:1 :top :2 []}
-  :cat :noun 
-  :head {:pronoun false
-         :propernoun false
-         :subcat {:1 {:top :top}
-                  :2 []}}
-  :slash false
-  :comp {:cat :adjective
-         :modifies-noun true}
-  :mod {:first {:number? false}
-        :rest {:first {:number? false}}}
-
-  :unify [nest/cons-only
-          nest/noun
-          su/b
-          ug/head-last
-          ug/head-is-root
-          ug/nominal-phrase
-          ug/shared-agr
-          ug/shared-def]}
-
- ;; TODO: consolidate nbar:3 and
- ;; and nbar:4 into one rule using :options,
- ;; just as with nbar:1 and nbar:2.
- ;; [nbar:3 .kleine +tafels]
- {:rule "nbar:3"
-  :subcat {:1 :top :2 []}
-  :cat :noun
-  :head {:pronoun false
-         :propernoun false
-         :subcat {:1 {:top :top}
-                  :2 []}}
-  :slash false
-  :comp {:cat :adjective
-         :modifies-noun true}
-  :mod {:first {:number? false}
-        :rest []}
-
-  :unify [nest/cons-only
-          nest/noun
-          su/b          
-          ug/head-is-root
-          ug/head-last
-          ug/nominal-phrase
-          ug/shared-agr
-          ug/shared-def]}
-
- ;; [nbar:4 .vier +tafels]
- {:rule "nbar:4"
-  :cat :noun
-  :subcat {:1 :top :2 []}
-  :head {:pronoun false
-         :propernoun false
-         :subcat {:1 {:top :top}
-                  :2 []}}
-  :slash false
-  :comp {:cat :adjective
-         :modifies-noun true}
-  :mod {:first {:number? true}
-        :rest []}
-
-  :unify [nest/cons-only
-          nest/noun
-          su/b
-          ug/head-last
-          ug/head-is-root
-          ug/head-rule
           ug/nominal-phrase
           ug/shared-agr
           ug/shared-def]}

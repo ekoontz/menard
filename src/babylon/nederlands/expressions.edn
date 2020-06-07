@@ -288,38 +288,41 @@
   ;; or better, fix adverb number agreement so that it's not needed,
   :training-wheels {:head {:comp {:comp {:sem {:subj {:number :plur}}}}}}}
 
-
+ ;; 22
  {:note "kleine vogel"
   :cat :noun
-  :sem {:pred :bird}
   :mod {:first {:number? false}
         :rest []}
-  :training-wheels {:rule "nbar"
-                    :head {:phrasal false}
-                    :comp {:phrasal false}}}
+  :phrasal true}
 
+ ;; 23
  {:note "vier vogels"
   :cat :noun
-  :sem {:pred :bird}
   :mod {:first {:number? true}
         :rest []}
-  :training-wheels {:rule "nbar"
-                    :head {:phrasal false
-                           :mod []}
-                    :comp {:phrasal false}}}
+  :phrasal true}
 
+ ;; 24
  {:note "vier kliene vogels"
   :cat :noun
-  :sem {:pred :bird}
   :mod {:first {:number? true}
         :rest {:first {:number? false}
                :rest []}}
-  :training-wheels {:rule "nbar"
-                    :head {:phrasal true}
-                    :comp {:phrasal false}}}
+  :phrasal true}
 
- 
- ;; 22
+ ;; 25
+ {:note "de vier kliene vogels"
+  :cat :noun
+  :mod nil
+  :sem {:mod {:first {:number? true}
+              :rest {:first {:number? false}
+                     :rest []}}}
+  :phrasal true
+  :training-wheels {:head {:comp {:phrasal false}
+                           :head {:comp {:phrasal false}
+                                  :head {:phrasal false}}}
+                    :comp {:cat :det}}}
+ ;; 26
  {:note "e.g. 'de vier en twintig kleine vogels'"
   :cat :noun
   :subcat []
@@ -327,57 +330,33 @@
         :mod {:first {:number? true}
               :rest {:first {:number? false
                              :rest []}}}}
-  :training-wheels {:rule "np:2"
-                    :comp {:cat :det}
-                    :head {:rule "nbar"
-                           :comp {:rule "conj-outer"
-                                  :comp {:phrasal false
-                                         :canonical "vier"}
-                                  :head {:rule "conj-inner"
-                                         :head {:phrasal false
-                                                :sem {:number? true}
-                                                :canonical "en"}
-                                         :comp {:phrasal false
-                                                :canonical "twintig"}}}
-                           :head {:rule "nbar"
-                                  :head {:phrasal false
-                                         :sem {:pred :bird}}
+  :phrasal true
+  :training-wheels {:comp {:cat :det}
+                    :head {:comp {:comp {:phrasal false}
+                                  :head {:head {:phrasal false
+                                                :sem {:number? true}}
+                                         :comp {:phrasal false}}}
+                           :head {:head {:phrasal false}
                                   :comp {:phrasal false}}}}}
  
- ;; 22
+ ;; 27
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :cat :verb
-  :sem {:tense :present,
-        :aspect :simple,
-        :mod [],
-        :subj
-        {:number? true
-         :pred :times
-         :ref {:number :plur},
-         :mod
-         {:rest {:first {:mod []},
-                 :rest []},
-          :first
-          {:arg2 {:mod [], :times 1},
-           :pred :times,
-           :arg1 {:mod [], :times 10}}},
-         :context :unspec},
-        :obj :unspec},
   :subcat []
+  :phrasal true
+  :sem {:subj {:ref {:number :plur}
+               :mod {:first {:number? true}
+                     :rest {:first {:number? false
+                                    :rest []}}}}
+        :obj :unspec}
   :training-wheels {:head {:phrasal false}
-                    :comp {:rule "np:2"
-                           :head {:rule "nbar"
-                                  :comp {:rule "conj-outer"
-                                         :comp {:phrasal false
-                                                :canonical "vier"}
-                                         :head {:rule "conj-inner"
-                                                :head {:phrasal false
-                                                       :canonical "en"}
-                                                :comp {:phrasal false
-                                                       :canonical "twintig"}}}
-                                  :head {:rule "nbar"
-                                         :head {:phrasal false}
+                    :comp {:comp {:cat :det}
+                           :head {:comp {:comp {:phrasal false}
+                                         :head {:head {:phrasal false}
+                                                :comp {:phrasal false}}}
+                                  :head {:head {:phrasal false}
                                          :comp {:phrasal false}}}}}}
+  
  ]
 
   

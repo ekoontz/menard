@@ -191,7 +191,8 @@
                                  (last at))))
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
-                               " at: " at))
+                               " at: " at "; looking for: "
+                               (strip-refs (u/get-in tree at))))
 
                true both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))

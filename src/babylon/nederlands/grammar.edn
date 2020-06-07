@@ -1,5 +1,5 @@
 [
- {:rule "conj-outer" ;; [.vier +[+en .twentig]]
+ {:rule "conj-outer" ;; [.vier +[+en .twintig]]
   :unify [su/a
           ug/head-agr
           ug/head-last
@@ -11,7 +11,7 @@
          :rule "conj-inner"}
   :comp {:phrasal false}}
 
- {:rule "conj-inner" ;; +[+en .twentig]
+ {:rule "conj-inner" ;; +[+en .twintig]
   :unify [su/c
           ug/head-agr
           ug/head-first

@@ -277,7 +277,6 @@
   :max-depth 3
   :cat :verb
   :prod? true
-  :phrasal true,
   :subcat []
   :reflexive false
   :sem {:pred :must

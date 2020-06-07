@@ -165,8 +165,7 @@
          :cat :noun
          :subcat []}
   :head {:phrasal true
-         :cat :verb
-         :subcat []
+         :rule "vp"
          :head {:subcat {:2 {:cat :noun}}}
          :comp {:cat :noun
                 :subcat []}}}

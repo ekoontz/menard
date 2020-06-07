@@ -66,7 +66,10 @@
                       :mod []}
               :rest []}
         :quant :the
-        :pred :book}}
+        :pred :book}
+
+  ;; training wheels:
+  :head {:phrasal true}}
  
  ;; 7
  {:note "'een heel klein druif'"
@@ -78,7 +81,11 @@
         :quant :some
         :mod {:first {:pred :small
                       :mod {:first {:pred :very}}}
-              :rest []}}}
+              :rest []}}
+  :subcat []
+
+  ;; training wheels:
+  :comp {:cat :det}}
 
  ;; 8
  ;; Generate some noun phrases where the
@@ -92,7 +99,11 @@
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
-        :pred :top}}
+        :pred :top}
+  :subcat []
+
+  ;; training wheels:
+  :comp {:cat :det}}
 
  ;; 9
  ;; Generate some noun phrases but with less constraints,
@@ -103,7 +114,11 @@
   :sem {:mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
-        :pred :top}}
+        :pred :top}
+  :subcat []
+
+  ;; training wheels:
+  :comp {:cat :det}}
  
  ;; 10
  {:note "'De heel sterk slimme vrouen zingen'."

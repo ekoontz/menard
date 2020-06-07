@@ -283,25 +283,101 @@
         :obj {:obj {:pred :top}
               :mod {:first {:pred :top}}
               :pred :top}}
-  :training-wheels {:head {:comp {:comp {:cat :adverb
-                                         :sem {:subj {:number :plur}}}}}}}
-  
+
+  ;; TODO: move this to within the :sem above,
+  ;; or better, fix adverb number agreement so that it's not needed,
+  :training-wheels {:head {:comp {:comp {:sem {:subj {:number :plur}}}}}}}
+
+
+ {:note "kleine vogel"
+  :cat :noun
+  :sem {:pred :bird}
+  :mod {:first {:number? false}
+        :rest []}
+  :training-wheels {:rule "nbar"
+                    :head {:phrasal false}
+                    :comp {:phrasal false}}}
+
+ {:note "vier vogels"
+  :cat :noun
+  :sem {:pred :bird}
+  :mod {:first {:number? true}
+        :rest []}
+  :training-wheels {:rule "nbar"
+                    :head {:phrasal false
+                           :mod []}
+                    :comp {:phrasal false}}}
+
+ {:note "vier kliene vogels"
+  :cat :noun
+  :sem {:pred :bird}
+  :mod {:first {:number? true}
+        :rest {:first {:number? false}
+               :rest []}}
+  :training-wheels {:rule "nbar"
+                    :head {:phrasal true}
+                    :comp {:phrasal false}}}
+
+ 
  ;; 22
- {:note "e.g. 'vier en twintig kleine vogels slapen'"
-  :sem
-  {:tense :present,
-   :aspect :simple,
-   :mod [],
-   :subj
-   {:ref {:number :plur},
-    :mod
-    {:rest {:first {:mod []}, :rest []},
-     :first
-     {:arg2 {:mod [], :times 1},
-      :pred :times,
-      :arg1 {:mod [], :times 10}}},
-    :context :unspec},
-   :obj :unspec},
-  :phrasal true,
-  :subcat [],
-  :cat :verb}]
+ {:note "e.g. 'de vier en twintig kleine vogels'"
+  :cat :noun
+  :subcat []
+  :sem {:ref {:number :plur}
+        :mod {:first {:number? true}
+              :rest {:first {:number? false
+                             :rest []}}}}
+  :training-wheels {:rule "np:2"
+                    :comp {:cat :det}
+                    :head {:rule "nbar"
+                           :comp {:rule "conj-outer"
+                                  :comp {:phrasal false
+                                         :canonical "vier"}
+                                  :head {:rule "conj-inner"
+                                         :head {:phrasal false
+                                                :sem {:number? true}
+                                                :canonical "en"}
+                                         :comp {:phrasal false
+                                                :canonical "twintig"}}}
+                           :head {:rule "nbar"
+                                  :head {:phrasal false
+                                         :sem {:pred :bird}}
+                                  :comp {:phrasal false}}}}}
+ 
+ ;; 22
+ {:note "e.g. 'de vier en twintig kleine vogels slapen'"
+  :cat :verb
+  :sem {:tense :present,
+        :aspect :simple,
+        :mod [],
+        :subj
+        {:number? true
+         :pred :times
+         :ref {:number :plur},
+         :mod
+         {:rest {:first {:mod []},
+                 :rest []},
+          :first
+          {:arg2 {:mod [], :times 1},
+           :pred :times,
+           :arg1 {:mod [], :times 10}}},
+         :context :unspec},
+        :obj :unspec},
+  :subcat []
+  :training-wheels {:head {:phrasal false}
+                    :comp {:rule "np:2"
+                           :head {:rule "nbar"
+                                  :comp {:rule "conj-outer"
+                                         :comp {:phrasal false
+                                                :canonical "vier"}
+                                         :head {:rule "conj-inner"
+                                                :head {:phrasal false
+                                                       :canonical "en"}
+                                                :comp {:phrasal false
+                                                       :canonical "twintig"}}}
+                                  :head {:rule "nbar"
+                                         :head {:phrasal false}
+                                         :comp {:phrasal false}}}}}}
+ ]
+
+  

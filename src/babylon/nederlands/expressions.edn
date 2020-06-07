@@ -282,7 +282,9 @@
   :sem {:pred :must
         :obj {:obj {:pred :top}
               :mod {:first {:pred :top}}
-              :pred :top}}}
+              :pred :top}}
+  :training-wheels {:head {:comp {:comp {:cat :adverb
+                                         :sem {:subj {:number :plur}}}}}}}
   
  ;; 22
  {:note "e.g. 'vier en twintig kleine vogels slapen'"

@@ -72,13 +72,10 @@
                  :mods-nested? false}}))))
 (def nest-only
   (let [two (atom :top)
-        three (atom :top)
-        four (atom :top)]
+        three (atom :top)]
     {:mods-nested? true
      :sem {:mod two}
-     :comp {:mods-nested? true
-            :head-sem three
-            :parent-sem four}
+     :comp {:mods-nested? true}
      :head {:sem three
             :mods-nested? false
             :mod two}}))

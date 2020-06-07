@@ -40,6 +40,7 @@
     {:sem {:ref tmpone
            :mod {:first one
                  :rest two}}
+     :mod nil
      :mods-nested? true
      :comp {:mods-nested? true
             :sem one}
@@ -75,6 +76,7 @@
         three (atom :top)]
     {:mods-nested? true
      :sem {:mod two}
+     :mod nil
      :comp {:mods-nested? true}
      :head {:sem three
             :mods-nested? false

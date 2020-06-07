@@ -216,7 +216,11 @@
          :comp {:cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
-  :sem {:obj {:top :top}}}
+  :sem {:obj {:top :top}}
+
+  :training-wheels {:rule "s"
+                    :head {:rule "vp-modal-te"
+                           :comp {:rule "vp-te"}}}}
 
  ;; 18
  ;; ARGD, p. 37

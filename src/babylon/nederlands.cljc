@@ -241,8 +241,12 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/max-depth (:max-depth spec g/max-depth)]
-    (g/generate spec grammar-for-generation index-fn syntax-tree)))
+  (binding [g/max-depth (:max-depth spec g/max-depth)
+            g/allow-backtracking? false]
+    (-> spec
+        ((fn [x] (unify x (:training-wheels x :top))))
+        (dissoc :training-wheels)
+        (g/generate grammar-for-generation index-fn syntax-tree))))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."

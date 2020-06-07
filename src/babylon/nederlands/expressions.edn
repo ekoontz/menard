@@ -246,6 +246,19 @@
               :pred :top}}}
 
  ;; 21
+ {:note "vier en twintig vogels"
+  :cat :noun
+  :subcat []
+  :sem {:mod {:first {:pred :times}
+              :rest []}
+        :pred :bird}
+
+  ;; training wheels:
+  :rule "np:1"
+  :comp {:rule "conj-outer"
+         :head {:rule "conj-inner"}}}
+  
+ ;; 22
  {:note "e.g. 'vier en twintig kleine vogels slapen'"
   :sem
   {:tense :present,

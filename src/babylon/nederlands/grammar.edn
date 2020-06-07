@@ -219,7 +219,7 @@
           ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           ug/slash-is-head-slash]}
 
- {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[te slapen]]
+ {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[+te slapen]]
   :cat :verb
   :aux false
   :slash false

@@ -107,6 +107,8 @@
   :cat :noun
   :comp {:cat :det}
   :slash false
+  :subcat []
+
   ;; TODO: remove this :options, if possible (test first, of course).
   :options [{:agr {:number :plur}}
             {:agr {:number :sing}}]

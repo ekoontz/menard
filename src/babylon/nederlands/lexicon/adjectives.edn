@@ -20,8 +20,8 @@
  "verlegen" [{:cat :adjective :sem {:pred :shy}}]
  "verward" [{:cat :adjective :sem {:pred :confused}}]
  "verwarrend" [{:cat :adjective :sem {:pred :confusing}}]
+ "verdacht" [{:cat :adjective :sem {:pred :suspicious}}]
  "vies" [{:cat :adjective :sem {:pred :dirty}}]
  "waar" [{:cat :adjective :sem {:pred :true}}]
  "zelfverzekerd" [{:cat :adjective :sem {:pred :confident}}]
  "zenuwachtig" [{:cat :adjective :sem {:pred :nervous}}]}
-

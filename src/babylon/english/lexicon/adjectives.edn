@@ -65,6 +65,7 @@
  "stubborn" [{:cat :adjective :sem {:pred :stubborn}}]
  "stupid" [{:cat :adjective :sem {:pred :stupid}}]
  "sure" [{:cat :adjective :sem {:pred :sure}}]
+ "suspicious" [{:cat :adjective :sem {:pred :suspicious}}]
  "tall" [{:cat :adjective :sem {:pred :tall}}]
  "true" [{:cat :adjective :sem {:pred :true}}]
  "white" [{:cat :adjective :sem {:pred :white}}]

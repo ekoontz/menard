@@ -116,6 +116,8 @@
  "people" [{:cat :noun
             :sem {:pred :people}
             :agr {:number :plur}}]
+ "performance" [{:cat :noun
+                 :sem {:pred :performance}}]
  "person" [{:cat :noun
             :sem {:pred :person}
             :agr {:number :sing}}]

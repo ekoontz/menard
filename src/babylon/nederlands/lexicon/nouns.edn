@@ -116,9 +116,15 @@
          :agr {:gender :neuter}
          :exceptions [{:agr {:number :plur}
                        :surface "ogen"}]}]
+ "opleiding" [{:cat :noun
+               :sem {:pred :education}
+               :agr {:gender :common}}]
  "oplossing" [{:cat :noun
                :sem {:pred :solution}
                :agr {:gender :common}}]
+ "opstand" [{:cat :noun
+             :sem {:pred :revolt}
+             :agr {:gender :common}}]
  "overheid" [{:cat :noun
               :sem {:pred :government}
               :agr {:gender :common}}]

@@ -43,6 +43,8 @@
 
  "dog" [{:cat :noun
          :sem {:pred :dog}}]
+ "education" [{:cat :noun
+               :sem {:pred :education}}]
  "eye" [{:cat :noun
          :sem {:pred :eye}}]
  "fact" [{:cat :noun
@@ -133,6 +135,8 @@
               :sem {:pred :question}}]
  "reporter" [{:cat :noun
               :sem {:pred :reporter}}]
+ "revolt" [{:cat :noun
+            :sem {:pred :revolt}}]
  "right" [{:cat :noun
            :sem {:pred :right}}]
  "room" [{:cat :noun

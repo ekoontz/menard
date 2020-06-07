@@ -242,7 +242,7 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [g/max-depth (:max-depth spec g/max-depth)
-            g/allow-backtracking? false]
+            g/allow-backtracking? true]
     (-> spec
         ((fn [x] (unify x (:training-wheels x :top))))
         (dissoc :training-wheels)

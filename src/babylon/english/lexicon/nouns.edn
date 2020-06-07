@@ -123,12 +123,16 @@
            :sem {:pred :point}}]
  "problem" [{:cat :noun
              :sem {:pred :problem}}]
+ "professor" [{:cat :noun
+               :sem {:pred :professor}}]
  "program" [{:cat :noun
              :sem {:pred :program}}]
  "puppy" [{:cat :noun
            :sem {:pred :puppy}}]
  "question" [{:cat :noun
               :sem {:pred :question}}]
+ "reporter" [{:cat :noun
+              :sem {:pred :reporter}}]
  "right" [{:cat :noun
            :sem {:pred :right}}]
  "room" [{:cat :noun
@@ -154,6 +158,8 @@
             :sem {:pred :system}}]
  "table" [{:cat :noun
            :sem {:pred :table}}]
+ "teacher" [{:cat :noun
+             :sem {:pred :teacher}}]
  "thing" [{:cat :noun
            :sem {:pred :thing}}]
  "time" [{:cat :noun

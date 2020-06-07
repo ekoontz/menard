@@ -61,6 +61,9 @@
           :agr {:gender :common}
           :sem {:pred :man
                 :context :polite}}]
+ "hoogleraar" [{:cat :noun
+                :agr {:gender :common}
+                :sem {:pred :professor}}] 
  "hond" [{:cat :noun
           :agr {:gender :common}
           :sem {:pred :dog}}]
@@ -87,6 +90,9 @@
  "land" [{:cat :noun
           :sem {:pred :country}
           :agr {:gender :neuter}}]
+ "leraar" [{:cat :noun
+            :agr {:gender :common}
+            :sem {:pred :teacher}}]
  "leven" [{:cat :noun
            :agr {:gender :neuter}
            :sem {:pred :life}}]
@@ -110,7 +116,6 @@
          :agr {:gender :neuter}
          :exceptions [{:agr {:number :plur}
                        :surface "ogen"}]}]
-
  "oplossing" [{:cat :noun
                :sem {:pred :solution}
                :agr {:gender :common}}]
@@ -129,6 +134,9 @@
  "thuis" [{:cat :noun
            :agr {:gender :neuter}
            :sem {:pred :home}}]
+ "verslaggever" [{:cat :noun
+                  :agr {:gender :common}
+                  :sem {:pred :reporter}}]
  "vogel" [{:cat :noun
            :agr {:gender :common}
            :sem {:pred :bird}}]

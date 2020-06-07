@@ -65,6 +65,8 @@
      :modal :infinitive
      :sem {:pred :must}}])
 
+ "optreden" [{:cat :verb :sem {:pred :perform}}]
+ 
  "proberen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

@@ -210,7 +210,7 @@
            (#(if (and (empty? %)
                       (= false allow-backtracking?)
                       (= false (u/get-in spec [:phrasal] ::none)))
-               (exception (str "no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
+               (exception (str "no lexemes for tree: " (syntax-tree tree) " at: " at "; no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
                %))
 
            ;; need this to prevent eagerly generating a tree for every matching lexeme:

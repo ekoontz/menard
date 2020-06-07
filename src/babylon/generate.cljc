@@ -37,7 +37,10 @@
 #?(:cljs (def ^:dynamic fold? true))
 #?(:cljs (def ^:dynamic truncate? true))
 
+;; TODO: rename to allow-rule-backtracking?
 (def ^:dynamic allow-backtracking? true)
+
+(def ^:dynamic allow-lexeme-backtracking? true)
 (def ^:dynamic max-depth 15)
 (def ^:dynamic max-fails 10000)
 (def ^:dynamic profiling? false)
@@ -208,7 +211,7 @@
       (->> (get-lexemes spec lexicon-index-fn syntax-tree)
 
            (#(if (and (empty? %)
-                      (= false allow-backtracking?)
+                      (= false allow-lexeme-backtracking?)
                       (= false (u/get-in spec [:phrasal] ::none)))
                (exception (str "no lexemes for tree: " (syntax-tree tree) " at: " at "; no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
                %))

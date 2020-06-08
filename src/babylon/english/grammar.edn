@@ -50,7 +50,7 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [nest/cons-and-nest
+  :unify [nest/nest-only
           nest/noun
           ug/head-is-root
           ug/head-last

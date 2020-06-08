@@ -6,6 +6,7 @@
  ;; 0
  {:note "intensifier adjective"
   :cat :adjective
+  :mod nil
   :subcat []
   :phrasal true
   :head {:phrasal false}

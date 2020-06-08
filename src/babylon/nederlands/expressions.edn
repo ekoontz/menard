@@ -81,6 +81,7 @@
   :sem {:pred :grape
         :quant :some
         :mod {:first {:pred :small
+                      :number? false
                       :mod {:first {:pred :very}}}
               :rest []}}
   :subcat []
@@ -144,8 +145,10 @@
         :subj {:pred :woman
                :context :neutral
                :mod {:first {:pred :strong
+                             :number? false
                              :mod {:first {:pred :very}}}
-                     :rest {:first {:pred :smart}
+                     :rest {:first {:pred :smart
+                                    :number? false}
                             :rest []}}}}
 
   ;; training wheels:

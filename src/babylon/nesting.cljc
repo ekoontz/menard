@@ -100,9 +100,12 @@
 ;; of the complement, so that the adjunct complement
 ;; can modify the semantics of the heads.
 (def adjective
-  (let [one (atom :top)]
-    {:sem {:pred one}
-     :head {:sem {:pred one}}}))
+  (let [one (atom :top)
+        two (atom :top)]
+    {:sem {:pred one
+           :number? two}
+     :head {:sem {:pred one
+                  :number? two}}}))
 
 (def noun
   (let [one (atom :top)

@@ -135,7 +135,7 @@
          :head {:rule "conj-inner"}}}
  
  ;; 11
- {:note "'De heel sterk slimme vrouen zingen'."
+ {:note "'De heel sterk slimme vrouwen zingen'."
   :dotimes 1
   :cat :verb
   :subcat []

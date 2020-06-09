@@ -1,4 +1,4 @@
-(defproject babylon "0.0.1"
+(defproject babylon "0.0.2-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babylon"
   :license {:name "Eclipse Public License"

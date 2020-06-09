@@ -1,4 +1,13 @@
-{"Corona" [{:cat :noun
+{"Bas" [{:cat :noun
+         :agr {:gender :masc
+               :human true
+               :number :sing
+               :person :3rd}
+          :sem {:ref {:human true}
+                :pred :bas}
+         :pronoun false
+         :propernoun true}]
+ "Corona" [{:cat :noun
             :agr {:human false
                   :number :sing
                   :person :3rd}
@@ -6,6 +15,15 @@
                   :pred :corona}
             :pronoun false
             :propernoun true}]
+ "Femke" [{:cat :noun
+           :agr {:gender :fem
+                 :human true
+                 :number :sing
+                 :person :3rd}
+           :sem {:ref {:human true}
+                 :pred :femke}
+           :pronoun false
+          :propernoun true}]
  "Guus" [{:cat :noun
           :agr {:gender :masc
                 :human true

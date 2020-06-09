@@ -12,6 +12,15 @@
                    :pred :antonio}
              :pronoun false
              :propernoun true}]
+ "Bas" [{:cat :noun
+         :agr {:gender :masc
+               :human true
+               :number :sing
+               :person :3rd}
+         :sem {:ref {:human true}
+               :pred :bas}
+         :pronoun false
+         :propernoun true}]
  "Corona" [{:cat :noun
             :agr {:human false
                   :number :sing
@@ -26,6 +35,15 @@
           :sem {:ref {:human true}
                 :pred :guus}
           :pronoun false
+          :propernoun true}]
+ "Femke" [{:cat :noun
+           :agr {:gender :fem
+                 :human true
+                 :number :sing
+                 :person :3rd}
+           :sem {:ref {:human true}
+                 :pred :femke}
+           :pronoun false
           :propernoun true}]
  "Saskia" [{:cat :noun
             :agr {:gender :fem

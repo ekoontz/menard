@@ -105,7 +105,8 @@
   :subcat []
 
   ;; training wheels:
-  :comp {:cat :det}}
+  :training-wheels {:comp {:cat :det}
+                    :sem {:mod {:first {:number? false}}}}}
 
  ;; 9
  ;; Generate some noun phrases but with less constraints,

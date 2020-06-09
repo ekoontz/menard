@@ -44,7 +44,33 @@
           ug/shared-agr
           su/b]}
 
- {:rule "np"
+ ;; np with no determiner, e.g.:
+ ;; 'big cats' in 'big cats sleep'.
+ {:rule "np:1" 
+  :np? true
+  :cat :noun
+  :subcat []
+  :head {:pronoun false
+         :propernoun false
+         ;; Prevent e.g. *"old the houses",
+         ;; whereas e.g. "the old houses" is ok:
+         :np? false
+         :subcat []}
+  :slash false
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :unify [nest/cons-and-nest
+          nest/noun
+          su/b
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/shared-def]}
+
+ {:rule "np:2"
+  :np? true
   :reflexive false
   :agr {:person :3rd}
   :cat :noun

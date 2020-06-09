@@ -70,7 +70,7 @@
         :pred :book}
 
   ;; training wheels:
-  :head {:phrasal true}}
+  :training-wheels {:head {:phrasal true}}}
  
  ;; 7
  {:note "'een heel klein druif'"
@@ -87,7 +87,7 @@
   :subcat []
 
   ;; training wheels:
-  :comp {:cat :det}}
+  :training-wheels {:comp {:cat :det}}}
 
  ;; 8
  ;; Generate some noun phrases where the
@@ -104,7 +104,6 @@
         :pred :top}
   :subcat []
 
-  ;; training wheels:
   :training-wheels {:comp {:cat :det}
                     :sem {:mod {:first {:number? false}}}}}
 
@@ -119,9 +118,7 @@
               :rest {:first {:pred :top}}}
         :pred :top}
   :subcat []
-
-  ;; training wheels:
-  :comp {:cat :det}}
+  :training-wheels {:comp {:cat :det}}}
 
  ;; 10
  {:note "vier en twintig vogels"
@@ -130,11 +127,9 @@
   :sem {:mod {:first {:pred :times}
               :rest []}
         :pred :bird}
-
-  ;; training wheels:
-  :rule "np:1"
-  :comp {:rule "conj-outer"
-         :head {:rule "conj-inner"}}}
+  :training-wheels {:rule "np:1"
+                    :comp {:rule "conj-outer"
+                           :head {:rule "conj-inner"}}}}
  
  ;; 11
  {:note "'De heel sterk slimme vrouwen zingen'."
@@ -151,9 +146,7 @@
                      :rest {:first {:pred :smart
                                     :number? false}
                             :rest []}}}}
-
-  ;; training wheels:
-  :comp {:comp {:cat :det}}}
+  :training-wheels {:comp {:comp {:cat :det}}}}
   
 
  ;; 12
@@ -163,9 +156,7 @@
   :subcat []  
   :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
                      :rest {:first :top}}}}
-
-  ;; training wheels:
-  :comp {:comp {:cat :det}}}
+  :training-wheels {:comp {:comp {:cat :det}}}}
 
  ;; 13
  {:note "[det | adj noun] verb"
@@ -222,7 +213,6 @@
                 :head {:phrasal false
                        :reflexive false}}}
   :sem {:obj {:top :top}}
-
   :training-wheels {:rule "s"
                     :head {:rule "vp-modal-te"
                            :comp {:rule "vp-te"}}}}

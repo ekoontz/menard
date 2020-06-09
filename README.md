@@ -37,84 +37,71 @@ For the demo, a Dutch sentence is generated for each specification listed in
 Each expression is then translated into English, as shown in the output below:
 
 ```
-% lein repl
-OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were deprecated in JDK 13 and will likely be removed in a future release.
-nREPL server started on port 53777 on host 127.0.0.1 - nrepl://127.0.0.1:53777
-REPL-y 0.4.4, nREPL 0.6.0
-Clojure 1.10.1
-OpenJDK 64-Bit Server VM 14.0.1+7
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-    Exit: Control+D or (exit) or (quit)
- Results: Stored in vars *1, *2, *3, an exception in *e
-
-user=> (do (load "babylon")(babylon.translate/demo))
+user=> (do (load "babylon/translate") (babylon.translate/demo))
 # intensifier adjective; 5 examples:
 ---
-Behoorlijk eigenwijs.|
-                     |Quite stubborn.
-Erg verdrietig.|
-               |Very sad.
-Behoorlijk zenuwachtig.|
-                       |Quite nervous.
-Behoorlijk sterk.|
-                 |Quite strong.
-Ongewoon inhalig.|
-                 |Unusually greedy.
+Erg vies.|
+         |Very dirty.
+Behoorlijk eng.|
+               |Quite scary.
+Eigenlijk opgevonden.|
+                     |Actually excited.
+Heel nieuwsgierig.|
+                  |Very curious.
+Heel eng.|
+         |Very scary.
 
 # det noun; 5 examples:
 ---
-Twalf ontwikkelingen.|
-                     |Twelve developments.
-Die kitten.|
-           |That kitten.
-Die groep.|
-          |That group.
-Uw katten.|
-          |Your cats.
-Mijn druiven.|
-             |My grapes.
+Negentien vogels.|
+                 |Eighteen birds.
+Deze leraar.|
+            |This teacher.
+Onze plaatsen.|
+              |Our lots.
+Eenzaamme verslaggevers.|
+                        |Some lonely reporters.
+Deze groepen.|
+             |These groups.
 
 # noun verb; 5 examples:
 ---
-Ontwikkelingen slapen.|
-                      |Developments sleep.
-Corona veroorzaakt.|
-                   |Corona causes.
-Ontwikkelingen zien.|
-                    |Developments see.
-Corona werkt.|
-             |Corona works.
-Jassen kunnen.|
-              |Coats can.
+Haren lezen.|
+            |Hairs read.
+Landen zingen.|
+              |Countries sing.
+Hij uitgeleggt.|
+               |He explains.
+Druiven werken.|
+               |Grapes work.
+Benen uitgeleggen.|
+                  |Legs explain.
 
 # det noun | verb; 5 examples:
 ---
-Onze dames moeten.|
-                  |Our ladies must.
-Acht overheden zingen.|
-                      |Eight governments sing.
-Deze heren lezen.|
-                 |These gentlemen read.
-Dat huis bestrijdt.|
-                   |That house overcomes.
-Hun boek uitgeleggt.|
-                    |Their book explains.
+Deze baby komt.|
+               |This baby comes.
+Haar oplossing uitgeleggt.|
+                          |Her solutions explain.
+Die dames zien.|
+               |Those ladies see.
+Zijn feit werkt.|
+                |Its fact works.
+Deze fiets zingt.|
+                 |This bike sings.
 
 # det | adj noun; 5 examples:
 ---
-Mijn kleine beschaving.|
-                       |My small civilization.
-Zes stomme handen.|
-                  |Six stupid hands.
-De enge jassen.|
-               |The scary coats.
-Jouw verwarrende feitten.|
-                         |Your confusing facts.
-Geen slimme hand.|
-                 |No smart hand.
+Haar teleurgestelde dag.|
+                        |Her disappointed day.
+Jouw elf dames.|
+               |Your eleven ladies.
+Ons verdrietige gebeid.|
+                       |Our sad area.
+De ware kittens.|
+                |The true kittens.
+Hun ernstige baan.|
+                  |Their serious job.
 
 # 'een huis'; 1 example:
 ---
@@ -123,8 +110,8 @@ Een huis.|
 
 # 'de grote boeken'; 1 example:
 ---
-Zeven grote boeken.|
-                   |Seven big books.
+De grote boeken.|
+                |The big books.
 
 # 'een heel klein druif'; 1 example:
 ---
@@ -133,138 +120,216 @@ Een heel klein druif.|
 
 # [det [[intensifier adj] noun]]; 5 examples:
 ---
-Een echt teleurgesteld ernstig bedrijf.|
-                                       |A really disappointed serious business.
-Geen eigenlijk bedroefd bedroefd haar.|
-                                      |No actually sad sad hair.
-Een ongewoon stom lief vrouw.|
-                             |An unusually stupid nice woman.
-Eén echt stom bedroefd vrouw.|
-                             |One really stupid sad woman.
-Een behoorlijk gierig opgevonden bedrijf.|
-                                         |A quite stingy excited business.
+Geen ongewoon zelfverzekerd verdrietig sterk kind.|
+                                                  |No unusually confident sad strong child.
+Geen ongewoon verdacht sterk haar.|
+                                  |No unusually suspicious strong hair.
+Geen behoorlijk lief verdrietig verlegen sterk eigenwijs leven.|
+                                                               |No quite nice sad shy strong stubborn life.
+Geen echt groot waar verwarrend haar.|
+                                     |No really big true confusing hair.
+Een behoorlijk vies stom meisje.|
+                                |A quite dirty stupid girl.
 
 # [det [[intensifier adj] noun]]; 5 examples:
 ---
-Haar behoorlijk ongeruste zelfverzekerde tafels.|
-                                                |Her quite anxious confident tables.
-Twee ongewoon klein eigenwijze benen.|
-                                     |Two unusually small stubborn legs.
-Zijn behoorlijk vieze verwarde banen.|
-                                     |Its quite dirty confused jobs.
-Haar heel stomme verdrietige been.|
-                                  |Her very stupid sad leg.
-Zeven eigenlijk groot sterke levens.|
-                                    |Seven actually big strong lives.
+Mijn acht en zestig sterke ongeruste stomme haren.|
+                                                  |My sixty eight strong anxious stupid hairs.
+Zijn zes en achtig bedroefde tafels.|
+                                    |Its eighty six sad tables.
+Jouw ongewoon verdrietig verlegene ernstige verwarde eenzaamme verlegene slimme grote zelfverzekerde stomme been.|
+                                                                                                                 |Your unusually sad shy serious confused lonely shy smart big confident stupid legs.
+Haar vijf en deertig grote grote groepen.|
+                                         |Her thirty five big big groups.
+Haar eén en achtig inhalige families.|
+                                     |Her eighty one greedy families.
 
-# 'De heel sterk slimme vrouen zingen'.; 1 example:
+# vier en twintig vogels; 5 examples:
 ---
-Negen erg sterk slimme vrouwen zingen.|
-                                      |Nine very strong smart women sing.
+Zeven en deertig vogels.|
+                        |Some thirty seven birds.
+Vier en twintig vogels.|
+                       |Some twenty four birds.
+Vier en vijftig vogels.|
+                       |Some fifty four birds.
+Negen en achtig vogels.|
+                       |Eighty nine birds.
+Zes en veertig vogels.|
+                      |Some forty six birds.
+
+# kleine vogel; 5 examples:
+---
+Ongerust leven.|
+               |His life.
+Verwarde baan.|
+              |The job.
+Opgevondene groep.|
+                  |No group.
+Inhalige baby.|
+              |Her baby.
+Zelfverzekerd gebeid.|
+                     |Her area.
+
+# vier vogels; 5 examples:
+---
+Vier jongens.|
+             |These boys.
+Deertig kittens.|
+                |Their kittens.
+Zestig heren.|
+             |Its men.
+Veertien jongens.|
+                 |His boys.
+Vijf fietsen.|
+             |No bikes.
+
+# vier kliene vogels; 5 examples:
+---
+Achttien opgevondene katten.|
+                            |Her cats.
+Negentien opgevondene fietsen.|
+                              |His bikes.
+Eén verdrietige oplossing.|
+                          |Your solution.
+Teen zelfverzekerde banen.|
+                          |Your jobs.
+Negen ernstige thuizen.|
+                       |Some homes.
+
+# de vier kliene vogels; 5 examples:
+---
+Onze zeven ware kittens.|
+                        |Our seven true kittens.
+Uw vijftig verwarrende leraren.|
+                               |Your fifty confusing teachers.
+Hun nul vieze gelden.|
+                     |Their zero dirty moneys.
+De drie oude zaken.|
+                   |The three old cases.
+Hun twintig oude mannen.|
+                        |Their twenty old men.
+
+# e.g. 'de vier en twintig kleine vogels'; 5 examples:
+---
+De vijf en achtig sterke zaken.|
+                               |The eighty five strong cases.
+Zijn negen en zestig zelfverzekerde druiven.|
+                                            |His sixty nine confident grapes.
+De vier en veertig nieuwsgierige jassen.|
+                                        |The forty four curious coats.
+Mijn vijf en deertig grote jongens.|
+                                   |My thirty five big boys.
+Die zes en negentig verwarrende haren.|
+                                      |Those ninety six confusing hairs.
+
+# 'De heel sterk slimme vrouwen zingen'.; 1 example:
+---
+Haar heel sterk slimme vrouwen zingen.|
+                                      |Her very strong smart women sing.
 
 # [det [intensifier adj | adj noun]] verb; 5 examples:
 ---
-De eigenlijk enge grote groepen lezen.|
-                                      |The actually scary big groups read.
-Een behoorlijk nieuwsgierig zenuwachtige stoel kan.|
-                                                   |A quite curious nervous chair can.
-Drie echt groot ware feitten uitgeleggen.|
-                                         |Three really big true facts explain.
-Teen eigenlijk inhalig inhalige bedrijven veroorzaaken.|
-                                                       |Ten actually greedy greedy businesses cause.
-Die echt eenzaamme slimme familie kan.|
-                                      |That really lonely smart family can.
+Die vier en zestig verwarde opstanden kunnen.|
+                                             |Those sixty four confused revolts can.
+Mijn eén en zestig grote opgevondene levens zien.|
+                                                 |My sixty one big excited lives see.
+Jouw ongewoon waar vieze nieuwsgierige ogen optredt.|
+                                                    |Your unusually true dirty curious eyes perform.
+Zijn vier en zestig enge oude bedroefde slimme bedrijven optreden.|
+                                                                  |His sixty four scary old sad smart businesses perform.
+Zijn vier en vijftig kleine vrouwen bestrijden.|
+                                               |His fifty four small women overcome.
 
 # [det | adj noun] verb; 5 examples:
 ---
-Zijn verwarde been werkt.|
-                         |Its confused leg works.
-Deze inhalige dagen werken.|
-                           |These greedy days work.
-Hun opgevondene moeders komen.|
-                              |Their excited mothers come.
-Vijf sterke jongens werken.|
-                           |Five strong boys work.
-Twalf verlegene dagen bestrijden.|
-                                 |Twelve shy days overcome.
+Die twee landen optreden.|
+                         |Those two countries perform.
+Hun twalf zaken kunnen.|
+                       |Their twelve cases can.
+Vijf eenzaamheden uitgeleggen.|
+                              |Five lonelinesses explain.
+Negentig opstanden komen.|
+                         |Some ninety revolts come.
+Achttien jassen veroorzaaken.|
+                             |Some eighteen coats cause.
 
 # Sentence with object; 5 examples:
 ---
-Vrouwen zien die.|
-                 |Women see them.
-Honden zien heren.|
-                  |Dogs see gentlemen.
-Kittens zien oplossingen.|
-                         |Kittens see solutions.
-Ontwikkelingen zien landen.|
-                           |Developments see countries.
-Hij ziet druiven.|
-                 |He sees grapes.
+Eenzaamheden zien gebeiden.|
+                           |Lonelinesses see areas.
+Families zien katten.|
+                     |Families see cats.
+Moeders zien heren.|
+                   |Mothers see men.
+Wij zien haar.|
+              |We see her.
+We zien opleidingen.|
+                    |We see educations.
 
 # Sentence with reflexive object; 5 examples:
 ---
 Ik zie me.|
           |I see myself.
-U ziet u.|
-         |You see yourself.
 We zien ons.|
             |We see ourselves.
+U ziet u.|
+         |You see yourself.
 Ik zie me.|
           |I see myself.
-Jij ziet je.|
-            |You see yourself.
+Wij zien ons.|
+             |We see ourselves.
 
 # [s np [vp v np]]; 5 examples:
 ---
-Mijn thuis uitgeleggt vijf huizen.|
-                                  |My home explains five houses.
-Acht gelden veroorzaaken zijn baby's.|
-                                     |Eight moneys cause its babies.
-Zijn eenzaamheid ziet mijn familie.|
-                                   |Its loneliness sees my family.
-Deze groep ziet negen oplossingen.|
-                                  |This group sees nine solutions.
-Uw families lezen het vrouw.|
-                            |Your families read the woman.
+Die kitten ziet jongens.|
+                        |That kitten sees boys.
+Slimme vrouwen uitgeleggen Saskia.|
+                                  |Some smart women explain Saskia.
+Dertien fietsen bestrijden huizen.|
+                                  |Some thirteen bikes overcome houses.
+Slimme honden zien jongens.|
+                           |Smart dogs see boys.
+Eenzaamme overheden bestrijden mij.|
+                                   |Some lonely governments overcome me.
 
 # [s n [vp-modal-te v [vp-te:inf to v]]]; 5 examples:
 ---
-Mannen proberen te bestrijden.|
-                              |Men try to overcome.
-Corona probeert te werken.|
-                          |Corona tries to work.
-Saskia probeert te uitgeleggen.|
-                               |Saskia tries to explain.
-Handen proberen te werken.|
-                          |Hands try to work.
-Guus probeert te lezen.|
-                       |Guus tries to read.
+Heren proberen te komen.|
+                        |Gentlemen try to come.
+Oplossingen proberen te bestrijden.|
+                                   |Solutions try to overcome.
+Vrouwen proberen te bestrijden.|
+                               |Women try to overcome.
+Huizen proberen te bestrijden.|
+                              |Houses try to overcome.
+Jassen proberen te optreden.|
+                            |Coats try to perform.
 
 # modals+infinitive; 5 examples:
 ---
-Negen echt zelfverzekerd eenzaamme thuizen proberen die heel kleine eenzaamheid te bestrijden.|
-                                                                                              |Nine really confident lonely homes try to overcome that very small loneliness.
-Drie behoorlijk verdrietig opgevondene ogen proberen negen erg teleurgesteld fietsen te zien.|
-                                                                                             |Three quite sad excited eyes try to see nine very disappointed bikes.
-Deze heel eigenwijze grote groep probeert hun echt verlegene groep te zien.|
-                                                                           |This very stubborn big group tries to see their really shy group.
-Zijn eigenlijk inhalige nieuwsgierige levens proberen zijn ongewoon zelfverzekerde fiets te bestrijden.|
-                                                                                                       |His actually greedy curious lives try to overcome his unusually confident bike.
-Geen eigenlijk verdrietig nieuwsgierige man probeert mijn behoorlijk eenzaamme honden te uitgeleggen.|
-                                                                                                     |No actually sad curious man tries to explain my quite lonely dogs.
+De eenzaamme lieve oplossing probeert Corona te optreden.|
+                                                         |The lonely nice solution tries to perform Corona.
+Onze verdrietige jongen probeert maanden te zien.|
+                                                 |Our sad boy tries to see months.
+Hun achtig overheden proberen thuizen te zien.|
+                                              |Their eighty governments try to see homes.
+Jouw oude verdrietige lieve stomme verlegene voorstelling probeert jassen te veroorzaaken.|
+                                                                                          |Your old sad nice stupid shy performances try to cause coats.
+Wat vijftig zenuwachtige druiven proberen baby's te optreden.|
+                                                             |Some fifty nervous grapes try to perform babies.
 
 # using 'kunnen'; 5 examples:
 ---
-Ontwikkelingen kunnen komen.|
-                            |Developments can come.
-Jassen kunnen bestrijden.|
-                         |Coats can overcome.
-Kittens kunnen bestrijden.|
-                          |Kittens can overcome.
-We kunnen komen.|
-                |We can come.
-Landen kunnen lezen.|
-                    |Countries can read.
+Katten kunnen bestrijden.|
+                         |Cats can overcome.
+Fietsen kunnen komen.|
+                     |Bikes can come.
+Hij kan slapen.|
+               |He can sleep.
+Groepen kunnen bestrijden.|
+                          |Groups can overcome.
+Opstanden kunnen bestrijden.|
+                            |Revolts can overcome.
 
 # corona sentence from de Krant van de Gemente van Amsterdam; 1 example:
 ---
@@ -273,18 +338,31 @@ Corona moeten wij samen bestrijden.|
 
 # Generalization of the previous:; 5 examples:
 ---
-Beschavingen moeten tafels samen lezen.|
-                                       |Tables must read civilizations together.
-Corona moeten banen samen veroorzaaken.|
-                                       |Jobs must cause Corona together.
-Groepen moeten zij samen zien.|
-                              |They must see groups together.
-Heren moeten plaatsen samen uitgeleggen.|
-                                        |Lots must explain men together.
-Groepen moeten dagen samen zien.|
-                                |Days must see groups together.
+Maanden moeten vrouwen samen lezen.|
+                                   |Women must read months together.
+Katten moeten stoelen samen uitgeleggen.|
+                                        |Chairs must explain cats together.
+Vrouwen moeten kinderen samen optreden.|
+                                       |Children must perform women together.
+Corona moeten mannen samen veroorzaaken.|
+                                        |Men must cause Corona together.
+Meisjes moeten wij samen uitgeleggen.|
+                                     |We must explain girls together.
 
-21
+# e.g. 'de vier en twintig kleine vogels slapen'; 5 examples:
+---
+Deze drie en achtig gierige boeken werken.|
+                                          |These eighty three stingy books work.
+Uw negen en vijftig grote verslaggevers optreden.|
+                                                 |Your fifty nine big reporters perform.
+Zijn drie en twintig ernstige verslaggevers moeten.|
+                                                   |Its twenty three serious reporters must.
+Die vier en zestig teleurgestelde leraren bestrijden.|
+                                                     |Those sixty four disappointed teachers overcome.
+Jouw vijf en zestig zenuwachtige honden veroorzaaken.|
+                                                     |Your sixty five nervous dogs cause.
+
+28
 user=>
 ```
 

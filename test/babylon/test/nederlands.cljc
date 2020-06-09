@@ -14,7 +14,9 @@
                            :sem {:quant :the
                                  :mod {:first {:pred :old
                                                :mod []}
-                                       :rest []}}}))))
+                                       :rest []}}
+                           :training-wheels {:comp {:cat :det}
+                                             :sem {:mod {:first {:number? false}}}}}))))
   (is (= "een oud huis"
          (morph (generate {:cat :noun
                            :subcat []
@@ -32,7 +34,9 @@
                            :sem {:quant :the
                                  :mod {:first {:pred :old
                                                :mod []}
-                                       :rest []}}})))))
+                                       :rest []}}
+                           :training-wheels {:comp {:cat :det}
+                                             :sem {:mod {:first {:number? false}}}}})))))
 
 (deftest all-expressions-work
   (let [generate-per-expression 5

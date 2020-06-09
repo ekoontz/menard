@@ -1,6 +1,6 @@
-[{:rule "np" ;; the cat
+[{:rule "np:2" ;; the cat
   :head {:phrasal false}}
- {:rule "np" ;; the big cat
+ {:rule "np:2" ;; the big cat
   :head {:phrasal true}}
  {:rule "s"
   :aux false

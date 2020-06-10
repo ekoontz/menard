@@ -133,28 +133,6 @@
                            :head {:rule "conj-inner"}}}}
 
  ;; 11
- {:note "kleine vogel"
-  :cat :noun
-  :mod {:first {:number? false}
-        :rest []}
-  :phrasal true}
-
- ;; 12
- {:note "vier vogels"
-  :cat :noun
-  :mod {:first {:number? true}
-        :rest []}
-  :phrasal true}
-
- ;; 13
- {:note "vier kliene vogels"
-  :cat :noun
-  :mod {:first {:number? true}
-        :rest {:first {:number? false}
-               :rest []}}
-  :phrasal true}
-
- ;; 14
  {:note "de vier kliene vogels"
   :cat :noun
   :mod nil
@@ -166,7 +144,7 @@
                            :head {:comp {:phrasal false}
                                   :head {:phrasal false}}}
                     :comp {:cat :det}}}
- ;; 15
+ ;; 12
  {:note "e.g. 'de vier en twintig kleine vogels'"
   :cat :noun
   :subcat []
@@ -186,7 +164,7 @@
  ;; </noun expressions>
 
  ;; <verbal expressions>
- ;; 16
+ ;; 13
  {:note "'De heel sterk slimme vrouwen zingen'."
   :dotimes 1
   :cat :verb
@@ -204,7 +182,7 @@
   :training-wheels {:comp {:comp {:cat :det}}}}
   
 
- ;; 17
+ ;; 14
  {:note "[det [intensifier adj | adj noun]] verb"
   :dotimes 5
   :cat :verb
@@ -213,7 +191,7 @@
                      :rest {:first :top}}}}
   :training-wheels {:comp {:comp {:cat :det}}}}
 
- ;; 18
+ ;; 15
  {:note "[det | adj noun] verb"
   :dotimes 5
   :cat :verb
@@ -221,7 +199,7 @@
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
- ;; 19
+ ;; 16
  {:note "Sentence with object"
   :max-depth 3
   :reflexive false
@@ -230,7 +208,7 @@
   :sem {:pred :see
         :obj {:top :top}}}
 
- ;; 20
+ ;; 17
  {:note "Sentence with reflexive object"
   :generic true
   :max-depth 3
@@ -242,7 +220,7 @@
         :aspect :simple
         :pred :see}}
 
- ;; 21
+ ;; 18
  {:note "[s np [vp v np]]"
   :phrasal true
   :cat :verb
@@ -257,7 +235,7 @@
          :comp {:cat :noun
                 :subcat []}}}
 
- ;; 22
+ ;; 19
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
   :cat :verb
   :subcat []
@@ -272,7 +250,7 @@
                     :head {:rule "vp-modal-te"
                            :comp {:rule "vp-te"}}}}
 
- ;; 23
+ ;; 20
  ;; ARGD, p. 37
  {:note "modals+infinitive"
   :phrasal true
@@ -296,7 +274,7 @@
                   :comp {:rule "vp-inf"
                          :comp {:rule "vp"}}}}}
 
- ;; 24
+ ;; 21
  {:note "using 'kunnen'"
   :cat :verb
   :subcat []
@@ -306,7 +284,7 @@
          :comp {:phrasal false}}
   :comp {:phrasal false}}
 
- ;; 25
+ ;; 22
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
   :dotimes 1
   :max-depth 3
@@ -322,7 +300,7 @@
               :mod {:first {:pred :together}}
               :pred :overcome}}}
 
- ;; 26
+ ;; 23
  {:note "Generalization of the previous:"
   :max-depth 3
   :cat :verb
@@ -339,7 +317,7 @@
   :training-wheels {:head {:comp {:comp {:sem {:subj {:number :plur}}}}}}}
 
  
- ;; 27
+ ;; 24
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :cat :verb
   :subcat []

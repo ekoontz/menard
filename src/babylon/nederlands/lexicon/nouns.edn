@@ -108,6 +108,9 @@
  "moeder" [{:cat :noun
             :agr {:gender :common}
             :sem {:pred :mother}}]
+ "ontspanning" [{:cat :noun
+                 :sem {:pred :relaxation}
+                 :agr {:gender :common}}]
  "ontwikkeling" [{:cat :noun
                   :sem {:pred :development}
                   :agr {:gender :common}}]

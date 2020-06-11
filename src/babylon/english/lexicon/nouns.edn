@@ -135,6 +135,8 @@
            :sem {:pred :puppy}}]
  "question" [{:cat :noun
               :sem {:pred :question}}]
+ "relaxation" [{:cat :noun
+                :sem {:pred :relaxation}}]
  "reporter" [{:cat :noun
               :sem {:pred :reporter}}]
  "revolt" [{:cat :noun

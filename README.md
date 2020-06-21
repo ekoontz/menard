@@ -1,15 +1,8 @@
-[![Clojars Project](https://img.shields.io/clojars/v/babylon.svg)](https://clojars.org/babylon)
-[![Build Status](https://secure.travis-ci.org/ekoontz/babylon.png?branch=master)](http://travis-ci.org/ekoontz/babylon)
+[![Clojars Project](https://img.shields.io/clojars/v/menard.svg)](https://clojars.org/menard)
+[![Build Status](https://secure.travis-ci.org/ekoontz/menard.png?branch=master)](http://travis-ci.org/ekoontz/menard)
 [![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
 
-# Babylon
-
-<div>
-  <a href="https://en.wikipedia.org/wiki/Ishtar_Gate">
-    <img alt="Image of Auroch from the Ishtar Gate of Babylon" 
-         src="https://www.ancient.eu/uploads/images/738.jpg?v=1485682813" height="100">
-  </a>
-</div>
+# Menard
 
 A Clojure library for generation and parsing of natural language expressions.
 
@@ -33,11 +26,11 @@ Uses verb conjugations from Verbix: http://www.verbix.com
 ## Demo
 
 For the demo, a Dutch sentence is generated for each specification listed in
-<a href="https://github.com/ekoontz/babylon/blob/master/src/babylon/nederlands/expressions.edn">expressions.edn</a>. 
+<a href="https://github.com/ekoontz/menard/blob/master/src/menard/nederlands/expressions.edn">expressions.edn</a>. 
 Each expression is then translated into English, as shown in the output below:
 
 ```
-user=> (do (load "babylon/translate") (babylon.translate/demo))
+user=> (do (load "menard/translate") (menard.translate/demo))
 # intensifier adjective; 5 examples:
 ---
 Erg vies.|

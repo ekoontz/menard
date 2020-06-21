@@ -7,26 +7,26 @@ SHELL := bash
 .PHONY: all install compile clean
 all: install
 
-install: /Users/ekoontz/babylon/target/babylon-0.0.1-SNAPSHOT.jar
+install: /Users/ekoontz/menard/target/menard-0.0.1-SNAPSHOT.jar
 
-src/babylon/english/lexicon/compiled.edn: $(shell find src/babylon/english/lexicon -name "*.edn" -not -name compiled.edn)
-	echo "(do (load \"babylon\")(babylon.english/write-compiled-lexicon))" | lein repl
+src/menard/english/lexicon/compiled.edn: $(shell find src/menard/english/lexicon -name "*.edn" -not -name compiled.edn)
+	echo "(do (load \"menard\")(menard.english/write-compiled-lexicon))" | lein repl
 
-src/babylon/nederlands/lexicon/compiled.edn: $(shell find src/babylon/nederlands/lexicon -name "*.edn" -not -name compiled.edn)
-	echo "(do (load \"babylon\")(babylon.nederlands/write-compiled-lexicon))" | lein repl
+src/menard/nederlands/lexicon/compiled.edn: $(shell find src/menard/nederlands/lexicon -name "*.edn" -not -name compiled.edn)
+	echo "(do (load \"menard\")(menard.nederlands/write-compiled-lexicon))" | lein repl
 
-src/babylon/english/grammar/compiled.edn: src/babylon/english/grammar.edn
-	echo "(do (load \"babylon\")(babylon.english/write-compiled-grammar))" | lein repl
+src/menard/english/grammar/compiled.edn: src/menard/english/grammar.edn
+	echo "(do (load \"menard\")(menard.english/write-compiled-grammar))" | lein repl
 
-src/babylon/nederlands/grammar/compiled.edn: src/babylon/nederlands/grammar.edn
-	echo "(do (load \"babylon\")(babylon.nederlands/write-compiled-grammar))" | lein repl
+src/menard/nederlands/grammar/compiled.edn: src/menard/nederlands/grammar.edn
+	echo "(do (load \"menard\")(menard.nederlands/write-compiled-grammar))" | lein repl
 
-compile: src/babylon/english/lexicon/compiled.edn \
-         src/babylon/nederlands/lexicon/compiled.edn \
-         src/babylon/english/grammar/compiled.edn \
-         src/babylon/nederlands/grammar/compiled.edn
+compile: src/menard/english/lexicon/compiled.edn \
+         src/menard/nederlands/lexicon/compiled.edn \
+         src/menard/english/grammar/compiled.edn \
+         src/menard/nederlands/grammar/compiled.edn
 
-/Users/ekoontz/babylon/target/babylon-0.0.1-SNAPSHOT.jar: compile
+/Users/ekoontz/menard/target/menard-0.0.1-SNAPSHOT.jar: compile
 	lein install
 
 clean:

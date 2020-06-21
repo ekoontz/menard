@@ -10,7 +10,7 @@ form "sleep" as well as the reverse conversion.
 ## Notation
 
 We'll use EDN as the format for morphological rules. For example, see
-babylon/english/nouns.edn. One such rule is:
+menard/english/nouns.edn. One such rule is:
 
 ```
 {:g [#"(.*)$"   "$1s"]  ;; dog     -> dogs

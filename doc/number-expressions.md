@@ -24,9 +24,9 @@ git: 511f3152
 
 ```
 git:b4c284d7
-babylon.nederlands> (->> (-> "vier en twintig" parse) (map syntax-tree))
+menard.nederlands> (->> (-> "vier en twintig" parse) (map syntax-tree))
 ("[number-expression-outer .vier +[number-expression-inner +en .twintig]]")
-babylon.nederlands> 
+menard.nederlands> 
 ```
 
 ## Part 3: do(until(remove-bad-parses))
@@ -36,13 +36,13 @@ the undesired semantics).
 
 ```
 git:
-babylon.nederlands> (->> (-> "vier en twintig" parse) (map syntax-tree))
+menard.nederlands> (->> (-> "vier en twintig" parse) (map syntax-tree))
 ("[number-expression-outer .vier +[number-expression-inner +en .twintig]]")
-babylon.nederlands> (->> (-> "vier en twintig" parse) (map #(u/get-in % [:sem])) (map u/pprint))
+menard.nederlands> (->> (-> "vier en twintig" parse) (map #(u/get-in % [:sem])) (map u/pprint))
 ({:pred :add,
   :arg2 {:pred :four, :base 1},
   :arg1 {:pred :two, :base 10}})
-babylon.nederlands> 
+menard.nederlands> 
 ```
 
 ## Part 4: do(until(generate-only-good-sentences))
@@ -73,11 +73,11 @@ git:65956c87
   :arg :top,
   :quant :add,
   :context :unspec}}
-babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate morph println))))
+menard.nederlands> (count (take 2 (repeatedly #(-> spec generate morph println))))
 negen en twintig honden
 zes en vijftig meisjes
 2
-babylon.nederlands> (count (take 2 (repeatedly #(-> spec generate (u/get-in [:sem]) u/pprint println))))
+menard.nederlands> (count (take 2 (repeatedly #(-> spec generate (u/get-in [:sem]) u/pprint println))))
 {:pred :loneliness, :arg2 {:pred 8, :times 1}, :ref {:number :plur}, :mod [], :arg :top, :quant :add, :context :unspec, :arg1 {:pred 5, :times 10}}
 {:pred :solution, :arg2 {:pred 5, :times 1}, :ref {:number :plur}, :mod [], :arg :top, :quant :add, :context :unspec, :arg1 {:pred 5, :times 10}}
 2
@@ -102,9 +102,9 @@ Parts 1,2,3 done:
 
 ```
 git:639d1bb3
-babylon.nederlands> (->> "de vier en twintig honden" parse (map syntax-tree))
+menard.nederlands> (->> "de vier en twintig honden" parse (map syntax-tree))
 ("[np .de +[nbar .[number-expression-outer .vier +[number-expression-inner +en .twintig]] +honden]]")
-babylon.nederlands> (->> "de vier en twintig honden" parse (map #(u/get-in % [:sem])) (map u/pprint))
+menard.nederlands> (->> "de vier en twintig honden" parse (map #(u/get-in % [:sem])) (map u/pprint))
 ({:pred :dog,
   :arg2 :top,
   :ref [[1] {:number [[2] :plur]}],
@@ -141,7 +141,7 @@ Not complete yet but showing output at this stage:
 
 ```
 git:1d3dd95b
-babylon.nederlands> (-> "de vier en twintig honden"
+menard.nederlands> (-> "de vier en twintig honden"
                         parse 
                         first
                         ((fn [input-expression]
@@ -172,7 +172,7 @@ babylon.nederlands> (-> "de vier en twintig honden"
    :context :unspec,
    :arg1 :top},
   :cat :noun}}
-babylon.nederlands> 
+menard.nederlands> 
 ```
 
 ### status
@@ -181,7 +181,7 @@ Able to consistently roundtrip on a number-expression:
 
 ```
 git:1d3dd95b
-babylon.nederlands> (-> "twintig honden"
+menard.nederlands> (-> "twintig honden"
                         roundtrip)
 {:input-expression "[nbar .twintig +honden]",
  :input-spec
@@ -212,7 +212,7 @@ babylon.nederlands> (-> "twintig honden"
   :mod
   {:first {:pred 2, :mod [], :times 10, :arg [4], :quant [6]},
    :rest []}}}
-babylon.nederlands> 
+menard.nederlands> 
 ```
 
 Able to consistently roundrip:

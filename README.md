@@ -370,10 +370,10 @@ Please see the `epl-v10.html` file at the top level of this repo.
 
 The story [Pierre Menard, autor del Quijote](https://en.wikipedia.org/wiki/Pierre_Menard,_Author_of_the_Quixote),
 by Jorge Luis Borges, tells of a writer Pierre Menard who attempted to
-rewrite Cervantes' Don Quixote, but not simply by copying it
+rewrite Cervantes' Don Quixote, not simply by copying it
 letter-by-letter from the original text, but rather by somehow
-internalizing the mental state of Cervantes that is necessary to write
-it, and then writing it _de novo_ from that interior mental state.  I
+reproducing the mental and experiential state of Cervantes that was necessary to write
+it, and then writing it _de novo_ from that state.  I
 see this as reminicent of this project's attempt to generate natural
 language expressions by encoding semantic representations and then
 using grammar rules and lexical entries that are able to generate the
@@ -395,7 +395,9 @@ own project now in 2020.
 
 # Inspirations
 
-I am including some links below which I think are interesting and related to the ideas I am exploring here.
+Besides the above-mentioned Linguistics and Borges references mentioned above,
+I am including some links below which I think are interesting and
+related to the ideas I am exploring here.
 
 - [500'000€ Prize for Compressing Human Knowledge](http://prize.hutter1.net/index.htm)
 - [The Library of Babel](https://libraryofbabel.info/)

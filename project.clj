@@ -1,6 +1,6 @@
-(defproject babylon "0.0.3-SNAPSHOT"
+(defproject menard "0.0.3-SNAPSHOT"
   :description "A library for natural language generation and parsing"
-  :url "http://github.com/ekoontz/babylon"
+  :url "http://github.com/ekoontz/menard"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[dag_unify "1.9.6"]

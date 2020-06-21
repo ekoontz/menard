@@ -1,0 +1,264 @@
+[
+ {:rule "conj-outer" ;; [.vier +[+en .twintig]]
+  :unify [su/a
+          ug/head-agr
+          ug/head-last
+          ug/head-sem]
+  :cat :adjective
+  :head {:cat :conjunction
+         :agr {:number :plur}
+         :phrasal true
+         :rule "conj-inner"}
+  :comp {:phrasal false}}
+
+ {:rule "conj-inner" ;; +[+en .twintig]
+  :unify [su/c
+          ug/head-agr
+          ug/head-first
+          ug/head-sem]
+  :cat :conjunction
+  :head {:cat :conjunction
+         :agr {:number :plur}
+         :phrasal false
+         :canonical "en"}}
+
+ {:rule "intensifier-bar" ;; [.echt +kleine]
+  :cat :adjective
+  :head {:cat :adjective
+         :sem {:number? false}}
+  :comp {:cat :intensifier}
+  :unify [nest/cons-only
+          su/b
+          ug/head-is-root
+          ug/head-last]}
+
+ {:rule "intensifier-phrase" 
+  :cat :adjective
+  :head {:cat :adjective
+         :sem {:number? false}}
+  :comp {:cat :intensifier}
+  :unify [nest/adjective
+          nest/cons-and-nest
+          su/b
+          ug/head-is-root          
+          ug/head-last]}
+
+ ;; [nbar .vier +[nbar .kleine +tafels]]
+ {:rule "nbar"
+  :cat :noun
+  :head {:pronoun false
+         :propernoun false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash false
+  :subcat {:1 :top :2 []}
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :options [;; vier kleine (but: *kleine vier)
+            {:mod {:first {:number? true}
+                   :rest {:first {:number? false}}}}
+            ;; kleine blauwe
+            {:mod {:first {:number? false}
+                   :rest {:first {:number? false}}}}
+            ;; kleine
+            {:mod {:first {:number? false}
+                   :rest []}}
+            ;; vier
+            {:mod {:first {:number? true}
+                   :rest []}}]
+  :unify [nest/cons-only
+          nest/noun
+          su/b
+          ug/head-last
+          ug/head-is-root
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/shared-def]}
+ 
+ ;; np with no determiner, e.g.:
+ ;; 'grote katten' in 'grote katten slapen'.
+ {:rule "np:1" 
+  :np? true
+  :cat :noun
+  :subcat []
+  :head {:pronoun false
+         :propernoun false
+         ;; Prevent e.g. *"oude de huizen",
+         ;; whereas e.g. "de oude huizen" is ok:
+         :np? false
+         :subcat []}
+  :slash false
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :unify [nest/cons-and-nest
+          nest/noun
+          su/b
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/nominal-phrase
+          ug/shared-agr
+          ug/shared-def]}
+ 
+ {:rule "np:2" ;; '.de +kat'
+  :np? true
+  :reflexive false
+  :agr {:person :3rd}
+  :cat :noun
+  :comp {:cat :det}
+  :slash false
+  :subcat []
+  :unify [nest/nest-only
+          nest/noun
+          su/a
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/shared-def
+          ug/shared-number]}
+
+ {:rule "s"
+  :cat :verb
+  :subcat []
+  :options menard.nederlands/finite-tenses  
+  :unify [su/a
+          ug/head-aux
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/head-sem
+          ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
+          ]}
+
+ {:rule "vp" ;; [vp +zie .het]
+  :cat :verb
+  :aux false
+  :slash false
+  :options menard.nederlands/finite-plus-inf-tense
+  :head {:aux false
+         :modal false}
+
+  :unify [su/c
+          ug/head-first
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
+          ug/slash-is-head-slash]}
+
+ {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[+te slapen]]
+  :cat :verb
+  :aux false
+  :slash false
+  :options menard.nederlands/finite-plus-inf-tense
+  :head {:aux false
+         :modal :te}
+
+  :unify [su/c
+          ug/head-first
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/sem-mod-is-empty
+          ug/slash-is-head-slash]}
+
+ ;; the object of the non-modal verb (in the complement)
+ ;; is copied up:
+ {:rule "vp-infinitive" ;; [vp +moet .bestrijden]
+  :cat :verb
+  :aux false
+  :slash false
+  :options menard.nederlands/finite-plus-inf-tense
+  :head {:aux false
+         :modal :infinitive}
+  :unify [su/i
+          ug/head-first
+          ug/head-is-root
+          ug/nest-comp-mod
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash]}
+
+ {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
+  :cat :verb
+  :aux false
+  :slash false
+  :options menard.nederlands/inf-tense
+  :head {:aux false}
+
+  ;; TODO: remove: should be handled by head:
+  :comp {:cat :noun}
+  :unify [su/c
+          ug/head-last
+          ug/head-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
+          ug/slash-is-head-slash]}
+
+ {:rule "vp-te" ;; '+te .slapen'
+  :cat :verb
+  :aux false
+  :slash false
+  :infl :te
+  :head {:canonical "te"}
+  :unify [su/d
+          ug/head-first
+          ug/comp-is-root
+          ug/head-reflexive
+          ug/head-rule
+          ug/head-sem
+          ug/slash-is-head-slash
+          ug/sem-mod-is-comp-mod]}
+
+ {:rule "adverb" ;; '.samen +bestrijden'
+  :prod? true
+  :cat :verb
+  :subcat {:1 {:top :top}
+           :2 {:top :top}
+           :3 []}
+  :mod {:rest []}
+  :reflexive false
+  :head {:cat :verb
+         :infl :infinitive}
+  :comp {:cat :adverb}
+  :unify [su/b
+
+          ;; TODO: use nest/ instead.
+          ug/cons-mod-adverb
+
+          ug/subj-ref
+          ug/head-is-root
+          ug/head-last
+          ug/head-rule
+          ug/head-sem]}
+
+ ;; [modal+subject(:present-simple) +moeten .jullie]
+ {:rule "modal+subject"
+  :prod? true
+  :cat :verb
+  :reflexive false
+  :head {:phrasal false
+         :modal :infinitive
+         :infl :present
+         :subcat {:2 {:modal false}}}
+  :options menard.nederlands/finite-tenses  
+  :unify [su/e
+          ug/head-first
+          ug/head-rule
+          ug/head-sem]}
+
+ ;; +[vp-slash-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
+ {:rule "vp-slash-object"
+  :prod? true
+  :cat :verb
+  :reflexive false
+  :head {:rule "modal+subject"
+         :phrasal true}
+  :unify [su/h
+          ug/head-first
+          ug/head-sem]}]

@@ -365,3 +365,33 @@ Copyright © 2018 Eugene Koontz
 
 Distributed under the Eclipse Public License, the same as Clojure.
 Please see the `epl-v10.html` file at the top level of this repo.
+
+# Name
+
+The name comes from the story [Pierre Menard, autor del Quijote
+(Pierre Menard, Author of the
+Quixote)](https://en.wikipedia.org/wiki/Pierre_Menard,_Author_of_the_Quixote),
+a short story by Jorge Luis Borges, which tells the story of a writer
+Menard who attempted to rewrite Cervantes' Don Quixote, but not simply
+by transcribing it from the original text, but rather by somehow
+internalizing the mental state of Cervantes that is necessary to write
+it.  I see this as reminicent of this project's attempt to generate
+natural language expressions by encoding semantic representations,
+grammar rules, and lexical entries sufficiently detailed enough to
+generate the expressions.
+
+Initially, I named this project 'babel', after another of Borges'
+stories, [The Library of
+Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel), but this
+name is already well-known [Javascript tool](https://babeljs.io/). I
+later rewrote and simplified the same ideas into a new github
+repository, calling it 'babylon', but then discovered that this name
+was also already well-known Javascript (software
+project)[https://www.babylonjs.com/], and so now I have arrived at the
+current name, by renaming this current repository as 'menard'.
+
+I've found that there is another project called
+[pierre-menard](https://github.com/hraberg/pierre-menard), also as it
+happens written in Clojure, that is now archived with the last commit
+being 2012, so I think it is safe to reappropriate this name for my
+own project now in 2020.

@@ -368,22 +368,19 @@ Please see the `epl-v10.html` file at the top level of this repo.
 
 # Name
 
-The story [Pierre Menard, autor del Quijote (Pierre Menard, Author of
-the
-Quixote)](https://en.wikipedia.org/wiki/Pierre_Menard,_Author_of_the_Quixote),
+The story [Pierre Menard, autor del Quijote](https://en.wikipedia.org/wiki/Pierre_Menard,_Author_of_the_Quixote),
 by Jorge Luis Borges, tells of a writer Pierre Menard who attempted to
 rewrite Cervantes' Don Quixote, but not simply by copying it
 letter-by-letter from the original text, but rather by somehow
 internalizing the mental state of Cervantes that is necessary to write
-it, and then writing it '''de nuovo''' from that interior mental
-state.  I see this as reminicent of this project's attempt to generate
-natural language expressions by encoding semantic representations,
-grammar rules, and lexical entries sufficiently detailed enough to
-generate the expressions.
+it, and then writing it _de novo_ from that interior mental state.  I
+see this as reminicent of this project's attempt to generate natural
+language expressions by encoding semantic representations and then
+using grammar rules and lexical entries that are able to generate the
+expressions from the semantic representations.
 
-Initially, I named this project 'babel', after another of Borges'
-stories, [The Library of
-Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel), but this
+Initially, I named this project [babel](https://github.com/ekoontz/babel), after another of Borges'
+stories, [The Library of Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel), but this
 name is already well-known [Javascript tool](https://babeljs.io/). I
 later rewrote and simplified the same ideas into a new github
 repository, calling it 'babylon', but then discovered that this name

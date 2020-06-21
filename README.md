@@ -368,14 +368,15 @@ Please see the `epl-v10.html` file at the top level of this repo.
 
 # Name
 
-The name comes from the story [Pierre Menard, autor del Quijote
-(Pierre Menard, Author of the
+The story [Pierre Menard, autor del Quijote (Pierre Menard, Author of
+the
 Quixote)](https://en.wikipedia.org/wiki/Pierre_Menard,_Author_of_the_Quixote),
-a short story by Jorge Luis Borges, which tells the story of a writer
-Menard who attempted to rewrite Cervantes' Don Quixote, but not simply
-by transcribing it from the original text, but rather by somehow
+by Jorge Luis Borges, tells of a writer Pierre Menard who attempted to
+rewrite Cervantes' Don Quixote, but not simply by copying it
+letter-by-letter from the original text, but rather by somehow
 internalizing the mental state of Cervantes that is necessary to write
-it.  I see this as reminicent of this project's attempt to generate
+it, and then writing it '''de nuovo''' from that interior mental
+state.  I see this as reminicent of this project's attempt to generate
 natural language expressions by encoding semantic representations,
 grammar rules, and lexical entries sufficiently detailed enough to
 generate the expressions.

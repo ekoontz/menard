@@ -395,7 +395,7 @@ own project now in 2020.
 
 # Inspirations
 
-I am including some links below which I think are interesting and related to the goals of this one.
+I am including some links below which I think are interesting and related to the ideas I am exploring here.
 
 - [500'000€ Prize for Compressing Human Knowledge](http://prize.hutter1.net/index.htm)
 - [The Library of Babel](https://libraryofbabel.info/)

@@ -17,7 +17,7 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ### [Fehringer 1999]
 
-Dutch grammar and lexicon based on [Carole Fehringer, "A Reference Grammar of Dutch", Cambridge University Press, 1999](https://books.google.nl/books/about/A_Reference_Grammar_of_Dutch.html?id=hXZNkFqILp0C&redir_esc=y), referred to here as "F. <section>" or "F. pp. <pages>" in the source code.
+Dutch grammar and lexicon based on [Carole Fehringer, "A Reference Grammar of Dutch", Cambridge University Press, 1999](https://books.google.nl/books/about/A_Reference_Grammar_of_Dutch.html?id=hXZNkFqILp0C&redir_esc=y), referred to here as "F. &lt;section&gt;" or "F. pp. &lt;pages&gt;" in the source code.
 
 ### Verbix
 
@@ -386,8 +386,7 @@ Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel), but this
 name is already well-known [Javascript tool](https://babeljs.io/). I
 later rewrote and simplified the same ideas into a new github
 repository, calling it 'babylon', but then discovered that this name
-was also already well-known Javascript (software
-project)[https://www.babylonjs.com/], and so now I have arrived at the
+was also already well-known Javascript [software project](https://www.babylonjs.com/), and so now I have arrived at the
 current name, by renaming this current repository as 'menard'.
 
 I've found that there is another project called

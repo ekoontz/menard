@@ -381,11 +381,11 @@ expressions from the semantic representations.
 
 Initially, I named this project [babel](https://github.com/ekoontz/babel), after another of Borges'
 stories, [The Library of Babel](https://en.wikipedia.org/wiki/The_Library_of_Babel), but this
-name is already well-known [Javascript tool](https://babeljs.io/). I
-later rewrote and simplified the same ideas into a new github
-repository, calling it 'babylon', but then discovered that this name
-was also already well-known Javascript [software project](https://www.babylonjs.com/), and so now I have arrived at the
-current name, by renaming this current repository as 'menard'.
+name is already taken by a well-known [Javascript tool](https://babeljs.io/). I
+later rewrote and simplified the same ideas in my 'babel' project into a new github
+repository, calling it 'babylon', before discovering that this name
+was also already well-known Javascript [software project](https://www.babylonjs.com/). Now I have arrived at the
+current name, by renaming the 'babylon' repository to 'menard'.
 
 I've found that there is another project called
 [pierre-menard](https://github.com/hraberg/pierre-menard), also as it

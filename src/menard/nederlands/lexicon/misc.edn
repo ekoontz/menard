@@ -104,9 +104,14 @@
           :sem {:pred :she
                 :ref {:human true}}}
          {:cat :det
+          :agr {:number :sing}
+          :definite? true
+          :sem {:pred :she}}
+         {:cat :det
+          :agr {:number :plur}          
           :definite? true
           :sem {:pred :she}}]
- 
+
  "heel" [{:cat :intensifier
           :sem {:pred :very}}]
 
@@ -159,6 +164,11 @@
          :sem {:pred :they
                :ref {:human true}}}
         {:cat :det
+         :agr {:number :sing}
+         :definite? true
+         :sem {:pred :they}}
+        {:cat :det
+         :agr {:number :plur}
          :definite? true
          :sem {:pred :they}}]
 
@@ -196,6 +206,12 @@
          :pronoun true}]
 
  "jouw" [{:cat :det
+          :agr {:number :sing}
+          :definite? true                 
+          :sem {:pred :you
+                :context :informal}}
+         {:cat :det
+          :agr {:number :plur}
           :definite? true                 
           :sem {:pred :you
                 :context :informal}}]
@@ -226,6 +242,11 @@
                :number :sing}}]
 
  "mijn" [{:cat :det
+          :agr {:number :sing}
+          :definite? true
+          :sem {:pred :i}}
+         {:cat :det
+          :agr {:number :plur}
           :definite? true
           :sem {:pred :i}}]
  
@@ -245,8 +266,7 @@
          :sem {:pred :we}}]
 
  "onze" [{:cat :det
-          :agr {:number :sing
-                :gender :common}
+          :agr {:number :sing}
           :definite? true
           :sem {:pred :we}}
          {:cat :det
@@ -269,6 +289,12 @@
        :sem {:ref {:context :polite}}}]
 
  "uw" [{:cat :det
+        :agr {:number :sing}
+        :definite? true
+        :sem {:pred :you
+              :context :polite}}
+       {:cat :det
+        :agr {:number :plur}        
         :definite? true
         :sem {:pred :you
               :context :polite}}]
@@ -317,11 +343,21 @@
                :ref {:human true}}}]
 
  "zijn" [{:cat :det
+          :agr {:number :sing}
           :definite? true
           :sem {:pred :he}}
-
          {:cat :det
+          :agr {:number :plur}
+          :definite? true
+          :sem {:pred :he}}
+         {:cat :det
+          :agr {:number :sing}
+          :definite? true
+          :sem {:pred :it}}
+         {:cat :det
+          :agr {:number :plur}
           :definite? true
           :sem {:pred :it}}]}
+
 
 

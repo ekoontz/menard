@@ -14,7 +14,6 @@ dbs.txt
 stage*
 all.out
 *.log
-*.txt
 /out
 expression.table.gz
 doo-index.html

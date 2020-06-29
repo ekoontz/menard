@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.0.4] - 2020-06-29
+
+- ~analyze: create lower,upper, and capitalized variants of all inputs
+- ~parse: use (newly-modified) analyze for parsing's lookup function
+- fix for one sense of irregular plural nouns: :quant should be :some, not :unspec
+- all possessive pronouns need to have both :sing and :plur senses
+- cleanup whitespace
+- move demo output to separate file
+
 ## [0.0.3] - 2020-06-21
 
 - Rename from 'babylon' to 'menard'

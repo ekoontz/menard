@@ -62,7 +62,7 @@
           :pronoun false
           :agr {:number :plur
                 :person :3rd}
-          :sem {:quant :unspec}
+          :sem {:quant :some}
           :subcat []}]}
 
  {:rule :irregular-singular-common-noun

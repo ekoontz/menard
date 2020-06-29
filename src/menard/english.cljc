@@ -324,7 +324,7 @@
             p/syntax-tree syntax-tree
             l/lexicon lexicon
             l/morphology morphology
-            p/lookup-fn l/matching-lexemes]
+            p/lookup-fn analyze]
     (p/parse expression morph)))
 
 (def expressions

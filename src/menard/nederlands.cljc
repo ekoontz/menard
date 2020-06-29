@@ -271,7 +271,7 @@
             l/lexicon lexicon
             l/morphology morphology
             p/split-on #"[ ]"
-            p/lookup-fn l/matching-lexemes]
+            p/lookup-fn analyze]
     (p/parse expression morph)))
 
 (defn generate-demo [index & [this-many]]

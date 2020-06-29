@@ -384,7 +384,7 @@ stories, [The Library of Babel](https://en.wikipedia.org/wiki/The_Library_of_Bab
 name is already taken by a well-known [Javascript tool](https://babeljs.io/). I
 later rewrote and simplified the same ideas in my 'babel' project into a new github
 repository, calling it 'babylon', before discovering that this name
-was also already well-known Javascript [software project](https://www.babylonjs.com/). Now I have arrived at the
+was also already a well-known Javascript [software project](https://www.babylonjs.com/). Now I have arrived at the
 current name, by renaming the 'babylon' repository to 'menard'.
 
 I've found that there is another project called

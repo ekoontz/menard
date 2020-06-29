@@ -254,6 +254,16 @@
   (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
     (g/generate-all [spec] grammar index-fn syntax-tree)))
 
+(defn analyze [surface]
+  (binding [l/lexicon lexicon
+            l/morphology morphology]
+    (let [variants (vec (set [(clojure.string/lower-case surface)
+                              (clojure.string/upper-case surface)
+                              (clojure.string/capitalize surface)]))]
+      (->> variants
+           (mapcat (fn [surface]
+                     (l/matching-lexemes surface)))))))
+
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
@@ -263,11 +273,6 @@
             p/split-on #"[ ]"
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
-
-(defn analyze [surface]
-  (binding [l/lexicon lexicon
-            l/morphology morphology]
-    (l/matching-lexemes surface)))
 
 (defn generate-demo [index & [this-many]]
   (->>

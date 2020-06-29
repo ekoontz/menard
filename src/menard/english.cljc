@@ -309,6 +309,16 @@
   [spec n]
   (take n (repeatedly #(generate spec))))
 
+(defn analyze [surface]
+  (binding [l/lexicon lexicon
+            l/morphology morphology]
+    (let [variants (vec (set [(clojure.string/lower-case surface)
+                              (clojure.string/upper-case surface)
+                              (clojure.string/capitalize surface)]))]
+      (->> variants
+           (mapcat (fn [surface]
+                     (l/matching-lexemes surface)))))))
+
 (defn parse [expression]
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
@@ -316,11 +326,6 @@
             l/morphology morphology
             p/lookup-fn l/matching-lexemes]
     (p/parse expression morph)))
-
-(defn analyze [surface]
-  (binding [l/lexicon lexicon
-            l/morphology morphology]
-    (l/matching-lexemes surface)))              
 
 (def expressions
   (-> "menard/english/expressions.edn"

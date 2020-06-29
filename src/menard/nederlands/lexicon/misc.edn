@@ -11,7 +11,7 @@
          :sem {:pred :that}
          :agr {:number :sing
                :gender :neuter}}]
-        
+
  ;; <F. p30-31, 54-55, 70>
  "de" [{:cat :det
         :definite? true
@@ -29,7 +29,7 @@
           :agr {:number :sing
                 :gender :common}}
          {:cat :det
-          :definite? true          
+          :definite? true
           :sem {:pred :this}
           :agr {:number :plur}}]
 
@@ -108,7 +108,7 @@
           :definite? true
           :sem {:pred :she}}
          {:cat :det
-          :agr {:number :plur}          
+          :agr {:number :plur}
           :definite? true
           :sem {:pred :she}}]
 
@@ -145,7 +145,7 @@
                :number :sing
                :gender :masc}
          :case :nom}]
- 
+
  ;; <F. p69-73>
  "hij" [{:agr {:person :3rd
                :number :sing
@@ -207,12 +207,12 @@
 
  "jouw" [{:cat :det
           :agr {:number :sing}
-          :definite? true                 
+          :definite? true
           :sem {:pred :you
                 :context :informal}}
          {:cat :det
           :agr {:number :plur}
-          :definite? true                 
+          :definite? true
           :sem {:pred :you
                 :context :informal}}]
 
@@ -249,10 +249,10 @@
           :agr {:number :plur}
           :definite? true
           :sem {:pred :i}}]
- 
+
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}}]
- 
+
  "ons" [{:cat :noun
          :case :acc
          :agr {:number :plur
@@ -273,7 +273,7 @@
           :definite? true
           :agr {:number :plur}
           :sem {:pred :we}}]
- 
+
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
  "u" [{:agr {:person :2nd}
@@ -294,7 +294,7 @@
         :sem {:pred :you
               :context :polite}}
        {:cat :det
-        :agr {:number :plur}        
+        :agr {:number :plur}
         :definite? true
         :sem {:pred :you
               :context :polite}}]
@@ -303,7 +303,7 @@
          :definite? false
          :sem {:pred :some}
          :agr {:number :plur}}]
- 
+
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom
@@ -317,7 +317,7 @@
          :cat :noun
          :pronoun true
          :sem {:pred :we}}]
- 
+
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:cat :noun
@@ -358,6 +358,3 @@
           :agr {:number :plur}
           :definite? true
           :sem {:pred :it}}]}
-
-
-

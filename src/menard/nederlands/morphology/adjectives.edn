@@ -100,21 +100,21 @@
             :number :sing}
       :modifies-noun true}}
 
- ;; generation: openbaar -> openbare
- ;; parsing:    openbare -> openbaar
- {:g [#"(a)(a)r$"   "$1re"]
-  :p [#"are$"       "aar"]
+ ;; generation: openbaar -> openbare;eenzaam -> eenzame
+ ;; parsing:    openbare -> openbaar;eenzame -> eenzaam
+ {:g [#"(a)(a)([mr])$"   "$1$3e"]
+  :p [#"a([mr])e$"       "aa$1"]
   :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
- {:g [#"(a)(a)r$"   "$1re"]
-  :p [#"are$"       "aar"]
+ {:g [#"(a)(a)([mr])$"   "$1$3e"]
+  :p [#"a([mr])e$"       "aa$1"]
   :u {:cat :adjective
       :definite? true
       :agr {:number :sing}      
       :modifies-noun true}}
- {:g [#"(a)(a)r$"   "$1re"]
-  :p [#"are$"       "aar"]
+ {:g [#"(a)(a)([mr])$"   "$1$3e"]
+  :p [#"a([mr])e$"       "aa$1"]
   :u {:cat :adjective
       :definite? false
       :agr {:gender :common

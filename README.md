@@ -73,7 +73,7 @@ own project now in 2020.
 
 # Inspirations
 
-Besides the above-mentioned Linguistics and Borges references mentioned above,
+Besides the above-mentioned linguistics and Borges references mentioned above,
 I am including some links below which I think are interesting and
 related to the ideas I am exploring here.
 

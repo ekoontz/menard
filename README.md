@@ -29,10 +29,10 @@ For the demo, a Dutch sentence and a *semantically-equivalent** English sentence
 <a href="https://github.com/ekoontz/menard/blob/master/src/menard/nederlands/expressions.edn">expressions.edn</a>), then, the semantics
 of this Dutch sentence are used to generate an English sentence with the same* semantics.
 
-* Approximately the same semantics, modulo various bugs and misunderstandings on my part.
+\* Approximately the same semantics, modulo various bugs and misunderstandings on my part.
 
 ```
-$ user=> (do (load "menard/translate") (menard.translate/demo))
+$ echo '(do (load "menard/translate") (menard.translate/demo))' | lein repl
 ```
 
 The output will look like [this example](demo.txt), although you'll get your own, uniquely-generated set of sentences.

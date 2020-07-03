@@ -47,7 +47,7 @@ Please see the `epl-v10.html` file at the top level of this repo.
 # Name
 
 The story [Pierre Menard, autor del Quijote](https://en.wikipedia.org/wiki/Pierre_Menard,_Author_of_the_Quixote),
-by Jorge Luis Borges, tells of a writer Pierre Menard who attempted to
+by Jorge Luis Borges, tells of a writer, Pierre Menard, who attempted to
 rewrite Cervantes' Don Quixote, not simply by copying it
 letter-by-letter from the original text, but rather by somehow
 reproducing the mental and experiential state of Cervantes that was necessary to write

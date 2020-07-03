@@ -1,5 +1,5 @@
 {
- "zero" [{:cat :adjective
+ "zero" [{
          ;; it is less than 10 of course, but we're using :less-than-10=false
          ;; here to prevent e.g. "nul en twintig", so it's
          ;; used in the same to prevent e.g. "twalf en twintig".
@@ -10,68 +10,68 @@
                :number? true
                :pred 0}}]
 
- "one" [{:cat :adjective
+ "one" [{
          :sem {:pred 1
                :number? true
                :times 1}
          :agr {:number :sing}}]
 
- "two" [{:cat :adjective
+ "two" [{
           :agr {:number :plur}
           :sem {:pred 2
                 :number? true
                 :times 1}}]
 
- "three" [{:cat :adjective
+ "three" [{
            :agr {:number :plur}
            :sem {:pred 3
                  :number? true
                  :times 1}}]
 
- "four" [{:cat :adjective
+ "four" [{
           :agr {:number :plur}
           :sem {:pred 4
                 :number? true
                 :times 1}}]
 
- "five" [{:cat :adjective
+ "five" [{
           :agr {:number :plur}
           :sem {:pred 5
                 :number? true
                 :times 1}}]
 
- "six" [{:cat :adjective
+ "six" [{
          :agr {:number :plur}
          :sem {:pred 6
                :number? true
                :times 1}}]
 
- "seven" [{:cat :adjective
+ "seven" [{
            :agr {:number :plur}
            :sem {:pred 7
                  :number? true
                  :times 1}}]
 
- "eight" [{:cat :adjective
+ "eight" [{
            :agr {:number :plur}
            :sem {:pred 8
                  :number? true
                  :times 1}}]
  
- "nine" [{:cat :adjective
+ "nine" [{
            :agr {:number :plur}
            :sem {:times 1
                  :number? true
                  :pred 9}}]
 
- "ten" [{:cat :adjective
+ "ten" [{
          :agr {:number :plur}
          :teen? true
          :sem {:pred 10
                :number? true
                :times 1}}] 
 
- "eleven" [{:cat :adjective
+ "eleven" [{
             :agr {:number :plur}
             :teen? true
             :sem {:pred :add
@@ -79,7 +79,7 @@
                   :arg1 {:pred 1 :times 1}
                   :arg2 {:pred 1 :times 10}}}]
 
- "twelve" [{:cat :adjective
+ "twelve" [{
             :agr {:number :plur}
             :teen? true
             :sem {:pred :add
@@ -87,7 +87,7 @@
                   :arg1 {:pred 2 :times 1}
                   :arg2 {:pred 1 :times 10}}}]
 
- "thirteen" [{:cat :adjective
+ "thirteen" [{
               :agr {:number :plur}
               :teen? true
               :sem {:pred :add
@@ -95,7 +95,7 @@
                     :arg1 {:pred 3 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
 
- "fourteen" [{:cat :adjective
+ "fourteen" [{
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
@@ -103,7 +103,7 @@
                    :arg1 {:pred 4 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "fifteen" [{:cat :adjective
+ "fifteen" [{
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
@@ -111,7 +111,7 @@
                    :arg1 {:pred 5 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "sixteen" [{:cat :adjective
+ "sixteen" [{
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
@@ -119,7 +119,7 @@
                    :arg1 {:pred 6 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "seventeen" [{:cat :adjective
+ "seventeen" [{
                :agr {:number :plur}
                :teen? true
                :sem {:pred :add
@@ -127,7 +127,7 @@
                      :arg1 {:pred 7 :times 1}
                      :arg2 {:pred 1 :times 10}}}]
 
- "eighteen" [{:cat :adjective
+ "eighteen" [{
               :agr {:number :plur}
               :teen? true
               :sem {:pred :add
@@ -135,7 +135,7 @@
                     :arg1 {:pred 8 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
  
- "nineteen" [{:cat :adjective
+ "nineteen" [{
               :agr {:number :plur}
               :teen? true
               :sem {:pred :add
@@ -143,49 +143,49 @@
                     :arg1 {:pred 9 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
  
- "twenty" [{:cat :adjective
+ "twenty" [{
             :agr {:number :plur}
             :sem {:times 10
                   :number? true                   
                   :pred 2}}]
 
- "thirty" [{:cat :adjective
+ "thirty" [{
              :agr {:number :plur}
              :sem {:times 10
                    :number? true
                    :pred 3}}]
 
- "forty" [{:cat :adjective
+ "forty" [{
            :agr {:number :plur}
            :sem {:times 10
                  :number? true
                  :pred 4}}]
 
- "fifty" [{:cat :adjective
+ "fifty" [{
            :agr {:number :plur}
            :sem {:pred 5
                  :number? true
                  :times 10}}]
 
- "sixty" [{:cat :adjective
+ "sixty" [{
            :agr {:number :plur}
            :sem {:pred 6
                  :number? true
                  :times 10}}]
  
- "seventy" [{:cat :adjective
+ "seventy" [{
              :agr {:number :plur}
              :sem {:pred 7
                    :number? true
                    :times 10}}]
 
- "eighty" [{:cat :adjective
+ "eighty" [{
             :agr {:number :plur}
             :sem {:pred 8
                   :number? true
                   :times 10}}]
 
- "ninety" [{:cat :adjective
+ "ninety" [{
             :agr {:number :plur}
             :sem {:pred 9
                   :number? true

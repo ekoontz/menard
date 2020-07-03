@@ -1,2 +1,1 @@
-{"together" [{:cat :adverb
-              :sem {:pred :together}}]}
+{"together" [{:sem {:pred :together}}]}

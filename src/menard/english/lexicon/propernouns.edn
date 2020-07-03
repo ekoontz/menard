@@ -3,15 +3,15 @@
                    :human true}
              :sem {:ref {:human true}
                    :pred :antonio}
-             :pronoun false
-             :propernoun true}]
+             
+             }]
  "Antonio" [{:cat :noun
              :agr {:gender :masc
                    :human true}
              :sem {:ref {:human true}
                    :pred :antonio}
-             :pronoun false
-             :propernoun true}]
+             
+             }]
  "Bas" [{:cat :noun
          :agr {:gender :masc
                :human true
@@ -19,23 +19,23 @@
                :person :3rd}
          :sem {:ref {:human true}
                :pred :bas}
-         :pronoun false
-         :propernoun true}]
+         
+         }]
  "Corona" [{:cat :noun
             :agr {:human false
                   :number :sing
                   :person :3rd}
             :sem {:ref {:human false}
                   :pred :corona}
-            :pronoun false
-            :propernoun true}]
+            
+            }]
  "Guus" [{:cat :noun
           :agr {:gender :masc
                 :human true}
           :sem {:ref {:human true}
                 :pred :guus}
-          :pronoun false
-          :propernoun true}]
+          
+          }]
  "Femke" [{:cat :noun
            :agr {:gender :fem
                  :human true
@@ -43,15 +43,15 @@
                  :person :3rd}
            :sem {:ref {:human true}
                  :pred :femke}
-           :pronoun false
-          :propernoun true}]
+           
+          }]
  "Saskia" [{:cat :noun
             :agr {:gender :fem
                   :human true}
             :sem {:ref {:human true}
                   :pred :saskia}
-            :pronoun false
-            :propernoun true}]}
+            
+            }]}
 
 
 

@@ -1,196 +1,196 @@
-{"area" [{:cat :noun
+{"area" [{
           :sem {:pred :area}}]
- "baby" [{:cat :noun
+ "baby" [{
           :sem {:pred :baby}}]
- "bike" [{:cat :noun
+ "bike" [{
           :sem {:pred :bike}}]
- "bird" [{:cat :noun
+ "bird" [{
           :agr {:gender :neuter}
           :sem {:pred :bird}}]
- "book" [{:cat :noun
+ "book" [{
           :sem {:pred :book}}]
- "boy" [{:cat :noun
+ "boy" [{
          :sem {:pred :boy}
          :agr {:human true
                :gender :masc}}]
- "business" [{:cat :noun
+ "business" [{
               :sem {:pred :business}}]
- "case" [{:cat :noun
+ "case" [{
           :sem {:pred :case}}]
- "cat" [{:cat :noun
+ "cat" [{
          :sem {:pred :cat}}]
- "chair" [{:cat :noun
+ "chair" [{
            :sem {:pred :chair}}]
- "child" [{:cat :noun
+ "child" [{
            :sem {:pred :child}
            :exceptions [{:agr {:number :plur}
                          :surface "children"}]}]
- "civilization" [{:cat :noun
+ "civilization" [{
                   :sem {:pred :civilization}}]
- "coat" [{:cat :noun
+ "coat" [{
           :sem {:pred :coat}}]
- "company" [{:cat :noun
+ "company" [{
              :sem {:pred :company}}]
- "country" [{:cat :noun
+ "country" [{
              :sem {:pred :country}}]
- "day" [{:cat :noun
+ "day" [{
          :sem {:pred :day}}]
- "development" [{:cat :noun
+ "development" [{
                  :sem {:pred :development}}]
- "dinner" [{:cat :noun
+ "dinner" [{
             :sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"
 
- "dog" [{:cat :noun
+ "dog" [{
          :sem {:pred :dog}}]
- "education" [{:cat :noun
+ "education" [{
                :sem {:pred :education}}]
- "eye" [{:cat :noun
+ "eye" [{
          :sem {:pred :eye}}]
- "fact" [{:cat :noun
+ "fact" [{
           :sem {:pred :fact}}]
- "family" [{:cat :noun
+ "family" [{
             :sem {:pred :family}}]
- "gentleman" [{:cat :noun
+ "gentleman" [{
                :sem {:pred :man
                      :context :polite}
                :agr {:gender :man
                      :human true}
                :exceptions [{:surface "gentlemen"
                              :agr {:number :plur}}]}]
- "girl" [{:cat :noun
+ "girl" [{
           :sem {:pred :girl}
           :agr {:human true
                 :gender :fem}}]
- "government" [{:cat :noun
+ "government" [{
                 :sem {:pred :government}}]
- "grape" [{:cat :noun
+ "grape" [{
            :sem {:pred :grape}}]
- "group" [{:cat :noun
+ "group" [{
            :sem {:pred :group}}]
- "hair" [{:cat :noun
+ "hair" [{
           :sem {:pred :hair}}]
- "hand" [{:cat :noun
+ "hand" [{
           :sem {:pred :hand}}]
- "home" [{:cat :noun
+ "home" [{
           :sem {:pred :home}}]
- "house" [{:cat :noun
+ "house" [{
            :sem {:pred :house}}]
- "job" [{:cat :noun
+ "job" [{
          :sem {:pred :job}}]
- "kitten" [{:cat :noun
+ "kitten" [{
             :sem {:pred :kitten}}]
- "lady" [{:cat :noun
+ "lady" [{
           :sem {:pred :woman
                 :context :polite}
           :agr {:gender :fem
                 :human true}}]
- "leg" [{:cat :noun
+ "leg" [{
           :sem {:pred :leg}}]
- "life" [{:cat :noun
+ "life" [{
           :sem {:pred :life}}]
- "loneliness" [{:cat :noun
+ "loneliness" [{
                 :sem {:pred :loneliness}}]
- "lot" [{:cat :noun
+ "lot" [{
          :sem {:pred :lot}}]
- "man" [{:cat :noun
+ "man" [{
          :sem {:pred :man}
          :agr {:gender :masc
                :human true}
          :exceptions [{:surface "men"
                        :agr {:number :plur}}]}]
- "money" [{:cat :noun
+ "money" [{
            :sem {:pred :money}}]
- "month" [{:cat :noun
+ "month" [{
            :sem {:pred :month}}]
- "mother" [{:cat :noun
+ "mother" [{
             :sem {:pred :mother}}]
- "name" [{:cat :noun
+ "name" [{
           :sem {:pred :name}}]
- "night" [{:cat :noun
+ "night" [{
            :sem {:pred :night}}]
- "number" [{:cat :noun
+ "number" [{
             :sem {:pred :number}}]
- "part" [{:cat :noun
+ "part" [{
           :sem {:pred :part}}]
- "people" [{:cat :noun
+ "people" [{
             :sem {:pred :people}
             :agr {:number :plur}}]
- "performance" [{:cat :noun
+ "performance" [{
                  :sem {:pred :performance}}]
- "person" [{:cat :noun
+ "person" [{
             :sem {:pred :person}
             :agr {:number :sing}}]
- "place" [{:cat :noun
+ "place" [{
            :sem {:pred :place}}]
- "point" [{:cat :noun
+ "point" [{
            :sem {:pred :point}}]
- "problem" [{:cat :noun
+ "problem" [{
              :sem {:pred :problem}}]
- "professor" [{:cat :noun
+ "professor" [{
                :sem {:pred :professor}}]
- "program" [{:cat :noun
+ "program" [{
              :sem {:pred :program}}]
- "puppy" [{:cat :noun
+ "puppy" [{
            :sem {:pred :puppy}}]
- "question" [{:cat :noun
+ "question" [{
               :sem {:pred :question}}]
- "relaxation" [{:cat :noun
+ "relaxation" [{
                 :sem {:pred :relaxation}}]
- "reporter" [{:cat :noun
+ "reporter" [{
               :sem {:pred :reporter}}]
- "revolt" [{:cat :noun
+ "revolt" [{
             :sem {:pred :revolt}}]
- "right" [{:cat :noun
+ "right" [{
            :sem {:pred :right}}]
- "room" [{:cat :noun
+ "room" [{
           :sem {:pred :room}}]
- "school" [{:cat :noun
+ "school" [{
             :sem {:pred :school}}]
- "sheep" [{:cat :noun
+ "sheep" [{
            :sem {:pred :sheep}
            :agr {:number :sing}
            :exceptions [{:agr {:number :plur}
                          :surface "sheep"}]}]
- "solution" [{:cat :noun
+ "solution" [{
            :sem {:pred :solution}}]
- "state" [{:cat :noun
+ "state" [{
            :sem {:pred :state}}]
- "story" [{:cat :noun
+ "story" [{
            :sem {:pred :story}}]
- "student" [{:cat :noun
+ "student" [{
              :sem {:pred :student}}]
- "study" [{:cat :noun
+ "study" [{
            :sem {:pred :study}}]
- "system" [{:cat :noun
+ "system" [{
             :sem {:pred :system}}]
- "table" [{:cat :noun
+ "table" [{
            :sem {:pred :table}}]
- "teacher" [{:cat :noun
+ "teacher" [{
              :sem {:pred :teacher}}]
- "thing" [{:cat :noun
+ "thing" [{
            :sem {:pred :thing}}]
- "time" [{:cat :noun
+ "time" [{
           :sem {:pred :time}}]
- "water" [{:cat :noun
+ "water" [{
            :sem {:pred :water}}]
- "way" [{:cat :noun
+ "way" [{
          :sem {:pred :way}}]
- "week" [{:cat :noun
+ "week" [{
           :sem {:pred :week}}]
- "woman" [{:cat :noun
+ "woman" [{
            :sem {:pred :woman
                  :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem
                  :human true}
            :exceptions [{:surface "women"
                          :agr {:number :plur}}]}]
- "word" [{:cat :noun
+ "word" [{
           :sem {:pred :word}}]
- "work" [{:cat :noun
+ "work" [{
           :sem {:pred :work}}]
- "world" [{:cat :noun
+ "world" [{
            :sem {:pred :world}}]
- "year" [{:cat :noun
+ "year" [{
           :sem {:pred :year}}]}
  

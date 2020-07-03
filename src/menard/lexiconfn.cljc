@@ -73,6 +73,12 @@
                                        {:phrasal false
                                         :canonical (u/get-in lexeme [:canonical] k)})])))]))))
 
+(defn apply-to-every-lexeme [lexicon map-fn]
+  (into {}
+        (for [[k lexemes-for-k] lexicon]
+          [k (->> lexemes-for-k
+                  (map map-fn))])))
+
 #?(:clj
    (defn read-and-eval [rules-filename]
      (-> rules-filename

@@ -27,10 +27,16 @@
       (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
-   (defn compile-lexicon-source [source-filename]
+   (defn compile-lexicon-source [source-filename & [unify-with]]
      (binding [menard.lexiconfn/include-derivation? true]
        (-> source-filename
            l/read-and-eval
+           ((fn [lexicon]
+              (l/apply-to-every-lexeme lexicon
+                                       (fn [lexeme]
+                                         (if (nil? unify-with)
+                                           lexeme
+                                           (unify lexeme unify-with))))))
            l/add-exceptions-to-lexicon
            (l/apply-rules-in-order (nth lexical-rules 0) :0)
            (l/apply-rules-in-order (nth lexical-rules 1) :1)
@@ -40,13 +46,13 @@
 #?(:clj
    (def lexicon
      (merge-with concat
-       (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn")
-       (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn")
-       (compile-lexicon-source "menard/nederlands/lexicon/misc.edn")
-       (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn")
-       (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn")
-       (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn")
-       (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn"))))
+       (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn" {:cat :adjective})
+       (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn" {:cat :adverb})
+       (compile-lexicon-source "menard/nederlands/lexicon/misc.edn") ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon.
+       (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" {:cat :noun})
+       (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" {:cat :adjective})
+       (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" {:cat :noun :pronoun false :propernoun true})
+       (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" {:cat :verb}))))
 
 #?(:cljs
    (def lexicon

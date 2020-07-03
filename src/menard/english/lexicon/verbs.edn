@@ -1,5 +1,5 @@
 {
- "ask" [{:cat :verb :sem {:pred :ask}}]
+ "ask" [{ :sem {:pred :ask}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
                         {:infl :present :surface "are"}
@@ -26,20 +26,20 @@
             subject-adjective {:1 {:cat :noun}
                                :2 {:cat :adjective}
                                :3 []}]
-        [{:cat :verb
+        [{
           :sem {:pred :be}
           :subcat subject-only
           :exceptions exceptions}
-         {:cat :verb
+         {
           :sem {:pred :be}
           :subcat subject-object-noun
           :exceptions exceptions}
-         {:cat :verb
+         {
           :reflexive false
           :sem {:pred :be}
           :subcat subject-adjective
           :exceptions exceptions}
-         {:cat :verb ;; "is sleeping"
+         { ;; "is sleeping"
           :derivation {:sense 4}
           :aux true
           :infl :present
@@ -47,7 +47,7 @@
                 :aspect :progressive}
           :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
-         {:cat :verb ;; "is" (aux sense)
+         { ;; "is" (aux sense)
           :derivation {:sense 5}
           :aux true
           :infl :present
@@ -56,7 +56,7 @@
                 :obj :anaphor}
           :subcat {:2 []}
           :exceptions exceptions}
-         {:cat :verb ;; "was sleeping"
+         { ;; "was sleeping"
           :derivation {:sense 6}
           :aux true
           :infl :past-simple
@@ -64,7 +64,7 @@
                 :aspect :progressive}
           :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
-         {:cat :verb ;; "was" (aux sense)
+         { ;; "was" (aux sense)
           :derivation {:sense 7}
           :aux true
           :infl :past-simple
@@ -78,48 +78,48 @@
                              :surface "became"}
                             {:infl :past-participle
                              :surface "become"}]]
-           [{:cat :verb :sem {:pred :become}
+           [{ :sem {:pred :become}
              :exceptions exceptions}])
 
  "begin" (let [exceptions [{:infl :past-simple
                             :surface "began"}
                            {:infl :past-participle
                             :surface "begun"}]]
-          [{:cat :verb :sem {:pred :begin}
+          [{ :sem {:pred :begin}
             :exceptions exceptions}])
 
  "believe" [{:sense 1
-             :cat :verb
+             
              :sem {:pred :believe}}
 
             {:sense 2
-             :cat :verb
+             
              :sem {:pred :believe}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
 
             {:sense 3
-             :cat :verb
+             
              :sem {:pred :believe}
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}]
 
- "call" [{:cat :verb :sem {:pred :call}}]
+ "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
-         :cat :verb
+         
          :infl :present
          :inflected? true
          :sem {:pred :be-able-to}}]
 
- "cause" [{:cat :verb
+ "cause" [{
            :sem {:pred :cause}}]
  
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle
                            :surface "come"}]]
-          [{:cat :verb :sem {:pred :come} :subcat {:2 []}
+          [{ :sem {:pred :come} :subcat {:2 []}
             :exceptions exceptions}])
  
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
@@ -128,12 +128,12 @@
         [{;; "I do", "I did"
           :exceptions exceptions
           :derivation {:sense 1}
-          :cat :verb :sem {:pred :do}}
+           :sem {:pred :do}}
          
          ;; "do you sleep?", "does he sleep?"
          {:agr agr
           :exceptions exceptions
-          :cat :verb
+          
           :aux true
           :infl :present
           :derivation {:sense 2}
@@ -155,7 +155,7 @@
                           :mood :interog})]
            {:agr agr
             :exceptions exceptions
-            :cat :verb
+            
             :aux true
             :infl :past-simple
             :derivation {:sense 3}
@@ -176,7 +176,7 @@
                           :aspect :progressive})]
            {:agr agr
             :exceptions exceptions
-            :cat :verb
+            
             :reflexive false
             :aux true
             :infl :past-simple
@@ -198,7 +198,7 @@
                           :aspect :progressive})]
            {:agr agr
             :exceptions exceptions
-            :cat :verb
+            
             :reflexive false
             :aux true
             :infl :present
@@ -217,19 +217,19 @@
  
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
-         [{:exceptions exceptions :cat :verb :sem {:pred :eat}}])
+         [{:exceptions exceptions  :sem {:pred :eat}}])
 
- "explain" [{:cat :verb :sem {:pred :explain}}]
+ "explain" [{ :sem {:pred :explain}}]
 
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :feel}}])
+           [{:exceptions exceptions  :sem {:pred :feel}}])
  "find" (let [exceptions [{:infl :past-simple :surface "found"}
                           {:infl :past-participle :surface "found"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :find}}])
+          [{:exceptions exceptions  :sem {:pred :find}}])
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
-         [{:exceptions exceptions :cat :verb :sem {:pred :get}}])
+         [{:exceptions exceptions  :sem {:pred :get}}])
 
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
                           {:infl :past-participle :surface "given"}]]
@@ -237,16 +237,16 @@
             :subcat {:2 {:cat :prep
                          :sem {:pred :to}}
                      :3 {:cat :noun}}
-            :cat :verb
+            
             :sem {:pred :give}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}
                    {:infl :past-participle :surface "gone"}]]
    [{:exceptions exceptions
-     :cat :verb :sem {:pred :go}
+      :sem {:pred :go}
      :subcat {:2 []}}
     {:exceptions exceptions
-     :cat :verb :sem {:pred :go}
+      :sem {:pred :go}
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
               :3 []}}])
@@ -279,14 +279,14 @@
                                   {:infl :present :agr {:person :3rd :number :plur} :surface "have"}
                                   {:infl :past-simple :surface "had"}
                                   {:infl :past-participle :surface "had"}]]
-          [{:cat :verb
+          [{
             ;; {:aux false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
             :aux false
             :derivation {:sense 1}
             :sem {:pred :have}
             :exceptions non-aux-exceptions}
-           {:cat :verb
+           {
             :aux true
             :derivation {:sense 2}
             :sem {:tense :past
@@ -294,14 +294,14 @@
                   :aspect :perfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
-           {:cat :verb
+           {
             :aux true
             :derivation {:sense 3}
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
-           {:cat :verb
+           {
             :aux true
             :derivation {:sense 4}
             :sem {:tense :past
@@ -309,7 +309,7 @@
                   :aspect :pluperfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
-           {:cat :verb
+           {
             :aux true
             :derivation {:sense 5}
             :sem {:tense :past
@@ -319,45 +319,45 @@
 
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :hear}}])
- "help" [{:cat :verb :sem {:pred :help} :subcat {:1 :top :2 :top}}]
+          [{:exceptions exceptions  :sem {:pred :hear}}])
+ "help" [{ :sem {:pred :help} :subcat {:1 :top :2 :top}}]
 
  "hope" [{:sense 1
-          :cat :verb
+          
           :sem {:pred :hope}
           :subcat {:1 {:top :top}
                    :2 []}}
 
          {:sense 2
-          :cat :verb
+          
           :sem {:pred :hope}
           :subcat {:2 {:cat :verb
                        :rule "s"}}}
           
          {:sense 3
-          :cat :verb
+          
           :sem {:pred :hope}
           :subcat {:2 {:cat :comp
                        :rule "comp2"}}}]
 
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}
                           {:infl :past-participle :surface "kept"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :keep}}])
+           [{:exceptions exceptions  :sem {:pred :keep}}])
  "know" (let [exceptions [{:infl :past-simple :surface "knew"}
                           {:infl :past-participle :surface "known"}]]
           [{:exceptions exceptions
-            :cat :verb
+            
             :sem {:pred :know}
 
             {:sense 2
-             :cat :verb
+             
              :exceptions exceptions
              :sem {:pred :know}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
 
             {:sense 3
-             :cat :verb
+             
              :exceptions exceptions
              :sem {:pred :know}
              :subcat {:2 {:cat :comp
@@ -365,78 +365,78 @@
  
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :leave}}])
+           [{:exceptions exceptions  :sem {:pred :leave}}])
  "let" (let [exceptions [{:infl :past-simple :surface "let"}
                          {:infl :past-participle :surface "let"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :let}}])
- "like" [{:cat :verb :sem {:pred :like}}]
- "live" [{:cat :verb :sem {:pred :live}}]
- "look" [{:cat :verb :sem {:pred :look}
+          [{:exceptions exceptions  :sem {:pred :let}}])
+ "like" [{ :sem {:pred :like}}]
+ "live" [{ :sem {:pred :live}}]
+ "look" [{ :sem {:pred :look}
           :subcat {:1 :top :2 []}}
-         {:cat :verb :sem {:pred :look}
+         { :sem {:pred :look}
           :subcat {:1 :top
                    :2 {:cat :prep
                        :sem {:pred :at}}
                    :3 []}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
                           {:infl :past-participle :surface "made"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :make}}])
+           [{:exceptions exceptions  :sem {:pred :make}}])
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :mean}}])
- "move" [{:cat :verb :sem {:pred :move} :subcat {:1 :top :2 :top}}]
+          [{:exceptions exceptions  :sem {:pred :mean}}])
+ "move" [{ :sem {:pred :move} :subcat {:1 :top :2 :top}}]
 
  "must" [{:modal :base
-          :cat :verb
+          
           :inflected? true
           :sem {:pred :must}}]
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]
-              [{:cat :verb
+              [{
                 :exceptions exceptions
                 :sem {:pred :overcome}}])
- "need" [{:cat :verb
+ "need" [{
           :sem {:pred :need}
           :modal :infinitive}]
- "perform" [{:cat :verb :sem {:pred :perform}}]
- "play" [{:cat :verb :sem {:pred :play}}]
+ "perform" [{ :sem {:pred :perform}}]
+ "play" [{ :sem {:pred :play}}]
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
          [{:exceptions exceptions
            :subcat {:2 {:cat :prep
                         :sem {:pred :on}}
                     :3 {:cat :noun}}
-           :cat :verb
+           
            :sem {:pred :put-on}}
           {:exceptions exceptions
            :subcat {:2 {:cat :prep
                         :sem {:pred :in}}
                     :3 {:cat :noun}}
-           :cat :verb
+           
            :sem {:pred :put-in}}])
  "read" (let [exceptions [{:infl :past-simple :surface "read"}
                           {:infl :past-participle :surface "read"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :read}}])
+          [{:exceptions exceptions  :sem {:pred :read}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :run}}])
+          [{:exceptions exceptions  :sem {:pred :run}}])
  "say" (let [exceptions [{:infl :past-simple :surface "said"}
                          {:infl :past-participle :surface "said"}]]
          [{:exceptions exceptions
            :sense 1
-           :cat :verb
+           
            :sem {:pred :say}}
            
           {:exceptions exceptions
            :sense 2
-           :cat :verb
+           
            :sem {:pred :say}
            :subcat {:2 {:cat :verb
                         :rule "s"}}}
            
           {:exceptions exceptions
            :sense 3
-           :cat :verb
+           
            :sem {:pred :say}
            :subcat {:2 {:cat :comp
                         :rule "comp2"}}}])
@@ -444,36 +444,36 @@
  "see" (let [exceptions [{:infl :past-simple :surface "saw"}
                          {:infl :past-participle :surface "seen"}]]
          [{:exceptions exceptions
-           :cat :verb
+           
            :sem {:pred :see}}])
- "seem" [{:cat :verb :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
- "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
- "sing" [{:cat :verb :sem {:pred :sing}}]
+ "seem" [{ :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
+ "show" [{ :sem {:pred :show} :subcat {:1 :top :2 :top}}]
+ "sing" [{ :sem {:pred :sing}}]
 
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]
          [{:exceptions exceptions
-           :cat :verb
+           
            :sem {:pred :sit}
            :subcat {:1 :top :2 []}}])
 
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions
-             :cat :verb
+             
              :sem {:pred :sleep
                    :subj {:prop {:animate true}}} ;; TODO: move to encyclopedia.
              :subcat {:1 :top :2 []}}])
- "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
+ "start" [{ :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
-          [{:cat :verb :sem {:pred :take}
+          [{ :sem {:pred :take}
             :exceptions exceptions}])
- "talk" [{:cat :verb
+ "talk" [{
           :sem {:pred :talk}
           :subcat {:1 :top
                    :2 []}}
-         {:cat :verb
+         {
           :sem {:pred :talk}
           :subcat {:1 :top
                    :2 {:cat :prep
@@ -481,23 +481,23 @@
                    :3 []}}]
  "teach" (let [exceptions [{:infl :past-simple :surface "taught"}
                            {:infl :past-participle :surface "taught"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :teach}}])
+           [{:exceptions exceptions  :sem {:pred :teach}}])
  "tell" (let [exceptions [{:infl :past-simple :surface "told"}
                           {:infl :past-participle :surface "told"}]]
           [{:exceptions exceptions
-            :cat :verb :sem {:pred :tell}}])
+             :sem {:pred :tell}}])
  "think" (let [exceptions [{:infl :past-simple :surface "thought"}
                            {:infl :past-participle :surface "thought"}]]
            [{:sense 1
              :exceptions exceptions
-             :cat :verb
+             
              :sem {:pred :think}
              :subcat {:1 :top :2 []}}
 
             ;; "think that you will see the cat"
             {:sense 2
              :exceptions exceptions
-             :cat :verb
+             
              :sem {:pred :think}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
@@ -505,7 +505,7 @@
             ;; "think that you will see the cat"
             {:sense 3
              :exceptions exceptions
-             :cat :verb
+             
              :sem {:pred :think}
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}])
@@ -516,7 +516,7 @@
  [(let [sem (atom :top)
         agr (atom :top)
         reflexive? (atom :top)]
-    {:cat :verb
+    {
      :agr agr
      :reflexive reflexive?
      :normal-transitive-defaults? false
@@ -532,20 +532,20 @@
                   :sem sem}
               :2 []}})]
 
- "try" [{:cat :verb
+ "try" [{
          :sem {:pred :try}
          :modal :infinitive}]
- "turn" [{:cat :verb :sem {:pred :turn}}]
- "use" [{:cat :verb :sem {:pred :use}}]
- "walk" [{:cat :verb :sem {:pred :walk}}]
- "want" [{:cat :verb
+ "turn" [{ :sem {:pred :turn}}]
+ "use" [{ :sem {:pred :use}}]
+ "walk" [{ :sem {:pred :walk}}]
+ "want" [{
           :sem {:pred :want}
           :modal :infinitive}]
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:
  ;; {intrans,trans} x {decl,interog} = {intrans + decl, intrans + interog, trans + decl, trans + interog}
  "will" [{:aux true
-          :cat :verb
+          
           :infl :present
           :inflected? true
           :sem {:tense :future}
@@ -553,7 +553,7 @@
                        :infl :base}}}]
  
  "would" (let [common {:aux true
-                       :cat :verb
+                       
                        :infl :present
                        :inflected? true
                        :sem {:tense :conditional}}]
@@ -577,4 +577,4 @@
                                  :infl :base}
                               :2 []}})]))
 
- "work" [{:cat :verb :sem {:pred :work}}]}
+ "work" [{ :sem {:pred :work}}]}

@@ -1,10 +1,10 @@
 {
  "bestrijden"
- [{:cat :verb
+ [{
    :sem {:pred :overcome}}]
 
  "komen"
- [{:cat :verb
+ [{
    :sem {:pred :come}
    :subcat {:2 []}}]
 
@@ -33,7 +33,7 @@
                     :surface "kan"}]]
 
    [{:exceptions exceptions
-     :cat :verb
+     
      :modal :infinitive
      :sem {:pred :be-able-to}}])
 
@@ -48,7 +48,7 @@
                     :agr {:person :3rd :number :sing}
                     :surface "leest"}]]
    [{:exceptions exceptions
-     :cat :verb
+     
      :sem {:pred :read}}])
 
  "moeten" ;; F. 40.1
@@ -61,11 +61,11 @@
                     :surface "moeten"}]]
 
    [{:exceptions exceptions
-     :cat :verb
+     
      :modal :infinitive
      :sem {:pred :must}}])
 
- "optreden" [{:cat :verb :sem {:pred :perform}}]
+ "optreden" [{ :sem {:pred :perform}}]
  
  "proberen"
  (let [exceptions [{:infl :present
@@ -77,7 +77,7 @@
                    {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "probeert"}]]
-   [{:cat :verb
+   [{
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
@@ -87,14 +87,14 @@
                     :agr {:person :3rd :number :sing}
                     :surface "slaapt"}]]
   [{:exceptions exceptions
-    :cat :verb
+    
     :sem {:pred :sleep}
     :subcat {:2 []}}])
 
  "te"
  [(let [sem (atom :top)
         reflexive? (atom :top)]
-    {:cat :verb
+    {
      :infl :te
      :inflected? true
      :normal-transitive-defaults? false
@@ -108,15 +108,15 @@
                   :sem sem}
               :2 []}})]
 
- "uitgeleggen" [{:cat :verb :sem {:pred :explain}}]
+ "uitgeleggen" [{ :sem {:pred :explain}}]
  
  "werken"
- [{:cat :verb
+ [{
    :sem {:pred :work}
    :subcat {:2 []}}]
 
  "veroorzaaken"
- [{:cat :verb
+ [{
    :sem {:pred :cause}}]
  
  "zien"
@@ -130,10 +130,10 @@
                     :agr {:person :3rd :number :sing}
                     :surface "ziet"}]]
    [{:exceptions exceptions
-     :cat :verb
+     
      :sem {:pred :see}}])
 
  "zingen"
- [{:cat :verb
+ [{
    :sem {:pred :sing}
    :subcat {:2 []}}]}

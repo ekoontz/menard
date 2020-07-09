@@ -19,12 +19,16 @@
 ;;
 
 ;; <lexicon>
+
 #?(:clj
-   (def lexical-rules
-     [(l/read-and-eval "menard/nederlands/lexicon/rules/rules-0.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-2.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")]))
+   (def lexical-rules-atom
+     (atom [(l/read-and-eval "menard/nederlands/lexicon/rules/rules-0.edn")
+            (l/read-and-eval "menard/nederlands/lexicon/rules/rules-1.edn")
+            (l/read-and-eval "menard/nederlands/lexicon/rules/rules-2.edn")
+            (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")])))
+
+#?(:clj
+   (def lexical-rules @lexical-rules-atom))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename & [unify-with]]
@@ -44,15 +48,18 @@
            (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
 
 #?(:clj
-   (def lexicon
-     (merge-with concat
-       (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn" {:cat :adjective})
-       (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn" {:cat :adverb})
-       (compile-lexicon-source "menard/nederlands/lexicon/misc.edn") ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon.
-       (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" {:cat :noun})
-       (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" {:cat :adjective})
-       (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" {:cat :noun :pronoun false :propernoun true})
-       (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" {:cat :verb}))))
+   (def lexicon-atom
+     (atom
+      (merge-with concat
+                  (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn" {:cat :adjective})
+                  (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn" {:cat :adverb})
+                  (compile-lexicon-source "menard/nederlands/lexicon/misc.edn") ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon.
+                  (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" {:cat :noun})
+                  (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" {:cat :adjective})
+                  (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" {:cat :noun :pronoun false :propernoun true})
+                  (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" {:cat :verb})))))
+#?(:clj
+   (def lexicon @lexicon-atom))
 
 #?(:cljs
    (def lexicon
@@ -157,11 +164,15 @@
 
 ;; <morphology>
 
-(def morphology (m/compile-morphology
-                 ["menard/nederlands/morphology/adjectives.edn"
-                  "menard/nederlands/morphology/misc.edn"
-                  "menard/nederlands/morphology/nouns.edn"
-                  "menard/nederlands/morphology/verbs.edn"]))
+(def morphology-atom
+  (atom
+   (m/compile-morphology
+    ["menard/nederlands/morphology/adjectives.edn"
+     "menard/nederlands/morphology/misc.edn"
+     "menard/nederlands/morphology/nouns.edn"
+     "menard/nederlands/morphology/verbs.edn"])))
+  
+(def morphology @morphology-atom)
 
 (declare sentence-punctuation)
 
@@ -212,10 +223,14 @@
     :sem {:tense :infinitive}}])
 
 #?(:clj
-   (def grammar
-     (-> "menard/nederlands/grammar.edn"
-         grammar/read-grammar
-         (grammar/process true))))
+   (def grammar-atom
+     (atom
+      (-> "menard/nederlands/grammar.edn"
+          grammar/read-grammar
+          (grammar/process true)))))
+
+#?(:clj
+   (def grammar @grammar-atom))
 
 #?(:cljs
    (def grammar

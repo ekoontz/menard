@@ -94,9 +94,6 @@
       :agr {:number :plur}
       :regular true}}
 
- ;; TODO: parsing falls through to this catch-all rule,
- ;; thus matches incorrect inputs e.g. *"beenen";
- ;; i.e. incorrectly allows inputs *"beenen" as a plural form of "been".
  {:g [#"^(.*)$"         "$1en"] ;; hond   -> honden
   :p [#"^(.*[^st])en$"  "$1"]   ;; honden -> dog
   :u {:cat :noun

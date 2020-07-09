@@ -6,7 +6,9 @@
           :sem {:pred :baby}}]
  "been" [{
           :agr {:gender :neuter}
-          :sem {:pred :leg}}]
+          :sem {:pred :leg}
+          :exceptions [{:agr {:number :plur}
+                        :surface "benen"}]}]
  "beschaving" [{
                 :agr {:gender :common}
                 :sem {:pred :civilization}}]

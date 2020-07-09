@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.3] - 2020-07-09
+
+- Fix noun pluralization errors in Dutch (e.g "been", "fiets", "plaats").
+
 ## [1.0.2] - 2020-07-07
 
 - Prevent overmatching on default pluralization parsing rule in Dutch.

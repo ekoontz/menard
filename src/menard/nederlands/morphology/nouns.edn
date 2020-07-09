@@ -70,6 +70,15 @@
       :agr {:number :plur}
       :regular true}}
 
+ ;; fiets    -> fietsen
+ {:g [#"^(.*ts)$"       "$1en"] 
+  :p [#"^(.*ts)en$"     "$1"] 
+  :u {:cat :noun
+      :inflection :tsen
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+ 
  {:g [#"^(.*)t$"    "$1tten"] ;; kat    -> katten
   :p [#"^(.*)tten$"  "$1t"] 
   :u {:cat :noun

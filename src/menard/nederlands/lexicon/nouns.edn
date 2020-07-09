@@ -74,7 +74,9 @@
           :sem {:pred :house}}]
  "jas" [{
          :agr {:gender :common}
-         :sem {:pred :coat}}]
+         :sem {:pred :coat}
+         :exceptions [{:agr {:number :plur}
+                       :surface "jassen"}]}]
  "jongen" [{
             :agr {:gender :common}
             :sem {:pred :boy}}]

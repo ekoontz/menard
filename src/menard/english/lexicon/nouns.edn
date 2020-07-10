@@ -45,8 +45,8 @@
          :sem {:pred :dog}}]
  "education" [{
                :sem {:pred :education}}]
- "eye" [{
-         :sem {:pred :eye}}]
+ "experience" [{:sem {:pred :experience}}]
+ "eye" [{:sem {:pred :eye}}]
  "fact" [{
           :sem {:pred :fact}}]
  "family" [{
@@ -190,7 +190,7 @@
  "work" [{
           :sem {:pred :work}}]
  "world" [{
-           :sem {:pred :world}}]
+          ` :sem {:pred :world}}]
  "year" [{
           :sem {:pred :year}}]}
  

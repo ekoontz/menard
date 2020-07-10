@@ -35,6 +35,8 @@
  "eenzaamheid" [{
                  :agr {:gender :common}
                  :sem {:pred :loneliness}}]
+ "ervaring" [{:agr {:gender :common}
+              :sem {:pred :experience}}]
  "familie" [{
              :agr {:gender :common}
              :sem {:pred :family}}]

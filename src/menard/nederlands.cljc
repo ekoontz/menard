@@ -46,20 +46,20 @@
            (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
 
 #?(:clj
-   (defn load-lexicon [lexical-rules-atom]
+   (defn load-lexicon [lexical-rules]
      (merge-with concat
                  (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn"
-                                         @lexical-rules-atom {:cat :adjective})
+                                         lexical-rules {:cat :adjective})
                  (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn"
-                                         @lexical-rules-atom {:cat :adverb})
+                                         lexical-rules {:cat :adverb})
 
                  ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                 (compile-lexicon-source "menard/nederlands/lexicon/misc.edn" @lexical-rules-atom)
+                 (compile-lexicon-source "menard/nederlands/lexicon/misc.edn" lexical-rules)
                  
-                 (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" @lexical-rules-atom {:cat :noun})
-                 (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" @lexical-rules-atom {:cat :adjective})
-                 (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" @lexical-rules-atom {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" @lexical-rules-atom {:cat :verb}))))
+                 (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" lexical-rules {:cat :noun})
+                 (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" lexical-rules {:cat :adjective})
+                 (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" lexical-rules {:cat :noun :pronoun false :propernoun true})
+                 (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" lexical-rules {:cat :verb}))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -93,13 +93,13 @@
 
 #?(:clj
    (def model
-     (atom (model/reload "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))))
+     (atom (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))))
 
 #?(:clj
-   (defn reload-model []
+   (defn load-model []
      (reset! model 
-             (model/reload "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))
-     "reloaded: " (keys @model)))
+             (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))
+     "loaded: " (keys @model)))
 
 #?(:cljs
    (def lexicon
@@ -113,18 +113,18 @@
      (log/debug (str "spec: " (diag/strip-refs spec)))
      (let [pre-result
            (cond (= (u/get-in spec [:cat]) :verb)
-                 (-> @model :indices deref :verb-lexicon)
+                 (-> @model :indices :verb-lexicon)
 
                  (= (u/get-in spec [:cat]) :adjective)
-                 (-> @model :indices deref :adjective-lexicon)
+                 (-> @model :indices :adjective-lexicon)
 
                  (= (u/get-in spec [:cat]) :noun)
-                 (-> @model :indices deref :noun-lexicon)
+                 (-> @model :indices :noun-lexicon)
 
                  (= (u/get-in spec [:cat]) :det)
-                 (-> @model :indices deref :det-lexicon)
+                 (-> @model :indices :det-lexicon)
                  
-                 true (-> @model :indices deref :misc-lexicon))
+                 true (-> @model :indices :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
                     pre-result
@@ -137,7 +137,7 @@
 
 #?(:clj
    (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon @(:lexicon @model)
+     (l/write-compiled-lexicon (:lexicon @model)
                                "src/menard/nederlands/lexicon/compiled.edn")))
 
 #?(:cljs
@@ -286,7 +286,7 @@
     (g/generate-all [spec] grammar index-fn syntax-tree)))
 
 (defn analyze [surface]
-  (binding [l/lexicon (-> @model :lexicon deref)
+  (binding [l/lexicon (-> @model :lexicon)
             l/morphology morphology]
     (let [variants (vec (set [(clojure.string/lower-case surface)
                               (clojure.string/upper-case surface)
@@ -299,7 +299,7 @@
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
             p/truncate? false
-            l/lexicon (-> @model :lexicon deref)
+            l/lexicon (-> @model :lexicon)
             l/morphology morphology
             p/split-on #"[ ]"
             p/lookup-fn analyze]

@@ -20,32 +20,36 @@
 
 ;; <lexicon>
 
-#?(:clj
-   (def lexical-rules-atom
-     (atom [(l/read-and-eval "menard/nederlands/lexicon/rules/rules-0.edn")
-            (l/read-and-eval "menard/nederlands/lexicon/rules/rules-1.edn")
-            (l/read-and-eval "menard/nederlands/lexicon/rules/rules-2.edn")
-            (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")])))
+;;#?(:clj
+   (defn load-lexical-rules []
+     [(l/read-and-eval "menard/nederlands/lexicon/rules/rules-0.edn")
+      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-1.edn")
+      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-2.edn")
+      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")])
 
-#?(:clj
-   (def lexical-rules @lexical-rules-atom))
+   (def lexical-rules-atom (atom nil))
+   
+   (defn reload []
+     (reset! lexical-rules-atom (load-lexical-rules))
+     (log/info (str "loaded: " (count @lexical-rules-atom))))
 
-#?(:clj
-   (defn compile-lexicon-source [source-filename & [unify-with]]
-     (binding [menard.lexiconfn/include-derivation? true]
-       (-> source-filename
-           l/read-and-eval
-           ((fn [lexicon]
-              (l/apply-to-every-lexeme lexicon
-                                       (fn [lexeme]
-                                         (if (nil? unify-with)
-                                           lexeme
-                                           (unify lexeme unify-with))))))
-           l/add-exceptions-to-lexicon
-           (l/apply-rules-in-order (nth lexical-rules 0) :0)
-           (l/apply-rules-in-order (nth lexical-rules 1) :1)
-           (l/apply-rules-in-order (nth lexical-rules 2) :2)
-           (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
+(reload)
+
+(defn compile-lexicon-source [source-filename & [unify-with]]
+  (binding [menard.lexiconfn/include-derivation? true]
+    (-> source-filename
+        l/read-and-eval
+        ((fn [lexicon]
+           (l/apply-to-every-lexeme lexicon
+                                    (fn [lexeme]
+                                      (if (nil? unify-with)
+                                        lexeme
+                                        (unify lexeme unify-with))))))
+        l/add-exceptions-to-lexicon
+        (l/apply-rules-in-order (nth @lexical-rules-atom 0) :0)
+        (l/apply-rules-in-order (nth @lexical-rules-atom 1) :1)
+        (l/apply-rules-in-order (nth @lexical-rules-atom 2) :2)
+        (l/apply-rules-in-order (nth @lexical-rules-atom 3) :3))))
 
 #?(:clj
    (def lexicon-atom

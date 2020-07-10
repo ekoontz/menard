@@ -60,17 +60,13 @@
 
 #?(:clj
    (def model
-     (reload/reload load-lexical-rules)))
+     (reload/reload load-lexical-rules load-lexicon)))
 
 #?(:clj
    (def lexical-rules-atom (:rules model)))
 
 #?(:clj
-   (def lexicon-atom
-     (atom (load-lexicon lexical-rules-atom))))
-
-#?(:clj
-   (def lexicon @lexicon-atom))
+   (def lexicon @(:lexicon model)))
 
 #?(:cljs
    (def lexicon

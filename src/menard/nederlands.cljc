@@ -91,14 +91,31 @@
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
 
+
+(defn load-morphology []
+  (m/compile-morphology
+   ["menard/nederlands/morphology/adjectives.edn"
+    "menard/nederlands/morphology/misc.edn"
+    "menard/nederlands/morphology/nouns.edn"
+    "menard/nederlands/morphology/verbs.edn"]))
+
+#?(:clj
+   (defn load-grammar []
+     (-> "menard/nederlands/grammar.edn"
+         grammar/read-grammar
+         (grammar/process true))))
+
 #?(:clj
    (def model
-     (atom (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))))
+     (atom (model/load "nl" load-lexical-rules
+                       load-lexicon fill-lexicon-indexes
+                       load-morphology
+                       load-grammar))))
 
 #?(:clj
    (defn load-model []
      (reset! model 
-             (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))
+             (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes load-morphology))
      "loaded: " (keys @model)))
 
 #?(:cljs
@@ -174,26 +191,16 @@
 
 ;; <morphology>
 
-(def morphology-atom
-  (atom
-   (m/compile-morphology
-    ["menard/nederlands/morphology/adjectives.edn"
-     "menard/nederlands/morphology/misc.edn"
-     "menard/nederlands/morphology/nouns.edn"
-     "menard/nederlands/morphology/verbs.edn"])))
-  
-(def morphology @morphology-atom)
-
 (declare sentence-punctuation)
 
 (defn morph
   ([tree]
    (cond
      (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) morphology)
+     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @model))
 
      true
-     (s/morph tree morphology)))
+     (s/morph tree (:morphology @model))))
 
   ([tree & {:keys [sentence-punctuation?]}]
    (if sentence-punctuation?
@@ -232,16 +239,6 @@
     :infl :infinitive
     :sem {:tense :infinitive}}])
 
-#?(:clj
-   (def grammar-atom
-     (atom
-      (-> "menard/nederlands/grammar.edn"
-          grammar/read-grammar
-          (grammar/process true)))))
-
-#?(:clj
-   (def grammar @grammar-atom))
-
 #?(:cljs
    (def grammar
      (->> (menard.grammar/read-compiled-grammar
@@ -250,7 +247,7 @@
 
 #?(:clj
    (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar grammar
+     (grammar/write-compiled-grammar (-> @model :grammar)
                                      "src/menard/nederlands/grammar/compiled.edn")))
 
 ;; </grammar>
@@ -265,9 +262,7 @@
 ;; <functions>
 
 (defn syntax-tree [tree & [path]]
-  (s/syntax-tree tree morphology))
-
-(def ^:dynamic grammar-for-generation grammar)
+  (s/syntax-tree tree (:morphology @model)))
 
 (defn generate
   "generate one random expression that satisfies _spec_."
@@ -277,17 +272,17 @@
     (-> spec
         ((fn [x] (unify x (:training-wheels x :top))))
         (dissoc :training-wheels)
-        (g/generate grammar-for-generation index-fn syntax-tree))))
+        (g/generate (-> @model :grammar) index-fn syntax-tree))))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
   (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-    (g/generate-all [spec] grammar index-fn syntax-tree)))
+    (g/generate-all [spec] (-> @model :grammar) index-fn syntax-tree)))
 
 (defn analyze [surface]
   (binding [l/lexicon (-> @model :lexicon)
-            l/morphology morphology]
+            l/morphology (:morphology @model)]
     (let [variants (vec (set [(clojure.string/lower-case surface)
                               (clojure.string/upper-case surface)
                               (clojure.string/capitalize surface)]))]
@@ -296,11 +291,11 @@
                      (l/matching-lexemes surface)))))))
 
 (defn parse [expression]
-  (binding [p/grammar grammar
+  (binding [p/grammar (-> @model :grammar)
             p/syntax-tree syntax-tree
             p/truncate? false
             l/lexicon (-> @model :lexicon)
-            l/morphology morphology
+            l/morphology (-> @model :morphology)
             p/split-on #"[ ]"
             p/lookup-fn analyze]
     (p/parse expression morph)))

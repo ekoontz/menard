@@ -7,7 +7,7 @@
             [menard.morphology :as m]
             [menard.parse :as p]
             [menard.nesting :as nest]
-            [menard.reload :as reload]
+            [menard.model :as model]
             [menard.serialization :as s]
             [menard.ug :as ug]
             [menard.subcat :as su]            
@@ -93,12 +93,12 @@
 
 #?(:clj
    (def model
-     (atom (reload/reload load-lexical-rules load-lexicon fill-lexicon-indexes))))
+     (atom (model/reload load-lexical-rules load-lexicon fill-lexicon-indexes))))
 
 #?(:clj
    (defn reload-model []
      (reset! model 
-             (reload/reload load-lexical-rules load-lexicon fill-lexicon-indexes))
+             (model/reload load-lexical-rules load-lexicon fill-lexicon-indexes))
      "reloaded: " (keys @model)))
 
 #?(:cljs

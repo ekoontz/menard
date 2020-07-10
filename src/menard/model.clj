@@ -1,4 +1,4 @@
-(ns menard.reload
+(ns menard.model
   (:require [clojure.tools.logging :as log]))
 
 (defn reload [rules-fn lexicon-fn fill-lexicon-indexes-fn]

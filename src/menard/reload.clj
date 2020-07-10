@@ -10,7 +10,3 @@
     (log/info (str "loaded: " (count (keys @lexicon-atom)) " lexeme keys."))
     {:rules rules-atom
      :lexicon lexicon-atom}))
-
-
-
-

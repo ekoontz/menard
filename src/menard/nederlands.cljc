@@ -93,12 +93,12 @@
 
 #?(:clj
    (def model
-     (atom (model/reload load-lexical-rules load-lexicon fill-lexicon-indexes))))
+     (atom (model/reload "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))))
 
 #?(:clj
    (defn reload-model []
      (reset! model 
-             (model/reload load-lexical-rules load-lexicon fill-lexicon-indexes))
+             (model/reload "nl" load-lexical-rules load-lexicon fill-lexicon-indexes))
      "reloaded: " (keys @model)))
 
 #?(:cljs

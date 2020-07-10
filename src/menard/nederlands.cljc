@@ -7,6 +7,7 @@
             [menard.morphology :as m]
             [menard.parse :as p]
             [menard.nesting :as nest]
+            [menard.reload :as reload]
             [menard.serialization :as s]
             [menard.ug :as ug]
             [menard.subcat :as su]            
@@ -20,20 +21,19 @@
 
 ;; <lexicon>
 
-;;#?(:clj
+#?(:clj
    (defn load-lexical-rules []
      [(l/read-and-eval "menard/nederlands/lexicon/rules/rules-0.edn")
       (l/read-and-eval "menard/nederlands/lexicon/rules/rules-1.edn")
       (l/read-and-eval "menard/nederlands/lexicon/rules/rules-2.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")])
+      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")]))
 
-   (def lexical-rules-atom (atom nil))
-   
-   (defn reload []
-     (reset! lexical-rules-atom (load-lexical-rules))
-     (log/info (str "loaded: " (count @lexical-rules-atom))))
+#?(:clj
+   (def model
+     (reload/reload load-lexical-rules)))
 
-(reload)
+#?(:clj
+   (def lexical-rules-atom (:rules model)))
 
 (defn compile-lexicon-source [source-filename & [unify-with]]
   (binding [menard.lexiconfn/include-derivation? true]

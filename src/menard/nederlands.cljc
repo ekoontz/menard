@@ -29,7 +29,7 @@
       (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
-   (defn compile-lexicon-source [source-filename lexical-rules-atom & [unify-with]]
+   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
      (binding [menard.lexiconfn/include-derivation? true]
        (-> source-filename
            l/read-and-eval
@@ -40,33 +40,66 @@
                                            lexeme
                                            (unify lexeme unify-with))))))
            l/add-exceptions-to-lexicon
-           (l/apply-rules-in-order (nth @lexical-rules-atom 0) :0)
-           (l/apply-rules-in-order (nth @lexical-rules-atom 1) :1)
-           (l/apply-rules-in-order (nth @lexical-rules-atom 2) :2)
-           (l/apply-rules-in-order (nth @lexical-rules-atom 3) :3)))))
+           (l/apply-rules-in-order (nth lexical-rules 0) :0)
+           (l/apply-rules-in-order (nth lexical-rules 1) :1)
+           (l/apply-rules-in-order (nth lexical-rules 2) :2)
+           (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
 
 #?(:clj
    (defn load-lexicon [lexical-rules-atom]
      (merge-with concat
                  (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn"
-                                         lexical-rules-atom {:cat :adjective})
+                                         @lexical-rules-atom {:cat :adjective})
                  (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn"
-                                         lexical-rules-atom {:cat :adverb} lexical-rules-atom)
-                 (compile-lexicon-source "menard/nederlands/lexicon/misc.edn" lexical-rules-atom) ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon.
-                 (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" lexical-rules-atom {:cat :noun})
-                 (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" lexical-rules-atom {:cat :adjective})
-                 (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" lexical-rules-atom {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" lexical-rules-atom {:cat :verb}))))
+                                         @lexical-rules-atom {:cat :adverb})
+
+                 ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
+                 (compile-lexicon-source "menard/nederlands/lexicon/misc.edn" @lexical-rules-atom)
+                 
+                 (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" @lexical-rules-atom {:cat :noun})
+                 (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" @lexical-rules-atom {:cat :adjective})
+                 (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" @lexical-rules-atom {:cat :noun :pronoun false :propernoun true})
+                 (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" @lexical-rules-atom {:cat :verb}))))
+
+#?(:clj
+  (defn fill-lexicon-indexes [lexicon]
+    (let [flattened-lexicon (flatten (vals lexicon))]
+      {:adjective-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :adjective))))
+       :det-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :det))))
+       
+       :noun-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :noun))))
+       
+       :misc-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                          (not (= (u/get-in % [:cat]) :adjective))
+                          (not (= (u/get-in % [:cat]) :det))
+                          (not (= (u/get-in % [:cat]) :noun))
+                          (not (u/get-in % [:exception])))))
+       
+       :verb-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :verb))))})))
 
 #?(:clj
    (def model
-     (reload/reload load-lexical-rules load-lexicon)))
+     (atom (reload/reload load-lexical-rules load-lexicon fill-lexicon-indexes))))
 
 #?(:clj
-   (def lexical-rules-atom (:rules model)))
-
-#?(:clj
-   (def lexicon @(:lexicon model)))
+   (defn reload-model []
+     (reset! model 
+             (reload/reload load-lexical-rules load-lexicon fill-lexicon-indexes))
+     "reloaded: " (keys @model)))
 
 #?(:cljs
    (def lexicon
@@ -74,59 +107,24 @@
          l/deserialize-lexicon              
          vals
          flatten)))
-#?(:clj
-   (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon lexicon
-                               "src/menard/nederlands/lexicon/compiled.edn")))
-#?(:clj
-   (def flattened-lexicon
-     (flatten (vals lexicon))))
 
-#?(:clj
-   (def adjective-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (u/get-in % [:exception]))
-                        (= (u/get-in % [:cat]) :adjective))))))
-#?(:clj
-   (def det-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (u/get-in % [:exception]))
-                        (= (u/get-in % [:cat]) :det))))))
-#?(:clj
-   (def noun-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (u/get-in % [:exception]))
-                        (= (u/get-in % [:cat]) :noun))))))
-#?(:clj
-   (def misc-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                        (not (= (u/get-in % [:cat]) :adjective))
-                        (not (= (u/get-in % [:cat]) :det))
-                        (not (= (u/get-in % [:cat]) :noun))
-                        (not (u/get-in % [:exception])))))))
-#?(:clj
-   (def verb-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (u/get-in % [:exception]))
-                        (= (u/get-in % [:cat]) :verb))))))
 #?(:clj
    (defn index-fn [spec]
      (log/debug (str "spec: " (diag/strip-refs spec)))
      (let [pre-result
            (cond (= (u/get-in spec [:cat]) :verb)
-                 verb-lexicon
+                 (-> @model :indices deref :verb-lexicon)
 
                  (= (u/get-in spec [:cat]) :adjective)
-                 adjective-lexicon
+                 (-> @model :indices deref :adjective-lexicon)
 
                  (= (u/get-in spec [:cat]) :noun)
-                 noun-lexicon
+                 (-> @model :indices deref :noun-lexicon)
 
                  (= (u/get-in spec [:cat]) :det)
-                 det-lexicon
+                 (-> @model :indices deref :det-lexicon)
                  
-                 true misc-lexicon)
+                 true (-> @model :indices deref :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
                     pre-result
@@ -136,6 +134,11 @@
        (if true
          (shuffle result)
          result))))
+
+#?(:clj
+   (defn write-compiled-lexicon []
+     (l/write-compiled-lexicon @(:lexicon @model)
+                               "src/menard/nederlands/lexicon/compiled.edn")))
 
 #?(:cljs
    ;; note that we exclude [:exception]s from the lexemes that we use for
@@ -283,7 +286,7 @@
     (g/generate-all [spec] grammar index-fn syntax-tree)))
 
 (defn analyze [surface]
-  (binding [l/lexicon lexicon
+  (binding [l/lexicon (-> @model :lexicon deref)
             l/morphology morphology]
     (let [variants (vec (set [(clojure.string/lower-case surface)
                               (clojure.string/upper-case surface)
@@ -296,7 +299,7 @@
   (binding [p/grammar grammar
             p/syntax-tree syntax-tree
             p/truncate? false
-            l/lexicon lexicon
+            l/lexicon (-> @model :lexicon deref)
             l/morphology morphology
             p/split-on #"[ ]"
             p/lookup-fn analyze]

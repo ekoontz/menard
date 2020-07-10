@@ -29,39 +29,46 @@
       (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
+   (defn compile-lexicon-source [source-filename lexical-rules-atom & [unify-with]]
+     (binding [menard.lexiconfn/include-derivation? true]
+       (-> source-filename
+           l/read-and-eval
+           ((fn [lexicon]
+              (l/apply-to-every-lexeme lexicon
+                                       (fn [lexeme]
+                                         (if (nil? unify-with)
+                                           lexeme
+                                           (unify lexeme unify-with))))))
+           l/add-exceptions-to-lexicon
+           (l/apply-rules-in-order (nth @lexical-rules-atom 0) :0)
+           (l/apply-rules-in-order (nth @lexical-rules-atom 1) :1)
+           (l/apply-rules-in-order (nth @lexical-rules-atom 2) :2)
+           (l/apply-rules-in-order (nth @lexical-rules-atom 3) :3)))))
+
+#?(:clj
+   (defn load-lexicon [lexical-rules-atom]
+     (merge-with concat
+                 (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn"
+                                         lexical-rules-atom {:cat :adjective})
+                 (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn"
+                                         lexical-rules-atom {:cat :adverb} lexical-rules-atom)
+                 (compile-lexicon-source "menard/nederlands/lexicon/misc.edn" lexical-rules-atom) ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon.
+                 (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" lexical-rules-atom {:cat :noun})
+                 (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" lexical-rules-atom {:cat :adjective})
+                 (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" lexical-rules-atom {:cat :noun :pronoun false :propernoun true})
+                 (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" lexical-rules-atom {:cat :verb}))))
+
+#?(:clj
    (def model
      (reload/reload load-lexical-rules)))
 
 #?(:clj
    (def lexical-rules-atom (:rules model)))
 
-(defn compile-lexicon-source [source-filename & [unify-with]]
-  (binding [menard.lexiconfn/include-derivation? true]
-    (-> source-filename
-        l/read-and-eval
-        ((fn [lexicon]
-           (l/apply-to-every-lexeme lexicon
-                                    (fn [lexeme]
-                                      (if (nil? unify-with)
-                                        lexeme
-                                        (unify lexeme unify-with))))))
-        l/add-exceptions-to-lexicon
-        (l/apply-rules-in-order (nth @lexical-rules-atom 0) :0)
-        (l/apply-rules-in-order (nth @lexical-rules-atom 1) :1)
-        (l/apply-rules-in-order (nth @lexical-rules-atom 2) :2)
-        (l/apply-rules-in-order (nth @lexical-rules-atom 3) :3))))
-
 #?(:clj
    (def lexicon-atom
-     (atom
-      (merge-with concat
-                  (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn" {:cat :adjective})
-                  (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn" {:cat :adverb})
-                  (compile-lexicon-source "menard/nederlands/lexicon/misc.edn") ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon.
-                  (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" {:cat :noun})
-                  (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" {:cat :adjective})
-                  (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" {:cat :noun :pronoun false :propernoun true})
-                  (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" {:cat :verb})))))
+     (atom (load-lexicon lexical-rules-atom))))
+
 #?(:clj
    (def lexicon @lexicon-atom))
 

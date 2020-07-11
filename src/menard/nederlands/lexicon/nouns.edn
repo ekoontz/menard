@@ -1,167 +1,118 @@
-{"baan" [{
-          :agr {:gender :common}
+{"baan" [{:agr {:gender :common}
           :sem {:pred :job}}]
- "baby" [{
-          :agr {:gender :common}
+ "baby" [{:agr {:gender :common}
           :sem {:pred :baby}}]
- "been" [{
-          :agr {:gender :neuter}
+ "been" [{:agr {:gender :neuter}
           :sem {:pred :leg}
           :exceptions [{:agr {:number :plur}
                         :surface "benen"}]}]
- "beschaving" [{
-                :agr {:gender :common}
+ "beschaving" [{:agr {:gender :common}
                 :sem {:pred :civilization}}]
- "boek" [{
-          :agr {:gender :neuter}
+ "boek" [{:agr {:gender :neuter}
           :sem {:pred :book
                 ;; TODO: move these properties to inference
                 ;; rules: pred=book -> animate false, readable true,etc.
                 :prop {:animate false
                        :readable true}}}]
- "bedrijf" [{
-             :agr {:gender :neuter}
+ "bedrijf" [{:agr {:gender :neuter}
              :sem {:pred :business}}]
- "dag" [{
-           :agr {:gender :common}
+ "dag" [{:agr {:gender :common}
            :sem {:pred :day}}]
- "dame" [{
-          :agr {:gender :common}
+ "dame" [{:agr {:gender :common}
           :sem {:pred :woman
                 :context :polite}}]
- "druif" [{
-           :agr {:gender :common}
+ "druif" [{:agr {:gender :common}
            :sem {:pred :grape}}]
- "eenzaamheid" [{
-                 :agr {:gender :common}
+ "eenzaamheid" [{:agr {:gender :common}
                  :sem {:pred :loneliness}}]
  "ervaring" [{:agr {:gender :common}
               :sem {:pred :experience}}]
- "familie" [{
-             :agr {:gender :common}
+ "familie" [{:agr {:gender :common}
              :sem {:pred :family}}]
- "feit" [{
-          :agr {:gender :neuter}
+ "feit" [{:agr {:gender :neuter}
           :sem {:pred :fact}}]
- "fiets" [{
-           :agr {:gender :common}
+ "fiets" [{:agr {:gender :common}
            :sem {:pred :bike}}]
- "gebeid" [{
-            :agr {:gender :neuter}
+ "gebeid" [{:agr {:gender :neuter}
             :sem {:pred :area}}]
- "geld" [{
-          :agr {:gender :neuter}
+ "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
- "groep" [{
-           :agr {:gender :common}
+ "groep" [{:agr {:gender :common}
            :sem {:pred :group}}]
- "haar" [{
-          :agr {:gender :neuter} 
+ "haar" [{:agr {:gender :neuter} 
           :sem {:pred :hair}}]
- "hand" [{
-          :agr {:gender :common} 
+ "hand" [{:agr {:gender :common} 
           :sem {:pred :hand}}]
- "heer" [{
-          :agr {:gender :common}
+ "heer" [{:agr {:gender :common}
           :sem {:pred :man
                 :context :polite}}]
- "hoogleraar" [{
-                :agr {:gender :common}
+ "hoogleraar" [{:agr {:gender :common}
                 :sem {:pred :professor}}] 
- "hond" [{
-          :agr {:gender :common}
+ "hond" [{:agr {:gender :common}
           :sem {:pred :dog}}]
- "huis" [{
-          :agr {:gender :neuter}
+ "huis" [{:agr {:gender :neuter}
           :sem {:pred :house}}]
- "jas" [{
-         :agr {:gender :common}
+ "jas" [{:agr {:gender :common}
          :sem {:pred :coat}
          :exceptions [{:agr {:number :plur}
                        :surface "jassen"}]}]
  "jongen" [{
             :agr {:gender :common}
             :sem {:pred :boy}}]
- "kat" [{
-          :agr {:gender :common}
+ "kat" [{:agr {:gender :common}
          :sem {:pred :cat}}]
- "kind" [{
-          :agr {:gender :neuter}
+ "kind" [{:agr {:gender :neuter}
           :exceptions [{:agr {:number :plur}
                         :surface "kinderen"}]
           :sem {:pred :child}}]
- "kitten" [{
-            :agr {:gender :common}
+ "kitten" [{:agr {:gender :common}
             :sem {:pred :kitten}}]
- "land" [{
-          :sem {:pred :country}
+ "land" [{:sem {:pred :country}
           :agr {:gender :neuter}}]
- "leraar" [{
-            :agr {:gender :common}
+ "leraar" [{:agr {:gender :common}
             :sem {:pred :teacher}}]
- "leven" [{
-           :agr {:gender :neuter}
+ "leven" [{:agr {:gender :neuter}
            :sem {:pred :life}}]
- "man" [{
-         :sem {:pred :man}
+ "man" [{:sem {:pred :man}
          :agr {:gender :common}}]
- "maand" [{
-           :agr {:gender :common}
+ "maand" [{:agr {:gender :common}
            :sem {:pred :month}}]
- "meisje" [{
-            :agr {:gender :neuter}
+ "meisje" [{:agr {:gender :neuter}
             :sem {:pred :girl}}]
- "moeder" [{
-            :agr {:gender :common}
+ "moeder" [{:agr {:gender :common}
             :sem {:pred :mother}}]
- "ontspanning" [{
-                 :sem {:pred :relaxation}
+ "ontspanning" [{:sem {:pred :relaxation}
                  :agr {:gender :common}}]
- "ontwikkeling" [{
-                  :sem {:pred :development}
+ "ontwikkeling" [{:sem {:pred :development}
                   :agr {:gender :common}}]
- "oog" [{
-         :sem {:pred :eye}
+ "oog" [{:sem {:pred :eye}
          :agr {:gender :neuter}
          :exceptions [{:agr {:number :plur}
                        :surface "ogen"}]}]
- "opleiding" [{
-               :sem {:pred :education}
+ "opleiding" [{:sem {:pred :education}
                :agr {:gender :common}}]
- "oplossing" [{
-               :sem {:pred :solution}
+ "oplossing" [{:sem {:pred :solution}
                :agr {:gender :common}}]
- "opstand" [{
-             :sem {:pred :revolt}
+ "opstand" [{:sem {:pred :revolt}
              :agr {:gender :common}}]
- "overheid" [{
-              :sem {:pred :government}
+ "overheid" [{:sem {:pred :government}
               :agr {:gender :common}}]
- "plaats" [{
-            :sem {:pred :lot}
+ "plaats" [{:sem {:pred :lot}
             :agr {:gender :common}}]
- "stoel" [{
-           :agr {:gender :common}
+ "stoel" [{:agr {:gender :common}
            :sem {:pred :chair}}]
- "tafel" [{
-           :agr {:gender :common}
+ "tafel" [{:agr {:gender :common}
            :sem {:pred :table}}]
- "thuis" [{
-           :agr {:gender :neuter}
+ "thuis" [{:agr {:gender :neuter}
            :sem {:pred :home}}]
- "verslaggever" [{
-                  :agr {:gender :common}
+ "verslaggever" [{:agr {:gender :common}
                   :sem {:pred :reporter}}]
- "vogel" [{
-           :agr {:gender :common}
+ "vogel" [{:agr {:gender :common}
            :sem {:pred :bird}}]
- "voorstelling" [{
-                  :agr {:gender :common}
+ "voorstelling" [{:agr {:gender :common}
                   :sem {:pred :performance}}]
- "vrouw" [{
-           :agr {:gender :neuter}
+ "vrouw" [{:agr {:gender :neuter}
            :sem {:pred :woman
                  :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
- "zaak" [{
-          :sem {:pred :case}
+ "zaak" [{:sem {:pred :case}
           :agr {:gender :common}}]}

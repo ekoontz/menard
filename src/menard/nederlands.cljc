@@ -1,5 +1,9 @@
 (ns menard.nederlands
+
+  ;; TODO: don't we need to have a :require-macros
+  ;; for menard.morphology, too?
   #?(:cljs (:require-macros [menard.grammar]))
+
   (:require [clojure.string :as string]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
@@ -18,6 +22,25 @@
 ;;
 ;; For generation and parsing of Dutch.
 ;;
+
+;; <morphology>
+#?(:clj
+   (defn load-morphology []
+     (m/compile-morphology-fn
+      ["menard/nederlands/morphology/adjectives.edn"
+       "menard/nederlands/morphology/misc.edn"
+       "menard/nederlands/morphology/nouns.edn"
+       "menard/nederlands/morphology/verbs.edn"])))
+
+#?(:cljs
+   (defn load-morphology []
+     (m/compile-morphology
+      ["menard/nederlands/morphology/adjectives.edn"
+       "menard/nederlands/morphology/misc.edn"
+       "menard/nederlands/morphology/nouns.edn"
+       "menard/nederlands/morphology/verbs.edn"])))
+
+;; </morphology>
 
 ;; <lexicon>
 
@@ -91,14 +114,6 @@
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
 
-#?(:clj
-   (defn load-morphology []
-     (m/compile-morphology-fn
-      ["menard/nederlands/morphology/adjectives.edn"
-       "menard/nederlands/morphology/misc.edn"
-       "menard/nederlands/morphology/nouns.edn"
-       "menard/nederlands/morphology/verbs.edn"])))
-
 (def finite-tenses
   [;; "hij werkt"
    {:variant :present-simple
@@ -138,6 +153,10 @@
      (atom (model/load "nl" load-lexical-rules
                        load-lexicon fill-lexicon-indexes
                        load-morphology load-grammar))))
+
+#?(:cljs
+   (def model
+     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
    (defn load-model []

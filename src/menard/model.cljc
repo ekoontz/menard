@@ -26,8 +26,11 @@
                 :loaded-when (str (java.util.Date.))
                 :language language-name
                 :morphology morphology
-                :rules rules
                 :lexicon lexicon
+                ;; note that we don't save the lexical rules since they
+                ;; are only used to compile the lexicon, and so after that's done,
+                ;; the lexicon is what is saved, but the rules used for it
+                ;; aren't needed to be saved in the atom.
                 :indices indices})))))))
    
    #?(:cljs

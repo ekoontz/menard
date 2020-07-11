@@ -1,5 +1,6 @@
 (ns menard.grammar
   (:require [menard.exception :refer [exception]]
+            #?(:clj [clojure.java.io :as io :refer [resource]])
             [menard.morphology :as m]
             [clojure.string :as string]
             #?(:clj [clojure.tools.logging :as log])
@@ -176,19 +177,34 @@
 
 (defmacro read-compiled-grammar [filename]
   `~(-> filename
-        clojure.java.io/resource
+        resource
         slurp
         read-string))
 
 
 (defmacro read-expressions [filename]
   `~(-> filename
-        clojure.java.io/resource
+        resource
         slurp
         read-string))
 
 (defmacro read-grammar [filename]
   `~(-> filename
-        clojure.java.io/resource
+        resource
         slurp
         read-string))
+
+(defn read-grammar-fn [filename]
+  (-> filename
+      ((fn [filename]
+         (if (re-find #"^file:///" filename)
+           (do
+             (log/info (str "read-grammar-fn: reading a file:/// filename:" filename))
+             filename)
+           (do
+             (log/info (str "read-grammar-fn: reading a non-file:/// filename:" filename))
+             (resource filename)))))
+      slurp
+      read-string
+      ((fn [rule]
+         (eval rule)))))

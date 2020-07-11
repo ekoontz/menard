@@ -4,7 +4,7 @@
             #?(:cljs [cljslog.core :as log])))
 
 #?(:clj
-   (defn load [language-name rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
+   (defn load [language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
      (log/info (str "loading resources for language: " language-name))
      (let [lexical-rules (lexical-rules-fn)]
 

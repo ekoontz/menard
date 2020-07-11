@@ -91,13 +91,13 @@
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
 
-
-(defn load-morphology []
-  (m/compile-morphology
-   ["menard/nederlands/morphology/adjectives.edn"
-    "menard/nederlands/morphology/misc.edn"
-    "menard/nederlands/morphology/nouns.edn"
-    "menard/nederlands/morphology/verbs.edn"]))
+#?(:clj
+   (defn load-morphology []
+     (m/compile-morphology-fn
+      ["menard/nederlands/morphology/adjectives.edn"
+       "menard/nederlands/morphology/misc.edn"
+       "menard/nederlands/morphology/nouns.edn"
+       "menard/nederlands/morphology/verbs.edn"])))
 
 (def finite-tenses
   [;; "hij werkt"
@@ -137,14 +137,16 @@
    (def model
      (atom (model/load "nl" load-lexical-rules
                        load-lexicon fill-lexicon-indexes
-                       load-morphology
-                       load-grammar))))
+                       load-morphology load-grammar))))
 
 #?(:clj
    (defn load-model []
      (reset! model 
-             (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes load-morphology load-grammar))
-     "loaded: " (keys @model)))
+             (model/load "nl" load-lexical-rules
+                         load-lexicon fill-lexicon-indexes
+                         load-morphology load-grammar))
+     "loaded: " (keys @model)
+     @model))
 
 #?(:cljs
    (def lexicon

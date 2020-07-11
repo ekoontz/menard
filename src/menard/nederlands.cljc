@@ -145,7 +145,7 @@
 #?(:clj
    (defn load-grammar []
      (-> "menard/nederlands/grammar.edn"
-         grammar/read-grammar
+         grammar/read-grammar-fn
          (grammar/process true))))
 
 #?(:clj

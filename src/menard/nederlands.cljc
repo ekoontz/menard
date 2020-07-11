@@ -27,10 +27,10 @@
 #?(:clj
    (defn load-morphology []
      (m/compile-morphology-fn
-      ["menard/nederlands/morphology/adjectives.edn"
-       "menard/nederlands/morphology/misc.edn"
-       "menard/nederlands/morphology/nouns.edn"
-       "menard/nederlands/morphology/verbs.edn"])))
+      ["file:///Users/ekoontz/menard/src/menard/nederlands/morphology/adjectives.edn"
+       "file:///Users/ekoontz/menard/src/menard/nederlands/morphology/misc.edn"
+       "file:///Users/ekoontz/menard/src/menard/nederlands/morphology/nouns.edn"
+       "file:///Users/ekoontz/menard/src/menard/nederlands/morphology/verbs.edn"])))
 
 #?(:cljs
    (defn load-morphology []
@@ -46,10 +46,10 @@
 
 #?(:clj
    (defn load-lexical-rules []
-     [(l/read-and-eval "menard/nederlands/lexicon/rules/rules-0.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-2.edn")
-      (l/read-and-eval "menard/nederlands/lexicon/rules/rules-3.edn")]))
+     [(l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-0.edn")
+      (l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-1.edn")
+      (l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-2.edn")
+      (l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
@@ -71,18 +71,18 @@
 #?(:clj
    (defn load-lexicon [lexical-rules]
      (merge-with concat
-                 (compile-lexicon-source "menard/nederlands/lexicon/adjectives.edn"
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/adjectives.edn"
                                          lexical-rules {:cat :adjective})
-                 (compile-lexicon-source "menard/nederlands/lexicon/adverbs.edn"
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/adverbs.edn"
                                          lexical-rules {:cat :adverb})
 
                  ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                 (compile-lexicon-source "menard/nederlands/lexicon/misc.edn" lexical-rules)
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/misc.edn" lexical-rules)
                  
-                 (compile-lexicon-source "menard/nederlands/lexicon/nouns.edn" lexical-rules {:cat :noun})
-                 (compile-lexicon-source "menard/nederlands/lexicon/numbers.edn" lexical-rules {:cat :adjective})
-                 (compile-lexicon-source "menard/nederlands/lexicon/propernouns.edn" lexical-rules {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source "menard/nederlands/lexicon/verbs.edn" lexical-rules {:cat :verb}))))
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/nouns.edn" lexical-rules {:cat :noun})
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/numbers.edn" lexical-rules {:cat :adjective})
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/propernouns.edn" lexical-rules {:cat :noun :pronoun false :propernoun true})
+                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/verbs.edn" lexical-rules {:cat :verb}))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]

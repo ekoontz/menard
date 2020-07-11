@@ -115,7 +115,7 @@
 #?(:clj
    (defn load-model []
      (reset! model 
-             (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes load-morphology))
+             (model/load "nl" load-lexical-rules load-lexicon fill-lexicon-indexes load-morphology load-grammar))
      "loaded: " (keys @model)))
 
 #?(:cljs

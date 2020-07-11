@@ -12,7 +12,7 @@
        (log/info (str "loaded: " (count lexical-rules) " lexical rule sets. Sizes: "
                       (reduce (fn [a b]
                                 (clojure.string/join ", " [a b]))
-                              (map count lexical-rules))))
+                              (map count lexical-rules)) "."))
 
        (let [lexicon (lexicon-fn lexical-rules)]
          (log/info (str "loaded: " (count (keys lexicon)) " lexeme keys."))

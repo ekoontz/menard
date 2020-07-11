@@ -15,6 +15,7 @@
           (let [grammar (load-grammar-fn)]
             (log/info (str "loaded: " (count grammar) " grammar rules."))
             {:grammar grammar
+             :loaded-when (str (java.util.Date.))
              :language language-name
              :morphology morphology
              :rules rules

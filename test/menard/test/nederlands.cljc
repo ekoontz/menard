@@ -53,8 +53,7 @@
          (range 0 (count expressions))
          (pmap (fn [index]
                  (take generate-per-expression
-                       (repeatedly #(binding [nl/grammar-for-generation grammar]
-                                      (generate (nth expressions index))))))))]
+                       (repeatedly #(generate (nth expressions index)))))))]
     (is (= (count expressions)
            (count expression-sets)))
     (is (empty?

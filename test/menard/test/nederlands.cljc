@@ -46,7 +46,7 @@
                          (filter #(= true (u/get-in % [:prod?] true))))
 
         ;; exclude non-production grammar rules:
-        grammar (->> nl/grammar
+        grammar (->> (-> nl/model deref :grammar)
                      (filter #(= true (u/get-in % [:prod?] true))))
         expression-sets
         (->>

@@ -99,6 +99,34 @@
     "menard/nederlands/morphology/nouns.edn"
     "menard/nederlands/morphology/verbs.edn"]))
 
+(def finite-tenses
+  [;; "hij werkt"
+   {:variant :present-simple
+    :abbreviation :simple-present
+    :infl :present
+    :sem {:tense :present
+          :aspect :simple}}])
+
+(def inf-tense
+  [;; "te [vp(:infinitive) zien de kat]"
+   {:variant :infinitive
+    :abbreviation :inf
+    :infl :te
+    :sem {:tense :infinitive}}])
+
+(def finite-plus-inf-tense
+  [;; "hij werkt"
+   {:variant :present-simple
+    :abbreviation :simple-present
+    :infl :present
+    :sem {:tense :present
+          :aspect :simple}}
+   ;; "te [vp(:infinitive) zien de kat]"
+   {:variant :infinitive
+    :abbreviation :inf
+    :infl :infinitive
+    :sem {:tense :infinitive}}])
+
 #?(:clj
    (defn load-grammar []
      (-> "menard/nederlands/grammar.edn"
@@ -187,10 +215,6 @@
              (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
              lexicon)))))
 
-;; </lexicon>
-
-;; <morphology>
-
 (declare sentence-punctuation)
 
 (defn morph
@@ -208,37 +232,6 @@
          morph
          (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
 
-;; </morphology>
-
-;; <grammar>
-(def finite-tenses
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :sem {:tense :present
-          :aspect :simple}}])
-
-(def inf-tense
-  [;; "te [vp(:infinitive) zien de kat]"
-   {:variant :infinitive
-    :abbreviation :inf
-    :infl :te
-    :sem {:tense :infinitive}}])
-
-(def finite-plus-inf-tense
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :sem {:tense :present
-          :aspect :simple}}
-   ;; "te [vp(:infinitive) zien de kat]"
-   {:variant :infinitive
-    :abbreviation :inf
-    :infl :infinitive
-    :sem {:tense :infinitive}}])
-
 #?(:cljs
    (def grammar
      (->> (menard.grammar/read-compiled-grammar
@@ -249,9 +242,6 @@
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar (-> @model :grammar)
                                      "src/menard/nederlands/grammar/compiled.edn")))
-
-;; </grammar>
-
 (declare generate)
 (declare syntax-tree)
 

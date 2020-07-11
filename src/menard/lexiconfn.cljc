@@ -82,7 +82,18 @@
 #?(:clj
    (defn read-and-eval [rules-filename]
      (-> rules-filename
-         io/resource
+         ((fn [filename]
+            (if (re-find #"^file:///" filename)
+              (do
+                (log/debug (str "got a file:/// filename: " filename))
+                filename)
+
+              ;; else, assume it's a relative path, in which case we
+              ;; we have to "cast" the filename to an io/resource,
+              ;; which uses the JVM classpath, not the local filesystem, for relative paths
+              (do
+                (log/debug (str "got a non-file:/// filename: " filename))
+                (io/resource filename)))))
          slurp
          read-string
          ((fn [rule]
@@ -297,3 +308,4 @@
         resource
         slurp
         read-string))
+

@@ -6,9 +6,15 @@
 #?(:clj
    (defn load [language-name rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
      (log/info (str "loading resources for language: " language-name))
-     (let [rules (rules-fn)]
-       (log/info (str "loaded: " (count rules) " lexical rule sets."))
-       (let [lexicon (lexicon-fn rules)]
+     (let [lexical-rules (lexical-rules-fn)]
+
+       ;; TODO: show count of rules in each set:
+       (log/info (str "loaded: " (count lexical-rules) " lexical rule sets. Sizes: "
+                      (reduce (fn [a b]
+                                (clojure.string/join ", " [a b]))
+                              (map count lexical-rules))))
+
+       (let [lexicon (lexicon-fn lexical-rules)]
          (log/info (str "loaded: " (count (keys lexicon)) " lexeme keys."))
          (let [indices (fill-lexicon-indexes-fn lexicon)]
            (log/info (str "loaded: " (count (keys indices)) " lexicon indices."))

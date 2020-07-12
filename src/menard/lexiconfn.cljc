@@ -96,8 +96,7 @@
                 (io/resource filename)))))
          slurp
          read-string
-         ((fn [rule]
-           (eval rule))))))
+         eval))
 
 ;; (read-and-eval) doesn't do anything and should not be called from
 ;; Clojurescript. This definition is provided to avoid Clojurescript warnings

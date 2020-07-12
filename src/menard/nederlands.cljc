@@ -8,9 +8,9 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
+            [menard.model :as model]
             [menard.morphology :as m]
             [menard.parse :as p]
-            [menard.model :as model]
             [menard.serialization :as s]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
@@ -154,14 +154,6 @@
 #?(:cljs
    (def model
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
-
-#?(:clj
-   (defn load-model []
-     (reset! model 
-             (model/load "nl" load-lexical-rules
-                         load-lexicon fill-lexicon-indexes
-                         load-morphology load-grammar))
-     @model))
 
 #?(:cljs
    (def lexicon

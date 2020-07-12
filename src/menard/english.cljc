@@ -217,15 +217,11 @@
          grammar/process)))
 
 #?(:clj
-   (def model
-     (atom (model/load "en" load-lexical-rules
-                       load-lexicon fill-lexicon-indexes
-                       load-morphology load-grammar))))
+   (def model (atom nil)))
 
 #?(:cljs
-   (comment
    (def model
-     (atom nil)))) ;; TODO: add call to macro function like with morphology/compile-morphology.
+     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
    (defn write-compiled-grammar []
@@ -329,13 +325,15 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/max-depth (if (get-in spec [:max-depth])
-                          (+ 3 (get-in spec [:max-depth]))
-                          (get-in spec [:max-depth] g/max-depth))]
-    (log/debug (str "english generate: " (diag/strip-refs spec)))
-    (g/generate spec
-                (-> @model :grammar)
-                index-fn syntax-tree)))
+  (let [model (or @model (load-model))]
+    (binding [g/max-depth (if (get-in spec [:max-depth])
+                            (+ 3 (get-in spec [:max-depth]))
+                            (get-in spec [:max-depth] g/max-depth))]
+      (log/debug (str "english generate: " (diag/strip-refs spec)
+                      " with max-depth: " g/max-depth))
+      (g/generate spec
+                  (-> model :grammar)
+                  index-fn syntax-tree))))
 
 (defn get-lexemes [spec]
   (g/get-lexemes spec index-fn syntax-tree))
@@ -346,24 +344,26 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface]
-  (binding [l/lexicon (-> @model :lexicon)
-            l/morphology (-> @model :morphology)]
-    (let [variants (vec (set [(clojure.string/lower-case surface)
-                              (clojure.string/upper-case surface)
-                              (clojure.string/capitalize surface)]))]
-      (->> variants
-           (mapcat (fn [surface]
-                     (l/matching-lexemes surface)))))))
+  (let [model (or @model (load-model))]
+    (binding [l/lexicon (-> model :lexicon)
+              l/morphology (-> model :morphology)]
+      (let [variants (vec (set [(clojure.string/lower-case surface)
+                                (clojure.string/upper-case surface)
+                                (clojure.string/capitalize surface)]))]
+        (->> variants
+             (mapcat (fn [surface]
+                       (l/matching-lexemes surface))))))))
 
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
 (defn parse [expression]
-  (binding [p/grammar (-> @model :grammar)
-            p/syntax-tree syntax-tree
-            l/lexicon (-> @model :lexicon)
-            l/morphology (-> @model :morphology)
-            p/lookup-fn analyze]
-    (p/parse expression morph)))
+  (let [model (or @model (load-model))]
+    (binding [p/grammar (-> model :grammar)
+              p/syntax-tree syntax-tree
+              l/lexicon (-> model :lexicon)
+              l/morphology (-> model :morphology)
+              p/lookup-fn analyze]
+      (p/parse expression morph))))
 
 (def expressions
   (-> "menard/english/expressions.edn"

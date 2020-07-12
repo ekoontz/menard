@@ -149,10 +149,7 @@
          grammar/process)))
 
 #?(:clj
-   (def model
-     (atom (model/load "nl" load-lexical-rules
-                       load-lexicon fill-lexicon-indexes
-                       load-morphology load-grammar))))
+   (def model (atom nil)))
 
 #?(:cljs
    (def model
@@ -277,38 +274,42 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/max-depth (:max-depth spec g/max-depth)
-            g/allow-backtracking? true]
-    (-> spec
-        ((fn [x] (unify x (:training-wheels x :top))))
-        (dissoc :training-wheels)
-        (g/generate (-> @model :grammar) index-fn syntax-tree))))
+  (let [model (or @model (load-model))]
+    (binding [g/max-depth (:max-depth spec g/max-depth)
+              g/allow-backtracking? true]
+      (-> spec
+          ((fn [x] (unify x (:training-wheels x :top))))
+          (dissoc :training-wheels)
+          (g/generate (-> model :grammar) index-fn syntax-tree)))))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
-  (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-    (g/generate-all [spec] (-> @model :grammar) index-fn syntax-tree)))
+  (let [model (or @model (load-model))]
+    (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
+      (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (binding [l/lexicon (-> @model :lexicon)
-            l/morphology (:morphology @model)]
-    (let [variants (vec (set [(clojure.string/lower-case surface)
-                              (clojure.string/upper-case surface)
-                              (clojure.string/capitalize surface)]))]
-      (->> variants
-           (mapcat (fn [surface]
-                     (l/matching-lexemes surface)))))))
+  (let [model (or @model (load-model))]
+    (binding [l/lexicon (-> model :lexicon)
+              l/morphology (:morphology model)]
+      (let [variants (vec (set [(clojure.string/lower-case surface)
+                                (clojure.string/upper-case surface)
+                                (clojure.string/capitalize surface)]))]
+        (->> variants
+             (mapcat (fn [surface]
+                       (l/matching-lexemes surface))))))))
 
 (defn parse [expression]
-  (binding [p/grammar (-> @model :grammar)
-            p/syntax-tree syntax-tree
-            p/truncate? false
-            l/lexicon (-> @model :lexicon)
-            l/morphology (-> @model :morphology)
-            p/split-on #"[ ]"
-            p/lookup-fn analyze]
-    (p/parse expression morph)))
+  (let [model (or @model (load-model))]
+    (binding [p/grammar (-> model :grammar)
+              p/syntax-tree syntax-tree
+              p/truncate? false
+              l/lexicon (-> model :lexicon)
+              l/morphology (-> model :morphology)
+              p/split-on #"[ ]"
+              p/lookup-fn analyze]
+      (p/parse expression morph))))
 
 (defn generate-demo [index & [this-many]]
   (->>

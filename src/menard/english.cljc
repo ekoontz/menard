@@ -1,7 +1,10 @@
 (ns menard.english
+
+  ;; TODO: don't we need to have a :require-macros
+  ;; for menard.morphology, too?
   #?(:cljs (:require-macros [menard.grammar]))
-  (:require #?(:clj [clojure.java.io :refer [resource]])
-            [clojure.string :as string]
+
+  (:require [clojure.string :as string]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
@@ -10,8 +13,8 @@
             [menard.nesting :as nest]
             [menard.parse :as p]
             [menard.serialization :as s]
-            [menard.ug :as ug]
             [menard.subcat :as su]
+            [menard.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [pprint unify]]
@@ -76,13 +79,6 @@
                  (compile-lexicon-source (model/use-path "menard/english/lexicon/numbers.edn") lexical-rules {:cat :adjective})
                  (compile-lexicon-source (model/use-path "menard/english/lexicon/propernouns.edn") lexical-rules {:cat :noun :pronoun false :propernoun true})
                  (compile-lexicon-source (model/use-path "menard/english/lexicon/verbs.edn") lexical-rules {:cat :verb}))))
-
-#?(:cljs
-   (def lexicon
-     (-> (l/read-compiled-lexicon "menard/english/lexicon/compiled.edn")
-         l/deserialize-lexicon              
-         vals
-         flatten)))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -260,6 +256,13 @@
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon (:lexicon @model)
                                "src/menard/english/lexicon/compiled.edn")))
+
+#?(:cljs
+   (def lexicon
+     (-> (l/read-compiled-lexicon "menard/english/lexicon/compiled.edn")
+         l/deserialize-lexicon              
+         vals
+         flatten)))
 
 #?(:clj
    (defn index-fn [spec]

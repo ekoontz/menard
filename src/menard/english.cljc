@@ -35,8 +35,6 @@
        "menard/english/morphology/nouns.edn"
        "menard/english/morphology/verbs.edn"])))
 
-(def morphology (load-morphology))
-
 ;; </morphology>
 
 ;; <lexicon>
@@ -47,13 +45,6 @@
       (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-1.edn"))
       (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-2.edn"))
       (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-3.edn"))]))
-
-#?(:clj
-   (def lexical-rules
-     [(l/read-and-eval "menard/english/lexicon/rules/rules-0.edn")
-      (l/read-and-eval "menard/english/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "menard/english/lexicon/rules/rules-2.edn")
-      (l/read-and-eval "menard/english/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
@@ -86,9 +77,6 @@
                  (compile-lexicon-source (model/use-path "menard/english/lexicon/propernouns.edn") lexical-rules {:cat :noun :pronoun false :propernoun true})
                  (compile-lexicon-source (model/use-path "menard/english/lexicon/verbs.edn") lexical-rules {:cat :verb}))))
 
-#?(:clj
-   (def lexicon (load-lexicon lexical-rules)))
-
 #?(:cljs
    (def lexicon
      (-> (l/read-compiled-lexicon "menard/english/lexicon/compiled.edn")
@@ -102,20 +90,16 @@
                                "src/menard/english/lexicon/compiled.edn")))
 
 #?(:clj
-   (def flattened-lexicon
-     (flatten (vals lexicon))))
-
-#?(:clj
-   (def verb-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (u/get-in % [:exception]))
-                        (= (u/get-in % [:cat]) :verb))))))
-
-#?(:clj
-   (def non-verb-lexicon
-     (->> flattened-lexicon
-          (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                        (not (u/get-in % [:exception])))))))
+  (defn fill-lexicon-indexes [lexicon]
+    (let [flattened-lexicon (flatten (vals lexicon))]
+      {:non-verb-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                          (not (u/get-in % [:exception])))))
+       :verb-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :verb))))})))
 
 #?(:clj
    (defn index-fn [spec]
@@ -165,18 +149,6 @@
 
 
 ;; </lexicon>
-
-#?(:clj
-   (comment
-   (def model
-     (atom (model/load "en" load-lexical-rules
-                       load-lexicon fill-lexicon-indexes
-                       load-morphology load-grammar)))))
-
-#?(:cljs
-   (comment
-   (def model
-     (atom nil)))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 (declare an)
 (declare sentence-punctuation)
@@ -290,24 +262,11 @@
     :sem {:tense :past
           :aspect :pluperfect}}])
 
-#?(:clj
-   (def loaded-grammar
-     (-> "menard/english/grammar.edn"
-         resource
-         slurp
-         read-string
-         grammar/process)))
-
 #?(:cljs
    (def loaded-grammar
      (->> (menard.grammar/read-compiled-grammar
            "menard/english/grammar/compiled.edn")
           (map dag_unify.serialization/deserialize))))
-
-(def grammar
-  (sort (fn [x y] 
-          (not (u/get-in x [:comp :phrasal] false)))
-        loaded-grammar))
 
 #?(:clj
    (defn write-compiled-grammar []
@@ -315,6 +274,23 @@
                                      "src/menard/english/grammar/compiled.edn")))
 
 ;; </grammar>
+
+#?(:clj
+   (defn load-grammar []
+     (-> (model/use-path "menard/english/grammar.edn")
+         grammar/read-grammar-fn
+         grammar/process)))
+
+#?(:clj
+   (def model
+     (atom (model/load "en" load-lexical-rules
+                       load-lexicon fill-lexicon-indexes
+                       load-morphology load-grammar))))
+
+#?(:cljs
+   (comment
+   (def model
+     (atom nil)))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 (defn syntax-tree [tree]
   (s/syntax-tree tree morphology))
@@ -346,7 +322,7 @@
                           (get-in spec [:max-depth] g/max-depth))]
     (log/debug (str "english generate: " (diag/strip-refs spec)))
     (g/generate spec
-                grammar
+                (-> @model :grammar)
                 index-fn syntax-tree)))
 
 (defn get-lexemes [spec]
@@ -367,11 +343,13 @@
            (mapcat (fn [surface]
                      (l/matching-lexemes surface)))))))
 
+;; TODO: consider setting p/truncate? false here in (defn parse)
+;; to improve performance:
 (defn parse [expression]
-  (binding [p/grammar grammar
+  (binding [p/grammar (-> @model :grammar)
             p/syntax-tree syntax-tree
-            l/lexicon lexicon
-            l/morphology morphology
+            l/lexicon (-> @model :lexicon)
+            l/morphology (-> @model :morphology)
             p/lookup-fn analyze]
     (p/parse expression morph)))
 

@@ -9,7 +9,7 @@
      (let [lexical-rules (lexical-rules-fn)]
 
        ;; TODO: show count of rules in each set:
-       (log/info (str "loaded: " (count lexical-rules) " lexical rule sets. Sizes: "
+       (log/info (str "loaded: " (count lexical-rules) " lexical rule sets; sizes: "
                       (reduce (fn [a b]
                                 (clojure.string/join ", " [a b]))
                               (map count lexical-rules)) "."))

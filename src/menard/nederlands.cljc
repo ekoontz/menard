@@ -146,6 +146,14 @@
    (defn load-grammar []
      (-> "menard/nederlands/grammar.edn"
          grammar/read-grammar-fn
+         ((fn [grammar]
+            (log/info (str "hello?"))
+            (log/info (str "pre-eval type of grammar: " (type grammar)))
+            (log/info (str "pre-eval type of first grammar: " (type (first grammar))))
+            (log/info (str "pre-eval and the first looks like this: " (first grammar)))
+            (log/info (str "pre-eval evaluating that first result looks like: " (eval (first grammar))))
+            grammar))
+         eval
          (grammar/process true))))
 
 #?(:clj

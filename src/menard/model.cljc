@@ -4,6 +4,12 @@
             #?(:cljs [cljslog.core :as log])))
 
 #?(:clj
+   (defn use-path [path]
+     (if (System/getenv "MODEL_URL")
+       (str (System/getenv "MODEL_URL") path)
+       path)))
+
+#?(:clj
    (defn load [language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
      (log/info (str "loading resources for language: " language-name))
      (let [lexical-rules (lexical-rules-fn)]

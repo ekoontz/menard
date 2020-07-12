@@ -5,6 +5,7 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
+            [menard.model :as model]
             [menard.morphology :as m]
             [menard.nesting :as nest]
             [menard.parse :as p]
@@ -18,6 +19,18 @@
 ;;
 ;; For generation and parsing of English.
 ;;
+
+;; <morphology>
+(defn load-morphology []
+  (m/compile-morphology-fn
+   [(model/use-path "menard/english/morphology/misc.edn")
+    (model/use-path "menard/english/morphology/nouns.edn")
+    (model/use-path "menard/english/morphology/verbs.edn")]))
+
+(def morphology (load-morphology))
+
+;; </morphology>
+
 ;; <lexicon>
 #?(:clj
    (def lexical-rules
@@ -129,12 +142,6 @@
 
 
 ;; </lexicon>
-
-;; <morphology>
-(def morphology (m/compile-morphology
-                 ["menard/english/morphology/misc.edn"
-                  "menard/english/morphology/nouns.edn"
-                  "menard/english/morphology/verbs.edn"]))
 
 (declare an)
 (declare sentence-punctuation)

@@ -85,11 +85,6 @@
          flatten)))
 
 #?(:clj
-   (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon lexicon
-                               "src/menard/english/lexicon/compiled.edn")))
-
-#?(:clj
   (defn fill-lexicon-indexes [lexicon]
     (let [flattened-lexicon (flatten (vals lexicon))]
       {:non-verb-lexicon
@@ -100,22 +95,6 @@
        (->> flattened-lexicon
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
-
-#?(:clj
-   (defn index-fn [spec]
-     (let [result
-           (cond (= (u/get-in spec [:cat]) :verb)
-                 verb-lexicon
-
-                 (and (u/get-in spec [:cat])
-                      (not (= :top (u/get-in spec [:cat]))))
-                 non-verb-lexicon
-
-                 true
-                 (lazy-cat verb-lexicon non-verb-lexicon))]
-       (if true
-         (shuffle result)
-         result))))
 
 #?(:cljs
    ;; note that we exclude [:exception]s from the lexemes that we use for
@@ -135,45 +114,10 @@
       :adjective (->> lexicon
                       (filter #(= :adjective (u/get-in % [:cat]))))}))
 
-#?(:cljs
-   (defn index-fn [spec]
-     ;; for now a somewhat bad index function: simply returns
-     ;; lexemes which match the spec's :cat, or, if the :cat isn't
-     ;; defined, just return all the lexemes.
-     (let [result (get lexeme-map (u/get-in spec [:cat] :top) nil)]
-       (if (not (nil? result))
-           (shuffle result)
-           (do
-             (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
-             lexicon)))))
-
-
 ;; </lexicon>
 
 (declare an)
 (declare sentence-punctuation)
-
-(defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (-> (u/get-in tree [:syntax-tree])
-         (s/morph morphology)     
-         an)
-
-     true
-     (-> tree
-         (s/morph morphology)
-         an)))
-
-  ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
-     (-> tree
-         morph
-         an
-         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
-
-;; </morphology>
 
 ;; <grammar>
 
@@ -268,11 +212,6 @@
            "menard/english/grammar/compiled.edn")
           (map dag_unify.serialization/deserialize))))
 
-#?(:clj
-   (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar grammar
-                                     "src/menard/english/grammar/compiled.edn")))
-
 ;; </grammar>
 
 #?(:clj
@@ -292,8 +231,69 @@
    (def model
      (atom nil)))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
+#?(:clj
+   (defn write-compiled-grammar []
+     (grammar/write-compiled-grammar (-> @model :grammar)
+                                     "src/menard/english/grammar/compiled.edn")))
+
+(defn morph
+  ([tree]
+   (cond
+     (map? (u/get-in tree [:syntax-tree]))
+     (-> (u/get-in tree [:syntax-tree])
+         (s/morph (:morphology @model))
+         an)
+
+     true
+     (-> tree
+         (s/morph (:morphology @model))
+         an)))
+
+  ([tree & {:keys [sentence-punctuation?]}]
+   (if sentence-punctuation?
+     (-> tree
+         morph
+         an
+         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
+
+#?(:clj
+   (defn write-compiled-lexicon []
+     (l/write-compiled-lexicon (:lexicon @model)
+                               "src/menard/english/lexicon/compiled.edn")))
+
+#?(:clj
+   (defn index-fn [spec]
+     (let [result
+           (cond (= (u/get-in spec [:cat]) :verb)
+                 (-> @model :indices :verb-lexicon)
+
+                 (and (u/get-in spec [:cat])
+                      (not (= :top (u/get-in spec [:cat]))))
+                 (-> @model :indices :non-verb-lexicon)
+
+                 ;; TODO: make a :misc-lexicon index, as in nl.
+                 true
+                 (lazy-cat
+                  (-> @model :indices :verb-lexicon)
+                  (-> @model :indices :non-verb-lexicon)))]
+       (if true
+         (shuffle result)
+         result))))
+
+#?(:cljs
+   (defn index-fn [spec]
+     ;; for now a somewhat bad index function: simply returns
+     ;; lexemes which match the spec's :cat, or, if the :cat isn't
+     ;; defined, just return all the lexemes.
+     (let [result (get lexeme-map (u/get-in spec [:cat] :top) nil)]
+       (if (not (nil? result))
+           (shuffle result)
+           (do
+             (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
+             lexicon)))))
+
 (defn syntax-tree [tree]
-  (s/syntax-tree tree morphology))
+  (s/syntax-tree tree (:morphology @model)))
 
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel; 
@@ -334,8 +334,8 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface]
-  (binding [l/lexicon lexicon
-            l/morphology morphology]
+  (binding [l/lexicon (-> @model :lexicon)
+            l/morphology (-> @model :morphology)]
     (let [variants (vec (set [(clojure.string/lower-case surface)
                               (clojure.string/upper-case surface)
                               (clojure.string/capitalize surface)]))]

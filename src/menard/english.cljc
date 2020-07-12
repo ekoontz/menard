@@ -21,17 +21,33 @@
 ;;
 
 ;; <morphology>
-(defn load-morphology []
-  (m/compile-morphology-fn
-   [(model/use-path "menard/english/morphology/misc.edn")
-    (model/use-path "menard/english/morphology/nouns.edn")
-    (model/use-path "menard/english/morphology/verbs.edn")]))
+#?(:clj
+   (defn load-morphology []
+     (m/compile-morphology-fn
+      [(model/use-path "menard/english/morphology/misc.edn")
+       (model/use-path "menard/english/morphology/nouns.edn")
+       (model/use-path "menard/english/morphology/verbs.edn")])))
+
+#?(:cljs
+   (defn load-morphology []
+     (m/compile-morphology
+      ["menard/english/morphology/misc.edn"
+       "menard/english/morphology/nouns.edn"
+       "menard/english/morphology/verbs.edn"])))
 
 (def morphology (load-morphology))
 
 ;; </morphology>
 
 ;; <lexicon>
+
+#?(:clj
+   (defn load-lexical-rules []
+     [(l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-0.edn"))
+      (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-1.edn"))
+      (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-2.edn"))
+      (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-3.edn"))]))
+
 #?(:clj
    (def lexical-rules
      [(l/read-and-eval "menard/english/lexicon/rules/rules-0.edn")
@@ -40,7 +56,7 @@
       (l/read-and-eval "menard/english/lexicon/rules/rules-3.edn")]))
 
 #?(:clj
-   (defn compile-lexicon-source [source-filename & [unify-with]]
+   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
      (binding [menard.lexiconfn/include-derivation? true]
        (-> source-filename
            l/read-and-eval
@@ -55,16 +71,23 @@
            (l/apply-rules-in-order (nth lexical-rules 1) :1)
            (l/apply-rules-in-order (nth lexical-rules 2) :2)
            (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
+
 #?(:clj
-   (def lexicon
+   (defn load-lexicon [lexical-rules]
      (merge-with concat
-                 (compile-lexicon-source "menard/english/lexicon/adjectives.edn" {:cat :adjective})
-                 (compile-lexicon-source "menard/english/lexicon/adverbs.edn" {:cat :adverb})
-                 (compile-lexicon-source "menard/english/lexicon/misc.edn")
-                 (compile-lexicon-source "menard/english/lexicon/nouns.edn" {:cat :noun})
-                 (compile-lexicon-source "menard/english/lexicon/numbers.edn" {:cat :adjective})
-                 (compile-lexicon-source "menard/english/lexicon/propernouns.edn" {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source "menard/english/lexicon/verbs.edn" {:cat :verb}))))
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/adjectives.edn") lexical-rules {:cat :adjective})
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/adverbs.edn") lexical-rules {:cat :adverb})
+
+                 ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/misc.edn") lexical-rules)
+                 
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/nouns.edn") lexical-rules {:cat :noun})
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/numbers.edn") lexical-rules {:cat :adjective})
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/propernouns.edn") lexical-rules {:cat :noun :pronoun false :propernoun true})
+                 (compile-lexicon-source (model/use-path "menard/english/lexicon/verbs.edn") lexical-rules {:cat :verb}))))
+
+#?(:clj
+   (def lexicon (load-lexicon lexical-rules)))
 
 #?(:cljs
    (def lexicon
@@ -142,6 +165,18 @@
 
 
 ;; </lexicon>
+
+#?(:clj
+   (comment
+   (def model
+     (atom (model/load "en" load-lexical-rules
+                       load-lexicon fill-lexicon-indexes
+                       load-morphology load-grammar)))))
+
+#?(:cljs
+   (comment
+   (def model
+     (atom nil)))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 (declare an)
 (declare sentence-punctuation)

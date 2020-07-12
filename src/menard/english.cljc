@@ -232,6 +232,15 @@
      (grammar/write-compiled-grammar (-> @model :grammar)
                                      "src/menard/english/grammar/compiled.edn")))
 
+
+#?(:clj
+   (defn load-model []
+     (reset! model
+             (model/load "en" load-lexical-rules
+                         load-lexicon fill-lexicon-indexes
+                         load-morphology load-grammar))
+     @model))
+
 (defn morph
   ([tree]
    (cond

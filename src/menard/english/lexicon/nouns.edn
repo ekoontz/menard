@@ -1,196 +1,115 @@
-{"area" [{
-          :sem {:pred :area}}]
- "baby" [{
-          :sem {:pred :baby}}]
- "bike" [{
-          :sem {:pred :bike}}]
- "bird" [{
-          :agr {:gender :neuter}
+{"area" [{:sem {:pred :area}}]
+ "baby" [{:sem {:pred :baby}}]
+ "bike" [{:sem {:pred :bike}}]
+ "bird" [{:agr {:gender :neuter}
           :sem {:pred :bird}}]
- "book" [{
-          :sem {:pred :book}}]
- "boy" [{
-         :sem {:pred :boy}
+ "book" [{:sem {:pred :book}}]
+ "boy" [{:sem {:pred :boy}
          :agr {:human true
                :gender :masc}}]
- "business" [{
-              :sem {:pred :business}}]
- "case" [{
-          :sem {:pred :case}}]
- "cat" [{
-         :sem {:pred :cat}}]
- "chair" [{
-           :sem {:pred :chair}}]
- "child" [{
-           :sem {:pred :child}
+ "business" [{:sem {:pred :business}}]
+ "case" [{:sem {:pred :case}}]
+ "cat" [{:sem {:pred :cat}}]
+ "chair" [{:sem {:pred :chair}}]
+ "child" [{:sem {:pred :child}
            :exceptions [{:agr {:number :plur}
                          :surface "children"}]}]
- "civilization" [{
-                  :sem {:pred :civilization}}]
- "coat" [{
-          :sem {:pred :coat}}]
- "company" [{
-             :sem {:pred :company}}]
- "country" [{
-             :sem {:pred :country}}]
- "day" [{
-         :sem {:pred :day}}]
- "development" [{
-                 :sem {:pred :development}}]
- "dinner" [{
-            :sem {:pred :dinner}
+ "civilization" [{:sem {:pred :civilization}}]
+ "coat" [{:sem {:pred :coat}}]
+ "company" [{:sem {:pred :company}}]
+ "country" [{:sem {:pred :country}}]
+ "day" [{:sem {:pred :day}}]
+ "development" [{:sem {:pred :development}}]
+ "dinner" [{:sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"
-
- "dog" [{
-         :sem {:pred :dog}}]
- "education" [{
-               :sem {:pred :education}}]
+ "dog" [{:sem {:pred :dog}}]
+ "education" [{:sem {:pred :education}}]
  "experience" [{:sem {:pred :experience}}]
  "eye" [{:sem {:pred :eye}}]
- "fact" [{
-          :sem {:pred :fact}}]
- "family" [{
-            :sem {:pred :family}}]
- "gentleman" [{
-               :sem {:pred :man
+ "fact" [{:sem {:pred :fact}}]
+ "family" [{:sem {:pred :family}}]
+ "gentleman" [{:sem {:pred :man
                      :context :polite}
                :agr {:gender :man
                      :human true}
                :exceptions [{:surface "gentlemen"
                              :agr {:number :plur}}]}]
- "girl" [{
-          :sem {:pred :girl}
+ "girl" [{:sem {:pred :girl}
           :agr {:human true
                 :gender :fem}}]
- "government" [{
-                :sem {:pred :government}}]
- "grape" [{
-           :sem {:pred :grape}}]
- "group" [{
-           :sem {:pred :group}}]
- "hair" [{
-          :sem {:pred :hair}}]
- "hand" [{
-          :sem {:pred :hand}}]
- "home" [{
-          :sem {:pred :home}}]
- "house" [{
-           :sem {:pred :house}}]
- "job" [{
-         :sem {:pred :job}}]
- "kitten" [{
-            :sem {:pred :kitten}}]
- "lady" [{
-          :sem {:pred :woman
+ "government" [{:sem {:pred :government}}]
+ "grape" [{:sem {:pred :grape}}]
+ "group" [{:sem {:pred :group}}]
+ "hair" [{:sem {:pred :hair}}]
+ "hand" [{:sem {:pred :hand}}]
+ "home" [{:sem {:pred :home}}]
+ "house" [{:sem {:pred :house}}]
+ "job" [{:sem {:pred :job}}]
+ "kitten" [{:sem {:pred :kitten}}]
+ "lady" [{:sem {:pred :woman
                 :context :polite}
           :agr {:gender :fem
                 :human true}}]
- "leg" [{
-          :sem {:pred :leg}}]
- "life" [{
-          :sem {:pred :life}}]
- "loneliness" [{
-                :sem {:pred :loneliness}}]
- "lot" [{
-         :sem {:pred :lot}}]
- "man" [{
-         :sem {:pred :man}
+ "leg" [{:sem {:pred :leg}}]
+ "life" [{:sem {:pred :life}}]
+ "loneliness" [{:sem {:pred :loneliness}}]
+ "lot" [{:sem {:pred :lot}}]
+ "man" [{:sem {:pred :man
+               :context :neutral} ;; i.e. :neutral meaning 'not polite'
          :agr {:gender :masc
                :human true}
          :exceptions [{:surface "men"
                        :agr {:number :plur}}]}]
- "money" [{
-           :sem {:pred :money}}]
- "month" [{
-           :sem {:pred :month}}]
- "mother" [{
-            :sem {:pred :mother}}]
- "name" [{
-          :sem {:pred :name}}]
- "night" [{
-           :sem {:pred :night}}]
- "number" [{
-            :sem {:pred :number}}]
- "part" [{
-          :sem {:pred :part}}]
- "people" [{
-            :sem {:pred :people}
+ "money" [{:sem {:pred :money}}]
+ "month" [{:sem {:pred :month}}]
+ "mother" [{:sem {:pred :mother}}]
+ "name" [{:sem {:pred :name}}]
+ "night" [{:sem {:pred :night}}]
+ "number" [{:sem {:pred :number}}]
+ "part" [{:sem {:pred :part}}]
+ "people" [{:sem {:pred :people}
             :agr {:number :plur}}]
- "performance" [{
-                 :sem {:pred :performance}}]
- "person" [{
-            :sem {:pred :person}
+ "performance" [{:sem {:pred :performance}}]
+ "person" [{:sem {:pred :person}
             :agr {:number :sing}}]
- "place" [{
-           :sem {:pred :place}}]
- "point" [{
-           :sem {:pred :point}}]
- "problem" [{
-             :sem {:pred :problem}}]
- "professor" [{
-               :sem {:pred :professor}}]
- "program" [{
-             :sem {:pred :program}}]
- "puppy" [{
-           :sem {:pred :puppy}}]
- "question" [{
-              :sem {:pred :question}}]
- "relaxation" [{
-                :sem {:pred :relaxation}}]
- "reporter" [{
-              :sem {:pred :reporter}}]
- "revolt" [{
-            :sem {:pred :revolt}}]
- "right" [{
-           :sem {:pred :right}}]
- "room" [{
-          :sem {:pred :room}}]
- "school" [{
-            :sem {:pred :school}}]
- "sheep" [{
-           :sem {:pred :sheep}
+ "place" [{:sem {:pred :place}}]
+ "point" [{:sem {:pred :point}}]
+ "problem" [{:sem {:pred :problem}}]
+ "professor" [{:sem {:pred :professor}}]
+ "program" [{:sem {:pred :program}}]
+ "puppy" [{:sem {:pred :puppy}}]
+ "question" [{:sem {:pred :question}}]
+ "relaxation" [{:sem {:pred :relaxation}}]
+ "reporter" [{:sem {:pred :reporter}}]
+ "revolt" [{:sem {:pred :revolt}}]
+ "right" [{:sem {:pred :right}}]
+ "room" [{:sem {:pred :room}}]
+ "school" [{:sem {:pred :school}}]
+ "sheep" [{:sem {:pred :sheep}
            :agr {:number :sing}
            :exceptions [{:agr {:number :plur}
                          :surface "sheep"}]}]
- "solution" [{
-           :sem {:pred :solution}}]
- "state" [{
-           :sem {:pred :state}}]
- "story" [{
-           :sem {:pred :story}}]
- "student" [{
-             :sem {:pred :student}}]
- "study" [{
-           :sem {:pred :study}}]
- "system" [{
-            :sem {:pred :system}}]
- "table" [{
-           :sem {:pred :table}}]
- "teacher" [{
-             :sem {:pred :teacher}}]
- "thing" [{
-           :sem {:pred :thing}}]
- "time" [{
-          :sem {:pred :time}}]
- "water" [{
-           :sem {:pred :water}}]
- "way" [{
-         :sem {:pred :way}}]
- "week" [{
-          :sem {:pred :week}}]
- "woman" [{
-           :sem {:pred :woman
+ "solution" [{:sem {:pred :solution}}]
+ "state" [{:sem {:pred :state}}]
+ "story" [{:sem {:pred :story}}]
+ "student" [{:sem {:pred :student}}]
+ "study" [{:sem {:pred :study}}]
+ "system" [{:sem {:pred :system}}]
+ "table" [{:sem {:pred :table}}]
+ "teacher" [{:sem {:pred :teacher}}]
+ "thing" [{:sem {:pred :thing}}]
+ "time" [{:sem {:pred :time}}]
+ "water" [{:sem {:pred :water}}]
+ "way" [{:sem {:pred :way}}]
+ "week" [{:sem {:pred :week}}]
+ "woman" [{:sem {:pred :woman
                  :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem
                  :human true}
            :exceptions [{:surface "women"
                          :agr {:number :plur}}]}]
- "word" [{
-          :sem {:pred :word}}]
- "work" [{
-          :sem {:pred :work}}]
- "world" [{
-          ` :sem {:pred :world}}]
- "year" [{
-          :sem {:pred :year}}]}
+ "word" [{:sem {:pred :word}}]
+ "work" [{:sem {:pred :work}}]
+ "world" [{:sem {:pred :world}}]
+ "year" [{:sem {:pred :year}}]}
  

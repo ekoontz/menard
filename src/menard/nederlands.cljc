@@ -158,6 +158,14 @@
    (def model
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
+#?(:clj
+   (defn load-model []
+     (reset! model
+             (model/load "nl" load-lexical-rules
+                         load-lexicon fill-lexicon-indexes
+                         load-morphology load-grammar))
+     @model))
+
 #?(:cljs
    (def lexicon
      (-> (l/read-compiled-lexicon "menard/nederlands/lexicon/compiled.edn")

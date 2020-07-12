@@ -20,14 +20,20 @@
 ;; For generation and parsing of Dutch.
 ;;
 
+#?(:clj
+   (defn use-model-path [path]
+     (if (System/getenv "MODEL_URL")
+       (str (System/getenv "MODEL_URL") path)
+       path)))
+
 ;; <morphology>
 #?(:clj
    (defn load-morphology []
      (m/compile-morphology-fn
-      ["file:///Users/ekoontz/menard/src/menard/nederlands/morphology/adjectives.edn"
-       "file:///Users/ekoontz/menard/src/menard/nederlands/morphology/misc.edn"
-       "file:///Users/ekoontz/menard/src/menard/nederlands/morphology/nouns.edn"
-       "file:///Users/ekoontz/menard/src/menard/nederlands/morphology/verbs.edn"])))
+      [(use-model-path "menard/nederlands/morphology/adjectives.edn")
+       (use-model-path "menard/nederlands/morphology/misc.edn")
+       (use-model-path "menard/nederlands/morphology/nouns.edn")
+       (use-model-path "menard/nederlands/morphology/verbs.edn")])))
 
 #?(:cljs
    (defn load-morphology []
@@ -43,10 +49,10 @@
 
 #?(:clj
    (defn load-lexical-rules []
-     [(l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-0.edn")
-      (l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-1.edn")
-      (l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-2.edn")
-      (l/read-and-eval "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/rules/rules-3.edn")]))
+     [(l/read-and-eval (use-model-path "menard/nederlands/lexicon/rules/rules-0.edn"))
+      (l/read-and-eval (use-model-path "menard/nederlands/lexicon/rules/rules-1.edn"))
+      (l/read-and-eval (use-model-path "menard/nederlands/lexicon/rules/rules-2.edn"))
+      (l/read-and-eval (use-model-path "menard/nederlands/lexicon/rules/rules-3.edn"))]))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
@@ -68,18 +74,18 @@
 #?(:clj
    (defn load-lexicon [lexical-rules]
      (merge-with concat
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/adjectives.edn"
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/adjectives.edn")
                                          lexical-rules {:cat :adjective})
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/adverbs.edn"
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/adverbs.edn")
                                          lexical-rules {:cat :adverb})
 
                  ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/misc.edn" lexical-rules)
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/misc.edn") lexical-rules)
                  
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/nouns.edn" lexical-rules {:cat :noun})
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/numbers.edn" lexical-rules {:cat :adjective})
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/propernouns.edn" lexical-rules {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source "file:///Users/ekoontz/menard/src/menard/nederlands/lexicon/verbs.edn" lexical-rules {:cat :verb}))))
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/nouns.edn") lexical-rules {:cat :noun})
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/numbers.edn") lexical-rules {:cat :adjective})
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/propernouns.edn") lexical-rules {:cat :noun :pronoun false :propernoun true})
+                 (compile-lexicon-source (use-model-path "menard/nederlands/lexicon/verbs.edn") lexical-rules {:cat :verb}))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -141,9 +147,9 @@
 
 #?(:clj
    (defn load-grammar []
-     (-> "file:///Users/ekoontz/menard/src/menard/nederlands/grammar.edn"
+     (-> (use-model-path "menard/nederlands/grammar.edn")
          grammar/read-grammar-fn
-         (grammar/process))))
+         grammar/process)))
 
 #?(:clj
    (def model

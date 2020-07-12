@@ -205,6 +205,4 @@
              (log/info (str "read-grammar-fn: reading a non-file:/// filename:" filename))
              (resource filename)))))
       slurp
-      read-string
-      ((fn [rule]
-         (eval rule)))))
+      read-string))

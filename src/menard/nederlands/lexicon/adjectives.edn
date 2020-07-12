@@ -1,4 +1,5 @@
-{"bedroefd" [{:sem {:pred :sad}}]
+{"aanspreekbaar" [{:sem {:pred :responsible}}]
+ "bedroefd" [{:sem {:pred :sad}}]
  "eenzaam" [{:sem {:pred :lonely}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]
  "eng" [{:sem {:pred :scary}}]

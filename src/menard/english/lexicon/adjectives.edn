@@ -57,6 +57,7 @@
  "public" [{:sem {:pred :public}}]
  "real" [{:sem {:pred :real}}]
  "recent" [{:sem {:pred :recent}}]
+ "responsible" [{:sem {:pred :responsible}}]
  "right" [{:sem {:pred :right}}]
  "sad" [{:sem {:pred :sad}}]
  "scary" [{:sem {:pred :scary}}]

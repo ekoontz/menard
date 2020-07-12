@@ -157,10 +157,15 @@
          (grammar/process true))))
 
 #?(:clj
+   (defn empty-load-grammar []
+     (log/info (str "NOT LOADING A GRAMMAR."))
+     []))
+
+#?(:clj
    (def model
      (atom (model/load "nl" load-lexical-rules
                        load-lexicon fill-lexicon-indexes
-                       load-morphology load-grammar))))
+                       load-morphology empty-load-grammar))))
 
 #?(:cljs
    (def model

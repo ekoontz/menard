@@ -73,7 +73,8 @@
             :sem {:pred :teacher}}]
  "leven" [{:agr {:gender :neuter}
            :sem {:pred :life}}]
- "man" [{:sem {:pred :man}
+ "man" [{:sem {:pred :man
+               :context :neutral}
          :agr {:gender :common}}]
  "maand" [{:agr {:gender :common}
            :sem {:pred :month}}]

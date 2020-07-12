@@ -24,6 +24,7 @@
             :subcat []}] ;; "eats dinner"
  "dog" [{:sem {:pred :dog}}]
  "education" [{:sem {:pred :education}}]
+ "example" [{:sem {:pred :example}}] 
  "experience" [{:sem {:pred :experience}}]
  "eye" [{:sem {:pred :eye}}]
  "fact" [{:sem {:pred :fact}}]

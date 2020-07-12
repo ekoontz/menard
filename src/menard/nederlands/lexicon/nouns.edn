@@ -109,6 +109,8 @@
                   :sem {:pred :reporter}}]
  "vogel" [{:agr {:gender :common}
            :sem {:pred :bird}}]
+ "voorbeeld" [{:agr {:gender :neuter}
+               :sem {:pred :example}}]
  "voorstelling" [{:agr {:gender :common}
                   :sem {:pred :performance}}]
  "vrouw" [{:agr {:gender :neuter}

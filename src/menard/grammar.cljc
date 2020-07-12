@@ -120,7 +120,7 @@
 
        ;; each member of :unify in a rule is a symbol.
        ;; evaluate each symbol, which should be a dag, and
-       ;; combine all of them with the original rule.
+       ;; combine all of them with the original rule:
        (map #(reduce unify
                      (cons (dissoc % :unify)
                            (map (fn [each]

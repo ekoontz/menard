@@ -14,18 +14,18 @@
          :sem {:number? true
                :times 1}}
   :sem {:number? true}
-  :unify [ug/head-first
-          ug/times]}
+  :unify [menard.ug/head-first
+          menard.ug/times]}
  
  {:rule "intensifier" ;; 'very small'
   :cat :adjective
   :sem {:number? false}
   :head {:cat :intensifier}
   :comp {:cat :adjective}
-  :unify [ug/comp-is-root
-          ug/head-first
-          ug/parent-sem-head
-          su/a]}
+  :unify [menard.ug/comp-is-root
+          menard.ug/head-first
+          menard.ug/parent-sem-head
+          menard.subcat/a]}
  
  {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
@@ -36,13 +36,13 @@
                   :2 []}}
   :slash false
   :comp {:cat :adjective}
-  :unify [nest/cons-only
-          ug/head-is-root
-          ug/head-last
-          ug/head-rule
-          ug/nominal-phrase
-          ug/shared-agr
-          su/b]}
+  :unify [menard.nesting/cons-only
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.subcat/b]}
 
  ;; np with no determiner, e.g.:
  ;; 'big cats' in 'big cats sleep'.
@@ -59,15 +59,15 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [nest/cons-and-nest
-          nest/noun
-          su/b
-          ug/head-is-root
-          ug/head-last
-          ug/head-rule
-          ug/nominal-phrase
-          ug/shared-agr
-          ug/shared-def]}
+  :unify [menard.nesting/cons-and-nest
+          menard.nesting/noun
+          menard.subcat/b
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.ug/shared-def]}
 
  {:rule "np:2"
   :np? true
@@ -76,13 +76,13 @@
   :cat :noun
   :slash false
   :comp {:phrasal false}
-  :unify [nest/nest-only
-          nest/noun
-          ug/head-is-root
-          ug/head-last
-          ug/head-rule
-          ug/shared-number
-          su/a]}
+  :unify [menard.nesting/nest-only
+          menard.nesting/noun
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/shared-number
+          menard.subcat/a]}
 
  {:rule "adverb" ;; '[adverb +[vp +overcome .Corona] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
@@ -96,23 +96,23 @@
   :head {:cat :verb
          :adverb? false} ;; b. second part of rathole prevention.
   :comp {:cat :adverb}
-  :unify [nest/verb
-          ug/head-is-root
-          ug/head-first
-          ug/head-rule
-          ug/sem-mod-first-is-comp-sem
-          su/b]}
+  :unify [menard.nesting/verb
+          menard.ug/head-is-root
+          menard.ug/head-first
+          menard.ug/head-rule
+          menard.ug/sem-mod-first-is-comp-sem
+          menard.subcat/b]}
  
  {:rule "s"
   :cat :verb
   :subcat []
   :options menard.english/finite-tenses  
-  :unify [ug/head-aux
-          ug/head-is-root
-          ug/head-last
-          ug/head-rule
-          ug/head-sem
-          su/a]}
+  :unify [menard.ug/head-aux
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.subcat/a]}
 
  {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
   :cat :verb
@@ -120,23 +120,23 @@
   :slash false
   :options menard.english/tenses
   :head {:aux false}
-  :unify [ug/head-first
-          ug/head-is-root
-          ug/head-reflexive
-          ug/head-rule
-          ug/head-sem
-          ug/slash-is-head-slash
-          su/c]}
+  :unify [menard.ug/head-first
+          menard.ug/head-is-root
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/slash-is-head-slash
+          menard.subcat/c]}
 
  {:rule "vp-inf" ;; [vp +to .sleep]
   :cat :verb
   :infl :infinitive
   :head {:canonical "to"
          :phrasal false}
-  :unify [ug/head-first
-          ug/comp-is-root
-          ug/head-reflexive
-          ug/head-rule
-          ug/head-sem
-          ug/slash-is-head-slash
-          su/d]}]
+  :unify [menard.ug/head-first
+          menard.ug/comp-is-root
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/slash-is-head-slash
+          menard.subcat/d]}]

@@ -151,10 +151,10 @@
             (log/info (str "pre-eval type of grammar: " (type grammar)))
             (log/info (str "pre-eval type of first grammar: " (type (first grammar))))
             (log/info (str "pre-eval and the first looks like this: " (first grammar)))
-            (log/info (str "pre-eval evaluating that first result looks like: " (eval (first grammar))))
-            grammar))
-         eval
-         (grammar/process true))))
+;;            (log/info (str "pre-eval evaluating that first result looks like: " (eval (first grammar))))
+            grammar)))))
+;;         eval
+;;         (grammar/process true))))
 
 #?(:clj
    (defn empty-load-grammar []

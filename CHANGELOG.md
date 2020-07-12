@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.0.4] - xxxx-xx-xx
+## [1.1.0] - 2020-07-12
 
 - Add new dynamic model-loading, so that a java process can update its linguistic
 state from the filesystem, without restarting the whole JVM to get an updated

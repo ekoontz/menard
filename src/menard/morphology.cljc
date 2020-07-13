@@ -76,17 +76,18 @@ the morphology is a set of rules, each of which looks like:"
 ;; the Clojure (Java) side compiles it, since I haven't tried to get
 ;; the compilation working on Clojurescript, or maybe I tried and gave
 ;; up temporarily:
+#?(:cljs
 (defmacro compile-morphology [filenames]
   `(reduce
     concat
     ~(vec (map (fn [filename]
                  (l/read-and-eval filename))
-               filenames))))
+               filenames)))))
 
+#?(:clj
 (defn compile-morphology-fn [filenames]
   (reduce
    concat
    (vec (map (fn [filename]
                (l/read-and-eval filename))
-             filenames))))
-
+             filenames)))))

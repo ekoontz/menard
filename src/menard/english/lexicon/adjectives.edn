@@ -61,6 +61,7 @@
  "right" [{:sem {:pred :right}}]
  "sad" [{:sem {:pred :sad}}]
  "scary" [{:sem {:pred :scary}}]
+ "secret" [{:sem {:pred :secret}}]
  "serious" [{:sem {:pred :serious}}]
  "shy" [{:sem {:pred :shy}}]
  "small" [{:sem {:pred :small}}]

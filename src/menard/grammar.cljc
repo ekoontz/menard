@@ -199,10 +199,10 @@
       ((fn [filename]
          (if (re-find #"^file:///" filename)
            (do
-             (log/info (str "read-grammar-fn: reading a file:/// filename:" filename))
+             (log/debug (str "read-grammar-fn: reading a file:/// filename:" filename))
              filename)
            (do
-             (log/info (str "read-grammar-fn: reading a non-file:/// filename:" filename))
+             (log/debug (str "read-grammar-fn: reading a non-file:/// filename:" filename))
              (resource filename)))))
       slurp
       read-string))

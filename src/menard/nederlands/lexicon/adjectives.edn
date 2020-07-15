@@ -1,6 +1,7 @@
 {"aanspreekbaar" [{:sem {:pred :responsible}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "eenzaam" [{:sem {:pred :lonely}}]
+ "eeuwig"  [{:sem {:pred :eternal}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]
  "eng" [{:sem {:pred :scary}}]
  "ernstig" [{:sem {:pred :serious}}]

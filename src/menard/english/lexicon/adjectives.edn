@@ -20,6 +20,7 @@
  "easy" [{:sem {:pred :easy}}]
  "economic" [{:sem {:pred :economic}}]
  "escaped" [{:sem {:pred :escaped}}]
+ "eternal"  [{:sem {:pred :eternal}}]
  "excited" [{:sem {:pred :excited}}]
  "federal" [{:sem {:pred :federal}}]
  "free" [{:sem {:pred :free}}]

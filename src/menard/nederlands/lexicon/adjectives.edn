@@ -15,6 +15,7 @@
  "nieuwsgierig" [{:sem {:pred :curious}}]
  "nijver" [{:sem {:pred :industrious}}]
  "ongerust" [{:sem {:pred :anxious}}]
+ "onschuldig" [{:sem {:pred :innocent}}]
  "opgevonden" [{:sem {:pred :excited}}]
  "oud" [{:sem {:pred :old}}]
  "prachtig" [{:sem {:pred :magnificent}}]

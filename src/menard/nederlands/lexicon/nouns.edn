@@ -1,4 +1,6 @@
-{"baan" [{:agr {:gender :common}
+{"aandacht" [{:agr {:gender :common}
+              :sem {:pred :attention}}]
+ "baan" [{:agr {:gender :common}
           :sem {:pred :job}}]
  "baby" [{:agr {:gender :common}
           :sem {:pred :baby}}]

@@ -53,7 +53,7 @@
  {:g [#"f$"   "ve"]
   :p [#"ve$"  "f"]
   :u {:cat :adjective
-      :definite? true
+      :definite? false
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}

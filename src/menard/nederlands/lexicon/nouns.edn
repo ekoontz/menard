@@ -102,6 +102,8 @@
  "overheid" [{:sem {:pred :government}
               :agr {:gender :common}}]
  "plaats" [{:sem {:pred :lot}
+            :agr {:gender :common}}
+           {:sem {:pred :place}
             :agr {:gender :common}}]
  "stoel" [{:agr {:gender :common}
            :sem {:pred :chair}}]

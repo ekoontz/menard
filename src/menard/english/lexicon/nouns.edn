@@ -66,6 +66,7 @@
  "month" [{:sem {:pred :month}}]
  "mother" [{:sem {:pred :mother}}]
  "name" [{:sem {:pred :name}}]
+ "newsworthy" [{:sem {:pred :newsworthy}}]
  "night" [{:sem {:pred :night}}]
  "number" [{:sem {:pred :number}}]
  "part" [{:sem {:pred :part}}]

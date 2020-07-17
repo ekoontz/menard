@@ -19,6 +19,12 @@
                             :phrasal false}
                         :2 []}}]
 
+ "fuck off" [{:cat :exclamation
+              :sem {:pred :fuck-off}}]
+
+ "go ahead" [{:cat :exclamation
+              :sem {:pred :go-ahead}}]
+ 
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing

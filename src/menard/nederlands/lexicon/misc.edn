@@ -90,6 +90,9 @@
  "eigenlijk" [{:cat :intensifier
                :sem {:pred :actually}}]
 
+ "ga je gang" [{:cat :exclamation
+                :sem {:pred :go-ahead}}]
+
  "geen" [{:cat :det
           :definite? false
           :sem {:pred :none}
@@ -250,6 +253,9 @@
           :definite? true
           :sem {:pred :i}}]
 
+ "oprotten" [{:cat :exclamation
+              :sem {:pred :fuck-off}}]
+ 
  "ongewoon" [{:cat :intensifier
               :sem {:pred :unusually}}]
 

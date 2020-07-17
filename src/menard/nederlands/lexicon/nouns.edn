@@ -84,7 +84,6 @@
             :sem {:pred :girl}}]
  "moeder" [{:agr {:gender :common}
             :sem {:pred :mother}}]
- "nieuwswaardig" [{:sem {:pred :newsworthy}}]
  "ontspanning" [{:sem {:pred :relaxation}
                  :agr {:gender :common}}]
  "ontwikkeling" [{:sem {:pred :development}

@@ -13,6 +13,7 @@
  "klein" [{:sem {:pred :small}}]
  "lief" [{:sem {:pred :nice}}]
  "nieuwsgierig" [{:sem {:pred :curious}}]
+ "nieuwswaardig" [{:sem {:pred :newsworthy}}]
  "nijver" [{:sem {:pred :industrious}}]
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]

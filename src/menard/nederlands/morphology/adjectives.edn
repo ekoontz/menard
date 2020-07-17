@@ -81,19 +81,19 @@
 
  ;; generation: stom -> stomme
  ;; parsing:    stomme -> stom
- {:g [#"(t)([aeiou])m$"   "$1$2mme"]
-  :p [#"(t)([aeiou])mme$" "$1$2m"]
+ {:g [#"([lt])([aeiou])m$"   "$1$2mme"]
+  :p [#"([lt])([aeiou])mme$" "$1$2m"]
   :u {:cat :adjective
       :agr {:number :plur}
       :modifies-noun true}}
- {:g [#"(t)([aeiou])m$"   "$1$2mme"]
-  :p [#"(t)([aeiou])mme$" "$1$2m"]
+ {:g [#"([lt])([aeiou])m$"   "$1$2mme"]
+  :p [#"([lt])([aeiou])mme$" "$1$2m"]
   :u {:cat :adjective
       :agr {:number :sing}
       :definite? true
       :modifies-noun true}}
- {:g [#"(t)([aeiou])m$"   "$1$2mme"]
-  :p [#"(t)([aeiou])mme$" "$1$2m"]
+ {:g [#"([lt])([aeiou])m$"   "$1$2mme"]
+  :p [#"([lt])([aeiou])mme$" "$1$2m"]
   :u {:cat :adjective
       :definite? false
       :agr {:gender :common

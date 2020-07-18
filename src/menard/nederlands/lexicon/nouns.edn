@@ -10,6 +10,7 @@
                         :surface "benen"}]}]
  "beschaving" [{:agr {:gender :common}
                 :sem {:pred :civilization}}]
+ "bestemming" [{:sem {:pred :destination}}]
  "boek" [{:agr {:gender :neuter}
           :sem {:pred :book
                 ;; TODO: move these properties to inference

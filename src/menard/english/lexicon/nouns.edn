@@ -20,6 +20,7 @@
  "company" [{:sem {:pred :company}}]
  "country" [{:sem {:pred :country}}]
  "day" [{:sem {:pred :day}}]
+ "destination" [{:sem {:pred :destination}}]
  "development" [{:sem {:pred :development}}]
  "dinner" [{:sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"

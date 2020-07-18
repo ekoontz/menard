@@ -1,6 +1,5 @@
 {"aanspreekbaar" [{:sem {:pred :responsible}}]
  "bedroefd" [{:sem {:pred :sad}}]
- "bestemming" [{:sem {:pred :destination}}]
  "eenzaam" [{:sem {:pred :lonely}}]
  "eeuwig"  [{:sem {:pred :eternal}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]

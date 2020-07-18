@@ -10,7 +10,8 @@
                         :surface "benen"}]}]
  "beschaving" [{:agr {:gender :common}
                 :sem {:pred :civilization}}]
- "bestemming" [{:sem {:pred :destination}}]
+ "bestemming" [{:agr {:gender :common}
+                :sem {:pred :destination}}]
  "boek" [{:agr {:gender :neuter}
           :sem {:pred :book
                 ;; TODO: move these properties to inference
@@ -59,8 +60,7 @@
          :sem {:pred :coat}
          :exceptions [{:agr {:number :plur}
                        :surface "jassen"}]}]
- "jongen" [{
-            :agr {:gender :common}
+ "jongen" [{:agr {:gender :common}
             :sem {:pred :boy}}]
  "kat" [{:agr {:gender :common}
          :sem {:pred :cat}}]

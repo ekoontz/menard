@@ -64,6 +64,7 @@
  "responsible" [{:sem {:pred :responsible}}]
  "right" [{:sem {:pred :right}}]
  "sad" [{:sem {:pred :sad}}]
+ "satisfied" [{:sem {:pred :satisfied}}]
  "scary" [{:sem {:pred :scary}}]
  "secret" [{:sem {:pred :secret}}]
  "serious" [{:sem {:pred :serious}}]

@@ -27,6 +27,7 @@
  "sterk" [{:sem {:pred :strong}}]
  "stom" [{:sem {:pred :stupid}}]
  "teleurgesteld" [{:sem {:pred :disappointed}}]
+ "tevreden" [{:sem {:pred :satisfied}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "verdrietig" [{:sem {:pred :sad}}]
  "verlegen" [{:sem {:pred :shy}}]

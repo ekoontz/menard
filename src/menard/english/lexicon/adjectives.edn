@@ -1,4 +1,5 @@
 {"able" [{:sem {:pred :able}}]
+ "acclaimed" [{:sem {:pred :acclaimed}}]
  "anxious" [{:sem {:pred :anxious}}]
  "awesome" [{:sem {:pred :awesome}}]
  "bad" [{:sem {:pred :bad}}]

@@ -47,6 +47,7 @@
  "hand" [{:sem {:pred :hand}}]
  "home" [{:sem {:pred :home}}]
  "house" [{:sem {:pred :house}}]
+ "implementation" [{:sem {:pred :implementation}}]
  "job" [{:sem {:pred :job}}]
  "kitten" [{:sem {:pred :kitten}}]
  "lady" [{:sem {:pred :woman

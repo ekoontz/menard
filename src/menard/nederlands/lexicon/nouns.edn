@@ -111,6 +111,8 @@
            :sem {:pred :table}}]
  "thuis" [{:agr {:gender :neuter}
            :sem {:pred :home}}]
+ "uitvoering" [{:agr {:gender :common}
+                :sem {:pred :implementation}}]
  "verslaggever" [{:agr {:gender :common}
                   :sem {:pred :reporter}}]
  "vogel" [{:agr {:gender :common}

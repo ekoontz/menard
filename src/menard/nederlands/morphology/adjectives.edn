@@ -18,20 +18,25 @@
 
  ;; generation: groot -> grote
  ;; parsing:    grote -> groot
+ ;; TODO: merge this with eenzaam -> eenzame
+ ;; rule below.
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
+      :inflection :te
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
+      :inflection :te
       :definite? true
       :agr {:number :sing}
       :modifies-noun true}}
  {:g [#"ot$" "te"]
   :p [#"te$" "ot"]
   :u {:cat :adjective
+      :inflection :te
       :definite? false
       :agr {:gender :common
             :number :sing}
@@ -123,20 +128,27 @@
 
  ;; generation: klein -> kleine
  ;; parsing:    kleine -> klein
- {:g [#"$"  "e"]
-  :p [#"e$" ""]
+ ;; the use of '[^o]' below is to avoid:
+ ;;    groot -> *groote
+ ;; instead, groot -> grote is handled above with the
+ ;; ':inflection :t'e rule above.
+ {:g [#"([^o][^o].)$"  "$1e"]
+  :p [#"([^o][^o].)e$" "$1"]
   :u {:cat :adjective
+      :inflection :default
       :agr {:number :plur}
       :modifies-noun true}}
- {:g [#"$"  "e"]
-  :p [#"e$" ""]
+ {:g [#"([^o][^o].)$"  "$1e"]
+  :p [#"([^o][^o].)e$" "$1"]
   :u {:cat :adjective
+      :inflection :default
       :definite? true
       :agr {:number :sing}
       :modifies-noun true}}
- {:g [#"$"  "e"]
-  :p [#"e$" ""]
+ {:g [#"([^o][^o].)$"  "$1e"]
+  :p [#"([^o][^o].)e$" "$1"]
   :u {:cat :adjective
+      :inflection :default
       :definite? false
       :agr {:gender :common
             :number :sing}

@@ -7,6 +7,7 @@
  "better" [{:sem {:pred :better}}]
  "big" [{:sem {:pred :big}}]
  "black" [{:sem {:pred :black}}]
+ "busy" [{:sem {:pred :busy}}]
  "certain" [{:sem {:pred :certain}}]
  "clear" [{:sem {:pred :clear}}]
  "complicated" [{:sem {:pred :complicated}}]

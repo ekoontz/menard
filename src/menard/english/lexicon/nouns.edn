@@ -67,6 +67,7 @@
  "month" [{:sem {:pred :month}}]
  "mother" [{:sem {:pred :mother}}]
  "name" [{:sem {:pred :name}}]
+ "nerve" [{:sem {:pred :nerve}}]
  "night" [{:sem {:pred :night}}]
  "number" [{:sem {:pred :number}}]
  "part" [{:sem {:pred :part}}]

@@ -25,6 +25,7 @@
  "escaped" [{:sem {:pred :escaped}}]
  "eternal"  [{:sem {:pred :eternal}}]
  "excited" [{:sem {:pred :excited}}]
+ "extraordinary" [{:sem {:pred :extraordinary}}]
  "federal" [{:sem {:pred :federal}}]
  "free" [{:sem {:pred :free}}]
  "frugal" [{:sem {:pred :frugal}}]

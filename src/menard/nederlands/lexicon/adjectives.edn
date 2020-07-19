@@ -1,6 +1,7 @@
 {"aanspreekbaar" [{:sem {:pred :responsible}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "bezig" [{:sem {:pred :busy}}]
+ "buitengewoon" [{:sem {:pred :extraordinary}}]
  "eenzaam" [{:sem {:pred :lonely}}]
  "eeuwig"  [{:sem {:pred :eternal}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]

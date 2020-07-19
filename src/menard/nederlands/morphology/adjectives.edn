@@ -126,6 +126,26 @@
             :number :sing}
       :modifies-noun true}}
 
+ ;; buitengewoon -> buitengewone
+ {:g [#"(o)(o)([n])$"   "$1$3e"]
+  :p [#"o([n])e$"       "oo$1"]
+  :u {:cat :adjective
+      :agr {:number :plur}
+      :modifies-noun true}}
+ {:g [#"(o)(o)([n])$"   "$1$3e"]
+  :p [#"o([n])e$"       "oo$1"]  
+  :u {:cat :adjective
+      :definite? true
+      :agr {:number :sing}      
+      :modifies-noun true}}
+ {:g [#"(o)(o)([n])$"   "$1$3e"]
+  :p [#"o([n])e$"       "oo$1"]  
+  :u {:cat :adjective
+      :definite? false
+      :agr {:gender :common
+            :number :sing}
+      :modifies-noun true}}
+
  ;; generation: klein -> kleine
  ;; parsing:    kleine -> klein
  ;; the use of all of this '[^o]' below is to avoid:

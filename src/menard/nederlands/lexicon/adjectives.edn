@@ -8,7 +8,7 @@
  "eng" [{:sem {:pred :scary}}]
  "ernstig" [{:sem {:pred :serious}}]
  "geheim" [{:sem {:pred :secret}}]
- "gelauwerde" [{:sem {:pred :acclaimed}}]
+ "gelauwerd" [{:sem {:pred :acclaimed}}]
  "geweldig" [{:sem {:pred :awesome}}]
  "gierig" [{:sem {:pred :stingy}}]
  "groot" [{:sem {:pred :big}}]

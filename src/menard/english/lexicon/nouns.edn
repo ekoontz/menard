@@ -1,4 +1,4 @@
-{"airplane" [{:sem {:pred :airplane}]
+{"airplane" [{:sem {:pred :airplane}}]
  "area" [{:sem {:pred :area}}]
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]

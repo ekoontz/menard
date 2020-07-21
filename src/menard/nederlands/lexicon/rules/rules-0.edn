@@ -7,7 +7,7 @@
  ;; nouns default to 'common' gender ('de X', not 'het X') if gender is not specified.
  {:rule :noun-gender-common-default
   :if {:cat :noun
-       :gender :unspec}
+       :agr {:gender :unspec}}
   :then [{:agr {:gender :common}}]}
 
  ;; an adjective in the lexicon has no modifiers

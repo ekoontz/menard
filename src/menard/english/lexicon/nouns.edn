@@ -25,6 +25,7 @@
  "country" [{:sem {:pred :country}}]
  "day" [{:sem {:pred :day}}]
  "destination" [{:sem {:pred :destination}}]
+ "destruction" [{:sem {:pred :destruction}}]
  "development" [{:sem {:pred :development}}]
  "dinner" [{:sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"

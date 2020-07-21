@@ -124,6 +124,7 @@
              :agr {:gender :neuter}}]
  "verkoper" [{:sem {:pred :seller}
               :agr {:gender :common}}]
+ "vernieling" [{:sem {:pred :destruction}}]
  "verslaggever" [{:agr {:gender :common}
                   :sem {:pred :reporter}}]
  "vliegtuig" [{:agr {:gender :neuter}

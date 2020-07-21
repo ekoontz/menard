@@ -1,4 +1,5 @@
 {"aanspreekbaar" [{:sem {:pred :responsible}}]
+ "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "bezig" [{:sem {:pred :busy}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]

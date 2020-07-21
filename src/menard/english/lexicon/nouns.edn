@@ -96,6 +96,7 @@
  "room" [{:sem {:pred :room}}]
  "school" [{:sem {:pred :school}}]
  "seller" [{:sem {:pred :seller}}]
+ "separate" [{:sem {:pred :separate}}]
  "sheep" [{:sem {:pred :sheep}
            :agr {:number :sing}
            :exceptions [{:agr {:number :plur}

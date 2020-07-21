@@ -84,6 +84,7 @@
  "place" [{:sem {:pred :place}}]
  "point" [{:sem {:pred :point}}]
  "problem" [{:sem {:pred :problem}}]
+ "profession" [{:sem {:pred :profession}}]
  "professor" [{:sem {:pred :professor}}]
  "program" [{:sem {:pred :program}}]
  "puppy" [{:sem {:pred :puppy}}]

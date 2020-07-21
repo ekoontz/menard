@@ -1,6 +1,7 @@
 {"able" [{:sem {:pred :able}}]
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "anxious" [{:sem {:pred :anxious}}]
+ "approachable" [{:sem {:pred :approachable}}]
  "awesome" [{:sem {:pred :awesome}}]
  "bad" [{:sem {:pred :bad}}]
  "best" [{:sem {:pred :best}}]

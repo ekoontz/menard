@@ -1,4 +1,4 @@
-{"aanspreekbaar" [{:sem {:pred :responsible}}]
+{"aanspreekbaar" [{:sem {:pred :approachable}}]
  "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "bezig" [{:sem {:pred :busy}}]
@@ -33,6 +33,7 @@
  "teleurgesteld" [{:sem {:pred :disappointed}}]
  "tevreden" [{:sem {:pred :satisfied}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
+ "verantwoordelijk" [{:sem {:pred :responsible}}]
  "verdrietig" [{:sem {:pred :sad}}]
  "verlegen" [{:sem {:pred :shy}}]
  "verward" [{:sem {:pred :confused}}]

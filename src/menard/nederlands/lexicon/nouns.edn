@@ -12,6 +12,7 @@
                 :sem {:pred :civilization}}]
  "bestemming" [{:agr {:gender :common}
                 :sem {:pred :destination}}]
+ "bloemkool" [{:sem {:pred :cauliflower}}]
  "boek" [{:agr {:gender :neuter}
           :sem {:pred :book
                 ;; TODO: move these properties to inference
@@ -119,6 +120,8 @@
               :agr {:gender :common}}]
  "verslaggever" [{:agr {:gender :common}
                   :sem {:pred :reporter}}]
+ "vliegtuig" [{:agr {:gender :neuter}
+               :sem {:pred :airplane}}]
  "vogel" [{:agr {:gender :common}
            :sem {:pred :bird}}]
  "voorbeeld" [{:agr {:gender :neuter}

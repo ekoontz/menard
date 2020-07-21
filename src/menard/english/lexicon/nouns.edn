@@ -21,6 +21,7 @@
  "civilization" [{:sem {:pred :civilization}}]
  "coat" [{:sem {:pred :coat}}]
  "company" [{:sem {:pred :company}}]
+ "conversation" [{:sem {:pred :conversation}}]
  "country" [{:sem {:pred :country}}]
  "day" [{:sem {:pred :day}}]
  "destination" [{:sem {:pred :destination}}]

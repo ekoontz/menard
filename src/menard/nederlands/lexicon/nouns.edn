@@ -42,6 +42,8 @@
             :sem {:pred :area}}]
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
+ "gesprek" [{:agr {:gender :neuter}
+             :sem {:pred :conversation}}]
  "groep" [{:agr {:gender :common}
            :sem {:pred :group}}]
  "haar" [{:agr {:gender :neuter} 
@@ -116,6 +118,8 @@
            :sem {:pred :home}}]
  "uitvoering" [{:agr {:gender :common}
                 :sem {:pred :implementation}}]
+ "verhaal" [{:sem {:pred :story}
+             :agr {:gender :neuter}}]
  "verkoper" [{:sem {:pred :seller}
               :agr {:gender :common}}]
  "verslaggever" [{:agr {:gender :common}

@@ -70,6 +70,8 @@
           :sem {:pred :child}}]
  "kitten" [{:agr {:gender :common}
             :sem {:pred :kitten}}]
+ "koper" [{:sem {:pred :buyer}
+           :agr {:gender :common}}]
  "land" [{:sem {:pred :country}
           :agr {:gender :neuter}}]
  "leraar" [{:agr {:gender :common}
@@ -113,6 +115,8 @@
            :sem {:pred :home}}]
  "uitvoering" [{:agr {:gender :common}
                 :sem {:pred :implementation}}]
+ "verkoper" [{:sem {:pred :seller}
+              :agr {:gender :common}}]
  "verslaggever" [{:agr {:gender :common}
                   :sem {:pred :reporter}}]
  "vogel" [{:agr {:gender :common}

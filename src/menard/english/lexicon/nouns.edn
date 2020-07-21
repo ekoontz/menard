@@ -9,6 +9,7 @@
          :agr {:human true
                :gender :masc}}]
  "business" [{:sem {:pred :business}}]
+ "buyer" [{:sem {:pred :buyer}}]
  "case" [{:sem {:pred :case}}]
  "cat" [{:sem {:pred :cat}}]
  "chair" [{:sem {:pred :chair}}]
@@ -90,6 +91,7 @@
  "right" [{:sem {:pred :right}}]
  "room" [{:sem {:pred :room}}]
  "school" [{:sem {:pred :school}}]
+ "seller" [{:sem {:pred :seller}}]
  "sheep" [{:sem {:pred :sheep}
            :agr {:number :sing}
            :exceptions [{:agr {:number :plur}

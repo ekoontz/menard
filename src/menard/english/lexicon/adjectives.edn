@@ -70,6 +70,7 @@
  "satisfied" [{:sem {:pred :satisfied}}]
  "scary" [{:sem {:pred :scary}}]
  "secret" [{:sem {:pred :secret}}]
+ "separate" [{:sem {:pred :separate}}]
  "serious" [{:sem {:pred :serious}}]
  "shy" [{:sem {:pred :shy}}]
  "small" [{:sem {:pred :small}}]

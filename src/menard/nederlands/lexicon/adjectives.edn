@@ -1,4 +1,5 @@
 {"aanspreekbaar" [{:sem {:pred :approachable}}]
+ "aardig" [{:sem {:pred :nice}}]
  "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "bezig" [{:sem {:pred :busy}}]

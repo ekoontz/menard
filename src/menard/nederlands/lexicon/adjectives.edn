@@ -23,7 +23,7 @@
  "nijver" [{:sem {:pred :industrious}}]
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]
- "opgevonden" [{:sem {:pred :excited}}]
+ "opgewonden" [{:sem {:pred :excited}}]
  "oud" [{:sem {:pred :old}}]
  "prachtig" [{:sem {:pred :magnificent}}]
  "schattig" [{:sem {:pred :cute}}]

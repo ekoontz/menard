@@ -4,6 +4,7 @@
  "bedroefd" [{:sem {:pred :sad}}]
  "bezig" [{:sem {:pred :busy}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]
+ "dik" [{:sem {:pred :thick}}]
  "eenzaam" [{:sem {:pred :lonely}}]
  "eeuwig"  [{:sem {:pred :eternal}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]

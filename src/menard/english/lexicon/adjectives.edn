@@ -85,6 +85,7 @@
  "sure" [{:sem {:pred :sure}}]
  "suspicious" [{:sem {:pred :suspicious}}]
  "tall" [{:sem {:pred :tall}}]
+ "thick" [{:sem {:pred :thick}}]
  "thrifty" [{:sem {:pred :frugal}}]
  "true" [{:sem {:pred :true}}]
  "white" [{:sem {:pred :white}}]

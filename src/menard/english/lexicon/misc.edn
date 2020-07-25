@@ -182,6 +182,13 @@
                          :phrasal false}
                      :2 []}}]
 
+ "reasonably" [{:cat :intensifier
+                :sem {:pred :reasonably}
+                :subcat {:1 {:cat :adjective
+                             :phrasal false}
+                         :2 []}}]
+
+ 
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing

@@ -280,6 +280,9 @@
           :agr {:number :plur}
           :sem {:pred :we}}]
 
+ "redelijk" [{:cat :intensifier
+              :sem {:pred :reasonably}}]
+
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
  "u" [{:agr {:person :2nd}

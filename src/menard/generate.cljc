@@ -118,9 +118,11 @@
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (if counts? (swap! count-adds (fn [x] (+ 1 @count-adds))))
   (let [at (frontier tree)
+        ;; TODO: for readability, change these following two
+        ;; to be: rule-at? and phrase-at?
+        ;; because they're boolean. also use true rather than ::none.
         rule-at (u/get-in tree (concat at [:rule]) ::none)
         phrase-at (u/get-in tree (concat at [:phrase]) ::none)
-        lexness (u/get-in tree (concat at [:canonical]) ::none)
         spec (u/get-in tree at)]
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
@@ -137,13 +139,17 @@
                       (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree))))
     (->>
      (cond
+       ;; condition 0: tree is :fail.
+       (= tree :fail)
+       (exception (str "add: tree is unexpectedly :fail."))
+
+       ;; condition 1: tree is done: return a list of just the tree.
        (u/get-in tree [::done?])
        (do
          (log/debug (str "add: condition 1."))
          [tree])
-       (= tree :fail)
-       (exception (str "add: tree is unexpectedly :fail."))
 
+       ;; condition 2: only add rules at location _at_:
        (or
         (and (not (= ::none rule-at))
              (not (= :top rule-at)))
@@ -173,12 +179,14 @@
                               fail-paths)))))
          result)
 
+       ;; condition 3: add both lexemes and rules at location _at_:
        (= false (u/get-in tree (concat at [:phrasal])))
        (do
          (log/debug (str "add: condition 3: only adding lexemes at: " at
                         "; spec: " (strip-refs (u/get-in tree at))))
          (add-lexeme tree lexicon-index-fn syntax-tree-fn))
 
+       ;; condition 4: add both lexemes and rules at location _at_:
        true
        (let [debug (log/debug (str "add: adding both lexemes and rules."))
              both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)

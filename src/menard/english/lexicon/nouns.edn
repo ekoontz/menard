@@ -101,6 +101,7 @@
            :agr {:number :sing}
            :exceptions [{:agr {:number :plur}
                          :surface "sheep"}]}]
+ "situation" [{:sem {:pred :situation}}]
  "solution" [{:sem {:pred :solution}}]
  "state" [{:sem {:pred :state}}]
  "story" [{:sem {:pred :story}}]

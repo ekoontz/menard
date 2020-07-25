@@ -118,6 +118,8 @@
            :sem {:pred :table}}]
  "thuis" [{:agr {:gender :neuter}
            :sem {:pred :home}}]
+ "toestand" [{:sem {:pred :situation}
+              :agr {:gender :common}}]
  "uitvoering" [{:agr {:gender :common}
                 :sem {:pred :implementation}}]
  "verhaal" [{:sem {:pred :story}

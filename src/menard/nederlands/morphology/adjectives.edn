@@ -3,7 +3,7 @@
   :p [#"" ""]
   :u {:cat :adjective
       :sem {:number? true}}}
- 
+
  ;; F. p 4 "Adjectives have no ending if they precede a singular neuter noun in an indefinite context: i.e.
  ;;         after een 'a', geen 'no/not a', elk 'each'.."
  {:g [#"$" ""]
@@ -116,7 +116,7 @@
   :p [#"a([mr])e$"       "aa$1"]
   :u {:cat :adjective
       :definite? true
-      :agr {:number :sing}      
+      :agr {:number :sing}
       :modifies-noun true}}
  {:g [#"(a)(a)([mr])$"   "$1$3e"]
   :p [#"a([mr])e$"       "aa$1"]
@@ -133,13 +133,13 @@
       :agr {:number :plur}
       :modifies-noun true}}
  {:g [#"(o)(o)([n])$"   "$1$3e"]
-  :p [#"o([n])e$"       "oo$1"]  
+  :p [#"o([n])e$"       "oo$1"]
   :u {:cat :adjective
       :definite? true
-      :agr {:number :sing}      
+      :agr {:number :sing}
       :modifies-noun true}}
  {:g [#"(o)(o)([n])$"   "$1$3e"]
-  :p [#"o([n])e$"       "oo$1"]  
+  :p [#"o([n])e$"       "oo$1"]
   :u {:cat :adjective
       :definite? false
       :agr {:gender :common
@@ -181,7 +181,7 @@
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
- 
+
  {:g [#"([o][^o].)$"  "$1e"]
   :p [#"([o][^o].)e$" "$1"]
   :u {:cat :adjective
@@ -225,5 +225,4 @@
       :agr {:gender :common
             :number :sing}
       :modifies-noun true}}
-
  ]

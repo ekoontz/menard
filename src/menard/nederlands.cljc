@@ -94,12 +94,10 @@
        (->> flattened-lexicon
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :det))))
-       
        :noun-lexicon
        (->> flattened-lexicon
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :noun))))
-       
        :misc-lexicon
        (->> flattened-lexicon
             (filter #(and (not (= (u/get-in % [:cat]) :verb))
@@ -107,7 +105,6 @@
                           (not (= (u/get-in % [:cat]) :det))
                           (not (= (u/get-in % [:cat]) :noun))
                           (not (u/get-in % [:exception])))))
-       
        :verb-lexicon
        (->> flattened-lexicon
             (filter #(and (not (u/get-in % [:exception]))

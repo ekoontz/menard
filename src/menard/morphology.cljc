@@ -40,16 +40,30 @@ the morphology is a set of rules, each of which looks like:"
                           (map #(unify exceptionless %)
                                exceptions))))]
     (if first-matching-exception
-      (log/debug (str "morph-leaf: " (diag/strip-refs first-matching-exception))))
+      (log/debug (str "morph-leaf: " (diag/strip-refs first-matching-exception)))
+      (log/debug (str "morph-leaf: no rules matched.")))
+    (log/debug (str "morph-leaf: number of matching rules: " (count matching-rules)))
+    (if (> (count matching-rules) 1)
+      (log/warn (str "morph-leaf: more than one rule matched: " (diag/strip-refs structure) "; rules were: "
+                     (->> (range 0 (count matching-rules))
+                          (map (fn [i]
+                                 (str "#" (+ 1 i) ": " (:u (nth matching-rules i)))))
+                          (clojure.string/join ", ")))))
     (cond
       first-matching-exception
-      (morph-leaf first-matching-exception morphology)
+      (do
+        (log/debug (str "matched rule; applying."))
+        (morph-leaf first-matching-exception morphology))
 
       (u/get-in structure [:surface])
-      (u/get-in structure [:surface])
+      (do
+        (log/debug (str "found surface; using that."))
+        (u/get-in structure [:surface]))
 
       (= true (u/get-in structure [:inflected?] false))
-      (u/get-in structure [:canonical])
+      (do
+        (log/debug (str "found canonical; using that: " (u/get-in structure [:canonical])))
+        (u/get-in structure [:canonical]))
       
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))

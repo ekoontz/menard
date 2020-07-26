@@ -112,7 +112,7 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*)$"         "$1en"] ;; hond   -> honden
+ {:g [#"^(.*[^st])$"    "$1en"] ;; hond   -> honden
   :p [#"^(.*[^st])en$"  "$1"]   ;; honden -> dog
   :u {:cat :noun
       :inflection :morphology-noun-plur-otherwise

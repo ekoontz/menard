@@ -14,7 +14,10 @@ the morphology is a set of rules, each of which looks like:"
   (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)))
   (let [structure structure
         canonical (u/get-in structure [:canonical])
-        inflected? (u/get-in structure [:inflected?])
+        inflected? (u/get-in structure [:inflected?] false)
+        inflected? (if (= inflected? :top)
+                     false
+                     inflected?)
         matching-rules
         (if (or (not inflected?)
                 (= :top inflected?))
@@ -48,9 +51,13 @@ the morphology is a set of rules, each of which looks like:"
       (= true (u/get-in structure [:inflected?] false))
       (u/get-in structure [:canonical])
       
-      (nil? matching-rules)
-      (exception (str "No rules matched for:"
-                      (diag/strip-refs structure)))
+      (and (false? inflected?) (empty? matching-rules)
+           (not (= structure {:head? false}))
+           (not (= structure {:head? true})))
+      (do
+        (log/debug (str "no rules matched: throwing exception."))
+        (exception (str "No rules matched for:"
+                        (diag/strip-refs structure))))
 
       (not (seq? matching-rules))
       (exception (str "syntax error in matching rules: "

@@ -80,7 +80,7 @@
       :regular true}}
 
  {:g [#"^(.*[aeiou])t$"    "$1tten"] ;; kat    -> katten
-  :p [#"^(.*[aeiou])tten$" "$1t"] 
+  :p [#"^(.*[aeiou])tten$" "$1t"]
   :u {:cat :noun
       :inflection :morphology-noun-plur-repeated-consonant
       :pronoun false
@@ -88,14 +88,14 @@
       :regular true}}
 
  {:g [#"^(.*)t$"    "$1ten"] ;; aandacht    -> aandachten
-  :p [#"^(.*)ten$"  "$1t"] 
+  :p [#"^(.*)ten$"  "$1t"]
   :u {:cat :noun
       :inflection :morphology-noun-plur-repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
 
- 
+
  {:g [#"^(.*)n$"    "$1nnen"] ;; man    -> mannen
   :p [#"^(.*)nnen$"  "$1n"] 
   :u {:cat :noun

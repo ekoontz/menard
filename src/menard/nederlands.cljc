@@ -73,15 +73,15 @@
    ;; TODO: add :inflection to lexemes, e.g.:
    ;; {:inflection :morphology-noun-plur-f2v},
    ;; so that we can generate noun phrases that have that
-   ;; kind of morphology, e.g.
-   (comment
-     (-> {:cat :noun,
-          :phrasal true,
-          :subcat [],
-          :head {:inflection :morphology-noun-plur-f2v},
-          :sem {:mod [], :quant :the},
-          :agr {:number :plur}}
-         generate))
+   ;; kind of morphology, e.g.:
+   ;;
+   ;;     (-> {:cat :noun,
+   ;;          :phrasal true,
+   ;;          :subcat [],
+   ;;          :head {:inflection :morphology-noun-plur-f2v},
+   ;;          :sem {:mod [], :quant :the},
+   ;;          :agr {:number :plur}}
+   ;;         generate)
 
    (defn load-lexicon [lexical-rules]
      (merge-with concat

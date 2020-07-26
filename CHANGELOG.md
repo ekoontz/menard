@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.1] - 2020-07-26
+
+- Fix bugs in Dutch morphology of adjectives and nouns
+- Add new lexemes
+- Separate intensifiers and exclamations into their own files for readability
+- Improve code readability with variable name changes and value usages in 
+  menard/generate
+- Improve readability of noun lexemes in Dutch by defaulting gender to :common
+  if not specified
+
 ## [1.2.0] - 2020-07-14
 
 - Fix bugs related to dynamic model-loading

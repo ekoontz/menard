@@ -118,11 +118,8 @@
 (defn add [tree grammar lexicon-index-fn syntax-tree-fn]
   (if counts? (swap! count-adds (fn [x] (+ 1 @count-adds))))
   (let [at (frontier tree)
-        ;; TODO: for readability, change these following two
-        ;; to be: rule-at? and phrase-at?
-        ;; because they're boolean. also use true rather than ::none.
-        rule-at (u/get-in tree (concat at [:rule]) ::none)
-        phrase-at (u/get-in tree (concat at [:phrase]) ::none)
+        rule-at? (u/get-in tree (concat at [:rule]) false)
+        phrase-at? (u/get-in tree (concat at [:phrase]) false)
         spec (u/get-in tree at)]
     (if (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
@@ -134,7 +131,7 @@
              (= [:comp] at))
       (log/debug (str (syntax-tree-fn tree) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
     (if (and (= false (u/get-in tree (concat at [:phrasal])))
-             (not (= ::none (u/get-in tree (concat at [:rule]) ::none))))
+             (not (= false (u/get-in tree (concat at [:rule]) false))))
       (exception (str "add: phrasal is false but rule is specified: "
                       (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree))))
     (->>
@@ -143,7 +140,7 @@
        (= tree :fail)
        (exception (str "add: tree is unexpectedly :fail."))
 
-       ;; condition 1: tree is done: return a list of just the tree.
+       ;; condition 1: tree is done: return a list with one member: the tree.
        (u/get-in tree [::done?])
        (do
          (log/debug (str "add: condition 1."))
@@ -151,17 +148,17 @@
 
        ;; condition 2: only add rules at location _at_:
        (or
-        (and (not (= ::none rule-at))
-             (not (= :top rule-at)))
-        (and (not (= ::none phrase-at))
-             (not (= :top phrase-at)))
+        (and (not (= false rule-at?))
+             (not (= :top rule-at?)))
+        (and (not (= false phrase-at?))
+             (not (= :top phrase-at?)))
         (= true (u/get-in tree (concat at [:phrasal])))
         (u/get-in tree (concat at [:head]))
         (u/get-in tree (concat at [:comp])))
        (let [result
              (add-rule tree grammar syntax-tree-fn)]
          (log/debug (str "add: condition 2: only adding rules at: " at))
-         (log/debug (str "  rule-at: " rule-at "; phrase-at:" phrase-at))
+         (log/debug (str "  rule-at?: " rule-at? "; phrase-at?:" phrase-at?))
          (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
          (if (and warn-on-no-matches? (empty? result))
            (let [fail-paths

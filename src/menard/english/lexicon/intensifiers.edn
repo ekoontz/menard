@@ -1,0 +1,27 @@
+;; TODO: move {:subcat ..} stuff to lexical rules or (defn load-lexicon).
+{"actually" [{:sem {:pred :actually}
+              :subcat {:1 {:cat :adjective
+                           :phrasal false}
+                       :2 []}}]
+ "extremely" [{:sem {:pred :extremely}
+               :subcat {:1 {:cat :adjective
+                            :phrasal false}
+                        :2 []}}]
+ "quite" [{:sem {:pred :quite}
+           :subcat {:1 {:cat :adjective
+                        :phrasal false}
+                    :2 []}}]
+ "really" [{:sem {:pred :really}
+            :subcat {:1 {:cat :adjective
+                         :phrasal false}
+                     :2 []}}]
+ "reasonably" [{:sem {:pred :reasonably}
+                :subcat {:1 {:cat :adjective
+                             :phrasal false}
+                         :2 []}}]
+ "unusually" [{:sem {:pred :unusually}
+               :subcat {:1 {:cat :adjective
+                            :phrasal false}
+                        :2 []}}]
+ "very" [{:sem {:pred :very}}]}
+

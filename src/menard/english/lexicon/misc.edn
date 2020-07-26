@@ -1,30 +1,12 @@
 {"a" [{:cat :det
        :sem {:pred :some}
        :agr {:number :sing}}]
- "actually" [{:cat :intensifier
-              :sem {:pred :actually}
-              :subcat {:1 {:cat :adjective
-                           :phrasal false}
-                       :2 []}}]
  "an" [{:exception true
         :sem {:pred :some}
         :cat :det :agr {:number :sing}}]
 
  "at" [{:cat :prep
         :sem {:pred :at}}]
-
- "extremely" [{:cat :intensifier
-               :sem {:pred :extremely}
-               :subcat {:1 {:cat :adjective
-                            :phrasal false}
-                        :2 []}}]
-
- "fuck off" [{:cat :exclamation
-              :sem {:pred :fuck-off}}]
-
- "go ahead" [{:cat :exclamation
-              :sem {:pred :go-ahead}}]
- 
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing
@@ -169,26 +151,6 @@
                 :sem {:ref {:human true}}
                 :pronoun true
                 :reflexive true}]
-
- "quite" [{:cat :intensifier
-            :sem {:pred :quite}
-            :subcat {:1 {:cat :adjective
-                         :phrasal false}
-                     :2 []}}]
-
- "really" [{:cat :intensifier
-            :sem {:pred :really}
-            :subcat {:1 {:cat :adjective
-                         :phrasal false}
-                     :2 []}}]
-
- "reasonably" [{:cat :intensifier
-                :sem {:pred :reasonably}
-                :subcat {:1 {:cat :adjective
-                             :phrasal false}
-                         :2 []}}]
-
- 
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing
@@ -280,20 +242,9 @@
  "those" [{:cat :det
            :agr {:number :plur}
            :sem {:pred :that}}]
-
  "to" [;; "to the park"
        {:cat :prep
         :sem {:pred :to}}]
-
- "unusually" [{:cat :intensifier
-               :sem {:pred :unusually}
-               :subcat {:1 {:cat :adjective
-                            :phrasal false}
-                        :2 []}}]
- 
- "very" [{:cat :intensifier
-          :sem {:pred :very}}]
-
  "we" [{:cat :noun
         :sem {:pred :we}
         :pronoun true

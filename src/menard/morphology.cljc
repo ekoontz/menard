@@ -85,11 +85,6 @@ the morphology is a set of rules, each of which looks like:"
         (clojure.string/replace (u/get-in structure [:canonical] "")
                                 from to))
 
-      (= :top (u/get-in structure [:canonical]))
-      "_"
-      
-      (u/get-in structure [:canonical])
-      (u/get-in structure [:canonical])
       true
       "_")))
 

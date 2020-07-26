@@ -179,7 +179,7 @@
                               fail-paths)))))
          result)
 
-       ;; condition 3: add both lexemes and rules at location _at_:
+       ;; condition 3: add only lexemes at location _at_:
        (= false (u/get-in tree (concat at [:phrasal])))
        (do
          (log/debug (str "add: condition 3: only adding lexemes at: " at

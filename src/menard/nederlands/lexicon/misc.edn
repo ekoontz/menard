@@ -77,9 +77,6 @@
                 :arg1 lower
                 :arg2 higher}})]
 
- "ga je gang" [{:cat :exclamation
-                :sem {:pred :go-ahead}}]
-
  "geen" [{:cat :det
           :definite? false
           :sem {:pred :none}
@@ -236,9 +233,6 @@
           :agr {:number :plur}
           :definite? true
           :sem {:pred :i}}]
-
- "oprotten" [{:cat :exclamation
-              :sem {:pred :fuck-off}}]
 
  "ons" [{:cat :noun
          :case :acc

@@ -2,11 +2,7 @@
 ;; - jij (je)
 ;; - wij (we)
 ;; - zij (ze)
-{"behoorlijk"
- [{:cat :intensifier
-   :sem {:pred :quite}}]
-
- "dat" [{:cat :det
+{"dat" [{:cat :det
          :definite? true
          :sem {:pred :that}
          :agr {:number :sing
@@ -56,9 +52,6 @@
          :agr {:number :sing
                :gender :neuter}}]
 
- "echt" [{:cat :intensifier
-          :sem {:pred :really}}]
-
  "een" [{:cat :det
          :definite? false
          :sem {:pred :some}
@@ -84,12 +77,6 @@
                 :arg1 lower
                 :arg2 higher}})]
 
- "erg" [{:cat :intensifier
-         :sem {:pred :very}}]
-
- "eigenlijk" [{:cat :intensifier
-               :sem {:pred :actually}}]
-
  "ga je gang" [{:cat :exclamation
                 :sem {:pred :go-ahead}}]
 
@@ -114,9 +101,6 @@
           :agr {:number :plur}
           :definite? true
           :sem {:pred :she}}]
-
- "heel" [{:cat :intensifier
-          :sem {:pred :very}}]
 
  "hem" [{:agr {:gender :masc
                :number :sing
@@ -255,9 +239,6 @@
 
  "oprotten" [{:cat :exclamation
               :sem {:pred :fuck-off}}]
- 
- "ongewoon" [{:cat :intensifier
-              :sem {:pred :unusually}}]
 
  "ons" [{:cat :noun
          :case :acc
@@ -279,9 +260,6 @@
           :definite? true
           :agr {:number :plur}
           :sem {:pred :we}}]
-
- "redelijk" [{:cat :intensifier
-              :sem {:pred :reasonably}}]
 
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.

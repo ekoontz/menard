@@ -1,0 +1,7 @@
+{"behoorlijk" [{:sem {:pred :quite}}]
+ "echt" [{:sem {:pred :really}}]
+ "erg" [{:sem {:pred :very}}]
+ "eigenlijk" [{:sem {:pred :actually}}]
+ "heel" [{:sem {:pred :very}}]
+ "ongewoon" [{:sem {:pred :unusually}}]
+ "redelijk" [{:sem {:pred :reasonably}}]}

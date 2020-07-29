@@ -104,7 +104,43 @@
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/propernouns.edn")  lexical-rules
                                          {:cat :noun :pronoun false :propernoun true})
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/verbs.edn")        lexical-rules
-                                         {:cat :verb}))))
+                                         {:cat :verb})))
+
+
+   (defn get-inflection-of [lexeme]
+     (if lexeme
+       (->> (:morphology @model)
+            (map (fn [rule] {:u (reduce unify [lexeme (:u rule) {:cat :noun
+                                                                 :agr {:number :plur}}])
+                             :m (re-find (-> rule :g first)
+                                         (:canonical lexeme))}))
+            (filter (fn [x] (and (not (= :fail (:u x)))
+                                 (not (nil? (:m x))))))
+            (map (fn [result]
+                   (-> result :u :inflection)))
+            first)))
+
+   (defn load-lexicon-with-morphology [lexical-rules]
+     (-> (load-lexicon lexical-rules)
+         (l/apply-to-every-lexeme
+          (fn [lexeme]
+            (cond
+              (= (:canonical lexeme) "kat")
+              ;; TODO: replace this stub with a call to get-inflection-of:
+              (do (log/info (str "found a kat: " (count lexeme)))
+                  lexeme)
+              true lexeme)))))
+
+   (defn demo-nouns []
+     (->> (-> model deref :lexicon vals flatten)
+          (map (fn [lexeme]
+                 (if (get-inflection-of lexeme)
+                   (println
+                    {:c (:canonical lexeme)
+                     :i (get-inflection-of lexeme)}))))))
+     
+   )
+
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -178,7 +214,7 @@
    (defn load-model []
      (reset! model
              (model/load "nl" load-lexical-rules
-                         load-lexicon fill-lexicon-indexes
+                         load-lexicon-with-morphology fill-lexicon-indexes
                          load-morphology load-grammar))
      @model))
 

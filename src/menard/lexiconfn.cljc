@@ -76,8 +76,8 @@
 (defn apply-to-every-lexeme [lexicon map-fn]
   (into {}
         (for [[k lexemes-for-k] lexicon]
-          [k (->> lexemes-for-k
-                  (map map-fn))])))
+          [k
+           (map map-fn lexemes-for-k)])))
 
 #?(:clj
    (defn read-and-eval [rules-filename]

@@ -124,13 +124,23 @@
      (-> (load-lexicon lexical-rules)
          (l/apply-to-every-lexeme
           (fn [lexeme]
-            (cond
-              (= (:canonical lexeme) "kat")
-              ;; TODO: replace this stub with a call to get-inflection-of:
-              (do (log/info (str "found a kat: " (count lexeme)))
-                  lexeme)
-              true lexeme)))))
+            (let [inflection (get-inflection-of lexeme)]
+              (cond
+                inflection
+                (unify lexeme
+                       {:inflection inflection})
+                true lexeme))))))
 
+   (defn inflection-generate-demo []
+     (let [spec
+           {:cat :noun,
+            :phrasal true,
+            :subcat [],
+            :sem {:mod [], :quant :the},
+            :agr {:number :plur},
+            :head {:inflection :repeated-vowel}}]
+       (count (take 10 (repeatedly #(-> spec generate morph println))))))
+       
    (defn demo-nouns []
      (->> (-> model deref :lexicon vals flatten)
           (map (fn [lexeme]

@@ -41,6 +41,7 @@
  "important" [{:sem {:pred :important}}]
  "industrious" [{:sem {:pred :industrious}}]
  "innocent" [{:sem {:pred :innocent}}]
+ "insane" [{:sem {:pred :insane}}]
  "international" [{:sem {:pred :international}}]
  "large" [{:sem {:pred :large}}]
  "late" [{:sem {:pred :late}}]

@@ -42,6 +42,7 @@
  "verwarrend" [{:sem {:pred :confusing}}]
  "verdacht" [{:sem {:pred :suspicious}}]
  "vies" [{:sem {:pred :dirty}}]
+ "waanzinnig" [{:sem {:pred :insane}}]
  "waar" [{:sem {:pred :true}}]
  "zelfverzekerd" [{:sem {:pred :confident}}]
  "zenuwachtig" [{:sem {:pred :nervous}}]}

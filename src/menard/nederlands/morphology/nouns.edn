@@ -53,7 +53,7 @@
 
  ;; TODO: see what other consonants to add besides 'g':
  {:g [#"^(.*)oo([g])$"  "$1o$2en"]  ;; oog -> ogen
-  :p [#"^(.*)o([g])en$" "$oo$2"]    ;; ogen -> oog
+  :p [#"^(.*)o([g])en$" "$1oo$2"]    ;; ogen -> oog
   :u {:cat :noun
       :inflection :repeated-vowel
       :pronoun false

@@ -3,6 +3,10 @@
               :subcat {:1 {:cat :adjective
                            :phrasal false}
                        :2 []}}]
+ "completely" [{:sem {:pred :completely}
+                :subcat {:1 {:cat :adjective
+                             :phrasal false}
+                         :2 []}}]
  "extremely" [{:sem {:pred :extremely}
                :subcat {:1 {:cat :adjective
                             :phrasal false}

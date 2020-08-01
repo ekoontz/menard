@@ -44,11 +44,11 @@ the morphology is a set of rules, each of which looks like:"
       (log/debug (str "morph-leaf: no rules matched.")))
     (log/debug (str "morph-leaf: number of matching rules: " (count matching-rules)))
     (if (> (count matching-rules) 1)
-      (log/warn (str "morph-leaf: more than one rule matched: " (diag/strip-refs structure) "; rules were: "
-                     (->> (range 0 (count matching-rules))
-                          (map (fn [i]
-                                 (str "#" (+ 1 i) ": " (:u (nth matching-rules i)))))
-                          (clojure.string/join ", ")))))
+      (log/debug (str "morph-leaf: more than one rule matched: " (diag/strip-refs structure) "; rules were: "
+                      (->> (range 0 (count matching-rules))
+                           (map (fn [i]
+                                  (str "#" (+ 1 i) ": " (:u (nth matching-rules i)))))
+                           (clojure.string/join ", ")))))
     (cond
       first-matching-exception
       (do

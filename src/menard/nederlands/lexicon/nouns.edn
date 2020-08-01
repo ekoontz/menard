@@ -5,9 +5,7 @@
  "baby" [{:agr {:gender :common}
           :sem {:pred :baby}}]
  "been" [{:agr {:gender :neuter}
-          :sem {:pred :leg}
-          :exceptions [{:agr {:number :plur}
-                        :surface "benen"}]}]
+          :sem {:pred :leg}}]
  "bedrag" [{:agr {:gender :neuter}
             :sem {:pred :amount}}]
  "beschaving" [{:agr {:gender :common}
@@ -62,9 +60,7 @@
  "huis" [{:agr {:gender :neuter}
           :sem {:pred :house}}]
  "jas" [{:agr {:gender :common}
-         :sem {:pred :coat}
-         :exceptions [{:agr {:number :plur}
-                       :surface "jassen"}]}]
+         :sem {:pred :coat}}]
  "jongen" [{:agr {:gender :common}
             :sem {:pred :boy}}]
  "kat" [{:agr {:gender :common}
@@ -97,9 +93,7 @@
  "ontwikkeling" [{:sem {:pred :development}
                   :agr {:gender :common}}]
  "oog" [{:sem {:pred :eye}
-         :agr {:gender :neuter}
-         :exceptions [{:agr {:number :plur}
-                       :surface "ogen"}]}]
+         :agr {:gender :neuter}}]
  "opleiding" [{:sem {:pred :education}
                :agr {:gender :common}}]
  "oplossing" [{:sem {:pred :solution}

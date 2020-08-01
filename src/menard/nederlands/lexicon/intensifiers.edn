@@ -3,7 +3,7 @@
  "erg" [{:sem {:pred :very}}]
  "eigenlijk" [{:sem {:pred :actually}}]
  "heel" [{:sem {:pred :very}}]
- "helemaal" [{e:sem {:pred :completely}}] 
+ "helemaal" [{:sem {:pred :completely}}] 
  "ongewoon" [{:sem {:pred :unusually}}]
  "redelijk" [{:sem {:pred :reasonably}}]
  "volkomen" [{:sem {:pred :completely}}]}

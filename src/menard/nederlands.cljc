@@ -126,7 +126,7 @@
                   (and (= :noun (u/get-in lexeme [:cat]))
                        (not (= true (u/get-in lexeme [:propernoun])))
                        (not (= true (u/get-in lexeme [:pronoun])))
-                       (empty? (u/get-in lexeme [:exceptions] [])))
+                       (false? (u/get-in lexeme [:inflected?] false)))
                   (do
                     (log/warn (str "no inflection found for lexeme: "
                                    (u/get-in lexeme [:canonical])))

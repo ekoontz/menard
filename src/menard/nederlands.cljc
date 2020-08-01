@@ -69,20 +69,22 @@
            (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
 
 #?(:clj
+   (defn get-inflection-of [lexeme morphology]
+     (if lexeme
+       (->> morphology
+            (map (fn [rule] {:u (reduce unify
+                                        [lexeme (:u rule) {:cat :noun
+                                                           :exception false
+                                                           :agr {:number :plur}}])
+                             :m (re-find (-> rule :g first)
+                                         (:canonical lexeme))}))
+            (filter (fn [x] (and (not (= :fail (:u x)))
+                                 (not (nil? (:m x))))))
+            (map (fn [result]
+                   (-> result :u :inflection)))
+            first))))
 
-   ;; TODO: add :inflection to lexemes, e.g.:
-   ;; {:inflection :morphology-noun-plur-f2v},
-   ;; so that we can generate noun phrases that have that
-   ;; kind of morphology, e.g.:
-   ;;
-   ;;     (-> {:cat :noun,
-   ;;          :phrasal true,
-   ;;          :subcat [],
-   ;;          :head {:inflection :morphology-noun-plur-f2v},
-   ;;          :sem {:mod [], :quant :the},
-   ;;          :agr {:number :plur}}
-   ;;         generate)
-
+#?(:clj
    (defn load-lexicon [lexical-rules]
      (merge-with concat
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/adjectives.edn")   lexical-rules
@@ -104,55 +106,34 @@
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/propernouns.edn")  lexical-rules
                                          {:cat :noun :pronoun false :propernoun true})
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/verbs.edn")        lexical-rules
-                                         {:cat :verb})))
+                                         {:cat :verb}))))
 
+#?(:clj
 
-   (defn get-inflection-of [lexeme]
-     (if lexeme
-       (->> (:morphology @model)
-            (map (fn [rule] {:u (reduce unify
-                                        [lexeme (:u rule) {:cat :noun
-                                                           :exception false
-                                                           :agr {:number :plur}}])
-                             :m (re-find (-> rule :g first)
-                                         (:canonical lexeme))}))
-            (filter (fn [x] (and (not (= :fail (:u x)))
-                                 (not (nil? (:m x))))))
-            (map (fn [result]
-                   (-> result :u :inflection)))
-            first)))
-
-   (defn load-lexicon-with-morphology [lexical-rules]
-     (-> (load-lexicon lexical-rules)
+   (defn load-lexicon-with-morphology [lexicon morphology-rules]
+     (-> lexicon
          (l/apply-to-every-lexeme
           (fn [lexeme]
-            (let [inflection (get-inflection-of lexeme)]
-              (cond
-                inflection
-                (unify lexeme
-                       {:inflection inflection})
-                true lexeme))))))
+            (let [inflection (get-inflection-of lexeme morphology-rules)]
+              (if (and (= :noun (u/get-in lexeme [:cat]))
+                       (not (= true (u/get-in lexeme [:propernoun])))
+                       (not (= true (u/get-in lexeme [:pronoun]))))
+                (cond
+                  inflection
+                  (unify lexeme
+                         {:inflection inflection})
+                  (and (= :noun (u/get-in lexeme [:cat]))
+                       (not (= true (u/get-in lexeme [:propernoun])))
+                       (not (= true (u/get-in lexeme [:pronoun]))))
+                  (do
+                    (log/warn (str "no inflection found for lexeme: "
+                                   (u/get-in lexeme [:canonical])))
+                    lexeme)
+                
+                  true lexeme)
+                lexeme))))))
 
-   (defn inflection-generate-demo []
-     (let [spec
-           {:cat :noun,
-            :phrasal true,
-            :subcat [],
-            :sem {:mod [], :quant :the},
-            :agr {:number :plur},
-            :head {:inflection :repeated-vowel}}]
-       (count (take 10 (repeatedly #(-> spec generate morph println))))))
-       
-   (defn demo-nouns []
-     (->> (-> model deref :lexicon vals flatten)
-          (map (fn [lexeme]
-                 (if (get-inflection-of lexeme)
-                   (println
-                    {:c (:canonical lexeme)
-                     :i (get-inflection-of lexeme)}))))))
-     
    )
-
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -224,11 +205,16 @@
 
 #?(:clj
    (defn load-model []
-     (reset! model
-             (model/load "nl" load-lexical-rules
-                         load-lexicon-with-morphology fill-lexicon-indexes
-                         load-morphology load-grammar))
-     @model))
+     (let [morphology (load-morphology)
+           lexicon (load-lexicon (load-lexical-rules))]
+       (reset! model
+               (model/load "nl"
+                           load-lexical-rules
+                           (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules) (load-morphology)))
+                           fill-lexicon-indexes
+                           load-morphology load-grammar))
+       @model))
+   )
 
 #?(:cljs
    (def lexicon

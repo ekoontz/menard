@@ -84,8 +84,11 @@
       :pronoun false
       :agr {:number :plur}
       :regular true}}
- {:g [#"^(.*)(p)$"    "$1$2$2en"] 
-  :p [#"^(.*)(p)pen$" "$1$2"] 
+
+ ;; boodschap->boodschappen,
+ ;; but groep->groepen, not *groeppen:
+ {:g [#"^(.*a)(p)$"    "$1$2$2en"] 
+  :p [#"^(.*a)(p)pen$" "$1$2"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false

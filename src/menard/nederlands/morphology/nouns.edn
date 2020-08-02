@@ -78,28 +78,28 @@
 
  ;; <jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
  {:g [#"^(.*)(n)$"    "$1$2$2en"] 
-  :p [#"^(.*)(n)nen$" "$1$2s"] 
+  :p [#"^(.*)(n)nen$" "$1$2"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
  {:g [#"^(.*)(p)$"    "$1$2$2en"] 
-  :p [#"^(.*)(p)pen$" "$1$2s"] 
+  :p [#"^(.*)(p)pen$" "$1$2"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
  {:g [#"^(.*)(s)$"    "$1$2$2en"] 
-  :p [#"^(.*)(s)sen$" "$1$2s"] 
+  :p [#"^(.*)(s)sen$" "$1$2"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
  {:g [#"^(.*)(t)$"    "$1$2$2en"] 
-  :p [#"^(.*)(t)ten$" "$1$2s"] 
+  :p [#"^(.*)(t)ten$" "$1$2"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false

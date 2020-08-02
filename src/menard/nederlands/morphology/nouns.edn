@@ -68,17 +68,6 @@
       :agr {:number :plur}
       :regular true}}
 
- ;;                                  jas    -> jassen
- ;;                                  but not:
- ;;                                  fiets  -> *fietssen
- {:g [#"^(.*[^t])s$"    "$1ssen"] 
-  :p [#"^(.*[^t])ssen$" "$1s"] 
-  :u {:cat :noun
-      :inflection :repeated-consonant
-      :pronoun false
-      :agr {:number :plur}
-      :regular true}}
-
  {:g [#"^(.*ts)$"       "$1en"]      ;; fiets    -> fietsen
   :p [#"^(.*ts)en$"     "$1"]
   :u {:cat :noun
@@ -87,21 +76,36 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*[aeiou])t$"    "$1tten"] ;; kat    -> katten
-  :p [#"^(.*[aeiou])tten$" "$1t"]
+ ;; <jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
+ {:g [#"^(.*)(n)$"    "$1$2$2en"] 
+  :p [#"^(.*)(n)nen$" "$1$2s"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
-
- {:g [#"^(.*)n$"    "$1nnen"]        ;; man    -> mannen
-  :p [#"^(.*)nnen$"  "$1n"] 
+ {:g [#"^(.*)(p)$"    "$1$2$2en"] 
+  :p [#"^(.*)(p)pen$" "$1$2s"] 
   :u {:cat :noun
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}
+ {:g [#"^(.*)(s)$"    "$1$2$2en"] 
+  :p [#"^(.*)(s)sen$" "$1$2s"] 
+  :u {:cat :noun
+      :inflection :repeated-consonant
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+ {:g [#"^(.*)(t)$"    "$1$2$2en"] 
+  :p [#"^(.*)(t)ten$" "$1$2s"] 
+  :u {:cat :noun
+      :inflection :repeated-consonant
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
+ ;; </jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
 
  {:g [#"^(.*)f$"    "$1ven"]         ;; druif   -> druiven
   :p [#"^(.*)ven$"  "$1f"] 

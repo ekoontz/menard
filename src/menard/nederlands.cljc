@@ -213,7 +213,7 @@
         (if (or (nil? @model)
                 (> (- (.getTime (java.util.Date.))
                       (get @model :loaded-when))
-                   240000)) ;; (* 60 4 1000) = 4 minutes
+                   (* 20 60 1000))) ;; = 20 minutes
           (ref-set model
                    (model/load "nl"
                                load-lexical-rules

@@ -234,9 +234,10 @@
 #?(:clj
    (defn load-model []
      (dosync
-      (if (or (nil? @model) (> (- (.getTime (java.util.Date.))
-                                  (get @model :loaded-when))
-                               240000)) ;; (* 60 4 1000) = 4 minutes
+      (if (or (nil? @model)
+              (> (- (.getTime (java.util.Date.))
+                    (get @model :loaded-when))
+                 (* 20 60 1000))) ;; = 20 minutes
         (ref-set model
                  (model/load "en" load-lexical-rules
                              load-lexicon fill-lexicon-indexes

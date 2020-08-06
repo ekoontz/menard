@@ -244,7 +244,7 @@
                              load-morphology load-grammar))
         (log/info (str "model has already been loaded only " (/ (- (.getTime (java.util.Date.))
                                                                    (get @model :loaded-when))
-                                                                1000) " seconds ago."))))
+                                                                1000.0) " seconds ago."))))
      @model))
 
 (defn morph

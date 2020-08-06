@@ -65,7 +65,7 @@
   (into {}
         (for [k (sort (keys lexicon))]
           (let [lexemes (get lexicon k)]
-            (log/info (str "applying rules for: " k))
+            (log/debug (str "applying rules for: " k))
             (if (not (empty? lexemes))
               [k (->> lexemes
                       (mapcat (fn [lexeme]

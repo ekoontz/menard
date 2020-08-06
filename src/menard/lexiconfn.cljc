@@ -63,15 +63,17 @@
 
 (defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched? rule-group]
   (into {}
-        (for [[k lexemes] lexicon]
-          (if (not (empty? lexemes))
-            [k (->> lexemes
-                    (mapcat (fn [lexeme]
-                               (apply-rules rules lexeme if-no-rules-matched? rule-group)))
-                    (mapcat (fn [lexeme]
-                               [(unify lexeme
-                                       {:phrasal false
-                                        :canonical (u/get-in lexeme [:canonical] k)})])))]))))
+        (for [k (sort (keys lexicon))]
+          (let [lexemes (get lexicon k)]
+            (log/info (str "applying rules for: " k))
+            (if (not (empty? lexemes))
+              [k (->> lexemes
+                      (mapcat (fn [lexeme]
+                                (apply-rules rules lexeme if-no-rules-matched? rule-group)))
+                      (mapcat (fn [lexeme]
+                                [(unify lexeme
+                                        {:phrasal false
+                                         :canonical (u/get-in lexeme [:canonical] k)})])))])))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
   (into {}

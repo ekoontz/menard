@@ -219,7 +219,7 @@
          grammar/process)))
 
 #?(:clj
-   (def model (atom nil)))
+   (def model (ref nil)))
 
 #?(:cljs
    (def model
@@ -233,10 +233,17 @@
 
 #?(:clj
    (defn load-model []
-     (reset! model
-             (model/load "en" load-lexical-rules
-                         load-lexicon fill-lexicon-indexes
-                         load-morphology load-grammar))
+     (dosync
+      (if (or (nil? @model) (> (- (.getTime (java.util.Date.))
+                                  (get @model :loaded-when))
+                               240000)) ;; (* 60 4 1000) = 4 minutes
+        (ref-set model
+                 (model/load "en" load-lexical-rules
+                             load-lexicon fill-lexicon-indexes
+                             load-morphology load-grammar))
+        (log/info (str "model has already been loaded only " (/ (- (.getTime (java.util.Date.))
+                                                                   (get @model :loaded-when))
+                                                                1000) " seconds ago."))))
      @model))
 
 (defn morph

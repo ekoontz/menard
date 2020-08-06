@@ -28,16 +28,19 @@
              (log/info (str "loaded: " (count morphology) " morphological rules."))
              (let [grammar (load-grammar-fn)]
                (log/info (str "loaded: " (count grammar) " grammar rules."))
-               {:grammar grammar
-                :loaded-when (str (java.util.Date.))
-                :language language-name
-                :morphology morphology
-                :lexicon lexicon
-                ;; note that we don't save the lexical rules since they
-                ;; are only used to compile the lexicon, and so after that's done,
-                ;; the lexicon is what is saved, but the rules used for it
-                ;; aren't needed to be saved in the atom.
-                :indices indices})))))))
+               (let [retval
+                     {:grammar grammar
+                      :loaded-when (.getTime (java.util.Date.))
+                      :language language-name
+                      :morphology morphology
+                      :lexicon lexicon
+                      ;; note that we don't save the lexical rules since they
+                      ;; are only used to compile the lexicon, and so after that's done,
+                      ;; the lexicon is what is saved, but the rules used for it
+                      ;; aren't needed to be saved in the ref.
+                      :indices indices}]
+                 (log/info (str "loaded resources for language: " language-name))
+                 retval))))))))
    
    #?(:cljs
       (defn load [language-name rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]

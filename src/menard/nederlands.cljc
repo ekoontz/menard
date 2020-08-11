@@ -210,22 +210,24 @@
      (let [morphology (load-morphology)
            lexicon (load-lexicon (load-lexical-rules))]
        (dosync
-        (if (or (nil? @model)
+        (if ;; reload the model only if it's been more
+            ;; than 20 minutes since the last load.
+            (or (nil? @model)
                 (> (- (.getTime (java.util.Date.))
                       (get @model :loaded-when))
-                   (* 20 60 1000))) ;; = 20 minutes
+                   (* 20 60 1000)))
           (ref-set model
                    (model/load "nl"
                                load-lexical-rules
-                               (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules) (load-morphology)))
+                               (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules)
+                                                                                 (load-morphology)))
                                fill-lexicon-indexes
                                load-morphology load-grammar))
         (log/info (str "model has already been loaded only " (/ (- (.getTime (java.util.Date.))
                                                                    (get @model :loaded-when))
-                                                                1000.0) " seconds ago."))))
+                                                                1000 60.0) " minutes ago: not reloading."))))
 
-        @model))
-   )
+        @model)))
 
 #?(:cljs
    (def lexicon

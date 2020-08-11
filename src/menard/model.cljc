@@ -44,7 +44,7 @@
    
    #?(:cljs
       (defn load [language-name rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
-        (log/error (str "should never get here! use compiled linguistic resources. Clojurescript does not have access to the filesystem (at least running within web agents)"))))
+        (log/error (str "should never get here! use compiled linguistic resources. Clojurescript does not have access to the filesystem (at least if running within a web browser)."))))
 
  
 

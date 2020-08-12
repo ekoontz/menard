@@ -85,6 +85,13 @@
       :agr {:number :plur}
       :regular true}}
 
+ {:g [#"^(.*)(k)$"    "$1$2$2en"]
+  :p [#"^(.*)(k)ken$" "$1$2"]
+  :u {:cat :noun
+      :inflection :repeated-consonant
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
  ;; boodschap->boodschappen,
  ;; but groep->groepen, not *groeppen:
  {:g [#"^(.*a)(p)$"    "$1$2$2en"] 

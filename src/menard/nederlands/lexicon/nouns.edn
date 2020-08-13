@@ -28,6 +28,8 @@
  "dame" [{:agr {:gender :common}
           :sem {:pred :woman
                 :context :polite}}]
+ "dier" [{:agr {:gender :neuter}
+          :sem {:pred :animal}}]
  "druif" [{:agr {:gender :common}
            :sem {:pred :grape}}]
  "eenzaamheid" [{:agr {:gender :common}
@@ -108,6 +110,8 @@
             :agr {:gender :common}}
            {:sem {:pred :place}
             :agr {:gender :common}}]
+ "roofdier" [{:agr {:gender :neuter}
+              :sem {:pred :predator}}]
  "stoel" [{:agr {:gender :common}
            :sem {:pred :chair}}]
  "tafel" [{:agr {:gender :common}

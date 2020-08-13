@@ -18,7 +18,9 @@
                 ;; TODO: move these properties to inference
                 ;; rules: pred=book -> animate false, readable true,etc.
                 :prop {:animate false
-                       :readable true}}}]
+                       :readable true}}
+          :exxceptions [{:agr {:number :plur}
+                         :surface "boeken"}]}]
  "bedrijf" [{:agr {:gender :neuter}
              :sem {:pred :business}}]
  "boodschap" [{:agr {:gender :common}

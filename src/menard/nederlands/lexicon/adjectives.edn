@@ -25,6 +25,7 @@
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]
  "opgewonden" [{:sem {:pred :excited}}]
+ "opvallend" [{:sem {:pred :striking}}]
  "oud" [{:sem {:pred :old}}]
  "prachtig" [{:sem {:pred :magnificent}}]
  "schattig" [{:sem {:pred :cute}}]
@@ -44,5 +45,6 @@
  "vies" [{:sem {:pred :dirty}}]
  "waanzinnig" [{:sem {:pred :insane}}]
  "waar" [{:sem {:pred :true}}]
+ "zacht" [{:sem {:pred :soft}}]
  "zelfverzekerd" [{:sem {:pred :confident}}]
  "zenuwachtig" [{:sem {:pred :nervous}}]}

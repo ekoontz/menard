@@ -24,6 +24,7 @@
  "nijver" [{:sem {:pred :industrious}}]
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]
+ "onzijdig" [{:sem {:pred :neutral}}]
  "opgewonden" [{:sem {:pred :excited}}]
  "opvallend" [{:sem {:pred :striking}}]
  "oud" [{:sem {:pred :old}}]

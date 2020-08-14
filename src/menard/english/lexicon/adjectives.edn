@@ -55,6 +55,7 @@
  "military" [{:sem {:pred :military}}]
  "national" [{:sem {:pred :national}}]
  "nervous" [{:sem {:pred :nervous}}]
+ "neutral" [{:sem {:pred :neutral}}]
  "newsworthy" [{:sem {:pred :newsworthy}}]
  "new" [{:sem {:pred :new}}]
  "nice" [{:sem {:pred :nice}}]

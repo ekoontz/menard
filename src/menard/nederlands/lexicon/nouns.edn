@@ -44,7 +44,7 @@
           :sem {:pred :fact}}]
  "fiets" [{:agr {:gender :common}
            :sem {:pred :bike}}]
- "gebeid" [{:agr {:gender :neuter}
+ "gebied" [{:agr {:gender :neuter}
             :sem {:pred :area}}]
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]

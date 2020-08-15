@@ -68,19 +68,38 @@
 
 #?(:clj
    (defn load-lexicon [lexical-rules]
-     (merge-with concat
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/adjectives.edn")   lexical-rules {:cat :adjective})
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/adverbs.edn")      lexical-rules {:cat :adverb})
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/exclamations.edn") lexical-rules {:cat :exclamation})
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/intensifiers.edn") lexical-rules {:cat :intensifier})
-
-                 ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/misc.edn")         lexical-rules)
-                 
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/nouns.edn")        lexical-rules {:cat :noun})
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/numbers.edn")      lexical-rules {:cat :adjective})
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/propernouns.edn")  lexical-rules {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source (model/use-path "menard/english/lexicon/verbs.edn")        lexical-rules {:cat :verb}))))
+     (->
+      (merge-with concat
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/adjectives.edn")   lexical-rules {:cat :adjective})
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/adverbs.edn")      lexical-rules {:cat :adverb})
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/exclamations.edn") lexical-rules {:cat :exclamation})
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/intensifiers.edn") lexical-rules {:cat :intensifier})
+                  
+                  ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/misc.edn")         lexical-rules)
+                  
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/nouns.edn")        lexical-rules {:cat :noun})
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/numbers.edn")      lexical-rules {:cat :adjective})
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/propernouns.edn")  lexical-rules {:cat :noun :pronoun false :propernoun true})
+                  (compile-lexicon-source (model/use-path "menard/english/lexicon/verbs.edn")        lexical-rules {:cat :verb}))
+      ;; The lexicon is a map where each
+      ;; key is a canonical string
+      ;; and each value is the list of lexemes for
+      ;; that string. we turn the list into a vec
+      ;; so that it's completely realized rather than
+      ;; a lazy sequence, so that when we periodically
+      ;; reload the model from disk, (generate) or
+      ;; (parse) won't have to de-lazify the list:
+      ;; it will already be done before they (generate or
+      ;; parse) see it.
+      ;; (TODO: move this to some function within
+      ;;  menard/model).
+      ((fn [lexicon]
+         (zipmap (keys lexicon)
+                 (map (fn [vs]
+                        (if true (vec vs)
+                            vs))
+                      (vals lexicon))))))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]

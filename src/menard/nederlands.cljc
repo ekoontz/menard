@@ -133,7 +133,26 @@
                     lexeme)
                 
                   true lexeme)
-                lexeme))))))
+                lexeme))))
+
+         ;; The lexicon is a map where each
+         ;; key is a canonical string
+         ;; and each value is the list of lexemes for
+         ;; that string. we turn the list into a vec
+         ;; so that it's completely realized rather than
+         ;; a lazy sequence, so that when we periodically
+         ;; reload the model from disk, (generate) or
+         ;; (parse) won't have to de-lazify the list:
+         ;; it will already be done before they (generate or
+         ;; parse) see it.
+         ;; (TODO: move this to some function within
+         ;;  menard/model).
+         ((fn [lexicon]
+            (zipmap (keys lexicon)
+                    (map (fn [vs]
+                           (vec vs))
+                         (vals lexicon)))))))
+         
 
    )
 
@@ -210,8 +229,10 @@
      (log/info (str "creating model for Nederlands.."))
      (model/load "nl"
                  load-lexical-rules
-                 (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules)
-                                                                   (load-morphology)))
+                 (fn [lexical-rules]
+                   (load-lexicon-with-morphology
+                    (load-lexicon lexical-rules)
+                    (load-morphology)))
                  fill-lexicon-indexes
                  load-morphology load-grammar)))
 

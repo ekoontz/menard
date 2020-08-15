@@ -14,9 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   but 'vowels' doesn't include 'e' for the purpose of
   this rule.
 
-## [1.3.0] - 
-
-
+## [1.3.0] - ??
+- Release tag and commit for this release missed somehow.
 
 ## [1.2.1] - 2020-07-26
 

@@ -212,7 +212,8 @@
        (dosync
         (if ;; reload the model only if it's been more
             ;; than 20 minutes since the last load.
-            (or (nil? @model)
+            (or true
+                (nil? @model)
                 (> (- (.getTime (java.util.Date.))
                       (get @model :loaded-when))
                    (* 20 60 1000)))

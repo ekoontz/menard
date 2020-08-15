@@ -234,7 +234,8 @@
 #?(:clj
    (defn load-model []
      (dosync
-      (if (or (nil? @model)
+      (if (or true
+              (nil? @model)
               (> (- (.getTime (java.util.Date.))
                     (get @model :loaded-when))
                  (* 20 60 1000))) ;; = 20 minutes

@@ -11,21 +11,16 @@
 
 #?(:clj
    (defn load [existing-model language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
-     (cond (not (nil? @existing-model))
+     (cond (and (not (nil? @existing-model))
+                (> (- (.getTime (java.util.Date.))
+                      (get @existing-model :loaded-when))
+                   (* 20 60 1000)))
            (do
              (log/info (str "The existing model for language: "
-                            language-name " is not nil."))
-             (log/info (str "   and its "
-                            " should-be-loaded status is: "
-                            (> (- (.getTime (java.util.Date.))
-                                  (get @existing-model :loaded-when))
-                               (* 20 60 1000))))
+                            language-name " was recently loaded, so simply returning it without reloading."))
              @existing-model)
            true
            (do
-             (log/info (str "The existing model for language: "
-                            language-name " is nil."))
-           
              (log/info (str "loading resources for language: "
                             language-name))
              (let [lexical-rules (lexical-rules-fn)]

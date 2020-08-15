@@ -239,7 +239,7 @@
                     (get @model :loaded-when))
                  (* 20 60 1000))) ;; = 20 minutes
         (ref-set model
-                 (model/load "en" load-lexical-rules
+                 (model/load model "en" load-lexical-rules
                              load-lexicon fill-lexicon-indexes
                              load-morphology load-grammar))
         (log/info (str "model has already been loaded only " (/ (- (.getTime (java.util.Date.))

@@ -217,7 +217,7 @@
                       (get @model :loaded-when))
                    (* 20 60 1000)))
           (ref-set model
-                   (model/load "nl"
+                   (model/load model "nl"
                                load-lexical-rules
                                (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules)
                                                                                  (load-morphology)))

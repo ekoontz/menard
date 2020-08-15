@@ -207,28 +207,13 @@
 
 #?(:clj
    (defn load-model []
-     (let [morphology (load-morphology)
-           lexicon (load-lexicon (load-lexical-rules))]
-       (dosync
-        (if ;; reload the model only if it's been more
-            ;; than 20 minutes since the last load.
-            (or true
-                (nil? @model)
-                (> (- (.getTime (java.util.Date.))
-                      (get @model :loaded-when))
-                   (* 20 60 1000)))
-          (ref-set model
-                   (model/load model "nl"
-                               load-lexical-rules
-                               (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules)
-                                                                                 (load-morphology)))
-                               fill-lexicon-indexes
-                               load-morphology load-grammar))
-        (log/info (str "model has already been loaded only " (/ (- (.getTime (java.util.Date.))
-                                                                   (get @model :loaded-when))
-                                                                1000 60.0) " minutes ago: not reloading."))))
-
-        @model)))
+     (model/load model "nl"
+                 load-lexical-rules
+                 (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules)
+                                                                   (load-morphology)))
+                 fill-lexicon-indexes
+                 load-morphology load-grammar)
+     @model))
 
 #?(:cljs
    (def lexicon
@@ -341,7 +326,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]
       (-> spec
@@ -352,12 +337,12 @@
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
       (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (:morphology model)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -368,7 +353,7 @@
                        (l/matching-lexemes surface))))))))
 
 (defn parse [expression]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               p/truncate? false

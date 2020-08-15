@@ -233,19 +233,9 @@
 
 #?(:clj
    (defn load-model []
-     (dosync
-      (if (or true
-              (nil? @model)
-              (> (- (.getTime (java.util.Date.))
-                    (get @model :loaded-when))
-                 (* 20 60 1000))) ;; = 20 minutes
-        (ref-set model
-                 (model/load model "en" load-lexical-rules
-                             load-lexicon fill-lexicon-indexes
-                             load-morphology load-grammar))
-        (log/info (str "model has already been loaded only " (/ (- (.getTime (java.util.Date.))
-                                                                   (get @model :loaded-when))
-                                                                1000 60.0) " minutes ago: not reloading."))))
+     (model/load model "en" load-lexical-rules
+                 load-lexicon fill-lexicon-indexes
+                 load-morphology load-grammar)
      @model))
 
 (defn morph
@@ -336,7 +326,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 3 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))]
@@ -355,7 +345,7 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -368,7 +358,7 @@
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
 (defn parse [expression]
-  (let [model (or @model (load-model))]
+  (let [model (dosync (or @model (load-model)))]
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               l/lexicon (-> model :lexicon)

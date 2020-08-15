@@ -350,23 +350,12 @@
 (defn syntax-tree [tree & [path]]
   (s/syntax-tree tree (:morphology @model)))
 
-#?(:clj
-   (defn load-model-once []
-      (if (nil? @model)
-        (dosync (ref-set model (load-model))))
-     @model))
-
-#?(:cljs
-   (defn load-model-once []
-     (do
-       (log/error (str "should never be called: load-model-once is not implemented for clojurescript.")))))
-
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
-  (let [model (or @model (do (load-model-once) @model))]
+  (let [model (or @model (load-model))]
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]
       (-> spec
@@ -377,12 +366,12 @@
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
-  (let [model (dosync (or @model (load-model)))]
+  (let [model (or @model (load-model))]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
       (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (dosync (or @model (load-model)))]
+  (let [model (or @model (load-model))]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (:morphology model)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -393,7 +382,7 @@
                        (l/matching-lexemes surface))))))))
 
 (defn parse [expression]
-  (let [model (dosync (or @model (load-model)))]
+  (let [model (or @model (load-model))]
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               p/truncate? false

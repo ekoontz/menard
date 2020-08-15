@@ -5,15 +5,15 @@
       :regular true
       :agr {:number :sing}}}
 
- ;; if a singular noun ends in a vowel (including 'y'), then noun pluralization ends in -'s (apostrophe + s).
- {:g [#"(a|i|o|u|y)$"  "$1's"]       ;; baby  -> baby's
-  :p [#"^(.*)'s$"      "$1"]         ;; baby's -> baby
+ ;; if a singular noun ends in a vowel (except 'e' but including 'y'), then noun pluralization ends in -'s (apostrophe + s).
+ {:g [#"([aiouy])$"   "$1's"]       ;; baby  -> baby's
+  :p [#"([aiouy])'s$"  "$1"]        ;; baby's -> baby
   :u {:cat :noun
       :inflection :apostrophe-s
       :pronoun false
       :agr {:number :plur}
       :regular true}}
-
+ 
  ;; if a singular noun ends in -heid, then noun pluralization ends in -heden:
  {:g [#"(heid)$"  "heden"]           ;; mogelijkheid -> mogelijkheden
   :p [#"heden$"   "heid"]

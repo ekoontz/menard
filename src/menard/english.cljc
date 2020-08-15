@@ -230,12 +230,17 @@
      (grammar/write-compiled-grammar (-> @model :grammar)
                                      "src/menard/english/grammar/compiled.edn")))
 
+#?(:clj
+   (defn create-model []
+     (log/info (str "creating model for English.."))
+     (model/load "en" load-lexical-rules
+                 load-lexicon fill-lexicon-indexes
+                 load-morphology load-grammar)))
 
 #?(:clj
    (defn load-model []
-     (model/load model "en" load-lexical-rules
-                 load-lexicon fill-lexicon-indexes
-                 load-morphology load-grammar)
+     (if (nil? @model)
+       (dosync (ref-set model (create-model))))
      @model))
 
 (defn morph
@@ -323,10 +328,23 @@
          "?"
          ".")))
 
+#?(:clj
+   (defn load-model-once []
+     (if (nil? @model)
+       (dosync (ref-set model (load-model)))
+       @model)))
+
+#?(:cljs
+   (defn load-model-once []
+     (do
+       (log/error (str "should never be called: load-model-once is not implemented for clojurescript.")))))
+
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (let [model (dosync (or @model (load-model)))]
+  ;; should block on this until a model exists: maybe @model should be a future
+  ;; or a promise (not sure what the difference is).
+  (let [model (or @model (do (load-model-once) @model))]
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 3 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))]

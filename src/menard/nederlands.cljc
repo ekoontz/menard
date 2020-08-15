@@ -206,13 +206,19 @@
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
-   (defn load-model []
-     (model/load model "nl"
+   (defn create-model []
+     (log/info (str "creating model for Nederlands.."))
+     (model/load "nl"
                  load-lexical-rules
                  (fn [lexical-rules] (load-lexicon-with-morphology (load-lexicon lexical-rules)
                                                                    (load-morphology)))
                  fill-lexicon-indexes
-                 load-morphology load-grammar)
+                 load-morphology load-grammar)))
+
+#?(:clj
+   (defn load-model []
+     (if (nil? @model)
+       (dosync (ref-set model (create-model))))
      @model))
 
 #?(:cljs
@@ -323,10 +329,23 @@
 (defn syntax-tree [tree & [path]]
   (s/syntax-tree tree (:morphology @model)))
 
+#?(:clj
+   (defn load-model-once []
+      (if (nil? @model)
+        (dosync (ref-set model (load-model))))
+     @model))
+
+#?(:cljs
+   (defn load-model-once []
+     (do
+       (log/error (str "should never be called: load-model-once is not implemented for clojurescript.")))))
+
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (let [model (dosync (or @model (load-model)))]
+  ;; should block on this until a model exists: maybe @model should be a future
+  ;; or a promise (not sure what the difference is).
+  (let [model (or @model (do (load-model-once) @model))]
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]
       (-> spec

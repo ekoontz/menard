@@ -11,7 +11,6 @@
 
 #?(:clj
    (defn load [existing-model language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
-     (log/info (str "OK... STARTING THE LOAD..(CHECKING FIRST..... for language: " language-name "; FUCK: " (type @existing-model)))
      (dosync
       (ref-set
        existing-model

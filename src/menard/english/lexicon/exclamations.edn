@@ -1,2 +1,4 @@
 {"fuck off" [{:sem {:pred :fuck-off}}]
- "go ahead" [{:sem {:pred :go-ahead}}]}
+ "go ahead" [{:sem {:pred :go-ahead}}]
+ "nice to meet you" [{:sem {:pred :nice-to-meet-you}}]}
+

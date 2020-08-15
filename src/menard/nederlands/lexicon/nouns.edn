@@ -108,6 +108,8 @@
              :agr {:gender :common}}]
  "overheid" [{:sem {:pred :government}
               :agr {:gender :common}}]
+ "pinda" [{:sem {:pred :peanut}
+           :agr {:gender :common}}]
  "plaats" [{:sem {:pred :lot}
             :agr {:gender :common}}
            {:sem {:pred :place}

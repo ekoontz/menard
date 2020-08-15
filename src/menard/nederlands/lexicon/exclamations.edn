@@ -1,2 +1,3 @@
-{"ga je gang" [{:sem {:pred :go-ahead}}]
+{"aangenamen" [{:sem {:pred :nice-to-meet-you}}]
+ "ga je gang" [{:sem {:pred :go-ahead}}]
  "oprotten" [{:sem {:pred :fuck-off}}]}

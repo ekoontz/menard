@@ -81,6 +81,7 @@
  "night" [{:sem {:pred :night}}]
  "number" [{:sem {:pred :number}}]
  "part" [{:sem {:pred :part}}]
+ "peanut" [{:sem {:pred :peanut}}]
  "people" [{:sem {:pred :people}
             :agr {:number :plur}}]
  "performance" [{:sem {:pred :performance}}]

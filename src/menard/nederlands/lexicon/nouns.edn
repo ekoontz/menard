@@ -133,8 +133,8 @@
                   :sem {:pred :reporter}}]
  "vliegtuig" [{:agr {:gender :neuter}
                :sem {:pred :airplane}}]
- "vogel" [{:agr {:gender :common}
-           :sem {:pred :bird}}]
+ "vlinder" [{:agr {:gender :common} :sem {:pred :butterfly}}]
+ "vogel" [{:agr {:gender :common} :sem {:pred :bird}}]
  "voorbeeld" [{:agr {:gender :neuter}
                :sem {:pred :example}}]
  "voorstelling" [{:agr {:gender :common}

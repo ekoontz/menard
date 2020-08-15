@@ -4,6 +4,7 @@
  "area" [{:sem {:pred :area}}]
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]
+ "butterfly" [{:sem {:pred :butterfly}}]
  "cauliflower" [{:sem {:pred :cauliflower}}]
  "bike" [{:sem {:pred :bike}}]
  "bird" [{:agr {:gender :neuter}

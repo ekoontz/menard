@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.1] - 2020-08-15
+
+- Improve loading and reloading language models
+  - block on model-creation if it doesn't exist yet.
+  - only load model once unless doing reloading.
+- Apostrophe-s pluralization applies to all Dutch
+  nouns that end in 'y' *or* vowels (not just 'y'),
+  but 'vowels' doesn't include 'e' for the purpose of
+  this rule.
+
+## [1.3.0] - 
+
+
+
 ## [1.2.1] - 2020-07-26
 
 - Fix bugs in Dutch morphology of adjectives and nouns

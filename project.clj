@@ -1,4 +1,4 @@
-(defproject menard "1.3.1"
+(defproject menard "1.3.2-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/menard"
   :license {:name "Eclipse Public License"
@@ -6,6 +6,6 @@
   :dependencies [[dag_unify "1.9.6"]
                  [log4j/log4j "1.2.17"]
                  [org.clojure/clojure "1.10.1"]
-                 [org.clojure/tools.logging "0.5.0"]
+                 [org.clojure/tools.logging "1.1.0"]
                  [cljslog "0.1.0"]]
   :resource-paths ["resources"])

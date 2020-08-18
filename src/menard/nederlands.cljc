@@ -72,12 +72,14 @@
    (defn get-inflection-of [lexeme morphology]
      (if lexeme
        (->> morphology
-            (map (fn [rule] {:u (reduce unify
-                                        [lexeme (:u rule) {:cat :noun
-                                                           :exception false
-                                                           :agr {:number :plur}}])
-                             :m (re-find (-> rule :g first)
-                                         (:canonical lexeme))}))
+            (map (fn [rule]
+                   {:u (reduce unify
+                               [lexeme (:u rule)
+                                {:cat :noun
+                                 :exception false
+                                 :agr {:number :plur}}])
+                    :m (re-find (-> rule :g first)
+                                (:canonical lexeme))}))
             (filter (fn [x] (and (not (= :fail (:u x)))
                                  (not (nil? (:m x))))))
             (map (fn [result]

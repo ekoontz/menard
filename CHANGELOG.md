@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.2] - 2020-09-12
+
+- Upgrade to latest dag_unify release.
+- Add morphology for `dik` <-> `dikke`.
+
 ## [1.3.1] - 2020-08-15
 
 - Improve loading and reloading language models

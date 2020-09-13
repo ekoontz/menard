@@ -116,8 +116,12 @@
               (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-;; TODO: consolidate this with (defn generate).
-(defn add [tree grammar lexicon-index-fn syntax-tree-fn]
+(defn add
+  "Return a lazy sequence of all trees made by adding every possible
+  leaf and tree to _tree_. This sequence is the union of all trees
+  made by adding a leaf (add-lexeme) or by adding a whole
+  sub-tree (add-rule)."
+  [tree grammar lexicon-index-fn syntax-tree-fn]
   (if counts? (swap! count-adds (fn [x] (+ 1 @count-adds))))
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
@@ -206,7 +210,10 @@
 
 (declare get-lexemes)
 
-(defn add-lexeme [tree lexicon-index-fn syntax-tree]
+(defn add-lexeme
+  "Return a lazy sequence of all trees made by adding every possible
+  leaf (via (get-lexemes)) to _tree_."
+  [tree lexicon-index-fn syntax-tree]
   (log/debug (str "add-lexeme: " (syntax-tree tree)))
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
@@ -254,7 +261,10 @@
 
            (remove #(= :fail %))))))
 
-(defn add-rule [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
+(defn add-rule
+  "Return a lazy sequence of all trees made by adding every possible grammatical
+   rule in _grammar_ to _tree_."
+  [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
@@ -283,7 +293,7 @@
      ;;                       \ ..
      ;;                       /..
      ;;                      /
-     ;; path points here -> [] <- add candidate grammar rule here
+     ;; _at_ points here -> [] <- add candidate grammar rule here
      ;;
      (map (fn [rule]
             (log/debug (str "trying rule: " (:rule rule)))

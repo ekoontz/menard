@@ -35,30 +35,21 @@
    ;; stom->stomme and dik->dikke
    ;; TODO: merge this with eenzaam -> eenzame
    ;; rule below.
-   {:g [#"ot$" "te"]
-    :p [#"te$" "ot"]
-    :u {:cat :adjective
-        :inflection :te
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"ot$" "te"]
-    :p [#"te$" "ot"]
-    :u {:cat :adjective
-        :inflection :te
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"ot$" "te"]
-    :p [#"te$" "ot"]
-    :u {:cat :adjective
-        :inflection :te
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
+   (let [g [#"ot$" "te"]
+         p [#"te$" "ot"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
 
    ;; generation: lief -> lieve
    ;; parsing:    lieve -> lief
+<<<<<<< HEAD
    ;; TODO: use (let ..) to express commonalities, as we do below for
    ;; stom->stomme and dik->dikke
    {:g [#"f$"   "ve"]
@@ -102,6 +93,33 @@
         :agr {:gender :common
               :number :sing}
         :modifies-noun true}}
+=======
+   (let [g [#"f$"   "ve"]
+         p [#"ve$"  "f"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+
+   ;; generation: vies -> vieze
+   ;; parsing:    vieze -> vies
+   (let [g [#"s$"   "ze"]
+         p [#"ze$"  "s"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+>>>>>>> 9acc0d0c... refactor adjective morpholological rules to remove redundancies
 
    ;; generation: stom -> stomme
    ;; parsing:    stomme -> stom
@@ -133,6 +151,7 @@
 
    ;; generation: openbaar -> openbare;eenzaam -> eenzame
    ;; parsing:    openbare -> openbaar;eenzame -> eenzaam
+<<<<<<< HEAD
    ;; TODO: use (let ..) to express commonalities, as we do above for
    ;; stom->stomme and dik->dikke
    {:g [#"(a)(a)([mr])$"   "$1$3e"]
@@ -175,6 +194,32 @@
         :agr {:gender :common
               :number :sing}
         :modifies-noun true}}
+=======
+   (let [g [#"(a)(a)([mr])$"   "$1$3e"]
+         p [#"a([mr])e$"       "aa$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+
+   ;; buitengewoon -> buitengewone
+   (let [g [#"(o)(o)([n])$"   "$1$3e"]
+         p [#"o([n])e$"       "oo$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+>>>>>>> 9acc0d0c... refactor adjective morpholological rules to remove redundancies
 
    ;; generation: klein -> kleine
    ;; parsing:    kleine -> klein
@@ -186,82 +231,49 @@
    ;; 1. first group is  [^o][^o]
    ;; 2. second group is [o][^o]
    ;; 3. third group is  [^o][o]
+<<<<<<< HEAD
 
    ;; TODO: use (let ..) to express commonalities, as we do above for
    ;; stom->stomme and dik->dikke
+=======
+>>>>>>> 9acc0d0c... refactor adjective morpholological rules to remove redundancies
    ;; TODO: This seems like a lot of work to prevent one specific
    ;; problem: try to find a more concise solution
    ;; (een minder ingewikkelde oplossing).
-   {:g [#"([^o][^o].)$"  "$1e"]
-    :p [#"([^o][^o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"([^o][^o].)$"  "$1e"]
-    :p [#"([^o][^o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"([^o][^o].)$"  "$1e"]
-    :p [#"([^o][^o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
+   (let [g [#"([^o][^o].)$"  "$1e"]
+         p [#"([^o][^o].)e$" "$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
 
-   ;; TODO: use (let ..) to express commonalities, as we do above for
-   ;; stom->stomme and dik->dikke
    ;; TODO: document one or more examples of what this case covers:
-   {:g [#"([o][^o].)$"  "$1e"]
-    :p [#"([o][^o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"([o][^o].)$"  "$1e"]
-    :p [#"([o][^o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"([o][^o].)$"  "$1e"]
-    :p [#"([o][^o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
+   (let [g [#"([o][^o].)$"  "$1e"]
+         p [#"([o][^o].)e$" "$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
 
-   ;; TODO: use (let ..) to express commonalities, as we do above for
-   ;; stom->stomme and dik->dikke
    ;; TODO: document one or more examples of what this case covers:   
-   {:g [#"([^o][o].)$"  "$1e"]
-    :p [#"([^o][o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"([^o][o].)$"  "$1e"]
-    :p [#"([^o][o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"([^o][o].)$"  "$1e"]
-    :p [#"([^o][o].)e$" "$1"]
-    :u {:cat :adjective
-        :inflection :default
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
-   ])
-
+   (let [g [#"([^o][o].)$"  "$1e"]
+         p [#"([^o][o].)e$" "$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])])

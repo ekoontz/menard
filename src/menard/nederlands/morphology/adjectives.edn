@@ -168,7 +168,7 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
-   ;; TODO: document one or more examples of what this case covers:   
+   ;; TODO: document one or more examples of what this case covers:
    (let [g [#"([^o][o].)$"  "$1e"]
          p [#"([^o][o].)e$" "$1"]]
      [{:g g

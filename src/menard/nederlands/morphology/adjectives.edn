@@ -31,6 +31,8 @@
 
    ;; generation: groot -> grote
    ;; parsing:    grote -> groot
+   ;; TODO: use (let ..) to express commonalities, as we do below for
+   ;; stom->stomme and dik->dikke
    ;; TODO: merge this with eenzaam -> eenzame
    ;; rule below.
    {:g [#"ot$" "te"]
@@ -57,6 +59,8 @@
 
    ;; generation: lief -> lieve
    ;; parsing:    lieve -> lief
+   ;; TODO: use (let ..) to express commonalities, as we do below for
+   ;; stom->stomme and dik->dikke
    {:g [#"f$"   "ve"]
     :p [#"ve$"  "f"]
     :u {:cat :adjective
@@ -78,6 +82,8 @@
 
    ;; generation: vies -> vieze
    ;; parsing:    vieze -> vies
+   ;; TODO: use (let ..) to express commonalities, as we do below for
+   ;; stom->stomme and dik->dikke
    {:g [#"s$"   "ze"]
     :p [#"ze$"  "s"]
     :u {:cat :adjective
@@ -127,6 +133,8 @@
 
    ;; generation: openbaar -> openbare;eenzaam -> eenzame
    ;; parsing:    openbare -> openbaar;eenzame -> eenzaam
+   ;; TODO: use (let ..) to express commonalities, as we do above for
+   ;; stom->stomme and dik->dikke
    {:g [#"(a)(a)([mr])$"   "$1$3e"]
     :p [#"a([mr])e$"       "aa$1"]
     :u {:cat :adjective
@@ -147,6 +155,8 @@
         :modifies-noun true}}
 
    ;; buitengewoon -> buitengewone
+   ;; TODO: use (let ..) to express commonalities, as we do above for
+   ;; stom->stomme and dik->dikke
    {:g [#"(o)(o)([n])$"   "$1$3e"]
     :p [#"o([n])e$"       "oo$1"]
     :u {:cat :adjective
@@ -177,6 +187,8 @@
    ;; 2. second group is [o][^o]
    ;; 3. third group is  [^o][o]
 
+   ;; TODO: use (let ..) to express commonalities, as we do above for
+   ;; stom->stomme and dik->dikke
    ;; TODO: This seems like a lot of work to prevent one specific
    ;; problem: try to find a more concise solution
    ;; (een minder ingewikkelde oplossing).
@@ -202,6 +214,9 @@
               :number :sing}
         :modifies-noun true}}
 
+   ;; TODO: use (let ..) to express commonalities, as we do above for
+   ;; stom->stomme and dik->dikke
+   ;; TODO: document one or more examples of what this case covers:
    {:g [#"([o][^o].)$"  "$1e"]
     :p [#"([o][^o].)e$" "$1"]
     :u {:cat :adjective
@@ -224,6 +239,9 @@
               :number :sing}
         :modifies-noun true}}
 
+   ;; TODO: use (let ..) to express commonalities, as we do above for
+   ;; stom->stomme and dik->dikke
+   ;; TODO: document one or more examples of what this case covers:   
    {:g [#"([^o][o].)$"  "$1e"]
     :p [#"([^o][o].)e$" "$1"]
     :u {:cat :adjective

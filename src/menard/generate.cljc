@@ -100,7 +100,9 @@
               [])
             
             (or (u/get-in tree [::done?])
-                (and (not (empty? frontier)) (= frontier stop-generation-at)))
+                ;; enables stopping generation early, before tree is finished, for debugging partially-
+                ;; generated trees:
+                (= frontier stop-generation-at))
             (do
               (if (not (u/get-in tree [::done?]))
                 (log/debug (str "early stop of generation: " (syntax-tree-fn tree) " at: " frontier)))

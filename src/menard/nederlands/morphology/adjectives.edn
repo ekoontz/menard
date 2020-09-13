@@ -101,29 +101,29 @@
    ;; parsing:    stomme -> stom
    (let [g [#"([lt])([aeiou])([m])$" "$1$2$3$3e"]
          p [#"([lt])([aeiou])mme$"   "$1$2m"]]
-     {:g g
-      :p p
-      :u plur-modifier}
-     {:g g
-      :p p
-      :u definite-singular-modifier}
-     {:g g
-      :p p
-      :u indefinite-singular-common-modifier})
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
 
    ;; generation: dik   -> dikke
    ;; parsing:    dikke -> dik
    (let [g [#"([d])([i])([k])$" "$1$2$3$3e"]
          p [#"([d])([i])kke$"   "$1$2k"]]
-     {:g g
-      :p p
-      :u plur-modifier}
-     {:g g
-      :p p
-      :u definite-singular-modifier}
-     {:g g
-      :p p
-      :u indefinite-singular-common-modifier})
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
 
    ;; generation: openbaar -> openbare;eenzaam -> eenzame
    ;; parsing:    openbare -> openbaar;eenzame -> eenzaam

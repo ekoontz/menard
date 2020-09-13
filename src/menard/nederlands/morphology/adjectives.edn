@@ -49,51 +49,6 @@
 
    ;; generation: lief -> lieve
    ;; parsing:    lieve -> lief
-<<<<<<< HEAD
-   ;; TODO: use (let ..) to express commonalities, as we do below for
-   ;; stom->stomme and dik->dikke
-   {:g [#"f$"   "ve"]
-    :p [#"ve$"  "f"]
-    :u {:cat :adjective
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"f$"   "ve"]
-    :p [#"ve$"  "f"]
-    :u {:cat :adjective
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"f$"   "ve"]
-    :p [#"ve$"  "f"]
-    :u {:cat :adjective
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
-
-   ;; generation: vies -> vieze
-   ;; parsing:    vieze -> vies
-   ;; TODO: use (let ..) to express commonalities, as we do below for
-   ;; stom->stomme and dik->dikke
-   {:g [#"s$"   "ze"]
-    :p [#"ze$"  "s"]
-    :u {:cat :adjective
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"s$"   "ze"]
-    :p [#"ze$"  "s"]
-    :u {:cat :adjective
-        :agr {:number :sing}
-        :definite? true
-        :modifies-noun true}}
-   {:g [#"s$"   "ze"]
-    :p [#"ze$"  "s"]
-    :u {:cat :adjective
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
-=======
    (let [g [#"f$"   "ve"]
          p [#"ve$"  "f"]]
      [{:g g
@@ -119,7 +74,6 @@
       {:g g
        :p p
        :u indefinite-singular-common-modifier}])
->>>>>>> 9acc0d0c... refactor adjective morpholological rules to remove redundancies
 
    ;; generation: stom -> stomme
    ;; parsing:    stomme -> stom
@@ -151,50 +105,6 @@
 
    ;; generation: openbaar -> openbare;eenzaam -> eenzame
    ;; parsing:    openbare -> openbaar;eenzame -> eenzaam
-<<<<<<< HEAD
-   ;; TODO: use (let ..) to express commonalities, as we do above for
-   ;; stom->stomme and dik->dikke
-   {:g [#"(a)(a)([mr])$"   "$1$3e"]
-    :p [#"a([mr])e$"       "aa$1"]
-    :u {:cat :adjective
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"(a)(a)([mr])$"   "$1$3e"]
-    :p [#"a([mr])e$"       "aa$1"]
-    :u {:cat :adjective
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"(a)(a)([mr])$"   "$1$3e"]
-    :p [#"a([mr])e$"       "aa$1"]
-    :u {:cat :adjective
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
-
-   ;; buitengewoon -> buitengewone
-   ;; TODO: use (let ..) to express commonalities, as we do above for
-   ;; stom->stomme and dik->dikke
-   {:g [#"(o)(o)([n])$"   "$1$3e"]
-    :p [#"o([n])e$"       "oo$1"]
-    :u {:cat :adjective
-        :agr {:number :plur}
-        :modifies-noun true}}
-   {:g [#"(o)(o)([n])$"   "$1$3e"]
-    :p [#"o([n])e$"       "oo$1"]
-    :u {:cat :adjective
-        :definite? true
-        :agr {:number :sing}
-        :modifies-noun true}}
-   {:g [#"(o)(o)([n])$"   "$1$3e"]
-    :p [#"o([n])e$"       "oo$1"]
-    :u {:cat :adjective
-        :definite? false
-        :agr {:gender :common
-              :number :sing}
-        :modifies-noun true}}
-=======
    (let [g [#"(a)(a)([mr])$"   "$1$3e"]
          p [#"a([mr])e$"       "aa$1"]]
      [{:g g
@@ -219,7 +129,6 @@
       {:g g
        :p p
        :u indefinite-singular-common-modifier}])
->>>>>>> 9acc0d0c... refactor adjective morpholological rules to remove redundancies
 
    ;; generation: klein -> kleine
    ;; parsing:    kleine -> klein
@@ -231,12 +140,6 @@
    ;; 1. first group is  [^o][^o]
    ;; 2. second group is [o][^o]
    ;; 3. third group is  [^o][o]
-<<<<<<< HEAD
-
-   ;; TODO: use (let ..) to express commonalities, as we do above for
-   ;; stom->stomme and dik->dikke
-=======
->>>>>>> 9acc0d0c... refactor adjective morpholological rules to remove redundancies
    ;; TODO: This seems like a lot of work to prevent one specific
    ;; problem: try to find a more concise solution
    ;; (een minder ingewikkelde oplossing).

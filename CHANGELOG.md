@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.3] - 2020-09-13
+
+- Upgrade to latest dag_unify release.
+- Fix and refactor Dutch adjective morphology.
+
 ## [1.3.2] - 2020-09-12
 
 - Upgrade to latest dag_unify release.

@@ -105,5 +105,14 @@ the morphology is a set of rules, each of which looks like:"
   (reduce
    concat
    (vec (map (fn [filename]
-               (l/read-and-eval filename))
+               (->>
+                (l/read-and-eval filename)
+                
+                ;; allow a rule to be either a map (a single rule)
+                ;; or a sequence of rules (the :else case below):
+                (mapcat (fn [rule-or-rules]
+                          (cond (map? rule-or-rules)
+                                [rule-or-rules]
+                                :else rule-or-rules)))))
+
              filenames)))))

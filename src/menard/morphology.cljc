@@ -22,13 +22,15 @@ the morphology is a set of rules, each of which looks like:"
         (if (or (not inflected?)
                 (= :top inflected?))
           (filter (fn [rule]
-                    (let [{u :u [from to] :g} rule]
+                    (let [{u :u
+                           [from to] :g
+                           debug :debug} rule]
                       (and (string? canonical)
                            (re-find from canonical)
                            (let [result (unify u structure)]
                              (if (not (= :fail result))
-                               (log/debug (str "success: " u " and structure: " (strip-refs structure)))
-                               (log/debug (str "fail:    " u " and structure: " (strip-refs structure) " : " (fail-path u structure))))
+                               (log/debug (str "success: u: " u " and structure: " (strip-refs structure) " and debug: " debug))
+                               (log/debug (str "fail:     u: " u "; and structure: " (strip-refs structure) " : " (fail-path u structure) " and debug: " debug " and canonical: " canonical)))
                              (not (= :fail result))))))
                   morphology))
         exceptions (u/get-in structure [:exceptions])

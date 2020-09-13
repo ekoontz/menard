@@ -59,12 +59,18 @@
 (def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
 
-(defn generate [spec grammar lexicon-index-fn syntax-tree-fn]
+(defn generate
+  "Generate a single expression that satisfies _spec_ given the
+  _grammar_, and the lexicon indexed by _lexicon-index-fn_, and an
+  optionaly function to print out a tree _syntax-tree-fn_. See 
+  nederlands/generate and english/generate for sample syntax-tree functions."
+  [spec grammar lexicon-index-fn & [syntax-tree-fn]]
   (when counts?
     (reset! count-adds 0)
     (reset! count-lexeme-fails 0)
     (reset! count-rule-fails 0))
-  (let [result
+  (let [syntax-tree-fn (or syntax-tree-fn (fn [tree] (ser/syntax-tree tree [])))
+        result
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
     (when profiling?
       (log/debug (str "generated: " (syntax-tree-fn result) " with "

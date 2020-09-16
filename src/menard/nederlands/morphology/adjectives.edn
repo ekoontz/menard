@@ -136,7 +136,7 @@
    ;; the use of all of this '[^o]' below is to avoid:
    ;;    groot -> *groote
    ;; instead, groot -> grote is handled above with the
-   ;; ':inflection :t'e rule above.
+   ;; rule above with the comment "groot -> grote".
    ;; Note the subtle differences in the 3 groups below:
    ;; 1. first group is  [^o][^o]
    ;; 2. second group is [o][^o]

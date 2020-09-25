@@ -10,6 +10,7 @@
  "eigenwijs" [{:sem {:pred :stubborn}}]
  "eng" [{:sem {:pred :scary}}]
  "ernstig" [{:sem {:pred :serious}}]
+ "fleurig" [{:sem {:pred :bright}}]
  "geheim" [{:sem {:pred :secret}}]
  "gelauwerd" [{:sem {:pred :acclaimed}}]
  "geweldig" [{:sem {:pred :awesome}}]
@@ -48,4 +49,5 @@
  "waar" [{:sem {:pred :true}}]
  "zacht" [{:sem {:pred :soft}}]
  "zelfverzekerd" [{:sem {:pred :confident}}]
- "zenuwachtig" [{:sem {:pred :nervous}}]}
+ "zenuwachtig" [{:sem {:pred :nervous}}]
+ "zwierig" [{:sem {:pred :jaunty}}]}

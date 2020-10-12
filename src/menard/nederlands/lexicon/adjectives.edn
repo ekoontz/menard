@@ -23,6 +23,7 @@
  "nieuwsgierig" [{:sem {:pred :curious}}]
  "nieuwswaardig" [{:sem {:pred :newsworthy}}]
  "nijver" [{:sem {:pred :industrious}}]
+ "onnozel" [{:sem {:pred :silly}}]
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]
  "onzijdig" [{:sem {:pred :neutral}}]

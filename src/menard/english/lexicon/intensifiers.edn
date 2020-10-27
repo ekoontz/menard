@@ -11,6 +11,10 @@
                :subcat {:1 {:cat :adjective
                             :phrasal false}
                         :2 []}}]
+ "fairly" [{:sem {:pred :reasonably}
+            :subcat {:1 {:cat :adjective
+                         :phrasal false}
+                     :2 []}}]
  "quite" [{:sem {:pred :quite}
            :subcat {:1 {:cat :adjective
                         :phrasal false}

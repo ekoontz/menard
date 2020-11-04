@@ -114,6 +114,7 @@
  "story" [{:sem {:pred :story}}]
  "student" [{:sem {:pred :student}}]
  "study" [{:sem {:pred :study}}]
+ "summary" [{:sem {:pred :summary}}]
  "system" [{:sem {:pred :system}}]
  "table" [{:sem {:pred :table}}]
  "teacher" [{:sem {:pred :teacher}}]

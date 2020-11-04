@@ -120,6 +120,8 @@
           :agr {:gender :common}}]
  "roofdier" [{:agr {:gender :neuter}
               :sem {:pred :predator}}]
+ "samenvatting" [{:agr {:gender :common}
+                  :sem {:pred :summary}}]
  "stoel" [{:agr {:gender :common}
            :sem {:pred :chair}}]
  "tafel" [{:agr {:gender :common}

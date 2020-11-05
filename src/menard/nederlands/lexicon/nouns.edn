@@ -143,6 +143,8 @@
                :sem {:pred :airplane}}]
  "vlinder" [{:agr {:gender :common} :sem {:pred :butterfly}}]
  "vogel" [{:agr {:gender :common} :sem {:pred :bird}}]
+ "voorbereiding" [{:agr {:gender :common}
+                   :sem {:pred :preparation}}]
  "voorbeeld" [{:agr {:gender :neuter}
                :sem {:pred :example}}]
  "voorstelling" [{:agr {:gender :common}

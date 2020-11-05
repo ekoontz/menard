@@ -91,6 +91,7 @@
  "place" [{:sem {:pred :place}}]
  "point" [{:sem {:pred :point}}]
  "predator" [{:sem {:pred :predator}}]
+ "preparation" [{:sem {:pred :preparation}}]
  "problem" [{:sem {:pred :problem}}]
  "profession" [{:sem {:pred :profession}}]
  "professor" [{:sem {:pred :professor}}]

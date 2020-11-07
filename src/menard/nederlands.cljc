@@ -351,14 +351,14 @@
 ;; <functions>
 
 (defn syntax-tree [tree & [path]]
-  (s/syntax-tree tree (:morphology @model)))
+  (s/syntax-tree tree (:morphology (load-model))))
 
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]
       (-> spec
@@ -369,12 +369,12 @@
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
       (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (:morphology model)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -385,7 +385,7 @@
                        (l/matching-lexemes surface))))))))
 
 (defn parse [expression]
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               p/truncate? false

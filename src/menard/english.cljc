@@ -353,7 +353,7 @@
   [spec]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 3 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))]
@@ -372,7 +372,7 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface]
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -385,7 +385,7 @@
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
 (defn parse [expression]
-  (let [model (or @model (load-model))]
+  (let [model (load-model)]
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               l/lexicon (-> model :lexicon)

@@ -1,0 +1,1 @@
+run = "clojure -e \"(load \\\"translate\\\")(menard.translate/demo)\""

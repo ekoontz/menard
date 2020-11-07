@@ -40,6 +40,7 @@
  "tevreden" [{:sem {:pred :satisfied}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]
+ "verrast" [{:sem {:pred :surprised}}]
  "verdrietig" [{:sem {:pred :sad}}]
  "verlegen" [{:sem {:pred :shy}}]
  "verward" [{:sem {:pred :confused}}]

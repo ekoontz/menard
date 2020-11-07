@@ -52,6 +52,8 @@
           :sem {:pred :money}}]
  "gesprek" [{:agr {:gender :neuter}
              :sem {:pred :conversation}}]
+ "gevoel" [{:agr {:gender :neuter}
+             :sem {:pred :feeling}}]
  "groep" [{:agr {:gender :common}
            :sem {:pred :group}}]
  "haar" [{:agr {:gender :neuter} 

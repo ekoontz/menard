@@ -102,7 +102,7 @@
 
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/nouns.edn")        lexical-rules
                                          {:cat :noun})
-                 
+
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/numbers.edn")      lexical-rules
                                          {:cat :adjective})
                  (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/propernouns.edn")  lexical-rules
@@ -133,7 +133,6 @@
                     (log/warn (str "no inflection found for lexeme: "
                                    (u/get-in lexeme [:canonical])))
                     lexeme)
-                
                   true lexeme)
                 lexeme))))
 
@@ -154,8 +153,6 @@
                     (map (fn [vs]
                            (vec vs))
                          (vals lexicon)))))))
-         
-
    )
 
 #?(:clj
@@ -248,7 +245,7 @@
 #?(:cljs
    (def lexicon
      (-> (l/read-compiled-lexicon "menard/nederlands/lexicon/compiled.edn")
-         l/deserialize-lexicon              
+         l/deserialize-lexicon
          vals
          flatten)))
 
@@ -267,7 +264,7 @@
 
                  (= (u/get-in spec [:cat]) :det)
                  (-> @model :indices :det-lexicon)
-                 
+
                  true (-> @model :indices :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
@@ -445,7 +442,7 @@
 
 (defn roundtrip [input]
   (-> input
-      parse 
+      parse
       first
       ((fn [input-expression]
          (let [spec {:sem (u/get-in input-expression [:sem] :top)

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.4] - 2020-11-7
+
+- Fix synchronization of model-loading, so a model is only added once
+rather than once per-thread, if the menard libary is used in a
+multi-threaded application or service.
+
 ## [1.3.3] - 2020-09-13
 
 - Upgrade to latest dag_unify release.

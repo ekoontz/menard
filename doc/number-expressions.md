@@ -327,7 +327,7 @@ A slightly more general spec:
 reveals some additional overgeneralizations:
 
 ```
-verdrietig en klein opgevondene katten slapen
+verdrietig en klein opgewondene katten slapen
 jouw klein en veertig acht gebeiden slapen
 sterk en vijftig uw slimme gelden slapen
 jouw twalf en verlegen eenzaamme dagen slapen

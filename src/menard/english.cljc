@@ -258,8 +258,9 @@
 
 #?(:clj
    (defn load-model []
-     (if (nil? @model)
-       (dosync (ref-set model (create-model))))
+     (dosync
+      (if (nil? @model)
+        (ref-set model (create-model))))
      @model))
 
 (defn morph

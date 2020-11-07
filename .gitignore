@@ -26,3 +26,4 @@ compiled/
 *.rej
 compiled.edn
 profiling/*.jstack
+.cpcache/

@@ -33,7 +33,7 @@ of this Dutch sentence are used to generate an English sentence with the same* s
 \* Approximately the same semantics, modulo various bugs and misunderstandings on my part.
 
 ```
-$ echo '(do (load "menard/translate") (menard.translate/demo))' | lein repl
+$ clojure -e "(load \"translate\")(menard.translate/demo)"
 ```
 
 The output will look like [this example](demo.txt), although you'll get your own, uniquely-generated set of sentences.

@@ -1,1 +1,2 @@
+language = "Clojure"
 run = "clojure -e \"(load \\\"translate\\\")(menard.translate/demo)\""

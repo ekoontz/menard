@@ -371,15 +371,29 @@
       (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (load-model)]
+  (let [trimmed-surface (clojure.string/trim surface)
+        surface
+        (if (not (= trimmed-surface surface))
+          (do
+            (log/warn (str "had to trim surface string: [" surface "]"))
+            trimmed-surface)
+          surface)
+        model (load-model)]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (:morphology model)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
                                 (clojure.string/upper-case surface)
-                                (clojure.string/capitalize surface)]))]
-        (->> variants
-             (mapcat (fn [surface]
-                       (l/matching-lexemes surface))))))))
+                                (clojure.string/capitalize surface)]))
+            results
+            (->> variants
+                 (mapcat (fn [surface]
+                           (l/matching-lexemes surface)))
+                 (map #(dissoc % :derivation)))]
+        (if (empty? results)
+          (do
+            (log/error (str "'" surface "' not found in lexicon."))
+            [{:cat :top :sem {:pred :_} :surface "_"}])
+          results)))))
 
 (defn parse [expression]
   (let [model (load-model)]

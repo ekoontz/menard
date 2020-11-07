@@ -103,7 +103,14 @@
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
-    (let [flattened-lexicon (flatten (vals lexicon))]
+    (let [flattened-lexicon
+          (if false (flatten (vals lexicon))
+              (cons
+               {:cat :top
+                :inflected? true
+                :sem {:pred :_}
+                :canonical "_"}
+               (flatten (vals lexicon))))]
       {:non-verb-lexicon
        (->> flattened-lexicon
             (filter #(and (not (= (u/get-in % [:cat]) :verb))
@@ -380,7 +387,8 @@
                                 (clojure.string/capitalize surface)]))]
         (->> variants
              (mapcat (fn [surface]
-                       (l/matching-lexemes surface))))))))
+                       (l/matching-lexemes surface)))
+             (map #(dissoc % :derivation)))))))
 
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
@@ -397,15 +405,14 @@
   (-> "menard/english/expressions.edn"
       grammar/read-expressions))
 
-(defn demo []
-  (count
-   (->>
-    (range 0 (count expressions))
-    (map (fn [index]
-           (let [generated-expression (first (->> (take 3 (repeatedly #(generate (nth expressions index))))
-                                                  (filter #(not (nil? %)))))]
-             (println (morph generated-expression
-                             :sentence-punctuation? true))
-             (println (syntax-tree generated-expression))
-             (println)))))))
-
+(defn demo [ & [index this-many]]
+  (->>
+   (range 0 (count expressions))
+   (filter (fn [each-index]
+             (or (nil? index) (= index each-index))))
+   (map (fn [index]
+          (let [this-many (or this-many 3)]
+            (->> (take this-many (repeatedly #(generate (nth expressions index))))
+                 (map #(println (syntax-tree %)))
+                 count))))
+   count))

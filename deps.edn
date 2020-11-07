@@ -1,4 +1,4 @@
-{:paths   ["src/menard"]
+{:paths   ["src" "src/menard"]
  :deps    {org.clojure/clojure {:mvn/version "1.10.1"}
            dag_unify {:mvn/version "1.9.8"}
            log4j/log4j {:mvn/version "1.2.17"}

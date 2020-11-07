@@ -112,35 +112,3 @@
               (->> source-expressions
                    (mapcat translate)))
              (println)))))))
-
-(defn translate-with-target-spec [spec]
-  (let [target (-> spec
-                   nl/generate)
-        source (-> target
-                   nl-to-en-spec
-                   en/generate)]
-    {:source (en/morph source)
-     :target (en/morph target)}))
-
-
-(defn fast-demo []
-  (count (map (fn [i]
-                (vec (take 1 (repeatedly #(-> (nth nl/expressions i)
-                                              nl/generate
-                                              ((fn [tree]
-                                                 (println
-                                                  (str i ". "
-                                                       (nl/morph tree
-                                                                 :sentence-punctuation? true)))
-                                                 tree))
-                                              nl-to-en-spec
-                                              en/generate
-                                              ((fn [tree]
-                                                 (println
-                                                  (str "   "
-                                                       (en/morph tree
-                                                                 :sentence-punctuation? true)))))
-                                              println
-                                              ((fn [nothing]
-                                                 "")))))))
-              (range 0 (count nl/expressions)))))

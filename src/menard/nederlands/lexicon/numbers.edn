@@ -173,10 +173,10 @@
                   :number? true
                   :times 10}}]
 
- "achtig" [{
-            :agr {:number :plur}
-            :sem {:pred 8
-                  :number? true
+ "tachtig" [{
+             :agr {:number :plur}
+             :sem {:pred 8
+                   :number? true
                   :times 10}}]
 
  "negentig" [{

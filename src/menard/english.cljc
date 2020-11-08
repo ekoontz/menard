@@ -101,16 +101,20 @@
                             vs))
                       (vals lexicon))))))))
 
+(def include-blank? false)
+
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
     (let [flattened-lexicon
-          (if false (flatten (vals lexicon))
-              (cons
-               {:cat :top
-                :inflected? true
-                :sem {:pred :_}
-                :canonical "_"}
-               (flatten (vals lexicon))))]
+          (if (false? include-blank?)
+            (flatten (vals lexicon))
+            (cons
+             {:cat :top
+              :blank? true
+              :inflected? true
+              :sem {:pred :_}
+              :canonical "_"}
+             (flatten (vals lexicon))))]
       {:non-verb-lexicon
        (->> flattened-lexicon
             (filter #(and (not (= (u/get-in % [:cat]) :verb))

@@ -389,7 +389,7 @@
                  (mapcat (fn [surface]
                            (l/matching-lexemes surface)))
                  (map #(dissoc % :derivation)))]
-        (if (empty? results)
+        (if (and true (empty? results))
           (do
             (log/error (str "'" surface "' not found in lexicon."))
             [{:cat :top :sem {:pred :_} :surface "_"}])

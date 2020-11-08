@@ -55,6 +55,10 @@
   "warn in (add-rule) and (add) if no grammar rules matched the given spec"
   false)
 
+;; if true, will allow the blank lexeme (_) to be used for generation, when
+;; no other lexeme can be found for generation.
+(def ^:dynamic include-blank? false)
+
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
@@ -62,7 +66,7 @@
 (defn generate
   "Generate a single expression that satisfies _spec_ given the
   _grammar_, and the lexicon indexed by _lexicon-index-fn_, and an
-  optionaly function to print out a tree _syntax-tree-fn_. See 
+  optionaly function to print out a tree _syntax-tree-fn_. See
   nederlands/generate and english/generate for sample syntax-tree functions."
   [spec grammar lexicon-index-fn & [syntax-tree-fn]]
   (when counts?
@@ -104,7 +108,7 @@
             (do
               (log/debug (str "too deep: giving up on this tree: " (syntax-tree-fn tree) "."))
               [])
-            
+
             (or (u/get-in tree [::done?])
                 (and (not (empty? frontier)) (= frontier stop-generation-at)))
             (do
@@ -214,6 +218,12 @@
 
 (declare get-lexemes)
 
+(def blank {:cat :top
+            :blank? true
+            :inflected? true
+            :sem {:pred :_}
+            :canonical "_"})
+
 (defn add-lexeme
   "Return a lazy sequence of all trees made by adding every possible
   leaf (via (get-lexemes)) to _tree_."
@@ -235,6 +245,11 @@
                (exception (str "no lexemes for tree: " (syntax-tree tree) " at: " at "; no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
                %))
 
+           (#(if (and (empty? %)
+                      (true? include-blank?))
+               [blank]
+               %))
+           
            ;; need this to prevent eagerly generating a tree for every matching lexeme:
            (#(take (count %) %))
 

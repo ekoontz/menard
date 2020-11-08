@@ -7,4 +7,3 @@
  "ongewoon" [{:sem {:pred :unusually}}]
  "redelijk" [{:sem {:pred :reasonably}}]
  "volkomen" [{:sem {:pred :completely}}]}
-

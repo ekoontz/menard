@@ -11,6 +11,7 @@
  "black" [{:sem {:pred :black}}]
  "bright" [{:sem {:pred :bright}}]
  "busy" [{:sem {:pred :busy}}]
+ "careful" [{:sem {:pred :careful}}]
  "certain" [{:sem {:pred :certain}}]
  "clear" [{:sem {:pred :clear}}]
  "complicated" [{:sem {:pred :complicated}}]

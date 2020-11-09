@@ -48,6 +48,7 @@
  "verdacht" [{:sem {:pred :suspicious}}]
  "vervelend" [{:sem {:pred :annoying}}]
  "vies" [{:sem {:pred :dirty}}]
+ "voorzichtig" [{:sem {:pred :careful}}]
  "waanzinnig" [{:sem {:pred :insane}}]
  "waar" [{:sem {:pred :true}}]
  "zacht" [{:sem {:pred :soft}}]

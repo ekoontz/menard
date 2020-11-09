@@ -1,11 +1,10 @@
 (ns menard.test.nederlands
-  (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph parse syntax-tree]]
+  (:require [menard.nederlands :as nl :refer [analyze expressions generate morph parse syntax-tree]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(load-model)
 (deftest adjective-agreement
   (is (= "het oude huis"
          (morph (generate {:cat :noun

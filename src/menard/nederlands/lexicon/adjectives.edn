@@ -19,6 +19,7 @@
  "ingewikkeld" [{:sem {:pred :complicated}}]
  "inhalig" [{:sem {:pred :greedy}}]
  "klein" [{:sem {:pred :small}}]
+ "koppig" [{:sem {:pred :stubborn}}]
  "lief" [{:sem {:pred :nice}}]
  "nieuwsgierig" [{:sem {:pred :curious}}]
  "nieuwswaardig" [{:sem {:pred :newsworthy}}]

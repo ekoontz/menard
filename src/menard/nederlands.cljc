@@ -27,18 +27,18 @@
 #?(:clj
    (defn load-morphology []
      (m/compile-morphology-fn
-      [(model/use-path "menard/nederlands/morphology/adjectives.edn")
-       (model/use-path "menard/nederlands/morphology/misc.edn")
-       (model/use-path "menard/nederlands/morphology/nouns.edn")
-       (model/use-path "menard/nederlands/morphology/verbs.edn")])))
+      [(model/use-path "nederlands/morphology/adjectives.edn")
+       (model/use-path "nederlands/morphology/misc.edn")
+       (model/use-path "nederlands/morphology/nouns.edn")
+       (model/use-path "nederlands/morphology/verbs.edn")])))
 
 #?(:cljs
    (defn load-morphology []
      (m/compile-morphology
-      ["menard/nederlands/morphology/adjectives.edn"
-       "menard/nederlands/morphology/misc.edn"
-       "menard/nederlands/morphology/nouns.edn"
-       "menard/nederlands/morphology/verbs.edn"])))
+      ["nederlands/morphology/adjectives.edn"
+       "nederlands/morphology/misc.edn"
+       "nederlands/morphology/nouns.edn"
+       "nederlands/morphology/verbs.edn"])))
 
 ;; </morphology>
 
@@ -46,10 +46,10 @@
 
 #?(:clj
    (defn load-lexical-rules []
-     [(l/read-and-eval (model/use-path "menard/nederlands/lexicon/rules/rules-0.edn"))
-      (l/read-and-eval (model/use-path "menard/nederlands/lexicon/rules/rules-1.edn"))
-      (l/read-and-eval (model/use-path "menard/nederlands/lexicon/rules/rules-2.edn"))
-      (l/read-and-eval (model/use-path "menard/nederlands/lexicon/rules/rules-3.edn"))]))
+     [(l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-0.edn"))
+      (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-1.edn"))
+      (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-2.edn"))
+      (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-3.edn"))]))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
@@ -89,25 +89,25 @@
 #?(:clj
    (defn load-lexicon [lexical-rules]
      (merge-with concat
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/adjectives.edn")   lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/adjectives.edn")   lexical-rules
                                          {:cat :adjective})
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/adverbs.edn")      lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/adverbs.edn")      lexical-rules
                                          {:cat :adverb})
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/exclamations.edn") lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/exclamations.edn") lexical-rules
                                          {:cat :exclamation})
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/intensifiers.edn") lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/intensifiers.edn") lexical-rules
                                          {:cat :intensifier})
                  ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/misc.edn")         lexical-rules)
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/misc.edn")         lexical-rules)
 
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/nouns.edn")        lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/nouns.edn")        lexical-rules
                                          {:cat :noun})
                  
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/numbers.edn")      lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/numbers.edn")      lexical-rules
                                          {:cat :adjective})
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/propernouns.edn")  lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
                                          {:cat :noun :pronoun false :propernoun true})
-                 (compile-lexicon-source (model/use-path "menard/nederlands/lexicon/verbs.edn")        lexical-rules
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/verbs.edn")        lexical-rules
                                          {:cat :verb}))))
 
 #?(:clj
@@ -215,7 +215,7 @@
 
 #?(:clj
    (defn load-grammar []
-     (-> (model/use-path "menard/nederlands/grammar.edn")
+     (-> (model/use-path "nederlands/grammar.edn")
          grammar/read-grammar-fn
          grammar/process)))
 
@@ -282,7 +282,7 @@
 #?(:clj
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon (:lexicon @model)
-                               "src/menard/nederlands/lexicon/compiled.edn")))
+                               "src/nederlands/lexicon/compiled.edn")))
 
 #?(:cljs
    ;; note that we exclude [:exception]s from the lexemes that we use for
@@ -345,7 +345,7 @@
 (declare syntax-tree)
 
 (def expressions
-  (->> (-> "menard/nederlands/expressions.edn"
+  (->> (-> "nederlands/expressions.edn"
            grammar/read-expressions)))
 
 ;; <functions>

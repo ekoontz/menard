@@ -1,0 +1,358 @@
+[
+ ;; TODO: derive the general case from the specific expression pairs automatically rather
+ ;; than having to list these specifications in pairs:
+ ;;    (e.g. specific np, then general np, specific np with adjective, general np with adjective, etc.
+
+ ;; 0
+ {:note "intensifier adjective"
+  :example "ongewoon slim"
+  :cat :adjective
+  :mod nil
+  :subcat []
+  :phrasal true
+  :head {:phrasal false}
+  :comp {:phrasal false}}
+
+ ;; <noun expressions>
+ ;; 1
+ {:note "det noun"
+  :example "een hond"
+  :cat :noun
+  :subcat []
+  :phrasal true
+  :head {:phrasal false}
+  :comp {:phrasal false}}
+
+ ;; 2
+ {:note "noun verb"
+  :example "ik slaap"
+  :subcat []
+  :cat :verb
+  :phrasal true}
+
+  ;; 3
+ {:note "det noun | verb"
+  :example "de hond slaapt"
+  :cat :verb
+  :subcat []
+  :phrasal true
+  :head {:phrasal false}
+  :comp {:phrasal true
+         :comp {:cat :det}
+         :cat :noun}}
+
+ ;; 4
+ {:note "det | adj noun"
+  :example "de slimme kat"
+  :sem {:mod {:first {:top :top}
+              :rest []}}
+  :subcat []
+  :phrasal true
+  :cat :noun
+  :head {:phrasal true}
+  :comp {:phrasal false}}
+
+ ;; 5
+ {:note "'een huis'"
+  :dotimes 1
+  :cat :noun
+  :subcat []
+  :pronoun false
+  :agr {:number :sing}
+  :sem {:mod []
+        :quant :some
+        :pred :house}}
+
+ ;; 6
+ {:note "'de grote boeken'"
+  :dotimes 1
+  :cat :noun
+  :subcat []
+  :agr {:number :plur}  
+  :sem {:mod {:first {:pred :big
+                      :mod []}
+              :rest []}
+        :quant :the
+        :pred :book}
+
+  ;; training wheels:
+  :training-wheels {:head {:phrasal true}}}
+ 
+ ;; 7
+ {:note "'een heel klein druif'"
+  :dotimes 1
+  :cat :noun
+  :agr {:number :sing}
+  :definite? false
+  :sem {:pred :grape
+        :quant :some
+        :mod {:first {:pred :small
+                      :number? false
+                      :mod {:first {:pred :very}}}
+              :rest []}}
+  :subcat []
+
+  ;; training wheels:
+  :training-wheels {:comp {:cat :det}}}
+
+ ;; 8
+ ;; Generate some noun phrases where the
+ ;; modifying adjective has no '-e' suffix,
+ ;; e.g. 'een heel lief oud thuis'
+ {:note "[det [[intensifier adj] noun]]"
+  :example "een heel lief oud thuis"
+  :cat :noun
+  :agr {:number :sing
+        :gender :neuter}
+  :definite? false
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}
+              :rest {:first {:pred :top}}}
+        :pred :top}
+  :subcat []
+
+  :training-wheels {:comp {:cat :det}
+                    :sem {:mod {:first {:number? false}}}}}
+
+ ;; 9
+ ;; Generate some noun phrases but with less constraints,
+ ;; so usually the adjective *will* have the -e suffix.
+ ;; e.g. 'een behoorlijk vies grote tafel'
+ {:note "[det [[intensifier adj] noun]]"
+  :example "een behoorlijk vies grote tafel"
+  :cat :noun
+  :sem {:mod {:first {:pred :top
+                      :mod {:first {:pred :top}}}
+              :rest {:first {:pred :top}}}
+        :pred :top}
+  :subcat []
+  :training-wheels {:comp {:cat :det}}}
+
+ ;; 10
+ {:note "vier en twintig vogels"
+  :cat :noun
+  :subcat []
+  :sem {:mod {:first {:pred :times}
+              :rest []}
+        :pred :bird}
+  :training-wheels {:rule "np:1"
+                    :comp {:rule "conj-outer"
+                           :head {:rule "conj-inner"}}}}
+
+ ;; 11
+ {:note "de vier kliene vogels"
+  :cat :noun
+  :mod nil
+  :sem {:mod {:first {:number? true}
+              :rest {:first {:number? false}
+                     :rest []}}}
+  :phrasal true
+  :training-wheels {:head {:comp {:phrasal false}
+                           :head {:comp {:phrasal false}
+                                  :head {:phrasal false}}}
+                    :comp {:cat :det}}}
+ ;; 12
+ {:note "e.g. 'de vier en twintig kleine vogels'"
+  :example "de vier en twintig kleine vogels"
+  :cat :noun
+  :subcat []
+  :sem {:ref {:number :plur}
+        :mod {:first {:number? true}
+              :rest {:first {:number? false
+                             :rest []}}}}
+  :phrasal true
+  :training-wheels {:comp {:cat :det}
+                    :head {:comp {:comp {:phrasal false}
+                                  :head {:head {:phrasal false
+                                                :sem {:number? true}}
+                                         :comp {:phrasal false}}}
+                           :head {:head {:phrasal false}
+                                  :comp {:phrasal false}}}}}
+
+ ;; </noun expressions>
+
+ ;; <verbal expressions>
+ ;; 13
+ {:note "'De heel sterk slimme vrouwen zingen'."
+  :dotimes 1
+  :cat :verb
+  :subcat []
+  :agr {:number :plur}
+  :sem {:pred :sing
+        :subj {:pred :woman
+               :context :neutral
+               :mod {:first {:pred :strong
+                             :number? false
+                             :mod {:first {:pred :very}}}
+                     :rest {:first {:pred :smart
+                                    :number? false}
+                            :rest []}}}}
+  :training-wheels {:comp {:comp {:cat :det}}}}
+  
+
+ ;; 14
+ {:note "[det [intensifier adj | adj noun]] verb"
+  :dotimes 5
+  :example "de heel sterk slimme vrouwen zingen"
+  :cat :verb
+  :subcat []  
+  :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
+                     :rest {:first :top}}}}
+  :training-wheels {:comp {:comp {:cat :det}}}}
+
+ ;; 15
+ {:note "[det | adj noun] verb"
+  :dotimes 5
+  :cat :verb
+  :subcat []  
+  :sem {:subj {:mod {:first {:mod []}
+                     :rest []}}}}
+ 
+ ;; 16
+ {:note "Sentence with object"
+  :max-depth 3
+  :example "ik zie het"  
+  :reflexive false
+  :cat :verb
+  :subcat []
+  :sem {:pred :see
+        :obj {:top :top}}}
+
+ ;; 17
+ {:note "Sentence with reflexive object"
+  :example "ik zie me"
+  :generic true
+  :max-depth 3
+  :cat :verb
+  :subcat []
+  :phrasal true
+  :reflexive true
+  :sem {:tense :present
+        :aspect :simple
+        :pred :see}}
+
+ ;; 18
+ {:note "[s np [vp v np]]"
+  :example "ik zie de kat"
+  :phrasal true
+  :cat :verb
+  :subcat []
+  :reflexive false
+  :comp {:phrasal true
+         :cat :noun
+         :subcat []}
+  :head {:phrasal true
+         :rule "vp"
+         :head {:subcat {:2 {:cat :noun}}}
+         :comp {:cat :noun
+                :subcat []}}}
+
+ ;; 19
+ {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
+  :example "ik probeer te slapen"
+  :cat :verb
+  :subcat []
+  :reflexive false
+  :head {:cat :verb
+         :head {:modal :te}
+         :comp {:cat :verb
+                :head {:phrasal false
+                       :reflexive false}}}
+  :sem {:obj {:top :top}}
+  :training-wheels {:rule "s"
+                    :head {:rule "vp-modal-te"
+                           :comp {:rule "vp-te"}}}}
+
+ ;; 20
+ ;; ARGD, p. 37
+ {:note "modals+infinitive"
+  :example "jouw achtig eigenwijze zenuwachtige tafels proberen banen te optreden"
+  :phrasal true
+  :cat :verb
+  :subcat []
+  :comp {:phrasal true
+         :head {:phrasal true}}
+  :head {:rule "vp-modal-te"
+         :phrasal true
+         :head {:phrasal false
+                :reflexive false
+                :modal :te}
+         :comp {:rule "vp-np"
+                :head {:rule "vp-te"
+                       :comp {:modal false}
+                       :phrasal true}}}
+  :target {:rule "s"
+           :comp {:cat :noun
+                  :subcat []}
+           :head {:rule "vp"
+                  :comp {:rule "vp-inf"
+                         :comp {:rule "vp"}}}}}
+
+ ;; 21
+ {:note "using 'kunnen'"
+  :example "ze kunnen lezen"
+  :cat :verb
+  :subcat []
+  :head {:rule "vp-infinitive"
+         :head {:phrasal false
+                :canonical "kunnen"}
+         :comp {:phrasal false}}
+  :comp {:phrasal false}}
+
+ ;; 22
+ {:note "corona sentence from de Krant van de Gemente van Amsterdam"
+  :dotimes 1
+  :max-depth 3
+  :cat :verb
+  :subcat []
+  :prod? true
+  :comment "Corona en eenzaamheid moeten we samen bestrijden"
+  :phrasal true,
+  :reflexive false
+  :sem {:pred :must
+        :subj {:pred :we}
+        :obj {:obj {:pred :corona}
+              :mod {:first {:pred :together}}
+              :pred :overcome}}}
+
+ ;; 23
+ {:note "Generalization of the previous:"
+  :example "Corona moeten we samen bestrijden"
+  :max-depth 3
+  :cat :verb
+  :prod? true
+  :subcat []
+  :reflexive false
+  :sem {:pred :must
+        :obj {:obj {:pred :top}
+              :mod {:first {:pred :top}}
+              :pred :top}}
+
+  ;; TODO: move this to within the :sem above,
+  ;; or better, fix adverb number agreement so that it's not needed,
+  :training-wheels {:head {:comp {:comp {:sem {:subj {:number :plur}}}}}}}
+
+ 
+ ;; 24
+ {:note "e.g. 'de vier en twintig kleine vogels slapen'"
+  :example "de vier en twintig kleine vogels slapen"
+  :cat :verb
+  :subcat []
+  :phrasal true
+  :sem {:subj {:ref {:number :plur}
+               :mod {:first {:number? true}
+                     :rest {:first {:number? false
+                                    :rest []}}}}
+        :obj :unspec}
+  :training-wheels {:head {:phrasal false}
+                    :comp {:comp {:cat :det}
+                           :head {:comp {:comp {:phrasal false}
+                                         :head {:head {:phrasal false}
+                                                :comp {:phrasal false}}}
+                                  :head {:head {:phrasal false}
+                                         :comp {:phrasal false}}}}}}
+
+ ;; </verbal expressions>
+ ]
+
+  

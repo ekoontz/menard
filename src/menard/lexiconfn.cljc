@@ -83,6 +83,7 @@
 
 #?(:clj
    (defn read-and-eval [rules-filename]
+     (log/debug (str "read-and-eval with rules-filename: " rules-filename))
      (-> rules-filename
          ((fn [filename]
             (if (re-find #"^file:///" filename)

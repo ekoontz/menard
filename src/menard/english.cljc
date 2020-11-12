@@ -27,16 +27,16 @@
 #?(:clj
    (defn load-morphology []
      (m/compile-morphology-fn
-      [(model/use-path "menard/english/morphology/misc.edn")
-       (model/use-path "menard/english/morphology/nouns.edn")
-       (model/use-path "menard/english/morphology/verbs.edn")])))
+      [(model/use-path "english/morphology/misc.edn")
+       (model/use-path "english/morphology/nouns.edn")
+       (model/use-path "english/morphology/verbs.edn")])))
 
 #?(:cljs
    (defn load-morphology []
      (m/compile-morphology
-      ["menard/english/morphology/misc.edn"
-       "menard/english/morphology/nouns.edn"
-       "menard/english/morphology/verbs.edn"])))
+      ["english/morphology/misc.edn"
+       "english/morphology/nouns.edn"
+       "english/morphology/verbs.edn"])))
 
 ;; </morphology>
 
@@ -44,10 +44,10 @@
 
 #?(:clj
    (defn load-lexical-rules []
-     [(l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-0.edn"))
-      (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-1.edn"))
-      (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-2.edn"))
-      (l/read-and-eval (model/use-path "menard/english/lexicon/rules/rules-3.edn"))]))
+     [(l/read-and-eval (model/use-path "english/lexicon/rules/rules-0.edn"))
+      (l/read-and-eval (model/use-path "english/lexicon/rules/rules-1.edn"))
+      (l/read-and-eval (model/use-path "english/lexicon/rules/rules-2.edn"))
+      (l/read-and-eval (model/use-path "english/lexicon/rules/rules-3.edn"))]))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
@@ -70,18 +70,18 @@
    (defn load-lexicon [lexical-rules]
      (->
       (merge-with concat
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/adjectives.edn")   lexical-rules {:cat :adjective})
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/adverbs.edn")      lexical-rules {:cat :adverb})
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/exclamations.edn") lexical-rules {:cat :exclamation})
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/intensifiers.edn") lexical-rules {:cat :intensifier})
+                  (compile-lexicon-source (model/use-path "english/lexicon/adjectives.edn")   lexical-rules {:cat :adjective})
+                  (compile-lexicon-source (model/use-path "english/lexicon/adverbs.edn")      lexical-rules {:cat :adverb})
+                  (compile-lexicon-source (model/use-path "english/lexicon/exclamations.edn") lexical-rules {:cat :exclamation})
+                  (compile-lexicon-source (model/use-path "english/lexicon/intensifiers.edn") lexical-rules {:cat :intensifier})
                   
                   ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/misc.edn")         lexical-rules)
+                  (compile-lexicon-source (model/use-path "english/lexicon/misc.edn")         lexical-rules)
                   
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/nouns.edn")        lexical-rules {:cat :noun})
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/numbers.edn")      lexical-rules {:cat :adjective})
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/propernouns.edn")  lexical-rules {:cat :noun :pronoun false :propernoun true})
-                  (compile-lexicon-source (model/use-path "menard/english/lexicon/verbs.edn")        lexical-rules {:cat :verb}))
+                  (compile-lexicon-source (model/use-path "english/lexicon/nouns.edn")        lexical-rules {:cat :noun})
+                  (compile-lexicon-source (model/use-path "english/lexicon/numbers.edn")      lexical-rules {:cat :adjective})
+                  (compile-lexicon-source (model/use-path "english/lexicon/propernouns.edn")  lexical-rules {:cat :noun :pronoun false :propernoun true})
+                  (compile-lexicon-source (model/use-path "english/lexicon/verbs.edn")        lexical-rules {:cat :verb}))
       ;; The lexicon is a map where each
       ;; key is a canonical string
       ;; and each value is the list of lexemes for
@@ -226,14 +226,14 @@
 #?(:cljs
    (def loaded-grammar
      (->> (menard.grammar/read-compiled-grammar
-           "menard/english/grammar/compiled.edn")
+           "english/grammar/compiled.edn")
           (map dag_unify.serialization/deserialize))))
 
 ;; </grammar>
 
 #?(:clj
    (defn load-grammar []
-     (-> (model/use-path "menard/english/grammar.edn")
+     (-> (model/use-path "english/grammar.edn")
          grammar/read-grammar-fn
          grammar/process)))
 
@@ -290,7 +290,7 @@
 
 #?(:cljs
    (def lexicon
-     (-> (l/read-compiled-lexicon "menard/english/lexicon/compiled.edn")
+     (-> (l/read-compiled-lexicon "english/lexicon/compiled.edn")
          l/deserialize-lexicon              
          vals
          flatten)))
@@ -394,7 +394,7 @@
       (p/parse expression morph))))
 
 (def expressions
-  (-> "menard/english/expressions.edn"
+  (-> "english/expressions.edn"
       grammar/read-expressions))
 
 (defn demo []

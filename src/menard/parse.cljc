@@ -161,7 +161,7 @@
     (let [minus-1 (parses input (- n 1) span-map morph)]
       (merge minus-1
              (reduce (fn [x y]
-                       (merge-with concat x y))
+                       (merge-with (fn [a b] (lazy-cat a b)) x y))
                      (pmap-if-available
                       (fn [span-pair]
                         
@@ -185,12 +185,12 @@
                                right-lexemes (mapcat (fn [string]
                                                        (lookup-fn string))
                                                      right-strings)
-                               left-signs (concat left-lexemes (filter map? left))
-                               right-signs (concat right-lexemes (filter map? right))
+                               left-signs (lazy-cat left-lexemes (filter map? left))
+                               right-signs (lazy-cat right-lexemes (filter map? right))
                                all-results (over grammar left-signs right-signs)
                                taken-results (take take-this-many (shuffle all-results))
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                           (concat
+                           (lazy-cat
                             (if (and (not (empty? left-signs))
                                      (not (empty? right-signs)))
                               (do

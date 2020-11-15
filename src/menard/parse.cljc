@@ -135,14 +135,14 @@
                               (range 0 n)))
           spans (square-cross-product (spanpairs max))]
       (merge
-       {1 (map
+       {1 (pmap-if-available
            (fn [i]
              [i (+ 1 i)])
            (range 0 max))}
        (reduce (fn [resultant-map this-submap]
                  (merge-with union ;; TODO: this could get expensive - consider alternatives.
                              resultant-map this-submap))
-               (map
+               (pmap-if-available
                 (fn [span-pair]
                   (let [left-span (first span-pair)
                         left-boundary (first left-span)
@@ -200,7 +200,7 @@
                                   (log/warn (str "more than " take-this-many " parses; first: " (syntax-tree (first taken-results)))))
                                 (->>
                                  taken-results
-                                 (map (fn [tree]
+                                 (pmap-if-available (fn [tree]
                                         (if truncate?
                                           (truncate tree syntax-tree morph)
                                           tree)))
@@ -237,9 +237,9 @@
   (let [debug (log/debug (str "parsing input: (seq or vector) with syntax-tree: " syntax-tree))
         token-count (count tokens)
         token-count-range (range 0 token-count)
-        input-map (zipmap (map (fn [i] [i (+ i 1)])
+        input-map (zipmap (pmap-if-available (fn [i] [i (+ i 1)])
                                token-count-range)
-                          (map (fn [i] [(nth tokens i)])
+                          (pmap-if-available (fn [i] [(nth tokens i)])
                                token-count-range))]
       (log/debug (str "input map:" input-map))
       (let [all-parses
@@ -267,19 +267,19 @@
       (let [analyses
             (zipmap
              tokenizations
-             (map (fn [token]
+             (pmap-if-available (fn [token]
                     (lookup-fn token))
                   tokenizations))
             partial-parses (->> (vals (:all-parses result))
-                                (map (fn [x] (->> x (filter map?))))
+                                (pmap-if-available (fn [x] (->> x (filter map?))))
                                 (filter #(not (empty? %))))]
         (log/warn (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
-                                    (map (fn [token]
+                                    (pmap-if-available (fn [token]
                                            (str token ":" (count (get analyses token)) ""))
                                          tokenizations))
                        (str "; partial parses: " (count (mapcat (fn [parses-for-span]
-                                                                  (map syntax-tree parses-for-span))
+                                                                  (pmap-if-available syntax-tree parses-for-span))
                                                                 partial-parses)) ".")))
         (flatten partial-parses))
       (do (log/debug (str "parsed input:    \"" input "\""))

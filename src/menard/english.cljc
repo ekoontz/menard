@@ -355,7 +355,7 @@
   ;; or a promise (not sure what the difference is).
   (let [model (load-model)]
     (binding [g/max-depth (if (get-in spec [:max-depth])
-                            (+ 3 (get-in spec [:max-depth]))
+                            (+ 5 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))]
       (log/debug (str "english generate: " (diag/strip-refs spec)
                       " with max-depth: " g/max-depth))

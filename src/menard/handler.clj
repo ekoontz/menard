@@ -137,8 +137,7 @@
       (generate-with-alternations spec alts))))
 
 (defn parse-nl [_request]
-  (log/info (str "request: " _request))
-  (log/info (str "query-strings: " (-> _request :query-string)))
+  (log/debug (str "request: " _request))
   (let [string-to-parse
         (get
          (-> _request :query-params) "q")]

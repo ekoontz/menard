@@ -77,6 +77,7 @@
  "satisfied" [{:sem {:pred :satisfied}}]
  "scary" [{:sem {:pred :scary}}]
  "secret" [{:sem {:pred :secret}}]
+ "sensitive" [{:sem {:pred :sensitive}}]
  "separate" [{:sem {:pred :separate}}]
  "serious" [{:sem {:pred :serious}}]
  "shy" [{:sem {:pred :shy}}]
@@ -100,4 +101,5 @@
  "true" [{:sem {:pred :true}}]
  "white" [{:sem {:pred :white}}]
  "whole" [{:sem {:pred :whole}}]
+ "wide" [{:sem {:pred :wide}}]
  "young" [{:sem {:pred :young}}]}

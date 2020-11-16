@@ -86,25 +86,32 @@
           [])))))
 
 (defn over [parents child1 child2]
-  (mapcat
-   (fn [parent]
-     (let [[head comp] (if (= (:1 parent) (:head parent))
-                         [child1 child2]
-                         [child2 child1])]
-       (-> parent
-           (overh head)
-           (overc comp))))
-   parents))
+  (reduce
+   (fn [a b]
+     (lazy-cat a b))
+   (pmap-if-available
+    (fn [parent]
+      (let [[head comp] (if (= (:1 parent) (:head parent))
+                          [child1 child2]
+                          [child2 child1])]
+        (-> parent
+            (overh head)
+            (overc comp))))
+    parents)))
 
 (defn square-cross-product [x]
-  (mapcat (fn [each-x]
-            (filter #(not (nil? %))
-                    (map
-                     (fn [each-y]
-                       (if (= (second each-x) (first each-y))
-                         [each-x each-y]))
-                     x)))
-          x))
+  (reduce
+   (fn [a b]
+     (lazy-cat a b))
+   (pmap-if-available
+    (fn [each-x]
+      (filter #(not (nil? %))
+              (map
+               (fn [each-y]
+                 (if (= (second each-x) (first each-y))
+                   [each-x each-y]))
+               x)))
+    x)))
 
 (defn span-map [max]
   "return a map of size -> _spans_, where _size_ is an integer, and _spans_ are all

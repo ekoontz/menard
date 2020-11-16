@@ -238,7 +238,7 @@
            ;; need this to prevent eagerly generating a tree for every matching lexeme:
            (#(take (count %) %))
 
-           (pmap (fn [candidate-lexeme]
+           (map (fn [candidate-lexeme]
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -299,26 +299,26 @@
      ;;                      /
      ;; _at_ points here -> [] <- add candidate grammar rule here
      ;;
-     (pmap (fn [rule]
-             (log/debug (str "trying rule: " (:rule rule)))
-             (let [result
-                   (u/assoc-in tree
-                               at rule)]
-               (if (= :fail result)
-                 (log/debug
-                  (str "rule: " (:rule rule) " failed: "
-                       (diag/fail-path tree
-                                       (u/assoc-in {}
-                                                   at
+     (map (fn [rule]
+            (log/debug (str "trying rule: " (:rule rule)))
+            (let [result
+                  (u/assoc-in tree
+                              at rule)]
+              (if (= :fail result)
+                (log/debug
+                 (str "rule: " (:rule rule) " failed: "
+                      (diag/fail-path tree
+                                      (u/assoc-in {}
+                                                  at
                                                   rule)))))
-               result)))
+              result)))
 
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
                     (if counts? (swap! count-rule-fails inc))
                     false)))
-     (pmap
+     (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
                                    (let [one-is-head? (tr/headness? % (concat at [:1]))]

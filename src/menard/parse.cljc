@@ -212,7 +212,7 @@
                                left-signs (lazy-cat left-lexemes (filter map? left))
                                right-signs (lazy-cat right-lexemes (filter map? right))
                                all-results (over grammar left-signs right-signs)
-                               taken-results (take take-this-many (shuffle all-results))
+                               taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (lazy-cat
                             (if (and (not (empty? left-signs))

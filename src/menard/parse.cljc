@@ -232,6 +232,11 @@
                       
                       (get span-map n)))))))
 
+(def span-maps
+  (map (fn [i]
+         (span-map i))
+       (range 0 20)))
+
 (defn truncate [tree syntax-tree morph]
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
@@ -254,7 +259,10 @@
       (log/debug (str "input map:" input-map))
       (let [all-parses
             (parses input-map token-count
-                    (span-map token-count) morph)
+                    (if (< token-count 20)
+                      (nth span-maps token-count)
+                      (span-map token-count))
+                    morph)
             result
             {:token-count token-count
              :complete-parses

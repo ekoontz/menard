@@ -33,10 +33,11 @@
   (cond
     (or (seq? head)
         (vector? head))
-    (mapcat
-     (fn [child]
-       (overh parent child))
-     head)
+    (reduce (fn [& [a b]] (lazy-cat a b))
+            (pmap-if-available
+             (fn [child]
+               (overh parent child))
+             head))
     true
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
@@ -198,10 +199,9 @@
                                right (get minus-1 (second span-pair))
                                left-strings (filter string? left)
                                right-strings (filter string? right)
-                               left-lexemes (mapcat (fn [string]
-                                                      (lookup-fn string))
-                                                    left-strings)
-                               right-lexemes (mapcat (fn [string]
+                               left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                    (pmap-if-available
+                                                     (fn [string]
                                                        (lookup-fn string))
                                                      left-strings))
                                right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))

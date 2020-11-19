@@ -33,10 +33,13 @@
   (cond
     (or (seq? head)
         (vector? head))
-    (mapcat
-     (fn [child]
-       (overh parent child))
-     head)
+    (reduce
+     (fn [& [a b]]
+       (lazy-cat a b))
+     (pmap-if-available
+      (fn [child]
+        (overh parent child))
+      head))
     true
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
@@ -57,16 +60,22 @@
     (or (seq? parent)
         (vector? parent))
     (let [parents parent]
-      (mapcat (fn [parent]
-                (overc parent comp))
-              parents))
+      (reduce
+       (fn [& [a b]]
+         (lazy-cat a b))
+       (pmap-if-available (fn [parent]
+                            (overc parent comp))
+                          parents)))
     
     (or (seq? comp)
         (vector? comp))
     (let [comp-children comp]
-      (mapcat (fn [child]
-                (overc parent child))
-              comp-children))
+      (reduce
+       (fn [& [a b]]
+         (lazy-cat a b))
+       (pmap-if-available (fn [child]
+                            (overc parent child))
+                          comp-children)))
     true
     (let [result
           (u/unify! (u/copy parent)
@@ -106,7 +115,7 @@
    (pmap-if-available
     (fn [each-x]
       (filter #(not (nil? %))
-              (map
+              (pmap-if-available
                (fn [each-y]
                  (if (= (second each-x) (first each-y))
                    [each-x each-y]))
@@ -169,6 +178,7 @@
     (= n 1) input
     (> n 1)
     (let [minus-1 (parses input (- n 1) span-map morph)]
+      (log/debug (str "parses: n=" n))
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with (fn [a b] (lazy-cat a b)) x y))
@@ -189,16 +199,14 @@
                                right (get minus-1 (second span-pair))
                                left-strings (filter string? left)
                                right-strings (filter string? right)
-                               left-lexemes (mapcat (fn [string]
-                                                      (lookup-fn string))
-                                                    left-strings)
-                               right-lexemes (mapcat (fn [string]
-                                                       (lookup-fn string))
-                                                     right-strings)
+                               left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                    (pmap-if-available lookup-fn left-strings))
+                               right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                     (pmap-if-available lookup-fn right-strings))
                                left-signs (lazy-cat left-lexemes (filter map? left))
                                right-signs (lazy-cat right-lexemes (filter map? right))
                                all-results (over grammar left-signs right-signs)
-                               taken-results (take take-this-many (shuffle all-results))
+                               taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (lazy-cat
                             (if (and (not (empty? left-signs))
@@ -241,6 +249,11 @@
       (dissoc :1)
       (dissoc :2)))
 
+(def span-maps
+  (map (fn [i]
+         (span-map i))
+       (range 0 20)))
+
 (defn parse-tokens [tokens morph]
   "Return a list of all possible parse trees for a list of tokens."
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
@@ -251,10 +264,14 @@
                                token-count-range)
                           (pmap-if-available (fn [i] [(nth tokens i)])
                                token-count-range))]
-      (log/debug (str "input map:" input-map))
+    (log/debug (str "input map:" input-map))
+    (log/debug (str "parse-tokens: token-count: " token-count))
       (let [all-parses
             (parses input-map token-count
-                    (span-map token-count) morph)
+                    (if (< token-count 20)
+                      (nth span-maps token-count)
+                      (span-map token-count))
+                    morph)
             result
             {:token-count token-count
              :complete-parses

@@ -33,11 +33,10 @@
   (cond
     (or (seq? head)
         (vector? head))
-    (reduce (fn [& [a b]] (lazy-cat a b))
-            (pmap-if-available
-             (fn [child]
-               (overh parent child))
-             head))
+    (mapcat
+     (fn [child]
+       (overh parent child))
+     head)
     true
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
@@ -61,19 +60,16 @@
     (or (seq? parent)
         (vector? parent))
     (let [parents parent]
-      (reduce (fn [& [a b]] (lazy-cat a b))
-              (pmap-if-available
-               (fn [parent]
-                 (overc parent comp))
-               parents)))
+      (mapcat (fn [parent]
+                (overc parent comp))
+              parents))
+    
     (or (seq? comp)
         (vector? comp))
     (let [comp-children comp]
-      (reduce (fn [& [a b]] (lazy-cat a b))
-              (pmap-if-available
-               (fn [child]
-                 (overc parent child))
-               comp-children)))
+      (mapcat (fn [child]
+                (overc parent child))
+              comp-children))
     true
     (let [result
           (cond (= (u/get-in parent [:comp :cat])
@@ -199,20 +195,16 @@
                                right (get minus-1 (second span-pair))
                                left-strings (filter string? left)
                                right-strings (filter string? right)
-                               left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
-                                                    (pmap-if-available
-                                                     (fn [string]
+                               left-lexemes (mapcat (fn [string]
+                                                      (lookup-fn string))
+                                                    left-strings)
+                               right-lexemes (mapcat (fn [string]
                                                        (lookup-fn string))
-                                                     left-strings))
-                               right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
-                                                     (pmap-if-available
-                                                      (fn [string]
-                                                        (lookup-fn string))
-                                                      right-strings))
+                                                     right-strings)
                                left-signs (lazy-cat left-lexemes (filter map? left))
                                right-signs (lazy-cat right-lexemes (filter map? right))
                                all-results (over grammar left-signs right-signs)
-                               taken-results (take take-this-many all-results)
+                               taken-results (take take-this-many (shuffle all-results))
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (lazy-cat
                             (if (and (not (empty? left-signs))

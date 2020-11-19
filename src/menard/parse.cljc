@@ -41,8 +41,11 @@
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
     (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
-          result (u/unify parent
-                          {:head head})]
+          result (cond (= (u/get-in parent [:head :cat])
+                          (u/get-in head [:cat]))
+                       (u/unify parent
+                                {:head head})
+                       true :fail)]
       (if (not (= :fail result))
         (do
           (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
@@ -69,8 +72,11 @@
               comp-children))
     true
     (let [result
-          (u/unify! (u/copy parent)
-                    {:comp (u/copy comp)})]
+          (cond (= (u/get-in parent [:comp :cat])
+                   (u/get-in comp [:cat]))
+                (u/unify! (u/copy parent)
+                          {:comp (u/copy comp)})
+                true :fail)]
       (if (not (= :fail result))
         (do
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))

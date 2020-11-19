@@ -195,12 +195,16 @@
                                right (get minus-1 (second span-pair))
                                left-strings (filter string? left)
                                right-strings (filter string? right)
-                               left-lexemes (mapcat (fn [string]
-                                                      (lookup-fn string))
-                                                    left-strings)
-                               right-lexemes (mapcat (fn [string]
+                               left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                    (pmap-if-available
+                                                     (fn[string]
                                                        (lookup-fn string))
-                                                     right-strings)
+                                                     left-strings))
+                               right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                     (pmap-if-available
+                                                      (fn [string]
+                                                        (lookup-fn string))
+                                                      right-strings))
                                left-signs (lazy-cat left-lexemes (filter map? left))
                                right-signs (lazy-cat right-lexemes (filter map? right))
                                all-results (over grammar left-signs right-signs)

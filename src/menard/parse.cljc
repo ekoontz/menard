@@ -60,16 +60,19 @@
     (or (seq? parent)
         (vector? parent))
     (let [parents parent]
-      (mapcat (fn [parent]
-                (overc parent comp))
-              parents))
-    
+      (reduce (fn [& [a b]] (lazy-cat a b))
+              (pmap-if-available
+               (fn [parent]
+                 (overc parent comp))
+               parents)))
     (or (seq? comp)
         (vector? comp))
     (let [comp-children comp]
-      (mapcat (fn [child]
-                (overc parent child))
-              comp-children))
+      (reduce (fn [& [a b]] (lazy-cat a b))
+              (pmap-if-available
+               (fn [child]
+                 (overc parent child))
+               comp-children)))
     true
     (let [result
           (cond (= (u/get-in parent [:comp :cat])
@@ -200,7 +203,12 @@
                                                     left-strings)
                                right-lexemes (mapcat (fn [string]
                                                        (lookup-fn string))
-                                                     right-strings)
+                                                     left-strings))
+                               right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                     (pmap-if-available
+                                                      (fn [string]
+                                                        (lookup-fn string))
+                                                      right-strings))
                                left-signs (lazy-cat left-lexemes (filter map? left))
                                right-signs (lazy-cat right-lexemes (filter map? right))
                                all-results (over grammar left-signs right-signs)

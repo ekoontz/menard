@@ -41,8 +41,9 @@
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
     (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
-          result (cond (= (u/get-in parent [:head :cat])
-                          (u/get-in head [:cat]))
+          pre-check? (= (u/get-in parent [:head :cat])
+                        (u/get-in head [:cat]))
+          result (cond pre-check?
                        (u/unify parent
                                 {:head head})
                        true :fail)]
@@ -50,9 +51,10 @@
         (do
           (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
           [result])
-        (log/debug
-         (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
-              " " (diag/fail-path parent {:head head})))))))
+        (when pre-check?
+          (log/debug
+           (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
+                " " (diag/fail-path parent {:head head}))))))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"
@@ -71,9 +73,10 @@
                 (overc parent child))
               comp-children))
     true
-    (let [result
-          (cond (= (u/get-in parent [:comp :cat])
-                   (u/get-in comp [:cat]))
+    (let [pre-check? (= (u/get-in parent [:comp :cat])
+                        (u/get-in comp [:cat]))
+          result
+          (cond pre-check?
                 (u/unify! (u/copy parent)
                           {:comp (u/copy comp)})
                 true :fail)]

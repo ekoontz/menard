@@ -147,6 +147,8 @@
  "vernieling" [{:sem {:pred :destruction}}]
  "verslaggever" [{:agr {:gender :common}
                   :sem {:pred :reporter}}]
+ "versoepeling" [{:sem {:pred :relaxation}
+                  :agr {:gender :common}}]
  "vliegtuig" [{:agr {:gender :neuter}
                :sem {:pred :airplane}}]
  "vlinder" [{:agr {:gender :common} :sem {:pred :butterfly}}]

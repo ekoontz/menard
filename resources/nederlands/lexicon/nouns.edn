@@ -25,6 +25,8 @@
              :sem {:pred :business}}]
  "boodschap" [{:agr {:gender :common}
                :sem {:pred :message}}]
+ "chirurg" [{:agr {:gender :common}
+             :sem {:pred :surgeon}}]
  "dag" [{:agr {:gender :common}
            :sem {:pred :day}}]
  "dame" [{:agr {:gender :common}

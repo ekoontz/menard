@@ -117,6 +117,7 @@
  "student" [{:sem {:pred :student}}]
  "study" [{:sem {:pred :study}}]
  "summary" [{:sem {:pred :summary}}]
+ "surgeon" [{:sem {:pred :surgeon}}]
  "system" [{:sem {:pred :system}}]
  "table" [{:sem {:pred :table}}]
  "teacher" [{:sem {:pred :teacher}}]

@@ -39,6 +39,8 @@
  "eye" [{:sem {:pred :eye}}]
  "fact" [{:sem {:pred :fact}}]
  "family" [{:sem {:pred :family}}]
+ "favorite" [{:agr {:gender :common}
+              :sem {:pred :favorite}}]
  "feeling" [{:sem {:pred :feeling}}]
  "gentleman" [{:sem {:pred :man
                      :context :polite}

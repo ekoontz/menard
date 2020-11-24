@@ -58,6 +58,8 @@
              :sem {:pred :feeling}}]
  "groep" [{:agr {:gender :common}
            :sem {:pred :group}}]
+ "gunsteling" [{:agr {:gender :common}
+                :sem {:pred :favorite}}]
  "haar" [{:agr {:gender :neuter} 
           :sem {:pred :hair}}]
  "hand" [{:agr {:gender :common} 

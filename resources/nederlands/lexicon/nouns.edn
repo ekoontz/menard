@@ -110,6 +110,8 @@
                :agr {:gender :common}}]
  "oplossing" [{:sem {:pred :solution}
                :agr {:gender :common}}]
+ "optreden" [{:agr {:gender :neuter}
+              :sem {:pred :performance}}]
  "opstand" [{:sem {:pred :revolt}
              :agr {:gender :common}}]
  "overheid" [{:sem {:pred :government}

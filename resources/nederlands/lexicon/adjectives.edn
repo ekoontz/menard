@@ -2,6 +2,7 @@
  "aardig" [{:sem {:pred :nice}}]
  "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]
+ "benieuwd" [{:sem {:pred :curious}}]
  "bezig" [{:sem {:pred :busy}}]
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]

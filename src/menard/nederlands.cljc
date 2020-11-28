@@ -356,8 +356,6 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  ;; should block on this until a model exists: maybe @model should be a future
-  ;; or a promise (not sure what the difference is).
   (let [model (load-model)]
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]

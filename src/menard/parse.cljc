@@ -42,7 +42,7 @@
     ;; and save 'true' for errors.
     (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
           pre-check? (= (u/get-in parent [:head :cat])
-                        (u/get-in head [:cat]))
+                        (u/get-in head [:cat] (u/get-in parent [:head :cat])))
           result (cond pre-check?
                        (u/unify parent
                                 {:head head})
@@ -74,7 +74,7 @@
               comp-children))
     true
     (let [pre-check? (= (u/get-in parent [:comp :cat])
-                        (u/get-in comp [:cat]))
+                        (u/get-in comp [:cat] (u/get-in parent [:comp :cat])))
           result
           (cond pre-check?
                 (u/unify! (u/copy parent)

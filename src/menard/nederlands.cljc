@@ -377,10 +377,13 @@
               l/morphology (:morphology model)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
                                 (clojure.string/upper-case surface)
-                                (clojure.string/capitalize surface)]))]
-        (->> variants
-             (mapcat (fn [surface]
-                       (l/matching-lexemes surface))))))))
+                                (clojure.string/capitalize surface)]))
+            found
+            (->> variants
+                 (mapcat (fn [surface]
+                           (l/matching-lexemes surface))))]
+        (or (and (not (empty? found)) found)
+            [{:canonical "_" :inflected? true :sem {:pred :_} :phrasal false :surface "_"}])))))
 
 (defn parse [expression]
   (let [model (load-model)]

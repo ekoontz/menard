@@ -153,10 +153,7 @@
             (zipmap (keys lexicon)
                     (map (fn [vs]
                            (vec vs))
-                         (vals lexicon)))))))
-         
-
-   )
+                         (vals lexicon))))))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]

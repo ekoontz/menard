@@ -27,6 +27,7 @@
  "company" [{:sem {:pred :company}}]
  "conversation" [{:sem {:pred :conversation}}]
  "country" [{:sem {:pred :country}}]
+ "court" [{:sem {:pred :court}}]
  "day" [{:sem {:pred :day}}]
  "destination" [{:sem {:pred :destination}}]
  "destruction" [{:sem {:pred :destruction}}]

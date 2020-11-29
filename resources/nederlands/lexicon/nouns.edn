@@ -128,6 +128,8 @@
             :agr {:gender :common}}]
  "plek" [{:sem {:pred :place}
           :agr {:gender :common}}]
+ "rechtbank" [{:agr {:gender :common}
+               :sem {:pred :court}}]
  "roofdier" [{:agr {:gender :neuter}
               :sem {:pred :predator}}]
  "samenvatting" [{:agr {:gender :common}

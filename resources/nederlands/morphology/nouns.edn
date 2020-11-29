@@ -1,6 +1,7 @@
 [{:g [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
   :p [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
   :u {:cat :noun
+      :null? false
       :pronoun false
       :regular true
       :agr {:number :sing}}}
@@ -9,6 +10,7 @@
  {:g [#"([aiouy])$"   "$1's"]       ;; baby  -> baby's
   :p [#"([aiouy])'s$"  "$1"]        ;; baby's -> baby
   :u {:cat :noun
+      :null? false
       :inflection :apostrophe-s
       :pronoun false
       :agr {:number :plur}
@@ -18,6 +20,7 @@
  {:g [#"(heid)$"  "heden"]           ;; mogelijkheid -> mogelijkheden
   :p [#"heden$"   "heid"]
   :u {:cat :noun
+      :null? false
       :inflection :heid
       :pronoun false
       :agr {:number :plur}
@@ -28,6 +31,7 @@
   :p [#"^(.*)s$"                         "$1"]
   ;;                                    tafels -> tafel 
   :u {:cat :noun
+      :null? false
       :inflection :s
       :pronoun false
       :agr {:number :plur}
@@ -38,6 +42,7 @@
  {:g [#"^(.*)aa(.)$"     "$1a$2en"]  ;; haar   -> haren
   :p [#"^(.*)a(.)en$"    "$1aa$2"]   ;; haren -> haar
   :u {:cat :noun
+      :null? false
       :inflection :repeated-vowel
       :pronoun false
       :agr {:number :plur}
@@ -46,6 +51,7 @@
  {:g [#"^(.*)ee(.)$"     "$1e$2en"]  ;; been   -> benen
   :p [#"^(.*)e([nr])en$" "$1ee$2"]   ;; benen -> been
   :u {:cat :noun
+      :null? false
       :inflection :repeated-vowel
       :pronoun false
       :agr {:number :plur}
@@ -55,6 +61,7 @@
  {:g [#"^(.*)oo([g])$"  "$1o$2en"]  ;; oog -> ogen
   :p [#"^(.*)o([g])en$" "$1oo$2"]    ;; ogen -> oog
   :u {:cat :noun
+      :null? false
       :inflection :repeated-vowel
       :pronoun false
       :agr {:number :plur}
@@ -63,6 +70,7 @@
  {:g [#"^(.*ui)s$"    "$1zen"]       ;; huis   -> huizen
   :p [#"^(.*ui)zen$"  "$1s"] 
   :u {:cat :noun
+      :null? false
       :inflection :s2z
       :pronoun false
       :agr {:number :plur}
@@ -71,6 +79,7 @@
  {:g [#"^(.*ts)$"       "$1en"]      ;; fiets    -> fietsen
   :p [#"^(.*ts)en$"     "$1"]
   :u {:cat :noun
+      :null? false
       :inflection :tsen
       :pronoun false
       :agr {:number :plur}
@@ -80,6 +89,7 @@
  {:g [#"^(.*)(n)$"    "$1$2$2en"] 
   :p [#"^(.*)(n)nen$" "$1$2"] 
   :u {:cat :noun
+      :null? false
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
@@ -89,6 +99,7 @@
  {:g [#"([lr])([e])k$"        "$1$2kken"]
   :p [#"(.*)([lr])([e])kken$" "$1$2$3k"]
   :u {:cat :noun
+      :null? false
       :inflection :repeated-k
       :pronoun false
       :agr {:number :plur}
@@ -99,6 +110,7 @@
  {:g [#"^(.*a)(p)$"    "$1$2$2en"] 
   :p [#"^(.*a)(p)pen$" "$1$2"] 
   :u {:cat :noun
+      :null? false
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
@@ -106,6 +118,7 @@
  {:g [#"^(.*)(s)$"    "$1$2$2en"] 
   :p [#"^(.*)(s)sen$" "$1$2"] 
   :u {:cat :noun
+      :null? false
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
@@ -113,6 +126,7 @@
  {:g [#"^(.*)(t)$"    "$1$2$2en"] 
   :p [#"^(.*)(t)ten$" "$1$2"] 
   :u {:cat :noun
+      :null? false
       :inflection :repeated-consonant
       :pronoun false
       :agr {:number :plur}
@@ -122,6 +136,7 @@
  {:g [#"^(.*)f$"    "$1ven"]         ;; druif   -> druiven
   :p [#"^(.*)ven$"  "$1f"] 
   :u {:cat :noun
+      :null? false
       :inflection :f2v
       :pronoun false
       :agr {:number :plur}
@@ -130,6 +145,7 @@
  {:g [#"^(.*)t$"    "$1ten"]         ;; aandacht    -> aandachten
   :p [#"^(.*)ten$"  "$1t"]
   :u {:cat :noun
+      :null? false
       :inflection :ends-in-t
       :pronoun false
       :agr {:number :plur}
@@ -138,6 +154,7 @@
  {:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
   :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
   :u {:cat :noun
+      :null? false
       :inflection :en
       :pronoun false
       :agr {:number :plur}

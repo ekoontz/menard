@@ -1,5 +1,6 @@
 [{:rule :noun-semantics
-  :if {:cat :noun}
+  :if {:cat :noun
+       :null? false}
   :then [(let [number (atom :top)]
            {:agr {:number number}
             :sem {:ref {:number number}}})]}
@@ -7,6 +8,7 @@
  ;; nouns default to 'common' gender ('de X', not 'het X') if gender is not specified.
  {:rule :noun-gender-common-default
   :if {:cat :noun
+       :null? false
        :agr {:gender :unspec}}
   :then [{:agr {:gender :common}}]}
 
@@ -26,7 +28,8 @@
  ;; a level when no more intensifiers are added,
  ;; nest this :mod as the parent's [:sem :mod].
  {:rule :adjective-semantics
-  :if {:cat :adjective}
+  :if {:cat :adjective
+       :null? false}
   :then [(let [sem (atom {:mod []})]
            {:sem sem
             :mod []})]}
@@ -68,33 +71,39 @@
 
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun
+       :null? false
        :pronoun :unspec}
   :then [{:pronoun false}]}
 
  {:rule :nouns-are-not-propernouns
   :if {:cat :noun
+       :null? false
        :propernoun :unspec}
   :then [{:propernoun false}]}
 
  {:rule :nouns-have-empty-modifiers
   :if {:cat :noun
+       :null? false
        :pronoun false
        :mod :unspec}
   :then [{:mod []}]}
 
  {:rule :politeness-is-unspecified
   :if {:cat :noun
+       :null? false
        :sem {:context :unspec}}
   :then [{:sem {:context :unspec}}]}
 
  {:rule :pronoun-have-empty-modifiers
   :if {:cat :noun
+       :null? false
        :pronoun true
        :sem {:mod :unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :propernouns-have-empty-modifiers
   :if {:cat :noun
+       :null? false
        :pronoun false
        :propernoun true
        :sem {:mod :unspec}}
@@ -102,12 +111,14 @@
 
  {:rule :propernouns-are-nonreflexive
   :if {:cat :noun
+       :null? false
        :pronoun false
        :propernoun true}
   :then [{:reflexive false}]}
 
  {:rule :pronouns-are-nonreflexive
   :if {:cat :noun
+       :null? false
        :pronoun true
        :reflexive :unspec
        :propernoun false}
@@ -142,6 +153,7 @@
  
  {:rule :adjectives-not-numbers-by-default
   :if {:cat :adjective
+       :null? false
        :sem {:number? :unspec}}
   :then [{:sem {:number? false}}]}
 

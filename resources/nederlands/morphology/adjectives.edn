@@ -1,14 +1,17 @@
 (let [plur-modifier
-      {:cat :adjective
+      {:null? false
+       :cat :adjective
        :agr {:number :plur}
        :modifies-noun true}
       definite-singular-modifier
-      {:cat :adjective
+      {:null? false
+       :cat :adjective
        :definite? true
        :agr {:number :sing}
        :modifies-noun true}
       indefinite-singular-common-modifier
-      {:cat :adjective
+      {:null? false
+       :cat :adjective
        :definite? false
        :agr {:gender :common
              :number :sing}
@@ -23,6 +26,7 @@
    {:g [#"$" ""]
     :p [#"([^e])" "$1"]
     :u {:cat :adjective
+        :null? false
         :agr {:gender :neuter
               :number :sing}
         :sem {:number? false}

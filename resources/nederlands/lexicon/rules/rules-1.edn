@@ -1,11 +1,13 @@
 [{:rule :dont-inflect-pronouns
   :if {:cat :noun
+       :null? false
        :pronoun true}
   :then [{:inflected? true
           :subcat []}]}
 
  {:rule :dont-inflect-propernouns
   :if {:cat :noun
+       :null? false
        :propernoun true}
   :then [{:inflected? true
           :subcat []}]}
@@ -25,6 +27,7 @@
 
  {:rule :propernouns-are-3rd-person-singular
   :if {:cat :noun
+       :null? false
        :pronoun false
        :propernoun true}
   :then [{:agr {:number :sing

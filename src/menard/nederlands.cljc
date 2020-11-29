@@ -378,9 +378,14 @@
                                 (clojure.string/capitalize surface)]))
             found (mapcat l/matching-lexemes variants)]
         (log/debug (str "found: " (count found) " for: [" surface "]"))
-        found))))
-;;       (if (or true (not (empty? found)) found)
-;;            [{:canonical "_" :inflected? true :sem {:pred :_} :phrasal false :surface "_"}])))))
+        (if (or (not (empty? found))
+                (clojure.string/index-of surface \ ))
+          found
+          (let [found (l/matching-lexemes "_")]
+            (log/info (str "no lexemes found for: [" surface "]"))
+            (when (not (empty? found))
+              (log/info (str " but found null lexemes.")))
+            found))))))
 
 (defn parse [expression]
   (let [model (load-model)]

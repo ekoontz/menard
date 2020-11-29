@@ -1,4 +1,5 @@
-{"able" [{:sem {:pred :able}}]
+{"_" [{:null? true :sem {:pred :_}}]
+ "able" [{:sem {:pred :able}}]
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "annoying" [{:sem {:pred :annoying}}]
  "anxious" [{:sem {:pred :anxious}}]

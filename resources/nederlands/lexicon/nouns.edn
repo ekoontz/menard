@@ -1,4 +1,6 @@
-{"aandacht" [{:agr {:gender :common}
+{"_" [{:null? true
+       :sem {:pred :_}}]
+ "aandacht" [{:agr {:gender :common}
               :sem {:pred :attention}}]
  "baan" [{:agr {:gender :common}
           :sem {:pred :job}}]

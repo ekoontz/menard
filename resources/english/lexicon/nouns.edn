@@ -1,4 +1,5 @@
-{"airplane" [{:sem {:pred :airplane}}]
+{"_" [{:null? true :sem {:pred :_}}]
+ "airplane" [{:sem {:pred :airplane}}]
  "amount" [{:sem {:pred :amount}}]
  "animal" [{:sem {:pred :animal}}]
  "area" [{:sem {:pred :area}}]

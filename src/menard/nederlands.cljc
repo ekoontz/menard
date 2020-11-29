@@ -372,19 +372,16 @@
       (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (load-model)
-        trimmed (clojure.string/trim surface)]
-    (if (and (not (empty? trimmed))
-             (= surface trimmed))
-      (binding [l/lexicon (-> model :lexicon)
-                p/syntax-tree syntax-tree
-                l/morphology (:morphology model)]
-        (let [variants (vec (set [(clojure.string/lower-case surface)
-                                  (clojure.string/upper-case surface)
-                                  (clojure.string/capitalize surface)]))
-              found (mapcat l/matching-lexemes variants)]
-          (log/debug (str "found: " (count found) " for: [" surface "]"))
-          found)))))
+  (let [model (load-model)]
+    (binding [l/lexicon (-> model :lexicon)
+              p/syntax-tree syntax-tree
+              l/morphology (:morphology model)]
+      (let [variants (vec (set [(clojure.string/lower-case surface)
+                                (clojure.string/upper-case surface)
+                                (clojure.string/capitalize surface)]))
+            found (mapcat l/matching-lexemes variants)]
+        (log/debug (str "found: " (count found) " for: [" surface "]"))
+        found))))
 ;;       (if (or true (not (empty? found)) found)
 ;;            [{:canonical "_" :inflected? true :sem {:pred :_} :phrasal false :surface "_"}])))))
 

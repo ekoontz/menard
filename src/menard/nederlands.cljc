@@ -268,8 +268,11 @@
                  true (-> @model :indices :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
-                    pre-result
+                    (->>
+                     pre-result
+                     (filter #(not (true? (u/get-in % [:null?])))))
                     (->> pre-result
+                         (filter #(not (true? (u/get-in % [:null?]))))                         
                          (map #(unify % spec))
                          (filter #(not (= :fail %)))))]
        (if true

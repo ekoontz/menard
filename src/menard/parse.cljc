@@ -173,6 +173,12 @@
 
 (declare truncate)
 
+(defn lookup-fn-with-trim [string]
+  (let [trimmed (clojure.string/trim string)]
+    (if (and (not (empty? trimmed))
+             (= trimmed string))
+      (lookup-fn string))))
+
 (defn parses [input n span-map morph]
   (cond
     (= n 1) input
@@ -200,13 +206,13 @@
                                right-strings (filter string? right)
                                left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
                                                     (pmap-if-available
-                                                     (fn[string]
-                                                       (lookup-fn string))
+                                                     (fn [string]
+                                                       (lookup-fn-with-trim string))
                                                      left-strings))
                                right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
                                                      (pmap-if-available
                                                       (fn [string]
-                                                        (lookup-fn string))
+                                                        (lookup-fn-with-trim string))
                                                       right-strings))
                                left-signs (lazy-cat left-lexemes (filter map? left))
                                right-signs (lazy-cat right-lexemes (filter map? right))
@@ -298,9 +304,10 @@
       (let [analyses
             (zipmap
              tokenizations
-             (pmap-if-available (fn [token]
-                    (lookup-fn token))
-                  tokenizations))
+             (pmap-if-available
+              (fn [token]
+                (lookup-fn-with-trim token))
+              tokenizations))
             partial-parses (->> (vals (:all-parses result))
                                 (pmap-if-available (fn [x] (->> x (filter map?))))
                                 (filter #(not (empty? %))))]

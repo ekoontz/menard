@@ -10,7 +10,7 @@
                :number? true
                :pred 0}}]
 
- "eén" [{
+ "één" [{
          :sem {:pred 1
                :number? true
                :times 1}

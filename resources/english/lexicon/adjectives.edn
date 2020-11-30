@@ -22,6 +22,7 @@
  "curious" [{:sem {:pred :curious}}]
  "cute" [{:sem {:pred :cute}}]
  "different" [{:sem {:pred :different}}]
+ "difficult" [{:sem {:pred :difficult}}]
  "disappointed" [{:sem {:pred :disappointed}}]
  "dirty" [{:sem {:pred :dirty}}]
  "early" [{:sem {:pred :early}}]

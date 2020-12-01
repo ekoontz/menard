@@ -153,6 +153,8 @@
                   :sem {:pred :reporter}}]
  "versoepeling" [{:sem {:pred :relaxation}
                   :agr {:gender :common}}]
+ "vertraging" [{:sem {:pred :delay}
+                :agr {:gender :common}}]
  "vliegtuig" [{:agr {:gender :neuter}
                :sem {:pred :airplane}}]
  "vlinder" [{:agr {:gender :common} :sem {:pred :butterfly}}]

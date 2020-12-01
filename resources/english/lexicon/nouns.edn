@@ -36,6 +36,7 @@
  "dinner" [{:sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"
  "dog" [{:sem {:pred :dog}}]
+ "donkey" [{:sem {:pred :donkey}}]
  "education" [{:sem {:pred :education}}]
  "example" [{:sem {:pred :example}}] 
  "experience" [{:sem {:pred :experience}}]
@@ -54,6 +55,7 @@
  "girl" [{:sem {:pred :girl}
           :agr {:human true
                 :gender :fem}}]
+ "goat" [{:sem {:pred :goat}}]
  "government" [{:sem {:pred :government}}]
  "grape" [{:sem {:pred :grape}}]
  "group" [{:sem {:pred :group}}]

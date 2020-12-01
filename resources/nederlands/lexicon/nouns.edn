@@ -44,6 +44,8 @@
                  :sem {:pred :loneliness}}]
  "ervaring" [{:agr {:gender :common}
               :sem {:pred :experience}}]
+ "ezel" [{:agr {:gender :common}
+          :sem {:pred :donkey}}]
  "familie" [{:agr {:gender :common}
              :sem {:pred :family}}]
  "feit" [{:agr {:gender :neuter}
@@ -52,6 +54,8 @@
            :sem {:pred :bike}}]
  "gebied" [{:agr {:gender :neuter}
             :sem {:pred :area}}]
+ "geit" [{:agr {:gender :common}
+          :sem {:pred :goat}}]
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
  "gesprek" [{:agr {:gender :neuter}

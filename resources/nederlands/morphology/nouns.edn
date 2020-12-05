@@ -1,4 +1,9 @@
-[{:g [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
+[{:g [#"^(.*)$"       "$1"]
+  :p [#"^(.*)$"       "$1"]
+  :u {:cat :noun
+      :inflection :null
+      :null? true}}
+ {:g [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
   :p [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
   :u {:cat :noun
       :null? false

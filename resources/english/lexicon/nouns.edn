@@ -1,4 +1,4 @@
-{"_" [{:null? true :sem {:pred :_}}]
+{"_" [{:null? true :inflected? true :sem {:pred :_}}]
  "airplane" [{:sem {:pred :airplane}}]
  "amount" [{:sem {:pred :amount}}]
  "animal" [{:sem {:pred :animal}}]

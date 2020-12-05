@@ -55,10 +55,12 @@
   :comp {:cat :adjective
          :modifies-noun true}
   :options [;; vier kleine (but: *kleine vier)
-            {:mod {:first {:number? true}
+            {:head {:null? false}
+             :mod {:first {:number? true}
                    :rest {:first {:number? false}}}}
             ;; kleine blauwe
-            {:mod {:first {:number? false}
+            {:head {:null? false}
+             :mod {:first {:number? false}
                    :rest {:first {:number? false}}}}
             ;; kleine
             {:mod {:first {:number? false}

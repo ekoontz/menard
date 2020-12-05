@@ -8,7 +8,8 @@
    [menard.model :as model]
    [menard.english :as en]
    [menard.nederlands :as nl]
-   [menard.translate :as tr]))
+   [menard.translate :as tr]
+   [ring.adapter.jetty :as jetty]))
 
 (defn json-response
   "Call a handler on a request, which returns a clojure data structure.
@@ -141,7 +142,7 @@
   (let [string-to-parse
         (get
          (-> _request :query-params) "q")]
-    (log/info (str "parsing input: " string-to-parse))
+    (log/info (str "parsing input: '" string-to-parse "'"))
     (let [parses (->> string-to-parse clojure.string/lower-case nl/parse
                       (filter #(or (= [] (u/get-in % [:subcat]))
                                    (= :top (u/get-in % [:subcat]))
@@ -164,7 +165,7 @@
   (let [string-to-parse
         (get
          (-> _request :query-params) "q")]
-    (log/debug (str "parsing input: " string-to-parse))
+    (log/debug (str "parsing input: '" string-to-parse "'"))
     (let [parses (->> string-to-parse clojure.string/lower-case en/parse
                       (filter #(or (= [] (u/get-in % [:subcat]))
                                    (= :top (u/get-in % [:subcat]))
@@ -175,3 +176,7 @@
        :sem (->> parses
                  (map #(u/get-in % [:sem]))
                  (map dag-to-string))})))
+
+(defn -main [& [port]]
+  (jetty/run-jetty app
+                   {:port 5000 :join? false}))

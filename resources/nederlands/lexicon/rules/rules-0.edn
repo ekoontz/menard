@@ -1,4 +1,7 @@
-[{:rule :noun-semantics
+[{:rule :null-is-false-by-default
+  :if {:null? false}
+  :then [{:null? false}]}
+ {:rule :noun-semantics
   :if {:cat :noun
        :null? false}
   :then [(let [number (atom :top)]

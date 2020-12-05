@@ -8,14 +8,7 @@
 # c5n.xlarge    |          | $0.21/hour | 3500
 # c6g.2xlarge   |                         1700
 # c6g.12xlarge  |                          726
-# c6gd.medium   |          | $0.04/hour | 8300
-# c6gd.large    |          | $0.08/hour | 4600
-# c6gd.xlarge   |            $0.15/hour | 2765
-# c6gd.2xlarge  |            $0.30/hour | 2166
-# c6gd.4xlarge  |            $0.60/hour | 1530
-# c6gd.8xlarge  |            $1.20/hour | 1250 
-# c6gd.12xlarge |                       |  710
-# c6gd.16xlarge |                       | 1070
+# c6g.16xlarge               $2.18/hour |  300             
 # t4g.2xlarge   |            $0.26/hour | 1152
 # a1.4xlarge    |                       | 3300
 

@@ -385,9 +385,9 @@
                 (clojure.string/index-of surface \ ))
           found
           (let [found (l/matching-lexemes "_")]
-            (log/info (str "no lexemes found for: [" surface "]"))
-            (when (not (empty? found))
-              (log/info (str " but found null lexemes.")))
+            (log/info (str "no lexemes found for: [" surface "]"
+                           (when (not (empty? found))
+                             (str ", but found null lexemes."))))
             found))))))
 
 (defn parse [expression]

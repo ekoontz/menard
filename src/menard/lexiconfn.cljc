@@ -130,7 +130,7 @@
         (->> morphology
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
-                      (if (re-find from surface)
+                      (when (re-find from surface)
                         {:canonical (clojure.string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))

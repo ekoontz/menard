@@ -3,7 +3,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [menard.exception :refer [exception]]
-   [dag_unify.core :as u :refer [unify]]
+   [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :as s]))
 
@@ -13,8 +13,7 @@
   (let [st (syntax-tree tree)
         grandparent (u/get-in tree (-> at butlast butlast))
         parent (u/get-in tree (-> at butlast))
-        uncle (u/get-in grandparent [:head])
-        cond1 (not (empty? (-> at butlast butlast)))
+        cond1 (seq (-> at butlast butlast))
         cond2 (= (get parent :head)
                  (get parent :1))
         cond3 (= (get grandparent :head)
@@ -40,7 +39,7 @@
           (do (log/debug (str "cond5? " cond5 " " st " at: " at))
               false)
           
-          true (exception (str "should never get here: did you miss adding a cond-check in foldable?")))))
+          :else (exception (str "should never get here: did you miss adding a cond-check in foldable?")))))
 
 ;; fold up a tree like this:
 ;;
@@ -69,9 +68,9 @@
       (log/debug (str "folding    " at " " (syntax-tree tree)))
       (log/debug (str "nephew-complement: " (syntax-tree nephew-complement)))
       (swap! (get grandparent :comp)
-             (fn [old] nephew-complement))
+             (fn [_] nephew-complement))
       tree)
-    true
+    :else
     tree))
 
 (defn headness? [tree at]
@@ -138,13 +137,13 @@
          (-> syntax-tree :2 :head?))
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
     
-    true (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
+    :else (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
   (log/debug (str "updating syntax-tree:" (syntax-tree tree) " at: " at))
   (cond (= :fail tree)
         tree
-        true
+        :else
         (let [head? (headness? tree at)
               ;; ^ not sure if this works as expected, since _tree_ and (:syntax-tree _tree) will differ
               ;; if folding occurs.
@@ -170,7 +169,7 @@
                 (get tree :1))))
     (cons :1 (numeric-path (u/get-in tree [(first at)]) (rest at)))
 
-    true
+    :else
     (cons :2 (numeric-path (u/get-in tree [(first at)]) (rest at)))))
 
 (defn remove-trailing-comps [at]
@@ -178,7 +177,7 @@
         (= :comp
            (last at))
         (remove-trailing-comps (butlast at))
-        true at))
+        :else at))
 
 ;; TODO: consider using dag_unify.dissoc/dissoc-in.
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
@@ -198,7 +197,7 @@
           (cond
             (empty? v)
             (dissoc m head)
-            true
+            :else
             (do
               (log/debug (str "type of head: " (get m head)))
               (cond
@@ -206,13 +205,13 @@
                 (do
                   (log/debug (str "doing swap!"))
                   (swap! (get m head)
-                         (fn [x] v))
+                         (fn [_] v))
                   m)
-                true
+                :else
                 (do
                   (log/debug (str "doing default: " assoc))
                   (assoc m head v))))))
-        true
+        :else
         (do
           (log/debug (str "HEAD(alone):" head))
           (dissoc m head))))
@@ -222,39 +221,32 @@
   (cond
     (= :fail tree)
     tree
-    true
-    (let [parent-at (-> at butlast)
-          parent (u/get-in tree parent-at)
-          grandparent-at (-> parent-at butlast vec)
-          grandparent (u/get-in tree grandparent-at)
-          uncle-head-at (-> grandparent-at (concat [:head]) vec)
-          nephew-at (-> parent-at (concat [:head]))
-          nephew (u/get-in tree nephew-at)]
-      ;; TODO: also truncate :head at this point, too:
-      (log/debug (str "truncate@: " at "(at) " (syntax-tree tree)))
-      (if (= :comp (last at))
-        (let [compless-at (if (empty? (remove-trailing-comps at))
-                            ;; in this case, we have just added the final :comp at the
-                            ;; root of the tree, so simply truncate that:
-                            [:comp]
+    :else
+    ;; TODO: also truncate :head at this point, too:
+    (if (= :comp (last at))
+      (let [compless-at (if (empty? (remove-trailing-comps at))
+                          ;; in this case, we have just added the final :comp at the
+                          ;; root of the tree, so simply truncate that:
+                          [:comp]
+                          
+                          ;; otherwise, ascend the tree as high as there are :comps
+                          ;; trailing _at_.
+                          (remove-trailing-comps at))]
+        (log/debug (str "truncate@: " compless-at " (Compless at) " (syntax-tree tree)))
+        (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (syntax-tree tree)))
+        (-> tree
+            (dissoc-in compless-at)
+            (dissoc-in (numeric-path tree compless-at))
+            (u/assoc-in! (concat compless-at [:menard.generate/done?]) true)
+            (dissoc-in (concat (butlast compless-at) [:head :subcat]))
+            (dissoc-in (concat (butlast compless-at) [:head :derivation]))
+            (dissoc-in (concat (butlast compless-at) [:head :sem]))
+            (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
+            (dissoc-in (concat (butlast compless-at) [:1]))
+            (dissoc-in (concat (butlast compless-at) [:2]))
+            ((fn [tree]
+               (log/debug (str "afterwards: " (syntax-tree tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
+                               (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
+               true))))
+      tree)))
 
-                            ;; otherwise, ascend the tree as high as there are :comps
-                            ;; trailing _at_.
-                            (remove-trailing-comps at))]
-          (log/debug (str "truncate@: " compless-at " (Compless at) " (syntax-tree tree)))
-          (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (syntax-tree tree)))
-          (-> tree
-              (dissoc-in compless-at)
-              (dissoc-in (numeric-path tree compless-at))
-              (u/assoc-in! (concat compless-at [:menard.generate/done?]) true)
-              (dissoc-in (concat (butlast compless-at) [:head :subcat]))
-              (dissoc-in (concat (butlast compless-at) [:head :derivation]))
-              (dissoc-in (concat (butlast compless-at) [:head :sem]))
-              (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
-              (dissoc-in (concat (butlast compless-at) [:1]))
-              (dissoc-in (concat (butlast compless-at) [:2]))
-              ((fn [tree]
-                 (log/debug (str "afterwards: " (syntax-tree tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
-                                 (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-                 (cond true tree)))))
-        tree))))

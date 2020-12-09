@@ -10,10 +10,13 @@
             [menard.grammar :as grammar]
             [menard.model :as model]
             [menard.morphology :as m]
+            [menard.nesting]
             [menard.parse :as p]
             [menard.serialization :as s]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
+            [menard.subcat]
+            [menard.ug]
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.diagnostics :as diag]
             [dag_unify.serialization :refer [deserialize]]))

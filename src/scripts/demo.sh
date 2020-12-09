@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo "(load \"menard/translate\")(menard.translate/demo)" | lein repl
+echo "(load \"translate\")(menard.translate/demo)" | lein repl

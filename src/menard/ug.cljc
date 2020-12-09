@@ -1,7 +1,4 @@
-(ns menard.ug
-  (:require
-   [dag_unify.core :as u :refer [unify]]
-   [dag_unify.dissoc :refer [dissoc-in]]))
+(ns menard.ug)
 
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.
@@ -29,8 +26,7 @@
 (comment {:head {:sem {:subj {:ref [[1] :top]}}}
           :comp {:sem {:subj [1]}}})
 (def subj-ref
-  (let [head-mod (atom :top)
-        subj-ref (atom :top)]
+  (let [subj-ref (atom :top)]
     {:head {:sem {:subj {:ref subj-ref}}}
      :comp {:sem {:subj subj-ref}}}))
 
@@ -89,8 +85,7 @@
 ;; TODO: :interogative? into :sem if
 ;; possible, so we don't need to specify it here.
 (def head-rule
-  (let [comp-cat (atom :top)
-        comp-derivation (atom :top)
+  (let [comp-derivation (atom :top)
         head-agr (atom :top)
         head-cat (atom :top)
         head-derivation (atom :top)

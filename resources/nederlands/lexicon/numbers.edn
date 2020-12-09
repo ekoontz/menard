@@ -149,11 +149,11 @@
                    :number? true                   
                    :pred 2}}]
 
- "deertig" [{
-             :agr {:number :plur}
-             :sem {:times 10
-                   :number? true
-                   :pred 3}}]
+ "dertig" [{
+            :agr {:number :plur}
+            :sem {:times 10
+                  :number? true
+                  :pred 3}}]
 
  "veertig" [{
              :agr {:number :plur}

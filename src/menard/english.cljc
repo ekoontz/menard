@@ -10,15 +10,13 @@
             [menard.grammar :as grammar]
             [menard.model :as model]
             [menard.morphology :as m]
-            [menard.nesting :as nest]
             [menard.parse :as p]
             [menard.serialization :as s]
-            [menard.subcat :as su]
-            [menard.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]
-            [dag_unify.diagnostics :as diag]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag]
+            [dag_unify.serialization :refer [deserialize]]))
 ;;
 ;; For generation and parsing of English.
 ;;
@@ -227,7 +225,7 @@
    (def loaded-grammar
      (->> (menard.grammar/read-compiled-grammar
            "english/grammar/compiled.edn")
-          (map dag_unify.serialization/deserialize))))
+          (map deserialize))))
 
 ;; </grammar>
 

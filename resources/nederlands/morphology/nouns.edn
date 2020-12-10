@@ -12,8 +12,8 @@
       :agr {:number :sing}}}
 
  ;; if a singular noun ends in a vowel (except 'e' but including 'y'), then noun pluralization ends in -'s (apostrophe + s).
- ;; we include both: ' and ’ as apostrophe-variants
- {:g [#"([aiouy])$"      "$1['’]s"]       ;; baby  -> baby's
+ ;; for parsing, we include both: ' and ’ as apostrophe-variants
+ {:g [#"([aiouy])$"      "$1's"]       ;; baby  -> baby's
   :p [#"([aiouy])['’]s$" "$1"]        ;; baby's -> baby
   :u {:cat :noun
       :null? false

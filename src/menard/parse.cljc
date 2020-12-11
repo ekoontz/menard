@@ -10,7 +10,7 @@
 (def parse-only-one? false)
 
 (def ^:dynamic lookup-fn
-  (fn [_]
+  (fn [token]
     []))
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree)
@@ -37,16 +37,16 @@
      (fn [child]
        (overh parent child))
      head)
-    :else
-    ;; TODO: :else here assumes that both parent and head are maps: make this assumption explicit,
+    true
+    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
-    (let [pre-check? (= (u/get-in parent [:head :cat])
+    (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
+          pre-check? (= (u/get-in parent [:head :cat])
                         (u/get-in head [:cat] (u/get-in parent [:head :cat])))
           result (cond pre-check?
                        (u/unify parent
                                 {:head head})
-                       :else :fail)]
-      (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
+                       true :fail)]
       (if (not (= :fail result))
         (do
           (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
@@ -56,9 +56,8 @@
            (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
                 " " (diag/fail-path parent {:head head}))))))))
 
-(defn overc 
+(defn overc [parent comp]
   "add given child as the complement of the parent"
-  [parent comp]
   (cond
     (or (seq? parent)
         (vector? parent))
@@ -73,14 +72,14 @@
       (mapcat (fn [child]
                 (overc parent child))
               comp-children))
-    :else
+    true
     (let [pre-check? (= (u/get-in parent [:comp :cat])
                         (u/get-in comp [:cat] (u/get-in parent [:comp :cat])))
           result
           (cond pre-check?
                 (u/unify! (u/copy parent)
                           {:comp (u/copy comp)})
-                :else :fail)]
+                true :fail)]
       (if (not (= :fail result))
         (do
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
@@ -118,12 +117,12 @@
       (filter #(not (nil? %))
               (map
                (fn [each-y]
-                 (when (= (second each-x) (first each-y))
+                 (if (= (second each-x) (first each-y))
                    [each-x each-y]))
                x)))
     x)))
 
-(defn span-map 
+(defn span-map [max]
   "return a map of size -> _spans_, where _size_ is an integer, and _spans_ are all
                             the [left,right] pairs whose combined size is equal to _size_., and _size_ ranges from 1 to _max_."
   ;; for example:
@@ -134,13 +133,16 @@
   ;;  3 ([[0 2] [2 3]] [[1 2] [2 3]] ... ) ;; each pair has a combined size of 3
   ;;  4 ([[0 3] [3 4]] [[1 2] [2 4]] ..
   ;;  5 ([[0 4] [4 5]] [[1 3] [3 5]] ... ) } ;; each pair has a combined size of 5.
-  [max]
   (cond
     (< max 2)
     nil
 
-    :else
-    (let [spanpairs (fn [n]
+    true
+    (let [
+          ;; TODO: rather than this function, make a static lookup table, at least for n < (e.g.) 5.
+          ;; e.g. (spanpairs 5) =>
+          ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
+          spanpairs (fn [n]
                       (reduce
                        (fn [a b] (lazy-cat a b))
                        (pmap-if-available
@@ -173,8 +175,8 @@
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]
-    (when (and (seq? trimmed)
-               (= trimmed string))
+    (if (and (not (empty? trimmed))
+             (= trimmed string))
       (lookup-fn string))))
 
 (defn parses [input n span-map morph]
@@ -218,12 +220,12 @@
                                taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (lazy-cat
-                            (if (and (seq? left-signs)
-                                     (seq? right-signs))
+                            (if (and (not (empty? left-signs))
+                                     (not (empty? right-signs)))
                               (do
                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
                                                 (string/join ", " (set (map syntax-tree right-signs)))))
-                                (when (> (count taken-plus-one-results) (count taken-results))
+                                (if (> (count taken-plus-one-results) (count taken-results))
                                   (log/warn (str "more than " take-this-many " parses; first: " (syntax-tree (first taken-results)))))
                                 (->>
                                  taken-results
@@ -263,12 +265,11 @@
       (dissoc :1)
       (dissoc :2)))
 
-(defn parse-tokens
+(defn parse-tokens [tokens morph]
   "Return a list of all possible parse trees for a list of tokens."
-  [tokens morph]
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
-  (log/debug (str "parsing input: (seq or vector) with syntax-tree: " syntax-tree))
-  (let [token-count (count tokens)
+  (let [debug (log/debug (str "parsing input: (seq or vector) with syntax-tree: " syntax-tree))
+        token-count (count tokens)
         token-count-range (range 0 token-count)
         input-map (zipmap (pmap-if-available (fn [i] [i (+ i 1)])
                                token-count-range)
@@ -297,7 +298,7 @@
   [input morph]
   (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
   ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
-  (let [tokenizations (filter #(seq? %) (string/split input split-on))
+  (let [tokenizations (filter #(not (empty? %)) (string/split input split-on))
         result (parse-tokens tokenizations morph)]
     (if (empty? (:complete-parses result))
       (let [analyses
@@ -309,7 +310,7 @@
               tokenizations))
             partial-parses (->> (vals (:all-parses result))
                                 (pmap-if-available (fn [x] (->> x (filter map?))))
-                                (filter seq?))]
+                                (filter #(not (empty? %))))]
         (log/warn (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (pmap-if-available (fn [token]

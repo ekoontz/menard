@@ -31,7 +31,7 @@
                                    (diag/fail-path lexeme consequent))]
             (log/error error-message)
             (exception error-message))
-          true
+          :else
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
               [(if (and include-derivation? rule)
@@ -58,7 +58,7 @@
 
           (and if-no-rules-matched? include-derivation?)
           [(unify lexeme {:derivation {rule-group {::no-rules-matched? true}}})]
-          true
+          :else
           [lexeme])))
 
 (defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched? rule-group]

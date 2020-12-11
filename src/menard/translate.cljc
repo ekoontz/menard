@@ -2,13 +2,11 @@
   (:require [menard.nederlands :as nl]
             [menard.english :as en]
             [menard.generate :as g]
-            [menard.subcat :as su]
-            [menard.ug :as ug]            
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]
-            [dag_unify.serialization :refer [deserialize serialize]]            
-            [dag_unify.diagnostics :as diag :refer [strip-refs]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.serialization :refer [serialize]]
+            [dag_unify.diagnostics :as diag]))
 
 (def generate-this-many 1)
 
@@ -30,13 +28,13 @@
                :gender (let [gender (u/get-in nl-expression [:agr :gender] :top)]
                          (cond (or (= gender :masc) (= gender :fem))
                                gender
-                               true :top))}
+                               :else :top))}
          :cat (u/get-in nl-expression [:cat])
          :max-depth (u/get-in nl-expression [:target :max-depth] g/max-depth)
          :phrasal true
          :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
                           false
-                          true
+                          :else
                           (u/get-in nl-expression [:reflexive] :top))
 
          :sem (u/get-in nl-expression [:sem])
@@ -58,8 +56,8 @@
     (en/generate spec)))
 
 (defn translate [source-expression]
-  (if (:note source-expression)
-    (if false (println (str ";; " (:note source-expression)))))
+  (when (:note source-expression)
+    (when false (println (str ";; " (:note source-expression)))))
   ;; 1. print the surface form of the source expression:
 
   (-> source-expression
@@ -78,7 +76,8 @@
       (#(en-generate % true))
 
       ;; 2.c. print the surface form of the target expression:
-      (#(str (reduce str (map (fn [x] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))
+      (#(str (reduce str (map
+                          (fn [_] (str " ")) (range 0 (* 1 (count (nl/morph source-expression :sentence-punctuation? true))))))
              "|" (en/morph % :sentence-punctuation? true)))
 
       println))
@@ -95,7 +94,7 @@
                                           (:dotimes (nth nl/expressions index))
                                           (:dotimes (nth nl/expressions index))
 
-                                          true
+                                          :else
                                           5)
                  source-expressions
                  (let [spec (nth nl/expressions index)]
@@ -105,8 +104,10 @@
              ;; for each expression:
              ;; generate it, and print the surface form
              ;; parse the surface form and return the first parse tree.
-             (if (:note (nth nl/expressions index))
-               (println (str "# " (:note (nth nl/expressions index)) "; " generate-this-many " example" (if (not (= 1 generate-this-many)) "s") ":")))
+             (when (:note (nth nl/expressions index))
+               (println (str "# " (:note (nth nl/expressions index)) "; "
+                             generate-this-many " example"
+                             (when (not (= 1 generate-this-many)) "s") ":")))
              (println "---")
              (count
               (->> source-expressions

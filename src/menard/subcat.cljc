@@ -1,7 +1,4 @@
-(ns menard.subcat
-  (:require
-   [dag_unify.core :as u :refer [unify]]
-   [dag_unify.dissoc :refer [dissoc-in]]))
+(ns menard.subcat)
 
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.

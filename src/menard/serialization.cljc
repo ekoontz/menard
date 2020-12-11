@@ -12,7 +12,7 @@
     (u/get-in tree [:2])
     (str "_ "
          (morph (u/get-in tree [:2]) morphology))
-    true
+    :else
     (default-morph-fn tree morphology)))
 
 (defn syntax-tree [tree morphology]
@@ -23,7 +23,7 @@
     (u/get-in tree [:1])
     (str "["
          (:rule tree "?")
-         (if (:variant tree) (str "(" (:variant tree) ")" ""))
+         (when (:variant tree) (str "(" (:variant tree) ")" ""))
          " "
          (if (or (= true (u/get-in tree [:1 :head?]))
                  (= (u/get-in tree [:1]) (u/get-in tree [:head])))
@@ -43,5 +43,5 @@
          (if (= true (u/get-in tree [:2 :head?]))
            "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology) "]")
-    true
+    :else
     (default-morph-fn tree morphology)))

@@ -3,10 +3,11 @@
   (:require [clojure.string :as string]
             [dag_unify.core :refer [get-in]]))
 
-(defn replace-from-list [regexp-list target]
+(defn replace-from-list
   "Apply the first regexp pair (from=>to) from regexp-list to target;
    if this regexp changes target, return changed string,
    otherwise, try next regexp."
+  [regexp-list target]
   (if (> (count regexp-list) 0)
     (let [regexp-pair (first regexp-list)
           regexp-from (first regexp-pair)
@@ -37,5 +38,5 @@
          (get-in structure [language-feature]))
     (str "'" (get-in structure [language-feature]) "'")
 
-    true
+    :else
     (str "-- " structure)))

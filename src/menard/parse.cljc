@@ -117,7 +117,7 @@
       (filter #(not (nil? %))
               (map
                (fn [each-y]
-                 (when (= (second each-x) (first each-y))
+                 (if (= (second each-x) (first each-y))
                    [each-x each-y]))
                x)))
     x)))
@@ -176,8 +176,8 @@
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]
-    (when (and (not (empty? trimmed))
-               (= trimmed string))
+    (if (and (not (empty? trimmed))
+             (= trimmed string))
       (lookup-fn string))))
 
 (defn parses [input n span-map morph]
@@ -221,12 +221,12 @@
                                taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (lazy-cat
-                            (when (and (not (empty? left-signs))
-                                       (not (empty? right-signs)))
+                            (if (and (not (empty? left-signs))
+                                     (not (empty? right-signs)))
                               (do
                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
                                                 (string/join ", " (set (map syntax-tree right-signs)))))
-                                (when (> (count taken-plus-one-results) (count taken-results))
+                                (if (> (count taken-plus-one-results) (count taken-results))
                                   (log/warn (str "more than " take-this-many " parses; first: " (syntax-tree (first taken-results)))))
                                 (->>
                                  taken-results

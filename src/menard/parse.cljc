@@ -26,10 +26,10 @@
      (map fn args)))
 
 (defn overh
-  [parent head]
   "add given head as the head child of the phrase: parent."
   ;; TODO: get rid of all this type-checking and use
   ;; whatever people use for Clojure argument type-checking.
+  [parent head]
   (cond
     (or (seq? head)
         (vector? head))
@@ -267,8 +267,9 @@
       (dissoc :1)
       (dissoc :2)))
 
-(defn parse-tokens [tokens morph]
+(defn parse-tokens
   "Return a list of all possible parse trees for a list of tokens."
+  [tokens morph]
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
   (let [debug (log/debug (str "parsing input: (seq or vector) with syntax-tree: " syntax-tree))
         token-count (count tokens)

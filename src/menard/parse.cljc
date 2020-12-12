@@ -37,7 +37,7 @@
      (fn [child]
        (overh parent child))
      head)
-    true
+    :else
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
     (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
@@ -46,7 +46,7 @@
           result (cond pre-check?
                        (u/unify parent
                                 {:head head})
-                       true :fail)]
+                       :else :fail)]
       (if (not (= :fail result))
         (do
           (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
@@ -73,14 +73,14 @@
       (mapcat (fn [child]
                 (overc parent child))
               comp-children))
-    true
+    :else
     (let [pre-check? (= (u/get-in parent [:comp :cat])
                         (u/get-in comp [:cat] (u/get-in parent [:comp :cat])))
           result
           (cond pre-check?
                 (u/unify! (u/copy parent)
                           {:comp (u/copy comp)})
-                true :fail)]
+                :else :fail)]
       (if (not (= :fail result))
         (do
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
@@ -139,7 +139,7 @@
     (< max 2)
     nil
 
-    true
+    :else
     (let [
           ;; TODO: rather than this function, make a static lookup table, at least for n < (e.g.) 5.
           ;; e.g. (spanpairs 5) =>

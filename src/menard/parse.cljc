@@ -117,7 +117,7 @@
       (filter #(not (nil? %))
               (map
                (fn [each-y]
-                 (if (= (second each-x) (first each-y))
+                 (when (= (second each-x) (first each-y))
                    [each-x each-y]))
                x)))
     x)))

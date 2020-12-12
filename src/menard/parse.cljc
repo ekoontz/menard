@@ -221,8 +221,8 @@
                                taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            (lazy-cat
-                            (if (and (not (empty? left-signs))
-                                     (not (empty? right-signs)))
+                            (if (and (seq? left-signs)
+                                     (seq? right-signs))
                               (do
                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
                                                 (string/join ", " (set (map syntax-tree right-signs)))))

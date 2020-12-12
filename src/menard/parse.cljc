@@ -270,8 +270,7 @@
   "Return a list of all possible parse trees for a list of tokens."
   [tokens morph]
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
-  (let [debug (log/debug (str "parsing input: (seq or vector) with syntax-tree: " syntax-tree))
-        token-count (count tokens)
+  (let [token-count (count tokens)
         token-count-range (range 0 token-count)
         input-map (zipmap (pmap-if-available (fn [i] [i (+ i 1)])
                                token-count-range)

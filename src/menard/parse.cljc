@@ -176,7 +176,7 @@
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]
-    (when (and (not (empty? trimmed))
+    (when (and (not (string/blank? trimmed))
                (= trimmed string))
       (lookup-fn string))))
 
@@ -299,7 +299,7 @@
   [input morph]
   (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
   ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
-  (let [tokenizations (filter #(not (empty? %)) (string/split input split-on))
+  (let [tokenizations (filter #(not (string/blank? %)) (string/split input split-on))
         result (parse-tokens tokenizations morph)]
     (if (empty? (:complete-parses result))
       (let [analyses
@@ -311,7 +311,7 @@
               tokenizations))
             partial-parses (->> (vals (:all-parses result))
                                 (pmap-if-available (fn [x] (->> x (filter map?))))
-                                (filter #(not (empty? %))))]
+                                (filter seq?))]
         (log/warn (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (pmap-if-available (fn [token]

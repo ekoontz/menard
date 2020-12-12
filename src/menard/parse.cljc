@@ -226,7 +226,7 @@
                               (do
                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
                                                 (string/join ", " (set (map syntax-tree right-signs)))))
-                                (if (> (count taken-plus-one-results) (count taken-results))
+                                (when (> (count taken-plus-one-results) (count taken-results))
                                   (log/warn (str "more than " take-this-many " parses; first: " (syntax-tree (first taken-results)))))
                                 (->>
                                  taken-results

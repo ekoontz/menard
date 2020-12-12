@@ -26,8 +26,8 @@
      (map fn args)))
 
 (defn overh
-  "add given head as the head child of the phrase: parent."
   [parent head]
+  "add given head as the head child of the phrase: parent."
   ;; TODO: get rid of all this type-checking and use
   ;; whatever people use for Clojure argument type-checking.
   (cond
@@ -56,8 +56,9 @@
            (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
                 " " (diag/fail-path parent {:head head}))))))))
 
-(defn overc [parent comp]
+(defn overc
   "add given child as the complement of the parent"
+  [parent comp]
   (cond
     (or (seq? parent)
         (vector? parent))
@@ -122,9 +123,10 @@
                x)))
     x)))
 
-(defn span-map [max]
+(defn span-map 
   "return a map of size -> _spans_, where _size_ is an integer, and _spans_ are all
                             the [left,right] pairs whose combined size is equal to _size_., and _size_ ranges from 1 to _max_."
+  [max]
   ;; for example:
   ;; (span-map 5) =>
   ;; 

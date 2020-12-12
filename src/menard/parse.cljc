@@ -10,7 +10,7 @@
 (def parse-only-one? false)
 
 (def ^:dynamic lookup-fn
-  (fn [token]
+  (fn [_]
     []))
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree)
@@ -40,8 +40,7 @@
     :else
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
-    (let [debug (log/debug (str "overh: " (syntax-tree parent) "; head: " (syntax-tree head)))
-          pre-check? (= (u/get-in parent [:head :cat])
+    (let [pre-check? (= (u/get-in parent [:head :cat])
                         (u/get-in head [:cat] (u/get-in parent [:head :cat])))
           result (cond pre-check?
                        (u/unify parent

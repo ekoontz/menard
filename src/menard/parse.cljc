@@ -176,8 +176,8 @@
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]
-    (if (and (not (empty? trimmed))
-             (= trimmed string))
+    (when (and (not (empty? trimmed))
+               (= trimmed string))
       (lookup-fn string))))
 
 (defn parses [input n span-map morph]

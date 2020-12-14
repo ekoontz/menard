@@ -8,11 +8,7 @@
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/data.json "1.0.0"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [cljslog "0.1.0"]
-                 [metosin/reitit "0.5.10"]
-                 [ring/ring-jetty-adapter "1.7.1"]]
-  :resource-paths ["resources"]
+                 [cljslog "0.1.0"]]
+  :resource-paths ["resources"])
 
-  :plugins [[lein-ring "0.12.5"]]
-  :main menard.handler
-  :ring {:handler menard.handler/app})
+

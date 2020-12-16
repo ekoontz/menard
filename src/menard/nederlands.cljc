@@ -10,15 +10,13 @@
             [menard.grammar :as grammar]
             [menard.model :as model]
             [menard.morphology :as m]
-            [menard.nesting :as nest]
             [menard.parse :as p]
             [menard.serialization :as s]
-            [menard.subcat :as su]
-            [menard.ug :as ug]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [dag_unify.core :as u :refer [pprint unify]]
-            [dag_unify.diagnostics :as diag :refer [fail-path]]))
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag]
+            [dag_unify.serialization :refer [deserialize]]))
 ;;
 ;; For generation and parsing of Dutch.
 ;;
@@ -70,7 +68,7 @@
 
 #?(:clj
    (defn get-inflection-of [lexeme morphology]
-     (if lexeme
+     (when lexeme
        (->> morphology
             (map (fn [rule]
                    {:u (reduce unify
@@ -134,7 +132,7 @@
                                    (u/get-in lexeme [:canonical])))
                     lexeme)
                 
-                  true lexeme)
+                  :else lexeme)
                 lexeme))))
 
          ;; The lexicon is a map where each
@@ -238,7 +236,7 @@
 #?(:clj
    (defn load-model []
      (dosync
-      (if (nil? @model)
+      (when (nil? @model)
         (ref-set model (create-model)))
       @model)))
 
@@ -265,7 +263,7 @@
                  (= (u/get-in spec [:cat]) :det)
                  (-> @model :indices :det-lexicon)
                  
-                 true (-> @model :indices :misc-lexicon))
+                 :else (-> @model :indices :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
                     (->>
@@ -322,11 +320,11 @@
      (map? (u/get-in tree [:syntax-tree]))
      (s/morph (u/get-in tree [:syntax-tree]) (:morphology @model))
 
-     true
+     :else
      (s/morph tree (:morphology @model))))
 
   ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
+   (when sentence-punctuation?
      (-> tree
          morph
          (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
@@ -335,7 +333,7 @@
    (def grammar
      (->> (menard.grammar/read-compiled-grammar
            "menard/nederlands/grammar/compiled.edn")
-          (map dag_unify.serialization/deserialize))))
+          (map deserialize))))
 
 #?(:clj
    (defn write-compiled-grammar []
@@ -350,7 +348,7 @@
 
 ;; <functions>
 
-(defn syntax-tree [tree & [path]]
+(defn syntax-tree [tree]
   (s/syntax-tree tree (:morphology (load-model))))
 
 (defn generate
@@ -381,12 +379,12 @@
                                 (clojure.string/capitalize surface)]))
             found (mapcat l/matching-lexemes variants)]
         (log/debug (str "found: " (count found) " for: [" surface "]"))
-        (if (or (not (empty? found))
+        (if (or (seq found)
                 (clojure.string/index-of surface \ ))
           found
           (let [found (l/matching-lexemes "_")]
             (log/info (str "no lexemes found for: [" surface "]"
-                           (when (not (empty? found))
+                           (when (seq found)
                              (str ", but found null lexemes."))))
             found))))))
 

@@ -260,7 +260,7 @@
 #?(:clj
    (defn load-model []
      (dosync
-      (if (nil? @model)
+      (when (nil? @model)
         (ref-set model (create-model))))
      @model))
 
@@ -272,13 +272,13 @@
          (s/morph (:morphology @model))
          an)
 
-     true
+     :else
      (-> tree
          (s/morph (:morphology @model))
          an)))
 
   ([tree & {:keys [sentence-punctuation?]}]
-   (if sentence-punctuation?
+   (when sentence-punctuation?
      (-> tree
          morph
          an
@@ -307,7 +307,7 @@
                  (-> @model :indices :non-verb-lexicon)
 
                  ;; TODO: make a :misc-lexicon index, as in nl.
-                 true
+                 :else
                  (lazy-cat
                   (-> @model :indices :verb-lexicon)
                   (-> @model :indices :non-verb-lexicon)))]

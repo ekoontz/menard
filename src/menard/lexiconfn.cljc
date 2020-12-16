@@ -1,5 +1,6 @@
 (ns menard.lexiconfn
   (:require
+   [clojure.string :as string]
    [menard.exception :refer [exception]]
    #?(:clj [clojure.java.io :as io :refer [resource]])
    #?(:clj [clojure.tools.logging :as log])
@@ -34,7 +35,7 @@
           :else
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
-              [(if (and include-derivation? rule)
+              [(when (and include-derivation? rule)
                  (unify result
                         {:derivation {rule-group {rule {:match? true}}}})
                  result)]))))
@@ -42,8 +43,7 @@
 (defn apply-rules [rules lexeme if-no-rules-matched? rule-group]
   (let [with-rules
          (->> rules
-              (filter #(let [{antecedent :if
-                              consequents :then} %]
+              (filter #(let [{antecedent :if} %]
                           (not (= :fail (unify antecedent lexeme)))))
               (mapcat #(let [{rule :rule
                               antecedent :if
@@ -53,9 +53,8 @@
                          (mapcat (fn [consequent]
                                     (apply-rule rule lexeme consequent antecedent rule-group))
                                 consequents))))]
-    (cond (not (empty? with-rules))
+    (cond (seq with-rules)
           with-rules
-
           (and if-no-rules-matched? include-derivation?)
           [(unify lexeme {:derivation {rule-group {::no-rules-matched? true}}})]
           :else
@@ -66,7 +65,7 @@
         (for [k (sort (keys lexicon))]
           (let [lexemes (get lexicon k)]
             (log/debug (str "applying rules for: " k))
-            (if (not (empty? lexemes))
+            (when (seq lexemes)
               [k (->> lexemes
                       (mapcat (fn [lexeme]
                                 (apply-rules rules lexeme if-no-rules-matched? rule-group)))
@@ -131,7 +130,7 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
-                        {:canonical (clojure.string/replace surface from to)
+                        {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
 
@@ -174,11 +173,6 @@
 
              (filter #(not (= :fail %))))
 
-        debug (log/debug (str "found: " (count from-inflected) " inflected form"
-                             (if (not (= (count from-inflected) 1))
-                               "s")
-                             " before looking"
-                             " at exceptions."))
         ;; Some (or even all) of the hypotheses in _from-inflected_ might be wrong, if the verb has
         ;; any exceptions. Below, the exceptional surface forms are used to  cancel these potential overgeneralizations.
         ;; For example, applying the rules for regular verbs in English, for infl present and agr 3rd sing,
@@ -192,7 +186,7 @@
                         {:infl (u/get-in analyze-hypothesis [:infl])
                          :agr (u/get-in analyze-hypothesis [:agr])}]
                     (log/debug (str "filtering with: " filter-with))
-                    (if (not (empty? (:exceptions analyze-hypothesis)))
+                    (when (seq (:exceptions analyze-hypothesis))
                       (log/debug (str " count of exceptions found for this guess: " (count (:exceptions analyze-hypothesis)))))
                     (empty? (filter #(not (= :fail (unify % filter-with)))
                                     (:exceptions analyze-hypothesis)))))
@@ -216,17 +210,17 @@
           exceptions (filter #(or (= true (:exception %))
                                   (= true (:inflected? %)))
                              (get lexicon surface))]
-      (if (and (not (empty? from-regular-morphology))
-               (not (empty? exceptions)))
+      (when (and (seq from-regular-morphology)
+                 (seq exceptions))
         (log/debug (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
       (log/debug (str "found: " (count from-regular-morphology) " regular analyzed form"
-                     (if (not (= (count from-regular-morphology) 1))
-                       "s")
-                     " for surface form: " surface "."))
+                      (when (not (= (count from-regular-morphology) 1))
+                        "s")
+                      " for surface form: " surface "."))
       (log/debug (str "found: " (count exceptions) " exception"
-                     (if (not (= count exceptions 1))
-                       "s")
-                     " for surface form: " surface "."))
+                      (when (not (= count exceptions 1))
+                        "s")
+                      " for surface form: " surface "."))
       (let [result
             (concat
              from-regular-morphology
@@ -246,7 +240,7 @@
                          :inflected? true
                          :canonical canonical}])
                result
-               (if (not (= :fail u-result))
+               (when (not (= :fail u-result))
                  {(:surface exception)
                   [u-result]})]
            result))
@@ -256,7 +250,7 @@
   "having some personal cognitive difficulty in using apply with merge-with,
    so instead using this function as a workaround."
   [merge-with-fn args]
-  (if (not (empty? args))
+  (when (seq args)
     (merge-with merge-with-fn
                 (first args)
                 (merge-with-all merge-with-fn (rest args)))))

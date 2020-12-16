@@ -12,9 +12,9 @@
   "turn a map represention of a list: e.g. {:first :a :rest {:first :b}}
    into a list: e.g. [a b]"
   [m]
-  (if (u/get-in m [:first])
-     (cons (u/get-in m [:first])
-           (list-as-map-to-list (u/get-in m [:rest])))))
+  (when (u/get-in m [:first])
+    (cons (u/get-in m [:first])
+          (list-as-map-to-list (u/get-in m [:rest])))))
 
 (defn default-morph-fn [structure morphology]
   (cond (or (= :fail structure) 
@@ -44,7 +44,7 @@
                             (default-morph-fn structure morphology))
                           [(u/get-in structure [:1] "_")
                            (u/get-in structure [:2] "_")]))
-        true "_"))
+        :else "_"))
 
 (defn syntax-tree [structure morphology]
   (cond (or (= :fail structure) 
@@ -80,7 +80,7 @@
                            (get structure :comp))
                         "*"
                         
-                        true
+                        :else
                         (exception (str "the :1 is neither :head nor :comp: "
                                         (type structure) "; empty: " (empty? structure) "; keys: "
                                         (keys structure) "; "
@@ -98,7 +98,7 @@
                            (get structure :comp))
                         "*"
                         
-                        true
+                        :else
                         (exception (str "the :2 is neither :head nor :comp: "
                                         (vec (:dag_unify.core/serialized structure)))))]
           
@@ -152,7 +152,7 @@
                        (do (log/debug (str "rule is ok: head is last: " (u/get-in input-rule [:rule])))
                            true)
 
-                       true
+                       :else
                        (let [error-message (str "rule: " (u/get-in input-rule [:rule]) ": does not specify if the head is first or last.")]
                          (log/error error-message)
                          (exception error-message)))))
@@ -163,7 +163,7 @@
                        (do (log/debug (str "rule: " (u/get-in input-rule [:rule]) " is ok: :cat is specified to: " (u/get-in input-rule [:cat])))
                            true)
 
-                       true
+                       :else
                        (let [warn-message (str "rule: " (u/get-in input-rule [:rule]) " has no :cat value specified: might overgeneralize unexpectedly.")]
                          (log/warn warn-message)
                          true))))

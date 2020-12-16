@@ -365,7 +365,7 @@
                   index-fn syntax-tree))))
 
 (defn get-lexemes [spec]
-  (g/get-lexemes spec index-fn syntax-tree))
+  (g/get-lexemes spec index-fn))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

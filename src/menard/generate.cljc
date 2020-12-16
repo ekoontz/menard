@@ -6,7 +6,9 @@
    [menard.serialization :as ser]
    [menard.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
-   [dag_unify.diagnostics :as diag :refer [strip-refs]]))
+   [dag_unify.diagnostics :as diag :refer [strip-refs]]
+   [dag_unify.serialization :refer [serialize]]))
+
 ;; See:
 ;; - english.cljc/generate
 ;; - nederlands.cljc/generate
@@ -74,9 +76,9 @@
         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
     (when profiling?
       (log/debug (str "generated: " (syntax-tree-fn result) " with "
-                     @count-adds " add" (if (not (= @count-adds 1)) "s") ", "
-                     @count-lexeme-fails " lexeme fail" (if (not (= @count-lexeme-fails 1)) "s") " and "
-                     @count-rule-fails " rule fail" (if (not (= @count-rule-fails 1)) "s")
+                     @count-adds " add" (when (not (= @count-adds 1)) "s") ", "
+                     @count-lexeme-fails " lexeme fail" (when (not (= @count-lexeme-fails 1)) "s") " and "
+                     @count-rule-fails " rule fail" (when (not (= @count-rule-fails 1)) "s")
                      ".")))
     result))
 
@@ -84,7 +86,7 @@
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
   [trees grammar lexicon-index-fn syntax-tree-fn]
-  (if (not (empty? trees))
+  (when (seq trees)
     (let [tree (first trees)
           frontier (frontier tree)]
       (log/debug (str "generate-all: " frontier ": " (syntax-tree-fn tree)))
@@ -106,15 +108,14 @@
               [])
             
             (or (u/get-in tree [::done?])
-                (and (not (empty? frontier)) (= frontier stop-generation-at)))
+                (and (seq frontier) (= frontier stop-generation-at)))
             (do
-              (if (not (u/get-in tree [::done?]))
+              (when (not (u/get-in tree [::done?]))
                 (log/debug (str "early stop of generation: " (syntax-tree-fn tree) " at: " frontier)))
               (lazy-seq
                (cons tree
                      (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))
-
-            true
+            :else
             (lazy-cat
              (generate-all
               (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
@@ -126,22 +127,22 @@
   made by adding a leaf (add-lexeme) or by adding a whole
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
-  (if counts? (swap! count-adds (fn [x] (+ 1 @count-adds))))
+  (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
         spec (u/get-in tree at)]
-    (if (= :fail (u/get-in tree at))
+    (when (= :fail (u/get-in tree at))
       (exception (str "add: value at: " at " is fail.")))
-    (if (not (= tree :fail))
+    (when (not (= tree :fail))
       (log/debug (str "add: start: " (syntax-tree-fn tree) " at:" at
-                      (if (u/get-in tree (concat at [:phrasal]))
+                      (when (u/get-in tree (concat at [:phrasal]))
                         (str "; looking for: " (strip-refs (u/get-in tree at)))))))
-    (if (and (not (= tree :fail))
-             (= [:comp] at))
+    (when (and (not (= tree :fail))
+               (= [:comp] at))
       (log/debug (str (syntax-tree-fn tree) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
-    (if (and (= false (u/get-in tree (concat at [:phrasal])))
-             (not (= false (u/get-in tree (concat at [:rule]) false))))
+    (when (and (= false (u/get-in tree (concat at [:phrasal])))
+               (not (= false (u/get-in tree (concat at [:rule]) false))))
       (exception (str "add: phrasal is false but rule is specified: "
                       (u/get-in tree (concat at [:rule])) " at: " at " within: " (syntax-tree-fn tree))))
     (->>
@@ -170,7 +171,7 @@
          (log/debug (str "add: condition 2: only adding rules at: " at))
          (log/debug (str "  rule-at?: " rule-at? "; phrase-at?:" phrase-at?))
          (log/debug (str "  phrasal-at: " (u/get-in tree (concat at [:phrasal]))))
-         (if (and warn-on-no-matches? (empty? result))
+         (when (and warn-on-no-matches? (empty? result))
            (let [fail-paths
                  (vec 
                   (->> grammar
@@ -182,7 +183,7 @@
                             (u/get-in spec [:rule]) " matched spec: "
                             (strip-refs (u/get-in tree at)) " at: " at
                             "; fail-paths:"
-                            (if (not (empty? fail-paths))
+                            (when (seq fail-paths)
                               fail-paths)))))
          result)
 
@@ -194,22 +195,21 @@
          (add-lexeme tree lexicon-index-fn syntax-tree-fn))
 
        ;; condition 4: add both lexemes and rules at location _at_:
-       true
-       (let [debug (log/debug (str "add: adding both lexemes and rules."))
-             both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
+       :else
+       (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
                             (add-rule tree grammar syntax-tree-fn))]
+         (log/debug (str "add: adding both lexemes and rules."))
          (cond (and (empty? both)
                     allow-backtracking?)
-               (do
-                 (log/debug (str "backtracking: " (syntax-tree-fn tree) " at rule: "
-                                 (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                                 (last at))))
+               (log/debug (str "backtracking: " (syntax-tree-fn tree) " at rule: "
+                               (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                               (last at)))
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
                                " at: " at "; looking for: "
                                (strip-refs (u/get-in tree at))))
 
-               true both)))
+               :else both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))
 
 (declare get-lexemes)
@@ -221,13 +221,12 @@
   (log/debug (str "add-lexeme: " (syntax-tree tree)))
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
-        spec (u/get-in tree at)
-        diagnose? false]
+        spec (u/get-in tree at)]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
-                    (dag_unify.serialization/serialize spec)))
+                    (serialize spec)))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
-      (->> (get-lexemes spec lexicon-index-fn syntax-tree)
+      (->> (get-lexemes spec lexicon-index-fn)
 
            (#(if (and (empty? %)
                       (= false allow-lexeme-backtracking?)
@@ -268,15 +267,15 @@
 (defn add-rule
   "Return a lazy sequence of all trees made by adding every possible grammatical
    rule in _grammar_ to _tree_."
-  [tree grammar syntax-tree & [rule-name some-rule-must-match?]]
+  [tree grammar syntax-tree & [rule-name]]
   (let [at (frontier tree)
         rule-name
         (cond rule-name rule-name
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
-              true nil)
+              :else nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (tr/numeric-frontier (:syntax-tree tree {}))]
-    (log/debug (str "add-rule: @" at ": " (if rule-name (str "'" rule-name "'")) ": "
+    (log/debug (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
                     (syntax-tree tree) " at: " at))
     (->>
      ;; start with the whole grammar, shuffled:
@@ -304,7 +303,7 @@
             (let [result
                   (u/assoc-in tree
                               at rule)]
-              (if (= :fail result)
+              (when (= :fail result)
                 (log/debug
                  (str "rule: " (:rule rule) " failed: "
                       (diag/fail-path tree
@@ -316,7 +315,7 @@
      ;; some attempts to adjoin will have failed, so remove those:
      (filter #(or (not (= :fail %))
                   (do
-                    (if counts? (swap! count-rule-fails inc))
+                    (when counts? (swap! count-rule-fails inc))
                     false)))
      (map
       #(u/unify! %
@@ -340,7 +339,7 @@
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
-  [spec lexicon-index-fn syntax-tree]
+  [spec lexicon-index-fn]
   (log/debug (str "get-lexemes with spec: " (strip-refs spec)))
   (->> (lexicon-index-fn spec)
 
@@ -358,9 +357,9 @@
                    (cond (not (= :fail unify))
                          true
 
-                         true (do
+                         :else (do
                                 (log/debug (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
-                                (if counts? (swap! count-lexeme-fails inc))
+                                (when counts? (swap! count-lexeme-fails inc))
                                 false)))))
        (map :unify)))
 
@@ -399,10 +398,7 @@
                (not (u/get-in tree [:comp ::done?])))
           (cons :comp (frontier (u/get-in tree [:comp])))
 
-          true []
-          
-          true
-          (exception (str "could not determine frontier for this tree: " (dag_unify.serialization/serialize tree))))]
+          :else [])]
     retval))
 
 (defn reflexive-violations [expression syntax-tree-fn]
@@ -446,7 +442,7 @@
    (= n 0) tree
 
    ;; main case: add and call again with n=n-1:
-   true
+   :else
    (add-until (-> tree
                   (add grammar index-fn syntax-tree)
                   first)
@@ -468,8 +464,8 @@
     - if seed-tree-size=10, then initial seed takes 1200 ms and each child tree takes  100 ms.
     - if seed-tree-size=3,  then initial seed takes   73 ms and each child tree takes 1200 ms."
   [spec seed-tree-size grammar index-fn syntax-tree]
-  (let [debug (log/debug (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
-        seed-tree (-> spec
+  (log/debug (str "doing step 1: generate seed tree of size " seed-tree-size " .."))
+  (let [seed-tree (-> spec
                       ((fn [tree]
                          ;; add to the tree until it's reached the desired size:
                          (add-until tree grammar index-fn syntax-tree seed-tree-size))))]

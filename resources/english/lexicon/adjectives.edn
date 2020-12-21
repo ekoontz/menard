@@ -41,6 +41,7 @@
  "greedy" [{:sem {:pred :greedy}}]
  "hard" [{:sem {:pred :hard}}]
  "high" [{:sem {:pred :high}}]
+ "horrible" [{:sem {:pred :horrible}}]
  "human" [{:sem {:pred :human}}]
  "interesting" [{:sem {:pred :interesting}}]
  "important" [{:sem {:pred :important}}]

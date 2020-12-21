@@ -169,6 +169,8 @@
                :sem {:pred :example}}]
  "voorstelling" [{:agr {:gender :common}
                   :sem {:pred :performance}}]
+ "vooruitgang" [{:agr {:gender :common}
+                 :sem {:pred :progress}}]
  "vrouw" [{:agr {:gender :neuter}
            :sem {:pred :woman
                  :context :neutral}}] ;; i.e. :neutral meaning 'not polite'

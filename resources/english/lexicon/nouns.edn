@@ -104,6 +104,7 @@
  "profession" [{:sem {:pred :profession}}]
  "professor" [{:sem {:pred :professor}}]
  "program" [{:sem {:pred :program}}]
+ "progress" [{:sem {:pred :progress}}]
  "puppy" [{:sem {:pred :puppy}}]
  "question" [{:sem {:pred :question}}]
  "relaxation" [{:sem {:pred :relaxation}}]

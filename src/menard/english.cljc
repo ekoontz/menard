@@ -8,8 +8,7 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
+            [menard.logging :as log]
             [menard.model :as model]
             [menard.morphology :as m]
             [menard.nesting]

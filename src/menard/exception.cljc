@@ -3,7 +3,5 @@
   (:refer-clojure))
 
 (defn exception [error-string]
-  #?(:clj
-     (throw (Exception. error-string)))
-  #?(:cljs
-     (throw (js/Error. error-string))))
+  ;; noop
+)

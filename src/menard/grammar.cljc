@@ -3,8 +3,7 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             [menard.morphology :as m]
             [clojure.string :as string]
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
+            [menard.logging :as log]
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.serialization :as s :refer [serialize]]))
 

@@ -8,8 +8,7 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
+            [menard.logging :as log]
             [menard.model :as model]
             [menard.morphology :as m]
             [menard.nesting]
@@ -239,10 +238,16 @@
 
 #?(:clj
    (defn load-model []
+     (log/info (str "LOADING THE MODEL.."))
      (dosync
       (when (nil? @model)
-        (ref-set model (create-model)))
+        (ref-set model (create-model))
+        (log/info (str "LOADED THE MODEL.")))
       @model)))
+
+;;(log/info (str "LOADING THE MODEL.."))
+;;(load-model)
+;;(log/info (str "LOADED THE MODEL.."))
 
 #?(:cljs
    (def lexicon

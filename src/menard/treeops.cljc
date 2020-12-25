@@ -1,7 +1,6 @@
 (ns menard.treeops
   (:require
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
+   [menard.logging :as log]
    [menard.exception :refer [exception]]
    [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]

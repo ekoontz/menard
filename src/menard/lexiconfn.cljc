@@ -2,9 +2,8 @@
   (:require
    [clojure.string :as string]
    [menard.exception :refer [exception]]
+   [menard.logging :as log]
    #?(:clj [clojure.java.io :as io :refer [resource]])
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag]

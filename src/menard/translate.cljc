@@ -2,8 +2,7 @@
   (:require [menard.nederlands :as nl]
             [menard.english :as en]
             [menard.generate :as g]
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
+            [menard.logging :as log]
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.serialization :refer [serialize]]
             [dag_unify.diagnostics :as diag]))

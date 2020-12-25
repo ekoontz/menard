@@ -1,8 +1,7 @@
 (ns menard.model
   (:refer-clojure :exclude [load])
-  (:require #?(:clj [clojure.tools.logging :as log])
-            [clojure.string :as string]
-            #?(:cljs [cljslog.core :as log])))
+  (:require [menard.logging :as log]
+            [clojure.string :as string]))
 
 #?(:clj
    (defn use-path [path]

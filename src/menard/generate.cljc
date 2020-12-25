@@ -1,7 +1,6 @@
 (ns menard.generate
   (:require
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
+   [menard.logging :as log]
    [menard.exception :refer [exception]]
    [menard.serialization :as ser]
    [menard.treeops :as tr]

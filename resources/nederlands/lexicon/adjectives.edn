@@ -8,6 +8,7 @@
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]
  "dik" [{:sem {:pred :thick}}]
+ "eenvoudig" [{:sem {:pred :simple}}]
  "eenzaam" [{:sem {:pred :lonely}}]
  "eeuwig"  [{:sem {:pred :eternal}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]

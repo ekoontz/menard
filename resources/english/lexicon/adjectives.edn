@@ -85,6 +85,7 @@
  "serious" [{:sem {:pred :serious}}]
  "shy" [{:sem {:pred :shy}}]
  "silly" [{:sem {:pred :silly}}]
+ "simple" [{:sem {:pred :simple}}]
  "small" [{:sem {:pred :small}}]
  "smart" [{:sem {:pred :smart}}]
  "social" [{:sem {:pred :social}}]

@@ -217,8 +217,6 @@
          grammar/read-grammar-fn
          grammar/process)))
 
-#?(:clj
-   (def model (ref nil)))
 
 #?(:cljs
    (def model
@@ -237,11 +235,20 @@
                  load-morphology load-grammar)))
 
 #?(:clj
+   (def model (ref (create-model))))
+
+#?(:clj
    (defn load-model []
+     (log/info (str "LOADING THE MODEL.."))
      (dosync
       (when (nil? @model)
-        (ref-set model (create-model)))
+        (ref-set model (create-model))
+        (log/info (str "LOADED THE MODEL.")))
       @model)))
+
+;;(log/info (str "LOADING THE MODEL.."))
+;;(load-model)
+;;(log/info (str "LOADED THE MODEL.."))
 
 #?(:cljs
    (def lexicon

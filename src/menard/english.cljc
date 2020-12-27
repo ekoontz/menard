@@ -8,13 +8,12 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
+            [menard.logging :as log]
             [menard.model :as model]
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
             [menard.serialization :as s]
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
             [menard.subcat]
             [menard.ug]
             [dag_unify.core :as u :refer [unify]]
@@ -239,7 +238,14 @@
          grammar/process)))
 
 #?(:clj
-   (def model (ref nil)))
+   (defn create-model []
+     (log/info (str "creating model for English.."))
+     (model/load "en" load-lexical-rules
+                 load-lexicon fill-lexicon-indexes
+                 load-morphology load-grammar)))
+
+#?(:clj
+   (def model (ref (create-model))))
 
 #?(:cljs
    (def model
@@ -249,13 +255,6 @@
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar (-> @model :grammar)
                                      "src/menard/english/grammar/compiled.edn")))
-
-#?(:clj
-   (defn create-model []
-     (log/info (str "creating model for English.."))
-     (model/load "en" load-lexical-rules
-                 load-lexicon fill-lexicon-indexes
-                 load-morphology load-grammar)))
 
 #?(:clj
    (defn load-model []

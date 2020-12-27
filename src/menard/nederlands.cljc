@@ -219,7 +219,7 @@
 
 #?(:cljs
    (def model
-     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
+     (atom (ref (create-model))))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
    (defn create-model []

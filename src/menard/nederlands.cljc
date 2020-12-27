@@ -8,6 +8,7 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
+            [menard.logging :as log]
             [menard.model :as model]
             [menard.morphology :as m]
             [menard.nesting]
@@ -15,8 +16,6 @@
             [menard.serialization :as s]
             [menard.subcat]
             [menard.ug]
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.diagnostics :as diag]
             [dag_unify.serialization :refer [deserialize]]))
@@ -239,16 +238,10 @@
 
 #?(:clj
    (defn load-model []
-     (log/info (str "LOADING THE MODEL.."))
      (dosync
       (when (nil? @model)
         (ref-set model (create-model))
-        (log/info (str "LOADED THE MODEL.")))
       @model)))
-
-;;(log/info (str "LOADING THE MODEL.."))
-;;(load-model)
-;;(log/info (str "LOADED THE MODEL.."))
 
 #?(:cljs
    (def lexicon
@@ -477,13 +470,3 @@
                                :cat (-> generated (u/get-in [:cat] ::unspec))
                                :mod (-> generated (u/get-in [:mod] ::unspec))}})))
       u/pprint))
-
-
-(defn map-get [path input]
-  (->>
-   input
-   (map (fn [x]
-          {:tree (syntax-tree x)
-           :path path
-           :v (u/get-in x path)}))
-   (map u/pprint)))

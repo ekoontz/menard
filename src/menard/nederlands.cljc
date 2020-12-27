@@ -241,8 +241,8 @@
    (defn load-model []
      (dosync
       (when (nil? @model)
-        (ref-set model (create-model))
-      @model))))
+        (ref-set model (create-model)))
+      @model)))
 
 #?(:cljs
    (def lexicon

@@ -47,6 +47,7 @@
  "teleurgesteld" [{:sem {:pred :disappointed}}]
  "tevreden" [{:sem {:pred :satisfied}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
+ "uitstekend" [{:sem {:pred :excellent}}]
  "vreselijk" [{:sem {:pred :horrible}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]
  "verrast" [{:sem {:pred :surprised}}]

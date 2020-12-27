@@ -30,6 +30,7 @@
  "economic" [{:sem {:pred :economic}}]
  "escaped" [{:sem {:pred :escaped}}]
  "eternal"  [{:sem {:pred :eternal}}]
+ "excellent" [{:sem {:pred :excellent}}]
  "excited" [{:sem {:pred :excited}}]
  "extraordinary" [{:sem {:pred :extraordinary}}]
  "federal" [{:sem {:pred :federal}}]

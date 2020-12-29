@@ -157,12 +157,21 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
-  :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
+ {:g [#"^(.*ee)$"    "$1ën"]    ;; zee    -> zeeën
+  :p [#"^(.*)ën$"    "$1"]      ;; zeeën  -> zee
   :u {:cat :noun
       :null? false
-      :inflection :en
+      :inflection :umlaut-e
       :pronoun false
       :agr {:number :plur}
       :regular true}}]
+
+{:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
+ :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
+ :u {:cat :noun
+     :null? false
+     :inflection :en
+     :pronoun false
+     :agr {:number :plur}
+     :regular true}}]
 

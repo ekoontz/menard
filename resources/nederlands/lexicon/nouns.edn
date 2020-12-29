@@ -176,5 +176,7 @@
                  :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
  "zaak" [{:sem {:pred :case}
           :agr {:gender :common}}]
+ "zee" [{:sem {:pred :sea}
+         :agr {:gender :common}}]}
  "zenuw" [{:sem {:pred :nerve}
            :agr {:gender :common}}]}

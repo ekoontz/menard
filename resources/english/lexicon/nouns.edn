@@ -113,6 +113,7 @@
  "right" [{:sem {:pred :right}}]
  "room" [{:sem {:pred :room}}]
  "school" [{:sem {:pred :school}}]
+ "sea" [{:sem {:pred :sea}}]
  "seller" [{:sem {:pred :seller}}]
  "sheep" [{:sem {:pred :sheep}
            :agr {:number :sing}

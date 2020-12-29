@@ -5,7 +5,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(load-model)
 (deftest adjective-agreement
   (is (= "het oude huis"
          (morph (generate {:cat :noun

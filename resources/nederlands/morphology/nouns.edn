@@ -164,7 +164,7 @@
       :inflection :umlaut-e
       :pronoun false
       :agr {:number :plur}
-      :regular true}}]
+      :regular true}}
 
 {:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
  :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog

@@ -8,8 +8,10 @@
             [dag_unify.diagnostics :as diag :refer [fail-path strip-refs]]))
 
 (defn morph-leaf
-  "apply morphology to a leaf node of a tree; where
-the morphology is a set of rules, each of which looks like:"
+  "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a
+   an inflected string. The morphology is a set of rules, each of which has a :u and a :g. The :u is
+   what to unify the structure against, and the :g contains a _from_ and a _to_, both of which
+   are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology]
   (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)))
   (let [structure structure

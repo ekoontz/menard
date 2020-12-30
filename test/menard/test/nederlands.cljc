@@ -62,3 +62,33 @@
                                  (parse (morph expression)))))))
               (map count)
               (remove #(= % generate-per-expression)))))))
+
+(deftest morphology
+  (is (= "zeeën"
+         (menard.morphology/morph-leaf
+          {:cat :noun
+           :null? false
+           :agr {:number :plur}
+           :canonical "zee"}
+          (-> menard.nederlands/model deref :morphology))))
+  (is (= "honden"
+         (menard.morphology/morph-leaf
+          {:cat :noun
+           :null? false
+           :agr {:number :plur}
+           :canonical "hond"}
+          (-> menard.nederlands/model deref :morphology))))
+  (is (= "opdrachten"
+         (menard.morphology/morph-leaf
+          {:cat :noun
+           :null? false
+           :agr {:number :plur}
+           :canonical "opdracht"}
+          (-> menard.nederlands/model deref :morphology)))))
+
+
+
+
+
+
+

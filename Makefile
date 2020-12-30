@@ -7,8 +7,6 @@ SHELL := bash
 .PHONY: all install compile clean
 all: install
 
-install: /Users/ekoontz/menard/target/menard-0.0.1-SNAPSHOT.jar
-
 src/menard/english/lexicon/compiled.edn: $(shell find src/menard/english/lexicon -name "*.edn" -not -name compiled.edn)
 	echo "(do (load \"menard\")(menard.english/write-compiled-lexicon))" | lein repl
 

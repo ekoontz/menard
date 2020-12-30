@@ -129,8 +129,8 @@
       :pronoun false
       :agr {:number :plur}
       :regular true}}
- {:g [#"^(.*)(t)$"    "$1$2$2en"] 
-  :p [#"^(.*)(t)ten$" "$1$2"] 
+ {:g [#"^(.*[aieou])(t)$" "$1$2$2en"] 
+  :p [#"^(.*)(t)ten$"     "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -148,7 +148,7 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*)t$"    "$1ten"]         ;; aandacht    -> aandachten
+ {:g [#"^(.*)t$"    "$1ten"]         ;; opdracht    -> opdrachten
   :p [#"^(.*)ten$"  "$1t"]
   :u {:cat :noun
       :null? false

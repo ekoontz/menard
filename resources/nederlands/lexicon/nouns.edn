@@ -12,6 +12,8 @@
             :sem {:pred :amount}}]
  "beschaving" [{:agr {:gender :common}
                 :sem {:pred :civilization}}]
+ "beslissing" [{:agr {:gender :common}
+                :sem {:pred :decision}}]
  "bestemming" [{:agr {:gender :common}
                 :sem {:pred :destination}}]
  "bloemkool" [{:sem {:pred :cauliflower}}]

@@ -29,6 +29,7 @@
  "country" [{:sem {:pred :country}}]
  "court" [{:sem {:pred :court}}]
  "day" [{:sem {:pred :day}}]
+ "decision" [{:sem {:pred :decision}}]
  "delay" [{:sem {:pred :delay}}]
  "destination" [{:sem {:pred :destination}}]
  "destruction" [{:sem {:pred :destruction}}]

@@ -12,14 +12,26 @@
       :infl :present
       :agr {:person :1st
             :number :sing}}}
- {:g [#"^(.*)en$" "$1t"] ;; werken -> werkt
-  :p [#"^(.*)t$"  "$1en"] 
+ {:g [#"^(.*g)en$" "$1d"] ;; uitgeleggen -> uitgelegd
+  :p [#"^(.*)d$"   "$1gen"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
- {:g [#"^(.*)en$" "$1t"] ;; werken -> werkt
-  :p [#"^(.*)t$"  "$1en"]  ;; werkt -> werken
+ {:g [#"^(.*g)en$"     "$1d"] ;; uitgeleggen -> uitgelegd
+  :p [#"^(.*)d$"      "$1gen"]
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+ {:g [#"^(.*[^g])en$" "$1t"] ;; werken -> werkt
+  :p [#"^(.*[^g])t$"  "$1en"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :2nd
+            :number :sing}}}
+ {:g [#"^(.*[^g])en$" "$1t"] ;; werken -> werkt
+  :p [#"^(.*[^g])t$"  "$1en"]  ;; werkt -> werken
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd

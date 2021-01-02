@@ -5,36 +5,26 @@
 {"die" [{:agr {:number :plur
                :person :3rd}
          :case :acc
-         :cat :noun
-         :pronoun true
          :sem {:pred :they
                :ref {:human false}}}]
  "haar" [{:agr {:gender :fem
                 :number :sing
                 :person :3rd}
           :case :acc
-          :cat :noun
-          :pronoun true
           :sem {:pred :she
                 :ref {:human true}}}]
  "hem" [{:agr {:gender :masc
                :number :sing
                :person :3rd}
          :case :acc
-         :cat :noun
-         :pronoun true
          :sem {:pred :he
                :ref {:human true}}}]
  "hen" [{:agr {:number :plur
                :person :3rd}
          :case :acc
-         :cat :noun
-         :pronoun true
          :sem {:pred :they
                :ref {:human true}}}]
- "het" [{:cat :noun
-         :pronoun true
-         :sem {:pred :it
+ "het" [{:sem {:pred :it
                :ref {:human false}}
          :agr {:person :3rd
                :number :sing
@@ -45,105 +35,75 @@
                :number :sing
                :gender :masc}
          :case :nom
-         :cat :noun
-         :pronoun true
          :sem {:pred :he
                :ref {:human true}}}]
  "hun" [{:agr {:number :plur
                :person :3rd}
          :case :acc
-         :cat :noun
-         :pronoun true
          :sem {:pred :they
                :ref {:human true}}}]
  "ik" [{:agr {:person :1st
               :number :sing}
         :case :nom
-        :cat :noun
-        :pronoun true
         :sem {:pred :i
               :ref {:human true}}}]
- "je" [{:cat :noun
-        :case :acc
+ "je" [{:case :acc
         :agr {:person :2nd}
-        :pronoun true
         :reflexive true
         :sem {:ref {:human true
                     :context :informal}}}]
  "jij" [{:agr {:person :2nd
                :number :sing}
          :case :nom
-         :cat :noun
-         :pronoun true
          :sem {:pred :you
                :ref {:human true
                      :context :informal}}}]
  "jou" [{:agr {:person :2nd
                :number :sing}
          :case :acc
-         :cat :noun
          :sem {:pred :you
-               :ref {:human true}}
-         :pronoun true}]
+               :ref {:human true}}}]
  "jullie" [{:case :nom
-            :cat :noun
-            :pronoun true
             :sem {:pred :you
                   :ref {:human true
                         :context :informal}}
             :agr {:person :2nd
                   :number :plur}}]
- "me" [{:cat :noun
-        :case :acc
+ "me" [{:case :acc
         :agr {:number :sing
               :person :1st}
         :sem {:ref {:human true}}
-        :pronoun true
         :reflexive true}]
  "mij" [{:case :acc
-         :cat :noun
-         :pronoun true
          :sem {:pred :i
                :ref {:human true}}
          :agr {:person :1st
                :number :sing}}]
- "ons" [{:cat :noun
-         :case :acc
+ "ons" [{:case :acc
          :agr {:number :plur
                :person :1st}
-         :pronoun true
          :reflexive true}]
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
  "u" [{:agr {:person :2nd}
-       :cat :noun
-       :pronoun true
        :sem {:pred :you
              :ref {:context :polite}}}
-      {:cat :noun
-       :case :acc
+      {:case :acc
        :agr {:person :2nd}
-       :pronoun true
        :reflexive true
        :sem {:ref {:context :polite}}}]
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom
-        :cat :noun
-        :pronoun true
         :sem {:pred :we}}]
  "wij" [{:agr {:person :1st
                :number :plur}
          :case :nom
-         :cat :noun
-         :pronoun true
          :sem {:pred :we}}]
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
- "zich" [{:cat :noun
-          :case :acc
+ "zich" [{:case :acc
           :agr {:person :3rd}
-          :pronoun true
           :reflexive true}]
  "ze" [{:agr {:person :3rd
               :number :sing
@@ -160,15 +120,11 @@
                :number :sing
                :gender :fem}
          :case :nom
-         :cat :noun
-         :pronoun true
          :sem {:pred :she
                :ref {:human true}}}
         {:agr {:person :3rd
                :number :plur}
          :case :nom
-         :cat :noun
-         :pronoun true
          :sem {:pred :they
                :ref {:human true}}}]}
 

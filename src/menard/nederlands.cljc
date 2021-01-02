@@ -109,11 +109,12 @@
 
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/nouns.edn")        lexical-rules
                                          {:cat :noun})
-                 
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/numbers.edn")      lexical-rules
                                          {:cat :adjective})
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/pronouns.edn")     lexical-rules
+                                         {:cat :noun :pronoun true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
-                                         {:cat :noun :pronoun false :propernoun true})
+                                         {:cat :noun :propernoun true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/verbs.edn")        lexical-rules
                                          {:cat :verb}))))
 

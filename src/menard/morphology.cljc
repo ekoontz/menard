@@ -73,9 +73,8 @@
            (not (= structure {:head? false}))
            (not (= structure {:head? true})))
       (do
-        (log/debug (str "no rules matched: throwing exception."))
-        (exception (str "No rules matched for:"
-                        (diag/strip-refs structure))))
+        (log/warn (str "no rules matched: returning '_'"))
+        "_")
 
       (not (seq? matching-rules))
       (exception (str "syntax error in matching rules: "

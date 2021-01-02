@@ -62,7 +62,10 @@
                                        (fn [lexeme]
                                          (if (nil? unify-with)
                                            lexeme
-                                           (unify lexeme unify-with))))))
+                                           (let [result (unify lexeme unify-with)]
+                                             (if (= :fail result)
+                                               (exception (str "hit a fail while proccessing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
+                                             result))))))
            l/add-exceptions-to-lexicon
            (l/apply-rules-in-order (nth lexical-rules 0) :0)
            (l/apply-rules-in-order (nth lexical-rules 1) :1)

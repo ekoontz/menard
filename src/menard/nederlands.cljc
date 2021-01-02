@@ -5,6 +5,7 @@
   #?(:cljs (:require-macros [menard.grammar]))
 
   (:require [clojure.string :as string]
+            [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]

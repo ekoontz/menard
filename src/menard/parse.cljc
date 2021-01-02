@@ -39,22 +39,30 @@
      head)
     :else
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
-    ;; and save 'true' for errors.
-    (let [pre-check? (= (u/get-in parent [:head :cat])
-                        (u/get-in head [:cat] (u/get-in parent [:head :cat])))
-          result (cond pre-check?
-                       (u/unify parent
-                                {:head head})
-                       :else :fail)]
-      (if (not (= :fail result))
-        (do
-          (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
-          [result])
-        (when pre-check?
-          (log/debug
-           (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
-                " " (diag/fail-path parent {:head head}))))))))
-
+    ;; and save :else for errors.
+    (do
+      (log/debug (str "overh: parent: " (syntax-tree parent)))
+      (log/debug (str "overh: head: " (syntax-tree head)))
+      (let [pre-check? (not (= :fail
+                               (u/get-in parent [:head :cat] :top)
+                               (u/get-in head [:cat] :top)))
+            result (cond pre-check?
+                         (u/unify parent
+                                  {:head head})
+                         :else
+                         (do
+                           (log/debug (str "failed precheck: parent: " (syntax-tree parent) "; head: " (syntax-tree head) "; "
+                                           "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
+                           :fail))]
+        (if (not (= :fail result))
+          (do
+            (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
+            [result])
+          (when pre-check?
+            (log/debug
+             (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
+                  " " (diag/fail-path parent {:head head})))))))))
+  
 (defn overc
   "add given child as the complement of the parent"
   [parent comp]

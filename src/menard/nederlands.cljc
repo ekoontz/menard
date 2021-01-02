@@ -478,3 +478,8 @@
                                :cat (-> generated (u/get-in [:cat] ::unspec))
                                :mod (-> generated (u/get-in [:mod] ::unspec))}})))
       u/pprint))
+
+(defn sample [spec n]
+  (->> #(-> spec generate morph)
+       repeatedly (take n) set vec sort (map println)
+       count))

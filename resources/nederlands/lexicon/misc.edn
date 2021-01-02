@@ -2,32 +2,7 @@
 ;; - jij (je)
 ;; - wij (we)
 ;; - zij (ze)
-{"dat" [{:cat :det
-         :definite? true
-         :sem {:pred :that}
-         :agr {:number :sing
-               :gender :neuter}}]
-
- ;; <F. p30-31, 54-55, 70>
- "de" [{:cat :det
-        :definite? true
-        :sem {:pred :the}
-        :agr {:gender :common
-              :number :sing}}
-       {:cat :det
-        :definite? true
-        :sem {:pred :the}
-        :agr {:number :plur}}]
-
- "deze" [{:cat :det
-          :definite? true
-          :sem {:pred :this}
-          :agr {:number :sing
-                :gender :common}}
-         {:cat :det
-          :definite? true
-          :sem {:pred :this}
-          :agr {:number :plur}}]
+{
 
  "die" [{:agr {:number :plur
                :person :3rd}
@@ -35,27 +10,7 @@
          :cat :noun
          :pronoun true
          :sem {:pred :they
-               :ref {:human false}}}
-        {:cat :det
-         :definite? true
-         :sem {:pred :that}
-         :agr {:number :sing
-               :gender :common}}
-        {:cat :det
-         :definite? true
-         :sem {:pred :that}
-         :agr {:number :plur}}]
-
- "dit" [{:cat :det
-         :definite? true
-         :sem {:pred :this}
-         :agr {:number :sing
-               :gender :neuter}}]
-
- "een" [{:cat :det
-         :definite? false
-         :sem {:pred :some}
-         :agr {:number :sing}}]
+               :ref {:human false}}}]
 
  "en" [(let [number? (atom true)
              cat (atom :adjective)
@@ -77,11 +32,6 @@
                 :arg1 lower
                 :arg2 higher}})]
 
- "geen" [{:cat :det
-          :definite? false
-          :sem {:pred :none}
-          :agr {:number :sing}}]
-
  "haar" [{:agr {:gender :fem
                 :number :sing
                 :person :3rd}
@@ -89,15 +39,7 @@
           :cat :noun
           :pronoun true
           :sem {:pred :she
-                :ref {:human true}}}
-         {:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :she}}
-         {:cat :det
-          :agr {:number :plur}
-          :definite? true
-          :sem {:pred :she}}]
+                :ref {:human true}}}]
 
  "hem" [{:agr {:gender :masc
                :number :sing
@@ -116,12 +58,7 @@
          :sem {:pred :they
                :ref {:human true}}}]
 
- "het" [{:cat :det
-         :definite? true
-         :sem {:pred :the}
-         :agr {:gender :neuter
-               :number :sing}}
-        {:cat :noun
+ "het" [{:cat :noun
          :pronoun true
          :sem {:pred :it
                :ref {:human false}}
@@ -146,15 +83,7 @@
          :cat :noun
          :pronoun true
          :sem {:pred :they
-               :ref {:human true}}}
-        {:cat :det
-         :agr {:number :sing}
-         :definite? true
-         :sem {:pred :they}}
-        {:cat :det
-         :agr {:number :plur}
-         :definite? true
-         :sem {:pred :they}}]
+               :ref {:human true}}}]
 
  "ik" [{:agr {:person :1st
               :number :sing}
@@ -189,17 +118,6 @@
                :ref {:human true}}
          :pronoun true}]
 
- "jouw" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :you
-                :context :informal}}
-         {:cat :det
-          :agr {:number :plur}
-          :definite? true
-          :sem {:pred :you
-                :context :informal}}]
-
  "jullie" [{:case :nom
             :cat :noun
             :pronoun true
@@ -225,15 +143,6 @@
          :agr {:person :1st
                :number :sing}}]
 
- "mijn" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :i}}
-         {:cat :det
-          :agr {:number :plur}
-          :definite? true
-          :sem {:pred :i}}]
-
  "ons" [{:cat :noun
          :case :acc
          :agr {:number :plur
@@ -245,15 +154,6 @@
          :agr {:number :sing
                :gender :neuter}
          :sem {:pred :we}}]
-
- "onze" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :we}}
-         {:cat :det
-          :definite? true
-          :agr {:number :plur}
-          :sem {:pred :we}}]
 
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
@@ -268,22 +168,6 @@
        :pronoun true
        :reflexive true
        :sem {:ref {:context :polite}}}]
-
- "uw" [{:cat :det
-        :agr {:number :sing}
-        :definite? true
-        :sem {:pred :you
-              :context :polite}}
-       {:cat :det
-        :agr {:number :plur}
-        :definite? true
-        :sem {:pred :you
-              :context :polite}}]
-
- "wat" [{:cat :det
-         :definite? false
-         :sem {:pred :some}
-         :agr {:number :plur}}]
 
  "we" [{:agr {:person :1st
               :number :plur}
@@ -321,21 +205,5 @@
          :cat :noun
          :pronoun true
          :sem {:pred :they
-               :ref {:human true}}}]
+               :ref {:human true}}}]}
 
- "zijn" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :he}}
-         {:cat :det
-          :agr {:number :plur}
-          :definite? true
-          :sem {:pred :he}}
-         {:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :it}}
-         {:cat :det
-          :agr {:number :plur}
-          :definite? true
-          :sem {:pred :it}}]}

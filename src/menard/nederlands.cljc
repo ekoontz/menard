@@ -94,6 +94,8 @@
                                          {:cat :adjective})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/adverbs.edn")      lexical-rules
                                          {:cat :adverb})
+                 (compile-lexicon-source (model/use-path "nederlands/lexicon/determiners.edn")  lexical-rules
+                                         {:cat :det})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/exclamations.edn") lexical-rules
                                          {:cat :exclamation})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/intensifiers.edn") lexical-rules

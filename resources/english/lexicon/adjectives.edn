@@ -19,6 +19,7 @@
  "confident" [{:sem {:pred :confident}}]
  "confused" [{:sem {:pred :confused}}]
  "confusing" [{:sem {:pred :confusing}}]
+ "cool" [{:sem {:pred :cool}}]
  "curious" [{:sem {:pred :curious}}]
  "cute" [{:sem {:pred :cute}}]
  "different" [{:sem {:pred :different}}]

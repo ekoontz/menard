@@ -15,6 +15,7 @@
  "eng" [{:sem {:pred :scary}}]
  "ernstig" [{:sem {:pred :serious}}]
  "fleurig" [{:sem {:pred :bright}}]
+ "gaaf" [{:sem {:pred :cool}}]
  "geheim" [{:sem {:pred :secret}}]
  "gelauwerd" [{:sem {:pred :acclaimed}}]
  "gevoelig" [{:sem {:pred :sensitive}}]

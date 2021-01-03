@@ -102,6 +102,7 @@
              :infl :present
              :agr {:number :sing
                    :person :3rd}}
-            (menard.morphology/morph-leaf morphology))))
+            (menard.morphology/morph-leaf morphology))))))
+
     
     

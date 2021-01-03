@@ -8,8 +8,8 @@
 ;; inflection: present
 
  ;; 1st
- {:g [#"^(.*g)en$" "$1"]       ;; uitgeleggen -> uitgeleg
-  :p [#"^(.*)d$"   "$1en"] 
+ {:g [#"^(.*g)gen$" "$1"]       ;; uitgeleggen -> uitgeleg
+  :p [#"^(.*)d$"    "$1en"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :1st
@@ -20,35 +20,33 @@
       :infl :present
       :agr {:person :1st
             :number :sing}}}
-
  ;; 2nd
- {:g [#"^(.*g)en$" "$1d"]      ;; uitgeleggen -> uitgelegd
-  :p [#"^(.*)d$"   "$1gen"] 
+ {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
+  :p [#"^(.*)d$"    "$1gen"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
- {:g [#"^(.*g)en$"    "$1d"]   ;; uitgeleggen -> uitgelegd
-  :p [#"^(.*)d$"      "$1gen"]
-  :u {:cat :verb
-      :infl :present
-      :agr {:person :3rd
-            :number :sing}}}
- {:g [#"^(.*[^g])en$" "$1t"]   ;; werken -> werkt
-  :p [#"^(.*[^g])t$"  "$1en"] 
+ {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
+  :p [#"^(.*)t$"  "$1en"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
-
  ;; 3rd
- {:g [#"^(.*[^g])en$" "$1t"]   ;; werken -> werkt
-  :p [#"^(.*[^g])t$"  "$1en"]  ;; werkt -> werken
+ {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
+  :p [#"^(.*)d$"    "$1gen"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
- {:g [#"^(.*)$"   "$1"]        ;; werken -> werken
+ {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
+  :p [#"^(.*)t$"  "$1en"]  ;; werkt  -> werken
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+ {:g [#"^(.*)$" "$1"]        ;; werken -> werken
   :p [#"^(.*)$" "$1"] 
   :u {:cat :verb
       :infl :present

@@ -24,6 +24,7 @@
  "groot" [{:sem {:pred :big}}]
  "ingewikkeld" [{:sem {:pred :complicated}}]
  "inhalig" [{:sem {:pred :greedy}}]
+ "inhoudelijk" [{:sem {:pred :substantive}}]
  "klein" [{:sem {:pred :small}}]
  "koppig" [{:sem {:pred :stubborn}}]
  "lastig" [{:sem {:pred :difficult}}]

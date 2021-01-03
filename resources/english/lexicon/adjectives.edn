@@ -97,6 +97,7 @@
  "strong" [{:sem {:pred :strong}}]
  "stubborn" [{:sem {:pred :stubborn}}]
  "stupid" [{:sem {:pred :stupid}}]
+ "substantive" [{:sem {:pred :substantive}}]
  "suprised" [{:sem {:pred :surprised}}]
  "sure" [{:sem {:pred :sure}}]
  "suspicious" [{:sem {:pred :suspicious}}]

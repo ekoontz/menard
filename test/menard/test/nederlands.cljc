@@ -64,31 +64,44 @@
               (remove #(= % generate-per-expression)))))))
 
 (deftest morphology
-  (is (= "zeeën"
-         (menard.morphology/morph-leaf
-          {:cat :noun
-           :null? false
-           :agr {:number :plur}
-           :canonical "zee"}
-          (-> menard.nederlands/model deref :morphology))))
-  (is (= "honden"
-         (menard.morphology/morph-leaf
-          {:cat :noun
-           :null? false
-           :agr {:number :plur}
-           :canonical "hond"}
-          (-> menard.nederlands/model deref :morphology))))
-  (is (= "opdrachten"
-         (menard.morphology/morph-leaf
-          {:cat :noun
-           :null? false
-           :agr {:number :plur}
-           :canonical "opdracht"}
-          (-> menard.nederlands/model deref :morphology)))))
+  ;; access all morphological rules for Dutch:
+  (let [morphology (-> menard.nederlands/model deref :morphology)]
 
+    (is (= "zeeën"
+           (menard.morphology/morph-leaf
+            {:cat :noun
+             :null? false
+             :agr {:number :plur}
+             :canonical "zee"} morphology)))
+    (is (= "honden"
+           (menard.morphology/morph-leaf
+            {:cat :noun
+             :null? false
+             :agr {:number :plur}
+             :canonical "hond"} morphology)))
+    (is (= "opdrachten"
+           (menard.morphology/morph-leaf
+            {:cat :noun
+             :null? false
+             :agr {:number :plur}
+             :canonical "opdracht"} morphology)))
 
-
-
-
-
-
+    (is (= "zingt"
+           (->
+            {:canonical "zingen"
+             :cat :verb
+             :infl :present
+             :agr {:number :sing
+                   :person :3rd}}
+            (menard.morphology/morph-leaf morphology))))
+            
+    (is (= "uitgelegd"
+           (->
+            {:canonical "uitgeleggen"
+             :cat :verb
+             :infl :present
+             :agr {:number :sing
+                   :person :3rd}}
+            (menard.morphology/morph-leaf morphology))))
+    
+    

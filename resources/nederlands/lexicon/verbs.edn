@@ -1,12 +1,8 @@
 {
- "bestrijden"
- [{
-   :sem {:pred :overcome}}]
-
- "komen"
- [{
-   :sem {:pred :come}
-   :subcat {:2 []}}]
+ "bestrijden" [{:sem {:pred :overcome}}]
+ "bruizen" [{:sem {:pred :bubble}}]
+ "komen" [{:sem {:pred :come}
+           :subcat {:2 []}}]
 
  "kunnen" ;; F. 40.1
  (let [exceptions [{:infl :present
@@ -111,13 +107,13 @@
  "uitgeleggen" [{ :sem {:pred :explain}}]
  
  "werken"
- [{
-   :sem {:pred :work}
+ [{:sem {:pred :work}
    :subcat {:2 []}}]
 
  "veroorzaaken"
- [{
-   :sem {:pred :cause}}]
+ [{:sem {:pred :cause}}]
+
+ "voeren" [{:sem {:pred :feed}}]
  
  "zien"
  (let [exceptions [{:infl :present

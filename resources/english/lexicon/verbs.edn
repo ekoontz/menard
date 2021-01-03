@@ -26,16 +26,13 @@
             subject-adjective {:1 {:cat :noun}
                                :2 {:cat :adjective}
                                :3 []}]
-        [{
-          :sem {:pred :be}
+        [{:sem {:pred :be}
           :subcat subject-only
           :exceptions exceptions}
-         {
-          :sem {:pred :be}
+         {:sem {:pred :be}
           :subcat subject-object-noun
           :exceptions exceptions}
-         {
-          :reflexive false
+         {:reflexive false
           :sem {:pred :be}
           :subcat subject-adjective
           :exceptions exceptions}
@@ -104,6 +101,8 @@
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}]
 
+ "bubble" [{:sem {:pred :bubble}}]
+ 
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
@@ -218,8 +217,10 @@
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions  :sem {:pred :eat}}])
-
+ "emigrate" [{:sem {:pred :emigrate}}]
  "explain" [{ :sem {:pred :explain}}]
+
+ "feed" [{:sem {:pred :feed}}]
 
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]

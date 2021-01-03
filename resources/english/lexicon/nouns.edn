@@ -24,7 +24,9 @@
                          :surface "children"}]}]
  "civilization" [{:sem {:pred :civilization}}]
  "coat" [{:sem {:pred :coat}}]
+ "community" [{:sem {:pred :community}}]
  "company" [{:sem {:pred :company}}]
+ "connection" [{:sem {:pred :connection}}]
  "conversation" [{:sem {:pred :conversation}}]
  "country" [{:sem {:pred :country}}]
  "court" [{:sem {:pred :court}}]
@@ -64,6 +66,7 @@
  "hand" [{:sem {:pred :hand}}]
  "home" [{:sem {:pred :home}}]
  "house" [{:sem {:pred :house}}]
+ "idea" [{:sem {:pred :idea}}]
  "implementation" [{:sem {:pred :implementation}}]
  "jerk" [{:sem {:pred :jerk}}]
  "job" [{:sem {:pred :job}}]
@@ -116,6 +119,7 @@
  "school" [{:sem {:pred :school}}]
  "sea" [{:sem {:pred :sea}}]
  "seller" [{:sem {:pred :seller}}]
+ "service" [{:sem {:pred :service}}]
  "sheep" [{:sem {:pred :sheep}
            :agr {:number :sing}
            :exceptions [{:agr {:number :plur}

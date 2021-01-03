@@ -1,4 +1,5 @@
 {
+ "bereiken" [{ :sem {:pred :achieve}}]
  "bestrijden" [{:sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
  "komen" [{:sem {:pred :come}
@@ -104,17 +105,19 @@
                   :sem sem}
               :2 []}})]
 
+ "tegengehouden" [{ :sem {:pred :inhibit}}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
  
- "werken"
- [{:sem {:pred :work}
-   :subcat {:2 []}}]
+ "werken" [{:sem {:pred :work}
+            :subcat {:2 []}}]
 
- "veroorzaaken"
- [{:sem {:pred :cause}}]
+ "veroorzaaken" [{:sem {:pred :cause}}]
 
  "voeren" [{:sem {:pred :feed}}]
- 
+
+ "voorkomen" [{:sem {:pred :prevent}}
+              {:sem {:pred :avoid}}]
+
  "zien"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

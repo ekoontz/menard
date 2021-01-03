@@ -1,5 +1,7 @@
 {
+ "achieve" [{ :sem {:pred :achieve}}]
  "ask" [{ :sem {:pred :ask}}]
+ "avoid" [{ :sem {:pred :avoid}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
                         {:infl :present :surface "are"}
@@ -341,6 +343,8 @@
           :subcat {:2 {:cat :comp
                        :rule "comp2"}}}]
 
+ "inhibit" [{ :sem {:pred :inhibit}}]
+
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}
                           {:infl :past-participle :surface "kept"}]]
            [{:exceptions exceptions  :sem {:pred :keep}}])
@@ -401,6 +405,7 @@
           :modal :infinitive}]
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]
+ "prevent" [{ :sem {:pred :prevent}}]
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
          [{:exceptions exceptions

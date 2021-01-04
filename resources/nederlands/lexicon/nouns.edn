@@ -103,7 +103,6 @@
            :sem {:pred :home}}]
  "toestand" [{:sem {:pred :situation}}]
  "uitvoering" [{:sem {:pred :implementation}}]
- "uitwijken" [{:sem {:pred :emigrate}}]
  "verbinding" [{:sem {:pred :connection}}]
  "verhaal" [{:sem {:pred :story}
              :agr {:gender :neuter}}]

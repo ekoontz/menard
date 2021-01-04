@@ -107,7 +107,7 @@
 
  "tegengehouden" [{ :sem {:pred :inhibit}}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
- 
+ "uitwijken" [{:sem {:pred :emigrate}}]
  "werken" [{:sem {:pred :work}
             :subcat {:2 []}}]
 

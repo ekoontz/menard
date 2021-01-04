@@ -4,112 +4,22 @@
  "an" [{:exception true
         :sem {:pred :some}
         :cat :det :agr {:number :sing}}]
-
  "at" [{:cat :prep
         :sem {:pred :at}}]
- "he" [{:cat :noun
-        :case :nom
-        :agr {:number :sing
-              :person :3rd
-              :gender :masc}
-        :sem {:ref {:human true}
-              :pred :he}
-        :pronoun true
-        :reflexive false}]
- "her" [{:cat :noun
-         :case :acc
-         :agr {:number :sing
-               :person :3rd
-               :gender :fem}
-         :pronoun true
-         :reflexive false
-         :sem {:ref {:human true}
-               :pred :she}}
-        {:cat :det
-         :sem {:pred :she}}]
- 
- "herself" [{:cat :noun
-             :case :acc
-             :agr {:number :sing
-                   :person :3rd
-                   :gender :fem}
-             :pronoun true
-             :reflexive true
-             :sem {:ref {:human true}}}]
- "him" [{:cat :noun
-         :case :acc
-         :agr {:number :sing
-               :person :3rd
-               :gender :masc}
-         :pronoun true
-         :reflexive false
-         :sem {:ref {:human true}
-               :pred :he}}]
- "himself" [{:cat :noun
-             :case :acc
-             :agr {:number :sing
-                   :person :3rd
-                   :gender :masc}
-             :pronoun true
-             :reflexive true
-             :sem {:ref {:human true}}}]
-
  "his" [{:cat :det
          :sem {:pred :he}}]
-
- "I" [{:cat :noun
-       :case :nom
-       :agr {:number :sing
-             :person :1st}
-       :sem {:ref {:human true}
-             :pred :i}
-       :pronoun true
-       :reflexive false}]
  "in" [{:cat :prep
         :sem {:pred :in}}]
- "it" [{:cat :noun
-        :agr {:number :sing
-              :person :3rd}
-        :sem {:ref {:human false}
-              :pred :it}
-        :pronoun true
-        :reflexive false}]
  "its" [{:cat :det
          :sem {:pred :it}}]
- "itself" [{:cat :noun
-            :agr {:number :sing
-                  :person :3rd}
-            :sem {:ref {:human false}}
-            :pronoun true
-            :reflexive true}]
- "me" [{:cat :noun
-        :case :acc
-        :agr {:number :sing
-              :person :1st}
-        :sem {:ref {:human true}
-              :pred :i}
-        :pronoun true
-        :reflexive false}]
-
  "my" [{:cat :det
         :sem {:pred :i}}]
-
- "myself" [{:cat :noun
-            :case :acc
-            :agr {:number :sing
-                  :person :1st}
-            :sem {:ref {:human true}}
-            :pronoun true
-            :reflexive true}]
-
  "nine" [{:cat :det
           :agr {:number :plur}
           :sem {:pred :nine}}]
-
  "no" [{:cat :det
         :definite? false
         :sem {:pred :none}}] ;; no [:agr :number]: could be :plur or :sing.
- 
  "not" (let [sem (atom {:polarity :negative})
              infl-base (atom :base)
              infl-gerund (atom :gerund)
@@ -137,34 +47,13 @@
                (dag_unify.core/unify sense
                                      common-part))
              input))
-
  "on" [{:cat :prep
         :sem {:pred :on}}]
-
  "our" [{:cat :det
          :sem {:pred :we}}]
- 
- "ourselves" [{:cat :noun
-                :case :acc
-                :agr {:number :plur
-                      :person :1st}
-                :sem {:ref {:human true}}
-                :pronoun true
-                :reflexive true}]
- "she" [{:cat :noun
-         :case :nom
-         :agr {:number :sing
-               :person :3rd
-               :gender :fem}
-         :sem {:ref {:human true}
-               :pred :she}
-         :pronoun true
-         :reflexive false}]
-
  "some" [{:cat :det
           :sem {:pred :some}
           :agr {:number :plur}}]
-
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
           :slash true
@@ -203,36 +92,14 @@
          {:cat :det
           :agr {:number :sing}
           :sem {:pred :that}}]
- 
  "the" [{:cat :det
          :sem {:pred :the}}]
-
- "them" [{:case :acc
-          :cat :noun
-          :agr {:person :3rd :number :plur}
-          :sem {:pred :they}
-          :pronoun true
-          :reflexive false}]
- 
- "themselves" [{:cat :noun
-                :agr {:person :3rd :number :plur}
-                :pronoun true :reflexive true}]
-
  "their" [{:cat :det
            :sem {:pred :they}}]
-
  "these" [;; "these books"
           {:cat :det
            :agr {:number :plur}
            :sem {:pred :this}}]
-
- "they" [{:cat :noun
-          :pronoun true
-          :reflexive false
-          :case :nom
-          :agr {:person :3rd :number :plur}
-          :sem {:pred :they}}]
-
  "this" [;; "this book"
          {:cat :det
           :agr {:number :sing}
@@ -245,56 +112,7 @@
  "to" [;; "to the park"
        {:cat :prep
         :sem {:pred :to}}]
- "we" [{:cat :noun
-        :sem {:pred :we}
-        :pronoun true
-        :reflexive false
-        :case :nom
-        :agr {:person :1st
-              :number :plur}}]
- "what" [{:cat :noun
-          :interogative? true
-          :pronoun true
-          :sem {:pred :what
-                :ref {:human false}}
-          :wh-word true}]
- "who" [{:cat :noun
-          :interogative? true
-          :pronoun true
-          :sem {:pred :what
-                :ref {:human true}}
-          :wh-word true}]
- "you" [{:cat :noun
-         :case :nom
-         :agr {:person :2nd}
-         :sem {:ref {:human true}
-               :pred :you}
-         :pronoun true
-         :reflexive false}
-        {:cat :noun
-         :case :acc
-         :agr {:person :2nd}
-         :sem {:ref {:human true}
-               :pred :you}
-         :pronoun true
-         :reflexive false}]
-
  "your" [{:cat :det
-          :sem {:pred :you}}]
+          :sem {:pred :you}}]}
 
- "yourself" [{:cat :noun
-              :case :acc
-              :agr {:number :sing
-                    :person :2nd}
-              :sem {:ref {:human true}}
-              :pronoun true
-              :reflexive true}]
-
- "yourselves" [{:cat :noun
-                :case :acc
-                :agr {:number :plur
-                      :person :2nd}
-                :sem {:ref {:human true}}
-                :pronoun true
-                :reflexive true}]}
 

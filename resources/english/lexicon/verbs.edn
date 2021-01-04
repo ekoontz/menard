@@ -88,17 +88,14 @@
             :exceptions exceptions}])
 
  "believe" [{:sense 1
-             
              :sem {:pred :believe}}
 
             {:sense 2
-             
              :sem {:pred :believe}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
 
             {:sense 3
-             
              :sem {:pred :believe}
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}]
@@ -108,13 +105,11 @@
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
-         
          :infl :present
          :inflected? true
          :sem {:pred :be-able-to}}]
 
- "cause" [{
-           :sem {:pred :cause}}]
+ "cause" [{:sem {:pred :cause}}]
  
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}

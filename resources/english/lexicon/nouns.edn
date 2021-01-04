@@ -103,6 +103,7 @@
  "place" [{:sem {:pred :place}}]
  "point" [{:sem {:pred :point}}]
  "predator" [{:sem {:pred :predator}}]
+ "prediction" [{:sem {:pred :prediction}}]
  "preparation" [{:sem {:pred :preparation}}]
  "problem" [{:sem {:pred :problem}}]
  "profession" [{:sem {:pred :profession}}]

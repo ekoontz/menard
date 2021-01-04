@@ -118,6 +118,7 @@
  "voorbereiding" [{:sem {:pred :preparation}}]
  "voorbeeld" [{:agr {:gender :neuter}
                :sem {:pred :example}}]
+ "voorspelling" [{:sem {:pred :prediction}}]
  "voorstelling" [{:sem {:pred :performance}}]
  "vooruitgang" [{:sem {:pred :progress}}]
  "voorziening" [{:sem {:pred :service}}]

@@ -10,77 +10,65 @@
                :number? true
                :pred 0}}]
 
- "one" [{
-         :sem {:pred 1
+ "one" [{:sem {:pred 1
                :number? true
                :times 1}
          :agr {:number :sing}}]
 
- "two" [{
-          :agr {:number :plur}
-          :sem {:pred 2
-                :number? true
-                :times 1}}]
+ "two" [{:agr {:number :plur}
+         :sem {:pred 2
+               :number? true
+               :times 1}}]
 
- "three" [{
-           :agr {:number :plur}
+ "three" [{:agr {:number :plur}
            :sem {:pred 3
                  :number? true
                  :times 1}}]
 
- "four" [{
-          :agr {:number :plur}
+ "four" [{:agr {:number :plur}
           :sem {:pred 4
                 :number? true
                 :times 1}}]
 
- "five" [{
-          :agr {:number :plur}
+ "five" [{:agr {:number :plur}
           :sem {:pred 5
                 :number? true
                 :times 1}}]
 
- "six" [{
-         :agr {:number :plur}
+ "six" [{:agr {:number :plur}
          :sem {:pred 6
                :number? true
                :times 1}}]
 
- "seven" [{
-           :agr {:number :plur}
+ "seven" [{:agr {:number :plur}
            :sem {:pred 7
                  :number? true
                  :times 1}}]
 
- "eight" [{
-           :agr {:number :plur}
+ "eight" [{:agr {:number :plur}
            :sem {:pred 8
                  :number? true
                  :times 1}}]
  
- "nine" [{
-           :agr {:number :plur}
-           :sem {:times 1
-                 :number? true
-                 :pred 9}}]
+ "nine" [{:agr {:number :plur}
+          :sem {:times 1
+                :number? true
+                :pred 9}}]
 
- "ten" [{
-         :agr {:number :plur}
+ "ten" [{:agr {:number :plur}
          :teen? true
          :sem {:pred 10
                :number? true
                :times 1}}] 
 
- "eleven" [{
-            :agr {:number :plur}
+ "eleven" [{:agr {:number :plur}
             :teen? true
             :sem {:pred :add
                   :number? true
                   :arg1 {:pred 1 :times 1}
                   :arg2 {:pred 1 :times 10}}}]
 
- "twelve" [{
-            :agr {:number :plur}
+ "twelve" [{:agr {:number :plur}
             :teen? true
             :sem {:pred :add
                   :number? true
@@ -95,56 +83,49 @@
                     :arg1 {:pred 3 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
 
- "fourteen" [{
-             :agr {:number :plur}
-             :teen? true
-             :sem {:pred :add
-                   :number? true
-                   :arg1 {:pred 4 :times 1}
-                   :arg2 {:pred 1 :times 10}}}]
+ "fourteen" [{:agr {:number :plur}
+              :teen? true
+              :sem {:pred :add
+                    :number? true
+                    :arg1 {:pred 4 :times 1}
+                    :arg2 {:pred 1 :times 10}}}]
 
- "fifteen" [{
-             :agr {:number :plur}
+ "fifteen" [{:agr {:number :plur}
              :teen? true
              :sem {:pred :add
                    :number? true
                    :arg1 {:pred 5 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "sixteen" [{
-             :agr {:number :plur}
+ "sixteen" [{:agr {:number :plur}
              :teen? true
              :sem {:pred :add
                    :number? true
                    :arg1 {:pred 6 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
- "seventeen" [{
-               :agr {:number :plur}
+ "seventeen" [{:agr {:number :plur}
                :teen? true
                :sem {:pred :add
                      :number? true
                      :arg1 {:pred 7 :times 1}
                      :arg2 {:pred 1 :times 10}}}]
 
- "eighteen" [{
-              :agr {:number :plur}
+ "eighteen" [{:agr {:number :plur}
               :teen? true
               :sem {:pred :add
                     :number? true
                     :arg1 {:pred 8 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
  
- "nineteen" [{
-              :agr {:number :plur}
+ "nineteen" [{:agr {:number :plur}
               :teen? true
               :sem {:pred :add
                     :number? true
                     :arg1 {:pred 9 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
  
- "twenty" [{
-            :agr {:number :plur}
+ "twenty" [{:agr {:number :plur}
             :sem {:times 10
                   :number? true                   
                   :pred 2}}]
@@ -155,38 +136,32 @@
                    :number? true
                    :pred 3}}]
 
- "forty" [{
-           :agr {:number :plur}
+ "forty" [{:agr {:number :plur}
            :sem {:times 10
                  :number? true
                  :pred 4}}]
 
- "fifty" [{
-           :agr {:number :plur}
+ "fifty" [{:agr {:number :plur}
            :sem {:pred 5
                  :number? true
                  :times 10}}]
 
- "sixty" [{
-           :agr {:number :plur}
+ "sixty" [{:agr {:number :plur}
            :sem {:pred 6
                  :number? true
                  :times 10}}]
  
- "seventy" [{
-             :agr {:number :plur}
+ "seventy" [{:agr {:number :plur}
              :sem {:pred 7
                    :number? true
                    :times 10}}]
 
- "eighty" [{
-            :agr {:number :plur}
+ "eighty" [{:agr {:number :plur}
             :sem {:pred 8
                   :number? true
                   :times 10}}]
 
- "ninety" [{
-            :agr {:number :plur}
+ "ninety" [{:agr {:number :plur}
             :sem {:pred 9
                   :number? true
                   :times 10}}]

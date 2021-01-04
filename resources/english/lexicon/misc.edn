@@ -6,6 +6,8 @@
         :cat :det :agr {:number :sing}}]
  "at" [{:cat :prep
         :sem {:pred :at}}]
+ "her" [{:cat :det
+         :sem {:pred :she}}]
  "his" [{:cat :det
          :sem {:pred :he}}]
  "in" [{:cat :prep

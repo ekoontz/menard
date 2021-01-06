@@ -51,13 +51,7 @@
           :definite? false
           :sem {:pred :none}
           :agr {:number :sing}}]
-
  "haar" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :she}}
-         {:cat :det
-          :agr {:number :plur}
           :definite? true
           :sem {:pred :she}}]
  "het" [{:cat :det
@@ -66,64 +60,26 @@
          :agr {:gender :neuter
                :number :sing}}]
  "hun" [{:cat :det
-         :agr {:number :sing}
-         :definite? true
-         :sem {:pred :they}}
-        {:cat :det
-         :agr {:number :plur}
          :definite? true
          :sem {:pred :they}}]
  "jouw" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :you
-                :context :informal}}
-         {:cat :det
-          :agr {:number :plur}
           :definite? true
           :sem {:pred :you
                 :context :informal}}]
  "jullie" [{:cat :det
-            :agr {:number :sing}
-            :definite? true
-            :sem {:pred :you
-                  :context :informal}}
-           {:cat :det
-            :agr {:number :plur}
             :definite? true
             :sem {:pred :you
                   :context :informal}}]
  "mijn" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :i}}
-         {:cat :det
-          :agr {:number :plur}
           :definite? true
           :sem {:pred :i}}]
  "ons" [{:cat :det
-         :agr {:number :sing}
          :definite? true
-         :sem {:pred :we}}
-        {:cat :det
-         :definite? true
-         :agr {:number :plur}
          :sem {:pred :we}}]
  "onze" [{:cat :det
-          :agr {:number :sing}
           :definite? true
-          :sem {:pred :we}}
-         {:cat :det
-          :definite? true
-          :agr {:number :plur}
           :sem {:pred :we}}]
  "uw" [{:cat :det
-        :agr {:number :sing}
-        :definite? true
-        :sem {:pred :you
-              :context :polite}}
-       {:cat :det
-        :agr {:number :plur}
         :definite? true
         :sem {:pred :you
               :context :polite}}]
@@ -132,18 +88,10 @@
          :sem {:pred :some}
          :agr {:number :plur}}]
  "zijn" [{:cat :det
-          :agr {:number :sing}
-          :definite? true
-          :sem {:pred :he}}
-         {:cat :det
-          :agr {:number :plur}
           :definite? true
           :sem {:pred :he}}
          {:cat :det
           :agr {:number :sing}
-          :definite? true
-          :sem {:pred :it}}
-         {:cat :det
-          :agr {:number :plur}
           :definite? true
           :sem {:pred :it}}]}
+

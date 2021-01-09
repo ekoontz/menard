@@ -105,6 +105,7 @@
  "thick" [{:sem {:pred :thick}}]
  "thrifty" [{:sem {:pred :frugal}}]
  "true" [{:sem {:pred :true}}]
+ "unusual" [{:sem {:pred :unusual}}]
  "white" [{:sem {:pred :white}}]
  "whole" [{:sem {:pred :whole}}]
  "wide" [{:sem {:pred :wide}}]

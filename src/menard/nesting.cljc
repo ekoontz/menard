@@ -28,10 +28,10 @@
 ;; - verb
 
 (comment "
-          sem-mod-first-is-comp-sem:
+          comp-modifies:
               sem|mod|first = comp|sem
 ")
-(def sem-mod-first-is-comp-sem
+(def comp-modifies
   (let [mod (atom :top)]
     {:mods-nested? true
      :sem {:mod {:first mod}}
@@ -40,27 +40,31 @@
      :head {:mods-nested? false}}))
 
 (comment "
-          cons-and-nest-1:
+          The head's :mod is at the same level as its :sem.
+
+          rest-of-mods-unnested:
               sem|mod|rest = head|mod
 ")
-(def cons-and-nest-1
+(def rest-of-mods-unnested
   (let [head-mod (atom :top)]
     (unify
-     sem-mod-first-is-comp-sem
-     {::only-one-allowed-of :cons-and-nest-1
+     comp-modifies
+     {::only-one-allowed-of :rest-of-mods-unnested
       :sem {:mod {:rest head-mod}}
       :head {:mod head-mod}})))
 
 
 (comment "
-          cons-and-nest-2:
+          The head's :mod is nested within its :sem.
+
+          rest-of-mods-nested:
               sem|mod|rest = head|sem|mod
 ")
-(def cons-and-nest-2
+(def rest-of-mods-nested
   (let [head-mod (atom :top)]
     (unify
-     sem-mod-first-is-comp-sem
-     {::only-one-allowed-of :cons-and-nest-2
+     comp-modifies
+     {::only-one-allowed-of :rest-of-mods-nested
       :sem {:mod {:rest head-mod}}
       :head {:sem {:mod head-mod}}})))
 

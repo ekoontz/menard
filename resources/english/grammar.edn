@@ -59,7 +59,7 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [menard.nesting/cons-and-nest-1
+  :unify [menard.nesting/rest-of-mods-nested
           menard.nesting/noun
           menard.subcat/b
           menard.ug/head-is-root

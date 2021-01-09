@@ -139,62 +139,10 @@
 ;; <grammar>
 
 (def finite-tenses
-  [;; "would see"
-   {:variant :conditional
-    :infl :present
-    :sem {:tense :conditional}
-    :head {:aux true}}
-
-   ;; "will see"
-   {:variant :future
-    :infl :present
-    :sem {:tense :future}
-    :head {:aux true}}
-
-   ;; "sees"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :sem {:tense :present
-          :aspect :simple}}
-
-   ;; "saw"
-   {:variant :past
-    :infl :past-simple
-    :sem {:tense :past
-          :aspect :simple}}
-
-   ;; "is seeing"
-   {:variant :present-progressive
-    :infl :present
-    :head {:aux true}
-    :sem {:tense :present
-          :aspect :progressive}}
-
-   ;; "was seeing"
-   {:variant :past-progressive
-    :infl :past-simple    
-    :head {:aux true}
-    :sem {:tense :past
-          :aspect :progressive}}
-
-   ;; "has seen"
-   {:variant :perfect
-    :infl :present
-    :head {:aux true}
-    :sem {:tense :past 
-          :aspect :perfect}}
-
-   ;; "had seen"
-   {:variant :pluperfect
-    :infl :past-simple
-    :head {:aux true}
-    :sem {:tense :past
-          :aspect :pluperfect}}])
-
 (def slash-tenses ;; used for vp-aux-slash
   (->> finite-tenses
        (filter #(not (= :simple-present (u/get-in % [:abbreviation]))))))
+  (read-string (slurp "resources/english/finite-tenses.edn")))
 
 (def tenses
   (concat finite-tenses

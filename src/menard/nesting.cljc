@@ -36,12 +36,9 @@
   )
 
 (def cons-and-nest-super
-  (let [tmpone (atom :top)
-        one (atom {:ref tmpone})]
-    {:mods-nested? true
-     :sem {:ref tmpone}
-     :comp {:mods-nested? true}
-     :head {:mods-nested? false}}))     
+  {:mods-nested? true
+   :comp {:mods-nested? true}
+   :head {:mods-nested? false}})
 
 (def cons-and-nest-1
   (let [two (atom :top)]

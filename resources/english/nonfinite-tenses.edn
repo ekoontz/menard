@@ -1,0 +1,6 @@
+[{:infl :base
+  :variant :base}
+ {:infl :gerund
+  :variant :gerund}
+ {:infl :past-participle
+  :variant :past-participle}]

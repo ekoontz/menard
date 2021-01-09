@@ -141,32 +141,8 @@
 (def finite-tenses
   (read-string (slurp "resources/english/finite-tenses.edn")))
 
-(def tenses
-  (concat finite-tenses
-          [{:infl :base
-            :variant :base}
-           {:infl :gerund
-            :variant :gerund}
-           {:infl :past-participle
-            :variant :past-participle}]))
-
-(def aux-tenses
-  [{:infl :present
-    :sem {:tense :conditional}}
-   {:infl :present
-    :sem {:tense :future}}
-   {:infl :present
-    :sem {:tense :present
-          :aspect :progressive}}
-   {:infl :past-simple
-    :sem {:tense :past
-          :aspect :progressive}}
-   {:infl :present
-    :sem {:tense :past
-          :aspect :perfect}}
-   {:infl :past-simple
-    :sem {:tense :past
-          :aspect :pluperfect}}])
+(def nonfinite-tenses
+  (read-string (slurp "resources/english/nonfinite-tenses.edn")))
 
 #?(:cljs
    (def loaded-grammar

@@ -47,7 +47,12 @@
         :case :nom
         :sem {:pred :i
               :ref {:human true}}}]
- "je" [{:case :acc
+ "je" [{:case :nom
+        :agr {:person :2nd}
+        :reflexive true
+        :sem {:ref {:human true
+                    :context :informal}}}
+       {:case :acc
         :agr {:person :2nd}
         :reflexive true
         :sem {:ref {:human true

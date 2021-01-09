@@ -62,6 +62,7 @@
      :modal :infinitive
      :sem {:pred :must}}])
 
+ "ontworpen" [{:sem {:pred :design}}]
  "optreden" [{ :sem {:pred :perform}}]
  
  "proberen"

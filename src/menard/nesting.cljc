@@ -11,30 +11,18 @@
 ;;
 ;; A grammatical rule can inherit from
 ;; at most one (i.e. could be 0) of:
-;; - cons-and-nest
+;; - cons-and-nest-1
+;; - cons-and-nest-2
 ;; - cons-only
 ;; - nest-only
-;; If it inherits from either cons-and-nest
-;; or nest-only, then it should also inherit
+;; If it inherits from cons-and-nest-1,
+;; cons-and-nest-2 or nest-only, then it should
+;; also inherit
 ;; from exactly one of the following (in this
 ;; file below in 'part-2'):
 ;; - adjective
 ;; - noun
 ;; - verb
-(comment
-  :def "cons-and-nest"
-  :sem {:mod {:first [[1] :top]
-              :rest [[2] :top]}}
-  :mods-nested? true
-  :comp {:mods-nested? true
-         :sem [1]}
-  :head {:mods-nested? false
-         :mod [2]}
-  "used for the top-most adjunct in a phrase,
-   e.g. in '[.vier [.kleine +honden]]', 
-   the top-most adjunct is 'vier'."
-  )
-
 (def cons-and-nest-super
   (let [mod (atom :top)]
     {:mods-nested? true
@@ -57,15 +45,6 @@
      {:sem {:mod {:rest head-mod}}
       :head {:sem {:mod head-mod}}})))
 
-(comment
-  :mods-nested? false
-  :mod {:first [[1] :top]
-        :rest [[2] :top]}
-  :comp {:mods-nested? true
-         :sem [1]}
-  :head {:mod [2]
-         :mods-nested? false}
-  "add a comment here..")
 (def cons-only
   (-> ug/head-sem
       (unify ug/head-rule)

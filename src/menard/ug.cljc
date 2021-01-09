@@ -9,20 +9,6 @@
      :comp {:root root
             :canonical root}}))
 
-;; TODO: remove: use nest/ instead.
-(comment
-  {:sem {:mod {:first [[1] :top]}
-         :rest [[2] :top]}
-   :head {:sem {:mod [2]}}
-   :comp {:sem [1]}})
-(def cons-mod-adverb
-  (let [head-mod (atom :top)
-        comp-sem (atom :top)]
-    {:sem {:mod {:first comp-sem}
-           :rest head-mod}
-     :head {:sem {:mod head-mod}}
-     :comp {:sem comp-sem}}))
-
 (comment {:head {:sem {:subj {:ref [[1] :top]}}}
           :comp {:sem {:subj [1]}}})
 (def subj-ref

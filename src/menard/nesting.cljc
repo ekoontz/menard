@@ -71,6 +71,16 @@
                  :sem two}
           :head {:mod three
                  :mods-nested? false}}))))
+
+;; TODO: remove this: needed by 'adverb':
+(def a-special-purpose-rule
+  (let [comp-sem (atom :top)
+        rest-mod (atom :top)]
+    {:sem {:mod {:first comp-sem
+                 :rest rest-mod}}
+     :head {:sem {:mod rest-mod}}
+     :comp {:sem comp-sem}}))
+
 (def nest-only
   (let [two (atom :top)
         three (atom :top)]

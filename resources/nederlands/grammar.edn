@@ -223,21 +223,17 @@
   :subcat {:1 {:top :top}
            :2 {:top :top}
            :3 []}
-  :mod {:rest []}
   :reflexive false
   :head {:cat :verb
          :infl :infinitive}
   :comp {:cat :adverb}
   :unify [menard.subcat/b
-
-          ;; TODO: use nest/ instead.
-          menard.ug/cons-mod-adverb
-
+          menard.nesting/a-special-purpose-rule
+          menard.nesting/verb
           menard.ug/subj-ref
           menard.ug/head-is-root
           menard.ug/head-last
-          menard.ug/head-rule
-          menard.ug/head-sem]}
+          menard.ug/head-rule]}
 
  ;; [modal+subject(:present-simple) +moeten .jullie]
  {:rule "modal+subject"

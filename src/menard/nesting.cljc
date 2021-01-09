@@ -44,18 +44,18 @@
      :head {:mods-nested? false}}))
 
 (def cons-and-nest-1
-  (let [two (atom :top)]
+  (let [head-mod (atom :top)]
     (unify
      cons-and-nest-super
-     {:sem {:mod {:rest two}}
-      :head {:mod two}})))
+     {:sem {:mod {:rest head-mod}}
+      :head {:mod head-mod}})))
 
 (def cons-and-nest-2
-  (let [two (atom :top)]
+  (let [head-mod (atom :top)]
     (unify
      cons-and-nest-super
-     {:sem {:mod {:rest two}}
-      :head {:sem {:mod two}}})))
+     {:sem {:mod {:rest head-mod}}
+      :head {:sem {:mod head-mod}}})))
 
 (comment
   :mods-nested? false

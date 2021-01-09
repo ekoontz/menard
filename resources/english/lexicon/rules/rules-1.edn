@@ -78,16 +78,14 @@
   :then (let [subj (atom :top)
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
-          [;; "I can"
+          [;; "I can/could"
            {:derivation {:1 {:modal-base {:marker 1}}}
-            :infl :present
             :inflected? true
             :sem {:obj :unspec}
             :subcat {:2 []}} ;; "can"
 
-           ;;  "can <vp[base,nonmodal]>" non-reflexive
+           ;;  "can/could <vp[base,nonmodal]>" non-reflexive
            {:derivation {:1 {:modal-base {:marker 2}}}
-            :infl :present
             :inflected? true
             :sem {:subj subj
                   :obj obj}

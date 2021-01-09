@@ -129,9 +129,14 @@
                     :surface "ziet"}
                    {:infl :present
                     :agr {:person :3rd :number :sing}
-                    :surface "ziet"}]]
+                    :surface "ziet"}
+                   {:infl :past-simple
+                    :agr {:number :sing}                    
+                    :surface "zag"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "zagen"}]]
    [{:exceptions exceptions
-     
      :sem {:pred :see}}])
 
  "zingen"

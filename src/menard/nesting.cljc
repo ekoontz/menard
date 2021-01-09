@@ -26,7 +26,13 @@
 ;; - adjective
 ;; - noun
 ;; - verb
-(comment "sem|mod = comp|sem")
+
+
+
+(comment "
+          cons-and-nest-super:
+              sem|mod|first = comp|sem
+")
 (def cons-and-nest-super
   (let [mod (atom :top)]
     {:mods-nested? true
@@ -35,7 +41,14 @@
             :sem mod}
      :head {:mods-nested? false}}))
 
-(comment "sem|mod|rest = head|mod")
+(comment "
+          Take the head's mod and nest it in the head's mod: the 
+          head's mod is outside the sem, so we
+          take that mod and nest it in the parent's sem.
+
+          cons-and-nest-1:
+              sem|mod|rest = head|mod
+")
 (def cons-and-nest-1
   (let [head-mod (atom :top)]
     (unify
@@ -44,7 +57,14 @@
       :sem {:mod {:rest head-mod}}
       :head {:mod head-mod}})))
 
-(comment "sem|mod|rest = head|sem|mod")
+
+
+(comment "The head|sem|mod aleady exists,
+          and so it becomes the sem|mod|rest.
+
+          cons-and-nest-2:
+              sem|mod|rest = head|sem|mod
+")
 (def cons-and-nest-2
   (let [head-mod (atom :top)]
     (unify
@@ -53,32 +73,40 @@
       :sem {:mod {:rest head-mod}}
       :head {:sem {:mod head-mod}}})))
 
+
+(comment "
+          cons-only:
+              mod|first = comp|sem
+              mod|rest  = head|mod
+")
 (def cons-only
   (-> ug/head-sem
       (unify ug/head-rule)
       (unify
-       (let [two (atom :top)
-             three (atom :top)]
+       (let [one (atom :top)
+             two (atom :top)]
          {::only-one-allowed-of :cons-only
           :mods-nested? false
-          :mod {:first two
-                :rest three}
+          :mod {:first one
+                :rest two}
           :comp {:mods-nested? true
-                 :sem two}
-          :head {:mod three
+                 :sem one}
+          :head {:mod two
                  :mods-nested? false}}))))
 
+(comment "
+          nest-only:
+              sem|mod = head|mod
+")
 (def nest-only
-  (let [two (atom :top)
-        three (atom :top)]
+  (let [one (atom :top)]
     {::only-one-allowed-of :nest-only
      :mods-nested? true
-     :sem {:mod two}
+     :sem {:mod one}
      :mod nil
      :comp {:mods-nested? true}
-     :head {:sem three
-            :mods-nested? false
-            :mod two}}))
+     :head {:mods-nested? false
+            :mod one}}))
 
 ;; part 2: part-of-speech-specific
 ;; nesting rules.

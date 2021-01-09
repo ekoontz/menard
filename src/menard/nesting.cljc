@@ -48,14 +48,17 @@
      :head {:mods-nested? false
             :mod two}}))
 
-;; TODO: remove this: needed by 'adverb':
-(def a-special-purpose-rule
-  (let [one (atom :top)
+(def cons-and-nest-two
+  (let [tmpone (atom :top)
+        one (atom :top)
         two (atom :top)]
-    {:sem {:mod {:first one
+    {:mods-nested? true
+     :sem {:mod {:first one
                  :rest two}}
-     :comp {:sem one}
-     :head {:sem {:mod two}}}))
+     :comp {:mods-nested? true
+            :sem one}
+     :head {:mods-nested? false
+            :sem {:mod two}}}))
 
 (comment
   :mods-nested? false

@@ -228,7 +228,7 @@
          :infl :infinitive}
   :comp {:cat :adverb}
   :unify [menard.subcat/b
-          menard.nesting/a-special-purpose-rule
+          menard.nesting/cons-and-nest-two
           menard.nesting/verb
           menard.ug/subj-ref
           menard.ug/head-is-root

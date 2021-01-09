@@ -74,8 +74,7 @@
                    {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "probeert"}]]
-   [{
-     :modal :te
+   [{:modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
  
@@ -113,6 +112,9 @@
 
  "veroorzaaken" [{:sem {:pred :cause}}]
 
+ "verpesten" [{:sem {:pred :ruin}
+               :subcat {:2 {:cat :noun}}}]
+ 
  "voeren" [{:sem {:pred :feed}}]
 
  "voorkomen" [{:sem {:pred :prevent}}

@@ -34,31 +34,39 @@
    e.g. in '[.vier [.kleine +honden]]', 
    the top-most adjunct is 'vier'."
   )
+
+(def cons-and-nest-super
+  :top)
+
 (def cons-and-nest
   (let [tmpone (atom :top)
         one (atom {:ref tmpone})
         two (atom :top)]
-    {:sem {:ref tmpone
-           :mod {:first one
-                 :rest two}}
-     :mod nil
-     :mods-nested? true
-     :comp {:mods-nested? true
-            :sem one}
-     :head {:mods-nested? false
-            :mod two}}))
+    (unify
+     cons-and-nest-super
+     {:sem {:ref tmpone
+            :mod {:first one
+                  :rest two}}
+      :mod nil
+      :mods-nested? true
+      :comp {:mods-nested? true
+             :sem one}
+      :head {:mods-nested? false
+             :mod two}})))
 
 (def cons-and-nest-two
   (let [tmpone (atom :top)
         one (atom :top)
         two (atom :top)]
-    {:mods-nested? true
-     :sem {:mod {:first one
-                 :rest two}}
-     :comp {:mods-nested? true
-            :sem one}
-     :head {:mods-nested? false
-            :sem {:mod two}}}))
+    (unify
+     cons-and-nest-super
+     {:mods-nested? true
+      :sem {:mod {:first one
+                  :rest two}}
+      :comp {:mods-nested? true
+             :sem one}
+      :head {:mods-nested? false
+             :sem {:mod two}}})))
 
 (comment
   :mods-nested? false

@@ -43,7 +43,7 @@
      :comp {:mods-nested? true}
      :head {:mods-nested? false}}))     
 
-(def cons-and-nest
+(def cons-and-nest-1
   (let [two (atom :top)]
     (unify
      cons-and-nest-super
@@ -51,7 +51,7 @@
       :mod nil
       :head {:mod two}})))
 
-(def cons-and-nest-two
+(def cons-and-nest-2
   (let [two (atom :top)]
     (unify
      cons-and-nest-super

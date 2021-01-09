@@ -38,7 +38,7 @@
          :sem {:number? false}}
   :comp {:cat :intensifier}
   :unify [menard.nesting/adjective
-          menard.nesting/cons-and-nest
+          menard.nesting/cons-and-nest-1
           menard.subcat/b
           menard.ug/head-is-root          
           menard.ug/head-last]}
@@ -92,7 +92,7 @@
   :slash false
   :comp {:cat :adjective
          :modifies-noun true}
-  :unify [menard.nesting/cons-and-nest
+  :unify [menard.nesting/cons-and-nest-1
           menard.nesting/noun
           menard.subcat/b
           menard.ug/head-is-root
@@ -228,7 +228,7 @@
          :infl :infinitive}
   :comp {:cat :adverb}
   :unify [menard.subcat/b
-          menard.nesting/cons-and-nest-two
+          menard.nesting/cons-and-nest-2
           menard.nesting/verb
           menard.ug/subj-ref
           menard.ug/head-is-root

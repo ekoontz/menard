@@ -190,9 +190,6 @@
   :slash false
   :options menard.nederlands/inf-tense
   :head {:aux false}
-
-  ;; TODO: remove: should be handled by head:
-  :comp {:cat :noun}
   :unify [menard.subcat/c
           menard.ug/head-last
           menard.ug/head-is-root

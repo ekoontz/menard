@@ -144,6 +144,10 @@
 (def nonfinite-tenses
   (read-string (slurp "resources/english/nonfinite-tenses.edn")))
 
+(def tenses
+  (concat finite-tenses
+          nonfinite-tenses))
+
 #?(:cljs
    (def loaded-grammar
      (->> (menard.grammar/read-compiled-grammar

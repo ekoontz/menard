@@ -40,10 +40,6 @@
      :head {:mods-nested? false}}))
 
 (comment "
-          Take the head's mod and nest it in the head's mod: the 
-          head's mod is outside the sem, so we
-          take that mod and nest it in the parent's sem.
-
           cons-and-nest-1:
               sem|mod|rest = head|mod
 ")
@@ -56,10 +52,7 @@
       :head {:mod head-mod}})))
 
 
-
-(comment "The head|sem|mod aleady exists,
-          and so it becomes the sem|mod|rest.
-
+(comment "
           cons-and-nest-2:
               sem|mod|rest = head|sem|mod
 ")

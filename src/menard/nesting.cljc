@@ -36,9 +36,12 @@
   )
 
 (def cons-and-nest-super
-  {:mods-nested? true
-   :comp {:mods-nested? true}
-   :head {:mods-nested? false}})
+  (let [mod (atom :top)]
+    {:mods-nested? true
+     :sem {:mod {:first mod}}
+     :comp {:mods-nested? true
+            :sem mod}
+     :head {:mods-nested? false}}))
 
 (def cons-and-nest-1
   (let [two (atom :top)]

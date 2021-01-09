@@ -105,9 +105,11 @@
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
-         :infl :present
-         :inflected? true
-         :sem {:pred :be-able-to}}]
+         :sem {:pred :be-able-to}
+         :exceptions [{:infl :present
+                       :surface "can"}
+                      {:infl :past-simple
+                       :surface "could"}]}]
 
  "cause" [{:sem {:pred :cause}}]
  
@@ -115,9 +117,11 @@
                            :surface "came"}
                           {:infl :past-participle
                            :surface "come"}]]
-          [{ :sem {:pred :come} :subcat {:2 []}
+          [{:sem {:pred :come} :subcat {:2 []}
             :exceptions exceptions}])
  
+ "design" [{:sem {:pred :design}}]
+
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]
             agr (atom :top)]

@@ -139,9 +139,6 @@
 ;; <grammar>
 
 (def finite-tenses
-(def slash-tenses ;; used for vp-aux-slash
-  (->> finite-tenses
-       (filter #(not (= :simple-present (u/get-in % [:abbreviation]))))))
   (read-string (slurp "resources/english/finite-tenses.edn")))
 
 (def tenses

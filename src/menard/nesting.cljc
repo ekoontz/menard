@@ -20,6 +20,7 @@
 ;; file below in 'part-2'):
 ;; - adjective
 ;; - noun
+;; - verb
 (comment
   :def "cons-and-nest"
   :sem {:mod {:first [[1] :top]
@@ -95,12 +96,12 @@
 ;; part 2: part-of-speech-specific
 ;; nesting rules.
 ;; any grammar rule that is either
-;; cons-or-nest or nest-only
+;; cons-and-nest or nest-only
 ;; needs to also include one of the
 ;; following, depending on the :cat
 ;; of the :head (and :cat of the parent)
 ;; 
-;; This is because with cons-or-nest or nest-only
+;; This is because with cons-and-nest or nest-only
 ;; rules, the :sem of the head is distinct from
 ;; the :sem of the parent, but all of the
 ;; contents within the :sem *are* shared

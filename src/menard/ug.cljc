@@ -1,4 +1,6 @@
-(ns menard.ug)
+(ns menard.ug
+  (:require
+   [dag_unify.core :as u :refer [unify]]))
 
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.

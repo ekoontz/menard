@@ -56,6 +56,13 @@
  {:g [#"^(.*)en$" "$1te"]
   :p [#"^(.*)te$" "$1en"]
   :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*)en$" "$1ten"]
+  :p [#"^(.*)ten$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :plural}
       :infl :past-simple}}
  
  ]

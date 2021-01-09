@@ -66,63 +66,50 @@
     {:agr agr
      :head {:agr agr}}))
 
-;; TODO: remove head-agr from here and
-;; use head-agr from above.
 ;; TODO: :interogative? into :sem if
 ;; possible, so we don't need to specify it here.
 (def head-rule
   (let [comp-derivation (atom :top)
-        head-agr (atom :top)
         head-cat (atom :top)
         head-derivation (atom :top)
         head-infl (atom :top)
         head-interogative (atom :top)
         reflexive (atom :top)]
-    {:agr head-agr
-     :cat head-cat
-     :infl head-infl
-     :interogative? head-interogative
-     :reflexive reflexive
-     :comp-derivation comp-derivation
-     :head-derivation head-derivation
-     :head {:agr head-agr
-            :cat head-cat
+    (unify head-agr
+           {:cat head-cat
             :infl head-infl
             :interogative? head-interogative
             :reflexive reflexive
+            :comp-derivation comp-derivation
             :head-derivation head-derivation
-            :derivation head-derivation}
-     :comp {:head-derivation comp-derivation
-            :derivation comp-derivation}
-     :phrasal true}))
-
+            :head {:cat head-cat
+                   :infl head-infl
+                   :interogative? head-interogative
+                   :reflexive reflexive
+                   :head-derivation head-derivation
+                   :derivation head-derivation}
+            :comp {:head-derivation comp-derivation
+                   :derivation comp-derivation}
+            :phrasal true})))
+  
 (def head-sem
   (let [sem (atom :top)]
     {:sem sem
      :head {:sem sem}}))
 
-(comment
-  {:sem
-   {:obj
-    {:mod [[1] :top]}}
-   :comp
-   {:mod [1]}})
+;; sem|obj|mod=comp|mod
 (def nest-comp-mod
   (let [mod (atom :top)]
     {:sem {:obj {:mod mod}}
      :comp {:mod mod}}))
 
-(comment
-  {:sem
-   {:mod
-    {:first [[1] :top]}},
-   :comp
-   {:sem [1]}})
+;; sem|mod|first = comp|sem
 (def sem-mod-first-is-comp-sem
   (let [mod (atom :top)]
     {:sem {:mod {:first mod}}
      :comp {:sem mod}}))
 
+;; sem|mod = comp|mod
 (def sem-mod-is-comp-mod
   (let [mod (atom :top)]
     {:sem {:mod mod}
@@ -132,6 +119,7 @@
   {:reflexive false
    :agr {:person :3rd}})
 
+;; sem = head|parent-sem
 (def parent-sem-head
   (let [sem (atom :top)]
     {:sem sem

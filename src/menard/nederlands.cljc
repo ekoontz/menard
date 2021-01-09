@@ -196,6 +196,13 @@
     :abbreviation :simple-present
     :infl :present
     :sem {:tense :present
+          :aspect :simple}}
+
+   ;; hij werkte"
+   {:variant :past-simple
+    :abbreviation :simple-past
+    :infl :past-simple
+    :sem {:tense :past
           :aspect :simple}}])
 
 (def inf-tense

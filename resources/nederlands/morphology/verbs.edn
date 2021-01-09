@@ -50,5 +50,13 @@
   :p [#"^(.*)$" "$1"] 
   :u {:cat :verb
       :infl :present
-      :agr {:number :plur}}}]
+      :agr {:number :plur}}}
 ;; </F>
+
+ {:g [#"^(.*)en$" "$1te"]
+  :p [#"^(.*)te$" "$1en"]
+  :u {:cat :verb
+      :infl :past-simple}}
+ 
+ ]
+

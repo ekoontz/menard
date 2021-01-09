@@ -48,6 +48,15 @@
      :head {:mods-nested? false
             :mod two}}))
 
+;; TODO: remove this: needed by 'adverb':
+(def a-special-purpose-rule
+  (let [one (atom :top)
+        two (atom :top)]
+    {:sem {:mod {:first one
+                 :rest two}}
+     :comp {:sem one}
+     :head {:sem {:mod two}}}))
+
 (comment
   :mods-nested? false
   :mod {:first [[1] :top]
@@ -72,15 +81,6 @@
                  :sem two}
           :head {:mod three
                  :mods-nested? false}}))))
-
-;; TODO: remove this: needed by 'adverb':
-(def a-special-purpose-rule
-  (let [comp-sem (atom :top)
-        rest-mod (atom :top)]
-    {:sem {:mod {:first comp-sem
-                 :rest rest-mod}}
-     :head {:sem {:mod rest-mod}}
-     :comp {:sem comp-sem}}))
 
 (def nest-only
   (let [two (atom :top)

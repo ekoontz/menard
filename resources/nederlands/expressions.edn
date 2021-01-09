@@ -352,7 +352,12 @@
                                   :head {:head {:phrasal false}
                                          :comp {:phrasal false}}}}}}
 
- ;; </verbal expressions>
+ ;; 25
+ {:note "past-simple"
+  :phrasal true
+  :cat :verb
+  :infl :past-simple
+  :sem {:obj :unspec}}
  ]
 
   

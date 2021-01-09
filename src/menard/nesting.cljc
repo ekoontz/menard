@@ -15,6 +15,9 @@
 ;; - cons-and-nest-2
 ;; - cons-only
 ;; - nest-only
+;;
+;; This exclusivity is enforced by the ::only-one-allowed-of below.
+
 ;; If it inherits from cons-and-nest-1,
 ;; cons-and-nest-2 or nest-only, then it should
 ;; also inherit
@@ -23,6 +26,7 @@
 ;; - adjective
 ;; - noun
 ;; - verb
+(comment "sem|mod = comp|sem")
 (def cons-and-nest-super
   (let [mod (atom :top)]
     {:mods-nested? true
@@ -31,18 +35,22 @@
             :sem mod}
      :head {:mods-nested? false}}))
 
+(comment "sem|mod|rest = head|mod")
 (def cons-and-nest-1
   (let [head-mod (atom :top)]
     (unify
      cons-and-nest-super
-     {:sem {:mod {:rest head-mod}}
+     {::only-one-allowed-of :cons-and-nest-1
+      :sem {:mod {:rest head-mod}}
       :head {:mod head-mod}})))
 
+(comment "sem|mod|rest = head|sem|mod")
 (def cons-and-nest-2
   (let [head-mod (atom :top)]
     (unify
      cons-and-nest-super
-     {:sem {:mod {:rest head-mod}}
+     {::only-one-allowed-of :cons-and-nest-2
+      :sem {:mod {:rest head-mod}}
       :head {:sem {:mod head-mod}}})))
 
 (def cons-only
@@ -52,7 +60,8 @@
        (let [one (atom :top)
              two (atom {:ref one})
              three (atom :top)]
-         {:sem {:ref one}
+         {::only-one-allowed-of :cons-only
+          :sem {:ref one}
           :mods-nested? false
           :mod {:first two
                 :rest three}
@@ -64,7 +73,8 @@
 (def nest-only
   (let [two (atom :top)
         three (atom :top)]
-    {:mods-nested? true
+    {::only-one-allowed-of :nest-only
+     :mods-nested? true
      :sem {:mod two}
      :mod nil
      :comp {:mods-nested? true}

@@ -57,11 +57,9 @@
   (-> ug/head-sem
       (unify ug/head-rule)
       (unify
-       (let [one (atom :top)
-             two (atom {:ref one})
+       (let [two (atom :top)
              three (atom :top)]
          {::only-one-allowed-of :cons-only
-          :sem {:ref one}
           :mods-nested? false
           :mod {:first two
                 :rest three}

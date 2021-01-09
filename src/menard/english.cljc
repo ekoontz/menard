@@ -8,6 +8,7 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
+            #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [menard.model :as model]
@@ -139,10 +140,10 @@
 ;; <grammar>
 
 (def finite-tenses
-  (read-string (slurp "resources/english/finite-tenses.edn")))
+  (-> "english/finite-tenses.edn" resource slurp read-string))
 
 (def nonfinite-tenses
-  (read-string (slurp "resources/english/nonfinite-tenses.edn")))
+  (-> "english/nonfinite-tenses.edn" resource slurp read-string))
 
 (def tenses
   (concat finite-tenses

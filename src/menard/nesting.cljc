@@ -56,7 +56,7 @@
 
 (def cons-and-nest-two
   (let [tmpone (atom :top)
-        one (atom :top)
+        one (atom {:ref tmpone})
         two (atom :top)]
     (unify
      cons-and-nest-super

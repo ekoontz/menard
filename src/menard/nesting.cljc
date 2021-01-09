@@ -48,7 +48,6 @@
     (unify
      cons-and-nest-super
      {:sem {:mod {:rest two}}
-      :mod nil
       :head {:mod two}})))
 
 (def cons-and-nest-2

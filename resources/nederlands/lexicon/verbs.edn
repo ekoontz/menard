@@ -43,9 +43,14 @@
                     :surface "leest"}
                    {:infl :present
                     :agr {:person :3rd :number :sing}
-                    :surface "leest"}]]
+                    :surface "leest"}
+                   {:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "las"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "lazen"}]]
    [{:exceptions exceptions
-     
      :sem {:pred :read}}])
 
  "moeten" ;; F. 40.1
@@ -58,7 +63,6 @@
                     :surface "moeten"}]]
 
    [{:exceptions exceptions
-     
      :modal :infinitive
      :sem {:pred :must}}])
 

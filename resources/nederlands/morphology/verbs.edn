@@ -62,7 +62,7 @@
  {:g [#"^(.*)en$" "$1ten"]
   :p [#"^(.*)ten$" "$1en"]
   :u {:cat :verb
-      :agr {:number :plural}
+      :agr {:number :plur}
       :infl :past-simple}}
  
  ]

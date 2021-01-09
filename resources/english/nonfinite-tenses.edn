@@ -1,6 +1,12 @@
-[{:infl :base
+[
+ ;; [vp-inf to [vp-base stay at the party]]
+ {:infl :base
   :variant :base}
+
+ ;; [vp-gerund staying at the party]
  {:infl :gerund
   :variant :gerund}
+
+ ;; [vp-past stayed at the party]
  {:infl :past-participle
   :variant :past-participle}]

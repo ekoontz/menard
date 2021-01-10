@@ -104,13 +104,16 @@
        :reflexive true
        :sem {:ref {:context :polite
                    :number :sing}}}
+
       ;; semantically plural, but still grammatically singular:
       {:agr {:person :2nd}
+       :semantic-number-differs-from-agreement-number? true
        :sem {:pred :you
              :ref {:context :polite
                    :number :plur}
              :number :sing}}
       {:case :acc
+       :semantic-number-differs-from-agreement-number? true       
        :agr {:person :2nd
              :number :sing}
        :reflexive true

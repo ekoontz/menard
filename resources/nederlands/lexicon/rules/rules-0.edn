@@ -3,7 +3,8 @@
   :then [{:null? false}]}
  {:rule :noun-semantics
   :if {:cat :noun
-       :null? false}
+       :null? false
+       :semantic-number-differs-from-agreement-number? false}
   :then [(let [number (atom :top)]
            {:agr {:number number}
             :sem {:ref {:number number}}})]}

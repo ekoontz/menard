@@ -93,6 +93,7 @@
    :exceptions (atom :top)
    :infl (atom :top)
    :inflected? (atom :top)
+   :note (atom :top)
    :null? (atom :top)
    :root (atom :top)
    :sem (atom :top)})

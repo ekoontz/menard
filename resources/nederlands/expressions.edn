@@ -356,6 +356,7 @@
  {:note "past-simple"
   :phrasal true
   :cat :verb
+  :head {:modal false}
   :infl :past-simple
   :sem {:obj :unspec}}
  ]

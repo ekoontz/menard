@@ -1,4 +1,7 @@
-[{:rule :null-is-false-by-default
+[{:rule :curriculum-is-none-default
+  :if {:curriculum ::none}
+  :then [{:curriculum ::none}]}
+ {:rule :null-is-false-by-default
   :if {:null? false}
   :then [{:null? false}]}
  {:rule :noun-semantics

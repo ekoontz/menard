@@ -353,10 +353,20 @@
                                          :comp {:phrasal false}}}}}}
 
  ;; 25
- {:note "past-simple"
+ {:note "simple past sentences with regular simple past"
   :phrasal true
   :cat :verb
-  :head {:modal false}
+  :head {:modal false
+         :irregular-past-simple? false}
+  :infl :past-simple
+  :sem {:obj :unspec}}
+
+ ;; 26
+ {:note "simple past sentences with irregular simple past"
+  :phrasal true
+  :cat :verb
+  :head {:modal false
+         :irregular-past-simple? true}
   :infl :past-simple
   :sem {:obj :unspec}}
  ]

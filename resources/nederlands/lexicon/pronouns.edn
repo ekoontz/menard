@@ -92,9 +92,11 @@
  ;; sing/plur and nom/acc.
  "u" [{:agr {:person :2nd}
        :sem {:pred :you
-             :ref {:context :polite}}}
+             :ref {:context :polite}
+             :number :sing}
       {:case :acc
-       :agr {:person :2nd}
+       :agr {:person :2nd
+             :number :sing}
        :reflexive true
        :sem {:ref {:context :polite}}}]
  "we" [{:agr {:person :1st

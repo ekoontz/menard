@@ -9,6 +9,7 @@
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
+            #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [menard.model :as model]

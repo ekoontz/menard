@@ -165,6 +165,13 @@
      :sem {:pred :see}}])
 
  "zingen"
- [{
-   :sem {:pred :sing}
-   :subcat {:2 []}}]}
+ [{:sem {:pred :sing}
+   :subcat {:2 []}
+   :exceptions [{:infl :past-simple
+                 :agr {:number :sing}
+                 :surface "zong"}
+                {:infl :past-simple
+                 :agr {:number :sing}
+                 :surface "zongen"}]}]}
+
+

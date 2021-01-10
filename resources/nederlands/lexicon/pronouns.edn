@@ -93,11 +93,11 @@
  ;; 
  
  "u" [;; semantically singular and grammatically singular:
-      {:agr {:person :2nd}
+      {:agr {:person :2nd
+             :number :sing}
        :sem {:pred :you
              :ref {:context :polite
-                   :number :sing}
-             :number :sing}}
+                   :number :sing}}}
       {:case :acc
        :agr {:person :2nd
              :number :sing}
@@ -106,12 +106,12 @@
                    :number :sing}}}
 
       ;; semantically plural, but still grammatically singular:
-      {:agr {:person :2nd}
+      {:agr {:person :2nd
+             :number :sing}
        :semantic-number-differs-from-agreement-number? true
        :sem {:pred :you
              :ref {:context :polite
-                   :number :plur}
-             :number :sing}}
+                   :number :plur}}}
       {:case :acc
        :semantic-number-differs-from-agreement-number? true       
        :agr {:person :2nd

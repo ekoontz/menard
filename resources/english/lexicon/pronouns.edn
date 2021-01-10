@@ -205,7 +205,7 @@
          :case :acc
          :agr {:person :2nd
                :number :plur}
-         :sem {:ref {:human true}
+         :sem {:ref {:human true
                      :context :polite}
                :pred :you}
          :pronoun true

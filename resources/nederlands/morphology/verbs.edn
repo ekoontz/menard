@@ -9,7 +9,7 @@
 
  ;; 1st
  {:g [#"^(.*g)gen$" "$1"]       ;; uitgeleggen -> uitgeleg
-  :p [#"^(.*)d$"    "$1en"] 
+  :p [#"^(.*)(.)$"  "$1$2$2en"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :1st

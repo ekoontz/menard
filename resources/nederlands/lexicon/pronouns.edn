@@ -50,15 +50,25 @@
  "je" [{:case :nom
         :agr {:person :2nd
               :number :sing}
-        :reflexive true
-        :sem {:ref {:human true
+        :sem {:pred :you
+              :ref {:human true
+                    :context :informal}}}
+       {:case :acc
+        :agr {:person :2nd
+              :number :sing}
+        :reflexive false
+        :sem {:pred :you
+              :ref {:human true
                     :context :informal}}}
        {:case :acc
         :agr {:person :2nd
               :number :sing}
         :reflexive true
-        :sem {:ref {:human true
+        :sem {:pred :you
+              :ref {:human true
                     :context :informal}}}]
+
+       
  "jij" [{:agr {:person :2nd
                :number :sing}
          :case :nom

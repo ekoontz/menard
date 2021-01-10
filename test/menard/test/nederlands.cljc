@@ -102,7 +102,27 @@
              :infl :present
              :agr {:number :sing
                    :person :3rd}}
+            (menard.morphology/morph-leaf morphology))))
+
+    (is (= "huilde"
+           (->
+            {:canonical "huilen"
+             :cat :verb
+             :infl :past-simple
+             :agr {:number :sing
+                   :person :3rd}}
+            (menard.morphology/morph-leaf morphology))))
+
+    (is (= "wasten"
+           (->
+            {:canonical "wassen"
+             :cat :verb
+             :infl :past-simple
+             :agr {:number :plur
+                   :person :3rd}}
             (menard.morphology/morph-leaf morphology))))))
 
-    
+
+
+
     

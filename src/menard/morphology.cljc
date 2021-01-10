@@ -66,8 +66,12 @@
 
       (= true (u/get-in structure [:inflected?] false))
       (do
-        (log/debug (str "found canonical; using that: " (u/get-in structure [:canonical])))
-        (u/get-in structure [:canonical]))
+        (log/debug (str "uninflected leaf but found canonical; using that: " (u/get-in structure [:canonical])))
+        (str (u/get-in structure [:canonical])
+             (when (and (u/get-in structure [:note])
+                        (not (= :top (u/get-in structure [:note])))
+                        (seq (u/get-in structure [:note])))
+               (str " (" (u/get-in structure [:note] "") ")"))))
       
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))

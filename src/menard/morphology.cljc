@@ -7,6 +7,8 @@
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.diagnostics :as diag :refer [fail-path strip-refs]]))
 
+(def ^:dynamic show-notes? true)
+
 (defn morph-leaf
   "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a
    an inflected string. The morphology is a set of rules, each of which has a :u and a :g. The :u is
@@ -68,7 +70,8 @@
       (do
         (log/debug (str "uninflected leaf but found canonical; using that: " (u/get-in structure [:canonical])))
         (str (u/get-in structure [:canonical])
-             (when (and (u/get-in structure [:note])
+             (when (and show-notes?
+                        (u/get-in structure [:note])
                         (not (= :top (u/get-in structure [:note])))
                         (seq (u/get-in structure [:note])))
                (str " (" (u/get-in structure [:note] "") ")"))))

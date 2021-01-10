@@ -55,6 +55,30 @@
 
 
  ;; <F p 64: 't kofschip>
+ ;; doubled consonants
+ {:g [#"^(.*f)fen$" "$1te"]
+  :p [#"^(.*f)te$"  "$1fen"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+ {:g [#"^(.*s)sen$" "$1te"]
+  :p [#"^(.*s)te$"  "$1sen"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*f)fen$"  "$1ten"]
+  :p [#"^(.*f)ten$"  "$1fen"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ {:g [#"^(.*s)sen$" "$1ten"]
+  :p [#"^(.*s)ten$"  "$1sen"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ ;; single consonants
  {:g [#"^(.*[tksp])en$" "$1te"]
   :p [#"^(.*[tksp])te$" "$1en"]
   :u {:cat :verb

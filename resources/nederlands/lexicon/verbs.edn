@@ -145,6 +145,16 @@
  "voorkomen" [{:sem {:pred :prevent}}
               {:sem {:pred :avoid}}]
 
+ "zeggen"
+ (let [exceptions [{:infl :past-simple
+                    :agr {:number :sing}                    
+                    :surface "zei"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "zeiden"}]]
+   [{:exceptions exceptions
+     :sem {:pred :say}}])
+ 
  "zien"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

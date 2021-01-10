@@ -55,7 +55,7 @@
       (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-3.edn"))]))
 
 #?(:clj
-   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
+   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
      (binding [menard.lexiconfn/include-derivation? true]
        (-> source-filename
            l/read-and-eval
@@ -68,6 +68,12 @@
                                              (if (= :fail result)
                                                (exception (str "hit a fail while proccessing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
                                              result))))))
+           ((fn [lexicon]
+              (l/apply-to-every-lexeme lexicon
+                                       (fn [lexeme]
+                                         (if (nil? apply-fn)
+                                           lexeme
+                                           (apply-fn lexeme))))))
            l/add-exceptions-to-lexicon
            (l/apply-rules-in-order (nth lexical-rules 0) :0)
            (l/apply-rules-in-order (nth lexical-rules 1) :1)
@@ -91,6 +97,13 @@
             (map (fn [result]
                    (-> result :u :inflection)))
             first))))
+
+#?(:clj
+   (defn mark-irregular-verbs [lexeme]
+     (if (seq (->> (u/get-in lexeme [:exceptions])
+                   (filter #(= :past-simple (u/get-in % [:infl])))))
+       (unify lexeme {:irregular-past-simple? true})
+       (unify lexeme {:irregular-past-simple? false}))))
 
 #?(:clj
    (defn load-lexicon [lexical-rules]
@@ -117,7 +130,7 @@
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
                                          {:cat :noun :propernoun true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/verbs.edn")        lexical-rules
-                                         {:cat :verb}))))
+                                         {:cat :verb} mark-irregular-verbs))))
 
 #?(:clj
 

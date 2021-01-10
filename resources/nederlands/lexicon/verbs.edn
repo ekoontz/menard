@@ -2,8 +2,16 @@
  "bereiken" [{ :sem {:pred :achieve}}]
  "bestrijden" [{:sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
- "komen" [{:sem {:pred :come}
-           :subcat {:2 []}}]
+ "komen"
+ (let [exceptions [{:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "kwam"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "kwamen"}]]
+       [{:sem {:pred :come}
+         :subcat {:2 []}
+         :exceptions exceptions}])
 
  "kunnen" ;; F. 40.1
  (let [exceptions [{:infl :present
@@ -26,14 +34,19 @@
                     :surface "kunt"}
                    
                     {:infl :present
-                    :agr {:person :3rd :number :sing}
-                    :surface "kan"}]]
+                     :agr {:person :3rd :number :sing}
+                     :surface "kan"}
 
-   [{:exceptions exceptions
-     
-     :modal :infinitive
-     :sem {:pred :be-able-to}}])
-
+                   {:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "kon"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "konden"}]]
+   [{:modal :infinitive
+     :sem {:pred :be-able-to}
+     :exceptions exceptions}])
+ 
  "lezen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

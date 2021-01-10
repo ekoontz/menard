@@ -221,7 +221,11 @@
  "emigrate" [{:sem {:pred :emigrate}}]
  "explain" [{ :sem {:pred :explain}}]
 
- "feed" [{:sem {:pred :feed}}]
+ "feed" [{:sem {:pred :feed}
+          :exceptions [{:infl :past-simple
+                        :surface "fed"}
+                       {:infl :past-participle
+                        :surface "fed"}]}]
 
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]
@@ -456,7 +460,11 @@
            :sem {:pred :see}}])
  "seem" [{ :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
  "show" [{ :sem {:pred :show} :subcat {:1 :top :2 :top}}]
- "sing" [{ :sem {:pred :sing}}]
+ "sing" [{:sem {:pred :sing}
+          :exceptions [{:infl :past-simple
+                        :surface "sang"}
+                       {:infl :past-participle
+                        :surface "sung"}]}]
 
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]

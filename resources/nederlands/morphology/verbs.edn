@@ -53,14 +53,42 @@
       :agr {:number :plur}}}
 ;; </F>
 
- {:g [#"^(.*)en$" "$1te"]
-  :p [#"^(.*)te$" "$1en"]
+
+ ;; <F p 64: 't kofschip>
+ {:g [#"^(.*[tksp])en$" "$1te"]
+  :p [#"^(.*[tksp])te$" "$1en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*)en$" "$1ten"]
-  :p [#"^(.*)ten$" "$1en"]
+ {:g [#"^(.*[tksp])en$"  "$1ten"]
+  :p [#"^(.*[tksp])ten$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ {:g [#"^(.*ch)en$" "$1te"]
+  :p [#"^(.*ch)te$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*ch)en$"  "$1ten"]
+  :p [#"^(.*ch)ten$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </F>
+
+ 
+ {:g [#"^(.*)en$" "$1de"]
+  :p [#"^(.*)de$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*)en$"  "$1den"]
+  :p [#"^(.*)den$" "$1en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}

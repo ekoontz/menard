@@ -115,7 +115,9 @@
    [{:curriculum 1
      :exceptions exceptions
     
-    :sem {:pred :sleep}
+     :sem {:pred :sleep
+           :subj {:prop {:animate true}}} ;; TODO: move to encyclopedia.
+
     :subcat {:2 []}}])
 
  "te"

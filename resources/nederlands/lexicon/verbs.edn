@@ -2,6 +2,13 @@
  "bereiken" [{ :sem {:pred :achieve}}]
  "bestrijden" [{:sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
+ "hopen" [{:sem {:pred :hope}
+           :exceptions [{:infl :past-simple
+                         :agr {:number :sing}
+                         :surface "hoopte"}
+                        {:infl :past-simple
+                         :agr {:number :plur}
+                         :surface "hoopten"}]}]
  "komen"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}

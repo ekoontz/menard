@@ -4,7 +4,19 @@
  "bruizen" [{:sem {:pred :bubble}}]
  "gaan" [{:curriculum 1
           :sem {:pred :go}
-          :exceptions [{:infl :past-simple
+          :exceptions [{:infl :present
+                        :surface "ga"
+                        :agr {:person :1st
+                              :number :sing}}
+                       {:infl :present
+                        :surface "gaat"
+                        :agr {:person :2nd
+                              :number :sing}}
+                       {:infl :present
+                        :surface "gaat"
+                        :agr {:person :3rd
+                              :number :sing}}
+                       {:infl :past-simple
                         :agr {:number :sing}
                         :surface "ging"}
                        {:infl :past-simple
@@ -163,6 +175,19 @@
  "werken" [{:curriculum 1
             :sem {:pred :work}
             :subcat {:2 []}}]
+
+ "weten" [{:curriculum 1
+           :sem {:pred :know}
+           :exceptions [{:infl :present
+                         :agr {:number :sing}
+                         :surface "weet"}
+                        {:infl :past-simple
+                         :agr {:number :sing}                    
+                         :surface "wist"}
+                        {:infl :past-simple
+                         :agr {:number :plur}
+                         :surface "wisten"}]}]
+           
 
  "veroorzaaken" [{:sem {:pred :cause}}]
 

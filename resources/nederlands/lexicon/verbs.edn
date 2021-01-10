@@ -2,6 +2,15 @@
  "bereiken" [{ :sem {:pred :achieve}}]
  "bestrijden" [{:sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
+ "gaan" [{:curriculum 1
+          :sem {:pred :go}
+          :exceptions [{:infl :past-simple
+                        :agr {:number :sing}
+                        :surface "ging"}
+                       {:infl :past-simple
+                        :agr {:number :plur}
+                        :surface "gingen"}]}]
+          
  "hopen" [{:sem {:pred :hope}
            :exceptions [{:infl :past-simple
                          :agr {:number :sing}
@@ -9,6 +18,18 @@
                         {:infl :past-simple
                          :agr {:number :plur}
                          :surface "hoopten"}]}]
+
+ "kijken"
+ (let [exceptions [{:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "keek"}
+                   {:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "keken"}]]
+   [{:curriculum 1
+     :sem {:pred :look}
+     :exceptions exceptions}])
+                   
  "komen"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}

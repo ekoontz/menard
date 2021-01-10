@@ -93,7 +93,7 @@
  "u" [{:agr {:person :2nd}
        :sem {:pred :you
              :ref {:context :polite}
-             :number :sing}
+             :number :sing}}
       {:case :acc
        :agr {:person :2nd
              :number :sing}

@@ -129,20 +129,88 @@
          :sem {:pred :what
                :ref {:human true}}
          :wh-word true}]
- "you" [{:cat :noun
+ "you" [
+        {:note "singular,informal"
+         :cat :noun
          :case :nom
-         :agr {:person :2nd}
-         :sem {:ref {:human true}
+         :agr {:person :2nd
+               :number :sing}
+         :sem {:ref {:human true
+                     :context :informal}
                :pred :you}
          :pronoun true
          :reflexive false}
-        {:cat :noun
+        {:note "singular,informal"
+         :cat :noun
          :case :acc
-         :agr {:person :2nd}
-         :sem {:ref {:human true}
+         :agr {:person :2nd
+               :number :sing}
+         :sem {:ref {:human true
+                     :context :informal}
                :pred :you}
          :pronoun true
-         :reflexive false}]
+         :reflexive false}
+        {:note "singular,polite"
+         :cat :noun
+         :case :nom
+         :agr {:person :2nd
+               :number :sing}
+         :sem {:ref {:human true
+                     :context :polite}
+               :pred :you}
+         :pronoun true
+         :reflexive false}
+        {:note "singular,polite"
+         :cat :noun
+         :case :acc
+         :agr {:person :2nd
+               :number :sing}
+         :sem {:ref {:human true
+                     :context :polite}
+               :pred :you}
+         :pronoun true
+         :reflexive false}
+        {:note "plural,informal"
+         :cat :noun
+         :case :nom
+         :agr {:person :2nd
+               :number :plur}
+         :sem {:ref {:human true
+                     :context :informal}
+               :pred :you}
+         :pronoun true
+         :reflexive false}
+        {:note "plural,informal"
+         :cat :noun
+         :case :acc
+         :agr {:person :2nd
+               :number :plur}
+         :sem {:ref {:human true
+                     :context :informal}
+               :pred :you}
+         :pronoun true
+         :reflexive false}
+        {:note "plural,polite"
+         :cat :noun
+         :case :nom
+         :agr {:person :2nd
+               :number :plur}
+         :sem {:ref {:human true
+                     :context :polite}
+               :pred :you}
+         :pronoun true
+         :reflexive false}
+        {:note "plural,polite"
+         :cat :noun
+         :case :acc
+         :agr {:person :2nd
+               :number :plur}
+         :sem {:ref {:human true}
+                     :context :polite}
+               :pred :you}
+         :pronoun true
+         :reflexive false}
+        ]
  "yourself" [{:cat :noun
               :case :acc
               :agr {:number :sing

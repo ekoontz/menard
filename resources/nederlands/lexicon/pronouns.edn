@@ -90,15 +90,33 @@
          :reflexive true}]
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
- "u" [{:agr {:person :2nd}
+ ;; 
+ 
+ "u" [;; semantically singular and grammatically singular:
+      {:agr {:person :2nd}
        :sem {:pred :you
-             :ref {:context :polite}
+             :ref {:context :polite
+                   :number :sing}
              :number :sing}}
       {:case :acc
        :agr {:person :2nd
              :number :sing}
        :reflexive true
-       :sem {:ref {:context :polite}}}]
+       :sem {:ref {:context :polite
+                   :number :sing}}}
+      ;; semantically plural, but still grammatically singular:
+      {:agr {:person :2nd}
+       :sem {:pred :you
+             :ref {:context :polite
+                   :number :plur}
+             :number :sing}}
+      {:case :acc
+       :agr {:person :2nd
+             :number :sing}
+       :reflexive true
+       :sem {:ref {:context :polite
+                   :number :plur}}}]
+      
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom

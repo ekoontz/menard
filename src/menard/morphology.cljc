@@ -61,7 +61,7 @@
 
       (u/get-in structure [:surface])
       (do
-        (log/debug (str "found surface; using that."))
+        (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
         (u/get-in structure [:surface]))
 
       (= true (u/get-in structure [:inflected?] false))

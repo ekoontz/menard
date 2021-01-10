@@ -30,6 +30,8 @@
                                gender
                                :else :top))}
          :cat (u/get-in nl-expression [:cat])
+         :comp {:interrogative? (u/get-in nl-expression [:comp :interrogative?] :top)}
+         
          :max-depth (u/get-in nl-expression [:target :max-depth] g/max-depth)
          :phrasal true
          :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))

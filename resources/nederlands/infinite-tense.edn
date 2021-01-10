@@ -1,0 +1,6 @@
+[;; "te [vp(:infinitive) zien de kat]"
+ {:variant :infinitive
+  :abbreviation :inf
+  :infl :te
+  :sem {:tense :infinitive}}]
+

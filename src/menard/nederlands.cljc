@@ -191,39 +191,14 @@
                           (= (u/get-in % [:cat]) :verb))))})))
 
 (def finite-tenses
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :sem {:tense :present
-          :aspect :simple}}
-
-   ;; hij werkte"
-   {:variant :past-simple
-    :abbreviation :simple-past
-    :infl :past-simple
-    :sem {:tense :past
-          :aspect :simple}}])
+  (-> "nederlands/finite-tenses.edn" resource slurp read-string))
 
 (def inf-tense
-  [;; "te [vp(:infinitive) zien de kat]"
-   {:variant :infinitive
-    :abbreviation :inf
-    :infl :te
-    :sem {:tense :infinitive}}])
+  (-> "nederlands/infinite-tense.edn" resource slurp read-string))
 
 (def finite-plus-inf-tense
-  [;; "hij werkt"
-   {:variant :present-simple
-    :abbreviation :simple-present
-    :infl :present
-    :sem {:tense :present
-          :aspect :simple}}
-   ;; "te [vp(:infinitive) zien de kat]"
-   {:variant :infinitive
-    :abbreviation :inf
-    :infl :infinitive
-    :sem {:tense :infinitive}}])
+  (concat finite-tenses
+          inf-tense))
 
 #?(:clj
    (defn load-grammar []

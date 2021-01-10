@@ -16,9 +16,10 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "kwamen"}]]
-       [{:sem {:pred :come}
-         :subcat {:2 []}
-         :exceptions exceptions}])
+   [{:curriculum 1
+     :sem {:pred :come}
+     :subcat {:2 []}
+     :exceptions exceptions}])
 
  "kunnen" ;; F. 40.1
  (let [exceptions [{:infl :present
@@ -50,7 +51,8 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "konden"}]]
-   [{:modal :infinitive
+   [{:curriculum 1
+     :modal :infinitive
      :sem {:pred :be-able-to}
      :exceptions exceptions}])
  
@@ -70,7 +72,8 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "lazen"}]]
-   [{:exceptions exceptions
+   [{:curriculum 1
+     :exceptions exceptions
      :sem {:pred :read}}])
 
  "moeten" ;; F. 40.1
@@ -82,7 +85,8 @@
                     :agr {:number :plur}
                     :surface "moeten"}]]
 
-   [{:exceptions exceptions
+   [{:curriculum 1
+     :exceptions exceptions
      :modal :infinitive
      :sem {:pred :must}}])
 
@@ -99,7 +103,8 @@
                    {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "probeert"}]]
-   [{:modal :te
+   [{:curriculum 1
+     :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
  
@@ -107,7 +112,8 @@
  (let [exceptions [{:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "slaapt"}]]
-  [{:exceptions exceptions
+   [{:curriculum 1
+     :exceptions exceptions
     
     :sem {:pred :sleep}
     :subcat {:2 []}}])
@@ -115,8 +121,7 @@
  "te"
  [(let [sem (atom :top)
         reflexive? (atom :top)]
-    {
-     :infl :te
+    {:infl :te
      :inflected? true
      :normal-transitive-defaults? false
      :reflexive reflexive?
@@ -132,7 +137,8 @@
  "tegengehouden" [{ :sem {:pred :inhibit}}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
- "werken" [{:sem {:pred :work}
+ "werken" [{:curriculum 1
+            :sem {:pred :work}
             :subcat {:2 []}}]
 
  "veroorzaaken" [{:sem {:pred :cause}}]
@@ -152,7 +158,8 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "zeiden"}]]
-   [{:exceptions exceptions
+   [{:curriculum 1
+     :exceptions exceptions
      :sem {:pred :say}}])
  
  "zien"
@@ -171,11 +178,13 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "zagen"}]]
-   [{:exceptions exceptions
+   [{:curriculum 1
+     :exceptions exceptions
      :sem {:pred :see}}])
 
  "zingen"
- [{:sem {:pred :sing}
+ [{:curriculum 1
+   :sem {:pred :sing}
    :subcat {:2 []}
    :exceptions [{:infl :past-simple
                  :agr {:number :sing}

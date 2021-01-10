@@ -13,6 +13,8 @@
  {:rule :noun-gender-common-default
   :if {:cat :noun
        :null? false
+       :pronoun false
+       :propernoun false
        :agr {:gender :unspec}}
   :then [{:agr {:gender :common}}]}
 

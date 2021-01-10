@@ -56,7 +56,7 @@
     (cond
       first-matching-exception
       (do
-        (log/debug (str "matched rule; applying."))
+        (log/debug (str "found an exception: using that: " first-matching-exception))
         (morph-leaf first-matching-exception morphology))
 
       (u/get-in structure [:surface])

@@ -74,7 +74,7 @@
                         (u/get-in structure [:note])
                         (not (= :top (u/get-in structure [:note])))
                         (seq (u/get-in structure [:note])))
-               (str " (" (u/get-in structure [:note] "") ")"))))
+               (str (u/get-in structure [:note] "")))))
       
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))

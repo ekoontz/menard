@@ -9,6 +9,29 @@
 
 (def ^:dynamic show-notes? true)
 
+(def random-emoji
+  {:informal ["🤠"]
+   :polite   ["🤵","🤵‍♂️","🤵‍♀️"]})
+
+(defn decode-notes [notes]
+  (cond
+    (= notes [:informal :singular])
+    (str (clojure.string/join ""
+                              (take 1 (repeatedly #(first (shuffle (get random-emoji :informal)))))))
+    (= notes [:polite :singular])
+    (str (clojure.string/join ""
+                              (take 1 (repeatedly #(first (shuffle (get random-emoji :polite)))))))
+    (= notes [:informal :plural])
+    (str (clojure.string/join ""
+                              (take 2 (repeatedly #(first (shuffle (get random-emoji :informal)))))))
+    
+    (= notes [:polite :plural])
+    (str (clojure.string/join ""
+                              (take 2 (repeatedly #(first (shuffle (get random-emoji :polite)))))))
+    
+    :else
+    (str " " (clojure.string/join "," notes) "")))
+
 (defn morph-leaf
   "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a
    an inflected string. The morphology is a set of rules, each of which has a :u and a :g. The :u is
@@ -70,11 +93,13 @@
       (do
         (log/debug (str "uninflected leaf but found canonical; using that: " (u/get-in structure [:canonical])))
         (str (u/get-in structure [:canonical])
-             (when (and show-notes?
-                        (u/get-in structure [:note])
-                        (not (= :top (u/get-in structure [:note])))
+             (if (and show-notes?
+                      (u/get-in structure [:note])
+                      (not (= :top (u/get-in structure [:note])))
                         (seq (u/get-in structure [:note])))
-               (str " (" (u/get-in structure [:note] "") ")"))))
+               (str " " (decode-notes (u/get-in structure [:note]))
+                    "")
+               "")))
       
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))

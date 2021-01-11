@@ -131,27 +131,29 @@
          :wh-word true}]
  "you" [{:agr {:person :2nd
                :number :sing}
-         :note "🤠"
+         :note [:informal :singular]
          :sem {:pred :you
                :ref {:context :informal}}}
         
         {:agr {:person :2nd
                :number :plur}
-         :note "🤠🤠"
+         :note [:informal :plural]
          :sem {:pred :you
                :ref {:context :informal}}}
 
         {:agr {:person :2nd
                :number :sing}
-         :note "🎩"
+         :note [:polite :singular]
          :sem {:pred :you
                :ref {:context :polite}}}
 
         {:agr {:person :2nd
                :number :plur}
-         :note "🎩🎩"
+         :note [:polite :plural]
          :sem {:pred :you
                :ref {:context :polite}}}
+
+
         ]
  
  "yourself" [{:cat :noun

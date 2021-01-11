@@ -14,6 +14,7 @@
    :polite   ["🤵"]})
 
 (defn decode-notes [notes]
+  (log/info (str "FUCK: " notes))
   (cond
     (= notes [:informal :singular])
     (str (clojure.string/join ""
@@ -30,7 +31,7 @@
                               (take 2 (repeatedly #(first (shuffle (get random-emoji :polite)))))))
     
     :else
-    (str " " (clojure.string/join "," notes) "")))
+    (str "(" (clojure.string/join "," notes) ")")))
 
 (defn morph-leaf
   "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a
@@ -87,7 +88,15 @@
       (u/get-in structure [:surface])
       (do
         (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
-        (u/get-in structure [:surface]))
+        (str
+         (u/get-in structure [:surface])
+         (if (and show-notes?
+                  (u/get-in structure [:note])
+                  (not (= :top (u/get-in structure [:note])))
+                  (seq (u/get-in structure [:note])))
+           (str " " (decode-notes (u/get-in structure [:note]))
+                "")
+           "")))
 
       (= true (u/get-in structure [:inflected?] false))
       (do

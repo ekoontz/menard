@@ -11,7 +11,7 @@
 
 (def random-emoji
   {:informal ["🤠"]
-   :polite   ["🤵","🤵‍♂️","🤵‍♀️"]})
+   :polite   ["🤵"]})
 
 (defn decode-notes [notes]
   (cond

@@ -131,25 +131,25 @@
          :wh-word true}]
  "you" [{:agr {:person :2nd
                :number :sing}
-         :note "🤠,👤"
+         :note "🤠"
          :sem {:pred :you
                :ref {:context :informal}}}
         
         {:agr {:person :2nd
                :number :plur}
-         :note "🤠,👥"
+         :note "🤠🤠"
          :sem {:pred :you
                :ref {:context :informal}}}
 
         {:agr {:person :2nd
                :number :sing}
-         :note "🎩,👤"
+         :note "🎩"
          :sem {:pred :you
                :ref {:context :polite}}}
 
         {:agr {:person :2nd
                :number :plur}
-         :note "🎩,👥"
+         :note "🎩🎩"
          :sem {:pred :you
                :ref {:context :polite}}}
         ]

@@ -133,27 +133,25 @@
                :number :sing}
          :note "🤠,👤"
          :sem {:pred :you
-               :ref {:context :🤠}}}
+               :ref {:context :informal}}}
         
         {:agr {:person :2nd
                :number :plur}
          :note "🤠,👥"
          :sem {:pred :you
-               :ref {:context :🤠}}}
+               :ref {:context :informal}}}
 
         {:agr {:person :2nd
                :number :sing}
          :note "🎩,👤"
          :sem {:pred :you
-               :ref {:context :🎩}}}
+               :ref {:context :polite}}}
 
         {:agr {:person :2nd
                :number :plur}
          :note "🎩,👥"
          :sem {:pred :you
-               :ref {:context :🎩}}}
-
-
+               :ref {:context :polite}}}
         ]
  
  "yourself" [{:cat :noun

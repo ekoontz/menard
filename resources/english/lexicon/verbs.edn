@@ -423,8 +423,8 @@
                     :3 {:cat :noun}}
            
            :sem {:pred :put-in}}])
- "read" (let [exceptions [{:infl :past-simple :surface "read"}
-                          {:infl :past-participle :surface "read"}]]
+ "read" (let [exceptions [{:infl :past-simple :surface "read" :note ["past"]}
+                          {:infl :past-participle :surface "read" :note ["past"]}]]
           [{:exceptions exceptions  :sem {:pred :read}}])
  "ruin" [{:sem {:pred :ruin}
           :subcat {:2 {:cat :noun}}}]

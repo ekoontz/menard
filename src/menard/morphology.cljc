@@ -14,7 +14,6 @@
    :polite   ["🤵"]})
 
 (defn decode-notes [notes]
-  (log/info (str "FUCK: " notes))
   (cond
     (= notes [:informal :singular])
     (str (clojure.string/join ""

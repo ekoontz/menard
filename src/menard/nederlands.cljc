@@ -392,7 +392,7 @@
           (let [found (l/matching-lexemes "_")]
             (log/info (str "no lexemes found for: [" surface "]"
                            (when (seq found)
-                             (str ", but found null lexemes."))))
+                             (str ", will use null lexemes instead."))))
             found))))))
 
 (defn parse [expression]

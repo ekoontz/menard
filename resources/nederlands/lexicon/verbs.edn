@@ -23,7 +23,7 @@
                         :agr {:number :plur}
                         :surface "gingen"}]}]
           
- "hebben" [{:sem {:pred :need}
+ "hebben" [{:sem {:pred :have}
             :exceptions [{:infl :present
                           :surface "heb"
                           :agr {:person :1st

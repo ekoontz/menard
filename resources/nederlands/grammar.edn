@@ -188,6 +188,7 @@
   :cat :verb
   :head {:canonical "nodig"}
   :unify [menard.subcat/d
+          menard.ug/head-sem
           menard.ug/head-last]}
  
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]

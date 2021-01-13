@@ -377,11 +377,11 @@
  "let" (let [exceptions [{:infl :past-simple :surface "let"}
                          {:infl :past-participle :surface "let"}]]
           [{:exceptions exceptions  :sem {:pred :let}}])
- "like" [{ :sem {:pred :like}}]
- "live" [{ :sem {:pred :live}}]
- "look" [{ :sem {:pred :look}
+ "like" [{:sem {:pred :like}}]
+ "live" [{:sem {:pred :live}}]
+ "look" [{:sem {:pred :look}
           :subcat {:1 :top :2 []}}
-         { :sem {:pred :look}
+         {:sem {:pred :look}
           :subcat {:1 :top
                    :2 {:cat :prep
                        :sem {:pred :at}}
@@ -392,16 +392,14 @@
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions  :sem {:pred :mean}}])
- "move" [{ :sem {:pred :move} :subcat {:1 :top :2 :top}}]
+ "move" [{:sem {:pred :move} :subcat {:1 :top :2 :top}}]
 
  "must" [{:modal :base
-          
           :inflected? true
           :sem {:pred :must}}]
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]
-              [{
-                :exceptions exceptions
+              [{:exceptions exceptions
                 :sem {:pred :overcome}}])
  "need" [;; need to leave
          {:sense 1

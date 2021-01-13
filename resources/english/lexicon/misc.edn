@@ -54,8 +54,14 @@
  "our" [{:cat :det
          :sem {:pred :we}}]
  "some" [{:cat :det
-          :sem {:pred :some}
-          :agr {:number :plur}}]
+          :sem {:pred :some
+                :countable? true}
+          :agr {:number :plur}}
+         {:cat :det
+          :sem {:pred :some
+                :countable? false}
+          :agr {:number :sing}}]
+         
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
           :slash true

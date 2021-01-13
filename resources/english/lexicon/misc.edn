@@ -61,7 +61,7 @@
           :sem {:pred :some
                 :countable? false}
           :agr {:number :sing}}]
-         
+
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
           :slash true

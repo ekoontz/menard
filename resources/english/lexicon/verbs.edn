@@ -412,7 +412,7 @@
           :subcat {:1 {:cat :noun} 
                    :2 {:cat :noun :subcat []}
                    :3 []}}]
-              
+
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]
  "prevent" [{ :sem {:pred :prevent}}]

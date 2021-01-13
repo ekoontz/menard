@@ -23,6 +23,12 @@
                         :agr {:number :plur}
                         :surface "gingen"}]}]
           
+ "hebben" [{:sem {:pred :need}
+            :exceptions [{:infl :present
+                          :surface "heb"
+                          :agr {:person :1st
+                                :number :sing}}]}]
+
  "hopen" [{:sem {:pred :hope}
            :exceptions [{:infl :past-simple
                          :agr {:number :sing}

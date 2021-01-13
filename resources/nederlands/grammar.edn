@@ -184,6 +184,12 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash]}
 
+ {:rule "adverb-nodig" ;; [adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]
+  :cat :verb
+  :head {:canonical "nodig"}
+  :unify [menard.subcat/d
+          menard.ug/head-last]}
+ 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb
   :aux false

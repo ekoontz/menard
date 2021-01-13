@@ -83,10 +83,18 @@
         :definite? true
         :sem {:pred :you
               :context :polite}}]
- "wat" [{:cat :det
+ "wat" [;; "wat kattens"
+        {:cat :det
          :definite? false
-         :sem {:pred :some}
-         :agr {:number :plur}}]
+         :sem {:pred :some
+               :countable? true}
+         :agr {:number :plur}}
+        ;; "wat geld"
+        {:cat :det
+         :definite? false
+         :sem {:pred :some
+               :countable? false}
+         :agr {:number :sing}}]
  "zijn" [{:cat :det
           :definite? true
           :sem {:pred :he}}

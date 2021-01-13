@@ -1,4 +1,14 @@
 {
+
+ "nodig" [{:subcat {:1 {:cat :verb
+                        :canonical "hebben"
+                        :subcat {:1 {:top :top}
+                                 :2 []}}
+                    :2 []}}]
+
  "samen" [{:sem {:pred :together
                  :subj {:number :plur}}}]
+
+
+
  }

@@ -45,7 +45,7 @@
 
          ;; TODO: this is totally unintuitive: see TODO(1) below.
          :sem (u/unify (u/get-in nl-expression [:sem])
-                       {:obj {:obj (u/get-in expression [:sem :obj :obj] :unspec)}})
+                       {:obj {:obj (u/get-in nl-expression [:sem :obj :obj] :unspec)}})
 
 
          :subcat []}]

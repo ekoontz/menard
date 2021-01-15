@@ -7,8 +7,8 @@
                    :obj obj}
              :subcat {:1 {:cat :verb
                           :sem {:subj subj
+                                :pred :have
                                 :obj obj}
-                          :canonical "hebben"
                           :subcat {:1 {:top :top}
                                    :2 []}}
                       :2 []}})]

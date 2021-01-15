@@ -27,7 +27,26 @@
             :exceptions [{:infl :present
                           :surface "heb"
                           :agr {:person :1st
-                                :number :sing}}]}]
+                                :number :sing}}
+                         {:infl :present
+                          :surface "hebt"
+                          :agr {:person :2nd
+                                :number :sing}}
+                         ;; for "u", either "hebt" (above)
+                         ;; or "heeft (below) is possible (F 33.1):
+                         {:infl :present
+                          :surface "heeft"
+                          :agr {:person :2nd
+                                :number :sing}
+                          :sem {:ref {:context :polite}}}
+                         {:infl :present
+                          :surface "heeft"
+                          :agr {:person :3rd
+                                :number :sing}}
+                         {:infl :present
+                          :surface "hebben"
+                          :agr {:number :plur}}]}]
+                          
 
  "hopen" [{:sem {:pred :hope}
            :exceptions [{:infl :past-simple

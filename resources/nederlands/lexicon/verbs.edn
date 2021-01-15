@@ -45,8 +45,9 @@
                                 :number :sing}}
                          {:infl :present
                           :surface "hebben"
-                          :agr {:number :plur}}]}]
-                          
+                          :agr {:number :plur}}
+                         {:infl :past-simple
+                          :surface "had"}]}]
 
  "hopen" [{:sem {:pred :hope}
            :exceptions [{:infl :past-simple
@@ -55,7 +56,6 @@
                         {:infl :past-simple
                          :agr {:number :plur}
                          :surface "hoopten"}]}]
-
  "kijken"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}

@@ -42,7 +42,8 @@
                           :else
                           (u/get-in nl-expression [:reflexive] :top))
 
-         :sem (u/get-in nl-expression [:sem])
+         :sem (u/unify (u/get-in nl-expression [:sem])
+                       {:obj {:obj :unspec}})
          :subcat []}]
     (log/debug (str "English spec to generate: " (serialize retval)))
     (let [final-check

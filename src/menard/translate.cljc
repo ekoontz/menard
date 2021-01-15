@@ -42,8 +42,12 @@
                           :else
                           (u/get-in nl-expression [:reflexive] :top))
 
+
+         ;; TODO: this is totally unintuitive: see TODO(1) below.
          :sem (u/unify (u/get-in nl-expression [:sem])
-                       {:obj {:obj :unspec}})
+                       {:obj {:obj (u/get-in expression [:sem :obj :obj] :unspec)}})
+
+
          :subcat []}]
     (log/debug (str "English spec to generate: " (serialize retval)))
     (let [final-check
@@ -119,3 +123,43 @@
               (->> source-expressions
                    (mapcat translate)))
              (println)))))))
+
+(comment
+  "TODO (1) from above. It's to prevent:
+   generating:"
+
+  (-> (->> "ik heb het geld nodig"
+           nl/parse
+           (take 1))
+      first
+      nl-to-en-spec
+      en/generate
+      en/morph)
+
+  "being: 'I need to have'"
+  
+  "with semantics:"
+  
+  {:tense :present,
+   :aspect :simple,
+   :pred :need,
+   :mod [],
+   :subj
+   [[1]
+    {:pred :i,
+     :ref {:number [[2] :sing], :human true},
+     :mod [],
+     :context :unspec}],
+   :obj
+   {:tense :past,
+    :aspect :perfect,
+    :pred :money,
+    :ref {:number :sing},
+    :top :top,
+    :mod [],
+    :quant :the,
+    :context :unspec,
+    :subj [1],
+    :obj :anaphor}})
+
+

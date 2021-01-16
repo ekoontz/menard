@@ -50,7 +50,11 @@
          (range 0 (count expressions))
          (map (fn [index]
                 (take generate-per-expression
-                      (repeatedly #(generate (nth expressions index)))))))]
+                      (repeatedly #(or (generate (nth expressions index))
+                                       ;; if generation fails, save the :note
+                                       ;; so we can see where the fail happened in the
+                                       ;; log/info messages printed below.
+                                       {:note (-> expressions (nth index) :note)}))))))]
 
     ;; generation test 1
     (is (= (count expressions)

@@ -63,6 +63,19 @@
                      (->> expression-set
                           (map (fn [expression]
                                  (log/info (str (-> expression :note) ": generate: '"
+                                                (morph expression) "'"))
+                                 (morph expression)))
+                          (remove (fn [expression]
+                                    (nil? (clojure.string/index-of (morph expression) \_)))))))
+              (remove empty?))))
+    
+    ;; generation test 3
+    (is (empty?
+         (->> expression-sets
+              (map (fn [expression-set]
+                     (->> expression-set
+                          (map (fn [expression]
+                                 (log/info (str (-> expression :note) ": generate: '"
                                                 (morph expression) "'")))))))
               ;; count how many expressions we generated:
               (map count)

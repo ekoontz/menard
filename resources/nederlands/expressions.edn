@@ -322,10 +322,12 @@
   :cat :verb
   :prod? true
   :subcat []
+  :comp {:cat :noun}
+  :head {:rule "vp-slash-object"}
   :reflexive false
   :sem {:pred :must
         :obj {:obj {:pred :top}
-              :mod {:first {:pred :top}}
+              :mod {:first {:pred :together}}
               :pred :top}}
 
   ;; TODO: move this to within the :sem above,

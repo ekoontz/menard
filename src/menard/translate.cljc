@@ -21,7 +21,6 @@
 (def intermediate-parse? false)
 
 (defn nl-to-en-spec [nl-expression]
-  (log/debug (str "input:  " nl-expression))
   (let [retval
         {:agr {:number
                (or
@@ -44,8 +43,13 @@
 
 
          ;; TODO: this is totally unintuitive: see TODO(1) below.
-         :sem (u/unify (u/get-in nl-expression [:sem])
-                       {:obj {:obj (u/get-in nl-expression [:sem :obj :obj] :unspec)}})
+         :sem (unify (u/get-in nl-expression [:sem] :top)
+                     (cond (not (= :fail
+                                   (unify (u/get-in nl-expression [:sem] :top)
+                                          {:obj {:obj (u/get-in nl-expression [:sem :obj :obj])}})))
+                           (unify (u/get-in nl-expression [:sem] :top)
+                                  {:obj {:obj (u/get-in nl-expression [:sem :obj :obj])}})
+                           true :top))
 
 
          :subcat []}]

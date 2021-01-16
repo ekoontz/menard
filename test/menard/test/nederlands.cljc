@@ -77,7 +77,7 @@
               (map (fn [expression-set]
                      (->> expression-set
                           (map (fn [expression]
-                                 (log/info (str (-> expression :note) ":'" (morph expression) "': parse: "
+                                 (log/info (str (-> expression :note) ": '" (morph expression) "': parse: "
                                                 (-> expression morph parse first syntax-tree))))))))
               (remove #(not (empty? %))))))))
 

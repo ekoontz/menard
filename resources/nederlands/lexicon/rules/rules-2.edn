@@ -5,6 +5,7 @@
        :pronoun false
        :subcat :unspec}
   :then [(let [agr (atom {:person :3rd})
+               countable? (atom :top)
                quant (atom :top)
                arg1 (atom :top)
                arg2 (atom :top)]
@@ -12,11 +13,13 @@
             :reflexive false
             :agr agr
             :sem {:quant quant
+                  :countable? countable?
                   :arg1 arg1
                   :arg2 arg2}
             :subcat {:1 {:cat :det
                          :agr agr
-                         :sem {:arg1 arg1
+                         :sem {:countable? countable?
+                               :arg1 arg1
                                :arg2 arg2
                                :pred quant}}
                      :2 []}})

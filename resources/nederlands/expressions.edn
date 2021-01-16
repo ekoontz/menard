@@ -355,6 +355,7 @@
  ;; 25
  {:note "simple past sentences with regular simple past"
   :phrasal true
+  :subcat []
   :cat :verb
   :head {:modal false
          :irregular-past-simple? false}
@@ -363,6 +364,7 @@
 
  ;; 26
  {:note "simple past sentences with irregular simple past"
+  :subcat []
   :phrasal true
   :cat :verb
   :head {:modal false

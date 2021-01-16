@@ -48,9 +48,9 @@
         expression-sets
         (->>
          (range 0 (count expressions))
-         (pmap (fn [index]
-                 (take generate-per-expression
-                       (repeatedly #(generate (nth expressions index)))))))]
+         (map (fn [index]
+                (take generate-per-expression
+                      (repeatedly #(generate (nth expressions index)))))))]
     (is (= (count expressions)
            (count expression-sets)))
     (is (empty?
@@ -58,8 +58,10 @@
               (map (fn [expression-set]
                      (->> expression-set
                           (map (fn [expression]
-                                 (log/info (str (morph expression)))
-                                 (parse (morph expression)))))))
+                                 (log/info (str (-> expression :note) ": generate:  '"
+                                                (morph expression) "'"))
+                                 (log/info (str (-> expression :note) ": 1st parse: "
+                                                (-> expression morph parse first syntax-tree))))))))
               (map count)
               (remove #(= % generate-per-expression)))))))
 

@@ -62,7 +62,7 @@
               (map (fn [expression-set]
                      (->> expression-set
                           (map (fn [expression]
-                                 (log/info (str (-> expression :note) ": generate:  '"
+                                 (log/info (str (-> expression :note) ": generate: '"
                                                 (morph expression) "'")))))))
               ;; count how many expressions we generated:
               (map count)

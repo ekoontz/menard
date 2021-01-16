@@ -62,7 +62,11 @@
                                                 (morph expression) "'"))
                                  (log/info (str (-> expression :note) ": 1st parse: "
                                                 (-> expression morph parse first syntax-tree))))))))
+              ;; count how many expressions we generated:
               (map count)
+
+              ;; remove all cases where we generated enough expressions. Afterwards, if the remaining is empty,
+              ;; the test passes:
               (remove #(= % generate-per-expression)))))))
 
 (deftest morphology

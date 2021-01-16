@@ -51,23 +51,35 @@
          (map (fn [index]
                 (take generate-per-expression
                       (repeatedly #(generate (nth expressions index)))))))]
+
+    ;; generation test 1
     (is (= (count expressions)
            (count expression-sets)))
+
+    ;; generation test 2
     (is (empty?
          (->> expression-sets
               (map (fn [expression-set]
                      (->> expression-set
                           (map (fn [expression]
                                  (log/info (str (-> expression :note) ": generate:  '"
-                                                (morph expression) "'"))
-                                 (log/info (str (-> expression :note) ": 1st parse: "
-                                                (-> expression morph parse first syntax-tree))))))))
+                                                (morph expression) "'")))))))
               ;; count how many expressions we generated:
               (map count)
 
               ;; remove all cases where we generated enough expressions. Afterwards, if the remaining is empty,
               ;; the test passes:
-              (remove #(= % generate-per-expression)))))))
+              (remove #(= % generate-per-expression)))))
+
+    ;; parse test 1
+    (is (empty?
+         (->> expression-sets
+              (map (fn [expression-set]
+                     (->> expression-set
+                          (map (fn [expression]
+                                 (log/info (str (-> expression :note) ":'" (morph expression) "': parse: "
+                                                (-> expression morph parse first syntax-tree))))))))
+              (remove #(not (empty? %))))))))
 
 (deftest morphology
   ;; access all morphological rules for Dutch:

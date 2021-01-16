@@ -156,8 +156,3 @@
              :agr {:number :plur
                    :person :3rd}}
             (menard.morphology/morph-leaf morphology))))))
-
-
-
-
-    

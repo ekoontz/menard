@@ -14,4 +14,3 @@
   (is (=
        (->> "ze hebben het geld nodig" nl/parse (take 1) first nl-to-en-spec en/generate en/morph)
        "they need the money")))
-

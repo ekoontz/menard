@@ -386,8 +386,7 @@
                                 (clojure.string/capitalize surface)]))
             found (mapcat l/matching-lexemes variants)]
         (log/debug (str "found: " (count found) " for: [" surface "]"))
-        (if (or (seq found)
-                (clojure.string/index-of surface \ ))
+        (if (seq found)
           found
           (let [found (l/matching-lexemes "_")]
             (log/info (str "no lexemes found for: [" surface "]"

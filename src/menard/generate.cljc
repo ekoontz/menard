@@ -422,8 +422,8 @@
     (or (= false (u/get-in expression [:reflexive] false))
         (= :top (u/get-in expression [:reflexive] :top)))
     ;; .. and :subj and :obj both have :pred = :top
-    (= :top (u/get-in expression [:sem :subj :pred]))
-    (= :top (u/get-in expression [:sem :obj :pred])))
+    (= :top (u/get-in expression [:sem :subj :pred] :top))
+    (= :top (u/get-in expression [:sem :obj :pred] :top)))
 
    (and
     ;; non-reflexive verb..

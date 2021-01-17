@@ -66,7 +66,17 @@
         :reflexive true
         :sem {:pred :you
               :ref {:human true
-                    :context :informal}}}]
+                    :context :informal}}}
+
+       ;; unlike the above, this 'je' is the plural reflexive pronoun
+       ;; <F 61.1>
+       {:case :acc
+        :sem {:pred :you
+              :ref {:human true
+                    :context :informal}}
+        :agr {:person :2nd
+              :number :plur}
+        :reflexive true}]
 
        
  "jij" [{:agr {:person :2nd
@@ -91,14 +101,7 @@
                   :ref {:human true
                         :context :informal}}
             :agr {:person :2nd
-                  :number :plur}}
-           {:case :acc
-            :sem {:pred :you
-                  :ref {:human true
-                        :context :informal}}
-            :agr {:person :2nd
-                  :number :plur}
-            :reflexive true}]
+                  :number :plur}}]
  "me" [{:case :acc
         :agr {:number :sing
               :person :1st}

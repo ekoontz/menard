@@ -1,11 +1,17 @@
 {
 
  "nodig" [(let [subj (atom :top)
-                obj (atom :top)]
-            {:sem {:subj subj
+                infl (atom :top)
+                obj (atom :top)
+                reflexive (atom :top)]
+            {:infl infl
+             :reflexive reflexive
+             :sem {:subj subj
                    :pred :need
                    :obj obj}
              :subcat {:1 {:cat :verb
+                          :reflexive reflexive
+                          :infl infl
                           :sem {:subj subj
                                 :pred :have
                                 :obj obj}

@@ -188,6 +188,7 @@
   :cat :verb
   :head {:canonical "nodig"}
   :unify [menard.subcat/d
+          menard.ug/head-infl-reflexive
           menard.ug/head-sem
           menard.ug/head-last]}
 

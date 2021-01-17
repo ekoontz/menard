@@ -373,6 +373,27 @@
          :irregular-past-simple? true}
   :infl :past-simple
   :sem {:obj :unspec}}
+
+ ;; 27
+ {:note "'nodig' sentences with pronouns"
+  :phrasal true
+  :head {:rule "adverb-nodig"
+         :comp {:rule "vp"
+                :head {:infl :present
+                       :phrasal false}
+                :comp {:pronoun true
+                       :phrasal false}}}
+  :comp {:pronoun true
+         :phrasal false}
+  :reflexive :top
+  :subcat []
+  :cat :verb
+  :infl :present
+  :sem {:tense :present
+        :aspect :simple
+        :pred :need
+        :subj {:pred :top}
+        :obj {:pred :top}}}
  ]
 
   

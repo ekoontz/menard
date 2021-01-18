@@ -77,7 +77,6 @@
         :agr {:person :2nd
               :number :plur}
         :reflexive true}]
-
        
  "jij" [{:agr {:person :2nd
                :number :sing}
@@ -88,6 +87,7 @@
  "jou" [{:agr {:person :2nd
                :number :sing}
          :case :acc
+         :reflexive false
          :sem {:pred :you
                :ref {:human true}}}]
  "jullie" [{:case :nom

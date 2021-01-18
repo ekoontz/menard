@@ -18,5 +18,9 @@
 
 (deftest pronoun-nodig
   (is (= (nl-to-en-str "jij hebt hun nodig") "you 🤠 need them"))
-  (is (= (nl-to-en-str "zij heeft zich nodig") "she needs herself")))
+  (is (= (nl-to-en-str "zij heeft zich nodig") "she needs herself"))
+  (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))
+  (is (= (nl-to-en-str "u hebt u nodig") "you 🧐 need yourself")))
+
+
 

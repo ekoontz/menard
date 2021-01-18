@@ -131,7 +131,8 @@
        :agr {:person :2nd
              :number :sing}
        :reflexive true
-       :sem {:ref {:context :polite
+       :sem {:pred :you
+             :ref {:context :polite
                    :number :sing}}}
 
       ;; semantically plural, but still grammatically singular:
@@ -147,7 +148,8 @@
        :agr {:person :2nd
              :number :sing}
        :reflexive true
-       :sem {:ref {:context :polite
+       :sem {:pred :you
+             :ref {:context :polite
                    :number :plur}}}]
       
  "we" [{:agr {:person :1st

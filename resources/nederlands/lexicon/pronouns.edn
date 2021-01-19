@@ -89,7 +89,8 @@
          :case :acc
          :reflexive false
          :sem {:pred :you
-               :ref {:human true}}}]
+               :ref {:human true
+                     :context :informal}}}]
  "jullie" [{:case :nom
             :sem {:pred :you
                   :ref {:human true

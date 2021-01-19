@@ -411,24 +411,14 @@
 
    (and
     ;; non-reflexive verb..
-    (or (= false (u/get-in expression [:reflexive] false))
-        (= :top (u/get-in expression [:reflexive] :top)))
-    ;; .. and :subj and :obj *do* have references, but they are not equal:
-    (not (= (:ref (u/get-in expression [:sem :subj]))
-            (:ref (u/get-in expression [:sem :obj])))))
-
-   (and
-    ;; non-reflexive verb..
-    (or (= false (u/get-in expression [:reflexive] false))
-        (= :top (u/get-in expression [:reflexive] :top)))
+    (= false (u/get-in expression [:reflexive] false))
     ;; .. and :subj and :obj both have :pred = :top
     (= :top (u/get-in expression [:sem :subj :pred] :top))
     (= :top (u/get-in expression [:sem :obj :pred] :top)))
 
    (and
     ;; non-reflexive verb..
-    (or (= false (u/get-in expression [:reflexive] false))
-        (= :top (u/get-in expression [:reflexive] :top)))
+    (= false (u/get-in expression [:reflexive] false))
     ;; .. and :subj and :obj have different :preds (i.e. :i != :you is ok)
     ;; but :i = :i is not ok:
     ;; TODO: this also won't allow e.g. "the man saw a man",
@@ -437,11 +427,19 @@
     (not (= (u/get-in expression [:sem :subj :pred])
             (u/get-in expression [:sem :obj :pred]))))
     
-    ;; reflexive verb: the :subj and :obj refs must be equal:
-    (and
-     (= true (u/get-in expression [:reflexive] false))
-     (= (:ref (u/get-in expression [:sem :subj]))
-        (:ref (u/get-in expression [:sem :obj]))))))
+   ;; reflexive verb: the :subj and :obj refs must be equal:
+   (and
+    (= true (u/get-in expression [:reflexive] false))
+    (= (:ref (u/get-in expression [:sem :subj]))
+       (:ref (u/get-in expression [:sem :obj]))))
+
+   (and
+    (= :top (u/get-in expression [:reflexive] :top))
+    (= (:ref (u/get-in expression [:sem :subj]))
+       (:ref (u/get-in expression [:sem :obj])))
+    (do
+      (log/debug (str ":reflexive not specified: assuming it will be true."))
+      true))))
 
 (defn- add-until-done [tree grammar index-fn syntax-tree]
   (if (u/get-in tree [:menard.generate/done?])

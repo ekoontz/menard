@@ -122,15 +122,18 @@
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
 (def reflexive-options
-  [;; reflexive case:
+  [
+   ;; reflexive case:
    (let [ref (atom :top)]
-     {:reflexive true
+     {:cat :verb
+      :reflexive true
       :sem {:subj {:ref ref}
             :obj {:ref ref}}})
 
    ;; nonreflexive case: we force the subj and obj's
-   ;; :refs to be to be distinct from each other
-   {:reflexive true
+   ;; :refs to be to be distinct from each other:
+   {:cat :verb
+    :reflexive true
     :sem {:subj {:ref {::is-subj true}}
           :obj {:ref {::is-subj false}}}}])
 
@@ -225,29 +228,19 @@
                :else both)))
 
      (map (fn [expression]
-            (map (fn [option]
-                   (unify option expression))
-                 reflexive-options)))
+            (cond
+              (and (= :verb (u/get-in expression [:cat]))
+                   (not (= ::unspec (u/get-in expression [:sem :obj :ref] ::unspec))))
+              (remove #(= % :fail)
+                      (map (fn [option]
+                             (unify option expression))
+                           reflexive-options))
+              :else
+              [expression])))
 
      (flatten)
 
-     (remove #(= % :fail))
-
-     )))
-
-
-
-
-     ;; see (def reflexive-options) to see where we set ::cat
-     ;; to either :not-verb or to :verb: the idea here is
-     ;; to remove the excess case where we match a {:cat :verb}
-     ;; expression against {:cat :top ::cat :not-verb}:
-     ;; We want to Reflexives should only apply to {:cat :verb} phrases.
-
-     (remove #(and (= (u/get-in % [:cat]) :verb)
-                   (= (u/get-in % [::cat]) :not-verb)))
-     
-     )))
+     (remove #(= % :fail)))))
 
 (declare get-lexemes)
 

@@ -238,7 +238,16 @@
 
 
 
+     ;; see (def reflexive-options) to see where we set ::cat
+     ;; to either :not-verb or to :verb: the idea here is
+     ;; to remove the excess case where we match a {:cat :verb}
+     ;; expression against {:cat :top ::cat :not-verb}:
+     ;; We want to Reflexives should only apply to {:cat :verb} phrases.
 
+     (remove #(and (= (u/get-in % [:cat]) :verb)
+                   (= (u/get-in % [::cat]) :not-verb)))
+     
+     )))
 
 (declare get-lexemes)
 

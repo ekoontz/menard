@@ -43,6 +43,7 @@
  "oud" [{:sem {:pred :old}}]
  "prachtig" [{:sem {:pred :magnificent}}]
  "schattig" [{:sem {:pred :cute}}]
+ "schrijnend" [{:sem {:pred :poignant}}]
  "slim" [{:sem {:pred :smart}}]
  "spaarzaam" [{:sem {:pred :frugal}}]
  "sterk" [{:sem {:pred :strong}}]

@@ -123,6 +123,15 @@
 
 (def reflexive-options
   [
+   {:cat :adjective}
+   {:cat :adverb}
+   {:cat :intensifier}
+   {:cat :noun}
+   {:cat :prep}
+   
+   {:cat :verb
+    :sem {:obj :unspec}}
+   
    ;; reflexive case:
    (let [ref (atom :top)]
      {:cat :verb
@@ -133,7 +142,7 @@
    ;; nonreflexive case: we force the subj and obj's
    ;; :refs to be to be distinct from each other:
    {:cat :verb
-    :reflexive true
+    :reflexive false
     :sem {:subj {:ref {::is-subj true}}
           :obj {:ref {::is-subj false}}}}])
 
@@ -228,18 +237,12 @@
                :else both)))
 
      (map (fn [expression]
-            (cond
-              (and (= :verb (u/get-in expression [:cat]))
-                   (not (= ::unspec (u/get-in expression [:sem :obj :ref] ::unspec))))
-              (remove #(= % :fail)
-                      (map (fn [option]
-                             (unify option expression))
-                           reflexive-options))
-              :else
-              [expression])))
+            (map (fn [option]
+                   (unify option expression))
+                 reflexive-options)))
 
      (flatten)
-
+     
      (remove #(= % :fail)))))
 
 (declare get-lexemes)

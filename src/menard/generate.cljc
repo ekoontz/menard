@@ -356,7 +356,6 @@
                                       :rule
                                       (or rule-name
                                           (u/get-in % (concat at [:rule])))}))))
-
      (remove #(= % :fail))
 
      (map (fn [tree]

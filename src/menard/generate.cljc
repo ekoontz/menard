@@ -121,6 +121,19 @@
               (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
+(def reflexive-options
+  [;; reflexive case:
+   (let [ref (atom :top)]
+     {:reflexive true
+      :sem {:subj {:ref ref}
+            :obj {:ref ref}}})
+
+   ;; nonreflexive case: we force the subj and obj's
+   ;; :refs to be to be distinct from each other
+   {:reflexive true
+    :sem {:subj {:ref {::is-subj true}}
+          :obj {:ref {::is-subj false}}}}])
+
 (defn add
   "Return a lazy sequence of all trees made by adding every possible
   leaf and tree to _tree_. This sequence is the union of all trees

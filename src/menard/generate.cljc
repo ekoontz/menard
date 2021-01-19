@@ -223,7 +223,22 @@
                                (strip-refs (u/get-in tree at))))
 
                :else both)))
-     (filter #(reflexive-violations % syntax-tree-fn)))))
+
+     (map (fn [expression]
+            (map (fn [option]
+                   (unify option expression))
+                 reflexive-options)))
+
+     (flatten)
+
+     (remove #(= % :fail))
+
+     )))
+
+
+
+
+
 
 (declare get-lexemes)
 
@@ -413,46 +428,6 @@
 
           :else [])]
     retval))
-
-(defn reflexive-violations [expression syntax-tree-fn]
-  (log/debug (str "filtering after adding..:" (syntax-tree-fn expression) "; reflexive: " (u/get-in expression [:reflexive] ::unset)))
-  (log/debug (str "   subj/obj identity: " (= (:ref (u/get-in expression [:sem :subj]))
-                                              (:ref (u/get-in expression [:sem :obj])))))
-  (or
-   ;; not a verb:
-   (not (= :verb (u/get-in expression [:cat])))
-
-   (and
-    ;; non-reflexive verb..
-    (= false (u/get-in expression [:reflexive] false))
-    ;; .. and :subj and :obj both have :pred = :top
-    (= :top (u/get-in expression [:sem :subj :pred] :top))
-    (= :top (u/get-in expression [:sem :obj :pred] :top)))
-
-   (and
-    ;; non-reflexive verb..
-    (= false (u/get-in expression [:reflexive] false))
-    ;; .. and :subj and :obj have different :preds (i.e. :i != :you is ok)
-    ;; but :i = :i is not ok:
-    ;; TODO: this also won't allow e.g. "the man saw a man",
-    ;; so this restriction should be less strict: should only disallow
-    ;; equal :pred values when the :subj and :obj are pronouns.
-    (not (= (u/get-in expression [:sem :subj :pred])
-            (u/get-in expression [:sem :obj :pred]))))
-    
-   ;; reflexive verb: the :subj and :obj refs must be equal:
-   (and
-    (= true (u/get-in expression [:reflexive] false))
-    (= (:ref (u/get-in expression [:sem :subj]))
-       (:ref (u/get-in expression [:sem :obj]))))
-
-   (and
-    (= :top (u/get-in expression [:reflexive] :top))
-    (= (:ref (u/get-in expression [:sem :subj]))
-       (:ref (u/get-in expression [:sem :obj])))
-    (do
-      (log/debug (str ":reflexive not specified: assuming it will be true."))
-      true))))
 
 (defn- add-until-done [tree grammar index-fn syntax-tree]
   (if (u/get-in tree [:menard.generate/done?])

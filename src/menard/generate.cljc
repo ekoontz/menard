@@ -239,7 +239,7 @@
      (map (fn [expression]
             (map (fn [option]
                    (unify option expression))
-                 reflexive-options)))
+                 (shuffle reflexive-options))))
 
      (flatten)
      

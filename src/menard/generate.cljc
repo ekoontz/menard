@@ -121,30 +121,42 @@
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
 (def reflexive-options
-  [
-   {:cat :adjective}
-   {:cat :adverb}
-   {:cat :intensifier}
-   {:cat :noun}
-   {:cat :prep}
-   
-   {:cat :verb
-    :sem {:obj :unspec}}
+  (concat
+   [
+    {:cat :adjective}
+    {:cat :adverb}
+    {:cat :intensifier}
+    {:cat :noun}
+    {:cat :prep}
 
-   ;; reflexive case:
-   (let [ref (atom :top)]
-     {:cat :verb
-      :reflexive true
-      :sem {:subj {:ref ref}
-            :obj {:ref ref}}})
+    {:cat :verb
+     :sem {:obj :unspec}}
 
-   ;; nonreflexive case: we force the subj and obj's
-   ;; :refs to be to be distinct from each other:
-   {:cat :verb
-    :reflexive false
-    :sem {:subj {:ref {::is-subj true}}
-          :obj {:ref {::is-subj false}}}}])
+    ;; reflexive case:
+    (let [ref (atom :top)]
+      {:cat :verb
+       :reflexive true
+       :sem {:subj {:ref ref}
+             :obj {:ref ref}}})]
 
+    ;; nonreflexive case: we force the subj and obj's
+    ;; :refs to be to be distinct from each other:
+    (map (fn [x]
+           (unify
+            {:cat :verb
+             :reflexive false
+             :sem {:subj {:ref {::is-subj true}}
+                   :obj {:ref {::is-subj false}}}}
+           x))
+         [{:sem {:subj {:person :1st}
+                 :match-got-here 1
+                 :obj {:person-not :1st}}}
+          {:sem {:subj {:person :2nd}
+                 :match-got-here 2
+                 :obj {:person-not :2nd}}}
+          {:sem {:match-got-here 3
+                 :subj {:person :3rd}}}])))
+           
 (defn add
   "Return a lazy sequence of all trees made by adding every possible
   leaf and tree to _tree_. This sequence is the union of all trees

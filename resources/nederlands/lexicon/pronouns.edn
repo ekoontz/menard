@@ -51,6 +51,7 @@
         :agr {:person :2nd
               :number :sing}
         :sem {:pred :you
+              :person :2nd
               :ref {:human true
                     :context :informal}}}
        {:case :acc
@@ -58,6 +59,8 @@
               :number :sing}
         :reflexive false
         :sem {:pred :you
+              :person :2nd
+              :person-not :1st              
               :ref {:human true
                     :context :informal}}}
        {:case :acc
@@ -82,6 +85,7 @@
                :number :sing}
          :case :nom
          :sem {:pred :you
+               :person :2nd
                :ref {:human true
                      :context :informal}}}]
  "jou" [{:agr {:person :2nd
@@ -89,16 +93,21 @@
          :case :acc
          :reflexive false
          :sem {:pred :you
+               :person :2nd
+               :person-not :1st              
                :ref {:human true
                      :context :informal}}}]
  "jullie" [{:case :nom
             :sem {:pred :you
+                  :person :2nd
                   :ref {:human true
                         :context :informal}}
             :agr {:person :2nd
                   :number :plur}}
            {:case :acc
             :sem {:pred :you
+                  :person :2nd
+                  :person-not :1st              
                   :ref {:human true
                         :context :informal}}
             :agr {:person :2nd
@@ -126,6 +135,7 @@
        :agr {:person :2nd
              :number :sing}
        :sem {:pred :you
+             :person :2nd
              :ref {:context :polite
                    :number :sing}}}
       {:case :acc
@@ -142,6 +152,7 @@
              :number :sing}
        :semantic-number-differs-from-agreement-number? true
        :sem {:pred :you
+             :person :2nd
              :ref {:context :polite
                    :number :plur}}}
       {:case :acc

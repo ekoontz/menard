@@ -28,7 +28,6 @@
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
-(declare reflexive-violations)
 
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
@@ -131,7 +130,7 @@
    
    {:cat :verb
     :sem {:obj :unspec}}
-   
+
    ;; reflexive case:
    (let [ref (atom :top)]
      {:cat :verb

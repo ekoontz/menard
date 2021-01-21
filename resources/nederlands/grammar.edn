@@ -186,7 +186,8 @@
 
  {:rule "adverb-nodig" ;; [adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]
   :cat :verb
-  :head {:canonical "nodig"}
+  :head {:canonical "nodig"
+         :phrasal false}
   :unify [menard.subcat/d
           menard.ug/head-infl-reflexive
           menard.ug/head-sem

@@ -25,6 +25,7 @@
 
  ;; 2
  {:note "noun verb"
+  :max-depth 2
   :example "ik slaap"
   :subcat []
   :cat :verb

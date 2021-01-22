@@ -267,7 +267,7 @@
  ;; 20
  ;; ARGD, p. 37
  {:note "modals+infinitive"
-  :example "jouw achtig eigenwijze zenuwachtige tafels proberen banen te optreden"
+  :example "jouw tachtig eigenwijze zenuwachtige tafels proberen banen te optreden"
   :phrasal true
   :cat :verb
   :subcat []

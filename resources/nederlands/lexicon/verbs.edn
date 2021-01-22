@@ -1,7 +1,8 @@
 {
  "bereiken" [{ :sem {:pred :achieve}}]
  "bestrijden" [{:sem {:pred :overcome}}]
- "bruizen" [{:sem {:pred :bubble}}]
+ "bruizen" [{:sem {:pred :bubble}
+             :subcat {:2 []}}]
  "gaan" [{:curriculum 1
           :sem {:pred :go}
           :exceptions [{:infl :present

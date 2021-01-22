@@ -155,7 +155,6 @@
   :slash false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
-         :canonical "te"
          :modal :te}
 
   :unify [menard.subcat/c

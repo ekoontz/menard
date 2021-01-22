@@ -249,7 +249,7 @@
                 :subcat []}}}
 
  ;; 19
- {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
+ {:note "[s n [vp-modal-te v [vp-te:inf te v]]]" ;; e.g. 'probeer te slapen'
   :example "ik probeer te slapen"
   :cat :verb
   :subcat []

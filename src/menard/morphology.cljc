@@ -113,7 +113,10 @@
            (not (= structure {:head? false}))
            (not (= structure {:head? true})))
       (do
-        (log/warn (str "no rules matched structure: " (strip-refs structure)` ". Returning '_'"))
+        (log/warn (str "no rules matched structure: "
+                       (strip-refs (select-keys  structure
+                                                 [:canonical :infl :cat]))
+                       ". Returning '_'"))
         "_")
 
       (not (seq? matching-rules))

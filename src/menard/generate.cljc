@@ -172,8 +172,7 @@
       (exception (str "add: value at: " at " is fail.")))
     (when (not (= tree :fail))
       (log/debug (str "add: start: " (syntax-tree-fn tree) " at:" at
-                      (when (u/get-in tree (concat at [:phrasal]))
-                        (str "; looking for: " (strip-refs (u/get-in tree at)))))))
+                     (str "; looking for: " (strip-refs (select-keys (u/get-in tree at) [:cat :infl :phrasal :rule]))))))
     (when (and (not (= tree :fail))
                (= [:comp] at))
       (log/debug (str (syntax-tree-fn tree) " COMP: add at:" at " with spec: " (diag/strip-refs spec))))
@@ -227,7 +226,7 @@
        (= false (u/get-in tree (concat at [:phrasal])))
        (do
          (log/debug (str "add: condition 3: only adding lexemes at: " at
-                        "; spec: " (strip-refs (u/get-in tree at))))
+                        "; spec: " (strip-refs (select-keys (u/get-in tree at) [:cat :canonical :infl]))))
          (add-lexeme tree lexicon-index-fn syntax-tree-fn))
 
        ;; condition 4: add both lexemes and rules at location _at_:

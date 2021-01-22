@@ -155,6 +155,7 @@
   :slash false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
+         :canonical "te"
          :modal :te}
 
   :unify [menard.subcat/c
@@ -189,6 +190,7 @@
   :cat :verb
   :head {:canonical "nodig"
          :phrasal false}
+  :comp {:phrasal true}
   :unify [menard.subcat/d
           menard.ug/head-infl-reflexive
           menard.ug/head-sem

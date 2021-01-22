@@ -12,6 +12,7 @@
              :subcat {:1 {:cat :verb
                           :reflexive reflexive
                           :infl infl
+                          :canonical "hebben"
                           :sem {:subj subj
                                 :pred :have
                                 :obj obj}

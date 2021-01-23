@@ -81,22 +81,21 @@
         head-cat (atom :top)
         head-derivation (atom :top)
         head-interogative (atom :top)]
-    (unify head-agr
-           (unify
-            head-infl
-            (unify
-             head-reflexive
-             {:cat head-cat
-              :interogative? head-interogative
-              :comp-derivation comp-derivation
-              :head-derivation head-derivation
-              :head {:cat head-cat
-                    :interogative? head-interogative
-                     :head-derivation head-derivation
-                     :derivation head-derivation}
-              :comp {:head-derivation comp-derivation
-                     :derivation comp-derivation}
-              :phrasal true})))))
+    (-> head-agr
+        (unify head-infl)
+        (unify
+         head-reflexive
+         {:cat head-cat
+          :interogative? head-interogative
+          :comp-derivation comp-derivation
+          :head-derivation head-derivation
+          :head {:cat head-cat
+                 :interogative? head-interogative
+                 :head-derivation head-derivation
+                 :derivation head-derivation}
+          :comp {:head-derivation comp-derivation
+                 :derivation comp-derivation}
+          :phrasal true}))))
 
 (def head-sem
   (let [sem (atom :top)]

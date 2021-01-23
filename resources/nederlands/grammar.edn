@@ -191,9 +191,10 @@
          :phrasal false}
   :comp {:phrasal true}
   :unify [menard.subcat/d
-          menard.ug/head-infl-reflexive
-          menard.ug/head-sem
-          menard.ug/head-last]}
+          menard.ug/head-infl
+          menard.ug/head-last
+          menard.ug/head-reflexive          
+          menard.ug/head-sem]}
 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb

@@ -157,7 +157,7 @@
           :else :both)]
     (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
                    (str "; looking for: "
-                        (select-keys (u/get-in tree at) [:cat :canonical :infl])
+                        (strip-refs (select-keys (u/get-in tree at) [:cat :canonical :infl]))
                         "; gen-condition: " gen-condition)))
     (->>
      (cond

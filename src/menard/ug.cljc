@@ -68,7 +68,6 @@
     {:agr agr
      :head {:agr agr}}))
 
-
 (def head-infl-reflexive
   (let [head-infl (atom :top)
         reflexive (atom :top)]

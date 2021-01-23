@@ -74,15 +74,6 @@
     {:agr agr
      :head {:agr agr}}))
 
-(def head-infl-reflexive
-  (let [head-infl (atom :top)
-        reflexive (atom :top)]
-    (unify head-agr
-           {:infl head-infl
-            :reflexive reflexive
-            :head {:infl head-infl
-                   :reflexive reflexive}})))
-
 ;; TODO: :interogative? into :sem if
 ;; possible, so we don't need to specify it here.
 (def head-rule
@@ -92,18 +83,20 @@
         head-interogative (atom :top)]
     (unify head-agr
            (unify
-            head-infl-reflexive
-            {:cat head-cat
-             :interogative? head-interogative
-             :comp-derivation comp-derivation
-             :head-derivation head-derivation
-             :head {:cat head-cat
+            head-infl
+            (unify
+             head-reflexive
+             {:cat head-cat
+              :interogative? head-interogative
+              :comp-derivation comp-derivation
+              :head-derivation head-derivation
+              :head {:cat head-cat
                     :interogative? head-interogative
-                    :head-derivation head-derivation
-                    :derivation head-derivation}
-             :comp {:head-derivation comp-derivation
-                    :derivation comp-derivation}
-             :phrasal true}))))
+                     :head-derivation head-derivation
+                     :derivation head-derivation}
+              :comp {:head-derivation comp-derivation
+                     :derivation comp-derivation}
+              :phrasal true})))))
 
 (def head-sem
   (let [sem (atom :top)]

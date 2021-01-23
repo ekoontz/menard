@@ -192,7 +192,7 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
+    (log/debug (str "add: start: " (syntax-tree-fn tree) " at: " at
                    (str "; looking for: "
                         (strip-refs (select-keys (u/get-in tree at) [:cat :canonical :infl]))
                         "; gen-condition: " gen-condition)))

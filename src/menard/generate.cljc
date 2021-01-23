@@ -204,9 +204,9 @@
                                (last at)))
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
-                               " at: " at "; looking for: "
-                               (strip-refs (u/get-in tree at))))
-
+                               "; looking for: "
+                               (strip-refs (u/get-in tree at))
+                               " at: " at))
                :else both)))
      (filter #(reflexive-violations % syntax-tree-fn)))))
 

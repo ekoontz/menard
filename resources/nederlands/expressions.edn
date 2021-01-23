@@ -341,18 +341,14 @@
   :cat :verb
   :subcat []
   :phrasal true
+;;  :sem {:subj {:top :top}
+;;        :obj :unspec}}
+               
   :sem {:subj {:ref {:number :plur}
                :mod {:first {:number? true}
                      :rest {:first {:number? false
                                     :rest []}}}}
-        :obj :unspec}
-  :training-wheels {:head {:phrasal false}
-                    :comp {:comp {:cat :det}
-                           :head {:comp {:comp {:phrasal false}
-                                         :head {:head {:phrasal false}
-                                                :comp {:phrasal false}}}
-                                  :head {:head {:phrasal false}
-                                         :comp {:phrasal false}}}}}}
+        :obj :unspec}}
 
  ;; 25
  {:note "simple past sentences with regular simple past"

@@ -234,7 +234,8 @@
   :reflexive false
   :head {:cat :verb
          :infl :infinitive}
-  :comp {:cat :adverb}
+  :comp {:cat :adverb
+         :phrasal false}
   :unify [menard.subcat/b
           menard.nesting/rest-of-mods-nested
           menard.nesting/verb

@@ -75,7 +75,12 @@
   ;; 1. print the surface form of the source expression:
 
   (-> source-expression
-      ((fn [src] (str (nl/morph src :sentence-punctuation? true) "|")))
+      ((fn [src] (str
+                  
+                  (if false (nl/morph src :sentence-punctuation? true)
+                      (nl/syntax-tree src))
+
+                  "|")))
       println)
 
   ;; 2. generate the target expression from the source expression:

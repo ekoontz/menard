@@ -46,6 +46,12 @@
      :head {:root root
             :canonical root}}))
 
+(def head-infl
+  (let [head-infl (atom :top)]
+    (unify head-agr
+           {:infl head-infl
+            :head {:infl head-infl}})))
+
 (def head-modal
   (let [shared (atom :top)]
     {:modal shared

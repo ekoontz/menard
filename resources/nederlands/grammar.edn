@@ -156,9 +156,10 @@
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
          :modal :te}
-
+  :comp {:rule "vp-te"}
   :unify [menard.subcat/c
           menard.ug/head-first
+          menard.ug/head-infl
           menard.ug/head-is-root
           menard.ug/head-reflexive
           menard.ug/head-rule
@@ -174,23 +175,28 @@
   :slash false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
+         :phrasal false
          :modal :infinitive}
   :unify [menard.subcat/i
           menard.ug/head-first
           menard.ug/head-is-root
-          menard.ug/nest-comp-mod
+          menard.ug/head-modal
           menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem
+          menard.ug/nest-comp-mod
           menard.ug/slash-is-head-slash]}
 
  {:rule "adverb-nodig" ;; [adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]
   :cat :verb
-  :head {:canonical "nodig"}
+  :head {:canonical "nodig"
+         :phrasal false}
+  :comp {:phrasal true}
   :unify [menard.subcat/d
-          menard.ug/head-infl-reflexive
-          menard.ug/head-sem
-          menard.ug/head-last]}
+          menard.ug/head-infl
+          menard.ug/head-last
+          menard.ug/head-reflexive          
+          menard.ug/head-sem]}
 
  {:rule "vp-np" ;; [vp-np .[np de kat] [vp-te +te .zien]]
   :cat :verb
@@ -212,7 +218,9 @@
   :aux false
   :slash false
   :infl :te
-  :head {:canonical "te"}
+  :
+  head {:canonical "te"}
+  :comp {:infl :infinitive}
   :unify [menard.subcat/d
           menard.ug/head-first
           menard.ug/comp-is-root
@@ -231,7 +239,8 @@
   :reflexive false
   :head {:cat :verb
          :infl :infinitive}
-  :comp {:cat :adverb}
+  :comp {:cat :adverb
+         :phrasal false}
   :unify [menard.subcat/b
           menard.nesting/rest-of-mods-nested
           menard.nesting/verb

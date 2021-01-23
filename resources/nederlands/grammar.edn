@@ -218,8 +218,7 @@
   :aux false
   :slash false
   :infl :te
-  :
-  head {:canonical "te"}
+  :head {:canonical "te"}
   :comp {:infl :infinitive}
   :unify [menard.subcat/d
           menard.ug/head-first

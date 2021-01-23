@@ -1,6 +1,14 @@
 [;; "te [vp(:infinitive) zien de kat]"
  {:variant :infinitive
   :abbreviation :inf
+  :infl :infinitive
+  :sem {:tense :infinitive}}
+
+ {:variant :te
+  :abbreviation :te
   :infl :te
-  :sem {:tense :infinitive}}]
+  :sem {:tense :infinitive}}
+
+ ]
+
 

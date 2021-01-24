@@ -28,7 +28,8 @@
   :example "ik slaap"
   :subcat []
   :cat :verb
-  :phrasal true}
+  :phrasal true
+  :head {:phrasal false}}
 
   ;; 3
  {:note "det noun | verb"
@@ -90,10 +91,7 @@
                       :number? false
                       :mod {:first {:pred :very}}}
               :rest []}}
-  :subcat []
-
-  ;; training wheels:
-  :training-wheels {:comp {:cat :det}}}
+  :subcat []}
 
  ;; 8
  ;; Generate some noun phrases where the
@@ -105,15 +103,15 @@
   :agr {:number :sing
         :gender :neuter}
   :definite? false
-  :sem {:mod {:first {:pred :top
+  :sem {:mod {:first {:number? false
+                      :pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
   :subcat []
-
-  :training-wheels {:comp {:cat :det}
-                    :sem {:mod {:first {:number? false}}}}}
-
+  ;; training wheels:
+  }
+ 
  ;; 9
  ;; Generate some noun phrases but with less constraints,
  ;; so usually the adjective *will* have the -e suffix.
@@ -125,8 +123,7 @@
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
-  :subcat []
-  :training-wheels {:comp {:cat :det}}}
+  :subcat []}
 
  ;; 10
  {:note "vier en twintig vogels"
@@ -195,16 +192,17 @@
   :dotimes 5
   :example "de heel sterk slimme vrouwen zingen"
   :cat :verb
-  :subcat []  
-  :sem {:subj {:mod {:first {:mod {:first {:pred :top}}}
-                     :rest {:first :top}}}}
-  :training-wheels {:comp {:comp {:cat :det}}}}
+  :subcat []
+  ;;  :training-wheels
+  :rule "s"
+  :head {:phrasal false}}
 
  ;; 15
  {:note "[det | adj noun] verb"
   :dotimes 5
   :cat :verb
   :subcat []  
+  :head {:phrasal false}
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}}}
  
@@ -258,10 +256,7 @@
          :comp {:cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
-  :sem {:obj {:top :top}}
-  :training-wheels {:rule "s"
-                    :head {:rule "vp-modal-te"
-                           :comp {:rule "vp-te"}}}}
+  :sem {:obj {:top :top}}}
 
  ;; 20
  ;; ARGD, p. 37
@@ -272,15 +267,11 @@
   :subcat []
   :comp {:phrasal true
          :head {:phrasal true}}
-  :head {:rule "vp-modal-te"
+  :head {:rule "vp-modal-np"
          :phrasal true
          :head {:phrasal false
                 :reflexive false
-                :modal :te}
-         :comp {:rule "vp-np"
-                :head {:rule "vp-te"
-                       :comp {:modal false}
-                       :phrasal true}}}
+                :modal :te}}
   :target {:rule "s"
            :comp {:cat :noun
                   :subcat []}

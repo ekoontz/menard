@@ -60,6 +60,8 @@
 (def count-adds (atom 0))
 (def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
+;; keys of the input spec to show for logging and debugging:
+(def show-keys [:cat :canonical :infl :rule ::max])
 
 (defn generate
   "Generate a single expression that satisfies _spec_ given the
@@ -192,9 +194,9 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (log/debug (str "add: start: " (syntax-tree-fn tree) " at: " at
+    (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
                    (str "; looking for: "
-                        (strip-refs (select-keys (u/get-in tree at) [:cat :canonical :infl]))
+                        (strip-refs (select-keys (u/get-in tree at) show-keys))
                         "; gen-condition: " gen-condition)))
     (->>
      (cond
@@ -253,7 +255,11 @@
 
      (flatten)
      
-     (remove #(= % :fail)))))
+     (remove #(= % :fail))
+
+     (#(if (u/get-in spec [::max])
+         (take (u/get-in spec [::max]) %)
+         %)))))
 
 (declare get-lexemes)
 
@@ -261,12 +267,12 @@
   "Return a lazy sequence of all trees made by adding every possible
   leaf (via (get-lexemes)) to _tree_."
   [tree lexicon-index-fn syntax-tree]
-  (log/debug (str "add-lexeme: " (syntax-tree tree)))
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
-                    (serialize spec)))
+    (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
+                   (strip-refs
+                    (select-keys spec show-keys))))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn)
@@ -276,9 +282,6 @@
                       (= false (u/get-in spec [:phrasal] ::none)))
                (exception (str "no lexemes for tree: " (syntax-tree tree) " at: " at "; no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
                %))
-
-           ;; need this to prevent eagerly generating a tree for every matching lexeme:
-           (#(take (count %) %))
 
            (map (fn [candidate-lexeme]
                   (-> tree
@@ -305,7 +308,11 @@
                           (tr/foldup % at syntax-tree)
                           %)))))
 
-           (remove #(= :fail %))))))
+           (remove #(= :fail %))
+
+           (#(if (u/get-in spec [::max])
+               (take (u/get-in spec [::max]) %)
+               %))))))
 
 (defn add-rule
   "Return a lazy sequence of all trees made by adding every possible grammatical
@@ -375,8 +382,12 @@
      (remove #(= % :fail))
 
      (map (fn [tree]
-            (log/debug (str "returning:  " (syntax-tree tree) "; added rule named: " rule-name))
-            tree)))))
+            (log/info (str "add-rule: returning:  " (syntax-tree tree) "; added rule named: " rule-name))
+            tree))
+
+     (#(if (u/get-in tree [::max])
+         (take (u/get-in tree [::max]) %)
+         %)))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 

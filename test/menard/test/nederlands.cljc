@@ -156,3 +156,32 @@
              :agr {:number :plur
                    :person :3rd}}
             (menard.morphology/morph-leaf morphology))))))
+
+(deftest parsing-tests
+  (is
+   (= ["[s(:present-simple) .Corona +[vp-slash-object +[modal+subject(:present-simple) +moeten .wij] .[adverb-vp .samen +bestrijden]]]"]
+      (->> "Corona moeten wij samen bestrijden" nl/parse (map nl/syntax-tree))))
+  (is
+   (= ["[s(:present-simple) .ik +[vp-modal-np(:present-simple) +probeer .[vp-np(:infinitive) .honden +[vp-te +te .zien]]]]"]
+      (->> "ik probeer honden te zien" nl/parse (map nl/syntax-tree))))
+  (is
+   (= ["[s(:present-simple) .ik +[vp-modal-te(:present-simple) +probeer .[vp-te +te .zien]]]"]
+      (->> "ik probeer te zien" nl/parse (map nl/syntax-tree)))))
+
+(defn validator
+  "example usage: 
+  (validator (nth nl/expressions 15))))))"
+  [spec & [times]]
+  (let [times (or times 10)]
+    (count (take times (repeatedly #(-> spec nl/generate ((fn [x] (if (nil? x) (menard.exception/exception "failed to generate.") x))) nl/morph println))))))
+
+(deftest generation-validations
+  (doall
+   (->>
+    (range 0 (count nl/expressions))
+    (map (fn [x]
+           (is (= 10 (menard.test.nederlands/validator (nth nl/expressions x)))))))))
+
+
+
+

@@ -112,8 +112,8 @@
 
    ;; generation: openbaar -> openbare;eenzaam -> eenzame
    ;; parsing:    openbare -> openbaar;eenzame -> eenzaam
-   (let [g [#"(a)(a)([mr])$"   "$1$3e"]
-         p [#"a([mr])e$"       "aa$1"]]
+   (let [g [#"(a)(a)([mrv])$"   "$1$3e"]
+         p [#"a([mrv])e$"       "aa$1"]]
      [{:g g
        :p p
        :u plur-modifier}

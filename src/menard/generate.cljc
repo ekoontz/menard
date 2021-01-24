@@ -60,7 +60,7 @@
 (def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
 ;; keys of the input spec to show for logging and debugging:
-(def show-keys [:cat :canonical :infl :rule ::max])
+(def show-keys [:cat :canonical :infl :rule :sem ::max])
 
 (defn generate
   "Generate a single expression that satisfies _spec_ given the
@@ -151,12 +151,12 @@
                    :obj {:ref {::is-subj false}}}}
            x))
          [{:sem {:subj {:person :1st}
-                 :match-got-here 1
+                 ::match-got-here 1
                  :obj {:person-not :1st}}}
           {:sem {:subj {:person :2nd}
-                 :match-got-here 2
+                 ::match-got-here 2
                  :obj {:person-not :2nd}}}
-          {:sem {:match-got-here 3
+          {:sem {::match-got-here 3
                  :subj {:person :3rd}}}])))
            
 (defn add
@@ -166,6 +166,7 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
+  (log/debug (str "add with tree: " (-> tree (select-keys show-keys) strip-refs)))
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
@@ -193,7 +194,7 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
+    (log/debug (str "add: start: " (syntax-tree-fn tree) " at: " at
                    (str "; looking for: "
                         (strip-refs (select-keys (u/get-in tree at) show-keys))
                         "; gen-condition: " gen-condition)))
@@ -257,8 +258,16 @@
      (remove #(= % :fail))
 
      (#(if (u/get-in spec [::max])
-         (take (u/get-in spec [::max]) %)
-         %)))))
+         (do
+           (log/debug (str "taking only: " (u/get-in spec [::max]) " trees."))
+           (take (u/get-in spec [::max]) %))
+             
+         %))
+
+     (#(do (when (and (empty? %)
+                      (u/get-in spec [::max]))
+             (exception (str "add: empty results: spec: " (-> spec strip-refs) "; max: " (u/get-in spec [::max]))))
+           %)))))
 
 (declare get-lexemes)
 
@@ -269,7 +278,7 @@
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
-    (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
+    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
                    (strip-refs
                     (select-keys spec show-keys))))
     (if (= true (u/get-in spec [:phrasal]))
@@ -311,7 +320,12 @@
 
            (#(if (u/get-in spec [::max])
                (take (u/get-in spec [::max]) %)
-               %))))))
+               %))
+
+           (#(do (when (and (empty? %)
+                            (u/get-in spec [::max]))
+                   (exception (str "add-lexeme: empty results: spec: " (-> spec strip-refs))))
+                 %))))))
 
 (defn add-rule
   "Return a lazy sequence of all trees made by adding every possible grammatical
@@ -381,12 +395,17 @@
      (remove #(= % :fail))
 
      (map (fn [tree]
-            (log/info (str "add-rule: returning:  " (syntax-tree tree) "; added rule named: " rule-name))
+            (log/debug (str "add-rule: returning:  " (syntax-tree tree) "; added rule named: " rule-name))
             tree))
 
      (#(if (u/get-in tree [::max])
          (take (u/get-in tree [::max]) %)
-         %)))))
+         %))
+
+     (#(do (when (and (empty? %)
+                      (u/get-in tree [::max]))
+             (exception (str "add-rule: empty results: spec: " (-> tree strip-refs))))
+           %)))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 

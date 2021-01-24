@@ -46,12 +46,6 @@
      :head {:root root
             :canonical root}}))
 
-(def head-infl
-  (let [head-infl (atom :top)]
-    (unify head-agr
-           {:infl head-infl
-            :head {:infl head-infl}})))
-
 (def head-modal
   (let [shared (atom :top)]
     {:modal shared
@@ -73,6 +67,12 @@
   (let [agr (atom :top)]
     {:agr agr
      :head {:agr agr}}))
+
+(def head-infl
+  (let [head-infl (atom :top)]
+    (unify head-agr
+           {:infl head-infl
+            :head {:infl head-infl}})))
 
 ;; TODO: :interogative? into :sem if
 ;; possible, so we don't need to specify it here.

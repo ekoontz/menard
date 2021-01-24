@@ -166,7 +166,7 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
-  (log/debug (str "add with tree: " (-> tree (select-keys show-keys) strip-refs)))
+  (log/debug (str "add with tree: " (syntax-tree-fn tree) "; " (-> tree (select-keys show-keys) strip-refs)))
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
@@ -339,7 +339,7 @@
         cat (u/get-in tree (concat at [:cat]))
         at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
-                    (syntax-tree tree) " at: " at))
+                   (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs)))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)

@@ -28,7 +28,6 @@
 (declare frontier)
 (declare generate-all)
 (declare get-lexemes)
-(declare reflexive-violations)
 
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))

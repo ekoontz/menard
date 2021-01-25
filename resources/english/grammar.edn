@@ -13,6 +13,7 @@
          :teen? false
          :sem {:number? true
                :times 1}}
+  :agr {:number :plur}
   :sem {:number? true}
   :unify [menard.ug/head-first
           menard.ug/times]}

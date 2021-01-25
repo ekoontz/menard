@@ -173,15 +173,23 @@
   (validator (nth nl/expressions 15))))))"
   [spec & [times]]
   (let [times (or times 10)]
-    (count (take times (repeatedly #(-> spec nl/generate ((fn [x] (if (nil? x) (menard.exception/exception "failed to generate.") x))) nl/morph println))))))
+    (count (take
+            times
+            (repeatedly
+             #(-> spec
+                  nl/generate
+                  ((fn [x]
+                     (if (nil? x)
+                       (menard.exception/exception "failed to generate.") x)))
+                  nl/morph
+                  nl/parse
+                  first
+                  nl/syntax-tree
+                  println))))))
 
-(deftest generation-validations
+(deftest validations
   (doall
    (->>
     (range 0 (count nl/expressions))
     (map (fn [x]
            (is (= 10 (menard.test.nederlands/validator (nth nl/expressions x)))))))))
-
-
-
-

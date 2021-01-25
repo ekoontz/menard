@@ -45,7 +45,7 @@
                             :nl (str "\"" nl "\"")
                             :en (str "\"" en "\"")}
                     retval (if show-english-spec?
-                             (assoc :en-spec (serialize en-spec))
+                             (assoc retval :en-spec (serialize en-spec))
                              retval)]
                 (println retval)
                 (is (seq nl))

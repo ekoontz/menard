@@ -372,7 +372,6 @@
                        :phrasal false}}}
   :comp {:pronoun true
          :phrasal false}
-  :reflexive :top
   :subcat []
   :cat :verb
   :infl :present

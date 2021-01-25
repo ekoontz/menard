@@ -28,16 +28,18 @@
    (map (fn [i]
           (doall
            (take 5
-                 (repeatedly #(is (seq
-                                   (->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
-                                        (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
-                                        (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
-                                        (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
-                                        (map (fn [{nl :nl en :en}]
-                                               (let [en (en/morph en)]
-                                                 (is (and (seq nl) (seq en)))
-                                                 (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")}))))))))))))
+                 (repeatedly #(seq
+                               (->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
+                                    (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
+                                    (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
+                                    (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
+                                    (map (fn [{nl :nl en :en}]
+                                           (let [en (en/morph en)]
+                                             (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")})
+                                             (is (seq nl))
+                                             (is (seq en))))))))))))
    (doall)))
+
 
 
 

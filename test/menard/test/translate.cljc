@@ -3,6 +3,7 @@
             [menard.nederlands :as nl]
             [menard.translate :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
+            [dag_unify.serialization :refer [serialize]]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
@@ -22,16 +23,35 @@
   (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))
   (is (= (nl-to-en-str "u hebt u nodig") "you 🧐 need yourself")))
 
+;; set this to true once we move reflexive constraint-checking outside of menard.generate,
+;; so that parsing can use it too:
+(def intermediate-parsing? false)
+
+;; for additional debugging
+(def show-english-spec? false)
+
 (defn transfer-fn [i]
-  (->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
+  (->> (if intermediate-parsing?
+         (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
+         (-> nl/expressions (nth i) nl/generate list))
        (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
-       (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
-       (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
-       (map (fn [{nl :nl en :en}]
-              (let [en (en/morph en)]
-                (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")})
+       (map (fn [{nl :nl en-spec :en-spec}]
+              {:nl nl :en-spec en-spec :en (-> en-spec en/generate)}))
+       (filter (fn [{en :en}] (not (nil? en))))
+       (take 1)
+       (map (fn [{nl :nl en :en en-spec :en-spec}]
+              (let [en (en/morph en)
+                    retval {:i i
+                            :nl (str "\"" nl "\"")
+                            :en (str "\"" en "\"")}
+                    retval (if show-english-spec?
+                             (assoc :en-spec (serialize en-spec))
+                             retval)]
+                (println retval)
                 (is (seq nl))
-                (is (seq en)))))))
+                (is (seq en))
+                retval)))
+       doall))
 
 (deftest transfer
   (->>
@@ -39,17 +59,10 @@
    (map (fn [i]
           (doall
            (take 5
-                 (repeatedly #(->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
-                                   (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
-                                   (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
-                                   (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
-                                   (map (fn [{nl :nl en :en}]
-                                          (let [en (en/morph en)]
-                                            (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")})
-                                            (is (seq nl))
-                                            (is (seq en)))))
-                                   doall))))))
+                 (repeatedly #(transfer-fn i))))))
    doall))
+
+
 
 
 

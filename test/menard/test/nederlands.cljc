@@ -168,6 +168,11 @@
    (= ["[s(:present-simple) .ik +[vp-modal-te(:present-simple) +probeer .[vp-te +te .zien]]]"]
       (->> "ik probeer te zien" nl/parse (map nl/syntax-tree)))))
 
+
+;; set this to true once we move reflexive constraint-checking outside of menard.generate,
+;; so that parsing can use it too:
+(def intermediate-parsing? false)
+
 (defn validator
   "example usage: 
   (validator (nth nl/expressions 15))))))"
@@ -181,9 +186,10 @@
                   ((fn [x]
                      (if (nil? x)
                        (menard.exception/exception "failed to generate.") x)))
-                  nl/morph
-                  nl/parse
-                  first
+                  ((fn [x]
+                     (if intermediate-parsing?
+                       (-> x nl/morph nl/parse first)
+                       x)))
                   nl/syntax-tree
                   println))))))
 

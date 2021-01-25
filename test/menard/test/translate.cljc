@@ -22,23 +22,37 @@
   (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))
   (is (= (nl-to-en-str "u hebt u nodig") "you 🧐 need yourself")))
 
+(defn transfer-fn [i]
+  (->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
+       (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
+       (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
+       (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
+       (map (fn [{nl :nl en :en}]
+              (let [en (en/morph en)]
+                (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")})
+                (is (seq nl))
+                (is (seq en)))))))
+
 (deftest transfer
   (->>
    (range 0 (count nl/expressions))
    (map (fn [i]
           (doall
            (take 5
-                 (repeatedly #(seq
-                               (->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
-                                    (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
-                                    (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
-                                    (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
-                                    (map (fn [{nl :nl en :en}]
-                                           (let [en (en/morph en)]
-                                             (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")})
-                                             (is (seq nl))
-                                             (is (seq en))))))))))))
-   (doall)))
+                 (repeatedly #(->> (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
+                                   (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
+                                   (map (fn [{nl :nl spec :en-spec}] {:nl nl :en (-> spec en/generate)}))
+                                   (filter (fn [{nl :nl en :en}] (not (nil? en)))) (take 1)
+                                   (map (fn [{nl :nl en :en}]
+                                          (let [en (en/morph en)]
+                                            (println {:i i :nl (str "\"" nl "\"") :en (str "\"" en "\"")})
+                                            (is (seq nl))
+                                            (is (seq en)))))
+                                   doall))))))
+   doall))
+
+
+
 
 
 

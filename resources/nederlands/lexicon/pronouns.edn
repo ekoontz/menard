@@ -116,13 +116,15 @@
  "me" [{:case :acc
         :agr {:number :sing
               :person :1st}
-        :sem {:person-not :2nd
+        :sem {:pred :i
+              :person-not :2nd
               :ref {:human true}}
         :reflexive false}
        {:case :acc
         :agr {:number :sing
               :person :1st}
-        :sem {:ref {:human true}}
+        :sem {:pred :i
+              :ref {:human true}}
         :reflexive true}]
  "mij" [{:case :acc
          :sem {:pred :i

@@ -148,14 +148,16 @@
              :number :sing}
        :sem {:pred :you
              :person :2nd
-             :ref {:context :polite
+             :ref {:human true
+                   :context :polite
                    :number :sing}}}
       {:case :acc
        :agr {:person :2nd
              :number :sing}
        :reflexive true
        :sem {:pred :you
-             :ref {:context :polite
+             :ref {:human true
+                   :context :polite
                    :number :sing}}}
 
       ;; semantically plural, but still grammatically singular:
@@ -165,7 +167,8 @@
        :semantic-number-differs-from-agreement-number? true
        :sem {:pred :you
              :person :2nd
-             :ref {:context :polite
+             :ref {:human true
+                   :context :polite
                    :number :plur}}}
       {:case :acc
        :semantic-number-differs-from-agreement-number? true       
@@ -173,7 +176,8 @@
              :number :sing}
        :reflexive true
        :sem {:pred :you
-             :ref {:context :polite
+             :ref {:human true
+                   :context :polite
                    :number :plur}}}]
       
  "we" [{:agr {:person :1st

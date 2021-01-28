@@ -5,7 +5,8 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u]
-   [dag_unify.diagnostics :as diag]))
+   [dag_unify.diagnostics :as diag]
+   [menard.reflexives :refer [reflexive-options]]))
 
 (def parse-only-one? false)
 

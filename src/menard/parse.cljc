@@ -104,9 +104,8 @@
           [])))))
 
 (defn over [parents child1 child2]
-  (reduce
-   (fn [a b]
-     (lazy-cat a b))
+  (->>
+   parents
    (pmap-if-available
     (fn [parent]
       (let [[head comp] (if (= (:1 parent) (:head parent))
@@ -114,8 +113,10 @@
                           [child2 child1])]
         (-> parent
             (overh head)
-            (overc comp))))
-    parents)))
+            (overc comp)))))
+   (reduce
+    (fn [a b]
+      (lazy-cat a b)))))
 
 (defn square-cross-product [x]
   (reduce

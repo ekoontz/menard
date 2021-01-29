@@ -7,6 +7,7 @@
    [
     {:cat :adjective}
     {:cat :adverb}
+    {:cat :conjunction}
     {:cat :intensifier}
     {:cat :noun}
     {:cat :prep}

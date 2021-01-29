@@ -2,7 +2,7 @@
  "bereiken" [{ :sem {:pred :achieve}}]
  "bestrijden" [{:sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
- "gaan" [{:curriculum 1
+ "gaan" [{:curriculum :basic
           :sem {:pred :go}
           :exceptions [{:infl :present
                         :surface "ga"
@@ -63,7 +63,7 @@
                    {:infl :past-simple
                     :agr {:number :sing}
                     :surface "keken"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :sem {:pred :look}
      :exceptions exceptions}])
                    
@@ -74,7 +74,7 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "kwamen"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :sem {:pred :come}
      :subcat {:2 []}
      :exceptions exceptions}])
@@ -109,7 +109,7 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "konden"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :modal :infinitive
      :sem {:pred :be-able-to}
      :exceptions exceptions}])
@@ -130,7 +130,7 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "lazen"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :exceptions exceptions
      :sem {:pred :read}}])
 
@@ -143,7 +143,7 @@
                     :agr {:number :plur}
                     :surface "moeten"}]]
 
-   [{:curriculum 1
+   [{:curriculum :basic
      :exceptions exceptions
      :modal :infinitive
      :sem {:pred :must}}])
@@ -161,7 +161,7 @@
                    {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "probeert"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
@@ -170,7 +170,7 @@
  (let [exceptions [{:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "slaapt"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :exceptions exceptions
     
      :sem {:pred :sleep
@@ -197,11 +197,11 @@
  "tegengehouden" [{ :sem {:pred :inhibit}}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
- "werken" [{:curriculum 1
+ "werken" [{:curriculum :basic
             :sem {:pred :work}
             :subcat {:2 []}}]
 
- "weten" [{:curriculum 1
+ "weten" [{:curriculum :basic
            :sem {:pred :know}
            :exceptions [{:infl :present
                          :agr {:number :sing}
@@ -231,7 +231,7 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "zeiden"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :exceptions exceptions
      :sem {:pred :say}}])
  
@@ -251,12 +251,12 @@
                    {:infl :past-simple
                     :agr {:number :plur}
                     :surface "zagen"}]]
-   [{:curriculum 1
+   [{:curriculum :basic
      :exceptions exceptions
      :sem {:pred :see}}])
 
  "zingen"
- [{:curriculum 1
+ [{:curriculum :basic
    :sem {:pred :sing}
    :subcat {:2 []}
    :exceptions [{:infl :past-simple

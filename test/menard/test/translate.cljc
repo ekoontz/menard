@@ -23,9 +23,9 @@
   (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))
   (is (= (nl-to-en-str "u hebt u nodig") "you 🧐 need yourself")))
 
-;; set this to true once we move reflexive constraint-checking outside of menard.generate,
-;; so that parsing can use it too:
-(def intermediate-parsing? false)
+;; If true, generates Dutch, then parses it, so we test
+;; parsing as well as generation.
+(def intermediate-parsing? true)
 
 ;; for additional debugging
 (def show-english-spec? false)

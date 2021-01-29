@@ -116,7 +116,16 @@
             (overc comp)))))
    (reduce
     (fn [a b]
-      (lazy-cat a b)))))
+      (lazy-cat a b)))
+
+   (map (fn [expression]
+          (map (fn [option]
+                 (u/unify option expression))
+               (shuffle reflexive-options))))
+
+   (flatten)
+     
+   (remove #(= % :fail))))
 
 (defn square-cross-product [x]
   (reduce

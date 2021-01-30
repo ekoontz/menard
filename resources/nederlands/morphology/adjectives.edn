@@ -54,20 +54,6 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
-   ;; generation: lief -> lieve
-   ;; parsing:    lieve -> lief
-   (let [g [#"f$"   "ve"]
-         p [#"ve$"  "f"]]
-     [{:g g
-       :p p
-       :u plur-modifier}
-      {:g g
-       :p p
-       :u definite-singular-modifier}
-      {:g g
-       :p p
-       :u indefinite-singular-common-modifier}])
-
    ;; generation: vies -> vieze
    ;; parsing:    vieze -> vies
    (let [g [#"s$"   "ze"]
@@ -124,6 +110,34 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
+   ;; generation: gaaf -> gave
+   ;; parsing:    gave -> gaaf
+   (let [g [#"aaf$" "ave"]
+         p [#"ave$" "aaf"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+
+   ;; generation: lief -> lieve
+   ;; parsing:    lieve -> lief
+   (let [g [#"f$"   "ve"]
+         p [#"ve$"  "f"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+   
    ;; buitengewoon -> buitengewone
    (let [g [#"(o)(o)([n])$"   "$1$3e"]
          p [#"o([n])e$"       "oo$1"]]

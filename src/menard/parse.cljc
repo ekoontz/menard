@@ -26,24 +26,28 @@
   #?(:cljs
      (map fn args)))
 
+(def log-these-rules #{"s"})
+
 (defn overh
   "add given head as the head child of the phrase: parent."
-  ;; TODO: get rid of all this type-checking and use
-  ;; whatever people use for Clojure argument type-checking.
+  ;; TODO: get rid of all this type-checking in this (cond)
+  ;; and use clojure.spec.
   [parent head]
   (cond
     (or (seq? head)
         (vector? head))
-    (mapcat
-     (fn [child]
-       (overh parent child))
-     head)
+    (->>
+     head
+     (mapcat
+      (fn [child]
+        (overh parent child))))
+
     :else
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save :else for errors.
     (do
       (log/debug (str "overh: parent: " (syntax-tree parent)))
-      (log/debug (str "overh: head: " (syntax-tree head)))
+      (log/debug (str "overh: head:   " (syntax-tree head)))
       (let [pre-check? (not (= :fail
                                (u/get-in parent [:head :cat] :top)
                                (u/get-in head [:cat] :top)))
@@ -59,10 +63,14 @@
           (do
             (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
             [result])
-          (when pre-check?
-            (log/debug
-             (str "overh fail: " (syntax-tree parent) " <- " (syntax-tree head)
-                  " " (diag/fail-path parent {:head head})))))))))
+          (do
+            (when (contains? log-these-rules (u/get-in parent [:rule]))
+              (log/debug
+               (str "overh: fail:   " (syntax-tree parent) " <- " (syntax-tree head)
+                    " " (let [fp (diag/fail-path parent {:head head})]
+                          {:path (:path fp)
+                           :arg1 (u/pprint (:arg1 fp))
+                           :arg2 (u/pprint (:arg2 fp))}))))))))))
   
 (defn overc
   "add given child as the complement of the parent"

@@ -30,28 +30,39 @@
 ;; for additional debugging
 (def show-english-spec? false)
 
-(defn transfer-fn [i]
-  (->> (if intermediate-parsing?
-         (-> nl/expressions (nth i) nl/generate nl/morph nl/parse)
-         (-> nl/expressions (nth i) nl/generate list))
-       (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
-       (map (fn [{nl :nl en-spec :en-spec}]
-              {:nl nl :en-spec en-spec :en (-> en-spec en/generate)}))
-       (filter (fn [{en :en}] (not (nil? en))))
-       (take 1)
-       (map (fn [{nl :nl en :en en-spec :en-spec}]
-              (let [en (en/morph en)
-                    retval {:i i
-                            :nl (str "\"" nl "\"")
-                            :en (str "\"" en "\"")}
-                    retval (if show-english-spec?
-                             (assoc retval :en-spec (serialize en-spec))
-                             retval)]
-                (println retval)
-                (is (seq nl))
-                (is (seq en))
-                retval)))
-       doall))
+(defn transfer-fn [i model]
+  (let [generate (fn [spec] (nl/generate spec model))]
+    (->> (if intermediate-parsing?
+           (-> nl/expressions (nth i) generate nl/morph nl/parse)
+           (-> nl/expressions (nth i) generate list))
+         (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
+         (map (fn [{nl :nl en-spec :en-spec}]
+                {:nl nl :en-spec en-spec :en (-> en-spec en/generate)}))
+         (filter (fn [{en :en}] (not (nil? en))))
+         (take 1)
+         (map (fn [{nl :nl en :en en-spec :en-spec}]
+                (let [en (en/morph en)
+                      retval {:i i
+                              :model (:name model)
+                              :nl (str "\"" nl "\"")
+                              :en (str "\"" en "\"")}
+                      retval (if show-english-spec?
+                               (assoc retval :en-spec (serialize en-spec))
+                               retval)]
+                  (println retval)
+                  (is (seq nl))
+                  (is (seq en))
+                  retval)))
+         doall)))
+
+(deftest transfer-basic
+  (->>
+   (range 0 (count nl/expressions))
+   (map (fn [i]
+          (doall
+           (take 1
+                 (repeatedly #(transfer-fn i @nl/basic-model))))))
+   doall))
 
 (deftest transfer
   (->>
@@ -59,20 +70,5 @@
    (map (fn [i]
           (doall
            (take 5
-                 (repeatedly #(transfer-fn i))))))
+                 (repeatedly #(transfer-fn i @nl/model))))))
    doall))
-
-
-
-
-
-
-
-
-
-
-
-
-       
-  
-

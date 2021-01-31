@@ -237,8 +237,45 @@
                  fill-lexicon-indexes
                  load-morphology load-grammar)))
 
+
+(defn basic-filter
+  "create a lexicon that only contains closed-class words and :basic open-class words"
+  [lexicon]
+  (into {}
+        (map (fn [k]
+               (let [vals (get lexicon k)
+                     filtered-vals (->> vals
+                                        (filter (fn [lexeme]
+                                                  (let [cat (u/get-in lexeme [:cat])
+                                                        curriculum (u/get-in lexeme [:curriculum] ::none)]
+                                                    (or
+                                                     (and (= cat :adjective)
+                                                          (= :basic curriculum))
+                                                     (and (= cat :adverb)
+                                                          (= :basic curriculum))
+                                                     (and (= cat :determiner))
+                                                     (and (= cat :exclamations))
+                                                     (and (= cat :intensifiers))
+                                                     (and (= cat :misc))
+                                                     (or (and (= cat :noun)
+                                                              (true? (u/get-in lexeme [:pronoun]))))
+                                                     (or (and (= cat :noun)
+                                                              (true? (u/get-in lexeme [:propernoun]))))
+                                                     (or (and (= cat :noun)
+                                                              (= :basic curriculum)))
+                                                     (and (= cat :numbers))
+                                                     (or (and (= cat :verb)
+                                                              (= :basic curriculum))))))))]
+                 (if (seq filtered-vals)
+                   {k filtered-vals})))
+             (keys lexicon))))
+
 #?(:clj
    (def model (ref (create-model))))
+
+#?(:clj
+   (def basic-model (ref (merge @model
+                                {:lexicon (basic-filter (-> model deref :lexicon))}))))
 
 #?(:clj
    (defn load-model []
@@ -360,8 +397,8 @@
 
 (defn generate
   "generate one random expression that satisfies _spec_."
-  [spec]
-  (let [model (load-model)]
+  [spec & [model]]
+  (let [model (or model (load-model))]
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]
       (-> spec
@@ -478,3 +515,7 @@
   (->> #(-> spec generate morph)
        repeatedly (take n) set vec sort (map println)
        count))
+
+
+
+

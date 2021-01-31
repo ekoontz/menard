@@ -411,10 +411,10 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
-  (if (:name model)
-    (log/debug (str "generating with model name: " (:name model)))
-    (log/warn (str "generating with model with no name.")))
   (let [model (or model (load-model))]
+    (if (:name model)
+      (log/debug (str "generating with model name: " (:name model)))
+      (log/warn (str "generating with model with no name.")))
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/allow-backtracking? true]
       (-> spec
@@ -531,7 +531,3 @@
   (->> #(-> spec generate morph)
        repeatedly (take n) set vec sort (map println)
        count))
-
-
-
-

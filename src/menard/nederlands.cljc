@@ -134,53 +134,48 @@
 
 #?(:clj
 
-   (defn load-lexicon-with-morphology [lexicon morphology-rules & [filter-fn]]
-     (let [filter-fn (or filter-fn
-                         (fn [x]
-                           x))]
-       (-> lexicon
-           (l/apply-to-every-lexeme
-            (fn [lexeme]
-              (let [inflection (get-inflection-of lexeme morphology-rules)]
-                (if (and (= :noun (u/get-in lexeme [:cat]))
-                         (not (= true (u/get-in lexeme [:propernoun])))
-                         (not (= true (u/get-in lexeme [:pronoun]))))
-                  (cond
-                    inflection
-                    (unify lexeme
-                           {:inflection inflection})
+   (defn load-lexicon-with-morphology [lexicon morphology-rules]
+     (-> lexicon
+         (l/apply-to-every-lexeme
+          (fn [lexeme]
+            (let [inflection (get-inflection-of lexeme morphology-rules)]
+              (if (and (= :noun (u/get-in lexeme [:cat]))
+                       (not (= true (u/get-in lexeme [:propernoun])))
+                       (not (= true (u/get-in lexeme [:pronoun]))))
+                (cond
+                  inflection
+                  (unify lexeme
+                         {:inflection inflection})
 
-                    (and (= :noun (u/get-in lexeme [:cat]))
-                         (not (= true (u/get-in lexeme [:propernoun])))
-                         (not (= true (u/get-in lexeme [:pronoun])))
-                         (false? (u/get-in lexeme [:inflected?] false)))
-                    (do
-                      (log/warn (str "no inflection found for lexeme: "
-                                     (u/get-in lexeme [:canonical])))
-                      lexeme)
-                    
-                    :else lexeme)
-                  lexeme))))
+                  (and (= :noun (u/get-in lexeme [:cat]))
+                       (not (= true (u/get-in lexeme [:propernoun])))
+                       (not (= true (u/get-in lexeme [:pronoun])))
+                       (false? (u/get-in lexeme [:inflected?] false)))
+                  (do
+                    (log/warn (str "no inflection found for lexeme: "
+                                   (u/get-in lexeme [:canonical])))
+                    lexeme)
+                
+                  :else lexeme)
+                lexeme))))
 
-           ;; The lexicon is a map where each
-           ;; key is a canonical string
-           ;; and each value is the list of lexemes for
-           ;; that string. we turn the list into a vec
-           ;; so that it's completely realized rather than
-           ;; a lazy sequence, so that when we periodically
-           ;; reload the model from disk, (generate) or
-           ;; (parse) won't have to de-lazify the list:
-           ;; it will already be done before they (generate or
-           ;; parse) see it.
-           ;; (TODO: move this to some function within
-           ;;  menard/model).
-           ((fn [lexicon]
-              (zipmap (keys lexicon)
-                      (map (fn [vs]
-                             (vec vs))
-                           (vals lexicon)))))
-
-           filter-fn))))
+         ;; The lexicon is a map where each
+         ;; key is a canonical string
+         ;; and each value is the list of lexemes for
+         ;; that string. we turn the list into a vec
+         ;; so that it's completely realized rather than
+         ;; a lazy sequence, so that when we periodically
+         ;; reload the model from disk, (generate) or
+         ;; (parse) won't have to de-lazify the list:
+         ;; it will already be done before they (generate or
+         ;; parse) see it.
+         ;; (TODO: move this to some function within
+         ;;  menard/model).
+         ((fn [lexicon]
+            (zipmap (keys lexicon)
+                    (map (fn [vs]
+                           (vec vs))
+                         (vals lexicon))))))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -231,40 +226,37 @@
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
-   (defn create-model [& [filter-lexicon-fn]]
+   (defn create-model []
      (log/info (str "creating model for Nederlands.."))
-     (let [filter-lexicon-fn (or filter-lexicon-fn
-                                 (fn [lexicon]
-                                   lexicon))]
-       (model/load "nl"
-                   load-lexical-rules
-                   (fn [lexical-rules]
-                     (load-lexicon-with-morphology
-                      (load-lexicon lexical-rules)
-                      (load-morphology)
-                      filter-lexicon-fn))
-                   fill-lexicon-indexes
-                   load-morphology load-grammar))))
+     (model/load "nl"
+                 load-lexical-rules
+                 (fn [lexical-rules]
+                   (load-lexicon-with-morphology
+                    (load-lexicon lexical-rules)
+                    (load-morphology)))
+                 fill-lexicon-indexes
+                 load-morphology load-grammar)))
+
 
 (defn basic-filter
   "create a lexicon that only contains closed-class words and :basic open-class words"
   [lexicon]
-  (->>
-   (map (fn [k]
-          (let [vals (get lexicon k)
-                filtered-vals (->> vals
-                                   (filter (fn [lexeme]
-                                             (let [cat (u/get-in lexeme [:cat])
-                                                   curriculum (u/get-in lexeme [:curriculum] ::none)]
-                                               (or
-                                                (and (= cat :adjective)
-                                                     (= :basic curriculum))
-                                                (and (= cat :adverb)
-                                                     (= :basic curriculum))
-                                                (and (= cat :determiner))
-                                                (and (= cat :exclamations))
-                                                (and (= cat :intensifiers))
-                                                (and (= cat :misc))
+  (into {}
+        (map (fn [k]
+               (let [vals (get lexicon k)
+                     filtered-vals (->> vals
+                                        (filter (fn [lexeme]
+                                                  (let [cat (u/get-in lexeme [:cat])
+                                                        curriculum (u/get-in lexeme [:curriculum] ::none)]
+                                                    (or
+                                                     (and (= cat :adjective)
+                                                          (= :basic curriculum))
+                                                     (and (= cat :adverb)
+                                                          (= :basic curriculum))
+                                                     (and (= cat :determiner))
+                                                     (and (= cat :exclamations))
+                                                     (and (= cat :intensifiers))
+                                                     (and (= cat :misc))
                                                      (or (and (= cat :noun)
                                                               (true? (u/get-in lexeme [:pronoun]))))
                                                      (or (and (= cat :noun)
@@ -272,22 +264,18 @@
                                                      (or (and (= cat :noun)
                                                               (= :basic curriculum)))
                                                      (and (= cat :numbers))
-                                                     (and (= cat :preposition))
-                                                     (and (= cat :verb)
-                                                          (= :basic curriculum)))))))]
-            (if (seq filtered-vals)
-              {k filtered-vals})))
-        (keys lexicon))
-     (into {})))
+                                                     (or (and (= cat :verb)
+                                                              (= :basic curriculum))))))))]
+                 (if (seq filtered-vals)
+                   {k filtered-vals})))
+             (keys lexicon))))
 
 #?(:clj
-   (def model
-     (ref (merge (create-model (fn [x] x))
-                 {:name "complete"}))))
+   (def model (ref (create-model))))
+
 #?(:clj
-   (def basic-model
-     (ref (merge (create-model basic-filter)
-                 {:name "basic"}))))
+   (def basic-model (ref (merge @model
+                                {:lexicon (basic-filter (-> model deref :lexicon))}))))
 
 #?(:clj
    (defn load-model []
@@ -304,35 +292,34 @@
          flatten)))
 
 #?(:clj
-   (defn index-fn [model]
-     (fn [spec]
-       (log/debug (str "spec: " (diag/strip-refs spec)))
-       (let [pre-result
-             (cond (= (u/get-in spec [:cat]) :verb)
-                   (-> model :indices :verb-lexicon)
-                   
-                   (= (u/get-in spec [:cat]) :adjective)
-                   (-> model :indices :adjective-lexicon)
-                   
-                   (= (u/get-in spec [:cat]) :noun)
-                   (-> model :indices :noun-lexicon)
-                   
-                   (= (u/get-in spec [:cat]) :det)
-                   (-> model :indices :det-lexicon)
-                   
-                   :else (-> model :indices :misc-lexicon))
-             spec (if true spec (u/copy (diag/strip-refs spec)))
-             result (if true
-                      (->>
-                       pre-result
-                       (filter #(not (true? (u/get-in % [:null?])))))
-                      (->> pre-result
-                           (filter #(not (true? (u/get-in % [:null?]))))
-                           (map #(unify % spec))
-                           (filter #(not (= :fail %)))))]
-         (if true
-           (shuffle result)
-           result)))))
+   (defn index-fn [spec]
+     (log/debug (str "spec: " (diag/strip-refs spec)))
+     (let [pre-result
+           (cond (= (u/get-in spec [:cat]) :verb)
+                 (-> @model :indices :verb-lexicon)
+
+                 (= (u/get-in spec [:cat]) :adjective)
+                 (-> @model :indices :adjective-lexicon)
+
+                 (= (u/get-in spec [:cat]) :noun)
+                 (-> @model :indices :noun-lexicon)
+
+                 (= (u/get-in spec [:cat]) :det)
+                 (-> @model :indices :det-lexicon)
+                 
+                 :else (-> @model :indices :misc-lexicon))
+           spec (if true spec (u/copy (diag/strip-refs spec)))
+           result (if true
+                    (->>
+                     pre-result
+                     (filter #(not (true? (u/get-in % [:null?])))))
+                    (->> pre-result
+                         (filter #(not (true? (u/get-in % [:null?]))))                         
+                         (map #(unify % spec))
+                         (filter #(not (= :fail %)))))]
+       (if true
+         (shuffle result)
+         result))))
 
 #?(:clj
    (defn write-compiled-lexicon []
@@ -420,14 +407,14 @@
       (-> spec
           ((fn [x] (unify x (:training-wheels x :top))))
           (dissoc :training-wheels)
-          (g/generate (-> model :grammar) (index-fn model) syntax-tree)))))
+          (g/generate (-> model :grammar) index-fn syntax-tree)))))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
   (let [model (load-model)]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-      (g/generate-all [spec] (-> model :grammar) (index-fn model) syntax-tree))))
+      (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
   (let [model (load-model)]

@@ -304,7 +304,7 @@
         cat (u/get-in tree (concat at [:cat]))
         at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
-                   (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs)))
+                    (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs)))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)

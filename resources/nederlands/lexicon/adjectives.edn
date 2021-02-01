@@ -40,7 +40,7 @@
  "onzijdig" [{:sem {:pred :neutral}}]
  "opgewonden" [{:sem {:pred :excited}}]
  "opvallend" [{:sem {:pred :striking}}]
- "oud" [{:sem {:pred :old}}]
+ "oud" [{:sem {:pred :old} :curriculum :basic}]
  "prachtig" [{:sem {:pred :magnificent}}]
  "schattig" [{:sem {:pred :cute}}]
  "schrijnend" [{:sem {:pred :poignant}}]

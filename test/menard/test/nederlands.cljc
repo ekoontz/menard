@@ -1,5 +1,5 @@
 (ns menard.test.nederlands
-  (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph parse syntax-tree]]
+  (:require [menard.nederlands :as nl :refer [analyze basic-model expressions generate load-model morph parse syntax-tree]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
@@ -14,9 +14,19 @@
                            :sem {:quant :the
                                  :mod {:first {:pred :old
                                                :mod []}
-                                       :rest []}}
-                           :training-wheels {:comp {:cat :det}
-                                             :sem {:mod {:first {:number? false}}}}}))))
+                                       :rest []}}}))))
+
+  (is (= "het oude huis"
+         (morph (generate {:cat :noun
+                           :subcat []
+                           :root "huis"
+                           :agr {:number :sing}
+                           :sem {:quant :the
+                                 :mod {:first {:pred :old
+                                               :mod []}
+                                       :rest []}}}
+                          basic-model))))
+
   (is (= "een oud huis"
          (morph (generate {:cat :noun
                            :subcat []
@@ -26,6 +36,19 @@
                                  :mod {:first {:pred :old
                                                :mod []}
                                        :rest []}}}))))
+
+  (is (= "een oud huis"
+         (morph (generate {:cat :noun
+                           :subcat []
+                           :root "huis"
+                           :agr {:number :sing}
+                           :sem {:quant :some
+                                 :mod {:first {:pred :old
+                                               :mod []}
+                                       :rest []}}}
+                          basic-model))))
+
+
   (is (= "de oude huizen"
          (morph (generate {:cat :noun
                            :subcat []
@@ -34,9 +57,19 @@
                            :sem {:quant :the
                                  :mod {:first {:pred :old
                                                :mod []}
-                                       :rest []}}
-                           :training-wheels {:comp {:cat :det}
-                                             :sem {:mod {:first {:number? false}}}}})))))
+                                       :rest []}}}))))
+
+
+  (is (= "de oude huizen"
+         (morph (generate {:cat :noun
+                           :subcat []
+                           :root "huis"
+                           :agr {:number :plur}
+                           :sem {:quant :the
+                                 :mod {:first {:pred :old
+                                               :mod []}
+                                       :rest []}}}
+                          basic-model)))))
 
 (deftest all-expressions-work
   (let [generate-per-expression 5

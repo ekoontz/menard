@@ -57,6 +57,7 @@
  "hoogleraar" [{:sem {:pred :professor}}] 
  "hond" [{:sem {:pred :dog}}]
  "huis" [{:agr {:gender :neuter}
+          :curriculum :basic
           :sem {:pred :house
                 :countable? true}}]
  "idee" [{:sem {:pred :idea}}]

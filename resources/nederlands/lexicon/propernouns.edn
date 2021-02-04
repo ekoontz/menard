@@ -7,7 +7,7 @@
                 :pred :bas}
          
          }]
- "Corona" [{
+ "Corona" [{:curriculum :basic
             :agr {:human false
                   :number :sing
                   :person :3rd}

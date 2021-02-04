@@ -4,7 +4,8 @@
                 infl (atom :top)
                 obj (atom :top)
                 reflexive (atom :top)]
-            {:infl infl
+            {:curriculum :basic
+             :infl infl
              :reflexive reflexive
              :sem {:subj subj
                    :pred :need
@@ -19,7 +20,8 @@
                                    :2 []}}
                       :2 []}})]
 
- "samen" [{:sem {:pred :together
+ "samen" [{:curriculum :basic
+           :sem {:pred :together
                  :subj {:number :plur}}}]
 
 

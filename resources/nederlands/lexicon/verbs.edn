@@ -1,6 +1,7 @@
 {
  "bereiken" [{ :sem {:pred :achieve}}]
- "bestrijden" [{:sem {:pred :overcome}}]
+ "bestrijden" [{:curriculum :basic
+                :sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
  "gaan" [{:curriculum :basic
           :sem {:pred :go}
@@ -23,7 +24,8 @@
                         :agr {:number :plur}
                         :surface "gingen"}]}]
           
- "hebben" [{:sem {:pred :have}
+ "hebben" [{:curriculum :basic
+            :sem {:pred :have}
             :exceptions [{:infl :present
                           :surface "heb"
                           :agr {:person :1st
@@ -181,7 +183,8 @@
  "te"
  [(let [sem (atom :top)
         reflexive? (atom :top)]
-    {:infl :te
+    {:curriculum :basic
+     :infl :te
      :inflected? true
      :normal-transitive-defaults? false
      :reflexive reflexive?
@@ -265,5 +268,3 @@
                 {:infl :past-simple
                  :agr {:number :plur}
                  :surface "zongen"}]}]}
-
-

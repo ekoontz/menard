@@ -11,7 +11,10 @@
  "beslissing" [{:sem {:pred :decision}}]
  "bestemming" [{:sem {:pred :destination}}]
  "bloemkool" [{:sem {:pred :cauliflower}}]
- "boek" [{:agr {:gender :neuter}
+ "bedrijf" [{:agr {:gender :neuter}
+             :sem {:pred :business}}]
+ "boek" [{:curriculum :basic
+          :agr {:gender :neuter}
           :sem {:pred :book
                 ;; TODO: move these properties to inference
                 ;; rules: pred=book -> animate false, readable true,etc.
@@ -19,8 +22,6 @@
                        :readable true}}
           :exceptions [{:agr {:number :plur}
                         :surface "boeken"}]}]
- "bedrijf" [{:agr {:gender :neuter}
-             :sem {:pred :business}}]
  "boodschap" [{:sem {:pred :message}}]
  "chirurg" [{:sem {:pred :surgeon}}]
  "dag" [{:sem {:pred :day}}]
@@ -28,7 +29,8 @@
                 :context :polite}}]
  "dier" [{:agr {:gender :neuter}
           :sem {:pred :animal}}]
- "druif" [{:sem {:pred :grape}}]
+ "druif" [{:sem {:pred :grape}
+           :curriculum :basic}]
  "eikel" [{:sem {:pred :jerk}}]
  "eenzaamheid" [{:sem {:pred :loneliness}}]
  "ervaring" [{:sem {:pred :experience}}]
@@ -116,7 +118,8 @@
  "vliegtuig" [{:agr {:gender :neuter}
                :sem {:pred :airplane}}]
  "vlinder" [{:sem {:pred :butterfly}}]
- "vogel" [{:sem {:pred :bird}}]
+ "vogel" [{:sem {:pred :bird}
+           :curriculum :basic}]
  "voorbereiding" [{:sem {:pred :preparation}}]
  "voorbeeld" [{:agr {:gender :neuter}
                :sem {:pred :example}}]
@@ -124,7 +127,8 @@
  "voorstelling" [{:sem {:pred :performance}}]
  "vooruitgang" [{:sem {:pred :progress}}]
  "voorziening" [{:sem {:pred :service}}]
- "vrouw" [{:agr {:gender :neuter}
+ "vrouw" [{:curriculum :basic
+           :agr {:gender :neuter}
            :sem {:pred :woman
                  :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
  "zaak" [{:sem {:pred :case}}]

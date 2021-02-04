@@ -31,12 +31,13 @@
 (def show-english-spec? false)
 
 (defn transfer-fn [i model]
-  (let [generate (fn [spec] (nl/generate spec model))]
+  (let [model-name (:name model "untitled")
+        generate (fn [spec] (nl/generate spec model))]
     (->> (if intermediate-parsing?
            (-> nl/expressions
                (nth i)
                ((fn [x]
-                  (log/info (str "trying to generate expression number: " i " with spec: " x))
+                  (log/info (str "trying to generate expression number: " i " with spec: " x " with model: " model-name))
                   x))
                generate
                ((fn [x]

@@ -33,20 +33,31 @@
 (defn transfer-fn [i model]
   (let [model-name (:name model "untitled")
         generate (fn [spec] (nl/generate spec model))]
-    (->> (if intermediate-parsing?
-           (-> nl/expressions
-               (nth i)
-               ((fn [x]
-                  (log/info (str "trying to generate expression number: " i " with "
-                                 "model: " model-name " with spec: " x))
-                  x))
-               generate
-               ((fn [x]
-                  (is (not (nil? x)))
-                  x))
-               nl/morph
-               nl/parse)
-           (-> nl/expressions (nth i) generate list))
+    (->> (-> nl/expressions
+             (nth i)
+             ((fn [x]
+                (log/debug (str "trying to generate expression number: " i " with "
+                                "model: " model-name " with spec: " x))
+                x))
+             generate
+             ((fn [x]
+                (is (not (nil? x)))
+                x))
+             nl/morph
+             ((fn [x]
+                (if intermediate-parsing?
+
+                  (->> (nl/parse x)
+                       ;; remove partial parses, if any:
+                       (filter #(not (= true (:menard.parse/partial? %))))
+                       ;; and take only one parse to test against:
+                       (take 1))
+                  ;; intermediate-parsing? is false:
+                  (list x))))
+             ((fn [x]
+                (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree x))))
+                (is (= (count x) 1))
+                x)))
          (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
          (map (fn [{nl :nl en-spec :en-spec}]
                 {:nl nl :en-spec en-spec :en (-> en-spec en/generate)}))

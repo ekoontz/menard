@@ -254,7 +254,7 @@
                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
                                                 (string/join ", " (set (map syntax-tree right-signs)))))
                                 (when (> (count taken-plus-one-results) (count taken-results))
-                                  (log/warn (str "more than " take-this-many " parses; first: " (syntax-tree (first taken-results)))))
+                                  (log/warn (str "more than " take-this-many " parses for: '" (morph (first taken-results)) "' ; first: " (syntax-tree (first taken-results)))))
                                 (->>
                                  taken-results
                                  (pmap-if-available (fn [tree]
@@ -347,7 +347,9 @@
                        (str "; partial parses: " (count (mapcat (fn [parses-for-span]
                                                                   (pmap-if-available syntax-tree parses-for-span))
                                                                 partial-parses)) ".")))
-        (flatten partial-parses))
+        (->> (flatten partial-parses)
+             (map (fn [partial-parse]
+                    (merge partial-parse {::partial? true})))))
       (do (log/debug (str "parsed input:    \"" input "\""))
           (:complete-parses result)))))
 

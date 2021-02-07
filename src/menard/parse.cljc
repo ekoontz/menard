@@ -17,7 +17,7 @@
 (def ^:dynamic syntax-tree)
 (def ^:dynamic truncate? false)
 (def ^:dynamic split-on #"[ ']")
-(def ^:dynamic take-this-many 20)
+(def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 
 (defn pmap-if-available [fn args]

@@ -50,7 +50,7 @@
 (def ^:dynamic stop-generation-at
  "To use: in your own namespace, override this variable with the path
   before whose generation you want to stop.
-  Generation will stop immediately
+  Generation will stop early
   when (frontier tree) is equal to this path."
   [])
 (def ^:dynamic warn-on-no-matches?
@@ -332,7 +332,7 @@
                   (u/assoc-in tree
                               at rule)]
               (when (= :fail result)
-                (log/debug
+                (log/trace
                  (str "rule: " (:rule rule) " failed: "
                       (diag/fail-path tree
                                       (u/assoc-in {}
@@ -360,7 +360,7 @@
      (remove #(= % :fail))
 
      (map (fn [tree]
-            (log/debug (str "add-rule: returning:  " (syntax-tree tree) "; added rule named: " rule-name))
+            (log/debug (str "add-rule: returning:  " (syntax-tree tree) "; added rule: " (u/get-in tree (concat at [:rule])) " at: " at))
             tree))
 
      (#(if (u/get-in tree [::max])
@@ -395,7 +395,7 @@
                          true
 
                          :else (do
-                                (log/debug (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
+                                (log/trace (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
                                 (when counts? (swap! count-lexeme-fails inc))
                                 false)))))
        (map :unify)))

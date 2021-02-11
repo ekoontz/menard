@@ -1,5 +1,5 @@
 {
- "bereiken" [{ :sem {:pred :achieve}}]
+ "bereiken" [{:sem {:pred :achieve}}]
  "bestrijden" [{:curriculum :basic
                 :sem {:pred :overcome}}]
  "bruizen" [{:sem {:pred :bubble}}]
@@ -170,15 +170,20 @@
  
  "slapen"
  (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "slaap"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "slaapt"}
+                   {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "slaapt"}]]
    [{:curriculum :basic
      :exceptions exceptions
-    
      :sem {:pred :sleep
            :subj {:prop {:animate true}}} ;; TODO: move to encyclopedia.
 
-    :subcat {:2 []}}])
+     :subcat {:2 []}}])
 
  "te"
  [(let [sem (atom :top)

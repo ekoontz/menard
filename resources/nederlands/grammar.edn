@@ -104,7 +104,7 @@
           menard.ug/shared-agr
           menard.ug/shared-def]}
  
- {:rule "np:2:sing" ;; '.de +kat'
+ {:rule "np:2" ;; '.de +kat'
   :np? true
   :reflexive false
   :agr {:person :3rd
@@ -122,7 +122,7 @@
           menard.ug/shared-def
           menard.ug/shared-number]}
 
- {:rule "np:2:plur" ;; '.de +kat'
+ {:rule "np:2" ;; '.de +katten'
   :np? true
   :reflexive false
   :agr {:person :3rd

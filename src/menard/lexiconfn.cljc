@@ -35,7 +35,7 @@
           :else
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
-              [(when (and include-derivation? rule)
+              [(if (and include-derivation? rule)
                  (unify result
                         {:derivation {rule-group {rule {:match? true}}}})
                  result)]))))

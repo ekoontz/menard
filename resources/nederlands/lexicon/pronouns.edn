@@ -178,11 +178,13 @@
  "we" [{:agr {:person :1st
               :number :plur}
         :case :nom
-        :sem {:pred :we}}]
+        :sem {:pred :we
+              :ref {:human true}}}]
  "wij" [{:agr {:person :1st
                :number :plur}
          :case :nom
-         :sem {:pred :we}}]
+         :sem {:pred :we
+               :ref {:human true}}}]
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:case :acc

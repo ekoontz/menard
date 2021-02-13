@@ -18,7 +18,7 @@
                :pred :she}}
         {:cat :det
          :sem {:pred :she}}]
-  "herself" [{:cat :noun
+ "herself" [{:cat :noun
              :case :acc
              :agr {:number :sing
                    :person :3rd
@@ -83,7 +83,6 @@
                 :case :acc
                 :agr {:number :plur
                       :person :1st}
-                :sem {:ref {:human true}}
                 :pronoun true
                 :reflexive true}]
  "she" [{:cat :noun
@@ -111,7 +110,8 @@
           :agr {:person :3rd :number :plur}
           :sem {:pred :they}}]
  "we" [{:cat :noun
-        :sem {:pred :we}
+        :sem {:pred :we
+              :ref {:human true}}
         :pronoun true
         :reflexive false
         :case :nom

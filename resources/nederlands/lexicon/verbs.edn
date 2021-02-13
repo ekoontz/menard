@@ -49,7 +49,11 @@
                           :surface "hebben"
                           :agr {:number :plur}}
                          {:infl :past-simple
-                          :surface "had"}]}]
+                          :surface "had"
+                          :agr {:number :sing}}
+                         {:infl :past-simple
+                          :surface "hadden"
+                          :agr {:number :plur}}]}]
 
  "hopen" [{:sem {:pred :hope}
            :exceptions [{:infl :past-simple

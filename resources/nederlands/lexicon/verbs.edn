@@ -231,6 +231,18 @@
  "verpesten" [{:sem {:pred :ruin}
                :subcat {:2 {:cat :noun}}}]
  
+
+ "vinden" [(let [obj (atom :top)]
+             {:sem {:pred :like
+                    :obj obj}
+              :subcat {:2 {:cat :adjective
+                           :phrasal false
+                           :canonical "leuk"}
+                       :3 {:cat :noun
+                           :subcat [] ;; <- TODO: should be a lexical rule
+                           :case :acc
+                           :sem obj}}})]
+
  "voeren" [{:sem {:pred :feed}}]
 
  "voorkomen" [{:sem {:pred :prevent}}

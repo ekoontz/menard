@@ -23,8 +23,7 @@
                :ref {:human false}}
          :agr {:person :3rd
                :number :sing
-               :gender :masc}
-         :case :nom}]
+               :gender :masc}}]
  ;; <F. p69-73>
  "hij" [{:agr {:person :3rd
                :number :sing

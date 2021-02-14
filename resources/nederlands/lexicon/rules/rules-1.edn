@@ -15,9 +15,8 @@
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}
-  :then [(let [person (atom :top)
-               agr (atom {:person person})
-               subj (atom {:person person})]
+  :then [(let [agr (atom :top)
+               subj (atom :top)]
            {:agr agr
             :sem {:subj subj}
             :subcat {:1 {:agr agr

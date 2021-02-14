@@ -233,7 +233,8 @@
  
 
  "vinden" [(let [obj (atom :top)]
-             {:sem {:pred :like
+             {:curriculum :basic
+              :sem {:pred :like
                     :obj obj}
               :subcat {:2 {:cat :adjective
                            :phrasal false

@@ -29,6 +29,7 @@
            :curriculum :basic}]
  "koppig" [{:sem {:pred :stubborn}}]
  "lastig" [{:sem {:pred :difficult}}]
+ "leuk" [{:sem {:pred :good}}]
  "lief" [{:sem {:pred :nice}}]
  "moelijk" [{:sem {:pred :difficult}}]
  "nieuwsgierig" [{:sem {:pred :curious}}]

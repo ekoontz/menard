@@ -381,6 +381,12 @@
         :pred :need
         :subj {:pred :top}
         :obj {:pred :top}}}
+
+ ;; 28
+ {:note "X vindt Y leuk"
+  :cat :verb
+  :sem {:pred :like}
+  :subcat []}
  ]
 
   

@@ -78,6 +78,23 @@
               :2 []}
      :comp complement-1}))
 
+
+;;      <1,2>
+;;     /     \
+;;  h<1,2,3>  3
+;;
+(def f
+  (let [complement-1 (atom {:top :top})
+        complement-2 (atom {:top :top})
+        complement-3 (atom {:top :top})]
+    {:head {:subcat {:1 complement-1
+                     :2 complement-2
+                     :3 complement-3}}
+     :subcat {:1 complement-1
+              :2 complement-2
+              :3 []}
+     :comp complement-3}))
+
 (def h
   (let [one (atom :top)
         mod (atom :top)

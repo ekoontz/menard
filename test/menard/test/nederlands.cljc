@@ -71,16 +71,16 @@
                                        :rest []}}}
                           basic-model)))))
 
-(deftest all-expressions-work
-  (let [generate-per-expression 5
+(def generate-per-expression 5)
 
-        ;; exclude non-production expressions:
-        expressions (->> expressions
-                         (filter #(= true (u/get-in % [:prod?] true))))
+;; exclude non-production expressions:
+(def prod-expressions (->> expressions
+                      (filter #(= true (u/get-in % [:prod?] true)))))
 
-        expression-sets
+(deftest all-expressions-work-1
+  (let [expression-sets
         (->>
-         (range 0 (count expressions))
+         (range 0 (count prod-expressions))
          (map (fn [index]
                 (take generate-per-expression
                       (repeatedly #(or (generate (nth expressions index))
@@ -88,12 +88,23 @@
                                        ;; so we can see where the fail happened in the
                                        ;; log/info messages printed below.
                                        {:note (-> expressions (nth index) :note)}))))))]
-
     ;; generation test 1
-    (is (= (count expressions)
-           (count expression-sets)))
+    (is (= (count prod-expressions)
+           (count expression-sets)))))
 
-    ;; generation test 2
+;; generation test 2
+(deftest all-expressions-work-2
+  (let [expression-sets
+        (->>
+         ;;         (range 0 (count prod-expressions))
+         (range 18 19)
+         (map (fn [index]
+                (take generate-per-expression
+                      (repeatedly #(or (generate (nth expressions index))
+                                       ;; if generation fails, save the :note
+                                       ;; so we can see where the fail happened in the
+                                       ;; log/info messages printed below.
+                                       {:note (-> expressions (nth index) :note)}))))))]
     (is (empty?
          (->> expression-sets
               (map (fn [expression-set]
@@ -104,9 +115,20 @@
                                  (morph expression)))
                           (remove (fn [expression]
                                     (nil? (clojure.string/index-of (morph expression) \_)))))))
-              (remove empty?))))
-    
-    ;; generation test 3
+              (remove empty?))))))
+
+;; generation test 3
+(deftest all-expressions-3
+  (let [expression-sets
+        (->>
+         (range 0 (count prod-expressions))
+         (map (fn [index]
+                (take generate-per-expression
+                      (repeatedly #(or (generate (nth expressions index))
+                                       ;; if generation fails, save the :note
+                                       ;; so we can see where the fail happened in the
+                                       ;; log/info messages printed below.
+                                       {:note (-> expressions (nth index) :note)}))))))]
     (is (empty?
          (->> expression-sets
               (map (fn [expression-set]
@@ -119,8 +141,19 @@
 
               ;; remove all cases where we generated enough expressions. Afterwards, if the remaining is empty,
               ;; the test passes:
-              (remove #(= % generate-per-expression)))))
+              (remove #(= % generate-per-expression)))))))
 
+(deftest parse-test-1
+  (let [expression-sets
+        (->>
+         (range 0 (count prod-expressions))
+         (map (fn [index]
+                (take generate-per-expression
+                      (repeatedly #(or (generate (nth expressions index))
+                                       ;; if generation fails, save the :note
+                                       ;; so we can see where the fail happened in the
+                                       ;; log/info messages printed below.
+                                       {:note (-> expressions (nth index) :note)}))))))]
     ;; parse test 1
     (is (empty?
          (->> expression-sets

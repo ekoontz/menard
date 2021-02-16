@@ -86,6 +86,7 @@
          :exceptions [{:surface "men"
                        :agr {:number :plur}}]}]
  "message" [{:sem {:pred :message}}]
+ "mistake" [{:sem {:pred :mistake}}]
  "money" [{:sem {:pred :money}}]
  "month" [{:sem {:pred :month}}]
  "mother" [{:sem {:pred :mother}}]

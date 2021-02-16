@@ -237,8 +237,7 @@
   :cat :verb
   :subcat []
   :reflexive false
-  :comp {:phrasal true
-         :cat :noun
+  :comp {:cat :noun
          :subcat []}
   :head {:phrasal true
          :rule "vp"
@@ -266,8 +265,6 @@
   :phrasal true
   :cat :verb
   :subcat []
-  :comp {:phrasal true
-         :head {:phrasal true}}
   :head {:rule "vp-modal-np"
          :phrasal true
          :head {:phrasal false

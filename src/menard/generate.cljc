@@ -123,7 +123,28 @@
               (add tree grammar lexicon-index-fn syntax-tree-fn) grammar lexicon-index-fn syntax-tree-fn)
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))))))
 
-           
+
+(defn strip-tops-out [m]
+  (->> m
+       (map (fn [[k v]]
+              [k (cond (map? v)
+                       (strip-tops-out v)
+                       :else v)]))
+       (filter (fn [[k v]]
+                 (not (= v :top))))
+       (map (fn [[k v]]
+              [k (cond (and
+                        (map? v)
+                        (empty? v))
+                       :top
+                       :else v)]))
+       (into {})
+       ((fn [x]
+          (cond (and (map? x)
+                     (empty? x))
+                :top
+                :else x)))))
+             
 (defn add
   "Return a lazy sequence of all trees made by adding every possible
   leaf and tree to _tree_. This sequence is the union of all trees
@@ -131,7 +152,8 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
-  (log/debug (str "add with tree: " (syntax-tree-fn tree) "; " (-> tree (select-keys show-keys) strip-refs)))
+  ;;  (log/debug (str "add with tree: " (syntax-tree-fn tree) "; " (-> tree (select-keys show-keys) strip-refs)))
+  (log/debug (str "add with tree: " (syntax-tree-fn tree)))
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
@@ -253,7 +275,9 @@
            (#(if (and (empty? %)
                       (= false allow-lexeme-backtracking?)
                       (= false (u/get-in spec [:phrasal] ::none)))
-               (exception (str "no lexemes for tree: " (syntax-tree tree) " at: " at "; no lexemes matched spec: " (dag_unify.diagnostics/strip-refs spec)))
+               (exception (str "no lexemes for tree: "
+                               (syntax-tree tree) " at: " at
+                               "; no lexemes matched spec: " (-> spec dag_unify.diagnostics/strip-refs strip-tops-out)))
                %))
 
            (map (fn [candidate-lexeme]

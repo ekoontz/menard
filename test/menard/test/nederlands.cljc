@@ -338,9 +338,7 @@
     :phrasal true,
     :head {:exception false 
            :phrasal false, 
-           :modal :te}
-    :comp {:head {:head {:phrasal false}
-                  :comp {:phrasal false}}}}
+           :modal :te}}
    :sem {:subj {:pred :you :person :2nd}
          :pred :try, 
          :obj {:pred :see

@@ -264,12 +264,9 @@
   :example "jouw achtig eigenwijze zenuwachtige tafels proberen banen te optreden"
   :phrasal true
   :cat :verb
+  :sem {:obj {:obj {:top :top}}}
   :subcat []
-  :head {:rule "vp-modal-np"
-         :phrasal true
-         :head {:phrasal false
-                :reflexive false
-                :modal :te}}
+  :head {:rule "vp-modal-np"}
   :target {:rule "s"
            :comp {:cat :noun
                   :subcat []}

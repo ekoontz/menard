@@ -237,6 +237,7 @@
           menard.ug/head-sem]}
 
  {:rule "adverb-nodig" ;; [adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]
+  :modal false
   :cat :verb
   :head {:canonical "nodig"
          :phrasal false}

@@ -1,7 +1,13 @@
 {
  "bereiken" [{:sem {:pred :achieve}}]
  "bestrijden" [{:curriculum :basic
-                :sem {:pred :overcome}}]
+                :sem {:pred :overcome}
+                :exception [{:infl :past-simple
+                             :agr {:number :sing
+                                   :surface "bestreed"}}
+                            {:infl :past-simple
+                             :agr {:number :plur
+                                   :surface "bestreden"}}]}]
  "bruizen" [{:sem {:pred :bubble}}]
  "gaan" [{:curriculum :basic
           :sem {:pred :go}

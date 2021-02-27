@@ -206,7 +206,15 @@
                   :sem sem}
               :2 []}})]
 
- "tegengehouden" [{ :sem {:pred :inhibit}}]
+ "tegengehouden" [{:sem {:pred :inhibit}
+                   :exceptions [{:infl :past-simple
+                                 :agr {:number :sing}
+                                 :surface "gehoudde tegen"}
+                                {:infl :past-simple
+                                 :agr {:number :plur}
+                                 :surface "gehoudden tegen"}]}]
+
+                   
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
  "werken" [{:curriculum :basic
@@ -224,7 +232,6 @@
                         {:infl :past-simple
                          :agr {:number :plur}
                          :surface "wisten"}]}]
-           
 
  "veroorzaaken" [{:sem {:pred :cause}}]
 

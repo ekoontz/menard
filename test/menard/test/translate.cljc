@@ -83,7 +83,7 @@
    (range 0 (count nl/expressions))
    (map (fn [i]
           (doall
-           (take 1
+           (take 10
                  (repeatedly #(transfer-fn i @nl/basic-model))))))
    doall))
 
@@ -92,6 +92,6 @@
    (range 0 (count nl/expressions))
    (map (fn [i]
           (doall
-           (take 5
+           (take 10
                  (repeatedly #(transfer-fn i @nl/model))))))
    doall))

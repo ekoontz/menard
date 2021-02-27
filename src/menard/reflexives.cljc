@@ -13,22 +13,31 @@
     {:cat :prep}
 
     {:cat :verb
-     :sem {:obj :unspec}}
+     :sem {::refl-match 1
+           :obj :unspec}}
 
     ;; reflexive case (non modal): "ik zie me"
     (let [ref (atom :top)]
       {:cat :verb
+       :modal false
        :reflexive true
-       :sem {:subj {:ref ref}
+       :sem {::refl-match 2
+             :subj {:ref ref}
              :obj {:ref ref
                    :obj ::unspec}}})
 
     ;; reflexive case (modal) e.g. "ik probeer me te zien"
     (let [ref (atom :top)]
       {:cat :verb
+
+       ;; TODO: language-dependent: only Dutch has :te value for :modal.
+       :modal :te
+
        :reflexive true
-       :sem {:subj {:ref ref}
-             :obj {:obj {:ref ref}}}})]
+       :sem {::refl-match 3
+             :subj {:ref ref}
+             :obj {:obj {:ref ref
+                         :obj ::unspec}}}})]
 
    ;; nonreflexive case: we force the subj's :ref and obj's
    ;; :ref to be to be distinct from each other.
@@ -46,13 +55,13 @@
                   :obj {:ref {::is-subj false}}}}
            x))
         [{:sem {:subj {:person :1st}
-                ::match-got-here 1
-                 :obj {:person-not :1st}}}
+                ::refl-match 4
+                :obj {:person-not :1st}}}
          {:sem {:subj {:person :2nd}
-                ::match-got-here 2
+                ::refl-match 5
                 :obj {:person-not :2nd
                       :obj ::unspec}}}
-         {:sem {::match-got-here 3
+         {:sem {::refl-match 5
                 :subj {:person :3rd}}}])))
 
 

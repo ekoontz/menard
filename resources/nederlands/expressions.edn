@@ -308,7 +308,12 @@
   :cat :verb
   :prod? true
   :subcat []
-  :comp {:cat :noun}
+  ;; prevent pronouns from the :comp
+  ;; e.g. "hun moeten we samen zien":
+  ;; workaround for bug where such expressions can't be
+  ;; parsed due to some interaction with reflexives.
+  :comp {:cat :noun
+         :pronoun false}
   :head {:rule "vp-slash-object"}
   :reflexive false
   :sem {:pred :must

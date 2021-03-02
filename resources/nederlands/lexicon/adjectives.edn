@@ -21,6 +21,7 @@
  "gevoelig" [{:sem {:pred :sensitive}}]
  "geweldig" [{:sem {:pred :awesome}}]
  "gierig" [{:sem {:pred :stingy}}]
+ "goed" [{:sem {:pred :good}}]
  "groot" [{:sem {:pred :big} :curriculum :basic}]
  "ingewikkeld" [{:sem {:pred :complicated}}]
  "inhalig" [{:sem {:pred :greedy}}]

@@ -264,6 +264,21 @@
  {:note "modals+infinitive"
   :example "jouw achtig eigenwijze zenuwachtige tafels proberen banen te optreden"
   :phrasal true
+
+  ;; <workaround>
+  ;; prevent pronouns from the :comp
+  ;; e.g. "hun moeten we samen zien":
+  ;; workaround for bug where such expressions can't be
+  ;; parsed due to some interaction with reflexives.
+  ;; (as with 23)
+  :reflexive false
+  :comp {:cat :noun
+         :phrasal false
+         :canonical "we"}
+  :agr {:person :1st
+        :number :plur}
+  ;; </workaround>
+
   :cat :verb
   :sem {:obj {:obj {:top :top}}}
   :subcat []

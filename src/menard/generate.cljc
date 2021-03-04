@@ -374,6 +374,8 @@
                  (assoc-in {} (concat [:syntax-tree] at-num)
                                    (let [one-is-head? (tr/headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
+                                      :reflexive (u/get-in % (concat at [:reflexive])
+                                                           ::undefined)
                                       :1 {:head? one-is-head?}
                                       :2 {:head? (not one-is-head?)}
                                       :variant (u/get-in % [:variant])

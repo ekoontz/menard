@@ -39,6 +39,7 @@
   :subcat []
   :phrasal true
   :head {:phrasal false}
+  :sem {:obj :unspec}
   :comp {:phrasal true
          :comp {:cat :det}
          :cat :noun}}
@@ -76,9 +77,12 @@
               :rest []}
         :quant :the
         :pred :book}
-
-  ;; training wheels:
-  :training-wheels {:head {:phrasal true}}}
+  :rule "np:2"
+  :head {:phrasal true
+         :rule "nbar"
+         :head {:phrasal false}
+         :comp {:phrasal false
+                :sem {:number? false}}}}
  
  ;; 7
  {:note "'een heel klein druif'"

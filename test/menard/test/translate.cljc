@@ -32,7 +32,9 @@
 
 (defn transfer-fn [i model]
   (let [model-name (:name model "untitled")
-        generate (fn [spec] (nl/generate spec model))]
+        generate (fn [spec]
+                   (binding [menard.generate/allow-lexeme-backtracking? false]
+                     (nl/generate spec model)))]
     (->> (-> nl/expressions
              (nth i)
              ((fn [x]

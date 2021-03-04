@@ -29,7 +29,8 @@
   :subcat []
   :cat :verb
   :phrasal true
-  :head {:phrasal false}}
+  :head {:phrasal false}
+  :sem {:obj :unspec}}
 
   ;; 3
  {:note "det noun | verb"

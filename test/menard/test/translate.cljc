@@ -60,16 +60,20 @@
                 (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree x))))
                 (is (= (count x) 1))
                 x)))
-         (map (fn [tree] {:nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
-         (map (fn [{nl :nl en-spec :en-spec}]
-                {:nl nl :en-spec en-spec :en (-> en-spec en/generate)}))
+         (map (fn [tree] {:nl-st (nl/syntax-tree tree)
+                          :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
+         (map (fn [{nl :nl nl-st :nl-st en-spec :en-spec}]
+                {:nl-st nl-st
+                 :nl nl
+                 :en-spec en-spec :en (-> en-spec en/generate)}))
          (filter (fn [{en :en}] (not (nil? en))))
          (take 1)
-         (map (fn [{nl :nl en :en en-spec :en-spec}]
+         (map (fn [{nl :nl en :en en-spec :en-spec nl-st :nl-st}]
                 (let [en (en/morph en)
                       retval {:i i
                               :model (:name model)
                               :nl (str "\"" nl "\"")
+                              :nl-st (str "\"" nl-st "\"")                              
                               :en (str "\"" en "\"")}
                       retval (if show-english-spec?
                                (assoc retval :en-spec (serialize en-spec))

@@ -54,14 +54,17 @@
             :sem {:subj {:ref {::is-subj true}}
                   :obj {:ref {::is-subj false}}}}
            x))
-        [{:sem {:subj {:person :1st}
+        [{:agr {:person :1st}
+          :sem {:subj {:person :1st}
                 ::refl-match 4
                 :obj {:person-not :1st}}}
-         {:sem {:subj {:person :2nd}
+         {:agr {:person :2nd}
+          :sem {:subj {:person :2nd}
                 ::refl-match 5
                 :obj {:person-not :2nd
                       :obj ::unspec}}}
-         {:sem {::refl-match 5
+         {:agr {:person :3rd}
+          :sem {::refl-match 5
                 :subj {:person :3rd}}}])))
 
 

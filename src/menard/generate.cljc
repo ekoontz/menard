@@ -265,8 +265,8 @@
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
-                   (strip-refs
-                    (select-keys spec show-keys))))
+                    (strip-refs
+                     (select-keys spec show-keys))))
     (if (= true (u/get-in spec [:phrasal]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn)

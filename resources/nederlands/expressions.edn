@@ -128,7 +128,16 @@
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
-  :subcat []}
+  :subcat []
+  :head {:rule "nbar"
+         :comp {:rule "intensifier-phrase"
+                :sem {:number? false}}
+         :head {:rule "nbar"
+                :head {:phrasal false
+                       :cat :noun
+                       :mod []}
+                :comp {:phrasal false
+                       :cat :adjective}}}}
 
  ;; 10
  {:note "vier en twintig vogels"
@@ -283,9 +292,12 @@
   ;; </workaround>
 
   :cat :verb
-  :sem {:obj {:obj {:top :top}}}
+  :sem {:obj {:obj {:top :top}}
+        :subj {:person :1st}}
   :subcat []
-  :head {:rule "vp-modal-np"}
+  :head {:rule "vp-modal-np"
+         :comp {:rule "vp-np"
+                :head {:rule "vp-te"}}}
   :target {:rule "s"
            :comp {:cat :noun
                   :subcat []}
@@ -318,7 +330,15 @@
         :subj {:pred :we}
         :obj {:obj {:pred :corona}
               :mod {:first {:pred :together}}
-              :pred :overcome}}}
+              :pred :overcome}}
+  :rule "s"
+  :head {:rule "vp-slash-object"
+         :head {:rule "modal+subject"
+                :head {:phrasal false}
+                :comp {:phrasal false}}
+         :comp {:rule "adverb-vp"
+                :head {:phrasal false}
+                :comp {:phrasal false}}}}
 
  ;; 23
  {:note "Generalization of the previous:"

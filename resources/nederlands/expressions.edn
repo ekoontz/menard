@@ -113,15 +113,14 @@
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
-  :subcat []
-  ;; training wheels:
-  }
+  :subcat []}
+
  
  ;; 9
  ;; Generate some noun phrases but with less constraints,
  ;; so usually the adjective *will* have the -e suffix.
  ;; e.g. 'een behoorlijk vies grote tafel'
- {:note "[det [[intensifier adj] noun]]"
+ {:note "[np:2 .een +[nbar .[intensifier-phrase .behoorlijk +vies] +[nbar .grote +tafel]]]"
   :example "een behoorlijk vies grote tafel"
   :agr {:number :plur}
   :cat :noun

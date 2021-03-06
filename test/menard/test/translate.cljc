@@ -86,8 +86,10 @@
 
 (deftest transfer-basic
   (->>
-   (range 0 (count nl/expressions))
+   ;;   (range 0 (count nl/expressions))
+   (range 10 11)
    (map (fn [i]
+          (println (str "transfering with nl/expression number: " i))
           (doall
            (take 10
                  (repeatedly #(transfer-fn i @nl/basic-model))))))

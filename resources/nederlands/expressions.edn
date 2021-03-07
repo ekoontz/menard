@@ -177,7 +177,9 @@
                                   :head {:head {:phrasal false
                                                 :sem {:number? true}}
                                          :comp {:phrasal false}}}
-                           :head {:head {:phrasal false}
+                           :head {:head {:phrasal false
+                                         :mod []
+                                         :sem {:number? true}}
                                   :comp {:phrasal false}}}}}
 
  ;; </noun expressions>

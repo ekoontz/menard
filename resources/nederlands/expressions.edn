@@ -199,8 +199,12 @@
                              :mod {:first {:pred :very}}}
                      :rest {:first {:pred :smart
                                     :number? false}
-                            :rest []}}}}
-  :training-wheels {:comp {:comp {:cat :det}}}}
+                            :rest []}}}
+        :obj :unspec}
+  :training-wheels {:head {:phrasal false}
+                    :reflexive false
+                    :agr {:person :3rd}
+                    :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
   
 
  ;; 14

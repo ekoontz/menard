@@ -87,7 +87,7 @@
 (deftest transfer-basic
   (->>
    ;;   (range 0 (count nl/expressions))
-   (range 10 11)
+   (range 0 14)
    (map (fn [i]
           (println (str "transfering with nl/expression number: " i))
           (doall

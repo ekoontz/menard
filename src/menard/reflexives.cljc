@@ -64,7 +64,7 @@
                 :obj {:person-not :2nd
                       :obj ::unspec}}}
          {:agr {:person :3rd}
-          :sem {::refl-match 5
+          :sem {::refl-match 6
                 :subj {:person :3rd}}}])))
 
 

@@ -241,7 +241,9 @@
   :cat :verb
   :subcat []
   :sem {:pred :see
-        :obj {:top :top}}}
+        :obj {:top :top}}
+  :training-wheels {:head {:rule "vp"}}}
+  
 
  ;; 17
  {:note "Sentence with reflexive object"
@@ -254,8 +256,11 @@
   :reflexive true
   :sem {:tense :present
         :aspect :simple
-        :pred :see}}
-
+        :pred :see
+        :obj {:top :top}}
+  :training-wheels {:head {:rule "vp"
+                           :head {:phrasal false}}}}
+ 
  ;; 18
  {:note "[s np [vp v np]]"
   :example "ik zie de kat"
@@ -269,7 +274,12 @@
          :rule "vp"
          :head {:subcat {:2 {:cat :noun}}}
          :comp {:cat :noun
-                :subcat []}}}
+                :subcat []}}
+  :sem {:obj {:top :top
+              :obj :unspec}}
+  :training-wheels {:head {:head {:phrasal false}
+                           :comp {:cat :noun
+                                  :phrasal true}}}}
 
  ;; 19
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
@@ -282,8 +292,11 @@
          :comp {:cat :verb
                 :head {:phrasal false
                        :reflexive false}}}
-  :sem {:obj {:top :top}}}
-
+  :sem {:obj {:top :top
+              :obj :unspec}}
+  :training-wheels {:head {:rule "vp-modal-te"
+                           :comp {:rule "vp-te"
+                                  :comp {:phrasal false}}}}}
  ;; 20
  ;; ARGD, p. 37
  {:note "modals+infinitive"

@@ -208,14 +208,24 @@
   
 
  ;; 14
- {:note "[det [intensifier adj | adj noun]] verb"
+ {:note "generalization of the above"
   :dotimes 5
-  :example "de heel sterk slimme vrouwen zingen"
+  :example "De heel sterk slimme vrouwen zingen"
   :cat :verb
   :subcat []
-  ;;  :training-wheels
-  :rule "s"
-  :head {:phrasal false}}
+  :sem {:pred :top
+        :subj {:pred :top
+               :mod {:first {:pred :top
+                             :number? false
+                             :mod {:first {:pred :top}}}
+                     :rest {:first {:pred :top
+                                    :number? false}
+                            :rest []}}}
+        :obj :unspec}
+  :training-wheels {:head {:phrasal false}
+                    :reflexive false
+                    :agr {:person :3rd}
+                    :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
 
  ;; 15
  {:note "[det | adj noun] verb"

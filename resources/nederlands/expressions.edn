@@ -234,7 +234,8 @@
   :subcat []  
   :head {:phrasal false}
   :sem {:subj {:mod {:first {:mod []}
-                     :rest []}}}}
+                     :rest []}}
+        :obj :unspec}}
  
  ;; 16
  {:note "Sentence with object"

@@ -201,9 +201,7 @@
                                     :number? false}
                             :rest []}}}
         :obj :unspec}
-  :training-wheels {:head {:phrasal false}
-                    :reflexive false
-                    :agr {:person :3rd}
+  :training-wheels {:agr {:person :3rd}
                     :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
   
 
@@ -222,9 +220,7 @@
                                     :number? false}
                             :rest []}}}
         :obj :unspec}
-  :training-wheels {:head {:phrasal false}
-                    :reflexive false
-                    :agr {:person :3rd}
+  :training-wheels {:agr {:person :3rd}
                     :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
 
  ;; 15

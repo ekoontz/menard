@@ -340,7 +340,9 @@
          :head {:phrasal false
                 :canonical "kunnen"}
          :comp {:phrasal false}}
-  :comp {:phrasal false}}
+  :comp {:phrasal false}
+  :reflexive false
+  :sem {:obj {:obj :unspec}}}
 
  ;; 22
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
@@ -360,10 +362,16 @@
   :rule "s"
   :head {:rule "vp-slash-object"
          :head {:rule "modal+subject"
-                :head {:phrasal false}
+                :head {:phrasal false
+                       :agr {:person :1st}
+                       :sem {:subj {:person :1st}}}
                 :comp {:phrasal false}}
          :comp {:rule "adverb-vp"
-                :head {:phrasal false}
+                :head {:phrasal false
+                       :subcat {:1 {:top :top}
+                                :2 {:top :top}
+                                :3 []}
+                       :sem {:obj {:obj :unspec}}}
                 :comp {:phrasal false}}}}
 
  ;; 23

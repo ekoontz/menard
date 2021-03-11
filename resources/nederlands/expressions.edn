@@ -375,29 +375,33 @@
                 :comp {:phrasal false}}}}
 
  ;; 23
- {:note "Generalization of the previous:"
-  :example "Corona moeten we samen bestrijden"
+ {:note "Generalization of the previous"
+  :dotimes 1
   :max-depth 3
   :cat :verb
-  :prod? true
   :subcat []
-  ;; prevent pronouns from the :comp
-  ;; e.g. "hun moeten we samen zien":
-  ;; workaround for bug where such expressions can't be
-  ;; parsed due to some interaction with reflexives.
-  :comp {:cat :noun
-         :pronoun false}
-  :head {:rule "vp-slash-object"}
+  :prod? true
+  :phrasal true,
   :reflexive false
   :sem {:pred :must
+        :subj {:pred :top}
         :obj {:obj {:pred :top}
-              :mod {:first {:pred :together}}
+              :mod {:first {:pred :top}}
               :pred :top}}
-
-  ;; TODO: move this to within the :sem above,
-  ;; or better, fix adverb number agreement so that it's not needed,
-  :training-wheels {:head {:comp {:comp {:sem {:subj {:number :plur}}}}}}}
-
+  :rule "s"
+  :head {:rule "vp-slash-object"
+         :head {:rule "modal+subject"
+                :head {:phrasal false
+                       :agr {:person :top}
+                       :sem {:subj {:person :top}}}
+                :comp {:phrasal false}}
+         :comp {:rule "adverb-vp"
+                :head {:phrasal false
+                       :subcat {:1 {:top :top}
+                                :2 {:top :top}
+                                :3 []}
+                       :sem {:obj {:obj :unspec}}}
+                :comp {:phrasal false}}}}
  
  ;; 24
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"

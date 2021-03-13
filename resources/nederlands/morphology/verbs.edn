@@ -104,15 +104,26 @@
       :infl :past-simple}}
  ;; </F>
 
- 
- {:g [#"^(.*)en$" "$1de"]
-  :p [#"^(.*)de$" "$1en"]
+ {:g [#"^(.*d)en$" "$1e"]
+  :p [#"^(.*d)e$"  "$1en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*)en$"  "$1den"]
-  :p [#"^(.*)den$" "$1en"]
+ {:g [#"^(.*[^d])en$" "$1de"]
+  :p [#"^(.*[^d])de$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*d)en$"  "$1en"]
+  :p [#"^(.*d)en$"  "$1en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ 
+ {:g [#"^(.*[^d])en$"  "$1den"]
+  :p [#"^(.*[^d])den$" "$1en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}

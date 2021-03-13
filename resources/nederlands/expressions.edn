@@ -461,8 +461,12 @@
  ;; 28
  {:note "X vindt Y leuk"
   :cat :verb
-  :sem {:pred :like}
-  :subcat []}
+  :sem {:pred :like
+        :obj {:obj :unspec}}
+  :subcat []
+  :head {:phrasal true
+         :rule "vp"
+         :head {:rule "vp-ditransitive"}}}
  ]
 
   

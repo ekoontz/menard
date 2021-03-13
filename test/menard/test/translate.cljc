@@ -96,8 +96,7 @@
 
 (deftest transfer
   (->>
-   ;;   (range 0 (count nl/expressions))
-   (range 0 20)
+   (range 0 (count nl/expressions))
    (map (fn [i]
           (doall
            (take 10

@@ -227,13 +227,13 @@
 
 (deftest parsing-tests
   (is
-   (= ["[s(:present-simple) .Corona +[vp-slash-object +[modal+subject(:present-simple) +moeten .wij] .[adverb-vp .samen +bestrijden]]]"]
+   (= ["[s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .samen +bestrijden]]]"]
       (->> "Corona moeten wij samen bestrijden" nl/parse (map nl/syntax-tree) (take 1))))
   (is
-   (= ["[s(:present-simple) .ik +[vp-modal-np(:present-simple) +probeer .[vp-np(:infinitive) .honden +[vp-te +te .zien]]]]"]
+   (= ["[s(:present-simple){-} .ik +[vp-modal-np(:present-simple){-} +probeer .[vp-np(:infinitive){-} .honden +[vp-te{-} +te .zien]]]]"]
       (->> "ik probeer honden te zien" nl/parse (map nl/syntax-tree))))
   (is
-   (= ["[s(:present-simple) .ik +[vp-modal-te(:present-simple) +probeer .[vp-te +te .zien]]]"]
+   (= ["[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te{-} +te .zien]]]"]
       (->> "ik probeer te zien" nl/parse (map nl/syntax-tree)))))
 
 

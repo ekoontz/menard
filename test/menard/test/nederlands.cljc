@@ -56,6 +56,7 @@
                            :agr {:number :plur}
                            :sem {:quant :the
                                  :mod {:first {:pred :old
+                                               :number? false
                                                :mod []}
                                        :rest []}}}))))
 
@@ -67,6 +68,7 @@
                            :agr {:number :plur}
                            :sem {:quant :the
                                  :mod {:first {:pred :old
+                                               :number? false
                                                :mod []}
                                        :rest []}}}
                           basic-model)))))

@@ -39,15 +39,18 @@
    are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology]
   (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)))
-  (let [structure structure
-        canonical (u/get-in structure [:canonical])
+  (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)
                      false
                      inflected?)
         matching-rules
         (when (or (not inflected?)
-                (= :top inflected?))
+                  (= :top inflected?))
+          ;; TODO: move this regular inflection-checking to *after*
+          ;; exception-checking and :surface checking is done:
+          ;; if there is an exception we; won't use the result of this
+          ;; regular inflecting.
           (filter (fn [rule]
                     (let [{u :u
                            [from _] :g
@@ -69,8 +72,8 @@
                           (map #(unify exceptionless %)
                                exceptions))))]
     (if first-matching-exception
-      (log/debug (str "morph-leaf: " (diag/strip-refs first-matching-exception)))
-      (log/debug (str "morph-leaf: no rules matched.")))
+      (log/debug (str "morph-leaf: found exception: " (diag/strip-refs first-matching-exception)))
+      (log/debug (str "morph-leaf: no exception found; tried: " exceptions)))
     (log/debug (str "morph-leaf: number of matching rules: " (count matching-rules)))
     (when (> (count matching-rules) 1)
       (log/debug (str "morph-leaf: more than one rule matched: " (diag/strip-refs structure) "; rules were: "

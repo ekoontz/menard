@@ -57,14 +57,30 @@
         [{:agr {:person :1st}
           :sem {:subj {:person :1st}
                 ::refl-match 4
-                :obj {:person-not :1st}}}
+                :obj {:person-not :1st
+                      :obj :unspec}}}
+         {:agr {:person :1st}
+          :sem {:subj {:person :1st}
+                ::refl-match 5
+                :obj {:obj {:person-not :1st}}}}
+
          {:agr {:person :2nd}
           :sem {:subj {:person :2nd}
-                ::refl-match 5
+                ::refl-match 6
                 :obj {:person-not :2nd
                       :obj :unspec}}}
+         {:agr {:person :2nd}
+          :sem {:subj {:person :2nd}
+                ::refl-match 7
+                :obj {:obj {:person-not :2nd}}}}
+
          {:agr {:person :3rd}
-          :sem {::refl-match 6
-                :subj {:person :3rd}}}])))
+          :sem {::refl-match 8
+                :subj {:person :3rd
+                       :obj :unspec}}}
+         {:agr {:person :3rd}
+          :sem {::refl-match 9
+                :subj {:obj {:person :3rd}}}}])))
+
 
 

@@ -14,7 +14,7 @@
 
     {:cat :verb
      :sem {::refl-match 1
-           :obj :unspec}}
+           :obj :none}}
 
     ;; reflexive case (non modal): "ik zie me"
     (let [ref (atom :top)]
@@ -24,7 +24,7 @@
        :sem {::refl-match 2
              :subj {:ref ref}
              :obj {:ref ref
-                   :obj :unspec}}})
+                   :obj :none}}})
 
     ;; reflexive case (modal) e.g. "ik probeer me te zien"
     (let [ref (atom :top)]
@@ -37,7 +37,7 @@
        :sem {::refl-match 3
              :subj {:ref ref}
              :obj {:obj {:ref ref
-                         :obj :unspec}}}})]
+                         :obj :none}}}})]
 
    ;; nonreflexive case: we force the subj's :ref and obj's
    ;; :ref to be to be distinct from each other.
@@ -58,7 +58,7 @@
           :sem {:subj {:person :1st}
                 ::refl-match 4
                 :obj {:person-not :1st
-                      :obj :unspec}}}
+                      :obj :none}}}
          {:agr {:person :1st}
           :sem {:subj {:person :1st}
                 ::refl-match 5
@@ -68,7 +68,7 @@
           :sem {:subj {:person :2nd}
                 ::refl-match 6
                 :obj {:person-not :2nd
-                      :obj :unspec}}}
+                      :obj :none}}}
          {:agr {:person :2nd}
           :sem {:subj {:person :2nd}
                 ::refl-match 7

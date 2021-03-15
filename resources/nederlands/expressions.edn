@@ -30,7 +30,7 @@
   :cat :verb
   :phrasal true
   :head {:phrasal false}
-  :sem {:obj :unspec}}
+  :sem {:obj :none}}
 
   ;; 3
  {:note "det noun | verb"
@@ -39,7 +39,7 @@
   :subcat []
   :phrasal true
   :head {:phrasal false}
-  :sem {:obj :unspec}
+  :sem {:obj :none}
   :comp {:phrasal true
          :comp {:cat :det}
          :cat :noun}}
@@ -200,7 +200,7 @@
                      :rest {:first {:pred :smart
                                     :number? false}
                             :rest []}}}
-        :obj :unspec}
+        :obj :none}
   :training-wheels {:agr {:person :3rd}
                     :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
   
@@ -219,7 +219,7 @@
                      :rest {:first {:pred :top
                                     :number? false}
                             :rest []}}}
-        :obj :unspec}
+        :obj :none}
   :training-wheels {:agr {:person :3rd}
                     :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
 
@@ -231,7 +231,7 @@
   :head {:phrasal false}
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}
-        :obj :unspec}}
+        :obj :none}}
  
  ;; 16
  {:note "Sentence with object"
@@ -276,7 +276,7 @@
          :comp {:cat :noun
                 :subcat []}}
   :sem {:obj {:top :top
-              :obj :unspec}}
+              :obj :none}}
   :training-wheels {:head {:head {:phrasal false}
                            :comp {:cat :noun
                                   :phrasal true}}}}
@@ -293,7 +293,7 @@
                 :head {:phrasal false
                        :reflexive false}}}
   :sem {:obj {:top :top
-              :obj :unspec}}
+              :obj :none}}
   :training-wheels {:head {:rule "vp-modal-te"
                            :comp {:rule "vp-te"
                                   :comp {:phrasal false}}}}}
@@ -342,7 +342,7 @@
          :comp {:phrasal false}}
   :comp {:phrasal false}
   :reflexive false
-  :sem {:obj {:obj :unspec}}}
+  :sem {:obj {:obj :none}}}
 
  ;; 22
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
@@ -371,7 +371,7 @@
                        :subcat {:1 {:top :top}
                                 :2 {:top :top}
                                 :3 []}
-                       :sem {:obj {:obj :unspec}}}
+                       :sem {:obj {:obj :none}}}
                 :comp {:phrasal false}}}}
 
  ;; 23
@@ -400,7 +400,7 @@
                        :subcat {:1 {:top :top}
                                 :2 {:top :top}
                                 :3 []}
-                       :sem {:obj {:obj :unspec}}}
+                       :sem {:obj {:obj :none}}}
                 :comp {:phrasal false}}}}
  
  ;; 24
@@ -410,13 +410,13 @@
   :subcat []
   :phrasal true
 ;;  :sem {:subj {:top :top}
-;;        :obj :unspec}}
+;;        :obj :none}}
                
   :sem {:subj {:ref {:number :plur}
                :mod {:first {:number? true}
                      :rest {:first {:number? false
                                     :rest []}}}}
-        :obj :unspec}}
+        :obj :none}}
 
  ;; 25
  {:note "simple past sentences with regular simple past"
@@ -426,7 +426,7 @@
   :head {:modal false
          :irregular-past-simple? false}
   :infl :past-simple
-  :sem {:obj :unspec}}
+  :sem {:obj :none}}
 
  ;; 26
  {:note "simple past sentences with irregular simple past"
@@ -436,7 +436,7 @@
   :head {:modal false
          :irregular-past-simple? true}
   :infl :past-simple
-  :sem {:obj :unspec}}
+  :sem {:obj :none}}
 
  ;; 27
  {:note "'nodig' sentences with pronouns"
@@ -462,7 +462,7 @@
  {:note "X vindt Y leuk"
   :cat :verb
   :sem {:pred :like
-        :obj {:obj :unspec}}
+        :obj {:obj :none}}
   :subcat []
   :head {:phrasal true
          :rule "vp"

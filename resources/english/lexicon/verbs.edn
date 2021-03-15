@@ -581,7 +581,7 @@
                        :sem {:tense :conditional}}]
            (map #(dag_unify.core/unify % common)
                 [{:derivation {:sense 1}
-                  :sem {:obj :unspec}
+                  :sem {:obj :none}
                   :subcat {:2 []}}
                  {:derivation {:sense 2}           
                   :subcat {:2 {:cat :verb

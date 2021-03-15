@@ -76,11 +76,4 @@
 
          {:agr {:person :3rd}
           :sem {::refl-match 8
-                :subj {:person :3rd
-                       :obj :unspec}}}
-         {:agr {:person :3rd}
-          :sem {::refl-match 9
-                :subj {:obj {:person :3rd}}}}])))
-
-
-
+                :subj {:person :3rd}}}])))

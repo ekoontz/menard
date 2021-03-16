@@ -52,6 +52,8 @@
                   (->> (nl/parse x)
                        ;; remove partial parses, if any:
                        (filter #(not (= true (:menard.parse/partial? %))))
+                       ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
+                       (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
                        ;; and take only one parse to test against:
                        (take 1))
                   ;; intermediate-parsing? is false:

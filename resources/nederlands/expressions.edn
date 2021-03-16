@@ -146,9 +146,9 @@
   :sem {:mod {:first {:pred :times}
               :rest []}
         :pred :bird}
-  :training-wheels {:rule "np:1"
-                    :comp {:rule "conj-outer"
-                           :head {:rule "conj-inner"}}}}
+  :rule "np:1"
+  :comp {:rule "conj-outer"
+         :head {:rule "conj-inner"}}}
 
  ;; 11
  {:note "de vier kliene vogels"

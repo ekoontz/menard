@@ -35,7 +35,7 @@
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
-               obj (atom {:obj :none})]
+               obj (atom {:top :top})]
            {:derivation {:2 {:transitive-verbs {:reflexive false}}}
             :reflexive false
             :sem {:obj obj}
@@ -48,8 +48,7 @@
          ;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
                subj (atom {:ref ref})
-               obj (atom {:ref ref
-                          :obj :none})
+               obj (atom {:ref ref})
                agr (atom :top)]
            {:derivation {:2 {:transitive-verbs {:reflexive true}}}
             :agr agr

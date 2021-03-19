@@ -53,6 +53,7 @@
  "slim" [{:sem {:pred :smart}
           :curriculum :basic}]
  "spaarzaam" [{:sem {:pred :frugal}}]
+ "stemmig" [{:sem {:pred :moody}}]
  "sterk" [{:sem {:pred :strong} :curriculum :basic}]
  "stom" [{:sem {:pred :stupid}}]
  "teleurgesteld" [{:sem {:pred :disappointed}}]

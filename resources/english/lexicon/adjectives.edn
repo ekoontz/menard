@@ -62,6 +62,7 @@
  "magnificent" [{:sem {:pred :magnificent}}]
  "major" [{:sem {:pred :major}}]
  "military" [{:sem {:pred :military}}]
+ "moody" [{:sem {:pred :moody}}]
  "national" [{:sem {:pred :national}}]
  "nervous" [{:sem {:pred :nervous}}]
  "neutral" [{:sem {:pred :neutral}}]

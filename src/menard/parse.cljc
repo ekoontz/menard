@@ -26,7 +26,7 @@
   #?(:cljs
      (map fn args)))
 
-(def log-these-rules #{"s"})
+(def log-these-rules #{"vp-modal-te" "vp-te"})
 
 (defn overh
   "add given head as the head child of the phrase: parent."
@@ -66,7 +66,7 @@
           (do
             (when (contains? log-these-rules (u/get-in parent [:rule]))
               (log/debug
-               (str "overh: fail:   " (syntax-tree parent) " <- " (syntax-tree head)
+               (str "overh fail:   " (syntax-tree parent) " <- " (syntax-tree head)
                     " " (let [fp (diag/fail-path parent {:head head})]
                           {:path (:path fp)
                            :arg1 (u/pprint (:arg1 fp))
@@ -102,13 +102,14 @@
           (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
           [result])
         (do
-          (when (and debug-rule-for-comp (= (:rule parent) debug-rule-for-comp))
-            (log/info (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
-            (log/info (str " "
-                           (let [fp (diag/fail-path (u/copy parent)
-                                                    {:comp (u/copy comp)})]
-                             
-                             (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp))))))
+          (when (contains? log-these-rules (u/get-in parent [:rule])))
+          (log/debug
+           (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
+          (log/debug (str " "
+                         (let [fp (diag/fail-path (u/copy parent)
+                                                  {:comp (u/copy comp)})]
+                           
+                           (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp)))))
           [])))))
 
 (defn over [parents child1 child2]

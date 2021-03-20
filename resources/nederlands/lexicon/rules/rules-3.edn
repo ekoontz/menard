@@ -64,5 +64,10 @@
                     :cat :comp
                     :subcat []}}}
   :then [{:subcat {:2 {:subcat []}
-                   :3 []}}]}]
+                   :3 []}}]}
+
+ {:rule :nested-obj-null
+  :if {:cat :verb
+       :sem {:obj {:obj ::unspec}}}
+  :then [{:sem {:obj {:obj :none}}}]}]
 

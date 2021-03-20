@@ -456,7 +456,8 @@
         :aspect :simple
         :pred :need
         :subj {:pred :top}
-        :obj {:pred :top}}}
+        :obj {:pred :top
+              :obj :none}}}
 
  ;; 28
  {:note "X vindt Y leuk"

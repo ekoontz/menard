@@ -241,9 +241,9 @@
   :cat :verb
   :subcat []
   :sem {:pred :see
-        :obj {:top :top}}
-  :training-wheels {:head {:rule "vp"}}}
-  
+        :obj {:obj :none}}
+  :training-wheels {:head {:rule "vp"
+                           :head {:phrasal false}}}}
 
  ;; 17
  {:note "Sentence with reflexive object"
@@ -257,7 +257,7 @@
   :sem {:tense :present
         :aspect :simple
         :pred :see
-        :obj {:top :top}}
+        :obj {:obj :none}}
   :training-wheels {:head {:rule "vp"
                            :head {:phrasal false}}}}
  

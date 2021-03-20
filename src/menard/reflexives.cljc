@@ -39,7 +39,7 @@
              :obj {:obj {:ref ref
                          :obj :none}}}})]
 
-   ;; nonreflexive case: we force the subj's :ref and obj's
+   ;; nonreflexive cases: we force the subj's :ref and obj's
    ;; :ref to be to be distinct from each other.
    ;; In addition, if :subj's :person is :1st or :2nd,
    ;; prevent :obj's person from being the same.

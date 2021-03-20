@@ -69,7 +69,8 @@
         :agr {:number :sing
               :person :1st}
         :sem {:ref {:human true}
-              :pred :i}
+              :pred :i
+              :person-not :2nd}
         :pronoun true
         :reflexive false}]
  "myself" [{:cat :noun
@@ -133,26 +134,29 @@
                :number :sing}
          :note [:informal :singular]
          :sem {:pred :you
-               :ref {:context :informal}}}
+               :ref {:context :informal}
+               :person-not :1st}}
         
         {:agr {:person :2nd
                :number :plur}
          :note [:informal :plural]
          :sem {:pred :you
-               :ref {:context :informal}}}
+               :ref {:context :informal}
+               :person-not :1st}}
 
         {:agr {:person :2nd
                :number :sing}
          :note [:polite :singular]
          :sem {:pred :you
-               :ref {:context :polite}}}
+               :ref {:context :polite}
+               :person-not :1st}}
 
         {:agr {:person :2nd
                :number :plur}
          :note [:polite :plural]
          :sem {:pred :you
-               :ref {:context :polite}}}
-
+               :ref {:context :polite}
+               :person-not :1st}}
 
         ]
  

@@ -68,6 +68,8 @@
 
  {:rule :nested-obj-null
   :if {:cat :verb
+       :modal false
+       :normal-transitive-defaults? ::unspec
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}]
 

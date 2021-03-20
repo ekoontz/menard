@@ -464,6 +464,7 @@
                          {:infl :past-participle :surface "seen"}]]
          [{:exceptions exceptions
            :sem {:pred :see}}])
+ 
  "seem" [{ :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
  "show" [{ :sem {:pred :show} :subcat {:1 :top :2 :top}}]
  "sing" [{:sem {:pred :sing}
@@ -554,8 +555,7 @@
                   :sem sem}
               :2 []}})]
 
- "try" [{
-         :sem {:pred :try}
+ "try" [{:sem {:pred :try}
          :modal :infinitive}]
  "turn" [{ :sem {:pred :turn}}]
  "use" [{ :sem {:pred :use}}]

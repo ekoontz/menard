@@ -52,6 +52,7 @@
  "schrijnend" [{:sem {:pred :poignant}}]
  "slim" [{:sem {:pred :smart}
           :curriculum :basic}]
+ "smerig" [{:sem {:pred :filthy}}]
  "spaarzaam" [{:sem {:pred :frugal}}]
  "stemmig" [{:sem {:pred :moody}}]
  "sterk" [{:sem {:pred :strong} :curriculum :basic}]

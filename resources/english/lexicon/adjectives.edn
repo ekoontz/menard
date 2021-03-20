@@ -35,6 +35,7 @@
  "excited" [{:sem {:pred :excited}}]
  "extraordinary" [{:sem {:pred :extraordinary}}]
  "federal" [{:sem {:pred :federal}}]
+ "filthy" [{:sem {:pred :filthy}}]
  "free" [{:sem {:pred :free}}]
  "frugal" [{:sem {:pred :frugal}}]
  "full" [{:sem {:pred :full}}]

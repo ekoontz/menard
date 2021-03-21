@@ -66,6 +66,7 @@
         :agr {:person :2nd}
         :reflexive true
         :sem {:pred :you
+              :person-not :1st              
               :ref {:human true
                     :context :informal}}}]
  "jij" [{:agr {:person :2nd

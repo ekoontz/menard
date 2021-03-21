@@ -12,6 +12,7 @@
     {:cat :noun}
     {:cat :prep}
 
+    ;; intransitive verbs "ik zie"
     {:cat :verb
      :sem {::refl-match 1
            :obj :none}}

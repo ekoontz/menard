@@ -36,6 +36,7 @@
  "extraordinary" [{:sem {:pred :extraordinary}}]
  "federal" [{:sem {:pred :federal}}]
  "filthy" [{:sem {:pred :filthy}}]
+ "firm" [{:sem {:pred :firm}}]
  "free" [{:sem {:pred :free}}]
  "frugal" [{:sem {:pred :frugal}}]
  "full" [{:sem {:pred :full}}]

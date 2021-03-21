@@ -110,6 +110,16 @@
           :case :nom
           :agr {:person :3rd :number :plur}
           :sem {:pred :they}}]
+
+ "us" [{:cat :noun
+        :sem {:pred :we
+              :ref {:human true}}
+        :pronoun true
+        :reflexive false
+        :case :acc
+        :agr {:person :1st
+              :number :plur}}]
+ 
  "we" [{:cat :noun
         :sem {:pred :we
               :ref {:human true}}

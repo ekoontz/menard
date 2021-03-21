@@ -142,6 +142,35 @@
          :wh-word true}]
  "you" [{:agr {:person :2nd
                :number :sing}
+         :case :nom
+         :note [:informal :singular]
+         :sem {:pred :you
+               :ref {:context :informal}}}
+        
+        {:agr {:person :2nd
+               :number :plur}
+         :case :nom
+         :note [:informal :plural]
+         :sem {:pred :you
+               :ref {:context :informal}}}
+
+        {:agr {:person :2nd
+               :number :sing}
+         :case :nom
+         :note [:polite :singular]
+         :sem {:pred :you
+               :ref {:context :polite}}}
+
+        {:agr {:person :2nd
+               :number :plur}
+         :case :nom
+         :note [:polite :plural]
+         :sem {:pred :you
+               :ref {:context :polite}}}
+
+        {:agr {:person :2nd
+               :number :sing}
+         :case :acc
          :note [:informal :singular]
          :sem {:pred :you
                :ref {:context :informal}
@@ -149,6 +178,7 @@
         
         {:agr {:person :2nd
                :number :plur}
+         :case :acc
          :note [:informal :plural]
          :sem {:pred :you
                :ref {:context :informal}
@@ -156,6 +186,7 @@
 
         {:agr {:person :2nd
                :number :sing}
+         :case :acc
          :note [:polite :singular]
          :sem {:pred :you
                :ref {:context :polite}
@@ -163,10 +194,12 @@
 
         {:agr {:person :2nd
                :number :plur}
+         :case :acc
          :note [:polite :plural]
          :sem {:pred :you
                :ref {:context :polite}
                :person-not :1st}}
+        
 
         ]
  

@@ -4,7 +4,13 @@
   :head {:phrasal true}}
  {:rule "s"
   :aux false
-  :comp {:phrasal true}}
+  :comp {:rule "np:2"
+         :agr {:person :3rd}
+         :head {:phrasal false}
+         :comp {:phrasal false}}
+  :head {:rule "vp"
+         :head {:phrasal false}
+         :comp {:phrasal false}}}
 
  ;; [np .a +[nbar .[intensifier +very .small] +cat]
  {:phrasal true

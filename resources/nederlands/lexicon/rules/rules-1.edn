@@ -115,4 +115,9 @@
        :subcat {:3 ::unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}
-]
+
+ {:rule :possessive-is-definite
+  :if {:cat :det
+       :possessive? true}
+  :then [{:definite? true}]}
+ ]

@@ -172,4 +172,9 @@
            {:subcat {:1 {:cat cat}
                      :2 {:cat cat}}})]}
 
+ {:rule :possessive-false-by-default
+  :if {:cat :det
+       :possessive? ::unspec}
+  :then [{:possessive? false}]}
+ 
  ]

@@ -52,7 +52,7 @@
           :sem {:pred :none}
           :agr {:number :sing}}]
  "haar" [{:cat :det
-          :definite? true
+          :possessive? true
           :sem {:pred :she}}]
  "het" [{:cat :det
          :definite? true
@@ -60,27 +60,34 @@
          :agr {:gender :neuter
                :number :sing}}]
  "hun" [{:cat :det
-         :definite? true
+         :possessive? true
          :sem {:pred :they}}]
  "jouw" [{:cat :det
-          :definite? true
+          :possessive? true
           :sem {:pred :you
                 :context :informal}}]
  "jullie" [{:cat :det
-            :definite? true
+            :possessive? true
             :sem {:pred :you
                   :context :informal}}]
  "mijn" [{:cat :det
-          :definite? true
+          :possessive? true
           :sem {:pred :i}}]
  "ons" [{:cat :det
-         :definite? true
+         :possessive? true
+         :agr {:gender :neuter
+               :number :sing}
          :sem {:pred :we}}]
  "onze" [{:cat :det
-          :definite? true
-          :sem {:pred :we}}]
+          :possessive? true
+          :agr {:gender :common}
+          :sem {:pred :we}}
+         {:cat :det
+          :possessive? true
+          :agr {:number :plur
+          :sem {:pred :we}}}]
  "uw" [{:cat :det
-        :definite? true
+        :possessive? true
         :sem {:pred :you
               :context :polite}}]
  "wat" [;; "wat kattens"
@@ -96,10 +103,10 @@
                :countable? false}
          :agr {:number :sing}}]
  "zijn" [{:cat :det
-          :definite? true
+          :possessive? true
           :sem {:pred :he}}
          {:cat :det
           :agr {:number :sing}
-          :definite? true
+          :possessive? true
           :sem {:pred :it}}]}
 

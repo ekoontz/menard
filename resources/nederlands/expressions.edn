@@ -468,6 +468,13 @@
   :head {:phrasal true
          :rule "vp"
          :head {:rule "vp-ditransitive"}}}
+
+ ;; 29
+ {:note "possessive NPs"
+  :cat :noun
+  :subcat []
+  :comp {:cat :det
+         :possessive? true}}
  ]
 
   

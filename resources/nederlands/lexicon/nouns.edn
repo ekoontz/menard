@@ -83,6 +83,7 @@
  "meisje" [{:agr {:gender :neuter}
             :sem {:pred :girl}}]
  "moeder" [{:sem {:pred :mother}}]
+ "mogelijkheid" [{:sem {:pred :opportunity}}]
  "ontspanning" [{:sem {:pred :relaxation}}]
  "ontwikkeling" [{:sem {:pred :development}}]
  "oog" [{:sem {:pred :eye}

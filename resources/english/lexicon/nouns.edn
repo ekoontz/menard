@@ -94,6 +94,7 @@
  "nerve" [{:sem {:pred :nerve}}]
  "night" [{:sem {:pred :night}}]
  "number" [{:sem {:pred :number}}]
+ "opportunity" [{:sem {:pred :opportunity}}]
  "part" [{:sem {:pred :part}}]
  "peanut" [{:sem {:pred :peanut}}]
  "people" [{:sem {:pred :people}

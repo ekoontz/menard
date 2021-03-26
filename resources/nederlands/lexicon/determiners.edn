@@ -84,7 +84,7 @@
           :sem {:pred :we}}
          {:cat :det
           :possessive? true
-          :agr {:number :plur
+          :agr {:number :plur}
           :sem {:pred :we}}}]
  "uw" [{:cat :det
         :possessive? true

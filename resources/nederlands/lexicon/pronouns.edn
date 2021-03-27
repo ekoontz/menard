@@ -128,10 +128,10 @@
          :agr {:number :plur
                :person :1st}
          :reflexive true
-         :sem {:pred :us}}
+         :sem {:pred :we}}
         {:case :acc
          :sem {:person-not :2nd
-               :pred :us}
+               :pred :we}
          :agr {:number :plur
                :person :1st}
          :reflexive false}]

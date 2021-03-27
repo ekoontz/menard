@@ -182,6 +182,7 @@
        :case :accusative
        :pronoun true
        :agr {:person :3rd}
-       :beginning-of-sentence? ::unspec}
+       :beginning-of-sentence? ::unspec
+       :null? false}
   :then {:beginning-of-sentence? false}} 
  ]

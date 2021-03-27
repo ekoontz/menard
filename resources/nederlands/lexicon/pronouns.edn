@@ -199,7 +199,36 @@
                :number :plur}
          :case :nom
          :sem {:pred :they
-               :ref {:human true}}}]
+               :ref {:human true}}}
+
+       ;; "ze" can be object pronoun for humans,
+       ;; but only if:
+       ;; - it's not the object of a preposition:
+       ;; e.g.:
+       ;;       "met hen", if 'ze' refers to a human
+       ;; but:
+       ;;      *"met ze" if 'ze' refers to a human
+       ;; 
+       ;; - it's not an indirect object
+       ;; e.g.:
+       ;;      "ik wil hun een verhaal vertellen"
+       ;; but:
+       ;;      *"ik wil ze een verhaal vertellen"
+       {:agr {:person :3rd
+              :number :plur}
+        :case :acc
+        :reflexive false
+        :sem {:pred :they
+              :ref {:human true}}
+        :with-preposition? false
+        :indirect-obj? false}
+
+       {:agr {:person :3rd
+              :number :plur}
+        :case :acc
+        :reflexive false
+        :sem {:pred :they
+              :ref {:human false}}}]
  "zij" [{:agr {:person :3rd
                :number :sing
                :gender :fem}

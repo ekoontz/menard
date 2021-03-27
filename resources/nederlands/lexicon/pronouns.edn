@@ -124,7 +124,14 @@
  "ons" [{:case :acc
          :agr {:number :plur
                :person :1st}
-         :reflexive true}]
+         :reflexive true
+         :sem {:pred :us}}
+        {:case :acc
+         :sem {:person-not :2nd
+               :pred :us}
+         :agr {:number :plur
+               :person :1st}
+         :reflexive false}]
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
  ;; 

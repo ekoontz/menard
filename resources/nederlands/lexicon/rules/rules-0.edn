@@ -176,13 +176,4 @@
   :if {:cat :det
        :possessive? ::unspec}
   :then [{:possessive? false}]}
-
- {:rule :third-person-accusative-pronoun-allowed-at-beginning?
-  :if {:cat :noun
-       :case :accusative
-       :pronoun true
-       :agr {:person :3rd}
-       :beginning-of-sentence? ::unspec
-       :null? false}
-  :then {:beginning-of-sentence? false}} 
  ]

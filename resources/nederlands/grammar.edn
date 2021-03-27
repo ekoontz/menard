@@ -143,6 +143,7 @@
  {:rule "s"
   :cat :verb
   :subcat []
+  :comp {:beginning-of-sentence? true}
   :options menard.nederlands/finite-tenses  
   :unify [menard.subcat/a
           menard.ug/head-aux

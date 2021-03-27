@@ -340,7 +340,7 @@
             partial-parses (->> (vals (:all-parses result))
                                 (pmap-if-available (fn [x] (->> x (filter map?))))
                                 (filter seq?))]
-        (log/warn (str "could not parse: \"" input "\". token:sense pairs: "
+        (log/info (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (pmap-if-available (fn [token]
                                            (str token ":" (count (get analyses token)) ""))

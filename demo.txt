@@ -1,9 +1,9 @@
-❯ ./src/scripts/demo.sh
+❯ echo "(load \"menard/translate\")(menard.translate/demo)" | lein repl
 OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were deprecated in JDK 13 and will likely be removed in a future release.
-nREPL server started on port 62495 on host 127.0.0.1 - nrepl://127.0.0.1:62495
+nREPL server started on port 58948 on host 127.0.0.1 - nrepl://127.0.0.1:58948
 REPL-y 0.4.4, nREPL 0.6.0
 Clojure 1.10.1
-OpenJDK 64-Bit Server VM 14.0.1+7
+OpenJDK 64-Bit Server VM 16+36-2231
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -12,87 +12,95 @@ OpenJDK 64-Bit Server VM 14.0.1+7
  Results: Stored in vars *1, *2, *3, an exception in *e
 
 user=> (load "menard/translate")(menard.translate/demo)
-INFO  27 jan. 2021 18:32:35,504 menard.nederlands: creating model for Nederlands..
-INFO  27 jan. 2021 18:32:35,504 menard.model: loading resources for language: nl
-INFO  27 jan. 2021 18:32:35,524 menard.model: loaded: 4 lexical rule sets; sizes: 26, 9, 8, 4.
-INFO  27 jan. 2021 18:32:41,938 menard.model: loaded: 305 lexeme keys.
-INFO  27 jan. 2021 18:32:41,939 menard.model: loaded: 5 lexicon indices.
-INFO  27 jan. 2021 18:32:41,950 menard.model: loaded: 72 morphological rules.
-INFO  27 jan. 2021 18:32:41,998 menard.model: loaded: 30 grammar rules.
-INFO  27 jan. 2021 18:32:41,998 menard.model: loaded resources for language: nl
-INFO  27 jan. 2021 18:32:42,069 menard.english: creating model for English..
-INFO  27 jan. 2021 18:32:42,069 menard.model: loading resources for language: en
-INFO  27 jan. 2021 18:32:42,089 menard.model: loaded: 4 lexical rule sets; sizes: 24, 8, 14, 5.
-INFO  27 jan. 2021 18:32:47,115 menard.model: loaded: 439 lexeme keys.
-INFO  27 jan. 2021 18:32:47,115 menard.model: loaded: 2 lexicon indices.
-INFO  27 jan. 2021 18:32:47,124 menard.model: loaded: 31 morphological rules.
-INFO  27 jan. 2021 18:32:47,152 menard.model: loaded: 30 grammar rules.
-INFO  27 jan. 2021 18:32:47,153 menard.model: loaded resources for language: en
+INFO  27 mrt. 2021 09:46:23,479 menard.nederlands: creating model for Nederlands with name: 'complete'..
+INFO  27 mrt. 2021 09:46:23,479 menard.model: loading resources for language: nl
+INFO  27 mrt. 2021 09:46:23,509 menard.model: loaded: 4 lexical rule sets; sizes: 27, 10, 8, 5.
+INFO  27 mrt. 2021 09:46:36,203 menard.model: loaded: 322 lexeme keys.
+INFO  27 mrt. 2021 09:46:36,204 menard.model: loaded: 5 lexicon indices.
+INFO  27 mrt. 2021 09:46:36,223 menard.model: loaded: 75 morphological rules.
+INFO  27 mrt. 2021 09:46:36,263 menard.model: loaded: 32 grammar rules.
+INFO  27 mrt. 2021 09:46:36,263 menard.model: loaded resources for language: nl
+INFO  27 mrt. 2021 09:46:36,264 menard.nederlands: creating model for Nederlands with name: 'basic'..
+INFO  27 mrt. 2021 09:46:36,264 menard.model: loading resources for language: nl
+INFO  27 mrt. 2021 09:46:36,292 menard.model: loaded: 4 lexical rule sets; sizes: 27, 10, 8, 5.
+INFO  27 mrt. 2021 09:46:48,794 menard.model: loaded: 147 lexeme keys.
+INFO  27 mrt. 2021 09:46:48,795 menard.model: loaded: 5 lexicon indices.
+INFO  27 mrt. 2021 09:46:48,813 menard.model: loaded: 75 morphological rules.
+INFO  27 mrt. 2021 09:46:48,850 menard.model: loaded: 32 grammar rules.
+INFO  27 mrt. 2021 09:46:48,850 menard.model: loaded resources for language: nl
+INFO  27 mrt. 2021 09:46:48,962 menard.english: creating model for English..
+INFO  27 mrt. 2021 09:46:48,962 menard.model: loading resources for language: en
+INFO  27 mrt. 2021 09:46:48,995 menard.model: loaded: 4 lexical rule sets; sizes: 24, 8, 14, 5.
+INFO  27 mrt. 2021 09:46:57,089 menard.model: loaded: 447 lexeme keys.
+INFO  27 mrt. 2021 09:46:57,090 menard.model: loaded: 2 lexicon indices.
+INFO  27 mrt. 2021 09:46:57,100 menard.model: loaded: 31 morphological rules.
+INFO  27 mrt. 2021 09:46:57,125 menard.model: loaded: 30 grammar rules.
+INFO  27 mrt. 2021 09:46:57,125 menard.model: loaded resources for language: en
 nil
 # intensifier adjective; 5 examples:
 ---
-Echt verdrietig.|
-                |Really sad.
-Erg spaarzaam.|
-              |Very frugal.
-Ongewoon uitgebroken.|
-                     |Unusually escaped.
-Redelijk verwarrend.|
-                    |Fairly confusing.
-Redelijk benieuwd.|
-                  |Reasonably curious.
+Behoorlijk opgewonden.|
+                      |Quite excited.
+Helemaal waanzinnig.|
+                    |Completely insane.
+Behoorlijk waar.|
+                |Quite true.
+Ongewoon tevreden.|
+                  |Unusually satisfied.
+Helemaal afzonderlijk.|
+                      |Completely separate.
 
 # det noun; 5 examples:
 ---
-Zijn gebied.|
-            |Its area.
-Die ogen.|
-         |Those eyes.
-Geen groep.|
-           |No group.
-Onze hoogleraar.|
-                |Our professors.
-Dertig ervaringen.|
-                  |Thirty experiences.
+Zijn verbinding.|
+                |His connection.
+Die baby.|
+         |That baby.
+Een bedrijf.|
+            |A business.
+Haar vlinders.|
+              |Her butterflies.
+Wat maand.|
+          |Some month.
 
 # noun verb; 5 examples:
 ---
-Vogels werkten.|
-               |Birds worked.
-Zij tegengehouden.|
-                  |They inhibit.
-Thuizen hopen.|
-              |Homes hope.
-Tafels uitwijkten.|
-                  |Tables emigrated.
-Versoepelingen voerden.|
-                       |Relaxations fed.
+Vlinders hebben.|
+                |Butterflies have.
+Ontwikkelingen kijkten.|
+                       |Developments looked.
+Feitten moeten.|
+               |Facts must.
+Bedragen voorkomden.|
+                    |Amounts avoided.
+Aandachten bereiken.|
+                    |Attentions achieve.
 
 # det noun | verb; 5 examples:
 ---
-Zijn oplossing optredt.|
-                       |His solution performs.
-Zijn dier ziet.|
-               |Its animal sees.
-Haar moeder hopt.|
-                 |Her mothers hope.
-Uw meisje tegengehoudt.|
-                       |Your girls inhibit.
-De vernielingen voorkomden.|
-                           |The destructions prevented.
+Onze zaken werken.|
+                  |Our cases work.
+Zijn plek voorkomde.|
+                    |His place prevented.
+Zijn haren lezen.|
+                 |His hairs read.
+Onze plaatsen hadden.|
+                     |Our lots had.
+Hun ideeën slapen.|
+                  |Their ideas sleep.
 
 # det | adj noun; 5 examples:
 ---
-Jouw koppige gunsteling.|
-                        |Your stubborn favorites.
-Ons zes overheden.|
-                  |Our six governments.
-Deze twee huizen.|
-                 |These two houses.
-Jullie twintig kopers.|
-                      |Your twenty buyers.
-Deze veertig dieren.|
-                    |These forty animals.
+Onze nieuwsgierige families.|
+                            |Our curious families.
+Deze eenvoudige ezels.|
+                      |These simple donkeys.
+De vijftien mannen.|
+                   |The fifteen men.
+Onze ingewikkelde zee.|
+                      |Our complicated sea.
+Haar veertig ezels.|
+                   |Her forty donkeys.
 
 # 'een huis'; 1 example:
 ---
@@ -106,254 +114,273 @@ De grote boeken.|
 
 # 'een heel klein druif'; 1 example:
 ---
-Wat heel klein druif.|
-                     |Some very small grape.
+Wat erg klein druif.|
+                    |A very small grape.
 
 # [det [[intensifier adj] noun]]; 5 examples:
 ---
-Geen echt waar gierig vliegtuig.|
-                                |No really true stingy airplane.
-Geen volkomen onnozel inhalig vliegtuig.|
-                                        |No completely silly greedy airplane.
-Wat erg ongerust uitgebroken benieuwd thuis.|
-                                            |A very anxious escaped curious home.
-Geen redelijk aardig slim ernstig vervelend gelauwerd sterk oog.|
-                                                                |No fairly nice smart serious annoying acclaimed strong eye.
-Wat redelijk afzonderlijk verdrietig geheim verantwoordelijk benieuwd verlegen ongebruikelijk boek.|
-                                                                                                   |_.
+Wat helemaal inhoudelijk breed droevig voorbeeld.|
+                                                 |Some completely substantive wide sad example.
+Wat echt ongebruikelijk groot verward gevoel.|
+                                             |Some really unusual big confused feeling.
+Wat redelijk stevig stom nieuwsgierig huidig teleurgesteld vliegtuig.|
+                                                                     |A fairly firm stupid curious current disappointed airplane.
+Geen erg vervelend slim geld.|
+                             |No very annoying smart money.
+Een erg geldig waanzinnig gebied.|
+                                 |Some very valid insane area.
 
-# [det [[intensifier adj] noun]]; 5 examples:
+# [np:2 .een +[nbar .[intensifier-phrase .behoorlijk +vies] +[nbar .grote +tafel]]]; 5 examples:
 ---
-Ons één en veertig oude maanden.|
-                                |Our forty one old months.
-Jullie zeven en zestig onnozele buitengewone kinderen.|
-                                                      |Your sixty seven silly extraordinary children.
-Haar heel eenvoudig opgewondene moelijke vieze nijvere rechtbank.|
-                                                                 |Her very simple excited difficult dirty industrious courts.
-Zijn behoorlijk eeuwig zelfverzekerde eenzame versoepeling.|
-                                                           |His quite eternal confident lonely relaxation.
-Deze behoorlijk eng ware kat.|
-                             |This quite scary true cat.
+Hun eigenlijk oud onschuldige overheden.|
+                                        |Their actually old innocent governments.
+Uw heel droevig moelijke leraren.|
+                                 |Your very sad difficult teachers.
+Jouw erg nijver ernstige verslaggevers.|
+                                       |Your very industrious serious reporters.
+Onze erg verdrietig eenzame kopers.|
+                                   |Our very sad lonely buyers.
+Zijn echt aanspreekbaar grote groepen.|
+                                      |His really approachable big groups.
 
 # vier en twintig vogels; 5 examples:
 ---
-Vier en vijftig vogels.|
-                       |Some fifty four birds.
-Één en dertig vogels.|
-                     |Thirty one birds.
-Één en zestig vogels.|
-                     |Some sixty one birds.
-Zeven en veertig vogels.|
-                        |Forty seven birds.
-Twee en dertig vogels.|
-                      |Thirty two birds.
+Negen en twintig vogels.|
+                        |Some twenty nine birds.
+Drie en vijftig vogels.|
+                       |Some fifty three birds.
+Zeven en zestig vogels.|
+                       |Sixty seven birds.
+Negen en vijftig vogels.|
+                        |Fifty nine birds.
+Zes en vijftig vogels.|
+                      |Fifty six birds.
 
 # de vier kliene vogels; 5 examples:
 ---
-De twintig benieuwde optredens.|
-                               |The twenty curious performances.
-Die nul waanzinnige zeeën.|
-                          |Those zero insane seas.
-Uw negen vervelende beslissingen.|
-                                 |Your nine annoying decisions.
-Wat teen vieze plekken.|
-                       |Some ten dirty places.
-Die zestien fleurige toestanden.|
-                                |Those sixteen bright situations.
+Jouw elf opvallende bloemkoolen.|
+                                |Your eleven striking cauliflowers.
+Zijn één waanzinnige bestemming.|
+                                |Its one insane destination.
+Jouw één sterke verkoper.|
+                         |Your one strong seller.
+Een één groot leven.|
+                    |An one big life.
+Zijn één nieuwsgierige voorstelling.|
+                                    |Its one curious performance.
 
 # e.g. 'de vier en twintig kleine vogels'; 5 examples:
 ---
-Jullie zeven en negentig inhalige families.|
-                                           |Your ninety seven greedy families.
-Haar drie en zestig eeuwige levens.|
-                                   |Her sixty three eternal lives.
-Zijn zes en tachtig vreselijke eikels.|
-                                      |His eighty six horrible jerks.
-Jullie negen en vijftig onzijdige gesprekken.|
-                                             |Your fifty nine neutral conversations.
-Zijn drie en zestig gaave families.|
-                                   |His sixty three cool families.
+Onze zes en zestig geldige vertragingen.|
+                                        |Our sixty six valid delays.
+Jullie zeven en tachtig geweldige overheden.|
+                                            |Your eighty seven awesome governments.
+Haar vier en tachtig moelijke gesprekken.|
+                                         |Her eighty four difficult conversations.
+Jullie drie en vijftig waanzinnige stoelen.|
+                                           |Your fifty three insane chairs.
+Mijn één en veertig breede bloemkoolen.|
+                                       |My forty one wide cauliflowers.
 
 # 'De heel sterk slimme vrouwen zingen'.; 1 example:
 ---
-Haar erg sterk slimme vrouwen zingen.|
-                                     |Her very strong smart women sing.
+Deze heel sterk slimme vrouwen zongen.|
+                                      |These very strong smart women sang.
 
-# [det [intensifier adj | adj noun]] verb; 5 examples:
+# generalization of the above; 5 examples:
 ---
-Roofdieren hoopten.|
-                   |Predators hoped.
-U ziet.|
-       |You 🧐 see.
-Corona tegengehoudde.|
-                     |Corona inhibited.
-Leraren gaan.|
-             |Teachers go.
-Rechtbanken moeten.|
-                   |Courts must.
+Onze heel verlegen eigenwijze verhalen weten.|
+                                             |Our very shy stubborn stories know.
+Hun volkomen zacht geweldige plekken gaan.|
+                                          |Their completely soft awesome places go.
+Zijn redelijk tevreden sterke leraar uitwijkte.|
+                                               |His reasonably satisfied strong teacher emigrated.
+Wat helemaal verdacht sterke dag tegengehoudt.|
+                                              |A completely suspicious strong day inhibits.
+De volkomen koppig dikke benen kwamen.|
+                                      |The completely stubborn thick legs came.
 
 # [det | adj noun] verb; 5 examples:
 ---
-De kleine beschaving kon.|
-                         |The small civilization could.
-Geheime gelden werkten.|
-                       |Some secret moneys worked.
-Veertig bloemkoolen bereiken.|
-                             |Forty cauliflowers achieve.
-Nul bedragen tegengehouden.|
-                           |Some zero amounts inhibit.
-Eeuwige hoogleraren bruizden.|
-                             |Eternal professors bubbled.
+Deze één gemeenschappen optredde.|
+                                 |This one community performed.
+Die smerige druif bereikte.|
+                           |That filthy grape achieved.
+Moelijke ezels hoopten.|
+                       |Some difficult donkeys hoped.
+Droevige gelden konden.|
+                       |Some sad moneys could.
+Jullie drie jassen uitgeleggden.|
+                                |Your three coats explained.
 
 # Sentence with object; 5 examples:
 ---
-Heren zien huizen.|
-                  |Gentlemen see houses.
-Baby's zagen hen.|
-                 |Babies saw them.
-Katten zagen levens.|
-                    |Cats saw lives.
-Vernielingen zien hen.|
-                      |Destructions see them.
-Guus ziet Saskia.|
-                 |Guus sees Saskia.
+Boeken zien ontspanningen.|
+                          |Books see relaxations.
+Ik zag leraren.|
+               |I saw teachers.
+Dieren zagen vrouwen.|
+                     |Animals saw women.
+U zag plekken.|
+              |You 🧐🧐 saw places.
+Wij zien haren.|
+               |We see hairs.
 
 # Sentence with reflexive object; 5 examples:
 ---
+Rechtbanken zien zich.|
+                      |Courts see themselves.
 Ik zie me.|
           |I see myself.
-U ziet u.|
-         |You 🧐 see yourself.
-Voorbeelden zien zich.|
-                      |Examples see themselves.
 Ik zie me.|
           |I see myself.
-We zien ons.|
-            |We see ourselves.
+Wij zien ons.|
+             |We see ourselves.
+Ik zie me.|
+          |I see myself.
 
 # [s np [vp v np]]; 5 examples:
 ---
-Schattige jongens veroorzaaken toestanden.|
-                                          |Cute boys cause situations.
-Ons land voorkomt beslissingen.|
-                               |Our countries avoid decisions.
-Geen roofdier ziet plaatsen.|
-                            |No predator sees places.
-Prachtige gelden kijken hen.|
-                            |Magnificent moneys look at.
-Die voorzieningen tegengehoudden aandachten.|
-                                            |Those services inhibited attentions.
+Rechtbanken verpesten geen toestand.|
+                                    |Courts ruin situation.
+U voorkomde die eikels.|
+                       |You 🧐🧐 prevented those jerks.
+Kittens hebben nul overheden.|
+                             |Kittens have some zero governments.
+Je kijkt hun moeder.|
+                    |You 🤠 look at.
+Jij uitgelegd achttien overheden.|
+                                 |You 🤠 explain some eighteen governments.
 
 # [s n [vp-modal-te v [vp-te:inf to v]]]; 5 examples:
 ---
-Huizen hebben bedragen nodig.|
-                             |Houses need amounts.
-Gemeenschappens proberden te zeggen.|
-                                    |Communities tried to say.
-Opstanden had druiven nodig.|
-                            |Revolts needed grapes.
-Saskia probeert te lezen.|
-                         |Saskia tries to read.
-Baby's proberen te zeggen.|
-                          |Babies try to say.
+Haren proberen te weten.|
+                        |Hairs try to know.
+Jij probeert te werken.|
+                       |You 🤠 try to work.
+Jullie proberen te zien.|
+                        |You 🤠🤠 try to see.
+U proberde te slapen.|
+                     |You 🧐🧐 tried to sleep.
+We proberden te zien.|
+                     |We tried to see.
 
 # modals+infinitive; 5 examples:
 ---
-Geen tevredene verbinding probeert groepen te lezen.|
-                                                    |No satisfied connection tries to read groups.
-Wat ongebruikelijke vogel probeert voorbeelden te hopen.|
-                                                        |Some unusual bird tries to hope it would.
-Geen verdrietige aardige zenuwachtige idee proberde fietsen te voeren.|
-                                                                      |No sad nice nervous idea tried to feed bikes.
-Ons verantwoordelijke moelijke chirurg proberde benen te ontworpen.|
-                                                                   |Our responsible difficult surgeon tried to design legs.
-Zijn dertig voorbereidingen proberden overheden te zeggen.|
-                                                          |His thirty preparations tried to say nights used.
+We proberen bedragen te weten.|
+                              |We try to know amounts.
+We proberden verslaggevers te ontworpen.|
+                                        |We tried to design reporters.
+We proberen maanden te bereiken.|
+                                |We try to achieve months.
+We proberden ideeën te bereiken.|
+                                |We tried to achieve ideas.
+We proberen eikels te zeggen.|
+                             |We try to say stories thought.
 
 # using 'kunnen'; 5 examples:
 ---
-Verslaggevers konden zingen.|
-                            |Reporters could sing.
-Plaatsen konden zien.|
-                     |Lots could see.
-Ontwikkelingen konden lezen.|
-                            |Developments could read.
-Gevoelen konden gaan.|
-                     |Feelings could go.
-Saskia kan voeren.|
-                  |Saskia can feed.
+Beschavingen kunnen werken.|
+                           |Civilizations can work.
+Uitvoeringen kunnen voorkomen.|
+                              |Implementations can avoid.
+Je kunt kijken.|
+               |You 🤠 can look.
+Eikels konden zien.|
+                   |Jerks could see.
+We konden hopen.|
+                |We could hope.
 
 # corona sentence from de Krant van de Gemente van Amsterdam; 1 example:
 ---
 Corona moeten we samen bestrijden.|
                                   |We must overcome Corona together.
 
-# Generalization of the previous:; 5 examples:
+# Generalization of the previous; 1 example:
 ---
-Dagen moeten huizen samen hebben.|
-                                 |Houses must have days together.
-Gemeenschappens moeten chirurgen samen voorkomen.|
-                                                 |Surgeons must prevent communities together.
-Zaken moeten bedrijven samen bruizen.|
-                                     |Businesses must bubble cases together.
-Vooruitgangen moeten we samen uitgeleggen.|
-                                          |We must explain progresses together.
-Boodschappen moeten eenzaamheden samen ontworpen.|
-                                                 |Lonelinesses must design messages together.
+Feitten moeten jullie samen voorkomen.|
+                                      |You 🤠🤠 must prevent facts together.
 
 # e.g. 'de vier en twintig kleine vogels slapen'; 5 examples:
 ---
-Jouw vier bezige zwierige fleurige zaken uitwijken.|
-                                                   |Your four busy jaunty bright cases emigrate.
-Ons zeventien eenzame families voeren.|
-                                      |Our seventeen lonely families feed.
-Jouw vijftig schrijnende kinderen veroorzaaken.|
-                                               |Your fifty poignant children cause.
-Mijn twalf waanzinnige verslaggevers moeten.|
-                                            |My twelve insane reporters must.
-Zijn vijftien prachtige bedragen bestrijdden.|
-                                             |His fifteen magnificent amounts overcame.
+Hun elf verwarde kinderen werken.|
+                                 |Their eleven confused children work.
+Die tachtig ernstige beschavingen optreden.|
+                                           |Those eighty serious civilizations perform.
+Jullie vijftien eenzame vogels kwamen.|
+                                      |Your fifteen lonely birds came.
+Uw veertien moelijke uitgebrokene bestemmingen uitwijken.|
+                                                         |Your fourteen difficult escaped destinations emigrate.
+Onze zestig verraste nijvere verhalen konden.|
+                                             |Our sixty suprised industrious stories could.
 
 # simple past sentences with regular simple past; 5 examples:
 ---
-Kopers bruizden.|
-                |Buyers bubbled.
-Zaken uitwijkten.|
-                 |Cases emigrated.
+Banen uitwijkten.|
+                 |Jobs emigrated.
+Wij bruizden.|
+             |We bubbled.
 Families voorkomden.|
                     |Families avoided.
-Bestemmingen uitwijkten.|
-                        |Destinations emigrated.
-Tafels bruizden.|
-                |Tables bubbled.
+Huizen voerden.|
+               |Houses fed.
+Zij bruizde.|
+            |She bubbled.
 
 # simple past sentences with irregular simple past; 5 examples:
 ---
-Huizen kwamen.|
-              |Houses came.
-Leraren hoopten.|
-                |Teachers hoped.
-Je had.|
-       |You 🤠 had.
-Zaken hoopten.|
-              |Cases hoped.
-Jullie wisten.|
-              |You 🤠🤠 knew.
+Ervaringen hoopten.|
+                   |Experiences hoped.
+Gemeenschappens kijkten.|
+                        |Communities looked.
+Dieren hoopten.|
+               |Animals hoped.
+Katten lazen.|
+             |Cats read (past).
+Moeders kwamen.|
+               |Mothers came.
 
 # 'nodig' sentences with pronouns; 5 examples:
 ---
-Ze heeft hem nodig.|
-                   |She needs him.
-Wij hebben ons nodig.|
-                     |We need ourselves.
-Zij heeft me nodig.|
-                   |She needs me.
-Zij heeft hen nodig.|
-                    |She needs them.
-U hebt u nodig.|
-               |You 🧐 need yourself.
+Zij hebben zich nodig.|
+                      |They need themselves.
+We hebben ons nodig.|
+                    |We need ourselves.
+Wij hebben hen nodig.|
+                     |We need them.
+We hebben jou nodig.|
+                    |We need you 🤠.
+U hebt me nodig.|
+                |You 🧐🧐 need me.
 
-28
+# X vindt Y leuk; 5 examples:
+---
+Gesprekken vindden kittens leuk.|
+                                |Conversations liked kittens.
+Verhalen vinden mogelijkheden leuk.|
+                                   |Stories like themselves.
+Jullie vindden groepen leuk.|
+                            |You 🤠🤠 liked groups.
+Ik vindde feitten leuk.|
+                       |I liked facts.
+Dagen vindden jullie leuk.|
+                          |Days liked themselves.
+
+# possessive NPs; 5 examples:
+---
+Onze aandacht.|
+              |Our attention.
+Hun katten.|
+           |Their cats.
+Zijn idee.|
+          |Its idea.
+Hun geit.|
+         |Their goat.
+Zijn honden.|
+            |His dogs.
+
+30
 user=> Bye for now!
 
+menard on  main [$] via ☕ v16 on ☁️  eu-central-1 took 2m15s
 ❯

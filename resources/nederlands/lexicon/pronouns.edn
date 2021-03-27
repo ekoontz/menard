@@ -2,7 +2,10 @@
 ;; - jij (je)
 ;; - wij (we)
 ;; - zij (ze)
-{"haar" [{:agr {:gender :fem
+{"die" [{:case :acc
+         :beginning-of-sentence? true
+         :agr {:person :3rd}}]
+ "haar" [{:agr {:gender :fem
                 :number :sing
                 :person :3rd}
           :case :acc

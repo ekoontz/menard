@@ -29,6 +29,13 @@
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji :polite)))))))
     
+
+    ;; no emoji or other cues for now.
+    (= notes [:human])
+    (str "")
+    (= notes [:nonhuman])
+    (str "")
+    
     :else
     (str "(" (clojure.string/join "," notes) ")")))
 

@@ -18,7 +18,11 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ### [Fehringer 1999]
 
-Dutch grammar and lexicon based on [Carole Fehringer, "A Reference Grammar of Dutch", Cambridge University Press, 1999](https://books.google.nl/books/about/A_Reference_Grammar_of_Dutch.html?id=hXZNkFqILp0C&redir_esc=y), referred to here as "F. &lt;section&gt;" or "F. pp. &lt;pages&gt;" in the source code.
+Dutch grammar and lexicon based on [Carole Fehringer, "A Reference Grammar of Dutch", Cambridge University Press, 1999](https://books.google.nl/books/about/A_Reference_Grammar_of_Dutch.html?id=hXZNkFqILp0C&redir_esc=y), referred to here as "F. &lt;section&gt;" or "F. pp. &lt;pages&gt;".
+
+### [Oosterhoff 2009]
+
+Dutch grammar and lexicon based on [Janneke Oosterhoff, "Basic Dutch: A Grammar and Workbook", 2009](https://www.routledge.com/Basic-Dutch-A-Grammar-and-Workbook/Oosterhoff/p/book/9780415774437), referred to here as "O. Unit &lt;unit&gt; Note &lt;note&gt;".
 
 ### Verbix
 

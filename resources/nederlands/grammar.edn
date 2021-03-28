@@ -159,6 +159,7 @@
   :aux false
   :slash false
   :options menard.nederlands/finite-plus-inf-tense
+  :comp {:beginning-of-sentence? false}
   :head {:aux false
          :modal false}
 

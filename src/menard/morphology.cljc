@@ -9,7 +9,7 @@
 
 (def ^:dynamic show-notes? true)
 
-(def random-emoji
+(def emoji
   {:informal ["🤠"]
    :polite   ["🧐"]})
 
@@ -17,17 +17,17 @@
   (cond
     (= notes [:informal :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get random-emoji :informal)))))))
+                              (take 1 (repeatedly #(first (shuffle (get emoji :informal)))))))
     (= notes [:polite :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get random-emoji :polite)))))))
+                              (take 1 (repeatedly #(first (shuffle (get emoji :polite)))))))
     (= notes [:informal :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get random-emoji :informal)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji :informal)))))))
     
     (= notes [:polite :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get random-emoji :polite)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji :polite)))))))
     
     :else
     (str "(" (clojure.string/join "," notes) ")")))

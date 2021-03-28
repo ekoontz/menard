@@ -102,11 +102,9 @@
          (if (and show-notes?
                   (u/get-in structure [:note])
                   (not (= :top (u/get-in structure [:note])))
-                  (seq (u/get-in structure [:note]))
-                  (not (nil? (decode-notes (u/get-in structure [:note])))))
-           (str " " (decode-notes (u/get-in structure [:note]))
-                "")
-           "")))
+                  (seq (u/get-in structure [:note])))
+           (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
+             (str " " decode-notes)))))
 
       (= true (u/get-in structure [:inflected?] false))
       (do
@@ -115,10 +113,9 @@
              (if (and show-notes?
                       (u/get-in structure [:note])
                       (not (= :top (u/get-in structure [:note])))
-                        (seq (u/get-in structure [:note])))
-               (str " " (decode-notes (u/get-in structure [:note]))
-                    "")
-               "")))
+                      (seq (u/get-in structure [:note])))
+               (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
+                 (str " " decode-notes)))))
       
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))

@@ -32,9 +32,9 @@
 
     ;; no emoji or other cues for now.
     (= notes [:human])
-    (str "")
+    nil
     (= notes [:nonhuman])
-    (str "")
+    nil
     
     :else
     (str "(" (clojure.string/join "," notes) ")")))
@@ -102,7 +102,8 @@
          (if (and show-notes?
                   (u/get-in structure [:note])
                   (not (= :top (u/get-in structure [:note])))
-                  (seq (u/get-in structure [:note])))
+                  (seq (u/get-in structure [:note]))
+                  (not (nil? (decode-notes (u/get-in structure [:note])))))
            (str " " (decode-notes (u/get-in structure [:note]))
                 "")
            "")))

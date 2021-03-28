@@ -44,7 +44,7 @@
  "geit" [{:sem {:pred :goat}}]
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
- "gemeenschappen" [{:sem {:pred :community}}]
+ "gemeenschap" [{:sem {:pred :community}}]
  "gesprek" [{:agr {:gender :neuter}
              :sem {:pred :conversation}}]
  "gevoel" [{:agr {:gender :neuter}

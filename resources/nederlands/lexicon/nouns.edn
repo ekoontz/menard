@@ -58,6 +58,8 @@
  "hand" [{:sem {:pred :hand}}]
  "heer" [{:sem {:pred :man
                 :context :polite}}]
+ "huwelijk" [{:agr {:gender :neuter}
+              :sem {:pred :marriage}}]
  "hoogleraar" [{:sem {:pred :professor}}] 
  "hond" [{:sem {:pred :dog}}]
  "huis" [{:agr {:gender :neuter}

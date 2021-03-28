@@ -86,6 +86,7 @@
                :human true}
          :exceptions [{:surface "men"
                        :agr {:number :plur}}]}]
+ "marriage" [{:sem {:pred :marriage}}]
  "message" [{:sem {:pred :message}}]
  "mistake" [{:sem {:pred :mistake}}]
  "money" [{:sem {:pred :money}}]

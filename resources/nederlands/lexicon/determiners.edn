@@ -62,6 +62,10 @@
  "hun" [{:cat :det
          :possessive? true
          :sem {:pred :they}}]
+ "je" [{:cat :det
+        :possessive? true
+        :sem {:pred :you
+              :context :informal}}]
  "jouw" [{:cat :det
           :possessive? true
           :sem {:pred :you

@@ -66,6 +66,7 @@
  "hand" [{:sem {:pred :hand}}]
  "home" [{:sem {:pred :home}}]
  "house" [{:sem {:pred :house}}]
+ "husband" [{:sem {:pred :husband}}]
  "idea" [{:sem {:pred :idea}}]
  "implementation" [{:sem {:pred :implementation}}]
  "jerk" [{:sem {:pred :jerk}}]
@@ -143,6 +144,7 @@
  "water" [{:sem {:pred :water}}]
  "way" [{:sem {:pred :way}}]
  "week" [{:sem {:pred :week}}]
+ "wife" [{:sem {:pred :wife}}]
  "woman" [{:sem {:pred :woman
                  :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem

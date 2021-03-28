@@ -31,8 +31,10 @@
           :sem {:pred :animal}}]
  "druif" [{:sem {:pred :grape}
            :curriculum :basic}]
- "eikel" [{:sem {:pred :jerk}}]
+ "echtgenoot" [{:sem {:pred :husband}}]
+ "echtgenote" [{:sem {:pred :wife}}]
  "eenzaamheid" [{:sem {:pred :loneliness}}]
+ "eikel" [{:sem {:pred :jerk}}]
  "ervaring" [{:sem {:pred :experience}}]
  "ezel" [{:sem {:pred :donkey}}]
  "familie" [{:sem {:pred :family}}]

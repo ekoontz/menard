@@ -198,10 +198,7 @@
          :note [:polite :plural]
          :sem {:pred :you
                :ref {:context :polite}
-               :person-not :1st}}
-        
-
-        ]
+               :person-not :1st}}]
  
  "yourself" [{:cat :noun
               :case :acc

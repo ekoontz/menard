@@ -106,6 +106,7 @@
             :agr {:number :sing}}]
  "place" [{:sem {:pred :place}}]
  "point" [{:sem {:pred :point}}]
+ "pond" [{:sem {:pred :pond}}]
  "predator" [{:sem {:pred :predator}}]
  "prediction" [{:sem {:pred :prediction}}]
  "preparation" [{:sem {:pred :preparation}}]

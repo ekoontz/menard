@@ -123,6 +123,7 @@
  "verslaggever" [{:sem {:pred :reporter}}]
  "versoepeling" [{:sem {:pred :relaxation}}]
  "vertraging" [{:sem {:pred :delay}}]
+ "vijver" [{:sem {:pred :pond}}]
  "vliegtuig" [{:agr {:gender :neuter}
                :sem {:pred :airplane}}]
  "vlinder" [{:sem {:pred :butterfly}}]

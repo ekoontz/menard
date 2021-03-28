@@ -142,6 +142,7 @@
  "teacher" [{:sem {:pred :teacher}}]
  "thing" [{:sem {:pred :thing}}]
  "time" [{:sem {:pred :time}}]
+ "toddler" [{:sem {:pred :toddler}}]
  "water" [{:sem {:pred :water}}]
  "way" [{:sem {:pred :way}}]
  "week" [{:sem {:pred :week}}]

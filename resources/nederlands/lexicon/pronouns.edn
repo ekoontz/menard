@@ -4,7 +4,13 @@
 ;; - zij (ze)
 {"die" [{:case :acc
          :beginning-of-sentence? true
-         :agr {:person :3rd}}]
+         :agr {:person :3rd}
+         ;; "When hem is used to refer to an object (not a person), it
+         ;; will never appear at the beginning of the sentence.
+         ;; In that case hem is replaced by die."
+         ;; O. Unit 8, Note 2.
+         :ref {:human false}}]
+
  "haar" [{:agr {:gender :fem
                 :number :sing
                 :person :3rd}

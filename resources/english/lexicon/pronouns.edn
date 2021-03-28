@@ -97,8 +97,18 @@
          :reflexive false}]
  "them" [{:case :acc
           :cat :noun
+          :note [:human]
           :agr {:person :3rd :number :plur}
-          :sem {:pred :they}
+          :sem {:pred :they
+                :ref {:human true}}
+          :pronoun true
+          :reflexive false}
+         {:case :acc
+          :cat :noun
+          :note [:nonhuman]
+          :agr {:person :3rd :number :plur}
+          :sem {:pred :they
+                :ref {:human false}}
           :pronoun true
           :reflexive false}]
  "themselves" [{:cat :noun

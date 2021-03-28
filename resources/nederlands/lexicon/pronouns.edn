@@ -182,9 +182,9 @@
        :agr {:person :2nd}
        :reflexive false
        :sem {:pred :you
+             :person-not :1st             
              :ref {:human true
                    :person :2nd
-                   :person-not :1st
                    :context :polite}}}
 
       ;; semantically plural, but still grammatically singular:

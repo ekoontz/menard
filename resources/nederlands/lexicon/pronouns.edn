@@ -148,10 +148,12 @@
          :agr {:number :plur
                :person :1st}
          :reflexive true
-         :sem {:pred :we}}
+         :sem {:pred :we
+               :ref {:human true}}}
         {:case :acc
          :sem {:person-not :2nd
-               :pred :we}
+               :pred :we
+               :ref {:human true}}
          :agr {:number :plur
                :person :1st}
          :reflexive false}]

@@ -178,6 +178,14 @@
              :ref {:human true
                    :context :polite
                    :number :sing}}}
+      {:case :acc
+       :agr {:person :2nd}
+       :reflexive false
+       :sem {:pred :you
+             :ref {:human true
+                   :person :2nd
+                   :person-not :1st
+                   :context :polite}}}
 
       ;; semantically plural, but still grammatically singular:
       {:case :nom

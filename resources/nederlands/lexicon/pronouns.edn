@@ -22,7 +22,21 @@
                :person :3rd}
          :case :acc
          :sem {:pred :he
-               :ref {:human true}}}]
+               :ref {:human true}}}
+
+        ;; TODO: 'hem' can only refer to non-human referents if the
+        ;; referent is a 'de' word {:agr {:gender :common}}, e.g.
+        ;; "Heb jij een pen? Mag ik hem lenen?" (de word)
+        ;; but:
+        ;; "Heb jij een boek? Mag ik het lenen?" (het word)
+        ;; O. Unit 8, Note 2
+        
+        {:agr {:gender :masc
+               :number :sing
+               :person :3rd}
+         :case :acc
+         :sem {:pred :it
+               :ref {:human false}}}]
  "hen" [{:agr {:number :plur
                :person :3rd}
          :case :acc

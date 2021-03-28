@@ -110,6 +110,20 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
+   ;; generation: breed -> brede
+   ;; parsing:    brede -> breed
+   (let [g [#"(e)(e)([d])$"   "$1$3e"]
+         p [#"e([d])e$"       "ee$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+   
    ;; generation: gaaf -> gave
    ;; parsing:    gave -> gaaf
    (let [g [#"aaf$" "ave"]

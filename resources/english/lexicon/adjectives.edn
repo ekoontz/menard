@@ -15,6 +15,7 @@
  "careful" [{:sem {:pred :careful}}]
  "certain" [{:sem {:pred :certain}}]
  "clear" [{:sem {:pred :clear}}]
+ "comparable" [{:sem {:pred :comparable}}]
  "complicated" [{:sem {:pred :complicated}}]
  "confident" [{:sem {:pred :confident}}]
  "confused" [{:sem {:pred :confused}}]

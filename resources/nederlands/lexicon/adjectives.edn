@@ -58,6 +58,7 @@
  "sterk" [{:sem {:pred :strong} :curriculum :basic}]
  "stevig" [{:sem {:pred :firm}}]
  "stom" [{:sem {:pred :stupid}}]
+ "strijdbaar" [{:sem {:pred :combative}}]
  "teleurgesteld" [{:sem {:pred :disappointed}}]
  "tevreden" [{:sem {:pred :satisfied}}]
  "uitgebroken" [{:sem {:pred :escaped}}]

@@ -75,6 +75,7 @@
                         :surface "kinderen"}]
           :sem {:pred :child}}]
  "kitten" [{:sem {:pred :kitten}}]
+ "kleuter" [{:sem {:pred :toddler}}]
  "koper" [{:sem {:pred :buyer}}]
  "land" [{:sem {:pred :country}
           :agr {:gender :neuter}}]

@@ -3,6 +3,6 @@
                  [fierycod/holy-lambda "0.0.7"]
                  [menard "1.4.1-SNAPSHOT"]]
   :global-vars {*warn-on-reflection* true}
-  :main ^:skip-aot nlquiz-lambda.core
+  :main ^:skip-aot menard.lambda.core
   :profiles {:uberjar {:aot :all}}
   :uberjar-name "output.jar")

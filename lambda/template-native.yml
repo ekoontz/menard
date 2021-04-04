@@ -20,7 +20,7 @@ Resources:
   GenerateNLNative:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: nlquiz-lambda.core.GenerateNL
+      Handler: menard.lambda.core.GenerateNL
       CodeUri: ./latest.zip
       FunctionName: GenerateNLFunctionNative
       Events:
@@ -32,7 +32,7 @@ Resources:
   GenerateWithAltsNLNative:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: nlquiz-lambda.core.GenerateWithAltsNL
+      Handler: menard.lambda.core.GenerateWithAltsNL
       CodeUri: ./latest.zip
       FunctionName: GenerateWithAltsNLFunctionNative
       Events:
@@ -44,7 +44,7 @@ Resources:
   ParseNLNative:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: nlquiz-lambda.core.ParseNL
+      Handler: menard.lambda.core.ParseNL
       CodeUri: ./latest.zip
       FunctionName: ParseNLFunctionNative
       Events:

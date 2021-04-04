@@ -22,7 +22,7 @@ latest.zip: output
 output: target/output.jar
 	${native_image_cmd}
 
-target/output.jar: src/nlquiz_lambda/core.clj
+target/output.jar: src/lambda/core.clj
 	lein uberjar
 
 # </deploy-native>

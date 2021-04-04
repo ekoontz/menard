@@ -24,4 +24,5 @@ artifacts:
   files:
     - /artifacts/bootstrap
     - /artifacts/output
-  name: latest.zip
+  discard-paths: yes
+  name: menard-$(date +%Y-%m-%d).zip

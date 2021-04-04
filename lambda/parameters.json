@@ -1,0 +1,2 @@
+{ "BucketName": { "Fn::GetArtifactAtt" : [ "BuildArtifact", "BucketName" ] },
+  "ObjectKey": { "Fn::GetArtifactAtt" : [ "BuildArtifact", "ObjectKey" ] }}

@@ -1,0 +1,47 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "codedeploy:CreateApplication",
+                "iam:CreateRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::489315381619:role/*",
+                "arn:aws:codedeploy:*:489315381619:application:*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:PassRole",
+                "iam:DeleteRole",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "cloudformation:CreateChangeSet",
+                "codedeploy:CreateDeploymentGroup",
+                "codedeploy:DeleteApplication",
+                "codedeploy:DeleteDeploymentGroup",
+                "lambda:AddPermission",
+                "lambda:RemovePermission",
+                "lambda:GetFunction",
+                "lambda:DeleteFunction",
+                "lambda:CreateAlias",
+                "lambda:DeleteAlias",
+                "lambda:CreateFunction",
+                "lambda:ListVersionsByFunction",
+                "lambda:PublishVersion",
+                "s3:GetObject",
+                "apigateway:GET",
+                "apigateway:POST",
+                "apigateway:DELETE",
+                "apigateway:PATCH"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

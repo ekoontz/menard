@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "Menard lambda functions using using the `holy-lambda` micro library"
+Parameters:
+  Runtime:
+    Type: String
+    Default: provided
+  Timeout:
+    Type: Number
+    Default: 40
+  MemorySize:
+    Type: Number
+    Default: 2000
+  BucketName:
+    Type: String
+  ObjectKey:
+    Type: String
+Globals:
+  Function:
+    Runtime: !Ref 'Runtime'
+    Timeout: !Ref 'Timeout'
+    MemorySize: !Ref 'MemorySize'
+Resources:
+  Generate:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.Generate
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: Generate
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  GenerateWithAlts:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GenerateWithAlts
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GenerateWithAlts
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate-with-alts
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  Parse:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.Parse
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: Parse
+      Events:
+       Event:
+          Type: Api
+          Properties:
+            Path: /parse
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce

@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "NLQuiz lambda functions using using `holy-lambda` micro library"
+Parameters:
+  Runtime:
+    Type: String
+    Default: provided
+  Timeout:
+    Type: Number
+    Default: 40
+  MemorySize:
+    Type: Number
+    Default: 2000
+Globals:
+  Function:
+    Runtime: !Ref 'Runtime'
+    Timeout: !Ref 'Timeout'
+    MemorySize: !Ref 'MemorySize'
+Resources:
+  GenerateNLNative:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: nlquiz-lambda.core.GenerateNL
+      CodeUri: ./latest.zip
+      FunctionName: GenerateNLFunctionNative
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate
+            Method: get
+  GenerateWithAltsNLNative:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: nlquiz-lambda.core.GenerateWithAltsNL
+      CodeUri: ./latest.zip
+      FunctionName: GenerateWithAltsNLFunctionNative
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate-with-alts
+            Method: get
+  ParseNLNative:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: nlquiz-lambda.core.ParseNL
+      CodeUri: ./latest.zip
+      FunctionName: ParseNLFunctionNative
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /parse
+            Method: get

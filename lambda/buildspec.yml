@@ -20,5 +20,5 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - target/output.jar
+    - latest.zip
 

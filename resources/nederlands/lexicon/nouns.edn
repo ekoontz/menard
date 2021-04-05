@@ -104,7 +104,7 @@
  "plaats" [{:sem {:pred :lot}}
            {:sem {:pred :place}}]
  "plek" [{:sem {:pred :place}}]
-
+ "poging" [{:sem {:pred :attempt}}]
  "rechtbank" [{:sem {:pred :court}}]
  "roofdier" [{:agr {:gender :neuter}
               :sem {:pred :predator}}]

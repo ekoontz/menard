@@ -3,6 +3,7 @@
  "amount" [{:sem {:pred :amount}}]
  "animal" [{:sem {:pred :animal}}]
  "area" [{:sem {:pred :area}}]
+ "attempt" [{:sem {:pred :attempt}}]
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]
  "butterfly" [{:sem {:pred :butterfly}}]

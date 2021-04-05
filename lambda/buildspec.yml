@@ -7,7 +7,6 @@ phases:
   pre_build:
     commands:
       - gu install native-image
-      - java -jar /leiningen-2.9.3-standalone.jar -m leiningen.core.main test
     on-failure: ABORT
   build:
     commands:

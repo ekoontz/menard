@@ -79,6 +79,7 @@
                 :human true}}]
  "leg" [{:sem {:pred :leg}}]
  "life" [{:sem {:pred :life}}]
+ "lizard" [{:sem {:pred :lizard}}]
  "loneliness" [{:sem {:pred :loneliness}}]
  "lot" [{:sem {:pred :lot}}]
  "man" [{:sem {:pred :man

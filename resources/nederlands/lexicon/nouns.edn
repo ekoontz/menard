@@ -55,6 +55,7 @@
  "gunsteling" [{:sem {:pred :favorite}}]
  "haar" [{:agr {:gender :neuter} 
           :sem {:pred :hair}}]
+ "hagedis" [{:sem {:pred :lizard}}]
  "hand" [{:sem {:pred :hand}}]
  "heer" [{:sem {:pred :man
                 :context :polite}}]

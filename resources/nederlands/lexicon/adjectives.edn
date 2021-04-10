@@ -1,5 +1,6 @@
 {"_" [{:null? true :sem {:pred :_}}]
  "aanspreekbaar" [{:sem {:pred :approachable}}]
+ "aantrekkelijk" [{:sem {:pred :attractive}}]
  "aardig" [{:sem {:pred :nice}}]
  "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]

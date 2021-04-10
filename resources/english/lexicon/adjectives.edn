@@ -4,6 +4,7 @@
  "annoying" [{:sem {:pred :annoying}}]
  "anxious" [{:sem {:pred :anxious}}]
  "approachable" [{:sem {:pred :approachable}}]
+ "attractive" [{:sem {:pred :attractive}}]
  "awesome" [{:sem {:pred :awesome}}]
  "bad" [{:sem {:pred :bad}}]
  "best" [{:sem {:pred :best}}]

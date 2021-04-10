@@ -23,6 +23,7 @@ Resources:
       Handler: menard.lambda.core.GenerateNL
       CodeUri: ./latest.zip
       FunctionName: MenardGenerateNL
+      AutoPublishAlias: live
       Events:
         Event:
           Type: Api

@@ -13,7 +13,7 @@ all: deploy-native
 deploy-native: packaged-native.yml
 	sam deploy --template-file packaged-native.yml --stack-name $(STACK_NAME) --capabilities CAPABILITY_IAM --region $(APP_REGION)
 
-packaged-native.yml: latest.zip make-bucket
+packaged-native.yml: make-bucket
 	sam package --template-file template-native.yml --output-template-file packaged-native.yml --s3-bucket $(BUCKET_NAME) --s3-prefix "menard-lambda"
 
 latest.zip: output

@@ -21,7 +21,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateNL
-      CodeUri: ./latest.zip
+      CodeUri: s3://menard-lambda/menard.zip
       FunctionName: MenardGenerateNL
       AutoPublishAlias: live
       Events:
@@ -34,7 +34,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateWithAltsNL
-      CodeUri: ./latest.zip
+      CodeUri: s3://menard-lambda/menard.zip
       FunctionName: MenardGenerateNLWithAlts
       Events:
         Event:
@@ -46,7 +46,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.ParseNL
-      CodeUri: ./latest.zip
+      CodeUri: s3://menard-lambda/menard.zip
       FunctionName: MenardParseNL
       Events:
         Event:

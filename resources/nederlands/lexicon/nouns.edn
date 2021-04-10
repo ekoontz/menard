@@ -24,6 +24,7 @@
                         :surface "boeken"}]}]
  "boodschap" [{:sem {:pred :message}}]
  "chirurg" [{:sem {:pred :surgeon}}]
+ "courgette" [{:sem {:pred :zucchini}}]
  "dag" [{:sem {:pred :day}}]
  "dame" [{:sem {:pred :woman
                 :context :polite}}]

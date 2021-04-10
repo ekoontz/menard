@@ -159,5 +159,6 @@
  "word" [{:sem {:pred :word}}]
  "work" [{:sem {:pred :work}}]
  "world" [{:sem {:pred :world}}]
- "year" [{:sem {:pred :year}}]}
+ "year" [{:sem {:pred :year}}]
+ "zucchini" [{:sem {:pred :zucchini}}]}
  

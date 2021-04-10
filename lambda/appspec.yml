@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - MenardGenerateNL:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: "MenardGenerateNL"
+        CurrentVersion: "2"
+        TargetVersion: "1"
+        Alias: "live"

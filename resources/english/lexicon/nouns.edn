@@ -17,6 +17,7 @@
                :gender :masc}}]
  "business" [{:sem {:pred :business}}]
  "buyer" [{:sem {:pred :buyer}}]
+ "carrot" [{:sem {:pred :carrot}}]
  "case" [{:sem {:pred :case}}]
  "cat" [{:sem {:pred :cat}}]
  "chair" [{:sem {:pred :chair}}]
@@ -161,4 +162,3 @@
  "world" [{:sem {:pred :world}}]
  "year" [{:sem {:pred :year}}]
  "zucchini" [{:sem {:pred :zucchini}}]}
- 

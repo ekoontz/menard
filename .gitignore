@@ -27,3 +27,8 @@ compiled/
 compiled.edn
 profiling/*.jstack
 .cpcache/
+*.zip
+lambda/output
+packaged-native.yml
+pom.properties
+lambda/target/*

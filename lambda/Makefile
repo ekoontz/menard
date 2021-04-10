@@ -1,6 +1,6 @@
 .PHONY: all check-service clean deploy deploy-native destroy destroy-bucket dry-api dry-api-native logs-tail make-bucket
-BUCKET_NAME=nlquiz-lambda
-STACK_NAME=nlquiz-lambda
+BUCKET_NAME=menard-lambda
+STACK_NAME=menard-lambda
 APP_REGION=eu-central-1
 PWD=$$(pwd)
 
@@ -14,7 +14,7 @@ deploy-native: packaged-native.yml
 	sam deploy --template-file packaged-native.yml --stack-name $(STACK_NAME) --capabilities CAPABILITY_IAM --region $(APP_REGION)
 
 packaged-native.yml: latest.zip make-bucket
-	sam package --template-file template-native.yml --output-template-file packaged-native.yml --s3-bucket $(BUCKET_NAME) --s3-prefix "nlquiz-lambda"
+	sam package --template-file template-native.yml --output-template-file packaged-native.yml --s3-bucket $(BUCKET_NAME) --s3-prefix "menard-lambda"
 
 latest.zip: output
 	zip $@ bootstrap output
@@ -22,7 +22,7 @@ latest.zip: output
 output: target/output.jar
 	${native_image_cmd}
 
-target/output.jar: src/lambda/core.clj
+target/output.jar: src/menard/lambda/core.clj
 	lein uberjar
 
 # </deploy-native>
@@ -60,5 +60,5 @@ make-bucket:
 	aws s3 ls s3://$(BUCKET_NAME) || aws s3 mb s3://$(BUCKET_NAME)
 
 packaged.yml: target/output.jar make-bucket
-	sam package --template-file template.yml        --output-template-file packaged.yml        --s3-bucket $(BUCKET_NAME) --s3-prefix "nlquiz-lambda"
+	sam package --template-file template.yml        --output-template-file packaged.yml        --s3-bucket $(BUCKET_NAME) --s3-prefix "menard-lambda"
 

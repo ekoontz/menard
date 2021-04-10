@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: "NLQuiz lambda functions using using `holy-lambda` micro library"
+Description: "Menard lambda functions using using the `holy-lambda` micro library"
 Parameters:
   Runtime:
     Type: String
@@ -17,36 +17,36 @@ Globals:
     Timeout: !Ref 'Timeout'
     MemorySize: !Ref 'MemorySize'
 Resources:
-  GenerateNLNative:
+  GenerateNL:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateNL
       CodeUri: ./latest.zip
-      FunctionName: GenerateNLFunctionNative
+      FunctionName: MenardGenerateNL
       Events:
         Event:
           Type: Api
           Properties:
             Path: /generate
             Method: get
-  GenerateWithAltsNLNative:
+  GenerateWithAltsNL:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateWithAltsNL
       CodeUri: ./latest.zip
-      FunctionName: GenerateWithAltsNLFunctionNative
+      FunctionName: MenardGenerateNLWithAlts
       Events:
         Event:
           Type: Api
           Properties:
             Path: /generate-with-alts
             Method: get
-  ParseNLNative:
+  ParseNL:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.ParseNL
       CodeUri: ./latest.zip
-      FunctionName: ParseNLFunctionNative
+      FunctionName: MenardParseNL
       Events:
         Event:
           Type: Api

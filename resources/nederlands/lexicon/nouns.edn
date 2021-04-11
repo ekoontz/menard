@@ -84,6 +84,7 @@
  "leraar" [{:sem {:pred :teacher}}]
  "leven" [{:agr {:gender :neuter}
            :sem {:pred :life}}]
+ "loodgieter" [{:sem {:pred :plumber}}]
  "man" [{:sem {:pred :man
                :context :neutral}}]
  "maand" [{:sem {:pred :month}}]

@@ -108,6 +108,7 @@
  "person" [{:sem {:pred :person}
             :agr {:number :sing}}]
  "place" [{:sem {:pred :place}}]
+ "plumber" [{:sem {:pred :plumber}}]
  "point" [{:sem {:pred :point}}]
  "pond" [{:sem {:pred :pond}}]
  "predator" [{:sem {:pred :predator}}]

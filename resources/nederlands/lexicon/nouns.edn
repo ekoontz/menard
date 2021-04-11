@@ -145,6 +145,7 @@
            :agr {:gender :common}
            :sem {:pred :woman
                  :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
+ "werknemer" [{:sem {:pred :employee}}]
  "wortel" [{:sem {:pred :carrot}}]
  "zaak" [{:sem {:pred :case}}]
  "zee" [{:sem {:pred :sea}}]

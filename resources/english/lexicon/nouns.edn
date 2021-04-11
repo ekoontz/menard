@@ -43,6 +43,7 @@
  "dog" [{:sem {:pred :dog}}]
  "donkey" [{:sem {:pred :donkey}}]
  "education" [{:sem {:pred :education}}]
+ "employee" [{:sem {:pred :employee}}]
  "example" [{:sem {:pred :example}}] 
  "experience" [{:sem {:pred :experience}}]
  "eye" [{:sem {:pred :eye}}]

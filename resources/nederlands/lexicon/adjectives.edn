@@ -6,6 +6,7 @@
  "bedroefd" [{:sem {:pred :sad}}]
  "benieuwd" [{:sem {:pred :curious}}]
  "bezig" [{:sem {:pred :busy}}]
+ "bijzonder" [{:sem {:pred :special}}]
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]
  "dik" [{:sem {:pred :thick}}]

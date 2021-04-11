@@ -23,13 +23,15 @@ Resources:
       Handler: menard.lambda.core.GenerateNL
       CodeUri: s3://menard-lambda/menard.zip
       FunctionName: MenardGenerateNL
-      AutoPublishAlias: live
       Events:
         Event:
           Type: Api
           Properties:
             Path: /generate
             Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: Linear10PercentEvery1Minute
   GenerateWithAltsNL:
     Type: AWS::Serverless::Function
     Properties:
@@ -42,6 +44,9 @@ Resources:
           Properties:
             Path: /generate-with-alts
             Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: Linear10PercentEvery1Minute
   ParseNL:
     Type: AWS::Serverless::Function
     Properties:
@@ -55,69 +60,5 @@ Resources:
             Path: /parse
             Method: get
       AutoPublishAlias: live
-      Policies:
-        - Version: "2012-10-17"
-          Statement:
-          - Effect: "Allow"
-            Action:
-              - "lambda:InvokeFunction"
-            Resource: '*'
       DeploymentPreference:
           Type: Linear10PercentEvery1Minute
-          Hooks:
-            PreTraffic: !Ref beforeAllowTraffic
-            PostTraffic: !Ref afterAllowTraffic
-  beforeAllowTraffic:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: beforeAllowTraffic.handler
-      CodeUri: s3://menard-lambda/menard.zip
-      Policies:
-        - Version: "2012-10-17"
-          Statement:
-          - Effect: "Allow"
-            Action:
-              - "codedeploy:PutLifecycleEventHookExecutionStatus"
-            Resource:
-              !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
-        - Version: "2012-10-17"
-          Statement:
-          - Effect: "Allow"
-            Action:
-              - "lambda:InvokeFunction"
-            Resource: !Ref ParseNL.Version
-      Runtime: !Ref 'Runtime'
-      FunctionName: 'CodeDeployHook_beforeAllowTraffic'
-      DeploymentPreference:
-        Enabled: false
-      Timeout: 5
-      Environment:
-        Variables:
-          NewVersion: !Ref ParseNL.Version
-  afterAllowTraffic:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: afterAllowTraffic.handler
-      CodeUri: s3://menard-lambda/menard.zip
-      Policies:
-        - Version: "2012-10-17"
-          Statement:
-          - Effect: "Allow"
-            Action:
-              - "codedeploy:PutLifecycleEventHookExecutionStatus"
-            Resource:
-              !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
-        - Version: "2012-10-17"
-          Statement:
-          - Effect: "Allow"
-            Action:
-              - "lambda:InvokeFunction"
-            Resource: !Ref ParseNL.Version
-      Runtime: !Ref 'Runtime'
-      FunctionName: 'CodeDeployHook_afterAllowTraffic'
-      DeploymentPreference:
-        Enabled: false
-      Timeout: 5
-      Environment:
-        Variables:
-          NewVersion: !Ref ParseNL.Version

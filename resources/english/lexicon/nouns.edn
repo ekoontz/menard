@@ -44,6 +44,7 @@
  "donkey" [{:sem {:pred :donkey}}]
  "education" [{:sem {:pred :education}}]
  "employee" [{:sem {:pred :employee}}]
+ "employer" [{:sem {:pred :employer}}]
  "example" [{:sem {:pred :example}}] 
  "experience" [{:sem {:pred :experience}}]
  "eye" [{:sem {:pred :eye}}]

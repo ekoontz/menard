@@ -16,6 +16,7 @@ phases:
       - java -jar /leiningen-2.9.3-standalone.jar -m leiningen.core.main uberjar
       - native-image -jar target/output.jar --report-unsupported-elements-at-runtime --no-fallback --verbose --enable-url-protocols=http,https --no-server  --initialize-at-build-time --initialize-at-build-time=org.apache.log4j.CategoryKey --trace-object-instantiation=java.lang.Thread
       - cp bootstrap output /
+      - cp template-native.yml /
   post_build:
     commands:
       - echo Build completed on `date`
@@ -23,3 +24,4 @@ artifacts:
   files:
     - /bootstrap
     - /output
+    - /template-native.yml

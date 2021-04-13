@@ -33,6 +33,7 @@
  "inhoudelijk" [{:sem {:pred :substantive}}]
  "klein" [{:sem {:pred :small}
            :curriculum :basic}]
+ "kieskeurig" [{:sem {:pred :picky}}]
  "koppig" [{:sem {:pred :stubborn}}]
  "lastig" [{:sem {:pred :difficult}}]
  "leuk" [{:sem {:pred :good}}]

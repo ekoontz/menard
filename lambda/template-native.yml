@@ -21,7 +21,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateNL
-      CodeUri: deploy
+      CodeUri:
+        CodeKey: Fn::GetArtifactAtt
+	BucketName: Fn::getArtifactAtt
       FunctionName: MenardGenerateNL
       Events:
         Event:
@@ -36,7 +38,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateWithAltsNL
-      CodeUri: deploy
+      CodeUri:
+        CodeKey: Fn::GetArtifactAtt
+	BucketName: Fn::getArtifactAtt
       FunctionName: MenardGenerateNLWithAlts
       Events:
         Event:
@@ -51,7 +55,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.ParseNL
-      CodeUri: deploy
+      CodeUri:
+        CodeKey: Fn::GetArtifactAtt
+	BucketName: Fn::getArtifactAtt
       FunctionName: MenardParseNL
       Events:
         Event:

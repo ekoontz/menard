@@ -19,7 +19,6 @@ phases:
       - cp template-native.yml /
   post_build:
     commands:
-      - aws s3 sync / s3://menard-lambda
       - echo Build completed on `date`
 artifacts:
   files:

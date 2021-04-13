@@ -22,8 +22,8 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
-        CodeKey: Fn::GetArtifactAtt
-	BucketName: Fn::getArtifactAtt
+        CodeKey: !Ref buildObjectKey
+        BucketName: !Ref buildBucketName
       FunctionName: MenardGenerateNL
       Events:
         Event:
@@ -39,8 +39,8 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateWithAltsNL
       CodeUri:
-        CodeKey: Fn::GetArtifactAtt
-	BucketName: Fn::getArtifactAtt
+        CodeKey: !Ref buildObjectKey
+        BucketName: !Ref buildBucketName
       FunctionName: MenardGenerateNLWithAlts
       Events:
         Event:
@@ -56,8 +56,8 @@ Resources:
     Properties:
       Handler: menard.lambda.core.ParseNL
       CodeUri:
-        CodeKey: Fn::GetArtifactAtt
-	BucketName: Fn::getArtifactAtt
+        CodeKey: !Ref buildObjectKey
+        BucketName: !Ref buildBucketName
       FunctionName: MenardParseNL
       Events:
         Event:

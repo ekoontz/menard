@@ -1,6 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: "Menard lambda functions using using the `holy-lambda` micro library"
+Foo: "Bar"
 Parameters:
   Runtime:
     Type: String

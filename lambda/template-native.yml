@@ -21,9 +21,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateNL
-      CodeUri:
-        CodeKey: !Ref 'ObjectKey'
-        BucketName: !Ref 'BucketName'
       FunctionName: MenardGenerateNL
       Events:
         Event:

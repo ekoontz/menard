@@ -23,7 +23,7 @@ Resources:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
         CodeKey: menard.zip
-        BucketName: !Ref blah
+        BucketName: !Ref buildBucketName
       FunctionName: MenardGenerateNL
       Events:
         Event:

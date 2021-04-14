@@ -40,7 +40,7 @@ Resources:
       Handler: menard.lambda.core.GenerateWithAltsNL
       CodeUri:
         CodeKey: menard.zip
-        BucketName: foo
+        BucketName: !Ref buildBucketName
       FunctionName: MenardGenerateNLWithAlts
       Events:
         Event:

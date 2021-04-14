@@ -11,7 +11,6 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - java -jar /leiningen-2.9.3-standalone.jar -m leiningen.core.main install
       - cd lambda
       - cp bootstrap /
       - cp template-native.yml /

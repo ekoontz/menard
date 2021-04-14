@@ -22,7 +22,7 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
-        CodeKey: !Ref 'ObjectKeyFuck'
+        CodeKey: !Ref 'ObjectKey'
         BucketName: !Ref 'BucketName'
       FunctionName: MenardGenerateNL
       Events:

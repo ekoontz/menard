@@ -22,7 +22,7 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
-        CodeKey: !Ref foo
+        CodeKey: menard.zip
         BucketName: !Ref buildBucketName
       FunctionName: MenardGenerateNL
       Events:
@@ -39,7 +39,7 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateWithAltsNL
       CodeUri:
-        CodeKey: !Ref foo
+        CodeKey: menard.zip
         BucketName: !Ref buildBucketName
       FunctionName: MenardGenerateNLWithAlts
       Events:
@@ -56,7 +56,7 @@ Resources:
     Properties:
       Handler: menard.lambda.core.ParseNL
       CodeUri:
-        CodeKey: !Ref foo
+        CodeKey: menard.zip
         BucketName: !Ref buildBucketName
       FunctionName: MenardParseNL
       Events:

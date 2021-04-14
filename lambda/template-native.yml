@@ -34,37 +34,3 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
-  GenerateWithAltsNL:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: menard.lambda.core.GenerateWithAltsNL
-      CodeUri:
-        CodeKey: menard.zip
-        BucketName: s3://menard-lambda/
-      FunctionName: MenardGenerateNLWithAlts
-      Events:
-        Event:
-          Type: Api
-          Properties:
-            Path: /generate-with-alts
-            Method: get
-      AutoPublishAlias: live
-      DeploymentPreference:
-          Type: AllAtOnce
-  ParseNL:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: menard.lambda.core.ParseNL
-      CodeUri:
-        CodeKey: menard.zip
-        BucketName: s3://menard-lambda/
-      FunctionName: MenardParseNL
-      Events:
-        Event:
-          Type: Api
-          Properties:
-            Path: /parse
-            Method: get
-      AutoPublishAlias: live
-      DeploymentPreference:
-          Type: AllAtOnce

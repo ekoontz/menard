@@ -13,7 +13,7 @@ Parameters:
     Default: 2000
   Foo:
     Type: Number
-    Defaut: 42
+    Default: 42
 Globals:
   Function:
     Runtime: !Ref 'Runtime'

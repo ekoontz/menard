@@ -13,10 +13,8 @@ Parameters:
     Default: 2000
   BucketName:
     Type: String
-    Default: s3://menard-lambda
   ObjectKey:
     Type: String
-    Default: /menard.zip
 Globals:
   Function:
     Runtime: !Ref 'Runtime'

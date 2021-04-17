@@ -38,3 +38,20 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
+  ParseNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.core.ParseNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: MenardParseNL
+      Events:
+       Event:
+          Type: Api
+          Properties:
+            Path: /parse
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce

@@ -16,7 +16,7 @@ Parameters:
     Default: s3://menard-lambda
   ObjectKey:
     Type: String
-    Default: menard.zip
+    Default: /menard.zip
 Globals:
   Function:
     Runtime: !Ref 'Runtime'
@@ -28,7 +28,7 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
-        Key: menard.zip
+        Key: /menard.zip
         Bucket: s3://menard-lambda
       FunctionName: MenardGenerateNL
       Events:

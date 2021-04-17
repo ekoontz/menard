@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: !Ref 'parameterName'
+Description: "Menard lambda functions using using the `holy-lambda` micro library"
 Parameters:
   Runtime:
     Type: String
@@ -11,6 +11,9 @@ Parameters:
   MemorySize:
     Type: Number
     Default: 2000
+  Foo:
+    Type: Number
+    Defaut: 42
 Globals:
   Function:
     Runtime: !Ref 'Runtime'

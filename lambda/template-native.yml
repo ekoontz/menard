@@ -27,7 +27,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateNL
-      CodeUri: s3://codepipeline-eu-central-1-846647246927/menard-pipeline/BuildArtif/Dps8OfG
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
       FunctionName: MenardGenerateNL
       Events:
         Event:

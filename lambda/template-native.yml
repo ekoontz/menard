@@ -13,7 +13,7 @@ Parameters:
     Default: 2000
   BucketName:
     Type: String
-    Default: s3://menard-lambda/
+    Default: s3://menard-lambda
   ObjectKey:
     Type: String
     Default: menard.zip
@@ -29,7 +29,7 @@ Resources:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
         Key: menard.zip
-        Bucket: s3://menard-lambda/
+        Bucket: s3://menard-lambda
       FunctionName: MenardGenerateNL
       Events:
         Event:

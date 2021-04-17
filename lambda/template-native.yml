@@ -11,9 +11,9 @@ Parameters:
   MemorySize:
     Type: Number
     Default: 2000
-  Foo:
-    Type: Number
-    Default: 42
+  BucketName:
+    Type: String
+    Default: s3://menard-lambda/
 Globals:
   Function:
     Runtime: !Ref 'Runtime'
@@ -24,6 +24,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: menard.lambda.core.GenerateNL
+      CodeUri:
+        CodeKey: !Ref 'ObjectKey'
+        BucketName: !Ref 'BucketName'
       FunctionName: MenardGenerateNL
       Events:
         Event:

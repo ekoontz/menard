@@ -28,8 +28,8 @@ Resources:
     Properties:
       Handler: menard.lambda.core.GenerateNL
       CodeUri:
-        Key: !Ref 'ObjectKey'
-        BucketName: !Ref 'BucketName'
+        Key: menard.zip
+        BucketName: s3://menard-lambda/
       FunctionName: MenardGenerateNL
       Events:
         Event:

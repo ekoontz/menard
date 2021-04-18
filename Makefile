@@ -24,9 +24,6 @@ compile: src/menard/english/lexicon/compiled.edn \
          src/menard/english/grammar/compiled.edn \
          src/menard/nederlands/grammar/compiled.edn
 
-/Users/ekoontz/menard/target/menard-0.0.1-SNAPSHOT.jar: compile
-	lein install
-
 clean:
 	- rm $$(find . -name compiled.edn)
 

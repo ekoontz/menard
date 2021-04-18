@@ -28,7 +28,7 @@ Resources:
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
-      FunctionName: GenerateNL
+      FunctionName: GenerateNL2
       Events:
         Event:
           Type: Api
@@ -45,7 +45,7 @@ Resources:
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
-      FunctionName: ParseNL
+      FunctionName: ParseNL2
       Events:
        Event:
           Type: Api

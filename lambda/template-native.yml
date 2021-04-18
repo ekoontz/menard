@@ -28,12 +28,12 @@ Resources:
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
-      FunctionName: MenardGenerateNL
+      FunctionName: GenerateNL
       Events:
         Event:
           Type: Api
           Properties:
-            Path: /generate
+            Path: /generate/nl
             Method: get
       AutoPublishAlias: live
       DeploymentPreference:
@@ -45,12 +45,12 @@ Resources:
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
-      FunctionName: MenardParseNL
+      FunctionName: ParseNL
       Events:
        Event:
           Type: Api
           Properties:
-            Path: /parse
+            Path: /parse/nl
             Method: get
       AutoPublishAlias: live
       DeploymentPreference:

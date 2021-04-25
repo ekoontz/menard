@@ -21,36 +21,53 @@ Globals:
     Timeout: !Ref 'Timeout'
     MemorySize: !Ref 'MemorySize'
 Resources:
-  GenerateNL:
+  Generate:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: menard.lambda.core.GenerateNL
+      Handler: menard.lambda.def.Generate
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
-      FunctionName: GenerateNL2
+      FunctionName: Generate
       Events:
         Event:
           Type: Api
           Properties:
-            Path: /generate/nl
+            Path: /generate
             Method: get
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
-  ParseNL:
+  GenerateWithAlts:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: menard.lambda.core.ParseNL
+      Handler: menard.lambda.def.Generate
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
-      FunctionName: ParseNL2
+      FunctionName: Generate
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  Parse:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.Parse
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: Parse
       Events:
        Event:
           Type: Api
           Properties:
-            Path: /parse/nl
+            Path: /parse
             Method: get
       AutoPublishAlias: live
       DeploymentPreference:

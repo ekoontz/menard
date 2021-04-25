@@ -1,4 +1,5 @@
-(ns menard.lambda.core
+;; defines the lambdas we deploy to the AWS Lambda service:
+(ns menard.lambda.def
   (:gen-class)
   (:require
    [fierycod.holy-lambda.core :as h]
@@ -7,7 +8,7 @@
             generate-nl-with-alternations
             parse-nl]]))
 
-(h/deflambda ParseNL
+(h/deflambda Parse
   [event context]
   (let [q (-> event :queryStringParameters :q)]
     {:statusCode 200
@@ -17,7 +18,7 @@
      :body (parse-nl q)
      :isBase64Encoded false}))
 
-(h/deflambda GenerateNL
+(h/deflambda Generate
   [event context]
   (let [q (-> event :queryStringParameters :q)]
     {:statusCode 200
@@ -27,7 +28,7 @@
      :body (generate-nl-by-spec q)
      :isBase64Encoded false}))
 
-(h/deflambda GenerateWithAltsNL
+(h/deflambda GenerateWithAlts
   [event context]
   (let [spec (-> event :queryStringParameters :spec)
         alternates (-> event :queryStringParameters :alts)]
@@ -38,6 +39,6 @@
      :body (generate-nl-with-alternations spec alternates)
      :isBase64Encoded false}))
 
-(h/gen-main [#'ParseNL
-             #'GenerateNL
-             #'GenerateWithAltsNL])
+(h/gen-main [#'Parse
+             #'Generate
+             #'GenerateWithAlts])

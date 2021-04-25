@@ -1,10 +1,10 @@
 .PHONY: all check-service clean deploy deploy-native destroy destroy-bucket dry-api dry-api-native logs-tail make-bucket
 BUCKET_NAME=menard-lambda
-STACK_NAME=menard-lambda
+STACK_NAME=menard
 APP_REGION=eu-central-1
 PWD=$$(pwd)
 
-native_image_cmd=docker run -v ${PWD}:/project -it ghcr.io/graalvm/graalvm-ce:latest bash -c "gu install native-image && cd /project && native-image -jar target/output.jar --report-unsupported-elements-at-runtime --no-fallback --verbose --enable-url-protocols=http,https --no-server  --initialize-at-build-time --initialize-at-build-time=org.apache.log4j.CategoryKey --trace-object-instantiation=java.lang.Thread"
+native_image_cmd=docker run -v ${PWD}:/project -it ghcr.io/graalvm/graalvm-ce:latest bash -c "gu install native-image && cd /project && native-image -jar target/menard-lambda.jar --report-unsupported-elements-at-runtime --no-fallback --verbose --enable-url-protocols=http,https --no-server  --initialize-at-build-time --initialize-at-build-time=org.apache.log4j.CategoryKey --trace-object-instantiation=java.lang.Thread"
 
 all: deploy-native
 
@@ -19,10 +19,10 @@ packaged-native.yml: make-bucket
 latest.zip: output
 	zip $@ bootstrap output
 
-output: target/output.jar
+output: target/menard-lambda.jar
 	${native_image_cmd}
 
-target/output.jar: src/menard/lambda/core.clj
+target/menard-lambda.jar: src/menard/lambda/core.clj
 	lein uberjar
 
 # </deploy-native>
@@ -45,7 +45,7 @@ destroy:
 destroy-bucket:
 	aws s3 rb s3://$(BUCKET_NAME) --force --region $(APP_REGION)
 
-dry-api: target/output.jar
+dry-api: target/menard-lambda.jar
 	sam local start-api --template template.yml
 
 dry-api-native: latest.zip
@@ -59,6 +59,6 @@ local-test: check-service
 make-bucket:
 	aws s3 ls s3://$(BUCKET_NAME) || aws s3 mb s3://$(BUCKET_NAME)
 
-packaged.yml: target/output.jar make-bucket
+packaged.yml: target/menard-lambda.jar make-bucket
 	sam package --template-file template.yml        --output-template-file packaged.yml        --s3-bucket $(BUCKET_NAME) --s3-prefix "menard-lambda"
 

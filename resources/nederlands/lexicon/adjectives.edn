@@ -1,10 +1,12 @@
 {"_" [{:null? true :sem {:pred :_}}]
  "aanspreekbaar" [{:sem {:pred :approachable}}]
+ "aantrekkelijk" [{:sem {:pred :attractive}}]
  "aardig" [{:sem {:pred :nice}}]
  "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "benieuwd" [{:sem {:pred :curious}}]
  "bezig" [{:sem {:pred :busy}}]
+ "bijzonder" [{:sem {:pred :special}}]
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]
  "dik" [{:sem {:pred :thick}}]
@@ -31,6 +33,7 @@
  "inhoudelijk" [{:sem {:pred :substantive}}]
  "klein" [{:sem {:pred :small}
            :curriculum :basic}]
+ "kieskeurig" [{:sem {:pred :picky}}]
  "koppig" [{:sem {:pred :stubborn}}]
  "lastig" [{:sem {:pred :difficult}}]
  "leuk" [{:sem {:pred :good}}]
@@ -50,6 +53,7 @@
  "prachtig" [{:sem {:pred :magnificent}}]
  "schattig" [{:sem {:pred :cute}}]
  "schrijnend" [{:sem {:pred :poignant}}]
+ "slecht" [{:sem {:pred :bad}}]
  "slim" [{:sem {:pred :smart}
           :curriculum :basic}]
  "smerig" [{:sem {:pred :filthy}}]

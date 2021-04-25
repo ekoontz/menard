@@ -17,6 +17,7 @@
                :gender :masc}}]
  "business" [{:sem {:pred :business}}]
  "buyer" [{:sem {:pred :buyer}}]
+ "carrot" [{:sem {:pred :carrot}}]
  "case" [{:sem {:pred :case}}]
  "cat" [{:sem {:pred :cat}}]
  "chair" [{:sem {:pred :chair}}]
@@ -42,6 +43,8 @@
  "dog" [{:sem {:pred :dog}}]
  "donkey" [{:sem {:pred :donkey}}]
  "education" [{:sem {:pred :education}}]
+ "employee" [{:sem {:pred :employee}}]
+ "employer" [{:sem {:pred :employer}}]
  "example" [{:sem {:pred :example}}] 
  "experience" [{:sem {:pred :experience}}]
  "eye" [{:sem {:pred :eye}}]
@@ -107,6 +110,7 @@
  "person" [{:sem {:pred :person}
             :agr {:number :sing}}]
  "place" [{:sem {:pred :place}}]
+ "plumber" [{:sem {:pred :plumber}}]
  "point" [{:sem {:pred :point}}]
  "pond" [{:sem {:pred :pond}}]
  "predator" [{:sem {:pred :predator}}]
@@ -146,6 +150,7 @@
  "thing" [{:sem {:pred :thing}}]
  "time" [{:sem {:pred :time}}]
  "toddler" [{:sem {:pred :toddler}}]
+ "union" [{:sem {:pred :union}}]
  "water" [{:sem {:pred :water}}]
  "way" [{:sem {:pred :way}}]
  "week" [{:sem {:pred :week}}]
@@ -159,5 +164,5 @@
  "word" [{:sem {:pred :word}}]
  "work" [{:sem {:pred :work}}]
  "world" [{:sem {:pred :world}}]
- "year" [{:sem {:pred :year}}]}
- 
+ "year" [{:sem {:pred :year}}]
+ "zucchini" [{:sem {:pred :zucchini}}]}

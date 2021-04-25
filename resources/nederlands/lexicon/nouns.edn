@@ -24,6 +24,7 @@
                         :surface "boeken"}]}]
  "boodschap" [{:sem {:pred :message}}]
  "chirurg" [{:sem {:pred :surgeon}}]
+ "courgette" [{:sem {:pred :zucchini}}]
  "dag" [{:sem {:pred :day}}]
  "dame" [{:sem {:pred :woman
                 :context :polite}}]
@@ -83,6 +84,7 @@
  "leraar" [{:sem {:pred :teacher}}]
  "leven" [{:agr {:gender :neuter}
            :sem {:pred :life}}]
+ "loodgieter" [{:sem {:pred :plumber}}]
  "man" [{:sem {:pred :man
                :context :neutral}}]
  "maand" [{:sem {:pred :month}}]
@@ -116,6 +118,7 @@
            :sem {:pred :home}}]
  "toestand" [{:sem {:pred :situation}}]
  "uitvoering" [{:sem {:pred :implementation}}]
+ "vakbond" [{:sem {:pred :union}}]
  "vergissing" [{:sem {:pred :mistake}}]
  "verbinding" [{:sem {:pred :connection}}]
  "verhaal" [{:sem {:pred :story}
@@ -142,6 +145,9 @@
            :agr {:gender :common}
            :sem {:pred :woman
                  :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
+ "werkgever" [{:sem {:pred :employer}}]
+ "werknemer" [{:sem {:pred :employee}}]
+ "wortel" [{:sem {:pred :carrot}}]
  "zaak" [{:sem {:pred :case}}]
  "zee" [{:sem {:pred :sea}}]
  "zenuw" [{:sem {:pred :nerve}}]}

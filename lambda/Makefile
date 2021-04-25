@@ -10,7 +10,7 @@ all: deploy-native
 
 # <deploy-native>
 
-deploy-native: packaged-native.yml
+deploy-native: packaged-native.yml menard-lambda
 	sam deploy --template-file packaged-native.yml --stack-name $(STACK_NAME) --capabilities CAPABILITY_IAM --region $(APP_REGION)
 
 packaged-native.yml: make-bucket
@@ -19,7 +19,7 @@ packaged-native.yml: make-bucket
 latest.zip: output
 	zip $@ bootstrap output
 
-output: target/menard-lambda.jar
+menard-lambda: target/menard-lambda.jar
 	${native_image_cmd}
 
 target/menard-lambda.jar: src/menard/lambda/def.clj

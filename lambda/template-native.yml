@@ -41,7 +41,7 @@ Resources:
   GenerateWithAlts:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: menard.lambda.def.Generate
+      Handler: menard.lambda.def.GenerateWithAlts
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'
@@ -50,7 +50,7 @@ Resources:
         Event:
           Type: Api
           Properties:
-            Path: /generate
+            Path: /generate-with-alts
             Method: get
       AutoPublishAlias: live
       DeploymentPreference:

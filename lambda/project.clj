@@ -4,5 +4,6 @@
                  [menard "1.4.1-SNAPSHOT"]]
   :global-vars {*warn-on-reflection* true}
   :main ^:skip-aot menard.lambda.def
+  :uberjar-name "menard-lambda.jar"
   :profiles {:uberjar {:aot :all}})
 

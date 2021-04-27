@@ -328,6 +328,8 @@
           [{:exceptions exceptions  :sem {:pred :hear}}])
  "help" [{ :sem {:pred :help} :subcat {:1 :top :2 :top}}]
 
+ "hide" [{:sem {:pred :hide}}]
+
  "hope" [{:sense 1
           
           :sem {:pred :hope}

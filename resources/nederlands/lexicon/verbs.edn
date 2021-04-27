@@ -237,11 +237,12 @@
                          :agr {:number :plur}
                          :surface "wisten"}]}]
 
+ "verbergen" [{:sem {:pred :hide}}]
+
  "veroorzaaken" [{:sem {:pred :cause}}]
 
  "verpesten" [{:sem {:pred :ruin}
                :subcat {:2 {:cat :noun}}}]
- 
 
  "vinden" [(let [obj (atom :top)]
              {:curriculum :basic

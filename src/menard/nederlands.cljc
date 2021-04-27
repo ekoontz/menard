@@ -462,7 +462,9 @@
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/lookup-fn analyze]
-      (p/parse expression morph))))
+      (let [parses (p/parse expression morph)]
+        (or (and (seq parses) parses)
+            (analyze expression))))))
 
 (defn generate-demo [index & [this-many]]
   (->>

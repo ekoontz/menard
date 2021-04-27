@@ -335,6 +335,7 @@
   :cat :verb
   :reflexive false
   :head {:cat :verb
+         :comp {:definite? false}
          :phrasal true
          :rule "vp-inv"}
   :comp {:cat :noun

@@ -539,3 +539,21 @@
   (->> #(-> spec generate morph)
        repeatedly (take n) set vec sort (map println)
        count))
+
+;; example usage:
+;;
+;; (->> "slapen honden"
+;;      parse
+;;      (map (ugins [:infl] [:sem] [:head :sem][:subcat]))
+;;      (map u/pprint))
+;; 
+;; => parses with selected parts shown
+;; 
+(defn ugin
+  ([& paths]
+   (fn [arg1]
+     (reduce dag_unify.core/unify
+             (map (fn [path]
+                    (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
+                  paths)))))
+

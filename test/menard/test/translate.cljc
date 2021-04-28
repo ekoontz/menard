@@ -88,7 +88,9 @@
 
 (deftest transfer-basic
   (->>
-   (range 0 (count nl/expressions))
+   (-> (range 0 (count nl/expressions))
+       vec
+       (subvec 13 14))
    (map (fn [i]
           (println (str "transfering with nl/expression number: " i))
           (doall

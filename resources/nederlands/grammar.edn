@@ -334,7 +334,9 @@
  {:rule "er-s" 
   :cat :verb
   :reflexive false
+  :inverted? true
   :head {:cat :verb
+         :inverted? true
          :comp {:definite? false}
          :phrasal true
          :rule "vp-inv"}
@@ -346,6 +348,7 @@
  
  ;; "[vp-inv(:present-simple){-} +slapen .[np:1 .drie +honden]]"
  {:rule "vp-inv"
+  :inverted? true
   :cat :verb
   :reflexive false
   :head {:cat :verb

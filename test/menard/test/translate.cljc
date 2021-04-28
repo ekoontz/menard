@@ -90,7 +90,7 @@
   (->>
    (-> (range 0 (count nl/expressions))
        vec
-       (subvec 13 14))
+       (subvec 0 (count nl/expressions)))
    (map (fn [i]
           (println (str "transfering with nl/expression number: " i))
           (doall
@@ -100,7 +100,9 @@
 
 (deftest transfer
   (->>
-   (range 0 (count nl/expressions))
+   (-> (range 0 (count nl/expressions))
+       vec
+       (subvec 0 (count nl/expressions)))
    (map (fn [i]
           (doall
            (take 10

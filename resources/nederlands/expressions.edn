@@ -208,6 +208,7 @@
 
  ;; 14
  {:note "generalization of the above"
+  :inverted? false
   :dotimes 5
   :example "De heel sterk slimme vrouwen zingen"
   :cat :verb
@@ -226,6 +227,7 @@
 
  ;; 15
  {:note "[det | adj noun] verb"
+  :inverted? false
   :dotimes 5
   :cat :verb
   :subcat []  
@@ -236,6 +238,7 @@
  
  ;; 16
  {:note "Sentence with object"
+  :inverted? false
   :max-depth 3
   :example "ik zie het"  
   :reflexive false
@@ -248,6 +251,7 @@
 
  ;; 17
  {:note "Sentence with reflexive object"
+  :inverted? false
   :example "ik zie me"
   :generic true
   :max-depth 3
@@ -264,6 +268,7 @@
  
  ;; 18
  {:note "[s np [vp v np]]"
+  :inverted? false
   :example "ik zie de kat"
   :phrasal true
   :cat :verb
@@ -285,6 +290,7 @@
  ;; 19
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'
   :example "ik probeer te slapen"
+  :inverted? false
   :cat :verb
   :subcat []
   :reflexive false
@@ -303,6 +309,7 @@
  {:note "modals+infinitive"
   :example "jouw achtig eigenwijze zenuwachtige tafels proberen banen te optreden"
   :phrasal true
+  :inverted? false
 
   ;; <workaround>
   ;; prevent pronouns from the :comp
@@ -335,6 +342,7 @@
  ;; 21
  {:note "using 'kunnen'"
   :example "ze kunnen lezen"
+  :inverted? false
   :cat :verb
   :subcat []
   :head {:rule "vp-infinitive"
@@ -347,6 +355,7 @@
 
  ;; 22
  {:note "corona sentence from de Krant van de Gemente van Amsterdam"
+  :inverted? false
   :dotimes 1
   :max-depth 3
   :cat :verb
@@ -377,6 +386,7 @@
 
  ;; 23
  {:note "Generalization of the previous"
+  :inverted? false
   :dotimes 1
   :max-depth 3
   :cat :verb
@@ -407,6 +417,7 @@
  ;; 24
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :example "de vier en twintig kleine vogels slapen"
+  :inverted? false
   :cat :verb
   :subcat []
   :phrasal true
@@ -421,6 +432,7 @@
 
  ;; 25
  {:note "simple past sentences with regular simple past"
+  :inverted? false
   :phrasal true
   :subcat []
   :cat :verb
@@ -431,6 +443,7 @@
 
  ;; 26
  {:note "simple past sentences with irregular simple past"
+  :inverted? false
   :subcat []
   :phrasal true
   :cat :verb
@@ -441,6 +454,7 @@
 
  ;; 27
  {:note "'nodig' sentences with pronouns"
+  :inverted? false
   :phrasal true
   :head {:rule "adverb-nodig"
          :comp {:rule "vp"
@@ -462,6 +476,7 @@
 
  ;; 28
  {:note "X vindt Y leuk"
+  :inverted? false
   :cat :verb
   :sem {:pred :like
         :obj {:obj :none}}
@@ -476,14 +491,6 @@
   :subcat []
   :comp {:cat :det
          :possessive? true}}
-
- ;; 30
- {:note "er-sentence (type 1)"
-  :rule "er-s"
-  :head {:rule "vp-inv"
-         :head {:phrasal false}
-         :comp {:phrasal false}}}
-
  ]
 
   

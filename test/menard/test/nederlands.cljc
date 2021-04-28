@@ -265,4 +265,6 @@
    (->>
     (range 0 (count nl/expressions))
     (map (fn [x]
-           (is (= 10 (menard.test.nederlands/validator (nth nl/expressions x)))))))))
+           (log/info (str "<expression " x ">"))
+           (is (= 10 (menard.test.nederlands/validator (nth nl/expressions x))))
+           (log/info (str "<expression " x ">")))))))

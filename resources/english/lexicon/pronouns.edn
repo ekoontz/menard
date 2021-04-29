@@ -102,6 +102,8 @@
                 :pronoun true :reflexive true}]
  "they" [{:cat :noun
           :pronoun true
+
+ "there" [{:case :nom}]
           :reflexive false
           :case :nom
           :agr {:person :3rd :number :plur}

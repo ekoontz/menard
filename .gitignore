@@ -32,3 +32,4 @@ lambda/output
 packaged-native.yml
 pom.properties
 lambda/target/*
+lambda/history.txt

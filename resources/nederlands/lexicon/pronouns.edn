@@ -12,7 +12,8 @@
          :sem {:pred :it
                :ref {:human false}}}]
 
- "er" [{:case :nom}]
+ "er" [{:case :nom
+        :sem {:existential? true}}]
  
  "haar" [{:agr {:gender :fem
                 :number :sing

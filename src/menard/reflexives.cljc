@@ -75,6 +75,10 @@
                 ::refl-match 7
                 :obj {:obj {:person-not :2nd}}}}
 
+         ;; existential? false to
+         ;; exclude "er is een hond" from matching here.
+         ;; instead it matches above with {::refl-match 1}.
          {:agr {:person :3rd}
           :sem {::refl-match 8
-                :subj {:person :3rd}}}])))
+                :subj {:person :3rd
+                       :existential? false}}}])))

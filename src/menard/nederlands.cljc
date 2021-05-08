@@ -548,7 +548,7 @@
 ;;
 ;; (->> "slapen honden"
 ;;      parse
-;;      (map (ugins [:infl] [:sem] [:head :sem][:subcat]))
+;;      (map (ugin [:infl] [:sem] [:head :sem][:subcat]))
 ;;      (map u/pprint))
 ;; 
 ;; => parses with selected parts shown
@@ -560,4 +560,13 @@
              (map (fn [path]
                     (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
                   paths)))))
+
+(defn get-paths-in
+  ([& paths]
+   (fn [arg1]
+     (reduce dag_unify.core/unify
+             (map (fn [path]
+                    (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
+                  paths)))))
+
 

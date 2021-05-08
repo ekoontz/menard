@@ -101,7 +101,8 @@
                 :agr {:person :3rd :number :plur}
                 :pronoun true :reflexive true}]
 
- "there" [{:case :nom}]
+ "there" [{:case :nom
+           :sem {:existential? true}}]
 
  "they" [{:pronoun true
           :reflexive false

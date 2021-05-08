@@ -491,6 +491,14 @@
   :subcat []
   :comp {:cat :det
          :possessive? true}}
+
+
+ ;; 30
+ {:note "er-sentence (type 1)"
+  :rule "er-s"
+  :head {:rule "vp-inv"
+         :head {:phrasal false}
+         :comp {:phrasal false}}}
  ]
 
   

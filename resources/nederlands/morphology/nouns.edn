@@ -31,6 +31,16 @@
       :pronoun false
       :agr {:number :plur}
       :regular true}}
+
+ ;; if a singular noun ends in -oot, then noun pluralization ends in -oten:
+ {:g [#"oot$"  "oten"]           ;; echtgenoot -> echtgenoten
+  :p [#"oten$" "oot"]
+  :u {:cat :noun
+      :null? false
+      :inflection :oot
+      :pronoun false
+      :agr {:number :plur}
+      :regular true}}
  
   ;; noun pluralization ending in -s:
  {:g [#"([^aeiouy])(e|el|em|en|er|ie)$"  "$1$2s" ]

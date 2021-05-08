@@ -23,8 +23,8 @@
       :regular true}}
  
  ;; if a singular noun ends in -heid, then noun pluralization ends in -heden:
- {:g [#"(heid)$"  "heden"]           ;; mogelijkheid -> mogelijkheden
-  :p [#"heden$"   "heid"]
+ {:g [#"heid$"  "heden"]           ;; mogelijkheid -> mogelijkheden
+  :p [#"heden$" "heid"]
   :u {:cat :noun
       :null? false
       :inflection :heid

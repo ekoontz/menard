@@ -9,6 +9,8 @@ A Clojure library for generation and parsing of natural language expressions.
 
 ## Acknowledgements
 
+_All errors in the code are my fault, not anyone's cited here_.
+
 ### HPSG
 
 Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar). More about HPSG:

@@ -66,7 +66,7 @@
                                            lexeme
                                            (let [result (unify lexeme unify-with)]
                                              (if (= :fail result)
-                                               (exception (str "hit a fail while proccessing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
+                                               (exception (str "hit a fail while proccesing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
                                              result))))))
            ((fn [lexicon]
               (l/apply-to-every-lexeme lexicon

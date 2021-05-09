@@ -44,12 +44,13 @@
  "fiets" [{:sem {:pred :bike}}]
  "gebied" [{:agr {:gender :neuter}
             :sem {:pred :area}}]
- "geit" [{:sem {:pred :goat}}
+ "geit" [{:sem {:pred :goat}
 
-         ;; need this to prevent "geitten" which applies because
-         ;; of nederlands.morphology/:repeated-consonant:
-         :exceptions [{:agr {:number :plur}
-                       :surface "geiten"}]]
+          ;; need this to prevent "geitten" which applies because
+          ;; of nederlands.morphology/:repeated-consonant:
+          :exceptions [{:cat :noun
+                        :agr {:number :plur}
+                        :surface "geiten"}]}]
 
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]

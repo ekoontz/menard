@@ -127,7 +127,7 @@
   :p [#"^(.*a)(p)pen$" "$1$2"] 
   :u {:cat :noun
       :null? false
-      :inflection :repeated-consonant
+      :inflection ::repeated-consonant
       :pronoun false
       :agr {:number :plur}
       :regular true}}

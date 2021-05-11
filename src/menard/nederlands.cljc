@@ -454,7 +454,17 @@
             found))))))
 
 (defn parse [expression]
-  (let [model (load-model)]
+  (let [model (load-model)
+
+        ;; remove trailing '.' if any:
+        expression (string/replace expression #"[.]*$" "")]
+        ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
+        ;; use it as part of the meaning
+        ;; i.e.
+        ;; '.' -> declarative
+        ;; '?' -> interrogative
+        ;; '!' -> imperative
+
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               p/truncate? false

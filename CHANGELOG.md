@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.4.1] - 2021-05-11
+
+- Add lambda directory for deploying API to Amazon Lambda.
+- Improve support for reflexive pronouns.
+- Add more vocabulary.
+
 ## [1.4.0] - 2021-01-07
 
 - Move linguistic resources out of `src/` and into `resources/`.

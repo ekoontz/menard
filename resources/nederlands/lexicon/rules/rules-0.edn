@@ -1,0 +1,185 @@
+[{:rule :curriculum-is-none-default
+  :if {:curriculum ::none}
+  :then [{:curriculum ::none}]}
+ {:rule :null-is-false-by-default
+  :if {:null? false}
+  :then [{:null? false}]}
+ {:rule :noun-semantics
+  :if {:cat :noun
+       :null? false
+       :semantic-number-differs-from-agreement-number? false}
+  :then [(let [number (atom :top)]
+           {:agr {:number number}
+            :sem {:ref {:number number}}})]}
+
+ ;; nouns default to 'common' gender ('de X', not 'het X') if gender is not specified.
+ {:rule :noun-gender-common-default
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun false
+       :agr {:gender ::unspec}}
+  :then [{:agr {:gender :common}}]}
+
+ ;; an adjective in the lexicon has no modifiers
+ ;; (i.e. its [:sem :mod] is empty).
+ ;; however an adjective might have modifiers
+ ;; within a phrase e.g. in "heel klein",
+ ;; "klein" is modified by "heel":
+ ;;  {:pred :small,
+ ;;   :mod {:first {:pred :very}, :rest []},
+ ;;   :number? false})
+ ;; Note that we set both [:sem :mod] *and* [:mod]
+ ;; to empty - this is because an adjective
+ ;; might be head of an intensifier phrase
+ ;; e.g. 'echt kleine', where we will concatenate
+ ;; a :mod for the adjective and then finally, at
+ ;; a level when no more intensifiers are added,
+ ;; nest this :mod as the parent's [:sem :mod].
+ {:rule :adjective-semantics
+  :if {:cat :adjective
+       :null? false}
+  :then [(let [sem (atom {:mod []})]
+           {:sem sem
+            :mod []})]}
+
+ {:rule :aux-default-is-false
+  :if {:cat :verb
+       :aux ::unspec}
+  :then [{:aux false}]}
+
+ {:rule :dont-inflect-conjunctions
+  :if {:cat :conjunction}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-complementizers
+  :if {:cat :comp}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-intensifiers
+  :if {:cat :intensifier}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-neg
+  :if {:cat :neg}
+  :then [{:inflected? true}]}
+ 
+ {:rule :dont-inflect-prepositions
+  :if {:cat :prep}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-determiners
+  :if {:cat :det}
+  :then [{:inflected? true}]}
+
+ {:rule :intensifier-semantics
+  :if {:cat :intensifier}
+  :then [(let [sem (atom {:mod []})]
+           {:sem sem
+            :mod []})]}
+
+ {:rule :nouns-are-not-pronouns
+  :if {:cat :noun
+       :null? false
+       :pronoun ::unspec}
+  :then [{:pronoun false}]}
+
+ {:rule :nouns-are-not-propernouns
+  :if {:cat :noun
+       :null? false
+       :propernoun ::unspec}
+  :then [{:propernoun false}]}
+
+ {:rule :nouns-have-empty-modifiers
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :mod ::unspec}
+  :then [{:mod []}]}
+
+ {:rule :politeness-is-unspecified
+  :if {:cat :noun
+       :null? false
+       :sem {:context ::unspec}}
+  :then [{:sem {:context :none}}]}
+
+ {:rule :pronoun-have-empty-modifiers
+  :if {:cat :noun
+       :null? false
+       :pronoun true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernouns-have-empty-modifiers
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernouns-are-nonreflexive
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun true}
+  :then [{:reflexive false}]}
+
+ {:rule :pronouns-are-nonreflexive
+  :if {:cat :noun
+       :null? false
+       :pronoun true
+       :reflexive ::unspec
+       :propernoun false}
+  :then [{:reflexive false}]}
+
+ ;; if a verb does not specify a particular
+ ;; transitivity, generate both transitive and intransitive forms
+ ;; of the verb, where the second form has a noun second argument.
+ {:rule :subcat-unspecified-nonaux
+  :if {:cat :verb
+       :aux false
+       :modal false
+       :subcat {:1 {:cat :noun}
+                :2 ::unspec}}
+  :then [{:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 []}}
+         {:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 {:cat :noun
+                       :subcat []}}}]}
+
+ {:rule :modal-false-by-default
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+
+ {:rule :verbs-have-empty-modifiers
+  :if {:cat :verb
+       :mod ::unspec}
+  :then [{:mod []}]}
+ 
+ {:rule :adjectives-not-numbers-by-default
+  :if {:cat :adjective
+       :null? false
+       :sem {:number? ::unspec}}
+  :then [{:sem {:number? false}}]}
+
+ {:rule :conjunctions-subcat-adjective
+  :if {:cat :conjunction}
+  :then [(let [cat (atom :adjective)]
+           {:subcat {:1 {:cat cat}
+                     :2 {:cat cat}}})]}
+
+ {:rule :possessive-false-by-default
+  :if {:cat :det
+       :possessive? ::unspec}
+  :then [{:possessive? false}]}
+
+ {:rule :existential-false-by-default
+  :if {:cat :noun
+       :pronoun true
+       :sem {:existential? ::unspec}}
+  :then [{:sem {:existential? false}}]}
+ ]

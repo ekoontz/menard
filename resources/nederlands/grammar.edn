@@ -342,7 +342,7 @@
          :rule "vp-inv"}
   :comp {:cat :noun
          :pronoun true
-         :canonical "er"}
+         :sem {:existential? true}}
   :unify [menard.ug/head-last
           menard.ug/head-sem]}
  

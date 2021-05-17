@@ -309,7 +309,7 @@
    [{:curriculum :basic
      :exceptions exceptions
      :sem {:pred :be}}])
-   
+
  "zingen"
  [{:curriculum :basic
    :sem {:pred :sing}

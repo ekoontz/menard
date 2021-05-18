@@ -494,11 +494,11 @@
 
 
  ;; 30
- {:note "er-sentence (type 1)"
-  :rule "er-s"
-  :head {:rule "vp-inv"
-         :head {:phrasal false}
-         :comp {:phrasal false}}}
+ ;; "[s(:present-simple){-} .er +[vp(:present-simple){-} +zijn .[np:1 .drie +honden]]]"
+;; {:note "er-sentence (type 1)"
+;;  :comp {:canonical "er"
+;;         :phrasal false}
+;;  :phrase true}
  ]
 
   

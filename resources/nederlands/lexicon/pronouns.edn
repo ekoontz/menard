@@ -15,7 +15,7 @@
  "er" [{:case :nom
         :sem {:existential? true}
         :agr {:person :3rd}}]
- 
+
  "haar" [{:agr {:gender :fem
                 :number :sing
                 :person :3rd}

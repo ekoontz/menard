@@ -329,25 +329,4 @@
           menard.ug/head-first
           menard.ug/head-modal
           menard.ug/head-sem]}
-
- ;; TODO: we should not need this: instead use the
- ;; verb "zijn".
- ;; "[er-s{-} .er +[vp-inv(:present-simple){-} slapen drie honden]]"
- ;; We'll start with "zijn" and then generalize to other verbs e.g.
- ;; "slapen" ('er slapen drie honden').
- {:rule "er-s" 
-  :cat :verb
-  :reflexive false
-  :inverted? true
-  :head {:cat :verb
-         :inverted? true
-         :comp {:definite? false}
-         :phrasal true
-         :rule "vp-inv"}
-  :comp {:cat :noun
-         :pronoun true
-         :sem {:existential? true}}
-  :unify [menard.ug/head-last
-          menard.ug/head-sem]}
-  
 ]

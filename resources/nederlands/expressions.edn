@@ -492,13 +492,12 @@
   :comp {:cat :det
          :possessive? true}}
 
-
  ;; 30
- ;; "[s(:present-simple){-} .er +[vp(:present-simple){-} +zijn .[np:1 .drie +honden]]]"
-;; {:note "er-sentence (type 1)"
-;;  :comp {:canonical "er"
-;;         :phrasal false}
-;;  :phrase true}
+ {:rule "s"
+  :comp {:phrasal false :canonical "er"}
+  :head {:rule "vp"
+         :head {:phrasal false
+                :canonical "zijn"}}}
  ]
 
   

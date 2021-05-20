@@ -101,6 +101,7 @@
  "social" [{:sem {:pred :social}}]
  "soft" [{:sem {:pred :soft}}]
  "special" [{:sem {:pred :special}}]
+ "splendid" [{:sem {:pred :splendid}}]
  "striking" [{:sem {:pred :striking}}]
  "stingy" [{:sem {:pred :stingy}}]
  "strong" [{:sem {:pred :strong}}]

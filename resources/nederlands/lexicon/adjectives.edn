@@ -52,6 +52,7 @@
  "oud" [{:sem {:pred :old} :curriculum :basic}]
  "prachtig" [{:sem {:pred :magnificent}}]
  "schattig" [{:sem {:pred :cute}}]
+ "schitterend" [{:sem {:pred :splendid}}]
  "schrijnend" [{:sem {:pred :poignant}}]
  "slecht" [{:sem {:pred :bad}}]
  "slim" [{:sem {:pred :smart}

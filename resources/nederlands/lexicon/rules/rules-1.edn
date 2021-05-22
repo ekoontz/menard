@@ -1,0 +1,124 @@
+[{:rule :dont-inflect-pronouns
+  :if {:cat :noun
+       :null? false
+       :pronoun true}
+  :then [{:inflected? true
+          :subcat []}]}
+
+ {:rule :dont-inflect-propernouns
+  :if {:cat :noun
+       :null? false
+       :propernoun true}
+  :then [{:inflected? true
+          :subcat []}]}
+
+ {:rule :subject-verb-agreement
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :subcat []}}})]}
+
+ {:rule :subject-is-subcat-1
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun
+                    :sem {:existential? ::unspec}}}}
+  :then [(let [person (atom :top)
+               subj (atom {:person person})]
+           {:agr {:person person}
+            :sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+
+ {:rule :subcat-2-is-acc
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [{:subcat {:2 {:case :acc}}}]}
+ 
+ {:rule :propernouns-are-3rd-person-singular
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun true}
+  :then [{:agr {:number :sing
+                :person :3rd}}]}
+
+ ;; TODO: there are over- and under-
+ ;; generation problems with generating the following:
+ (comment "test case to cause the cycle: try to generate the following:"
+          {:rule "s"
+           :head {:rule "vp"
+                  :comp {:rule "vp-np"
+                         :cat :verb
+                         :head {:cat :verb
+                                :rule "vp-inf"
+                                :comp {:modal :te}}}}})
+ {:rule :modal-te
+  :if {:cat :verb
+       :modal :te}
+  :then [;; intransitive: "zij probeert"
+         (let [subj (atom :top)
+               obj (atom {:subj subj})]
+           {:sem {:subj subj
+                  :obj :none}
+            :reflexive false
+            :subcat {:1 {:sem subj}
+                     :2 []}}
+
+           ;; transitive: "zij probeert te zien"
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:subj subj}
+                     :2 {:cat :verb
+                         :phrasal true
+                         :sem obj
+                         :subcat {:2 []}
+                         :infl :te}}})]}
+
+ {:rule :modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive}
+  :then (let [subj (atom :top)
+              obj-with-subject-only (atom {:subj subj
+                                           :obj :none})
+              obj-with-subject-and-object (atom {:subj subj
+                                                 :obj {:top :top}})]
+              
+          [;; "ik kan"
+           {:sem {:obj :none}
+            :subcat {:2 []}}
+
+           ;;  "ik kan fietsen"
+           {:sem {:subj subj
+                  :obj obj-with-subject-only}
+            :subcat {:2 {:aux false
+                         :infl :infinitive
+                         :cat :verb
+                         :modal false
+                         :sem obj-with-subject-only
+                         :subcat {:1 {:sem subj}}}}}
+
+           ;;  "ik kan het zien"
+           {:sem {:subj subj
+                  :obj obj-with-subject-and-object}
+            :subcat {:2 {:aux false
+                         :infl :infinitive
+                         :cat :verb
+                         :modal false
+                         :subcat {:1 {:sem subj}}
+                         :sem obj-with-subject-and-object}}}])}
+
+ {:rule :ditransitive-false
+  :if {:cat :verb
+       :normal-transitive-defaults? true
+       :subcat {:3 ::unspec}}
+  :then [{:cat :verb
+          :subcat {:3 []}}]}
+
+ {:rule :possessive-is-definite
+  :if {:cat :det
+       :possessive? true}
+  :then [{:definite? true}]}
+ ]

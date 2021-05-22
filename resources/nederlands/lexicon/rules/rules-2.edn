@@ -41,6 +41,7 @@
             :sem {:obj obj}
             :subcat {:2 {:cat :noun
                          :reflexive false
+                         :case :acc
                          :subcat []
                          :sem obj}}})
 
@@ -61,7 +62,8 @@
                          :reflexive true
                          :cat :noun
                          :subcat []
-                         :sem obj}}})]}
+                         :sem obj
+                         :case :acc}}})]}
 
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb

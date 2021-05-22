@@ -13,8 +13,7 @@
                :ref {:human false}}}]
 
  "er" [{:case :nom
-        :sem {:existential? true}
-        :agr {:person :3rd}}]
+        :sem {:existential? true}}]
 
  "haar" [{:agr {:gender :fem
                 :number :sing

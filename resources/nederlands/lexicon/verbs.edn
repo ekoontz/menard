@@ -110,7 +110,7 @@
                     :subj {:ref {:context :polite}}
                     :agr {:person :2nd :number :sing}
                     :surface "kunt"}
-                   
+
                     {:infl :present
                      :agr {:person :3rd :number :sing}
                      :surface "kan"}
@@ -125,7 +125,7 @@
      :modal :infinitive
      :sem {:pred :be-able-to}
      :exceptions exceptions}])
- 
+
  "lezen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -162,7 +162,7 @@
 
  "ontworpen" [{:sem {:pred :design}}]
  "optreden" [{ :sem {:pred :perform}}]
- 
+
  "proberen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -177,7 +177,7 @@
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
- 
+
  "slapen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -218,7 +218,7 @@
                    ;; <http://www.verbix.com/webverbix/go.php?T1=tegengehouden&Submit=Go&D1=24&H1=124>
                    :exceptions [{:infl :past-simple
                                  :surface "tegenhield"}]}]
-                   
+
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
  "werken" [{:curriculum :basic
@@ -231,7 +231,7 @@
                          :agr {:number :sing}
                          :surface "weet"}
                         {:infl :past-simple
-                         :agr {:number :sing}                    
+                         :agr {:number :sing}
                          :surface "wist"}
                         {:infl :past-simple
                          :agr {:number :plur}
@@ -263,7 +263,7 @@
 
  "zeggen"
  (let [exceptions [{:infl :past-simple
-                    :agr {:number :sing}                    
+                    :agr {:number :sing}
                     :surface "zei"}
                    {:infl :past-simple
                     :agr {:number :plur}
@@ -271,7 +271,7 @@
    [{:curriculum :basic
      :exceptions exceptions
      :sem {:pred :say}}])
- 
+
  "zien"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -283,7 +283,7 @@
                     :agr {:person :3rd :number :sing}
                     :surface "ziet"}
                    {:infl :past-simple
-                    :agr {:number :sing}                    
+                    :agr {:number :sing}
                     :surface "zag"}
                    {:infl :past-simple
                     :agr {:number :plur}

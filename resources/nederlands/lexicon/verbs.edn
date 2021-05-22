@@ -292,51 +292,6 @@
      :exceptions exceptions
      :sem {:pred :see}}])
 
- "zijn"
- (let [exceptions [{:infl :present
-                    :agr {:person :1st :number :sing}
-                    :surface "ben"}
-                   {:infl :present
-                    :agr {:person :2nd :number :sing}
-                    :surface "bent"}
-                   {:infl :present
-                    :agr {:person :3rd :number :sing}
-                    :surface "is"}
-                   {:infl :past-simple
-                    :agr {:number :sing}
-                    :surface "was"}
-                   {:infl :past-simple
-                    :agr {:number :plur}
-                    :surface "waren"}]]
-   [{:curriculum :basic
-     :exceptions exceptions
-     :sense 1
-     :sem {:pred :be
-           :subj {:existential? false}}
-     :subcat {:1 {:top :top}
-              :2 []}}
-
-    ;; TODO: generalize this to a lexical rule;
-    ;; it's not just for "zijn", but all nonmodal verbs.
-    (let [semantic-subject (atom {:existential? false})
-          agr (atom :top)]
-      {:curriculum :basic
-       :agr agr
-       :exceptions exceptions
-       :reflexive false
-       :sense 2
-       :sem {:pred :be
-             :subj semantic-subject
-             :obj :none}
-       :subcat {:1 {:cat :noun
-                    :pronoun true
-                    :sem {:existential? true}}
-                :2 {:cat :noun
-                    :agr agr
-                    :subcat []
-                    :sem semantic-subject}
-                :3 []}})])
-
  "zingen"
  [{:curriculum :basic
    :sem {:pred :sing}

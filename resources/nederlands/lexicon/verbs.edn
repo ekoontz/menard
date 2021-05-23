@@ -292,6 +292,30 @@
      :exceptions exceptions
      :sem {:pred :see}}])
 
+ "zijn"
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "ben"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "bent"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "is"}
+                   {:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "was"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "waren"}]]
+   [{:curriculum :basic
+     :exceptions exceptions
+     :sense 1
+     :sem {:pred :be
+           :subj {:existential? false}}
+     :subcat {:1 {:top :top}
+              :2 []}}])
+
  "zingen"
  [{:curriculum :basic
    :sem {:pred :sing}

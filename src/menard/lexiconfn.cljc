@@ -111,8 +111,8 @@
   (if (empty? rules)
     lexicon
     (-> lexicon
-        (apply-rules-in-order (rest rules) rule-group)
-        (apply-rules-to-lexicon [(first rules)] false rule-group))))
+        (apply-rules-to-lexicon [(first rules)] false rule-group)
+        (apply-rules-in-order (rest rules) rule-group))))
 
 (def ^:dynamic lexicon)
 (def ^:dynamic morphology)

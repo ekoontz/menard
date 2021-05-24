@@ -15,16 +15,27 @@
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}
-  :then [(let [person (atom :top)
-               agr (atom {:person person})
-               subj (atom {:person person})]
+  :then [(let [agr (atom :top)]
            {:agr agr
-            :sem {:subj subj}
             :subcat {:1 {:agr agr
                          :cat :noun
                          :case :nom
-                         :sem subj
                          :subcat []}}})]}
+
+ {:rule :subject-is-subcat-1
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun
+                    :sem {:existential? ::unspec}}}}
+  :then [(let [person (atom :top)
+               subj (atom {:person person})]
+           {:agr {:person person}
+            :sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+
+ {:rule :subcat-2-is-acc
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [{:subcat {:2 {:case :acc}}}]}
 
  {:rule :propernouns-are-3rd-person-singular
   :if {:cat :noun

@@ -16,10 +16,7 @@
                     language-name))
      (let [lexical-rules (lexical-rules-fn)]
        ;; TODO: show count of rules in each set:
-       (log/info (str "loaded: " (count lexical-rules) " lexical rule sets; sizes: "
-                      (reduce (fn [a b]
-                                (string/join ", " [a b]))
-                              (map count lexical-rules)) "."))
+       (log/info (str "loaded: " (count lexical-rules) " lexical rules."))
        (let [lexicon (lexicon-fn lexical-rules)]
          (log/info (str "loaded: " (count (keys lexicon)) " lexeme keys."))
          (let [indices (fill-lexicon-indexes-fn lexicon)]

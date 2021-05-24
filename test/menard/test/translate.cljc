@@ -9,7 +9,7 @@
             #?(:cljs [cljslog.core :as log])))
 
 (defn nl-to-en-str [nl-str]
-  (->> nl-str nl/parse (take 1) first nl-to-en-spec en/generate en/morph))
+  (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))
 
 (deftest nodig
   (is (= (nl-to-en-str "ik heb het geld nodig")

@@ -49,10 +49,7 @@
 
 #?(:clj
    (defn load-lexical-rules []
-     [(l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-0.edn"))
-      (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-1.edn"))
-      (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-2.edn"))
-      (l/read-and-eval (model/use-path "nederlands/lexicon/rules/rules-3.edn"))]))
+     (l/read-and-eval (model/use-path "nederlands/lexicon/rules.edn"))))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
@@ -75,10 +72,7 @@
                                            lexeme
                                            (apply-fn lexeme))))))
            l/add-exceptions-to-lexicon
-           (l/apply-rules-in-order (nth lexical-rules 0) :0)
-           (l/apply-rules-in-order (nth lexical-rules 1) :1)
-           (l/apply-rules-in-order (nth lexical-rules 2) :2)
-           (l/apply-rules-in-order (nth lexical-rules 3) :3)))))
+           (l/apply-rules-in-order lexical-rules :0)))))
 
 #?(:clj
    (defn get-inflection-of [lexeme morphology]

@@ -1,0 +1,576 @@
+[{:rule :curriculum-is-none-default
+  :if {:curriculum ::none}
+  :then [{:curriculum ::none}]}
+ {:rule :null-is-false-by-default
+  :if {:null? false}
+  :then [{:null? false}]}
+ {:rule :noun-semantics
+  :if {:cat :noun
+       :null? false
+       :semantic-number-differs-from-agreement-number? false}
+  :then [(let [number (atom :top)]
+           {:agr {:number number}
+            :sem {:ref {:number number}}})]}
+
+ ;; nouns default to 'common' gender ('de X', not 'het X') if gender is not specified.
+ {:rule :noun-gender-common-default
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun false
+       :agr {:gender ::unspec}}
+  :then [{:agr {:gender :common}}]}
+
+ ;; an adjective in the lexicon has no modifiers
+ ;; (i.e. its [:sem :mod] is empty).
+ ;; however an adjective might have modifiers
+ ;; within a phrase e.g. in "heel klein",
+ ;; "klein" is modified by "heel":
+ ;;  {:pred :small,
+ ;;   :mod {:first {:pred :very}, :rest []},
+ ;;   :number? false})
+ ;; Note that we set both [:sem :mod] *and* [:mod]
+ ;; to empty - this is because an adjective
+ ;; might be head of an intensifier phrase
+ ;; e.g. 'echt kleine', where we will concatenate
+ ;; a :mod for the adjective and then finally, at
+ ;; a level when no more intensifiers are added,
+ ;; nest this :mod as the parent's [:sem :mod].
+ {:rule :adjective-semantics
+  :if {:cat :adjective
+       :null? false}
+  :then [(let [sem (atom {:mod []})]
+           {:sem sem
+            :mod []})]}
+
+ {:rule :aux-default-is-false
+  :if {:cat :verb
+       :aux ::unspec}
+  :then [{:aux false}]}
+
+ {:rule :dont-inflect-conjunctions
+  :if {:cat :conjunction}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-complementizers
+  :if {:cat :comp}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-intensifiers
+  :if {:cat :intensifier}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-neg
+  :if {:cat :neg}
+  :then [{:inflected? true}]}
+ 
+ {:rule :dont-inflect-prepositions
+  :if {:cat :prep}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-determiners
+  :if {:cat :det}
+  :then [{:inflected? true}]}
+
+ {:rule :intensifier-semantics
+  :if {:cat :intensifier}
+  :then [(let [sem (atom {:mod []})]
+           {:sem sem
+            :mod []})]}
+
+ {:rule :nouns-are-not-pronouns
+  :if {:cat :noun
+       :null? false
+       :pronoun ::unspec}
+  :then [{:pronoun false}]}
+
+ {:rule :nouns-are-not-propernouns
+  :if {:cat :noun
+       :null? false
+       :propernoun ::unspec}
+  :then [{:propernoun false}]}
+
+ {:rule :nouns-have-empty-modifiers
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :mod ::unspec}
+  :then [{:mod []}]}
+
+ {:rule :politeness-is-unspecified
+  :if {:cat :noun
+       :null? false
+       :sem {:context ::unspec}}
+  :then [{:sem {:context :none}}]}
+
+ {:rule :pronoun-have-empty-modifiers
+  :if {:cat :noun
+       :null? false
+       :pronoun true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernouns-have-empty-modifiers
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernouns-are-nonreflexive
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun true}
+  :then [{:reflexive false}]}
+
+ {:rule :pronouns-are-nonreflexive
+  :if {:cat :noun
+       :null? false
+       :pronoun true
+       :reflexive ::unspec
+       :propernoun false}
+  :then [{:reflexive false}]}
+
+ ;; if a verb does not specify a particular
+ ;; transitivity, generate both transitive and intransitive forms
+ ;; of the verb, where the second form has a noun second argument.
+ {:rule :subcat-unspecified-nonaux
+  :if {:cat :verb
+       :aux false
+       :modal false
+       :subcat {:1 {:cat :noun}
+                :2 ::unspec}}
+  :then [{:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 []}}
+         {:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 {:cat :noun
+                       :subcat []}}}]}
+
+ {:rule :modal-false-by-default
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+
+ {:rule :verbs-have-empty-modifiers
+  :if {:cat :verb
+       :mod ::unspec}
+  :then [{:mod []}]}
+ 
+ {:rule :adjectives-not-numbers-by-default
+  :if {:cat :adjective
+       :null? false
+       :sem {:number? ::unspec}}
+  :then [{:sem {:number? false}}]}
+
+ {:rule :conjunctions-subcat-adjective
+  :if {:cat :conjunction}
+  :then [(let [cat (atom :adjective)]
+           {:subcat {:1 {:cat cat}
+                     :2 {:cat cat}}})]}
+
+ {:rule :possessive-false-by-default
+  :if {:cat :det
+       :possessive? ::unspec}
+  :then [{:possessive? false}]}
+
+ {:rule :dont-inflect-pronouns
+  :if {:cat :noun
+       :null? false
+       :pronoun true}
+  :then [{:inflected? true
+          :subcat []}]}
+
+ {:rule :dont-inflect-propernouns
+  :if {:cat :noun
+       :null? false
+       :propernoun true}
+  :then [{:inflected? true
+          :subcat []}]}
+
+ {:rule :subject-verb-agreement
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :subcat []}}})]}
+
+ {:rule :subject-is-subcat-1
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun
+                    :sem {:existential? ::unspec}}}}
+  :then [(let [person (atom :top)
+               subj (atom {:person person})]
+           {:agr {:person person}
+            :sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+
+ {:rule :subcat-2-is-acc
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [{:subcat {:2 {:case :acc}}}]}
+
+ {:rule :propernoun-false
+  :if {:cat :noun
+       :propernoun ::unspec}
+  :then [{:propernoun false}]}
+
+ {:rule :propernouns-are-3rd-person-singular
+  :if {:cat :noun
+       :null? false
+       :pronoun false
+       :propernoun true}
+  :then [{:agr {:number :sing
+                :person :3rd}}]}
+
+ ;; TODO: there are over- and under-
+ ;; generation problems with generating the following:
+ (comment "test case to cause the cycle: try to generate the following:"
+          {:rule "s"
+           :head {:rule "vp"
+                  :comp {:rule "vp-np"
+                         :cat :verb
+                         :head {:cat :verb
+                                :rule "vp-inf"
+                                :comp {:modal :te}}}}})
+ {:rule :modal-te
+  :if {:cat :verb
+       :modal :te}
+  :then [;; intransitive: "zij probeert"
+         (let [subj (atom :top)
+               obj (atom {:subj subj})]
+           {:sem {:subj subj
+                  :obj :none}
+            :reflexive false
+            :subcat {:1 {:sem subj}
+                     :2 []}}
+
+           ;; transitive: "zij probeert te zien"
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:subj subj}
+                     :2 {:cat :verb
+                         :phrasal true
+                         :sem obj
+                         :subcat {:2 []}
+                         :infl :te}}})]}
+
+ {:rule :modal-false
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+  
+ {:rule :modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive
+       :subcat {:2 {:top :top}}}
+  :then (let [subj (atom :top)
+              obj-with-subject-only (atom {:subj subj
+                                           :obj :none})
+              obj-with-subject-and-object (atom {:subj subj
+                                                 :obj {:top :top}})]
+              
+          [;;  "ik kan fietsen"
+           {:sem {:subj subj
+                  :obj obj-with-subject-only}
+            :subcat {:2 {:aux false
+                         :infl :infinitive
+                         :cat :verb
+                         :modal false
+                         :sem obj-with-subject-only
+                         :subcat {:1 {:sem subj}}}}}
+
+           ;;  "ik kan het zien"
+           {:sem {:subj subj
+                  :obj obj-with-subject-and-object}
+            :subcat {:2 {:aux false
+                         :infl :infinitive
+                         :cat :verb
+                         :modal false
+                         :subcat {:1 {:sem subj}}
+                         :sem obj-with-subject-and-object}}}])}
+
+ {:rule :ditransitive-false
+  :if {:cat :verb
+       :normal-transitive-defaults? true
+       :subcat {:3 ::unspec}}
+  :then [{:cat :verb
+          :subcat {:3 []}}]}
+
+ {:rule :possessive-is-definite
+  :if {:cat :det
+       :possessive? true
+       :definite? ::unspec}
+  :then [{:definite? true}]}
+
+ ;; TODO: vertaalen alle voorbeelden comments van Engels tot Nederlands
+ {:rule :common-noun
+  :if {:cat :noun
+       :propernoun false
+       :pronoun false
+       :subcat ::unspec}
+  :then [(let [agr (atom {:person :3rd})
+               countable? (atom :top)
+               quant (atom :top)
+               arg1 (atom :top)
+               arg2 (atom :top)]
+           {:cat :noun
+            :reflexive false
+            :agr agr
+            :sem {:quant quant
+                  :countable? countable?
+                  :arg1 arg1
+                  :arg2 arg2}
+            :subcat {:1 {:cat :det
+                         :agr agr
+                         :sem {:countable? countable?
+                               :arg1 arg1
+                               :arg2 arg2
+                               :pred quant}}
+                     :2 []}})
+         {:cat :noun
+          :reflexive false
+          :agr {:number :plur
+                :person :3rd}
+          :sem {:quant :some}
+          :subcat []}]}
+  
+ {:rule :transitive-verbs ;; "ziet" in "zij ziet mij"
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
+         (let [subj (atom :top)
+               obj (atom {:top :top})]
+           {:derivation {:2 {:transitive-verbs {:reflexive false}}}
+            :reflexive false
+            :sem {:obj obj}
+            :subcat {:2 {:cat :noun
+                         :reflexive false
+                         :case :acc
+                         :subcat []
+                         :sem obj}}})
+
+         ;; reflexive: subject and object are the same semantically and by agreement.
+         (let [ref (atom :top)
+               subj (atom {:ref ref})
+               obj (atom {:ref ref})
+               agr (atom :top)]
+           {:derivation {:2 {:transitive-verbs {:reflexive true}}}
+            :agr agr
+            :reflexive true
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:agr agr
+                         :sem subj}
+                     :2 {:agr agr
+                         :phrasal false
+                         :reflexive true
+                         :cat :noun
+                         :subcat []
+                         :sem obj
+                         :case :acc}}})]}
+
+ {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 []}}
+  :then [(let [iobj (atom :top)]
+           {:sem {:iobj iobj}
+            :subcat {:2 {:cat :prep
+                         :sem {:obj iobj}}}})]}
+
+ {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 {:cat :noun}}}
+  :then [(let [iobj (atom :top)
+               obj (atom :top)]
+           {:sem {:iobj iobj
+                  :obj obj}
+            :subcat {:2 {:cat :prep
+                         :sem {:obj iobj}
+                         :subcat []}
+                     :3 {:cat :noun
+                         :case :acc
+                         :sem obj
+                         :subcat []}}})]}
+ 
+ {:rule :intransitive-verbs
+  :if {:cat :verb
+       :aux false
+       :normal-transitive-defaults? true
+       :subcat {:2 []}}
+  :then [{:sem {:obj :none}
+          :reflexive false
+          :subcat {:2 []}}]}
+
+ {:rule :aux-verbs-with-verb-arg
+  :if {:cat :verb
+       :aux true
+       :subcat {:2 {:cat :verb}}}
+  :then (let [agr (atom :top)
+              sem (atom :top)
+              subject (atom {:agr agr
+                             :cat :noun
+                             :subcat []})
+              reflexive (atom :top)
+              verb-argument
+              {:agr agr
+               :modal false
+               :reflexive reflexive
+               :slash false
+               :aux false
+               :cat :verb
+               :sem sem
+               :subcat {:1 subject
+                        :2 []}}
+              verb-argument-slash
+              {:agr agr
+               :modal false
+               :reflexive reflexive
+               :slash true
+               :aux false
+               :cat :verb
+               :sem sem
+               :subcat {:1 subject
+                        :2 {:top :top}}}]
+          
+          [;; [s .she *[vp-aux *has .seen]]
+           {:agr agr
+            :derivation {:2 {:aux-verbs-with-verb-arg {:sense 1}}}
+            :reflexive reflexive
+            :sem sem
+            :subcat {:1 subject
+                     :2 verb-argument}}
+
+           ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
+           {:agr agr
+            :derivation {:2 {:aux-verbs-with-verb-arg {:sense 2}}}
+            :reflexive reflexive
+            :sem sem
+            :subcat {:1 subject
+                     :2 verb-argument-slash}}])}
+
+ {:rule :reflexivity-te
+  :if {:cat :verb
+       :modal :te
+       :subcat {:2 {:top :top}}}
+  :then          
+  [;; transitive and non-reflexive: "zij probeert het te zien"
+   {:reflexive false
+    :subcat {:2 {:reflexive false
+                 :subcat {:2 []}}}}
+   
+   ;; transitive and reflexive: "zij probeert zich te zien"
+   {:reflexive true
+    :subcat {:2 {:reflexive true}}}]}
+ 
+ {:rule :reflexivity-infinitive
+  :if {:cat :verb
+       :modal :infinitive
+       :subcat {:2 {:top :top}}}
+  :then  [;;  "kan <vp[base,nonmodal]>" non-reflexive
+          {:reflexive false
+           :subcat {:2 {:reflexive false}}}
+          
+          ;;  "kan <vp[base,nonmodal]>" reflexive
+          {:reflexive true
+           :subcat {:2 {:reflexive true}}}]}
+
+ ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
+ {:rule :prep-arg-reflexivity
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 []}}
+  :then (let [iobj (atom :top)
+              agr (atom :top)]
+          [{:derivation {:sense 1} ;; "talks to her"
+            :reflexive false
+            :subcat {:2 {:reflexive false}}}
+           {:derivation {:sense 2} ;; "talks to herself"
+            :reflexive true
+            :sem {:subj iobj
+                  :iobj iobj}
+            :subcat {:1 {:agr agr}
+                     :2 {:reflexive true
+                         :agr agr
+                         :sem {:obj iobj}}}}])}
+
+ {:rule :ditransitive-reflexivity
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}
+                :3 {:cat :noun}}}
+  :then (let [obj (atom :top)
+              iobj (atom :top)
+              agr (atom :top)]
+          [{:derivation {:sense 1}
+            :reflexive false
+            :subcat {:2 {:reflexive false}
+                     :3 {:reflexive false}}}
+           {:derivation {:sense 2} ;; "puts the table on himself"
+            :reflexive true
+            :sem {:subj iobj
+                  :iobj iobj}
+            :subcat {:1 {:agr agr}
+                     :2 {:reflexive true
+                         :agr agr
+                         :sem {:obj iobj}}
+                     :3 {:reflexive false}}}
+           {:derivation {:sense 3} ;; "puts himself on the table"
+            :reflexive true
+            :sem {:subj obj
+                  :obj obj}
+            :subcat {:1 {:agr agr}
+                     :2 {:reflexive false}
+                     :3 {:agr agr
+                         :sem obj
+                         :reflexive true}}}])}
+
+ ;; TODO: add semantics for both [:subcat :2]'s.
+ {:rule :verb-with-s
+  :if {:cat :verb
+       :subcat {:2 {:rule "s"
+                    :cat :verb
+                    :subcat []}}}
+  :then [{:subcat {:2 {:subcat []}
+                   :3 []}}]}
+
+ ;; TODO: add semantics for both [:subcat :2]'s.
+ {:rule :verb-with-comp2
+  :if {:cat :verb
+       :subcat {:2 {:rule "comp2"
+                    :cat :comp
+                    :subcat []}}}
+  :then [{:subcat {:2 {:subcat []}
+                   :3 []}}]}
+
+ {:rule :nested-obj-null
+  :if {:cat :verb
+       :modal false
+       :normal-transitive-defaults? ::unspec
+       :sem {:obj {:obj ::unspec}}}
+  :then [{:sem {:obj {:obj :none}}}]}
+
+
+ {:rule :third-person-accusative-pronoun-allowed-at-beginning?
+  :if {:cat :noun
+       :case :accusative
+       :pronoun true
+       :agr {:person :3rd}
+       :beginning-of-sentence? ::unspec
+       :null? false}
+  :then [{:beginning-of-sentence? false}]}
+ ]
+
+         
+
+
+
+ 
+

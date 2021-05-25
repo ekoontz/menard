@@ -569,6 +569,7 @@
 
  {:rule :existential-false
   :if {:cat :noun
+       :pronoun true
        :sem {:existential? ::unspec}}
   :then [{:sem {:existential? false}}]}
 

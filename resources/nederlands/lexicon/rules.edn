@@ -566,6 +566,12 @@
        :beginning-of-sentence? ::unspec
        :null? false}
   :then [{:beginning-of-sentence? false}]}
+
+ {:rule :existential-false
+  :if {:cat :noun
+       :sem {:existential? ::unspec}}
+  :then [{:sem {:existential? false}}]}
+
  ]
 
          

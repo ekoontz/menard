@@ -141,10 +141,11 @@
        :aux false
        :modal false
        :subcat {:1 {:cat :noun}
-                :2 ::unspec}}
+                :2 ::unspec}
+       :sem {:obj ::unspec}}
   :then [{:subcat {:1 {:cat :noun
-                       :subcat []}
-                   :2 []}}
+                       :subcat []}}
+          :sem {:obj :none}}
          {:subcat {:1 {:cat :noun
                        :subcat []}
                    :2 {:cat :noun
@@ -298,7 +299,7 @@
 
  {:rule :ditransitive-false
   :if {:cat :verb
-       :normal-transitive-defaults? true
+       :te? false
        :subcat {:3 ::unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}
@@ -343,12 +344,14 @@
   
  {:rule :transitive-verbs ;; "ziet" in "zij ziet mij"
   :if {:cat :verb
+       :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
                obj (atom {:top :top})]
            {:reflexive false
-            :sem {:obj obj}
+            :sem {:subj subj
+                  :obj obj}
             :subcat {:2 {:cat :noun
                          :reflexive false
                          :case :acc
@@ -402,7 +405,7 @@
  {:rule :intransitive-verbs
   :if {:cat :verb
        :aux false
-       :normal-transitive-defaults? true
+       :te? false
        :subcat {:2 []}}
   :then [{:sem {:obj :none}
           :reflexive false
@@ -544,7 +547,7 @@
  {:rule :nested-obj-null
   :if {:cat :verb
        :modal false
-       :normal-transitive-defaults? ::unspec
+       :te? false
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
 

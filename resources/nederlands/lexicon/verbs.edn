@@ -87,9 +87,9 @@
                     :agr {:number :plur}
                     :surface "kwamen"}]]
    [{:curriculum :basic
-     :sem {:pred :come}
-     :subcat {:2 []}
-     :exceptions exceptions}])
+     :sem {:pred :come
+           :obj :none}
+      :exceptions exceptions}])
 
  "kunnen" ;; F. 40.1
  (let [exceptions [{:infl :present
@@ -191,17 +191,16 @@
    [{:curriculum :basic
      :exceptions exceptions
      :sem {:pred :sleep
-           :subj {:prop {:animate true}}} ;; TODO: move to encyclopedia.
-
-     :subcat {:2 []}}])
+           :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+           :obj :none}}])
 
  "te"
  [(let [sem (atom :top)
         reflexive? (atom :top)]
     {:curriculum :basic
      :infl :te
+     :te? true
      :inflected? true
-     :normal-transitive-defaults? false
      :reflexive reflexive?
      :sem sem
      :subcat {:1 {:cat :verb
@@ -222,8 +221,8 @@
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
  "werken" [{:curriculum :basic
-            :sem {:pred :work}
-            :subcat {:2 []}}]
+            :sem {:pred :work
+                  :obj :none}}]
 
  "weten" [{:curriculum :basic
            :sem {:pred :know}
@@ -241,10 +240,9 @@
 
  "veroorzaaken" [{:sem {:pred :cause}}]
 
- "verpesten" [{:sem {:pred :ruin}
-               :subcat {:2 {:cat :noun}}}]
+ "verpesten" [{:sem {:pred :ruin}}]
 
- "vinden" [(let [obj (atom :top)]
+ "vinden" [(let [obj (atom {:top :top})]
              {:curriculum :basic
               :sem {:pred :like
                     :obj obj}
@@ -310,16 +308,11 @@
                     :surface "waren"}]]
    [{:curriculum :basic
      :exceptions exceptions
-     :sense 1
-     :sem {:pred :be
-           :subj {:existential? false}}
-     :subcat {:1 {:top :top}
-              :2 []}}])
-
+     :sem {:pred :be}}])
+   
  "zingen"
  [{:curriculum :basic
    :sem {:pred :sing}
-   :subcat {:2 []}
    :exceptions [{:infl :past-simple
                  :agr {:number :sing}
                  :surface "zong"}

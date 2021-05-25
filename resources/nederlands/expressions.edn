@@ -484,8 +484,7 @@
   :sem {:obj :none}
   :comp {:phrasal false :canonical "er"}
   :head {:rule "vp"
-         :head {:phrasal false
-                :canonical "zijn"}}}
+         :head {:phrasal false}}}
  ]
 
   

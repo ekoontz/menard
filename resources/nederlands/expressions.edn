@@ -355,7 +355,8 @@
   :phrasal true,
   :reflexive false
   :sem {:pred :must
-        :subj {:pred :we}
+        :subj {:pred :we
+               :existential? false}
         :obj {:obj {:pred :corona}
               :mod {:first {:pred :together}}
               :pred :overcome}}
@@ -384,7 +385,8 @@
   :phrasal true,
   :reflexive false
   :sem {:pred :must
-        :subj {:pred :top}
+        :subj {:pred :top
+               :existential? false}
         :obj {:obj {:pred :top}
               :mod {:first {:pred :top}}
               :pred :top}}

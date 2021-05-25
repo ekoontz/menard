@@ -347,8 +347,7 @@
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
                obj (atom {:top :top})]
-           {:derivation {:2 {:transitive-verbs {:reflexive false}}}
-            :reflexive false
+           {:reflexive false
             :sem {:obj obj}
             :subcat {:2 {:cat :noun
                          :reflexive false
@@ -361,8 +360,7 @@
                subj (atom {:ref ref})
                obj (atom {:ref ref})
                agr (atom :top)]
-           {:derivation {:2 {:transitive-verbs {:reflexive true}}}
-            :agr agr
+           {:agr agr
             :reflexive true
             :sem {:subj subj
                   :obj obj}

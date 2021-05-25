@@ -152,6 +152,33 @@
                        :subcat []}}
           :sem {:obj {:top :top}}}]}
 
+ {:rule :existential-verb
+  :if {:cat :verb
+       :te? false
+       :modal false
+       :sem {:obj :none}}
+  :then [;; 1. non-existential, intransitive:
+         {:sem {:subj {:existential? false}}
+          :subcat {:2 []}}
+         
+         ;; 2. existential, intransitive
+         ;; the 'semantic-subject' is the meaningful subject of the
+         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
+         ;; merely syntactic subject, 'er'.
+         (let [semantic-subject (atom {:existential? false})
+               agr (atom :top)]
+           {:reflexive false
+            :agr agr
+            :sem {:subj semantic-subject}
+            :subcat {:1 {:cat :noun
+                         :pronoun true
+                         :sem {:existential? true}}
+                     :2 {:cat :noun
+                         :subcat []
+                         :agr agr
+                         :sem semantic-subject}
+                     :3 []}})]}
+
  {:rule :modal-false-by-default
   :if {:cat :verb
        :modal ::unspec}

@@ -149,7 +149,8 @@
          {:subcat {:1 {:cat :noun
                        :subcat []}
                    :2 {:cat :noun
-                       :subcat []}}}]}
+                       :subcat []}}
+          :sem {:obj {:top :top}}}]}
 
  {:rule :modal-false-by-default
   :if {:cat :verb
@@ -214,6 +215,7 @@
 
  {:rule :subcat-2-is-acc
   :if {:cat :verb
+       :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [{:subcat {:2 {:case :acc}}}]}
 
@@ -379,6 +381,7 @@
 
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
+       :sem {:obj {:top :top}}
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then [(let [iobj (atom :top)]
@@ -405,9 +408,10 @@
  {:rule :intransitive-verbs
   :if {:cat :verb
        :aux false
-       :te? false
-       :subcat {:2 []}}
-  :then [{:sem {:obj :none}
+       :te? ::unspec
+       :sem {:obj :none}
+       :subcat {:2 ::unspec}}
+  :then [{:te? false
           :reflexive false
           :subcat {:2 []}}]}
 
@@ -485,6 +489,7 @@
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
+       :sem {:obj {:top :top}}
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then (let [iobj (atom :top)

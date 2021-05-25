@@ -349,7 +349,7 @@
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
-         (let [subj (atom :top)
+         (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
            {:reflexive false
             :sem {:subj subj
@@ -362,7 +362,8 @@
 
          ;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
-               subj (atom {:ref ref})
+               subj (atom {:ref ref
+                           :existential? false})
                obj (atom {:ref ref})
                agr (atom :top)]
            {:agr agr

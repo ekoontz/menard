@@ -264,13 +264,13 @@
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
           [;; "I can/could"
-           {:derivation {:0 {:modal-base-1 {:marker 1}}}
+           {:derivation {:modal-base-1 {:marker 1}}
             :inflected? true
             :sem {:obj :none}
             :subcat {:2 []}} ;; "can"
 
            ;;  "can/could <vp[base,nonmodal]>" non-reflexive
-           {:derivation {:0 {:modal-base-1 {:marker 2}}}
+           {:derivation {:modal-base-1 {:marker 2}}
             :inflected? true
             :sem {:subj subj
                   :obj obj}
@@ -425,7 +425,7 @@
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom :top)
                obj (atom {:obj :none})]
-           {:derivation {:0 {:transitive-verbs {:reflexive false}}}
+           {:derivation {:transitive-verbs {:reflexive false}}
             :reflexive false
             :sem {:obj obj}
             :subcat {:2 {:cat :noun
@@ -439,7 +439,7 @@
                obj (atom {:ref ref
                           :obj :none})
                agr (atom :top)]
-           {:derivation {:0 {:transitive-verbs {:reflexive true}}}
+           {:derivation {:transitive-verbs {:reflexive true}}
             :agr agr
             :reflexive true
             :sem {:subj subj
@@ -462,12 +462,12 @@
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
           [;;  "can see her"
-           {:derivation {:0 {:modal-base-2 {:marker 1}}}
+           {:derivation {:modal-base-2 {:marker 1}}
             :reflexive false
             :subcat {:2 {:reflexive false}}}
 
            ;;  "can see herself"
-           {:derivation {:0 {:modal-base-2 {:marker 2}}}
+           {:derivation {:modal-base-2 {:marker 2}}
             :reflexive true
             :subcat {:2 {:reflexive true}}}])}
  
@@ -538,7 +538,7 @@
           
           [;; [s .she *[vp-aux *has .seen]]
            {:agr agr
-            :derivation {:0 {:aux-verbs-with-verb-arg {:sense 1}}}
+            :derivation {:aux-verbs-with-verb-arg {:sense 1}}
             :reflexive reflexive
             :sem sem
             :subcat {:1 subject
@@ -546,7 +546,7 @@
 
            ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
            {:agr agr
-            :derivation {:0 {:aux-verbs-with-verb-arg {:sense 2}}}
+            :derivation {:aux-verbs-with-verb-arg {:sense 2}}
             :reflexive reflexive
             :sem sem
             :subcat {:1 subject
@@ -571,10 +571,10 @@
                 :3 []}}
   :then (let [iobj (atom :top)
               agr (atom :top)]
-          [{:derivation {:0 {:prep-arg-reflexivity {:sense 1}}} ;; "talks to her"
+          [{:derivation {:prep-arg-reflexivity {:sense 1}} ;; "talks to her"
             :reflexive false
             :subcat {:2 {:reflexive false}}}
-           {:derivation {:0 {:prep-arg-reflexivity {:sense 2}}} ;; "talks to herself"
+           {:derivation {:prep-arg-reflexivity {:sense 2}} ;; "talks to herself"
             :reflexive true
             :sem {:subj iobj
                   :iobj iobj}
@@ -590,11 +590,11 @@
   :then (let [obj (atom :top)
               iobj (atom :top)
               agr (atom :top)]
-          [{:derivation {:sense 1}
+          [{:derivation {:ditransitive-reflexivity {:sense 1}}
             :reflexive false
             :subcat {:2 {:reflexive false}
                      :3 {:reflexive false}}}
-           {:derivation {:0 {:ditransitive-reflexivity {:sense 2}}} ;; "puts the table on himself"
+           {:derivation {:ditransitive-reflexivity {:sense 2}} ;; "puts the table on himself"
             :reflexive true
             :sem {:subj iobj
                   :iobj iobj}
@@ -603,7 +603,7 @@
                          :agr agr
                          :sem {:obj iobj}}
                      :3 {:reflexive false}}}
-           {:derivation {:0 {:ditransitive-reflexivity {:sense 3}}} ;; "puts himself on the table"
+           {:derivation {:ditransitive-reflexivity {:sense 3}} ;; "puts himself on the table"
             :reflexive true
             :sem {:subj obj
                   :obj obj}

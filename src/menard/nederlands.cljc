@@ -72,7 +72,7 @@
                                            lexeme
                                            (apply-fn lexeme))))))
            l/add-exceptions-to-lexicon
-           (l/apply-rules-in-order lexical-rules :0)))))
+           (l/apply-rules-in-order lexical-rules)))))
 
 #?(:clj
    (defn get-inflection-of [lexeme morphology]

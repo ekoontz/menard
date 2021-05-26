@@ -20,7 +20,7 @@
 ;; and set this to true if that flag is on.
 (def ^:dynamic include-derivation? true)
 
-(defn apply-rule [rule lexeme consequent antecedent rule-group]
+(defn apply-rule [rule lexeme consequent antecedent]
   (let [result (unify lexeme consequent)]
     (log/debug (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
                     "; result: " result))
@@ -37,10 +37,10 @@
               (log/debug (str "include-derivation? set to: " include-derivation?))
               [(if (and include-derivation? rule)
                  (unify result
-                        {:derivation {rule-group {rule {:match? true}}}})
+                        {:derivation {rule {:match? true}}})
                  result)]))))
 
-(defn apply-rules [rules lexeme if-no-rules-matched? rule-group]
+(defn apply-rules [rules lexeme if-no-rules-matched?]
   (let [with-rules
          (->> rules
               (filter #(let [{antecedent :if} %]
@@ -51,16 +51,16 @@
                          (log/debug (str "processing lexeme: " (u/get-in lexeme [:canonical])
                                         "; rule:" rule))
                          (mapcat (fn [consequent]
-                                    (apply-rule rule lexeme consequent antecedent rule-group))
+                                    (apply-rule rule lexeme consequent antecedent))
                                 consequents))))]
     (cond (seq with-rules)
           with-rules
           (and if-no-rules-matched? include-derivation?)
-          [(unify lexeme {:derivation {rule-group {::no-rules-matched? true}}})]
+          [(unify lexeme {:derivation {::no-rules-matched? true}})]
           :else
           [lexeme])))
 
-(defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched? rule-group]
+(defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched?]
   (into {}
         (for [k (sort (keys lexicon))]
           (let [lexemes (get lexicon k)]
@@ -68,7 +68,7 @@
             (when (seq lexemes)
               [k (->> lexemes
                       (mapcat (fn [lexeme]
-                                (apply-rules rules lexeme if-no-rules-matched? rule-group)))
+                                (apply-rules rules lexeme if-no-rules-matched?)))
                       (mapcat (fn [lexeme]
                                 [(unify lexeme
                                         {:phrasal false
@@ -107,12 +107,12 @@
 #?(:cljs
    (defn read-and-eval [rules-filename]))
 
-(defn apply-rules-in-order [lexicon rules rule-group]
+(defn apply-rules-in-order [lexicon rules]
   (if (empty? rules)
     lexicon
     (-> lexicon
-        (apply-rules-to-lexicon [(first rules)] false rule-group)
-        (apply-rules-in-order (rest rules) rule-group))))
+        (apply-rules-to-lexicon [(first rules)] false)
+        (apply-rules-in-order (rest rules)))))
 
 (def ^:dynamic lexicon)
 (def ^:dynamic morphology)

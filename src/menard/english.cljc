@@ -60,7 +60,7 @@
                                            lexeme
                                            (unify lexeme unify-with))))))
            l/add-exceptions-to-lexicon
-           (l/apply-rules-in-order lexical-rules :0)))))
+           (l/apply-rules-in-order lexical-rules)))))
 
 #?(:clj
    (defn load-lexicon [lexical-rules]

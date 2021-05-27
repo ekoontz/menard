@@ -418,41 +418,6 @@
           :interogative? false
           :reflexive false
           :subcat []}]}
- 
- {:rule :transitive-verbs ;; "sees" in "she sees him"
-  :if {:cat :verb
-       :subcat {:2 {:cat :noun}}}
-  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
-         (let [subj (atom :top)
-               obj (atom {:obj :none})]
-           {:derivation {:transitive-verbs {:reflexive false}}
-            :reflexive false
-            :sem {:obj obj}
-            :subcat {:2 {:cat :noun
-                         :reflexive false
-                         :case :acc
-                         :sem obj}}})
-
-         ;; reflexive: subject and object are the same semantically and by agreement.
-         (let [ref (atom :top)
-               subj (atom {:ref ref})
-               obj (atom {:ref ref
-                          :obj :none})
-               agr (atom :top)]
-           {:derivation {:transitive-verbs {:reflexive true}}
-            :agr agr
-            :reflexive true
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:1 {:agr agr
-                         :sem subj}
-                     :2 {:agr agr
-                         :phrasal false
-                         :reflexive true
-                         :pronoun true
-                         :cat :noun
-                         :sem obj
-                         :case :acc}}})]}
 
  {:rule :modal-base-2 ;; "must" in "it must be"
   :if {:cat :verb

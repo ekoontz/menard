@@ -63,6 +63,36 @@
                      :2 []}
             :sem {:obj obj}})]}
 
+ {:rule :existential-verb
+  :if {:cat :verb
+       :modal false
+       :subcat {:2 ::unspec}
+       :sem {:subj {:existential? ::unspec}
+             :obj :none}}
+  :then [;; 1. non-existential, intransitive:
+         {:sem {:subj {:existential? false}}
+          :derivation {:existential-verb {:sense 1}}
+          :subcat {:2 []}}
+         
+         ;; 2. existential, intransitive
+         ;; the 'semantic-subject' is the meaningful subject of the
+         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
+         ;; merely syntactic subject, 'er'.
+         (let [semantic-subject (atom {:existential? false})
+               agr (atom :top)]
+           {:reflexive false
+            :derivation {:existential-verb {:sense 2}}
+            :agr agr
+            :sem {:subj semantic-subject}
+            :subcat {:1 {:cat :noun
+                         :pronoun true
+                         :sem {:existential? true}}
+                     :2 {:cat :noun
+                         :subcat []
+                         :agr agr
+                         :sem semantic-subject}
+                     :3 []}})]}
+ 
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument.

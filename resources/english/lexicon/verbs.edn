@@ -28,19 +28,22 @@
             subject-adjective {:1 {:cat :noun}
                                :2 {:cat :adjective}
                                :3 []}]
-        [{:sem {:pred :be}
+        [{:sense 1
+          :sem {:pred :be
                 :obj :none}
           :subcat subject-only
           :exceptions exceptions}
-         {:sem {:pred :be}
+         {:sense 2
+          :sem {:pred :be}
           :subcat subject-object-noun
           :exceptions exceptions}
-         {:reflexive false
+         {:sense 3
+          :reflexive false
           :sem {:pred :be}
           :subcat subject-adjective
           :exceptions exceptions}
          { ;; "is sleeping"
-          :derivation {:sense 4}
+          :sense 4
           :aux true
           :infl :present
           :sem {:tense :present
@@ -48,7 +51,7 @@
           :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
          { ;; "is" (aux sense)
-          :derivation {:sense 5}
+          :sense 5
           :aux true
           :infl :present
           :sem {:tense :present
@@ -57,7 +60,7 @@
           :subcat {:2 []}
           :exceptions exceptions}
          { ;; "was sleeping"
-          :derivation {:sense 6}
+          :sense 6
           :aux true
           :infl :past-simple
           :sem {:tense :past
@@ -65,7 +68,7 @@
           :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
          { ;; "was" (aux sense)
-          :derivation {:sense 7}
+          :sense 7
           :aux true
           :infl :past-simple
           :sem {:tense :past

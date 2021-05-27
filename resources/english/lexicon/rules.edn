@@ -75,12 +75,14 @@
   :then [{:modal false
           :subcat {:1 {:cat :noun
                        :subcat []}
-                   :2 []}}
+                   :2 []}
+          :derivation {:subcat-unspecified-nonaux {:sense 1}}}
          {:modal false
           :subcat {:1 {:cat :noun
                        :subcat []}
                    :2 {:cat :noun
-                       :subcat []}}}]}
+                       :subcat []}}
+          :derivation {:subcat-unspecified-nonaux {:sense 2}}}]}
  
  {:rule :aux-default-is-false
   :if {:cat :verb

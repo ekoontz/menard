@@ -29,6 +29,7 @@
                                :2 {:cat :adjective}
                                :3 []}]
         [{:sem {:pred :be}
+                :obj :none}
           :subcat subject-only
           :exceptions exceptions}
          {:sem {:pred :be}

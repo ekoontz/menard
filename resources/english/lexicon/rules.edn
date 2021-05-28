@@ -123,6 +123,7 @@
                          :sem subj
                          :subcat []}
                      :2 {:cat :noun
+                         :pronoun true
                          :agr agr
                          :reflexive true
                          :case :acc

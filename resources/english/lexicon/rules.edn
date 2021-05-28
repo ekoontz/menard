@@ -63,15 +63,21 @@
                      :2 []}
             :sem {:obj obj}})]}
 
- {:rule :existential-verb
+ ;; if a verb does not specify a particular
+ ;; transitivity, generate both transitive and intransitive forms
+ ;; of the verb, where the second form has a noun second argument.
+
+ {:rule :subcat-frames
   :if {:cat :verb
        :modal false
+       :aux false
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
-             :obj :none}}
+             :obj ::unspec}}
   :then [;; 1. non-existential, intransitive:
-         {:sem {:subj {:existential? false}}
-          :derivation {:existential-verb {:sense 1}}
+         {:sem {:subj {:existential? false}
+                :obj :none}
+          :derivation {:subcat-frames {:sense 1}}
           :subcat {:2 []}}
 
          ;; 2. existential, intransitive
@@ -81,9 +87,10 @@
          (let [semantic-subject (atom {:existential? false})
                agr (atom :top)]
            {:reflexive false
-            :derivation {:existential-verb {:sense 2}}
+            :derivation {:subcat-frames {:sense 2}}
             :agr agr
-            :sem {:subj semantic-subject}
+            :sem {:subj semantic-subject
+                  :obj :none}
             :subcat {:1 {:cat :noun
                          :pronoun true
                          :sem {:existential? true}}
@@ -91,29 +98,41 @@
                          :subcat []
                          :agr agr
                          :sem semantic-subject}
-                     :3 []}})]}
- 
- ;; if a verb does not specify a particular
- ;; transitivity, generate both transitive and intransitive forms
- ;; of the verb, where the second form has a noun second argument.
- {:rule :subcat-unspecified-nonaux
-  :if {:cat :verb
-       :aux false
-       :modal false
-       :subcat {:1 {:cat :noun}
-                :2 ::unspec}}
-  :then [{:modal false
-          :subcat {:1 {:cat :noun
-                       :subcat []}
-                   :2 []}
-          :derivation {:subcat-unspecified-nonaux {:sense 1}}}
-         {:modal false
-          :subcat {:1 {:cat :noun
-                       :subcat []}
-                   :2 {:cat :noun
-                       :subcat []}}
-          :derivation {:subcat-unspecified-nonaux {:sense 2}}}]}
- 
+                     :3 []}})
+
+         (let [subj (atom {:existential? false})
+               obj (atom {:existential? false})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []}
+                     :2 {:cat :noun
+                         :reflexive false
+                         :case :acc
+                         :sem obj
+                         :subcat []}}
+            :reflexive false
+            :sem {:subj subj
+                  :obj obj}
+            :derivation {:subcat-frames {:sense 3}}})
+
+         (let [subj (atom {:existential? false})
+               obj (atom {:existential? false})
+               agr (atom :top)]
+           {:subcat {:1 {:cat :noun
+                         :agr agr
+                         :sem subj
+                         :subcat []}
+                     :2 {:cat :noun
+                         :agr agr
+                         :reflexive true
+                         :case :acc
+                         :sem obj
+                         :subcat []}}
+            :reflexive true
+            :sem {:subj subj
+                  :obj obj}
+            :derivation {:subcat-frames {:sense 4}}})]}
+  
  {:rule :aux-default-is-false
   :if {:cat :verb
        :aux ::unspec}
@@ -244,7 +263,7 @@
        :propernoun true}
   :then [{:inflected? true}]}
 
- ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
+ ;; TODO: move reflexive and agreement stuff to another rule so that
  ;; modal-infinitive is simpler and clearer.
  {:rule :modal-infinitive
   :if {:cat :verb

@@ -9,33 +9,17 @@
                         {:infl :past-simple :agr {:person :2nd} :surface "were"}
                         {:infl :past-simple :surface "was"}
                         {:infl :past-participle :surface "been"}]
-            ;; the 3 possible subcategorizations for "be":
-            ;; 1. "I am"
-            subject-only {:1 {:cat :noun}
-                          :2 []}
-
-            ;; 2. "I am a student"
-            subject-object-noun
-            (let [number (atom :top)]
-              {:1 {:cat :noun
-                   :agr {:number number}}
-               :2 {:cat :noun
-                   :subcat []
-                   :agr {:number number}}
-               :3 []})
-
-            ;; 3. "I am sure"
+            ;; "I am sure"
             subject-adjective {:1 {:cat :noun}
                                :2 {:cat :adjective}
                                :3 []}]
         [{:sense 1
           :sem {:pred :be
                 :obj :none}
-          :subcat subject-only
           :exceptions exceptions}
          {:sense 2
-          :sem {:pred :be}
-          :subcat subject-object-noun
+          :sem {:pred :be
+                :obj {:top :top}}
           :exceptions exceptions}
          {:sense 3
           :reflexive false

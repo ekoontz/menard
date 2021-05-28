@@ -489,15 +489,6 @@
                          :case :acc
                          :sem obj
                          :subcat []}}})]}
- 
- {:rule :intransitive-verbs
-  :if {:cat :verb
-       :normal-transitive-defaults? true
-       :aux false
-       :subcat {:2 []}}
-  :then [{:sem {:obj :none}
-          :reflexive false
-          :subcat {:2 []}}]}
 
  {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb

@@ -399,10 +399,7 @@
          ;; need some money
          {:sense 2
           :sem {:pred :need}
-          :modal false
-          :subcat {:1 {:cat :noun} 
-                   :2 {:cat :noun :subcat []}
-                   :3 []}}]
+          :modal false}]
 
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]

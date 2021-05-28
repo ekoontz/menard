@@ -75,10 +75,12 @@
        :sem {:subj {:existential? ::unspec}
              :obj ::unspec}}
   :then [;; 1. non-existential, intransitive:
-         {:sem {:subj {:existential? false}
-                :obj :none}
-          :derivation {:subcat-frames {:sense 1}}
-          :subcat {:2 []}}
+         (let [subj (atom {:existential? false})]
+           {:sem {:subj subj
+                  :obj :none}
+            :derivation {:subcat-frames {:sense 1}}
+            :subcat {:1 {:sem subj}
+                     :2 []}})
 
          ;; 2. existential, intransitive
          ;; the 'semantic-subject' is the meaningful subject of the

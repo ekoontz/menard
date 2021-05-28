@@ -73,7 +73,7 @@
          {:sem {:subj {:existential? false}}
           :derivation {:existential-verb {:sense 1}}
           :subcat {:2 []}}
-         
+
          ;; 2. existential, intransitive
          ;; the 'semantic-subject' is the meaningful subject of the
          ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the

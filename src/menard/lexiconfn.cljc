@@ -77,12 +77,6 @@
                                         {:phrasal false
                                          :canonical (u/get-in lexeme [:canonical] k)})])))])))))
 
-(defn apply-to-every-lexeme [lexicon map-fn]
-  (into {}
-        (for [[k lexemes-for-k] lexicon]
-          [k
-           (map map-fn lexemes-for-k)])))
-
 (defn apply-rules-in-order [lexicon rules & [i]]
   (if (empty? rules)
     lexicon
@@ -90,6 +84,12 @@
       (-> lexicon
           (apply-rules-to-lexicon [(first rules)] false)
           (apply-rules-in-order (rest rules) (+ i 1))))))
+
+(defn apply-to-every-lexeme [lexicon map-fn]
+  (into {}
+        (for [[k lexemes-for-k] lexicon]
+          [k
+           (map map-fn lexemes-for-k)])))
 
 #?(:clj
    (defn read-and-eval [rules-filename]

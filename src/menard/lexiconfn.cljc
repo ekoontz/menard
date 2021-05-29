@@ -83,6 +83,14 @@
           [k
            (map map-fn lexemes-for-k)])))
 
+(defn apply-rules-in-order [lexicon rules & [i]]
+  (if (empty? rules)
+    lexicon
+    (let [i (or i 0)]
+      (-> lexicon
+          (apply-rules-to-lexicon [(first rules)] false)
+          (apply-rules-in-order (rest rules) (+ i 1))))))
+
 #?(:clj
    (defn read-and-eval [rules-filename]
      (log/debug (str "read-and-eval with rules-filename: " rules-filename))
@@ -109,14 +117,6 @@
 ;; about it being undefined.
 #?(:cljs
    (defn read-and-eval [rules-filename]))
-
-(defn apply-rules-in-order [lexicon rules & [i]]
-  (if (empty? rules)
-    lexicon
-    (let [i (or i 0)]
-      (-> lexicon
-          (apply-rules-to-lexicon [(first rules)] false)
-          (apply-rules-in-order (rest rules) (+ i 1))))))
 
 (def ^:dynamic lexicon)
 (def ^:dynamic morphology)

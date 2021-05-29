@@ -22,7 +22,7 @@
 
 (defn apply-rule-to-lexeme [rule lexeme consequent antecedent]
   (let [result (unify lexeme consequent)]
-    (log/debug (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
+    (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
                     "; result: " result))
     (cond (= :fail result)
           (let [error-message (str "rule: " rule " failed to unify lexeme: "
@@ -34,7 +34,7 @@
             (log/error error-message)
             (exception error-message))
           :else
-          (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
+          (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
               (if (and include-derivation? rule)
                 (unify result
@@ -42,7 +42,10 @@
                                            ::i 42}}})
                 result)))))
 
-(defn apply-rules-to-lexeme [rules lexeme if-no-rules-matched?]
+(defn apply-rules-to-lexeme
+  "given a lexeme and a list of rules, return a list of all the possible lexemes following from the consequent of each rule in the list."
+  [rules lexeme if-no-rules-matched?]
+  (log/debug (str "apply-rules-to-lexeme: applying " (count rules) " to lexeme: " lexeme))
   (let [with-rules
          (->> rules
               (filter #(let [{antecedent :if} %]
@@ -51,14 +54,12 @@
                               antecedent :if
                               consequents :then} %]
                          (log/debug (str "processing lexeme: " (u/get-in lexeme [:canonical])
-                                        "; rule:" rule))
+                                         "; rule:" rule))
                          (map (fn [consequent]
                                 (apply-rule-to-lexeme rule lexeme consequent antecedent))
                               consequents))))]
     (cond (seq with-rules)
           with-rules
-          (and if-no-rules-matched? include-derivation?)
-          [(unify lexeme {:derivation {::no-rules-matched? true}})]
           :else
           [lexeme])))
 

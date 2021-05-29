@@ -36,11 +36,11 @@
           :else
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
-              [(if (and include-derivation? rule)
-                 (unify result
-                        {:derivation {rule {::match? true
-                                            ::i 42}}})
-                 result)]))))
+              (if (and include-derivation? rule)
+                (unify result
+                       {:derivation {rule {::match? true
+                                           ::i 42}}})
+                result)))))
 
 (defn apply-rules-to-lexeme [rules lexeme if-no-rules-matched?]
   (let [with-rules
@@ -52,9 +52,9 @@
                               consequents :then} %]
                          (log/debug (str "processing lexeme: " (u/get-in lexeme [:canonical])
                                         "; rule:" rule))
-                         (mapcat (fn [consequent]
-                                    (apply-rule-to-lexeme rule lexeme consequent antecedent))
-                                consequents))))]
+                         (map (fn [consequent]
+                                (apply-rule-to-lexeme rule lexeme consequent antecedent))
+                              consequents))))]
     (cond (seq with-rules)
           with-rules
           (and if-no-rules-matched? include-derivation?)

@@ -133,6 +133,11 @@
        :propernoun false}
   :then [{:reflexive false}]}
 
+ {:rule :modal-default-false
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument.
@@ -179,11 +184,22 @@
                          :sem semantic-subject}
                      :3 []}})]}
 
- {:rule :modal-false-by-default
+ {:rule :subcat-frames-modal-base
   :if {:cat :verb
-       :modal ::unspec}
-  :then [{:modal false}]}
+       :modal :base
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
 
+ {:rule :subcat-frames-modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+ 
  {:rule :verbs-have-empty-modifiers
   :if {:cat :verb
        :mod ::unspec}

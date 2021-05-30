@@ -63,11 +63,16 @@
                      :2 []}
             :sem {:obj obj}})]}
 
+ {:rule :modal-default-false
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+ 
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument.
 
- {:rule :subcat-frames
+ {:rule :subcat-frames-nonmodal
   :if {:cat :verb
        :modal false
        :aux false
@@ -78,7 +83,7 @@
          (let [subj (atom {:existential? false})]
            {:sem {:subj subj
                   :obj :none}
-            :derivation {:subcat-frames {:sense 1}}
+            :derivation {:subcat-frames-nonmodal {:sense 1}}
             :subcat {:1 {:sem subj}
                      :2 []}})
 
@@ -89,7 +94,7 @@
          (let [semantic-subject (atom {:existential? false})
                agr (atom :top)]
            {:reflexive false
-            :derivation {:subcat-frames {:sense 2}}
+            :derivation {:subcat-frames-nonmodal {:sense 2}}
             :agr agr
             :sem {:subj semantic-subject
                   :obj :none}
@@ -115,7 +120,7 @@
             :reflexive false
             :sem {:subj subj
                   :obj obj}
-            :derivation {:subcat-frames {:sense 3}}})
+            :derivation {:subcat-frames-nonmodal {:sense 3}}})
 
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})
@@ -134,8 +139,24 @@
             :reflexive true
             :sem {:subj subj
                   :obj obj}
-            :derivation {:subcat-frames {:sense 4}}})]}
-  
+            :derivation {:subcat-frames-nonmodal {:sense 4}}})]}
+
+ {:rule :subcat-frames-modal-base
+  :if {:cat :verb
+       :modal :base
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+
+ {:rule :subcat-frames-modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+ 
  {:rule :aux-default-is-false
   :if {:cat :verb
        :aux ::unspec}
@@ -187,11 +208,6 @@
                                :number? false
                                :mod adj-mod}}
                      :2 []}})]}
-
- {:rule :modal-default-false
-  :if {:cat :verb
-       :modal ::unspec}
-  :then [{:modal false}]}
 
  {:rule :pronouns-are-not-reflexive-by-default
   :if {:cat :noun

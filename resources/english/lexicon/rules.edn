@@ -63,24 +63,99 @@
                      :2 []}
             :sem {:obj obj}})]}
 
+ {:rule :modal-default-false
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+ 
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument.
- {:rule :subcat-unspecified-nonaux
+
+ {:rule :subcat-frames-nonmodal
   :if {:cat :verb
-       :aux false
        :modal false
-       :subcat {:1 {:cat :noun}
-                :2 ::unspec}}
-  :then [{:modal false
-          :subcat {:1 {:cat :noun
-                       :subcat []}
-                   :2 []}}
-         {:modal false
-          :subcat {:1 {:cat :noun
-                       :subcat []}
-                   :2 {:cat :noun
-                       :subcat []}}}]}
+       :aux false
+       :subcat {:2 ::unspec}
+       :sem {:subj {:existential? ::unspec}
+             :obj ::unspec}}
+  :then [;; 1. non-existential, intransitive:
+         (let [subj (atom {:existential? false})]
+           {:sem {:subj subj
+                  :obj :none}
+            :derivation {:subcat-frames-nonmodal {:sense 1}}
+            :subcat {:1 {:sem subj}
+                     :2 []}})
+
+         ;; 2. existential, intransitive
+         ;; the 'semantic-subject' is the meaningful subject of the
+         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
+         ;; merely syntactic subject, 'er'.
+         (let [semantic-subject (atom {:existential? false})
+               agr (atom :top)]
+           {:reflexive false
+            :derivation {:subcat-frames-nonmodal {:sense 2}}
+            :agr agr
+            :sem {:subj semantic-subject
+                  :obj :none}
+            :subcat {:1 {:cat :noun
+                         :pronoun true
+                         :sem {:existential? true}}
+                     :2 {:cat :noun
+                         :subcat []
+                         :agr agr
+                         :sem semantic-subject}
+                     :3 []}})
+
+         (let [subj (atom {:existential? false})
+               obj (atom {:existential? false})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []}
+                     :2 {:cat :noun
+                         :reflexive false
+                         :case :acc
+                         :sem obj
+                         :subcat []}}
+            :reflexive false
+            :sem {:subj subj
+                  :obj obj}
+            :derivation {:subcat-frames-nonmodal {:sense 3}}})
+
+         (let [subj (atom {:existential? false})
+               obj (atom {:existential? false})
+               agr (atom :top)]
+           {:subcat {:1 {:cat :noun
+                         :agr agr
+                         :sem subj
+                         :subcat []}
+                     :2 {:cat :noun
+                         :pronoun true
+                         :agr agr
+                         :reflexive true
+                         :case :acc
+                         :sem obj
+                         :subcat []}}
+            :reflexive true
+            :sem {:subj subj
+                  :obj obj}
+            :derivation {:subcat-frames-nonmodal {:sense 4}}})]}
+
+ {:rule :subcat-frames-modal-base
+  :if {:cat :verb
+       :modal :base
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+
+ {:rule :subcat-frames-modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
  
  {:rule :aux-default-is-false
   :if {:cat :verb
@@ -133,11 +208,6 @@
                                :number? false
                                :mod adj-mod}}
                      :2 []}})]}
-
- {:rule :modal-default-false
-  :if {:cat :verb
-       :modal ::unspec}
-  :then [{:modal false}]}
 
  {:rule :pronouns-are-not-reflexive-by-default
   :if {:cat :noun
@@ -195,14 +265,11 @@
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}
-  :then [(let [agr (atom :top)
-               subj (atom :top)]
+  :then [(let [agr (atom :top)]
            {:agr agr
-            :sem {:subj subj}
             :subcat {:1 {:agr agr
                          :cat :noun
                          :case :nom
-                         :sem subj
                          :subcat []}}})]}
  
  {:rule :dont-inflect-pronouns
@@ -215,7 +282,7 @@
        :propernoun true}
   :then [{:inflected? true}]}
 
- ;; TODO: move reflexive and agreement stuff to rules-2.edn so that
+ ;; TODO: move reflexive and agreement stuff to another rule so that
  ;; modal-infinitive is simpler and clearer.
  {:rule :modal-infinitive
   :if {:cat :verb
@@ -260,9 +327,7 @@
   {:rule :modal-base-1
   :if {:cat :verb
        :modal :base}
-  :then (let [subj (atom :top)
-              subcat-subj (atom {:sem subj})
-              obj (atom {:subj subj})]
+  :then 
           [;; "I can/could"
            {:derivation {:modal-base-1 {:marker 1}}
             :inflected? true
@@ -270,28 +335,31 @@
             :subcat {:2 []}} ;; "can"
 
            ;;  "can/could <vp[base,nonmodal]>" non-reflexive
-           {:derivation {:modal-base-1 {:marker 2}}
-            :inflected? true
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:2 {:aux false
-                         :infl :base
-                         :cat :verb
-                         :modal false
-                         :sem obj
-                         :subcat {:1 subcat-subj
-                                  ;; the complement has only [:subcat :1]
-                                  ;; and no [:subcat :2]: 
-                                  ;; e.g. in both:
-                                  ;; "can [sleep]" : intransitive.
-                                  ;; "can [see it]": transitive with object.
-                                  ;; The bracketed expressions in each of the
-                                  ;; examples above subcategorizes only for
-                                  ;; the subject, with the object
-                                  ;; either not existing ("sleep") or already
-                                  ;; satisfied ("see it").
-                                  :2 []
-                                  }}}}])}
+           (let [subj (atom :top)
+                 subcat-subj (atom {:sem subj})
+                 obj (atom {:subj subj})]
+             {:derivation {:modal-base-1 {:marker 2}}
+              :inflected? true
+              :sem {:subj subj
+                    :obj obj}
+              :subcat {:2 {:aux false
+                           :infl :base
+                           :cat :verb
+                           :modal false
+                           :sem obj
+                           :subcat {:1 subcat-subj
+                                    ;; the complement has only [:subcat :1]
+                                    ;; and no [:subcat :2]: 
+                                    ;; e.g. in both:
+                                    ;; "can [sleep]" : intransitive.
+                                    ;; "can [see it]": transitive with object.
+                                    ;; The bracketed expressions in each of the
+                                    ;; examples above subcategorizes only for
+                                    ;; the subject, with the object
+                                    ;; either not existing ("sleep") or already
+                                    ;; satisfied ("see it").
+                                    :2 []
+                                    }}}})]}
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true
@@ -418,41 +486,6 @@
           :interogative? false
           :reflexive false
           :subcat []}]}
- 
- {:rule :transitive-verbs ;; "sees" in "she sees him"
-  :if {:cat :verb
-       :subcat {:2 {:cat :noun}}}
-  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
-         (let [subj (atom :top)
-               obj (atom {:obj :none})]
-           {:derivation {:transitive-verbs {:reflexive false}}
-            :reflexive false
-            :sem {:obj obj}
-            :subcat {:2 {:cat :noun
-                         :reflexive false
-                         :case :acc
-                         :sem obj}}})
-
-         ;; reflexive: subject and object are the same semantically and by agreement.
-         (let [ref (atom :top)
-               subj (atom {:ref ref})
-               obj (atom {:ref ref
-                          :obj :none})
-               agr (atom :top)]
-           {:derivation {:transitive-verbs {:reflexive true}}
-            :agr agr
-            :reflexive true
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:1 {:agr agr
-                         :sem subj}
-                     :2 {:agr agr
-                         :phrasal false
-                         :reflexive true
-                         :pronoun true
-                         :cat :noun
-                         :sem obj
-                         :case :acc}}})]}
 
  {:rule :modal-base-2 ;; "must" in "it must be"
   :if {:cat :verb
@@ -495,15 +528,6 @@
                          :case :acc
                          :sem obj
                          :subcat []}}})]}
- 
- {:rule :intransitive-verbs
-  :if {:cat :verb
-       :normal-transitive-defaults? true
-       :aux false
-       :subcat {:2 []}}
-  :then [{:sem {:obj :none}
-          :reflexive false
-          :subcat {:2 []}}]}
 
  {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb

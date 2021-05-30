@@ -133,6 +133,11 @@
        :propernoun false}
   :then [{:reflexive false}]}
 
+ {:rule :modal-default-false
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}
+
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument.
@@ -152,11 +157,49 @@
                        :subcat []}}
           :sem {:obj {:top :top}}}]}
 
- {:rule :modal-false-by-default
+ {:rule :existential-verb
   :if {:cat :verb
-       :modal ::unspec}
-  :then [{:modal false}]}
+       :te? false
+       :modal false
+       :sem {:obj :none}}
+  :then [;; 1. non-existential, intransitive:
+         {:sem {:subj {:existential? false}}
+          :subcat {:2 []}}
 
+         ;; 2. existential, intransitive
+         ;; the 'semantic-subject' is the meaningful subject of the
+         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
+         ;; merely syntactic subject, 'er'.
+         (let [semantic-subject (atom {:existential? false})
+               agr (atom :top)]
+           {:reflexive false
+            :agr agr
+            :sem {:subj semantic-subject}
+            :subcat {:1 {:cat :noun
+                         :pronoun true
+                         :sem {:existential? true}}
+                     :2 {:cat :noun
+                         :subcat []
+                         :agr agr
+                         :sem semantic-subject}
+                     :3 []}})]}
+
+ {:rule :subcat-frames-modal-base
+  :if {:cat :verb
+       :modal :base
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+
+ {:rule :subcat-frames-modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive
+       :aux false}
+  :then [(let [subj (atom :top)]
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}}})]}
+ 
  {:rule :verbs-have-empty-modifiers
   :if {:cat :verb
        :mod ::unspec}
@@ -349,7 +392,7 @@
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
-         (let [subj (atom :top)
+         (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
            {:reflexive false
             :sem {:subj subj
@@ -362,7 +405,8 @@
 
          ;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
-               subj (atom {:ref ref})
+               subj (atom {:ref ref
+                           :existential? false})
                obj (atom {:ref ref})
                agr (atom :top)]
            {:agr agr
@@ -565,6 +609,13 @@
        :beginning-of-sentence? ::unspec
        :null? false}
   :then [{:beginning-of-sentence? false}]}
+
+ {:rule :existential-false
+  :if {:cat :noun
+       :pronoun true
+       :sem {:existential? ::unspec}}
+  :then [{:sem {:existential? false}}]}
+
  ]
 
          

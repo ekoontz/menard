@@ -20,15 +20,15 @@
 ;; and set this to true if that flag is on.
 (def ^:dynamic include-derivation? true)
 
-(defn apply-rule-to-lexeme [rule lexeme consequent antecedent]
+(defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i]
   (let [result (unify lexeme consequent)]
     (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
                     "; result: " result))
     (cond (= :fail result)
-          (let [error-message (str "rule: " rule " failed to unify lexeme: "
+          (let [error-message (str "rule: " rule-name " failed to unify lexeme: "
                                    (select-keys lexeme [:derivation :canonical :sense])
                                    (if (:derivation consequent)
-                                     (str " [D: " (:derivation consequent) "]"))
+                                     (str " (derivation: " (:derivation consequent) ")"))
                                    "; fail-path: "
                                    (diag/fail-path lexeme consequent))]
             (log/error error-message)
@@ -36,32 +36,29 @@
           :else
           (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
-              (if (and include-derivation? rule)
+              (if include-derivation?
                 (unify result
-                       {:derivation {rule {::match? true
-                                           ::i 42}}})
+                       {:derivation {rule-name {::order i}}})
                 result)))))
 
 (defn apply-rules-to-lexeme
   "given a lexeme and a list of rules, return a list of all the possible lexemes following from the consequent of each rule in the list."
-  [rules lexeme if-no-rules-matched?]
-  (log/debug (str "apply-rules-to-lexeme: applying " (count rules) " to lexeme: " lexeme))
-  (let [with-rules
-         (->> rules
-              (filter #(let [{antecedent :if} %]
-                          (not (= :fail (unify antecedent lexeme)))))
-              (mapcat #(let [{rule :rule
-                              antecedent :if
-                              consequents :then} %]
-                         (log/debug (str "processing lexeme: " (u/get-in lexeme [:canonical])
-                                         "; rule:" rule))
-                         (map (fn [consequent]
-                                (apply-rule-to-lexeme rule lexeme consequent antecedent))
-                              consequents))))]
-    (cond (seq with-rules)
-          with-rules
-          :else
-          [lexeme])))
+  [rules lexeme if-no-rules-matched? i]
+  (log/debug (str "apply-rules-to-lexeme: applying " (count rules) " rules to lexeme: " (u/get-in lexeme [:canonical]) "; i=" i))
+  (cond
+    (seq rules)
+    (let [rule (first rules)
+          antecedent (:if rule)]
+      (if (not (= :fail (unify antecedent lexeme)))
+        (let [consequents (:then rule)]
+          (->> consequents
+               (map (fn [consequent]
+                      (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i)))
+               (mapcat (fn [new-lexeme]
+                         (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1))))))
+        (apply-rules-to-lexeme (rest rules) lexeme if-no-rules-matched? i)))
+    :else
+    [lexeme]))
 
 (defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched?]
   (into {}
@@ -71,19 +68,17 @@
             (when (seq lexemes)
               [k (->> lexemes
                       (mapcat (fn [lexeme]
-                                (apply-rules-to-lexeme rules lexeme if-no-rules-matched?)))
+                                (apply-rules-to-lexeme rules lexeme if-no-rules-matched? 0)))
                       (map (fn [lexeme]
                              (unify lexeme
                                     {:phrasal false
                                      :canonical (u/get-in lexeme [:canonical] k)}))))])))))
 
-(defn apply-rules-in-order [lexicon rules & [i]]
+(defn apply-rules-in-order [lexicon rules]
   (if (empty? rules)
     lexicon
-    (let [i (or i 0)]
-      (-> lexicon
-          (apply-rules-to-lexicon [(first rules)] false)
-          (apply-rules-in-order (rest rules) (+ i 1))))))
+    (-> lexicon
+        (apply-rules-to-lexicon rules false))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
   (into {}

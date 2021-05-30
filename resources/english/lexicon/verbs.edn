@@ -473,8 +473,8 @@
            [{:exceptions exceptions
              
              :sem {:pred :sleep
-                   :subj {:prop {:animate true}}} ;; TODO: move to encyclopedia.
-             :subcat {:1 :top :2 []}}])
+                   :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+                   :obj :none}}])
  "start" [{ :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]

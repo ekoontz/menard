@@ -105,7 +105,8 @@
                            :surface "came"}
                           {:infl :past-participle
                            :surface "come"}]]
-          [{:sem {:pred :come} :subcat {:2 []}
+          [{:sem {:pred :come
+                  :obj :none}
             :exceptions exceptions}])
  
  "design" [{:sem {:pred :design}}]
@@ -237,8 +238,8 @@
  (let [exceptions [{:infl :past-simple :surface "went"}
                    {:infl :past-participle :surface "gone"}]]
    [{:exceptions exceptions
-      :sem {:pred :go}
-     :subcat {:2 []}}
+     :sem {:pred :go
+           :obj :none}}
     {:exceptions exceptions
       :sem {:pred :go}
      :subcat {:2 {:cat :prep
@@ -314,25 +315,19 @@
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]
           [{:exceptions exceptions  :sem {:pred :hear}}])
- "help" [{ :sem {:pred :help} :subcat {:1 :top :2 :top}}]
+ "help" [{ :sem {:pred :help}}]
 
  "hide" [{:sem {:pred :hide}
           :exceptions [{:infl :past-simple :surface "hid"}
                        {:infl :past-participle :surface "hid"}]}]
  "hope" [{:sense 1
-          
-          :sem {:pred :hope}
-          :subcat {:1 {:top :top}
-                   :2 []}}
-
+          :sem {:pred :hope
+                :obj :none}}
          {:sense 2
-          
           :sem {:pred :hope}
           :subcat {:2 {:cat :verb
                        :rule "s"}}}
-          
          {:sense 3
-          
           :sem {:pred :hope}
           :subcat {:2 {:cat :comp
                        :rule "comp2"}}}]
@@ -345,22 +340,19 @@
  "know" (let [exceptions [{:infl :past-simple :surface "knew"}
                           {:infl :past-participle :surface "known"}]]
           [{:exceptions exceptions
-            
-            :sem {:pred :know}
-
+            :sem {:pred :know
+                  :obj :none}}
             {:sense 2
-             
              :exceptions exceptions
              :sem {:pred :know}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
 
             {:sense 3
-             
              :exceptions exceptions
              :sem {:pred :know}
              :subcat {:2 {:cat :comp
-                          :rule "comp2"}}}}])
+                          :rule "comp2"}}}])
  
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
@@ -370,8 +362,8 @@
           [{:exceptions exceptions  :sem {:pred :let}}])
  "like" [{:sem {:pred :like}}]
  "live" [{:sem {:pred :live}}]
- "look" [{:sem {:pred :look}
-          :subcat {:1 :top :2 []}}
+ "look" [{:sem {:pred :look
+                :obj :none}}
          {:sem {:pred :look}
           :subcat {:1 :top
                    :2 {:cat :prep
@@ -431,7 +423,6 @@
                          {:infl :past-participle :surface "said"}]]
          [{:exceptions exceptions
            :sense 1
-           
            :sem {:pred :say}}
            
           {:exceptions exceptions
@@ -453,8 +444,8 @@
          [{:exceptions exceptions
            :sem {:pred :see}}])
  
- "seem" [{ :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
- "show" [{ :sem {:pred :show} :subcat {:1 :top :2 :top}}]
+ "seem" [{ :sem {:pred :seem}}]
+ "show" [{ :sem {:pred :show}}]
  "sing" [{:sem {:pred :sing}
           :exceptions [{:infl :past-simple
                         :surface "sang"}
@@ -464,14 +455,11 @@
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]
          [{:exceptions exceptions
-           
-           :sem {:pred :sit}
-           :subcat {:1 :top :2 []}}])
+           :sem {:pred :sit}}])
 
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions
-             
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
@@ -480,12 +468,8 @@
                           {:infl :past-participle :surface "taken"}]]
           [{ :sem {:pred :take}
             :exceptions exceptions}])
- "talk" [{
-          :sem {:pred :talk}
-          :subcat {:1 :top
-                   :2 []}}
-         {
-          :sem {:pred :talk}
+ "talk" [{:sem {:pred :talk}}
+         {:sem {:pred :talk}
           :subcat {:1 :top
                    :2 {:cat :prep
                        :sem {:pred :to}}
@@ -501,14 +485,11 @@
                            {:infl :past-participle :surface "thought"}]]
            [{:sense 1
              :exceptions exceptions
-             
-             :sem {:pred :think}
-             :subcat {:1 :top :2 []}}
+             :sem {:pred :think}}
 
             ;; "think that you will see the cat"
             {:sense 2
              :exceptions exceptions
-             
              :sem {:pred :think}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
@@ -545,17 +526,15 @@
 
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
- "turn" [{ :sem {:pred :turn}}]
- "use" [{ :sem {:pred :use}}]
+ "turn" [{:sem {:pred :turn}}]
+ "use" [{:sem {:pred :use}}]
  "walk" [{ :sem {:pred :walk}}]
- "want" [{
-          :sem {:pred :want}
+ "want" [{:sem {:pred :want}
           :modal :infinitive}]
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:
  ;; {intrans,trans} x {decl,interog} = {intrans + decl, intrans + interog, trans + decl, trans + interog}
  "will" [{:aux true
-          
           :infl :present
           :inflected? true
           :sem {:tense :future}
@@ -563,7 +542,6 @@
                        :infl :base}}}]
  
  "would" (let [common {:aux true
-                       
                        :infl :present
                        :inflected? true
                        :sem {:tense :conditional}}]
@@ -587,4 +565,4 @@
                                  :infl :base}
                               :2 []}})]))
 
- "work" [{ :sem {:pred :work}}]}
+ "work" [{:sem {:pred :work}}]}

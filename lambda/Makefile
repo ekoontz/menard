@@ -22,7 +22,7 @@ latest.zip: output
 menard-lambda: target/menard-lambda.jar
 	${native_image_cmd}
 
-target/menard-lambda.jar: src/menard/lambda/def.clj
+target/menard-lambda.jar: src/menard/lambda/def.clj src/menard/lambda/handlersclj
 	lein uberjar
 
 # </deploy-native>

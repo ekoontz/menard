@@ -56,7 +56,17 @@
                       (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i)))
                (mapcat (fn [new-lexeme]
                          (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1))))))
-        (apply-rules-to-lexeme (rest rules) lexeme if-no-rules-matched? i)))
+        (apply-rules-to-lexeme (rest rules)
+                               (if true
+                                 lexeme
+                                 (unify
+                                  lexeme
+                                  {:derivation {(:rule rule)
+                                                (merge {:matched? false}
+                                                       (select-keys
+                                                        (dag_unify.diagnostics/fail-path antecedent lexeme)
+                                                        [:path :arg1 :arg2]))}}))
+                                 if-no-rules-matched? i)))
     :else
     [lexeme]))
 

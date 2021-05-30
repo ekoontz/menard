@@ -67,12 +67,12 @@
             (log/debug (str "applying rules for: " k))
             (when (seq lexemes)
               [k (->> lexemes
-                      (mapcat (fn [lexeme]
-                                (apply-rules-to-lexeme rules lexeme if-no-rules-matched? 0)))
                       (map (fn [lexeme]
                              (unify lexeme
                                     {:phrasal false
-                                     :canonical (u/get-in lexeme [:canonical] k)}))))])))))
+                                     :canonical (u/get-in lexeme [:canonical] k)})))
+                      (mapcat (fn [lexeme]
+                                (apply-rules-to-lexeme rules lexeme if-no-rules-matched? 0))))])))))
 
 (defn apply-rules-in-order [lexicon rules]
   (if (empty? rules)

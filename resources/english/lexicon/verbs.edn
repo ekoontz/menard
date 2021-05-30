@@ -530,7 +530,7 @@
     {
      :agr agr
      :reflexive reflexive?
-     :normal-transitive-defaults? false
+     :to? true
      :inflected? true
      :infl :infinitive
      :sem sem

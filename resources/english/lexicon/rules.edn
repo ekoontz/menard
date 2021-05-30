@@ -373,7 +373,7 @@
 
  {:rule :ditransitive-false
   :if {:cat :verb
-       :normal-transitive-defaults? true
+       :to? false
        :subcat {:3 ::unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}

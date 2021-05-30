@@ -53,7 +53,7 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
-     (binding [menard.lexiconfn/include-derivation? true]
+     (binding [menard.lexiconfn/include-derivation? false]
        (-> source-filename
            l/read-and-eval
            ((fn [lexicon]
@@ -284,8 +284,9 @@
    (def model
      (ref (merge (create-model "complete")))))
 #?(:clj
-   (def basic-model
-     (ref (merge (create-model "basic" basic-filter)))))
+   (comment
+     (def basic-model
+       (ref (merge (create-model "basic" basic-filter))))))
 
 #?(:clj
    (defn load-model []

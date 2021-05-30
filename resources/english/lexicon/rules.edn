@@ -70,43 +70,20 @@
  
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
- ;; of the verb, where the second form has a noun second argument.
-
- {:rule :subcat-frames-nonmodal
+ ;; of the verb, where the second form has a noun second argument:
+ {:rule :subcat-frames-nonmodal-1
   :if {:cat :verb
        :modal false
        :aux false
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
              :obj ::unspec}}
-  :then [;; 1. non-existential, intransitive:
-         (let [subj (atom {:existential? false})]
-           {:sem {:subj subj
-                  :obj :none}
-            :derivation {:subcat-frames-nonmodal {:sense 1}}
-            :subcat {:1 {:sem subj}
-                     :2 []}})
+  :then [;; 1. intransitive. more processing will be done below in :subcat-frames-instansitive
+         ;; based on what we set here.
+         {:sem {:obj :none}
+          :derivation {:subcat-frames-nonmodal-1 {:sense 1}}}
 
-         ;; 2. existential, intransitive
-         ;; the 'semantic-subject' is the meaningful subject of the
-         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
-         ;; merely syntactic subject, 'er'.
-         (let [semantic-subject (atom {:existential? false})
-               agr (atom :top)]
-           {:reflexive false
-            :derivation {:subcat-frames-nonmodal {:sense 2}}
-            :agr agr
-            :sem {:subj semantic-subject
-                  :obj :none}
-            :subcat {:1 {:cat :noun
-                         :pronoun true
-                         :sem {:existential? true}}
-                     :2 {:cat :noun
-                         :subcat []
-                         :agr agr
-                         :sem semantic-subject}
-                     :3 []}})
-
+         ;; transitive, nonreflexive:
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})]
            {:subcat {:1 {:cat :noun
@@ -120,8 +97,9 @@
             :reflexive false
             :sem {:subj subj
                   :obj obj}
-            :derivation {:subcat-frames-nonmodal {:sense 3}}})
+            :derivation {:subcat-frames-nonmodal-1 {:sense 3}}})
 
+         ;; transitive, reflexive
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})
                agr (atom :top)]
@@ -139,8 +117,43 @@
             :reflexive true
             :sem {:subj subj
                   :obj obj}
-            :derivation {:subcat-frames-nonmodal {:sense 4}}})]}
+            :derivation {:subcat-frames-nonmodal-1 {:sense 4}}})]}
 
+ {:rule :subcat-frames-intransitive
+  :if {:cat :verb
+       :modal false
+       :aux false
+       :subcat {:2 ::unspec}
+       :sem {:subj {:existential? ::unspec}
+             :obj :none}}
+  :then [;; 1. non-existential, intransitive:
+         (let [subj (atom {:existential? false})]
+           {:sem {:subj subj
+                  :obj :none}
+            :derivation {:subcat-frames-nonmodal-2 {:sense 1}}
+            :subcat {:1 {:sem subj}
+                     :2 []}})
+
+         ;; 2. existential, intransitive
+         ;; the 'semantic-subject' is the meaningful subject of the
+         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
+         ;; merely syntactic subject, 'er'.
+         (let [semantic-subject (atom {:existential? false})
+               agr (atom :top)]
+           {:reflexive false
+            :derivation {:subcat-frames-nonmodal-2 {:sense 2}}
+            :agr agr
+            :sem {:subj semantic-subject
+                  :obj :none}
+            :subcat {:1 {:cat :noun
+                         :pronoun true
+                         :sem {:existential? true}}
+                     :2 {:cat :noun
+                         :subcat []
+                         :agr agr
+                         :sem semantic-subject}
+                     :3 []}})]}
+ 
  {:rule :subcat-frames-modal-base
   :if {:cat :verb
        :modal :base
@@ -654,8 +667,3 @@
                     :subcat []}}}
   :then [{:subcat {:2 {:subcat []}
                    :3 []}}]}]
-
-
-
-
-

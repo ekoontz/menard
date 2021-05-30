@@ -165,3 +165,10 @@
     :context :unspec,
     :subj [1],
     :obj :anaphor}})
+
+(defn diagnose-translation [i]
+  (-> (nth nl/expressions i)
+      nl/generate 
+      ((fn [nl-expr]
+         (let [en-expr (-> nl-expr nl-to-en-spec en/generate)]
+           {:nl (nl/morph nl-expr) :en (-> en-expr en/morph)})))))

@@ -72,10 +72,10 @@
               [k (->> lexemes
                       (mapcat (fn [lexeme]
                                 (apply-rules-to-lexeme rules lexeme if-no-rules-matched?)))
-                      (mapcat (fn [lexeme]
-                                [(unify lexeme
-                                        {:phrasal false
-                                         :canonical (u/get-in lexeme [:canonical] k)})])))])))))
+                      (map (fn [lexeme]
+                             (unify lexeme
+                                    {:phrasal false
+                                     :canonical (u/get-in lexeme [:canonical] k)}))))])))))
 
 (defn apply-rules-in-order [lexicon rules & [i]]
   (if (empty? rules)

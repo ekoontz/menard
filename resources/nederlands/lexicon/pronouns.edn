@@ -9,7 +9,8 @@
          ;; will never appear at the beginning of the sentence.
          ;; In that case hem is replaced by die."
          ;; O. Unit 8, Note 2.
-         :ref {:human false}}]
+         :sem {:pred :it
+               :ref {:human false}}}]
 
  "haar" [{:agr {:gender :fem
                 :number :sing

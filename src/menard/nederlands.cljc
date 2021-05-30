@@ -284,9 +284,8 @@
    (def model
      (ref (merge (create-model "complete")))))
 #?(:clj
-   (comment
-     (def basic-model
-       (ref (merge (create-model "basic" basic-filter))))))
+   (def basic-model
+     (ref (merge (create-model "basic" basic-filter)))))
 
 #?(:clj
    (defn load-model []

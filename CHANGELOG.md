@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.4.2] - 2021-06-05
+
+- Rewrite lexical rules to unify all rules into a single file per language.
+
 ## [1.4.1] - 2021-05-11
 
 - Add lambda directory for deploying API to Amazon Lambda.

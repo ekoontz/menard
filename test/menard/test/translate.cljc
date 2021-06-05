@@ -73,7 +73,7 @@
          (map (fn [{nl :nl en :en en-spec :en-spec nl-st :nl-st}]
                 (let [en (en/morph en)
                       retval {:i i
-                              :model (:name model)
+                              :model (:name @model)
                               :nl (str "\"" nl "\"")
                               :nl-st (str "\"" nl-st "\"")                              
                               :en (str "\"" en "\"")}

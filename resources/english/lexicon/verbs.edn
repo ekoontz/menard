@@ -8,11 +8,7 @@
                         {:infl :past-simple :agr {:number :plur} :surface "were"}
                         {:infl :past-simple :agr {:person :2nd} :surface "were"}
                         {:infl :past-simple :surface "was"}
-                        {:infl :past-participle :surface "been"}]
-            ;; "I am sure"
-            subject-adjective {:1 {:cat :noun}
-                               :2 {:cat :adjective}
-                               :3 []}]
+                        {:infl :past-participle :surface "been"}]]
         [{:sense 1
           :sem {:pred :be
                 :obj :none}
@@ -21,11 +17,18 @@
           :sem {:pred :be
                 :obj {:top :top}}
           :exceptions exceptions}
-         {:sense 3
-          :reflexive false
-          :sem {:pred :be}
-          :subcat subject-adjective
-          :exceptions exceptions}
+         ;; "I am sure"
+         (let [obj (atom {:top :top})]
+           {:sense 3
+            :reflexive false
+            :sem {:pred :be
+                  :obj obj}
+            :subcat {:1 {:cat :noun}
+                     :2 {:cat :adjective
+                         :subcat []
+                         :sem obj}
+                     :3 []}
+            :exceptions exceptions})
          { ;; "is sleeping"
           :sense 4
           :aux true

@@ -367,7 +367,7 @@
          {:sem {:pred :look}
           :subcat {:1 :top
                    :2 {:cat :prep
-                       :sem {:pred :at}}
+                       :head {:canonical "at"}}
                    :3 []}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
                           {:infl :past-participle :surface "made"}]]

@@ -666,4 +666,29 @@
                     :cat :comp
                     :subcat []}}}
   :then [{:subcat {:2 {:subcat []}
-                   :3 []}}]}]
+                   :3 []}}]}
+
+ {:rule :existential-false
+  :if {:cat :noun
+       :pronoun true
+       :sem {:existential? ::unspec}}
+   :then [{:sem {:existential? false}}]}
+
+ {:rule :complementizer-complements ;; e.g. "believe [that it ..]"
+  :if {:cat :verb
+       :subcat {:2 {:cat :comp}}}
+  :then [{:subcat {:2 {:phrasal true}}
+          :obj {:obj {:top :top}}}]}
+
+ {:rule :sentential-complements
+  :if {:cat :verb
+       :subcat {:2 {:cat :verb}}}
+  :then [{:sem {:obj {:obj {:top :top}}}}]}
+
+ {:rule :prepositional-complements
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}}}
+  :then [{:subcat {:2 {:phrasal true}}}]}
+
+ ]
+

@@ -425,20 +425,28 @@
   :phrasal true
   :subcat []
   :cat :verb
-  :head {:modal false
-         :irregular-past-simple? false}
   :infl :past-simple
-  :sem {:obj :none}}
+  :sem {:obj {:top :top
+              :obj :none}}
+  :head {:rule "vp"
+         :modal false
+         :head {:phrasal false
+                :exception false
+                :subcat {:2 {:cat :noun}}}}}
 
  ;; 26
  {:note "simple past sentences with irregular simple past"
   :subcat []
   :phrasal true
   :cat :verb
-  :head {:modal false
-         :irregular-past-simple? true}
   :infl :past-simple
-  :sem {:obj :none}}
+  :sem {:obj {:top :top
+              :obj :none}}
+  :head {:rule "vp"
+         :modal false
+         :head {:phrasal false
+                :exception true
+                :subcat {:2 {:cat :noun}}}}}
 
  ;; 27
  {:note "'nodig' sentences with pronouns"

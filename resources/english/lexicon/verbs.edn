@@ -14,8 +14,7 @@
                 :obj :none}
           :exceptions exceptions}
          {:sense 2
-          :sem {:pred :be
-                :obj {:top :top}}
+          :sem {:pred :be}
           :exceptions exceptions}
          ;; "I am sure"
          (let [obj (atom {:top :top})]

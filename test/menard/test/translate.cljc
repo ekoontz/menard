@@ -79,7 +79,7 @@
                               :en-spec en-spec
                               :model (:name model)
                               :nl (str "\"" nl "\"")
-                              :nl-st (str "\"" nl-st "\"")                              
+                              :nl-st (str "\"" nl-st "\"")
                               :en (str "\"" en "\"")}
                       retval (if show-english-spec?
                                (assoc retval :en-spec (serialize en-spec))

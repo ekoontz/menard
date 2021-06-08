@@ -172,7 +172,9 @@
                 lexemes))
              
              (map (fn [lexeme]
-                    (log/debug (str "  " surface " -> " (u/get-in lexeme [:canonical])))
+                    (log/debug (str "  " surface " -> "
+                                    (select-keys (dag_unify.diagnostics/strip-refs lexeme)
+                                                 [:canonical :sense])))
                     lexeme))
 
              ;; Finally, we add {:surface surface} to the output:

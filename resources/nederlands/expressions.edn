@@ -422,31 +422,25 @@
 
  ;; 25
  {:note "simple past sentences with regular simple past"
+  :rule "s"
   :phrasal true
-  :subcat []
   :cat :verb
   :infl :past-simple
-  :sem {:obj {:top :top
-              :obj :none}}
+  :sem {:menard.reflexives/refl-match 4}
   :head {:rule "vp"
-         :modal false
          :head {:phrasal false
-                :exception false
-                :subcat {:2 {:cat :noun}}}}}
+                :irregular-past-simple? false}}}
 
  ;; 26
  {:note "simple past sentences with irregular simple past"
-  :subcat []
+  :rule "s"
   :phrasal true
   :cat :verb
   :infl :past-simple
-  :sem {:obj {:top :top
-              :obj :none}}
+  :sem {:menard.reflexives/refl-match 4}
   :head {:rule "vp"
-         :modal false
          :head {:phrasal false
-                :exception true
-                :subcat {:2 {:cat :noun}}}}}
+                :irregular-past-simple? true}}}
 
  ;; 27
  {:note "'nodig' sentences with pronouns"

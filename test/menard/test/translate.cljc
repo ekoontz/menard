@@ -66,16 +66,20 @@
                           :sem (u/get-in tree [:sem])
                           :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
          (map (fn [{nl :nl nl-st :nl-st en-spec :en-spec sem :sem}]
+                (log/info (str "nl-st: " nl-st))
                 {:nl-st nl-st
                  :sem sem
                  :nl nl
-                 :en-spec en-spec :en (-> en-spec en/generate)}))
+                 :en-spec en-spec
+;;                 :en :none
+                 :en (-> en-spec en/generate)
+                 }))
          (filter (fn [{en :en}] (not (nil? en))))
          (take 1)
          (map (fn [{nl :nl en :en en-spec :en-spec nl-st :nl-st sem :sem}]
                 (let [en (en/morph en)
                       retval {:i i
-                              :sem sem
+;;                              :sem sem
                               :en-spec en-spec
                               :model (:name model)
                               :nl (str "\"" nl "\"")
@@ -84,7 +88,7 @@
                       retval (if show-english-spec?
                                (assoc retval :en-spec (serialize en-spec))
                                retval)]
-                  (println (u/pprint retval))
+                  (println (u/pprint (:nl-st retval)))
                   (is (seq nl))
                   (is (seq en))
                   retval)))

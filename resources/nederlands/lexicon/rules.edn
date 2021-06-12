@@ -155,7 +155,7 @@
                        :subcat []}
                    :2 {:cat :noun
                        :subcat []}}
-          :sem {:obj {:top :top}}}]}
+          :sem {:obj {:existential? false}}}]}
 
  {:rule :existential-verb
   :if {:cat :verb

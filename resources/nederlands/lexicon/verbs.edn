@@ -10,7 +10,8 @@
                               :agr {:number :plur}}]}]
  "bruizen" [{:sem {:pred :bubble}}]
  "gaan" [{:curriculum :basic
-          :sem {:pred :go}
+          :sem {:pred :go
+                :obj :none}
           :exceptions [{:infl :present
                         :surface "ga"
                         :agr {:person :1st
@@ -61,13 +62,18 @@
                           :surface "hadden"
                           :agr {:number :plur}}]}]
 
- "hopen" [{:sem {:pred :hope}
-           :exceptions [{:infl :past-simple
-                         :agr {:number :sing}
-                         :surface "hoopte"}
-                        {:infl :past-simple
-                         :agr {:number :plur}
-                         :surface "hoopten"}]}]
+ "hopen" (let [exceptions
+               [{:infl :past-simple
+                 :agr {:number :sing}
+                 :surface "hoopte"}
+                {:infl :past-simple
+                 :agr {:number :plur}
+                 :surface "hoopten"}]]
+           ;; intransitive only for now:
+           [{:sense 1
+             :sem {:pred :hope
+                   :obj :none}
+             :exceptions exceptions}])
  "kijken"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}
@@ -76,7 +82,8 @@
                     :agr {:number :sing}
                     :surface "keken"}]]
    [{:curriculum :basic
-     :sem {:pred :look}
+     :sem {:pred :look
+           :obj :none}
      :exceptions exceptions}])
                    
  "komen"

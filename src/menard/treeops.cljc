@@ -89,6 +89,7 @@
   {:agr (atom :top)
    :canonical (atom :top)
    :cat (atom :top)
+   :strong? (atom :top)
    :definite? (atom :top)
    :exceptions (atom :top)
    :infl (atom :top)

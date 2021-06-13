@@ -2,6 +2,7 @@
  "achieve" [{ :sem {:pred :achieve}}]
  "ask" [{ :sem {:pred :ask}}]
  "avoid" [{ :sem {:pred :avoid}}]
+ "bark" [{ :sem {:pred :bark}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
                         {:infl :present :surface "are"}
@@ -462,6 +463,7 @@
  "teach" (let [exceptions [{:infl :past-simple :surface "taught"}
                            {:infl :past-participle :surface "taught"}]]
            [{:exceptions exceptions  :sem {:pred :teach}}])
+ "telephone" [{:sem {:pred :telephone}}]
  "tell" (let [exceptions [{:infl :past-simple :surface "told"}
                           {:infl :past-participle :surface "told"}]]
           [{:exceptions exceptions

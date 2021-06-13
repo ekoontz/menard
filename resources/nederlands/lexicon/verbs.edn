@@ -1,4 +1,5 @@
 {
+ "bellen" [{:sem {:pred :telephone}}]
  "bereiken" [{:sem {:pred :achieve}}]
  "bestrijden" [{:curriculum :basic
                 :sem {:pred :overcome}
@@ -8,7 +9,9 @@
                              {:surface "bestreden"
                               :infl :past-simple
                               :agr {:number :plur}}]}]
+ "blaffen" [{:sem {:pred :bark}}]
  "bruizen" [{:sem {:pred :bubble}}]
+ "dromen" [{:sem {:pred :dream}}]
  "gaan" [{:curriculum :basic
           :sem {:pred :go
                 :obj :none}
@@ -30,7 +33,7 @@
                        {:infl :past-simple
                         :agr {:number :plur}
                         :surface "gingen"}]}]
-          
+ "geloven" [{:sem {:pred :believe}}]
  "hebben" [{:curriculum :basic
             :sem {:pred :have}
             :exceptions [{:infl :present
@@ -62,18 +65,11 @@
                           :surface "hadden"
                           :agr {:number :plur}}]}]
 
- "hopen" (let [exceptions
-               [{:infl :past-simple
-                 :agr {:number :sing}
-                 :surface "hoopte"}
-                {:infl :past-simple
-                 :agr {:number :plur}
-                 :surface "hoopten"}]]
-           ;; intransitive only for now:
-           [{:sense 1
-             :sem {:pred :hope
-                   :obj :none}
-             :exceptions exceptions}])
+ "hopen" ;; intransitive only for now:
+ [{:sense 1
+   :sem {:pred :hope
+         :obj :none}}]
+
  "kijken"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}
@@ -153,6 +149,8 @@
      :exceptions exceptions
      :sem {:pred :read}}])
 
+ "maken" [{:sem {:pred :make}}]
+
  "moeten" ;; F. 40.1
  (let [exceptions [{:infl :present
                     :agr {:number :sing}
@@ -224,9 +222,9 @@
                    ;; <http://www.verbix.com/webverbix/go.php?T1=tegengehouden&Submit=Go&D1=24&H1=124>
                    :exceptions [{:infl :past-simple
                                  :surface "tegenhield"}]}]
-
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
+ "wassen" [{:sem {:pred :wash}}]
  "werken" [{:curriculum :basic
             :sem {:pred :work
                   :obj :none}}]
@@ -260,12 +258,10 @@
                            :subcat [] ;; <- TODO: should be a lexical rule
                            :case :acc
                            :sem obj}}})]
-
  "voeren" [{:sem {:pred :feed}}]
-
  "voorkomen" [{:sem {:pred :prevent}}
               {:sem {:pred :avoid}}]
-
+ "vrezen" [{:sem {:pred :be-afraid}}]
  "zeggen"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}

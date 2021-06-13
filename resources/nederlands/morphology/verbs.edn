@@ -54,68 +54,95 @@
 ;; </F>
 
 
- ;; <F p 64: 't kofschip>
- ;; doubled consonants
- {:g [#"^(.*f)fen$" "$1te"]
-  :p [#"^(.*f)te$"  "$1fen"]
-  :u {:cat :verb
-      :agr {:number :sing}
-      :infl :past-simple}}
- {:g [#"^(.*s)sen$" "$1te"]
-  :p [#"^(.*s)te$"  "$1sen"]
+ ;; <past simple>
+ ;; TODO: 'strong' verbs e.g. blijfen -> bleef
+ ;; F 47.1
+ ;; <some doubled consonants get reduced to a single consonant>
+ {;; wassen -> waste
+  :g [#"^(.*)([fs])\2en$"      "$1$2te"]  
+  :p [#"^(.*)([fs])te$"        "$1$2$2en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*f)fen$"  "$1ten"]
-  :p [#"^(.*f)ten$"  "$1fen"]
-  :u {:cat :verb
-      :agr {:number :plur}
-      :infl :past-simple}}
- {:g [#"^(.*s)sen$" "$1ten"]
-  :p [#"^(.*s)ten$"  "$1sen"]
+ {;; wassen -> wasten
+  :g [#"^(.*)([fs])\2en$"      "$1$2ten"]
+  :p [#"^(.*)([fs])ten$"       "$1$2$2en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}
 
- ;; single consonants
- {:g [#"^(.*[tksp])en$" "$1te"]
+  {;; bellen -> belde
+  :g [#"^(.*)([^aeiou])\2en$" "$1$2de"]
+  ;; belde -> bellen
+  :p [#"^(.*)([l])de$"        "$1$2$2en"]
+   :u {:cat :verb
+       :agr {:number :sing}
+       :infl :past-simple}}
+
+ {;; bellen -> belden
+  :g [#"^(.*)([^aeiou])\2en$" "$1$2den"]
+  :p [#"^(.*)([l])den$"       "$1$2$2en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </some doubled consonants get reduced to a single consonant>
+
+ ;; <'t kofship vowel lengthening>
+ {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3te"]
   :p [#"^(.*[tksp])te$" "$1en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[tksp])en$"  "$1ten"]
+ {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3ten"]
   :p [#"^(.*[tksp])ten$" "$1en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}
 
- {:g [#"^(.*ch)en$" "$1te"]
+ {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3te"]
   :p [#"^(.*ch)te$" "$1en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*ch)en$"  "$1ten"]
+ {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
   :p [#"^(.*ch)ten$" "$1en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}
- ;; </F>
+ ;; </'t kofship vowel lengthening>
 
- 
- {:g [#"^(.*)en$" "$1de"]
-  :p [#"^(.*)de$" "$1en"]
+ ;; <vowel lengthening: voiced to voiceless vrezen -> vreesen >
+ {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2sde"]
+  :p [#"^(.*[^aeiou])[s]de$" "$1zen"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*)en$"  "$1den"]
-  :p [#"^(.*)den$" "$1en"]
+ {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2$3den"]
+  :p [#"^(.*[^aieou])[s]den$" "$1zen"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}
+ ;; </vowel lengthening: voiced to voiceless vrezen -> vreesen >
+
+ ;; <vowel lengthening>
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$" "$1$2$2$3de"]
+  :p [#"^(.*[^aeiou])de$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$" "$1$2$2$3den"]
+  :p [#"^(.*[^aieou])den$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </vowel lengthening>
+ 
+ ;; </past simple>
  
  ]
 

@@ -129,14 +129,14 @@
  ;; </vowel lengthening: voiced to voiceless vrezen -> vreesen >
 
  ;; <vowel lengthening>
- {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$" "$1$2$2$3de"]
-  :p [#"^(.*[^aeiou])de$" "$1en"]
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"   "$1$2$2$3de"]
+  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])de$" "$1$2$3en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$" "$1$2$2$3den"]
-  :p [#"^(.*[^aieou])den$" "$1en"]
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"    "$1$2$2$3den"]
+  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])den$" "$1$2$3en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}

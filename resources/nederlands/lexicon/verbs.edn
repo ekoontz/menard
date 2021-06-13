@@ -263,7 +263,8 @@
  "voeren" [{:sem {:pred :feed}}]
  "voorkomen" [{:sem {:pred :prevent}}
               {:sem {:pred :avoid}}]
- "vrezen" [{:sem {:pred :be-afraid}}]
+ ;; commented out for now
+ ;; "vrezen" [{:sem {:pred :be-afraid}}]
  "zeggen"
  (let [exceptions [{:infl :past-simple
                     :agr {:number :sing}

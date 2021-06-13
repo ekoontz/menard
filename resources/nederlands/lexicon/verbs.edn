@@ -178,7 +178,9 @@
                    {:infl :present
                     :agr {:person :3rd :number :sing}
                     :surface "probeert"}]]
-   [{:curriculum :basic
+   [{:sem {:pred :try
+           :obj :none}}
+    {:curriculum :basic
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])

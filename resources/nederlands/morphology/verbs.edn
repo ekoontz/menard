@@ -53,7 +53,6 @@
       :agr {:number :plur}}}
 ;; </F>
 
-
  ;; <past simple>
  ;; TODO: 'strong' verbs e.g. blijfen -> bleef
  ;; F 47.1
@@ -62,6 +61,8 @@
   :g [#"^(.*)([fs])\2en$"      "$1$2te"]  
   :p [#"^(.*)([fs])te$"        "$1$2$2en"]
   :u {:cat :verb
+      :debug 1
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
@@ -69,6 +70,8 @@
   :g [#"^(.*)([fs])\2en$"      "$1$2ten"]
   :p [#"^(.*)([fs])ten$"       "$1$2$2en"]
   :u {:cat :verb
+      :debug 2
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
 
@@ -78,6 +81,8 @@
   ;; belde -> bellen
   :p [#"^(.*)([gl])de$"        "$1$2$2en"]
    :u {:cat :verb
+       :debug 3
+       :strong? false
        :agr {:number :sing}
        :infl :past-simple}}
 
@@ -86,6 +91,8 @@
   :g [#"^(.*)([^aeiou])\2en$" "$1$2den"]
   :p [#"^(.*)([gl])den$"       "$1$2$2en"]
   :u {:cat :verb
+       :debug 4
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </some doubled consonants get reduced to a single consonant>
@@ -95,6 +102,8 @@
  {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3te"]
   :p [#"^(.*)([aieou])\2([tksp])te$" "$1$2$3en"]
   :u {:cat :verb
+      :debug 5
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
@@ -102,18 +111,24 @@
  {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3ten"]
   :p [#"^(.*)([aieou])\2([tksp])ten$" "$1$2$3en"]
   :u {:cat :verb
+      :debug 6
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
 
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3te"]
   :p [#"^(.*)([aieou])\2(ch)te$" "$1$2$3en"]
   :u {:cat :verb
+      :debug 7
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
   :p [#"^(.*)([aieou])\2(ch)ten$" "$1$2$3en"]
   :u {:cat :verb
+      :debug 8
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </'t kofship vowel lengthening>
@@ -122,12 +137,16 @@
  {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2sde"]
   :p [#"^(.*[^aeiou])[s]de$" "$1zen"]
   :u {:cat :verb
+      :debug 9
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
  {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2$3den"]
   :p [#"^(.*[^aieou])[s]den$" "$1zen"]
   :u {:cat :verb
+      :debug 10
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </vowel lengthening: voiced to voiceless vrezen -> vreesen >
@@ -136,12 +155,16 @@
  {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"   "$1$2$2$3de"]
   :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])de$" "$1$2$3en"]
   :u {:cat :verb
+      :debug 11
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
  {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"    "$1$2$2$3den"]
   :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])den$" "$1$2$3en"]
   :u {:cat :verb
+      :debug 12
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </vowel lengthening>
@@ -150,29 +173,52 @@
  {:g [#"^(.*[tksp])en$" "$1te"]
   :p [#"^(.*[tksp])te$" "$1en"]
   :u {:cat :verb
+      :debug 13
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
  {:g [#"^(.*[tksp])en$" "$1ten"]
   :p [#"^(.*[tksp])ten$" "$1en"]
   :u {:cat :verb
+      :debug 14
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </'t kofship>
 
- ;; <default>
+ ;; <default weak>
  {:g [#"^(.*)en$" "$1de"]
   :p [#"^(.*)de$" "$1en"]
   :u {:cat :verb
+      :debug 15
+      :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
  {:g [#"^(.*)en$"  "$1den"]
   :p [#"^(.*)den$" "$1en"]
   :u {:cat :verb
+      :debug 16
+      :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
- ;; </default>
+ ;; </default weak>
+
+ {:g [#"^(.*)ijven$" "$1eef"]
+  :p [#"^(.*)eef$"   "$1ijven"]
+  :u {:cat :verb
+      :debug 17
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ {:g [#"^(.*)ijven$" "$1eeven"]
+  :p [#"^(.*)eeven$" "$1ijven"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
  
  ;; </past simple>
  

@@ -72,17 +72,19 @@
       :agr {:number :plur}
       :infl :past-simple}}
 
-  {;; bellen -> belde
+ {;; bellen -> belde
+  ;; uitgeleggen -> uitgelegde
   :g [#"^(.*)([^aeiou])\2en$" "$1$2de"]
   ;; belde -> bellen
-  :p [#"^(.*)([l])de$"        "$1$2$2en"]
+  :p [#"^(.*)([gl])de$"        "$1$2$2en"]
    :u {:cat :verb
        :agr {:number :sing}
        :infl :past-simple}}
 
  {;; bellen -> belden
+  ;; uitgeleggen -> uitgelegden
   :g [#"^(.*)([^aeiou])\2en$" "$1$2den"]
-  :p [#"^(.*)([l])den$"       "$1$2$2en"]
+  :p [#"^(.*)([gl])den$"       "$1$2$2en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}

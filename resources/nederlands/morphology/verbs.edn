@@ -91,26 +91,28 @@
  ;; </some doubled consonants get reduced to a single consonant>
 
  ;; <'t kofship vowel lengthening>
+ ;; hopen -> hoopte
  {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3te"]
-  :p [#"^(.*[tksp])te$" "$1en"]
+  :p [#"^(.*)([aieou])\2([tksp])te$" "$1$2$3en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
+  ;; hopen -> hoopten
  {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3ten"]
-  :p [#"^(.*[tksp])ten$" "$1en"]
+  :p [#"^(.*)([aieou])\2([tksp])ten$" "$1$2$3en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}
 
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3te"]
-  :p [#"^(.*ch)te$" "$1en"]
+  :p [#"^(.*)([aieou])\2(ch)te$" "$1$2$3en"]
   :u {:cat :verb
       :agr {:number :sing}
       :infl :past-simple}}
 
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
-  :p [#"^(.*ch)ten$" "$1en"]
+  :p [#"^(.*)([aieou])\2(ch)ten$" "$1$2$3en"]
   :u {:cat :verb
       :agr {:number :plur}
       :infl :past-simple}}

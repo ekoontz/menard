@@ -141,6 +141,34 @@
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </vowel lengthening>
+
+ ;; <'t kofship>
+ {:g [#"^(.*[tksp])en$" "$1te"]
+  :p [#"^(.*[tksp])te$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[tksp])en$" "$1ten"]
+  :p [#"^(.*[tksp])ten$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </'t kofship>
+
+ ;; <default>
+ {:g [#"^(.*)en$" "$1de"]
+  :p [#"^(.*)de$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*)en$"  "$1den"]
+  :p [#"^(.*)den$" "$1en"]
+  :u {:cat :verb
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </default>
  
  ;; </past simple>
  

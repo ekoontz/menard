@@ -102,6 +102,8 @@
                       {:infl :past-simple
                        :surface "could"}]}]
 
+ "carry" [{ :sem {:pred :carry}}]
+ 
  "cause" [{:sem {:pred :cause}}]
  
  "come" (let [exceptions [{:infl :past-simple
@@ -451,7 +453,8 @@
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
- "start" [{ :sem {:pred :start} :subcat {:1 :top :2 :top}}]
+ "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
+ "stay" [{:sem {:pred :stay}}] 
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
           [{ :sem {:pred :take}
@@ -521,6 +524,10 @@
  "want" [{:sem {:pred :want}
           :modal :infinitive}]
  "wash" [{ :sem {:pred :wash}}]
+
+ "wear" [{:sem {:pred :wear}
+          :exceptions [{:infl :past-simple :surface "wore"}
+                       {:infl :past-participle :surface "wore"}]}]
  
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:

@@ -7,6 +7,7 @@
           :sem {:pred :leg}}]
  "bedrag" [{:agr {:gender :neuter}
             :sem {:pred :amount}}]
+ "bericht" [{:sem {:pred :message}}]
  "beschaving" [{:sem {:pred :civilization}}]
  "beslissing" [{:sem {:pred :decision}}]
  "bestemming" [{:sem {:pred :destination}}]

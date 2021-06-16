@@ -690,5 +690,12 @@
        :subcat {:2 {:cat :prep}}}
   :then [{:subcat {:2 {:phrasal true}}}]}
 
+ {:rule :nested-obj-null
+  :if {:cat :verb
+       :modal false
+       :te? false
+       :sem {:obj {:obj ::unspec}}}
+  :then [{:sem {:obj {:obj :none}}}]}
+ 
  ]
 

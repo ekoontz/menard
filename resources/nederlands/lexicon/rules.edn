@@ -139,8 +139,9 @@
   :then [{:modal false}]}
 
  ;; if a verb does not specify a particular
- ;; transitivity, generate both transitive and intransitive forms
- ;; of the verb, where the second form has a noun second argument.
+ ;; transitivity, generate both intransitive and transitive forms
+ ;; of the verb, where the second form has a noun second argument
+ ;; (which must be un-existential).
  {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux false

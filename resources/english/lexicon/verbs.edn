@@ -105,7 +105,6 @@
  "carry" [{ :sem {:pred :carry}}]
  
  "cause" [{:sem {:pred :cause}}]
- 
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle
@@ -113,9 +112,8 @@
           [{:sem {:pred :come
                   :obj :none}
             :exceptions exceptions}])
- 
  "design" [{:sem {:pred :design}}]
-
+ "dig" [{:sem {:pred :dig}}]
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]
             agr (atom :top)]
@@ -215,8 +213,8 @@
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions  :sem {:pred :eat}}])
  "emigrate" [{:sem {:pred :emigrate}}]
+ "experience" [{:sem {:pred :experience}}]
  "explain" [{:sem {:pred :explain}}]
-
  "feed" [{:sem {:pred :feed}
           :exceptions [{:infl :past-simple
                         :surface "fed"}
@@ -323,10 +321,12 @@
                           {:infl :past-participle :surface "heard"}]]
           [{:exceptions exceptions  :sem {:pred :hear}}])
  "help" [{ :sem {:pred :help}}]
-
  "hide" [{:sem {:pred :hide}
           :exceptions [{:infl :past-simple :surface "hid"}
                        {:infl :past-participle :surface "hid"}]}]
+ "hit" [{:sem {:pred :hit}
+         :exceptions [{:infl :past-simple :surface "hit"}
+                      {:infl :past-participle :surface "hit"}]}]
  "hope" [{:sense 1
           :sem {:pred :hope
                 :obj :none}}
@@ -409,6 +409,7 @@
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions  :sem {:pred :run}}])
+ "sail" [{ :sem {:pred :sail}}]
  "say" (let [exceptions [{:infl :past-simple :surface "said"}
                          {:infl :past-participle :surface "said"}]]
          [{:exceptions exceptions
@@ -428,12 +429,10 @@
            :sem {:pred :say}
            :subcat {:2 {:cat :comp
                         :rule "comp2"}}}])
- 
  "see" (let [exceptions [{:infl :past-simple :surface "saw"}
                          {:infl :past-participle :surface "seen"}]]
          [{:exceptions exceptions
            :sem {:pred :see}}])
- 
  "seem" [{ :sem {:pred :seem}}]
  "show" [{ :sem {:pred :show}}]
  "sing" [{:sem {:pred :sing}
@@ -441,12 +440,10 @@
                         :surface "sang"}
                        {:infl :past-participle
                         :surface "sung"}]}]
-
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]
          [{:exceptions exceptions
            :sem {:pred :sit}}])
-
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions
@@ -455,6 +452,9 @@
                    :obj :none}}])
  "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "stay" [{:sem {:pred :stay}}] 
+ "strike" [{:sem {:pred :strike}
+         :exceptions [{:infl :past-simple :surface "struck"}
+                      {:infl :past-participle :surface "struck"}]}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
           [{ :sem {:pred :take}

@@ -329,8 +329,8 @@
           :exceptions [{:infl :past-simple :surface "hid"}
                        {:infl :past-participle :surface "hid"}]}]
  "hit" [{:sem {:pred :hit}
-         :exceptions [{:infl :past-simple :surface "hit"}
-                      {:infl :past-participle :surface "hit"}]}]
+         :exceptions [{:infl :past-simple :surface "hit" :note ["past"]}
+                      {:infl :past-participle :surface "hit" :note ["past"]}]}]
  "hope" [{:sense 1
           :sem {:pred :hope
                 :obj :none}}
@@ -413,7 +413,7 @@
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions  :sem {:pred :run}}])
- "sail" [{ :sem {:pred :sail}}]
+ "sail" [{:sem {:pred :sail}}]
  "say" (let [exceptions [{:infl :past-simple :surface "said"}
                          {:infl :past-participle :surface "said"}]]
          [{:exceptions exceptions

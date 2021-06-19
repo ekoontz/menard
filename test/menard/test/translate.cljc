@@ -38,8 +38,8 @@
     (->> (-> nl/expressions
              (nth i)
              ((fn [x]
-                (log/debug (str "trying to generate expression number: " i " with "
-                                "model: " model-name " with spec: " x))
+                (log/info (str "trying to generate expression number: " i " with "
+                               "model: " model-name " with spec: " x))
                 x))
              generate
              ((fn [x]

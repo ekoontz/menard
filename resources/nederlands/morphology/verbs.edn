@@ -205,20 +205,62 @@
       :infl :past-simple}}
  ;; </default weak>
 
+ ;; <strong>
+ ;; slaan -> sloeg
+ {:g [#"^(.*)aan$"   "$1oeg"]
+  :p [#"^(.*)oeg$"   "$1aan"]
+  :u {:cat :verb
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ ;; slaan -> sloegen
+ {:g [#"^(.*)aan$"   "$1oegen"]
+  :p [#"^(.*)oegen$" "$1aan"]
+  :u {:cat :verb
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; graven -> groef
+ ;; (singular only: plural is graven -> groeven, which is covered by
+ ;;  the {:debug 18} plural rule.
+ {:g [#"^(.*)a([v])en$"  "$1oef"]
+  :p [#"^(.*)oe([f])$"   "$1aven"]
+  :u {:cat :verb
+      :debug 17
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ ;; dragen -> droeg,ervaren -> ervoer
+ {:g [#"^(.*)a(.)en$"  "$1oe$2"]
+  :p [#"^(.*)oe(.)$"   "$1a$2en"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ {:g [#"^(.*)a(.)en$"  "$1oe$2en"]
+  :p [#"^(.*)oe(.)en$" "$1a$2en"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; blijven -> bleef
  {:g [#"^(.*)ijven$" "$1eef"]
   :p [#"^(.*)eef$"   "$1ijven"]
   :u {:cat :verb
-      :debug 17
+      :debug 19
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
  {:g [#"^(.*)ijven$" "$1eeven"]
   :p [#"^(.*)eeven$" "$1ijven"]
   :u {:cat :verb
-      :debug 18
+      :debug 19
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
+ ;; </strong>
  
  ;; </past simple>
  

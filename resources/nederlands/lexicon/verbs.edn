@@ -12,33 +12,15 @@
  "blijven" [{:sem {:pred :stay}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]
- "dragen" (let [exceptions [{:infl :past-simple
-                             :agr {:number :sing}
-                             :surface "droeg"}
-                            {:infl :past-simple
-                             :agr {:number :plur}
-                             :surface "droegen"}]]
-            [{:exceptions exceptions
-              :sem {:pred :carry}}
-             {:exceptions exceptions
-              :sem {:pred :wear}}])
+ "dragen" [{:strong? true
+            :sem {:pred :carry}}
+           {:sem {:pred :wear}
+            :strong? true}]
  "dromen" [{:sem {:pred :dream}}]
- "ervaren" (let [exceptions [{:infl :past-simple
-                              :agr {:number :sing}
-                              :surface "ervoer"}
-                             {:infl :past-simple
-                              :agr {:number :plur}
-                              :surface "ervoeren"}]]
-             [{:sem {:pred :experience}
-               :exceptions exceptions}])
- "graven" (let [exceptions [{:infl :past-simple
-                              :agr {:number :sing}
-                             :surface "groef"}
-                            {:infl :past-simple
-                             :agr {:number :plur}
-                             :surface "groeven"}]]
-            [{:sem {:pred :dig}
-              :exceptions exceptions}])
+ "ervaren" [{:sem {:pred :experience}
+             :strong? true}]
+ "graven" [{:sem {:pred :dig}
+            :strong? true}]
  "gaan" [{:curriculum :basic
           :sem {:pred :go
                 :obj :none}
@@ -182,19 +164,15 @@
  (let [exceptions [{:infl :present
                     :agr {:number :sing}
                     :surface "moet"}
-
                    {:infl :present
                     :agr {:number :plur}
                     :surface "moeten"}]]
-
    [{:curriculum :basic
      :exceptions exceptions
      :modal :infinitive
      :sem {:pred :must}}])
-
  "ontworpen" [{:sem {:pred :design}}]
  "optreden" [{ :sem {:pred :perform}}]
-
  "proberen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -211,16 +189,10 @@
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
- "slaan" (let [exceptions [{:infl :past-simple
-                            :agr {:number :sing}
-                            :surface "sloeg"}
-                           {:infl :past-simple
-                            :agr {:number :plur}
-                            :surface "sloegen"}]]
-            [{:sem {:pred :hit}
-              :exceptions exceptions}
-             {:sem {:pred :strike}
-              :exceptions exceptions}])
+ "slaan" [{:sem {:pred :hit}
+           :strong? true}
+          {:sem {:pred :strike}
+           :strong? true}]
  "slapen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -236,7 +208,6 @@
      :sem {:pred :sleep
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
            :obj :none}}])
-
  "te"
  [(let [sem (atom :top)
         reflexive? (atom :top)]
@@ -284,7 +255,8 @@
                             :agr {:number :plur}
                             :surface "voeren"}]]
             [{:sem {:pred :sail}
-              :exceptions exceptions}])
+              :exceptions exceptions
+              :strong? true}])
  "verbergen" [{:sem {:pred :hide}}]
 
  "veroorzaaken" [{:sem {:pred :cause}}]

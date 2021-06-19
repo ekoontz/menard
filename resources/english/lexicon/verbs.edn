@@ -113,7 +113,11 @@
                   :obj :none}
             :exceptions exceptions}])
  "design" [{:sem {:pred :design}}]
- "dig" [{:sem {:pred :dig}}]
+ "dig" [{:sem {:pred :dig}
+         :exceptions [{:infl :past-simple
+                       :surface "dug"}
+                      {:infl :past-participle
+                       :surface "dug"}]}]
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]
             agr (atom :top)]

@@ -189,10 +189,22 @@
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
- "slaan" [{:sem {:pred :hit}
-           :strong? true}
-          {:sem {:pred :strike}
-           :strong? true}]
+ "slaan" (let [exceptions
+               [{:infl :present
+                 :agr {:person :1st :number :sing}
+                 :surface "sla"}
+                {:infl :present
+                 :agr {:person :2nd :number :sing}
+                 :surface "slaat"}
+                {:infl :present
+                 :agr {:person :3rd :number :sing}
+                 :surface "slaat"}]]
+           [{:sem {:pred :hit}
+             :strong? true
+             :exceptions exceptions}
+            {:sem {:pred :strike}
+             :strong? true
+             :exceptions exceptions}])
  "slapen"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}

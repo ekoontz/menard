@@ -113,3 +113,26 @@
            (take 10
                  (repeatedly #(transfer-fn i @nl/model))))))
    doall))
+
+;; (count (take 5 (repeatedly #(println (simple-past "graven")))))
+(defn simple-past [canonical]
+  (let [spec
+        {:rule "s"
+         :phrasal true
+         :cat :verb
+         :agr {:number :sing}
+         :infl :past-simple
+         :head {:phrasal false
+                :canonical canonical}}]
+    (let [nl (->> spec nl/generate)
+          en-spec (nl-to-en-spec nl)
+          en-expr (-> en-spec en/generate)]
+      (if en-expr
+        {:root (-> nl (u/get-in [:head :canonical]))
+         :nl (-> nl nl/morph)
+         :en (-> en-expr en/morph)}
+        en-spec))))
+
+
+
+

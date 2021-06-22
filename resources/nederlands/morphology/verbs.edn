@@ -124,6 +124,7 @@
       :agr {:number :sing}
       :infl :past-simple}}
 
+  ;; do not lengthen vowel for plural: (i.e., $2, not $2$2):
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
   :p [#"^(.*)([aieou])\2(ch)ten$" "$1$2$3en"]
   :u {:cat :verb
@@ -133,23 +134,25 @@
       :infl :past-simple}}
  ;; </'t kofship vowel lengthening>
 
- ;; <vowel lengthening: voiced to voiceless vrezen -> vreesen >
- {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2sde"]
-  :p [#"^(.*[^aeiou])[s]de$" "$1zen"]
+ ;; <vowel lengthening+voiced to voiceless: vrezen -> vreesde/vreesden >
+  ;; e.g. vrezen -> vreesde
+ {:g [#"^(.*[^aeiou])([aieou])zen$"    "$1$2$2sde"]
+  :p [#"^(.*[^aeiou])([aieou])\2sde$"  "$1zen"]
   :u {:cat :verb
       :debug 9
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2$3den"]
-  :p [#"^(.*[^aieou])[s]den$" "$1zen"]
+ ;; e.g. vrezen -> vreesden
+ {:g [#"^(.*[^aeiou])([aieou])zen$"    "$1$2$2sden"]
+  :p [#"^(.*[^aieou])([aieou])\2sden$" "$1zen"]
   :u {:cat :verb
       :debug 10
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
- ;; </vowel lengthening: voiced to voiceless vrezen -> vreesen >
+ ;; </vowel lengthening: voiced to voiceless: vrezen -> vreesde/vreesden >
 
  ;; <vowel lengthening>
  {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"   "$1$2$2$3de"]
@@ -160,8 +163,9 @@
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"    "$1$2$2$3den"]
-  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])den$" "$1$2$3en"]
+ ;; do not lengthen vowel for plural: (i.e., $2, not $2$2):
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"  "$1$2$3den"]
+  :p [#"^(.*[^aeiou])([aieou])([^aeiou])den$" "$1$2$3en"]
   :u {:cat :verb
       :debug 12
       :strong? false
@@ -169,7 +173,7 @@
       :infl :past-simple}}
  ;; </vowel lengthening>
 
- ;; <'t kofship>
+ ;; <'t kofship, without vowel lengthening>
  {:g [#"^(.*[tksp])en$" "$1te"]
   :p [#"^(.*[tksp])te$" "$1en"]
   :u {:cat :verb
@@ -185,7 +189,7 @@
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
- ;; </'t kofship>
+ ;; </'t kofship, without vowel lengthening>
 
  ;; <default weak>
  {:g [#"^(.*)en$" "$1de"]

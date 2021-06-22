@@ -14,8 +14,8 @@
  "bruizen" [{:sem {:pred :bubble}}]
  "dragen" [{:strong? true
             :sem {:pred :carry}}
-           {:sem {:pred :wear}
-            :strong? true}]
+           {:strong? true
+            :sem {:pred :wear}}]
  "dromen" [{:sem {:pred :dream}}]
  "ervaren" [{:sem {:pred :experience}
              :strong? true}]

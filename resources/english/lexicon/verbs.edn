@@ -102,7 +102,7 @@
                       {:infl :past-simple
                        :surface "could"}]}]
 
- "carry" [{ :sem {:pred :carry}}]
+ "carry" [{:sem {:pred :carry}}]
  
  "cause" [{:sem {:pred :cause}}]
  "come" (let [exceptions [{:infl :past-simple

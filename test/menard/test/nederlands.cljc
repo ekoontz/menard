@@ -167,7 +167,7 @@
                                                 (-> expression morph parse first syntax-tree))))))))
               (remove #(not (empty? %))))))))
 
-(deftest morphology-test
+(deftest noun-morphology
   ;; access all morphological rules for Dutch:
   (is (= "zeeën"
          (->
@@ -189,7 +189,9 @@
            :null? false
            :agr {:number :plur}
            :canonical "opdracht"}
-          (morph-leaf morphology))))
+          (morph-leaf morphology)))))
+
+(deftest present-morphology
   (is (= "zingt"
          (->
           {:canonical "zingen"
@@ -205,10 +207,13 @@
            :infl :present
            :agr {:number :sing
                  :person :3rd}}
-          (morph-leaf morphology))))
+          (morph-leaf morphology)))))
+
+(deftest past-simple-morphology
   (is (= "huilde"
          (->
           {:canonical "huilen"
+           :strong? false
            :cat :verb
            :infl :past-simple
            :agr {:number :sing
@@ -217,6 +222,27 @@
   (is (= "wasten"
          (->
           {:canonical "wassen"
+           :strong? false
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
+(deftest past-simple-strong-morphology-i-o-o
+  (is (= "vond"
+         (->
+          {:canonical "vinden"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "vonden"
+         (->
+          {:canonical "vinden"
+           :strong? true
            :cat :verb
            :infl :past-simple
            :agr {:number :plur

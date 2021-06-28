@@ -2,7 +2,9 @@ name: Clojure CI
 
 on:
   push:
-    branches: '*'
+    branches:
+    - main
+    - next
   pull_request:
     - main
 

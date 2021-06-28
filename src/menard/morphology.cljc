@@ -121,7 +121,7 @@
            (not (= structure {:head? false}))
            (not (= structure {:head? true})))
       (do
-        (log/warn (str "cannot generate surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" (u/get-in struct [:canonical] (u/get-in structure [:canonical])) "' . Returning '_'"))
+        (log/warn (str "cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" (u/get-in struct [:canonical] (u/get-in structure [:canonical])) "' . Returning '_'"))
         "_")
 
       (not (seq? matching-rules))

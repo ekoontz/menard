@@ -236,15 +236,15 @@
  
  ;; a – ie/i – a 
  ;; blazen <-> blies
- {:g [#"^blazen$" "blies"]
-  :p [#"^blies$"  "blazen"]
+ {:g [#"^(.*)azen$" "$1ies"]
+  :p [#"^(.*)ies$"  "$1azen"]
   :u {:cat :verb
       :debug 17
       :strong? :a-ie
       :agr {:number :sing}}}
  ;; blazen <-> bliezen
- {:g [#"^blazen$"  "bliezen"]
-  :p [#"^bliezen$" "blazen"]
+ {:g [#"^(.*)azen$"  "$1iezen"]
+  :p [#"^(.*)iezen$" "$1azen"]
   :u {:cat :verb
       :debug 17
       :strong? :a-ie

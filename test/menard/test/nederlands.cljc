@@ -249,6 +249,26 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
+(deftest past-simple-strong-morphology-a-ie-a
+  (is (= "blies"
+         (->
+          {:canonical "blazen"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "bliezen"
+         (->
+          {:canonical "blazen"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
 (deftest past-simple-strong-morphology-i-o-o
   (is (= "vond"
          (->

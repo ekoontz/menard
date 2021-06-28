@@ -234,6 +234,22 @@
       :strong? true
       :agr {:number :plur}}}
  
+ ;; a – ie/i – a 
+ ;; blazen <-> blies
+ {:g [#"^blazen$" "blies"]
+  :p [#"^blies$"  "blazen"]
+  :u {:cat :verb
+      :debug 17
+      :strong? :a-ie
+      :agr {:number :sing}}}
+ ;; blazen <-> bliezen
+ {:g [#"^blazen$"  "bliezen"]
+  :p [#"^bliezen$" "blazen"]
+  :u {:cat :verb
+      :debug 17
+      :strong? :a-ie
+      :agr {:number :plur}}}
+
  ;; ij – ee – e, e.g. blijven -> bleef
  {:g [#"^(.*)ijven$" "$1eef"]
   :p [#"^(.*)eef$"   "$1ijven"]

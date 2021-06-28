@@ -9,6 +9,8 @@
                               :infl :past-simple
                               :agr {:number :plur}}]}]
  "blaffen" [{:sem {:pred :bark}}]
+ "blazen" [{:sem {:pred :blow}
+            :strong? :a-ie}]
  "blijven" [{:sem {:pred :stay}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]

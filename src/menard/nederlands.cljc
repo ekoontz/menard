@@ -94,8 +94,9 @@
 
 #?(:clj
    (defn mark-irregular-verbs [lexeme]
-     (if (seq (->> (u/get-in lexeme [:exceptions])
-                   (filter #(= :past-simple (u/get-in % [:infl])))))
+     (if (or (seq (->> (u/get-in lexeme [:exceptions])
+                       (filter #(= :past-simple (u/get-in % [:infl])))))
+             (not (= false (u/get-in lexeme [:strong?] false))))
        (unify lexeme {:irregular-past-simple? true})
        (unify lexeme {:irregular-past-simple? false}))))
 

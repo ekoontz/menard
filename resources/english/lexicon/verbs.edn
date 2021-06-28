@@ -90,7 +90,7 @@
              :sem {:pred :believe}
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}]
- "blow" [{ :sem {:pred :blow}}]
+ "blow" [{:sem {:pred :blow}}]
  "bubble" [{:sem {:pred :bubble}}]
  
  "call" [{ :sem {:pred :call}}]

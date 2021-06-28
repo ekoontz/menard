@@ -267,6 +267,24 @@
            :infl :past-simple
            :agr {:number :plur
                  :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "liet"
+         (->
+          {:canonical "laten"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "lieten"
+         (->
+          {:canonical "laten"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
           (morph-leaf morphology)))))
 
 (deftest past-simple-strong-morphology-i-o-o

@@ -239,17 +239,31 @@
  {:g [#"^(.*)azen$" "$1ies"]
   :p [#"^(.*)ies$"  "$1azen"]
   :u {:cat :verb
-      :debug 17
+      :debug :a-ie
       :strong? :a-ie
       :agr {:number :sing}}}
  ;; blazen <-> bliezen
  {:g [#"^(.*)azen$"  "$1iezen"]
   :p [#"^(.*)iezen$" "$1azen"]
   :u {:cat :verb
-      :debug 17
+      :debug :a-ie
       :strong? :a-ie
       :agr {:number :plur}}}
-
+ ;; laten <-> liet
+ {:g [#"^(.*)a(t)en$" "$1ie$2"]
+  :p [#"^(.*)ie(t)$"  "$1a$2en"]
+  :u {:cat :verb
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :sing}}}
+ ;; laten <-> lieten
+ {:g [#"^(.*)a(t)en$"  "$1ie$2en"]
+  :p [#"^(.*)ie(t)en$" "$1a$2en"]
+  :u {:cat :verb
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :plur}}}
+ 
  ;; ij – ee – e, e.g. blijven -> bleef
  {:g [#"^(.*)ijven$" "$1eef"]
   :p [#"^(.*)eef$"   "$1ijven"]

@@ -12,16 +12,10 @@
  "blijven" [{:sem {:pred :stay}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]
- "dragen" (let [exceptions [{:infl :past-simple
-                             :agr {:number :sing}
-                             :surface "droeg"}
-                            {:infl :past-simple
-                             :agr {:number :plur}
-                             :surface "droegen"}]]
-            [{:exceptions exceptions
-              :sem {:pred :carry}}
-             {:exceptions exceptions
-              :sem {:pred :wear}}])
+ "dragen" [{:strong? true
+            :sem {:pred :carry}}
+           {:strong? true
+            :sem {:pred :wear}}]
  "dromen" [{:sem {:pred :dream}}]
  "ervaren" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}

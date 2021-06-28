@@ -229,6 +229,26 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
+(deftest past-simple-strong-morphology-a-oe-a
+  (is (= "droeg"
+         (->
+          {:canonical "dragen"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "droegen"
+         (->
+          {:canonical "dragen"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
 (deftest past-simple-strong-morphology-i-o-o
   (is (= "vond"
          (->

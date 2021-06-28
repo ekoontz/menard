@@ -218,17 +218,35 @@
  ;; </default weak>
 
  ;; <strong>
- {:g [#"^(.*)ijven$" "$1eef"]
-  :p [#"^(.*)eef$"   "$1ijven"]
+ ;; a -> oe -> a
+ ;; dragen <-> droeg
+ {:g [#"^(.*)a(.)en$" "$1oe$2"]
+  :p [#"^(.*)oe(.)$"  "$1a$2en"]
   :u {:cat :verb
       :debug 17
       :strong? true
-      :agr {:number :sing}
-      :infl :past-simple}}
- {:g [#"^(.*)ijven$" "$1eeven"]
-  :p [#"^(.*)eeven$" "$1ijven"]
+      :agr {:number :sing}}}
+ ;; dragen <-> droegen
+ {:g [#"^(.*)a(.)en$" "$1oe$2en"]
+  :p [#"^(.*)oe(.)en$"  "$1a$2en"]
   :u {:cat :verb
       :debug 17
+      :strong? true
+      :agr {:number :plur}}}
+ 
+ ;; ij – ee – e, e.g. blijven -> bleef
+ {:g [#"^(.*)ijven$" "$1eef"]
+  :p [#"^(.*)eef$"   "$1ijven"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+  ;; ij – ee – e, e.g. blijven -> bleven
+ {:g [#"^(.*)ijven$" "$1even"]
+  :p [#"^(.*)even$" "$1ijven"]
+  :u {:cat :verb
+      :debug 18
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
@@ -237,7 +255,7 @@
  {:g [#"^(.*)inden$" "$1ond"]
   :p [#"^(.*)ond$"   "$1inden"]
   :u {:cat :verb
-      :debug 18
+      :debug 19
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
@@ -246,7 +264,7 @@
  {:g [#"^(.*)inden$" "$1onden"]
   :p [#"^(.*)onden$" "$1inden"]
   :u {:cat :verb
-      :debug 18
+      :debug 19
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}

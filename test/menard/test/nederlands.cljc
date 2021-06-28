@@ -269,6 +269,26 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
+(deftest past-simple-strong-morphology-i-ij-e
+  (is (= "keek"
+         (->
+          {:canonical "kijken"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "keken"
+         (->
+          {:canonical "kijken"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
 (deftest parsing-tests
   (is
    (= ["[s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .samen +bestrijden]]]"]

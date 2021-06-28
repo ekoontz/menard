@@ -251,6 +251,23 @@
       :agr {:number :plur}
       :infl :past-simple}}
 
+ ;; ij – ee – e, e.g. kijken -> keek
+ {:g [#"^(.*)ij(.)en$" "$1ee$2"]
+  :p [#"^(.*)ee(.)$"   "$1ij$2en"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ ;; ij – ee – e, e.g. kijken -> keken 
+ {:g [#"^(.*)ij(.)en$" "$1e$2en"]
+  :p [#"^(.*)e(.)en$"  "$1ij$2en"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+ 
  ;; i–o–o, e.g. vinden -> vond
  {:g [#"^(.*)inden$" "$1ond"]
   :p [#"^(.*)ond$"   "$1inden"]

@@ -33,6 +33,12 @@
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
+ {:g [#"^(.*)an$" "$1at"]   ;; slaan -> slaat
+  :p [#"^(.*)at$" "$1an"]   ;; slaat -> slaan
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :2nd
+            :number :sing}}}
  ;; 3rd
  {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
   :p [#"^(.*)d$"    "$1gen"] 
@@ -42,6 +48,12 @@
             :number :sing}}}
  {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
   :p [#"^(.*)t$"  "$1en"]  ;; werkt  -> werken
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+ {:g [#"^(.*)an$" "$1at"]   ;; slaan -> slaat
+  :p [#"^(.*)at$" "$1an"]   ;; slaat -> slaan
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd

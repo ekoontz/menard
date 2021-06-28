@@ -561,3 +561,4 @@
                     (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
                   paths)))))
 
+(def morphology (-> model deref :morphology))

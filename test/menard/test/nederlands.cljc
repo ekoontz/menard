@@ -1,5 +1,6 @@
 (ns menard.test.nederlands
-  (:require [menard.nederlands :as nl :refer [analyze basic-model expressions generate load-model morph parse syntax-tree]]
+  (:require [menard.nederlands :as nl :refer [analyze basic-model expressions generate load-model morph morphology parse syntax-tree]]
+            [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
@@ -166,64 +167,165 @@
                                                 (-> expression morph parse first syntax-tree))))))))
               (remove #(not (empty? %))))))))
 
-(deftest morphology
+(deftest noun-morphology
   ;; access all morphological rules for Dutch:
-  (let [morphology (-> menard.nederlands/model deref :morphology)]
+  (is (= "zeeën"
+         (->
+          {:cat :noun
+           :null? false
+           :agr {:number :plur}
+           :canonical "zee"}
+          (morph-leaf morphology))))
+  (is (= "honden"
+         (->
+          {:cat :noun
+           :null? false
+           :agr {:number :plur}
+           :canonical "hond"}
+          (morph-leaf morphology))))
+  (is (= "opdrachten"
+         (->
+          {:cat :noun
+           :null? false
+           :agr {:number :plur}
+           :canonical "opdracht"}
+          (morph-leaf morphology)))))
 
-    (is (= "zeeën"
-           (menard.morphology/morph-leaf
-            {:cat :noun
-             :null? false
-             :agr {:number :plur}
-             :canonical "zee"} morphology)))
-    (is (= "honden"
-           (menard.morphology/morph-leaf
-            {:cat :noun
-             :null? false
-             :agr {:number :plur}
-             :canonical "hond"} morphology)))
-    (is (= "opdrachten"
-           (menard.morphology/morph-leaf
-            {:cat :noun
-             :null? false
-             :agr {:number :plur}
-             :canonical "opdracht"} morphology)))
-
-    (is (= "zingt"
-           (->
-            {:canonical "zingen"
-             :cat :verb
-             :infl :present
+(deftest present-morphology
+  (is (= "zingt"
+         (->
+          {:canonical "zingen"
+           :cat :verb
+           :infl :present
              :agr {:number :sing
                    :person :3rd}}
-            (menard.morphology/morph-leaf morphology))))
-            
-    (is (= "uitgelegd"
-           (->
-            {:canonical "uitgeleggen"
-             :cat :verb
-             :infl :present
-             :agr {:number :sing
-                   :person :3rd}}
-            (menard.morphology/morph-leaf morphology))))
+          (morph-leaf morphology))))
+  (is (= "uitgelegd"
+         (->
+          {:canonical "uitgeleggen"
+           :cat :verb
+           :infl :present
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology)))))
 
-    (is (= "huilde"
-           (->
-            {:canonical "huilen"
-             :cat :verb
-             :infl :past-simple
-             :agr {:number :sing
-                   :person :3rd}}
-            (menard.morphology/morph-leaf morphology))))
+(deftest past-simple-morphology
+  (is (= "huilde"
+         (->
+          {:canonical "huilen"
+           :strong? false
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "wasten"
+         (->
+          {:canonical "wassen"
+           :strong? false
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
 
-    (is (= "wasten"
-           (->
-            {:canonical "wassen"
-             :cat :verb
-             :infl :past-simple
-             :agr {:number :plur
-                   :person :3rd}}
-            (menard.morphology/morph-leaf morphology))))))
+(deftest past-simple-strong-morphology-a-oe-a
+  (is (= "droeg"
+         (->
+          {:canonical "dragen"
+           :strong? :a-oe
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "droegen"
+         (->
+          {:canonical "dragen"
+           :strong? :a-oe
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
+(deftest past-simple-strong-morphology-a-ie-a
+  (is (= "blies"
+         (->
+          {:canonical "blazen"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "bliezen"
+         (->
+          {:canonical "blazen"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "liet"
+         (->
+          {:canonical "laten"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "lieten"
+         (->
+          {:canonical "laten"
+           :strong? :a-ie
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
+(deftest past-simple-strong-morphology-i-o-o
+  (is (= "vond"
+         (->
+          {:canonical "vinden"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "vonden"
+         (->
+          {:canonical "vinden"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
+(deftest past-simple-strong-morphology-ij-ee-e
+  (is (= "keek"
+         (->
+          {:canonical "kijken"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "keken"
+         (->
+          {:canonical "kijken"
+           :strong? true
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
 
 (deftest parsing-tests
   (is

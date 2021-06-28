@@ -9,19 +9,15 @@
                               :infl :past-simple
                               :agr {:number :plur}}]}]
  "blaffen" [{:sem {:pred :bark}}]
+ "blazen" [{:sem {:pred :blow}
+            :strong? :a-ie}]
  "blijven" [{:sem {:pred :stay}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]
- "dragen" (let [exceptions [{:infl :past-simple
-                             :agr {:number :sing}
-                             :surface "droeg"}
-                            {:infl :past-simple
-                             :agr {:number :plur}
-                             :surface "droegen"}]]
-            [{:exceptions exceptions
-              :sem {:pred :carry}}
-             {:exceptions exceptions
-              :sem {:pred :wear}}])
+ "dragen" [{:strong? :a-oe
+            :sem {:pred :carry}}
+           {:strong? :a-oe
+            :sem {:pred :wear}}]
  "dromen" [{:sem {:pred :dream}}]
  "ervaren" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}
@@ -98,16 +94,10 @@
          :obj :none}}]
 
  "kijken"
- (let [exceptions [{:infl :past-simple
-                    :agr {:number :sing}
-                    :surface "keek"}
-                   {:infl :past-simple
-                    :agr {:number :sing}
-                    :surface "keken"}]]
-   [{:curriculum :basic
-     :sem {:pred :look
-           :obj :none}
-     :exceptions exceptions}])
+ [{:curriculum :basic
+   :strong? true
+   :sem {:pred :look
+         :obj :none}}]
                    
  "komen"
  (let [exceptions [{:infl :past-simple
@@ -233,6 +223,7 @@
                     :surface "slaapt"}]]
    [{:curriculum :basic
      :exceptions exceptions
+     :strong? :a-ie
      :sem {:pred :sleep
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
            :obj :none}}])
@@ -293,6 +284,7 @@
 
  "vinden" [(let [obj (atom {:top :top})]
              {:curriculum :basic
+              :strong? true
               :sem {:pred :like
                     :obj obj}
               :subcat {:2 {:cat :adjective

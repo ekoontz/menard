@@ -217,6 +217,7 @@
       :infl :past-simple}}
  ;; </default weak>
 
+ ;; <strong>
  {:g [#"^(.*)ijven$" "$1eef"]
   :p [#"^(.*)eef$"   "$1ijven"]
   :u {:cat :verb
@@ -227,10 +228,29 @@
  {:g [#"^(.*)ijven$" "$1eeven"]
   :p [#"^(.*)eeven$" "$1ijven"]
   :u {:cat :verb
+      :debug 17
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ ;; i–o–o, e.g. vinden -> vond
+ {:g [#"^(.*)inden$" "$1ond"]
+  :p [#"^(.*)ond$"   "$1inden"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+  ;; i–o–o, e.g. vinden -> vonden
+ {:g [#"^(.*)inden$" "$1onden"]
+  :p [#"^(.*)onden$" "$1inden"]
+  :u {:cat :verb
       :debug 18
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
+ ;; </strong>
  
  ;; </past simple>
  

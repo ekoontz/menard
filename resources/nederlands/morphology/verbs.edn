@@ -268,7 +268,7 @@
  {:g [#"^(.*)ijven$" "$1eef"]
   :p [#"^(.*)eef$"   "$1ijven"]
   :u {:cat :verb
-      :debug 18
+      :debug :ie-ee
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
@@ -276,7 +276,7 @@
  {:g [#"^(.*)ijven$" "$1even"]
   :p [#"^(.*)even$" "$1ijven"]
   :u {:cat :verb
-      :debug 18
+      :debug :ie-ee
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}

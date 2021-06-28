@@ -1,9 +1,0 @@
-language: clojure
-lein: 2.8.1
-script: lein with-profile travis-ci test
-sudo: false
-env:
-  global:
-    - JAVA_OPTS="-Xmx1G"
-jdk:
-  - openjdk16

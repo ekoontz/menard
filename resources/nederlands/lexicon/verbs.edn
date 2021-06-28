@@ -284,7 +284,7 @@
                             :agr {:number :plur}
                             :surface "voeren"}]]
             [{:sem {:pred :sail}
-              :exceptions exceptions}
+              :exceptions exceptions}])
  "verbergen" [{:sem {:pred :hide}}]
 
  "veroorzaaken" [{:sem {:pred :cause}}]

@@ -2,7 +2,7 @@ name: Clojure CI
 
 on:
   push:
-    branches: [ main strong-verbs]
+    branches: [ main strong-verbs ]
   pull_request:
     branches: [ main ]
 

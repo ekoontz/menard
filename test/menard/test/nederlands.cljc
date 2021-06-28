@@ -233,7 +233,7 @@
   (is (= "droeg"
          (->
           {:canonical "dragen"
-           :strong? true
+           :strong? :a-oe
            :cat :verb
            :infl :past-simple
            :agr {:number :sing
@@ -242,7 +242,7 @@
   (is (= "droegen"
          (->
           {:canonical "dragen"
-           :strong? true
+           :strong? :a-oe
            :cat :verb
            :infl :past-simple
            :agr {:number :plur
@@ -307,7 +307,7 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
-(deftest past-simple-strong-morphology-i-ij-e
+(deftest past-simple-strong-morphology-ij-ee-e
   (is (= "keek"
          (->
           {:canonical "kijken"

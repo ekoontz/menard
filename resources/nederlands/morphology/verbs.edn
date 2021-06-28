@@ -224,14 +224,14 @@
   :p [#"^(.*)oe(.)$"  "$1a$2en"]
   :u {:cat :verb
       :debug 17
-      :strong? true
+      :strong? :a-oe
       :agr {:number :sing}}}
  ;; dragen <-> droegen
  {:g [#"^(.*)a(.)en$" "$1oe$2en"]
   :p [#"^(.*)oe(.)en$"  "$1a$2en"]
   :u {:cat :verb
       :debug 17
-      :strong? true
+      :strong? :a-oe
       :agr {:number :plur}}}
  
  ;; a – ie/i – a 

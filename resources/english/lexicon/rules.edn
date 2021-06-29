@@ -236,20 +236,10 @@
 
  {:rule :nouns-have-empty-modifiers
   :if {:cat :noun
-       :mod ::unspec}
-  :then [{:mod []}]}
-
- {:rule :pronoun-have-empty-modifiers
-  :if {:cat :noun
-       :pronoun true
+       :mod ::unspec
        :sem {:mod ::unspec}}
-  :then [{:sem {:mod []}}]}
-
- {:rule :propernouns-have-empty-modifiers
-  :if {:cat :noun
-       :propernoun true
-       :sem {:mod ::unspec}}
-  :then [{:sem {:mod []}}]}
+  :then [{:mod []
+          :sem {:mod []}}]}
 
  {:rule :verbs-have-empty-modifiers
   :if {:cat :verb

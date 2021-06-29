@@ -234,7 +234,7 @@
       :strong? :a-oe
       :agr {:number :plur}}}
  
- ;; a – ie/i – a 
+ ;; <a – ie;i – a>
  ;; blazen <-> blies
  {:g [#"^(.*)azen$" "$1ies"]
   :p [#"^(.*)ies$"  "$1azen"]
@@ -249,20 +249,40 @@
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :plur}}}
- ;; laten <-> liet
+
+ ;; laten <-> liet; slapen <-> sliep
  {:g [#"^(.*)a([pt])en$" "$1ie$2"]
   :p [#"^(.*)ie([pt])$"  "$1a$2en"]
   :u {:cat :verb
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :sing}}}
- ;; laten <-> lieten
+ ;; laten <-> lieten; slapen <-> sliep
  {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
   :p [#"^(.*)ie([pt])en$" "$1a$2en"]
   :u {:cat :verb
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :plur}}}
+
+ ;; vallen <-> viel
+ {:g [#"^(.*)a(l)len$" "$1ie$2"]
+  :p [#"^(.*)ie(l)$"   "$1a$2$2en"]
+  :u {:cat :verb
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :sing}}}
+ ;; vallen <-> vielen
+ {:g [#"^(.*)a(l)len$" "$1ie$2en"]
+  :p [#"^(.*)ie(l)en$" "$1a$2$2en"]
+  :u {:cat :verb
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :plur}}}
+
+
+ ;; </a – ie;i – a>
+
  
  ;; ij – ee – e, e.g. blijven -> bleef
  {:g [#"^(.*)ijven$" "$1eef"]

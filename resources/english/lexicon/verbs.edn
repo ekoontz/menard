@@ -215,10 +215,13 @@
  
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
-         [{:exceptions exceptions  :sem {:pred :eat}}])
+         [{:exceptions exceptions :sem {:pred :eat}}])
  "emigrate" [{:sem {:pred :emigrate}}]
  "experience" [{:sem {:pred :experience}}]
  "explain" [{:sem {:pred :explain}}]
+ "fall" (let [exceptions [{:infl :past-simple :surface "fell"}
+                          {:infl :past-participle :surface "fallen"}]]
+         [{:exceptions exceptions :sem {:pred :fall}}])
  "feed" [{:sem {:pred :feed}
           :exceptions [{:infl :past-simple
                         :surface "fed"}

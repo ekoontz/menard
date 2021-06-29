@@ -11,7 +11,7 @@
  "blaffen" [{:sem {:pred :bark}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}
-            :strong? :a-ie
+            :strong? :a-ie}]
  "blijven" [{:sem {:pred :stay}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]

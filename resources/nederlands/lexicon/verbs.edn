@@ -12,7 +12,8 @@
  "blazen" [{:sem {:pred :blow
                   :obj :none}
             :strong? :a-ie}]
- "blijven" [{:sem {:pred :stay}
+ "blijven" [{:sem {:pred :stay
+                   :obj :none}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]
  "dragen" [{:strong? :a-oe
@@ -270,7 +271,8 @@
                          :agr {:number :plur}
                          :surface "wisten"}]}]
  "vallen" [{:strong? :a-ie
-            :sem {:pred :fall}}]
+            :sem {:pred :fall
+                  :obj :none}}]
  "varen" [{:strong? :a-oe
            :sem {:pred :sail}}]
  "verbergen" [{:sem {:pred :hide}}]

@@ -302,16 +302,16 @@
       :infl :past-simple}}
 
  ;; ij – ee – e, e.g. kijken -> keek
- {:g [#"^(.*)ij(.)en$" "$1ee$2"]
-  :p [#"^(.*)ee(.)$"   "$1ij$2en"]
+ {:g [#"^(.*)ij([^v])en$" "$1ee$2"]
+  :p [#"^(.*)ee([^v])$"   "$1ij$2en"]
   :u {:cat :verb
       :debug 18
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
  ;; ij – ee – e, e.g. kijken -> keken 
- {:g [#"^(.*)ij(.)en$" "$1e$2en"]
-  :p [#"^(.*)e(.)en$"  "$1ij$2en"]
+ {:g [#"^(.*)ij([^v])en$" "$1e$2en"]
+  :p [#"^(.*)e([^v])en$"  "$1ij$2en"]
   :u {:cat :verb
       :debug 18
       :strong? true

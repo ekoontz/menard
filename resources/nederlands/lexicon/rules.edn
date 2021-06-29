@@ -620,13 +620,5 @@
  {:rule :verbs-are-not-strong-by-default
   :if {:cat :verb
        :strong? ::unspec}
-  :then [{:strong? false}]}
- 
+  :then [{:strong? false}]} 
  ]
-
-         
-
-
-
- 
-

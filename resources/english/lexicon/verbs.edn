@@ -90,7 +90,11 @@
              :sem {:pred :believe}
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}]
- "blow" [{:sem {:pred :blow}}]
+ "blow" (let [exceptions [{:infl :past-simple
+                           :surface "blew"}
+                          {:infl :past-participle
+                           :surface "blown"}]]
+          [{:sem {:pred :blow}}])
  "bubble" [{:sem {:pred :bubble}}]
  
  "call" [{ :sem {:pred :call}}]

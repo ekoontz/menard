@@ -234,6 +234,19 @@
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
            :obj :none}}])
 
+ "staan" (let [exceptions [{:infl :present
+                            :agr {:number :sing
+                                  :person :1st}
+                            :surface "sta"}
+                           {:infl :past-simple
+                            :agr {:number :sing}
+                            :surface "stond"}
+                           {:infl :past-simple
+                            :agr {:number :plur}
+                            :surface "stonden"}]]
+            [{:sem {:pred :stand}
+              :exceptions exceptions}])
+
  "te"
  [(let [sem (atom :top)
         reflexive? (atom :top)]

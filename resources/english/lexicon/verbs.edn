@@ -462,6 +462,11 @@
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
+ "stand" (let [exceptions [{:infl :past-simple :surface "stood"}
+                           {:infl :past-participle :surface "stood"}]]
+           [{:exceptions exceptions
+             :sem {:pred :stand}}])
+
  "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "stay" [{:sem {:pred :stay}}] 
  "strike" [{:sem {:pred :strike}

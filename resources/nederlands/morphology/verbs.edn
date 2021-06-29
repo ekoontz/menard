@@ -222,6 +222,7 @@
  {:g [#"^(.*)a(.)en$" "$1oe$2"]
   :p [#"^(.*)oe(.)$"  "$1a$2en"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-oe
       :strong? :a-oe
       :agr {:number :sing}}}
@@ -229,6 +230,7 @@
  {:g [#"^(.*)a(.)en$" "$1oe$2en"]
   :p [#"^(.*)oe(.)en$"  "$1a$2en"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-oe
       :strong? :a-oe
       :agr {:number :plur}}}
@@ -238,6 +240,7 @@
  {:g [#"^(.*)azen$" "$1ies"]
   :p [#"^(.*)ies$"  "$1azen"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :sing}}}
@@ -245,6 +248,7 @@
  {:g [#"^(.*)azen$"  "$1iezen"]
   :p [#"^(.*)iezen$" "$1azen"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :plur}}}
@@ -253,6 +257,7 @@
  {:g [#"^(.*)a([pt])en$" "$1ie$2"]
   :p [#"^(.*)ie([pt])$"  "$1a$2en"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :sing}}}
@@ -260,6 +265,7 @@
  {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
   :p [#"^(.*)ie([pt])en$" "$1a$2en"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :plur}}}
@@ -268,6 +274,7 @@
  {:g [#"^(.*)a(l)len$" "$1ie$2"]
   :p [#"^(.*)ie(l)$"   "$1a$2$2en"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :sing}}}
@@ -275,13 +282,11 @@
  {:g [#"^(.*)a(l)len$" "$1ie$2en"]
   :p [#"^(.*)ie(l)en$" "$1a$2$2en"]
   :u {:cat :verb
+      :infl :past-simple
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :plur}}}
-
-
  ;; </a – ie;i – a>
-
  
  ;; ij – ee – e, e.g. blijven -> bleef
  {:g [#"^(.*)ijven$" "$1eef"]

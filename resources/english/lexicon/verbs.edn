@@ -94,7 +94,8 @@
                            :surface "blew"}
                           {:infl :past-participle
                            :surface "blown"}]]
-          [{:sem {:pred :blow}}])
+          [{:sem {:pred :blow}
+            :exceptions exceptions}])
  "bubble" [{:sem {:pred :bubble}}]
  
  "call" [{ :sem {:pred :call}}]

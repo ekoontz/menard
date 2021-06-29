@@ -250,15 +250,15 @@
       :strong? :a-ie
       :agr {:number :plur}}}
  ;; laten <-> liet
- {:g [#"^(.*)a(t)en$" "$1ie$2"]
-  :p [#"^(.*)ie(t)$"  "$1a$2en"]
+ {:g [#"^(.*)a([pt])en$" "$1ie$2"]
+  :p [#"^(.*)ie([pt])$"  "$1a$2en"]
   :u {:cat :verb
       :debug :a-ie
       :strong? :a-ie
       :agr {:number :sing}}}
  ;; laten <-> lieten
- {:g [#"^(.*)a(t)en$"  "$1ie$2en"]
-  :p [#"^(.*)ie(t)en$" "$1a$2en"]
+ {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
+  :p [#"^(.*)ie([pt])en$" "$1a$2en"]
   :u {:cat :verb
       :debug :a-ie
       :strong? :a-ie

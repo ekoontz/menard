@@ -203,7 +203,11 @@
      :modal :te
      :sem {:pred :try}
      :exceptions exceptions}])
- "slaan" (let [exceptions [{:infl :past-simple
+ "slaan" (let [exceptions [{:infl :present
+                            :agr {:number :sing
+                                  :person :1st}
+                            :surface "sla"}
+                           {:infl :past-simple
                             :agr {:number :sing}
                             :surface "sloeg"}
                            {:infl :past-simple

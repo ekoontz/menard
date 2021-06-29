@@ -269,14 +269,10 @@
                         {:infl :past-simple
                          :agr {:number :plur}
                          :surface "wisten"}]}]
- "varen" (let [exceptions [{:infl :past-simple
-                            :agr {:number :sing}
-                            :surface "voer"}
-                           {:infl :past-simple
-                            :agr {:number :plur}
-                            :surface "voeren"}]]
-            [{:sem {:pred :sail}
-              :exceptions exceptions}])
+ "vallen" [{:strong? :a-ie
+            :sem {:pred :fall}}]
+ "varen" [{:strong? :a-oe
+           :sem {:pred :sail}}]
  "verbergen" [{:sem {:pred :hide}}]
 
  "veroorzaaken" [{:sem {:pred :cause}}]

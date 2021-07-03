@@ -21,6 +21,7 @@
 (def intermediate-parse? false)
 
 (defn nl-to-en-spec [nl-expression]
+  (log/debug (str "nl-to-en-spec: nl-expression: " (serialize nl-expression)))
   (let [retval
         {:agr {:number
                (or
@@ -35,12 +36,11 @@
          :comp {:interrogative? (u/get-in nl-expression [:comp :interrogative?] :top)}
 
          :max-depth (u/get-in nl-expression [:target :max-depth] g/max-depth)
-         :phrasal true
+         :phrasal (u/get-in nl-expression [:phrasal] true)
          :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
                           false
                           :else
                           (u/get-in nl-expression [:reflexive] :top))
-
 
          ;; TODO: this is totally unintuitive: see TODO(1) below.
          :sem (unify (u/get-in nl-expression [:sem] :top)

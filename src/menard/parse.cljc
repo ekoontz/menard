@@ -319,6 +319,9 @@
              :all-parses all-parses}]
         result)))
 
+(defn tokenize [input]
+  (filter #(not (string/blank? %)) (string/split input split-on)))
+  
 (defn parse
   "Return a list of all possible parse trees for a string.
    Use a language-independent tokenizer (split on space and
@@ -327,7 +330,7 @@
   [input morph]
   (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
   ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
-  (let [tokenizations (filter #(not (string/blank? %)) (string/split input split-on))
+  (let [tokenizations (tokenize input)
         result (parse-tokens tokenizations morph)]
     (if (empty? (:complete-parses result))
       (let [analyses

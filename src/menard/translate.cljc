@@ -35,7 +35,7 @@
          :comp {:interrogative? (u/get-in nl-expression [:comp :interrogative?] :top)}
 
          :max-depth (u/get-in nl-expression [:target :max-depth] g/max-depth)
-         :phrasal true
+         :phrasal (u/get-in nl-expression [:phrasal] true)
          :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
                           false
                           :else

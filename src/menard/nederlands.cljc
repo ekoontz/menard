@@ -467,9 +467,7 @@
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/lookup-fn analyze]
-      (let [parses (p/parse expression morph)]
-        (or (and (seq parses) parses)
-            (analyze expression))))))
+      (p/parse expression morph))))
 
 (defn generate-demo [index & [this-many]]
   (->>
@@ -509,6 +507,10 @@
                                ((fn [x] (morph x :sentence-punctuation? true))))))
      (take (or this-many 10))
      count)))
+
+(defn tokenize [input-string]
+  (binding [p/split-on #"[ ]"]
+    (p/tokenize input-string)))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

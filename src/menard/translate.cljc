@@ -21,6 +21,7 @@
 (def intermediate-parse? false)
 
 (defn nl-to-en-spec [nl-expression]
+  (log/debug (str "nl-to-en-spec: nl-expression: " (serialize nl-expression)))
   (let [retval
         {:agr {:number
                (or
@@ -40,7 +41,6 @@
                           false
                           :else
                           (u/get-in nl-expression [:reflexive] :top))
-
 
          ;; TODO: this is totally unintuitive: see TODO(1) below.
          :sem (unify (u/get-in nl-expression [:sem] :top)

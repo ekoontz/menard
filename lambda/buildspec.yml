@@ -19,7 +19,7 @@ phases:
       - cp template-native.yml /
       - echo "***** <DIAGNOSTICS> *****"
       - uname -a
-      - find / -ls
+      - find /etc -ls 
       - echo "***** </DIAGNOSTICS> *****"      
   post_build:
     commands:

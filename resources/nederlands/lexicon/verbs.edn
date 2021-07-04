@@ -90,6 +90,9 @@
                           :surface "hadden"
                           :agr {:number :plur}}]}]
 
+ "hoesten" [{:sem {:pred :cough
+                   :obj :none}}]
+
  "hopen" ;; intransitive only for now:
  [{:sense 1
    :sem {:pred :hope

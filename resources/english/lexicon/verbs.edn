@@ -117,6 +117,7 @@
           [{:sem {:pred :come
                   :obj :none}
             :exceptions exceptions}])
+ "cough" [{:sem {:pred :cough}}]
  "design" [{:sem {:pred :design}}]
  "dig" [{:sem {:pred :dig}
          :exceptions [{:infl :past-simple

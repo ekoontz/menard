@@ -56,6 +56,7 @@
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
  "gemeenschap" [{:sem {:pred :community}}]
+ "genootchap" [{:sem {:pred :society}}]
  "gesprek" [{:agr {:gender :neuter}
              :sem {:pred :conversation}}]
  "gevoel" [{:agr {:gender :neuter}

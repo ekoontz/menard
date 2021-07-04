@@ -220,6 +220,49 @@
       :strong? :a-ie
       :agr {:number :plur}}}
  ;; </a – ie;i – a>
+
+ ;; <e-a-e>
+ {:g [#"^(.*)e([dt])en$" "$1a$2"]
+  :p [#"^(.*)a([dt])$"   "$1e$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-a-e
+      :agr {:number :sing}}}
+ {:g [#"^(.*)e([dt])en$" "$1a$2en"]
+  :p [#"^(.*)a([dt])en$" "$1e$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-a-e
+      :agr {:number :plur}}}
+
+ {:g [#"^(.*)ezen$" "$1as"]
+  :p [#"^(.*)as$"   "$1ezen"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-a-e
+      :agr {:number :sing}}}
+ {:g [#"^(.*)ezen$" "$1azen"]
+  :p [#"^(.*)azen$" "$1ezen"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-a-e
+      :agr {:number :plur}}}
+
+ {:g [#"^(.*)even$" "$1af"]
+  :p [#"^(.*)af$"   "$1even"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :e-a-e
+      :agr {:number :sing}}}
+ {:g [#"^(.*)even$" "$1aven"]
+  :p [#"^(.*)aven$" "$1even"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :e-a-e
+      :agr {:number :plur}}}
+ ;; </e-a-e>
  
  ;; ij – ee – e, e.g. blijven -> bleef
  {:g [#"^(.*)ijven$" "$1eef"]

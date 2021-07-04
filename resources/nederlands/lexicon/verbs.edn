@@ -21,6 +21,8 @@
            {:strong? :a-oe
             :sem {:pred :wear}}]
  "dromen" [{:sem {:pred :dream}}]
+ "eten" [{:sem {:pred :eat}
+          :strong? :e-a-e}]
  "ervaren" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}
                               :surface "ervoer"}
@@ -59,6 +61,8 @@
                         :agr {:number :plur}
                         :surface "gingen"}]}]
  "geloven" [{:sem {:pred :believe}}]
+ "genezen" [{:sem {:pred :heal}
+             :strong? :e-a-e}]
  "hebben" [{:curriculum :basic
             :sem {:pred :have}
             :exceptions [{:infl :present
@@ -160,16 +164,11 @@
                     :surface "leest"}
                    {:infl :present
                     :agr {:person :3rd :number :sing}
-                    :surface "leest"}
-                   {:infl :past-simple
-                    :agr {:number :sing}
-                    :surface "las"}
-                   {:infl :past-simple
-                    :agr {:number :plur}
-                    :surface "lazen"}]]
-   [{:curriculum :basic
-     :exceptions exceptions
-     :sem {:pred :read}}])
+                    :surface "leest"}]]
+       [{:curriculum :basic
+         :strong? :e-a-e
+         :exceptions exceptions
+         :sem {:pred :read}}])
 
  "maken" [{:sem {:pred :make}}]
 
@@ -280,6 +279,12 @@
                                 {:infl :past-simple
                                  :surface "tegenhielden"
                                  :agr {:number :plur}}]}]
+ "treden" [{:sem {:pred :move
+                  :obj :none}
+            :strong? :e-a-e}
+           {:sem {:pred :step
+                  :obj :none}
+            :strong? :e-a-e}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
  "wassen" [{:sem {:pred :wash}}]
@@ -303,7 +308,8 @@
  "varen" [{:strong? :a-oe
            :sem {:pred :sail}}]
  "verbergen" [{:sem {:pred :hide}}]
-
+ "vergeten" [{:strong? :e-a-e
+              :sem {:pred :forget}}]
  "veroorzaaken" [{:sem {:pred :cause}}]
 
  "verpesten" [{:sem {:pred :ruin}}]

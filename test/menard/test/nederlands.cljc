@@ -287,6 +287,26 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
+(deftest past-simple-strong-morphology-e-a-e
+  (is (= "at"
+         (->
+          {:canonical "eten"
+           :strong? :e-a-e
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "aten"
+         (->
+          {:canonical "eten"
+           :strong? :e-a-e
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
 (deftest past-simple-strong-morphology-i-o-o
   (is (= "vond"
          (->

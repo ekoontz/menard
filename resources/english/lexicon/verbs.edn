@@ -240,6 +240,9 @@
  "find" (let [exceptions [{:infl :past-simple :surface "found"}
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
+ "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
+                          {:infl :past-participle :surface "forgotten"}]]
+          [{:exceptions exceptions  :sem {:pred :forget}}])
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
          [{:exceptions exceptions  :sem {:pred :get}}])
@@ -379,8 +382,7 @@
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions  :sem {:pred :mean}}])
- "move" [{:sem {:pred :move} :subcat {:1 :top :2 :top}}]
-
+ "move" [{:sem {:pred :move}}]
  "must" [{:modal :base
           :inflected? true
           :sem {:pred :must}}]
@@ -470,7 +472,8 @@
              :sem {:pred :stand}}])
 
  "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
- "stay" [{:sem {:pred :stay}}] 
+ "stay" [{:sem {:pred :stay}}]
+ "step" [{:sem {:pred :step}}]
  "strike" [{:sem {:pred :strike}
          :exceptions [{:infl :past-simple :surface "struck"}
                       {:infl :past-participle :surface "struck"}]}]

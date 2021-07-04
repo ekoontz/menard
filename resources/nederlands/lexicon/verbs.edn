@@ -184,6 +184,9 @@
      :modal :infinitive
      :sem {:pred :must}}])
 
+ "niezen" [{:sem {:pred :sneeze
+                  :obj :none}}]
+ 
  "ontworpen" [{:sem {:pred :design}}]
  "optreden" [{ :sem {:pred :perform}}]
 
@@ -244,7 +247,8 @@
                            {:infl :past-simple
                             :agr {:number :plur}
                             :surface "stonden"}]]
-            [{:sem {:pred :stand}
+           [{:sem {:pred :stand
+                   :obj :none}
               :exceptions exceptions}])
 
  "te"

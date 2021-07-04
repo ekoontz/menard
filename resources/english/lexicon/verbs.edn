@@ -462,6 +462,7 @@
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
+ "sneeze" [{:sem {:pred :sneeze}}]
  "stand" (let [exceptions [{:infl :past-simple :surface "stood"}
                            {:infl :past-participle :surface "stood"}]]
            [{:exceptions exceptions

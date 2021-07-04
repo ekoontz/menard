@@ -1,0 +1,277 @@
+[
+ ;; F 47.1
+ ;; <some doubled consonants get reduced to a single consonant>
+ {;; wassen -> waste
+  :g [#"^(.*)([fs])\2en$"      "$1$2te"]  
+  :p [#"^(.*)([fs])te$"        "$1$2$2en"]
+  :u {:cat :verb
+      :debug 1
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {;; wassen -> wasten
+  :g [#"^(.*)([fs])\2en$"      "$1$2ten"]
+  :p [#"^(.*)([fs])ten$"       "$1$2$2en"]
+  :u {:cat :verb
+      :debug 2
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ {;; bellen -> belde
+  ;; uitgeleggen -> uitgelegde
+  :g [#"^(.*)([^aeiou])\2en$" "$1$2de"]
+  ;; belde -> bellen
+  :p [#"^(.*)([gl])de$"        "$1$2$2en"]
+   :u {:cat :verb
+       :debug 3
+       :strong? false
+       :agr {:number :sing}
+       :infl :past-simple}}
+
+ {;; bellen -> belden
+  ;; uitgeleggen -> uitgelegden
+  :g [#"^(.*)([^aeiou])\2en$" "$1$2den"]
+  :p [#"^(.*)([gl])den$"       "$1$2$2en"]
+  :u {:cat :verb
+       :debug 4
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </some doubled consonants get reduced to a single consonant>
+
+ ;; <'t kofship vowel lengthening>
+ ;; hopen -> hoopte
+ {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3te"]
+  :p [#"^(.*)([aieou])\2([tksp])te$" "$1$2$3en"]
+  :u {:cat :verb
+      :debug 5
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+  ;; hopen -> hoopten
+ {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3ten"]
+  :p [#"^(.*)([aieou])\2([tksp])ten$" "$1$2$3en"]
+  :u {:cat :verb
+      :debug 6
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3te"]
+  :p [#"^(.*)([aieou])\2(ch)te$" "$1$2$3en"]
+  :u {:cat :verb
+      :debug 7
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
+  :p [#"^(.*)([aieou])\2(ch)ten$" "$1$2$3en"]
+  :u {:cat :verb
+      :debug 8
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </'t kofship vowel lengthening>
+
+ ;; <vowel lengthening: voiced to voiceless vrezen -> vreesen >
+ {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2sde"]
+  :p [#"^(.*[^aeiou])[s]de$" "$1zen"]
+  :u {:cat :verb
+      :debug 9
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2$3den"]
+  :p [#"^(.*[^aieou])[s]den$" "$1zen"]
+  :u {:cat :verb
+      :debug 10
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </vowel lengthening: voiced to voiceless vrezen -> vreesen >
+
+ ;; <vowel lengthening>
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"   "$1$2$2$3de"]
+  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])de$" "$1$2$3en"]
+  :u {:cat :verb
+      :debug 11
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"    "$1$2$2$3den"]
+  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])den$" "$1$2$3en"]
+  :u {:cat :verb
+      :debug 12
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </vowel lengthening>
+
+ ;; <'t kofship>
+ {:g [#"^(.*[tksp])en$" "$1te"]
+  :p [#"^(.*[tksp])te$" "$1en"]
+  :u {:cat :verb
+      :debug 13
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*[tksp])en$" "$1ten"]
+  :p [#"^(.*[tksp])ten$" "$1en"]
+  :u {:cat :verb
+      :debug 14
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </'t kofship>
+
+ ;; <default weak>
+ {:g [#"^(.*)en$" "$1de"]
+  :p [#"^(.*)de$" "$1en"]
+  :u {:cat :verb
+      :debug 15
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*)en$"  "$1den"]
+  :p [#"^(.*)den$" "$1en"]
+  :u {:cat :verb
+      :debug 16
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </default weak>
+
+ ;; <strong>
+ ;; a -> oe -> a
+ ;; dragen <-> droeg
+ {:g [#"^(.*)a(.)en$" "$1oe$2"]
+  :p [#"^(.*)oe(.)$"  "$1a$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-oe
+      :strong? :a-oe
+      :agr {:number :sing}}}
+ ;; dragen <-> droegen
+ {:g [#"^(.*)a(.)en$" "$1oe$2en"]
+  :p [#"^(.*)oe(.)en$"  "$1a$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-oe
+      :strong? :a-oe
+      :agr {:number :plur}}}
+ 
+ ;; <a – ie;i – a>
+ ;; blazen <-> blies
+ {:g [#"^(.*)azen$" "$1ies"]
+  :p [#"^(.*)ies$"  "$1azen"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :sing}}}
+ ;; blazen <-> bliezen
+ {:g [#"^(.*)azen$"  "$1iezen"]
+  :p [#"^(.*)iezen$" "$1azen"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :plur}}}
+
+ ;; laten <-> liet; slapen <-> sliep
+ {:g [#"^(.*)a([pt])en$" "$1ie$2"]
+  :p [#"^(.*)ie([pt])$"  "$1a$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :sing}}}
+ ;; laten <-> lieten; slapen <-> sliep
+ {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
+  :p [#"^(.*)ie([pt])en$" "$1a$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :plur}}}
+
+ ;; vallen <-> viel
+ {:g [#"^(.*)a(l)len$" "$1ie$2"]
+  :p [#"^(.*)ie(l)$"   "$1a$2$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :sing}}}
+ ;; vallen <-> vielen
+ {:g [#"^(.*)a(l)len$" "$1ie$2en"]
+  :p [#"^(.*)ie(l)en$" "$1a$2$2en"]
+  :u {:cat :verb
+      :infl :past-simple
+      :debug :a-ie
+      :strong? :a-ie
+      :agr {:number :plur}}}
+ ;; </a – ie;i – a>
+ 
+ ;; ij – ee – e, e.g. blijven -> bleef
+ {:g [#"^(.*)ijven$" "$1eef"]
+  :p [#"^(.*)eef$"   "$1ijven"]
+  :u {:cat :verb
+      :debug :ie-ee
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+  ;; ij – ee – e, e.g. blijven -> bleven
+ {:g [#"^(.*)ijven$" "$1even"]
+  :p [#"^(.*)even$" "$1ijven"]
+  :u {:cat :verb
+      :debug :ie-ee
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ ;; ij – ee – e, e.g. kijken -> keek
+ {:g [#"^(.*)ij([^v])en$" "$1ee$2"]
+  :p [#"^(.*)ee([^v])$"   "$1ij$2en"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ ;; ij – ee – e, e.g. kijken -> keken 
+ {:g [#"^(.*)ij([^v])en$" "$1e$2en"]
+  :p [#"^(.*)e([^v])en$"  "$1ij$2en"]
+  :u {:cat :verb
+      :debug 18
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+ 
+ ;; i–o–o, e.g. vinden -> vond
+ {:g [#"^(.*)inden$" "$1ond"]
+  :p [#"^(.*)ond$"   "$1inden"]
+  :u {:cat :verb
+      :debug 19
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+  ;; i–o–o, e.g. vinden -> vonden
+ {:g [#"^(.*)inden$" "$1onden"]
+  :p [#"^(.*)onden$" "$1inden"]
+  :u {:cat :verb
+      :debug 19
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </strong>
+ ]
+

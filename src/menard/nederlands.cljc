@@ -33,7 +33,8 @@
       [(model/use-path "nederlands/morphology/adjectives.edn")
        (model/use-path "nederlands/morphology/misc.edn")
        (model/use-path "nederlands/morphology/nouns.edn")
-       (model/use-path "nederlands/morphology/verbs.edn")])))
+       (model/use-path "nederlands/morphology/verbs.edn")
+       (model/use-path "nederlands/morphology/verbs/simple-past.edn")])))
 
 #?(:cljs
    (defn load-morphology []
@@ -41,7 +42,8 @@
       ["nederlands/morphology/adjectives.edn"
        "nederlands/morphology/misc.edn"
        "nederlands/morphology/nouns.edn"
-       "nederlands/morphology/verbs.edn"])))
+       "nederlands/morphology/verbs.edn"
+       "nederlands/morphology/verbs/simple-past.edn"])))
 
 ;; </morphology>
 

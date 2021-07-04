@@ -13,7 +13,7 @@
   "generate a Dutch expression from _spec_ and translate to English, and return this pair
    along with the semantics of the English specification also."
   [spec]
-  (let [debug (log/info (str "generating a question with spec: " spec))
+  (let [debug (log/debug (str "generating a question with spec: " spec))
         ;; 1. generate a target expression
         target-expression (->> (repeatedly #(-> spec nl/generate))
                                (take 4)
@@ -31,7 +31,7 @@
                            (->> source-expression en/morph en/parse
                                 (map #(u/get-in % [:sem]))
                                 (remove #(= :fail (u/unify % target-semantics)))))]
-    (log/info (str "given input input spec: "
+    (log/debug (str "given input input spec: "
                    (-> spec (dissoc :cat) (dissoc :sem))
                    ", generated: '" (-> source-expression en/morph) "'"
                    " -> '"  (-> target-expression nl/morph) "'"))
@@ -54,9 +54,9 @@
 (defn generate-nl-by-spec
   "decode a spec from the input request and generate with it."
   [spec]
-  (log/info (str "spec pre-decode: " spec))
+  (log/debug (str "spec pre-decode: " spec))
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)]
-    (log/info (str "generate-by-spec with spec: " spec))
+    (log/debug (str "generate-by-spec with spec: " spec))
     (-> spec
         generate-nl
         (dissoc :source-tree)
@@ -67,7 +67,7 @@
   [spec alternates]
   (let [alternates (map dag_unify.serialization/deserialize (read-string alternates))
         spec (-> spec read-string dag_unify.serialization/deserialize)]
-    (log/info (str "generate-nl-with-alternations: spec: " spec))
+    (log/debug (str "generate-nl-with-alternations: spec: " spec))
     (let [derivative-specs
           (->>
            alternates
@@ -102,7 +102,7 @@
                     (take 2)
                     (filter #(not (nil? %)))
                     first)]
-    (log/info (str "generate-english: phrasal? " phrasal?))
+    (log/debug (str "generate-english: phrasal? " phrasal?))
     (when (nil? result)
       (log/warn (str "failed to generate on two occasions with nl: '" nl "'; spec: "
                      (dag-to-string spec))))
@@ -122,7 +122,7 @@
        (map first)))
 
 (defn parse-nl [string-to-parse]
-  (log/info (str "parsing input: " string-to-parse))
+  (log/info (str "parsing user guess: " string-to-parse))
   (let [nl-tokens (nl/tokenize string-to-parse)
         nl-parse-attempts (cond (> (count nl-tokens) 1)
                                 (->> string-to-parse

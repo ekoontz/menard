@@ -87,6 +87,7 @@
  "kitten" [{:sem {:pred :kitten}}]
  "kleuter" [{:sem {:pred :toddler}}]
  "koper" [{:sem {:pred :buyer}}]
+ "lafaard" [{:sem {:pred :coward}}]
  "land" [{:sem {:pred :country}
           :agr {:gender :neuter}}]
  "leraar" [{:sem {:pred :teacher}}]

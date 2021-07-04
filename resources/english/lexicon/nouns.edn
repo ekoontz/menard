@@ -8,6 +8,7 @@
  "baby" [{:sem {:pred :baby}}]
  "butterfly" [{:sem {:pred :butterfly}}]
  "cauliflower" [{:sem {:pred :cauliflower}}]
+ "coward" [{:sem {:pred :coward}}]
  "bike" [{:sem {:pred :bike}}]
  "bird" [{:agr {:gender :neuter}
           :sem {:pred :bird}}]

@@ -62,19 +62,6 @@
         (dissoc :source-tree)
         (dissoc :target-tree))))
 
-(defn- generate-english [spec nl]
-  (let [phrasal? (u/get-in spec [:phrasal] true)
-        result (->> (repeatedly #(-> spec
-                                     en/generate))
-                    (take 2)
-                    (filter #(not (nil? %)))
-                    first)]
-    (log/info (str "generate-english: phrasal? " phrasal?))
-    (when (nil? result)
-      (log/warn (str "failed to generate on two occasions with nl: '" nl "'; spec: "
-                     (dag-to-string spec))))
-    result))
-
 (defn generate-nl-with-alternations
   "generate with _spec_ unified with each of the alternates, so generate one expression per <spec,alternate> combination."
   [spec alternates]
@@ -108,6 +95,32 @@
                 (assoc :source-tree (dag-to-string (:source-tree %)))
                 (assoc :target-tree (dag-to-string (:target-tree %)))))))))
 
+(defn- generate-english [spec nl]
+  (let [phrasal? (u/get-in spec [:phrasal] true)
+        result (->> (repeatedly #(-> spec
+                                     en/generate))
+                    (take 2)
+                    (filter #(not (nil? %)))
+                    first)]
+    (log/info (str "generate-english: phrasal? " phrasal?))
+    (when (nil? result)
+      (log/warn (str "failed to generate on two occasions with nl: '" nl "'; spec: "
+                     (dag-to-string spec))))
+    result))
+
+(defn en-word-spec [nl-word]
+  {:cat (u/get-in nl-word [:cat] :top)
+   :sem {:pred (u/get-in nl-word [:sem :pred] :top)}})
+
+(defn nl-to-en-by-token [nl-tokens]
+  (->> nl-tokens
+       (map nl/analyze)
+       (map first)
+       (map en-word-spec)
+       (map #(menard.generate/get-lexemes % menard.english/index-fn))
+       (map #(not (= :top (u/get-in % [:sem :pred] :top))))
+       (map first)))
+
 (defn parse-nl [string-to-parse]
   (log/info (str "parsing input: " string-to-parse))
   (let [nl-tokens (nl/tokenize string-to-parse)
@@ -115,24 +128,50 @@
                                 (->> string-to-parse
                                      clojure.string/lower-case
                                      nl/parse))
-        nl-parses (cond (not (empty? nl-parse-attempts))
-                        (->> nl-parse-attempts
-                             (filter #(or (= [] (u/get-in % [:subcat]))
-                                          (= :top (u/get-in % [:subcat]))
-                                          (= ::none (u/get-in % [:subcat] ::none))))
-                             (filter #(= nil (u/get-in % [:mod] nil)))
-                             (sort (fn [a b] (> (count (str a)) (count (str b))))))
-                        true
-                        (->> nl-tokens (map nl/analyze) (map first)))
-        en-specs (->> nl-parses
-                      (map (fn [nl-parse]
-                             (let [en-spec (tr/nl-to-en-spec nl-parse)]
-                               (log/info (str "parse-nl: nl-spec: " (u/pprint nl-parse)))
-                               (log/info (str "parse-nl: en-spec: " (u/pprint en-spec)))
-                               en-spec))))
-        en-parses (->> en-specs
-                       (map #(generate-english %
-                                               (clojure.string/join "," (map nl/syntax-tree nl-parses)))))]
+        nl-parses (if (not (empty? nl-parse-attempts))
+                    (->> nl-parse-attempts
+                         (filter #(or (= [] (u/get-in % [:subcat]))
+                                      (= :top (u/get-in % [:subcat]))
+                                      (= ::none (u/get-in % [:subcat] ::none))))
+                         (filter #(= nil (u/get-in % [:mod] nil)))
+                         (sort (fn [a b] (> (count (str a)) (count (str b)))))))
+        en-specs (cond (not (empty? nl-parse-attempts))
+                       (->> nl-parses
+                            (map (fn [nl-parse]
+                                   (let [en-spec (tr/nl-to-en-spec nl-parse)]
+                                     (log/debug (str "parse-nl: nl-spec: " (u/pprint nl-parse)))
+                                     (log/debug (str "parse-nl: en-spec: " (u/pprint en-spec)))
+                                     en-spec))))
+                       true
+                       (->> nl-tokens
+                            (map nl/analyze)
+                            (map first)
+                            (map en-word-spec)))
+        en-parses (cond
+                    (not (empty? nl-parse-attempts))
+                    (->> en-specs
+                         (map #(generate-english %
+                                                 (clojure.string/join ","
+                                                                      (map nl/syntax-tree nl-parses)))))
+                    true
+                    (->> en-specs
+                         (map (fn [en-spec]
+                                (let [matching-lexemes
+                                      (menard.english/index-fn en-spec)]
+                                  (->> matching-lexemes
+                                       (filter (fn [matching-lexeme]
+                                                 (not (= :top (u/get-in matching-lexeme
+                                                                        [:sem :pred] :top)))))
+                                       (map (fn [matching-lexeme]
+                                              (u/unify matching-lexeme
+                                                       en-spec)))
+                                       (filter #(not (= :fail %)))))))
+                         (map (fn [matching-lexemes]
+                                (filter (fn [matching-lexeme]
+                                          (not (= :top (u/get-in matching-lexeme
+                                                                 [:sem :pred] :top))))
+                                        matching-lexemes)))
+                         (map first)))]
     (let [new
           {:nl {:surface string-to-parse
                 :tokens nl-tokens

@@ -127,6 +127,7 @@
  "thuis" [{:agr {:gender :neuter}
            :sem {:pred :home}}]
  "toestand" [{:sem {:pred :situation}}]
+ "uitdaging" [{:sem {:pred :challenge}}]
  "uitvoering" [{:sem {:pred :implementation}}]
  "vakbond" [{:sem {:pred :union}}]
  "vergissing" [{:sem {:pred :mistake}}]

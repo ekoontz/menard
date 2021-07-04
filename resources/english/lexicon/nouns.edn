@@ -22,6 +22,7 @@
  "case" [{:sem {:pred :case}}]
  "cat" [{:sem {:pred :cat}}]
  "chair" [{:sem {:pred :chair}}]
+ "challenge" [{:sem {:pred :challenge}}]
  "child" [{:sem {:pred :child}
            :exceptions [{:agr {:number :plur}
                          :surface "children"}]}]

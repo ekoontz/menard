@@ -270,13 +270,16 @@
                   :infl :infinitive
                   :sem sem}
               :2 []}})]
-
  "tegengehouden" [{:sem {:pred :inhibit}
 
                    ;; Verbix 2021, Dutch verb 'tegengehouden' conjugated, Verbix, viewed 27 Feb 2021,
                    ;; <http://www.verbix.com/webverbix/go.php?T1=tegengehouden&Submit=Go&D1=24&H1=124>
                    :exceptions [{:infl :past-simple
-                                 :surface "tegenhield"}]}]
+                                 :surface "tegenhield"
+                                 :agr {:number :sing}}
+                                {:infl :past-simple
+                                 :surface "tegenhielden"
+                                 :agr {:number :plur}}]}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
  "wassen" [{:sem {:pred :wash}}]

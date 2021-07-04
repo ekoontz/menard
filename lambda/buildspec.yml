@@ -17,7 +17,7 @@ phases:
       - native-image -jar target/menard-lambda.jar menard_lambda --report-unsupported-elements-at-runtime --no-fallback --verbose --enable-url-protocols=http,https --no-server  --initialize-at-build-time --initialize-at-build-time=org.apache.log4j.CategoryKey --trace-object-instantiation=java.lang.Thread
       - cp bootstrap menard_lambda /
       - cp template-native.yml /
-      - ls -l /
+      - find / -ls
   post_build:
     commands:
       - echo Build completed on `date`

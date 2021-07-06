@@ -1,4 +1,5 @@
-{"bellen" [{:sem {:pred :telephone}}]
+{"bedelven" [{:sem {:pred :overwhelm}}]
+ "bellen" [{:sem {:pred :telephone}}]
  "bereiken" [{:sem {:pred :achieve}}]
  "bestrijden" [{:curriculum :basic
                 :sem {:pred :overcome}

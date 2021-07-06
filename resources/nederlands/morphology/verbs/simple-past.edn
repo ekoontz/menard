@@ -237,38 +237,24 @@
       :strong? :e-a-e
       :agr {:number :plur}}}
  ;; </e-a-e>
- 
- ;; ij – ee – e, e.g. blijven -> bleef
- {:g [#"^(.*)ijven$" "$1eef"]
-  :p [#"^(.*)eef$"   "$1ijven"]
-  :u {:cat :verb
-      :strong? true
-      :agr {:number :sing}
-      :infl :past-simple}}
-  ;; ij – ee – e, e.g. blijven -> bleven
- {:g [#"^(.*)ijven$" "$1even"]
-  :p [#"^(.*)even$" "$1ijven"]
-  :u {:cat :verb
-      :strong? true
-      :agr {:number :plur}
-      :infl :past-simple}}
 
- ;; ij – ee – e, e.g. kijken -> keek
- {:g [#"^(.*)ij([^v])en$" "$1ee$2"]
-  :p [#"^(.*)ee([^v])$"   "$1ij$2en"]
+ ;; <e-o-o>
+ {:g [#"^bedelven$" "bedolf"]
+  :p [#"^bedolf$"   "bedelven"]
   :u {:cat :verb
-      :strong? true
-      :agr {:number :sing}
-      :infl :past-simple}}
- ;; ij – ee – e, e.g. kijken -> keken 
- {:g [#"^(.*)ij([^v])en$" "$1e$2en"]
-  :p [#"^(.*)e([^v])en$"  "$1ij$2en"]
+      :infl :past-simple
+      :strong? :e-o-o
+      :agr {:number :sing}}
+ {:g [#"^bedelven$" "bedolven"]
+  :p [#"^bedolven$" "bedelven"]
   :u {:cat :verb
-      :strong? true
-      :agr {:number :plur}
-      :infl :past-simple}}
+      :infl :past-simple
+      :strong? :e-o-o
+      :agr {:number :plur}}
+ ;; </e-o-o>
  
- ;; i–o–o, e.g. vinden -> vond
+ ;; <i-o-o>
+ ;; e.g. vinden -> vond
  {:g [#"^(.*)inden$" "$1ond"]
   :p [#"^(.*)ond$"   "$1inden"]
   :u {:cat :verb
@@ -276,13 +262,47 @@
       :agr {:number :sing}
       :infl :past-simple}}
 
-  ;; i–o–o, e.g. vinden -> vonden
+  ;; e.g. vinden -> vonden
  {:g [#"^(.*)inden$" "$1onden"]
   :p [#"^(.*)onden$" "$1inden"]
   :u {:cat :verb
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
+ ;; </i-o-o>
+ 
+ ;; <ij-ee-e>
+ ;; e.g. blijven -> bleef
+ {:g [#"^(.*)ijven$" "$1eef"]
+  :p [#"^(.*)eef$"   "$1ijven"]
+  :u {:cat :verb
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+  ;; e.g. blijven -> bleven
+ {:g [#"^(.*)ijven$" "$1even"]
+  :p [#"^(.*)even$" "$1ijven"]
+  :u {:cat :verb
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ ;; e.g. kijken -> keek
+ {:g [#"^(.*)ij([^v])en$" "$1ee$2"]
+  :p [#"^(.*)ee([^v])$"   "$1ij$2en"]
+  :u {:cat :verb
+      :strong? true
+      :agr {:number :sing}
+      :infl :past-simple}}
+ ;; e.g. kijken -> keken 
+ {:g [#"^(.*)ij([^v])en$" "$1e$2en"]
+  :p [#"^(.*)e([^v])en$"  "$1ij$2en"]
+  :u {:cat :verb
+      :strong? true
+      :agr {:number :plur}
+      :infl :past-simple}}
+  ;; </ij-ee-e>
+ 
  ;; </strong>
  ]
 

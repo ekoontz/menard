@@ -16,9 +16,9 @@
                    :obj :none}
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]
- "dragen" [{:strong? :a-oe
+ "dragen" [{:strong? :a-oe-a
             :sem {:pred :carry}}
-           {:strong? :a-oe
+           {:strong? :a-oe-a
             :sem {:pred :wear}}]
  "dromen" [{:sem {:pred :dream}}]
  "eten" [{:sem {:pred :eat}
@@ -305,7 +305,7 @@
  "vallen" [{:strong? :a-ie
             :sem {:pred :fall
                   :obj :none}}]
- "varen" [{:strong? :a-oe
+ "varen" [{:strong? :a-oe-a
            :sem {:pred :sail}}]
  "verbergen" [{:sem {:pred :hide}}]
  "vergeten" [{:strong? :e-a-e

@@ -156,16 +156,16 @@
   :p [#"^(.*)oe(.)$"  "$1a$2en"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-oe
-      :strong? :a-oe
+      :debug :a-oe-a
+      :strong? :a-oe-a
       :agr {:number :sing}}}
  ;; dragen <-> droegen
  {:g [#"^(.*)a(.)en$" "$1oe$2en"]
   :p [#"^(.*)oe(.)en$"  "$1a$2en"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-oe
-      :strong? :a-oe
+      :debug :a-oe-a
+      :strong? :a-oe-a
       :agr {:number :plur}}}
  
  ;; <a – ie;i – a>

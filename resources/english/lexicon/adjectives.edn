@@ -11,6 +11,7 @@
  "better" [{:sem {:pred :better}}]
  "big" [{:sem {:pred :big}}]
  "black" [{:sem {:pred :black}}]
+ "brave" [{:sem {:pred :brave}}]
  "bright" [{:sem {:pred :bright}}]
  "busy" [{:sem {:pred :busy}}]
  "careful" [{:sem {:pred :careful}}]

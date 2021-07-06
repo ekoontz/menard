@@ -307,6 +307,26 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
+(deftest past-simple-strong-morphology-e-o-o
+  (is (= "bedolf"
+         (->
+          {:canonical "bedelven"
+           :strong? :e-o-o
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :sing
+                 :person :3rd}}
+          (morph-leaf morphology))))
+  (is (= "bedolven"
+         (->
+          {:canonical "bedelven"
+           :strong? :e-o-o
+           :cat :verb
+           :infl :past-simple
+           :agr {:number :plur
+                 :person :3rd}}
+          (morph-leaf morphology)))))
+
 (deftest past-simple-strong-morphology-i-o-o
   (is (= "vond"
          (->

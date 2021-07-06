@@ -390,6 +390,7 @@
                               {:infl :past-participle :surface "overcame"}]]
               [{:exceptions exceptions
                 :sem {:pred :overcome}}])
+ "overwhelm" [{:sem {:pred :overwhelm}}]
  "need" [;; need to leave
          {:sense 1
           :sem {:pred :need}

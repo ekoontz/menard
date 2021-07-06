@@ -168,22 +168,22 @@
       :strong? :a-oe-a
       :agr {:number :plur}}}
  
- ;; <a – ie;i – a>
+ ;; <a – ie – a>
  ;; blazen <-> blies
  {:g [#"^(.*)azen$" "$1ies"]
   :p [#"^(.*)ies$"  "$1azen"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-ie
-      :strong? :a-ie
+      :debug :a-ie-a
+      :strong? :a-ie-a
       :agr {:number :sing}}}
  ;; blazen <-> bliezen
  {:g [#"^(.*)azen$"  "$1iezen"]
   :p [#"^(.*)iezen$" "$1azen"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-ie
-      :strong? :a-ie
+      :debug :a-ie-a
+      :strong? :a-ie-a
       :agr {:number :plur}}}
 
  ;; laten <-> liet; slapen <-> sliep
@@ -191,16 +191,16 @@
   :p [#"^(.*)ie([pt])$"  "$1a$2en"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-ie
-      :strong? :a-ie
+      :debug :a-ie-a
+      :strong? :a-ie-a
       :agr {:number :sing}}}
  ;; laten <-> lieten; slapen <-> sliep
  {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
   :p [#"^(.*)ie([pt])en$" "$1a$2en"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-ie
-      :strong? :a-ie
+      :debug :a-ie-a
+      :strong? :a-ie-a
       :agr {:number :plur}}}
 
  ;; vallen <-> viel
@@ -208,18 +208,18 @@
   :p [#"^(.*)ie(l)$"   "$1a$2$2en"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-ie
-      :strong? :a-ie
+      :debug :a-ie-a
+      :strong? :a-ie-a
       :agr {:number :sing}}}
  ;; vallen <-> vielen
  {:g [#"^(.*)a(l)len$" "$1ie$2en"]
   :p [#"^(.*)ie(l)en$" "$1a$2$2en"]
   :u {:cat :verb
       :infl :past-simple
-      :debug :a-ie
-      :strong? :a-ie
+      :debug :a-ie-a
+      :strong? :a-ie-a
       :agr {:number :plur}}}
- ;; </a – ie;i – a>
+ ;; </a – ie - a>
 
  ;; <e-a-e>
  {:g [#"^(.*)e([dt])en$" "$1a$2"]

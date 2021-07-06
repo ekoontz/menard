@@ -253,7 +253,7 @@
   (is (= "blies"
          (->
           {:canonical "blazen"
-           :strong? :a-ie
+           :strong? :a-ie-a
            :cat :verb
            :infl :past-simple
            :agr {:number :sing
@@ -262,7 +262,7 @@
   (is (= "bliezen"
          (->
           {:canonical "blazen"
-           :strong? :a-ie
+           :strong? :a-ie-a
            :cat :verb
            :infl :past-simple
            :agr {:number :plur
@@ -271,7 +271,7 @@
   (is (= "liet"
          (->
           {:canonical "laten"
-           :strong? :a-ie
+           :strong? :a-ie-a
            :cat :verb
            :infl :past-simple
            :agr {:number :sing
@@ -280,7 +280,7 @@
   (is (= "lieten"
          (->
           {:canonical "laten"
-           :strong? :a-ie
+           :strong? :a-ie-a
            :cat :verb
            :infl :past-simple
            :agr {:number :plur

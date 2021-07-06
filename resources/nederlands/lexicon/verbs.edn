@@ -11,7 +11,7 @@
  "blaffen" [{:sem {:pred :bark}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}
-            :strong? :a-ie}]
+            :strong? :a-ie-a}]
  "blijven" [{:sem {:pred :stay
                    :obj :none}
              :strong? true}]
@@ -234,7 +234,7 @@
                     :surface "slaapt"}]]
    [{:curriculum :basic
      :exceptions exceptions
-     :strong? :a-ie
+     :strong? :a-ie-a
      :sem {:pred :sleep
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
            :obj :none}}])
@@ -302,7 +302,7 @@
                         {:infl :past-simple
                          :agr {:number :plur}
                          :surface "wisten"}]}]
- "vallen" [{:strong? :a-ie
+ "vallen" [{:strong? :a-ie-a
             :sem {:pred :fall
                   :obj :none}}]
  "varen" [{:strong? :a-oe-a

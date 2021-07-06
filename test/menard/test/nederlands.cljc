@@ -233,7 +233,7 @@
   (is (= "droeg"
          (->
           {:canonical "dragen"
-           :strong? :a-oe
+           :strong? :a-oe-a
            :cat :verb
            :infl :past-simple
            :agr {:number :sing
@@ -242,7 +242,7 @@
   (is (= "droegen"
          (->
           {:canonical "dragen"
-           :strong? :a-oe
+           :strong? :a-oe-a
            :cat :verb
            :infl :past-simple
            :agr {:number :plur

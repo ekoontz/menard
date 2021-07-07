@@ -2,6 +2,8 @@
               :strong? :e-o-o}]
  "bellen" [{:sem {:pred :telephone}}]
  "bereiken" [{:sem {:pred :achieve}}]
+ "bergen" [{:sem {:pred :save}
+            :strong? :e-o-o}]
  "bestrijden" [{:curriculum :basic
                 :sem {:pred :overcome}
                 :exceptions [{:surface "bestreed"

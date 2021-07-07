@@ -244,13 +244,13 @@
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o
-      :agr {:number :sing}}
+      :agr {:number :sing}}}
  {:g [#"^bedelven$" "bedolven"]
   :p [#"^bedolven$" "bedelven"]
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o
-      :agr {:number :plur}}
+      :agr {:number :plur}}}
  ;; </e-o-o>
  
  ;; <i-o-o>

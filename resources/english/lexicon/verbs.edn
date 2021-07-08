@@ -118,6 +118,7 @@
                   :obj :none}
             :exceptions exceptions}])
  "cough" [{:sem {:pred :cough}}]
+ "depart" [{:sem {:pred :depart}}]
  "design" [{:sem {:pred :design}}]
  "dig" [{:sem {:pred :dig}
          :exceptions [{:infl :past-simple

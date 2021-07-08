@@ -278,6 +278,19 @@
       :strong? :e-o-o
       :agr {:number :plur}}}
 
+ {:g [#"^(.*)ekken$" "$1ok"]
+  :p [#"^(.*)ok$"    "$1ekken"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-o-o
+      :agr {:number :sing}}}
+ {:g [#"^(.*)ekken$" "$1ok"]
+  :p [#"^(.*)okken$" "$1okken"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-o-o
+      :agr {:number :plur}}}
+
 
  ;; </e-o-o>
  

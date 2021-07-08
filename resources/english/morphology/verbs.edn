@@ -112,15 +112,9 @@
   :u {:cat :verb
       :infl :base}}
 
- ;; stop/stopping,put/putting,run/running
- {:g [#"^(.*[iou])([npst])$"          "$1$2$2ing"]
-  :p [#"^(.*[iou][npst])([npst])ing$" "$1"]
-  :u {:cat :verb
-      :infl :gerund}}
-
- ;; let/letting
- {:g [#"^(.*[e])([t])$"       "$1$2$2ing"]
-  :p [#"^(.*[e][t])([t])ing$" "$1"]
+ ;; stop/stopping,put/putting,run/running,let/letting
+ {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ing"]
+  :p [#"^(.*[eiou][npst])([npst])ing$" "$1"]
   :u {:cat :verb
       :infl :gerund}}
  

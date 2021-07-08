@@ -12,12 +12,14 @@
   (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))
 
 (deftest nodig
+  (log/info (str "nodig tests.."))
   (is (= (nl-to-en-str "ik heb het geld nodig")
          "I need the money"))
   (is (= (nl-to-en-str "ze hebben het geld nodig")
          "they need the money")))
 
 (deftest pronoun-nodig
+  (log/info (str "nodig+pronoun tests.."))
   (is (= (nl-to-en-str "jij hebt hun nodig") "you 🤠 need them"))
   (is (= (nl-to-en-str "zij heeft zich nodig") "she needs herself"))
   (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))

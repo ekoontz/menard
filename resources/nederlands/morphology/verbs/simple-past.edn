@@ -239,26 +239,26 @@
  ;; </e-a-e>
 
  ;; <e-o-o>
- {:g [#"^bedelven$" "bedolf"]
-  :p [#"^bedolf$"   "bedelven"]
+ {:g [#"^(.*)elven$" "$1olf"]
+  :p [#"^(.*)olf$"   "$1elven"]
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^bedelven$" "bedolven"]
-  :p [#"^bedolven$" "bedelven"]
+ {:g [#"^(.*)elven$" "$1olven"]
+  :p [#"^(.*)olven$" "$1elven"]
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
- {:g [#"^bergen$" "borg"]
-  :p [#"^borg$"   "bergen"]
+ {:g [#"^(.*)ergen$" "$1org"]
+  :p [#"^(.*)org$"   "$1ergen"]
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^bergen$" "borgen"]
-  :p [#"^borgen$" "bergen"]
+ {:g [#"^(.*)ergen$" "$1orgen"]
+  :p [#"^(.*)orgen$" "$1ergen"]
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o

@@ -12,6 +12,8 @@
                              {:surface "bestreden"
                               :infl :past-simple
                               :agr {:number :plur}}]}]
+ "bewegen" [{:sem {:pred :move}
+             :strong? :e-o-o}]
  "blaffen" [{:sem {:pred :bark}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}

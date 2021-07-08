@@ -251,6 +251,7 @@
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
+
  {:g [#"^(.*)ergen$" "$1org"]
   :p [#"^(.*)org$"   "$1ergen"]
   :u {:cat :verb
@@ -263,6 +264,21 @@
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
+
+ {:g [#"^(.*w)egen$" "$1oog"]
+  :p [#"^(.*w)oog$"  "$1egen"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-o-o
+      :agr {:number :sing}}}
+ {:g [#"^(.*w)egen$" "$1ogen"]
+  :p [#"^(.*w)ogen$" "$1egen"]
+  :u {:cat :verb
+      :infl :past-simple
+      :strong? :e-o-o
+      :agr {:number :plur}}}
+
+
  ;; </e-o-o>
  
  ;; <i-o-o>

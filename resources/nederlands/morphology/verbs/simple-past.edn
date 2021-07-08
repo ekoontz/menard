@@ -284,8 +284,8 @@
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^(.*)ekken$" "$1ok"]
-  :p [#"^(.*)okken$" "$1okken"]
+ {:g [#"^(.*)ekken$" "$1okken"]
+  :p [#"^(.*)okken$" "$1ekken"]
   :u {:cat :verb
       :infl :past-simple
       :strong? :e-o-o

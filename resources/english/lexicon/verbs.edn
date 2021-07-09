@@ -333,7 +333,7 @@
                   :aspect :pluperfect}
             :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}])
-
+ "heal" [{ :sem {:pred :heal}}]
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]
           [{:exceptions exceptions  :sem {:pred :hear}}])

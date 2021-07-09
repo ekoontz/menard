@@ -318,9 +318,9 @@
               :sem {:pred :forget}}]
  "veroorzaaken" [{:sem {:pred :cause}}]
  "verpesten" [{:sem {:pred :ruin}}]
- "vertrekken" [{:sem {:pred :depart}
-                :strong? :e-o-o
-                :sem {:obj :none}}]
+ "vertrekken" [{:sem {:pred :depart
+                      :obj :none}
+                :strong? :e-o-o}]
  "vinden" [(let [obj (atom {:top :top})]
              {:curriculum :basic
               :strong? true

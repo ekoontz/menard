@@ -130,8 +130,9 @@
  "uitdaging" [{:sem {:pred :challenge}}]
  "uitvoering" [{:sem {:pred :implementation}}]
  "vakbond" [{:sem {:pred :union}}]
- "vergissing" [{:sem {:pred :mistake}}]
  "verbinding" [{:sem {:pred :connection}}]
+ "verdediger" [{:sem {:pred :defender}}]
+ "vergissing" [{:sem {:pred :mistake}}]
  "verhaal" [{:sem {:pred :story}
              :agr {:gender :neuter}}]
  "verkoper" [{:sem {:pred :seller}}]

@@ -319,7 +319,8 @@
  "veroorzaaken" [{:sem {:pred :cause}}]
  "verpesten" [{:sem {:pred :ruin}}]
  "vertrekken" [{:sem {:pred :depart}
-                :strong? :e-o-o}]
+                :strong? :e-o-o
+                :sem {:obj :none}}]
  "vinden" [(let [obj (atom {:top :top})]
              {:curriculum :basic
               :strong? true

@@ -95,6 +95,7 @@
  "sensitive" [{:sem {:pred :sensitive}}]
  "separate" [{:sem {:pred :separate}}]
  "serious" [{:sem {:pred :serious}}]
+ "stuitend" [{ :sem {:pred :shocking}}]
  "shy" [{:sem {:pred :shy}}]
  "silly" [{:sem {:pred :silly}}]
  "simple" [{:sem {:pred :simple}}]

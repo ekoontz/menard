@@ -55,6 +55,7 @@
  "schattig" [{:sem {:pred :cute}}]
  "schitterend" [{:sem {:pred :splendid}}]
  "schrijnend" [{:sem {:pred :poignant}}]
+ "shocking" [{ :sem {:pred :shocking}}]
  "slecht" [{:sem {:pred :bad}}]
  "slim" [{:sem {:pred :smart}
           :curriculum :basic}]

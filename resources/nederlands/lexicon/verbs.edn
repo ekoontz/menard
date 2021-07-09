@@ -3,7 +3,8 @@
  "bellen" [{:sem {:pred :telephone}}]
  "bereiken" [{:sem {:pred :achieve}}]
  "bergen" [{:sem {:pred :save}
-            :strong? :e-o-o}]
+            :strong? :e-o-o
+            :sem {:org {:top :top}}}]
  "bestrijden" [{:curriculum :basic
                 :sem {:pred :overcome}
                 :exceptions [{:surface "bestreed"

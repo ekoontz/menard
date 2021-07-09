@@ -427,6 +427,7 @@
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions  :sem {:pred :run}}])
  "sail" [{ :sem {:pred :sail}}]
+ "save" [{ :sem {:pred :save}}]
  "say" (let [exceptions [{:infl :past-simple :surface "said"}
                          {:infl :past-participle :surface "said"}]]
          [{:exceptions exceptions

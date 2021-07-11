@@ -13,7 +13,7 @@
   "generate a Dutch expression from _spec_ and translate to English, and return this pair
    along with the semantics of the English specification also."
   [spec]
-  (let [debug (log/debug (str "generating a question with spec: " spec))
+  (let [debug (log/debug (str "generate-nl: generating a question with spec: " spec))
         ;; 1. generate a target expression
         target-expression (->> (repeatedly #(-> spec nl/generate))
                                (take 4)
@@ -26,11 +26,35 @@
                                (take 2)
                                (remove empty?)
                                first)
+        debug (log/debug (str "target-semantics: " (-> target-semantics
+                                                       dag-to-string)))
         ;; 3. get the semantics of the source expression
-        source-semantics (binding [menard.morphology/show-notes? false]
-                           (->> source-expression en/morph en/parse
-                                (map #(u/get-in % [:sem]))
-                                (remove #(= :fail (u/unify % target-semantics)))))]
+        source-parses (binding [menard.morphology/show-notes? false
+                                menard.parse/take-this-many 100]
+                        (->> source-expression
+                             en/morph
+                             en/parse))
+        debug (log/debug (str "source parses:"
+                              (->> source-parses
+                                   (map en/syntax-tree)
+                                   (clojure.string/join ","))))
+        source-semantics (->> source-parses
+                              (map #(u/get-in % [:sem])))
+        debug (log/debug (str "source semantics: "
+                              (->> source-semantics
+                                   (map dag-to-string)
+                                   (clojure.string/join ","))))
+        debug (log/debug (str "fail-paths: "
+                             (->> source-semantics
+                                  (map (fn [source-sem]
+                                         (dag_unify.diagnostics/fail-path source-sem
+                                                                          target-semantics)))
+                                  (clojure.string/join ","))))
+        ;; filter soource-semantics to find subset that is compatible with target semantics:
+        source-semantics (->> source-semantics
+                              (remove #(= :fail (u/unify % target-semantics))))]
+    (if (empty? source-semantics)
+      (log/error (str "no source semantics compatible with target semantics.!")))
     (log/debug (str "given input input spec: "
                    (-> spec (dissoc :cat) (dissoc :sem))
                    ", generated: '" (-> source-expression en/morph) "'"
@@ -38,8 +62,8 @@
     (let [result
           {:source (-> source-expression en/morph)
            :target (-> target-expression nl/morph)
-           :source-tree source-expression
-           :target-tree target-expression
+           :source-tree (-> source-expression en/syntax-tree)
+           :target-tree (-> target-expression nl/syntax-tree)
            :target-root (-> target-expression (u/get-in [:head :root] :top))
            :source-sem (map dag-to-string source-semantics)}]
       (when (empty? source-expression)
@@ -47,6 +71,7 @@
                        (nl/syntax-tree target-expression)))
         (log/error (str " tried to generate from: "
                         (dag_unify.serialization/serialize (-> target-expression tr/nl-to-en-spec)))))
+      (log/debug (str "generate-nl: returning result: " result))
       result)))
 
 (def ^:const clean-up-trees true)

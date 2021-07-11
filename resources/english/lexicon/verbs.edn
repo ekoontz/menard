@@ -326,8 +326,7 @@
                   :aspect :pluperfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
-           {
-            :aux true
+           {:aux true
             :derivation {:sense 5}
             :sem {:tense :past
                   :aspect :pluperfect}
@@ -342,8 +341,8 @@
           :exceptions [{:infl :past-simple :surface "hid"}
                        {:infl :past-participle :surface "hid"}]}]
  "hit" [{:sem {:pred :hit}
-         :exceptions [{:infl :past-simple :surface "hit"}
-                      {:infl :past-participle :surface "hit"}]}]
+         :exceptions [{:infl :past-simple :surface "hit" :note ["past"]}
+                      {:infl :past-participle :surface "hit" :note ["past"]}]}]
  "hope" [{:sense 1
           :sem {:pred :hope
                 :obj :none}}

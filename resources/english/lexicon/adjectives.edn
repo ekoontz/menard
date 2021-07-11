@@ -79,6 +79,7 @@
  "old" [{:sem {:pred :old}}]
  "only" [{:sem {:pred :only}}]
  "other" [{:sem {:pred :other}}]
+ "pathetic" [{:sem {:pred :pathetic}}]
  "picky" [{:sem {:pred :picky}}]
  "poignant" [{:sem {:pred :poignant}}]
  "political" [{:sem {:pred :political}}]

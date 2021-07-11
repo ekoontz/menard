@@ -87,4 +87,5 @@
  "zacht" [{:sem {:pred :soft}}]
  "zelfverzekerd" [{:sem {:pred :confident}}]
  "zenuwachtig" [{:sem {:pred :nervous}}]
+ "zielig" [{:sem {:pred :pathetic}}]
  "zwierig" [{:sem {:pred :jaunty}}]}

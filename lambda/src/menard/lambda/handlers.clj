@@ -160,18 +160,21 @@
                                       (= ::none (u/get-in % [:subcat] ::none))))
                          (filter #(= nil (u/get-in % [:mod] nil)))
                          (sort (fn [a b] (> (count (str a)) (count (str b)))))))
-        en-specs (cond (not (empty? nl-parse-attempts))
-                       (->> nl-parses
-                            (map (fn [nl-parse]
-                                   (let [en-spec (tr/nl-to-en-spec nl-parse)]
-                                     (log/debug (str "parse-nl: nl-spec: " (u/pprint nl-parse)))
-                                     (log/debug (str "parse-nl: en-spec: " (u/pprint en-spec)))
+        en-specs (cond
+                   ;; parsing the expression succeeded.
+                   (not (empty? nl-parse-attempts))
+                   (->> nl-parses
+                        (map (fn [nl-parse]
+                               (let [en-spec (tr/nl-to-en-spec nl-parse)]
+                                 (log/debug (str "parse-nl: nl-spec: " (u/pprint nl-parse)))
+                                 (log/debug (str "parse-nl: en-spec: " (u/pprint en-spec)))
                                      en-spec))))
-                       true
-                       (->> nl-tokens
-                            (map nl/analyze)
-                            (map first)
-                            (map en-word-spec)))
+                   ;; parsing the expression did not succeed, falling back to trying to analyze each token separately.
+                   true
+                   (->> nl-tokens
+                        (map nl/analyze)
+                        (map first)
+                        (map en-word-spec)))
         en-parses (cond
                     (not (empty? nl-parse-attempts))
                     (->> en-specs

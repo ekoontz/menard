@@ -79,6 +79,12 @@
   :p [#"^(.*[^aeiou])ied$" "$1y"]
   :u {:cat :verb
       :infl :past-simple}}
+
+ ;; stop/stopped,step/stepped
+ {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
+  :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
  
  ;; walk/walked
  {:g [#"^(.*)$" "$1ed"]

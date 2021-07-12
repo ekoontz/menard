@@ -81,8 +81,9 @@
       :infl :past-simple}}
 
  ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
-  :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
+ ;; (but not: prohibit/prohibited)
+ {:g [#"^(.*[^b][eiou])([npst])$"          "$1$2$2ed"]
+  :p [#"^(.*[^b][eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -106,8 +107,9 @@
       :infl :past-participle}}
 
   ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
-  :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
+ ;; (but not: probit/prohibited)
+ {:g [#"^(.*[^b][eiou])([npst])$"          "$1$2$2ed"]
+  :p [#"^(.*[^b][eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 

@@ -134,7 +134,9 @@
     result))
 
 (defn en-word-spec [nl-word]
-  {:cat (u/get-in nl-word [:cat] :top)
+  {:agr (u/get-in nl-word [:agr] :top)
+   :case (u/get-in nl-word [:case] :top)
+   :cat (u/get-in nl-word [:cat] :top)
    :sem {:pred (u/get-in nl-word [:sem :pred] :top)}})
 
 (defn nl-to-en-by-token [nl-tokens]

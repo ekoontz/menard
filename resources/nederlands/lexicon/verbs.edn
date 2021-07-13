@@ -109,6 +109,13 @@
    :sem {:pred :hope
          :obj :none}}]
 
+ ;; c.f. "weten", where [:sem :obj :ref :human]=false:
+ "kennen" [{:sem {:pred :know
+                  :obj {:ref {:human true}}}
+           :exceptions [{:infl :present
+                         :agr {:number :sing}
+                         :surface "kent"}]}]
+ 
  "kijken"
  [{:curriculum :basic
    :strong? true

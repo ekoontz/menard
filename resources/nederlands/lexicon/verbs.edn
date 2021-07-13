@@ -28,8 +28,11 @@
            {:strong? :a-oe-a
             :sem {:pred :wear}}]
  "dromen" [{:sem {:pred :dream}}]
- "eten" [{:sem {:pred :eat}
-          :strong? :e-a-e}]
+ "eten" (let [exceptions [{:infl :present
+                           :agr {:number :sing}
+                           :surface "eet"}]]
+          [{:sem {:pred :eat}
+            :strong? :e-a-e}])
  "ervaren" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}
                               :surface "ervoer"}

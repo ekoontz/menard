@@ -116,7 +116,16 @@
  "kennen" [{:sem {:pred :know
                   :obj {:ref {:human true}}}
            :exceptions [{:infl :present
-                         :agr {:number :sing}
+                         :agr {:number :sing
+                               :person :1st}
+                         :surface "ken"}
+                        {:infl :present
+                         :agr {:number :sing
+                               :person :2nd}
+                         :surface "kent"}
+                        {:infl :present
+                         :agr {:number :sing
+                               :person :3rd}
                          :surface "kent"}]}]
  
  "kijken"

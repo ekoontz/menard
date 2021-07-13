@@ -17,20 +17,23 @@
       :agr {:number :plur}
       :infl :past-simple}}
 
- {;; bellen -> belde
+ {;; bellen      -> belde
   ;; uitgeleggen -> uitgelegde
+  ;; kennen      -> kenden
   :g [#"^(.*)([^aeiou])\2en$" "$1$2de"]
-  ;; belde -> bellen
-  :p [#"^(.*)([gl])de$"        "$1$2$2en"]
+  ;; belde -> bellen, etc
+  :p [#"^(.*)([gln])de$"      "$1$2$2en"]
    :u {:cat :verb
        :strong? false
        :agr {:number :sing}
        :infl :past-simple}}
 
- {;; bellen -> belden
+ {;; bellen      -> belden
   ;; uitgeleggen -> uitgelegden
+  ;; kennen      -> kenden, etc
   :g [#"^(.*)([^aeiou])\2en$" "$1$2den"]
-  :p [#"^(.*)([gl])den$"       "$1$2$2en"]
+  ;; belden      -> bellen, etc
+  :p [#"^(.*)([gln])den$"     "$1$2$2en"]
   :u {:cat :verb
       :strong? false
       :agr {:number :plur}

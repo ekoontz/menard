@@ -299,7 +299,8 @@
             :sem {:pred :work
                   :obj :none}}]
  "weten" [{:curriculum :basic
-           :sem {:pred :know}
+           :sem {:pred :know
+                 :obj {:ref {:human false}}}
            :exceptions [{:infl :present
                          :agr {:number :sing}
                          :surface "weet"}

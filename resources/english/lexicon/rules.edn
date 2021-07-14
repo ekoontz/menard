@@ -683,7 +683,7 @@
  {:rule :nested-obj-null
   :if {:cat :verb
        :modal false
-       :te? false
+       :to? false
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
  

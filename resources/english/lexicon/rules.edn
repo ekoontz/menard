@@ -672,8 +672,15 @@
 
  {:rule :sentential-complements
   :if {:cat :verb
-       :subcat {:2 {:cat :verb}}}
-  :then [{:sem {:obj {:obj {:top :top}}}}]}
+       :subcat {:2 {:cat :verb
+                    :sem {:obj ::unspec}}}}
+  :then [;; "try [to see it]"
+         {:derivation {:sentential-complements {:marker 1}}
+          :sem {:obj {:obj {:top :top}}}}
+
+         ;; "try [to sleep]"
+         {:derivation {:sentential-complements {:marker 2}}
+          :subcat {:2 {:sem {:obj :none}}}}]}
 
  {:rule :prepositional-complements
   :if {:cat :verb

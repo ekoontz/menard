@@ -80,10 +80,21 @@
   :u {:cat :verb
       :infl :past-simple}}
 
+ ;; explain/explained
+ {:g [#"^(.*ain)$"   "$1ed"]
+  :p [#"^(.*ain)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
+
+ ;; prohibit/prohibited
+ {:g [#"^(.*it)$"   "$1ed"]
+  :p [#"^(.*it)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
+ 
  ;; stop/stopped,step/stepped
- ;; (but not: prohibit/prohibited)
- {:g [#"^(.*[^b][eiou])([npst])$"          "$1$2$2ed"]
-  :p [#"^(.*[^b][eiou][npst])([npst])ed$"  "$1"]
+ {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
+  :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -93,7 +104,7 @@
   :u {:cat :verb
       :infl :past-simple}}
 
- ;; inflection: past-particple
+ ;; inflection: past-participle
  ;; bake/baked
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
@@ -106,10 +117,22 @@
   :u {:cat :verb
       :infl :past-participle}}
 
+  ;; explain/explained
+ {:g [#"^(.*ain)$"   "$1ed"]
+  :p [#"^(.*ain)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+
+ ;; prohibit/prohibited
+ {:g [#"^(.*it)$"   "$1ed"]
+  :p [#"^(.*it)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+
   ;; stop/stopped,step/stepped
  ;; (but not: probit/prohibited)
- {:g [#"^(.*[^b][eiou])([npst])$"          "$1$2$2ed"]
-  :p [#"^(.*[^b][eiou][npst])([npst])ed$"  "$1"]
+ {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
+  :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 

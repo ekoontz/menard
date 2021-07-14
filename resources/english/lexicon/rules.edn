@@ -668,7 +668,7 @@
   :if {:cat :verb
        :subcat {:2 {:cat :comp}}}
   :then [{:subcat {:2 {:phrasal true}}
-          :obj {:obj {:top :top}}}]}
+          :sem {:obj {:obj {:top :top}}}}]}
 
  {:rule :sentential-complements
   :if {:cat :verb

@@ -41,18 +41,18 @@
  "ezel" [{:sem {:pred :donkey}}]
  "familie" [{:sem {:pred :family}}]
  "feit" [{:agr {:gender :neuter}
-          :sem {:pred :fact}}]
+          :sem {:pred :fact}
+          ;; same as with "geit"->"geiten"
+          :exceptions [{:agr {:number :plur}
+                        :surface "feiten"}]}]
  "fiets" [{:sem {:pred :bike}}]
  "gebied" [{:agr {:gender :neuter}
             :sem {:pred :area}}]
  "geit" [{:sem {:pred :goat}
-
           ;; need this to prevent "geitten" which applies because
           ;; of nederlands.morphology/:repeated-consonant:
-          :exceptions [{:cat :noun
-                        :agr {:number :plur}
+          :exceptions [{:agr {:number :plur}
                         :surface "geiten"}]}]
-
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
  "gemeenschap" [{:sem {:pred :community}}]

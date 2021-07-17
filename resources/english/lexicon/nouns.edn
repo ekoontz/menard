@@ -85,6 +85,7 @@
                 :human? true}}]
  "leg" [{:sem {:pred :leg}}]
  "life" [{:sem {:pred :life}}]
+ "lilac" [{:sem {:pred :lilac}}]
  "lizard" [{:sem {:pred :lizard}}]
  "loneliness" [{:sem {:pred :loneliness}}]
  "lot" [{:sem {:pred :lot}}]

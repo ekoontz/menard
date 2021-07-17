@@ -108,8 +108,8 @@
                        :surface "could"}]}]
 
  "carry" [{ :sem {:pred :carry}}]
- 
  "cause" [{:sem {:pred :cause}}]
+ "cheat" [{:sem {:pred :cheat}}]
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle
@@ -386,6 +386,7 @@
  "must" [{:modal :base
           :inflected? true
           :sem {:pred :must}}]
+ "offer" [{:sem {:pred :offer}}] 
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]
               [{:exceptions exceptions

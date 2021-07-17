@@ -293,8 +293,6 @@
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
-
-
  ;; </e-o-o>
  
  ;; <i-o-o>
@@ -314,6 +312,23 @@
       :agr {:number :plur}
       :infl :past-simple}}
  ;; </i-o-o>
+
+ ;; <ie-oo-o>
+ ;; e.g. bedriegen->bedroog
+ {:g [#"^(.*)ie([dg])en$" "$1oo$2"]
+  :p [#"^(.*)oo([dg])$"   "$1ie$2en"]
+  :u {:cat :verb
+      :strong? :ie-oo-o
+      :agr {:number :sing}
+      :infl :past-simple}}
+ ;; e.g. bedriegen->bedrogen
+ {:g [#"^(.*)ie([dg])en$" "$1o$2en"]
+  :p [#"^(.*)o([dg])en$"  "$1ie$2en"]
+  :u {:cat :verb
+      :strong? :ie-oo-o
+      :agr {:number :plur}
+      :infl :past-simple}}
+ ;; </ie-oo-o>
  
  ;; <ij-ee-e>
  ;; e.g. blijven -> bleef

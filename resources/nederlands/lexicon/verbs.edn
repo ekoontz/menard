@@ -1,5 +1,7 @@
 {"bedelven" [{:sem {:pred :overwhelm}
               :strong? :e-o-o}]
+ "bedriegen" [{:sem {:pred :cheat}
+               :strong? :ie-oo-o}]
  "bellen" [{:sem {:pred :telephone}}]
  "bereiken" [{:sem {:pred :achieve}}]
  "bergen" [{:sem {:pred :save
@@ -15,6 +17,8 @@
                               :agr {:number :plur}}]}]
  "bewegen" [{:sem {:pred :move}
              :strong? :e-o-o}]
+ "bieden" [{:sem {:pred :offer}
+            :strong? :ie-oo-o}]
  "blaffen" [{:sem {:pred :bark
                    :ref {:canine? true}}}]
  "blazen" [{:sem {:pred :blow

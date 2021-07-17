@@ -113,20 +113,27 @@
          :obj :none}}]
 
  ;; c.f. "weten", where [:sem :obj :ref :human]=false:
- "kennen" [{:sem {:pred :know
-                  :obj {:ref {:human true}}}
-           :exceptions [{:infl :present
-                         :agr {:number :sing
-                               :person :1st}
-                         :surface "ken"}
-                        {:infl :present
-                         :agr {:number :sing
-                               :person :2nd}
-                         :surface "kent"}
-                        {:infl :present
-                         :agr {:number :sing
-                               :person :3rd}
-                         :surface "kent"}]}]
+ "kennen" (let [exceptions
+                [{:infl :present
+                  :agr {:number :sing
+                        :person :1st}
+                  :surface "ken"}
+                 {:infl :present
+                  :agr {:number :sing
+                        :person :2nd}
+                  :surface "kent"}
+                 {:infl :present
+                  :agr {:number :sing
+                        :person :3rd}
+                  :surface "kent"}]]
+            [{:sem {:pred :know
+                    :subj {:ref {:human true}}
+                    :obj :none}
+              :exceptions exceptions}
+             {:sem {:pred :know
+                    :subj {:ref {:human true}}
+                    :obj {:ref {:human true}}}
+              :exceptions exceptions}])
  
  "kijken"
  [{:curriculum :basic
@@ -317,18 +324,27 @@
  "werken" [{:curriculum :basic
             :sem {:pred :work
                   :obj :none}}]
- "weten" [{:curriculum :basic
-           :sem {:pred :know
-                 :obj {:ref {:human false}}}
-           :exceptions [{:infl :present
-                         :agr {:number :sing}
-                         :surface "weet"}
-                        {:infl :past-simple
-                         :agr {:number :sing}
-                         :surface "wist"}
-                        {:infl :past-simple
-                         :agr {:number :plur}
-                         :surface "wisten"}]}]
+ "weten" (let [exceptions
+               [{:infl :present
+                 :agr {:number :sing}
+                 :surface "weet"}
+                {:infl :past-simple
+                 :agr {:number :sing}
+                 :surface "wist"}
+                {:infl :past-simple
+                 :agr {:number :plur}
+                 :surface "wisten"}]]
+           [{:curriculum :basic
+             :sem {:pred :know
+                   :subj {:ref {:human true}}
+                   :obj :none}
+             :exceptions exceptions}
+            {:curriculum :basic
+             :reflexive false
+             :sem {:pred :know
+                   :subj {:ref {:human true}}
+                   :obj {:ref {:human false}}}
+             :exceptions exceptions}])
  "vallen" [{:strong? :a-ie-a
             :sem {:pred :fall
                   :obj :none}}]

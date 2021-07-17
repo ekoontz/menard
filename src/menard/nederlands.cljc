@@ -327,7 +327,6 @@
                      pre-result
                      (filter #(not (true? (u/get-in % [:null?])))))
                     (->> pre-result
-                         (filter #(not (true? (u/get-in % [:null?]))))                         
                          (filter #(not (true? (u/get-in % [:null?]))))
                          (map #(unify % spec))
                          (filter #(not (= :fail %)))))]

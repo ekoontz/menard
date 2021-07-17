@@ -26,6 +26,8 @@
 ;; For generation and parsing of Dutch.
 ;;
 
+(def create-basic-model? false)
+
 ;; <morphology>
 #?(:clj
    (defn load-morphology []
@@ -121,8 +123,7 @@
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/nouns.edn")        lexical-rules
                                          {:cat :noun})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/numbers.edn")      lexical-rules
-                                         {:cat :adjective
-                                          :curriculum :basic})
+                                         {:cat :adjective})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/pronouns.edn")     lexical-rules
                                          {:cat :noun :pronoun true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
@@ -287,8 +288,9 @@
    (def model
      (ref (merge (create-model "complete")))))
 #?(:clj
-   (def basic-model
-     (ref (merge (create-model "basic" basic-filter)))))
+   (if create-basic-model?
+     (def basic-model
+       (ref (merge (create-model "basic" basic-filter))))))
 
 #?(:clj
    (defn load-model []

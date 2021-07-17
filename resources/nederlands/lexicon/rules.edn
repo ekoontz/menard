@@ -390,6 +390,7 @@
   
  {:rule :transitive-verbs ;; "ziet" in "zij ziet mij"
   :if {:cat :verb
+       :reflexive ::unspec
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
@@ -424,6 +425,24 @@
                          :sem obj
                          :case :acc}}})]}
 
+ {:rule :transitive-verbs-no-reflexive ;; "ziet" in "zij ziet mij"
+  :if {:cat :verb
+       :reflexive false
+       :sem {:obj {:top :top}}
+       :subcat {:2 {:cat :noun}}}
+  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:cat :noun
+                         :reflexive false
+                         :case :acc
+                         :subcat []
+                         :sem obj}}})]}
+
+ 
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
        :sem {:obj {:top :top}}

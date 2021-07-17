@@ -29,9 +29,11 @@
              :strong? true}]
  "bruizen" [{:sem {:pred :bubble}}]
  "dragen" [{:strong? :a-oe-a
-            :sem {:pred :carry}}
+            :sem {:pred :carry
+                  :obj {:top :top}}}
            {:strong? :a-oe-a
-            :sem {:pred :wear}}]
+            :sem {:pred :wear
+                  :obj {:top :top}}}]
  "dromen" [{:sem {:pred :dream}}]
  "eten" (let [exceptions [{:infl :present
                            :agr {:number :sing}

@@ -31,7 +31,7 @@
     
 
     ;; no emoji or other cues for now.
-    (= notes [:human])
+    (= notes [:human?])
     nil
     (= notes [:nonhuman])
     nil

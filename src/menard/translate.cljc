@@ -151,7 +151,7 @@
    :subj
    [[1]
     {:pred :i,
-     :ref {:number [[2] :sing], :human true},
+     :ref {:number [[2] :sing], :human? true},
      :mod [],
      :context :unspec}],
    :obj

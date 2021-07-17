@@ -15,7 +15,8 @@
                               :agr {:number :plur}}]}]
  "bewegen" [{:sem {:pred :move}
              :strong? :e-o-o}]
- "blaffen" [{:sem {:pred :bark}}]
+ "blaffen" [{:sem {:pred :bark
+                   :sem {:ref {:animate? true}}}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}
             :strong? :a-ie-a}]
@@ -112,7 +113,7 @@
    :sem {:pred :hope
          :obj :none}}]
 
- ;; c.f. "weten", where [:sem :obj :ref :human]=false:
+ ;; c.f. "weten", where [:sem :obj :ref :human?]=false:
  "kennen" (let [exceptions
                 [{:infl :present
                   :agr {:number :sing
@@ -127,12 +128,12 @@
                         :person :3rd}
                   :surface "kent"}]]
             [{:sem {:pred :know
-                    :subj {:ref {:human true}}
+                    :subj {:ref {:human? true}}
                     :obj :none}
               :exceptions exceptions}
              {:sem {:pred :know
-                    :subj {:ref {:human true :existential? false}}
-                    :obj {:ref {:human true :existential? false}}}
+                    :subj {:ref {:human? true :existential? false}}
+                    :obj {:ref {:human? true :existential? false}}}
               :exceptions exceptions}])
  
  "kijken"
@@ -336,14 +337,14 @@
                  :surface "wisten"}]]
            [{:curriculum :basic
              :sem {:pred :know
-                   :subj {:ref {:human true}}
+                   :subj {:ref {:human? true}}
                    :obj :none}
              :exceptions exceptions}
             {:curriculum :basic
              :reflexive false
              :sem {:pred :know
-                   :subj {:ref {:human true} :existential? false}
-                   :obj {:ref {:human false} :existential? false}}
+                   :subj {:ref {:human? true} :existential? false}
+                   :obj {:ref {:human? false} :existential? false}}
              :exceptions exceptions}])
  "vallen" [{:strong? :a-ie-a
             :sem {:pred :fall

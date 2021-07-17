@@ -644,8 +644,8 @@
  {:rule :nouns-are-non-human-by-default
   :if {:cat :noun
        :reflexive false
-       :sem {:ref {:human ::unspec}}}
-  :then [{:sem {:ref {:human false}}}]}
+       :sem {:ref {:human? ::unspec}}}
+  :then [{:sem {:ref {:human? false}}}]}
   
  
  ]

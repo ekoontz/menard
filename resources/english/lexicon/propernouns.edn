@@ -1,54 +1,54 @@
 {"Antonia" [{:cat :noun
              :agr {:gender :fem
-                   :human true}
-             :sem {:ref {:human true}
+                   :human? true}
+             :sem {:ref {:human? true}
                    :pred :antonio}
              
              }]
  "Antonio" [{:cat :noun
              :agr {:gender :masc
-                   :human true}
-             :sem {:ref {:human true}
+                   :human? true}
+             :sem {:ref {:human? true}
                    :pred :antonio}
              
              }]
  "Bas" [{:cat :noun
          :agr {:gender :masc
-               :human true
+               :human? true
                :number :sing
                :person :3rd}
-         :sem {:ref {:human true}
+         :sem {:ref {:human? true}
                :pred :bas}
          
          }]
  "Corona" [{:cat :noun
-            :agr {:human false
+            :agr {:human? false
                   :number :sing
                   :person :3rd}
-            :sem {:ref {:human false}
+            :sem {:ref {:human? false}
                   :pred :corona}
             
             }]
  "Guus" [{:cat :noun
           :agr {:gender :masc
-                :human true}
-          :sem {:ref {:human true}
+                :human? true}
+          :sem {:ref {:human? true}
                 :pred :guus}
           
           }]
  "Femke" [{:cat :noun
            :agr {:gender :fem
-                 :human true
+                 :human? true
                  :number :sing
                  :person :3rd}
-           :sem {:ref {:human true}
+           :sem {:ref {:human? true}
                  :pred :femke}
            
           }]
  "Saskia" [{:cat :noun
             :agr {:gender :fem
-                  :human true}
-            :sem {:ref {:human true}
+                  :human? true}
+            :sem {:ref {:human? true}
                   :pred :saskia}
             
             }]}

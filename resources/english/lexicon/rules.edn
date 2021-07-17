@@ -20,8 +20,8 @@
  {:rule :common-nouns-are-inhuman-by-default
   :if {:cat :noun
        :pronoun false
-       :agr {:human ::unspec}}
-  :then [{:agr {:human false}}]}
+       :agr {:human? ::unspec}}
+  :then [{:agr {:human? false}}]}
 
  {:rule :complementizer
   :if {:cat :comp}

@@ -1,44 +1,44 @@
 {"Bas" [{
          :agr {:gender :masc
-               :human true
+               :human? true
                :number :sing
                :person :3rd}
-          :sem {:ref {:human true}
+          :sem {:ref {:human? true}
                 :pred :bas}
          
          }]
  "Corona" [{:curriculum :basic
-            :agr {:human false
+            :agr {:human? false
                   :number :sing
                   :person :3rd}
-            :sem {:ref {:human false}
+            :sem {:ref {:human? false}
                   :pred :corona}
             
             }]
  "Femke" [{
            :agr {:gender :fem
-                 :human true
+                 :human? true
                  :number :sing
                  :person :3rd}
-           :sem {:ref {:human true}
+           :sem {:ref {:human? true}
                  :pred :femke}
            
           }]
  "Guus" [{
           :agr {:gender :masc
-                :human true
+                :human? true
                 :number :sing
                 :person :3rd}
-          :sem {:ref {:human true}
+          :sem {:ref {:human? true}
                 :pred :guus}
           
           }]
  "Saskia" [{
             :agr {:gender :fem
-                  :human true
+                  :human? true
                   :number :sing
                   :person :3rd}
-            :sem {:ref {:human true}
+            :sem {:ref {:human? true}
                   :pred :saskia}
             
             }]}

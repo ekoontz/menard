@@ -2,7 +2,7 @@
         :agr {:number :sing
               :person :3rd
               :gender :masc}
-        :sem {:ref {:human true}
+        :sem {:ref {:human? true}
               :pred :he}
         :pronoun true
         :reflexive false}]
@@ -12,7 +12,7 @@
                :gender :fem}
          :pronoun true
          :reflexive false
-         :sem {:ref {:human true}
+         :sem {:ref {:human? true}
                :pred :she}}
         {:cat :det
          :sem {:pred :she}}]
@@ -22,14 +22,14 @@
                    :gender :fem}
              :pronoun true
              :reflexive true
-             :sem {:ref {:human true}}}]
+             :sem {:ref {:human? true}}}]
  "him" [{:case :acc
          :agr {:number :sing
                :person :3rd
                :gender :masc}
          :pronoun true
          :reflexive false
-         :sem {:ref {:human true}
+         :sem {:ref {:human? true}
                :pred :he}}]
  "himself" [{:case :acc
              :agr {:number :sing
@@ -37,29 +37,29 @@
                    :gender :masc}
              :pronoun true
              :reflexive true
-             :sem {:ref {:human true}}}]
+             :sem {:ref {:human? true}}}]
  "I" [{:case :nom
        :agr {:number :sing
              :person :1st}
-       :sem {:ref {:human true}
+       :sem {:ref {:human? true}
              :pred :i}
        :pronoun true
        :reflexive false}]
  "it" [{:agr {:number :sing
               :person :3rd}
-        :sem {:ref {:human false}
+        :sem {:ref {:human? false}
               :pred :it}
         :pronoun true
         :reflexive false}]
  "itself" [{:agr {:number :sing
                   :person :3rd}
-            :sem {:ref {:human false}}
+            :sem {:ref {:human? false}}
             :pronoun true
             :reflexive true}]
  "me" [{:case :acc
         :agr {:number :sing
               :person :1st}
-        :sem {:ref {:human true}
+        :sem {:ref {:human? true}
               :pred :i
               :person-not :2nd}
         :pronoun true
@@ -67,7 +67,7 @@
  "myself" [{:case :acc
             :agr {:number :sing
                   :person :1st}
-            :sem {:ref {:human true}}
+            :sem {:ref {:human? true}}
             :pronoun true
             :reflexive true}]
  "ourselves" [{:case :acc
@@ -79,22 +79,22 @@
          :agr {:number :sing
                :person :3rd
                :gender :fem}
-         :sem {:ref {:human true}
+         :sem {:ref {:human? true}
                :pred :she}
          :pronoun true
          :reflexive false}]
  "them" [{:case :acc
-          :note [:human]
+          :note [:human?]
           :agr {:person :3rd :number :plur}
           :sem {:pred :they
-                :ref {:human true}}
+                :ref {:human? true}}
           :pronoun true
           :reflexive false}
          {:case :acc
           :note [:nonhuman]
           :agr {:person :3rd :number :plur}
           :sem {:pred :they
-                :ref {:human false}}
+                :ref {:human? false}}
           :pronoun true
           :reflexive false}]
  "themselves" [{:cat :noun
@@ -111,7 +111,7 @@
           :sem {:pred :they}}]
 
  "us" [{:sem {:pred :we
-              :ref {:human true}}
+              :ref {:human? true}}
         :pronoun true
         :reflexive false
         :case :acc
@@ -119,7 +119,7 @@
               :number :plur}}]
  
  "we" [{:sem {:pred :we
-              :ref {:human true}}
+              :ref {:human? true}}
         :pronoun true
         :reflexive false
         :case :nom
@@ -128,12 +128,12 @@
  "what" [{:interogative? true
           :pronoun true
           :sem {:pred :what
-                :ref {:human false}}
+                :ref {:human? false}}
           :wh-word true}]
  "who" [{:interogative? true
          :pronoun true
          :sem {:pred :what
-               :ref {:human true}}
+               :ref {:human? true}}
          :wh-word true}]
  "you" [{:agr {:person :2nd
                :number :sing}
@@ -198,12 +198,12 @@
  "yourself" [{:case :acc
               :agr {:number :sing
                     :person :2nd}
-              :sem {:ref {:human true}}
+              :sem {:ref {:human? true}}
               :pronoun true
               :reflexive true}]
  "yourselves" [{:case :acc
                 :agr {:number :plur
                       :person :2nd}
-                :sem {:ref {:human true}}
+                :sem {:ref {:human? true}}
                 :pronoun true
                 :reflexive true}]}

@@ -14,7 +14,7 @@
           :sem {:pred :bird}}]
  "book" [{:sem {:pred :book}}]
  "boy" [{:sem {:pred :boy}
-         :agr {:human true
+         :agr {:human? true
                :gender :masc}}]
  "business" [{:sem {:pred :business}}]
  "buyer" [{:sem {:pred :buyer}}]
@@ -59,11 +59,11 @@
  "gentleman" [{:sem {:pred :man
                      :context :polite}
                :agr {:gender :man
-                     :human true}
+                     :human? true}
                :exceptions [{:surface "gentlemen"
                              :agr {:number :plur}}]}]
  "girl" [{:sem {:pred :girl}
-          :agr {:human true
+          :agr {:human? true
                 :gender :fem}}]
  "goat" [{:sem {:pred :goat}}]
  "government" [{:sem {:pred :government}}]
@@ -82,7 +82,7 @@
  "lady" [{:sem {:pred :woman
                 :context :polite}
           :agr {:gender :fem
-                :human true}}]
+                :human? true}}]
  "leg" [{:sem {:pred :leg}}]
  "life" [{:sem {:pred :life}}]
  "lizard" [{:sem {:pred :lizard}}]
@@ -91,7 +91,7 @@
  "man" [{:sem {:pred :man
                :context :neutral} ;; i.e. :neutral meaning 'not polite'
          :agr {:gender :masc
-               :human true}
+               :human? true}
          :exceptions [{:surface "men"
                        :agr {:number :plur}}]}]
  "marriage" [{:sem {:pred :marriage}}]
@@ -162,7 +162,7 @@
  "woman" [{:sem {:pred :woman
                  :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem
-                 :human true}
+                 :human? true}
            :exceptions [{:surface "women"
                          :agr {:number :plur}}]}]
  "word" [{:sem {:pred :word}}]

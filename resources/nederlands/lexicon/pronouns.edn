@@ -10,7 +10,7 @@
          ;; In that case hem is replaced by die."
          ;; O. Unit 8, Note 2.
          :sem {:pred :it
-               :ref {:human false}}}]
+               :ref {:human? false}}}]
 
  "er" [{:case :nom
         :sem {:existential? true}}]
@@ -20,13 +20,13 @@
                 :person :3rd}
           :case :acc
           :sem {:pred :she
-                :ref {:human true}}}]
+                :ref {:human? true}}}]
  "hem" [{:agr {:gender :masc
                :number :sing
                :person :3rd}
          :case :acc
          :sem {:pred :he
-               :ref {:human true}}}
+               :ref {:human? true}}}
 
         ;; TODO: 'hem' can only refer to non-human referents if the
         ;; referent is a 'de' word {:agr {:gender :common}}, e.g.
@@ -40,14 +40,14 @@
                :person :3rd}
          :case :acc
          :sem {:pred :it
-               :ref {:human false}}}]
+               :ref {:human? false}}}]
  "hen" [{:agr {:number :plur
                :person :3rd}
          :case :acc
          :sem {:pred :they
-               :ref {:human true}}}]
+               :ref {:human? true}}}]
  "het" [{:sem {:pred :it
-               :ref {:human false}}
+               :ref {:human? false}}
          :agr {:person :3rd
                :number :sing
                :gender :masc}}]
@@ -57,24 +57,24 @@
                :gender :masc}
          :case :nom
          :sem {:pred :he
-               :ref {:human true}}}]
+               :ref {:human? true}}}]
  "hun" [{:agr {:number :plur
                :person :3rd}
          :case :acc
          :sem {:pred :they
-               :ref {:human true}}}]
+               :ref {:human? true}}}]
  "ik" [{:agr {:person :1st
               :number :sing}
         :case :nom
         :sem {:pred :i
               :person :1st
-              :ref {:human true}}}]
+              :ref {:human? true}}}]
  "je" [{:case :nom
         :agr {:person :2nd
               :number :sing}
         :sem {:pred :you
               :person :2nd
-              :ref {:human true
+              :ref {:human? true
                     :context :informal}}}
        {:case :acc
         :agr {:person :2nd
@@ -83,7 +83,7 @@
         :sem {:pred :you
               :person :2nd
               :person-not :1st              
-              :ref {:human true
+              :ref {:human? true
                     :context :informal}}}
 
        ;; reflexive pronoun unspecified for
@@ -94,14 +94,14 @@
         :reflexive true
         :sem {:pred :you
               :person-not :1st              
-              :ref {:human true
+              :ref {:human? true
                     :context :informal}}}]
  "jij" [{:agr {:person :2nd
                :number :sing}
          :case :nom
          :sem {:pred :you
                :person :2nd
-               :ref {:human true
+               :ref {:human? true
                      :context :informal}}}]
  "jou" [{:agr {:person :2nd
                :number :sing}
@@ -110,12 +110,12 @@
          :sem {:pred :you
                :person :2nd
                :person-not :1st              
-               :ref {:human true
+               :ref {:human? true
                      :context :informal}}}]
  "jullie" [{:case :nom
             :sem {:pred :you
                   :person :2nd
-                  :ref {:human true
+                  :ref {:human? true
                         :context :informal}}
             :agr {:person :2nd
                   :number :plur}}
@@ -123,7 +123,7 @@
             :sem {:pred :you
                   :person :2nd
                   :person-not :1st              
-                  :ref {:human true
+                  :ref {:human? true
                         :context :informal}}
             :agr {:person :2nd
                   :number :plur}}]
@@ -132,18 +132,18 @@
               :person :1st}
         :sem {:pred :i
               :person-not :2nd
-              :ref {:human true}}
+              :ref {:human? true}}
         :reflexive false}
        {:case :acc
         :agr {:number :sing
               :person :1st}
         :sem {:pred :i
-              :ref {:human true}}
+              :ref {:human? true}}
         :reflexive true}]
  "mij" [{:case :acc
          :sem {:pred :i
                :person-not :2nd
-               :ref {:human true}}
+               :ref {:human? true}}
          :agr {:person :1st
                :number :sing
                :person-not :2nd}
@@ -153,11 +153,11 @@
                :person :1st}
          :reflexive true
          :sem {:pred :we
-               :ref {:human true}}}
+               :ref {:human? true}}}
         {:case :acc
          :sem {:person-not :2nd
                :pred :we
-               :ref {:human true}}
+               :ref {:human? true}}
          :agr {:number :plur
                :person :1st}
          :reflexive false}]
@@ -171,7 +171,7 @@
              :number :sing}
        :sem {:pred :you
              :person :2nd
-             :ref {:human true
+             :ref {:human? true
                    :context :polite
                    :number :sing}}}
       {:case :acc
@@ -179,7 +179,7 @@
              :number :sing}
        :reflexive true
        :sem {:pred :you
-             :ref {:human true
+             :ref {:human? true
                    :context :polite
                    :number :sing}}}
       {:case :acc
@@ -187,7 +187,7 @@
        :reflexive false
        :sem {:pred :you
              :person-not :1st             
-             :ref {:human true
+             :ref {:human? true
                    :person :2nd
                    :context :polite}}}
 
@@ -198,7 +198,7 @@
        :semantic-number-differs-from-agreement-number? true
        :sem {:pred :you
              :person :2nd
-             :ref {:human true
+             :ref {:human? true
                    :context :polite
                    :number :plur}}}
       {:case :acc
@@ -207,7 +207,7 @@
              :number :sing}
        :reflexive true
        :sem {:pred :you
-             :ref {:human true
+             :ref {:human? true
                    :context :polite
                    :number :plur}}}]
       
@@ -215,12 +215,12 @@
               :number :plur}
         :case :nom
         :sem {:pred :we
-              :ref {:human true}}}]
+              :ref {:human? true}}}]
  "wij" [{:agr {:person :1st
                :number :plur}
          :case :nom
          :sem {:pred :we
-               :ref {:human true}}}]
+               :ref {:human? true}}}]
  ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:case :acc
@@ -231,12 +231,12 @@
               :gender :fem}
         :case :nom
         :sem {:pred :she
-              :ref {:human true}}}
+              :ref {:human? true}}}
         {:agr {:person :3rd
                :number :plur}
          :case :nom
          :sem {:pred :they
-               :ref {:human true}}}
+               :ref {:human? true}}}
 
        ;; "ze" can be object pronoun for humans,
        ;; but only if:
@@ -256,7 +256,7 @@
         :case :acc
         :reflexive false
         :sem {:pred :they
-              :ref {:human true}}
+              :ref {:human? true}}
         :with-preposition? false
         :indirect-obj? false}
 
@@ -265,16 +265,16 @@
         :case :acc
         :reflexive false
         :sem {:pred :they
-              :ref {:human false}}}]
+              :ref {:human? false}}}]
  "zij" [{:agr {:person :3rd
                :number :sing
                :gender :fem}
          :case :nom
          :sem {:pred :she
-               :ref {:human true}}}
+               :ref {:human? true}}}
         {:agr {:person :3rd
                :number :plur}
          :case :nom
          :sem {:pred :they
-               :ref {:human true}}}]}
+               :ref {:human? true}}}]}
 

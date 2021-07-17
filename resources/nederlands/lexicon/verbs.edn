@@ -20,6 +20,7 @@
  "bieden" [{:sem {:pred :offer}
             :strong? :ie-oo-o}]
  "blaffen" [{:sem {:pred :bark
+                   :obj :none
                    :ref {:canine? true}}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}

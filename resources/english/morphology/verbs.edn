@@ -80,9 +80,9 @@
   :u {:cat :verb
       :infl :past-simple}}
 
- ;; explain/explained
- {:g [#"^(.*ain)$"   "$1ed"]
-  :p [#"^(.*ain)ed$" "$1"]
+ ;; explain/explained,ruin/ruined, coin/coined/
+ {:g [#"^(.*[aou]in)$"   "$1ed"]
+  :p [#"^(.*[aou]in)ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 

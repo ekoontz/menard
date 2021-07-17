@@ -24,22 +24,28 @@
           :exceptions [{:agr {:number :plur}
                         :surface "boeken"}]}]
  "boodschap" [{:sem {:pred :message}}]
- "chirurg" [{:sem {:pred :surgeon}}]
+ "chirurg" [{:sem {:pred :surgeon
+                   :ref {:human true}}}]
  "courgette" [{:sem {:pred :zucchini}}]
  "dag" [{:sem {:pred :day}}]
  "dame" [{:sem {:pred :woman
-                :context :polite}}]
+                :context :polite
+                :ref {:human true}}}]
  "dier" [{:agr {:gender :neuter}
           :sem {:pred :animal}}]
  "druif" [{:sem {:pred :grape}
            :curriculum :basic}]
- "echtgenoot" [{:sem {:pred :husband}}]
- "echtgenote" [{:sem {:pred :wife}}]
+ "echtgenoot" [{:sem {:pred :husband
+                      :ref {:human true}}}]
+ "echtgenote" [{:sem {:pred :wife
+                      :ref {:human true}}}]
  "eenzaamheid" [{:sem {:pred :loneliness}}]
- "eikel" [{:sem {:pred :jerk}}]
+ "eikel" [{:sem {:pred :jerk
+                 :ref {:human true}}}]
  "ervaring" [{:sem {:pred :experience}}]
  "ezel" [{:sem {:pred :donkey}}]
- "familie" [{:sem {:pred :family}}]
+ "familie" [{:sem {:pred :family
+                   :ref {:human true}}}]
  "feit" [{:agr {:gender :neuter}
           :sem {:pred :fact}
           ;; same as with "geit"->"geiten"
@@ -55,7 +61,8 @@
                         :surface "geiten"}]}]
  "geld" [{:agr {:gender :neuter}
           :sem {:pred :money}}]
- "gemeenschap" [{:sem {:pred :community}}]
+ "gemeenschap" [{:sem {:pred :community
+                       :ref {:human true}}}]
  "genootschap" [{:sem {:pred :society}}]
  "gesprek" [{:agr {:gender :neuter}
              :sem {:pred :conversation}}]
@@ -68,10 +75,12 @@
  "hagedis" [{:sem {:pred :lizard}}]
  "hand" [{:sem {:pred :hand}}]
  "heer" [{:sem {:pred :man
+                :ref {:human true}
                 :context :polite}}]
  "huwelijk" [{:agr {:gender :neuter}
               :sem {:pred :marriage}}]
- "hoogleraar" [{:sem {:pred :professor}}] 
+ "hoogleraar" [{:sem {:pred :professor
+                      :ref {:human true}}}]
  "hond" [{:sem {:pred :dog}}]
  "huis" [{:agr {:gender :neuter}
           :curriculum :basic
@@ -79,28 +88,38 @@
                 :countable? true}}]
  "idee" [{:sem {:pred :idea}}]
  "jas" [{:sem {:pred :coat}}]
- "jongen" [{:sem {:pred :boy}}]
+ "jongen" [{:sem {:pred :boy
+                  :ref {:human true}}}]
  "kat" [{:sem {:pred :cat}}]
  "kind" [{:agr {:gender :neuter}
           :exceptions [{:agr {:number :plur}
                         :surface "kinderen"}]
-          :sem {:pred :child}}]
+          :sem {:pred :child
+                :ref {:human true}}}]
  "kitten" [{:sem {:pred :kitten}}]
- "kleuter" [{:sem {:pred :toddler}}]
- "koper" [{:sem {:pred :buyer}}]
- "lafaard" [{:sem {:pred :coward}}]
+ "kleuter" [{:sem {:pred :toddler
+                   :ref {:human true}}}]
+ "koper" [{:sem {:pred :buyer
+                 :ref {:human true}}}]
+ "lafaard" [{:sem {:pred :coward
+                   :ref {:human true}}}]
  "land" [{:sem {:pred :country}
           :agr {:gender :neuter}}]
- "leraar" [{:sem {:pred :teacher}}]
+ "leraar" [{:sem {:pred :teacher
+                  :ref {:human true}}}]
  "leven" [{:agr {:gender :neuter}
            :sem {:pred :life}}]
- "loodgieter" [{:sem {:pred :plumber}}]
+ "loodgieter" [{:sem {:pred :plumber
+                      :ref {:human true}}}]
  "man" [{:sem {:pred :man
-               :context :neutral}}]
+               :context :neutral
+               :ref {:human true}}}]
  "maand" [{:sem {:pred :month}}]
  "meisje" [{:agr {:gender :neuter}
-            :sem {:pred :girl}}]
- "moeder" [{:sem {:pred :mother}}]
+            :sem {:pred :girl
+                  :ref {:human true}}}]
+ "moeder" [{:sem {:pred :mother
+                  :ref {:human true}}}]
  "mogelijkheid" [{:sem {:pred :opportunity}}]
  "ontspanning" [{:sem {:pred :relaxation}}]
  "ontwikkeling" [{:sem {:pred :development}}]
@@ -112,7 +131,8 @@
               :sem {:pred :performance}}]
  "opstand" [{:sem {:pred :revolt}}]
  "overheid" [{:sem {:pred :government}}]
- "peuter" [{:sem {:pred :toddler}}]
+ "peuter" [{:sem {:pred :toddler
+                  :ref {:human true}}}]
  "pinda" [{:sem {:pred :peanut}}]
  "plaats" [{:sem {:pred :lot}}
            {:sem {:pred :place}}]
@@ -131,13 +151,16 @@
  "uitvoering" [{:sem {:pred :implementation}}]
  "vakbond" [{:sem {:pred :union}}]
  "verbinding" [{:sem {:pred :connection}}]
- "verdediger" [{:sem {:pred :defender}}]
+ "verdediger" [{:sem {:pred :defender
+                      :ref {:human true}}}]
  "vergissing" [{:sem {:pred :mistake}}]
  "verhaal" [{:sem {:pred :story}
              :agr {:gender :neuter}}]
- "verkoper" [{:sem {:pred :seller}}]
+ "verkoper" [{:sem {:pred :seller
+                    :ref {:human true}}}]
  "vernieling" [{:sem {:pred :destruction}}]
- "verslaggever" [{:sem {:pred :reporter}}]
+ "verslaggever" [{:sem {:pred :reporter
+                        :ref {:human true}}}]
  "versoepeling" [{:sem {:pred :relaxation}}]
  "vertraging" [{:sem {:pred :delay}}]
  "vijver" [{:sem {:pred :pond}}]
@@ -156,9 +179,12 @@
  "vrouw" [{:curriculum :basic
            :agr {:gender :common}
            :sem {:pred :woman
-                 :context :neutral}}] ;; i.e. :neutral meaning 'not polite'
- "werkgever" [{:sem {:pred :employer}}]
- "werknemer" [{:sem {:pred :employee}}]
+                 :context :neutral ;; i.e. :neutral meaning 'not polite'
+                 :ref {:human true}}}]
+ "werkgever" [{:sem {:pred :employer
+                     :ref {:human true}}}]
+ "werknemer" [{:sem {:pred :employee
+                     :ref {:human true}}}]
  "wortel" [{:sem {:pred :carrot}}]
  "zaak" [{:sem {:pred :case}}]
  "zee" [{:sem {:pred :sea}}]

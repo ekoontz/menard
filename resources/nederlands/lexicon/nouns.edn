@@ -81,7 +81,8 @@
               :sem {:pred :marriage}}]
  "hoogleraar" [{:sem {:pred :professor
                       :ref {:human? true}}}]
- "hond" [{:sem {:pred :dog}}]
+ "hond" [{:sem {:pred :dog
+                :ref {:canine? true}}}]
  "huis" [{:agr {:gender :neuter}
           :curriculum :basic
           :sem {:pred :house

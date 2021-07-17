@@ -16,7 +16,7 @@
  "bewegen" [{:sem {:pred :move}
              :strong? :e-o-o}]
  "blaffen" [{:sem {:pred :bark
-                   :sem {:ref {:animate? true}}}}]
+                   :sem {:ref {:canine? true}}}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}
             :strong? :a-ie-a}]

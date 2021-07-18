@@ -139,8 +139,8 @@
                     :obj :none}
               :exceptions exceptions}
              {:sem {:pred :know
-                    :subj {:ref {:human? true :existential? false}}
-                    :obj {:ref {:human? true :existential? false}}}
+                    :subj {:ref {:human? true}}
+                    :obj {:ref {:human? true}}}
               :exceptions exceptions}])
  
  "kijken"
@@ -350,8 +350,8 @@
             {:curriculum :basic
              :reflexive false
              :sem {:pred :know
-                   :subj {:ref {:human? true} :existential? false}
-                   :obj {:ref {:human? false} :existential? false}}
+                   :subj {:ref {:human? true}}
+                   :obj {:ref {:human? false}}}
              :exceptions exceptions}])
  "vallen" [{:strong? :a-ie-a
             :sem {:pred :fall

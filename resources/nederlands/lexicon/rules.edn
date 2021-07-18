@@ -620,7 +620,6 @@
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
 
-
  {:rule :third-person-accusative-pronoun-allowed-at-beginning?
   :if {:cat :noun
        :case :accusative
@@ -635,6 +634,18 @@
        :pronoun true
        :sem {:existential? ::unspec}}
   :then [{:sem {:existential? false}}]}
+
+ {:rule :subj-is-non-existential
+  :if {:cat :verb
+       :te? false
+       :sem {:subj {:existential? ::unspec}}}
+  :then [{:sem {:subj {:existential? false}}}]}
+
+ {:rule :obj-is-non-existential
+  :if {:cat :verb
+       :te? false
+       :sem {:obj {:existential? ::unspec}}}
+  :then [{:sem {:obj {:existential? false}}}]}
 
  {:rule :verbs-are-not-strong-by-default
   :if {:cat :verb
@@ -655,5 +666,6 @@
        :sem {:ref {:canine? ::unspec}}}
   :then [{:sem {:ref {:canine? false}}}]}
   
+
  
  ]

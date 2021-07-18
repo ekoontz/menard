@@ -59,8 +59,11 @@
  "fish" [{:sem {:pred :fish}
           :exceptions [{:agr {:number :sing}
                          :surface "fish"}
-                        {:agr {:number :plur}
-                         :surface "fish"}]}]
+                       ;; both 'fish' (as plural) and 'fishes' are possible:
+                       {:agr {:number :plur}
+                         :surface "fish"}
+                       {:agr {:number :plur}
+                        :surface "fishes"}]}]
  "gentleman" [{:sem {:pred :man
                      :context :polite}
                :agr {:gender :man

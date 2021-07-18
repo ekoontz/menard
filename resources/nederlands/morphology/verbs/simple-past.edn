@@ -121,15 +121,15 @@
  ;; </'t kofship>
 
  ;; <default weak>
- {:g [#"^(.*)en$" "$1de"]
-  :p [#"^(.*)de$" "$1en"]
+ {:g [#"^(.*[^tksp])en$" "$1de"]
+  :p [#"^(.*[^tksp])de$" "$1en"]
   :u {:cat :verb
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*)en$"  "$1den"]
-  :p [#"^(.*)den$" "$1en"]
+ {:g [#"^(.*[^tksp])en$"  "$1den"]
+  :p [#"^(.*[^tksp])den$" "$1en"]
   :u {:cat :verb
       :strong? false
       :agr {:number :plur}

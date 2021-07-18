@@ -26,7 +26,7 @@
 ;; For generation and parsing of Dutch.
 ;;
 
-(def create-basic-model? false)
+(def create-basic-model? true)
 
 ;; <morphology>
 #?(:clj
@@ -290,7 +290,8 @@
 #?(:clj
    (if create-basic-model?
      (def basic-model
-       (ref (merge (create-model "basic" basic-filter))))))
+       (ref (merge (create-model "basic" basic-filter))))
+     (def basic-model nil)))
 
 #?(:clj
    (defn load-model []

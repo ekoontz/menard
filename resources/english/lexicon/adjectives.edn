@@ -117,6 +117,7 @@
  "sure" [{:sem {:pred :sure}}]
  "suspicious" [{:sem {:pred :suspicious}}]
  "tall" [{:sem {:pred :tall}}]
+ "terrifying" [{:sem {:pred :terrifying}}]
  "thick" [{:sem {:pred :thick}}]
  "thrifty" [{:sem {:pred :frugal}}]
  "true" [{:sem {:pred :true}}]

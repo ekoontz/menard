@@ -75,6 +75,7 @@
  "verdrietig" [{:sem {:pred :sad}}]
  "vergelijkbaar" [{:sem {:pred :comparable}}]
  "verlegen" [{:sem {:pred :shy}}]
+ "verschrikkelijk" [{:sem {:pred :terrifying}}]
  "verward" [{:sem {:pred :confused}}]
  "verwarrend" [{:sem {:pred :confusing}}]
  "verdacht" [{:sem {:pred :suspicious}}]

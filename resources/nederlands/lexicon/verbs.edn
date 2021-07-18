@@ -28,6 +28,17 @@
  "blijven" [{:sem {:pred :stay
                    :obj :none}
              :strong? true}]
+ "brengen" (let [exceptions [{:infl :past-simple
+                              :agr {:number :sing}
+                              :surface "bracht"}
+                             {:infl :past-simple
+                              :agr {:number :plur}
+                              :surface "brachten"}
+                             {:infl :past-participle
+                              :surface "gebracht"}]]
+             [{:exceptions exceptions
+               :sem {:pred :bring
+                     :obj {:top :top}}}])
  "bruizen" [{:sem {:pred :bubble}}]
  "dragen" [{:strong? :a-oe-a
             :sem {:pred :carry

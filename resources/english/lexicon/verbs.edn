@@ -96,8 +96,13 @@
                            :surface "blown"}]]
           [{:sem {:pred :blow}
             :exceptions exceptions}])
+ "bring" (let [exceptions [{:infl :past-simple
+                           :surface "brought"}
+                          {:infl :past-participle
+                           :surface "brought"}]]
+           [{:sem {:pred :bring}
+             :exceptions exceptions}])
  "bubble" [{:sem {:pred :bubble}}]
- 
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base

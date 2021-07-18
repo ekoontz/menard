@@ -56,6 +56,11 @@
  "favorite" [{:agr {:gender :common}
               :sem {:pred :favorite}}]
  "feeling" [{:sem {:pred :feeling}}]
+ "fish" [{:sem {:pred :fish}
+          :exceptions [{:agr {:number :sing}
+                         :surface "fish"}
+                        {:agr {:number :plur}
+                         :surface "fish"}]}]
  "gentleman" [{:sem {:pred :man
                      :context :polite}
                :agr {:gender :man
@@ -137,8 +142,9 @@
  "seller" [{:sem {:pred :seller}}]
  "service" [{:sem {:pred :service}}]
  "sheep" [{:sem {:pred :sheep}
-           :agr {:number :sing}
-           :exceptions [{:agr {:number :plur}
+           :exceptions [{:agr {:number :sing}
+                         :surface "sheep"}
+                        {:agr {:number :plur}
                          :surface "sheep"}]}]
  "situation" [{:sem {:pred :situation}}]
  "society" [{:sem {:pred :society}}]

@@ -166,6 +166,7 @@
  "versoepeling" [{:sem {:pred :relaxation}}]
  "vertraging" [{:sem {:pred :delay}}]
  "vijver" [{:sem {:pred :pond}}]
+ "vis" [{:sem {:pred :fish}}]
  "vliegtuig" [{:agr {:gender :neuter}
                :sem {:pred :airplane}}]
  "vlinder" [{:sem {:pred :butterfly}}]

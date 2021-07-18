@@ -28,6 +28,7 @@
  "current" [{:sem {:pred :current}}]
  "cute" [{:sem {:pred :cute}}]
  "determined" [{:sem {:pred :determined}}]
+ "devoted" [{:sem {:pred :devoted}}]
  "different" [{:sem {:pred :different}}]
  "difficult" [{:sem {:pred :difficult}}]
  "disappointed" [{:sem {:pred :disappointed}}]

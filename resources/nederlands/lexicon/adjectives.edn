@@ -78,6 +78,7 @@
  "verward" [{:sem {:pred :confused}}]
  "verwarrend" [{:sem {:pred :confusing}}]
  "verdacht" [{:sem {:pred :suspicious}}]
+ "verknocht" [{:sem {:pred :devoted}}]
  "vervelend" [{:sem {:pred :annoying}}]
  "vies" [{:sem {:pred :dirty}}]
  "vreselijk" [{:sem {:pred :horrible}}]

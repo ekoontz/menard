@@ -92,6 +92,8 @@
  "jongen" [{:sem {:pred :boy
                   :ref {:human? true}}}]
  "kat" [{:sem {:pred :cat}}]
+ "kerel" [{:sem {:pred :dude
+                 :ref {:human? true}}}]
  "kind" [{:agr {:gender :neuter}
           :exceptions [{:agr {:number :plur}
                         :surface "kinderen"}]

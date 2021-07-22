@@ -45,6 +45,7 @@
             :subcat []}] ;; "eats dinner"
  "dog" [{:sem {:pred :dog}}]
  "donkey" [{:sem {:pred :donkey}}]
+ "dude" [{:sem {:pred :dude}}]
  "education" [{:sem {:pred :education}}]
  "employee" [{:sem {:pred :employee}}]
  "employer" [{:sem {:pred :employer}}]

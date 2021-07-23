@@ -1,3 +1,5 @@
 {"aangenamen" [{:sem {:pred :nice-to-meet-you}}]
  "ga je gang" [{:sem {:pred :go-ahead}}]
- "oprotten" [{:sem {:pred :fuck-off}}]}
+ "rot op" [{:sem {:pred :fuck-off}}]
+ "zet je er nou overheen" [{:sem {:pred :get-over-it}}]}
+

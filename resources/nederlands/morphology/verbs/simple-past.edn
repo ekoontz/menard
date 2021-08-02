@@ -120,6 +120,37 @@
       :infl :past-simple}}
  ;; </'t kofship>
 
+ ;; voiced -> voiceless v->f
+ {:g [#"^(.*)ven$" "$1fde"]
+  :p [#"^(.*)fde$" "$1ven"]
+  :u {:cat :verb
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*)ven$"  "$1fden"]
+  :p [#"^(.*)fden$" "$1ven"]
+  :u {:cat :verb
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+
+ ;; voiced -> voiceless z->s
+ ;; reizen -> reisde
+ {:g [#"^(.*)zen$" "$1sde"]
+  :p [#"^(.*)sde$" "$1zen"]
+  :u {:cat :verb
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
+
+ {:g [#"^(.*)zen$"  "$1sden"]
+  :p [#"^(.*)sden$" "$1zen"]
+  :u {:cat :verb
+      :strong? false
+      :agr {:number :plur}
+      :infl :past-simple}}
+  
  ;; <default weak>
  {:g [#"^(.*[^tksp])en$" "$1de"]
   :p [#"^(.*[^tksp])de$" "$1en"]

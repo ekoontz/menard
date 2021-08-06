@@ -213,20 +213,20 @@
              (reduce (fn [x y]
                        (merge-with (fn [a b] (lazy-cat a b)) x y))
                      (pmap-if-available
-                      (fn [span-pair]
+                      (fn [[left right]]
                         
                         ;; create a new key/value pair: [i,j] => parses,
                         ;; where each parse in parses matches the tokens from [i,j] in the input.
                         {
 
                          ;; <key: [i,j]>
-                         [(first (first span-pair))
-                          (second (second span-pair))]
+                         [(first left)
+                          (second right)]
                          ;; </key>
 
                          ;; <value: parses for strings indexed at [i,j]>
-                         (let [left (get minus-1 (first span-pair))
-                               right (get minus-1 (second span-pair))
+                         (let [left (get minus-1 left)
+                               right (get minus-1 right)
                                left-strings (filter string? left)
                                right-strings (filter string? right)
                                left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))

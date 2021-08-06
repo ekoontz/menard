@@ -145,6 +145,7 @@
  "sea" [{:sem {:pred :sea}}]
  "seller" [{:sem {:pred :seller}}]
  "service" [{:sem {:pred :service}}]
+ "setback" [{:sem {:pred :setback}}]
  "sheep" [{:sem {:pred :sheep}
            :exceptions [{:agr {:number :sing}
                          :surface "sheep"}

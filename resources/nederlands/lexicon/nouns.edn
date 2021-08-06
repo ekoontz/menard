@@ -148,6 +148,7 @@
  "sering" [{:sem {:pred :lilac}}]
  "stoel" [{:sem {:pred :chair}}]
  "tafel" [{:sem {:pred :table}}]
+ "tegenslag" [{:sem {:pred :setback}}]
  "thuis" [{:agr {:gender :neuter}
            :sem {:pred :home}}]
  "toestand" [{:sem {:pred :situation}}]

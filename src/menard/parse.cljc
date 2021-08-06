@@ -212,69 +212,70 @@
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with (fn [a b] (lazy-cat a b)) x y))
-                     (pmap-if-available
-                      (fn [[left right]]
-                        
-                        ;; create a new key/value pair: [i,j] => parses,
-                        ;; where each parse in parses matches the tokens from [i,j] in the input.
-                        {
-
-                         ;; <key: [i,j]>
-                         [(first left)
-                          (second right)]
-                         ;; </key>
-
-                         ;; <value: parses for strings indexed at [i,j]>
-                         (let [left (get minus-1 left)
-                               right (get minus-1 right)
-                               left-strings (filter string? left)
-                               right-strings (filter string? right)
-                               left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
-                                                    (pmap-if-available
-                                                     (fn [string]
-                                                       (lookup-fn-with-trim string))
-                                                     left-strings))
-                               right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                     (->>
+                      (get span-map n)
+                      (pmap-if-available
+                       (fn [[left right]]
+                         
+                         ;; create a new key/value pair: [i,j] => parses,
+                         ;; where each parse in parses matches the tokens from [i,j] in the input.
+                         {
+                          
+                          ;; <key: [i,j]>
+                          [(first left)
+                           (second right)]
+                          ;; </key>
+                          
+                          ;; <value: parses for strings indexed at [i,j]>
+                          (let [left (get minus-1 left)
+                                right (get minus-1 right)
+                                left-strings (filter string? left)
+                                right-strings (filter string? right)
+                                left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
                                                      (pmap-if-available
                                                       (fn [string]
                                                         (lookup-fn-with-trim string))
-                                                      right-strings))
-                               left-signs (lazy-cat left-lexemes (filter map? left))
-                               right-signs (lazy-cat right-lexemes (filter map? right))
-                               all-results (over grammar left-signs right-signs)
-                               taken-results (take take-this-many all-results)
-                               taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                           (lazy-cat
-                            (if (and (seq? left-signs)
-                                     (seq? right-signs))
-                              (do
-                                (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
-                                                (string/join ", " (set (map syntax-tree right-signs)))))
-                                (when (> (count taken-plus-one-results) (count taken-results))
-                                  (log/warn (str "more than " take-this-many " parses for: '" (morph (first taken-results)) "' ; first: " (syntax-tree (first taken-results)))))
-                                (->>
-                                 taken-results
-                                 (pmap-if-available (fn [tree]
-                                        (if truncate?
-                                          (truncate tree syntax-tree morph)
-                                          tree)))
+                                                      left-strings))
+                                right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
+                                                      (pmap-if-available
+                                                       (fn [string]
+                                                         (lookup-fn-with-trim string))
+                                                       right-strings))
+                                left-signs (lazy-cat left-lexemes (filter map? left))
+                                right-signs (lazy-cat right-lexemes (filter map? right))
+                                all-results (over grammar left-signs right-signs)
+                                taken-results (take take-this-many all-results)
+                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                            (lazy-cat
+                             (if (and (seq? left-signs)
+                                      (seq? right-signs))
+                               (do
+                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
+                                                 (string/join ", " (set (map syntax-tree right-signs)))))
+                                 (when (> (count taken-plus-one-results) (count taken-results))
+                                   (log/warn (str "more than " take-this-many " parses for: '" (morph (first taken-results)) "' ; first: " (syntax-tree (first taken-results)))))
+                                 (->>
+                                  taken-results
+                                  (pmap-if-available (fn [tree]
+                                                       (if truncate?
+                                                         (truncate tree syntax-tree morph)
+                                                         tree)))
 
-                                 ;; if returning more than one parse,
-                                 ;; you must run (vec) on the return value of this (map).
-                                 ;; This is because (map f v) returns a lazy sequence out of
-                                 ;; calls to f. However f does not have the dynamic bindings
-                                 ;; that the caller has set up. So without the(vec), subsequent runs of f
-                                 ;; (after the first one) will be ran,
-                                 ;; with no binding for ^:dynamic variables like 'syntax-tree'.
-                                 ;; TODO: fix this by re-binding variables using (binding [syntax-tree syntax-tree]).
-                                 ((fn [trees]
-                                    (if parse-only-one?
+                                  ;; if returning more than one parse,
+                                  ;; you must run (vec) on the return value of this (map).
+                                  ;; This is because (map f v) returns a lazy sequence out of
+                                  ;; calls to f. However f does not have the dynamic bindings
+                                  ;; that the caller has set up. So without the(vec), subsequent runs of f
+                                  ;; (after the first one) will be ran,
+                                  ;; with no binding for ^:dynamic variables like 'syntax-tree'.
+                                  ;; TODO: fix this by re-binding variables using (binding [syntax-tree syntax-tree]).
+                                  ((fn [trees]
+                                     (if parse-only-one?
                                       trees
                                       (vec trees))))))
-                              [(string/join " " [(first left-strings) (first right-strings)])])))})
-                      ;; </value>
-                      
-                      (get span-map n)))))))
+                               [(string/join " " [(first left-strings) (first right-strings)])])))})
+                       ;; </value>
+                       )))))))
 
 (def span-maps
   (map (fn [i]

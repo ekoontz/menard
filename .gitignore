@@ -33,3 +33,4 @@ packaged-native.yml
 pom.properties
 lambda/target/*
 lambda/history.txt
+server/target/stale/leiningen.core.classpath.extract-native-dependencies

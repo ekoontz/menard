@@ -329,6 +329,13 @@
   (let [tokenizations (tokenize input)
         result (parse-tokens tokenizations morph)]
     (if (empty? (:complete-parses result))
+
+      ;; if there are no complete parses,
+      ;; cobble together results by combining
+      ;; partial parses with lexical lookups of tokens (if they exists).
+      ;; e.g. we can parse "er zijn katten" so there is a complete parse
+      ;; but "er zijn kat" can't be fully parsed, so we return:
+      ;; [er zijn] [kat].
       (let [analyses
             (zipmap
              tokenizations

@@ -167,11 +167,7 @@
     nil
 
     :else
-    (let [
-          ;; TODO: rather than this function, make a static lookup table, at least for n < (e.g.) 5.
-          ;; e.g. (spanpairs 5) =>
-          ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
-          spanpairs (fn [n]
+    (let [spanpairs (fn [n]
                       (reduce
                        (fn [a b] (lazy-cat a b))
                        (pmap-if-available

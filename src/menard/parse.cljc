@@ -14,7 +14,7 @@
   (fn [_]
     []))
 (def ^:dynamic grammar nil)
-(def ^:dynamic syntax-tree)
+(def ^:dynamic syntax-tree (log/warn (str "'syntax-tree' was not bound.")))
 (def ^:dynamic truncate? false)
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 30)
@@ -56,7 +56,8 @@
                                   {:head head})
                          :else
                          (do
-                           (log/debug (str "failed precheck: parent: " (syntax-tree parent) "; head: " (syntax-tree head) "; "
+                           (log/debug (str "failed precheck: parent: " (syntax-tree
+ parent) "; head: " (syntax-tree head) "; "
                                            "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                            :fail))]
         (if (not (= :fail result))
@@ -256,7 +257,7 @@
                              (if (and (seq? left-signs)
                                       (seq? right-signs))
                                (do
-                                 (log/info (str
+                                 (log/debug (str
                                              "parses:left:"
                                              (string/join ", " (set (map syntax-tree left-signs)))
                                              "; right:"

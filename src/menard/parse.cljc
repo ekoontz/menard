@@ -204,7 +204,13 @@
                (= trimmed string))
       (lookup-fn string))))
 
-(defn parses [input n span-map morph]
+(defn parses
+  "returns a list of elements
+      where each element is: [[_i_ _j_] _parses_] and _parses_
+   is a list of structures
+      where each structure is a parse covering the interval in the input from _i_ to _j_."
+
+  [input n span-map morph]
   (cond
     (= n 1) input
     (> n 1)
@@ -250,8 +256,11 @@
                              (if (and (seq? left-signs)
                                       (seq? right-signs))
                                (do
-                                 (log/debug (str (string/join ", " (set (map syntax-tree left-signs))) " || "
-                                                 (string/join ", " (set (map syntax-tree right-signs)))))
+                                 (log/info (str
+                                             "parses:left:"
+                                             (string/join ", " (set (map syntax-tree left-signs)))
+                                             "; right:"
+                                             (string/join ", " (set (map syntax-tree right-signs)))))
                                  (when (> (count taken-plus-one-results) (count taken-results))
                                    (log/warn (str "more than " take-this-many " parses for: '" (morph (first taken-results)) "' ; first: " (syntax-tree (first taken-results)))))
                                  (->>

@@ -20,18 +20,18 @@
 (h/deflambda Parse
   [event context]
   (let [q (-> event :queryStringParameters :q)]
-    (json-reponse (handlers/parse-nl q))))
+    (json-response (handlers/parse-nl q))))
 
 (h/deflambda Generate
   [event context]
   (let [q (-> event :queryStringParameters :q)]
-    (json-reponse (handlers/generate-nl-by-spec q))))
+    (json-response (handlers/generate-nl-by-spec q))))
 
 (h/deflambda GenerateWithAlts
   [event context]
   (let [spec (-> event :queryStringParameters :spec)
         alternates (-> event :queryStringParameters :alts)]
-    (json-reponse (handlers/generate-nl-with-alternations spec alternates))))
+    (json-response (handlers/generate-nl-with-alternations spec alternates))))
 
 (h/gen-main [#'Parse
              #'Generate

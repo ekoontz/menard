@@ -19,8 +19,11 @@
   
 (h/deflambda Parse
   [event context]
-  (let [q (-> event :queryStringParameters :q)]
-    (json-response (handlers/parse-nl q))))
+  (-> event
+      :queryStringParameters
+      :q
+      handlers/parse-nl
+      json-response))
 
 (h/deflambda Generate
   [event context]

@@ -171,6 +171,13 @@
                                                 (-> expression morph parse first syntax-tree))))))))
               (remove #(not (empty? %))))))))
 
+(deftest parse-test-2
+  (is (not (empty?
+            (->> "ik heb het nodig"
+                 parse
+                 (map (fn [x]
+                        (log/info (str (syntax-tree x))))))))))
+
 (deftest noun-morphology
   ;; access all morphological rules for Dutch:
   (is (= "zeeën"

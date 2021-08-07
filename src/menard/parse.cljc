@@ -14,7 +14,7 @@
   (fn [_]
     []))
 (def ^:dynamic grammar nil)
-(def ^:dynamic syntax-tree (log/warn (str "'syntax-tree' was not bound.")))
+(def ^:dynamic syntax-tree (fn [x] (log/warn (str "'syntax-tree' was not bound."))))
 (def ^:dynamic truncate? false)
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 30)
@@ -205,6 +205,12 @@
                (= trimmed string))
       (lookup-fn string))))
 
+(defn summary [m]
+  (into {}
+        (->> (keys m)
+             (map (fn [k]
+                    {k (count (get m k))})))))
+
 (defn parses
   "returns a list of elements
       where each element is: [[_i_ _j_] _parses_] and _parses_
@@ -215,10 +221,23 @@
   (cond
     (= n 1) input
     (> n 1)
-    (let [minus-1 (parses input (- n 1) span-map morph)]
+    (let [minus-1 (parses input (- n 1) span-map morph)
+          look-at
+          (list (vec (clojure.set/difference (set (keys minus-1))
+                                             (set (vec (reduce concat (get span-map n)))))))]
+      (log/debug (str "parses(" n ") minus-1 has parses for: " (string/join "," (keys minus-1))))
+      (log/debug (str "parses(" n ") A:" (set (vec (reduce concat (get span-map n))))))
+      (log/debug (str "parses(" n ") B:" (set (keys minus-1))))
+      (log/debug (str "parses(" n ") looking at: " look-at))
+      (log/debug (str "parses(" n ") really: " (get span-map n)))
       (merge minus-1
-             (reduce (fn [x y]
-                       (merge-with (fn [a b] (lazy-cat a b)) x y))
+             (reduce (fn [subparses parses]
+                       (merge-with (fn [a b]
+                                     (log/info (str "subparses:" (summary subparses)))
+                                     (log/info (str "parses:   " (summary parses)))
+                                     (log/debug (str "merging: " (keys subparses) " and " (keys parses)))
+                                     (lazy-cat a b))
+                                   subparses parses))
                      (->>
                       (get span-map n)
                       (pmap-if-available
@@ -254,11 +273,13 @@
                                 taken-results (take take-this-many all-results)
                                 taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                             (lazy-cat
-                             (if (and (seq? left-signs)
-                                      (seq? right-signs))
+                             (if (and (seq left-signs)
+                                      (seq right-signs))
                                (do
                                  (log/debug (str
-                                             "parses:left:"
+                                             "parses:"
+                                             "n=" n ";"
+                                             "left:"
                                              (string/join ", " (set (map syntax-tree left-signs)))
                                              "; right:"
                                              (string/join ", " (set (map syntax-tree right-signs)))))

@@ -1,4 +1,4 @@
-(defproject menard "1.4.3"
+(defproject menard "1.4.4"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/menard"
   :license {:name "Eclipse Public License"

@@ -208,8 +208,9 @@
 (defn summary [m]
   (into {}
         (->> (keys m)
-             (map (fn [k]
-                    {k (count (get m k))})))))
+             (mapcat (fn [k]
+                       (if (seq (get m k))
+                         [{k (map syntax-tree (get m k))}]))))))
 
 (defn parses
   "returns a list of elements
@@ -225,19 +226,13 @@
           look-at
           (list (vec (clojure.set/difference (set (keys minus-1))
                                              (set (vec (reduce concat (get span-map n)))))))]
-      (log/debug (str "parses(" n ") minus-1 has parses for: " (string/join "," (keys minus-1))))
-      (log/debug (str "parses(" n ") A:" (set (vec (reduce concat (get span-map n))))))
-      (log/debug (str "parses(" n ") B:" (set (keys minus-1))))
-      (log/debug (str "parses(" n ") looking at: " look-at))
-      (log/debug (str "parses(" n ") really: " (get span-map n)))
       (merge minus-1
-             (reduce (fn [subparses parses]
+             (reduce (fn [left-parses right-parses]
                        (merge-with (fn [a b]
-                                     (log/info (str "subparses:" (summary subparses)))
-                                     (log/info (str "parses:   " (summary parses)))
-                                     (log/debug (str "merging: " (keys subparses) " and " (keys parses)))
+                                     (if (seq a) (log/debug (str "parses of a:   " (vec (map syntax-tree a)))))
+                                     (if (seq b) (log/debug (str "parses of b:   " (vec (map syntax-tree b)))))
                                      (lazy-cat a b))
-                                   subparses parses))
+                                   left-parses right-parses))
                      (->>
                       (get span-map n)
                       (pmap-if-available
@@ -284,7 +279,9 @@
                                              "; right:"
                                              (string/join ", " (set (map syntax-tree right-signs)))))
                                  (when (> (count taken-plus-one-results) (count taken-results))
-                                   (log/warn (str "more than " take-this-many " parses for: '" (morph (first taken-results)) "' ; first: " (syntax-tree (first taken-results)))))
+                                   (log/warn (str "more than " take-this-many " parses for: '"
+                                                  (morph (first taken-results)) "' ; first: "
+                                                  (syntax-tree (first taken-results)))))
                                  (->>
                                   taken-results
                                   (pmap-if-available (fn [tree]
@@ -304,7 +301,10 @@
                                      (if parse-only-one?
                                       trees
                                       (vec trees))))))
-                               [(string/join " " [(first left-strings) (first right-strings)])])))})
+                               nil
+                               )
+
+                             ))})
                        ;; </value>
                        )))))))
 

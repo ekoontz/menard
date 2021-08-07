@@ -1,4 +1,4 @@
-(ns menard.lambda.handlers
+(ns menard.handlers
   (:require
    [clojure.tools.logging :as log]
    [dag_unify.core :as u]

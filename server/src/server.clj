@@ -3,41 +3,58 @@
    [clojure.tools.logging :as log]
    [clojure.data.json :as json :refer [write-str]]
    [config.core :refer [env]]
-   [menard.lambda.handlers :as handlers]
+   [menard.handlers :as handlers]
    [reitit.ring :as reitit-ring]
    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
    [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))
 
 (defonce origin
-  (do (log/info (str "environment ORIGIN: " (env :origin)))
-      (or (env :origin) "/")))
+  (if-let [env-origin (env :origin)]
+    (do (log/info (str "environment's origin: " env-origin))
+        env-origin)
+    (do (log/info (str "environment had no origin defined: using '/'."))
+        "/")))
+
+(def headers {"Content-Type" "application/json"
+              "Access-Control-Allow-Origin" origin
+              "Access-Control-Allow-Credentials" "true"})
 
 (defn json-response
   "Call a handler on a request, which returns a clojure data structure.
    Then call clojure.data.json/write-str to turn that structure into JSON
    so the client's browser can parse it."
-  [_request handler]
+  [body]
   {:status 200
-   :headers {"Content-Type" "application/json"
-             "Access-Control-Allow-Origin" origin
-             "Access-Control-Allow-Credentials" "true"}
-   :body (-> _request handler write-str)})
-
-(declare parse-nl)
-(declare generate-nl-by-spec)
-(declare generate-nl-with-alternations)
+   :headers headers
+   :body (write-str body)})
 
 (def routes
   [["/parse"
-    {:get {:handler (fn [request] (json-response request parse-nl))}}]
-
+    {:get {:handler
+           (fn [request]
+             (-> request
+                 :query-params
+                 (get "q")
+                 handlers/parse-nl
+                 json-response))}}]
    ["/generate"
-    {:get {:handler (fn [request] (json-response request generate-nl-by-spec))}}]
+    {:get {:handler
+           (fn [request]
+             (-> request
+                 :query-params
+                 (get "q")
+                 handlers/generate-nl-by-spec
+                 json-response))}}]
 
    ["/generate-with-alts"
-    {:get {:handler (fn [request] (json-response request generate-nl-with-alternations))}}]])
-
+    {:get {:handler
+           (fn [request]
+             (let [spec (-> request :query-params (get "spec"))
+                   alternates (-> request :query-params (get "alts"))]
+               (-> (handlers/generate-nl-with-alternations spec alternates)
+                   json-response)))}}]])
+   
 (def middleware
   [#(wrap-defaults % (assoc site-defaults :session false))])
 
@@ -47,21 +64,6 @@
    (reitit-ring/routes
     (reitit-ring/create-default-handler))
    {:middleware middleware}))
-
-(defn generate-nl-by-spec
-  [request]
-  (let [spec (-> request :query-params (get "q"))]
-    (handlers/generate-nl-by-spec spec)))
-
-(defn generate-nl-with-alternations
-  [request]
-  (let [spec (-> request :query-params (get "spec"))
-        alternates (-> request :query-params (get "alts"))]
-    (handlers/generate-nl-with-alternations spec alternates)))
-
-(defn parse-nl [request]
-  (let [string-to-parse (-> request :query-params (get "q"))]
-    (handlers/parse-nl string-to-parse)))
 
 (defn -main [& args]
   (let [port (or (env :port) 3000)]

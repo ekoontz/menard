@@ -3,29 +3,28 @@
   (:gen-class)
   (:require
    [fierycod.holy-lambda.core :as h]
-   [menard.lambda.handlers
-    :refer [generate-nl-by-spec
-            generate-nl-with-alternations
-            parse-nl]]))
+   [menard.handlers]))
 
+(defonce origin "https://hiro-tan.org")
+
+(defonce headers {"Content-Type" "application/json"
+                  "Access-Control-Allow-Origin" origin
+                  "Access-Control-Allow-Credentials" "true"})
+  
 (h/deflambda Parse
   [event context]
   (let [q (-> event :queryStringParameters :q)]
     {:statusCode 200
-     :headers {"Content-Type" "application/json"
-               "Access-Control-Allow-Origin" "https://hiro-tan.org"
-               "Access-Control-Allow-Credentials" "true"}
-     :body (parse-nl q)
+     :headers headers
+     :body (handlers/parse-nl q)
      :isBase64Encoded false}))
 
 (h/deflambda Generate
   [event context]
   (let [q (-> event :queryStringParameters :q)]
     {:statusCode 200
-     :headers {"Content-Type" "application/json"
-               "Access-Control-Allow-Origin" "https://hiro-tan.org"
-               "Access-Control-Allow-Credentials" "true"}
-     :body (generate-nl-by-spec q)
+     :headers headers
+     :body (handlers/generate-nl-by-spec q)
      :isBase64Encoded false}))
 
 (h/deflambda GenerateWithAlts
@@ -33,10 +32,8 @@
   (let [spec (-> event :queryStringParameters :spec)
         alternates (-> event :queryStringParameters :alts)]
     {:statusCode 200
-     :headers {"Content-Type" "application/json"
-               "Access-Control-Allow-Origin" "https://hiro-tan.org"
-               "Access-Control-Allow-Credentials" "true"}
-     :body (generate-nl-with-alternations spec alternates)
+     :headers headers
+     :body (handlers/generate-nl-with-alternations spec alternates)
      :isBase64Encoded false}))
 
 (h/gen-main [#'Parse

@@ -21,8 +21,7 @@
               "Access-Control-Allow-Credentials" "true"})
 
 (defn json-response
-  "Call a handler on a request, which returns a clojure data structure.
-   Then call clojure.data.json/write-str to turn that structure into JSON
+  "Call clojure.data.json/write-str to turn that structure into JSON
    so the client's browser can parse it."
   [body]
   {:status 200

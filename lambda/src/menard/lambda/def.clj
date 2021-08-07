@@ -3,38 +3,35 @@
   (:gen-class)
   (:require
    [fierycod.holy-lambda.core :as h]
-   [menard.handlers]))
+   [menard.handlers :as handlers]))
 
 (defonce origin "https://hiro-tan.org")
 
 (defonce headers {"Content-Type" "application/json"
                   "Access-Control-Allow-Origin" origin
                   "Access-Control-Allow-Credentials" "true"})
+
+(defn json-response [body]
+  {:statusCode 200
+   :headers headers
+   :body body
+   :isBase64Encoded false})
   
 (h/deflambda Parse
   [event context]
   (let [q (-> event :queryStringParameters :q)]
-    {:statusCode 200
-     :headers headers
-     :body (handlers/parse-nl q)
-     :isBase64Encoded false}))
+    (json-reponse (handlers/parse-nl q))))
 
 (h/deflambda Generate
   [event context]
   (let [q (-> event :queryStringParameters :q)]
-    {:statusCode 200
-     :headers headers
-     :body (handlers/generate-nl-by-spec q)
-     :isBase64Encoded false}))
+    (json-reponse (handlers/generate-nl-by-spec q))))
 
 (h/deflambda GenerateWithAlts
   [event context]
   (let [spec (-> event :queryStringParameters :spec)
         alternates (-> event :queryStringParameters :alts)]
-    {:statusCode 200
-     :headers headers
-     :body (handlers/generate-nl-with-alternations spec alternates)
-     :isBase64Encoded false}))
+    (json-reponse (handlers/generate-nl-with-alternations spec alternates))))
 
 (h/gen-main [#'Parse
              #'Generate

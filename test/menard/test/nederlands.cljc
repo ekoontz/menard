@@ -404,8 +404,8 @@
    (= ["[s(:present-simple){-} .ik +[vp-modal-np(:present-simple){-} +probeer .[vp-np(:infinitive){-} .honden +[vp-te{-} +te .zien]]]]"]
       (->> "ik probeer honden te zien" nl/parse (map nl/syntax-tree) (take 1))))
   (is
-   (= ["[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te{-} +te .zien]]]"]
-      (->> "ik probeer te zien" nl/parse (map nl/syntax-tree) (take 1)))))
+   (= ["[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te +te .zien]]]"]
+      (vec (->> "ik probeer te zien" nl/parse (map nl/syntax-tree) (take 1))))))
 
 ;; If true, generates Dutch, then parses it, so we test
 ;; parsing as well as generation.

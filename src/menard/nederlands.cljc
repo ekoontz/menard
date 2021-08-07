@@ -466,7 +466,7 @@
 
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
-              p/truncate? false
+              p/truncate? true
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"

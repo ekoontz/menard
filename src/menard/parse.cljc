@@ -195,7 +195,7 @@
                             [a c]
                             ;; </key>
                             
-                            ;; <value: parses for the span of the tokens from a to c>:
+                            ;; <value: parses for the span of the tokens from _a_ to _c_>:
                              (do
                                (when (> (count taken-plus-one-results) (count taken-results))
                                  (log/warn (str "more than " take-this-many " parses for: '"

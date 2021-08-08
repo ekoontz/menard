@@ -186,29 +186,13 @@
                        (fn [[left right]]
                          (let [left-values (get minus-1 left)
                                right-values (get minus-1 right)
-                               left-strings (filter string? left-values)
-                               right-strings (filter string? right-values)
-                               left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
-                                                    (pmap-if-available
-                                                     (fn [string]
-                                                       (log/info (str "looking up a: " string))
-                                                       (lookup-fn-with-trim string))
-                                                     left-strings))
-                               right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
-                                                     (pmap-if-available
-                                                      (fn [string]
-                                                        (log/info (str "looking up b: " string))
-                                                        (lookup-fn-with-trim string))
-                                                      right-strings))
-                               left-signs (lazy-cat left-lexemes (filter map? left-values))
-                               right-signs (lazy-cat right-lexemes (filter map? right-values))
-                               all-results (over grammar left-signs right-signs)
+                               all-results (over grammar left-values right-values)
                                taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                            ;; create a new key/value pair: [i,j] => parses,
                            ;; where each parse in parses matches the tokens from [i,j] in the input.
-                           (if (and (seq left-signs)
-                                    (seq right-signs))
+                           (if (and (seq left-values)
+                                    (seq right-values))
                            {;; <key: [i,j]>
                             [(first left)
                              (second right)]
@@ -258,9 +242,10 @@
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
   (let [token-count (count tokens)
         token-count-range (range 0 token-count)
-        input-map (zipmap (pmap-if-available (fn [i] [i (+ i 1)])
+        input-map (zipmap (map (fn [i] [i (+ i 1)])
                                token-count-range)
-                          (pmap-if-available (fn [i] [(nth tokens i)])
+                          (map (fn [i]
+                                 (lookup-fn-with-trim (nth tokens i)))
                                token-count-range))]
       (log/debug (str "input map:" input-map))
       (let [all-parses

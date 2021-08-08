@@ -175,32 +175,36 @@
     (= span-length 1) input
     :else
     (let [minus-1 (-> (parses input (- span-length 1)))]
-      (reduce
-       merge
-       (cons minus-1
-             (->>
-              ;; find all span pairs of length _n_, where each pair looks like [[left middle],[middle right]], so that
-              ;; _middle_ is a token between the leftmost token _left_ and the rightmost token _right_, and
-              ;; tokens _left_ and _right_ are _span-length_ tokens apart from each other:
-              (span-pairs (- (count (keys input)) span-length) span-length)
-              (pmap-if-available
-               ;; find all parses for this span-pair [[left middle][middle right]]:
-               ;; associate the span [a c] with all parses from [left right], where _middle_ is each
-               ;; of the tokens between token _left_ and token _right_.
-               (fn [[[left middle][middle right]]]
-                 (let [all-results (over grammar (get minus-1 [left middle]) (get minus-1 [middle right]))
-                       taken-results (take take-this-many all-results)
-                       taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                   (when (> (count taken-plus-one-results) (count taken-results))
-                     (log/warn (str "more than " take-this-many " parses for: '"
-                                    (morph (first taken-results)) "' ; first: "
-                                    (syntax-tree (first taken-results)))))
+      (into minus-1
+            (->>
 
-                   ;; create a new key/value pair: [left,right] => parses,
-                   ;; where each parse in parses matches the tokens from [left,right] in the input.
-                   (if (seq taken-results)
-                     ;; <key>      <value: parses for the span of the tokens from _left_ to _right_>
-                     {[left right]  taken-results}))))))))))
+             ;; find all span pairs of length _n_, where
+             ;; each pair looks like [[left middle],[middle right]], so that:
+             ;; 1. _middle_ is a token between the leftmost token _left_
+             ;;    and the rightmost token _right_, and
+             ;; 2. tokens _left_ and _right_ are _span-length_ tokens apart from each other.
+             (span-pairs (- (count (keys input)) span-length) span-length)
+
+             ;; find all parses for this span-pair [[left middle][middle right]]:
+             ;; associate the span [a c] with all parses from [left right], where _middle_ is each
+             ;; of the tokens between token _left_ and token _right_.
+             (pmap-if-available
+              (fn [[[left middle][middle right]]]
+                (let [all-results (over grammar
+                                        (get minus-1 [left middle])
+                                        (get minus-1 [middle right]))
+                      taken-results (take take-this-many all-results)
+                      taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                  (when (> (count taken-plus-one-results) (count taken-results))
+                    (log/warn (str "more than " take-this-many " parses for: '"
+                                   (morph (first taken-results)) "' ; first: "
+                                   (syntax-tree (first taken-results)))))
+                  
+                  ;; create a new key/value pair: [left,right] => parses,
+                  ;; where each parse in parses matches the tokens from [left,right] in the input.
+                  (if (seq taken-results)
+                    ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
+                    {[left right]  taken-results})))))))))
 
 (defn truncate [tree syntax-tree]
   (-> tree
@@ -222,11 +226,11 @@
   [tokens]
   (let [token-count (count tokens)
         token-count-range (range 0 token-count)
-        input-map (zipmap (map (fn [i] [i (+ i 1)])
-                               token-count-range)
-                          (map (fn [i]
-                                 (lookup-fn-with-trim (nth tokens i)))
-                               token-count-range))]
+        input-map (into {}
+                        (map (fn [i]
+                               [[i (+ i 1)]
+                                (lookup-fn-with-trim (nth tokens i))])
+                             token-count-range))]
       (log/debug (str "input map:" input-map))
       (let [all-parses
             (parses input-map token-count)

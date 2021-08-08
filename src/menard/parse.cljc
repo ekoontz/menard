@@ -113,7 +113,9 @@
                            (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp)))))
           [])))))
 
-(defn over [parents child1 child2]
+(declare truncate)
+
+(defn over [parents child1 child2 morph]
   (->>
    parents
    (pmap-if-available
@@ -134,8 +136,14 @@
                (shuffle reflexive-options))))
 
    (flatten)
-     
-   (remove #(= % :fail))))
+   
+   (remove #(= % :fail))
+
+   (map (fn [tree]
+          (if truncate?
+            (truncate tree syntax-tree morph)
+            tree)))))
+
 
 (defn span-pairs [i n]
   (cond (= i 0)
@@ -146,8 +154,6 @@
          (span-pairs (- i 1) n)
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
-
-(declare truncate)
 
 (defn summary
   "for diagnostic logging"
@@ -181,43 +187,19 @@
                ;; associate the span [a c] with all parses from [left right], where _middle_ is each
                ;; of the tokens between token _left_ and token _right_.
                (fn [[[left middle][middle right]]]
-                 (let [all-results (over grammar (get minus-1 [left middle]) (get minus-1 [middle right]))
+                 (let [all-results (over grammar (get minus-1 [left middle]) (get minus-1 [middle right]) morph)
                        taken-results (take take-this-many all-results)
                        taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                   (when (> (count taken-plus-one-results) (count taken-results))
+                     (log/warn (str "more than " take-this-many " parses for: '"
+                                    (morph (first taken-results)) "' ; first: "
+                                    (syntax-tree (first taken-results)))))
+
                    ;; create a new key/value pair: [left,right] => parses,
                    ;; where each parse in parses matches the tokens from [left,right] in the input.
                    (if (seq taken-results)
-                     {;; <key>
-                      [left right]
-                      ;; </key>
-                      
-                      ;; <value: parses for the span of the tokens from _left_ to _right_>:
-                      (do
-                        (when (> (count taken-plus-one-results) (count taken-results))
-                          (log/warn (str "more than " take-this-many " parses for: '"
-                                         (morph (first taken-results)) "' ; first: "
-                                         (syntax-tree (first taken-results)))))
-                        (->>
-                         taken-results
-                         (pmap-if-available (fn [tree]
-                                              (if truncate?
-                                                (truncate tree syntax-tree morph)
-                                                tree)))
-                         
-                         ;; if returning more than one parse,
-                         ;; you must run (vec) on the return value of this (map).
-                         ;; This is because (map f v) returns a lazy sequence out of
-                         ;; calls to f. However f does not have the dynamic bindings
-                         ;; that the caller has set up. So without the(vec), subsequent runs of f
-                         ;; (after the first one) will be ran,
-                         ;; with no binding for ^:dynamic variables like 'syntax-tree'.
-                         ;; TODO: fix this by re-binding variables using (binding [syntax-tree syntax-tree]).
-                         ((fn [trees]
-                            (if parse-only-one?
-                              trees
-                              (vec trees))))))
-                      ;; </value>
-                      }))))))))))
+                     ;; <key>      <value: parses for the span of the tokens from _left_ to _right_>
+                     {[left right]  taken-results}))))))))))
 
 (defn truncate [tree syntax-tree morph]
   (-> tree

@@ -311,11 +311,12 @@
 (defn parse [expression]
   (let [model (load-model)]
     (binding [p/grammar (-> model :grammar)
+              p/morph morph
               p/syntax-tree syntax-tree
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/lookup-fn analyze]
-      (p/parse expression morph))))
+      (p/parse expression))))
 
 (def expressions
   (-> "english/expressions.edn"

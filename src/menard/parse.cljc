@@ -15,6 +15,7 @@
     []))
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree (fn [x] (log/warn (str "'syntax-tree' was not bound."))))
+(def ^:dynamic morph (fn [x] (log/warn (str "'morph' was not bound."))))
 (def ^:dynamic truncate? false)
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 30)
@@ -115,7 +116,7 @@
 
 (declare truncate)
 
-(defn over [parents child1 child2 morph]
+(defn over [parents child1 child2]
   (->>
    parents
    (pmap-if-available
@@ -141,7 +142,7 @@
 
    (map (fn [tree]
           (if truncate?
-            (truncate tree syntax-tree morph)
+            (truncate tree syntax-tree)
             tree)))))
 
 
@@ -169,11 +170,11 @@
       where each element is: [[_left_ _right_] _parses_] and _parses_
    is a list of structures
       where each structure is a parse covering the interval of length _span-length_ in the input from _left_ to _right_."
-  [input span-length morph]
+  [input span-length]
   (cond
     (= span-length 1) input
     :else
-    (let [minus-1 (-> (parses input (- span-length 1) morph))]
+    (let [minus-1 (-> (parses input (- span-length 1)))]
       (reduce
        merge
        (cons minus-1
@@ -187,7 +188,7 @@
                ;; associate the span [a c] with all parses from [left right], where _middle_ is each
                ;; of the tokens between token _left_ and token _right_.
                (fn [[[left middle][middle right]]]
-                 (let [all-results (over grammar (get minus-1 [left middle]) (get minus-1 [middle right]) morph)
+                 (let [all-results (over grammar (get minus-1 [left middle]) (get minus-1 [middle right]))
                        taken-results (take take-this-many all-results)
                        taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                    (when (> (count taken-plus-one-results) (count taken-results))
@@ -201,7 +202,7 @@
                      ;; <key>      <value: parses for the span of the tokens from _left_ to _right_>
                      {[left right]  taken-results}))))))))))
 
-(defn truncate [tree syntax-tree morph]
+(defn truncate [tree syntax-tree]
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))
@@ -218,8 +219,7 @@
 
 (defn parse-tokens
   "Return a list of all possible parse trees for a list of tokens."
-  [tokens morph]
-  ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
+  [tokens]
   (let [token-count (count tokens)
         token-count-range (range 0 token-count)
         input-map (zipmap (map (fn [i] [i (+ i 1)])
@@ -229,7 +229,7 @@
                                token-count-range))]
       (log/debug (str "input map:" input-map))
       (let [all-parses
-            (parses input-map token-count morph)
+            (parses input-map token-count)
             result
             {:token-count token-count
              :complete-parses
@@ -246,11 +246,11 @@
    Use a language-independent tokenizer (split on space and
   apostrophe) to turn the string into a sequence of tokens."
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
-  [input morph]
+  [input]
   (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
   ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
   (let [tokenizations (tokenize input)
-        result (parse-tokens tokenizations morph)]
+        result (parse-tokens tokenizations)]
     (if (empty? (:complete-parses result))
 
       ;; if there are no complete parses,

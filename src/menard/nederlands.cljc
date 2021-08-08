@@ -466,12 +466,13 @@
 
     (binding [p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
+              p/morph morph
               p/truncate? true
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/lookup-fn analyze]
-      (p/parse expression morph))))
+      (p/parse expression))))
 
 (defn generate-demo [index & [this-many]]
   (->>

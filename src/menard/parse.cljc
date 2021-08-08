@@ -149,12 +149,6 @@
 
 (declare truncate)
 
-(defn lookup-fn-with-trim [string]
-  (let [trimmed (clojure.string/trim string)]
-    (when (and (not (string/blank? trimmed))
-               (= trimmed string))
-      (lookup-fn string))))
-
 (defn summary
   "for diagnostic logging"
   [m]
@@ -168,35 +162,35 @@
   "returns a list of elements
       where each element is: [[_i_ _j_] _parses_] and _parses_
    is a list of structures
-      where each structure is a parse covering the interval in the input from _i_ to _j_."
+      where each structure is a parse covering the interval of length _span-length_ in the input from _i_ to _j_."
 
-  [input n total morph]
+  [input span-length tokens-count morph]
   (cond
-    (= n 1) input
-    (> n 1)
-    (let [minus-1 (-> (parses input (- n 1) total morph))]
+    (= span-length 1) input
+    (> span-length 1)
+    (let [minus-1 (-> (parses input (- span-length 1) tokens-count morph))]
       (merge minus-1
              (reduce (fn [left-parses right-parses]
                        (merge-with (fn [a b]
                                      (lazy-cat a b))
                                    left-parses right-parses))
                      (->>
-                      (span-pairs (- total n) n)
-
+                      ;; find all span pairs of length _n_, where each pair looks like [[a b],[b c]], so that
+                      ;; _b_ is a token between the leftmost token _a_ and the rightmost token _c_, and
+                      ;; tokens _a_ and _c_ are _n_ tokens apart from each other:
+                      (span-pairs (- tokens-count span-length) span-length)
 
                       (pmap-if-available
 
-                       ;; find all parses from [a c], where [a c] is a span made of two sub-spans: [a b] and [b c].
+                       ;; find all parses for this span-pair [[a b][b c]]:
+                       ;; associate the span [a c] with all parses from [a c].
                        (fn [[[a b][b c]]]
-                         (let [left-values (get minus-1 [a b])
-                               right-values (get minus-1 [b c])
-                               all-results (over grammar left-values right-values)
+                         (let [all-results (over grammar (get minus-1 [a b]) (get minus-1 [b c]))
                                taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                           ;; create a new key/value pair: [i,j] => parses,
-                           ;; where each parse in parses matches the tokens from [i,j] in the input.
-                           (if (and (seq left-values)
-                                    (seq right-values))
+                           ;; create a new key/value pair: [a,c] => parses,
+                           ;; where each parse in parses matches the tokens from [a,c] in the input.
+                           (if (seq taken-results)
                            {;; <key: [a,c]>
                             [a c]
                             ;; </key>
@@ -237,6 +231,12 @@
       (dissoc :comp)
       (dissoc :1)
       (dissoc :2)))
+
+(defn lookup-fn-with-trim [string]
+  (let [trimmed (clojure.string/trim string)]
+    (when (and (not (string/blank? trimmed))
+               (= trimmed string))
+      (lookup-fn string))))
 
 (defn parse-tokens
   "Return a list of all possible parse trees for a list of tokens."

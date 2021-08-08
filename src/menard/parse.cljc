@@ -167,7 +167,7 @@
   [input span-length tokens-count morph]
   (cond
     (= span-length 1) input
-    (> span-length 1)
+    :else
     (let [minus-1 (-> (parses input (- span-length 1) tokens-count morph))]
       (merge minus-1
              (reduce (fn [left-parses right-parses]

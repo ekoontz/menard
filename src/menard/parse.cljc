@@ -160,68 +160,64 @@
 
 (defn parses
   "returns a list of elements
-      where each element is: [[_i_ _j_] _parses_] and _parses_
+      where each element is: [[_left_ _right_] _parses_] and _parses_
    is a list of structures
-      where each structure is a parse covering the interval of length _span-length_ in the input from _i_ to _j_."
-
+      where each structure is a parse covering the interval of length _span-length_ in the input from _left_ to _right_."
   [input span-length morph]
   (cond
     (= span-length 1) input
     :else
     (let [minus-1 (-> (parses input (- span-length 1) morph))]
-      (merge minus-1
-             (reduce (fn [left-parses right-parses]
-                       (merge-with (fn [a b]
-                                     (lazy-cat a b))
-                                   left-parses right-parses))
-                     (->>
-                      ;; find all span pairs of length _n_, where each pair looks like [[a b],[b c]], so that
-                      ;; _b_ is a token between the leftmost token _a_ and the rightmost token _c_, and
-                      ;; tokens _a_ and _c_ are _n_ tokens apart from each other:
-                      (span-pairs (- (count (keys input)) span-length) span-length)
-
-                      (pmap-if-available
-
-                       ;; find all parses for this span-pair [[a b][b c]]:
-                       ;; associate the span [a c] with all parses from [a c].
-                       (fn [[[a b][b c]]]
-                         (let [all-results (over grammar (get minus-1 [a b]) (get minus-1 [b c]))
-                               taken-results (take take-this-many all-results)
-                               taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                           ;; create a new key/value pair: [a,c] => parses,
-                           ;; where each parse in parses matches the tokens from [a,c] in the input.
-                           (if (seq taken-results)
-                           {;; <key: [a,c]>
-                            [a c]
-                            ;; </key>
-                            
-                            ;; <value: parses for the span of the tokens from _a_ to _c_>:
-                             (do
-                               (when (> (count taken-plus-one-results) (count taken-results))
-                                 (log/warn (str "more than " take-this-many " parses for: '"
-                                                (morph (first taken-results)) "' ; first: "
-                                                (syntax-tree (first taken-results)))))
-                               (->>
-                                taken-results
-                                (pmap-if-available (fn [tree]
-                                                     (if truncate?
-                                                       (truncate tree syntax-tree morph)
-                                                       tree)))
-                                
-                                ;; if returning more than one parse,
-                                ;; you must run (vec) on the return value of this (map).
-                                ;; This is because (map f v) returns a lazy sequence out of
-                                ;; calls to f. However f does not have the dynamic bindings
-                                ;; that the caller has set up. So without the(vec), subsequent runs of f
-                                ;; (after the first one) will be ran,
-                                ;; with no binding for ^:dynamic variables like 'syntax-tree'.
-                                ;; TODO: fix this by re-binding variables using (binding [syntax-tree syntax-tree]).
-                                ((fn [trees]
-                                   (if parse-only-one?
-                                     trees
-                                     (vec trees))))))
-                            ;; </value>
-                            }))))))))))
+      (reduce
+       merge
+       (cons minus-1
+             (->>
+              ;; find all span pairs of length _n_, where each pair looks like [[left middle],[middle right]], so that
+              ;; _middle_ is a token between the leftmost token _left_ and the rightmost token _right_, and
+              ;; tokens _left_ and _right_ are _span-length_ tokens apart from each other:
+              (span-pairs (- (count (keys input)) span-length) span-length)
+              (pmap-if-available
+               ;; find all parses for this span-pair [[left middle][middle right]]:
+               ;; associate the span [a c] with all parses from [left right], where _middle_ is each
+               ;; of the tokens between token _left_ and token _right_.
+               (fn [[[left middle][middle right]]]
+                 (let [all-results (over grammar (get minus-1 [left middle]) (get minus-1 [middle right]))
+                       taken-results (take take-this-many all-results)
+                       taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                   ;; create a new key/value pair: [left,right] => parses,
+                   ;; where each parse in parses matches the tokens from [left,right] in the input.
+                   (if (seq taken-results)
+                     {;; <key>
+                      [left right]
+                      ;; </key>
+                      
+                      ;; <value: parses for the span of the tokens from _left_ to _right_>:
+                      (do
+                        (when (> (count taken-plus-one-results) (count taken-results))
+                          (log/warn (str "more than " take-this-many " parses for: '"
+                                         (morph (first taken-results)) "' ; first: "
+                                         (syntax-tree (first taken-results)))))
+                        (->>
+                         taken-results
+                         (pmap-if-available (fn [tree]
+                                              (if truncate?
+                                                (truncate tree syntax-tree morph)
+                                                tree)))
+                         
+                         ;; if returning more than one parse,
+                         ;; you must run (vec) on the return value of this (map).
+                         ;; This is because (map f v) returns a lazy sequence out of
+                         ;; calls to f. However f does not have the dynamic bindings
+                         ;; that the caller has set up. So without the(vec), subsequent runs of f
+                         ;; (after the first one) will be ran,
+                         ;; with no binding for ^:dynamic variables like 'syntax-tree'.
+                         ;; TODO: fix this by re-binding variables using (binding [syntax-tree syntax-tree]).
+                         ((fn [trees]
+                            (if parse-only-one?
+                              trees
+                              (vec trees))))))
+                      ;; </value>
+                      }))))))))))
 
 (defn truncate [tree syntax-tree morph]
   (-> tree

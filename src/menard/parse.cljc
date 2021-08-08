@@ -182,10 +182,14 @@
                                    left-parses right-parses))
                      (->>
                       (span-pairs (- total n) n)
+
+
                       (pmap-if-available
-                       (fn [[left right]]
-                         (let [left-values (get minus-1 left)
-                               right-values (get minus-1 right)
+
+                       ;; find all parses from [a c], where [a c] is a span made of two sub-spans: [a b] and [b c].
+                       (fn [[[a b][b c]]]
+                         (let [left-values (get minus-1 [a b])
+                               right-values (get minus-1 [b c])
                                all-results (over grammar left-values right-values)
                                taken-results (take take-this-many all-results)
                                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
@@ -193,13 +197,11 @@
                            ;; where each parse in parses matches the tokens from [i,j] in the input.
                            (if (and (seq left-values)
                                     (seq right-values))
-                           {;; <key: [i,j]>
-                            [(first left)
-                             (second right)]
+                           {;; <key: [a,c]>
+                            [a c]
                             ;; </key>
                             
-                            ;; <value: parses for strings indexed at [i,j]>
-                            (lazy-cat
+                            ;; <value: parses for the span of the tokens from a to c>:
                              (do
                                (when (> (count taken-plus-one-results) (count taken-results))
                                  (log/warn (str "more than " take-this-many " parses for: '"
@@ -223,7 +225,7 @@
                                 ((fn [trees]
                                    (if parse-only-one?
                                      trees
-                                     (vec trees)))))))
+                                     (vec trees))))))
                             ;; </value>
                             }))))))))))
 

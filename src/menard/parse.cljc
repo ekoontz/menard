@@ -137,13 +137,13 @@
      
    (remove #(= % :fail))))
 
-(defn spanpairs [i n]
+(defn span-pairs [i n]
   (cond (= i 0)
         (->> (range 0 (- n 1))
              (map (fn [x] [[0 (+ 1 x)][(+ 1 x) n]])))
         true
         (concat
-         (spanpairs (- i 1) n)
+         (span-pairs (- i 1) n)
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
@@ -181,7 +181,7 @@
                                      (lazy-cat a b))
                                    left-parses right-parses))
                      (->>
-                      (spanpairs (- total n) n)
+                      (span-pairs (- total n) n)
                       (pmap-if-available
                        (fn [[left right]]
                          (let [left-values (get minus-1 left)
@@ -191,11 +191,13 @@
                                left-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
                                                     (pmap-if-available
                                                      (fn [string]
+                                                       (log/info (str "looking up a: " string))
                                                        (lookup-fn-with-trim string))
                                                      left-strings))
                                right-lexemes (reduce (fn [& [a b]] (lazy-cat a b))
                                                      (pmap-if-available
                                                       (fn [string]
+                                                        (log/info (str "looking up b: " string))
                                                         (lookup-fn-with-trim string))
                                                       right-strings))
                                left-signs (lazy-cat left-lexemes (filter map? left-values))

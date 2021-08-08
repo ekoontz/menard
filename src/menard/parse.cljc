@@ -164,11 +164,11 @@
    is a list of structures
       where each structure is a parse covering the interval of length _span-length_ in the input from _i_ to _j_."
 
-  [input span-length tokens-count morph]
+  [input span-length morph]
   (cond
     (= span-length 1) input
     :else
-    (let [minus-1 (-> (parses input (- span-length 1) tokens-count morph))]
+    (let [minus-1 (-> (parses input (- span-length 1) morph))]
       (merge minus-1
              (reduce (fn [left-parses right-parses]
                        (merge-with (fn [a b]
@@ -178,7 +178,7 @@
                       ;; find all span pairs of length _n_, where each pair looks like [[a b],[b c]], so that
                       ;; _b_ is a token between the leftmost token _a_ and the rightmost token _c_, and
                       ;; tokens _a_ and _c_ are _n_ tokens apart from each other:
-                      (span-pairs (- tokens-count span-length) span-length)
+                      (span-pairs (- (count (keys input)) span-length) span-length)
 
                       (pmap-if-available
 
@@ -251,7 +251,7 @@
                                token-count-range))]
       (log/debug (str "input map:" input-map))
       (let [all-parses
-            (parses input-map token-count token-count morph)
+            (parses input-map token-count morph)
             result
             {:token-count token-count
              :complete-parses

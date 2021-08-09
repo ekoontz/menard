@@ -289,3 +289,34 @@
       (do (log/debug (str "parsed input:    \"" input "\""))
           (:complete-parses result)))))
 
+(defn parse-next-stage [input-map input-length span-length]
+  (cond (= span-length input-length)
+        ;; done
+        input-map
+        true
+        (into input-map
+              (->> (span-pairs (- input-length span-length) span-length)
+                   (pmap-if-available
+                    (fn [[[left middle][middle right]]]
+                      (let [all-results (over grammar
+
+                                              (get input-map [left middle])
+                                              (get input-map [middle right])
+
+                                              )
+                            taken-results (take take-this-many all-results)
+                            taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                        (when (> (count taken-plus-one-results) (count taken-results))
+                          (log/warn (str "more than " take-this-many " parses for: '"
+                                         (morph (first taken-results)) "' ; first: "
+                                         (syntax-tree (first taken-results)))))
+                        
+                        ;; create a new key/value pair: [left,right] => parses,
+                        ;; where each parse in parses matches the tokens from [left,right] in the input.
+                        (if (seq taken-results)
+                          ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
+                          {[left right]  taken-results}))))))))
+
+  
+
+    

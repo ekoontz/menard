@@ -232,16 +232,11 @@
                                 (lookup-fn-with-trim (nth tokens i))])
                              (range 0 token-count)))]
       (log/debug (str "input map:" input-map))
-      (let [all-parses
-            (parses input-map token-count)
-            result
-            {:token-count token-count
-             :complete-parses
-             (filter map? (get all-parses
-                               [0 token-count]))
-             :all-parses all-parses}]
-        result)))
+      (parses input-map token-count)))
 
+;; TODO: should create all possible tokenizations.
+;; (in other words, more than one tokenization is possible, e.g.
+;;  if a token is made of separate words like "The White House".
 (defn tokenize [input]
   (filter #(not (string/blank? %)) (string/split input split-on)))
   
@@ -252,9 +247,16 @@
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
   [input]
   (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
-  ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
-  (let [tokenizations (tokenize input)
-        result (parse-tokens tokenizations)]
+  ;; TODO: should create all possible tokenizations.
+  ;; (in other words, more than one tokenization is possible, e.g.
+  ;;  if a token is made of separate words like "The White House".
+  (let [tokenization (tokenize input)
+        all-parses (parse-tokens tokenization)
+        result {:token-count (count tokenization)
+                :complete-parses
+                (filter map? (get all-parses
+                                  [0 (count tokenization)]))
+                :all-parses all-parses}]
     (if (empty? (:complete-parses result))
 
       ;; if there are no complete parses,
@@ -265,11 +267,11 @@
       ;; [er zijn] [kat].
       (let [analyses
             (zipmap
-             tokenizations
+             tokenization
              (pmap-if-available
               (fn [token]
                 (lookup-fn-with-trim token))
-              tokenizations))
+              tokenization))
             partial-parses (->> (vals (:all-parses result))
                                 (pmap-if-available (fn [x] (->> x (filter map?))))
                                 (filter seq?))]
@@ -277,7 +279,7 @@
                        (string/join ";"
                                     (pmap-if-available (fn [token]
                                            (str token ":" (count (get analyses token)) ""))
-                                         tokenizations))
+                                         tokenization))
                        (str "; partial parses: " (count (mapcat (fn [parses-for-span]
                                                                   (pmap-if-available syntax-tree parses-for-span))
                                                                 partial-parses)) ".")))

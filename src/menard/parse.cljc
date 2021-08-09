@@ -222,18 +222,18 @@
                (= trimmed string))
       (lookup-fn string))))
 
+(defn create-input-map [tokens]
+  (into {}
+        (map (fn [i]
+               [[i (+ i 1)]
+                (lookup-fn-with-trim (nth tokens i))])
+             (range 0 (count tokens)))))
+
 (defn parse-tokens
   "Return a list of all possible parse trees for a list of tokens."
   [tokens]
-  (let [token-count (count tokens)
-        input-map (into {}
-                        (map (fn [i]
-                               [[i (+ i 1)]
-                                (lookup-fn-with-trim (nth tokens i))])
-                             (range 0 token-count)))]
-      (log/debug (str "input map:" input-map))
-      (parses input-map token-count)))
-
+  (parses (create-input-map tokens) (count tokens)))
+  
 ;; TODO: should create all possible tokenizations.
 ;; (in other words, more than one tokenization is possible, e.g.
 ;;  if a token is made of separate words like "The White House".

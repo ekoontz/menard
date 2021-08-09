@@ -167,9 +167,10 @@
 
 (defn parses
   "returns a list of elements
-      where each element is: [[_left_ _right_] _parses_] and _parses_
-   is a list of structures
-      where each structure is a parse covering the interval of length _span-length_ in the input from _left_ to _right_."
+      where each element is: [[_left_ _right_] _parses_] and 
+      _parses_ is a list of structures
+      where each structure is a parse covering the interval of 
+      length _span-length_ in the input from _left_ to _right_."
   [input span-length]
   (cond
     (= span-length 1) input
@@ -178,7 +179,7 @@
       (into minus-1
             (->>
 
-             ;; find all span pairs of length _n_, where
+             ;; find all span pairs of length _span-length_, where
              ;; each pair looks like [[left middle],[middle right]], so that:
              ;; 1. _middle_ is a token between the leftmost token _left_
              ;;    and the rightmost token _right_, and
@@ -225,12 +226,11 @@
   "Return a list of all possible parse trees for a list of tokens."
   [tokens]
   (let [token-count (count tokens)
-        token-count-range (range 0 token-count)
         input-map (into {}
                         (map (fn [i]
                                [[i (+ i 1)]
                                 (lookup-fn-with-trim (nth tokens i))])
-                             token-count-range))]
+                             (range 0 token-count)))]
       (log/debug (str "input map:" input-map))
       (let [all-parses
             (parses input-map token-count)

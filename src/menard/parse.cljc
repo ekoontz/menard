@@ -145,6 +145,13 @@
             (truncate tree syntax-tree)
             tree)))))
 
+(defn summary
+  "for diagnostic logging"
+  [m]
+  (into {}
+        (->> (keys m)
+             (map (fn [k]
+                    {k (map syntax-tree (get m k))})))))
 
 (defn span-pairs [i n]
   (cond (= i 0)
@@ -156,56 +163,32 @@
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
-(defn summary
-  "for diagnostic logging"
-  [m]
-  (into {}
-        (->> (keys m)
-             (mapcat (fn [k]
-                       (if (seq (get m k))
-                         [{k (map syntax-tree (get m k))}]))))))
-
-(defn parses
-  "returns a list of elements
-      where each element is: [[_left_ _right_] _parses_] and 
-      _parses_ is a list of structures
-      where each structure is a parse covering the interval of 
-      length _span-length_ in the input from _left_ to _right_."
-  [input span-length]
-  (cond
-    (= span-length 1) input
-    :else
-    (let [minus-1 (-> (parses input (- span-length 1)))]
-      (into minus-1
-            (->>
-
-             ;; find all span pairs of length _span-length_, where
-             ;; each pair looks like [[left middle],[middle right]], so that:
-             ;; 1. _middle_ is a token between the leftmost token _left_
-             ;;    and the rightmost token _right_, and
-             ;; 2. tokens _left_ and _right_ are _span-length_ tokens apart from each other.
-             (span-pairs (- (count (keys input)) span-length) span-length)
-
-             ;; find all parses for this span-pair [[left middle][middle right]]:
-             ;; associate the span [a c] with all parses from [left right], where _middle_ is each
-             ;; of the tokens between token _left_ and token _right_.
-             (pmap-if-available
-              (fn [[[left middle][middle right]]]
-                (let [all-results (over grammar
-                                        (get minus-1 [left middle])
-                                        (get minus-1 [middle right]))
-                      taken-results (take take-this-many all-results)
-                      taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                  (when (> (count taken-plus-one-results) (count taken-results))
-                    (log/warn (str "more than " take-this-many " parses for: '"
-                                   (morph (first taken-results)) "' ; first: "
-                                   (syntax-tree (first taken-results)))))
-                  
-                  ;; create a new key/value pair: [left,right] => parses,
-                  ;; where each parse in parses matches the tokens from [left,right] in the input.
-                  (if (seq taken-results)
-                    ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
-                    {[left right]  taken-results})))))))))
+(defn parse-next-stage [input-map input-length span-length]
+  (cond (> span-length input-length)
+        ;; done
+        input-map
+        true
+        (do
+          (log/debug "span-pairs: " (- input-length span-length) "," span-length)
+          (into input-map
+                (->> (span-pairs (- input-length span-length) span-length)
+                     (pmap-if-available
+                      (fn [[[left middle][middle right]]]
+                        (let [all-results (over grammar
+                                                (get input-map [left middle])
+                                                (get input-map [middle right]))
+                              taken-results (take take-this-many all-results)
+                              taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                          (when (> (count taken-plus-one-results) (count taken-results))
+                            (log/warn (str "more than " take-this-many " parses for: '"
+                                           (morph (first taken-results)) "' ; first: "
+                                           (syntax-tree (first taken-results)))))
+                          
+                          ;; create a new key/value pair: [left,right] => parses,
+                          ;; where each parse in parses matches the tokens from [left,right] in the input.
+                          (if (seq taken-results)
+                            ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
+                            {[left right]  taken-results})))))))))
 
 (defn truncate [tree syntax-tree]
   (-> tree
@@ -228,11 +211,6 @@
                [[i (+ i 1)]
                 (lookup-fn-with-trim (nth tokens i))])
              (range 0 (count tokens)))))
-
-(defn parse-tokens
-  "Return a list of all possible parse trees for a list of tokens."
-  [tokens]
-  (parses (create-input-map tokens) (count tokens)))
   
 ;; TODO: should create all possible tokenizations.
 ;; (in other words, more than one tokenization is possible, e.g.
@@ -251,7 +229,11 @@
   ;; (in other words, more than one tokenization is possible, e.g.
   ;;  if a token is made of separate words like "The White House".
   (let [tokenization (tokenize input)
-        all-parses (parse-tokens tokenization)
+        token-count (count tokenization)
+        all-parses (reduce (fn [input-map span-size]
+                             (parse-next-stage input-map token-count span-size))
+                           (create-input-map tokenization)
+                           (range 2 (+ 1 token-count)))
         result {:token-count (count tokenization)
                 :complete-parses
                 (filter map? (get all-parses
@@ -272,9 +254,7 @@
               (fn [token]
                 (lookup-fn-with-trim token))
               tokenization))
-            partial-parses (->> (vals (:all-parses result))
-                                (pmap-if-available (fn [x] (->> x (filter map?))))
-                                (filter seq?))]
+            partial-parses (vals (:all-parses result))]
         (log/debug (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (pmap-if-available (fn [token]
@@ -288,35 +268,3 @@
                     (merge partial-parse {::partial? true})))))
       (do (log/debug (str "parsed input:    \"" input "\""))
           (:complete-parses result)))))
-
-(defn parse-next-stage [input-map input-length span-length]
-  (cond (= span-length input-length)
-        ;; done
-        input-map
-        true
-        (into input-map
-              (->> (span-pairs (- input-length span-length) span-length)
-                   (pmap-if-available
-                    (fn [[[left middle][middle right]]]
-                      (let [all-results (over grammar
-
-                                              (get input-map [left middle])
-                                              (get input-map [middle right])
-
-                                              )
-                            taken-results (take take-this-many all-results)
-                            taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                        (when (> (count taken-plus-one-results) (count taken-results))
-                          (log/warn (str "more than " take-this-many " parses for: '"
-                                         (morph (first taken-results)) "' ; first: "
-                                         (syntax-tree (first taken-results)))))
-                        
-                        ;; create a new key/value pair: [left,right] => parses,
-                        ;; where each parse in parses matches the tokens from [left,right] in the input.
-                        (if (seq taken-results)
-                          ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
-                          {[left right]  taken-results}))))))))
-
-  
-
-    

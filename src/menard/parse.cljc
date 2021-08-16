@@ -29,6 +29,9 @@
 
 (def log-these-rules #{"vp-modal-te" "vp-te"})
 
+(defn foo []
+  ::42)
+
 (defn overh
   "add given head as the head child of the phrase: parent."
   ;; TODO: get rid of all this type-checking in this (cond)
@@ -217,7 +220,11 @@
 ;;  if a token is made of separate words like "The White House".
 (defn tokenize [input]
   (filter #(not (string/blank? %)) (string/split input split-on)))
-  
+
+(defn parse-start
+  [input]
+  (create-input-map (tokenize input)))
+
 (defn parse
   "Return a list of all possible parse trees for a string.
    Use a language-independent tokenizer (split on space and

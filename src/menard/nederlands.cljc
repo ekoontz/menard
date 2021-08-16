@@ -474,6 +474,23 @@
               p/lookup-fn analyze]
       (p/parse expression))))
 
+(defn parse-start [expression]
+  (let [model (load-model)
+
+        ;; remove trailing '.' if any:
+        expression (string/replace expression #"[.]*$" "")]
+        ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
+        ;; use it as part of the meaning
+        ;; i.e.
+        ;; '.' -> declarative
+        ;; '?' -> interrogative
+        ;; '!' -> imperative
+
+    (binding [l/morphology (-> model :morphology)
+              p/split-on #"[ ]"
+              p/lookup-fn analyze]
+      (p/parse-start expression))))
+
 (defn generate-demo [index & [this-many]]
   (->>
    (repeatedly #(println (-> (nth expressions index)
@@ -570,3 +587,6 @@
                   paths)))))
 
 (def morphology (-> model deref :morphology))
+
+(defn foo []
+  ::43)

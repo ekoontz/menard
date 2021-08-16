@@ -37,6 +37,26 @@
                  (get "q")
                  handlers/parse-nl
                  json-response))}}]
+
+   ["/parse-start"
+    {:get {:handler
+           (fn [request]
+             (let [intermediate-result
+                   (-> request
+                       :query-params
+                       (get "q")
+                       handlers/parse-nl-start)]
+               (log/info (str "intermediate-result: " intermediate-result))
+               (let [prelim-result
+                     (into {}
+                           (->> (keys intermediate-result)
+                                (map (fn [k]
+                                       [k (map dag_unify.serialization/serialize
+                                               (get intermediate-result k))]))))]
+                 (log/info (str "prelim: " prelim-result))
+                 (json-response prelim-result))))}}]
+
+   
    ["/generate"
     {:get {:handler
            (fn [request]
@@ -52,7 +72,15 @@
              (let [spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))]
                (-> (handlers/generate-nl-with-alternations spec alternates)
-                   json-response)))}}]])
+                   json-response)))}}]
+
+   ["/grammar/:lang"
+    {:get {:handler
+           (fn [request]
+             (let [language (-> request :path-params (get :lang))]
+               (->> (handlers/grammar language)
+                    (map dag_unify.serialization/serialize)
+                    json-response)))}}]])
    
 (def middleware
   [#(wrap-defaults % (assoc site-defaults :session false))])

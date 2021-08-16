@@ -139,6 +139,13 @@
    :cat (u/get-in nl-word [:cat] :top)
    :sem {:pred (u/get-in nl-word [:sem :pred] :top)}})
 
+(defn grammar [lang]
+  (cond (= lang "nl")
+        (-> nl/model deref :grammar)
+        (= lang "en")
+        (-> en/model deref :grammar)
+        true []))
+
 (defn nl-to-en-by-token [nl-tokens]
   (->> nl-tokens
        (map nl/analyze)
@@ -147,6 +154,14 @@
        (map #(menard.generate/get-lexemes % menard.english/index-fn))
        (map #(not (= :top (u/get-in % [:sem :pred] :top))))
        (map first)))
+
+(defn parse-nl-start [string-to-parse]
+  (log/info (str "parsing user guess: " string-to-parse))
+  (let [nl-tokens (nl/tokenize string-to-parse)]
+    (cond (> (count nl-tokens) 1)
+          (->> string-to-parse
+               clojure.string/lower-case
+               nl/parse-start))))
 
 (defn parse-nl [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))

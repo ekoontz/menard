@@ -55,7 +55,6 @@
                                                (get intermediate-result k))]))))]
                  (log/info (str "prelim: " prelim-result))
                  (json-response prelim-result))))}}]
-
    
    ["/generate"
     {:get {:handler

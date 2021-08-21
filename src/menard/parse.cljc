@@ -166,7 +166,7 @@
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
-(defn parse-next-stage [input-map input-length span-length]
+(defn parse-next-stage [input-map input-length span-length grammar]
   (cond (> span-length input-length)
         ;; done
         input-map
@@ -238,7 +238,7 @@
   (let [tokenization (tokenize input)
         token-count (count tokenization)
         all-parses (reduce (fn [input-map span-size]
-                             (parse-next-stage input-map token-count span-size))
+                             (parse-next-stage input-map token-count span-size grammar))
                            (create-input-map tokenization)
                            (range 2 (+ 1 token-count)))
         result {:token-count (count tokenization)

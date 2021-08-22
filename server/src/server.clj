@@ -51,8 +51,9 @@
                      (into {}
                            (->> (keys intermediate-result)
                                 (map (fn [k]
-                                       [k (map dag_unify.serialization/serialize
-                                               (get intermediate-result k))]))))]
+                                       [(str k)
+                                        (map (fn [x] (-> x dag_unify.serialization/serialize str))
+                                             (get intermediate-result k))]))))]
                  (log/info (str "prelim: " prelim-result))
                  (json-response prelim-result))))}}]
    

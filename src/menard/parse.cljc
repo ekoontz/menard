@@ -6,6 +6,7 @@
    #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]
+   [dag_unify.serialization :refer [serialize]]
    [menard.reflexives :refer [reflexive-options]]))
 
 (def parse-only-one? false)
@@ -29,53 +30,42 @@
 
 (def log-these-rules #{"vp-modal-te" "vp-te"})
 
-(defn foo []
-  ::42)
+(defn foo [bar]
+  {:pre [(string? bar)]
+   :post [(string? %)]}
+  42)
 
 (defn overh
   "add given head as the head child of the phrase: parent."
-  ;; TODO: get rid of all this type-checking in this (cond)
-  ;; and use clojure.spec.
   [parent head]
-  (cond
-    (or (seq? head)
-        (vector? head))
-    (->>
-     head
-     (mapcat
-      (fn [child]
-        (overh parent child))))
-
-    :else
-    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
-    ;; and save :else for errors.
-    (do
-      (log/debug (str "overh: parent: " (syntax-tree parent)))
-      (log/debug (str "overh: head:   " (syntax-tree head)))
-      (let [pre-check? (not (= :fail
-                               (u/get-in parent [:head :cat] :top)
-                               (u/get-in head [:cat] :top)))
-            result (cond pre-check?
-                         (u/unify parent
-                                  {:head head})
-                         :else
-                         (do
-                           (log/debug (str "failed precheck: parent: " (syntax-tree
- parent) "; head: " (syntax-tree head) "; "
-                                           "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
-                           :fail))]
-        (if (not (= :fail result))
-          (do
-            (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
-            [result])
-          (do
-            (when (contains? log-these-rules (u/get-in parent [:rule]))
-              (log/debug
-               (str "overh fail:   " (syntax-tree parent) " <- " (syntax-tree head)
-                    " " (let [fp (diag/fail-path parent {:head head})]
-                          {:path (:path fp)
-                           :arg1 (u/pprint (:arg1 fp))
-                           :arg2 (u/pprint (:arg2 fp))}))))))))))
+  {:pre [(map? parent)
+         (map? head)]
+   :post [(vector? %)]}
+  (let [pre-check? (not (= :fail
+                           (u/get-in parent [:head :cat] :top)
+                           (u/get-in head [:cat] :top)))
+        result (cond pre-check?
+                     (u/unify parent
+                              {:head head})
+                     :else
+                     (do
+                       (log/debug (str "failed precheck: parent: " (syntax-tree
+                                                                    parent) "; head: " (syntax-tree head) "; "
+                                       "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
+                       :fail))]
+    (if (not (= :fail result))
+      (do
+        (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
+        [result])
+      (do
+        (when (contains? log-these-rules (u/get-in parent [:rule]))
+          (log/debug
+           (str "overh fail:   " (syntax-tree parent) " <- " (syntax-tree head)
+                " " (let [fp (diag/fail-path parent {:head head})]
+                      {:path (:path fp)
+                       :arg1 (u/pprint (:arg1 fp))
+                       :arg2 (u/pprint (:arg2 fp))}))))
+        []))))
   
 (defn overc
   "add given child as the complement of the parent"
@@ -119,17 +109,19 @@
 
 (declare truncate)
 
-(defn over [parents child1 child2]
+(defn over [parents left-children right-children]
   (->>
    parents
    (pmap-if-available
     (fn [parent]
-      (let [[head comp] (if (= (:1 parent) (:head parent))
-                          [child1 child2]
-                          [child2 child1])]
-        (-> parent
-            (overh head)
-            (overc comp)))))
+      (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
+                                            [left-children right-children]
+                                            [right-children left-children])]
+        (mapcat (fn [head-child]
+                  (-> parent
+                      (overh head-child)
+                      (overc comp-children)))
+                head-children))))
    (reduce
     (fn [a b]
       (lazy-cat a b)))
@@ -167,6 +159,11 @@
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
 (defn parse-next-stage [input-map input-length span-length grammar]
+  (when false
+    (log/info (str "parse-next-stage: input-map: (serialized) " (str (serialize input-map))))
+    (log/info (str "parse-next-stage: input-length: " (str input-length)))
+    (log/info (str "parse-next-stage: span-length: " (str span-length)))
+    (log/info (str "parse-next-stage: grammar: " (str grammar))))
   (cond (> span-length input-length)
         ;; done
         input-map
@@ -177,6 +174,12 @@
                 (->> (span-pairs (- input-length span-length) span-length)
                      (pmap-if-available
                       (fn [[[left middle][middle right]]]
+                        (when false
+                          (log/info (str "LEFT: " left))
+                          (log/info (str "MIDDLE: " middle))
+                          (log/info (str "RIGHT: " right))
+                          (log/info (str "left children: " (count (get input-map [left middle]))))
+                          (log/info (str "right children: " (count (get input-map [middle right])))))
                         (let [all-results (over grammar
                                                 (get input-map [left middle])
                                                 (get input-map [middle right]))

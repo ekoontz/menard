@@ -70,42 +70,30 @@
 (defn overc
   "add given child as the complement of the parent"
   [parent comp]
-  (cond
-    (or (seq? parent)
-        (vector? parent))
-    (let [parents parent]
-      (mapcat (fn [parent]
-                (overc parent comp))
-              parents))
-    
-    (or (seq? comp)
-        (vector? comp))
-    (let [comp-children comp]
-      (mapcat (fn [child]
-                (overc parent child))
-              comp-children))
-    :else
-    (let [pre-check? (= (u/get-in parent [:comp :cat])
-                        (u/get-in comp [:cat] (u/get-in parent [:comp :cat])))
-          result
-          (cond pre-check?
-                (u/unify! (u/copy parent)
-                          {:comp (u/copy comp)})
-                :else :fail)]
-      (if (not (= :fail result))
-        (do
-          (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
-          [result])
-        (do
-          (when (contains? log-these-rules (u/get-in parent [:rule])))
-          (log/debug
-           (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
-          (log/debug (str " "
-                         (let [fp (diag/fail-path (u/copy parent)
-                                                  {:comp (u/copy comp)})]
-                           
-                           (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp)))))
-          [])))))
+  {:pre [(map? comp)
+         (map? parent)]
+   :post [(vector? %)]}
+  (let [pre-check? (= (u/get-in parent [:comp :cat])
+                      (u/get-in comp [:cat] (u/get-in parent [:comp :cat])))
+        result
+        (cond pre-check?
+              (u/unify! (u/copy parent)
+                        {:comp (u/copy comp)})
+              :else :fail)]
+    (if (not (= :fail result))
+      (do
+        (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
+        [result])
+      (do
+        (when (contains? log-these-rules (u/get-in parent [:rule])))
+        (log/debug
+         (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
+        (log/debug (str " "
+                        (let [fp (diag/fail-path (u/copy parent)
+                                                 {:comp (u/copy comp)})]
+                          
+                          (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp)))))
+        []))))
 
 (declare truncate)
 
@@ -120,7 +108,12 @@
         (mapcat (fn [head-child]
                   (-> parent
                       (overh head-child)
-                      (overc comp-children)))
+                      ((fn [parents-with-head]
+                         (mapcat (fn [comp-child]
+                                   (mapcat (fn [parent-with-head]
+                                             (overc parent-with-head comp-child))
+                                           parents-with-head))
+                                 comp-children)))))
                 head-children))))
    (reduce
     (fn [a b]

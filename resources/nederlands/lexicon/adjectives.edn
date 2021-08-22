@@ -22,6 +22,7 @@
  "geheim" [{:sem {:pred :secret}}]
  "gelauwerd" [{:sem {:pred :acclaimed}}]
  "geldig" [{:sem {:pred :valid}}]
+ "gemoedelijk" [{:sem {:pred :pleasant}}]
  "gevoelig" [{:sem {:pred :sensitive}}]
  "geweldig" [{:sem {:pred :awesome}}]
  "gierig" [{:sem {:pred :stingy}}]

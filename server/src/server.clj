@@ -79,7 +79,7 @@
            (fn [request]
              (let [language (-> request :path-params (get :lang))]
                (->> (handlers/grammar language)
-                    (map dag_unify.serialization/serialize)
+                    (map (fn [rule] (-> rule dag_unify.serialization/serialize str)))
                     json-response)))}}]])
    
 (def middleware

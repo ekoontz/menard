@@ -30,11 +30,6 @@
 
 (def log-these-rules #{"vp-modal-te" "vp-te"})
 
-(defn foo [bar]
-  {:pre [(string? bar)]
-   :post [(string? %)]}
-  42)
-
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]

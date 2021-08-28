@@ -37,16 +37,6 @@
        (model/use-path "nederlands/morphology/nouns.edn")
        (model/use-path "nederlands/morphology/verbs.edn")
        (model/use-path "nederlands/morphology/verbs/simple-past.edn")])))
-
-#?(:cljs
-   (defn load-morphology []
-     (m/compile-morphology
-      ["nederlands/morphology/adjectives.edn"
-       "nederlands/morphology/misc.edn"
-       "nederlands/morphology/nouns.edn"
-       "nederlands/morphology/verbs.edn"
-       "nederlands/morphology/verbs/simple-past.edn"])))
-
 ;; </morphology>
 
 ;; <lexicon>
@@ -299,9 +289,10 @@
         (ref-set model (create-model)))
       @model)))
 
+;; TODO: this is not being 
 #?(:cljs
    (def lexicon
-     (-> (l/read-compiled-lexicon "menard/nederlands/lexicon/compiled.edn")
+     (-> (l/read-compiled-lexicon "resources/nederlands/lexicon/compiled.edn")
          l/deserialize-lexicon              
          vals
          flatten)))
@@ -339,7 +330,7 @@
 #?(:clj
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon (:lexicon @model)
-                               "src/nederlands/lexicon/compiled.edn")))
+                               "resources/nederlands/lexicon/compiled.edn")))
 
 #?(:cljs
    ;; note that we exclude [:exception]s from the lexemes that we use for
@@ -391,13 +382,13 @@
 #?(:cljs
    (def grammar
      (->> (menard.grammar/read-compiled-grammar
-           "menard/nederlands/grammar/compiled.edn")
+           "resources/nederlands/grammar/compiled.edn")
           (map deserialize))))
 
 #?(:clj
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar (-> @model :grammar)
-                                     "src/menard/nederlands/grammar/compiled.edn")))
+                                     "resources/nederlands/grammar/compiled.edn")))
 (declare generate)
 (declare syntax-tree)
 
@@ -407,8 +398,13 @@
 
 ;; <functions>
 
-(defn syntax-tree [tree]
-  (s/syntax-tree tree (:morphology (load-model))))
+#?(:clj
+   (defn syntax-tree [tree]
+     (s/syntax-tree tree (:morphology (load-model)))))
+
+#?(:cljs
+   (defn syntax-tree [tree]
+     (s/syntax-tree tree [])))
 
 (defn generate
   "generate one random expression that satisfies _spec_."

@@ -178,7 +178,7 @@
 #?(:clj
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar (-> @model :grammar)
-                                     "src/menard/english/grammar/compiled.edn")))
+                                     "resources/english/grammar/compiled.edn")))
 
 #?(:clj
    (defn load-model []
@@ -210,7 +210,7 @@
 #?(:clj
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon (:lexicon @model)
-                               "src/menard/english/lexicon/compiled.edn")))
+                               "resources/english/lexicon/compiled.edn")))
 
 #?(:cljs
    (def lexicon

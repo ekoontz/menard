@@ -7,22 +7,22 @@ SHELL := bash
 .PHONY: all install compile clean
 all: install
 
-src/menard/english/lexicon/compiled.edn: $(shell find src/menard/english/lexicon -name "*.edn" -not -name compiled.edn)
+resources/english/lexicon/compiled.edn: $(shell find resources/english/lexicon -name "*.edn" -not -name compiled.edn)
 	echo "(do (load \"menard\")(menard.english/write-compiled-lexicon))" | lein repl
 
-src/menard/nederlands/lexicon/compiled.edn: $(shell find src/menard/nederlands/lexicon -name "*.edn" -not -name compiled.edn)
+resources/nederlands/lexicon/compiled.edn: $(shell find resources/nederlands/lexicon -name "*.edn" -not -name compiled.edn)
 	echo "(do (load \"menard\")(menard.nederlands/write-compiled-lexicon))" | lein repl
 
-src/menard/english/grammar/compiled.edn: src/menard/english/grammar.edn
+resources/english/grammar/compiled.edn: resources/english/grammar.edn
 	echo "(do (load \"menard\")(menard.english/write-compiled-grammar))" | lein repl
 
-src/menard/nederlands/grammar/compiled.edn: src/menard/nederlands/grammar.edn
+resources/nederlands/grammar/compiled.edn: resources/nederlands/grammar.edn
 	echo "(do (load \"menard\")(menard.nederlands/write-compiled-grammar))" | lein repl
 
-compile: src/menard/english/lexicon/compiled.edn \
-         src/menard/nederlands/lexicon/compiled.edn \
-         src/menard/english/grammar/compiled.edn \
-         src/menard/nederlands/grammar/compiled.edn
+compile: resources/english/lexicon/compiled.edn \
+         resources/nederlands/lexicon/compiled.edn \
+         resources/english/grammar/compiled.edn \
+         resources/nederlands/grammar/compiled.edn
 
 clean:
 	- rm $$(find . -name compiled.edn)

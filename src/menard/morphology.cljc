@@ -45,7 +45,8 @@
    what to unify the structure against, and the :g contains a _from_ and a _to_, both of which
    are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology]
-  (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)))
+  (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)
+                  " with morphology: " morphology))
   (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)
@@ -58,6 +59,15 @@
           ;; exception-checking and :surface checking is done:
           ;; if there is an exception we; won't use the result of this
           ;; regular inflecting.
+          ;; TODO: should allow multiple pairs of
+          ;; <from,to> in the :g
+          ;; not just one pair of <from,to>.
+          ;; e.g. Instead of only:
+          ;; [#"a" "b"],
+          ;; should also allow:
+          ;; [#"a" "b"
+          ;;  #"c" "d"
+          ;;  ...].
           (filter (fn [rule]
                     (let [{u :u
                            [from _] :g
@@ -93,7 +103,7 @@
       (do
         (log/debug (str "found an exception: using that: " first-matching-exception))
         (morph-leaf first-matching-exception morphology))
-
+      
       (u/get-in structure [:surface])
       (do
         (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
@@ -121,7 +131,7 @@
            (not (= structure {:head? false}))
            (not (= structure {:head? true})))
       (do
-        (log/warn (str "cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" (u/get-in struct [:canonical] (u/get-in structure [:canonical])) "' . Returning '_'"))
+        (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" (u/get-in struct [:canonical] (u/get-in structure [:canonical])) "' . Returning '_'"))
         "_")
 
       (not (seq? matching-rules))

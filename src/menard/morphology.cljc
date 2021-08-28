@@ -116,7 +116,7 @@
            (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
              (str " " decode-notes)))))
 
-      (= true (u/get-in structure [:inflected?] false))
+      (= false (u/get-in structure [:inflected?] false))
       (do
         (log/debug (str "uninflected leaf but found canonical; using that: " (u/get-in structure [:canonical])))
         (str (u/get-in structure [:canonical])

@@ -9,7 +9,7 @@
   (cond
     (nil? tree) "_"
     (string? tree) tree    
-    (u/get-in tree [:syntax-tree])
+    (string? (u/get-in tree [:syntax-tree]))
     (u/get-in tree [:syntax-tree])
     (u/get-in tree [:1])
     (str (morph (u/get-in tree [:1]) morphology) " "
@@ -21,12 +21,10 @@
     (m/morph-leaf tree morphology)))
 
 (defn syntax-tree [tree morphology]
-  (log/debug (str "syntax-tree: the tree is: " tree " and the morphology is: " (str morphology)))
   (cond
     (nil? tree) "_"
     (string? tree) tree    
-    (u/get-in tree [:syntax-tree])
-    (u/get-in tree [:syntax-tree])
+    (string? (u/get-in tree [:syntax-tree])) (u/get-in tree [:syntax-tree])
     (u/get-in tree [:1])
     (str "["
          (:rule tree "?")
@@ -61,5 +59,7 @@
            "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology) "]")
     :else
-    (m/morph-leaf tree morphology)))
+    (do
+      (log/info (str "GOT INTO THE MORPH_LEAF"))
+      (m/morph-leaf tree morphology))))
 

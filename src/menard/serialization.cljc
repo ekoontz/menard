@@ -59,7 +59,6 @@
            "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology) "]")
     :else
-    (do
-      (log/info (str "GOT INTO THE MORPH_LEAF"))
-      (m/morph-leaf tree morphology))))
+    (m/morph-leaf tree morphology)))
+
 

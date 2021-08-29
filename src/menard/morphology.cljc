@@ -57,8 +57,8 @@
         (when (and
                (or (not surface)
                    (= :top surface))
-               (or (not (or (not inflected?)
-                  (= :top inflected?)))))
+               (or (not inflected?)
+                   (= :top inflected?)))
           ;; TODO: move this regular inflection-checking to *after*
           ;; exception-checking and :surface checking is done:
           ;; if there is an exception we; won't use the result of this

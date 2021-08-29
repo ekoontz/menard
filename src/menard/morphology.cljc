@@ -141,9 +141,6 @@
       (do
         (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
         canonical)
-
-      (empty? matching-rules)
-      (exception (str "no rules matched: " (diag/strip-refs structure)))
       
       :else
       "_")))

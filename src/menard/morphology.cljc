@@ -140,8 +140,8 @@
            (not (= structure {:head? false}))
            (not (= structure {:head? true})))
       (do
-        (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning '_'"))
-        "_")
+        (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
+        canonical)
 
       (empty? matching-rules)
       (exception (str "no rules matched: " (diag/strip-refs structure)))

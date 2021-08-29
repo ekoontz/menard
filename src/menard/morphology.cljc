@@ -45,8 +45,6 @@
    what to unify the structure against, and the :g contains a _from_ and a _to_, both of which
    are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology]
-  (log/debug (str "morph-leaf structure:" (diag/strip-refs structure)
-                  " with morphology: " morphology))
   (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)

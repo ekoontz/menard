@@ -1,6 +1,8 @@
 (ns menard.serialization
   (:require
-   [menard.grammar :refer [default-morph-fn]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])
+   [menard.morphology :as m]
    [dag_unify.core :as u]))
 
 (defn morph [tree morphology]
@@ -13,9 +15,10 @@
     (str "_ "
          (morph (u/get-in tree [:2]) morphology))
     :else
-    (default-morph-fn tree morphology)))
+    (m/morph-leaf tree morphology)))
 
 (defn syntax-tree [tree morphology]
+  (log/debug (str "syntax-tree: the tree is: " tree " and the morphology is: " (str morphology)))
   (cond
     (nil? tree) "_"
     (u/get-in tree [:syntax-tree])
@@ -54,4 +57,5 @@
            "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology) "]")
     :else
-    (default-morph-fn tree morphology)))
+    (m/morph-leaf tree morphology)))
+

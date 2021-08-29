@@ -583,6 +583,3 @@
                   paths)))))
 
 (def morphology (-> model deref :morphology))
-
-(defn foo []
-  ::43)

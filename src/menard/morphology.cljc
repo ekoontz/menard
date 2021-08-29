@@ -96,7 +96,7 @@
       (log/debug (str "morph-leaf: found exception: " (diag/strip-refs first-matching-exception)))
       (log/debug (str "morph-leaf: no exception found; tried: " exceptions)))
     (log/debug (str "morph-leaf: number of matching rules: " (count matching-rules)))
-    (when (> (count matching-rules) 1)
+    (when (seq (rest matching-rules))
       (log/debug (str "morph-leaf: more than one rule matched: " (diag/strip-refs structure) "; rules were: "
                       (->> (range 0 (count matching-rules))
                            (map (fn [i]

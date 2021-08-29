@@ -52,9 +52,13 @@
         inflected? (if (= inflected? :top)
                      false
                      inflected?)
+        surface (u/get-in surface [:surface])
         matching-rules
-        (when (or (not inflected?)
-                  (= :top inflected?))
+        (when (and
+               (or (not surface)
+                   (= :top surface))
+               (or (not (or (not inflected?)
+                  (= :top inflected?)))))
           ;; TODO: move this regular inflection-checking to *after*
           ;; exception-checking and :surface checking is done:
           ;; if there is an exception we; won't use the result of this
@@ -118,8 +122,18 @@
 
       (= false (u/get-in structure [:inflected?] false))
       (do
-        (log/debug (str "uninflected leaf but found canonical; using that: " (u/get-in structure [:canonical])))
-        (str (u/get-in structure [:canonical])
+        (log/debug (str "leaf's :inflected? is false; found canonical: '" canonical "'; using that."))
+        (str canonical
+             (if (and show-notes?
+                      (u/get-in structure [:note])
+                      (not (= :top (u/get-in structure [:note])))
+                      (seq (u/get-in structure [:note])))
+               (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
+                 (str " " decode-notes)))))
+      (= true (u/get-in structure [:inflected?] false))
+      (do
+        (log/debug (str "leaf's :inflected? is true; found canonical: '" canonical "'; using that."))
+        (str canonical
              (if (and show-notes?
                       (u/get-in structure [:note])
                       (not (= :top (u/get-in structure [:note])))
@@ -131,20 +145,23 @@
            (not (= structure {:head? false}))
            (not (= structure {:head? true})))
       (do
-        (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" (u/get-in struct [:canonical] (u/get-in structure [:canonical])) "' . Returning '_'"))
+        (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning '_'"))
         "_")
 
+      (empty? matching-rules)
+      (exception (str "no rules matched: " (diag/strip-refs structure)))
+      
       (not (seq? matching-rules))
       (exception (str "syntax error in matching rules: "
-                      "should be a sequence but it's a: "
-                      (type matching-rules)
-                      " for matching: " (diag/strip-refs structure)))
+                      "should be a sequence but it's: "
+                      matching-rules
+                      " for matching structure: " (diag/strip-refs structure)))
       
       (seq matching-rules)
       (let [{[from to] :g} (first matching-rules)]
          (log/debug (str "using matching rule:" (first matching-rules)))
-        (clojure.string/replace (u/get-in structure [:canonical] "")
-                                from to))
+        (clojure.string/replace canonical "")
+                                from to)
 
       :else
       "_")))

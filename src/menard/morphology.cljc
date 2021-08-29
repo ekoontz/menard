@@ -52,7 +52,7 @@
         inflected? (if (= inflected? :top)
                      false
                      inflected?)
-        surface (u/get-in surface [:surface])
+        surface (u/get-in structure [:surface])
         matching-rules
         (when (and
                (or (not surface)

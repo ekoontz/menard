@@ -138,7 +138,8 @@
       
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))
-           (not (= structure {:head? true})))
+           (not (= structure {:head? true}))
+           canonical)
       (do
         (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
         canonical)

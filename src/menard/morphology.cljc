@@ -119,17 +119,12 @@
                   (seq (u/get-in structure [:note])))
            (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
              (str " " decode-notes)))))
+      
+      (seq matching-rules)
+      (let [{[from to] :g} (first matching-rules)]
+        (log/debug (str "using matching rule:" (first matching-rules)))
+        (clojure.string/replace canonical from to))
 
-      (= false (u/get-in structure [:inflected?] false))
-      (do
-        (log/debug (str "leaf's :inflected? is false; found canonical: '" canonical "'; using that."))
-        (str canonical
-             (if (and show-notes?
-                      (u/get-in structure [:note])
-                      (not (= :top (u/get-in structure [:note])))
-                      (seq (u/get-in structure [:note])))
-               (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
-                 (str " " decode-notes)))))
       (= true (u/get-in structure [:inflected?] false))
       (do
         (log/debug (str "leaf's :inflected? is true; found canonical: '" canonical "'; using that."))
@@ -151,18 +146,6 @@
       (empty? matching-rules)
       (exception (str "no rules matched: " (diag/strip-refs structure)))
       
-      (not (seq? matching-rules))
-      (exception (str "syntax error in matching rules: "
-                      "should be a sequence but it's: "
-                      matching-rules
-                      " for matching structure: " (diag/strip-refs structure)))
-      
-      (seq matching-rules)
-      (let [{[from to] :g} (first matching-rules)]
-         (log/debug (str "using matching rule:" (first matching-rules)))
-        (clojure.string/replace canonical "")
-                                from to)
-
       :else
       "_")))
 

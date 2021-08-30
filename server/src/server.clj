@@ -46,7 +46,7 @@
                        :query-params
                        (get "q")
                        handlers/parse-nl-start)]
-               (log/info (str "intermediate-result: " intermediate-result))
+               (log/debug (str "intermediate-result: " intermediate-result))
                (let [prelim-result
                      (into {}
                            (->> (keys intermediate-result)
@@ -54,7 +54,7 @@
                                        [(str k)
                                         (map (fn [x] (-> x dag_unify.serialization/serialize str))
                                              (get intermediate-result k))]))))]
-                 (log/info (str "prelim: " prelim-result))
+                 (log/debug (str "prelim: " prelim-result))
                  (json-response prelim-result))))}}]
    
    ["/generate"

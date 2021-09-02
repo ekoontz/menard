@@ -107,7 +107,7 @@
                      (map (fn [derivative-spec]
                             (generate-nl (u/unify derivative-spec
                                                   {:head {:root
-                                                          (u/get-in first-expression [:target-tree :head :root] :top)}}))))))]
+                                                          (u/get-in first-expression [:target-root] :top)}}))))))]
       (if clean-up-trees
         (->> expressions
              ;; cleanup the huge syntax trees:

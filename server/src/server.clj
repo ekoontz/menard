@@ -80,8 +80,18 @@
              (let [language (-> request :path-params (get :lang))]
                (->> (handlers/grammar language)
                     (map (fn [rule] (-> rule dag_unify.serialization/serialize str)))
-                    json-response)))}}]])
-   
+                    json-response)))}}]
+
+   ["/generate/en"
+    {:get {:handler
+           (fn [request]
+             (let [spec (-> request :query-params (get "spec") read-string dag_unify.serialization/deserialize)]
+               (log/debug (str "generate/en spec: " spec))
+               (let [response (handlers/generate-en spec)]
+                 (log/debug (str "generate/en response: " response))
+                 (-> response
+                     json-response))))}}]])
+
 (def middleware
   [#(wrap-defaults % (assoc site-defaults :session false))])
 

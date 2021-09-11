@@ -50,7 +50,7 @@
                                          (dag_unify.diagnostics/fail-path source-sem
                                                                           target-semantics)))
                                   (clojure.string/join ","))))
-        ;; filter soource-semantics to find subset that is compatible with target semantics:
+        ;; filter source-semantics to find subset that is compatible with target semantics:
         source-semantics (->> source-semantics
                               (remove #(= :fail (u/unify % target-semantics))))]
     (if (empty? source-semantics)

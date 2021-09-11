@@ -120,7 +120,7 @@
                 (assoc :source-tree (dag-to-string (:source-tree %)))
                 (assoc :target-tree (dag-to-string (:target-tree %)))))))))
 
-(defn generate-english [spec nl]
+(defn generate-english [spec]
   (let [phrasal? (u/get-in spec [:phrasal] true)
         result (->> (repeatedly #(-> spec
                                      en/generate))
@@ -129,7 +129,7 @@
                     first)]
     (log/debug (str "generate-english: phrasal? " phrasal?))
     (when (nil? result)
-      (log/warn (str "failed to generate on two occasions with nl: '" nl "'; spec: "
+      (log/warn (str "failed to generate on two occasions with spec: "
                      (dag-to-string spec))))
     result))
 

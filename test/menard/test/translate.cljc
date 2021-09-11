@@ -1,7 +1,7 @@
 (ns menard.test.translate
   (:require [menard.english :as en]
             [menard.nederlands :as nl]
-            [menard.translate :refer [nl-to-en-spec]]
+            [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
             [dag_unify.serialization :refer [serialize]]
             [clojure.test :refer [deftest is]]

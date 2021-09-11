@@ -4,7 +4,7 @@
    [dag_unify.core :as u]
    [menard.english :as en]
    [menard.nederlands :as nl]
-   [menard.translate :as tr]))
+   [menard.translate.spec :as tr]))
 
 (defn dag-to-string [dag]
   (-> dag dag_unify.serialization/serialize str))
@@ -120,7 +120,7 @@
                 (assoc :source-tree (dag-to-string (:source-tree %)))
                 (assoc :target-tree (dag-to-string (:target-tree %)))))))))
 
-(defn- generate-english [spec nl]
+(defn generate-english [spec nl]
   (let [phrasal? (u/get-in spec [:phrasal] true)
         result (->> (repeatedly #(-> spec
                                      en/generate))

@@ -120,18 +120,22 @@
                 (assoc :source-tree (dag-to-string (:source-tree %)))
                 (assoc :target-tree (dag-to-string (:target-tree %)))))))))
 
-(defn generate-english [spec]
+(defn generate-en [spec]
+  (log/debug (str "generate-en spec: " spec))
   (let [phrasal? (u/get-in spec [:phrasal] true)
         result (->> (repeatedly #(-> spec
                                      en/generate))
                     (take 2)
                     (filter #(not (nil? %)))
                     first)]
-    (log/debug (str "generate-english: phrasal? " phrasal?))
+    (log/debug (str "generate-en: phrasal? " phrasal?))
     (when (nil? result)
       (log/warn (str "failed to generate on two occasions with spec: "
                      (dag-to-string spec))))
-    result))
+    (log/debug (str "generate-en: result: " (-> result en/syntax-tree)))
+    {:tree (-> result en/syntax-tree)
+     :sem (-> result (u/get-in [:sem]) dag_unify.serialization/serialize)
+     :surface (-> result en/morph)}))
 
 (defn en-word-spec [nl-word]
   {:agr (u/get-in nl-word [:agr] :top)
@@ -193,11 +197,11 @@
                         (map first)
                         (map en-word-spec)))
         en-parses (cond
-                    (not (empty? nl-parse-attempts))
-                    (->> en-specs
-                         (map #(generate-english %
-                                                 (clojure.string/join ","
-                                                                      (map nl/syntax-tree nl-parses)))))
+                    ;; one or more complete parses of the user's input in Nederlands:
+                    (seq nl-parse-attempts)
+                    (map #(generate-en %) en-specs)
+
+                    ;; no complete parses of the user's input in Nederlands:
                     true
                     (->> en-specs
                          (map (fn [en-spec]
@@ -226,7 +230,7 @@
                 :trees (->> nl-parses
                             (map nl/syntax-tree))}
            :en {:surface (clojure.string/join ", "
-                                              (->> en-parses (map en/morph)))
+                                              (->> en-parses (map :surface)))
                 :specs (->> en-specs
                             (map dag-to-string))
                 :sem (->> en-parses

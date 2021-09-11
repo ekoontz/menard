@@ -182,14 +182,14 @@
                          (filter #(= nil (u/get-in % [:mod] nil)))
                          (sort (fn [a b] (> (count (str a)) (count (str b)))))))
         en-specs (cond
-                   ;; parsing the expression succeeded.
-                   (not (empty? nl-parse-attempts))
+                   ;; parsing the expression succeeded:
+                   (seq nl-parse-attempts)
                    (->> nl-parses
                         (map (fn [nl-parse]
                                (let [en-spec (tr/nl-to-en-spec nl-parse)]
                                  (log/debug (str "parse-nl: nl-spec: " (u/pprint nl-parse)))
-                                 (log/debug (str "parse-nl: en-spec: " (u/pprint en-spec)))
-                                     en-spec))))
+                                 (log/debug (str "parse-nl: (successful) en-spec: " (u/pprint en-spec)))
+                                 en-spec))))
                    ;; parsing the expression did not succeed, falling back to trying to analyze each token separately.
                    true
                    (->> nl-tokens

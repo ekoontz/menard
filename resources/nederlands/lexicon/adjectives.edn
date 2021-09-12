@@ -39,6 +39,7 @@
  "lastig" [{:sem {:pred :difficult}}]
  "leuk" [{:sem {:pred :good}}]
  "lief" [{:sem {:pred :nice}}]
+ "lomp" [{:sem {:pred :rude}}] 
  "moedig" [{:sem {:pred :brave}}]
  "moelijk" [{:sem {:pred :difficult}}]
  "nieuwsgierig" [{:sem {:pred :curious}}]

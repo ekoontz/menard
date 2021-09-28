@@ -42,6 +42,7 @@
  "lomp" [{:sem {:pred :rude}}] 
  "moedig" [{:sem {:pred :brave}}]
  "moelijk" [{:sem {:pred :difficult}}]
+ "nauwkeurig" [{:sem {:pred :accurate}}]
  "nieuwsgierig" [{:sem {:pred :curious}}]
  "nieuwswaardig" [{:sem {:pred :newsworthy}}]
  "nijver" [{:sem {:pred :industrious}}]

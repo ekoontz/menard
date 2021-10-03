@@ -6,5 +6,6 @@
  "helemaal" [{:sem {:pred :completely}}] 
  "ongewoon" [{:sem {:pred :unusually}}]
  "redelijk" [{:sem {:pred :reasonably}}]
- "volkomen" [{:sem {:pred :completely}}]}
+ "volkomen" [{:sem {:pred :completely}}]
+ "werkelijk" [{:sem {:pred :actually}}]}
 

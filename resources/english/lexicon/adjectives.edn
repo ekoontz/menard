@@ -1,5 +1,6 @@
 {"_" [{:null? true :sem {:pred :_}}]
  "able" [{:sem {:pred :able}}]
+ "accessible" [{:sem {:pred :accessible}}]
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "accurate" [{:sem {:pred :accurate}}]
  "annoying" [{:sem {:pred :annoying}}]

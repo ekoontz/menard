@@ -5,6 +5,7 @@
  "afzonderlijk" [{:sem {:pred :separate}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "benieuwd" [{:sem {:pred :curious}}]
+ "bereikbaar" [{:sem {:pred :accessible}}]
  "bezig" [{:sem {:pred :busy}}]
  "bijzonder" [{:sem {:pred :special}}]
  "breed" [{:sem {:pred :wide}}]

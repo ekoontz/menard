@@ -126,6 +126,7 @@
  "thrifty" [{:sem {:pred :frugal}}]
  "true" [{:sem {:pred :true}}]
  "unusual" [{:sem {:pred :unusual}}]
+ "useful" [{:sem {:pred :useful}}]
  "valid" [{:sem {:pred :valid}}]
  "white" [{:sem {:pred :white}}]
  "whole" [{:sem {:pred :whole}}]

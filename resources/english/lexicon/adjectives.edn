@@ -18,6 +18,7 @@
  "busy" [{:sem {:pred :busy}}]
  "careful" [{:sem {:pred :careful}}]
  "certain" [{:sem {:pred :certain}}]
+ "childish" [{:sem {:pred :childish}}]
  "clear" [{:sem {:pred :clear}}]
  "combative" [{:sem {:pred :combative}}]
  "comparable" [{:sem {:pred :comparable}}]

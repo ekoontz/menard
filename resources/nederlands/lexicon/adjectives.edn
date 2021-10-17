@@ -36,6 +36,7 @@
  "klein" [{:sem {:pred :small}
            :curriculum :basic}]
  "kieskeurig" [{:sem {:pred :picky}}]
+ "kinderachtig" [{:sem {:pred :childish}}]
  "koppig" [{:sem {:pred :stubborn}}]
  "lastig" [{:sem {:pred :difficult}}]
  "leuk" [{:sem {:pred :good}}]

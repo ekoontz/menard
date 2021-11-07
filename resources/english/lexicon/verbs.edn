@@ -426,6 +426,7 @@
  "read" (let [exceptions [{:infl :past-simple :surface "read" :note ["past"]}
                           {:infl :past-participle :surface "read" :note ["past"]}]]
           [{:exceptions exceptions  :sem {:pred :read}}])
+ "realize" [{:sem {:pred :realize}}]
  "ruin" [{:sem {:pred :ruin}}]
 
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}

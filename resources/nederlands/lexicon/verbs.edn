@@ -7,6 +7,7 @@
  "bergen" [{:sem {:pred :save
                   :org {:top :top}}
             :strong? :e-o-o}]
+ "beseffen" [{:sem {:pred :realize}}]
  "bestrijden" [{:curriculum :basic
                 :sem {:pred :overcome}
                 :exceptions [{:surface "bestreed"

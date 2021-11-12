@@ -150,6 +150,14 @@
         (-> en/model deref :grammar)
         true []))
 
+(defn morphology [lang]
+  (log/info (str "handlers/morphology: language: " lang))
+  (cond (= lang "nl")
+        (-> nl/model deref :morphology)
+        (= lang "en")
+        (-> en/model deref :morphology)
+        true []))
+
 (defn nl-to-en-by-token [nl-tokens]
   (->> nl-tokens
        (map nl/analyze)

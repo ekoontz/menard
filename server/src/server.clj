@@ -90,7 +90,23 @@
                (let [response (handlers/generate-en spec)]
                  (log/debug (str "generate/en response: " response))
                  (-> response
-                     json-response))))}}]])
+                     json-response))))}}]
+
+   ["/morphology/:lang"
+    {:get {:handler
+           (fn [request]
+             (let [language (-> request :path-params (get :lang))]
+               (->> (handlers/morphology language)
+                    (map (fn [pattern]
+                           (merge pattern
+                                  ;; regexes like: #"ot$" have to be
+                                  ;; converted into strings: "ot$" via (str).
+                                  ;; The inverse of this is
+                                  ;; clojure.core/re-pattern (converts a
+                                  ;; string e.g. "ot$" into a regex #"ot$".
+                                  {:g (-> pattern :g str)
+                                   :p (-> pattern :p str)})))
+                    json-response)))}}]])
 
 (def middleware
   [#(wrap-defaults % (assoc site-defaults :session false))])

@@ -125,7 +125,7 @@
 
    (map (fn [tree]
           (if truncate?
-            (truncate tree syntax-tree)
+            (truncate tree)
             tree)))))
 
 (defn summary
@@ -162,12 +162,6 @@
                 (->> (span-pairs (- input-length span-length) span-length)
                      (pmap-if-available
                       (fn [[[left middle][middle right]]]
-                        (when false
-                          (log/info (str "LEFT: " left))
-                          (log/info (str "MIDDLE: " middle))
-                          (log/info (str "RIGHT: " right))
-                          (log/info (str "left children: " (count (get input-map [left middle]))))
-                          (log/info (str "right children: " (count (get input-map [middle right])))))
                         (let [all-results (over grammar
                                                 (get input-map [left middle])
                                                 (get input-map [middle right]))
@@ -184,7 +178,7 @@
                             ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
                             {[left right]  taken-results})))))))))
 
-(defn truncate [tree syntax-tree]
+(defn truncate [tree]
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))

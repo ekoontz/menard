@@ -9,8 +9,8 @@
   (cond
     (nil? tree) "_"
     (string? tree) tree    
-    (string? (u/get-in tree [:syntax-tree]))
-    (u/get-in tree [:syntax-tree])
+    (string? (u/get-in tree [:surface]))
+    (u/get-in tree [:surface])
     (u/get-in tree [:1])
     (str (morph (u/get-in tree [:1]) morphology) " "
          (morph (u/get-in tree [:2]) morphology))

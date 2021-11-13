@@ -18,6 +18,7 @@
 (def ^:dynamic syntax-tree (fn [x] (log/warn (str "'syntax-tree' was not bound."))))
 (def ^:dynamic morph (fn [x] (log/warn (str "'morph' was not bound."))))
 (def ^:dynamic truncate? false)
+(declare truncate)
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
@@ -90,7 +91,16 @@
                           (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp)))))
         []))))
 
-(declare truncate)
+(defn truncate [tree]
+  (-> tree
+      (assoc :syntax-tree (syntax-tree tree))
+      (assoc :surface (morph tree))
+      (dissoc :head)
+      (dissoc :comp)
+      (dissoc :1)
+      (dissoc :2)))
+
+(def ^:dynamic truncate-fn truncate)
 
 (defn over [parents left-children right-children]
   (->>
@@ -125,7 +135,7 @@
 
    (map (fn [tree]
           (if truncate?
-            (truncate tree)
+            (truncate-fn tree)
             tree)))))
 
 (defn summary
@@ -177,15 +187,6 @@
                           (if (seq taken-results)
                             ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
                             {[left right]  taken-results})))))))))
-
-(defn truncate [tree]
-  (-> tree
-      (assoc :syntax-tree (syntax-tree tree))
-      (assoc :surface (morph tree))
-      (dissoc :head)
-      (dissoc :comp)
-      (dissoc :1)
-      (dissoc :2)))
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]

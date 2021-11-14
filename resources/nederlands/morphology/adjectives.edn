@@ -36,6 +36,20 @@
         :inflection :adj-no-e-suffix
         :modifies-noun true}}
 
+   ;; generation: hedendag   -> hedendagse
+   ;; parsing:    hedendagse -> hedendag
+   (let [g [#"(dag)$"   "$1se"]
+         p [#"(dag)se$" "$1"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+
    ;; generation: groot -> grote
    ;; parsing:    grote -> groot
    ;; TODO: use (let ..) to express commonalities, as we do below for

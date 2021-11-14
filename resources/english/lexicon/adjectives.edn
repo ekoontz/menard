@@ -26,6 +26,7 @@
  "confident" [{:sem {:pred :confident}}]
  "confused" [{:sem {:pred :confused}}]
  "confusing" [{:sem {:pred :confusing}}]
+ "contemporary" [{:sem {:pred :contemporary}}]
  "cool" [{:sem {:pred :cool}}]
  "curious" [{:sem {:pred :curious}}]
  "current" [{:sem {:pred :current}}]

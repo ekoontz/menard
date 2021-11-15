@@ -168,6 +168,7 @@
                         :ref {:human? true}}}]
  "versoepeling" [{:sem {:pred :relaxation}}]
  "vertraging" [{:sem {:pred :delay}}]
+ "vete" [{:sem {:pred :feud}}]
  "vijver" [{:sem {:pred :pond}}]
  "vis" [{:sem {:pred :fish}}]
  "vliegtuig" [{:agr {:gender :neuter}
@@ -191,6 +192,8 @@
                      :ref {:human? true}}}]
  "werknemer" [{:sem {:pred :employee
                      :ref {:human? true}}}]
+ "woordvoerder" [{:sem {:pred :spokesperson
+                        :ref {:human? true}}}]
  "wortel" [{:sem {:pred :carrot}}]
  "zaak" [{:sem {:pred :case}}]
  "zee" [{:sem {:pred :sea}}]

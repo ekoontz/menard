@@ -132,15 +132,18 @@
   (let [one (atom :top)
         two (atom :top)
         three (atom :top)
-        four (atom :top)]
+        four (atom :top)
+        five (atom :top)]
     {:sem {:pred one
            :quant two
            :ref three
-           :context four}
+           :context four
+           :existential? five}
      :head {:sem {:pred one
                   :quant two
                   :ref three
-                  :context four}}}))
+                  :context four
+                  :existential? five}}}))
 
 (def verb
   (let [one (atom :top)

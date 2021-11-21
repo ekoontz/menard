@@ -212,11 +212,12 @@
   (create-input-map (tokenize input)))
 
 (defn parse-in-stages [input-map input-length i grammar surface]
-  (if (>= input-length i)
+  (if (or (get input-map [0 input-length])
+          (> i input-length))
+    input-map
     (-> input-map
         (parse-next-stage input-length i grammar)
-        (parse-in-stages input-length (+ 1 i) grammar surface))
-    input-map))
+        (parse-in-stages input-length (+ 1 i) grammar surface))))
 
 (defn parse
   "Return a list of all possible parse trees for a string.

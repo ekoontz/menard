@@ -105,12 +105,6 @@
                      (-> query-params
                          (get "q")
                          handlers/parse-nl-start))]
-               (log/info (str "QUERY-PARAMS: " query-params))
-               (if (-> query-params (get "all"))
-                 (log/info (str "  GONNA DO ALL!!!"))
-                 (log/info (str "  GONNA DO ONLY PARTIAL...")))
-               (log/info (str "QUERY-PARAMS: " query-params))
-               (log/debug (str "intermediate-result: " intermediate-result))
                (let [prelim-result
                      (into {}
                            (->> (keys intermediate-result)

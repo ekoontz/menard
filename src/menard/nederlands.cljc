@@ -504,7 +504,10 @@
               p/lookup-fn analyze]
       (let [input-map (p/parse-start expression)]
         (-> input-map
-            (p/parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression))))))
+            (p/parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)
+            ((fn [m]
+               {[0 (count (keys input-map))]
+                (get m [0 (count (keys input-map))])})))))))
 
 (defn generate-demo [index & [this-many]]
   (->>

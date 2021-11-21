@@ -175,6 +175,14 @@
                clojure.string/lower-case
                nl/parse-start))))
 
+(defn parse-nl-all [string-to-parse]
+  (log/info (str "parsing user guess: " string-to-parse))
+  (let [nl-tokens (nl/tokenize string-to-parse)]
+    (cond (> (count nl-tokens) 1)
+          (->> string-to-parse
+               clojure.string/lower-case
+               nl/parse-all))))
+
 (defn parse-nl [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))
   (let [nl-tokens (nl/tokenize string-to-parse)

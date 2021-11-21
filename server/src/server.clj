@@ -29,35 +29,7 @@
    :body (write-str body)})
 
 (def routes
-  [["/parse"
-    {:get {:handler
-           (fn [request]
-             (-> request
-                 :query-params
-                 (get "q")
-                 handlers/parse-nl
-                 json-response))}}]
-
-   ["/parse-start"
-    {:get {:handler
-           (fn [request]
-             (let [intermediate-result
-                   (-> request
-                       :query-params
-                       (get "q")
-                       handlers/parse-nl-start)]
-               (log/debug (str "intermediate-result: " intermediate-result))
-               (let [prelim-result
-                     (into {}
-                           (->> (keys intermediate-result)
-                                (map (fn [k]
-                                       [(str k)
-                                        (map (fn [x] (-> x dag_unify.serialization/serialize str))
-                                             (get intermediate-result k))]))))]
-                 (log/debug (str "prelim: " prelim-result))
-                 (json-response prelim-result))))}}]
-   
-   ["/generate"
+  [["/generate"
     {:get {:handler
            (fn [request]
              (-> request
@@ -110,7 +82,44 @@
                                   :g [(str generate-from) generate-to]
                                   :p [(str parse-from) parse-to]})))]
                  (->> retval
-                      json-response))))}}]])
+                      json-response))))}}]
+   ["/parse"
+    {:get {:handler
+           (fn [request]
+             (-> request
+                 :query-params
+                 (get "q")
+                 handlers/parse-nl
+                 json-response))}}]
+   
+   ["/parse-start"
+    {:get {:handler
+           (fn [request]
+             (let [query-params (-> request :query-params)
+                   do-all? (-> query-params (get "all"))
+                   intermediate-result
+                   (if do-all?
+                     (-> query-params
+                         (get "q")
+                         handlers/parse-nl-all)
+                     (-> query-params
+                         (get "q")
+                         handlers/parse-nl-start))]
+               (log/info (str "QUERY-PARAMS: " query-params))
+               (if (-> query-params (get "all"))
+                 (log/info (str "  GONNA DO ALL!!!"))
+                 (log/info (str "  GONNA DO ONLY PARTIAL...")))
+               (log/info (str "QUERY-PARAMS: " query-params))
+               (log/debug (str "intermediate-result: " intermediate-result))
+               (let [prelim-result
+                     (into {}
+                           (->> (keys intermediate-result)
+                                (map (fn [k]
+                                       [(str k)
+                                        (map (fn [x] (-> x dag_unify.serialization/serialize str))
+                                             (get intermediate-result k))]))))]
+                 (log/debug (str "prelim: " prelim-result))
+                 (json-response prelim-result))))}}]])
 
 (def middleware
   [#(wrap-defaults % (assoc site-defaults :session false))])

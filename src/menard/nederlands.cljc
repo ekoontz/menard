@@ -289,7 +289,7 @@
         (ref-set model (create-model)))
       @model)))
 
-;; TODO: this is not being 
+;; TODO: this is not being used currently: remove
 #?(:cljs
    (def lexicon
      (-> (l/read-compiled-lexicon "resources/nederlands/lexicon/compiled.edn")

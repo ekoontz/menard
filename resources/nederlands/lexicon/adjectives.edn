@@ -75,6 +75,7 @@
  "stuitend" [{ :sem {:pred :shocking}}]
  "teleurgesteld" [{:sem {:pred :disappointed}}]
  "tevreden" [{:sem {:pred :satisfied}}]
+ "treurig" [{:sem {:pred :pathetic}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "vastberaden" [{:sem {:pred :determined}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]

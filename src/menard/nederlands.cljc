@@ -487,6 +487,9 @@
               p/lookup-fn analyze]
       (p/parse-start expression))))
 
+(defn strip-map [m]
+  (select-keys m [:1 :2 :canonical :rule :surface]))
+
 (defn parse-all [expression]
   (let [model (load-model)
 
@@ -501,6 +504,12 @@
 
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
+              p/truncate-fn (fn [tree]
+                              (-> tree
+                                  (dissoc :head)
+                                  (dissoc :comp)
+                                  (assoc :1 (strip-map (u/get-in tree [:1])))
+                                  (assoc :2 (strip-map (u/get-in tree [:2]) syntax-tree))))              
               p/lookup-fn analyze]
       (let [input-map (p/parse-start expression)]
         (-> input-map

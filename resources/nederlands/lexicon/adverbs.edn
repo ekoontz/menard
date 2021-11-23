@@ -6,12 +6,12 @@
                 reflexive (atom :top)]
             {:curriculum :basic
              :infl infl
-             :reflexive reflexive
+             :reflexive? reflexive
              :sem {:subj subj
                    :pred :need
                    :obj obj}
              :subcat {:1 {:cat :verb
-                          :reflexive reflexive
+                          :reflexive? reflexive
                           :infl infl
                           :sem {:subj subj
                                 :pred :have

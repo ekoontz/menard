@@ -79,7 +79,7 @@
               [k (->> lexemes
                       (map (fn [lexeme]
                              (unify lexeme
-                                    {:phrasal false
+                                    {:phrasal? false
                                      :canonical (u/get-in lexeme [:canonical] k)})))
                       (mapcat (fn [lexeme]
                                 (apply-rules-to-lexeme rules lexeme if-no-rules-matched? 0))))])))))

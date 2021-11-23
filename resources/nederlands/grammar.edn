@@ -8,9 +8,9 @@
   :cat :adjective
   :head {:cat :conjunction
          :agr {:number :plur}
-         :phrasal true
+         :phrasal? true
          :rule "conj-inner"}
-  :comp {:phrasal false}}
+  :comp {:phrasal? false}}
 
  {:rule "conj-inner" ;; +[+en .twintig]
   :unify [menard.subcat/c
@@ -20,7 +20,7 @@
   :cat :conjunction
   :head {:cat :conjunction
          :agr {:number :plur}
-         :phrasal false
+         :phrasal? false
          :canonical "en"}}
 
  {:rule "intensifier-bar" ;; [.echt +kleine]
@@ -106,7 +106,7 @@
  
  {:rule "np:2" ;; '.de +kat'
   :np? true
-  :reflexive false
+  :reflexive? false
   :agr {:person :3rd
         :number :sing}
   :cat :noun
@@ -124,7 +124,7 @@
 
  {:rule "np:2" ;; '.de +katten'
   :np? true
-  :reflexive false
+  :reflexive? false
   :agr {:person :3rd
         :number :plur}
   :cat :noun
@@ -217,7 +217,7 @@
   :slash false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
-         :phrasal false
+         :phrasal? false
          :modal :infinitive}
   :unify [menard.subcat/i
           menard.ug/head-first
@@ -231,7 +231,7 @@
 
  {:rule "vp-ditransitive"
   :cat :verb
-  :head {:phrasal false}
+  :head {:phrasal? false}
   :unify [menard.subcat/f
           menard.ug/head-first
           menard.ug/head-modal
@@ -242,8 +242,8 @@
   :modal false
   :cat :verb
   :head {:canonical "nodig"
-         :phrasal false}
-  :comp {:phrasal true}
+         :phrasal? false}
+  :comp {:phrasal? true}
   :unify [menard.subcat/d
           menard.ug/head-infl
           menard.ug/head-last
@@ -257,7 +257,7 @@
   :options menard.nederlands/inf-tense
   :head {:aux false
          :rule "vp-te"
-         :phrasal true}
+         :phrasal? true}
   :unify [menard.subcat/c
           menard.ug/head-last
           menard.ug/head-is-root
@@ -289,11 +289,11 @@
   :subcat {:1 {:top :top}
            :2 {:top :top}
            :3 []}
-  :reflexive false
+  :reflexive? false
   :head {:cat :verb
          :infl :infinitive}
   :comp {:cat :adverb
-         :phrasal false}
+         :phrasal? false}
   :unify [menard.subcat/b
           menard.nesting/rest-of-mods-nested
           menard.nesting/verb
@@ -306,8 +306,8 @@
  {:rule "modal+subject"
   :prod? true
   :cat :verb
-  :reflexive false
-  :head {:phrasal false
+  :reflexive? false
+  :head {:phrasal? false
          :modal :infinitive
          :infl :present
          :subcat {:2 {:modal false}}}
@@ -322,9 +322,9 @@
  {:rule "vp-slash-object"
   :prod? true
   :cat :verb
-  :reflexive false
+  :reflexive? false
   :head {:rule "modal+subject"
-         :phrasal true}
+         :phrasal? true}
   :unify [menard.subcat/h
           menard.ug/head-first
           menard.ug/head-modal

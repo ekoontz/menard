@@ -21,7 +21,7 @@
     (let [ref (atom :top)]
       {:cat :verb
        :modal false
-       :reflexive true
+       :reflexive? true
        :sem {::refl-match 2
              :subj {:ref ref}
              :obj {:ref ref
@@ -34,7 +34,7 @@
        ;; TODO: language-dependent: only Dutch has :te value for :modal.
        :modal :te
 
-       :reflexive true
+       :reflexive? true
        :sem {::refl-match 3
              :subj {:ref ref}
              :obj {:obj {:ref ref
@@ -51,7 +51,7 @@
    (map (fn [x]
           (unify
            {:cat :verb
-            :reflexive false
+            :reflexive? false
             :sem {:subj {:ref {::is-subj true}}
                   :obj {:ref {::is-subj false}}}}
            x))

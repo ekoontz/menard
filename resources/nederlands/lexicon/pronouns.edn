@@ -79,7 +79,7 @@
        {:case :acc
         :agr {:person :2nd
               :number :sing}
-        :reflexive false
+        :reflexive? false
         :sem {:pred :you
               :person :2nd
               :person-not :1st              
@@ -91,7 +91,7 @@
        ;; <F 61.1>
        {:case :acc
         :agr {:person :2nd}
-        :reflexive true
+        :reflexive? true
         :sem {:pred :you
               :person-not :1st              
               :ref {:human? true
@@ -106,7 +106,7 @@
  "jou" [{:agr {:person :2nd
                :number :sing}
          :case :acc
-         :reflexive false
+         :reflexive? false
          :sem {:pred :you
                :person :2nd
                :person-not :1st              
@@ -133,13 +133,13 @@
         :sem {:pred :i
               :person-not :2nd
               :ref {:human? true}}
-        :reflexive false}
+        :reflexive? false}
        {:case :acc
         :agr {:number :sing
               :person :1st}
         :sem {:pred :i
               :ref {:human? true}}
-        :reflexive true}]
+        :reflexive? true}]
  "mij" [{:case :acc
          :sem {:pred :i
                :person-not :2nd
@@ -147,11 +147,11 @@
          :agr {:person :1st
                :number :sing
                :person-not :2nd}
-         :reflexive false}]
+         :reflexive? false}]
  "ons" [{:case :acc
          :agr {:number :plur
                :person :1st}
-         :reflexive true
+         :reflexive? true
          :sem {:pred :we
                :ref {:human? true}}}
         {:case :acc
@@ -160,7 +160,7 @@
                :ref {:human? true}}
          :agr {:number :plur
                :person :1st}
-         :reflexive false}]
+         :reflexive? false}]
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
  ;; 
@@ -177,14 +177,14 @@
       {:case :acc
        :agr {:person :2nd
              :number :sing}
-       :reflexive true
+       :reflexive? true
        :sem {:pred :you
              :ref {:human? true
                    :context :polite
                    :number :sing}}}
       {:case :acc
        :agr {:person :2nd}
-       :reflexive false
+       :reflexive? false
        :sem {:pred :you
              :person-not :1st             
              :ref {:human? true
@@ -205,7 +205,7 @@
        :semantic-number-differs-from-agreement-number? true       
        :agr {:person :2nd
              :number :sing}
-       :reflexive true
+       :reflexive? true
        :sem {:pred :you
              :ref {:human? true
                    :context :polite
@@ -225,7 +225,7 @@
  ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:case :acc
           :agr {:person :3rd}
-          :reflexive true}]
+          :reflexive? true}]
  "ze" [{:agr {:person :3rd
               :number :sing
               :gender :fem}
@@ -254,7 +254,7 @@
        {:agr {:person :3rd
               :number :plur}
         :case :acc
-        :reflexive false
+        :reflexive? false
         :sem {:pred :they
               :ref {:human? true}}
         :with-preposition? false
@@ -263,7 +263,7 @@
        {:agr {:person :3rd
               :number :plur}
         :case :acc
-        :reflexive false
+        :reflexive? false
         :sem {:pred :they
               :ref {:human? false}}}]
  "zij" [{:agr {:person :3rd

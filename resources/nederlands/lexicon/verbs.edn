@@ -313,11 +313,11 @@
      :infl :te
      :te? true
      :inflected? true
-     :reflexive reflexive?
+     :reflexive? reflexive?
      :sem sem
      :subcat {:1 {:cat :verb
                   :modal false
-                  :reflexive reflexive?
+                  :reflexive? reflexive?
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf te te]"
                   :infl :infinitive
                   :sem sem}
@@ -360,7 +360,7 @@
                    :obj :none}
              :exceptions exceptions}
             {:curriculum :basic
-             :reflexive false
+             :reflexive? false
              :sem {:pred :know
                    :subj {:ref {:human? true}}
                    :obj {:ref {:human? false}}}
@@ -384,7 +384,7 @@
               :sem {:pred :like
                     :obj obj}
               :subcat {:2 {:cat :adjective
-                           :phrasal false
+                           :phrasal? false
                            :canonical "leuk"}
                        :3 {:cat :noun
                            :subcat [] ;; <- TODO: should be a lexical rule

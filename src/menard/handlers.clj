@@ -123,7 +123,7 @@
 
 (defn generate-en [spec]
   (log/debug (str "generate-en spec: " spec))
-  (let [phrasal? (u/get-in spec [:phrasal] true)
+  (let [phrasal? (u/get-in spec [:phrasal?] true)
         result (->> (repeatedly #(-> spec
                                      en/generate))
                     (take 2)

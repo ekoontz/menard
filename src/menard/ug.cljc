@@ -53,8 +53,8 @@
 
 (def head-reflexive
   (let [shared (atom :top)]
-    {:reflexive shared
-     :head {:reflexive shared}}))
+    {:reflexive? shared
+     :head {:reflexive? shared}}))
 
 (def head-slash
   (let [head-slash (atom :top)]
@@ -97,7 +97,7 @@
                  :derivation head-derivation}
           :comp {:head-derivation comp-derivation
                  :derivation comp-derivation}
-          :phrasal true}))))
+          :phrasal? true}))))
   
 (def head-sem
   (let [sem (atom :top)]
@@ -123,7 +123,7 @@
      :comp {:mod mod}}))
 
 (def nominal-phrase
-  {:reflexive false
+  {:reflexive? false
    :agr {:person :3rd}})
 
 ;; sem = head|parent-sem

@@ -577,7 +577,7 @@
       ((fn [input-expression]
          (let [spec {:sem (u/get-in input-expression [:sem] :top)
                      :mod (u/get-in input-expression [:mod] :top)
-                     :phrasal (u/get-in input-expression [:phrasal] :top)
+                     :phrasal? (u/get-in input-expression [:phrasal?] :top)
                      :subcat (-> input-expression (u/get-in [:subcat] []))
                      :cat (u/get-in input-expression [:cat] :top)}
                generated (-> spec generate)]

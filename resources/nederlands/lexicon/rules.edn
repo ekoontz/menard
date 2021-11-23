@@ -123,15 +123,15 @@
        :null? false
        :pronoun false
        :propernoun true}
-  :then [{:reflexive false}]}
+  :then [{:reflexive? false}]}
 
  {:rule :pronouns-are-nonreflexive
   :if {:cat :noun
        :null? false
        :pronoun true
-       :reflexive ::unspec
+       :reflexive? ::unspec
        :propernoun false}
-  :then [{:reflexive false}]}
+  :then [{:reflexive? false}]}
 
  {:rule :modal-default-false
   :if {:cat :verb
@@ -173,7 +173,7 @@
          ;; merely syntactic subject, 'er'.
          (let [semantic-subject (atom {:existential? false})
                agr (atom :top)]
-           {:reflexive false
+           {:reflexive? false
             :agr agr
             :sem {:subj semantic-subject}
             :subcat {:1 {:cat :noun
@@ -294,7 +294,7 @@
                obj (atom {:subj subj})]
            {:sem {:subj subj
                   :obj :none}
-            :reflexive false
+            :reflexive? false
             :subcat {:1 {:sem subj}
                      :2 []}}
 
@@ -303,7 +303,7 @@
                   :obj obj}
             :subcat {:1 {:subj subj}
                      :2 {:cat :verb
-                         :phrasal true
+                         :phrasal? true
                          :sem obj
                          :subcat {:2 []}
                          :infl :te}}})]}
@@ -368,7 +368,7 @@
                arg1 (atom :top)
                arg2 (atom :top)]
            {:cat :noun
-            :reflexive false
+            :reflexive? false
             :agr agr
             :sem {:quant quant
                   :countable? countable?
@@ -382,7 +382,7 @@
                                :pred quant}}
                      :2 []}})
          {:cat :noun
-          :reflexive false
+          :reflexive? false
           :agr {:number :plur
                 :person :3rd}
           :sem {:quant :some}
@@ -390,17 +390,17 @@
   
  {:rule :transitive-verbs ;; "ziet" in "zij ziet mij"
   :if {:cat :verb
-       :reflexive ::unspec
+       :reflexive? ::unspec
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive false
+           {:reflexive? false
             :sem {:subj subj
                   :obj obj}
             :subcat {:2 {:cat :noun
-                         :reflexive false
+                         :reflexive? false
                          :case :acc
                          :subcat []
                          :sem obj}}})
@@ -412,14 +412,14 @@
                obj (atom {:ref ref})
                agr (atom :top)]
            {:agr agr
-            :reflexive true
+            :reflexive? true
             :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:agr agr
                          :sem subj}
                      :2 {:agr agr
-                         :phrasal false
-                         :reflexive true
+                         :phrasal? false
+                         :reflexive? true
                          :cat :noun
                          :subcat []
                          :sem obj
@@ -427,17 +427,17 @@
 
  {:rule :transitive-verbs-no-reflexive ;; "ziet" in "zij ziet mij"
   :if {:cat :verb
-       :reflexive false
+       :reflexive? false
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive false
+           {:reflexive? false
             :sem {:subj subj
                   :obj obj}
             :subcat {:2 {:cat :noun
-                         :reflexive false
+                         :reflexive? false
                          :case :acc
                          :subcat []
                          :sem obj}}})]}
@@ -476,7 +476,7 @@
        :sem {:obj :none}
        :subcat {:2 ::unspec}}
   :then [{:te? false
-          :reflexive false
+          :reflexive? false
           :subcat {:2 []}}]}
 
  {:rule :aux-verbs-with-verb-arg
@@ -492,7 +492,7 @@
               verb-argument
               {:agr agr
                :modal false
-               :reflexive reflexive
+               :reflexive? reflexive
                :slash false
                :aux false
                :cat :verb
@@ -502,7 +502,7 @@
               verb-argument-slash
               {:agr agr
                :modal false
-               :reflexive reflexive
+               :reflexive? reflexive
                :slash true
                :aux false
                :cat :verb
@@ -512,14 +512,14 @@
           
           [;; [s .she *[vp-aux *has .seen]]
            {:agr agr
-            :reflexive reflexive
+            :reflexive? reflexive
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument}}
 
            ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
            {:agr agr
-            :reflexive reflexive
+            :reflexive? reflexive
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument-slash}}])}
@@ -530,25 +530,25 @@
        :subcat {:2 {:top :top}}}
   :then          
   [;; transitive and non-reflexive: "zij probeert het te zien"
-   {:reflexive false
-    :subcat {:2 {:reflexive false
+   {:reflexive? false
+    :subcat {:2 {:reflexive? false
                  :subcat {:2 []}}}}
    
    ;; transitive and reflexive: "zij probeert zich te zien"
-   {:reflexive true
-    :subcat {:2 {:reflexive true}}}]}
+   {:reflexive? true
+    :subcat {:2 {:reflexive? true}}}]}
  
  {:rule :reflexivity-infinitive
   :if {:cat :verb
        :modal :infinitive
        :subcat {:2 {:top :top}}}
   :then  [;;  "kan <vp[base,nonmodal]>" non-reflexive
-          {:reflexive false
-           :subcat {:2 {:reflexive false}}}
+          {:reflexive? false
+           :subcat {:2 {:reflexive? false}}}
           
           ;;  "kan <vp[base,nonmodal]>" reflexive
-          {:reflexive true
-           :subcat {:2 {:reflexive true}}}]}
+          {:reflexive? true
+           :subcat {:2 {:reflexive? true}}}]}
 
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
@@ -558,13 +558,13 @@
                 :3 []}}
   :then (let [iobj (atom :top)
               agr (atom :top)]
-          [{:reflexive false
-            :subcat {:2 {:reflexive false}}}
-           {:reflexive true
+          [{:reflexive? false
+            :subcat {:2 {:reflexive? false}}}
+           {:reflexive? true
             :sem {:subj iobj
                   :iobj iobj}
             :subcat {:1 {:agr agr}
-                     :2 {:reflexive true
+                     :2 {:reflexive? true
                          :agr agr
                          :sem {:obj iobj}}}}])}
 
@@ -575,25 +575,25 @@
   :then (let [obj (atom :top)
               iobj (atom :top)
               agr (atom :top)]
-          [{:reflexive false
-            :subcat {:2 {:reflexive false}
-                     :3 {:reflexive false}}}
-           {:reflexive true
+          [{:reflexive? false
+            :subcat {:2 {:reflexive? false}
+                     :3 {:reflexive? false}}}
+           {:reflexive? true
             :sem {:subj iobj
                   :iobj iobj}
             :subcat {:1 {:agr agr}
-                     :2 {:reflexive true
+                     :2 {:reflexive? true
                          :agr agr
                          :sem {:obj iobj}}
-                     :3 {:reflexive false}}}
-           {:reflexive true
+                     :3 {:reflexive? false}}}
+           {:reflexive? true
             :sem {:subj obj
                   :obj obj}
             :subcat {:1 {:agr agr}
-                     :2 {:reflexive false}
+                     :2 {:reflexive? false}
                      :3 {:agr agr
                          :sem obj
-                         :reflexive true}}}])}
+                         :reflexive? true}}}])}
 
  ;; TODO: add semantics for both [:subcat :2]'s.
  {:rule :verb-with-s
@@ -654,14 +654,14 @@
  {:rule :nouns-are-non-human-by-default
   :if {:cat :noun
        :pronoun false
-       :reflexive false
+       :reflexive? false
        :sem {:ref {:human? ::unspec}}}
   :then [{:sem {:ref {:human? false}}}]}
   
  {:rule :nouns-are-non-canine-by-default
   :if {:cat :noun
        :pronoun false       
-       :reflexive false
+       :reflexive? false
        :sem {:ref {:canine? ::unspec}}}
   :then [{:sem {:ref {:canine? false}}}]}
   

@@ -69,7 +69,7 @@
           :subcat {:1 {:cat :verb
                        :subcat {:1 {:cat :noun
                                     :case :acc
-                                    :reflexive false}
+                                    :reflexive? false}
                                 :2 []}
                        :slash true}
                    :2 []}}

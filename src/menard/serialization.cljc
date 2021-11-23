@@ -29,11 +29,11 @@
     (str "["
          (:rule tree "?")
          (when (:variant tree) (str "(" (:variant tree) ")" ""))
-         (when (let [defined? (u/get-in tree [:reflexive])]
+         (when (let [defined? (u/get-in tree [:reflexive?])]
                  (and (not (= defined? ::none))
                       (= :verb (u/get-in tree [:cat]))
                       (not (= defined? :top))))
-           (let [value (u/get-in tree [:reflexive])]
+           (let [value (u/get-in tree [:reflexive?])]
              (str "{" (cond (= value true)
                             "+"
                             (= value false)

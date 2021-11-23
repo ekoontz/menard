@@ -23,11 +23,11 @@
          :comp {:interrogative? (u/get-in nl-expression [:comp :interrogative?] :top)}
 
          :max-depth (u/get-in nl-expression [:target :max-depth] max-depth)
-         :phrasal (u/get-in nl-expression [:phrasal] true)
-         :reflexive (cond (= :top (u/get-in nl-expression [:reflexive] :top))
+         :phrasal? (u/get-in nl-expression [:phrasal?] true)
+         :reflexive? (cond (= :top (u/get-in nl-expression [:reflexive?] :top))
                           false
                           :else
-                          (u/get-in nl-expression [:reflexive] :top))
+                          (u/get-in nl-expression [:reflexive?] :top))
 
          ;; TODO: this is totally unintuitive: see TODO(1) below.
          :sem (unify (u/get-in nl-expression [:sem] :top)

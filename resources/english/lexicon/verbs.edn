@@ -20,7 +20,7 @@
          ;; "I am sure"
          (let [obj (atom {:top :top})]
            {:sense 3
-            :reflexive false
+            :reflexive? false
             :sem {:pred :be
                   :obj obj}
             :subcat {:1 {:cat :noun}
@@ -152,7 +152,7 @@
                        :aux false
                        :agr agr
                        :rule "s-comp"
-                       :phrasal true
+                       :phrasal? true
                        :sem {:mood :decl}
                        :subcat []
                        :infl :base}
@@ -172,7 +172,7 @@
                          :aux false
                          :agr agr
                          :rule "s-comp"
-                         :phrasal true
+                         :phrasal? true
                          :sem sem
                          :subcat []
                          :infl :base}
@@ -185,7 +185,7 @@
            {:agr agr
             :exceptions exceptions
             
-            :reflexive false
+            :reflexive? false
             :aux true
             :infl :past-simple
             :derivation {:sense 4}
@@ -194,7 +194,7 @@
                          :slash true
                          :aux false
                          :agr agr
-                         :phrasal true
+                         :phrasal? true
                          :sem sem
                          :subcat {:1 {:wh-word true}
                                   :2 []}
@@ -207,7 +207,7 @@
            {:agr agr
             :exceptions exceptions
             
-            :reflexive false
+            :reflexive? false
             :aux true
             :infl :present
             :derivation {:sense 5}
@@ -216,7 +216,7 @@
                          :slash true
                          :aux false
                          :agr agr
-                         :phrasal true
+                         :phrasal? true
                          :sem sem
                          :subcat {:1 {:wh-word true}
                                   :2 []}
@@ -533,7 +533,7 @@
         reflexive? (atom :top)]
     {
      :agr agr
-     :reflexive reflexive?
+     :reflexive? reflexive?
      :to? true
      :inflected? true
      :infl :infinitive
@@ -541,7 +541,7 @@
      :subcat {:1 {:cat :verb
                   :modal false
                   :agr agr
-                  :reflexive reflexive?
+                  :reflexive? reflexive?
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
                   :infl :base
                   :sem sem}

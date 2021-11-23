@@ -72,11 +72,11 @@
 
  {:rule "np:2"
   :np? true
-  :reflexive false
+  :reflexive? false
   :agr {:person :3rd}
   :cat :noun
   :slash false
-  :comp {:phrasal false}
+  :comp {:phrasal? false}
   :unify [menard.nesting/nest-only
           menard.nesting/noun
           menard.ug/head-is-root
@@ -93,7 +93,7 @@
   :subcat {:1 {:top :top}
            :2 []}
   :mod {:rest []}
-  :reflexive false
+  :reflexive? false
   :head {:cat :verb
          :adverb? false} ;; b. second part of rathole prevention.
   :comp {:cat :adverb}
@@ -133,7 +133,7 @@
   :cat :verb
   :infl :infinitive
   :head {:canonical "to"
-         :phrasal false}
+         :phrasal? false}
   :unify [menard.ug/head-first
           menard.ug/comp-is-root
           menard.ug/head-reflexive

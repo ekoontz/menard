@@ -171,12 +171,12 @@
                 (not (= :top rule-at?)))
            (and (not (= false phrase-at?))
                 (not (= :top phrase-at?)))
-           (= true (u/get-in tree (concat at [:phrasal])))
+           (= true (u/get-in tree (concat at [:phrasal?])))
            (u/get-in tree (concat at [:head]))
            (u/get-in tree (concat at [:comp]))) :rules-only
           
           ;; condition 3: add only lexemes at location _at_:
-          (= false (u/get-in tree (concat at [:phrasal]))) :lexemes-only
+          (= false (u/get-in tree (concat at [:phrasal?]))) :lexemes-only
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
@@ -267,13 +267,13 @@
     (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
                     (strip-refs
                      (select-keys spec show-keys))))
-    (if (= true (u/get-in spec [:phrasal]))
+    (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn)
 
            (#(if (and (empty? %)
                       (= false allow-lexeme-backtracking?)
-                      (= false (u/get-in spec [:phrasal] ::none)))
+                      (= false (u/get-in spec [:phrasal?] ::none)))
                (exception (str "no lexemes for tree: "
                                (syntax-tree tree) " at: " at
                                "; no lexemes matched spec: " (-> spec dag_unify.diagnostics/strip-refs strip-tops-out)))
@@ -373,7 +373,7 @@
                  (assoc-in {} (concat [:syntax-tree] at-num)
                                    (let [one-is-head? (tr/headness? % (concat at [:1]))]
                                      {:head? (= :head (last at))
-                                      :reflexive (u/get-in % (concat at [:reflexive])
+                                      :reflexive? (u/get-in % (concat at [:reflexive?])
                                                            :top)
                                       :1 {:head? one-is-head?}
                                       :2 {:head? (not one-is-head?)}
@@ -437,7 +437,7 @@
           (= (u/get-in tree [::done?]) true)
           []
           
-          (= (u/get-in tree [:phrasal]) false)
+          (= (u/get-in tree [:phrasal?]) false)
           []
 
           (empty? tree)
@@ -450,12 +450,12 @@
                (u/get-in tree [:comp ::done?]))
           []
 
-          (and (= (u/get-in tree [:phrasal] true) true)
+          (and (= (u/get-in tree [:phrasal?] true) true)
                (= (u/get-in tree [::started?] true) true)
                (not (u/get-in tree [:head ::done?])))
           (cons :head (frontier (u/get-in tree [:head])))
 
-          (and (= (u/get-in tree [:phrasal] true) true)
+          (and (= (u/get-in tree [:phrasal?] true) true)
                (= (u/get-in tree [::started?] true) true)
                (not (u/get-in tree [:comp ::done?])))
           (cons :comp (frontier (u/get-in tree [:comp])))

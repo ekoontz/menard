@@ -39,10 +39,10 @@
            {:cat :prep
             :interogative? interogative?
             :agr agr
-            :reflexive true
+            :reflexive? true
             :subcat {:1 {:case :acc
                          :interogative? interogative?
-                         :reflexive true
+                         :reflexive? true
                          :cat :noun
                          :agr agr
                          :subcat []
@@ -53,10 +53,10 @@
                interogative? (atom :top)]
            {:cat :prep
             :interogative? interogative?            
-            :reflexive false
+            :reflexive? false
             :subcat {:1 {:case :acc
                          :interogative? interogative?
-                         :reflexive false
+                         :reflexive? false
                          :cat :noun
                          :subcat []
                          :sem obj}
@@ -90,11 +90,11 @@
                          :sem subj
                          :subcat []}
                      :2 {:cat :noun
-                         :reflexive false
+                         :reflexive? false
                          :case :acc
                          :sem obj
                          :subcat []}}
-            :reflexive false
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
             :derivation {:subcat-frames-nonmodal-1 {:sense 3}}})
@@ -110,11 +110,11 @@
                      :2 {:cat :noun
                          :pronoun true
                          :agr agr
-                         :reflexive true
+                         :reflexive? true
                          :case :acc
                          :sem obj
                          :subcat []}}
-            :reflexive true
+            :reflexive? true
             :sem {:subj subj
                   :obj obj}
             :derivation {:subcat-frames-nonmodal-1 {:sense 4}}})]}
@@ -140,7 +140,7 @@
          ;; merely syntactic subject, 'er'.
          (let [semantic-subject (atom {:existential? false})
                agr (atom :top)]
-           {:reflexive false
+           {:reflexive? false
             :derivation {:subcat-frames-nonmodal-2 {:sense 2}}
             :agr agr
             :sem {:subj semantic-subject
@@ -225,8 +225,8 @@
  {:rule :pronouns-are-not-reflexive-by-default
   :if {:cat :noun
        :pronoun true
-       :reflexive ::unspec}
-  :then [{:reflexive false}]}
+       :reflexive? ::unspec}
+  :then [{:reflexive? false}]}
 
  {:rule :pronouns-are-not-wh-words-by-default
   :if {:cat :noun
@@ -292,19 +292,19 @@
        :modal :infinitive}
   :then [;; intransitive: "she tries"
          {:sem {:obj :none}
-          :reflexive false
+          :reflexive? false
           :subcat {:2 []}}
 
          ;; transitive and non-reflexive: "she tries to see it"
          (let [subj (atom :top)
                obj (atom {:subj subj})]
-           {:reflexive false
+           {:reflexive? false
             :sem {:subj subj
                   :obj obj}
             :subcat {:2 {:infl :infinitive
                          :cat :verb
-                         :phrasal true
-                         :reflexive false
+                         :phrasal? true
+                         :reflexive? false
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})
@@ -315,15 +315,15 @@
                obj (atom {:subj subj
                           :obj {:ref subj-ref}})
                agr (atom :top)]
-           {:reflexive true
+           {:reflexive? true
             :agr agr
             :sem {:subj subj
                   :obj obj}
             :subcat {:2 {:agr agr
                          :infl :infinitive
-                         :phrasal true
+                         :phrasal? true
                          :cat :verb
-                         :reflexive true
+                         :reflexive? true
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
@@ -397,7 +397,7 @@
                           :person :3rd})]
            ;; "a/the dog sleeps"
            {:cat :noun
-            :reflexive false
+            :reflexive? false
             :propernoun false
             :pronoun false
             :agr agr
@@ -407,7 +407,7 @@
          (let [agr (atom {:number :plur
                           :person :3rd})]
            {:cat :noun
-            :reflexive false
+            :reflexive? false
             :propernoun false
             :pronoun false
             :agr agr
@@ -415,7 +415,7 @@
                      :2 []}})
          ;; "dogs sleep"
          {:cat :noun
-          :reflexive false
+          :reflexive? false
           :propernoun false
           :pronoun false
           :sem {:quant :some}
@@ -433,14 +433,14 @@
   :then [(let [agr (atom {:number :plur
                           :person :3rd})]
            {:cat :noun
-            :reflexive false
+            :reflexive? false
             :propernoun false
             :pronoun false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
          {:cat :noun
-          :reflexive false
+          :reflexive? false
           :propernoun false
           :pronoun false
           :agr {:number :plur
@@ -458,17 +458,17 @@
   :then [(let [agr (atom {:number :sing
                           :person :3rd})]
            {:cat :noun
-            :reflexive false
+            :reflexive? false
             :propernoun false
             :pronoun false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})]}
 
- {:rule :reflexive-is-accusative
+ {:rule :reflexive?-is-accusative
   :if {:cat :noun
        :pronoun true
-       :reflexive true}
+       :reflexive? true}
   :then [{:propernoun false
           :subcat []
           :case :acc}]}
@@ -476,7 +476,7 @@
  {:rule :nonreflexive
   :if {:cat :noun
        :pronoun true
-       :reflexive false}
+       :reflexive? false}
   :then [{:propernoun false
           :subcat []}]}
 
@@ -487,7 +487,7 @@
   :then [{:agr {:person :3rd
                 :number :sing}
           :interogative? false
-          :reflexive false
+          :reflexive? false
           :subcat []}]}
 
  {:rule :modal-base-2 ;; "must" in "it must be"
@@ -499,13 +499,13 @@
               obj (atom {:subj subj})]
           [;;  "can see her"
            {:derivation {:modal-base-2 {:marker 1}}
-            :reflexive false
-            :subcat {:2 {:reflexive false}}}
+            :reflexive? false
+            :subcat {:2 {:reflexive? false}}}
 
            ;;  "can see herself"
            {:derivation {:modal-base-2 {:marker 2}}
-            :reflexive true
-            :subcat {:2 {:reflexive true}}}])}
+            :reflexive? true
+            :subcat {:2 {:reflexive? true}}}])}
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
@@ -545,7 +545,7 @@
               verb-argument
               {:agr agr
                :modal false
-               :reflexive reflexive
+               :reflexive? reflexive
                :slash false
                :aux false
                :cat :verb
@@ -555,7 +555,7 @@
               verb-argument-slash
               {:agr agr
                :modal false
-               :reflexive reflexive
+               :reflexive? reflexive
                :slash true
                :aux false
                :cat :verb
@@ -566,7 +566,7 @@
           [;; [s .she *[vp-aux *has .seen]]
            {:agr agr
             :derivation {:aux-verbs-with-verb-arg {:sense 1}}
-            :reflexive reflexive
+            :reflexive? reflexive
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument}}
@@ -574,7 +574,7 @@
            ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
            {:agr agr
             :derivation {:aux-verbs-with-verb-arg {:sense 2}}
-            :reflexive reflexive
+            :reflexive? reflexive
             :sem sem
             :subcat {:1 subject
                      :2 verb-argument-slash}}])}
@@ -599,14 +599,14 @@
   :then (let [iobj (atom :top)
               agr (atom :top)]
           [{:derivation {:prep-arg-reflexivity {:sense 1}} ;; "talks to her"
-            :reflexive false
-            :subcat {:2 {:reflexive false}}}
+            :reflexive? false
+            :subcat {:2 {:reflexive? false}}}
            {:derivation {:prep-arg-reflexivity {:sense 2}} ;; "talks to herself"
-            :reflexive true
+            :reflexive? true
             :sem {:subj iobj
                   :iobj iobj}
             :subcat {:1 {:agr agr}
-                     :2 {:reflexive true
+                     :2 {:reflexive? true
                          :agr agr
                          :sem {:obj iobj}}}}])}
 
@@ -618,27 +618,27 @@
               iobj (atom :top)
               agr (atom :top)]
           [{:derivation {:ditransitive-reflexivity {:sense 1}}
-            :reflexive false
-            :subcat {:2 {:reflexive false}
-                     :3 {:reflexive false}}}
+            :reflexive? false
+            :subcat {:2 {:reflexive? false}
+                     :3 {:reflexive? false}}}
            {:derivation {:ditransitive-reflexivity {:sense 2}} ;; "puts the table on himself"
-            :reflexive true
+            :reflexive? true
             :sem {:subj iobj
                   :iobj iobj}
             :subcat {:1 {:agr agr}
-                     :2 {:reflexive true
+                     :2 {:reflexive? true
                          :agr agr
                          :sem {:obj iobj}}
-                     :3 {:reflexive false}}}
+                     :3 {:reflexive? false}}}
            {:derivation {:ditransitive-reflexivity {:sense 3}} ;; "puts himself on the table"
-            :reflexive true
+            :reflexive? true
             :sem {:subj obj
                   :obj obj}
             :subcat {:1 {:agr agr}
-                     :2 {:reflexive false}
+                     :2 {:reflexive? false}
                      :3 {:agr agr
                          :sem obj
-                         :reflexive true}}}])}
+                         :reflexive? true}}}])}
 
  ;; TODO: add semantics for both [:subcat :2]'s.
  {:rule :verb-with-s
@@ -667,7 +667,7 @@
  {:rule :complementizer-complements ;; e.g. "believe [that it ..]"
   :if {:cat :verb
        :subcat {:2 {:cat :comp}}}
-  :then [{:subcat {:2 {:phrasal true}}
+  :then [{:subcat {:2 {:phrasal? true}}
           :sem {:obj {:obj {:top :top}}}}]}
 
  {:rule :sentential-complements
@@ -685,7 +685,7 @@
  {:rule :prepositional-complements
   :if {:cat :verb
        :subcat {:2 {:cat :prep}}}
-  :then [{:subcat {:2 {:phrasal true}}}]}
+  :then [{:subcat {:2 {:phrasal? true}}}]}
 
  {:rule :nested-obj-null
   :if {:cat :verb

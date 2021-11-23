@@ -62,8 +62,8 @@ Done with this:
 ```
 git:65956c87
 (u/pprint spec)
-{:phrasal true,
- :comp {:phrasal :top},
+{:phrasal? true,
+ :comp {:phrasal? :top},
  :cat :noun,
  :subcat [],
  :sem
@@ -196,7 +196,7 @@ menard.nederlands> (-> "twintig honden"
   :mod
   {:first {:pred 2, :mod [], :times 10, :arg [1], :quant [3]},
    :rest []},
-  :phrasal true,
+  :phrasal? true,
   :cat :noun},
  :readability-divider "--------------------------------",
  :generated-expression "[nbar .twintig +honden]",
@@ -277,7 +277,7 @@ Using this spec:
    :context :unspec},
   :obj :unspec},
  :mod :top,
- :phrasal true,
+ :phrasal? true,
  :subcat [],
  :cat :verb}
 ```
@@ -319,7 +319,7 @@ A slightly more general spec:
      :arg1 {:mod [], :times 10}}},
    :context :unspec},
   :obj :unspec},
- :phrasal true,
+ :phrasal? true,
  :subcat [],
  :cat :verb}
 ```

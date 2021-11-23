@@ -191,7 +191,7 @@
             :derivation {:sense 4}
             :sem sem
             :subcat {:1 {:cat :verb
-                         :slash true
+                         :slash? true
                          :aux false
                          :agr agr
                          :phrasal? true
@@ -213,7 +213,7 @@
             :derivation {:sense 5}
             :sem sem
             :subcat {:1 {:cat :verb
-                         :slash true
+                         :slash? true
                          :aux false
                          :agr agr
                          :phrasal? true

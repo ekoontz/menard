@@ -35,7 +35,7 @@
          :propernoun false
          :subcat {:1 {:top :top}
                   :2 []}}
-  :slash false
+  :slash? false
   :comp {:cat :adjective}
   :unify [menard.nesting/cons-only
           menard.ug/head-is-root
@@ -57,7 +57,7 @@
          ;; whereas e.g. "the old houses" is ok:
          :np? false
          :subcat []}
-  :slash false
+  :slash? false
   :comp {:cat :adjective
          :modifies-noun true}
   :unify [menard.nesting/rest-of-mods-nested
@@ -75,7 +75,7 @@
   :reflexive? false
   :agr {:person :3rd}
   :cat :noun
-  :slash false
+  :slash? false
   :comp {:phrasal? false}
   :unify [menard.nesting/nest-only
           menard.nesting/noun
@@ -118,7 +118,7 @@
  {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :options menard.english/tenses
   :head {:aux false}
   :unify [menard.ug/head-first

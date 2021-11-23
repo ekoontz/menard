@@ -29,11 +29,11 @@
              slash (atom :top)
              common-part {:cat :neg
                           :sem sem
-                          :slash slash
+                          :slash? slash
                           :subcat {:1 {:cat :verb
                                        :aux false
                                        :sem sem
-                                       :slash slash}
+                                       :slash? slash}
                                    :2 []}}
              input
              [{:infl infl-base
@@ -64,14 +64,14 @@
 
  "that" [;; "[comp1 +that [s-slash you *see]]"
          {:cat :comp
-          :slash true
+          :slash? true
           :sense 1
           :subcat {:1 {:cat :verb
                        :subcat {:1 {:cat :noun
                                     :case :acc
                                     :reflexive? false}
                                 :2 []}
-                       :slash true}
+                       :slash? true}
                    :2 []}}
 
          ;; "[comp1 +that [vp sees you]]"
@@ -79,7 +79,7 @@
          (let [agr (atom :top)]
            {:cat :comp
             :agr agr
-            :slash false
+            :slash? false
             :sense 2
             :subcat {:1 {:agr agr
                          :cat :verb
@@ -87,7 +87,7 @@
                                       :cat :noun
                                       :case :nom}
                                   :2 []}
-                         :slash false}
+                         :slash? false}
                      :2 []}})
 
          ;; [comp2 +that .[s you will see a cat]]

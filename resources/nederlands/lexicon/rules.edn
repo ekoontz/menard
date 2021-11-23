@@ -493,7 +493,7 @@
               {:agr agr
                :modal false
                :reflexive? reflexive
-               :slash false
+               :slash? false
                :aux false
                :cat :verb
                :sem sem
@@ -503,7 +503,7 @@
               {:agr agr
                :modal false
                :reflexive? reflexive
-               :slash true
+               :slash? true
                :aux false
                :cat :verb
                :sem sem

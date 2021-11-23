@@ -51,7 +51,7 @@
          :propernoun false
          :subcat {:1 {:top :top}
                   :2 []}}
-  :slash false
+  :slash? false
   :subcat {:1 :top :2 []}
   :comp {:cat :adjective
          :modifies-noun true}
@@ -90,7 +90,7 @@
          ;; whereas e.g. "de oude huizen" is ok:
          :np? false
          :subcat []}
-  :slash false
+  :slash? false
   :comp {:cat :adjective
          :modifies-noun true}
   :agr {:number :plur}
@@ -111,7 +111,7 @@
         :number :sing}
   :cat :noun
   :comp {:cat :det}
-  :slash false
+  :slash? false
   :subcat []
   :unify [menard.nesting/nest-only
           menard.nesting/noun
@@ -129,7 +129,7 @@
         :number :plur}
   :cat :noun
   :comp {:cat :det}
-  :slash false
+  :slash? false
   :subcat []
   :unify [menard.nesting/nest-only
           menard.nesting/noun
@@ -157,7 +157,7 @@
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :options menard.nederlands/finite-plus-inf-tense
   :comp {:beginning-of-sentence? false}
   :head {:aux false
@@ -175,7 +175,7 @@
  {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np .honden [vp-te +te .zien]]]
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
          :modal :te}
@@ -193,7 +193,7 @@
  {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[+te slapen]]
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
          :modal :te}
@@ -214,7 +214,7 @@
  {:rule "vp-infinitive" ;; [vp +moet .bestrijden]
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :options menard.nederlands/finite-plus-inf-tense
   :head {:aux false
          :phrasal? false
@@ -253,7 +253,7 @@
  {:rule "vp-np" ;; [vp-np .[np de kat] +[vp-te +te .zien]]
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :options menard.nederlands/inf-tense
   :head {:aux false
          :rule "vp-te"
@@ -270,7 +270,7 @@
  {:rule "vp-te" ;; '+te .slapen'
   :cat :verb
   :aux false
-  :slash false
+  :slash? false
   :infl :te
   :head {:canonical "te"}
   :comp {:infl :infinitive}

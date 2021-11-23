@@ -9,7 +9,7 @@
 ;;
 (def a
   (let [complement (atom {:subcat []})]
-    {:head {:slash false
+    {:head {:slash? false
             :subcat {:1 complement :2 []}}
      :subcat []
      :comp complement}))

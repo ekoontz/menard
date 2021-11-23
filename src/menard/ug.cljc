@@ -58,8 +58,8 @@
 
 (def head-slash
   (let [head-slash (atom :top)]
-    {:slash head-slash
-     :head {:slash head-slash}}))
+    {:slash? head-slash
+     :head {:slash? head-slash}}))
 
 (def slash-is-head-slash head-slash)
 

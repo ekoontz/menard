@@ -1,6 +1,7 @@
 (ns menard.handlers
   (:require
    [clojure.tools.logging :as log]
+   [java-time :refer [instant minus]]
    [dag_unify.core :as u]
    [menard.english :as en]
    [menard.nederlands :as nl]
@@ -178,10 +179,14 @@
 (defn parse-nl-all [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))
   (let [nl-tokens (nl/tokenize string-to-parse)]
-    (cond (> (count nl-tokens) 1)
-          (->> string-to-parse
-               clojure.string/lower-case
-               nl/parse-all))))
+    (if (> (count nl-tokens) 1)
+      (let [start-time (.toEpochMilli (instant))]
+        (let [retval
+              (->> string-to-parse
+                   clojure.string/lower-case
+                   nl/parse-all)]
+          (log/info (str "parse: '" string-to-parse "': took " (- (.toEpochMilli (instant)) start-time) "ms"))
+          retval)))))
 
 (defn parse-nl [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))

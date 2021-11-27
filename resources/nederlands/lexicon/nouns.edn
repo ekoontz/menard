@@ -54,6 +54,8 @@
  "fiets" [{:sem {:pred :bike}}]
  "gebied" [{:agr {:gender :neuter}
             :sem {:pred :area}}]
+ "geheim" [{:sem {:pred :secret}}]
+ "geheimzinnigheid" [{:sem {:pred :mystery}}]
  "geit" [{:sem {:pred :goat}
           ;; need this to prevent "geitten" which applies because
           ;; of nederlands.morphology/:repeated-consonant:

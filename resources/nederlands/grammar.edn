@@ -238,9 +238,11 @@
           menard.ug/head-rule
           menard.ug/head-sem]}
 
- {:rule "adverb-nodig" ;; [adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]
+ {:rule "adverb-nodig" ;; [s .jij +[adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]]
   :modal false
   :cat :verb
+  :sem {:subj {:existential? false}
+        :obj {:top :top}} ;; prevent e.g. 'er heeft wat geld nodig'
   :head {:canonical "nodig"
          :phrasal? false}
   :comp {:phrasal? true}

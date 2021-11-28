@@ -16,8 +16,8 @@
  {:rule :noun-gender-common-default
   :if {:cat :noun
        :null? false
-       :pronoun false
-       :propernoun false
+       :pronoun? false
+       :propernoun? false
        :agr {:gender ::unspec}}
   :then [{:agr {:gender :common}}]}
 
@@ -81,14 +81,14 @@
  {:rule :nouns-are-not-pronouns
   :if {:cat :noun
        :null? false
-       :pronoun ::unspec}
-  :then [{:pronoun false}]}
+       :pronoun? ::unspec}
+  :then [{:pronoun? false}]}
 
  {:rule :nouns-are-not-propernouns
   :if {:cat :noun
        :null? false
-       :propernoun ::unspec}
-  :then [{:propernoun false}]}
+       :propernoun? ::unspec}
+  :then [{:propernoun? false}]}
 
  {:rule :nouns-have-empty-modifiers
   :if {:cat :noun
@@ -106,31 +106,31 @@
  {:rule :pronoun-have-empty-modifiers
   :if {:cat :noun
        :null? false
-       :pronoun true
+       :pronoun? true
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :propernouns-have-empty-modifiers
   :if {:cat :noun
        :null? false
-       :pronoun false
-       :propernoun true
+       :pronoun? false
+       :propernoun? true
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}
 
  {:rule :propernouns-are-nonreflexive
   :if {:cat :noun
        :null? false
-       :pronoun false
-       :propernoun true}
+       :pronoun? false
+       :propernoun? true}
   :then [{:reflexive? false}]}
 
  {:rule :pronouns-are-nonreflexive
   :if {:cat :noun
        :null? false
-       :pronoun true
+       :pronoun? true
        :reflexive? ::unspec
-       :propernoun false}
+       :propernoun? false}
   :then [{:reflexive? false}]}
 
  {:rule :modal-default-false
@@ -177,7 +177,7 @@
             :agr agr
             :sem {:subj semantic-subject}
             :subcat {:1 {:cat :noun
-                         :pronoun true
+                         :pronoun? true
                          :sem {:existential? true}}
                      :2 {:cat :noun
                          :subcat []
@@ -226,14 +226,14 @@
  {:rule :dont-inflect-pronouns
   :if {:cat :noun
        :null? false
-       :pronoun true}
+       :pronoun? true}
   :then [{:inflected? true
           :subcat []}]}
 
  {:rule :dont-inflect-propernouns
   :if {:cat :noun
        :null? false
-       :propernoun true}
+       :propernoun? true}
   :then [{:inflected? true
           :subcat []}]}
 
@@ -265,14 +265,14 @@
 
  {:rule :propernoun-false
   :if {:cat :noun
-       :propernoun ::unspec}
-  :then [{:propernoun false}]}
+       :propernoun? ::unspec}
+  :then [{:propernoun? false}]}
 
  {:rule :propernouns-are-3rd-person-singular
   :if {:cat :noun
        :null? false
-       :pronoun false
-       :propernoun true}
+       :pronoun? false
+       :propernoun? true}
   :then [{:agr {:number :sing
                 :person :3rd}}]}
 
@@ -359,8 +359,8 @@
  ;; TODO: vertaalen alle voorbeelden comments van Engels tot Nederlands
  {:rule :common-noun
   :if {:cat :noun
-       :propernoun false
-       :pronoun false
+       :propernoun? false
+       :pronoun? false
        :subcat ::unspec}
   :then [(let [agr (atom {:person :3rd})
                countable? (atom :top)
@@ -623,7 +623,7 @@
  {:rule :third-person-accusative-pronoun-allowed-at-beginning?
   :if {:cat :noun
        :case :accusative
-       :pronoun true
+       :pronoun? true
        :agr {:person :3rd}
        :beginning-of-sentence? ::unspec
        :null? false}
@@ -653,14 +653,14 @@
 
  {:rule :nouns-are-non-human-by-default
   :if {:cat :noun
-       :pronoun false
+       :pronoun? false
        :reflexive? false
        :sem {:ref {:human? ::unspec}}}
   :then [{:sem {:ref {:human? false}}}]}
   
  {:rule :nouns-are-non-canine-by-default
   :if {:cat :noun
-       :pronoun false       
+       :pronoun? false       
        :reflexive? false
        :sem {:ref {:canine? ::unspec}}}
   :then [{:sem {:ref {:canine? false}}}]}

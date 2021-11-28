@@ -31,8 +31,8 @@
  {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
   :sem {:mod []}
-  :head {:pronoun false
-         :propernoun false
+  :head {:pronoun? false
+         :propernoun? false
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash? false
@@ -51,8 +51,8 @@
   :np? true
   :cat :noun
   :subcat []
-  :head {:pronoun false
-         :propernoun false
+  :head {:pronoun? false
+         :propernoun? false
          ;; Prevent e.g. *"old the houses",
          ;; whereas e.g. "the old houses" is ok:
          :np? false

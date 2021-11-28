@@ -10,16 +10,16 @@
  {:rule :regular-noun
   :if {:cat :noun
        :agr {:number ::unspec}
-       :pronoun ::unspec
-       :propernoun ::unspec
+       :pronoun? ::unspec
+       :propernoun? ::unspec
        :regular ::unspec}
   :then [{:regular true
-          :pronoun false
-          :propernoun false}]}
+          :pronoun? false
+          :propernoun? false}]}
 
  {:rule :common-nouns-are-inhuman-by-default
   :if {:cat :noun
-       :pronoun false
+       :pronoun? false
        :agr {:human? ::unspec}}
   :then [{:agr {:human? false}}]}
 
@@ -108,7 +108,7 @@
                          :sem subj
                          :subcat []}
                      :2 {:cat :noun
-                         :pronoun true
+                         :pronoun? true
                          :agr agr
                          :reflexive? true
                          :case :acc
@@ -146,7 +146,7 @@
             :sem {:subj semantic-subject
                   :obj :none}
             :subcat {:1 {:cat :noun
-                         :pronoun true
+                         :pronoun? true
                          :sem {:existential? true}}
                      :2 {:cat :noun
                          :subcat []
@@ -224,13 +224,13 @@
 
  {:rule :pronouns-are-not-reflexive-by-default
   :if {:cat :noun
-       :pronoun true
+       :pronoun? true
        :reflexive? ::unspec}
   :then [{:reflexive? false}]}
 
  {:rule :pronouns-are-not-wh-words-by-default
   :if {:cat :noun
-       :pronoun true
+       :pronoun? true
        :wh-word ::unspec}
   :then [{:wh-word false}]}
 
@@ -258,12 +258,12 @@
 
  {:rule :irregular-common-noun
   :if {:cat :noun
-       :pronoun ::unspec
-       :propernoun ::unspec
+       :pronoun? ::unspec
+       :propernoun? ::unspec
        :regular false}
-  :then [{:pronoun false
+  :then [{:pronoun? false
           :regular false
-          :propernoun false}]}
+          :propernoun? false}]}
 
  {:rule :subject-verb-agreement
   :if {:cat :verb
@@ -277,12 +277,12 @@
  
  {:rule :dont-inflect-pronouns
   :if {:cat :noun
-       :pronoun true}
+       :pronoun? true}
   :then [{:inflected? true}]}
 
  {:rule :dont-inflect-propernouns
   :if {:cat :noun
-       :propernoun true}
+       :propernoun? true}
   :then [{:inflected? true}]}
 
  ;; TODO: move reflexive and agreement stuff to another rule so that
@@ -389,8 +389,8 @@
 
  {:rule :common-noun
   :if {:cat :noun
-       :propernoun false
-       :pronoun false
+       :propernoun? false
+       :pronoun? false
        :subcat ::unspec
        :agr {:number ::unspec}}
   :then [(let [agr (atom {:number :sing
@@ -398,8 +398,8 @@
            ;; "a/the dog sleeps"
            {:cat :noun
             :reflexive? false
-            :propernoun false
-            :pronoun false
+            :propernoun? false
+            :pronoun? false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
@@ -408,16 +408,16 @@
                           :person :3rd})]
            {:cat :noun
             :reflexive? false
-            :propernoun false
-            :pronoun false
+            :propernoun? false
+            :pronoun? false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
          ;; "dogs sleep"
          {:cat :noun
           :reflexive? false
-          :propernoun false
-          :pronoun false
+          :propernoun? false
+          :pronoun? false
           :sem {:quant :some}
           :agr {:number :plur
                 :person :3rd}
@@ -425,8 +425,8 @@
 
  {:rule :irregular-plural-common-noun
   :if {:cat :noun
-       :propernoun false
-       :pronoun false
+       :propernoun? false
+       :pronoun? false
        :regular false
        :subcat ::unspec
        :agr {:number :plur}}
@@ -434,15 +434,15 @@
                           :person :3rd})]
            {:cat :noun
             :reflexive? false
-            :propernoun false
-            :pronoun false
+            :propernoun? false
+            :pronoun? false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
          {:cat :noun
           :reflexive? false
-          :propernoun false
-          :pronoun false
+          :propernoun? false
+          :pronoun? false
           :agr {:number :plur
                 :person :3rd}
           :sem {:quant :some}
@@ -450,8 +450,8 @@
 
  {:rule :irregular-singular-common-noun
   :if {:cat :noun
-       :propernoun false
-       :pronoun false
+       :propernoun? false
+       :pronoun? false
        :regular false
        :subcat ::unspec
        :agr {:number :sing}}
@@ -459,31 +459,31 @@
                           :person :3rd})]
            {:cat :noun
             :reflexive? false
-            :propernoun false
-            :pronoun false
+            :propernoun? false
+            :pronoun? false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})]}
 
  {:rule :reflexive?-is-accusative
   :if {:cat :noun
-       :pronoun true
+       :pronoun? true
        :reflexive? true}
-  :then [{:propernoun false
+  :then [{:propernoun? false
           :subcat []
           :case :acc}]}
 
  {:rule :nonreflexive
   :if {:cat :noun
-       :pronoun true
+       :pronoun? true
        :reflexive? false}
-  :then [{:propernoun false
+  :then [{:propernoun? false
           :subcat []}]}
 
- {:rule :propernoun
+ {:rule :propernoun?
   :if {:cat :noun
-       :pronoun false
-       :propernoun true}
+       :pronoun? false
+       :propernoun? true}
   :then [{:agr {:person :3rd
                 :number :sing}
           :interogative? false
@@ -660,7 +660,7 @@
 
  {:rule :existential-false
   :if {:cat :noun
-       :pronoun true
+       :pronoun? true
        :sem {:existential? ::unspec}}
    :then [{:sem {:existential? false}}]}
 

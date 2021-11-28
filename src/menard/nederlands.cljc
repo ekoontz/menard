@@ -115,9 +115,9 @@
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/numbers.edn")      lexical-rules
                                          {:cat :adjective})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/pronouns.edn")     lexical-rules
-                                         {:cat :noun :pronoun true})
+                                         {:cat :noun :pronoun? true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
-                                         {:cat :noun :propernoun true})
+                                         {:cat :noun :propernoun? true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/verbs.edn")        lexical-rules
                                          {:cat :verb} mark-irregular-verbs))))
 
@@ -132,16 +132,16 @@
             (fn [lexeme]
               (let [inflection (get-inflection-of lexeme morphology-rules)]
                 (if (and (= :noun (u/get-in lexeme [:cat]))
-                         (not (= true (u/get-in lexeme [:propernoun])))
-                         (not (= true (u/get-in lexeme [:pronoun]))))
+                         (not (= true (u/get-in lexeme [:propernoun?])))
+                         (not (= true (u/get-in lexeme [:pronoun?]))))
                   (cond
                     inflection
                     (unify lexeme
                            {:inflection inflection})
 
                     (and (= :noun (u/get-in lexeme [:cat]))
-                         (not (= true (u/get-in lexeme [:propernoun])))
-                         (not (= true (u/get-in lexeme [:pronoun])))
+                         (not (= true (u/get-in lexeme [:propernoun?])))
+                         (not (= true (u/get-in lexeme [:pronoun?])))
                          (false? (u/get-in lexeme [:inflected?] false)))
                     (do
                       (log/warn (str "no inflection found for lexeme: "
@@ -260,9 +260,9 @@
                                                 (and (= cat :intensifier))
                                                 (and (= cat :misc))
                                                 (or (and (= cat :noun)
-                                                         (true? (u/get-in lexeme [:pronoun]))))
+                                                         (true? (u/get-in lexeme [:pronoun?]))))
                                                 (or (and (= cat :noun)
-                                                         (true? (u/get-in lexeme [:propernoun]))))
+                                                         (true? (u/get-in lexeme [:propernoun?]))))
                                                 (or (and (= cat :noun)
                                                          (= :basic curriculum)))
                                                 (and (= cat :numbers))

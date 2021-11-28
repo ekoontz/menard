@@ -60,7 +60,7 @@
   :dotimes 1
   :cat :noun
   :subcat []
-  :pronoun false
+  :pronoun? false
   :agr {:number :sing}
   :sem {:mod []
         :quant :some
@@ -449,9 +449,9 @@
          :comp {:rule "vp"
                 :head {:infl :present
                        :phrasal? false}
-                :comp {:pronoun true
+                :comp {:pronoun? true
                        :phrasal? false}}}
-  :comp {:pronoun true
+  :comp {:pronoun? true
          :phrasal? false}
   :subcat []
   :cat :verb

@@ -47,8 +47,8 @@
  ;; [nbar .vier +[nbar .kleine +tafels]]
  {:rule "nbar"
   :cat :noun
-  :head {:pronoun false
-         :propernoun false
+  :head {:pronoun? false
+         :propernoun? false
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash? false
@@ -84,8 +84,8 @@
   :np? true
   :cat :noun
   :subcat []
-  :head {:pronoun false
-         :propernoun false
+  :head {:pronoun? false
+         :propernoun? false
          ;; Prevent e.g. *"oude de huizen",
          ;; whereas e.g. "de oude huizen" is ok:
          :np? false

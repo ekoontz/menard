@@ -7,7 +7,7 @@
   :p [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
   :u {:cat :noun
       :null? false
-      :pronoun false
+      :pronoun? false
       :regular true
       :agr {:number :sing}}}
 
@@ -18,7 +18,7 @@
   :u {:cat :noun
       :null? false
       :inflection :apostrophe-s
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  
@@ -28,7 +28,7 @@
   :u {:cat :noun
       :null? false
       :inflection :heid
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -38,7 +38,7 @@
   :u {:cat :noun
       :null? false
       :inflection :oot
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  
@@ -49,7 +49,7 @@
   :u {:cat :noun
       :null? false
       :inflection :s
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -60,7 +60,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -69,7 +69,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -79,7 +79,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  
@@ -88,7 +88,7 @@
   :u {:cat :noun
       :null? false
       :inflection :s2z
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -97,7 +97,7 @@
   :u {:cat :noun
       :null? false
       :inflection :tsen
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -107,7 +107,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -117,7 +117,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-k
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -128,7 +128,7 @@
   :u {:cat :noun
       :null? false
       :inflection ::repeated-consonant
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  {:g [#"^(.*)(s)$"    "$1$2$2en"] 
@@ -136,7 +136,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  {:g [#"^(.*[aieou])(t)$" "$1$2$2en"] 
@@ -144,7 +144,7 @@
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  ;; </jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
@@ -154,7 +154,7 @@
   :u {:cat :noun
       :null? false
       :inflection :f2v
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -163,7 +163,7 @@
   :u {:cat :noun
       :null? false
       :inflection :ends-in-t
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -172,7 +172,7 @@
   :u {:cat :noun
       :null? false
       :inflection :umlaut-e
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
 
@@ -181,7 +181,7 @@
  :u {:cat :noun
      :null? false
      :inflection :en
-     :pronoun false
+     :pronoun? false
      :agr {:number :plur}
      :regular true}}]
 

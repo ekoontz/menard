@@ -2,7 +2,7 @@
   :p [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:morphology-noun-sing true}}
-      :pronoun false
+      :pronoun? false
       :regular true
       :agr {:number :sing}}}
 
@@ -10,7 +10,7 @@
   :p [#"^(.*)ies$"     "$1y"] 
   :u {:cat :noun
       :null? false
-      :pronoun false
+      :pronoun? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-1 true}}
       :agr {:number :plur}
       :regular true}}
@@ -20,7 +20,7 @@
   :u {:cat :noun
       :null? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-2 true}}
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
  
@@ -29,7 +29,7 @@
   :u {:cat :noun
       :null? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-3 true}}
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}
       
@@ -37,7 +37,7 @@
   :p [#"^(.*)es$"    "$1"]   ;;
   :u {:cat :noun
       :null? false
-      :pronoun false
+      :pronoun? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-4 true}}
       :agr {:number :plur}
       :regular true}}
@@ -47,7 +47,7 @@
   :u {:cat :noun
       :null? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-5 true}}
-      :pronoun false
+      :pronoun? false
       :agr {:number :plur}
       :regular true}}]
 

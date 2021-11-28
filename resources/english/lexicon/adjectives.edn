@@ -56,6 +56,7 @@
  "hard" [{:sem {:pred :hard}}]
  "high" [{:sem {:pred :high}}]
  "horrible" [{:sem {:pred :horrible}}]
+ "huge" [{:sem {:pred :huge}}]
  "human" [{:sem {:pred :human}}]
  "interesting" [{:sem {:pred :interesting}}]
  "important" [{:sem {:pred :important}}]

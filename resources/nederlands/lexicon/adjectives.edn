@@ -59,6 +59,7 @@
  "opvallend" [{:sem {:pred :striking}}]
  "oud" [{:sem {:pred :old} :curriculum :basic}]
  "prachtig" [{:sem {:pred :magnificent}}]
+ "reusachtig" [{:sem {:pred :huge}}]
  "schattig" [{:sem {:pred :cute}}]
  "schitterend" [{:sem {:pred :splendid}}]
  "schrijnend" [{:sem {:pred :poignant}}]

@@ -47,26 +47,26 @@
 
 ### _zien_
 
-| nl                                  | en                                           |
-|-------------------------------------|----------------------------------------------|
-| ik zie niet Ina maar mezelf         | I see not Ina but MYSELF                     |
-| je ziet niet Ina maar jezelf        | you see not Ina but YOURSELF                 |
-| hij ziet niet Ina maar zichzelf     | he sees not Ina but HIMSELF                  |
-| ze ziet niet Ina maar zichzelf      | she sees not Ina but HERSELF                 |
-| u ziet niet Ina maar zichzelf       | you see not Ina but YOURSELF,YOURSELVES      |
-| wij zien niet Ina maar zien onszelf | we see not Ina but OURSELVES                 |
-| jullie zien niet Ina maar jezelf    | you (informal,plural) see Ina but YOURSELVES |
-| ze zien niet Ina maar zichzelf      | they see not Ina but THEMSELVES              |
+| nl                                  | en                                      |
+|-------------------------------------|-----------------------------------------|
+| ik zie niet Ina maar mezelf         | I see not Ina but MYSELF                |
+| je ziet niet Ina maar jezelf        | you see not Ina but YOURSELF            |
+| hij ziet niet Ina maar zichzelf     | he sees not Ina but HIMSELF             |
+| ze ziet niet Ina maar zichzelf      | she sees not Ina but HERSELF            |
+| u ziet niet Ina maar zichzelf       | you see not Ina but YOURSELF,YOURSELVES |
+| wij zien niet Ina maar zien onszelf | we see not Ina but OURSELVES            |
+| jullie zien niet Ina maar jezelf    | you see Ina but YOURSELVES              |
+| ze zien niet Ina maar zichzelf      | they see not Ina but THEMSELVES         |
 
 ### _hebben nodig_
 
-| nl                                 | en                                           |
-|------------------------------------|----------------------------------------------|
-| ik heb niet Ina maar mezelf nodig  | I see not Ina but MYSELF                     |
-| je hebt niet Ina maar jezelf       | you see not Ina but YOURSELF                 |
-| hij heeft niet Ina maar zichzelf   | he sees not Ina but HIMSELF                  |
-| ze heeft niet Ina maar zichzelf    | she sees not Ina but HERSELF                 |
-| u heeft niet Ina maar zichzelf     | you see not Ina but YOURSELF,YOURSELVES      |
-| wij hebben niet Ina maar onszelf   | we see not Ina but OURSELVES                 |
-| jullie hebben niet Ina maar jezelf | you (informal,plural) see Ina but YOURSELVES |
-| ze hebben niet Ina maar zichzelf   | they see not Ina but THEMSELVES              |
+| nl                                 | en                                      |
+|------------------------------------|-----------------------------------------|
+| ik heb niet Ina maar mezelf nodig  | I see not Ina but MYSELF                |
+| je hebt niet Ina maar jezelf       | you see not Ina but YOURSELF            |
+| hij heeft niet Ina maar zichzelf   | he sees not Ina but HIMSELF             |
+| ze heeft niet Ina maar zichzelf    | she sees not Ina but HERSELF            |
+| u heeft niet Ina maar zichzelf     | you see not Ina but YOURSELF,YOURSELVES |
+| wij hebben niet Ina maar onszelf   | we see not Ina but OURSELVES            |
+| jullie hebben niet Ina maar jezelf | you see Ina but YOURSELVES              |
+| ze hebben niet Ina maar zichzelf   | they see not Ina but THEMSELVES         |

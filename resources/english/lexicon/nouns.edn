@@ -33,6 +33,7 @@
  "connection" [{:sem {:pred :connection}}]
  "conversation" [{:sem {:pred :conversation}}]
  "country" [{:sem {:pred :country}}]
+ "couple" [{:sem {:pred :couple}}]
  "court" [{:sem {:pred :court}}]
  "day" [{:sem {:pred :day}}]
  "decision" [{:sem {:pred :decision}}]

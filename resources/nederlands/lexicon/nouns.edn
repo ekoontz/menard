@@ -148,6 +148,8 @@
               :sem {:pred :predator}}]
  "samenvatting" [{:sem {:pred :summary}}]
  "sering" [{:sem {:pred :lilac}}]
+ "stel" [{:agr {:gender :neuter}
+          :sem {:pred :couple}}]
  "stoel" [{:sem {:pred :chair}}]
  "tafel" [{:sem {:pred :table}}]
  "tegenslag" [{:sem {:pred :setback}}]

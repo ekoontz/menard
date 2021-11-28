@@ -27,6 +27,7 @@
            :exceptions [{:agr {:number :plur}
                          :surface "children"}]}]
  "civilization" [{:sem {:pred :civilization}}]
+ "civil servant" [{:sem {:pred :civil-servant}}]
  "coat" [{:sem {:pred :coat}}]
  "community" [{:sem {:pred :community}}]
  "company" [{:sem {:pred :company}}]
@@ -177,6 +178,7 @@
  "way" [{:sem {:pred :way}}]
  "week" [{:sem {:pred :week}}]
  "wife" [{:sem {:pred :wife}}]
+ "witness" [{:sem {:pred :witness}}]
  "woman" [{:sem {:pred :woman
                  :context :neutral} ;; i.e. :neutral meaning 'not polite'
            :agr {:gender :fem

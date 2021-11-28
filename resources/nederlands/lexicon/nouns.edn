@@ -1,6 +1,7 @@
 {"_" [{:null? true
        :sem {:pred :_}}]
  "aandacht" [{:sem {:pred :attention}}]
+ "ambtenaar" [{:sem {:pred :civil-servant}}]
  "baan" [{:sem {:pred :job}}]
  "baby" [{:sem {:pred :baby}}]
  "been" [{:agr {:gender :neuter}
@@ -68,6 +69,7 @@
  "genootschap" [{:sem {:pred :society}}]
  "gesprek" [{:agr {:gender :neuter}
              :sem {:pred :conversation}}]
+ "getuig" [{:sem {:pred :witness}}]
  "gevoel" [{:agr {:gender :neuter}
              :sem {:pred :feeling}}]
  "groep" [{:sem {:pred :group}}]

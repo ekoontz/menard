@@ -7,75 +7,63 @@
          :nul? true
          :agr {:number :plur}
          :sem {:times 1
-               :number? true
                :pred 0}}]
 
  "één" [{
          :sem {:pred 1
-               :number? true
                :times 1}
          :agr {:number :sing}}]
 
  "twee" [{
           :agr {:number :plur}
           :sem {:pred 2
-                :number? true
                 :times 1}}]
 
  "drie" [{
           :agr {:number :plur}
           :sem {:pred 3
-                :number? true
                 :times 1}}]
 
  "vier" [{
           :agr {:number :plur}
           :sem {:pred 4
-                :number? true
                 :times 1}}]
 
  "vijf" [{
           :agr {:number :plur}
           :sem {:pred 5
-                :number? true
                 :times 1}}]
 
  "zes" [{
          :agr {:number :plur}
          :sem {:pred 6
-               :number? true
                :times 1}}]
 
  "zeven" [{
            :agr {:number :plur}
            :sem {:pred 7
-                 :number? true
                  :times 1}}]
 
  "acht" [{
           :agr {:number :plur}
           :sem {:pred 8
-                :number? true
                 :times 1}}]
  
  "negen" [{
            :agr {:number :plur}
            :sem {:times 1
-                 :number? true
                  :pred 9}}]
 
  "teen" [{
           :agr {:number :plur}
           :teen? true
           :sem {:pred 10
-                :number? true
                 :times 1}}] 
 
  "elf" [{
          :agr {:number :plur}
          :teen? true
          :sem {:pred :add
-               :number? true
                :arg1 {:pred 1 :times 1}
                :arg2 {:pred 1 :times 10}}}]
  
@@ -83,7 +71,6 @@
            :agr {:number :plur}
            :teen? true
            :sem {:pred :add
-                 :number? true
                  :arg1 {:pred 2 :times 1}
                  :arg2 {:pred 1 :times 10}}}]
 
@@ -91,7 +78,6 @@
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
-                   :number? true
                    :arg1 {:pred 3 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
@@ -99,7 +85,6 @@
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
-                   :number? true
                    :arg1 {:pred 4 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
@@ -107,7 +92,6 @@
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
-                   :number? true
                    :arg1 {:pred 5 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
@@ -115,7 +99,6 @@
              :agr {:number :plur}
              :teen? true
              :sem {:pred :add
-                   :number? true
                    :arg1 {:pred 6 :times 1}
                    :arg2 {:pred 1 :times 10}}}]
 
@@ -123,7 +106,6 @@
                :agr {:number :plur}
                :teen? true
                :sem {:pred :add
-                     :number? true
                      :arg1 {:pred 7 :times 1}
                      :arg2 {:pred 1 :times 10}}}]
 
@@ -131,7 +113,6 @@
               :agr {:number :plur}
               :teen? true
               :sem {:pred :add
-                    :number? true
                     :arg1 {:pred 8 :times 1}
                     :arg2 {:pred 1 :times 10}}}]
 
@@ -139,50 +120,42 @@
                :agr {:number :plur}
                :teen? true
                :sem {:pred :add
-                     :number? true
                      :arg1 {:pred 8 :times 1}
                      :arg2 {:pred 1 :times 10}}}]
  
  "twintig" [{
              :agr {:number :plur}
              :sem {:times 10
-                   :number? true                   
                    :pred 2}}]
 
  "dertig" [{
             :agr {:number :plur}
             :sem {:times 10
-                  :number? true
                   :pred 3}}]
 
  "veertig" [{
              :agr {:number :plur}
              :sem {:times 10
-                   :number? true
                    :pred 4}}]
 
  "vijftig" [{
              :agr {:number :plur}
              :sem {:pred 5
-                   :number? true
                    :times 10}}]
 
  "zestig" [{
             :agr {:number :plur}
             :sem {:pred 6
-                  :number? true
                   :times 10}}]
 
  "tachtig" [{
              :agr {:number :plur}
              :sem {:pred 8
-                   :number? true
                   :times 10}}]
 
  "negentig" [{
               :agr {:number :plur}
               :sem {:pred 9
-                    :number? true
                     :times 10}}]
 
  }

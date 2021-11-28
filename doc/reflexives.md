@@ -19,29 +19,31 @@
 
 ### _zien_
 
-| nl                   | en                                                     |
-|----------------------|--------------------------------------------------------|
-| ik zie me            | I see myself                                           |
-| je ziet je           | you (informal) see yourself                            |
-| hij ziet zich        | he sees himself                                        |
-| ze ziet zich         | she sees himself                                       |
-| u ziet u,u ziet zich | you (formal) see yourself, you (formal) see yourselves |
-| wij zien ons         | we see ourselves                                       |
-| jullie zien je       | you (informal,plural) see yourselves                   |
-| ze zien zich         | they see themselves                                    |
+| nl             | en                                                     |
+|----------------|--------------------------------------------------------|
+| ik zie me      | I see myself                                           |
+| je ziet je     | you (informal) see yourself                            |
+| hij ziet zich  | he sees himself                                        |
+| ze ziet zich   | she sees himself                                       |
+| u ziet u       | you (formal) see yourself, you (formal) see yourselves |
+| u ziet zich    | you (formal) see yourself, you (formal) see yourselves |
+| wij zien ons   | we see ourselves                                       |
+| jullie zien je | you (informal,plural) see yourselves                   |
+| ze zien zich   | they see themselves                                    |
 
 ### _hebben nodig_
 
-| nl                                 | en                                     |
-|------------------------------------|----------------------------------------|
-| ik heb me nodig                    | I need myself                          |
-| je hebt je nodig                   | you need yourself                      |
-| hij heeft zich nodig               | he needs himself                       |
-| ze heeft zich nodig                | she needs herself                      |
-| u heeft u nodig,u heeft zich nodig | you need yourself, you need yourselves |
-| wij hebben ons nodig               | we need ourselves                      |
-| jullie hebben je nodig             | you need yourselves                    |
-| ze hebben zich nodig               | they need themselves                   |
+| nl                     | en                                     |
+|------------------------|----------------------------------------|
+| ik heb me nodig        | I need myself                          |
+| je hebt je nodig       | you need yourself                      |
+| hij heeft zich nodig   | he needs himself                       |
+| ze heeft zich nodig    | she needs herself                      |
+| u heeft u nodig        | you need yourself, you need yourselves |
+| u heeft zich nodig     | you need yourself, you need yourselves |
+| wij hebben ons nodig   | we need ourselves                      |
+| jullie hebben je nodig | you need yourselves                    |
+| ze hebben zich nodig   | they need themselves                   |
 
 ## Emphatic 
 

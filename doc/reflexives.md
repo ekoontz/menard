@@ -70,5 +70,5 @@
 | ze heeft niet Ina maar zichzelf    | she sees not Ina but HERSELF            |
 | u heeft niet Ina maar zichzelf     | you see not Ina but YOURSELF,YOURSELVES |
 | wij hebben niet Ina maar onszelf   | we see not Ina but OURSELVES            |
-| jullie hebben niet Ina maar jezelf | you see Ina but YOURSELVES              |
+| jullie hebben niet Ina maar jezelf | you see not Ina but YOURSELVES          |
 | ze hebben niet Ina maar zichzelf   | they see not Ina but THEMSELVES         |

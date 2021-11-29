@@ -221,11 +221,16 @@
          :case :nom
          :sem {:pred :we
                :ref {:human? true}}}]
- ;; TODO: F.95: 'zich' can also be used for {:person :2nd}
- ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
  "zich" [{:case :acc
           :agr {:person :3rd}
-          :reflexive? true}]
+          :reflexive? true}
+         ;; .'zich' can also be used for {:person :2nd}
+         ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
+         {:case :acc
+          :agr {:person :2nd}
+          :reflexive? true
+          :sem {:ref {:context :polite}}}]
+         
  "ze" [{:agr {:person :3rd
               :number :sing
               :gender :fem}

@@ -224,12 +224,28 @@
  "zich" [{:case :acc
           :agr {:person :3rd}
           :reflexive? true}
-         ;; .'zich' can also be used for {:person :2nd}
+
+         ;; 'zich' can also be used for {:person :2nd}
          ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
+         ;; 'zich' 2nd person, singular:
          {:case :acc
-          :agr {:person :2nd}
+          :agr {:person :2nd
+                :number :sing}
           :reflexive? true
-          :sem {:ref {:context :polite}}}]
+          :sem {:ref {:human? true
+                      :context :polite
+                      :number :sing}}}
+
+         ;; 'zich' 2nd person, plural:
+         {:case :acc
+          :semantic-number-differs-from-agreement-number? true       
+          :agr {:person :2nd
+                :number :sing}
+          :reflexive? true
+          :sem {:pred :you
+                :ref {:human? true
+                      :context :polite
+                      :number :plur}}}]
          
  "ze" [{:agr {:person :3rd
               :number :sing

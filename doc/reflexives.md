@@ -33,17 +33,17 @@
 
 ### _hebben nodig_
 
-| nl                     | en                                     |
-|------------------------|----------------------------------------|
-| ik heb me nodig        | I need myself                          |
-| je hebt je nodig       | you need yourself                      |
-| hij heeft zich nodig   | he needs himself                       |
-| ze heeft zich nodig    | she needs herself                      |
+| nl                     | en                            |
+|------------------------|-------------------------------|
+| ik heb me nodig        | I need myself                 |
+| je hebt je nodig       | you need yourself             |
+| hij heeft zich nodig   | he needs himself              |
+| ze heeft zich nodig    | she needs herself             |
 | u heeft u nodig        | you need yourself, yourselves |
 | u heeft zich nodig     | you need yourself, yourselves |
-| wij hebben ons nodig   | we need ourselves                      |
-| jullie hebben je nodig | you need yourselves                    |
-| ze hebben zich nodig   | they need themselves                   |
+| wij hebben ons nodig   | we need ourselves             |
+| jullie hebben je nodig | you need yourselves           |
+| ze hebben zich nodig   | they need themselves          |
 
 ## Emphatic 
 

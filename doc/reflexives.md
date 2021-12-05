@@ -1,11 +1,17 @@
 # Summary
 
-
 # Citations 
 
 - F. 61,79
 - BvdH p201
 - Osterhoff p144
+
+# Testing
+
+```
+(->> "u heeft u nodig" parse (map dag_unify.serialization/serialize) set vec (map dag_unify.serialization/deserialize) (map #(u/get-in % [:reflexive?])) (map u/pprint))
+(->> "u heeft u nodig" parse (filter #(= (u/get-in % [:reflexive?]) false)) (map #(u/get-in % [:reflexive])))
+```
 
 # True Reflexive verbs
 
@@ -59,6 +65,13 @@
 | wij zien niet Ina maar zien onszelf | we see not Ina but OURSELVES            |
 | jullie zien niet Ina maar jezelf    | you see Ina but YOURSELVES              |
 | ze zien niet Ina maar zichzelf      | they see not Ina but THEMSELVES         |
+
+#### parse tree
+
+[s .ik +[vp +zie [conjp [negp +niet .Ina] +[conjp-bar +maar .mezelf]]]]
+[s .I +[vp +see [conjp [negp +not .Ina] +[conjp-bar +but .MYSELF]]]]
+
+
 
 ### _hebben nodig_
 

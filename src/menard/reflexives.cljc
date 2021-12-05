@@ -9,6 +9,7 @@
     {:cat :adverb}
     {:cat :conjunction}
     {:cat :intensifier}
+    {:cat :neg}
     {:cat :noun}
     {:cat :prep}
 

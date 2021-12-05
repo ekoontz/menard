@@ -18,6 +18,18 @@
                 :arg1 lower
                 :arg2 higher}})]
 
+ "maar" [(let [lower (atom :top)
+               higher (atom :top)]
+           {:cat :conjunction
+            :subcat {:1 {:cat :noun
+                         :sem higher}
+                     :2 {:cat :noun
+                         :sem lower}
+                     :3 []}
+            :sem {:pred :but
+                  :arg1 lower
+                  :arg2 higher}})]
+ 
  "niet" [{:cat :neg
           :subcat {:1 {:cat :noun}}}]}
 

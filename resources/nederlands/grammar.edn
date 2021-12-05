@@ -77,7 +77,12 @@
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.ug/shared-def]}
- 
+
+ {:rule "negp"
+  :cat :neg
+  :unify [menard.ug/head-first
+          menard.subcat/a]}
+  
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
  {:rule "np:1" 

@@ -33,6 +33,12 @@
                 :pred :guus}
           
           }]
+ "Ina" [{:agr {:gender :fem
+               :human? true
+               :number :sing
+               :person :3rd}
+         :sem {:ref {:human? true}
+               :pred :ina}}]
  "Saskia" [{
             :agr {:gender :fem
                   :human? true

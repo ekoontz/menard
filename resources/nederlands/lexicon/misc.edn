@@ -16,6 +16,13 @@
           :sem {:pred :times
                 :number? true
                 :arg1 lower
-                :arg2 higher}})]}
+                :arg2 higher}})]
+
+ "niet" [{:cat :neg
+          :subcat {:1 {:cat :noun}}}]}
+
+
+
+         
 
 

@@ -1,5 +1,5 @@
 (defproject menard-lambda "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.10.2-rc1"]
+  :dependencies [[org.clojure/clojure "1.10.3"]
                  [fierycod/holy-lambda "0.0.7"]
                  [menard "1.4.5"]]
   :global-vars {*warn-on-reflection* true}

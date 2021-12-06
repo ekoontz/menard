@@ -212,9 +212,9 @@
        :sem {:number? ::unspec}}
   :then [{:sem {:number? false}}]}
 
- {:rule :conjunctions-subcat-adjective
+ {:rule :conjunctions-subcat
   :if {:cat :conjunction}
-  :then [(let [cat (atom :adjective)]
+  :then [(let [cat (atom :top)]
            {:subcat {:1 {:cat cat}
                      :2 {:cat cat}}})]}
 

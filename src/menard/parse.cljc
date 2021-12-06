@@ -69,8 +69,9 @@
   {:pre [(map? comp)
          (map? parent)]
    :post [(vector? %)]}
-  (let [pre-check? (= (u/get-in parent [:comp :cat])
-                      (u/get-in comp [:cat] (u/get-in parent [:comp :cat])))
+  (let [pre-check? (not (= :fail (u/unify
+                                  (u/get-in parent [:comp :cat] :top)
+                                  (u/get-in comp [:cat] :top))))
         result
         (cond pre-check?
               (u/unify! (u/copy parent)

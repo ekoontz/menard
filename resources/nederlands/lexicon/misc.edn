@@ -1,16 +1,13 @@
 {"en" [(let [number? (atom true)
-             cat (atom :adjective)
              lower (atom {:number? number?
                           :times 10})
              higher (atom {:number? number?
                            :times 1})]
          {:cat :conjunction
-          :subcat {:1 {:cat cat
-                       :teen? false
+          :subcat {:1 {:teen? false
                        :nul? false
                        :sem higher}
-                   :2 {:cat cat
-                       :teen? false
+                   :2 {:teen? false
                        :sem lower}
                    :3 []}
           :sem {:pred :times
@@ -21,18 +18,20 @@
  "maar" [(let [lower (atom :top)
                higher (atom :top)]
            {:cat :conjunction
-            :subcat {:1 {:cat :noun
-                         :sem higher}
-                     :2 {:cat :noun
-                         :sem lower}
+            :subcat {:1 {:sem higher}
+                     :2 {:sem lower}
                      :3 []}
             :sem {:pred :but
                   :arg1 lower
                   :arg2 higher}})]
  
- "niet" [{:cat :neg
-          :subcat {:1 {:cat :noun}}}]}
-
+ "niet" [(let [arg (atom :top)]
+           {:cat :neg
+            :sem {:polarity :-
+                  :arg arg}
+            :subcat {:1 {:cat :noun
+                         :sem arg}}})]
+}
 
 
          

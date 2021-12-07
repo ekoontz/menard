@@ -43,6 +43,7 @@
   :comp {:cat :intensifier}
   :unify [menard.nesting/cons-only
           menard.subcat/b
+          menard.ug/head-agr
           menard.ug/head-is-root
           menard.ug/head-last]}
 
@@ -54,6 +55,7 @@
   :unify [menard.nesting/adjective
           menard.nesting/rest-of-mods-unnested
           menard.subcat/b
+          menard.ug/head-agr
           menard.ug/head-is-root          
           menard.ug/head-last]}
 

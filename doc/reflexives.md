@@ -70,9 +70,6 @@
 
 [s .ik +[vp +zie [conjp [negp +niet .Ina] +[conjp-bar +maar .mezelf]]]]
 [s .I +[vp +see [conjp [negp +not .Ina] +[conjp-bar +but .MYSELF]]]]
-
-
-
 ### _hebben nodig_
 
 | nl                                 | en                                       |

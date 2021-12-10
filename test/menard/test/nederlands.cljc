@@ -419,17 +419,20 @@
     (count (take
             times
             (repeatedly
-             #(-> spec
-                  nl/generate
-                  ((fn [x]
-                     (if (nil? x)
-                       (menard.exception/exception "failed to generate.") x)))
-                  ((fn [x]
-                     (if intermediate-parsing?
-                       (-> x nl/morph nl/parse first)
+             #(do
+                (log/info (str "doing spec: " spec))
+                (-> spec
+                    nl/generate
+                    ((fn [x]
+                       (if (nil? x)
+                         (menard.exception/exception (str "failed to generate using spec: " spec))
+                         x)))
+                    ((fn [x]
+                       (if intermediate-parsing?
+                         (-> x nl/morph nl/parse first)
                        x)))
-                  nl/syntax-tree
-                  println))))))
+                    nl/syntax-tree
+                    println)))))))
 
 (deftest validations
   (doall

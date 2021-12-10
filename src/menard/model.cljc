@@ -13,7 +13,7 @@
 #?(:clj
    (defn load [language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn load-morphology-fn load-grammar-fn]
      (log/info (str "loading resources for language: "
-                    language-name))
+                    language-name ".."))
      (let [lexical-rules (lexical-rules-fn)]
        ;; TODO: show count of rules in each set:
        (log/info (str "loaded: " (count lexical-rules) " lexical rules."))
@@ -36,7 +36,7 @@
                       ;; the lexicon is what is saved, but the rules used for it
                       ;; aren't needed to be saved.
                       :indices indices}]
-                 (log/info (str "loaded resources for language: " language-name))
+                 (log/info (str "loaded resources for language: " language-name "."))
                  retval))))))))
 
 #?(:cljs

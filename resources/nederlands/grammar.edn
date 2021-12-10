@@ -45,7 +45,8 @@
           menard.subcat/b
           menard.ug/head-agr
           menard.ug/head-is-root
-          menard.ug/head-last]}
+          menard.ug/head-last
+          menard.ug/shared-def]}
 
  {:rule "intensifier-phrase" 
   :cat :adjective
@@ -57,7 +58,8 @@
           menard.subcat/b
           menard.ug/head-agr
           menard.ug/head-is-root          
-          menard.ug/head-last]}
+          menard.ug/head-last
+          menard.ug/shared-def]}
 
  ;; [nbar .vier +[nbar .kleine +tafels]]
  {:rule "nbar"

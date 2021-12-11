@@ -35,7 +35,6 @@
           menard.ug/head-sem]
   :cat :conjunction
   :head {:cat :conjunction
-         :agr {:number :plur}
          :phrasal? false}}
 
  {:rule "intensifier-bar" ;; [.echt +kleine]

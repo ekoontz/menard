@@ -235,6 +235,7 @@
   :cat :verb
   :subcat []  
   :head {:phrasal? false}
+  :comp {:rule "np:2"}
   :sem {:subj {:mod {:first {:mod []}
                      :rest []}}
         :obj :none}}
@@ -414,6 +415,8 @@
  ;; 24
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :example "de vier en twintig kleine vogels slapen"
+  :rule "s"
+  :comp {:rule "np:2"}
   :cat :verb
   :subcat []
   :phrasal? true

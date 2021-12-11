@@ -15,13 +15,13 @@
                 :arg1 lower
                 :arg2 higher}})]
 
- "maar" [(let [lower (atom :top)
-               higher (atom :top)]
+ "maar" [(let [lower (atom {:polarity :+})
+               higher (atom {:polarity :-})]
            {:cat :conjunction
             :subcat {:1 {:sem higher}
                      :2 {:sem lower}
                      :3 []}
-            :sem {:pred :but
+            :sem {:pred :and
                   :arg1 lower
                   :arg2 higher}})]
  

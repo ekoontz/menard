@@ -10,10 +10,12 @@
 (deftest adjective-agreement
   (is (= "het oude huis"
          (morph (generate {:cat :noun
+                           :rule "np:2"
                            :subcat []
                            :root "huis"
                            :agr {:number :sing}
                            :sem {:quant :the
+                                 :pred :house
                                  :mod {:first {:pred :old
                                                :mod []}
                                        :rest []}}}))))
@@ -21,21 +23,24 @@
   (if create-basic-model?
     (is (= "het oude huis"
            (morph (generate {:cat :noun
+                             :rule "np:2"
                              :subcat []
                              :root "huis"
                              :agr {:number :sing}
                              :sem {:quant :the
-                                 :mod {:first {:pred :old
-                                               :mod []}
-                                       :rest []}}}
+                                   :mod {:first {:pred :old
+                                                 :mod []}
+                                         :rest []}}}
                             basic-model)))))
 
   (is (= "een oud huis"
          (morph (generate {:cat :noun
+                           :rule "np:2"
                            :subcat []
                            :root "huis"
                            :agr {:number :sing}
                            :sem {:quant :some
+                                 :pred :house
                                  :mod {:first {:pred :old
                                                :mod []}
                                        :rest []}}}))))
@@ -43,6 +48,7 @@
   (if create-basic-model?
     (is (= "een oud huis"
            (morph (generate {:cat :noun
+                             :rule "np:2"
                              :subcat []
                              :root "huis"
                              :agr {:number :sing}
@@ -55,6 +61,7 @@
 
   (is (= "de oude huizen"
          (morph (generate {:cat :noun
+                           :rule "np:2"
                            :subcat []
                            :root "huis"
                            :agr {:number :plur}
@@ -68,6 +75,7 @@
   (if create-basic-model?
     (is (= "de oude huizen"
            (morph (generate {:cat :noun
+                             :rule "np:2"
                              :subcat []
                              :root "huis"
                              :agr {:number :plur}

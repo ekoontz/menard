@@ -10,6 +10,7 @@
   :mod nil
   :subcat []
   :phrasal? true
+  :rule "intensifier-phrase"
   :head {:phrasal? false}
   :comp {:phrasal? false}}
 
@@ -25,6 +26,7 @@
 
  ;; 2
  {:note "noun verb"
+  :rule "s"
   :example "ik slaap"
   :subcat []
   :cat :verb
@@ -90,6 +92,7 @@
   :cat :noun
   :agr {:number :sing}
   :definite? false
+  :rule "np:2"
   :sem {:pred :grape
         :quant :some
         :mod {:first {:pred :small
@@ -202,7 +205,8 @@
                             :rest []}}}
         :obj :none}
   :training-wheels {:agr {:person :3rd}
-                    :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
+                    :comp {:rule "np:2"
+                           :head {:comp {:rule "intensifier-phrase"}}}}}
   
 
  ;; 14
@@ -226,6 +230,7 @@
 
  ;; 15
  {:note "[det | adj noun] verb"
+  :rule "s"
   :dotimes 5
   :cat :verb
   :subcat []  

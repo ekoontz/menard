@@ -25,7 +25,7 @@
                   :arg1 lower
                   :arg2 higher}})]
  
- "niet" [(let [sem (atom {:polarity :-})]
+ "niet" [(let [sem (atom :top)]
            {:cat :neg
             :sem sem
             :subcat {:1 {:cat :noun

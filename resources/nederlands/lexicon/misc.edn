@@ -16,11 +16,14 @@
                 :arg2 higher}})]
 
  "maar" [(let [lower (atom {:polarity :+})
-               higher (atom {:polarity :-})]
+               higher (atom {:polarity :-})
+               reflexive? (atom :top)]
            {:cat :conjunction
             :subcat {:1 {:sem higher}
-                     :2 {:sem lower}
+                     :2 {:sem lower
+                         :reflexive? reflexive?}
                      :3 []}
+            :reflexive? reflexive?
             :sem {:pred :and
                   :arg1 lower
                   :arg2 higher}})]

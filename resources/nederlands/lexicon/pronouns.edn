@@ -140,6 +140,12 @@
         :sem {:pred :i
               :ref {:human? true}}
         :reflexive? true}]
+ "mezelf" [{:case :acc
+            :agr {:number :sing
+                  :person :1st}
+            :sem {:pred :i
+                  :ref {:human? true}}
+            :reflexive? true}]
  "mij" [{:case :acc
          :sem {:pred :i
                :person-not :2nd

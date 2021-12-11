@@ -418,7 +418,6 @@
             :subcat {:1 {:agr agr
                          :sem subj}
                      :2 {:agr agr
-                         :phrasal? false
                          :reflexive? true
                          :cat :noun
                          :subcat []

@@ -221,7 +221,8 @@
                             :rest []}}}
         :obj :none}
   :training-wheels {:agr {:person :3rd}
-                    :comp {:head {:comp {:rule "intensifier-phrase"}}}}}
+                    :comp {:rule "np:2"
+                           :head {:comp {:rule "intensifier-phrase"}}}}}
 
  ;; 15
  {:note "[det | adj noun] verb"

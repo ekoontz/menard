@@ -5,6 +5,11 @@
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.
 
+(def comp-cat
+  (let [cat (atom :top)]
+    {:cat cat
+     :comp {:cat cat}}))
+
 (def comp-is-root
   (let [root (atom :top)]
     {:root root

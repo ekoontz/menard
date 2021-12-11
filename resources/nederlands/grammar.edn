@@ -96,11 +96,11 @@
           menard.ug/shared-def]}
 
  {:rule "negp"
-  :cat :neg
   :unify [menard.ug/head-first
-          menard.ug/head-rule
           menard.ug/head-sem
-          menard.subcat/a]}
+          menard.ug/comp-cat
+          menard.subcat/a]
+  :head {:cat :neg}}
   
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.

@@ -18,6 +18,7 @@
   :unify [menard.subcat/a
           menard.ug/head-agr
           menard.ug/head-last
+          menard.ug/head-reflexive
           menard.ug/head-sem]
   :cat :noun
   :head {:cat :conjunction
@@ -30,6 +31,7 @@
   :unify [menard.subcat/c
           menard.ug/head-agr
           menard.ug/head-first
+          menard.ug/head-reflexive
           menard.ug/head-sem]
   :cat :conjunction
   :head {:cat :conjunction

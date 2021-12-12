@@ -96,6 +96,13 @@
               :person-not :1st              
               :ref {:human? true
                     :context :informal}}}]
+ "jezelf" [{:case :acc
+            :agr {:number :sing
+                  :person :2nd}
+            :sem {:pred :you
+                  :ref {:human? true}}
+            :emphatic? true
+            :reflexive? true}]
  "jij" [{:agr {:person :2nd
                :number :sing}
          :case :nom
@@ -145,6 +152,7 @@
                   :person :1st}
             :sem {:pred :i
                   :ref {:human? true}}
+            :emphatic? true
             :reflexive? true}]
  "mij" [{:case :acc
          :sem {:pred :i
@@ -167,6 +175,13 @@
          :agr {:number :plur
                :person :1st}
          :reflexive? false}]
+ "onszelf" [{:case :acc
+            :agr {:number :plur
+                  :person :1st}
+            :sem {:pred :we
+                  :ref {:human? true}}
+            :emphatic? true
+            :reflexive? true}]
  ;; "u" is very generic: can be
  ;; sing/plur and nom/acc.
  ;; 
@@ -226,33 +241,7 @@
                :number :plur}
          :case :nom
          :sem {:pred :we
-               :ref {:human? true}}}]
- "zich" [{:case :acc
-          :agr {:person :3rd}
-          :reflexive? true}
-
-         ;; 'zich' can also be used for {:person :2nd}
-         ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
-         ;; 'zich' 2nd person, singular:
-         {:case :acc
-          :agr {:person :2nd
-                :number :sing}
-          :reflexive? true
-          :sem {:ref {:human? true
-                      :context :polite
-                      :number :sing}}}
-
-         ;; 'zich' 2nd person, plural:
-         {:case :acc
-          :semantic-number-differs-from-agreement-number? true       
-          :agr {:person :2nd
-                :number :sing}
-          :reflexive? true
-          :sem {:pred :you
-                :ref {:human? true
-                      :context :polite
-                      :number :plur}}}]
-         
+               :ref {:human? true}}}]         
  "ze" [{:agr {:person :3rd
               :number :sing
               :gender :fem}
@@ -293,6 +282,52 @@
         :reflexive? false
         :sem {:pred :they
               :ref {:human? false}}}]
+
+ "zich" [{:case :acc
+          :agr {:person :3rd}
+          :reflexive? true}
+
+         ;; 'zich' can also be used for {:person :2nd}
+         ;; to avoid repetition of 'u' (e.g. 'wilt u zich aankleden?')
+         ;; 'zich' 2nd person, singular:
+         {:case :acc
+          :agr {:person :2nd
+                :number :sing}
+          :reflexive? true
+          :sem {:ref {:human? true
+                      :context :polite
+                      :number :sing}}}
+
+         ;; 'zich' 2nd person, plural:
+         {:case :acc
+          :semantic-number-differs-from-agreement-number? true       
+          :agr {:person :2nd
+                :number :sing}
+          :reflexive? true
+          :sem {:pred :you
+                :ref {:human? true
+                      :context :polite
+                      :number :plur}}}]
+  "zichzelf" [{:case :acc
+              :agr {:number :sing
+                    :person :3rd}
+              :sem {:pred :he
+                    :ref {:human? true}}
+              :emphatic? true
+              :reflexive? true}
+             {:case :acc
+              :agr {:number :sing
+                    :person :3rd}
+              :sem {:pred :she
+                    :ref {:human? true}}
+              :emphatic? true
+              :reflexive? true}
+             {:case :acc
+              :agr {:number :plur
+                    :person :3rd}
+              :sem {:pred :they}
+              :emphatic? true
+              :reflexive? true}]
  "zij" [{:agr {:person :3rd
                :number :sing
                :gender :fem}

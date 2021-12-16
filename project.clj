@@ -7,7 +7,7 @@
                  [log4j/log4j "1.2.17"]
                  [org.clojure/clojure "1.10.3"]
                  [org.clojure/data.json "1.0.0"]
-                 [org.clojure/tools.logging "1.1.0"]
+                 [org.clojure/tools.logging "1.2.2"]
                  [cljslog "0.1.0"]
                  [clojure.java-time "0.3.3"]]
   :resource-paths ["resources"])

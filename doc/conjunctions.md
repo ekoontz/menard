@@ -31,7 +31,8 @@ zie Kim | see(X,Kim)
 [zie Kim] niet | not(see(X,Kim))
 Kim [en Sandy] | and(Y(X,Kim),Y(X,Sandy))
 zie [Kim [en Sandy]] | and(see(X,Kim),see(X,Sandy))
-
+Kim [maar [niet Sandy]] | and(Y(X,Kim),not(Y(X,Sandy)))
+zie [Kim [maar [niet Sandy]]] | and(see(X,Kim),not(see(X,Sandy)))
 
 
 

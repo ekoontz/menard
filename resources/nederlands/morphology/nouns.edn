@@ -34,8 +34,8 @@
 
  ;; if a singular noun ends in -ooX, then noun pluralization ends in -oXen:
  ;; echtgenoot -> echtgenoten, bloemkool -> bloemkolen, boom -> bomen
- {:g [#"oo([lmt])$"  "o$1en"]
-  :p [#"o([lmt])en$" "oo$1"]
+ {:g [#"oo([lmnt])$"  "o$1en"]
+  :p [#"o([lmnt])en$" "oo$1"]
   :u {:cat :noun
       :null? false
       :inflection :oot

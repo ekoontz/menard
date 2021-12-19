@@ -173,6 +173,7 @@
  "thing" [{:sem {:pred :thing}}]
  "time" [{:sem {:pred :time}}]
  "toddler" [{:sem {:pred :toddler}}]
+ "tree" [{:sem {:pred :table}}]
  "union" [{:sem {:pred :union}}]
  "water" [{:sem {:pred :water}}]
  "way" [{:sem {:pred :way}}]

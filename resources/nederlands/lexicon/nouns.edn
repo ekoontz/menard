@@ -25,6 +25,7 @@
           :exceptions [{:agr {:number :plur}
                         :surface "boeken"}]}]
  "boodschap" [{:sem {:pred :message}}]
+ "boom" [{:sem {:pred :tree}}]
  "chirurg" [{:sem {:pred :surgeon
                    :ref {:human? true}}}]
  "courgette" [{:sem {:pred :zucchini}}]

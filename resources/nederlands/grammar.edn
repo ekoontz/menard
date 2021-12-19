@@ -19,8 +19,8 @@
           menard.ug/head-agr
           menard.ug/head-last
           menard.ug/head-reflexive
+          menard.ug/head-rule
           menard.ug/head-sem]
-  :cat :noun
   :head {:cat :conjunction
          :phrasal? true
          :rule "conj-inner"}

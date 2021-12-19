@@ -32,11 +32,10 @@
       :agr {:number :plur}
       :regular true}}
 
- ;; if a singular noun ends in -oot, then noun pluralization ends in -oten:
- ;; if a singular noun ends in -ool, then noun pluralization ends in -olen:
- ;; echtgenoot -> echtgenoten, bloemkool -> bloemkolen
- {:g [#"oo([lt])$"  "o$1en"]          
-  :p [#"o([lt])en$" "oo$1"]
+ ;; if a singular noun ends in -ooX, then noun pluralization ends in -oXen:
+ ;; echtgenoot -> echtgenoten, bloemkool -> bloemkolen, boom -> bomen
+ {:g [#"oo([lmt])$"  "o$1en"]
+  :p [#"o([lmt])en$" "oo$1"]
   :u {:cat :noun
       :null? false
       :inflection :oot

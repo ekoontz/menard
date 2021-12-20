@@ -16,6 +16,25 @@
      :comp {:root root
             :canonical root}}))
 
+(def conjunction
+  (let [subj (atom :top)
+        pred (atom :top)
+        arg1 (atom :top)
+        arg2 (atom :top)
+        subcat-1 (atom {:sem subj})]
+    {:head {:sem {:subj subj}
+            :subcat {:1 subcat-1}}
+     :comp {:sem {:pred pred
+                  :arg1 arg1
+                  :arg2 arg2}}
+     :subcat {:1 subcat-1
+              :2 []}
+     :sem {:pred pred
+           :arg1 {:subj subj
+                  :obj arg1}
+           :arg2 {:subj subj
+                  :obj arg2}}}))
+
 (comment {:head {:sem {:subj {:ref [[1] :top]}}}
           :comp {:sem {:subj [1]}}})
 (def subj-ref

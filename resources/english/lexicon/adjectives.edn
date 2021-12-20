@@ -60,6 +60,7 @@
  "human" [{:sem {:pred :human}}]
  "interesting" [{:sem {:pred :interesting}}]
  "important" [{:sem {:pred :important}}]
+ "impressive" [{:sem {:pred :impressive}}]
  "industrious" [{:sem {:pred :industrious}}]
  "innocent" [{:sem {:pred :innocent}}]
  "insane" [{:sem {:pred :insane}}]

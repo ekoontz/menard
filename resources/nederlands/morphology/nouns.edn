@@ -54,6 +54,19 @@
       :agr {:number :plur}
       :regular true}}
 
+ ;; this is a complicated pattern where, in pluralization, the
+ ;; vowel shortens (aa->a) and the consonant lengthens (k->kk):
+ ;; For now, only matching 'a' for the vowel and 'k' for the consonant,
+ ;; but may generalize later if needed.
+ {:g [#"^(.*)([a])\2([k])$"   "$1$2$3$3en"]    ;; zaak    -> zakken
+  :p [#"^(.*)([a])([k])\3en$" "$1$2$2$3"]      ;; zakken  -> zaak
+  :u {:cat :noun
+      :null? false
+      :inflection :repeat-consonant-shorten-vowel
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
+ 
  ;; TODO: nouns end in 's' if they end in
  ;; "aar(d), -erd,-ier when referring to people" (F. p 55).
  {:g [#"^(.*)aa(.)$"     "$1a$2en"]  ;; haar   -> haren
@@ -177,7 +190,7 @@
       :agr {:number :plur}
       :regular true}}
 
-{:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
+ {:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
  :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
  :u {:cat :noun
      :null? false

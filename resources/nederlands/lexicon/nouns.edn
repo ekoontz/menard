@@ -154,6 +154,7 @@
  "stel" [{:agr {:gender :neuter}
           :sem {:pred :couple}}]
  "stoel" [{:sem {:pred :chair}}]
+ "stoet" [{:sem {:pred :procession}}]
  "tafel" [{:sem {:pred :table}}]
  "tegenslag" [{:sem {:pred :setback}}]
  "thuis" [{:agr {:gender :neuter}

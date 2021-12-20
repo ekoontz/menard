@@ -134,6 +134,7 @@
  "prediction" [{:sem {:pred :prediction}}]
  "preparation" [{:sem {:pred :preparation}}]
  "problem" [{:sem {:pred :problem}}]
+ "procession" [{:sem {:pred :procession}}]
  "preference" [{:sem {:pred :preference}}]
  "profession" [{:sem {:pred :profession}}]
  "professor" [{:sem {:pred :professor}}]

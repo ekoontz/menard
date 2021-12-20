@@ -16,6 +16,8 @@
     ;; intransitive verbs "ik zie"
     {:cat :verb
      :sem {::refl-match 1
+           :arg1 :none
+           :arg2 :none
            :obj :none}}
 
     ;; reflexive case (non modal): "ik zie me"
@@ -26,7 +28,9 @@
        :sem {::refl-match 2
              :subj {:ref ref}
              :obj {:ref ref
-                   :obj :none}}})
+                   :obj :none}
+             :arg1 :none
+             :arg2 :none}})
 
     ;; reflexive case (modal) e.g. "ik probeer me te zien"
     (let [ref (atom :top)]
@@ -59,11 +63,15 @@
         [{:agr {:person :1st}
           :sem {:subj {:person :1st}
                 ::refl-match 4
+                :arg1 :none
+                :arg2 :none
                 :obj {:person-not :1st
                       :obj :none}}}
          {:agr {:person :1st}
           :sem {:subj {:person :1st}
                 ::refl-match 5
+                :arg1 :none
+                :arg2 :none
                 :obj {:obj {:person-not :1st}}}}
          {:agr {:person :2nd}
           :sem {:subj {:person :2nd}
@@ -82,4 +90,19 @@
          {:agr {:person :3rd}
           :sem {::refl-match 8
                 :subj {:person :3rd
-                       :existential? false}}}])))
+                       :existential? false}}}])
+
+   ;; for conjunctions:
+   ;; TODO: add reflexive variant
+   [{:cat :verb
+     :reflexive? false
+     :sem {:arg1 {:top :top}
+           :arg2 {:top :top}
+           :subj :none
+           :obj :none
+           :refl-match 9}}]))
+
+
+
+
+

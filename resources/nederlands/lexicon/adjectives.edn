@@ -44,6 +44,7 @@
  "lastig" [{:sem {:pred :difficult}}]
  "leuk" [{:sem {:pred :good}}]
  "lief" [{:sem {:pred :nice}}]
+ "lijp" [{:sem {:pred :cool}}]
  "lomp" [{:sem {:pred :rude}}] 
  "moedig" [{:sem {:pred :brave}}]
  "moelijk" [{:sem {:pred :difficult}}]

@@ -8,6 +8,7 @@
  "bereikbaar" [{:sem {:pred :accessible}}]
  "bezig" [{:sem {:pred :busy}}]
  "bijzonder" [{:sem {:pred :special}}]
+ "bouwvallig" [{:sem {:pred :dilapidated}}]
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]
  "dik" [{:sem {:pred :thick}}]

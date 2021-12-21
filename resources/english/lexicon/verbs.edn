@@ -486,6 +486,8 @@
  "strike" [{:sem {:pred :strike}
          :exceptions [{:infl :past-simple :surface "struck"}
                       {:infl :past-participle :surface "struck"}]}]
+ "succeed" [{:sem {:pred :succeed
+                   :obj :none}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
           [{ :sem {:pred :take}

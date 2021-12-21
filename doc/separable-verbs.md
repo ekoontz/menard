@@ -4,8 +4,8 @@
 ## Finite
 
 ### Subcat
-`optreden[finite]<:noun,:prep[op]>`
 
+`optreden[finite]<:noun,:prep[op]>`
 
 ### Example Trees
 

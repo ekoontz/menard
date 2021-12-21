@@ -48,6 +48,11 @@
        :aux ::unspec}
   :then [{:aux false}]}
 
+ {:rule :separable-is-false
+  :if {:cat :verb
+       :separable? ::unspec}
+  :then [{:separable? false}]}
+ 
  {:rule :dont-inflect-conjunctions
   :if {:cat :conjunction}
   :then [{:inflected? true}]}

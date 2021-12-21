@@ -244,7 +244,8 @@
                   :obj :none}}]
  
  "ontworpen" [{:sem {:pred :design}}]
- "optreden" [{ :sem {:pred :perform}}]
+ "optreden" [{:separable? true
+              :sem {:pred :perform}}]
 
  "proberen"
  (let [exceptions [{:infl :present

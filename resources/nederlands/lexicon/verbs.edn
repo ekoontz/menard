@@ -223,6 +223,7 @@
          :exceptions exceptions
          :sem {:pred :read}}])
 
+ "lukken" [{:sem {:pred :succeed}}]
  "maken" [{:sem {:pred :make}}]
 
  "moeten" ;; F. 40.1

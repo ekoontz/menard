@@ -35,6 +35,7 @@
  "devoted" [{:sem {:pred :devoted}}]
  "different" [{:sem {:pred :different}}]
  "difficult" [{:sem {:pred :difficult}}]
+ "dilapidated" [{:sem {:pred :dilapidated}}]
  "disappointed" [{:sem {:pred :disappointed}}]
  "dirty" [{:sem {:pred :dirty}}]
  "early" [{:sem {:pred :early}}]

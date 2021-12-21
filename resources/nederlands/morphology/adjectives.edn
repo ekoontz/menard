@@ -36,10 +36,10 @@
         :inflection :adj-no-e-suffix
         :modifies-noun true}}
 
-   ;; generation: hedendag   -> hedendagse
-   ;; parsing:    hedendagse -> hedendag
-   (let [g [#"(dag)$"   "$1se"]
-         p [#"(dag)se$" "$1"]]
+   ;; generation: hedendaag   -> hedendaagse
+   ;; parsing:    hedendaagse -> hedendaag
+   (let [g [#"(daag)$"   "$1se"]
+         p [#"(daag)se$" "$1"]]
      [{:g g
        :p p
        :u plur-modifier}

@@ -30,7 +30,7 @@
  "gierig" [{:sem {:pred :stingy}}]
  "goed" [{:sem {:pred :good}}]
  "groot" [{:sem {:pred :big} :curriculum :basic}]
- "hedendag" [{:sem {:pred :contemporary}}] 
+ "hedendaag" [{:sem {:pred :contemporary}}] 
  "huidig" [{:sem {:pred :current}}]
  "indrukwekkend" [{:sem {:pred :impressive}}]
  "ingewikkeld" [{:sem {:pred :complicated}}]

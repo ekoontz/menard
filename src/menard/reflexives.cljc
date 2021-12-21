@@ -100,7 +100,10 @@
            :arg2 {:top :top}
            :subj :none
            :obj :none
-           :refl-match 9}}]))
+           :pred :and
+           :refl-match 9}}]
+
+   ))
 
 
 

@@ -11,30 +11,30 @@
 
 ```
 S
-|____VP__
-|    |   `op
-`ik  |
-      `treed 
+|____VP__op
+|    |
+ik   |
+     treed 
 ```
 
 
 ```
 S
-|_____VP____PP__
-|     |     |   `op
- `ik  |      `het
-       `treed
+|_____VP____PP__op
+|     |     | 
+ik    |     het
+      treed
 ```
 
 ```
 S
-|_____VP________PP__
-|     |         |   `op
-`ik   |         |
-       `treed   NP_
-                |  `toneelstuk 
-                |
-                 `het
+|_____VP______PP__op
+|     |       |
+ik    |       |
+      treed   NP__toneelstuk 
+              |
+              |
+              het
 ```
 
 ## Infinite
@@ -47,10 +47,10 @@ S
 
 ```
 S
-|_____VP________VP__
-|     |         |   `optreden
-`ik   |         |
-       `zal      `het
+|_____VP____VP__optreden
+|     |     |
+ik    |     |
+      zal   het
 ```
 
 

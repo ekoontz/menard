@@ -73,9 +73,9 @@
 (defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched?]
   (into {}
         (for [k (sort (keys lexicon))]
-          (let [lexemes (get lexicon k)]
+          (let [lexemes (seq (get lexicon k))]
             (log/debug (str "applying rules for: " k))
-            (when (seq lexemes)
+            (when lexemes ;; keys whose value is nil or null are removed.
               [k (->> lexemes
                       (map (fn [lexeme]
                              (unify lexeme

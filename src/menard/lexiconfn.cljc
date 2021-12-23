@@ -6,7 +6,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [dag_unify.serialization :as s :refer [serialize]]
-   [dag_unify.core :as u :refer [unify]]
+   [dag_unify.core :as u :refer [fail? unify]]
    [dag_unify.diagnostics :as diag]
    [dag_unify.dissoc :as d]))
 
@@ -42,9 +42,12 @@
                 result)))))
 
 (defn apply-rules-to-lexeme
-  "given a lexeme and a list of rules, return a list of all the possible lexemes following from the consequent of each rule in the list."
+  "given a lexeme and a list of rules, return a list 
+   of all the possible lexemes following from the
+   consequent of each rule in the list."
   [rules lexeme if-no-rules-matched? i]
-  (log/debug (str "apply-rules-to-lexeme: applying " (count rules) " rules to lexeme: " (u/get-in lexeme [:canonical]) "; i=" i))
+  (log/debug (str "apply-rules-to-lexeme: applying " (count rules)
+                  " rules to lexeme: " (u/get-in lexeme [:canonical]) "; i=" i))
   (cond
     (seq rules)
     (let [rule (first rules)
@@ -57,7 +60,8 @@
                (mapcat (fn [new-lexeme]
                          (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1))))))
         (apply-rules-to-lexeme (rest rules)
-                               (if true
+                               (if (or (false? include-derivation?)
+                                       (not (fail? (unify antecedent lexeme))))
                                  lexeme
                                  (unify
                                   lexeme

@@ -215,7 +215,6 @@
          grammar/read-grammar-fn
          grammar/process)))
 
-
 #?(:cljs
    (def model
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
@@ -227,21 +226,36 @@
      (let [name (or name "untitled")
            filter-lexicon-fn (or filter-lexicon-fn
                                  (fn [lexicon]
-                                   lexicon))]
+                                   lexicon))
+           lexical-rules (load-lexical-rules)
+
+           ;; apply those lexical rules
+           ;; to a source lexicon to create
+           ;; compile lexicon:
+           lexicon
+           (load-lexicon-with-morphology
+            (load-lexicon lexical-rules)
+            (load-morphology)
+            filter-lexicon-fn)]
        (->
         (model/load "nl"
-                    load-lexical-rules
-                    (fn [lexical-rules]
-                      (load-lexicon-with-morphology
-                       (load-lexicon lexical-rules)
-                       (load-morphology)
-                       filter-lexicon-fn))
+                    ;; loads the lexical rules:
+                    ;; (we already did this above,
+                    ;;  so we'll just return those rules.
+                    (fn [] lexical-rules)
+
+                    ;; we ignore the input lexical-rules,
+                    ;; since we've already applied them above.
+                    (fn [_] lexicon)
+
+                    ;; create indices on the compiled lexicon:
                     fill-lexicon-indexes
+
                     load-morphology load-grammar)
         (merge {:name name})))))
 
 (defn basic-filter
-  "create a lexicon that only contains closed-class words and :basic open-class words"
+  "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"
   [lexicon]
   (->>
    (map (fn [k]

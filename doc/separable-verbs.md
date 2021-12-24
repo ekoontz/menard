@@ -11,44 +11,44 @@
 
 ```
 S
-|____VP__op
-|    |
-ik   treed 
+|_____VP_________2:op<>
+|     |
+1:ik  treed<1,2> 
      
 ```
 
 
 ```
 S
-|____VP____PP__op
-|    |     | 
-ik   treed het
+|______VP_________2:PP<>__op<3>
+|      |          | 
+1:ik   treed<1,2> 3:het
       
 ```
 
 ```
 S
-|____VP____PP__op
-|    |     |
-ik   treed NP__toneelstuk 
-           |
-           het
+|____VP__________________2:PP<>____op<3>
+|    |                     |
+ik   treed<1,2[:prep]>     NP<3>___toneelstuk 
+                           |
+                           het
 ```
 
-## Infinite
+## Infinitive
 
 ### Subcat
 
-`optreden[infite]<:noun,:noun>`
+`optreden[infinitive]<:noun,:noun>`
 
 ### Example Trees
 
 ```
 S
-|____VP____VP__optreden
+|____VP____VP<1>__optreden<1,2[:noun]>
 |    |     |
-ik   |     |
-     zal   het
+1:ik |     |
+     zal   2:het
 ```
 
 

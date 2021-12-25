@@ -53,6 +53,13 @@
   :if {:cat :verb
        :separable? ::unspec}
   :then [{:separable? false}]}
+
+ {:rule :separable-subcat
+  :if {:cat :verb
+       :separable? true}
+  :then [{:subcat {:2 {:cat :prep
+                       :subcat []}
+                   :3 []}}]}
  
  {:rule :dont-inflect-conjunctions
   :if {:cat :conjunction}
@@ -166,6 +173,7 @@
 
  {:rule :existential-verb
   :if {:cat :verb
+       :separable? false
        :te? false
        :modal false
        :sem {:obj :none}}
@@ -450,6 +458,7 @@
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
+       :separable? false
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :prep}
                 :3 []}}
@@ -558,6 +567,7 @@
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
+       :separable? false
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :prep}
                 :3 []}}

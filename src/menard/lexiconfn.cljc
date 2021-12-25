@@ -26,11 +26,9 @@
                     "; result: " result))
     (cond (= :fail result)
           (let [error-message (str "rule: " rule-name " failed to unify lexeme: "
-                                   (select-keys lexeme [:derivation :canonical :sense])
-                                   (if (:derivation consequent)
-                                     (str " (derivation: " (:derivation consequent) ")"))
-                                   "; fail-path: "
-                                   (diag/fail-path lexeme consequent))]
+                                   (select-keys lexeme [::derivation :canonical :sense])
+                                   (if (::derivation consequent)
+                                     (str " (derivation: " (::derivation consequent) ")")))]
             (log/error error-message)
             (exception error-message))
           :else
@@ -38,7 +36,7 @@
               (log/debug (str "include-derivation? set to: " include-derivation?))
               (if include-derivation?
                 (unify result
-                       {:derivation {rule-name {::order i}}})
+                       {::derivation {rule-name {::order i}}})
                 result)))))
 
 (defn apply-rules-to-lexeme
@@ -46,9 +44,15 @@
    of all the possible lexemes following from the
    consequent of each rule in the list."
   [rules lexeme if-no-rules-matched? i]
-  (log/debug (str "apply-rules-to-lexeme: applying " (count rules)
-                  " rules to lexeme: " (u/get-in lexeme [:canonical]) "; i=" i))
   (cond
+    (and (seq rules)
+         (nil? (first rules)))
+    ;; a null rule: commented out with (comment ).
+    (apply-rules-to-lexeme (rest rules)
+                           lexeme
+                           if-no-rules-matched?
+                           i)
+
     (seq rules)
     (let [rule (first rules)
           antecedent (:if rule)]
@@ -294,7 +298,7 @@
    (keys the-map)
    (map (fn [value-is-a-seq]
           (vec (->> value-is-a-seq
-                    (map #(if (map? %) (dissoc % :derivation) %))
+                    (map #(if (map? %) (dissoc % ::derivation) %))
                     (map #(let [serialized (serialize %)]
                             (if (= serialized :dag_unify.serialization/no-sharing)
                               [[[] (dissoc % :dag_unify.serialization/serialized)]]

@@ -47,7 +47,8 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
-     (binding [menard.lexiconfn/include-derivation? false]
+     (log/debug (str "compiling source file: " source-filename))
+     (binding [menard.lexiconfn/include-derivation? true]
        (-> source-filename
            l/read-and-eval
            ((fn [lexicon]

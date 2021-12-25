@@ -4,6 +4,7 @@
  {:rule :null-is-false-by-default
   :if {:null? false}
   :then [{:null? false}]}
+
  {:rule :noun-semantics
   :if {:cat :noun
        :null? false
@@ -668,7 +669,13 @@
        :reflexive? false
        :sem {:ref {:canine? ::unspec}}}
   :then [{:sem {:ref {:canine? false}}}]}
-  
+
+ {:rule :prep
+  :if {:cat :preposition}
+  :then [{:subcat []}
+         {:subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 []}}]}
 
  
  ]

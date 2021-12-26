@@ -2,16 +2,16 @@
  ;; F 47.1
  ;; <some doubled consonants get reduced to a single consonant>
  {;; wassen -> waste
-  :g [#"^(.*)([fs])\2en$"      "$1$2te"]  
-  :p [#"^(.*)([fs])te$"        "$1$2$2en"]
+  :g [#"^(.*)([fks])\2en$"      "$1$2te"]  
+  :p [#"^(.*)([fks])te$"        "$1$2$2en"]
   :u {:cat :verb
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
  {;; wassen -> wasten
-  :g [#"^(.*)([fs])\2en$"      "$1$2ten"]
-  :p [#"^(.*)([fs])ten$"       "$1$2$2en"]
+  :g [#"^(.*)([fks])\2en$"      "$1$2ten"]
+  :p [#"^(.*)([fks])ten$"       "$1$2$2en"]
   :u {:cat :verb
       :strong? false
       :agr {:number :plur}

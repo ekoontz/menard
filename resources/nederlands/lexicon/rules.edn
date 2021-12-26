@@ -57,10 +57,13 @@
  {:rule :separable-subcat
   :if {:cat :verb
        :separable? true}
-  :then [{:reflexive? false
-          :subcat {:2 {:cat :prep
-                       :subcat []}
-                   :3 []}}]}
+  :then [(let [obj (atom :top)]
+           {:reflexive? false
+            :sem {:obj obj}
+            :subcat {:2 {:cat :prep
+                         :sem obj
+                         :subcat []}
+                     :3 []}})]}
  
  {:rule :dont-inflect-conjunctions
   :if {:cat :conjunction}
@@ -684,9 +687,12 @@
  {:rule :prep
   :if {:cat :prep}
   :then [{:subcat []}
-         (let [sem (atom :top)]
+         (let [sem (atom :top)
+               prep-root (atom :top)]
            {:sem sem
+            :separable-prep prep-root
             :subcat {:1 {:cat :noun
+                         :root prep-root
                          :sem sem
                          :subcat []}
                      :2 []}})]}

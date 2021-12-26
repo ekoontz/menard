@@ -32,7 +32,8 @@
   :cat :verb
   :phrasal? true
   :head {:phrasal? false}
-  :sem {:obj :none}}
+  :sem {:subj {:top :top}
+        :obj :none}}
 
   ;; 3
  {:note "det noun | verb"
@@ -41,7 +42,8 @@
   :subcat []
   :phrasal? true
   :head {:phrasal? false}
-  :sem {:obj :none}
+  :sem {:subj {:top :top}
+        :obj :none}
   :comp {:phrasal? true
          :comp {:cat :det}
          :cat :noun}}
@@ -438,7 +440,8 @@
   :phrasal? true
   :cat :verb
   :infl :past-simple
-  :sem {:menard.reflexives/refl-match 4}
+  :sem {:subj {:top :top}
+        :menard.reflexives/refl-match 4}
   :head {:rule "vp"
          :head {:phrasal? false
                 :irregular-past-simple? false}}}
@@ -449,7 +452,8 @@
   :phrasal? true
   :cat :verb
   :infl :past-simple
-  :sem {:menard.reflexives/refl-match 4}
+  :sem {:subj {:top :top}
+        :menard.reflexives/refl-match 4}
   :head {:rule "vp"
          :head {:phrasal? false
                 :irregular-past-simple? true}}}
@@ -479,6 +483,7 @@
  {:note "X vindt Y leuk"
   :cat :verb
   :sem {:pred :like
+        :subj {:top :top}
         :obj {:obj :none}}
   :subcat []
   :head {:phrasal? true
@@ -495,7 +500,8 @@
  ;; 30
  {:rule "s"
   :reflexive? false
-  :sem {:obj :none}
+  :sem {:subj {:top :top}
+        :obj :none}
   :comp {:phrasal? false :canonical "er"}
   :head {:rule "vp"
          :head {:phrasal? false}}}

@@ -245,7 +245,7 @@
  
  "ontworpen" [{:sem {:pred :design}}]
  "optreden" [{:separable? true
-              :separable-preposition "op"
+              :separable-prep "op"
               :sem {:pred :perform}}]
 
  "proberen"

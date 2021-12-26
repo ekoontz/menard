@@ -60,6 +60,17 @@ S
      zal      2:het
 ```
 
+```
+S
+|____VP<1>____VP<1>_____________optreden<1,2[:noun]>
+|    |        |
+1:ik |        |
+     zal      2:NP__toneelstuk
+              |
+			  het
+
+```
+
 
 
 

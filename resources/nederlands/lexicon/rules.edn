@@ -57,7 +57,8 @@
  {:rule :separable-subcat
   :if {:cat :verb
        :separable? true}
-  :then [{:subcat {:2 {:cat :prep
+  :then [{:reflexive? false
+          :subcat {:2 {:cat :prep
                        :subcat []}
                    :3 []}}]}
  
@@ -681,7 +682,7 @@
   :then [{:sem {:ref {:canine? false}}}]}
 
  {:rule :prep
-  :if {:cat :preposition}
+  :if {:cat :prep}
   :then [{:subcat []}
          {:subcat {:1 {:cat :noun
                        :subcat []}

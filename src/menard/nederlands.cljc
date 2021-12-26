@@ -119,7 +119,7 @@
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/pronouns.edn")     lexical-rules
                                          {:cat :noun :pronoun? true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/prepositions.edn")  lexical-rules
-                                         {:cat :preposition})
+                                         {:cat :prep})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
                                          {:cat :noun :propernoun? true})
                  (compile-lexicon-source (model/use-path "nederlands/lexicon/verbs.edn")        lexical-rules

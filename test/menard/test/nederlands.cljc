@@ -448,3 +448,25 @@
     (range 0 (count nl/expressions))
     (map (fn [x]
            (is (= 10 (menard.test.nederlands/validator (nth nl/expressions x)))))))))
+
+(deftest separable-verbs
+  (let [treden
+        (->> "treden"
+             analyze
+             (filter #(= :verb (u/get-in % [:cat])))
+             (filter #(= "optreden" (u/get-in % [:canonical]))))]
+    (is (seq treden))
+    (is (= :plur
+           (-> treden
+               first
+               (u/get-in [:subcat :1 :agr :number])))))
+  (let [treedt-2nd-sing
+        (->> "treedt"
+             analyze
+             (filter #(= :verb (u/get-in % [:cat])))
+             (filter #(= "optreden" (u/get-in % [:canonical])))
+             (filter #(= :2nd (u/get-in % [:subcat :1 :agr :person])))
+             (filter #(= :sing (u/get-in % [:subcat :1 :agr :number]))))]
+    (is (seq treedt-2nd-sing))))
+
+

@@ -20,6 +20,14 @@
       :infl :present
       :agr {:person :1st
             :number :sing}}}
+ {:g [#"^optr([e])den$" "optr$1$1d"]    ;; optreden -> treed
+  :p [#"^tr([e])\1d$"   "optr$1den"]     ;; treed   -> optreden
+  :u {:cat :verb
+      :separable? true
+      :infl :present
+      :agr {:person :1st
+            :number :sing}}}
+
  ;; 2nd
  {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
   :p [#"^(.*)d$"    "$1gen"] 
@@ -39,6 +47,15 @@
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
+
+ {:g [#"^optr([e])den$" "optr$1$1dt"]    ;; optreden -> treedt
+  :p [#"^tr([e])\1dt$"  "optr$1den"]     ;; treedt   -> optreden
+  :u {:cat :verb
+      :separable? true
+      :infl :present
+      :agr {:person :2nd
+            :number :sing}}}
+
  ;; 3rd
  {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
   :p [#"^(.*)d$"    "$1gen"] 
@@ -58,12 +75,27 @@
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
+ {:g [#"^optr([e])den$" "optr$1$1dt"]    ;; optreden -> treedt
+  :p [#"^tr([e])\1dt$"  "optr$1den"]     ;; treedt   -> optreden
+  :u {:cat :verb
+      :separable? true
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+
  {:g [#"^(.*)$" "$1"]        ;; werken -> werken
   :p [#"^(.*)$" "$1"] 
   :u {:cat :verb
+      :separable? false
       :infl :present
       :agr {:number :plur}}}
-;; </F>
+ {:g [#"^op(.*)$" "$1"]        ;; optreden -> treden
+  :p [#"^(.*)$"   "op$1"]      ;; treden   -> optreden
+  :u {:cat :verb
+      :separable? true
+      :infl :present
+      :agr {:number :plur}}}
+ ;; </F>
 
  ]
 

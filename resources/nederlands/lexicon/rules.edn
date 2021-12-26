@@ -57,13 +57,23 @@
  {:rule :separable-subcat
   :if {:cat :verb
        :separable? true}
-  :then [(let [obj (atom :top)]
+  :then [;; intransitive
+         {:reflexive? false
+          :sem {:obj :none}
+          :subcat {:2 {:cat :prep
+                       :phrasal? false
+                       :subcat []}
+                   :3 []}}
+         ;; transitive
+         (let [obj (atom :top)]
            {:reflexive? false
             :sem {:obj obj}
             :subcat {:2 {:cat :prep
+                         :phrasal? true
                          :sem obj
                          :subcat []}
-                     :3 []}})]}
+                     :3 []}})
+         ]}
  
  {:rule :dont-inflect-conjunctions
   :if {:cat :conjunction}

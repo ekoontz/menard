@@ -127,6 +127,7 @@
  "person" [{:sem {:pred :person}
             :agr {:number :sing}}]
  "place" [{:sem {:pred :place}}]
+ "play" [{:sem {:pred :play}}]
  "plumber" [{:sem {:pred :plumber}}]
  "point" [{:sem {:pred :point}}]
  "pond" [{:sem {:pred :pond}}]

@@ -373,4 +373,15 @@
   :unify [menard.subcat/h
           menard.ug/head-first
           menard.ug/head-modal
-          menard.ug/head-sem]}]
+          menard.ug/head-sem]}
+
+ ;; e.g. [pp .het +op], but we'll also want another "pp" for [pp +op .het]
+ ;; opposite word order)
+ {:rule "pp" 
+  :cat :prep
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/head-last]}
+ ]

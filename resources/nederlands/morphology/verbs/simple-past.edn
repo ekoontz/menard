@@ -232,7 +232,8 @@
  ;; </a – ie - a>
 
  ;; <e-a-e>
- ;; TODO: add separable/non-separable
+ ;; TODO: add separable/non-separable for all verbs.
+ ;; So far, only have it for e-a-e below.
  ;; e-a-e,singular,non-separable
  {:g [#"^(.*)e([dt])en$" "$1a$2"]
   :p [#"^(.*)a([dt])$"   "$1e$2en"]
@@ -266,7 +267,7 @@
       :separable? true
       :infl :past-simple
       :strong? :e-a-e
-      :agr {:number :plural}}}
+      :agr {:number :plur}}}
 
  {:g [#"^(.*)ezen$" "$1as"]
   :p [#"^(.*)as$"   "$1ezen"]

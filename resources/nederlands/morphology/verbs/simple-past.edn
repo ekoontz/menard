@@ -232,18 +232,40 @@
  ;; </a – ie - a>
 
  ;; <e-a-e>
+ ;; e-a-e,singular,non-separable
  {:g [#"^(.*)e([dt])en$" "$1a$2"]
   :p [#"^(.*)a([dt])$"   "$1e$2en"]
   :u {:cat :verb
+      :separable? false
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :sing}}}
+
+ ;; e-a-e,singular,separable
+ {:g [#"^optr(.*)e([dt])en$" "$1a$2"]
+  :p [#"^(.*)a([dt])$"       "op$1e$2en"]
+  :u {:cat :verb
+      :separable? true
+      :infl :past-simple
+      :strong? :e-a-e
+      :agr {:number :sing}}}
+
+ ;; e-a-e,plural,non-separable
  {:g [#"^(.*)e([dt])en$" "$1a$2en"]
   :p [#"^(.*)a([dt])en$" "$1e$2en"]
   :u {:cat :verb
+      :separable? false
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :plur}}}
+ ;; e-a-e,plural,separable
+ {:g [#"^op(.*)e([dt])en$" "$1a$2en"]
+  :p [#"^(.*)a([dt])en$"   "op$1e$2en"]
+  :u {:cat :verb
+      :separable? true
+      :infl :past-simple
+      :strong? :e-a-e
+      :agr {:number :sing}}}
 
  {:g [#"^(.*)ezen$" "$1as"]
   :p [#"^(.*)as$"   "$1ezen"]

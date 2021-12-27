@@ -500,12 +500,13 @@
  ;; 30
  {:rule "s"
   :reflexive? false
-  :sem {:subj {:existential? true}
+  :sem {:subj {:top :top}
         :obj :none}
   :comp {:phrasal? false
          :canonical "er"}
   :head {:rule "vp"
-         :head {:phrasal? false}}}
+         :head {:phrasal? false
+                :separable? false}}}
  ]
 
   

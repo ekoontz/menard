@@ -74,6 +74,7 @@
                      :human? true}
                :exceptions [{:surface "gentlemen"
                              :agr {:number :plur}}]}]
+ "gift" [{:sem {:pred :gift}}]
  "girl" [{:sem {:pred :girl}
           :agr {:human? true
                 :gender :fem}}]

@@ -68,6 +68,8 @@
  "gemeenschap" [{:sem {:pred :community
                        :ref {:human? true}}}]
  "genootschap" [{:sem {:pred :society}}]
+ "geschenk" [{:agr {:gender :neuter}
+              :sem {:pred :gift}}]
  "gesprek" [{:agr {:gender :neuter}
              :sem {:pred :conversation}}]
  "getuig" [{:sem {:pred :witness}}]

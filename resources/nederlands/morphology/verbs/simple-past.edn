@@ -232,6 +232,7 @@
  ;; </a – ie - a>
 
  ;; <e-a-e>
+ ;; TODO: add separable/non-separable
  ;; e-a-e,singular,non-separable
  {:g [#"^(.*)e([dt])en$" "$1a$2"]
   :p [#"^(.*)a([dt])$"   "$1e$2en"]
@@ -242,8 +243,8 @@
       :agr {:number :sing}}}
 
  ;; e-a-e,singular,separable
- {:g [#"^optr(.*)e([dt])en$" "$1a$2"]
-  :p [#"^(.*)a([dt])$"       "op$1e$2en"]
+ {:g [#"^op(.*)e([dt])en$" "$1a$2"]
+  :p [#"^(.*)a([dt])$"     "op$1e$2en"]
   :u {:cat :verb
       :separable? true
       :infl :past-simple
@@ -265,7 +266,7 @@
       :separable? true
       :infl :past-simple
       :strong? :e-a-e
-      :agr {:number :sing}}}
+      :agr {:number :plural}}}
 
  {:g [#"^(.*)ezen$" "$1as"]
   :p [#"^(.*)as$"   "$1ezen"]

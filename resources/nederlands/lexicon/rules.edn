@@ -702,6 +702,7 @@
            {:sem sem
             :separable-prep prep-root
             :subcat {:1 {:cat :noun
+                         :case :accusative
                          :root prep-root
                          :sem sem
                          :subcat []}

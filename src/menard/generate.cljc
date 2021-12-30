@@ -234,15 +234,6 @@
                                " at: " at))
                :else both)))
 
-     (map (fn [expression]
-            (map (fn [option]
-                   (unify option expression))
-                 (shuffle reflexive-options))))
-
-     (flatten)
-     
-     (remove #(= % :fail))
-
      (#(if (u/get-in spec [::max])
          (do
            (log/debug (str "taking only: " (u/get-in spec [::max]) " trees."))

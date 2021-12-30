@@ -125,15 +125,6 @@
     (fn [a b]
       (lazy-cat a b)))
 
-   (map (fn [expression]
-          (map (fn [option]
-                 (u/unify option expression))
-               (shuffle reflexive-options))))
-
-   (flatten)
-   
-   (remove #(= % :fail))
-
    (map (fn [tree]
           (if truncate?
             (truncate-fn tree)

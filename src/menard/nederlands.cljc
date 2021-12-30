@@ -16,6 +16,7 @@
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
+            [menard.reflexives :refer [reflexive-options]]
             [menard.serialization :as s]
             [menard.subcat]
             [menard.ug]
@@ -214,9 +215,17 @@
 
 #?(:clj
    (defn load-grammar []
-     (-> (model/use-path "nederlands/grammar.edn")
-         grammar/read-grammar-fn
-         grammar/process)))
+     (->>
+      (-> (model/use-path "nederlands/grammar.edn")
+          grammar/read-grammar-fn
+          grammar/process)
+      (map (fn [rule]
+             (map (fn [option]
+                    (unify option rule))
+                  (shuffle reflexive-options))))
+      (flatten)
+      (remove #(= % :fail))
+      )))
 
 #?(:cljs
    (def model

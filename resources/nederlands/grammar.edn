@@ -317,7 +317,10 @@
   :aux false
   :slash? false
   :infl :te
-  :head {:canonical "te"}
+  ;; TODO: should not need {:phrasal? false}
+  ;; since that can be inferred from the {"canonical" ".."}:
+  :head {:canonical "te"
+         :phrasal? false}
   :comp {:infl :infinitive}
   :unify [menard.subcat/d
           menard.ug/head-first

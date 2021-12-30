@@ -323,6 +323,8 @@
   ;; (as with 23)
   :reflexive? false
   :comp {:cat :noun
+         ;; TODO: should not need {:phrasal? false}
+         ;; since that can be inferred from the {"canonical" ".."}
          :phrasal? false
          :canonical "we"}
   :agr {:person :1st

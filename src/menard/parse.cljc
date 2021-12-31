@@ -6,8 +6,7 @@
    #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]
-   [dag_unify.serialization :refer [serialize]]
-   [menard.reflexives :refer [reflexive-options]]))
+   [dag_unify.serialization :refer [serialize]]))
 
 (def parse-only-one? false)
 

@@ -5,7 +5,6 @@
    [menard.exception :refer [exception]]
    [menard.serialization :as ser]
    [menard.treeops :as tr]
-   [menard.reflexives :refer [reflexive-options]]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.diagnostics :as diag :refer [strip-refs]]
    [dag_unify.serialization :refer [serialize]]))

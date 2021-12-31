@@ -40,14 +40,17 @@
     (->> (-> nl/expressions
              (nth i)
              ((fn [x]
-                (log/info (str "trying to generate expression number: " i " with "
-                               "model: " model-name " with spec: " x))
+                (log/info (str "trying to generate Dutch expression spec: " i " with "
+                               "model: " model-name))
                 x))
              generate
              ((fn [x]
                 (is (not (nil? x)))
                 x))
              nl/morph
+             ((fn [x]
+                (log/info (str "resulting Dutch expression: " x))
+                x))
              ((fn [x]
                 (if intermediate-parsing?
 

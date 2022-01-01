@@ -1,6 +1,4 @@
-(ns menard.reflexives
-  (:require
-   [dag_unify.core :as u :refer [unify]]))
+(ns menard.reflexives)
 
 (def reflexive-options
   [

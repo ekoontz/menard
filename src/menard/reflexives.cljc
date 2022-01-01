@@ -61,7 +61,17 @@
                 :arg2 :none
                 :obj {:person-not :1st
                       :ref {::is-subj false}
-                      :obj :none}}}]
+                      :obj :none}}}
+    
+    {:agr {:person :1st
+           :ref {::is-subj true}}
+     :sem {:subj {:person :1st}
+           ::refl-match 5
+           :arg1 :none
+           :arg2 :none
+           :obj {:obj {:person-not :1st}
+                 :ref {::is-subj false}}}}
+    ]
    (map (fn [x]
           (unify
            {:cat :verb
@@ -69,12 +79,7 @@
             :sem {:subj {:ref {::is-subj true}}
                   :obj {:ref {::is-subj false}}}}
            x))
-        [{:agr {:person :1st}
-          :sem {:subj {:person :1st}
-                ::refl-match 5
-                :arg1 :none
-                :arg2 :none
-                :obj {:obj {:person-not :1st}}}}
+        [
          {:agr {:person :2nd}
           :sem {:subj {:person :2nd}
                 ::refl-match 6

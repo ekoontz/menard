@@ -103,8 +103,6 @@
 (def head-rule
   (-> head-agr
       (unify head-infl)
-      (unify head-agr)
-      (unify head-infl)
       (unify head-reflexive)
       (unify
        (let [comp-derivation (atom :top)

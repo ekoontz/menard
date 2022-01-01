@@ -37,6 +37,14 @@
           :subj {:ref ref}
           :obj {:obj {:ref ref
                       :obj :none}}}})
+
+ ;; reflexive case with conjunctions
+ ;; e.g. "ik zie Ina en mezelf"
+ (let [subj-and-obj-ref (atom :top)]
+   {:reflexive? true
+    :sem {::refl-match 3.5
+          :subj {:ref subj-and-obj-ref}
+          :arg1 {:obj {:ref subj-and-obj-ref}}}})
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.
@@ -92,8 +100,7 @@
                :ref {::is-subj true}}
         :obj {:ref {::is-subj false}}}}
 
- ;; for conjunctions:
- ;; TODO: add reflexive variant
+ ;; for conjunctions e.g. [conj-outer .niet Ina +maar mezelf]
  {:cat :verb
   :reflexive? false
   :sem {:arg1 {:top :top}
@@ -102,6 +109,7 @@
         :obj :none
         :pred :and
         :refl-match 9}}]
+ 
 
 
 

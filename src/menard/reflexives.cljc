@@ -52,7 +52,8 @@
    ;; "you see you".
    ;; but for :3rd, "he sees him" is ok, as long as the
    ;; subj :ref and :obj :ref are distinct.
-   {:agr {:person :1st}
+   {:cat :verb
+    :agr {:person :1st}
     :sem {:subj {:person :1st
                  :ref {::is-subj true}}
           ::refl-match 4
@@ -62,7 +63,8 @@
                 :ref {::is-subj false}
                 :obj :none}}}
    
-   {:agr {:person :1st}
+   {:cat :verb
+    :agr {:person :1st}
     :sem {:subj {:person :1st
                  :ref {::is-subj true}}
           ::refl-match 5
@@ -71,7 +73,8 @@
           :obj {:obj {:person-not :1st}
                 :ref {::is-subj false}}}}
 
-   {:agr {:person :2nd}
+   {:cat :verb
+    :agr {:person :2nd}
     :sem {:subj {:person :2nd
                  :ref {::is-subj true}}
           ::refl-match 6
@@ -79,14 +82,16 @@
                 :obj :none
                 :ref {::is-subj false}}}}
 
-   {:agr {:person :2nd}
+   {:cat :verb
+    :agr {:person :2nd}
     :sem {:subj {:person :2nd
                  :ref {::is-subj true}}
           ::refl-match 7
           :obj {:obj {:person-not :2nd}
                 :ref {::is-subj false}}}}
 
-   {:agr {:person :3rd}
+   {:cat :verb
+    :agr {:person :3rd}
     :sem {::refl-match 8
           :subj {:person :3rd
                  :existential? false

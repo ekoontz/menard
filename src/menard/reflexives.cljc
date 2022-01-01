@@ -53,7 +53,8 @@
    ;; "you see you".
    ;; but for :3rd, "he sees him" is ok, as long as the
    ;; subj :ref and :obj :ref are distinct.
-   [{:agr {:person :1st}
+   [
+    {:agr {:person :1st}
      :sem {:subj {:person :1st
                   :ref {::is-subj true}}
                 ::refl-match 4
@@ -71,6 +72,14 @@
            :arg2 :none
            :obj {:obj {:person-not :1st}
                  :ref {::is-subj false}}}}
+
+    {:agr {:person :2nd
+           :ref {::is-subj true}}
+     :sem {:subj {:person :2nd}
+           ::refl-match 6
+           :obj {:person-not :2nd
+                 :obj :none
+                 :ref {::is-subj false}}}}
     ]
    (map (fn [x]
           (unify
@@ -80,11 +89,6 @@
                   :obj {:ref {::is-subj false}}}}
            x))
         [
-         {:agr {:person :2nd}
-          :sem {:subj {:person :2nd}
-                ::refl-match 6
-                :obj {:person-not :2nd
-                      :obj :none}}}
          {:agr {:person :2nd}
           :sem {:subj {:person :2nd}
                 ::refl-match 7

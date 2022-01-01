@@ -53,6 +53,15 @@
    ;; "you see you".
    ;; but for :3rd, "he sees him" is ok, as long as the
    ;; subj :ref and :obj :ref are distinct.
+   [{:agr {:person :1st}
+     :sem {:subj {:person :1st
+                  :ref {::is-subj true}}
+                ::refl-match 4
+                :arg1 :none
+                :arg2 :none
+                :obj {:person-not :1st
+                      :ref {::is-subj false}
+                      :obj :none}}}]
    (map (fn [x]
           (unify
            {:cat :verb
@@ -61,13 +70,6 @@
                   :obj {:ref {::is-subj false}}}}
            x))
         [{:agr {:person :1st}
-          :sem {:subj {:person :1st}
-                ::refl-match 4
-                :arg1 :none
-                :arg2 :none
-                :obj {:person-not :1st
-                      :obj :none}}}
-         {:agr {:person :1st}
           :sem {:subj {:person :1st}
                 ::refl-match 5
                 :arg1 :none

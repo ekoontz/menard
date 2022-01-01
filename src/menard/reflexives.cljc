@@ -1,6 +1,6 @@
 (ns menard.reflexives
-  (:require [menard.lexiconfn :as l]
-            [menard.model :as model]))
+  (:require [menard.lexiconfn :refer [read-and-eval]]
+            [menard.model :refer [use-path]]))
 
 (def reflexive-options
-  (l/read-and-eval (model/use-path "reflexives.edn")))
+  (read-and-eval (use-path "reflexives.edn")))

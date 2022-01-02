@@ -1,190 +1,33 @@
 (ns menard.ug
   (:require
-   [dag_unify.core :as u :refer [unify]]))
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [cljslog.core :as log])
+   [dag_unify.core :as u :refer [unify]]
+   [menard.lexiconfn :refer [read-and-eval]]
+   [menard.model :refer [use-path]]))
 
-;; This file consists of language independent, or 'universal'
-;; grammar rules.
+(let [defs (-> "ug.edn" use-path read-and-eval)]
+  (log/info (str "there are: " (count defs) " definitions."))
+  (->> defs
+       (map (fn [def]
+              (let [k (:def def)
+                    v (-> def (dissoc :unify) (dissoc :def))]
+                (let [unify-with (:unify def)]
+                  (let [value (if unify-with
+                                (reduce unify (cons v
+                                                    (map eval unify-with)))
+                                v)]
+                    (log/info (str "defining: " k))
+                    (eval `(def ~(symbol k) ~value)))))))
+       doall))
 
-(def comp-cat
-  (let [cat (atom :top)]
-    {:cat cat
-     :comp {:cat cat}}))
+            
 
-(def comp-is-root
-  (let [root (atom :top)]
-    {:root root
-     :comp {:root root
-            :canonical root}}))
 
-(def conjunction
-  (let [subj (atom :top)
-        pred (atom :top)
-        arg1 (atom :top)
-        arg2 (atom :top)
-        subcat-1 (atom {:sem subj})]
-    {:head {:sem {:subj subj}
-            :subcat {:1 subcat-1}}
-     :comp {:sem {:pred pred
-                  :arg1 arg1
-                  :arg2 arg2}}
-     :subcat {:1 subcat-1
-              :2 []}
-     :sem {:pred pred
-           :arg1 {:subj subj
-                  :obj arg1}
-           :arg2 {:subj subj
-                  :obj arg2}}}))
+                   
 
-(comment {:head {:sem {:subj {:ref [[1] :top]}}}
-          :comp {:sem {:subj [1]}}})
-(def subj-ref
-  (let [subj-ref (atom :top)]
-    {:head {:sem {:subj {:ref subj-ref}}}
-     :comp {:sem {:subj subj-ref}}}))
 
-(def head-aux
-  (let [aux (atom :top)]
-    {:aux aux
-     :head {:aux aux}}))
 
-(def head-first
-  (let [head (atom :top)
-        comp (atom :top)]
-    {:head head
-     :1 head
-     :comp comp
-     :2 comp}))
 
-(def head-last
- (let [head (atom :top)
-       comp (atom :top)]
-   {:head head
-    :1 comp
-    :comp comp
-    :2 head}))
 
-;; root rules: which child (head or comp) is the root of a tree.
-(def head-is-root
-  (let [root (atom :top)]
-    {:root root
-     :head {:root root
-            :canonical root}}))
-
-(def head-modal
-  (let [shared (atom :top)]
-    {:modal shared
-     :head {:modal shared}}))
-
-(def head-reflexive
-  (let [shared (atom :top)]
-    {:reflexive? shared
-     :head {:reflexive? shared}}))
-
-(def head-slash
-  (let [head-slash (atom :top)]
-    {:slash? head-slash
-     :head {:slash? head-slash}}))
-
-(def slash-is-head-slash head-slash)
-
-(def head-agr
-  (let [agr (atom :top)]
-    {:agr agr
-     :head {:agr agr}}))
-
-(def head-infl
-  (let [head-infl (atom :top)]
-    (unify head-agr
-           {:infl head-infl
-            :head {:infl head-infl}})))
-
-;; TODO: :interogative? into :sem if
-;; possible, so we don't need to specify it here.
-(def head-rule
-  (-> head-agr
-      (unify head-infl)
-      (unify head-reflexive)
-      (unify
-       (let [comp-derivation (atom :top)
-             head-cat (atom :top)
-             head-derivation (atom :top)
-             head-interogative (atom :top)]
-         {:cat head-cat
-          :interogative? head-interogative
-          :comp-derivation comp-derivation
-          :head-derivation head-derivation
-          :head {:cat head-cat
-                 :interogative? head-interogative
-                 :head-derivation head-derivation
-                 :derivation head-derivation}
-          :comp {:head-derivation comp-derivation
-                 :derivation comp-derivation}
-          :phrasal? true}))))
-  
-(def head-sem
-  (let [sem (atom :top)]
-    {:sem sem
-     :head {:sem sem}}))
-
-;; sem|obj|mod=comp|mod
-(def nest-comp-mod
-  (let [mod (atom :top)]
-    {:sem {:obj {:mod mod}}
-     :comp {:mod mod}}))
-
-;; sem|mod|first = comp|sem
-(def sem-mod-first-is-comp-sem
-  (let [mod (atom :top)]
-    {:sem {:mod {:first mod}}
-     :comp {:sem mod}}))
-
-;; sem|mod = comp|mod
-(def sem-mod-is-comp-mod
-  (let [mod (atom :top)]
-    {:sem {:mod mod}
-     :comp {:mod mod}}))
-
-(def nominal-phrase
-  {:reflexive? false
-   :agr {:person :3rd}})
-
-;; sem = head|parent-sem
-(def parent-sem-head
-  (let [sem (atom :top)]
-    {:sem sem
-     :head {:parent-sem sem}}))      
-
-;; use this to 'terminate' phrases that have modifiers:
-(def parent-sem-comp
-  (let [sem (atom :top)]
-    {:sem sem
-     :comp {:parent-sem sem}}))      
-
-(def shared-agr
-  (let [shared (atom :top)]
-    {:comp {:agr shared}
-     :head {:agr shared}}))
-
-(def shared-def
-  (let [shared (atom :top)]
-    {:definite? shared
-     :comp {:definite? shared}
-     :head {:definite? shared}}))
-
-(def shared-number
-  (let [number (atom :top)]
-    {:sem {:ref {:number number}}
-     :agr {:number number}}))
-
-(def sem-mod-is-empty
-  {:sem {:mod []}})
-
-(def times
-  (let [sem1 (atom :top)
-        sem2 (atom :top)]
-    {:head {:sem sem1}
-     :comp {:sem sem2}
-     :sem {:pred :times
-           :arg1 sem1
-           :arg2 sem2}}))
 

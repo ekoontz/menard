@@ -1,0 +1,182 @@
+;; This file consists of language independent, or 'universal'
+;; grammar rules. Particular language grammars e.g. nederlands/grammar.edn
+;; use these as needed.
+[
+ (let [cat (atom :top)]
+   {:def 'comp-cat
+    :cat cat
+    :comp {:cat cat}})
+
+ (let [root (atom :top)]
+   {:def 'comp-is-root
+    :root root
+    :comp {:root root
+           :canonical root}})
+
+ (let [subj (atom :top)
+       pred (atom :top)
+       arg1 (atom :top)
+       arg2 (atom :top)
+       subcat-1 (atom {:sem subj})]
+   {:def 'conjunction
+    :head {:sem {:subj subj}
+           :subcat {:1 subcat-1}}
+    :comp {:sem {:pred pred
+                 :arg1 arg1
+                 :arg2 arg2}}
+    :subcat {:1 subcat-1
+             :2 []}
+    :sem {:pred pred
+          :arg1 {:subj subj
+                 :obj arg1}
+           :arg2 {:subj subj
+                  :obj arg2}}})
+
+ (let [subj-ref (atom :top)]
+   {:def 'subj-ref
+    :head {:sem {:subj {:ref subj-ref}}}
+    :comp {:sem {:subj subj-ref}}})
+
+ (let [aux (atom :top)]
+   {:def 'head-aux
+    :aux aux
+    :head {:aux aux}})
+
+  (let [head (atom :top)
+        comp (atom :top)]
+    {:def 'head-first
+     :head head
+     :1 head
+     :comp comp
+     :2 comp})
+ 
+ (let [head (atom :top)
+       comp (atom :top)]
+   {:def 'head-last
+    :head head
+    :1 comp
+    :comp comp
+    :2 head})
+
+ ;; root rules: which child (head or comp) is the root of a tree.
+ (let [root (atom :top)]
+   {:def 'head-is-root
+    :root root
+    :head {:root root
+           :canonical root}})
+ 
+ (let [shared (atom :top)]
+   {:def 'head-modal
+    :modal shared
+    :head {:modal shared}})
+ 
+ (let [shared (atom :top)]
+   {:def 'head-reflexive
+    :reflexive? shared
+    :head {:reflexive? shared}})
+ 
+ (let [head-slash (atom :top)]
+   {:def 'slash-is-head-slash
+    :slash? head-slash
+    :head {:slash? head-slash}})
+
+ (let [agr (atom :top)]
+   {:def 'head-agr
+    :agr agr
+    :head {:agr agr}})
+
+ (let [head-infl (atom :top)]
+   {:def 'head-infl
+    :unify ['head-agr]
+    :infl head-infl
+    :head {:infl head-infl}})
+ 
+ ;; TODO: :interogative? into :sem if
+ ;; possible, so we don't need to specify it here.
+ (let [comp-derivation (atom :top)
+       head-cat (atom :top)
+       head-derivation (atom :top)
+       head-interogative (atom :top)]
+   {:def 'head-rule
+    :unify ['head-agr 'head-infl 'head-reflexive]
+    :cat head-cat
+    :interogative? head-interogative
+    :comp-derivation comp-derivation
+    :head-derivation head-derivation
+    :head {:cat head-cat
+           :interogative? head-interogative
+           :head-derivation head-derivation
+           :derivation head-derivation}
+    :comp {:head-derivation comp-derivation
+           :derivation comp-derivation}
+    :phrasal? true})
+  
+ (let [sem (atom :top)]
+   {:def 'head-sem
+    :sem sem
+    :head {:sem sem}})
+ 
+ ;; sem|obj|mod=comp|mod
+ (let [mod (atom :top)]
+   {:def 'nest-comp-mod
+    :sem {:obj {:mod mod}}
+    :comp {:mod mod}})
+ 
+ ;; sem|mod|first = comp|sem
+ (let [mod (atom :top)]
+   {:def 'sem-mod-first-is-comp-sem
+    :sem {:mod {:first mod}}
+    :comp {:sem mod}})
+ 
+ ;; sem|mod = comp|mod
+ (let [mod (atom :top)]
+   {:def 'sem-mod-is-comp-mod
+    :sem {:mod mod}
+    :comp {:mod mod}})
+ 
+ {:def 'nominal-phrase
+  :reflexive? false
+  :agr {:person :3rd}}
+ 
+ ;; sem = head|parent-sem
+ (let [sem (atom :top)]
+   {:def 'parent-sem-head
+    :sem sem
+    :head {:parent-sem sem}})      
+ 
+ ;; use this to 'terminate' phrases that have modifiers:
+ (let [sem (atom :top)]
+   {:def 'parent-sem-comp
+    :sem sem
+    :comp {:parent-sem sem}})      
+
+ (let [shared (atom :top)]
+   {:def 'shared-agr
+    :comp {:agr shared}
+    :head {:agr shared}})
+
+ (let [shared (atom :top)]
+   {:def 'shared-def
+    :definite? shared
+    :comp {:definite? shared}
+    :head {:definite? shared}})
+
+ (let [number (atom :top)]
+   {:def 'shared-number
+    :sem {:ref {:number number}}
+    :agr {:number number}})
+ 
+ {:def 'sem-mod-is-empty
+  :sem {:mod []}}
+ 
+ (let [sem1 (atom :top)
+       sem2 (atom :top)]
+   {:def 'times
+    :head {:sem sem1}
+    :comp {:sem sem2}
+    :sem {:pred :times
+          :arg1 sem1
+          :arg2 sem2}})
+ ]
+
+

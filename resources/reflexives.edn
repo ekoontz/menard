@@ -39,11 +39,11 @@
                       :obj :none}}}})
 
  ;; reflexive case with conjunctions
- ;; e.g. "ik zie Ina en mezelf"
+ ;; e.g. "ik zie niet [Ina maar mezelf]"
  ;; 10
  (let [subj-and-obj-ref (atom :top)]
-   {:reflexive? true
-    :cat :conjunction
+   {:cat :conjunction
+    :reflexive? true
     :sem {::refl-match 10
           :subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})

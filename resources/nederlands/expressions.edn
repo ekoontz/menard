@@ -442,8 +442,7 @@
   :phrasal? true
   :cat :verb
   :infl :past-simple
-  :sem {:subj {:top :top}
-        :menard.reflexives/refl-match 4}
+  :sem {:subj {:top :top}}
   :head {:rule "vp"
          :head {:phrasal? false
                 :irregular-past-simple? false}}}
@@ -454,8 +453,7 @@
   :phrasal? true
   :cat :verb
   :infl :past-simple
-  :sem {:subj {:top :top}
-        :menard.reflexives/refl-match 4}
+  :sem {:subj {:top :top}}
   :head {:rule "vp"
          :head {:phrasal? false
                 :irregular-past-simple? true}}}

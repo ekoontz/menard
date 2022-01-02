@@ -47,6 +47,11 @@
     :sem {::refl-match 10
           :subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
+
+   {:cat :conjunction
+    :reflexive? false
+    :sem {::refl-match 10.5}}
+
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.

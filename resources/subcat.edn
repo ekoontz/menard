@@ -1,0 +1,117 @@
+;; This file consists of language independent, or 'universal'
+;; grammar rules.
+[
+ ;;      <>
+ ;;     /  \
+ ;;   h<1>  1:c
+ ;;
+ (let [complement (atom {:subcat []})]
+   {:def 'a
+    :head {:slash? false
+           :subcat {:1 complement :2 []}}
+    :subcat []
+    :comp complement})
+
+ ;; In this rule, the complement
+ ;; is not an argument of the head
+ ;; e.g. adverb+verb or adj+noun, so the
+ ;; subcat list of the parent is simply
+ ;; the same as that of the head:
+ ;;  {:subcat [[1] :top]
+ ;;   :head {:subcat [1]}})
+ (let [one (atom :top)]
+   {:def 'b
+    :subcat one
+    :head {:subcat one}})
+
+ ;; In this rule, the head is the second
+ ;; argument of the head, and the parent's
+ ;; subcat is the remaining, first argument
+ ;; of the head:
+ ;;      <1>
+ ;;     /   \
+ ;;  h<1,2>  2
+ ;;
+ ;;  {:head {:subcat {:1 [[1] {:top :top}]
+ ;;                   :2 [[2] {:top :top}]
+ ;;                   :3 []}}
+ ;;   :comp [2]
+ ;;   :subcat {:1 [1]
+ ;;            :2 []}})
+ (let [complement-1 (atom {:top :top})
+       complement-2 (atom {:top :top})]
+   {:def 'c
+    :head {:subcat {:1 complement-1
+                    :2 complement-2
+                    :3 []}}
+    :subcat {:1 complement-1
+             :2 []}
+    :comp complement-2})
+
+ ;;      <1>
+ ;;     /   \
+ ;;   h<2>   2:<1>
+ ;;
+ (let [subcat-of-complement (atom {:top :top})
+       comp (atom {:subcat subcat-of-complement})]
+   {:def 'd
+    :head {:subcat {:1 comp
+                    :2 []}}
+    :subcat subcat-of-complement
+    :comp comp})
+
+ ;;      <2>
+ ;;     /   \
+ ;;  h<1,2>  1
+ ;;
+ (let [complement-1 (atom {:top :top})
+       complement-2 (atom {:top :top})]
+   {:def 'e
+    :head {:subcat {:1 complement-1
+                    :2 complement-2
+                    :3 []}}
+    :subcat {:1 complement-2
+             :2 []}
+    :comp complement-1})
+
+
+ ;;      <1,2>
+ ;;     /     \
+ ;;  h<1,2,3>  3
+ ;;
+ (let [complement-1 (atom {:top :top})
+       complement-2 (atom {:top :top})
+       complement-3 (atom {:top :top})]
+   {:def 'f
+    :head {:subcat {:1 complement-1
+                    :2 complement-2
+                    :3 complement-3}}
+    :subcat {:1 complement-1
+             :2 complement-2
+             :3 []}
+    :comp complement-3})
+
+ (let [one (atom :top)
+       mod (atom :top)
+       sem (atom :top)
+       two (atom {:mod mod
+                  :sem sem
+                  :subcat {:2 one}})]
+   {:def 'h
+    :sem {:obj {:mod mod}}
+    :subcat {:1 one}
+    :head {:subcat {:1 two}}
+    :comp two})
+
+ (let [one   (atom :top)
+       three (atom :top)
+       two   (atom {:subcat {:1 one
+                             :2 three}})]
+   {:def 'i
+    :sem {:mod []}
+    :subcat {:1 one
+             :2 three}
+    :head {:subcat {:1 one
+                    :2 two}}
+    :comp two})
+ ]

@@ -40,8 +40,8 @@
     (->> (-> nl/expressions
              (nth i)
              ((fn [spec]
-                (log/info (str "trying to generate Dutch expression spec: " spec " with "
-                               "model: " model-name))
+                (log/debug (str "trying to generate Dutch expression spec: " spec " with "
+                                "model: " model-name))
                 spec))
              generate
              ((fn [generated]

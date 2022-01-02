@@ -530,12 +530,10 @@
                                   (assoc :1 (strip-map (u/get-in tree [:1])))
                                   (assoc :2 (strip-map (u/get-in tree [:2]) syntax-tree))))              
               p/lookup-fn analyze]
-      (log/info (str "GOT HERE!!! FUCK."))
       (let [input-map (p/parse-start expression)]
         (-> input-map
             (p/parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)
             ((fn [m]
-               (log/info (str "WELL FUCK, FOR [0 2] WE HAVE: " (count (get m [0 2]))))
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))
 

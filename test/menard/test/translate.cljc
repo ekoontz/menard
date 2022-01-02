@@ -39,22 +39,22 @@
                      (nl/generate spec model)))]
     (->> (-> nl/expressions
              (nth i)
-             ((fn [x]
-                (log/info (str "trying to generate Dutch expression spec: " i " with "
+             ((fn [spec]
+                (log/info (str "trying to generate Dutch expression spec: " spec " with "
                                "model: " model-name))
-                x))
+                spec))
              generate
-             ((fn [x]
-                (is (not (nil? x)))
-                x))
+             ((fn [generated]
+                (is (not (nil? generated)))
+                generated))
              nl/morph
-             ((fn [x]
-                (log/info (str "resulting Dutch expression: " x))
-                x))
-             ((fn [x]
+             ((fn [surface]
+                (log/info (str "generate spec(" i "):" surface))
+                surface))
+             ((fn [surface]
                 (if intermediate-parsing?
 
-                  (->> (nl/parse x)
+                  (->> (nl/parse surface)
                        ;; remove partial parses, if any:
                        (filter #(not (= true (:menard.parse/partial? %))))
                        ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
@@ -62,11 +62,13 @@
                        ;; and take only one parse to test against:
                        (take 1))
                   ;; intermediate-parsing? is false:
-                  (list x))))
-             ((fn [x]
-                (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree x))))
-                (is (= (count x) 1))
-                x)))
+                  ;; TODO: we are assuming a tree in the next step
+                  ;; of the ->>, not a string, but we're returning a string here:
+                  (list surface))))
+             ((fn [tree]
+                (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree tree))))
+                (is (= (count tree) 1))
+                tree)))
          (map (fn [tree] {:nl-st (nl/syntax-tree tree)
                           :sem (u/get-in tree [:sem])
                           :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))

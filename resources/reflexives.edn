@@ -48,10 +48,9 @@
           :subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
 
-   {:cat :conjunction
-    :reflexive? false
-    :sem {::refl-match 10.5}}
-
+ {:cat :conjunction
+  :reflexive? false
+  :sem {::refl-match 11}}
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.
@@ -65,7 +64,7 @@
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
-        ::refl-match 11
+        ::refl-match 12
         :arg1 :none
         :arg2 :none
         :obj {:person-not :1st
@@ -76,7 +75,7 @@
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
-        ::refl-match 12
+        ::refl-match 13
         :arg1 :none
         :arg2 :none
         :obj {:obj {:person-not :1st}
@@ -86,7 +85,7 @@
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
-        ::refl-match 13
+        ::refl-match 14
         :obj {:person-not :2nd
               :obj :none
               :ref {::is-subj false}}}}
@@ -95,13 +94,13 @@
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
-        ::refl-match 14
+        ::refl-match 15
         :obj {:obj {:person-not :2nd}
               :ref {::is-subj false}}}}
 
  {:cat :verb
   :agr {:person :3rd}
-  :sem {::refl-match 15
+  :sem {::refl-match 16
         :subj {:person :3rd
                :existential? false
                :ref {::is-subj true}}
@@ -116,9 +115,9 @@
         :subj :none
         :obj :none
         :pred :and
-        :refl-match 16}}]
+        :refl-match 17}}]
 
- 
+
 
 
 

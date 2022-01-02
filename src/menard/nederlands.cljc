@@ -519,8 +519,6 @@
         ;; '.' -> declarative
         ;; '?' -> interrogative
         ;; '!' -> imperative
-
-    (log/info (str "THE MODEL HAS: " (-> model :gramar count) " rules."))
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/truncate-fn (fn [tree]

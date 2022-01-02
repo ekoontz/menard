@@ -16,7 +16,6 @@
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
-            [menard.reflexives :refer [reflexive-options]]
             [menard.serialization :as s]
             [menard.subcat]
             [menard.ug]
@@ -215,17 +214,9 @@
 
 #?(:clj
    (defn load-grammar []
-     (->>
-      (-> (model/use-path "nederlands/grammar.edn")
-          grammar/read-grammar-fn
-          grammar/process)
-      (map (fn [rule]
-             (map (fn [option]
-                    (unify option rule))
-                  (shuffle reflexive-options))))
-      (flatten)
-      (remove #(= % :fail))
-      )))
+     (-> (model/use-path "nederlands/grammar.edn")
+         grammar/read-grammar-fn
+         grammar/process)))
 
 #?(:cljs
    (def model
@@ -529,6 +520,7 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
 
+    (log/info (str "THE MODEL HAS: " (-> model :gramar count) " rules."))
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/truncate-fn (fn [tree]
@@ -538,10 +530,12 @@
                                   (assoc :1 (strip-map (u/get-in tree [:1])))
                                   (assoc :2 (strip-map (u/get-in tree [:2]) syntax-tree))))              
               p/lookup-fn analyze]
+      (log/info (str "GOT HERE!!! FUCK."))
       (let [input-map (p/parse-start expression)]
         (-> input-map
             (p/parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)
             ((fn [m]
+               (log/info (str "WELL FUCK, FOR [0 2] WE HAVE: " (count (get m [0 2]))))
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))
 

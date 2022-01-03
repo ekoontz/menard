@@ -113,7 +113,34 @@
                                         (map (fn [x] (-> x dag_unify.serialization/serialize str))
                                              (get intermediate-result k))]))))]
                  (log/debug (str "prelim: " prelim-result))
-                 (json-response prelim-result))))}}]])
+                 (json-response prelim-result))))}}]
+
+   ["/analyze"
+    {:get {:handler
+           (fn [request]
+             (let [query-params (-> request :query-params)
+                   matching-lexemes
+                   (-> query-params
+                       (get "q")
+                       handlers/analyze)]
+               (->> matching-lexemes
+                    (map dag_unify.serialization/serialize)
+                    (map str)
+                    json-response)))}}]
+
+   ["/rule"
+    {:get {:handler
+           (fn [request]
+             (let [query-params (-> request :query-params)
+                   matching-rules
+                   (-> query-params
+                       (get "q")
+                       handlers/rules)]
+               (->> matching-rules
+                    (map dag_unify.serialization/serialize)
+                    (map str)
+                    json-response)))}}]
+   ])
 
 (def middleware
   [#(wrap-defaults % (assoc site-defaults :session false))])

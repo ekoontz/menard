@@ -188,6 +188,13 @@
           (log/info (str "parse: '" string-to-parse "': took " (- (.toEpochMilli (instant)) start-time) "ms."))
           retval)))))
 
+(defn analyze [string-to-analyze]
+  (nl/analyze string-to-analyze))
+
+(defn rules [rule-name]
+  (->> (-> nl/model deref :grammar)
+       (filter #(= (:rule %) rule-name))))
+
 (defn parse-nl [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))
   (let [nl-tokens (nl/tokenize string-to-parse)

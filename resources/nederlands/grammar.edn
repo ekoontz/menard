@@ -100,6 +100,7 @@
   :unify [menard.ug/head-first
           menard.ug/head-sem
           menard.ug/comp-cat
+          menard.ug/comp-reflexive
           menard.subcat/a]
   :head {:cat :neg}}
   

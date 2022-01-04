@@ -74,6 +74,11 @@
    {:def 'head-reflexive
     :reflexive? shared
     :head {:reflexive? shared}})
+
+ (let [shared (atom :top)]
+   {:def 'comp-reflexive
+    :reflexive? shared
+    :comp {:reflexive? shared}})
  
  (let [head-slash (atom :top)]
    {:def 'slash-is-head-slash

@@ -39,18 +39,31 @@
                       :obj :none}}}})
 
  ;; reflexive case with conjunctions
- ;; e.g. "ik zie niet [Ina maar mezelf]"
- ;; 10
+ ;; e.g. "[niet Ina maar mezelf]"
  (let [subj-and-obj-ref (atom :top)]
    {:cat :conjunction
     :reflexive? true
+    :head {:reflexive? true}
+;;    :comp {:reflexive? false}    
     :sem {::refl-match 10
           :subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
 
+ ;; reflexive case with conjunctions
+ ;; e.g. "[niet mezelf maar Ina]"
+ (let [subj-and-obj-ref (atom :top)]
+   {:cat :conjunction
+    :reflexive? true
+    :head {:reflexive? false}    
+;;    :comp {:reflexive? false}
+;;    :head {:reflexive? true}
+    :sem {::refl-match 11
+          :subj {:ref subj-and-obj-ref}
+          :arg2 {:obj {:ref subj-and-obj-ref}}}})
+ 
  {:cat :conjunction
   :reflexive? false
-  :sem {::refl-match 11}}
+  :sem {::refl-match 12}}
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.
@@ -64,7 +77,7 @@
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
-        ::refl-match 12
+        ::refl-match 13
         :arg1 :none
         :arg2 :none
         :obj {:person-not :1st
@@ -75,7 +88,7 @@
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
-        ::refl-match 13
+        ::refl-match 14
         :arg1 :none
         :arg2 :none
         :obj {:obj {:person-not :1st}
@@ -85,7 +98,7 @@
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
-        ::refl-match 14
+        ::refl-match 15
         :obj {:person-not :2nd
               :obj :none
               :ref {::is-subj false}}}}
@@ -94,28 +107,44 @@
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
-        ::refl-match 15
+        ::refl-match 16
         :obj {:obj {:person-not :2nd}
               :ref {::is-subj false}}}}
 
  {:cat :verb
   :agr {:person :3rd}
-  :sem {::refl-match 16
+  :sem {::refl-match 17
         :subj {:person :3rd
                :existential? false
                :ref {::is-subj true}}
         :obj {:ref {::is-subj false}}}}
 
- ;; 16
- ;; for conjunctions e.g. [conj-outer .niet Ina +maar mezelf]
- {:cat :verb
-  :reflexive? false
-  :sem {:arg1 {:top :top}
-        :arg2 {:top :top}
-        :subj :none
-        :obj :none
-        :pred :and
-        :refl-match 17}}]
+ ;; for conjunctions e.g. [vp-conj zie [conj-outer niet Ina maar mezelf]]
+ (let [subj-and-obj-ref (atom :top)]
+   {:cat :verb
+    :subcat {;;:1 {:sem {:subj {:ref subj-and-obj-ref}}}
+             :2 []}
+    :reflexive? true
+    :head {:reflexive? true}
+    :sem {:arg1 {:subj {:ref subj-and-obj-ref}
+                 :obj {:ref subj-and-obj-ref}}
+          :pred :and
+          ::refl-match 18}})
+
+ ;; doesn't work yet:
+ ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
+;; (let [subj-and-obj-ref (atom :top)]
+;;   {:cat :verb
+;;    :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
+;;    :reflexive? true
+;;    :head {:reflexive? true}
+;;    :sem {:arg2 {:subj {:ref subj-and-obj-ref}
+;;                 :obj {:ref subj-and-obj-ref}}
+;;          :pred :and
+;;          ::refl-match 19}})
+
+
+ ]
 
 
 

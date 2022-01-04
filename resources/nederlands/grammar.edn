@@ -14,11 +14,11 @@
   :comp {:phrasal? false
          :cat :adjective}}
 
- {:rule "conj-outer" ;; [.Ina +[+maar .zichzelf]]
+ ;; [conj-outer .[+niet .Ina] +[conj-inner +maar .zichzelf]]
+ {:rule "conj-outer" 
   :unify [menard.subcat/a
           menard.ug/head-agr
           menard.ug/head-last
-          menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem]
   :head {:cat :conjunction

@@ -1,6 +1,12 @@
 (ns menard.reflexives
-  (:require [menard.lexiconfn :refer [read-and-eval]]
+  (:require #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])
+            [menard.lexiconfn :refer [read-and-eval]]
             [menard.model :refer [use-path]]))
 
 (def reflexive-options
-  (read-and-eval (use-path "reflexives.edn")))
+  (let [retval
+        (->> (read-and-eval (use-path "reflexives.edn"))
+             (remove nil?))]
+    (log/info (str (count retval) " reflexive options loaded."))
+    retval))

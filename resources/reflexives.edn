@@ -120,30 +120,38 @@
         :obj {:ref {::is-subj false}}}}
 
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet Ina maar mezelf]]
- (let [subj-and-obj-ref (atom :top)]
+ ;; arg2's object is "Ina"
+ ;; arg1's object is "mezelf"
+;; (comment
+   (let [subj-and-obj-ref (atom {::is-subj true})]
    {:cat :verb
-    :subcat {;;:1 {:sem {:subj {:ref subj-and-obj-ref}}}
+    :subcat {:1 {:cat :noun
+                 :sem {:subj {:ref subj-and-obj-ref}}}
              :2 []}
     :reflexive? true
-    :head {:reflexive? true}
+    :head {:reflexive? true
+           :cat :verb}
     :sem {:arg1 {:subj {:ref subj-and-obj-ref}
                  :obj {:ref subj-and-obj-ref}}
+          :arg2 {:subj {:ref subj-and-obj-ref}
+                 :obj {:ref {::is-subj false}}}
           :pred :and
           ::refl-match 18}})
+;;   )
 
  ;; doesn't work yet:
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
-;; (let [subj-and-obj-ref (atom :top)]
-;;   {:cat :verb
-;;    :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
-;;    :reflexive? true
-;;    :head {:reflexive? true}
-;;    :sem {:arg2 {:subj {:ref subj-and-obj-ref}
-;;                 :obj {:ref subj-and-obj-ref}}
-;;          :pred :and
-;;          ::refl-match 19}})
-
-
+ (comment
+ (let [subj-and-obj-ref (atom :top)]
+   {:cat :verb
+    :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
+    :reflexive? true
+    :head {:reflexive? true}
+    :sem {:arg2 {:subj {:ref subj-and-obj-ref}
+                 :obj {:ref subj-and-obj-ref}}
+          :pred :and
+          ::refl-match 19}})
+         )
  ]
 
 

@@ -24,7 +24,7 @@
 
 (defn pmap-if-available [fn args]
   #?(:clj
-     (pmap fn args))
+     (map fn args))
   #?(:cljs
      (map fn args)))
 
@@ -36,25 +36,32 @@
   {:pre [(map? parent)
          (map? head)]
    :post [(vector? %)]}
-  (let [pre-check? (not (= :fail
+  (log/info (str "starting overh.."))
+  (let [debug1 (log/info (str "overh: 1"))
+        pre-check? (not (= :fail
                            (u/get-in parent [:head :cat] :top)
                            (u/get-in head [:cat] :top)))
+        debug1 (log/info (str "overh: 2: pre-check? " pre-check?))
+        debug2 (log/info (str "serialized parent: " (serialize parent)))
+        debug3 (log/info (str "serialized head wrapped in a {:head}: " (serialize {:head head})))
         result (cond pre-check?
                      (u/unify parent
                               {:head head})
                      :else
                      (do
-                       (log/debug (str "failed precheck: parent: " (syntax-tree
-                                                                    parent) "; head: " (syntax-tree head) "; "
-                                       "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
-                       :fail))]
+                       (log/info (str "failed precheck: parent: " (syntax-tree
+                                                                   parent) "; head: " (syntax-tree head) "; "
+                                      "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
+                       :fail))
+        debug1 (log/info (str "overh: 3"))]
+    (log/info (str "overh: checking result.."))
     (if (not (= :fail result))
       (do
-        (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
+        (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/debug
+          (log/info
            (str "overh fail:   " (syntax-tree parent) " <- " (syntax-tree head)
                 " " (let [fp (diag/fail-path parent {:head head})]
                       {:path (:path fp)
@@ -78,13 +85,13 @@
               :else :fail)]
     (if (not (= :fail result))
       (do
-        (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
+        (log/info (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule])))
-        (log/debug
+        (log/info
          (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
-        (log/debug (str " "
+        (log/info (str " "
                         (let [fp (diag/fail-path (u/copy parent)
                                                  {:comp (u/copy comp)})]
                           
@@ -107,15 +114,19 @@
    parents
    (pmap-if-available
     (fn [parent]
+      (log/info (str "parent: (1): " (:rule parent)))
+      (log/info (str "parent: (1 ser): " (serialize parent)))
       (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
                                             [left-children right-children]
                                             [right-children left-children])]
         (mapcat (fn [head-child]
+                  (log/info (str "parent: (2): " (:rule parent)))
                   (-> parent
                       (overh head-child)
                       ((fn [parents-with-head]
                          (mapcat (fn [comp-child]
                                    (mapcat (fn [parent-with-head]
+                                             (log/info (str "parent with head.."))
                                              (overc parent-with-head comp-child))
                                            parents-with-head))
                                  comp-children)))))
@@ -149,21 +160,22 @@
 
 (defn parse-next-stage [input-map input-length span-length grammar]
   (when false
-    (log/info (str "parse-next-stage: input-map: (serialized) " (str (serialize input-map))))
+    (log/info (str "parse-next-stage: input-map: (serialized) " (str (serialize input-map)))))
+  (when true
     (log/info (str "parse-next-stage: input-length: " (str input-length)))
-    (log/info (str "parse-next-stage: span-length: " (str span-length)))
-    (log/info (str "parse-next-stage: grammar: " (str grammar))))
+    (log/info (str "parse-next-stage: span-length: " (str span-length))))
+  (when true (log/info (str "parse-next-stage: rule count: " (count grammar))))
   (cond (> span-length input-length)
         ;; done
         input-map
         true
         (do
-          (log/debug "span-pairs: " (- input-length span-length) "," span-length)
+          (log/info "span-pairs: " (- input-length span-length) "," span-length)
           (into input-map
                 (->> (span-pairs (- input-length span-length) span-length)
                      (pmap-if-available
                       (fn [[[left middle][middle right]]]
-                        (let [all-results (over grammar
+                        (let [all-results (over (subvec (vec grammar) 77 78)
                                                 (get input-map [left middle])
                                                 (get input-map [middle right]))
                               taken-results (take take-this-many all-results)

@@ -75,14 +75,14 @@
     output-grammar))
 
 (defn process-reflexives [input-grammar]
-  (log/info (str "process-reflexives: input-grammar: " (count input-grammar) " rules."))
+  (log/debug (str "process-reflexives: input-grammar: " (count input-grammar) " rules."))
   (let [output-grammar
         (->> input-grammar
              (mapcat (fn [rule]
                        (map (fn [option]
                               (unify option rule))
                             reflexive-options))))]
-    (log/info (str "process-reflexives: output-grammar: " (count output-grammar) " rules."))
+    (log/debug (str "process-reflexives: output-grammar: " (count output-grammar) " rules."))
     output-grammar))
 
 (defn remove-fails [input-grammar]

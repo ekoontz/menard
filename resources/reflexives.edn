@@ -44,7 +44,7 @@
    {:cat :conjunction
     :reflexive? true
     :head {:reflexive? true}
-;;    :comp {:reflexive? false}    
+    :comp {:reflexive? false}    
     :sem {::refl-match 10
           :subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
@@ -54,16 +54,15 @@
  (let [subj-and-obj-ref (atom :top)]
    {:cat :conjunction
     :reflexive? true
-    :head {:reflexive? false}    
-;;    :comp {:reflexive? false}
-;;    :head {:reflexive? true}
+    :comp {:reflexive? false}
+    :head {:reflexive? true}
     :sem {::refl-match 11
           :subj {:ref subj-and-obj-ref}
           :arg2 {:obj {:ref subj-and-obj-ref}}}})
  
- {:cat :conjunction
-  :reflexive? false
-  :sem {::refl-match 12}}
+;; {:cat :conjunction
+;;  :reflexive? false
+;;  :sem {::refl-match 12}}
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.

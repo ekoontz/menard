@@ -4,7 +4,8 @@
   ;; for menard.morphology, too?
   #?(:cljs (:require-macros [menard.grammar]))
 
-  (:require [clojure.string :as string]
+  (:require [clojure.core.async :refer [go-loop]]
+            [clojure.string :as string]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
@@ -299,6 +300,8 @@
    (if create-basic-model?
      (def basic-model
        (ref (merge (create-model "basic" basic-filter))))))
+
+(def reload-now? (atom false))
 
 #?(:clj
    (defn load-model []

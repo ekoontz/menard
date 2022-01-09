@@ -306,6 +306,17 @@
       (when (nil? @model)
         (ref-set model (create-model)))
       @model)))
+(defn do-stuff []
+  (log/info (str "doing linguistic stuffs...")))
+
+(go-loop []
+  (do
+    (log/info (str "checking to see if we should reload the model.."))
+    (dosync
+     (swap! reload-now? (fn [_] true))
+     (do-stuff))
+    (Thread/sleep 30000)
+    (recur)))
 
 ;; TODO: this is not being used currently: remove
 #?(:cljs

@@ -707,5 +707,12 @@
                          :sem sem
                          :subcat []}
                      :2 []}})]}
+
+ ;; TODO: replace all above {:reflexive? false} rules
+ ;; and just use this.
+;; {:rule :nonreflexive
+;;  :if {:reflexive? ::unspec}
+;;  :then [{:reflexive? false}]}
  
  ]
+

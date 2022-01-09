@@ -122,8 +122,7 @@
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet Ina maar mezelf]]
  ;; arg2's object is "Ina"
  ;; arg1's object is "mezelf"
-;; (comment
-   (let [subj-and-obj-ref (atom {::is-subj true})]
+ (let [subj-and-obj-ref (atom {::is-subj true})]
    {:cat :verb
     :subcat {:1 {:cat :noun
                  :sem {:subj {:ref subj-and-obj-ref}}}
@@ -137,11 +136,9 @@
                  :obj {:ref {::is-subj false}}}
           :pred :and
           ::refl-match 18}})
-;;   )
 
  ;; doesn't work yet:
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
- (comment
  (let [subj-and-obj-ref (atom :top)]
    {:cat :verb
     :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
@@ -151,7 +148,7 @@
                  :obj {:ref subj-and-obj-ref}}
           :pred :and
           ::refl-match 19}})
-         )
+        
  ]
 
 

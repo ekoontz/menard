@@ -6,6 +6,7 @@
 
   (:require [clojure.core.async :refer [go-loop]]
             [clojure.string :as string]
+            [clojure.tools.namespace.repl :refer [refresh]]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
@@ -241,6 +242,7 @@
             (load-lexicon lexical-rules)
             (load-morphology)
             filter-lexicon-fn)]
+       (log/info (str "create-model: got here (1)"))
        (->
         (model/load "nl"
                     ;; loads the lexical rules:
@@ -303,23 +305,38 @@
 
 (def reload-now? (atom false))
 
+(defn create-model-from-filesystem []
+  (log/info (str "got here!!!!..."))
+  )
+
 #?(:clj
    (defn load-model []
+     (log/info (str "checking model..: reload-now? " @reload-now?))
      (dosync
-      (when (nil? @model)
-        (ref-set model (create-model)))
+      (when (or (nil? @model) (true? @reload-now?))
+        (when false ;; disabled with 'false': doesn't work yet: 
+          (try
+            (do (ref-set model (create-model-from-filesystem))
+                (swap! reload-now? (fn [_] false)))
+            (catch Exception e (str "failed to load the model.")))))
       @model)))
-(defn do-stuff []
-  (log/info (str "doing linguistic stuffs...")))
 
-(go-loop []
-  (do
-    (log/info (str "checking to see if we should reload the model.."))
-    (dosync
-     (swap! reload-now? (fn [_] true))
-     (do-stuff))
-    (Thread/sleep 30000)
-    (recur)))
+#?(:clj
+(defn do-stuff []
+  (log/info (str "doing linguistic stuffs..."))
+  ;;  (refresh)
+  (load-model)
+  (log/info (str "done with linguistic stuffs..."))))
+
+#?(:clj
+   (go-loop []
+     (do
+       (log/info (str "checking to see if we should reload the model.."))
+       (dosync
+        (swap! reload-now? (fn [_] true))
+        (do-stuff))
+       (Thread/sleep 30000)
+       (recur))))
 
 ;; TODO: this is not being used currently: remove
 #?(:cljs

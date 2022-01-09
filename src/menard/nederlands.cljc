@@ -6,7 +6,6 @@
 
   (:require [clojure.core.async :refer [go-loop]]
             [clojure.string :as string]
-            [clojure.tools.namespace.repl :refer [refresh]]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
@@ -324,7 +323,6 @@
 #?(:clj
 (defn do-stuff []
   (log/info (str "doing linguistic stuffs..."))
-  ;;  (refresh)
   (load-model)
   (log/info (str "done with linguistic stuffs..."))))
 

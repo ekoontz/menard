@@ -10,8 +10,7 @@
                  [org.clojure/tools.logging "1.2.4"]
                  [cljslog "0.1.0"]
                  [clojure.java-time "0.3.3"]
-                 [org.clojure/core.async "1.5.648"]
-                 [org.clojure/tools.namespace "1.2.0"]]
+                 [org.clojure/core.async "1.5.648"]]
   :resource-paths ["resources"])
 
 

@@ -7,14 +7,16 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])))
 
+(declare define)
+
 #?(:clj
    (defn load-from-file []
-     (with-open [r (io/reader "/Users/ekoontz/menard/resources/ug.edn")]
-       (eval (read (java.io.PushbackReader. r))))))
+     (define (with-open [r (io/reader "/Users/ekoontz/menard/resources/ug.edn")]
+               (eval (read (java.io.PushbackReader. r)))))))
 
 #?(:clj
    (defn load-from-jar []
-     (-> "ug.edn" use-path read-and-eval)))
+     (-> "ug.edn" use-path read-and-eval define)))
 
 (defn define [defs]
   (let [result
@@ -26,11 +28,13 @@
                         (let [value (if unify-with
                                       (reduce unify (cons v
                                                           (map eval unify-with)))
-                                      v)]
-                          (eval `(def ~(symbol k) ~value)))))))
+                                      v)
+                              k (symbol k)]
+                          (intern 'menard.ug k value))))))
              doall)]
     (log/info (str "loaded: " (count result) " symbols."))))
 
-(define (load-from-jar))
+(load-from-jar)
+
 
 

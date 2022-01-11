@@ -313,6 +313,7 @@
      (log/info (str "checking model..: reload-now? " @reload-now?))
      (dosync
       (when (or (nil? @model) (true? @reload-now?))
+        (menard.ug/load-from-file)
         (when false ;; disabled with 'false': doesn't work yet: 
           (try
             (do (ref-set model (create-model-from-filesystem))
@@ -333,7 +334,7 @@
        (dosync
         (swap! reload-now? (fn [_] true))
         (do-stuff))
-       (Thread/sleep 30000)
+       (Thread/sleep 5000)
        (recur))))
 
 ;; TODO: this is not being used currently: remove

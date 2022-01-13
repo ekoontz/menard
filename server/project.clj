@@ -11,6 +11,6 @@
                  [yogthos/config "1.1.6"]
                  [org.clojure/core.async "0.4.474"]
                  [ring/ring-jetty-adapter "1.7.1"]]
-  :ring {:handler server/app}
-  :ring-handler server/app
+  :ring {:init menard.nederlands/start-reload-loop
+         :handler server/app}
   :plugins [[lein-ring "0.12.5"]])

@@ -92,7 +92,7 @@
 
  (let [head-infl (atom :top)]
    {:def 'head-infl
-    :unify ['head-agr]
+    :unify '(head-agr)
     :infl head-infl
     :head {:infl head-infl}})
  
@@ -103,7 +103,7 @@
        head-derivation (atom :top)
        head-interogative (atom :top)]
    {:def 'head-rule
-    :unify ['head-agr 'head-infl 'head-reflexive]
+    :unify '(head-agr head-infl head-reflexive)
     :cat head-cat
     :interogative? head-interogative
     :comp-derivation comp-derivation

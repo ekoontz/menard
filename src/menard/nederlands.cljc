@@ -310,6 +310,11 @@
   (log/info (str "loading reflexives.."))  
   (menard.reflexives/load-reflexive-options true)
   (log/info (str "loading tenses.."))
+  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
+    (eval (read (java.io.PushbackReader. r))))
+  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
+    (eval (read (java.io.PushbackReader. r))))
+
   (log/info (str "loading grammar.."))
   (log/info (str "loading morphology.."))
   (log/info (str "loading lexical rules.."))

@@ -24,10 +24,13 @@
              (map (fn [def]
                     (let [k (:def def)
                           v (-> def (dissoc :unify) (dissoc :def))]
-                      (let [unify-with (:unify def)]
+                       (let [unify-with (:unify def)]
                         (let [value (if unify-with
-                                      (reduce unify (cons v
-                                                          (map eval unify-with)))
+                                      (do
+                                         (reduce unify (cons v
+                                                            (map (fn [x]
+                                                                    (eval (str x)))
+                                                                 unify-with))))
                                       v)
                               k (symbol k)]
                           (intern 'menard.ug k value))))))

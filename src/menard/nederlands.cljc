@@ -259,6 +259,31 @@
                     load-morphology load-grammar)
         (merge {:name name})))))
 
+#?(:clj
+   (def model
+     (ref (merge (create-model "complete")))))
+
+#?(:clj
+(defn create-model-from-filesystem []
+  (log/info (str "loading ug.."))
+  (menard.ug/load-from-file)
+  (log/info (str "loading reflexives.."))  
+  (menard.reflexives/load-reflexive-options true)
+  (log/info (str "loading tenses.."))
+  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
+    (eval (read (java.io.PushbackReader. r))))
+  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
+    (eval (read (java.io.PushbackReader. r))))
+
+  (log/info (str "loading grammar.."))
+  (log/info (str "loading morphology.."))
+  (log/info (str "loading lexical rules.."))
+  (log/info (str "loading lexicon.."))    
+  (log/info (str "done loading model."))
+  ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
+  ;; (create-model "complete")))
+  @model))
+
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"
   [lexicon]
@@ -295,48 +320,25 @@
      (into {})))
 
 #?(:clj
-   (def model
-     (ref (merge (create-model "complete")))))
-#?(:clj
    (if create-basic-model?
      (def basic-model
        (ref (merge (create-model "basic" basic-filter))))))
 
 (def reload-now? (atom false))
 
-(defn create-model-from-filesystem []
-  (log/info (str "loading ug.."))
-  (menard.ug/load-from-file)
-  (log/info (str "loading reflexives.."))  
-  (menard.reflexives/load-reflexive-options true)
-  (log/info (str "loading tenses.."))
-  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
-    (eval (read (java.io.PushbackReader. r))))
-  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
-    (eval (read (java.io.PushbackReader. r))))
-
-  (log/info (str "loading grammar.."))
-  (log/info (str "loading morphology.."))
-  (log/info (str "loading lexical rules.."))
-  (log/info (str "loading lexicon.."))    
-  (log/info (str "done loading model.")))
-
 #?(:clj
    (defn load-model []
-     (log/info (str "checking model..: reload-now? " @reload-now?))
+     (log/debug (str "checking model..: reload-now? " @reload-now?))
      (dosync
-      (when (or (nil? @model) (true? @reload-now?))
+      (when (and false (or (nil? @model) (true? @reload-now?)))
         (try
-          (do (ref-set model (create-model-from-filesystem))
+          (do (let [loaded (create-model-from-filesystem)]
+                (log/info (str "YAY! MODEL LOADED SUCCESSFULLY!"))
+                (ref-set model loaded))
               (swap! reload-now? (fn [_] false)))
-          (catch Exception e (str "failed to load the model."))))
+          (catch Exception e (do
+                               (log/info (str "OOPS!! THERE WAS A PROBLEM! NOT MESSING WITH THE MODEL UNTIL IT GETS FIXED. PROBLEM WAS: " (str e)))))))
       @model)))
-
-#?(:clj
-(defn do-stuff []
-  (log/info (str "doing linguistic stuffs..."))
-  (load-model)
-  (log/info (str "done with linguistic stuffs..."))))
 
 #?(:clj
    (defn start-reload-loop []
@@ -345,7 +347,7 @@
          (log/info (str "checking to see if we should reload the model.."))
          (dosync
           (swap! reload-now? (fn [_] true))
-          (if true (do-stuff)))
+          (do (load-model)))
          (Thread/sleep 10000)
          (recur)))))
 
@@ -509,6 +511,7 @@
             found))))))
 
 (defn parse [expression]
+  (log/info (str "PARSING EXPRE~S~SION: " expression))
   (let [model (load-model)
 
         ;; remove trailing '.' if any:

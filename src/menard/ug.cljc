@@ -28,9 +28,9 @@
                         (let [value (if unify-with
                                       (do
                                          (reduce unify (cons v
-                                                            (map (fn [x]
-                                                                    (eval (str x)))
-                                                                 unify-with))))
+                                                             (map (fn [x]
+                                                                    (eval (symbol (str x))))
+                                                                  unify-with))))
                                       v)
                               k (symbol k)]
                           (intern 'menard.ug k value))))))

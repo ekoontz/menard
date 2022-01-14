@@ -305,20 +305,26 @@
 (def reload-now? (atom false))
 
 (defn create-model-from-filesystem []
-  (log/info (str "got here!!!!..."))
-  )
+  (log/info (str "loading ug.."))
+  (menard.ug/load-from-file)
+  (log/info (str "loading reflexives.."))  
+  (menard.reflexives/load-reflexive-options true)
+  (log/info (str "loading tenses.."))
+  (log/info (str "loading grammar.."))
+  (log/info (str "loading morphology.."))
+  (log/info (str "loading lexical rules.."))
+  (log/info (str "loading lexicon.."))    
+  (log/info (str "done loading model.")))
 
 #?(:clj
    (defn load-model []
      (log/info (str "checking model..: reload-now? " @reload-now?))
      (dosync
       (when (or (nil? @model) (true? @reload-now?))
-        (menard.ug/load-from-file)
-        (when false ;; disabled with 'false': doesn't work yet: 
-          (try
-            (do (ref-set model (create-model-from-filesystem))
-                (swap! reload-now? (fn [_] false)))
-            (catch Exception e (str "failed to load the model.")))))
+        (try
+          (do (ref-set model (create-model-from-filesystem))
+              (swap! reload-now? (fn [_] false)))
+          (catch Exception e (str "failed to load the model."))))
       @model)))
 
 #?(:clj
@@ -328,14 +334,15 @@
   (log/info (str "done with linguistic stuffs..."))))
 
 #?(:clj
-   (go-loop []
-     (do
-       (log/info (str "checking to see if we should reload the model.."))
-       (dosync
-        (swap! reload-now? (fn [_] true))
-        (do-stuff))
-       (Thread/sleep 5000)
-       (recur))))
+   (defn start-reload-loop []
+     (go-loop []
+       (do
+         (log/info (str "checking to see if we should reload the model.."))
+         (dosync
+          (swap! reload-now? (fn [_] true))
+          (if true (do-stuff)))
+         (Thread/sleep 10000)
+         (recur)))))
 
 ;; TODO: this is not being used currently: remove
 #?(:cljs

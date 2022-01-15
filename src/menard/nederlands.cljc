@@ -247,7 +247,9 @@
            (load-lexicon-with-morphology
             (load-lexicon lexical-rules)
             morphology
-            filter-lexicon-fn)]
+            filter-lexicon-fn)
+
+           grammar (load-grammar)]
        (->
         (model/load "nl"
                     ;; loads the lexical rules:
@@ -264,7 +266,7 @@
                     ;; function to load the morphology:
                     (fn [] morphology)
 
-                    load-grammar)
+                    (fn [] grammar))
         (merge {:name name})))))
 
 #?(:clj

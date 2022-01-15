@@ -238,13 +238,15 @@
                                    lexicon))
            lexical-rules (load-lexical-rules)
 
+           morphology (load-morphology)
+           
            ;; apply those lexical rules
            ;; to a source lexicon to create
            ;; compile lexicon:
            lexicon
            (load-lexicon-with-morphology
             (load-lexicon lexical-rules)
-            (load-morphology)
+            morphology
             filter-lexicon-fn)]
        (->
         (model/load "nl"
@@ -253,14 +255,16 @@
                     ;;  so we'll just return those rules.
                     (fn [] lexical-rules)
 
-                    ;; we ignore the input lexical-rules,
-                    ;; since we've already applied them above.
+                    ;; function to load the lexicon:
                     (fn [_] lexicon)
 
                     ;; create indices on the compiled lexicon:
                     fill-lexicon-indexes
 
-                    load-morphology load-grammar)
+                    ;; function to load the morphology:
+                    (fn [] morphology)
+
+                    load-grammar)
         (merge {:name name})))))
 
 #?(:clj

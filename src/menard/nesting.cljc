@@ -30,10 +30,6 @@
                                       (do
                                          (reduce unify (cons v
                                                              (map (fn [x]
-                                                                    (log/info (str "x: " x))
-                                                                    (log/info (str "str x " (str x)))
-                                                                    (log/info (str "symbol str x " (str (symbol x))))
-                                                                    (log/info (str "symbol str x with this ns: " (symbol "menard.nesting" (str x))))
                                                                     (if (re-find #"/" (str (symbol x)))
                                                                       (eval (symbol (str x)))
                                                                       (eval (symbol "menard.nesting" (str x)))))

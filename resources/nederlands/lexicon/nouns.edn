@@ -111,6 +111,7 @@
                    :ref {:human? true}}}]
  "koper" [{:sem {:pred :buyer
                  :ref {:human? true}}}]
+ "kraai" [{:sem {:pred :crow}}]
  "lafaard" [{:sem {:pred :coward
                    :ref {:human? true}}}]
  "land" [{:sem {:pred :country}

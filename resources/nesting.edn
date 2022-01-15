@@ -59,7 +59,7 @@
  ;;     mod|rest  = head|mod
  (let [one (atom :top)
        two (atom :top)]
-   {:unify ['ug/head-sem 'ug/head-rule]
+   {:unify ['menard.ug/head-sem 'menard.ug/head-rule]
     :def 'cons-only
     ::only-one-allowed-of :cons-only
     :mods-nested? false

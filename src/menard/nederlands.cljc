@@ -279,6 +279,10 @@
   (menard.ug/load-from-file)
   (log/info (str "loading reflexives.."))  
   (menard.reflexives/load-reflexive-options true)
+  (log/info (str "loading nesting.."))
+  (menard.nesting/load-from-file)
+  (log/info (str "loading subcat.."))
+  (menard.subcat/load-from-file)
   (log/info (str "loading tenses.."))
   (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
     (def inf-tense (eval (read (java.io.PushbackReader. r)))))

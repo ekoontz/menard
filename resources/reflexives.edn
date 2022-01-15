@@ -54,8 +54,8 @@
  (let [subj-and-obj-ref (atom :top)]
    {:cat :conjunction
     :reflexive? true
-    :comp {:reflexive? false}
-    :head {:reflexive? true}
+    :head {:reflexive? false}
+    :comp {:reflexive? true}
     :sem {::refl-match 11
           :subj {:ref subj-and-obj-ref}
           :arg2 {:obj {:ref subj-and-obj-ref}}}})

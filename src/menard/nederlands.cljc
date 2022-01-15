@@ -43,8 +43,9 @@
 ;; <lexicon>
 
 #?(:clj
-   (defn load-lexical-rules []
-     (l/read-and-eval (model/use-path "nederlands/lexicon/rules.edn"))))
+   (defn load-lexical-rules [& [path]]
+     (let [path (or path "nederlands/lexicon/rules.edn")]
+       (l/read-and-eval (model/use-path path)))))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
@@ -241,7 +242,6 @@
             (load-lexicon lexical-rules)
             (load-morphology)
             filter-lexicon-fn)]
-       (log/info (str "create-model: got here (1)"))
        (->
         (model/load "nl"
                     ;; loads the lexical rules:
@@ -278,11 +278,13 @@
   (log/info (str "loading grammar.."))
   (log/info (str "loading morphology.."))
   (log/info (str "loading lexical rules.."))
-  (log/info (str "loading lexicon.."))    
-  (log/info (str "done loading model."))
-  ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
-  ;; (create-model "complete")))
-  @model))
+  (let [lexical-rules (load-lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/rules.edn")]
+    (log/info (str "loaded " (count lexical-rules) " lexical rules."))
+    (log/info (str "loading lexicon.."))    
+    (log/info (str "done loading model."))
+    ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
+    ;; (create-model "complete")))
+    @model)))
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"
@@ -330,10 +332,10 @@
    (defn load-model []
      (log/debug (str "checking model..: reload-now? " @reload-now?))
      (dosync
-      (when (and true (or (nil? @model) (true? @reload-now?)))
+      (when (or (nil? @model) (true? @reload-now?))
         (try
           (do (let [loaded (create-model-from-filesystem)]
-                (log/info (str "YAY! MODEL LOADED SUCCESSFULLY!"))
+                (log/info (str "Model reloaded."))
                 (ref-set model loaded))
               (swap! reload-now? (fn [_] false)))
           (catch Exception e (do

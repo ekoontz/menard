@@ -368,27 +368,28 @@
 #?(:clj
    (defn load-model []
      (log/debug (str "checking model..: reload-now? " @reload-now?))
-     (dosync
       (when (or (nil? @model) (true? @reload-now?))
         (try
           (do (let [loaded (create-model-from-filesystem)]
                 (log/info (str "Model reloaded."))
-                (ref-set model loaded))
-              (swap! reload-now? (fn [_] false)))
+                (dosync
+                 (ref-set model loaded)
+                 (swap! reload-now? (fn [_] false)))))
           (catch Exception e (do
+                               (dosync
+                                (swap! reload-now? (fn [_] false)))
                                (log/info (str "OOPS!! THERE WAS A PROBLEM! NOT RELOADING THE MODEL UNTIL IT GETS FIXED. PROBLEM WAS: " (str e)))))))
-      @model)))
+      @model))
 
 #?(:clj
    (defn start-reload-loop []
      (go-loop []
        (do
          (log/info (str "checking to see if we should reload the model.."))
-         (dosync
-          (swap! reload-now? (fn [_] true))
-          (do (load-model)))
-         (Thread/sleep 10000)
-         (recur)))))
+         (dosync (swap! reload-now? (fn [_] true)))
+         (do (load-model)))
+       (Thread/sleep 10000)
+       (recur))))
 
 ;; TODO: this is not being used currently: remove
 #?(:cljs

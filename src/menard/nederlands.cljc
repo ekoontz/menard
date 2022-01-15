@@ -31,13 +31,14 @@
 
 ;; <morphology>
 #?(:clj
-   (defn load-morphology []
-     (m/compile-morphology-fn
-      [(model/use-path "nederlands/morphology/adjectives.edn")
-       (model/use-path "nederlands/morphology/misc.edn")
-       (model/use-path "nederlands/morphology/nouns.edn")
-       (model/use-path "nederlands/morphology/verbs.edn")
-       (model/use-path "nederlands/morphology/verbs/simple-past.edn")])))
+   (defn load-morphology [& [path-prefix]]
+     (let [path-prefix (or path-prefix "nederlands/morphology/")]
+       (m/compile-morphology-fn
+        [(model/use-path (str path-prefix "adjectives.edn"))
+         (model/use-path (str path-prefix "misc.edn"))
+         (model/use-path (str path-prefix "nouns.edn"))
+         (model/use-path (str path-prefix "verbs.edn"))
+         (model/use-path (str path-prefix "verbs/simple-past.edn"))]))))
 ;; </morphology>
 
 ;; <lexicon>
@@ -215,10 +216,11 @@
           inf-tense))
 
 #?(:clj
-   (defn load-grammar []
-     (-> (model/use-path "nederlands/grammar.edn")
-         grammar/read-grammar-fn
-         grammar/process)))
+   (defn load-grammar [& [path]]
+     (let [path (or path "nederlands/grammar.edn")]
+       (-> (model/use-path path)
+           grammar/read-grammar-fn
+           grammar/process))))
 
 #?(:cljs
    (def model
@@ -271,20 +273,27 @@
   (menard.reflexives/load-reflexive-options true)
   (log/info (str "loading tenses.."))
   (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
-    (eval (read (java.io.PushbackReader. r))))
+    (def inf-tense (eval (read (java.io.PushbackReader. r)))))
   (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
-    (eval (read (java.io.PushbackReader. r))))
-
+    (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
+  (def finite-plus-inf-tense
+    (concat finite-tenses
+            inf-tense))
+  (log/info (str "loaded " (count finite-plus-inf-tense) " tenses."))
   (log/info (str "loading grammar.."))
-  (log/info (str "loading morphology.."))
-  (log/info (str "loading lexical rules.."))
-  (let [lexical-rules (load-lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/rules.edn")]
-    (log/info (str "loaded " (count lexical-rules) " lexical rules."))
-    (log/info (str "loading lexicon.."))    
-    (log/info (str "done loading model."))
-    ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
-    ;; (create-model "complete")))
-    @model)))
+  (let [grammar (load-grammar "file:///Users/ekoontz/menard/resources/nederlands/grammar.edn")]
+    (log/info (str "loaded " (count grammar) " grammar rules."))
+    (log/info (str "loading morphology.."))
+    (let [morphology (load-morphology "file:///Users/ekoontz/menard/resources/nederlands/morphology/")]
+      (log/info (str "loaded " (count morphology) " morphological rules."))
+      (log/info (str "loading lexical rules.."))
+      (let [lexical-rules (load-lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/rules.edn")]
+        (log/info (str "loaded " (count lexical-rules) " lexical rules."))
+        (log/info (str "loading lexicon.."))    
+        (log/info (str "done loading model."))
+        ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
+        ;; (create-model "complete")))
+        @model)))))
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"

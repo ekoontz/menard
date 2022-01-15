@@ -369,7 +369,7 @@
       (when (or (nil? @model) (true? reload?))
         (try
           (do (let [loaded (create-model-from-filesystem)]
-                (log/info (str "Model reloaded."))
+                (log/info (str "model successfully reloaded: replacing existing model with new one now."))
                 (dosync
                  (ref-set model loaded))))
           (catch Exception e (do

@@ -330,14 +330,14 @@
    (defn load-model []
      (log/debug (str "checking model..: reload-now? " @reload-now?))
      (dosync
-      (when (and false (or (nil? @model) (true? @reload-now?)))
+      (when (and true (or (nil? @model) (true? @reload-now?)))
         (try
           (do (let [loaded (create-model-from-filesystem)]
                 (log/info (str "YAY! MODEL LOADED SUCCESSFULLY!"))
                 (ref-set model loaded))
               (swap! reload-now? (fn [_] false)))
           (catch Exception e (do
-                               (log/info (str "OOPS!! THERE WAS A PROBLEM! NOT MESSING WITH THE MODEL UNTIL IT GETS FIXED. PROBLEM WAS: " (str e)))))))
+                               (log/info (str "OOPS!! THERE WAS A PROBLEM! NOT RELOADING THE MODEL UNTIL IT GETS FIXED. PROBLEM WAS: " (str e)))))))
       @model)))
 
 #?(:clj
@@ -511,7 +511,6 @@
             found))))))
 
 (defn parse [expression]
-  (log/info (str "PARSING EXPRE~S~SION: " expression))
   (let [model (load-model)
 
         ;; remove trailing '.' if any:

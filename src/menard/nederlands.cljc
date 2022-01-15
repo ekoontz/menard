@@ -363,21 +363,16 @@
      (def basic-model
        (ref (merge (create-model "basic" basic-filter))))))
 
-(def reload-now? (atom false))
-
 #?(:clj
-   (defn load-model []
-     (log/info (str "checking model..: reload-now? " @reload-now?))
-      (when (or (nil? @model) (true? @reload-now?))
+   (defn load-model [& [reload?]]
+     (log/info (str "checking model..: reload? " reload?))
+      (when (or (nil? @model) (true? reload?))
         (try
           (do (let [loaded (create-model-from-filesystem)]
                 (log/info (str "Model reloaded."))
                 (dosync
-                 (ref-set model loaded)
-                 (swap! reload-now? (fn [_] false)))))
+                 (ref-set model loaded))))
           (catch Exception e (do
-                               (dosync
-                                (swap! reload-now? (fn [_] false)))
                                (log/info (str "OOPS!! THERE WAS A PROBLEM! NOT RELOADING THE MODEL UNTIL IT GETS FIXED. PROBLEM WAS: " (str e)))))))
       @model))
 
@@ -386,8 +381,7 @@
      (go-loop []
        (do
          (log/info (str "checking to see if we should reload the model.."))
-         (dosync (swap! reload-now? (fn [_] true)))
-         (do (load-model)))
+         (do (load-model true)))
        (Thread/sleep 10000)
        (recur))))
 

@@ -367,7 +367,7 @@
 
 #?(:clj
    (defn load-model []
-     (log/debug (str "checking model..: reload-now? " @reload-now?))
+     (log/info (str "checking model..: reload-now? " @reload-now?))
       (when (or (nil? @model) (true? @reload-now?))
         (try
           (do (let [loaded (create-model-from-filesystem)]

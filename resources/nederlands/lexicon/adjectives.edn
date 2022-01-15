@@ -12,6 +12,7 @@
  "bouwvallig" [{:sem {:pred :dilapidated}}]
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]
+ "degelijk" [{:sem {:pred :sound}}] ;; 'sound' as in "sound advice"
  "dik" [{:sem {:pred :thick}}]
  "droevig" [{:sem {:pred :sad}}]
  "eenvoudig" [{:sem {:pred :simple}}]
@@ -53,7 +54,7 @@
  "leuk" [{:sem {:pred :good}}]
  "lief" [{:sem {:pred :nice}}]
  "lijp" [{:sem {:pred :cool}}]
- "lomp" [{:sem {:pred :rude}}] 
+ "lomp" [{:sem {:pred :rude}}]
  "makkelijk" [{:sem {:pred :easy}}]
  "moedig" [{:sem {:pred :brave}}]
  "moelijk" [{:sem {:pred :difficult}}]

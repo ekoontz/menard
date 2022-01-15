@@ -7,8 +7,6 @@
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]
  "butterfly" [{:sem {:pred :butterfly}}]
- "cauliflower" [{:sem {:pred :cauliflower}}]
- "coward" [{:sem {:pred :coward}}]
  "bike" [{:sem {:pred :bike}}]
  "bird" [{:agr {:gender :neuter}
           :sem {:pred :bird}}]
@@ -21,6 +19,7 @@
  "carrot" [{:sem {:pred :carrot}}]
  "case" [{:sem {:pred :case}}]
  "cat" [{:sem {:pred :cat}}]
+ "cauliflower" [{:sem {:pred :cauliflower}}]
  "chair" [{:sem {:pred :chair}}]
  "challenge" [{:sem {:pred :challenge}}]
  "child" [{:sem {:pred :child}
@@ -36,6 +35,8 @@
  "country" [{:sem {:pred :country}}]
  "couple" [{:sem {:pred :couple}}]
  "court" [{:sem {:pred :court}}]
+ "coward" [{:sem {:pred :coward}}]
+ "crow" [{:sem {:pred :crow}}]
  "day" [{:sem {:pred :day}}]
  "decision" [{:sem {:pred :decision}}]
  "defender" [{:sem {:pred :defender}}]

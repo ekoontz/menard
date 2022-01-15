@@ -99,34 +99,36 @@
        (unify lexeme {:irregular-past-simple? false}))))
 
 #?(:clj
-   (defn load-lexicon [lexical-rules]
-     (merge-with concat
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/adjectives.edn")   lexical-rules
-                                         {:cat :adjective})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/adverbs.edn")      lexical-rules
-                                         {:cat :adverb})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/determiners.edn")  lexical-rules
-                                         {:cat :det})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/exclamations.edn") lexical-rules
-                                         {:cat :exclamation})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/intensifiers.edn") lexical-rules
-                                         {:cat :intensifier})
-                 ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/misc.edn")         lexical-rules)
-
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/nouns.edn")        lexical-rules
-                                         {:cat :noun})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/numbers.edn")      lexical-rules
-                                         {:cat :adjective
-                                          :sem {:number? true}})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/pronouns.edn")     lexical-rules
-                                         {:cat :noun :pronoun? true})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/prepositions.edn")  lexical-rules
-                                         {:cat :prep})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/propernouns.edn")  lexical-rules
-                                         {:cat :noun :propernoun? true})
-                 (compile-lexicon-source (model/use-path "nederlands/lexicon/verbs.edn")        lexical-rules
-                                         {:cat :verb} mark-irregular-verbs))))
+   (defn load-lexicon [lexical-rules & [path-suffix]]
+     (let [path-suffix (or path-suffix
+                           "nederlands/lexicon/")]
+       (merge-with concat
+                   (compile-lexicon-source (model/use-path (str path-suffix "adjectives.edn"))   lexical-rules
+                                           {:cat :adjective})
+                   (compile-lexicon-source (model/use-path (str path-suffix "adverbs.edn"))      lexical-rules
+                                           {:cat :adverb})
+                   (compile-lexicon-source (model/use-path (str path-suffix "determiners.edn"))  lexical-rules
+                                           {:cat :det})
+                   (compile-lexicon-source (model/use-path (str path-suffix "exclamations.edn")) lexical-rules
+                                           {:cat :exclamation})
+                   (compile-lexicon-source (model/use-path (str path-suffix "intensifiers.edn")) lexical-rules
+                                           {:cat :intensifier})
+                   ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
+                   (compile-lexicon-source (model/use-path (str path-suffix "misc.edn"))         lexical-rules)
+                   
+                   (compile-lexicon-source (model/use-path (str path-suffix "nouns.edn"))        lexical-rules
+                                           {:cat :noun})
+                   (compile-lexicon-source (model/use-path (str path-suffix "numbers.edn"))      lexical-rules
+                                           {:cat :adjective
+                                            :sem {:number? true}})
+                   (compile-lexicon-source (model/use-path (str path-suffix "pronouns.edn"))     lexical-rules
+                                           {:cat :noun :pronoun? true})
+                   (compile-lexicon-source (model/use-path (str path-suffix "prepositions.edn"))  lexical-rules
+                                           {:cat :prep})
+                   (compile-lexicon-source (model/use-path (str path-suffix "propernouns.edn"))  lexical-rules
+                                           {:cat :noun :propernoun? true})
+                   (compile-lexicon-source (model/use-path (str path-suffix "verbs.edn"))        lexical-rules
+                                           {:cat :verb} mark-irregular-verbs)))))
 
 #?(:clj
 
@@ -289,11 +291,16 @@
       (log/info (str "loading lexical rules.."))
       (let [lexical-rules (load-lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/rules.edn")]
         (log/info (str "loaded " (count lexical-rules) " lexical rules."))
-        (log/info (str "loading lexicon.."))    
-        (log/info (str "done loading model."))
-        ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
-        ;; (create-model "complete")))
-        @model)))))
+        (log/info (str "loading lexicon.."))
+        (let [lexicon (load-lexicon-with-morphology
+                       (load-lexicon lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/")
+                       morphology
+                       (fn [x] x))]
+          (log/info (str "loaded " (count (keys lexicon)) " lexical keys."))
+          (log/info (str "done loading model."))
+          ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
+          ;; (create-model "complete")))
+          @model))))))
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"

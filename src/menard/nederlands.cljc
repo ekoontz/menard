@@ -304,9 +304,24 @@
                        (fn [x] x))]
           (log/info (str "loaded " (count (keys lexicon)) " lexical keys."))
           (log/info (str "done loading model."))
-          ;; for now, just create a model from the jar, since from filesystem doesn't work yet:
-          ;; (create-model "complete")))
-          @model))))))
+          (->
+           (model/load "nl"
+                       ;; loads the lexical rules:
+                       ;; (we already did this above,
+                       ;;  so we'll just return those rules.
+                       (fn [] lexical-rules)
+                       
+                       ;; function to load the lexicon:
+                         (fn [_] lexicon)
+                         
+                         ;; create indices on the compiled lexicon:
+                         fill-lexicon-indexes
+                         
+                         ;; function to load the morphology:
+                         (fn [] morphology)
+                         
+                         (fn [] grammar))
+           (merge {:name name}))))))))
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"

@@ -369,7 +369,6 @@
 
 #?(:clj
    (defn load-model [& [reload?]]
-     (log/info (str "checking model..: reload? " reload?))
      (log/debug (str "checking model..: reload? " reload?))
       (when (or (nil? @model) (true? reload?))
         (try

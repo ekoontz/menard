@@ -28,7 +28,40 @@
   #?(:cljs
      (map fn args)))
 
-(def log-these-rules #{"vp-modal-te" "vp-te"})
+(def ^:dynamic log-these-rules #{})
+
+(defn fail-path [dag1 dag2]
+  (cond (or (not (map? dag1))
+            (not (map? dag2)))
+        []
+        :else 
+        (let [keys (vec (set (concat (keys dag1) (keys dag2))))]
+          (loop [kvs []
+                 keys keys]
+            (if (seq keys)
+              (let [k (first keys)
+                    v (dag_unify.core/unify (k dag1 :top)
+                                            (k dag2 :top))]
+                (cond
+                  (= :fail v)
+                  (do
+                    (log/debug (str "fail-key: (1) " k " between: "
+                                    (u/pprint (u/get-in dag1 [k] :top))
+                                    " and "
+                                    (u/pprint (u/get-in dag2 [k] :top))))
+                    (cons k (fail-path (u/get-in dag1 [k] :top)
+                                       (u/get-in dag2 [k] :top))))
+                  (and (dag_unify.core/ref? v) (= :fail @v))
+                  (do
+                    (log/debug (str "fail-key: (2) " k " between: "                   
+                                    (u/pprint (u/get-in dag1 [k] :top))
+                                    " and "
+                                    (u/pprint (u/get-in dag2 [k] :top))))
+                    (cons k (fail-path (u/get-in dag1 [k] :top)
+                                       (u/get-in dag2 [k] :top))))
+                  :else
+                  (recur [] (rest keys))))
+              kvs)))))
 
 (defn overh
   "add given head as the head child of the phrase: parent."
@@ -44,30 +77,34 @@
                               {:head head})
                      :else
                      (do
-                       (log/debug (str "failed precheck: parent: " (syntax-tree
+                       (log/info (str "failed precheck: parent: " (syntax-tree
                                                                     parent) "; head: " (syntax-tree head) "; "
                                        "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                        :fail))]
     (if (not (= :fail result))
       (do
-        (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
+        (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/debug
-           (str "overh fail:   " (syntax-tree parent) " <- " (syntax-tree head)
-                " " (let [fp (diag/fail-path parent {:head head})]
-                      {:path (:path fp)
-                       :arg1 (u/pprint (:arg1 fp))
-                       :arg2 (u/pprint (:arg2 fp))}))))
+          (let [fp (fail-path parent {:head head})]
+            (log/info
+             (str "overh fail: " (syntax-tree parent)
+                  " <- " (syntax-tree head)
+                  " fail path: " (vec fp)
+                  ". parent has: " (u/get-in parent fp)
+                  ", but head has: " (u/get-in head (rest fp))
+                  "."))))
         []))))
-  
+
 (defn overc
   "add given child as the complement of the parent"
   [parent comp]
   {:pre [(map? comp)
          (map? parent)]
    :post [(vector? %)]}
+  (when (contains? log-these-rules (u/get-in parent [:rule]))
+    (log/debug (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
   (let [pre-check? (not (= :fail (u/unify
                                   (u/get-in parent [:comp :cat] :top)
                                   (u/get-in comp [:cat] :top))))
@@ -78,17 +115,18 @@
               :else :fail)]
     (if (not (= :fail result))
       (do
-        (log/debug (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
+        (log/info (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
         [result])
       (do
-        (when (contains? log-these-rules (u/get-in parent [:rule])))
-        (log/debug
-         (str "overc fail: " (syntax-tree parent) " <- " (syntax-tree comp)))
-        (log/debug (str " "
-                        (let [fp (diag/fail-path (u/copy parent)
-                                                 {:comp (u/copy comp)})]
-                          
-                          (str " at: " (vec (:path fp)) ", parent has: " (:arg1 fp) " but comp has: " (:arg2 fp)))))
+        (when (contains? log-these-rules (u/get-in parent [:rule]))
+          (let [fp (fail-path parent {:comp comp})]
+            (log/info
+             (str "overc fail: " (syntax-tree parent)
+                  " <- " (syntax-tree comp)
+                  " fail path: " (vec fp)
+                  ". parent has: " (u/get-in parent fp)
+                  ", but comp has: " (u/get-in comp (rest fp))
+                  "."))))
         []))))
 
 (defn truncate [tree]
@@ -158,7 +196,7 @@
         input-map
         true
         (do
-          (log/debug "span-pairs: " (- input-length span-length) "," span-length)
+          (log/info "span-pairs: " (- input-length span-length) "," span-length)
           (into input-map
                 (->> (span-pairs (- input-length span-length) span-length)
                      (pmap-if-available
@@ -216,7 +254,7 @@
   apostrophe) to turn the string into a sequence of tokens."
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
   [input]
-  (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
+  (log/info (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
   ;; TODO: should create all possible tokenizations.
   ;; (in other words, more than one tokenization is possible, e.g.
   ;;  if a token is made of separate words like "The White House".
@@ -247,7 +285,7 @@
                 (lookup-fn-with-trim token))
               tokenization))
             partial-parses (vals (:all-parses result))]
-        (log/debug (str "could not parse: \"" input "\". token:sense pairs: "
+        (log/info (str "could not parse: \"" input "\". token:sense pairs: "
                        (string/join ";"
                                     (pmap-if-available (fn [token]
                                            (str token ":" (count (get analyses token)) ""))
@@ -258,5 +296,5 @@
         (->> (flatten partial-parses)
              (map (fn [partial-parse]
                     (merge partial-parse {::partial? true})))))
-      (do (log/debug (str "parsed input:    \"" input "\""))
+      (do (log/info (str "parsed input:    \"" input "\""))
           (:complete-parses result)))))

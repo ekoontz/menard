@@ -39,7 +39,7 @@
                       :obj :none}}}})
 
  ;; reflexive case with conjunctions
- ;; e.g. "[.[niet Ina] +[maar mezelf]]"
+ ;; e.g. "maar mezelf" in "[.[niet Ina] +[maar mezelf]]"
  (let [subj-and-obj-ref (atom :top)]
    {:cat :conjunction
     :reflexive? true
@@ -50,7 +50,7 @@
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
 
  ;; reflexive case with conjunctions:
- ;; e.g. "[.[niet mezelf] +[maar Ina]]"
+ ;; e.g. "maar Ina" in "[.[niet mezelf] +[maar Ina]]"
  (let [subj-and-obj-ref (atom :top)]
    {:cat :conjunction
     :reflexive? true

@@ -567,7 +567,7 @@
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"
-              p/log-these-rules #{"conj-inner" "conj-outer"}
+              p/log-these-rules #{"vp-conj"}
               p/lookup-fn analyze]
       (p/parse expression))))
 

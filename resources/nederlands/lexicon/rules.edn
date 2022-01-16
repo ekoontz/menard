@@ -160,6 +160,11 @@
        :propernoun? false}
   :then [{:reflexive? false}]}
 
+ {:rule :adjectives-are-nonreflexive
+  :if {:cat :adjective
+       :reflexive? ::unspec}
+  :then [{:reflexive? false}]}
+
  {:rule :modal-default-false
   :if {:cat :verb
        :modal ::unspec}

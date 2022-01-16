@@ -24,7 +24,7 @@
                          :reflexive? reflexive?}
                      :3 []}
             :reflexive? reflexive?
-            :sem {:pred :and
+            :sem {:pred :but
                   :arg1 lower
                   :arg2 higher}})]
  

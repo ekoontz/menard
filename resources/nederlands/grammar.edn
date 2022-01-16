@@ -19,6 +19,7 @@
   :unify [menard.subcat/a
           menard.ug/head-agr
           menard.ug/head-last
+          menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem-args]
   :head {:cat :conjunction

@@ -370,6 +370,7 @@
 #?(:clj
    (defn load-model [& [reload?]]
      (log/info (str "checking model..: reload? " reload?))
+     (log/debug (str "checking model..: reload? " reload?))
       (when (or (nil? @model) (true? reload?))
         (try
           (do (let [loaded (create-model-from-filesystem)]
@@ -567,6 +568,7 @@
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"
+              p/log-these-rules #{"conj-inner" "conj-outer"}
               p/lookup-fn analyze]
       (p/parse expression))))
 
@@ -603,6 +605,7 @@
         ;; '!' -> imperative
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
+              p/syntax-tree syntax-tree
               p/truncate-fn (fn [tree]
                               (-> tree
                                   (dissoc :head)

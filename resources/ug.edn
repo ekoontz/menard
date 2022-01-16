@@ -182,20 +182,6 @@
     :sem {:pred :times
           :arg1 sem1
           :arg2 sem2}})
-
-
- (let [pred (atom :top)
-       subj (atom :top)       
-       arg1 (atom :top)
-       arg2 (atom :top)
-       reflexive? (atom :top)]
-   {:def 'head-sem-args
-    :sem {:arg1 arg1
-          :arg2 arg2
-          :pred pred}
-    :head {:sem {:arg1 arg1
-                 :arg2 arg2
-                 :pred pred}}})
  ]
 
 

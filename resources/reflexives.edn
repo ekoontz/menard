@@ -8,8 +8,8 @@
  
  ;; intransitive verbs "ik zie"
  {:cat :verb
-  :sem {::refl-match 7
-        :arg1 :none
+  ::refl-match 7
+  :sem {:arg1 :none
         :arg2 :none
         :obj :none}}
  
@@ -18,8 +18,8 @@
    {:cat :verb
     :modal false
     :reflexive? true
-    :sem {::refl-match 8
-          :subj {:ref ref}
+    ::refl-match 8
+    :sem {:subj {:ref ref}
           :obj {:ref ref
                 :obj :none}
           :arg1 :none
@@ -28,13 +28,13 @@
  ;; reflexive case (modal) e.g. "ik probeer me te zien"
  (let [ref (atom :top)]
    {:cat :verb
-    
+    ::refl-match 9
+              
     ;; TODO: language-dependent: only Dutch has :te value for :modal.
     :modal :te
 
     :reflexive? true
-    :sem {::refl-match 9
-          :subj {:ref ref}
+    :sem {:subj {:ref ref}
           :obj {:obj {:ref ref
                       :obj :none}}}})
 
@@ -42,24 +42,24 @@
  ;; e.g. "maar Ina" or "maar mezelf"
  {:cat :conjunction
   :rule "conj-inner"
-  :sem {::refl-match 10}}
+  ::refl-match 10}
 
  ;; niet mezelf maar Ina
  (let [subj-and-obj-ref (atom :top)]
    {:rule "conj-outer"
+    ::refl-match 11
     :comp {:reflexive? true}
     :head {:reflexive? false}
-    :sem {::refl-match 11
-          :subj {:ref subj-and-obj-ref}
+    :sem {:subj {:ref subj-and-obj-ref}
           :arg2 {:obj {:ref subj-and-obj-ref}}}})
 
  ;; niet Ina maar mezelf
  (let [subj-and-obj-ref (atom :top)]
    {:rule "conj-outer"
+    ::refl-match 12
     :comp {:reflexive? false}
     :head {:reflexive? true}
-    :sem {::refl-match 12
-          :subj {:ref subj-and-obj-ref}
+    :sem {:subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
 
  ;; niet Ina maar Guus:
@@ -67,11 +67,11 @@
  (let [ref1 (atom :top)
        ref2 (atom :top)
        ref3 (atom :top)]
-   {:rule "conj-outer"
+   {::refl-match 12.5
+    :rule "conj-outer"
     :comp {:reflexive? false}
     :head {:reflexive? false}
-    :sem {::refl-match 12.5
-          :subj {:ref ref1}
+    :sem {:subj {:ref ref1}
           :arg1 {:obj {:ref ref2}}
           :arg2 {:obj {:ref ref3}}}})
  
@@ -84,10 +84,10 @@
  ;; but for :3rd, "he sees him" is ok, as long as the
  ;; subj :ref and :obj :ref are distinct.
  {:cat :verb
+  ::refl-match 13
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
-        ::refl-match 13
         :arg1 :none
         :arg2 :none
         :obj {:person-not :1st
@@ -95,36 +95,36 @@
               :obj :none}}}
  
  {:cat :verb
+  ::refl-match 14
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
-        ::refl-match 14
         :arg1 :none
         :arg2 :none
         :obj {:obj {:person-not :1st}
               :ref {::is-subj false}}}}
 
  {:cat :verb
+  ::refl-match 15
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
-        ::refl-match 15
         :obj {:person-not :2nd
               :obj :none
               :ref {::is-subj false}}}}
 
  {:cat :verb
+  ::refl-match 16
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
-        ::refl-match 16
         :obj {:obj {:person-not :2nd}
               :ref {::is-subj false}}}}
 
  {:cat :verb
+  ::refl-match 17
   :agr {:person :3rd}
-  :sem {::refl-match 17
-        :subj {:person :3rd
+  :sem {:subj {:person :3rd
                :existential? false
                :ref {::is-subj true}}
         :obj {:ref {::is-subj false}}}}
@@ -134,6 +134,7 @@
  ;; arg1's object is "mezelf"
  (let [subj-and-obj-ref (atom {::is-subj true})]
    {:cat :verb
+    ::refl-match 18
     :subcat {:1 {:cat :noun
                  :sem {:subj {:ref subj-and-obj-ref}}}
              :2 []}
@@ -144,20 +145,19 @@
                  :obj {:ref subj-and-obj-ref}}
           :arg2 {:subj {:ref subj-and-obj-ref}
                  :obj {:ref {::is-subj false}}}
-          :pred :and
-          ::refl-match 18}})
-
+          :pred :and}})
+  
  ;; doesn't work yet:
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
  (let [subj-and-obj-ref (atom :top)]
    {:cat :verb
+    ::refl-match 19
     :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
     :reflexive? true
     :head {:reflexive? true}
     :sem {:arg2 {:subj {:ref subj-and-obj-ref}
                  :obj {:ref subj-and-obj-ref}}
-          :pred :and
-          ::refl-match 19}})
+          :pred :and}})
         
  ]
 

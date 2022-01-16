@@ -29,8 +29,8 @@
     (str "["
          (:rule tree "?")
          (when (:variant tree) (str "(" (:variant tree) ")" ""))
-         (when (u/get-in tree [:sem :menard.reflexives/refl-match])
-           (str "/r" (u/get-in tree [:sem :menard.reflexives/refl-match])))
+         (when (u/get-in tree [:menard.reflexives/refl-match])
+           (str "/r" (u/get-in tree [:menard.reflexives/refl-match])))
          (when (let [defined? (u/get-in tree [:reflexive?])]
                  (and (not (= defined? ::none))
                       (= :verb (u/get-in tree [:cat]))

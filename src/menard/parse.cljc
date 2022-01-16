@@ -24,7 +24,9 @@
 
 (defn pmap-if-available [fn args]
   #?(:clj
-     (pmap fn args))
+     (if true
+       (map fn args)
+       (pmap fn args)))
   #?(:cljs
      (map fn args)))
 
@@ -94,8 +96,8 @@
              (str "overh fail: " (syntax-tree parent)
                   " <- " (syntax-tree head)
                   " fail path: " (vec fp)
-                  ". parent has: " (u/get-in parent fp)
-                  ", but head has: " (u/get-in head (rest fp))
+                  ". parent has: " (u/pprint (u/get-in parent fp))
+                  ", but head has: " (u/pprint (u/get-in head (rest fp)))
                   "."))))
         []))))
 
@@ -126,8 +128,8 @@
              (str "overc fail: " (syntax-tree parent)
                   " <- " (syntax-tree comp)
                   " fail path: " (vec fp)
-                  ". parent has: " (u/get-in parent fp)
-                  ", but comp has: " (u/get-in comp (rest fp))
+                  ". parent has: " (u/pprint (u/get-in parent fp))
+                  ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
                   "."))))
         []))))
 

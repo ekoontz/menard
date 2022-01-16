@@ -69,7 +69,9 @@
   {:pre [(map? parent)
          (map? head)]
    :post [(vector? %)]}
-  (let [pre-check? (not (= :fail
+  (when (contains? log-these-rules (u/get-in parent [:rule]))
+    (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
+ (let [pre-check? (not (= :fail
                            (u/get-in parent [:head :cat] :top)
                            (u/get-in head [:cat] :top)))
         result (cond pre-check?
@@ -104,7 +106,7 @@
          (map? parent)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/debug (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
+    (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
   (let [pre-check? (not (= :fail (u/unify
                                   (u/get-in parent [:comp :cat] :top)
                                   (u/get-in comp [:cat] :top))))
@@ -115,7 +117,7 @@
               :else :fail)]
     (if (not (= :fail result))
       (do
-        (log/info (str "overc success: " (syntax-tree result) " -> " (syntax-tree result)))
+        (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))

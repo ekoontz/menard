@@ -38,27 +38,42 @@
           :obj {:obj {:ref ref
                       :obj :none}}}})
 
- ;; reflexive case with conjunctions
- ;; e.g. "maar mezelf" in "[.[niet Ina] +[maar mezelf]]"
- (let [subj-and-obj-ref (atom :top)]
-   {:cat :conjunction
-    :comp {:reflexive? true}    
-    :sem {::refl-match 10
-          :subj {:ref subj-and-obj-ref}
-          :arg1 {:obj {:ref subj-and-obj-ref}}}})
+ ;; reflexive or nonreflexive complement with a conjunction
+ ;; e.g. "maar Ina" or "maar mezelf"
+ {:cat :conjunction
+  :rule "conj-inner"
+  :sem {::refl-match 10}}
 
- ;; reflexive case with conjunctions:
- ;; e.g. "maar Ina" in "[.[niet mezelf] +[maar Ina]]"
+ ;; niet mezelf maar Ina
  (let [subj-and-obj-ref (atom :top)]
-   {:cat :conjunction
-    :comp {:reflexive? false}
+   {:rule "conj-outer"
+    :comp {:reflexive? true}
+    :head {:reflexive? false}
     :sem {::refl-match 11
           :subj {:ref subj-and-obj-ref}
           :arg2 {:obj {:ref subj-and-obj-ref}}}})
- 
-;; {:cat :conjunction
-;;  :reflexive? false
-;;  :sem {::refl-match 12}}
+
+ ;; niet Ina maar mezelf
+ (let [subj-and-obj-ref (atom :top)]
+   {:rule "conj-outer"
+    :comp {:reflexive? false}
+    :head {:reflexive? true}
+    :sem {::refl-match 12
+          :subj {:ref subj-and-obj-ref}
+          :arg1 {:obj {:ref subj-and-obj-ref}}}})
+
+ ;; niet Ina maar Guus:
+ ;; subject and both arguments are distinct from each other:
+ (let [ref1 (atom :top)
+       ref2 (atom :top)
+       ref3 (atom :top)]
+   {:rule "conj-outer"
+    :comp {:reflexive? false}
+    :head {:reflexive? false}
+    :sem {::refl-match 12.5
+          :subj {:ref ref1}
+          :arg1 {:obj {:ref ref2}}
+          :arg2 {:obj {:ref ref3}}}})
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.

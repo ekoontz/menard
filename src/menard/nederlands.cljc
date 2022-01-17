@@ -29,6 +29,12 @@
 
 (def create-basic-model? false)
 
+;; for parsing diagnostics:
+;;(def log-these-rules #{"vp-conj"})
+;;(def log-these-rules #{"np:1" "np:2" "nbar"})
+;;(def log-these-rules #{"s"})
+(def log-these-rules #{})
+
 ;; <morphology>
 #?(:clj
    (defn load-morphology [& [path-prefix]]
@@ -567,7 +573,7 @@
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/split-on #"[ ]"
-              p/log-these-rules #{"vp-conj"}
+              p/log-these-rules log-these-rules
               p/lookup-fn analyze]
       (p/parse expression))))
 

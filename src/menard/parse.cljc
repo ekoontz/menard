@@ -85,20 +85,21 @@
                                                                     parent) "; head: " (syntax-tree head) "; "
                                        "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                        :fail))]
-    (if (not (= :fail result))
-      (do
-        (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))
-        [result])
-      (do
-        (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (let [fp (fail-path parent {:head head})]
-            (log/info
-             (str "overh fail: " (syntax-tree parent)
-                  " <- " (syntax-tree head)
-                  " fail path: " (vec fp)
-                  ". parent has: " (u/pprint (u/get-in parent fp))
-                  ", but head has: " (u/pprint (u/get-in head (rest fp)))
-                  "."))))
+   (if (not (= :fail result))
+     (do
+       (when (contains? log-these-rules (u/get-in parent [:rule]))
+         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
+       [result])
+     (do
+       (when (contains? log-these-rules (u/get-in parent [:rule]))
+         (let [fp (fail-path parent {:head head})]
+           (log/info
+            (str "overh fail: " (syntax-tree parent)
+                 " <- " (syntax-tree head)
+                 " fail path: " (vec fp)
+                 ". parent has: " (u/pprint (u/get-in parent fp))
+                 ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                 "."))))
         []))))
 
 (defn overc

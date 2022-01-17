@@ -24,7 +24,9 @@
 
 (defn pmap-if-available [fn args]
   #?(:clj
-     (if true
+     ;; map is slower (no concurrency) but better for debugging since you can see the
+     ;; log messages for a particular function call in order.
+     (if false
        (map fn args)
        (pmap fn args)))
   #?(:cljs
@@ -201,7 +203,7 @@
         input-map
         true
         (do
-          (log/info "span-pairs: " (- input-length span-length) "," span-length)
+          (log/debug (str "span-pairs: " (- input-length span-length) "," span-length))
           (into input-map
                 (->> (span-pairs (- input-length span-length) span-length)
                      (pmap-if-available
@@ -259,7 +261,7 @@
   apostrophe) to turn the string into a sequence of tokens."
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
   [input]
-  (log/info (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
+  (log/info (str "parsing input: '" input "'"))
   ;; TODO: should create all possible tokenizations.
   ;; (in other words, more than one tokenization is possible, e.g.
   ;;  if a token is made of separate words like "The White House".

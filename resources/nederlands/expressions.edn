@@ -183,10 +183,12 @@
                              :rest []}}}}
   :phrasal? true
   :training-wheels {:comp {:cat :det}
-                    :head {:comp {:comp {:phrasal? false}
+                    :head {:comp {:comp {:phrasal? false
+                                         :sem {:number? true}}
                                   :head {:head {:phrasal? false
-                                                :sem {:number? true}}
-                                         :comp {:phrasal? false}}}
+                                                :canonical "en"}
+                                         :comp {:phrasal? false
+                                                :canonical :top}}}
                            :head {:head {:phrasal? false
                                          :mod []
                                          :sem {:number? true}}

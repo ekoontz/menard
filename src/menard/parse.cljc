@@ -122,7 +122,8 @@
               :else :fail)]
     (if (not (= :fail result))
       (do
-        (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))
+        (when (contains? log-these-rules (u/get-in parent [:rule]))
+          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
@@ -261,7 +262,7 @@
   apostrophe) to turn the string into a sequence of tokens."
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
   [input]
-  (log/info (str "parsing input: '" input "'"))
+  (log/debug (str "parsing input: '" input "'"))
   ;; TODO: should create all possible tokenizations.
   ;; (in other words, more than one tokenization is possible, e.g.
   ;;  if a token is made of separate words like "The White House".
@@ -303,5 +304,5 @@
         (->> (flatten partial-parses)
              (map (fn [partial-parse]
                     (merge partial-parse {::partial? true})))))
-      (do (log/info (str "parsed input:    \"" input "\""))
+      (do (log/debug (str "parsed input:    \"" input "\""))
           (:complete-parses result)))))

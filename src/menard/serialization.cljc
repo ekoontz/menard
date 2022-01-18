@@ -5,6 +5,8 @@
    [menard.morphology :as m]
    [dag_unify.core :as u]))
 
+(def ^:dynamic show-refl-match? false)
+
 (defn morph [tree morphology]
   (cond
     (nil? tree) "_"
@@ -29,7 +31,7 @@
     (str "["
          (:rule tree "?")
          (when (:variant tree) (str "(" (:variant tree) ")" ""))
-         (when (u/get-in tree [:menard.reflexives/refl-match])
+         (when (and show-refl-match? (u/get-in tree [:menard.reflexives/refl-match]))
            (str "/r" (u/get-in tree [:menard.reflexives/refl-match])))
          (when (let [defined? (u/get-in tree [:reflexive?])]
                  (and (not (= defined? ::none))

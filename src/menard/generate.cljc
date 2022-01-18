@@ -31,6 +31,7 @@
 
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
+(def ^:dynamic log-these-rules #{})
 
 ;; clojurescript is much slower without these settings:
 ;; TODO: investigate why that only holds true for
@@ -151,7 +152,9 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
-  (log/debug (str "add with tree: " (syntax-tree-fn tree)))
+  (when (contains? log-these-rules (u/get-in tree [:rule]))
+    (log/info (str "add with tree: " (syntax-tree-fn tree))))
+  
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
@@ -179,10 +182,11 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (log/debug (str "add: start: " (syntax-tree-fn tree) " at: " at
-                    (str "; looking for: "
-                         (strip-refs (select-keys (u/get-in tree at) show-keys))
-                         "; gen-condition: " gen-condition)))
+    (when (contains? log-these-rules (u/get-in tree [:rule]))    
+      (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
+                     (str "; looking for: "
+                          (strip-refs (select-keys (u/get-in tree at) show-keys))
+                          "; gen-condition: " gen-condition))))
     (->>
      (cond
        ;; condition 0: tree is :fail.

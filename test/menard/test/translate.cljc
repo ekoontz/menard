@@ -52,7 +52,7 @@
                  :surface (nl/morph structure)}))
              ((fn [{surface :surface
                     structure :structure}]
-                (log/info (str surface " : " (nl/syntax-tree structure)))
+                (log/debug (str surface " : " (nl/syntax-tree structure)))
                 (if intermediate-parsing?
                   (-> (->> (nl/parse surface)
                            ;; remove partial parses, if any:
@@ -79,12 +79,10 @@
                     syntax-tree :syntax-tree}]
                 (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree structure))))
                 (if (nil? structure)
-                  (log/warn (str "couldn't parse: " syntax-tree)))
+                  (log/warn (str "couldn't parse: '" surface "' input tree was: " syntax-tree)))
                 (is (not (nil? structure)))
-                structure)))
-         (map (fn [tree] {:nl-st (nl/syntax-tree tree)
-                          :sem (u/get-in tree [:sem])
-                          :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
+                [structure])))
+         (map (fn [tree] {:nl-st (nl/syntax-tree tree) :sem (u/get-in tree [:sem]) :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
          (map (fn [{nl :nl nl-st :nl-st en-spec :en-spec sem :sem}]
                 (log/debug (str "nl-st: " nl-st))
                 {:nl-st nl-st
@@ -130,6 +128,6 @@
    (range 0 (count nl/expressions))
    (map (fn [i]
           (doall
-           (take 10
+           (take 20
                  (repeatedly #(transfer-fn i @nl/model))))))
    doall))

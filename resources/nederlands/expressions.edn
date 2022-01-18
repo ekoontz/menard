@@ -121,8 +121,8 @@
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
-  :subcat []}
-
+  :subcat []
+  :head {:comp {:rule "intensifier-phrase"}}}
  
  ;; 9
  ;; Generate some noun phrases but with less constraints,

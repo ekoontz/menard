@@ -47,30 +47,41 @@
              ((fn [generated]
                 (is (not (nil? generated)))
                 generated))
-             nl/morph
-             ((fn [surface]
-                (log/info (str "generate spec(" i "):" surface))
-                surface))
-             ((fn [surface]
+             ((fn [structure]
+                {:structure structure
+                 :surface (nl/morph structure)}))
+             ((fn [{surface :surface
+                    structure :structure}]
+                (log/info (str surface " : " (nl/syntax-tree structure)))
                 (if intermediate-parsing?
-
-                  (->> (nl/parse surface)
-                       ;; remove partial parses, if any:
-                       (filter #(not (= true (:menard.parse/partial? %))))
-                       ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
-                       (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
-                       ;; and take only one parse to test against:
-                       (take 1))
+                  (-> (->> (nl/parse surface)
+                           ;; remove partial parses, if any:
+                           (filter #(not (= true (:menard.parse/partial? %))))
+                           ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
+                           (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
+                           ;; and take only one parse to test against:
+                           (take 1))
+                      first
+                      ((fn [parsed-structure]
+                         (if (not (nil? parsed-structure))
+                           {:surface surface
+                            :syntax-tree (nl/syntax-tree structure)
+                            :structure parsed-structure}
+                           {:surface surface
+                            :syntax-tree (nl/syntax-tree structure)
+                            :structure structure}))))
                   ;; intermediate-parsing? is false:
-                  ;; TODO: we are assuming a tree in the next step
-                  ;; of the ->>, not a string, but we're returning a string here:
-                  (list surface))))
-             ((fn [tree]
-                (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree tree))))
-                (if (not (= (count tree) 1))
-                  (log/warn (str "couldn't parse: " surface)))
-                (is (= (count tree) 1))
-                tree)))
+                  {:surface surface
+                   :syntax-tree (nl/syntax-tree structure)
+                   :structure structure})))
+             ((fn [{surface :surface
+                    structure :structure
+                    syntax-tree :syntax-tree}]
+                (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree structure))))
+                (if (nil? structure)
+                  (log/warn (str "couldn't parse: " syntax-tree)))
+                (is (not (nil? structure)))
+                structure)))
          (map (fn [tree] {:nl-st (nl/syntax-tree tree)
                           :sem (u/get-in tree [:sem])
                           :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))

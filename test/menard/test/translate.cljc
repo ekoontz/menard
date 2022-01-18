@@ -95,7 +95,7 @@
                       retval (if show-english-spec?
                                (assoc retval :en-spec (serialize en-spec))
                                retval)]
-                  (log/debug (str "en-st: " en-st))
+                  (log/info (str i ": " nl " -> " en))
                   (is (seq nl))
                   (is (seq en))
                   retval)))

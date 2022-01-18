@@ -67,6 +67,8 @@
                   (list surface))))
              ((fn [tree]
                 (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree tree))))
+                (if (not (= (count tree) 1))
+                  (log/warn (str "couldn't parse: " surface)))
                 (is (= (count tree) 1))
                 tree)))
          (map (fn [tree] {:nl-st (nl/syntax-tree tree)

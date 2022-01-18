@@ -422,13 +422,16 @@
 (defn validator
   "example usage: 
   (validator (nth nl/expressions 15))))))"
-  [spec & [times]]
+  [spec i & [times]]
   (let [times (or times 10)]
+    (log/info (str "  with spec: " spec " (number: " i ")"))
     (count (take
             times
             (repeatedly
-             #(do
-                (log/info (str "doing spec: " spec))
+             #(binding [menard.generate/log-these-rules #{
+                                                          ;; add rules
+                                                          ;; you want to debug here.
+                                                          }]
                 (-> spec
                     nl/generate
                     ((fn [x]
@@ -438,16 +441,22 @@
                     ((fn [x]
                        (if intermediate-parsing?
                          (-> x nl/morph nl/parse first)
-                       x)))
-                    nl/syntax-tree
+                         x)))
+                    nl/morph
                     println)))))))
 
 (deftest validations
+  (let [start 0
+        end (count nl/expressions)
+;;        start 0
+;;        end 11
+        do-times 10]
   (doall
    (->>
-    (range 0 (count nl/expressions))
+    (range start end)
     (map (fn [x]
-           (is (= 10 (menard.test.nederlands/validator (nth nl/expressions x)))))))))
+           (log/info (str "doing " do-times " validation(s) for expression number " x))
+           (is (= do-times (menard.test.nederlands/validator (nth nl/expressions x) x do-times)))))))))
 
 (deftest separable-verbs
   (let [treden

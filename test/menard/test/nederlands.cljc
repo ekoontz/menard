@@ -431,6 +431,9 @@
              #(binding [menard.generate/log-these-rules #{
                                                           ;; add rules
                                                           ;; you want to debug here.
+;;                                                          "np:1" "np:2" "nbar"
+;;                                                          "conj-outer"
+;;                                                          "conj-inner"
                                                           }]
                 (-> spec
                     nl/generate

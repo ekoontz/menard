@@ -156,7 +156,9 @@
         :pred :bird}
   :rule "np:1"
   :comp {:rule "conj-outer"
-         :head {:rule "conj-inner"}}}
+         :head {:rule "conj-inner"
+                :head {:phrasal? false}
+                :comp {:phrasal? false}}}}
 
  ;; 11
  {:note "de vier kliene vogels"

@@ -1,14 +1,20 @@
 [;; 1
- {:cat :adjective}
- {:cat :adverb}
- {:cat :intensifier}
- {:cat :neg}
- {:cat :noun}
- {:cat :prep}
+ {:cat :adjective
+  :menard.reflexives/refl-match 0}
+ {:cat :adverb
+  :menard.reflexives/refl-match 1}
+ {:cat :intensifier
+  :menard.reflexives/refl-match 2}
+ {:cat :neg
+  :menard.reflexives/refl-match 3}
+ {:cat :noun
+  :menard.reflexives/refl-match 4}
+ {:cat :prep
+  :menard.reflexives/refl-match 5}
  
  ;; intransitive verbs "ik zie"
  {:cat :verb
-  ::refl-match 7
+  :menard.reflexives/refl-match 7
   :sem {:arg1 :none
         :arg2 :none
         :obj :none}}
@@ -18,7 +24,7 @@
    {:cat :verb
     :modal false
     :reflexive? true
-    ::refl-match 8
+    :menard.reflexives/refl-match 8
     :sem {:subj {:ref ref}
           :obj {:ref ref
                 :obj :none}
@@ -28,7 +34,7 @@
  ;; reflexive case (modal) e.g. "ik probeer me te zien"
  (let [ref (atom :top)]
    {:cat :verb
-    ::refl-match 9
+    :menard.reflexives/refl-match 9
               
     ;; TODO: language-dependent: only Dutch has :te value for :modal.
     :modal :te
@@ -42,12 +48,12 @@
  ;; e.g. "maar Ina" or "maar mezelf"
  {:cat :conjunction
   :rule "conj-inner"
-  ::refl-match 10}
+  :menard.reflexives/refl-match 10}
 
  ;; niet mezelf maar Ina
  (let [subj-and-obj-ref (atom :top)]
    {:rule "conj-outer"
-    ::refl-match 11
+    :menard.reflexives/refl-match 11
     :comp {:reflexive? true}
     :head {:reflexive? false}
     :sem {:subj {:ref subj-and-obj-ref}
@@ -56,7 +62,7 @@
  ;; niet Ina maar mezelf
  (let [subj-and-obj-ref (atom :top)]
    {:rule "conj-outer"
-    ::refl-match 12
+    :menard.reflexives/refl-match 12
     :comp {:reflexive? false}
     :head {:reflexive? true}
     :sem {:subj {:ref subj-and-obj-ref}
@@ -67,7 +73,7 @@
  (let [ref1 (atom :top)
        ref2 (atom :top)
        ref3 (atom :top)]
-   {::refl-match 12.5
+   {:menard.reflexives/refl-match 12.5
     :rule "conj-outer"
     :comp {:reflexive? false}
     :head {:reflexive? false}
@@ -84,7 +90,7 @@
  ;; but for :3rd, "he sees him" is ok, as long as the
  ;; subj :ref and :obj :ref are distinct.
  {:cat :verb
-  ::refl-match 13
+  :menard.reflexives/refl-match 13
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
@@ -95,7 +101,7 @@
               :obj :none}}}
  
  {:cat :verb
-  ::refl-match 14
+  :menard.reflexives/refl-match 14
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {::is-subj true}}
@@ -105,7 +111,7 @@
               :ref {::is-subj false}}}}
 
  {:cat :verb
-  ::refl-match 15
+  :menard.reflexives/refl-match 15
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
@@ -114,7 +120,7 @@
               :ref {::is-subj false}}}}
 
  {:cat :verb
-  ::refl-match 16
+  :menard.reflexives/refl-match 16
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {::is-subj true}}
@@ -122,7 +128,7 @@
               :ref {::is-subj false}}}}
 
  {:cat :verb
-  ::refl-match 17
+  :menard.reflexives/refl-match 17
   :agr {:person :3rd}
   :sem {:subj {:person :3rd
                :existential? false
@@ -134,7 +140,7 @@
  ;; arg1's object is "mezelf"
  (let [subj-and-obj-ref (atom {::is-subj true})]
    {:cat :verb
-    ::refl-match 18
+    :menard.reflexives/refl-match 18
     :subcat {:1 {:cat :noun
                  :sem {:subj {:ref subj-and-obj-ref}}}
              :2 []}
@@ -151,7 +157,7 @@
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
  (let [subj-and-obj-ref (atom :top)]
    {:cat :verb
-    ::refl-match 19
+    :menard.reflexives/refl-match 19
     :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
     :reflexive? true
     :head {:reflexive? true}

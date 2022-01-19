@@ -79,18 +79,20 @@
   (let [output-grammar
         (->> input-grammar
              (mapcat (fn [rule]
-                       (map (fn [option]
-                              (unify option rule))
-                            reflexive-options))))]
+                       (log/debug (str "processing rule: " (:rule rule)))
+                       (let [retval
+                             (->> (map (fn [option]
+                                         (log/debug (str " processing option: " (:menard.reflexives/refl-match option)))
+                                         (unify option rule))
+                                       reflexive-options)
+                                  (remove #(= % :fail)))]
+                         (count
+                          (map (fn [result]
+                                 (log/debug (str "result: rule: " (u/get-in result [:rule]) "; "
+                                                "refl-match: " (u/get-in result [:menard.reflexives/refl-match]))))
+                               retval))
+                         retval))))]
     (log/debug (str "process-reflexives: output-grammar: " (count output-grammar) " rules."))
-    output-grammar))
-
-(defn remove-fails [input-grammar]
-  (log/info (str "process-reflexives: input-grammar: " (count input-grammar) " rules."))
-  (let [output-grammar
-        (->> input-grammar
-             (remove #(= :fail %)))]
-    (log/info (str "remove-fails: output-grammar: " (count output-grammar) " rules."))
     output-grammar))
 
 (defn process [grammar & [do-not-eval?]]
@@ -109,7 +111,7 @@
        filter-rules-by-firstness
        warn-rules-by-catness
        process-reflexives
-       remove-fails
+       (remove #(= :fail %))
        (map #(u/assoc-in % [:phrasal?] true))
        (map #(u/assoc-in % [:menard.generate/started?] true))))
 

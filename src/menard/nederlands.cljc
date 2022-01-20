@@ -33,7 +33,7 @@
 ;;(def log-these-rules #{"vp-conj"})
 ;;(def log-these-rules #{"np:1" "np:2" "nbar"})
 ;;(def log-these-rules #{"s"})
-(def log-these-rules #{})
+(def log-these-rules #{"conj-outer"})
 
 ;; <morphology>
 #?(:clj
@@ -566,15 +566,17 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
 
-    (binding [p/grammar (-> model :grammar)
+    (log/info (str "GOT HERE:: NL/PARSE!!!"))
+    (binding [l/lexicon (-> model :lexicon)
+              l/morphology (-> model :morphology)
+              p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               p/morph morph
               p/truncate? true
-              l/lexicon (-> model :lexicon)
-              l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/log-these-rules log-these-rules
-              p/lookup-fn analyze]
+              p/lookup-fn analyze
+              menard.serialization/show-refl-match? true]
       (p/parse expression))))
 
 (defn parse-start [expression]
@@ -610,14 +612,16 @@
         ;; '!' -> imperative
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
-              p/syntax-tree syntax-tree
+              p/log-these-rules log-these-rules
+              p/lookup-fn analyze
               p/truncate-fn (fn [tree]
                               (-> tree
                                   (dissoc :head)
                                   (dissoc :comp)
                                   (assoc :1 (strip-map (u/get-in tree [:1])))
-                                  (assoc :2 (strip-map (u/get-in tree [:2]) syntax-tree))))              
-              p/lookup-fn analyze]
+                                  (assoc :2 (strip-map (u/get-in tree [:2]) syntax-tree))))           
+              p/syntax-tree syntax-tree
+              menard.serialization/show-refl-match? true]
       (let [input-map (p/parse-start expression)]
         (-> input-map
             (p/parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)

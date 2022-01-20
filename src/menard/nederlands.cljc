@@ -33,7 +33,8 @@
 ;;(def log-these-rules #{"vp-conj"})
 ;;(def log-these-rules #{"np:1" "np:2" "nbar"})
 ;;(def log-these-rules #{"s"})
-(def log-these-rules #{"conj-outer"})
+;;(def log-these-rules #{"conj-outer"})
+(def log-these-rules #{})
 
 ;; <morphology>
 #?(:clj
@@ -565,8 +566,6 @@
         ;; '.' -> declarative
         ;; '?' -> interrogative
         ;; '!' -> imperative
-
-    (log/info (str "GOT HERE:: NL/PARSE!!!"))
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/grammar (-> model :grammar)

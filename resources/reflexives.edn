@@ -79,9 +79,12 @@
     :comp {:reflexive? false}
     :head {:reflexive? false
            :cat :noun}
-    :sem {:subj {:ref ref1}
-          :arg1 {:obj {:ref ref2}}
-          :arg2 {:obj {:ref ref3}}}})
+    :sem {:subj {:ref ref1
+                 :menard.reflexives/is-subj? true}
+          :arg1 {:obj {:ref ref2
+                       :menard.reflexives/is-subj? false}}
+          :arg2 {:obj {:ref ref3
+                       :menard.reflexives/is-subj? false}}}})
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.
@@ -95,52 +98,52 @@
   :menard.reflexives/refl-match 13
   :agr {:person :1st}
   :sem {:subj {:person :1st
-               :ref {::is-subj true}}
+               :ref {:menard.reflexives/is-subj? true}}
         :arg1 :none
         :arg2 :none
         :obj {:person-not :1st
-              :ref {::is-subj false}
+              :ref {:menard.reflexives/is-subj? false}
               :obj :none}}}
  
  {:cat :verb
   :menard.reflexives/refl-match 14
   :agr {:person :1st}
   :sem {:subj {:person :1st
-               :ref {::is-subj true}}
+               :ref {:menard.reflexives/is-subj? true}}
         :arg1 :none
         :arg2 :none
         :obj {:obj {:person-not :1st}
-              :ref {::is-subj false}}}}
+              :ref {:menard.reflexives/is-subj? false}}}}
 
  {:cat :verb
   :menard.reflexives/refl-match 15
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
-               :ref {::is-subj true}}
+               :ref {:menard.reflexives/is-subj? true}}
         :obj {:person-not :2nd
               :obj :none
-              :ref {::is-subj false}}}}
+              :ref {:menard.reflexives/is-subj? false}}}}
 
  {:cat :verb
   :menard.reflexives/refl-match 16
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
-               :ref {::is-subj true}}
+               :ref {:menard.reflexives/is-subj? true}}
         :obj {:obj {:person-not :2nd}
-              :ref {::is-subj false}}}}
+              :ref {:menard.reflexives/is-subj? false}}}}
 
  {:cat :verb
   :menard.reflexives/refl-match 17
   :agr {:person :3rd}
   :sem {:subj {:person :3rd
                :existential? false
-               :ref {::is-subj true}}
-        :obj {:ref {::is-subj false}}}}
+               :ref {:menard.reflexives/is-subj? true}}
+        :obj {:ref {:menard.reflexives/is-subj? false}}}}
 
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet Ina maar mezelf]]
  ;; arg2's object is "Ina"
  ;; arg1's object is "mezelf"
- (let [subj-and-obj-ref (atom {::is-subj true})]
+ (let [subj-and-obj-ref (atom {:menard.reflexives/is-subj? true})]
    {:cat :verb
     :menard.reflexives/refl-match 18
     :subcat {:1 {:cat :noun
@@ -152,7 +155,7 @@
     :sem {:arg1 {:subj {:ref subj-and-obj-ref}
                  :obj {:ref subj-and-obj-ref}}
           :arg2 {:subj {:ref subj-and-obj-ref}
-                 :obj {:ref {::is-subj false}}}
+                 :obj {:ref {:menard.reflexives/is-subj? false}}}
           :pred :and}})
   
  ;; doesn't work yet:

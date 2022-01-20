@@ -55,7 +55,9 @@
    {:rule "conj-outer"
     :menard.reflexives/refl-match 11
     :comp {:reflexive? true}
-    :head {:reflexive? false}
+    :head {:reflexive? false
+           :cat :conjunction
+           :comp {:cat :noun}}
     :sem {:subj {:ref subj-and-obj-ref}
           :arg2 {:obj {:ref subj-and-obj-ref}}}})
 
@@ -65,7 +67,8 @@
     :menard.reflexives/refl-match 12
     :comp {:reflexive? false}
     :head {:reflexive? true
-           :cat :noun}
+           :cat :conjunction
+           :comp {:cat :noun}}
     :sem {:subj {:ref subj-and-obj-ref}
           :arg1 {:obj {:ref subj-and-obj-ref}}}})
 
@@ -78,7 +81,8 @@
     :rule "conj-outer"
     :comp {:reflexive? false}
     :head {:reflexive? false
-           :cat :noun}
+           :cat :conjunction
+           :comp {:cat :noun}}
     :sem {:subj {:ref ref1
                  :menard.reflexives/is-subj? true}
           :arg1 {:obj {:ref ref2

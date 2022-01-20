@@ -7,6 +7,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :refer [fail-path]]
             [dag_unify.serialization :as s :refer [serialize]]))
 
 (defn list-as-map-to-list
@@ -83,13 +84,20 @@
                        (let [retval
                              (->> (map (fn [option]
                                          (log/debug (str " processing option: " (:menard.reflexives/refl-match option)))
-                                         (unify option rule))
+                                         (let [result
+                                               (unify option rule)]
+                                           (if (= :fail result)
+                                             (let [path (fail-path option rule)]
+                                               (log/debug (str " option " (:menard.reflexives/refl-match option) " failed. path:"
+                                                               path "; rule's value: " (u/get-in rule path)
+                                                               "; options's value: " (u/get-in option path)))))
+                                           result))
                                        reflexive-options)
                                   (remove #(= % :fail)))]
                          (count
                           (map (fn [result]
                                  (log/debug (str "result: rule: " (u/get-in result [:rule]) "; "
-                                                "refl-match: " (u/get-in result [:menard.reflexives/refl-match]))))
+                                                 "refl-match: " (u/get-in result [:menard.reflexives/refl-match]))))
                                retval))
                          retval))))]
     (log/debug (str "process-reflexives: output-grammar: " (count output-grammar) " rules."))

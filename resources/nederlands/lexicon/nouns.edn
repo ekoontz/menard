@@ -37,6 +37,11 @@
           :sem {:pred :animal}}]
  "druif" [{:sem {:pred :grape}
            :curriculum :basic}]
+
+ ;; TODO: test that plural is
+ ;; generated as expected correct "dwazen".
+ "dwaas" [{:sem {:pred :fool}}]
+
  "echtgenoot" [{:sem {:pred :husband
                       :ref {:human? true}}}]
  "echtgenote" [{:sem {:pred :wife

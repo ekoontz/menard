@@ -77,7 +77,7 @@
  (let [ref1 (atom :top)
        ref2 (atom :top)
        ref3 (atom :top)]
-   {:menard.reflexives/refl-match 12.5
+   {:menard.reflexives/refl-match 13
     :rule "conj-outer"
     :comp {:reflexive? false}
     :head {:reflexive? false
@@ -99,7 +99,7 @@
  ;; but for :3rd, "he sees him" is ok, as long as the
  ;; subj :ref and :obj :ref are distinct.
  {:cat :verb
-  :menard.reflexives/refl-match 13
+  :menard.reflexives/refl-match 14
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {:menard.reflexives/is-subj? true}}
@@ -110,7 +110,7 @@
               :obj :none}}}
  
  {:cat :verb
-  :menard.reflexives/refl-match 14
+  :menard.reflexives/refl-match 15
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {:menard.reflexives/is-subj? true}}
@@ -120,7 +120,7 @@
               :ref {:menard.reflexives/is-subj? false}}}}
 
  {:cat :verb
-  :menard.reflexives/refl-match 15
+  :menard.reflexives/refl-match 16
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {:menard.reflexives/is-subj? true}}
@@ -129,7 +129,7 @@
               :ref {:menard.reflexives/is-subj? false}}}}
 
  {:cat :verb
-  :menard.reflexives/refl-match 16
+  :menard.reflexives/refl-match 17
   :agr {:person :2nd}
   :sem {:subj {:person :2nd
                :ref {:menard.reflexives/is-subj? true}}
@@ -137,7 +137,7 @@
               :ref {:menard.reflexives/is-subj? false}}}}
 
  {:cat :verb
-  :menard.reflexives/refl-match 17
+  :menard.reflexives/refl-match 18
   :agr {:person :3rd}
   :sem {:subj {:person :3rd
                :existential? false
@@ -149,10 +149,10 @@
  ;; arg1's object is "mezelf"
  (let [subj-and-obj-ref (atom {:menard.reflexives/is-subj? true})]
    {:cat :verb
-    :menard.reflexives/refl-match 18
     :subcat {:1 {:cat :noun
                  :sem {:subj {:ref subj-and-obj-ref}}}
              :2 []}
+    :menard.reflexives/refl-match 19
     :reflexive? true
     :head {:reflexive? true
            :cat :verb}
@@ -166,7 +166,7 @@
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
  (let [subj-and-obj-ref (atom :top)]
    {:cat :verb
-    :menard.reflexives/refl-match 19
+    :menard.reflexives/refl-match 20
     :subcat {:1 {:sem {:subj {:ref subj-and-obj-ref}}}}    
     :reflexive? true
     :head {:reflexive? true}

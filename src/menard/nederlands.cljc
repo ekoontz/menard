@@ -575,7 +575,8 @@
               p/split-on #"[ ]"
               p/log-these-rules log-these-rules
               p/lookup-fn analyze
-              menard.serialization/show-refl-match? true]
+              menard.serialization/show-refl-match? false
+              ]
       (p/parse expression))))
 
 (defn parse-start [expression]

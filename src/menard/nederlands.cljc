@@ -384,8 +384,10 @@
                 (dosync
                  (ref-set model loaded))))
           (catch Exception e (do
-                               (log/info (str "OOPS!! THERE WAS A PROBLEM! NOT RELOADING THE MODEL UNTIL IT GETS FIXED. PROBLEM WAS: " (str e)))))))
-      @model))
+                               (log/info (str "Failed to load model; the error was: " (str e) ". Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
+     (if (nil? @model)
+       (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
+     @model))
 
 #?(:clj
    (defn start-reload-loop []

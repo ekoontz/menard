@@ -89,8 +89,6 @@
   {:agr (atom :top)
    :canonical (atom :top)
    :cat (atom :top)
-   :separable? (atom :top)
-   :strong? (atom :top)
    :definite? (atom :top)
    :exceptions (atom :top)
    :infl (atom :top)
@@ -98,7 +96,9 @@
    :note (atom :top)
    :null? (atom :top)
    :root (atom :top)
-   :sem (atom :top)})
+   :sem (atom :top)
+   :separable? (atom :top)
+   :strong? (atom :top)})
 
 (defn numeric-frontier [syntax-tree]
   (cond

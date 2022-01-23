@@ -15,8 +15,7 @@
 
  (let [args (atom :top)]
    {:def 'complement-is-conjunction
-    :comp {:sem {:pred :and
-                 :args args}}
+    :comp {:sem {:args args}}
     :sem {:args args
           :obj :none}})
 

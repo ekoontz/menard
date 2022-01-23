@@ -184,7 +184,8 @@
        :sem {:obj ::unspec}}
   :then [{:subcat {:1 {:cat :noun
                        :subcat []}}
-          :sem {:obj :none}}
+          :sem {:args :none
+                :obj :none}}
          {:subcat {:1 {:cat :noun
                        :subcat []}
                    :2 {:cat :noun
@@ -194,14 +195,14 @@
                        :subcat []}
                    :2 {:cat :conjunction
                        :subcat []}}
-          :sem {:obj ::none}}]}
+          :sem {:obj :none}}]}
  
  {:rule :existential-verb
   :if {:cat :verb
        :separable? false
        :te? false
        :modal false
-       :sem {:obj :none}}
+       :sem {:obj ::none}}
   :then [;; 1. non-existential, intransitive:
          {:sem {:subj {:existential? false}}
           :subcat {:2 []}}
@@ -472,7 +473,7 @@
            {:reflexive? false
             :sem {:subj subj
                   :args args
-                  :obj ::none}
+                  :obj :none}
             :subcat {:2 {:reflexive? false
                          :case :acc
                          :subcat []

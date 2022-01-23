@@ -15,6 +15,7 @@
  ;; intransitive verbs "ik zie"
  {:cat :verb
   :menard.reflexives/refl-match 7
+  :subcat []
   :sem {:args :none
         :obj :none}}
  
@@ -136,7 +137,7 @@
     :reflexive? true
     :head {:reflexive? true
            :cat :verb}
-    :sem {:pred :and}})
+    :comp {:sem {:pred :and}}})
   
  ;; doesn't work yet:
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
@@ -165,6 +166,16 @@
     :reflexive? false
     :head {:reflexive? false
            :cat :verb}})
+
+   {:cat :verb
+    :subcat []
+    :sem {:obj :none
+          :args {:top :top}
+          :subj {:top :top}}
+    :menard.reflexives/refl-match 22
+    :reflexive? false
+    :head {:reflexive? false
+           :cat :verb}}
 
  ]
 

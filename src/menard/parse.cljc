@@ -98,9 +98,11 @@
            (log/info
             (str "overh fail: " (syntax-tree parent)
                  " <- " (syntax-tree head)
-                 " fail path: " (vec fp)
+                 " fail-path: " (vec fp)
                  ". parent has: " (u/pprint (u/get-in parent fp))
                  ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                 (if (:menard.lexiconfn/derivation head)
+                   (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
                  "."))))
         []))))
 

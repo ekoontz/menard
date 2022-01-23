@@ -44,16 +44,20 @@
 
  ;; reflexive or nonreflexive complement with a conjunction
  ;; e.g. "maar Ina" or "maar mezelf"
- {:cat :conjunction
-  :rule "conj-inner"
-  :menard.reflexives/refl-match 10}
+ (let [reflexive? (atom :top)]
+   {:cat :conjunction
+    :rule "conj-inner"
+    :reflexive? reflexive?
+    :menard.reflexives/refl-match 10
+    :comp {:reflexive? reflexive?}})
    
- ;; niet Ina maar Guus:
+ ;; niet Ina maar Guus, Ina en Guus
  ;; subject and both arguments are distinct from each other:
  (let [ref1 (atom :top)
        ref2 (atom :top)
        ref3 (atom :top)]
    {:menard.reflexives/refl-match 13
+    :reflexive? false
     :rule "conj-outer"
     :comp {:reflexive? false}
     :head {:reflexive? false
@@ -132,11 +136,7 @@
     :reflexive? true
     :head {:reflexive? true
            :cat :verb}
-    :sem {:arg1 {:subj {:ref subj-and-obj-ref}
-                 :obj {:ref subj-and-obj-ref}}
-          :arg2 {:subj {:ref subj-and-obj-ref}
-                 :obj {:ref {:menard.reflexives/is-subj? false}}}
-          :pred :and}})
+    :sem {:pred :and}})
   
  ;; doesn't work yet:
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
@@ -151,6 +151,21 @@
                  :obj {:ref subj-and-obj-ref}}
           :pred :and}})
         )
+
+
+ ;; for conjunctions e.g. [vp-conj zie [conj-outer niet Ina maar mezelf]]
+ ;; arg2's object is "Ina"
+ ;; arg1's object is "mezelf"
+ (let [subj-and-obj-ref (atom {:menard.reflexives/is-subj? true})]
+   {:cat :verb
+    :subcat {:1 {:cat :noun
+                 :sem {:subj {:ref subj-and-obj-ref}}}
+             :2 []}
+    :menard.reflexives/refl-match 21
+    :reflexive? false
+    :head {:reflexive? false
+           :cat :verb}})
+
  ]
 
 

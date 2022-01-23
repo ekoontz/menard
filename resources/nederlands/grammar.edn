@@ -186,7 +186,8 @@
   :aux false
   :slash? false
   :options menard.nederlands/finite-plus-inf-tense
-  :comp {:beginning-of-sentence? false}
+  :comp {:beginning-of-sentence? false
+         :cat :noun}
   :head {:aux false
          :modal false}
 
@@ -207,15 +208,14 @@
          :subcat []}
   :head {:aux false
          :cat :verb
-         :subcat {:1 {:top :top}
-                  :2 []}
          :modal false
          :phrasal false}
   :unify [menard.ug/head-first
           menard.ug/head-modal
           menard.ug/head-reflexive
           menard.ug/head-rule
-          menard.ug/complement-is-conjunction]}
+          menard.ug/complement-is-conjunction
+          menard.subcat/c]}
  
  {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np .honden [vp-te +te .zien]]]
   :cat :verb

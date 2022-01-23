@@ -174,7 +174,7 @@
  ;; transitivity, generate both intransitive and transitive forms
  ;; of the verb, where the second form has:
  ;; 1. a noun second argument (which must be un-existential).
- ;; 2. a conjunction second argument (which also must be un-existential).
+ ;; 2. a conjunction second argument.
  {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux false
@@ -194,7 +194,7 @@
                        :subcat []}
                    :2 {:cat :conjunction
                        :subcat []}}
-          :sem {:obj {:existential? false}}}]}
+          :sem {:obj ::none}}]}
  
  {:rule :existential-verb
   :if {:cat :verb
@@ -464,18 +464,19 @@
  {:rule :transitive-verbs-conj ;; "ziet" in "zij ziet [hem en mij]"
   :if {:cat :verb
        :reflexive? ::unspec
-       :sem {:obj {:top :top}}
+       :sem {:obj ::none}
        :subcat {:2 {:cat :conjunction}}}
   :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
          (let [subj (atom {:existential? false})
-               obj (atom {:top :top})]
+               args (atom {:top :top})]
            {:reflexive? false
             :sem {:subj subj
-                  :obj obj}
+                  :args args
+                  :obj ::none}
             :subcat {:2 {:reflexive? false
                          :case :acc
                          :subcat []
-                         :sem obj}}})]}
+                         :sem args}}})]}
          
          ;; reflexive: subject and object are the same semantically and by agreement.
          ;; (TODO)]}

@@ -15,8 +15,7 @@
  ;; intransitive verbs "ik zie"
  {:cat :verb
   :menard.reflexives/refl-match 7
-  :sem {:arg1 :none
-        :arg2 :none
+  :sem {:args :none
         :obj :none}}
  
  ;; reflexive case (non modal): "ik zie me"
@@ -28,8 +27,7 @@
     :sem {:subj {:ref ref}
           :obj {:ref ref
                 :obj :none}
-          :arg1 :none
-          :arg2 :none}})
+          :args :none}})
  
  ;; reflexive case (modal) e.g. "ik probeer me te zien"
  (let [ref (atom :top)]
@@ -51,27 +49,39 @@
   :menard.reflexives/refl-match 10}
 
  ;; niet mezelf maar Ina
- (let [subj-and-obj-ref (atom :top)]
-   {:rule "conj-outer"
-    :menard.reflexives/refl-match 11
+ (let [ref1 (atom :top)
+       ref2 (atom :top)]
+   {:menard.reflexives/refl-match 11
+    :rule "conj-outer"
     :comp {:reflexive? true}
     :head {:reflexive? false
            :cat :conjunction
            :comp {:cat :noun}}
-    :sem {:subj {:ref subj-and-obj-ref}
-          :arg2 {:obj {:ref subj-and-obj-ref}}}})
+    :sem {:subj {:ref ref1
+                 :menard.reflexives/is-subj? true}
+          :args {:first {:obj {:ref ref1
+                               :menard.reflexives/is-subj? true}}
+                 :rest {:first {:obj {:ref ref2
+                                      :menard.reflexives/is-subj? false}}
+                        :rest []}}}})
 
- ;; niet Ina maar mezelf
- (let [subj-and-obj-ref (atom :top)]
-   {:rule "conj-outer"
-    :menard.reflexives/refl-match 12
+   ;; niet Ina maar mezelf
+ (let [ref1 (atom :top)
+       ref2 (atom :top)]
+   {:menard.reflexives/refl-match 12
+    :rule "conj-outer"
     :comp {:reflexive? false}
     :head {:reflexive? true
            :cat :conjunction
            :comp {:cat :noun}}
-    :sem {:subj {:ref subj-and-obj-ref}
-          :arg1 {:obj {:ref subj-and-obj-ref}}}})
-
+    :sem {:subj {:ref ref1
+                 :menard.reflexives/is-subj? true}
+          :args {:first {:obj {:ref ref2
+                               :menard.reflexives/is-subj? false}}
+                 :rest {:first {:obj {:ref ref1
+                                      :menard.reflexives/is-subj? true}}
+                        :rest []}}}})
+   
  ;; niet Ina maar Guus:
  ;; subject and both arguments are distinct from each other:
  (let [ref1 (atom :top)
@@ -85,10 +95,11 @@
            :comp {:cat :noun}}
     :sem {:subj {:ref ref1
                  :menard.reflexives/is-subj? true}
-          :arg1 {:obj {:ref ref2
-                       :menard.reflexives/is-subj? false}}
-          :arg2 {:obj {:ref ref3
-                       :menard.reflexives/is-subj? false}}}})
+          :args {:first {:obj {:ref ref2
+                               :menard.reflexives/is-subj? false}}
+                 :rest {:first {:obj {:ref ref3
+                                      :menard.reflexives/is-subj? false}}
+                        :rest []}}}})
  
  ;; nonreflexive cases: we force the subj's :ref and obj's
  ;; :ref to be to be distinct from each other.
@@ -103,8 +114,7 @@
   :agr {:person :1st}
   :sem {:subj {:person :1st
                :ref {:menard.reflexives/is-subj? true}}
-        :arg1 :none
-        :arg2 :none
+        :args :none
         :obj {:person-not :1st
               :ref {:menard.reflexives/is-subj? false}
               :obj :none}}}
@@ -164,6 +174,7 @@
   
  ;; doesn't work yet:
  ;; for conjunctions e.g. [vp-conj zie [conj-outer niet mezelf maar Ina]]
+ (comment
  (let [subj-and-obj-ref (atom :top)]
    {:cat :verb
     :menard.reflexives/refl-match 20
@@ -173,7 +184,7 @@
     :sem {:arg2 {:subj {:ref subj-and-obj-ref}
                  :obj {:ref subj-and-obj-ref}}
           :pred :and}})
-        
+        )
  ]
 
 

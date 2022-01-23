@@ -27,8 +27,9 @@
                      :3 []}
             :reflexive? reflexive?
             :sem {:pred :and ;; note that the {:pred :and} is the same as with the second case of "en".
-                  :arg1 lower
-                  :arg2 higher}})]
+                  :args {:first higher
+                         :rest {:first lower
+                                :rest []}}}})]
  
  "niet" [(let [sem (atom :top)]
            {:cat :neg

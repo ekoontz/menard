@@ -18,7 +18,7 @@
     :comp {:sem {:pred :and
                  :args args}}
     :sem {:args args
-          :obj ::none}})
+          :obj :none}})
 
  (let [subj-ref (atom :top)]
    {:def 'subj-ref

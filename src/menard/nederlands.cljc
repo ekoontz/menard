@@ -379,10 +379,10 @@
      (log/debug (str "checking model..: reload? " reload?))
       (when (or (nil? @model) (true? reload?))
         (try
-          (do (let [loaded (create-model-from-filesystem)]
-                (log/info (str "model successfully reloaded: replacing existing model with new one now."))
-                (dosync
-                 (ref-set model loaded))))
+          (let [loaded (create-model-from-filesystem)]
+            (dosync
+             (ref-set model loaded))
+            (log/info (str "model update done.")))
           (catch Exception e (do
                                (log/info (str "Failed to load model; the error was: " (str e) ". Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
      (if (nil? @model)

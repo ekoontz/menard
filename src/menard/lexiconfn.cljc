@@ -25,11 +25,14 @@
     (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
                     "; result: " result))
     (cond (= :fail result)
-          (let [error-message (str "rule: " rule-name " failed to unify lexeme: "
+          (let [fail-path (diag/fail-path lexeme consequent)
+                error-message (str "rule: " rule-name " failed to unify lexeme: "
                                    (select-keys lexeme [::derivation :canonical :sense])
                                    (if (::derivation consequent)
                                      (str " (derivation: " (::derivation consequent) ")"))
-                                   " fail-path was: " (diag/fail-path lexeme consequent))]
+                                   " fail-path was: " fail-path ";"
+                                   " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
+                                   " consequent's value for path: " (u/get-in consequent fail-path))]
             (log/error error-message)
             (exception error-message))
           :else

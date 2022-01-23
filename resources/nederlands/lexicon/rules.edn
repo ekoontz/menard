@@ -724,6 +724,18 @@
 ;; {:rule :nonreflexive
 ;;  :if {:reflexive? ::unspec}
 ;;  :then [{:reflexive? false}]}
+
+
+ {:rule :propernouns-are-not-numbers
+  :if {:cat :noun
+       :propernoun? true}
+  :then [{:sem {:number? false}}]}
+
+ {:rule :pronouns-are-not-numbers
+  :if {:cat :noun
+       :pronoun? true}
+  :then [{:sem {:number? false}}]}
+
  
  ]
 

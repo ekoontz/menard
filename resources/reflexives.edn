@@ -47,40 +47,6 @@
  {:cat :conjunction
   :rule "conj-inner"
   :menard.reflexives/refl-match 10}
-
- ;; niet mezelf maar Ina
- (let [ref1 (atom :top)
-       ref2 (atom :top)]
-   {:menard.reflexives/refl-match 11
-    :rule "conj-outer"
-    :comp {:reflexive? true}
-    :head {:reflexive? false
-           :cat :conjunction
-           :comp {:cat :noun}}
-    :sem {:subj {:ref ref1
-                 :menard.reflexives/is-subj? true}
-          :args {:first {:obj {:ref ref1
-                               :menard.reflexives/is-subj? true}}
-                 :rest {:first {:obj {:ref ref2
-                                      :menard.reflexives/is-subj? false}}
-                        :rest []}}}})
-
-   ;; niet Ina maar mezelf
- (let [ref1 (atom :top)
-       ref2 (atom :top)]
-   {:menard.reflexives/refl-match 12
-    :rule "conj-outer"
-    :comp {:reflexive? false}
-    :head {:reflexive? true
-           :cat :conjunction
-           :comp {:cat :noun}}
-    :sem {:subj {:ref ref1
-                 :menard.reflexives/is-subj? true}
-          :args {:first {:obj {:ref ref2
-                               :menard.reflexives/is-subj? false}}
-                 :rest {:first {:obj {:ref ref1
-                                      :menard.reflexives/is-subj? true}}
-                        :rest []}}}})
    
  ;; niet Ina maar Guus:
  ;; subject and both arguments are distinct from each other:
@@ -95,10 +61,10 @@
            :comp {:cat :noun}}
     :sem {:subj {:ref ref1
                  :menard.reflexives/is-subj? true}
-          :args {:first {:obj {:ref ref2
-                               :menard.reflexives/is-subj? false}}
-                 :rest {:first {:obj {:ref ref3
-                                      :menard.reflexives/is-subj? false}}
+          :args {:first {:ref ref2
+                         :menard.reflexives/is-subj? false}
+                 :rest {:first {:ref ref3
+                                :menard.reflexives/is-subj? false}
                         :rest []}}}})
  
  ;; nonreflexive cases: we force the subj's :ref and obj's

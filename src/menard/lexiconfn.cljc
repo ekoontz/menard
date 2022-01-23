@@ -28,7 +28,8 @@
           (let [error-message (str "rule: " rule-name " failed to unify lexeme: "
                                    (select-keys lexeme [::derivation :canonical :sense])
                                    (if (::derivation consequent)
-                                     (str " (derivation: " (::derivation consequent) ")")))]
+                                     (str " (derivation: " (::derivation consequent) ")"))
+                                   " fail-path was: " (diag/fail-path lexeme consequent))]
             (log/error error-message)
             (exception error-message))
           :else

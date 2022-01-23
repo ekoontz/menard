@@ -13,9 +13,24 @@
           :sem {:pred :times
                 :number? true
                 :arg1 lower
-                :arg2 higher}})]
- ;; TODO: add second sense of "en" (more common)
- ;; as in "katten en honden" with {:pred :and}
+                :arg2 higher}})
+
+       (let [number? (atom false)
+             lower (atom {:number? number?})
+             higher (atom {:number? number?})]
+         {:cat :conjunction
+          :subcat {:1 {:teen? false
+                       :nul? false
+                       :sem higher}
+                   :2 {:teen? false
+                       :sem lower}
+                   :3 []}
+          :sem {:pred :and ;; note that {:pred :and} is the same as "maar" below.
+                :number? false
+                :args {:first higher
+                       :rest {:first lower
+                              :rest []}}}})]
+                       
  
  "maar" [(let [lower (atom {:polarity :+})
                higher (atom {:polarity :-})
@@ -26,7 +41,7 @@
                          :reflexive? reflexive?}
                      :3 []}
             :reflexive? reflexive?
-            :sem {:pred :and ;; note that the {:pred :and} is the same as with the second case of "en".
+            :sem {:pred :and ;; note that the {:pred :and} is the same as with the second case of "en" above.
                   :args {:first higher
                          :rest {:first lower
                                 :rest []}}}})]

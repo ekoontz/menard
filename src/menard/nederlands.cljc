@@ -616,12 +616,14 @@
               p/split-on #"[ ]"
               p/log-these-rules log-these-rules
               p/lookup-fn analyze
-              p/truncate-fn (fn [tree]
-                              (-> tree
-                                  (dissoc :head)
-                                  (dissoc :comp)
-                                  (assoc :1 (strip-map (u/get-in tree [:1])))
-                                  (assoc :2 (strip-map (u/get-in tree [:2]) syntax-tree))))           
+              p/truncate? true
+              p/truncate-fn
+              (fn [tree]
+                (-> tree
+                    (dissoc :head)
+                    (dissoc :comp)
+                    (assoc :1 (strip-map (u/get-in tree [:1])))
+                    (assoc :2 (strip-map (u/get-in tree [:2])))))
               p/syntax-tree syntax-tree
               menard.serialization/show-refl-match? true]
       (let [input-map (p/parse-start expression)]

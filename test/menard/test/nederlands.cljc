@@ -97,66 +97,16 @@
         (->>
          (range 0 (count prod-expressions))
          (map (fn [index]
-                (take generate-per-expression
-                      (repeatedly #(or (generate (nth expressions index))
-                                       ;; if generation fails, save the :note
-                                       ;; so we can see where the fail happened in the
-                                       ;; log/info messages printed below.
-                                       {:note (-> expressions (nth index) :note)}))))))]
-    ;; generation test 1
-    (is (= (count prod-expressions)
-           (count expression-sets)))))
-
-;; generation test 2
-(deftest all-expressions-work-2
-  (let [expression-sets
-        (->>
-         ;;         (range 0 (count prod-expressions))
-         (range 18 19)
-         (map (fn [index]
-                (take generate-per-expression
-                      (repeatedly #(or (generate (nth expressions index))
-                                       ;; if generation fails, save the :note
-                                       ;; so we can see where the fail happened in the
-                                       ;; log/info messages printed below.
-                                       {:note (-> expressions (nth index) :note)}))))))]
-    (is (empty?
-         (->> expression-sets
-              (map (fn [expression-set]
-                     (->> expression-set
-                          (map (fn [expression]
-                                 (log/info (str (-> expression :note) ": generate: '"
-                                                (morph expression) "'"))
-                                 (morph expression)))
-                          (remove (fn [expression]
-                                    (nil? (clojure.string/index-of (morph expression) \_)))))))
-              (remove empty?))))))
-
-;; generation test 3
-(deftest all-expressions-3
-  (let [expression-sets
-        (->>
-         (range 0 (count prod-expressions))
-         (map (fn [index]
-                (take generate-per-expression
-                      (repeatedly #(or (generate (nth expressions index))
-                                       ;; if generation fails, save the :note
-                                       ;; so we can see where the fail happened in the
-                                       ;; log/info messages printed below.
-                                       {:note (-> expressions (nth index) :note)}))))))]
-    (is (empty?
-         (->> expression-sets
-              (map (fn [expression-set]
-                     (->> expression-set
-                          (map (fn [expression]
-                                 (log/info (str (-> expression :note) ": generate: '"
-                                                (morph expression) "'")))))))
-              ;; count how many expressions we generated:
-              (map count)
-
-              ;; remove all cases where we generated enough expressions. Afterwards, if the remaining is empty,
-              ;; the test passes:
-              (remove #(= % generate-per-expression)))))))
+                {:i index
+                 :expressions (take generate-per-expression
+                                    (repeatedly #(generate (nth expressions index))))})))]
+    (doall
+     (map (fn [expression-set]
+            (let [i (:i expression-set)
+                  expressions (:expressions expression-set)]
+              (log/info (str "testing expression set " i ".."))
+              (is (not (contains? (set expressions) nil)))))
+          expression-sets))))
 
 (deftest parse-test-1
   (let [expression-sets
@@ -412,7 +362,7 @@
    (= "[s(:present-simple){-} .ik +[vp-modal-np(:present-simple){-} +probeer .[vp-np(:infinitive){-} .honden +[vp-te{-} +te .zien]]]]"
       (->> "ik probeer honden te zien" nl/parse (filter #(= false (u/get-in % [:reflexive?]))) (map nl/syntax-tree) (take 1) first)))
   (is
-   (= "[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te +te .zien]]]"
+   (= "[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te{-} +te .zien]]]"
       (->> "ik probeer te zien" nl/parse (filter #(= false (u/get-in % [:reflexive?]))) (map nl/syntax-tree) (take 1) first))))
 
 ;; If true, generates Dutch, then parses it, so we test

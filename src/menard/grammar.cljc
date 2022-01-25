@@ -2,7 +2,6 @@
   (:require [menard.exception :refer [exception]]
             #?(:clj [clojure.java.io :as io :refer [resource]])
             [menard.morphology :as m]
-            [menard.reflexives :refer [reflexive-options]]
             [clojure.string :as string]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
@@ -75,34 +74,6 @@
     (log/info (str "warn-rules-by-catness: output-grammar: " (count output-grammar) " rules."))
     output-grammar))
 
-(defn process-reflexives [input-grammar]
-  (log/debug (str "process-reflexives: input-grammar: " (count input-grammar) " rules."))
-  (let [output-grammar
-        (->> input-grammar
-             (mapcat (fn [rule]
-                       (log/debug (str "processing rule: " (:rule rule)))
-                       (let [retval
-                             (->> (map (fn [option]
-                                         (log/debug (str " processing option: " (:menard.reflexives/refl-match option)))
-                                         (let [result
-                                               (unify option rule)]
-                                           (if (= :fail result)
-                                             (let [path (fail-path option rule)]
-                                               (log/debug (str " option " (:menard.reflexives/refl-match option) " failed. path:"
-                                                               path "; rule's value: " (u/get-in rule path)
-                                                               "; options's value: " (u/get-in option path)))))
-                                           result))
-                                       reflexive-options)
-                                  (remove #(= % :fail)))]
-                         (count
-                          (map (fn [result]
-                                 (log/debug (str "result: rule: " (u/get-in result [:rule]) "; "
-                                                 "refl-match: " (u/get-in result [:menard.reflexives/refl-match]))))
-                               retval))
-                         retval))))]
-    (log/debug (str "process-reflexives: output-grammar: " (count output-grammar) " rules."))
-    output-grammar))
-
 (defn process [grammar & [do-not-eval?]]
   (log/info (str "process: input rules: " (count grammar) " do-not-eval? " do-not-eval?))
   (->> grammar
@@ -118,7 +89,6 @@
        process-options
        filter-rules-by-firstness
        warn-rules-by-catness
-       process-reflexives
        (remove #(= :fail %))
        (map #(u/assoc-in % [:phrasal?] true))
        (map #(u/assoc-in % [:menard.generate/started?] true))))

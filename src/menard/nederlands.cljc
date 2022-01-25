@@ -284,8 +284,6 @@
 (defn create-model-from-filesystem []
   (log/info (str "loading ug.."))
   (menard.ug/load-from-file)
-  (log/info (str "loading reflexives.."))  
-  (menard.reflexives/load-reflexive-options true)
   (log/info (str "loading nesting.."))
   (menard.nesting/load-from-file)
   (log/info (str "loading subcat.."))

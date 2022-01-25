@@ -196,7 +196,7 @@
                    :2 {:cat :conjunction
                        :subcat []}}
           :sem {:obj :none}}]}
- 
+
  {:rule :existential-verb
   :if {:cat :verb
        :separable? false
@@ -303,6 +303,12 @@
        :subcat {:2 {:cat :noun}}}
   :then [{:subcat {:2 {:case :acc}}}]}
 
+ {:rule :subcat-2-is-acc-conj
+  :if {:cat :verb
+       :sem {:args {:top :top}}
+       :subcat {:2 {:cat :conjunction}}}
+  :then [{:subcat {:2 {:case :acc}}}]}
+ 
  {:rule :propernoun-false
   :if {:cat :noun
        :propernoun? ::unspec}
@@ -738,6 +744,13 @@
        :pronoun? true}
   :then [{:sem {:number? false}}]}
 
- 
+ {:rule :vinden2
+  :if {:canonical "vinden"
+       :cat :verb}
+  :then [{:reflexive? true
+           :subcat {:3 {:reflexive? true}}}
+         {:reflexive? false
+          :subcat {:3 {:reflexive? false}}}]}
+
  ]
 

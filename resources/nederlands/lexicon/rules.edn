@@ -744,13 +744,5 @@
        :pronoun? true}
   :then [{:sem {:number? false}}]}
 
- {:rule :vinden2
-  :if {:canonical "vinden"
-       :cat :verb}
-  :then [{:reflexive? true
-           :subcat {:3 {:reflexive? true}}}
-         {:reflexive? false
-          :subcat {:3 {:reflexive? false}}}]}
-
  ]
 

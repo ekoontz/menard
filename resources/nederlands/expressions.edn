@@ -484,7 +484,7 @@
               :obj :none}}}
 
  ;; 28
- {:note "X vindt Y leuk"
+ {:note "ik [vp [vp-ditransitive vindt het] leuk]"
   :cat :verb
   :sem {:pred :like
         :subj {:top :top}

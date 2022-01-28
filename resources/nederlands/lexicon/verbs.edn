@@ -294,7 +294,8 @@
      :strong? :a-ie-a
      :sem {:pred :sleep
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
-           :obj :none}}])
+           :obj :none}
+     :subcat {:2 []}}]) ;; TODO: replace with lexical rule: {:obj :none} => {:subcat :2} = [].
 
  "staan" (let [exceptions [{:infl :present
                             :agr {:number :sing

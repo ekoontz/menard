@@ -221,7 +221,7 @@
  ;; 14
  {:note "generalization of the above"
   :dotimes 5
-  :example "De heel sterk slimme vrouwen zingen"
+  :example "De heel sterke slimme vrouwen zingen"
   :cat :verb
   :subcat []
   :sem {:pred :top
@@ -233,7 +233,8 @@
                                     :number? false}
                             :rest []}}}
         :obj :none}
-  :training-wheels {:agr {:person :3rd}
+  :training-wheels {:rule "s"
+                    :agr {:person :3rd}
                     :comp {:rule "np:2"
                            :head {:comp {:rule "intensifier-phrase"}}}}}
 
@@ -447,9 +448,9 @@
   :cat :verb
   :infl :past-simple
   :sem {:subj {:top :top}}
-  :head {:rule "vp"
-         :head {:phrasal? false
-                :irregular-past-simple? false}}}
+  :training-wheels {:head {:rule "vp"
+                           :head {:phrasal? false
+                                  :irregular-past-simple? false}}}}
 
  ;; 26
  {:note "simple past sentences with irregular simple past"

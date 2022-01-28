@@ -32,6 +32,7 @@
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
 (def ^:dynamic log-these-rules #{})
+(def ^:dynamic log-all-rules? false)
 
 ;; clojurescript is much slower without these settings:
 ;; TODO: investigate why that only holds true for
@@ -152,7 +153,8 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
-  (when (contains? log-these-rules (u/get-in tree [:rule]))
+  (log/debug (str "checking rule: " (u/get-in tree [:rule]) " against log-these-rules: " log-these-rules))
+  (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
     (log/info (str "add with tree: " (syntax-tree-fn tree))))
   
   (let [at (frontier tree)

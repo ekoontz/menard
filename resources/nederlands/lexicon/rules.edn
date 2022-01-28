@@ -467,26 +467,6 @@
                          :subcat []
                          :sem obj
                          :case :acc}}})]}
-
- {:rule :transitive-verbs-conj ;; "ziet" in "zij ziet [hem en mij]"
-  :if {:cat :verb
-       :reflexive? ::unspec
-       :sem {:obj ::none}
-       :subcat {:2 {:cat :conjunction}}}
-  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
-         (let [subj (atom {:existential? false})
-               args (atom {:top :top})]
-           {:reflexive? false
-            :sem {:subj subj
-                  :args args
-                  :obj :none}
-            :subcat {:2 {:reflexive? false
-                         :case :acc
-                         :subcat []
-                         :sem args}}})]}
-         
-         ;; reflexive: subject and object are the same semantically and by agreement.
-         ;; (TODO)]}
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb

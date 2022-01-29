@@ -1,32 +1,35 @@
 [
  ;; see menard.test.nederlands/parsing-tests for examples.
- ;; TODO: unify both of these 'conj-inner' rules using perhaps a ug/ rule
+
+ ;; TODO: unify both of these 'conj-outer' rules using perhaps a ug/ rule
  ;; or the subcat properties of the conjunction.
+ ;; Note that for both conj-outer rules, [:cat] = [:head :cat] = [:comp :cat].
  {:rule "conj-outer" ;; [.vier +[+en .twintig]]
   :unify [menard.subcat/a
+          menard.ug/comp-cat          
           menard.ug/head-agr
+          menard.ug/head-cat                    
           menard.ug/head-last
           menard.ug/head-sem]
   :cat :adjective
-  :head {:cat :conjunction
-         :phrasal? true
+  :head {:phrasal? true
          :rule "conj-inner"}
-  :comp {:phrasal? false
-         :cat :adjective}}
+  :comp {:conjunction? false}}
 
  ;; [conj-outer .[+niet .Ina] +[conj-inner +maar .zichzelf]]
  {:rule "conj-outer" 
   :unify [menard.subcat/a
           menard.ug/comp-cat
           menard.ug/head-agr
+          menard.ug/head-cat          
           menard.ug/head-last
           menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem]
+  :cat :noun
   :head {:phrasal? true
          :rule "conj-inner"}
-  :comp {:phrasal? false
-         :subcat []}}
+  :comp {:conjunction? false}}
 
  {:rule "conj-inner" ;; [+en .twintig], [+maar .zichzelf]
   :unify [menard.subcat/c

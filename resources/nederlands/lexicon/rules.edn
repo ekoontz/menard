@@ -724,5 +724,10 @@
        :pronoun? true}
   :then [{:sem {:number? false}}]}
 
+ {:rule :is-conj
+  :if {:cat :conjunction}
+  :then [{:conjunction? true
+          :subcat {:1 {:conjunction? false}
+                   :2 {:conjunction? false}}}]}
  ]
 

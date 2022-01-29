@@ -147,6 +147,8 @@
               :sem {:pred :performance}}]
  "opstand" [{:sem {:pred :revolt}}]
  "overheid" [{:sem {:pred :government}}]
+ "paard" [{:sem {:pred :horse}
+           :agr {:gender :neuter}}]
  "peuter" [{:sem {:pred :toddler
                   :ref {:human? true}}}]
  "pinda" [{:sem {:pred :peanut}}]

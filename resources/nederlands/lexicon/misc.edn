@@ -13,6 +13,7 @@
                    :2 {:teen? false
                        :sem lower}
                    :3 []}
+          :sense 1
           :sem {:pred :times
                 :number? true
                 :arg1 lower
@@ -29,6 +30,7 @@
                    :2 {:teen? false
                        :sem lower}
                    :3 []}
+          :sense 2
           :sem {:pred :and ;; note that {:pred :and} is the same as "maar" below.
                 :number? false
                 :args {:first higher

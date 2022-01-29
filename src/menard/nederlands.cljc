@@ -597,7 +597,7 @@
       (p/parse-start expression))))
 
 (defn strip-map [m]
-  (select-keys m [:1 :2 :canonical :rule :surface]))
+  (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
 
 (defn parse-all [expression]
   (let [model (load-model)
@@ -617,11 +617,13 @@
               p/truncate? true
               p/truncate-fn
               (fn [tree]
-                (-> tree
-                    (dissoc :head)
-                    (dissoc :comp)
-                    (assoc :1 (strip-map (u/get-in tree [:1])))
-                    (assoc :2 (strip-map (u/get-in tree [:2])))))
+                (let [left-is-head? (= (get tree :1) (get tree :head))]
+                  (-> tree
+                      (dissoc :head)
+                      (dissoc :comp)
+                      (assoc :left-is-head? left-is-head?)
+                      (assoc :1 (strip-map (u/get-in tree [:1])))
+                      (assoc :2 (strip-map (u/get-in tree [:2]))))))
               p/syntax-tree syntax-tree
               menard.serialization/show-refl-match? true]
       (let [input-map (p/parse-start expression)]

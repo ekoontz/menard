@@ -21,8 +21,9 @@
   :cat :noun
   :subcat []
   :phrasal? true
-  :head {:phrasal? false}
-  :comp {:phrasal? false}}
+  :training-wheels {:head {:phrasal? false}
+                    :comp {:phrasal? false
+                           :cat :det}}}
 
  ;; 2
  {:note "noun verb"
@@ -31,9 +32,9 @@
   :subcat []
   :cat :verb
   :phrasal? true
-  :head {:phrasal? false}
   :sem {:subj {:top :top}
-        :obj :none}}
+        :obj :none}
+  :training-wheels {:head {:phrasal? false}}}
 
   ;; 3
  {:note "det noun | verb"
@@ -41,13 +42,12 @@
   :cat :verb
   :subcat []
   :phrasal? true
-  :head {:phrasal? false}
   :sem {:subj {:top :top}
         :obj :none}
-  :comp {:phrasal? true
-         :comp {:cat :det}
-         :cat :noun}}
-
+  :training-wheels {:head {:phrasal? false}
+                    :comp {:phrasal? true
+                           :comp {:cat :det}
+                           :cat :noun}}}
  ;; 4
  {:note "det | adj noun"
   :example "de slimme kat"
@@ -57,7 +57,8 @@
   :phrasal? true
   :cat :noun
   :head {:phrasal? true}
-  :comp {:phrasal? false}}
+  :comp {:phrasal? false
+         :cat :det}}
 
  ;; 5
  {:note "'een huis'"

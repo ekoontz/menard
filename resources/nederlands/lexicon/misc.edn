@@ -1,4 +1,7 @@
-{"en" [(let [number? (atom true)
+{"en" [
+
+       ;; sense 1. 'en' in numbers greater than 20, e.g. "zes en twintig"
+       (let [number? (atom true)
              lower (atom {:number? number?
                           :times 10})
              higher (atom {:number? number?
@@ -15,6 +18,7 @@
                 :arg1 lower
                 :arg2 higher}})
 
+       ;; sense 2. 'en' otherwise e.g. "Guus and Ina"
        (let [number? (atom false)
              lower (atom {:number? number?})
              higher (atom {:number? number?})]

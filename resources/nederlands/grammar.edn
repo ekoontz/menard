@@ -25,7 +25,8 @@
           menard.ug/head-sem]
   :head {:phrasal? true
          :rule "conj-inner"}
-  :comp {:subcat []}}
+  :comp {:phrasal? false
+         :subcat []}}
 
  {:rule "conj-inner" ;; [+en .twintig], [+maar .zichzelf]
   :unify [menard.subcat/c
@@ -35,7 +36,11 @@
           menard.ug/head-reflexive
           menard.ug/head-sem]
   :head {:cat :conjunction
-         :phrasal? false}}
+         :phrasal? false}
+
+  ;; prevent nesting:
+  :is-conj-inner? true
+  :comp {:is-conj-inner? false}}
 
  {:rule "intensifier-bar" ;; [.echt +kleine]
   :cat :adjective

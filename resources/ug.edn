@@ -77,6 +77,11 @@
     :agr agr
     :head {:agr agr}})
 
+ (let [cat (atom :top)]
+   {:def 'head-cat
+    :cat cat
+    :head {:cat cat}})
+
  (let [head-infl (atom :top)]
    {:def 'head-infl
     :unify '(head-agr)
@@ -169,6 +174,13 @@
     :sem {:pred :times
           :arg1 sem1
           :arg2 sem2}})
+
+
+ (let [sense (atom :top)]
+   {:def 'head-sense
+    :sense sense
+    :head {:sense sense}})
+   
  ]
 
 

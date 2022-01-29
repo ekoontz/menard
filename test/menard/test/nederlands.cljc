@@ -380,11 +380,9 @@
             (repeatedly
              #(binding [menard.generate/log-these-rules #{
                                                           ;; add rules
-                                                          ;; you want to debug here.
-;;                                                          "np:1" "np:2" "nbar"
-;;                                                          "conj-outer"
-;;                                                          "conj-inner"
-                                                          }]
+                                                          ;; you want to debug here:
+                                                          }
+                        menard.generate/log-all-rules? (= i 25)]
                 (-> spec
                     nl/generate
                     ((fn [x]
@@ -393,7 +391,9 @@
                          x)))
                     ((fn [x]
                        (if intermediate-parsing?
-                         (-> x nl/morph nl/parse first)
+                         (let [first-result (-> x nl/morph nl/parse first)]
+                           (is (nil? (:menard.parse/partial? first-result)))
+                           first-result)
                          x)))
                     nl/morph
                     println)))))))
@@ -402,7 +402,12 @@
   (let [start 0
         end (count nl/expressions)
 ;;        start 0
-;;        end 11
+        ;;        end 11
+        ;;        start 0
+        start 25
+        end 26
+        start 0
+        end 25
         do-times 10]
   (doall
    (->>

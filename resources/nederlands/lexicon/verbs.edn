@@ -280,6 +280,9 @@
              {:sem {:pred :strike}
               :exceptions exceptions}])
  "slapen"
+ ;; TODO: should not need these exceptions:
+ ;; the rule is regular enough that we
+ ;; can move it to morphology
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
                     :surface "slaap"}
@@ -297,6 +300,28 @@
            :obj :none}
      :subcat {:2 []}}]) ;; TODO: replace with lexical rule: {:obj :none} => {:subcat :2} = [].
 
+ "spelen"
+ ;; TODO: should not need these exceptions:
+ ;; the rule is regular enough that we
+ ;; can move it to morphology
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "speel"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "speelt"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "speelt"}]]
+   [{:exceptions exceptions
+     :strong? :a-ie-a
+     :sem {:pred :play
+           :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+           :obj :none}
+     ;; TODO: replace with lexical rule:
+     ;;    {:obj :none} => {:subcat :2} = [].
+     :subcat {:2 []}}])
+ 
  "staan" (let [exceptions [{:infl :present
                             :agr {:number :sing
                                   :person :1st}

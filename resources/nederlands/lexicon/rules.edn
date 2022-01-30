@@ -174,7 +174,6 @@
  ;; transitivity, generate both intransitive and transitive forms
  ;; of the verb, where the second form has:
  ;; 1. a noun second argument (which must be un-existential).
- ;; 2. a conjunction second argument.
  {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux false
@@ -190,12 +189,7 @@
                        :subcat []}
                    :2 {:cat :noun
                        :subcat []}}
-          :sem {:obj {:existential? false}}}
-         {:subcat {:1 {:cat :noun
-                       :subcat []}
-                   :2 {:cat :conjunction
-                       :subcat []}}
-          :sem {:obj :none}}]}
+          :sem {:obj {:existential? false}}}]}
 
  {:rule :existential-verb
   :if {:cat :verb

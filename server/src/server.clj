@@ -16,9 +16,10 @@
     (do (log/info (str "environment had no origin defined: using '/'."))
         "/")))
 
-(def headers {"Content-Type" "application/json"
-              "Access-Control-Allow-Origin" origin
-              "Access-Control-Allow-Credentials" "true"})
+(def cors-headers {"Access-Control-Allow-Origin" origin
+                   "Access-Control-Allow-Credentials" "true"})
+
+(def headers (merge cors-headers {"Content-Type" "application/json"}))
 
 (defn json-response
   "Call clojure.data.json/write-str to turn that structure into JSON
@@ -91,20 +92,29 @@
                  (get "q")
                  handlers/parse-nl
                  json-response))}}]
-   
-   ["/parse-start"
+
+   ["/parse-start/:lang"
     {:get {:handler
            (fn [request]
-             (let [query-params (-> request :query-params)
+             (let [language (-> request :path-params (get :lang))
+                   parse-all (cond (= language "en")
+                                   handlers/parse-nl-all
+                                   :else
+                                   handlers/parse-nl-all)
+                   parse-start (cond (= language "en")
+                                     handlers/parse-nl-start
+                                     :else
+                                     handlers/parse-nl-start)
+                   query-params (-> request :query-params)
                    do-all? (-> query-params (get "all"))
                    intermediate-result
                    (if do-all?
                      (-> query-params
                          (get "q")
-                         handlers/parse-nl-all)
+                         parse-all)
                      (-> query-params
                          (get "q")
-                         handlers/parse-nl-start))]
+                         parse-start))]
                (let [prelim-result
                      (into {}
                            (->> (keys intermediate-result)
@@ -114,8 +124,8 @@
                                              (get intermediate-result k))]))))]
                  (log/debug (str "prelim: " prelim-result))
                  (json-response prelim-result))))}}]
-
-   ["/analyze"
+   
+   ["/analyze/:lang"
     {:get {:handler
            (fn [request]
              (let [query-params (-> request :query-params)
@@ -128,7 +138,7 @@
                     (map str)
                     json-response)))}}]
 
-   ["/rule"
+   ["/rule/:lang"
     {:get {:handler
            (fn [request]
              (let [query-params (-> request :query-params)

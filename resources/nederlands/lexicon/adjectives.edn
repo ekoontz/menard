@@ -24,6 +24,7 @@
  "fleurig" [{:sem {:pred :bright}}]
  "gaaf" [{:sem {:pred :cool}}]
  "geheim" [{:sem {:pred :secret}}]
+ "geinig" [{:sem {:pred :amusing}}]
  "gelauwerd" [{:sem {:pred :acclaimed}}]
  "geldig" [{:sem {:pred :valid}}]
  "gemoedelijk" [{:sem {:pred :pleasant}}]

@@ -3,6 +3,7 @@
  "accessible" [{:sem {:pred :accessible}}]
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "accurate" [{:sem {:pred :accurate}}]
+ "amusing" [{:sem {:pred :amusing}}]
  "annoying" [{:sem {:pred :annoying}}]
  "anxious" [{:sem {:pred :anxious}}]
  "approachable" [{:sem {:pred :approachable}}]

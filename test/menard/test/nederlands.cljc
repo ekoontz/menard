@@ -392,6 +392,7 @@
                     ((fn [x]
                        (if intermediate-parsing?
                          (let [first-result (-> x nl/morph nl/parse first)]
+                           (log/info (str "checking if we can parse: " (-> x nl/syntax-tree)))
                            (is (nil? (:menard.parse/partial? first-result)))
                            first-result)
                          x)))

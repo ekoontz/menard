@@ -128,7 +128,8 @@
    ["/analyze/:lang"
     {:get {:handler
            (fn [request]
-             (let [query-params (-> request :query-params)
+             (let [language (-> request :path-params (get :lang))
+                   query-params (-> request :query-params)
                    matching-lexemes
                    (-> query-params
                        (get "q")
@@ -145,7 +146,7 @@
                    matching-rules
                    (-> query-params
                        (get "q")
-                       handlers/rules)]
+                       (handlers/rules language))]
                (->> matching-rules
                     (map dag_unify.serialization/serialize)
                     (map str)

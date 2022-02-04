@@ -142,7 +142,8 @@
    ["/rule/:lang"
     {:get {:handler
            (fn [request]
-             (let [query-params (-> request :query-params)
+             (let [language (-> request :path-params (get :lang))
+                   query-params (-> request :query-params)
                    matching-rules
                    (-> query-params
                        (get "q")

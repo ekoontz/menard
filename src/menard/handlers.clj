@@ -191,9 +191,11 @@
 (defn analyze [string-to-analyze]
   (nl/analyze string-to-analyze))
 
-(defn rules [rule-name]
-  (->> (-> nl/model deref :grammar)
-       (filter #(= (:rule %) rule-name))))
+(defn rules [rule-name language]
+  (let [model (cond (= language "en") en/model
+                    :else nl/model)]
+    (->> (-> model deref :grammar)
+         (filter #(= (:rule %) rule-name)))))
 
 (defn parse-nl [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))

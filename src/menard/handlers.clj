@@ -188,12 +188,23 @@
           (log/info (str "parse: '" string-to-parse "': took " (- (.toEpochMilli (instant)) start-time) "ms."))
           retval)))))
 
-(defn analyze [string-to-analyze]
-  (nl/analyze string-to-analyze))
+(defn language-to-analyze-fn [language]
+  (cond (= language "en") en/analyze
+        (= language "nl") nl/analyze
+        :else nl/analyze))
+
+(defn language-to-model [language]
+  (cond (= language "en") en/model
+        (= language "nl") nl/model
+        :else nl/model))
+
+(defn analyze [string-to-analyze language]
+  ((-> language
+      language-to-analyze-fn)
+      string-to-analyze))
 
 (defn rules [rule-name language]
-  (let [model (cond (= language "en") en/model
-                    :else nl/model)]
+  (let [model (language-to-model language)]
     (->> (-> model deref :grammar)
          (filter #(= (:rule %) rule-name)))))
 

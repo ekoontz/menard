@@ -131,9 +131,10 @@
              (let [language (-> request :path-params (get :lang))
                    query-params (-> request :query-params)
                    matching-lexemes
-                   (-> query-params
-                       (get "q")
-                       handlers/analyze)]
+                   (handlers/analyze
+                    (-> query-params
+                        (get "q"))
+                    language)]
                (->> matching-lexemes
                     (map dag_unify.serialization/serialize)
                     (map str)

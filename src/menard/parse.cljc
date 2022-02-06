@@ -6,7 +6,8 @@
    #?(:cljs [cljslog.core :as log])
    [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]
-   [dag_unify.serialization :refer [serialize]]))
+   [dag_unify.serialization :refer [serialize]]
+   [menard.lexiconfn :as l]))
 
 (def parse-only-one? false)
 
@@ -308,3 +309,40 @@
                     (merge partial-parse {::partial? true})))))
       (do (log/debug (str "parsed input:    \"" input "\""))
           (:complete-parses result)))))
+
+(defn strip-map [m]
+  (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
+
+(defn parse-all [expression load-model-fn syntax-tree-fn analyze-fn]
+  (let [model (load-model-fn)
+
+        ;; remove trailing '.' if any:
+        expression (string/replace expression #"[.]*$" "")]
+        ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
+        ;; use it as part of the meaning
+        ;; i.e.
+        ;; '.' -> declarative
+        ;; '?' -> interrogative
+        ;; '!' -> imperative
+    (binding [l/morphology (-> model :morphology)
+              split-on #"[ ]"
+              log-these-rules log-these-rules
+              lookup-fn analyze-fn
+              truncate? true
+              truncate-fn
+              (fn [tree]
+                (let [left-is-head? (= (get tree :1) (get tree :head))]
+                  (-> tree
+                      (dissoc :head)
+                      (dissoc :comp)
+                      (assoc :left-is-head? left-is-head?)
+                      (assoc :1 (strip-map (u/get-in tree [:1])))
+                      (assoc :2 (strip-map (u/get-in tree [:2]))))))
+              syntax-tree syntax-tree-fn
+              menard.serialization/show-refl-match? true]
+      (let [input-map (parse-start expression)]
+        (-> input-map
+            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)
+            ((fn [m]
+               {[0 (count (keys input-map))]
+                (get m [0 (count (keys input-map))])})))))))

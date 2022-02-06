@@ -176,6 +176,14 @@
                clojure.string/lower-case
                nl/parse-start))))
 
+(defn parse-en-start [string-to-parse]
+  (log/info (str "parsing user guess: " string-to-parse))
+  (let [en-tokens (en/tokenize string-to-parse)]
+    (cond (> (count en-tokens) 1)
+          (->> string-to-parse
+               clojure.string/lower-case
+               en/parse-start))))
+
 (defn parse-nl-all [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse ".."))
   (let [nl-tokens (nl/tokenize string-to-parse)]
@@ -185,6 +193,19 @@
               (->> string-to-parse
                    clojure.string/lower-case
                    nl/parse-all)]
+          (log/info (str "parse: '" string-to-parse "': took " (- (.toEpochMilli (instant)) start-time) "ms."))
+          retval)))))
+
+
+(defn parse-en-all [string-to-parse]
+  (log/info (str "parsing user guess: " string-to-parse ".."))
+  (let [en-tokens (en/tokenize string-to-parse)]
+    (if (> (count en-tokens) 1)
+      (let [start-time (.toEpochMilli (instant))]
+        (let [retval
+              (->> string-to-parse
+                   clojure.string/lower-case
+                   en/parse-all)]
           (log/info (str "parse: '" string-to-parse "': took " (- (.toEpochMilli (instant)) start-time) "ms."))
           retval)))))
 

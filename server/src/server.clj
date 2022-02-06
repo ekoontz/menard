@@ -98,11 +98,11 @@
            (fn [request]
              (let [language (-> request :path-params (get :lang))
                    parse-all (cond (= language "en")
-                                   handlers/parse-nl-all
+                                   handlers/parse-en-all
                                    :else
                                    handlers/parse-nl-all)
                    parse-start (cond (= language "en")
-                                     handlers/parse-nl-start
+                                     handlers/parse-en-start
                                      :else
                                      handlers/parse-nl-start)
                    query-params (-> request :query-params)

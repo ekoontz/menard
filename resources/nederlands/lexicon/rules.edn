@@ -396,7 +396,7 @@
        :definite? ::unspec}
   :then [{:definite? true}]}
 
- ;; TODO: vertaalen alle voorbeelden comments van Engels tot Nederlands
+ ;; TODO: vertalen alle voorbeelden comments van Engels tot Nederlands
  {:rule :common-noun
   :if {:cat :noun
        :propernoun? false
@@ -427,24 +427,30 @@
                 :person :3rd}
           :sem {:quant :some}
           :subcat []}]}
-  
- {:rule :transitive-verbs-noun ;; "ziet" in "zij ziet mij"
+
+ {:rule :verbs-enumerate-subject-agreement
+  :if {:cat :verb
+       :subcat {:1 {:agr ::unspec}}}
+  :then [{:subcat {:1 {:agr {:person :1st
+                             :number :sing}}}}
+         {:subcat {:1 {:agr {:person :2nd
+                             :number :sing}}}}
+         {:subcat {:1 {:agr {:person :3rd
+                             :number :sing}}}}
+         {:subcat {:1 {:agr {:person :1st
+                             :number :plur}}}}
+         {:subcat {:1 {:agr {:person :2nd
+                             :number :plur}}}}
+         {:subcat {:1 {:agr {:person :3rd
+                             :number :plur}}}}]}
+
+ {:rule :transitive-verbs-noun-1st
   :if {:cat :verb
        :reflexive? ::unspec
        :sem {:obj {:top :top}}
-       :subcat {:2 {:cat :noun}}}
-  :then [;; non-reflexive: subject and object are distinct and unrelated grammatically.
-         (let [subj (atom {:existential? false})
-               obj (atom {:top :top})]
-           {:reflexive? false
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:2 {:reflexive? false
-                         :case :acc
-                         :subcat []
-                         :sem obj}}})
-         
-         ;; reflexive: subject and object are the same semantically and by agreement.
+       :subcat {:1 {:agr {:person :1st}}
+                :2 {:cat :noun}}}
+  :then [;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
                subj (atom {:ref ref
                            :existential? false})
@@ -460,7 +466,120 @@
                          :reflexive? true
                          :subcat []
                          :sem obj
-                         :case :acc}}})]}
+                         :case :acc}}})
+
+         ;; non-reflexive: subject and object are distinct and unrelated grammatically:
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :2nd}
+                         :subcat []
+                         :sem obj}}})
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :3rd}
+                         :subcat []
+                         :sem obj}}})]}
+
+ {:rule :transitive-verbs-noun-2nd
+  :if {:cat :verb
+       :reflexive? ::unspec
+       :sem {:obj {:top :top}}
+       :subcat {:1 {:agr {:person :2nd}}
+                :2 {:cat :noun}}}
+  :then [;; reflexive: subject and object are the same semantically and by agreement.
+         (let [ref (atom :top)
+               subj (atom {:ref ref
+                           :existential? false})
+               obj (atom {:ref ref})
+               agr (atom :top)]
+           {:agr agr
+            :reflexive? true
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:agr agr
+                         :sem subj}
+                     :2 {:agr agr
+                         :reflexive? true
+                         :subcat []
+                         :sem obj
+                         :case :acc}}})
+
+         ;; non-reflexive: subject and object are distinct and unrelated grammatically:
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :1st}
+                         :subcat []
+                         :sem obj}}})
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :3rd}
+                         :subcat []
+                         :sem obj}}})]}
+ {:rule :transitive-verbs-noun-3rd ;; "ziet" in "zij ziet mij"
+  :if {:cat :verb
+       :reflexive? ::unspec
+       :sem {:obj {:top :top}}
+       :subcat {:1 {:agr {:person :3rd}}
+                :2 {:cat :noun}}}
+  :then [;; reflexive: subject and object are the same semantically and by agreement.
+         (let [ref (atom :top)
+               subj (atom {:ref ref
+                           :existential? false})
+               obj (atom {:ref ref})
+               agr (atom :top)]
+           {:agr agr
+            :reflexive? true
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:agr agr
+                         :sem subj}
+                     :2 {:agr agr
+                         :reflexive? true
+                         :subcat []
+                         :sem obj
+                         :case :acc}}})
+
+         ;; non-reflexive: subject and object are distinct and unrelated grammatically:
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :1st}
+                         :subcat []
+                         :sem obj}}})
+         (let [subj (atom {:existential? false})
+               obj (atom {:top :top})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :2nd}
+                         :subcat []
+                         :sem obj}}})]}
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb

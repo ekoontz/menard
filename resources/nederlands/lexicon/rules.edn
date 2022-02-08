@@ -196,7 +196,7 @@
        :separable? false
        :te? false
        :modal false
-       :sem {:obj ::none}}
+       :sem {:obj :none}}
   :then [;; 1. non-existential, intransitive:
          {:sem {:subj {:existential? false}}
           :subcat {:2 []}}
@@ -578,6 +578,18 @@
             :subcat {:2 {:reflexive? false
                          :case :acc
                          :agr {:person :2nd}
+                         :subcat []
+                         :sem obj}}})
+
+         (let [subj (atom {:existential? false
+                           :subj? true})    ;; this :subj true/false is to 
+               obj (atom {:subj? false})]   ;; force the two to be separate (since
+           {:reflexive? false               ;; this is the nonreflexive case).
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:2 {:reflexive? false
+                         :case :acc
+                         :agr {:person :3rd}
                          :subcat []
                          :sem obj}}})]}
  

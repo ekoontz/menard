@@ -297,8 +297,7 @@
      :strong? :a-ie-a
      :sem {:pred :sleep
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
-           :obj :none}
-     :subcat {:2 []}}]) ;; TODO: replace with lexical rule: {:obj :none} => {:subcat :2} = [].
+           :obj :none}}])
 
  "spelen"
  ;; TODO: should not need these exceptions:
@@ -316,11 +315,7 @@
    [{:exceptions exceptions
      :strong? :a-ie-a
      :sem {:pred :play
-           :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
-           :obj :none}
-     ;; TODO: replace with lexical rule:
-     ;;    {:obj :none} => {:subcat :2} = [].
-     :subcat {:2 []}}])
+           :subj {:prop {:animate true}}}}]) ;; TODO: move to encyclopedia.
  
  "staan" (let [exceptions [{:infl :present
                             :agr {:number :sing

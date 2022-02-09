@@ -85,7 +85,10 @@
     (= (get (u/get-in tree (butlast at)) :1)
        (get (u/get-in tree (butlast at)) :head)))))
 
-(defn make-word []
+(defn make-word
+  "Create a structure that shares selected information so that
+   leaves will be copied over to within :syntax-tree."
+  []
   {:agr (atom :top)
    :canonical (atom :top)
    :cat (atom :top)
@@ -95,6 +98,7 @@
    :inflected? (atom :top)
    :note (atom :top)
    :null? (atom :top)
+   :reflexive? (atom :top)
    :root (atom :top)
    :sem (atom :top)
    :separable? (atom :top)

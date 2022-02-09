@@ -574,9 +574,7 @@
               p/truncate? true
               p/split-on #"[ ]"
               p/log-these-rules log-these-rules
-              p/lookup-fn analyze
-              menard.serialization/show-refl-match? false
-              ]
+              p/lookup-fn analyze]
       (p/parse expression))))
 
 (defn parse-start [expression]

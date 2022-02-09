@@ -317,7 +317,7 @@
   :unify [menard.subcat/d
           menard.ug/head-first
           menard.ug/comp-is-root
-          menard.ug/head-reflexive
+          menard.ug/comp-reflexive
           menard.ug/head-rule
           menard.ug/head-sem
           menard.ug/slash-is-head-slash

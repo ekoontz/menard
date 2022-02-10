@@ -340,8 +340,7 @@
                       (assoc :left-is-head? left-is-head?)
                       (assoc :1 (strip-map (u/get-in tree [:1])))
                       (assoc :2 (strip-map (u/get-in tree [:2]))))))
-              syntax-tree syntax-tree-fn
-              menard.serialization/show-refl-match? true]
+              syntax-tree syntax-tree-fn]
       (let [input-map (parse-start expression)]
         (-> input-map
             (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)

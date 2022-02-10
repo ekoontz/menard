@@ -196,12 +196,14 @@
        :separable? false
        :te? false
        :modal false
-       :sem {:obj :none}}
+       :sem {:subj {:existential? ::unspec}
+             :obj :none}}
   :then [;; 1. non-existential, intransitive:
-         {:sem {:subj {:existential? false}}
+         {:reflexive? false
+          :sem {:subj {:existential? false}}
           :subcat {:2 []}}
 
-         ;; 2. existential, intransitive
+         ;; 2. existential, intransitive, e.g.: "er slaapt een hond"
          ;; the 'semantic-subject' is the meaningful subject of the
          ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
          ;; merely syntactic subject, 'er'.

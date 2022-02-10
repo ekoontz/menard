@@ -75,7 +75,7 @@
          (map? head)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
+    (log/debug (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
  (let [pre-check? (not (= :fail
                            (u/get-in parent [:head :cat] :top)
                            (u/get-in head [:cat] :top)))
@@ -84,19 +84,19 @@
                               {:head head})
                      :else
                      (do
-                       (log/info (str "failed precheck: parent: " (syntax-tree
+                       (log/debug (str "failed precheck: parent: " (syntax-tree
                                                                     parent) "; head: " (syntax-tree head) "; "
                                        "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                        :fail))]
    (if (not (= :fail result))
      (do
        (when (contains? log-these-rules (u/get-in parent [:rule]))
-         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
+         (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
        [result])
      (do
        (when (contains? log-these-rules (u/get-in parent [:rule]))
          (let [fp (fail-path parent {:head head})]
-           (log/info
+           (log/debug
             (str "overh fail: " (syntax-tree parent)
                  " <- " (syntax-tree head)
                  " fail-path: " (vec fp)
@@ -114,7 +114,7 @@
          (map? parent)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
+    (log/debug (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
   (let [pre-check? (not (= :fail (u/unify
                                   (u/get-in parent [:comp :cat] :top)
                                   (u/get-in comp [:cat] :top))))
@@ -126,12 +126,12 @@
     (if (not (= :fail result))
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
+          (log/debug (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (let [fp (fail-path parent {:comp comp})]
-            (log/info
+            (log/debug
              (str "overc fail: " (syntax-tree parent)
                   " <- " (syntax-tree comp)
                   " fail path: " (vec fp)
@@ -141,6 +141,8 @@
         []))))
 
 (defn truncate [tree]
+  (log/debug (str "truncating tree: " (syntax-tree tree)))
+  (log/debug   (str "truncating:    " (syntax-tree tree)))
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))

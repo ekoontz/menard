@@ -388,13 +388,12 @@
        (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
      @model))
 
-;; time in milliseconds since the last load:
-
 #?(:clj
    (def last-file-check (atom 0)))
 #?(:clj
    (defn current-ms [] (.getTime (new java.util.Date))))
 #?(:clj
+   ;; time in milliseconds that the most-recently-modified file was modified:
    (defn latest-file-timestamp []
      (. (->> (fs/glob "../resources" "**{.edn}")
              (map #(fs/get-attribute % "lastModifiedTime"))
@@ -405,10 +404,6 @@
    (defn start-reload-loop []
      (go-loop []
        (let [last-file-modification (latest-file-timestamp)]
-         (log/info (str "checking to see if we should reload the model: "
-                        (if (> last-file-modification @last-file-check)
-                          "one or more resource files was modified since last we checked: will reload."
-                          "nothing changed; will not reload.")))
          (do (load-model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))

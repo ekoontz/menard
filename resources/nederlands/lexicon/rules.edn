@@ -196,6 +196,7 @@
        :separable? false
        :te? false
        :modal false
+       :agr {:person :3rd}
        :sem {:subj {:existential? ::unspec}
              :obj :none}}
   :then [;; 1. non-existential, intransitive:
@@ -221,6 +222,11 @@
                          :sem semantic-subject}
                      :3 []}})]}
 
+ {:rule :existential-default-false
+  :if {:cat :verb
+       :sem {:subj {:existential? ::unspec}}}
+  :then [{:sem {:subj {:existential? false}}}]}
+ 
  {:rule :subcat-frames-modal-base
   :if {:cat :verb
        :modal :base

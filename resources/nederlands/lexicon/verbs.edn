@@ -313,7 +313,6 @@
                     :agr {:person :3rd :number :sing}
                     :surface "speelt"}]]
    [{:exceptions exceptions
-     :strong? :a-ie-a
      :sem {:pred :play
            :subj {:prop {:animate true}}}}]) ;; TODO: move to encyclopedia.
  

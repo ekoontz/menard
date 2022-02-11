@@ -4,7 +4,8 @@
   ;; for menard.morphology, too?
   #?(:cljs (:require-macros [menard.grammar]))
 
-  (:require [clojure.core.async :refer [go-loop]]
+  (:require [babashka.fs :as fs]
+            [clojure.core.async :refer [go-loop]]
             [clojure.string :as string]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
@@ -387,12 +388,30 @@
        (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
      @model))
 
+;; time in milliseconds since the last load:
+
+#?(:clj
+   (def last-file-check (atom 0)))
+#?(:clj
+   (defn current-ms [] (.getTime (new java.util.Date))))
+#?(:clj
+   (defn latest-file-timestamp []
+     (. (->> (fs/glob "../resources" "**{.edn}")
+             (map #(fs/get-attribute % "lastModifiedTime"))
+             sort reverse first)
+        toMillis)))
+
 #?(:clj
    (defn start-reload-loop []
      (go-loop []
-       (do
-         (log/info (str "checking to see if we should reload the model.."))
-         (do (load-model true)))
+       (let [last-file-modification (latest-file-timestamp)]
+         (log/info (str "checking to see if we should reload the model: "
+                        (if (> last-file-modification @last-file-check)
+                          "one or more resource files was modified since last we checked: will reload."
+                          "nothing changed; will not reload.")))
+         (do (load-model (> last-file-modification @last-file-check))
+             (swap! last-file-check
+                    (fn [_] (current-ms)))))
        (Thread/sleep 10000)
        (recur))))
 

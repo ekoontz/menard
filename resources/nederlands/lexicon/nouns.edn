@@ -161,6 +161,8 @@
               :sem {:pred :predator}}]
  "samenvatting" [{:sem {:pred :summary}}]
  "sering" [{:sem {:pred :lilac}}]
+ "snuiter" [{:sem {:pred :dude
+                   :ref {:human? true}}}]
  "stel" [{:agr {:gender :neuter}
           :sem {:pred :couple}}]
  "stelsel" [{:agr {:gender :neuter}

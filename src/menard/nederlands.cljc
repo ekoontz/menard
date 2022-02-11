@@ -410,14 +410,6 @@
        (Thread/sleep 10000)
        (recur))))
 
-;; TODO: this is not being used currently: remove
-#?(:cljs
-   (def lexicon
-     (-> (l/read-compiled-lexicon "resources/nederlands/lexicon/compiled.edn")
-         l/deserialize-lexicon              
-         vals
-         flatten)))
-
 #?(:clj
    (defn index-fn [spec]
      (log/debug (str "spec: " (diag/strip-refs spec)))

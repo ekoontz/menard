@@ -23,10 +23,10 @@
   :g [#"^(.*)([^aeiou])\2en$" "$1$2de"]
   ;; belde -> bellen, etc
   :p [#"^(.*)([gln])de$"      "$1$2$2en"]
-   :u {:cat :verb
-       :strong? false
-       :agr {:number :sing}
-       :infl :past-simple}}
+  :u {:cat :verb
+      :strong? false
+      :agr {:number :sing}
+      :infl :past-simple}}
 
  {;; bellen      -> belden
   ;; uitgeleggen -> uitgelegden

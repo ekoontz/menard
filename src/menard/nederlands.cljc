@@ -396,7 +396,7 @@
              (swap! last-file-check
                     (fn [_] (current-ms)))))
        (Thread/sleep 10000)
-       (recur))))
+       (recur)))
 
 #?(:clj
    (defn index-fn [spec]

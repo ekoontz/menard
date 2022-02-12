@@ -4,8 +4,7 @@
   ;; for menard.morphology, too?
   #?(:cljs (:require-macros [menard.grammar]))
 
-  (:require [babashka.fs :as fs]
-            [clojure.core.async :refer [go-loop]]
+  (:require [clojure.core.async :refer [go-loop]]
             [clojure.string :as string]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
@@ -14,7 +13,7 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [menard.model :as model]
+            [menard.model :as model :refer [current-ms latest-file-timestamp]]
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
@@ -389,21 +388,10 @@
      @model))
 
 #?(:clj
-   (def last-file-check (atom 0)))
-#?(:clj
-   (defn current-ms [] (.getTime (new java.util.Date))))
-#?(:clj
-   ;; time in milliseconds that the most-recently-modified file was modified:
-   (defn latest-file-timestamp []
-     (. (->> (fs/glob "../resources" "**{.edn}")
-             (map #(fs/get-attribute % "lastModifiedTime"))
-             sort reverse first)
-        toMillis)))
-
-#?(:clj
    (defn start-reload-loop []
+     (def last-file-check (atom 0)))
      (go-loop []
-       (let [last-file-modification (latest-file-timestamp)]
+       (let [last-file-modification (latest-file-timestamp "../resources/nederlands")]
          (do (load-model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))

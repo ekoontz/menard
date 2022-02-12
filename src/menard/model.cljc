@@ -1,6 +1,7 @@
 (ns menard.model
   (:refer-clojure :exclude [load])
-  (:require #?(:clj [clojure.tools.logging :as log])
+  (:require [babashka.fs :as fs]
+            #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
             #?(:cljs [cljslog.core :as log])))
 
@@ -44,3 +45,12 @@
         (log/error (str "should never get here! use compiled linguistic resources."
                         "Clojurescript does not have access to the filesystem "
                         "(at least if running within a web browser)."))))
+#?(:clj
+   (defn current-ms [] (.getTime (new java.util.Date))))
+#?(:clj
+   ;; time in milliseconds that the most-recently-modified file was modified:
+   (defn latest-file-timestamp [top-of-resources]
+     (. (->> (fs/glob top-of-resources "**{.edn}")
+             (map #(fs/get-attribute % "lastModifiedTime"))
+             sort reverse first)
+        toMillis)))

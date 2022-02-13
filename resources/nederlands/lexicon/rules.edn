@@ -505,23 +505,8 @@
            {:sem {:subj {:ref ref}
                   :obj {:ref ref}}
             :subcat {:1 {:agr agr}
-                     :2 {:agr agr}}})]}
- 
- {:rule :transitive-verbs-1st-non-reflexive
-  :if {:cat :verb
-       :reflexive? false
-       :sem {:obj {:top :top}}
-       :subcat {:1 {:agr {:person :1st}}
-                :2 {:cat :noun
-                    :agr ::unspec}}}
-  :then [{:sem {:subj {:ref {:subj? true}}
-                :obj {:ref {:subj? false}}}
-          :subcat {:1 {:agr {:person :1st}}
-                   :2 {:agr {:person :2nd}}}}
-         {:sem {:subj {:ref {:subj? true}}
-                :obj {:ref {:subj? false}}}
-          :subcat {:1 {:agr {:person :1st}}
-                   :2 {:agr {:person :3rd}}}}]}
+                     :2 {:agr agr
+                         :reflexive? true}}})]}
 
  {:rule :transitive-verbs-2nd-reflexive
   :if {:cat :verb
@@ -535,23 +520,8 @@
            {:sem {:subj {:ref ref}
                   :obj {:ref ref}}
             :subcat {:1 {:agr agr}
-                     :2 {:agr agr}}})]}
- 
- {:rule :transitive-verbs-2nd-non-reflexive
-  :if {:cat :verb
-       :reflexive? false
-       :sem {:obj {:top :top}}
-       :subcat {:1 {:agr {:person :2nd}}
-                :2 {:cat :noun
-                    :agr ::unspec}}}
-  :then [{:sem {:subj {:ref {:subj? true}}
-                :obj {:ref {:subj? false}}}
-          :subcat {:1 {:agr {:person :2nd}}
-                   :2 {:agr {:person :1st}}}}
-         {:sem {:subj {:ref {:subj? true}}
-                :obj {:ref {:subj? false}}}
-          :subcat {:1 {:agr {:person :2nd}}
-                   :2 {:agr {:person :3rd}}}}]}
+                     :2 {:agr agr
+                         :reflexive? true}}})]}
 
  {:rule :transitive-verbs-3rd-reflexive
   :if {:cat :verb
@@ -565,7 +535,44 @@
            {:sem {:subj {:ref ref}
                   :obj {:ref ref}}
             :subcat {:1 {:agr agr}
-                     :2 {:agr agr}}})]}
+                     :2 {:agr agr
+                         :reflexive? true}}})]}
+
+ {:rule :transitive-verbs-1st-non-reflexive
+  :if {:cat :verb
+       :reflexive? false
+       :sem {:obj {:top :top}}
+       :subcat {:1 {:agr {:person :1st}}
+                :2 {:cat :noun
+                    :agr ::unspec}}}
+  :then [{:sem {:subj {:ref {:subj? true}}
+                :obj {:ref {:subj? false}}}
+          :subcat {:1 {:agr {:person :1st}}
+                   :2 {:agr {:person :2nd}
+                       :reflexive? false}}}
+         {:sem {:subj {:ref {:subj? true}}
+                :obj {:ref {:subj? false}}}
+          :subcat {:1 {:agr {:person :1st}}
+                   :2 {:agr {:person :3rd}
+                       :reflexive? false}}}]}
+
+ {:rule :transitive-verbs-2nd-non-reflexive
+  :if {:cat :verb
+       :reflexive? false
+       :sem {:obj {:top :top}}
+       :subcat {:1 {:agr {:person :2nd}}
+                :2 {:cat :noun
+                    :agr ::unspec}}}
+  :then [{:sem {:subj {:ref {:subj? true}}
+                :obj {:ref {:subj? false}}}
+          :subcat {:1 {:agr {:person :2nd}}
+                   :2 {:agr {:person :1st}
+                       :reflexive? false}}}
+         {:sem {:subj {:ref {:subj? true}}
+                :obj {:ref {:subj? false}}}
+          :subcat {:1 {:agr {:person :2nd}}
+                   :2 {:agr {:person :3rd}
+                       :reflexive? false}}}]}
  
  {:rule :transitive-verbs-3rd-non-reflexive
   :if {:cat :verb
@@ -577,15 +584,18 @@
   :then [{:sem {:subj {:ref {:subj? true}}
                 :obj {:ref {:subj? false}}}
           :subcat {:1 {:agr {:person :3rd}}
-                   :2 {:agr {:person :1st}}}}
+                   :2 {:agr {:person :1st}
+                       :reflexive? false}}}
          {:sem {:subj {:ref {:subj? true}}
                 :obj {:ref {:subj? false}}}
           :subcat {:1 {:agr {:person :3rd}}
-                   :2 {:agr {:person :2nd}}}}
+                   :2 {:agr {:person :2nd}
+                       :reflexive? false}}}
          {:sem {:subj {:ref {:subj? true}}
                 :obj {:ref {:subj? false}}}
           :subcat {:1 {:agr {:person :3rd}}
-                   :2 {:agr {:person :3rd}}}}]}
+                   :2 {:agr {:person :3rd}
+                       :reflexive? false}}}]}
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb

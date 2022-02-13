@@ -374,7 +374,7 @@
 
 #?(:clj
    (defn load-model [& [reload?]]
-     (log/debug (str "checking model..: reload? " reload?))
+     (log/info (str "checking model..: reload? " reload?))
       (when (or (nil? @model) (true? reload?))
         (try
           (let [loaded (create-model-from-filesystem)]
@@ -389,14 +389,14 @@
 
 #?(:clj
    (defn start-reload-loop []
-     (def last-file-check (atom 0)))
+     (def last-file-check (atom 0))
      (go-loop []
        (let [last-file-modification (latest-file-timestamp "../resources/nederlands")]
          (do (load-model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))
        (Thread/sleep 10000)
-       (recur)))
+       (recur))))
 
 #?(:clj
    (defn index-fn [spec]

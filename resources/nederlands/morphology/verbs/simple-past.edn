@@ -5,6 +5,7 @@
   :g [#"^(.*)([fks])\2en$"      "$1$2te"]  
   :p [#"^(.*)([fks])te$"        "$1$2$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -13,6 +14,7 @@
   :g [#"^(.*)([fks])\2en$"      "$1$2ten"]
   :p [#"^(.*)([fks])ten$"       "$1$2$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -24,6 +26,7 @@
   ;; belde -> bellen, etc
   :p [#"^(.*)([gln])de$"      "$1$2$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -35,6 +38,7 @@
   ;; belden      -> bellen, etc
   :p [#"^(.*)([gln])den$"     "$1$2$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -45,6 +49,7 @@
  {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3te"]
   :p [#"^(.*)([aieou])\2([tksp])te$" "$1$2$3en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -53,6 +58,7 @@
  {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3ten"]
   :p [#"^(.*)([aieou])\2([tksp])ten$" "$1$2$3en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -60,6 +66,7 @@
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3te"]
   :p [#"^(.*)([aieou])\2(ch)te$" "$1$2$3en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -67,6 +74,7 @@
  {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
   :p [#"^(.*)([aieou])\2(ch)ten$" "$1$2$3en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -76,6 +84,7 @@
  {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2sde"]
   :p [#"^(.*[^aeiou])[s]de$" "$1zen"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -83,6 +92,7 @@
  {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2$3den"]
   :p [#"^(.*[^aieou])[s]den$" "$1zen"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -92,6 +102,7 @@
  {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"   "$1$2$2$3de"]
   :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])de$" "$1$2$3en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -99,6 +110,7 @@
  {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"    "$1$2$2$3den"]
   :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])den$" "$1$2$3en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -108,6 +120,7 @@
  {:g [#"^(.*[tksp])en$" "$1te"]
   :p [#"^(.*[tksp])te$" "$1en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -115,6 +128,7 @@
  {:g [#"^(.*[tksp])en$" "$1ten"]
   :p [#"^(.*[tksp])ten$" "$1en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -124,6 +138,7 @@
  {:g [#"^(.*)ven$" "$1fde"]
   :p [#"^(.*)fde$" "$1ven"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -131,6 +146,7 @@
  {:g [#"^(.*)ven$"  "$1fden"]
   :p [#"^(.*)fden$" "$1ven"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -140,6 +156,7 @@
  {:g [#"^(.*)zen$" "$1sde"]
   :p [#"^(.*)sde$" "$1zen"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -147,6 +164,7 @@
  {:g [#"^(.*)zen$"  "$1sden"]
   :p [#"^(.*)sden$" "$1zen"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -155,6 +173,7 @@
  {:g [#"^(.*[^tksp])en$" "$1de"]
   :p [#"^(.*[^tksp])de$" "$1en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
@@ -162,6 +181,7 @@
  {:g [#"^(.*[^tksp])en$"  "$1den"]
   :p [#"^(.*[^tksp])den$" "$1en"]
   :u {:cat :verb
+      :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
@@ -173,6 +193,7 @@
  {:g [#"^(.*)a(.)en$" "$1oe$2"]
   :p [#"^(.*)oe(.)$"  "$1a$2en"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-oe-a
       :agr {:number :sing}}}
@@ -180,6 +201,7 @@
  {:g [#"^(.*)a(.)en$" "$1oe$2en"]
   :p [#"^(.*)oe(.)en$"  "$1a$2en"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-oe-a
       :agr {:number :plur}}}
@@ -189,6 +211,7 @@
  {:g [#"^(.*)azen$" "$1ies"]
   :p [#"^(.*)ies$"  "$1azen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :sing}}}
@@ -196,6 +219,7 @@
  {:g [#"^(.*)azen$"  "$1iezen"]
   :p [#"^(.*)iezen$" "$1azen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :plur}}}
@@ -204,6 +228,7 @@
  {:g [#"^(.*)a([pt])en$" "$1ie$2"]
   :p [#"^(.*)ie([pt])$"  "$1a$2en"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :sing}}}
@@ -211,6 +236,7 @@
  {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
   :p [#"^(.*)ie([pt])en$" "$1a$2en"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :plur}}}
@@ -219,6 +245,7 @@
  {:g [#"^(.*)a(l)len$" "$1ie$2"]
   :p [#"^(.*)ie(l)$"   "$1a$2$2en"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :sing}}}
@@ -226,6 +253,7 @@
  {:g [#"^(.*)a(l)len$" "$1ie$2en"]
   :p [#"^(.*)ie(l)en$" "$1a$2$2en"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :plur}}}
@@ -238,6 +266,7 @@
  {:g [#"^(.*)e([dt])en$" "$1a$2"]
   :p [#"^(.*)a([dt])$"   "$1e$2en"]
   :u {:cat :verb
+      :finite? true
       :separable? false
       :infl :past-simple
       :strong? :e-a-e
@@ -247,6 +276,7 @@
  {:g [#"^op(.*)e([dt])en$" "$1a$2"]
   :p [#"^(.*)a([dt])$"     "op$1e$2en"]
   :u {:cat :verb
+      :finite? true
       :separable? true
       :infl :past-simple
       :strong? :e-a-e
@@ -256,6 +286,7 @@
  {:g [#"^(.*)e([dt])en$" "$1a$2en"]
   :p [#"^(.*)a([dt])en$" "$1e$2en"]
   :u {:cat :verb
+      :finite? true
       :separable? false
       :infl :past-simple
       :strong? :e-a-e
@@ -264,6 +295,7 @@
  {:g [#"^op(.*)e([dt])en$" "$1a$2en"]
   :p [#"^(.*)a([dt])en$"   "op$1e$2en"]
   :u {:cat :verb
+      :finite? true
       :separable? true
       :infl :past-simple
       :strong? :e-a-e
@@ -272,12 +304,14 @@
  {:g [#"^(.*)ezen$" "$1as"]
   :p [#"^(.*)as$"   "$1ezen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :sing}}}
  {:g [#"^(.*)ezen$" "$1azen"]
   :p [#"^(.*)azen$" "$1ezen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :plur}}}
@@ -285,12 +319,14 @@
  {:g [#"^(.*)even$" "$1af"]
   :p [#"^(.*)af$"   "$1even"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :sing}}}
  {:g [#"^(.*)even$" "$1aven"]
   :p [#"^(.*)aven$" "$1even"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :plur}}}
@@ -300,12 +336,14 @@
  {:g [#"^(.*)elven$" "$1olf"]
   :p [#"^(.*)olf$"   "$1elven"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
  {:g [#"^(.*)elven$" "$1olven"]
   :p [#"^(.*)olven$" "$1elven"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
@@ -313,12 +351,14 @@
  {:g [#"^(.*)ergen$" "$1org"]
   :p [#"^(.*)org$"   "$1ergen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
  {:g [#"^(.*)ergen$" "$1orgen"]
   :p [#"^(.*)orgen$" "$1ergen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
@@ -326,12 +366,14 @@
  {:g [#"^(.*w)egen$" "$1oog"]
   :p [#"^(.*w)oog$"  "$1egen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
  {:g [#"^(.*w)egen$" "$1ogen"]
   :p [#"^(.*w)ogen$" "$1egen"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
@@ -339,12 +381,14 @@
  {:g [#"^(.*)ekken$" "$1ok"]
   :p [#"^(.*)ok$"    "$1ekken"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
  {:g [#"^(.*)ekken$" "$1okken"]
   :p [#"^(.*)okken$" "$1ekken"]
   :u {:cat :verb
+      :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
@@ -355,6 +399,7 @@
  {:g [#"^(.*)inden$" "$1ond"]
   :p [#"^(.*)ond$"   "$1inden"]
   :u {:cat :verb
+      :finite? true
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
@@ -363,6 +408,7 @@
  {:g [#"^(.*)inden$" "$1onden"]
   :p [#"^(.*)onden$" "$1inden"]
   :u {:cat :verb
+      :finite? true
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
@@ -373,6 +419,7 @@
  {:g [#"^(.*)ie([dg])en$" "$1oo$2"]
   :p [#"^(.*)oo([dg])$"   "$1ie$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? :ie-oo-o
       :agr {:number :sing}
       :infl :past-simple}}
@@ -380,6 +427,7 @@
  {:g [#"^(.*)ie([dg])en$" "$1o$2en"]
   :p [#"^(.*)o([dg])en$"  "$1ie$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? :ie-oo-o
       :agr {:number :plur}
       :infl :past-simple}}
@@ -390,6 +438,7 @@
  {:g [#"^(.*)ijven$" "$1eef"]
   :p [#"^(.*)eef$"   "$1ijven"]
   :u {:cat :verb
+      :finite? true
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
@@ -397,6 +446,7 @@
  {:g [#"^(.*)ijven$" "$1even"]
   :p [#"^(.*)even$" "$1ijven"]
   :u {:cat :verb
+      :finite? true
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
@@ -405,6 +455,7 @@
  {:g [#"^(.*)ij([^v])en$" "$1ee$2"]
   :p [#"^(.*)ee([^v])$"   "$1ij$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
@@ -412,11 +463,10 @@
  {:g [#"^(.*)ij([^v])en$" "$1e$2en"]
   :p [#"^(.*)e([^v])en$"  "$1ij$2en"]
   :u {:cat :verb
+      :finite? true
       :strong? true
       :agr {:number :plur}
       :infl :past-simple}}
   ;; </ij-ee-e>
- 
  ;; </strong>
  ]
-

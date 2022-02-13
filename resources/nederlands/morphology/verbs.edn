@@ -2,6 +2,7 @@
  {:g [#"^(.*)$"   "$1"] ;; werken -> werken
   :p [#"^(.*)$"   "$1"] ;; werken -> werken
   :u {:cat :verb
+      :finite? false
       :infl :infinitive}}
 
 ;; <F. p. 108>
@@ -11,18 +12,21 @@
  {:g [#"^(.*g)gen$" "$1"]       ;; uitgeleggen -> uitgeleg
   :p [#"^(.*)(.)$"  "$1$2$2en"] 
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :1st
             :number :sing}}}
  {:g [#"^(.*)en$" "$1"]        ;; werken -> werk
   :p [#"^(.*)$"   "$1en"]      ;; werk -> werken 
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :1st
             :number :sing}}}
  {:g [#"^optr([e])den$" "optr$1$1d"]    ;; optreden -> treed
   :p [#"^tr([e])\1d$"   "optr$1den"]     ;; treed   -> optreden
   :u {:cat :verb
+      :finite? true
       :separable? true
       :infl :present
       :agr {:person :1st
@@ -32,18 +36,21 @@
  {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
   :p [#"^(.*)d$"    "$1gen"] 
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
  {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
   :p [#"^(.*)t$"  "$1en"] 
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
  {:g [#"^(.*)an$" "$1at"]   ;; slaan -> slaat
   :p [#"^(.*)at$" "$1an"]   ;; slaat -> slaan
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
@@ -51,6 +58,7 @@
  {:g [#"^optr([e])den$" "optr$1$1dt"]    ;; optreden -> treedt
   :p [#"^tr([e])\1dt$"  "optr$1den"]     ;; treedt   -> optreden
   :u {:cat :verb
+      :finite? true
       :separable? true
       :infl :present
       :agr {:person :2nd
@@ -60,24 +68,28 @@
  {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
   :p [#"^(.*)d$"    "$1gen"] 
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
   :p [#"^(.*)t$"  "$1en"]  ;; werkt  -> werken
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)an$" "$1at"]   ;; slaan -> slaat
   :p [#"^(.*)at$" "$1an"]   ;; slaat -> slaan
   :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^optr([e])den$" "optr$1$1dt"]    ;; optreden -> treedt
   :p [#"^tr([e])\1dt$"  "optr$1den"]     ;; treedt   -> optreden
   :u {:cat :verb
+      :finite? true
       :separable? true
       :infl :present
       :agr {:person :3rd
@@ -86,16 +98,17 @@
  {:g [#"^(.*)$" "$1"]        ;; werken -> werken
   :p [#"^(.*)$" "$1"] 
   :u {:cat :verb
+      :finite? true
       :separable? false
       :infl :present
       :agr {:number :plur}}}
  {:g [#"^op(.*)$" "$1"]        ;; optreden -> treden
   :p [#"^(.*)$"   "op$1"]      ;; treden   -> optreden
   :u {:cat :verb
+      :finite? true
       :separable? true
       :infl :present
       :agr {:number :plur}}}
  ;; </F>
-
  ]
 

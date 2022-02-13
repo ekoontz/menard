@@ -103,9 +103,9 @@
     :head {:cat head-cat
            :interogative? head-interogative
            :head-derivation head-derivation
-           :derivation head-derivation}
+           :menard.lexiconfn/derivation head-derivation}
     :comp {:head-derivation comp-derivation
-           :derivation comp-derivation}
+           :menard.lexiconfn/derivation comp-derivation}
     :phrasal? true})
   
  (let [sem (atom :top)]

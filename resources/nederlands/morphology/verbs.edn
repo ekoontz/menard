@@ -23,15 +23,22 @@
       :infl :present
       :agr {:person :1st
             :number :sing}}}
- {:g [#"^optr([e])den$" "optr$1$1d"]    ;; optreden -> treed
-  :p [#"^tr([e])\1d$"   "optr$1den"]     ;; treed   -> optreden
+ {:g [#"^optr([e])den$" "optr$1$1d"]   ;; optreden -> treed
+  :p [#"^tr([e])\1d$"   "optr$1den"]   ;; treed    -> optreden
   :u {:cat :verb
       :finite? true
       :separable? true
       :infl :present
       :agr {:person :1st
             :number :sing}}}
-
+ {:g [#"^(ver)g(e)t(en)$" "$1g$2$2t"]  ;; vergeten -> vergeet
+  :p [#"^(ver)g([e])\2t$" "$1g$2ten"]  ;; vergeet  -> vergeten
+  :u {:cat :verb
+      :finite? true
+      :infl :present
+      :agr {:person :1st
+            :number :sing}}}
+ 
  ;; 2nd
  {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
   :p [#"^(.*)d$"    "$1gen"] 
@@ -60,6 +67,13 @@
   :u {:cat :verb
       :finite? true
       :separable? true
+      :infl :present
+      :agr {:person :2nd
+            :number :sing}}}
+ {:g [#"^(ver)g(e)t(en)$" "$1g$2$2t"]  ;; vergeten -> vergeet
+  :p [#"^(ver)g([e])\2t$" "$1g$2ten"]  ;; vergeet  -> vergeten
+  :u {:cat :verb
+      :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
@@ -109,6 +123,13 @@
       :separable? true
       :infl :present
       :agr {:number :plur}}}
+ {:g [#"^(ver)g(e)t(en)$" "$1g$2$2t"]  ;; vergeten -> vergeet
+  :p [#"^(ver)g([e])\2t$" "$1g$2ten"]  ;; vergeet  -> vergeten
+  :u {:cat :verb
+      :finite? true
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
  ;; </F>
  ]
 

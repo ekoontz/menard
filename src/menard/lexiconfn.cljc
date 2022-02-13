@@ -67,7 +67,6 @@
                     (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i)))
              (mapcat (fn [new-lexeme]
                        (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1)))))
-
         ;; else
         (apply-rules-to-lexeme (rest rules)
                                lexeme

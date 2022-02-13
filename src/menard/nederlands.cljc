@@ -13,7 +13,8 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [menard.model :as model :refer [current-ms latest-file-timestamp]]
+            [menard.model :as model :refer [current-ms latest-file-timestamp
+                                            latest-file-timestamp-depth-one]]
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
@@ -374,9 +375,9 @@
 
 #?(:clj
    (defn load-model [& [reload?]]
-     (log/info (str "checking model..: reload? " reload?))
       (when (or (nil? @model) (true? reload?))
         (try
+          (log/info (str "reloading model.."))
           (let [loaded (create-model-from-filesystem)]
             (dosync
              (ref-set model loaded))
@@ -391,7 +392,10 @@
    (defn start-reload-loop []
      (def last-file-check (atom 0))
      (go-loop []
-       (let [last-file-modification (latest-file-timestamp "../resources/nederlands")]
+       (let [last-file-modification
+             (let [a (latest-file-timestamp "../resources/nederlands")
+                   b (latest-file-timestamp-depth-one "../resources")]
+               (if (> a b) a b))]
          (do (load-model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))

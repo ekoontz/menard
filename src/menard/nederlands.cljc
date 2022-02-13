@@ -282,13 +282,13 @@
 
 #?(:clj
 (defn create-model-from-filesystem []
-  (log/info (str "loading ug.."))
+  (log/debug (str "loading ug.."))
   (menard.ug/load-from-file)
-  (log/info (str "loading nesting.."))
+  (log/debug (str "loading nesting.."))
   (menard.nesting/load-from-file)
-  (log/info (str "loading subcat.."))
+  (log/debug (str "loading subcat.."))
   (menard.subcat/load-from-file)
-  (log/info (str "loading tenses.."))
+  (log/debug (str "loading tenses.."))
   (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
     (def inf-tense (eval (read (java.io.PushbackReader. r)))))
   (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
@@ -296,23 +296,23 @@
   (def finite-plus-inf-tense
     (concat finite-tenses
             inf-tense))
-  (log/info (str "loaded " (count finite-plus-inf-tense) " tenses."))
-  (log/info (str "loading grammar.."))
+  (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
+  (log/debug (str "loading grammar.."))
   (let [grammar (load-grammar "file:///Users/ekoontz/menard/resources/nederlands/grammar.edn")]
-    (log/info (str "loaded " (count grammar) " grammar rules."))
-    (log/info (str "loading morphology.."))
+    (log/debug (str "loaded " (count grammar) " grammar rules."))
+    (log/debug (str "loading morphology.."))
     (let [morphology (load-morphology "file:///Users/ekoontz/menard/resources/nederlands/morphology/")]
-      (log/info (str "loaded " (count morphology) " morphological rules."))
-      (log/info (str "loading lexical rules.."))
+      (log/debug (str "loaded " (count morphology) " morphological rules."))
+      (log/debug (str "loading lexical rules.."))
       (let [lexical-rules (load-lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/rules.edn")]
-        (log/info (str "loaded " (count lexical-rules) " lexical rules."))
-        (log/info (str "loading lexicon.."))
+        (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
+        (log/debug (str "loading lexicon.."))
         (let [lexicon (load-lexicon-with-morphology
                        (load-lexicon lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/")
                        morphology
                        (fn [x] x))]
-          (log/info (str "loaded " (count (keys lexicon)) " lexical keys."))
-          (log/info (str "done loading model."))
+          (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
+          (log/debug (str "done loading model."))
           (->
            (model/load "nl"
                        ;; loads the lexical rules:
@@ -321,15 +321,15 @@
                        (fn [] lexical-rules)
                        
                        ;; function to load the lexicon:
-                         (fn [_] lexicon)
-                         
-                         ;; create indices on the compiled lexicon:
-                         fill-lexicon-indexes
-                         
-                         ;; function to load the morphology:
-                         (fn [] morphology)
-                         
-                         (fn [] grammar))
+                       (fn [_] lexicon)
+                       
+                       ;; create indices on the compiled lexicon:
+                       fill-lexicon-indexes
+                       
+                       ;; function to load the morphology:
+                       (fn [] morphology)
+                       
+                       (fn [] grammar))
            (merge {:name name}))))))))
 
 (defn basic-filter

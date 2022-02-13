@@ -217,6 +217,7 @@
                          :pronoun? true
                          :sem {:existential? true}}
                      :2 {:cat :noun
+                         :reflexive? false
                          :subcat []
                          :agr agr
                          :sem semantic-subject}

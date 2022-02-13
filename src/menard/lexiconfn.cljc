@@ -49,9 +49,10 @@
    consequent of each rule in the list."
   [rules lexeme if-no-rules-matched? i]
   (cond
+
+    ;; a null rule: commented out with (comment ..):
     (and (seq rules)
          (nil? (first rules)))
-    ;; a null rule: commented out with (comment ).
     (apply-rules-to-lexeme (rest rules)
                            lexeme
                            if-no-rules-matched?
@@ -61,12 +62,11 @@
     (let [rule (first rules)
           antecedent (:if rule)]
       (if (not (= :fail (unify antecedent lexeme)))
-        (let [consequents (:then rule)]
-          (->> consequents
-               (map (fn [consequent]
-                      (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i)))
-               (mapcat (fn [new-lexeme]
-                         (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1))))))
+        (->> (:then rule)
+             (map (fn [consequent]
+                    (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i)))
+             (mapcat (fn [new-lexeme]
+                       (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1)))))
 
         ;; else
         (apply-rules-to-lexeme (rest rules)

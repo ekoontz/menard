@@ -436,58 +436,42 @@
           :sem {:quant :some}
           :subcat []}]}
 
- {:rule :infinitive-verbs-are-not-finite
-  :if {:cat :verb
-       :infl :infinitive}
-  :then [{:finite? false}]}
-
- {:rule :non-infinitive-verbs-are-finite
-  :if {:cat :verb
-       :finite? ::unspec}
-  :then [{:finite? true}]}
-
  {:rule :verbs-enumerate-subject-agreement
   :if {:cat :verb
-       :finite? true
        :subcat {:1 {:agr ::unspec}}}
-  :then [{:subcat {:1 {:agr {:person :1st
+  :then [{:finite? true
+          :subcat {:1 {:agr {:person :1st
                              :number :sing}}}}
-         {:subcat {:1 {:agr {:person :2nd
+         {:finite? true
+          :subcat {:1 {:agr {:person :2nd
                              :number :sing}}}}
-         {:subcat {:1 {:agr {:person :3rd
+         {:finite? true
+          :subcat {:1 {:agr {:person :3rd
                              :number :sing}}}}
-         {:subcat {:1 {:agr {:person :1st
+         {:finite? true
+          :subcat {:1 {:agr {:person :1st
                              :number :plur}}}}
-         {:subcat {:1 {:agr {:person :2nd
+         {:finite? true
+          :subcat {:1 {:agr {:person :2nd
                              :number :plur}}}}
-         {:subcat {:1 {:agr {:person :3rd
+         {:finite? true
+          :subcat {:1 {:agr {:person :3rd
                              :number :plur}}}}]}
-
- {:rule :infinitive-transitive
-  :if {:cat :verb
-       :reflexive? ::unspec
-       :finite? false
-       :subcat {:1 {:sem {:existential? false}}
-                :2 {:cat :noun}}}
-  :then [{:reflexive? true
-          :subcat {:2 {:reflexive? true}}}
-         {:reflexive? false
-          :subcat {:2 {:reflexive? false}}}]}
  
- {:rule :transitive-verbs-noun-1st
+ {:rule :transitive-verbs
   :if {:cat :verb
-       :finite? true
        :reflexive? ::unspec
        :sem {:obj {:top :top}}
-       :subcat {:1 {:agr {:person :1st}}
+       :subcat {:1 {:agr {:person ::unspec}}
                 :2 {:cat :noun}}}
   :then [;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
                subj (atom {:ref ref
                            :existential? false})
                obj (atom {:ref ref})
-               agr (atom :top)]
-           {:agr agr
+               agr (atom {:person :1st})]
+           {:finite? true
+            :agr agr
             :reflexive? true
             :sem {:subj subj
                   :obj obj}
@@ -502,39 +486,37 @@
          ;; non-reflexive: subject and object are distinct and unrelated grammatically:
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive? false
+           {:finite? true
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :1st}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :2nd}
                          :subcat []
                          :sem obj}}})
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive? false
+           {:finite? true
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :1st}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :3rd}
                          :subcat []
-                         :sem obj}}})]}
+                         :sem obj}}})
 
- {:rule :transitive-verbs-noun-2nd
-  :if {:cat :verb
-       :finite? true
-       :reflexive? ::unspec
-       :sem {:obj {:top :top}}
-       :subcat {:1 {:agr {:person :2nd}}
-                :2 {:cat :noun}}}
-  :then [;; reflexive: subject and object are the same semantically and by agreement.
+         ;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
                subj (atom {:ref ref
                            :existential? false})
                obj (atom {:ref ref})
-               agr (atom :top)]
-           {:agr agr
+               agr (atom {:person :2nd})]
+           {:finite? true
+            :agr agr
             :reflexive? true
             :sem {:subj subj
                   :obj obj}
@@ -545,42 +527,41 @@
                          :subcat []
                          :sem obj
                          :case :acc}}})
-
+         
          ;; non-reflexive: subject and object are distinct and unrelated grammatically:
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive? false
+           {:finite? true
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :2nd}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :1st}
                          :subcat []
                          :sem obj}}})
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive? false
+           {:finite? true
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :2nd}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :3rd}
                          :subcat []
-                         :sem obj}}})]}
- {:rule :transitive-verbs-noun-3rd
-  :if {:cat :verb
-       :finite? true
-       :reflexive? ::unspec
-       :sem {:obj {:top :top}}
-       :subcat {:1 {:agr {:person :3rd}}
-                :2 {:cat :noun}}}
-  :then [;; reflexive: subject and object are the same semantically and by agreement.
+                         :sem obj}}})
+
+         ;; reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
                subj (atom {:ref ref
                            :existential? false})
                obj (atom {:ref ref})
-               agr (atom :top)]
-           {:agr agr
+               agr (atom {:person :3rd})]
+           {:finite? true
+            :agr agr
             :reflexive? true
             :sem {:subj subj
                   :obj obj}
@@ -591,24 +572,28 @@
                          :subcat []
                          :sem obj
                          :case :acc}}})
-
+         
          ;; non-reflexive: subject and object are distinct and unrelated grammatically:
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive? false
+           {:finite? true
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :3rd}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :1st}
                          :subcat []
                          :sem obj}}})
          (let [subj (atom {:existential? false})
                obj (atom {:top :top})]
-           {:reflexive? false
+           {:finite? true
+            :reflexive? false
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :3rd}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :2nd}
                          :subcat []
@@ -617,10 +602,12 @@
          (let [subj (atom {:existential? false
                            :subj? true})    ;; this :subj true/false is to 
                obj (atom {:subj? false})]   ;; force the two to be separate (since
-           {:reflexive? false               ;; this is the nonreflexive case).
+           {:finite? true
+            :reflexive? false               ;; this is the nonreflexive case).
             :sem {:subj subj
                   :obj obj}
-            :subcat {:2 {:reflexive? false
+            :subcat {:1 {:agr {:person :3rd}}
+                     :2 {:reflexive? false
                          :case :acc
                          :agr {:person :3rd}
                          :subcat []

@@ -141,7 +141,13 @@
         ;; We then use the :u key, also in the rule, to find the agreement and infl
         ;; specificities of this inflected form.
         from-inflected
+        ;; Get all the morphological rules. Each
+        ;; rule has a :p (parse) key. The value of this is a pair <_from_,_to_>
+        ;; and each _from_ is a regexp. If the _from_ matches _surface_, then
+        ;; find C, by running string/replace with _surface_, _from_, and _to_:
         (->> morphology
+
+             ;; find all the rules where the "from" rule
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
@@ -153,12 +159,13 @@
                 (log/debug (str "found: " (count rules) " matching rules."))
                 rules))
 
-             ;; Now we have a set of tuples T, each member of which has form: {:u U, :canonical C, :p P}, and
+             ;; Now we have a set of tuples T, each member of which has form: {:u U, :canonical C},
              ;; each of which is a guess about the word, where:
              ;; - C is the canonical form: the base, normalized version of the surface form _surface_.
              ;; - U is what must unify with the lexical forms found, for this guess to be valid.
              ;;
-             ;; Furthermore, define L to be the lexemes in the lexicon which have the same canonical form (i.e. have {:canonical C} for some member of the set of tuples T.
+             ;; Furthermore, define L to be the lexemes in the lexicon which have the same
+             ;; canonical form (i.e. have {:canonical C} for some member of the set of tuples T.
              ;; First we get this set L:
              (mapcat (fn [tuple]
                        (->>
@@ -173,6 +180,10 @@
              ;; remove all the guesses that failed unification with U:
              (filter #(not (= :fail %)))
 
+             ;; Now we have a set of lexemes each of which has a canonical form which
+             ;; is the result of applying a morphological rule to the input _surface_,
+             ;; and where the unification with that rule was successful.
+             ;; where the _surface_ has been 
              ((fn [lexemes]
                 (log/debug (str "found: " (count lexemes) " inflections."))
                 lexemes))
@@ -183,16 +194,18 @@
                                                  [:canonical :sense])))
                     lexeme))
 
-             ;; Finally, we add {:surface surface} to the output:
+             ;; Add {:surface surface} to the output:
              (map (fn [lexeme]
                     (unify lexeme
                            {:surface surface})))
 
              (filter #(not (= :fail %))))
 
-        ;; Some (or even all) of the hypotheses in _from-inflected_ might be wrong, if the verb has
-        ;; any exceptions. Below, the exceptional surface forms are used to  cancel these potential overgeneralizations.
-        ;; For example, applying the rules for regular verbs in English, for infl present and agr 3rd sing,
+        ;; Finally, remove any results which are overgeneralized based on regular morphological
+        ;; rules, if the lexeme has any exceptions. Below, the exceptional surface forms
+        ;; are used to  cancel these potential overgeneralizations.
+        ;; For example, applying the rules for regular verbs in
+        ;; English, for infl present and agr 3rd sing,
         ;; the singular form of "be" is "bes", but there is an exceptional form "is" that should
         ;; be used instead. So this filter removes the spurious "bes" from the hypotheses generated
         ;; from _from_inflected_ above.

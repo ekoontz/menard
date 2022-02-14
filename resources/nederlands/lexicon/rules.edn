@@ -300,6 +300,15 @@
             :sem {:subj subj}
             :subcat {:1 {:sem subj}}})]}
 
+ {:rule :intransitive-verbs
+  :if {:cat :verb
+       :aux false
+       :modal false
+       :sem {:obj :none}
+       :subcat {:2 ::unspec}}
+  :then [{:reflexive? false
+          :subcat {:2 []}}]}
+
  {:rule :subcat-2-is-acc
   :if {:cat :verb
        :sem {:obj {:top :top}}
@@ -459,7 +468,7 @@
          {:finite? true
           :subcat {:1 {:agr {:person :3rd
                              :number :plur}}}}]}
- 
+
  {:rule :transitive-verbs-reflexive-and-non-reflexive
   :if {:cat :verb
        :reflexive? ::unspec
@@ -625,16 +634,6 @@
                          :sem obj
                          :subcat []}}})]}
  
- {:rule :intransitive-verbs
-  :if {:cat :verb
-       :aux false
-       :te? ::unspec
-       :sem {:obj :none}
-       :subcat {:2 ::unspec}}
-  :then [{:te? false
-          :reflexive? false
-          :subcat {:2 []}}]}
-
  {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb
        :aux true

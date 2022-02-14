@@ -20,6 +20,13 @@
 ;; and set this to true if that flag is on.
 (def ^:dynamic include-derivation? true)
 
+(defn display-derivation [deriv]
+  (->> (seq (zipmap (vals deriv) (keys deriv)))
+       (map (fn [[x y]]
+              {(get x :menard.lexiconfn/order) y}))
+       (sort (fn [x y]
+               (< (first (first x)) (first (first y)))))))
+
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i]
   (let [result (unify lexeme consequent)]
     (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
@@ -27,10 +34,9 @@
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "
-                                   (select-keys lexeme [::derivation :canonical :sense])
-                                   (if (::derivation consequent)
-                                     (str " (derivation: " (::derivation consequent) ")"))
-                                   " fail-path was: " fail-path ";"
+                                   (u/get-in lexeme [:canonical]) " with derivation: "
+                                   (display-derivation (u/get-in lexeme [:menard.lexiconfn/derivation]))
+                                   "; fail-path was: " fail-path ";"
                                    " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
                                    " consequent's value for path: " (u/get-in consequent fail-path))]
             (log/error error-message)

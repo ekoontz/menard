@@ -446,8 +446,16 @@
           :sem {:quant :some}
           :subcat []}]}
 
+ {:rule :verbs-infinitive
+  :if {:cat :verb
+       :infl ::unspec}
+  :then [{:finite? false
+          :infl :infinitive}
+         {:finite? true}]}
+
  {:rule :verbs-enumerate-subject-agreement
   :if {:cat :verb
+       :finite? true
        :subcat {:1 {:agr {:person ::unspec
                           :number ::unspec}}}}
   :then [{:finite? true
@@ -471,6 +479,7 @@
 
  {:rule :transitive-verbs-reflexive-and-non-reflexive
   :if {:cat :verb
+       :finite? true
        :reflexive? ::unspec
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
@@ -607,6 +616,15 @@
                    :2 {:agr {:person :3rd}
                        :reflexive? false}}}]}
  
+ {:rule :second-arg-is-cat-noun
+  :if {:cat :verb
+       :separable? false
+       :te? false
+       :modal false
+       :sem {:obj {:top :top}}
+       :subcat {:2 {:cat ::unspec}}}
+  :then [{:subcat {:2 {:cat :noun}}}]}
+
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
        :separable? false

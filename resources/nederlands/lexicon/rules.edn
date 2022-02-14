@@ -457,7 +457,8 @@
   :if {:cat :verb
        :finite? true
        :subcat {:1 {:agr {:person ::unspec
-                          :number ::unspec}}}}
+                          :number ::unspec}}}
+       :te? false}
   :then [{:finite? true
           :subcat {:1 {:agr {:person :1st
                              :number :sing}}}}

@@ -250,6 +250,9 @@
               :strong? :e-a-e}]
 
  "proberen"
+ ;; TODO: can be done regularly like "vergeten" <-> "vergeet"
+ ;; FIXME: analyze is incorrectly allowing "prober" and "probert"
+ ;; as valid conjunctions.
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
                     :surface "probeer"}

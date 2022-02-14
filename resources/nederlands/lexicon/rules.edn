@@ -439,7 +439,8 @@
 
  {:rule :verbs-enumerate-subject-agreement
   :if {:cat :verb
-       :subcat {:1 {:agr ::unspec}}}
+       :subcat {:1 {:agr {:person ::unspec
+                          :number ::unspec}}}}
   :then [{:finite? true
           :subcat {:1 {:agr {:person :1st
                              :number :sing}}}}

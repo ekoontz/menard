@@ -46,16 +46,19 @@
 
  {:rule :aux-default-is-false
   :if {:cat :verb
+       :te? false
        :aux ::unspec}
   :then [{:aux false}]}
 
  {:rule :separable-is-false
   :if {:cat :verb
+       :te? false
        :separable? ::unspec}
   :then [{:separable? false}]}
 
  {:rule :separable-subcat
   :if {:cat :verb
+       :te? false
        :separable? true}
   :then [;; intransitive
          {:reflexive? false
@@ -167,6 +170,7 @@
 
  {:rule :modal-default-false
   :if {:cat :verb
+       :te? false
        :modal ::unspec}
   :then [{:modal false}]}
 
@@ -225,11 +229,13 @@
 
  {:rule :existential-default-false
   :if {:cat :verb
+       :te? false
        :sem {:subj {:existential? ::unspec}}}
   :then [{:sem {:subj {:existential? false}}}]}
  
  {:rule :subcat-frames-modal-base
   :if {:cat :verb
+       :te? false
        :modal :base
        :aux false}
   :then [(let [subj (atom :top)]
@@ -238,6 +244,7 @@
 
  {:rule :subcat-frames-modal-infinitive
   :if {:cat :verb
+       :te? false
        :modal :infinitive
        :aux false}
   :then [(let [subj (atom :top)]
@@ -346,6 +353,7 @@
                                 :comp {:modal :te}}}}})
  {:rule :modal-te
   :if {:cat :verb
+       :te? false
        :modal :te}
   :then [;; intransitive: "zij probeert"
          (let [subj (atom :top)
@@ -824,6 +832,7 @@
 
  {:rule :verbs-are-not-strong-by-default
   :if {:cat :verb
+       :te? false
        :strong? ::unspec}
   :then [{:strong? false}]} 
 

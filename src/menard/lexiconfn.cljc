@@ -45,8 +45,11 @@
           (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " result))
               (log/debug (str "include-derivation? set to: " include-derivation?))
               (if include-derivation?
-                (unify result
-                       {::derivation {rule-name {::order i}}})
+                (unify (dissoc result :derivation)
+                       {::derivation {rule-name (merge (if (u/get-in consequent [:derivation :sense])
+                                                         {:sense (u/get-in consequent [:derivation :sense])}
+                                                         {})
+                                                       {::order i})}})
                 result)))))
 
 (defn apply-rules-to-lexeme

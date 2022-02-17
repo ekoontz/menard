@@ -1,6 +1,7 @@
 [{:rule :curriculum-is-none-default
   :if {:curriculum ::none}
   :then [{:curriculum ::none}]}
+
  {:rule :null-is-false-by-default
   :if {:null? false}
   :then [{:null? false}]}
@@ -185,17 +186,19 @@
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}
        :sem {:obj ::unspec}}
-  :then [{:subcat {:1 {:cat :noun
+  :then [{:derivation {:sense 1}
+          :subcat {:1 {:cat :noun
                        :subcat []}}
           :sem {:args :none
                 :obj :none}}
-         {:subcat {:1 {:cat :noun
+         {:derivation {:sense 2}
+          :subcat {:1 {:cat :noun
                        :subcat []}
                    :2 {:cat :noun
                        :subcat []}}
           :sem {:obj {:existential? false}}}]}
 
- {:rule :existential-verb
+ {:rule :existential-verb?
   :if {:cat :verb
        :separable? false
        :te? false
@@ -206,7 +209,8 @@
   :then [;; 1. non-existential, intransitive:
          {:reflexive? false
           :sem {:subj {:existential? false}}
-          :subcat {:2 []}}
+          :subcat {:2 []}
+          :derivation {:sense :non-existential}}
 
          ;; 2. existential, intransitive, e.g.: "er slaapt een hond"
          ;; the 'semantic-subject' is the meaningful subject of the
@@ -214,7 +218,8 @@
          ;; merely syntactic subject, 'er'.
          (let [semantic-subject (atom {:existential? false})
                agr (atom :top)]
-           {:reflexive? false
+           {:derivation {:sense :existential}
+            :reflexive? false
             :agr agr
             :sem {:subj semantic-subject}
             :subcat {:1 {:cat :noun

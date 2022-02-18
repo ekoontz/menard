@@ -493,7 +493,6 @@
 
  {:rule :transitive-verbs-reflexive-and-non-reflexive
   :if {:cat :verb
-       :finite? true
        :reflexive? ::unspec
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
@@ -502,8 +501,7 @@
                subj (atom {:ref ref
                            :existential? false})
                obj (atom {:ref ref})]
-           {:finite? true
-            :reflexive? true
+           {:reflexive? true
             :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:sem subj}
@@ -516,8 +514,7 @@
          (let [subj (atom {:existential? false
                            :ref {:subj? true}})
                obj (atom {:ref {:subj? false}})]
-           {:finite? true
-            :reflexive? false
+           {:reflexive? false
             :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:sem subj}

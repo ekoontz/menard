@@ -345,7 +345,8 @@
      :subcat {:1 {:cat :verb
                   :modal false
                   :reflexive? reflexive?
-                  :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf te te]"
+                  :subcat {:1 {:cat :noun ;; prevent "[vp:inf te te]"
+                               :sem {:existential? false}}}
                   :infl :infinitive
                   :sem sem}
               :2 []}})]

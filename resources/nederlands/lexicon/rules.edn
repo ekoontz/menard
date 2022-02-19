@@ -186,12 +186,12 @@
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}
        :sem {:obj ::unspec}}
-  :then [{:derivation {:sense 1}
+  :then [{:derivation {:sense :intransitive}
           :subcat {:1 {:cat :noun
                        :subcat []}}
           :sem {:args :none
                 :obj :none}}
-         {:derivation {:sense 2}
+         {:derivation {:sense :transitive}
           :subcat {:1 {:cat :noun
                        :subcat []}
                    :2 {:cat :noun

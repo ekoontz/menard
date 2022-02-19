@@ -50,7 +50,7 @@
                                                          {:sense (u/get-in consequent [:derivation :sense])}
                                                          {})
                                                        {::order i})}})
-                result)))))
+                (dissoc result :derivation))))))
 
 (defn apply-rules-to-lexeme
   "given a lexeme and a list of rules, return a list 

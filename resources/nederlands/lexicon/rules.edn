@@ -323,12 +323,14 @@
 
  {:rule :subcat-2-is-acc
   :if {:cat :verb
+       :modal false
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [{:subcat {:2 {:case :acc}}}]}
 
  {:rule :subcat-2-is-acc-conj
   :if {:cat :verb
+       :modal false
        :sem {:args {:top :top}}
        :subcat {:2 {:cat :conjunction}}}
   :then [{:subcat {:2 {:case :acc}}}]}
@@ -394,8 +396,16 @@
               obj-with-subject-and-object (atom {:subj subj
                                                  :obj {:top :top}})]
               
-          [;;  "ik kan fietsen"
-           {:sem {:subj subj
+          [
+           ;; intransitive "ik kan"
+           {:derivation {:sense :intransitive}
+            :sem {:subj subj
+                  :obj :none}
+            :subcat {:2 []}}
+
+           ;;  "ik kan fietsen"
+           {:derivation {:sense :obj-with-subject-only}
+            :sem {:subj subj
                   :obj obj-with-subject-only}
             :subcat {:2 {:aux false
                          :infl :infinitive
@@ -405,7 +415,8 @@
                          :subcat {:1 {:sem subj}}}}}
 
            ;;  "ik kan het zien"
-           {:sem {:subj subj
+           {:derivation {:sense :obj-with-subject-and-object}
+            :sem {:subj subj
                   :obj obj-with-subject-and-object}
             :subcat {:2 {:aux false
                          :infl :infinitive
@@ -727,11 +738,13 @@
        :modal :infinitive
        :subcat {:2 {:top :top}}}
   :then  [;;  "kan <vp[base,nonmodal]>" non-reflexive
-          {:reflexive? false
+          {:derivation {:sense :non-reflexive}
+           :reflexive? false
            :subcat {:2 {:reflexive? false}}}
           
           ;;  "kan <vp[base,nonmodal]>" reflexive
-          {:reflexive? true
+          {:derivation {:sense :reflexive}
+           :reflexive? true
            :subcat {:2 {:reflexive? true}}}]}
 
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.

@@ -436,13 +436,16 @@
 
  "zien"
  (let [exceptions [{:infl :present
-                    :agr {:person :1st :number :sing}
+                    :agr {:person :1st
+                          :number :sing}
                     :surface "zie"}
                    {:infl :present
-                    :agr {:person :2nd :number :sing}
+                    :agr {:person :2nd
+                          :number :sing}
                     :surface "ziet"}
                    {:infl :present
-                    :agr {:person :3rd :number :sing}
+                    :agr {:person :3rd
+                          :number :sing}
                     :surface "ziet"}
                    {:infl :past-simple
                     :agr {:number :sing}

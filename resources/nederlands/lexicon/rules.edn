@@ -479,47 +479,35 @@
 
  {:rule :verbs-enumerate-person
   :if {:cat :verb
-       :finite? true
        :subcat {:1 {:agr {:person ::unspec
                           :number ::unspec}}}
        :te? false}
-  :then [{:finite? true
-          :subcat {:1 {:agr {:person :1st}}}}
-         {:finite? true
-          :subcat {:1 {:agr {:person :2nd}}}}
-         {:finite? true
-          :subcat {:1 {:agr {:person :3rd}}}}]}
+  :then [{:subcat {:1 {:agr {:person :1st}}}}
+         {:subcat {:1 {:agr {:person :2nd}}}}
+         {:subcat {:1 {:agr {:person :3rd}}}}]}
 
  {:rule :verbs-enumerate-subject-agreement-singular
   :if {:cat :verb
-       :finite? true
        :subcat {:1 {:agr {:person ::unspec
                           :number :sing}}}
        :te? false}
-  :then [{:finite? true
-          :subcat {:1 {:agr {:person :1st
+  :then [{:subcat {:1 {:agr {:person :1st
                              :number :sing}}}}
-         {:finite? true
-          :subcat {:1 {:agr {:person :2nd
+         {:subcat {:1 {:agr {:person :2nd
                              :number :sing}}}}
-         {:finite? true
-          :subcat {:1 {:agr {:person :3rd
+         {:subcat {:1 {:agr {:person :3rd
                              :number :sing}}}}]}
 
  {:rule :verbs-enumerate-subject-agreement-plural
   :if {:cat :verb
-       :finite? true
        :subcat {:1 {:agr {:person ::unspec
                           :number :plur}}}
        :te? false}
-  :then [{:finite? true
-          :subcat {:1 {:agr {:person :1st
+  :then [{:subcat {:1 {:agr {:person :1st
                              :number :plur}}}}
-         {:finite? true
-          :subcat {:1 {:agr {:person :2nd
+         {:subcat {:1 {:agr {:person :2nd
                              :number :plur}}}}
-         {:finite? true
-          :subcat {:1 {:agr {:person :3rd
+         {:subcat {:1 {:agr {:person :3rd
                              :number :plur}}}}]}
 
  {:rule :transitive-verbs-reflexive-and-non-reflexive

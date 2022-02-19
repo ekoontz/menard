@@ -477,11 +477,24 @@
           :infl :infinitive}
          {:finite? true}]}
 
- {:rule :verbs-enumerate-subject-agreement
+ {:rule :verbs-enumerate-person
   :if {:cat :verb
        :finite? true
        :subcat {:1 {:agr {:person ::unspec
                           :number ::unspec}}}
+       :te? false}
+  :then [{:finite? true
+          :subcat {:1 {:agr {:person :1st}}}}
+         {:finite? true
+          :subcat {:1 {:agr {:person :2nd}}}}
+         {:finite? true
+          :subcat {:1 {:agr {:person :3rd}}}}]}
+
+ {:rule :verbs-enumerate-subject-agreement-singular
+  :if {:cat :verb
+       :finite? true
+       :subcat {:1 {:agr {:person ::unspec
+                          :number :sing}}}
        :te? false}
   :then [{:finite? true
           :subcat {:1 {:agr {:person :1st
@@ -491,8 +504,15 @@
                              :number :sing}}}}
          {:finite? true
           :subcat {:1 {:agr {:person :3rd
-                             :number :sing}}}}
-         {:finite? true
+                             :number :sing}}}}]}
+
+ {:rule :verbs-enumerate-subject-agreement-plural
+  :if {:cat :verb
+       :finite? true
+       :subcat {:1 {:agr {:person ::unspec
+                          :number :plur}}}
+       :te? false}
+  :then [{:finite? true
           :subcat {:1 {:agr {:person :1st
                              :number :plur}}}}
          {:finite? true

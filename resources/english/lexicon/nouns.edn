@@ -69,6 +69,7 @@
                          :surface "fish"}
                        {:agr {:number :plur}
                         :surface "fishes"}]}]
+ "fool" [{:sem {:pred :fool}}]
  "gentleman" [{:sem {:pred :man
                      :context :polite}
                :agr {:gender :man

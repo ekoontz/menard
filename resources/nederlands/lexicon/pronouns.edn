@@ -109,7 +109,15 @@
          :sem {:pred :you
                :person :2nd
                :ref {:human? true
-                     :context :informal}}}]
+                     :context :informal}}}
+        {:agr {:person :2nd
+               :number :sing}
+         :case :acc
+         :sem {:pred :you
+               :person :2nd
+               :ref {:human? true
+                     :context :informal}}}
+        ]
  "jou" [{:agr {:person :2nd
                :number :sing}
          :case :acc

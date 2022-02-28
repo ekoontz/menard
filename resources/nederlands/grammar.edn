@@ -112,6 +112,7 @@
           menard.ug/comp-cat
           menard.ug/comp-reflexive
           menard.subcat/a]
+  :sem {:polarity :-}
   :head {:cat :neg}}
   
  ;; np with no determiner, e.g.:

@@ -18,16 +18,16 @@
           :top)
 
         retval
-        (merge subj-polarity-if-subj
+        (unify subj-polarity-if-subj
                {:agr {:number
-               (or
-                (u/get-in nl-expression [:sem :subj :ref :number])
-                (u/get-in nl-expression [:agr :number] :top))
+                      (or
+                       (u/get-in nl-expression [:sem :subj :ref :number])
+                       (u/get-in nl-expression [:agr :number] :top))
                       :person (u/get-in nl-expression [:agr :person] :top)
                       :gender (let [gender (u/get-in nl-expression [:agr :gender] :top)]
                                 (cond (or (= gender :masc) (= gender :fem))
                                       gender
-                               :else :top))}
+                                      :else :top))}
                 :cat (u/get-in nl-expression [:cat])
                 :comp {:interrogative? (u/get-in nl-expression [:comp :interrogative?] :top)}
                 

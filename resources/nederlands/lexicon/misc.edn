@@ -38,8 +38,8 @@
                               :rest []}}}})]
                        
  
- "maar" [(let [lower (atom {:polarity :+})
-               higher (atom {:polarity :-})
+ "maar" [(let [lower (atom {:polarity :plus})
+               higher (atom {:polarity :minus})
                reflexive? (atom :top)]
            {:cat :conjunction
             :subcat {:1 {:sem higher}

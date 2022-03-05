@@ -22,7 +22,7 @@
  "no" [{:cat :det
         :definite? false
         :sem {:pred :none}}] ;; no [:agr :number]: could be :plur or :sing.
- "not" (let [sem (atom {:polarity :-})
+ "not" (let [sem (atom {:polarity :minus})
              infl-base (atom :base)
              infl-gerund (atom :gerund)
              infl-infinitive (atom :infinitive)

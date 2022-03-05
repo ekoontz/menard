@@ -27,6 +27,10 @@
           menard.ug/head-rule
           menard.ug/head-sem]
   :cat :noun
+  ;; TODO: depends on the conjunction:
+  ;; e.g. "ik en jij"       is {:agr :plur}
+  ;; but "ik maar niet jij" is {:agr :sing}
+  :agr {:number :plur}
   :head {:phrasal? true
          :rule "conj-inner"}
   :comp {:conjunction? false}}
@@ -112,7 +116,7 @@
           menard.ug/comp-cat
           menard.ug/comp-reflexive
           menard.subcat/a]
-  :sem {:polarity :-}
+  :sem {:polarity :minus}
   :head {:cat :neg}}
   
  ;; np with no determiner, e.g.:

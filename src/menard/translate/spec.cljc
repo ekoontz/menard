@@ -10,11 +10,11 @@
 (defn nl-to-en-spec [nl-expression]
   (log/debug (str "nl-to-en-spec: nl-expression: " (serialize nl-expression)))
   (let [
-        ;; If [:sem :subj] exists, then set polarity to :+ if it's not
+        ;; If [:sem :subj] exists, then set polarity to :plus if it's not
         ;; otherwise set.
         subj-polarity-if-subj
         (if (u/get-in nl-expression [:sem :subj])
-          {:sem {:subj {:polarity (u/get-in nl-expression [:sem :subj :polarity] :+)}}}
+          {:sem {:subj {:polarity (u/get-in nl-expression [:sem :subj :polarity] :plus)}}}
           :top)
 
         retval

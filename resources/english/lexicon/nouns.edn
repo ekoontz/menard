@@ -88,6 +88,7 @@
  "hair" [{:sem {:pred :hair}}]
  "hand" [{:sem {:pred :hand}}]
  "home" [{:sem {:pred :home}}]
+ "horse" [{:sem {:pred :horse}}] 
  "house" [{:sem {:pred :house}}]
  "husband" [{:sem {:pred :husband}}]
  "idea" [{:sem {:pred :idea}}]

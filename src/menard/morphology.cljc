@@ -35,9 +35,16 @@
     nil
     (= notes [:nonhuman])
     nil
-    
+
+    (or (vector? notes) (seq? notes))
+    (str "(" (clojure.string/join "," notes) ")")
+
+    (string? notes)
+    (str "(" notes ")")
+
+    ;;
     :else
-    (str "(" (clojure.string/join "," notes) ")")))
+    (str "(unprintable note)")))
 
 (defn morph-leaf
   "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a

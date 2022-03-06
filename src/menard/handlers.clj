@@ -91,6 +91,8 @@
 (defn generate-nl-with-alternations
   "generate with _spec_ unified with each of the alternates, so generate one expression per <spec,alternate> combination."
   [spec alternates]
+  (if (or (nil? alternates) (empty? alternates))
+    (throw (Exception. "alternates were unexpectedly not provided.")))
   (let [alternates (map dag_unify.serialization/deserialize (read-string alternates))
         spec (-> spec read-string dag_unify.serialization/deserialize)]
     (log/debug (str "generate-nl-with-alternations: spec: " spec))

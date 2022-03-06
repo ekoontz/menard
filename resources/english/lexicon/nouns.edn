@@ -66,7 +66,7 @@
                          :surface "fish"}
                        ;; both 'fish' (as plural) and 'fishes' are possible:
                        {:agr {:number :plur}
-                        :note "plural"
+                        :note ["plural"]
                         :surface "fish"}
                        {:agr {:number :plur}
                         :surface "fishes"}]}]
@@ -164,7 +164,7 @@
            :exceptions [{:agr {:number :sing}
                          :surface "sheep"}
                         {:agr {:number :plur}
-                         :note "plural"
+                         :note ["plural"]
                          :surface "sheep"}]}]
  "situation" [{:sem {:pred :situation}}]
  "society" [{:sem {:pred :society}}]

@@ -46,7 +46,7 @@
                                          {:obj {:obj (u/get-in nl-expression [:sem :obj :obj])}})
                                   true :top))
                 :subcat []})]
-    (log/info (str "English spec to generate: " (serialize retval)))
+    (log/debug (str "English spec to generate: " (serialize retval)))
     (let [final-check
           (unify
            retval

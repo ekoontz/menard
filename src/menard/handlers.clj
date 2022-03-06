@@ -17,15 +17,15 @@
   (let [debug (log/debug (str "generate-nl: generating a question with spec: " spec))
         ;; 1. generate a target expression
         target-expression (->> (repeatedly #(-> spec nl/generate))
-                               (take 4)
                                (remove empty?)
+                               (take 1)
                                first)
         target-semantics (-> target-expression (u/get-in [:sem]))
 
         ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
         source-expression (->> (repeatedly #(-> target-expression tr/nl-to-en-spec en/generate))
-                               (take 2)
                                (remove empty?)
+                               (take 1)
                                first)
         debug (log/debug (str "target-semantics: " (-> target-semantics
                                                        dag-to-string)))

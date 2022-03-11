@@ -116,7 +116,9 @@
                    :ref {:human? true}}}]
  "koper" [{:sem {:pred :buyer
                  :ref {:human? true}}}]
- "kraai" [{:sem {:pred :crow}}]
+ "kraai" [{:sem {:pred :crow}
+          :exceptions [{:agr {:number :plur}
+                        :surface "kraaien"}]}]
  "lafaard" [{:sem {:pred :coward
                    :ref {:human? true}}}]
  "land" [{:sem {:pred :country}

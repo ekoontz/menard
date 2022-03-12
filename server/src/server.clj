@@ -30,21 +30,21 @@
    :body (write-str body)})
 
 (def routes
-  [["/generate"
+  [
+   ["/generate-with-alts/:lang"
     {:get {:handler
            (fn [request]
-             (-> request
-                 :query-params
-                 (get "q")
-                 handlers/generate-nl-by-spec
-                 json-response))}}]
-
-   ["/generate-with-alts"
-    {:get {:handler
-           (fn [request]
-             (let [spec (-> request :query-params (get "spec"))
+             (let [language (-> request :path-params (get :lang))
+                   use-fn (cond (= language "nl")
+                                handlers/generate-nl-with-alternations
+                                true
+                                (fn [spec alternates]
+                                  (log/warn "unsupported language: " language)
+                                  (-> {}
+                                      json-response)))
+                   spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))]
-               (-> (handlers/generate-nl-with-alternations spec alternates)
+               (-> (use-fn spec alternates)
                    json-response)))}}]
 
    ["/grammar/:lang"
@@ -84,15 +84,6 @@
                                   :p [(str parse-from) parse-to]})))]
                  (->> retval
                       json-response))))}}]
-   ["/parse"
-    {:get {:handler
-           (fn [request]
-             (-> request
-                 :query-params
-                 (get "q")
-                 handlers/parse-nl
-                 json-response))}}]
-
    ["/parse-start/:lang"
     {:get {:handler
            (fn [request]
@@ -153,6 +144,35 @@
                     (map dag_unify.serialization/serialize)
                     (map str)
                     json-response)))}}]
+
+   ;; deprecated: use /generate/nl instead:
+   ["/generate"
+    {:get {:handler
+           (fn [request]
+             (-> request
+                 :query-params
+                 (get "q")
+                 handlers/generate-nl-by-spec
+                 json-response))}}]
+
+   ;; deprecated: use /generate-with-alts/nl instead:
+   ["/generate-with-alts"
+    {:get {:handler
+           (fn [request]
+             (let [spec (-> request :query-params (get "spec"))
+                   alternates (-> request :query-params (get "alts"))]
+               (-> (handlers/generate-nl-with-alternations spec alternates)
+                   json-response)))}}]
+
+   ;; deprecated: use /parse/nl instead:
+   ["/parse"
+    {:get {:handler
+           (fn [request]
+             (-> request
+                 :query-params
+                 (get "q")
+                 handlers/parse-nl
+                 json-response))}}]
    ])
 
 (def middleware

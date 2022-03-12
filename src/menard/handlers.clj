@@ -147,11 +147,15 @@
    :sem {:pred (u/get-in nl-word [:sem :pred] :top)}})
 
 (defn grammar [lang]
-  (cond (= lang "nl")
-        (-> nl/model deref :grammar)
-        (= lang "en")
-        (-> en/model deref :grammar)
-        true []))
+  (let [unserialized
+        (cond (= lang "nl")
+              (-> nl/model deref :grammar)
+              (= lang "en")
+              (-> en/model deref :grammar)
+              true [])]
+    (log/info (str "unserialized: " unserialized))
+    (->> unserialized
+         (map (fn [rule] (-> rule dag_unify.serialization/serialize str))))))
 
 (defn morphology [lang]
   (log/info (str "handlers/morphology: language: " lang))

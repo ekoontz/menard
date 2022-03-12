@@ -72,20 +72,3 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
-  ParseNLStart:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: menard.lambda.def.ParseNLStart
-      CodeUri:
-        Key: !Ref 'ObjectKey'
-        Bucket: !Ref 'BucketName'
-      FunctionName: ParseNLStart
-      Events:
-       Event:
-          Type: Api
-          Properties:
-            Path: /parse-start/nl
-            Method: get
-      AutoPublishAlias: live
-      DeploymentPreference:
-          Type: AllAtOnce

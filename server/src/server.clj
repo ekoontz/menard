@@ -99,7 +99,7 @@
                    query-params (-> request :query-params)
                    do-all? (-> query-params (get "all"))
                    intermediate-result
-                   (if do-all?
+                   (if (and do-all? (seq do-all?))
                      (-> query-params
                          (get "q")
                          parse-all)

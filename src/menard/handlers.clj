@@ -198,7 +198,6 @@
           (log/info (str "parse: '" string-to-parse "': took " (- (.toEpochMilli (instant)) start-time) "ms."))
           retval)))))
 
-
 (defn parse-en-all [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse ".."))
   (let [en-tokens (en/tokenize string-to-parse)]

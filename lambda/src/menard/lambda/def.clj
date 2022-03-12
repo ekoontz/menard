@@ -25,6 +25,14 @@
       handlers/parse-nl
       json-response))
 
+(h/deflambda ParseNLStart
+  [event context]
+  (-> event
+      :queryStringParameters
+      :q
+      handlers/parse-nl-start
+      json-response))
+
 (h/deflambda Generate
   [event context]
   (let [q (-> event :queryStringParameters :q)]
@@ -38,4 +46,6 @@
 
 (h/gen-main [#'Parse
              #'Generate
-             #'GenerateWithAlts])
+             #'GenerateWithAlts
+             #'ParseNLStart])
+

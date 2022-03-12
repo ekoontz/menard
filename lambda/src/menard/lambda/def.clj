@@ -38,6 +38,11 @@
   (let [q (-> event :queryStringParameters :q)]
     (json-response (handlers/generate-nl-by-spec q))))
 
+(h/deflambda GenerateEN
+  [event context]
+  (let [q (-> event :queryStringParameters :q)]
+    (json-response (handlers/generate-en q))))
+
 (h/deflambda GenerateWithAlts
   [event context]
   (let [spec (-> event :queryStringParameters :spec)
@@ -50,6 +55,7 @@
 
 (h/gen-main [#'Parse
              #'Generate
+             #'GenerateEN
              #'GenerateWithAlts
              #'GrammarNL
              #'ParseNLStart])

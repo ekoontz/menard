@@ -38,6 +38,23 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
+  GenerateEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GenerateEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: Generate
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
   GenerateWithAlts:
     Type: AWS::Serverless::Function
     Properties:

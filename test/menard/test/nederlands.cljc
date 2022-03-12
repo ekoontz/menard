@@ -382,7 +382,7 @@
                                                           ;; add rules
                                                           ;; you want to debug here:
                                                           }
-                        menard.generate/log-all-rules? (= i 25)]
+                        menard.generate/log-all-rules? false]
                 (-> spec
                     nl/generate
                     ((fn [x]

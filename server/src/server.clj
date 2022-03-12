@@ -106,15 +106,7 @@
                      (-> query-params
                          (get "q")
                          parse-start))]
-               (let [prelim-result
-                     (into {}
-                           (->> (keys intermediate-result)
-                                (map (fn [k]
-                                       [(str k)
-                                        (map (fn [x] (-> x dag_unify.serialization/serialize str))
-                                             (get intermediate-result k))]))))]
-                 (log/debug (str "prelim: " prelim-result))
-                 (json-response prelim-result))))}}]
+               (json-response intermediate-result)))}}]
    
    ["/analyze/:lang"
     {:get {:handler

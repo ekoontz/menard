@@ -198,29 +198,6 @@
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
-(defn reduce-stuff [span-pairs input-length span-length input-map]
-  (->> (span-pairs (- input-length span-length) span-length)
-       (pmap-if-available
-        (fn [[[left middle][middle right]]]
-          (let [all-results (over grammar
-                                  (get input-map [left middle])
-                                  (get input-map [middle right]))
-                taken-results (take take-this-many all-results)
-                taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-            (when (> (count taken-plus-one-results) (count taken-results))
-              (log/warn (str "more than " take-this-many " parses for: '"
-                             (morph (first taken-results)) "' ; first: "
-                             (syntax-tree (first taken-results)))))
-            {[left right] taken-results})))
-       (reduce (fn [a b]
-                 (merge-with concat a b)))))
-
-(defn debug-reduce-stuff [retval]
-  (->> (keys retval)
-       (map (fn [k]
-              (log/info (str "K: " k " -> " (vec (map syntax-tree (get retval k)))))))
-       doall))
-
 (defn parse-next-stage [input-map input-length span-length grammar]
   (when false
     (log/info (str "parse-next-stage: input-map: (serialized) " (str (serialize input-map))))
@@ -234,7 +211,21 @@
         (do
           (log/debug (str "span-pairs: " (- input-length span-length) "," span-length))
           (merge input-map
-                 (reduce-stuff span-pairs input-length span-length input-map)))))
+                 (->> (span-pairs (- input-length span-length) span-length)
+                      (pmap-if-available
+                       (fn [[[left middle][middle right]]]
+                         (let [all-results (over grammar
+                                                 (get input-map [left middle])
+                                                 (get input-map [middle right]))
+                               taken-results (take take-this-many all-results)
+                               taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                           (when (> (count taken-plus-one-results) (count taken-results))
+                             (log/warn (str "more than " take-this-many " parses for: '"
+                                            (morph (first taken-results)) "' ; first: "
+                                            (syntax-tree (first taken-results)))))
+                           {[left right] taken-results})))
+                      (reduce (fn [a b]
+                                (merge-with concat a b))))))))
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]

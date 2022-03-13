@@ -123,7 +123,7 @@
                                            {:cat :intensifier})
                    ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
                    (compile-lexicon-source (model/use-path (str path-suffix "misc.edn"))         lexical-rules)
-                   
+
                    (compile-lexicon-source (model/use-path (str path-suffix "nouns.edn"))        lexical-rules
                                            {:cat :noun})
                    (compile-lexicon-source (model/use-path (str path-suffix "numbers.edn"))      lexical-rules
@@ -164,7 +164,7 @@
                       (log/warn (str "no inflection found for lexeme: "
                                      (u/get-in lexeme [:canonical])))
                       lexeme)
-                    
+
                     :else lexeme)
                   lexeme))))
 
@@ -247,7 +247,7 @@
            lexical-rules (load-lexical-rules)
 
            morphology (load-morphology)
-           
+
            ;; apply those lexical rules
            ;; to a source lexicon to create
            ;; compile lexicon:
@@ -320,16 +320,16 @@
                        ;; (we already did this above,
                        ;;  so we'll just return those rules.
                        (fn [] lexical-rules)
-                       
+
                        ;; function to load the lexicon:
                        (fn [_] lexicon)
-                       
+
                        ;; create indices on the compiled lexicon:
                        fill-lexicon-indexes
-                       
+
                        ;; function to load the morphology:
                        (fn [] morphology)
-                       
+
                        (fn [] grammar))
            (merge {:name name}))))))))
 
@@ -417,7 +417,7 @@
 
                  (= (u/get-in spec [:cat]) :det)
                  (-> @model :indices :det-lexicon)
-                 
+
                  :else (-> @model :indices :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
@@ -646,7 +646,7 @@
 
 (defn roundtrip [input]
   (-> input
-      parse 
+      parse
       first
       ((fn [input-expression]
          (let [spec {:sem (u/get-in input-expression [:sem] :top)
@@ -676,9 +676,9 @@
 ;;      parse
 ;;      (map (ugins [:infl] [:sem] [:head :sem][:subcat]))
 ;;      (map u/pprint))
-;; 
+;;
 ;; => parses with selected parts shown
-;; 
+;;
 (defn ugin
   ([& paths]
    (fn [arg1]

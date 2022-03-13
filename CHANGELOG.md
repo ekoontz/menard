@@ -7,11 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.5.0] - 2022-03-13
 
-- Fix/refactor reflexives
+- Fix/refactor reflexive pronouns.
 - Allow for reloading of models based on polling filesystem changes using babashka/fs.
 - Incremental parsing so that partial parses can be shared between clients and servers.
 - All keys taking only true/false are suffixed with '?'
-- Move all linguistic structures (e.g. ug.cljc) to edn in resources.
+- Move all linguistic structures (e.g. ug, subcat) to .edn files in resources.
 
 ## [1.4.5] - 2021-08-7
 

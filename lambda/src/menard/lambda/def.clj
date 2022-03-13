@@ -35,13 +35,14 @@
 
 (h/deflambda Generate
   [event context]
+  ;; TODO: use 'spec' rather than 'q':
   (let [q (-> event :queryStringParameters :q)]
     (json-response (handlers/generate-nl-by-spec q))))
 
 (h/deflambda GenerateEN
   [event context]
-  (let [q (-> event :queryStringParameters :q)]
-    (json-response (handlers/generate-en q))))
+  (let [spec (-> event :queryStringParameters :spec)]
+    (json-response (handlers/generate-en spec))))
 
 (h/deflambda GenerateWithAlts
   [event context]

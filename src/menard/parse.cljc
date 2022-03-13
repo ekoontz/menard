@@ -199,12 +199,14 @@
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
-(defn parse-next-stage [input-map input-length span-length grammar]
-  (when false
-    (log/info (str "parse-next-stage: input-map: (serialized) " (str (serialize input-map))))
-    (log/info (str "parse-next-stage: input-length: " (str input-length)))
-    (log/info (str "parse-next-stage: span-length: " (str span-length)))
-    (log/info (str "parse-next-stage: grammar: " (str grammar))))
+(defn parse-spans-of-length
+  "Get all parses for length _span-length_, given :
+   - _input_map_, a map from pairs [i,j] => _parses_,
+     where i and j are the left and right coordinates within the input string, and _parses_
+     are all the parses for the substring of tokens [w_i....w_j].
+   - _input_length_, the length of the input string in tokens.
+   - _grammar_, a list of grammar rules."
+  [input-map input-length span-length grammar]
   (cond (> span-length input-length)
         ;; done
         input-map
@@ -256,7 +258,7 @@
           (> i input-length))
     input-map
     (-> input-map
-        (parse-next-stage input-length i grammar)
+        (parse-spans-of-length input-length i grammar)
         (parse-in-stages input-length (+ 1 i) grammar surface))))
 
 (defn parse
@@ -272,7 +274,7 @@
   (let [tokenization (tokenize input)
         token-count (count tokenization)
         all-parses (reduce (fn [input-map span-size]
-                             (parse-next-stage input-map token-count span-size grammar))
+                             (parse-spans-of-length input-map token-count span-size grammar))
                            (create-input-map tokenization)
                            (range 2 (+ 1 token-count)))
         result {:token-count (count tokenization)

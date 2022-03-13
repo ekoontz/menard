@@ -198,6 +198,39 @@
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
+(defn reduce-stuff [span-pairs input-length span-length input-map]
+  (log/info (str "doing reduce for length: " span-length))
+  (let [intermediate
+        (->> (span-pairs (- input-length span-length) span-length)
+             (pmap-if-available
+              (fn [[[left middle][middle right]]]
+                (let [all-results (over grammar
+                                        (get input-map [left middle])
+                                        (get input-map [middle right]))
+                      taken-results (take take-this-many all-results)
+                      taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                  (when (> (count taken-plus-one-results) (count taken-results))
+                    (log/warn (str "more than " take-this-many " parses for: '"
+                                   (morph (first taken-results)) "' ; first: "
+                                   (syntax-tree (first taken-results)))))
+                  [[left right]  taken-results]))))]
+    (let [retval
+          (->> intermediate
+               (map (fn [x]
+                      (let [left (first (first x))
+                            right (second (first x))]
+                        (log/info (str "left: " left ", right: " right))
+                        (log/info (str "  STs: "
+                                       (string/join "," (map syntax-tree (second x)))))
+                        {[left right] (second x)})))
+               (reduce (fn [a b]
+                         (merge-with concat a b))))]
+      (log/info (str "keys of retval: " (keys retval)))
+      (->> (keys retval)
+           (map (fn [k]
+                  (log/info (str "K: " k " -> " (vec (map syntax-tree (get retval k)))))))
+           doall))))
+
 (defn parse-next-stage [input-map input-length span-length grammar]
   (when false
     (log/info (str "parse-next-stage: input-map: (serialized) " (str (serialize input-map))))
@@ -210,6 +243,7 @@
         true
         (do
           (log/debug (str "span-pairs: " (- input-length span-length) "," span-length))
+          (reduce-stuff span-pairs input-length span-length input-map)
           (into input-map
                 (->> (span-pairs (- input-length span-length) span-length)
                      (pmap-if-available

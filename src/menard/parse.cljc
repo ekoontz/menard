@@ -75,7 +75,7 @@
          (map? head)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/debug (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
+    (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
  (let [pre-check? (not (= :fail
                            (u/get-in parent [:head :cat] :top)
                            (u/get-in head [:cat] :top)))
@@ -91,12 +91,12 @@
    (if (not (= :fail result))
      (do
        (when (contains? log-these-rules (u/get-in parent [:rule]))
-         (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
+         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
        [result])
      (do
        (when (contains? log-these-rules (u/get-in parent [:rule]))
          (let [fp (fail-path parent {:head head})]
-           (log/debug
+           (log/info
             (str "overh fail: " (syntax-tree parent)
                  " <- " (syntax-tree head)
                  " fail-path: " (vec fp)
@@ -114,7 +114,7 @@
          (map? parent)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/debug (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
+    (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
   (let [pre-check? (not (= :fail (u/unify
                                   (u/get-in parent [:comp :cat] :top)
                                   (u/get-in comp [:cat] :top))))
@@ -126,12 +126,12 @@
     (if (not (= :fail result))
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/debug (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
+          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (let [fp (fail-path parent {:comp comp})]
-            (log/debug
+            (log/info
              (str "overc fail: " (syntax-tree parent)
                   " <- " (syntax-tree comp)
                   " fail path: " (vec fp)

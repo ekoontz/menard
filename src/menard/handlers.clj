@@ -204,8 +204,6 @@
                                (map (fn [x] (-> x dag_unify.serialization/serialize str))
                                     (get intermediate-result k))]))))))))
 
-               
-
 (defn parse-en-start [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse))
   (let [en-tokens (en/tokenize string-to-parse)]

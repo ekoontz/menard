@@ -22,14 +22,15 @@
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
+(def ^:dynamic enable-pmap? true)
 
 (defn pmap-if-available [fn args]
   #?(:clj
      ;; map is slower (no concurrency) but better for debugging since you can see the
      ;; log messages for a particular function call in order.
-     (if false
-       (map fn args)
-       (pmap fn args)))
+     (if enable-pmap?
+       (pmap fn args)
+       (map fn args)))
   #?(:cljs
      (map fn args)))
 

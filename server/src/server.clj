@@ -57,12 +57,10 @@
    ["/generate/en"
     {:get {:handler
            (fn [request]
-             (let [spec (-> request :query-params (get "spec") read-string dag_unify.serialization/deserialize)]
+             (let [spec (-> request :query-params (get "spec"))]
                (log/debug (str "generate/en spec: " spec))
                (let [response (handlers/generate-en spec)]
-                 (log/debug (str "generate/en response: " response))
-                 (-> response
-                     json-response))))}}]
+                 (-> spec handlers/generate-en json-response))))}}]
 
    ["/morphology/:lang"
     {:get {:handler

@@ -154,17 +154,30 @@
               (= lang "en")
               (-> en/model deref :grammar)
               true [])]
-    (log/info (str "unserialized: " unserialized))
+    (log/debug (str "grammar for lang: " lang " unserialized: " unserialized))
     (->> unserialized
          (map (fn [rule] (-> rule dag_unify.serialization/serialize str))))))
 
 (defn morphology [lang]
-  (log/info (str "handlers/morphology: language: " lang))
-  (cond (= lang "nl")
-        (-> nl/model deref :morphology)
-        (= lang "en")
-        (-> en/model deref :morphology)
-        true []))
+  (let [unserialized
+        (cond (= lang "nl")
+              (-> nl/model deref :morphology)
+              (= lang "en")
+              (-> en/model deref :morphology)
+              true [])]
+    (log/info (str "morphology for lang: " lang " unserialized: " unserialized))    
+    (->> unserialized
+         (map (fn [{[generate-from generate-to] :g
+                    [parse-from parse-to] :p
+                    u :u}]
+                ;; regexes like: #"ot$" have to be
+                ;; converted into strings: "ot$" via (str).
+                ;; The inverse of this is
+                ;; clojure.core/re-pattern (converts a
+                ;; string e.g. "ot$" into a regex #"ot$".
+                {:u u
+                 :g [(str generate-from) generate-to]
+                 :p [(str parse-from) parse-to]})))))
 
 (defn nl-to-en-by-token [nl-tokens]
   (->> nl-tokens

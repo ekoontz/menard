@@ -66,21 +66,8 @@
     {:get {:handler
            (fn [request]
              (let [language (-> request :path-params (get :lang))]
-               (let [retval
-                     (->> (handlers/morphology language)
-                          (map (fn [{[generate-from generate-to] :g
-                                     [parse-from parse-to] :p
-                                     u :u}]
-                                 ;; regexes like: #"ot$" have to be
-                                 ;; converted into strings: "ot$" via (str).
-                                 ;; The inverse of this is
-                                 ;; clojure.core/re-pattern (converts a
-                                 ;; string e.g. "ot$" into a regex #"ot$".
-                                 {:u u
-                                  :g [(str generate-from) generate-to]
-                                  :p [(str parse-from) parse-to]})))]
-                 (->> retval
-                      json-response))))}}]
+               (->> language handlers/morphology json-response)))}}]
+
    ["/parse-start/:lang"
     {:get {:handler
            (fn [request]

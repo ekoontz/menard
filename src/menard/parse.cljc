@@ -22,14 +22,15 @@
 (def ^:dynamic split-on #"[ ']")
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
+(def ^:dynamic enable-pmap? true)
 
 (defn pmap-if-available [fn args]
   #?(:clj
      ;; map is slower (no concurrency) but better for debugging since you can see the
      ;; log messages for a particular function call in order.
-     (if false
-       (map fn args)
-       (pmap fn args)))
+     (if enable-pmap?
+       (pmap fn args)
+       (map fn args)))
   #?(:cljs
      (map fn args)))
 
@@ -75,7 +76,7 @@
          (map? head)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/debug (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
+    (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
  (let [pre-check? (not (= :fail
                            (u/get-in parent [:head :cat] :top)
                            (u/get-in head [:cat] :top)))
@@ -91,12 +92,12 @@
    (if (not (= :fail result))
      (do
        (when (contains? log-these-rules (u/get-in parent [:rule]))
-         (log/debug (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
+         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
        [result])
      (do
        (when (contains? log-these-rules (u/get-in parent [:rule]))
          (let [fp (fail-path parent {:head head})]
-           (log/debug
+           (log/info
             (str "overh fail: " (syntax-tree parent)
                  " <- " (syntax-tree head)
                  " fail-path: " (vec fp)
@@ -114,7 +115,7 @@
          (map? parent)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/debug (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
+    (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
   (let [pre-check? (not (= :fail (u/unify
                                   (u/get-in parent [:comp :cat] :top)
                                   (u/get-in comp [:cat] :top))))
@@ -126,12 +127,12 @@
     (if (not (= :fail result))
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/debug (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
+          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
         [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (let [fp (fail-path parent {:comp comp})]
-            (log/debug
+            (log/info
              (str "overc fail: " (syntax-tree parent)
                   " <- " (syntax-tree comp)
                   " fail path: " (vec fp)
@@ -210,25 +211,22 @@
         true
         (do
           (log/debug (str "span-pairs: " (- input-length span-length) "," span-length))
-          (into input-map
-                (->> (span-pairs (- input-length span-length) span-length)
-                     (pmap-if-available
-                      (fn [[[left middle][middle right]]]
-                        (let [all-results (over grammar
-                                                (get input-map [left middle])
-                                                (get input-map [middle right]))
-                              taken-results (take take-this-many all-results)
-                              taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                          (when (> (count taken-plus-one-results) (count taken-results))
-                            (log/warn (str "more than " take-this-many " parses for: '"
-                                           (morph (first taken-results)) "' ; first: "
-                                           (syntax-tree (first taken-results)))))
-                          
-                          ;; create a new key/value pair: [left,right] => parses,
-                          ;; where each parse in parses matches the tokens from [left,right] in the input.
-                          (if (seq taken-results)
-                            ;; <key>       <value: parses for the span of the tokens from _left_ to _right_>
-                            {[left right]  taken-results})))))))))
+          (merge input-map
+                 (->> (span-pairs (- input-length span-length) span-length)
+                      (pmap-if-available
+                       (fn [[[left middle][middle right]]]
+                         (let [all-results (over grammar
+                                                 (get input-map [left middle])
+                                                 (get input-map [middle right]))
+                               taken-results (take take-this-many all-results)
+                               taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                           (when (> (count taken-plus-one-results) (count taken-results))
+                             (log/warn (str "more than " take-this-many " parses for: '"
+                                            (morph (first taken-results)) "' ; first: "
+                                            (syntax-tree (first taken-results)))))
+                           {[left right] taken-results})))
+                      (reduce (fn [a b]
+                                (merge-with concat a b))))))))
 
 (defn lookup-fn-with-trim [string]
   (let [trimmed (clojure.string/trim string)]

@@ -24,11 +24,11 @@
     (= notes [:informal :plural])
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji :informal)))))))
-    
+
     (= notes [:polite :plural])
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji :polite)))))))
-    
+
 
     ;; no emoji or other cues for now.
     (= notes [:human?])
@@ -112,7 +112,7 @@
       (do
         (log/debug (str "found an exception: using that: " first-matching-exception))
         (morph-leaf first-matching-exception morphology))
-      
+
       (u/get-in structure [:surface])
       (do
         (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
@@ -124,7 +124,7 @@
                   (seq (u/get-in structure [:note])))
            (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
              (str " " decode-notes)))))
-      
+
       (seq matching-rules)
       (let [{[from to] :g} (first matching-rules)]
         (log/debug (str "using matching rule:" (first matching-rules)))
@@ -140,7 +140,7 @@
                       (seq (u/get-in structure [:note])))
                (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
                  (str " " decode-notes)))))
-      
+
       (and (false? inflected?) (empty? matching-rules)
            (not (= structure {:head? false}))
            (not (= structure {:head? true}))
@@ -148,7 +148,7 @@
       (do
         (log/debug (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
         canonical)
-      
+
       :else
       "_")))
 

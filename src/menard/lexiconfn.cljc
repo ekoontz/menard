@@ -53,7 +53,7 @@
                 (dissoc result :derivation))))))
 
 (defn apply-rules-to-lexeme
-  "given a lexeme and a list of rules, return a list 
+  "given a lexeme and a list of rules, return a list
    of all the possible lexemes following from the
    consequent of each rule in the list."
   [rules lexeme if-no-rules-matched? i]
@@ -191,11 +191,11 @@
              ;; Now we have a set of lexemes each of which has a canonical form which
              ;; is the result of applying a morphological rule to the input _surface_,
              ;; and where the unification with that rule was successful.
-             ;; where the _surface_ has been 
+             ;; where the _surface_ has been
              ((fn [lexemes]
                 (log/debug (str "found: " (count lexemes) " inflections."))
                 lexemes))
-             
+
              (map (fn [lexeme]
                     (log/debug (str "  " surface " -> "
                                     (select-keys (dag_unify.diagnostics/strip-refs lexeme)
@@ -343,4 +343,3 @@
         resource
         slurp
         read-string))
-

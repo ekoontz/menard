@@ -1,6 +1,5 @@
 [![Clojars Project](https://img.shields.io/clojars/v/menard.svg)](https://clojars.org/menard)
 [![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
-[![Run on Repl.it](https://repl.it/badge/github/ekoontz/menard)](https://repl.it/github/ekoontz/menard)
 [![Clojure CI](https://github.com/ekoontz/menard/actions/workflows/clojure.yml/badge.svg)](https://github.com/ekoontz/menard/actions/workflows/clojure.yml)
 
 # Menard

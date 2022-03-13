@@ -44,12 +44,10 @@
                                 (get input-rule :1))
                              (do (log/debug (str "rule is ok: head is first: " (u/get-in input-rule [:rule])))
                                  true)
-                             
                              (= (get input-rule :head)
                                 (get input-rule :2))
                              (do (log/debug (str "rule is ok: head is last: " (u/get-in input-rule [:rule])))
                                  true)
-                             
                              :else
                              (let [error-message (str "rule: " (u/get-in input-rule [:rule]) ": does not specify if the head is first or last.")]
                                (log/error error-message)

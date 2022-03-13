@@ -165,7 +165,7 @@
               (= lang "en")
               (-> en/model deref :morphology)
               true [])]
-    (log/info (str "morphology for lang: " lang " unserialized: " unserialized))    
+    (log/debug (str "morphology for lang: " lang " unserialized: " unserialized))    
     (->> unserialized
          (map (fn [{[generate-from generate-to] :g
                     [parse-from parse-to] :p
@@ -195,8 +195,8 @@
           (let [intermediate-result (->> string-to-parse
                                          clojure.string/lower-case
                                          nl/parse-start)]
-            (log/info (str "parse-nl-start: intermediate-result: "
-                           intermediate-result))
+            (log/debug (str "parse-nl-start: intermediate-result: "
+                            intermediate-result))
             (into {}
                   (->> (keys intermediate-result)
                        (map (fn [k]

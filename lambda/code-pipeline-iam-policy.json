@@ -32,6 +32,7 @@
                 "lambda:DeleteFunction",
                 "lambda:CreateAlias",
                 "lambda:DeleteAlias",
+                "lambda:UpdateAlias",
                 "lambda:CreateFunction",
                 "lambda:ListVersionsByFunction",
                 "lambda:PublishVersion",
@@ -39,7 +40,8 @@
                 "apigateway:GET",
                 "apigateway:POST",
                 "apigateway:DELETE",
-                "apigateway:PATCH"
+                "apigateway:PATCH",
+                "apigateway:PUT"
             ],
             "Resource": "*"
         }

@@ -54,10 +54,15 @@
   [event context]
   (json-response (handlers/grammar "nl")))
 
+(h/deflambda MorphologyNL
+  [event context]
+  (json-response (handlers/morphology "nl")))
+
 (h/gen-main [#'Parse
              #'Generate
              #'GenerateEN
              #'GenerateWithAlts
              #'GrammarNL
+             #'MorphologyNL             
              #'ParseNLStart])
 

@@ -117,6 +117,7 @@
  "message" [{:sem {:pred :message}}]
  "mistake" [{:sem {:pred :mistake}}]
  "money" [{:sem {:pred :money}}]
+ "monster" [{:sem {:pred :monster}}] 
  "month" [{:sem {:pred :month}}]
  "mother" [{:sem {:pred :mother}}]
  "mystery" [{:sem {:pred :mystery}}]

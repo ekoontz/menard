@@ -84,6 +84,7 @@
  "major" [{:sem {:pred :major}}]
  "military" [{:sem {:pred :military}}]
  "moody" [{:sem {:pred :moody}}]
+ "mysterious" [{:sem {:pred :mysterious}}] 
  "narrow" [{:sem {:pred :narrow}}]
  "national" [{:sem {:pred :national}}]
  "nervous" [{:sem {:pred :nervous}}]

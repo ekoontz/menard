@@ -8,6 +8,8 @@
           :sem {:pred :leg}}]
  "bedrag" [{:agr {:gender :neuter}
             :sem {:pred :amount}}]
+ "beleid" [{:agr {:gender :neuter}
+            :sem {:pred :policy}}]
  "bericht" [{:sem {:pred :message}}]
  "beschaving" [{:sem {:pred :civilization}}]
  "beslissing" [{:sem {:pred :decision}}]

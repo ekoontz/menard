@@ -72,6 +72,23 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
+  GrammarEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GrammarEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GrammarNL
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /grammar/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
   GrammarNL:
     Type: AWS::Serverless::Function
     Properties:

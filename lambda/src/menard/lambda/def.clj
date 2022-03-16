@@ -50,6 +50,10 @@
         alternates (-> event :queryStringParameters :alts)]
     (json-response (handlers/generate-nl-with-alternations spec alternates))))
 
+(h/deflambda GrammarEN
+  [event context]
+  (json-response (handlers/grammar "en")))
+
 (h/deflambda GrammarNL
   [event context]
   (json-response (handlers/grammar "nl")))

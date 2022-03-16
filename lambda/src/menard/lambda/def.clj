@@ -33,6 +33,14 @@
       handlers/parse-nl-start
       json-response))
 
+(h/deflambda ParseENStart
+  [event context]
+  (-> event
+      :queryStringParameters
+      :q
+      handlers/parse-en-start
+      json-response))
+
 (h/deflambda Generate
   [event context]
   ;; TODO: use 'spec' rather than 'q':

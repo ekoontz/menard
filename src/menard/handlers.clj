@@ -208,9 +208,17 @@
   (log/info (str "parsing user guess: " string-to-parse))
   (let [en-tokens (en/tokenize string-to-parse)]
     (cond (> (count en-tokens) 1)
-          (->> string-to-parse
-               clojure.string/lower-case
-               en/parse-start))))
+          (let [intermediate-result (->> string-to-parse
+                                         clojure.string/lower-case
+                                         en/parse-start)]
+            (log/debug (str "parse-en-start: intermediate-result: "
+                            intermediate-result))
+            (into {}
+                  (->> (keys intermediate-result)
+                       (map (fn [k]
+                              [(str k)
+                               (map (fn [x] (-> x dag_unify.serialization/serialize str))
+                                    (get intermediate-result k))]))))))))
 
 (defn parse-nl-all [string-to-parse]
   (log/info (str "parsing user guess: " string-to-parse ".."))

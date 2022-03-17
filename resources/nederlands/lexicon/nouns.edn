@@ -120,7 +120,8 @@
                    :ref {:human? true}}}]
  "koper" [{:sem {:pred :buyer
                  :ref {:human? true}}}]
- "koppel" [{:sem {:pred :couple}}]
+ "koppel" [{:sem {:pred :couple}
+            :agr {:gender :neuter}}]
  "kraai" [{:sem {:pred :crow}
           :exceptions [{:agr {:number :plur}
                         :surface "kraaien"}]}]

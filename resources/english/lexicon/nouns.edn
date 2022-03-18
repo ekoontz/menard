@@ -153,6 +153,7 @@
  "question" [{:sem {:pred :question}}]
  "relaxation" [{:sem {:pred :relaxation}}]
  "reporter" [{:sem {:pred :reporter}}]
+ "representative" [{:sem {:pred :representative}}]
  "revolt" [{:sem {:pred :revolt}}]
  "right" [{:sem {:pred :right}}]
  "room" [{:sem {:pred :room}}]

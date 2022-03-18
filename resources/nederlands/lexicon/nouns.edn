@@ -107,7 +107,8 @@
  "jas" [{:sem {:pred :coat}}]
  "jongen" [{:sem {:pred :boy
                   :ref {:human? true}}}]
- "kat" [{:sem {:pred :cat}}]
+ "kat" [{:sem {:pred :cat
+               :number? false}}]
  "kerel" [{:sem {:pred :dude
                  :ref {:human? true}}}]
  "kind" [{:agr {:gender :neuter}
@@ -208,6 +209,7 @@
  "vlinder" [{:sem {:pred :butterfly}}]
  "vogel" [{:sem {:pred :bird}
            :curriculum :basic}]
+ "volksvertegenwoordiger" [{:sem {:pred :representative}}]
  "voorbereiding" [{:sem {:pred :preparation}}]
  "voorbeeld" [{:agr {:gender :neuter}
                :sem {:pred :example}}]

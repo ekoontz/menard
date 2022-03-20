@@ -169,6 +169,7 @@
  "roofdier" [{:agr {:gender :neuter}
               :sem {:pred :predator}}]
  "samenvatting" [{:sem {:pred :summary}}]
+ "schort" [{:sem {:pred :apron}}]
  "sering" [{:sem {:pred :lilac}}]
  "snuiter" [{:sem {:pred :dude
                    :ref {:human? true}}}]

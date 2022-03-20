@@ -2,6 +2,7 @@
  "airplane" [{:sem {:pred :airplane}}]
  "amount" [{:sem {:pred :amount}}]
  "animal" [{:sem {:pred :animal}}]
+ "apron" [{:sem {:pred :apron}}]
  "area" [{:sem {:pred :area}}]
  "attempt" [{:sem {:pred :attempt}}]
  "attention" [{:sem {:pred :attention}}]

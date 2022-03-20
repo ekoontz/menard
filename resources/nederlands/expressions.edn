@@ -183,7 +183,8 @@
               :rest {:first {:number? false
                              :rest []}}}}
   :phrasal? true
-  :training-wheels {:comp {:cat :det}
+  :training-wheels {:rule "np:2"
+                    :comp {:cat :det}
                     :head {:comp {:comp {:phrasal? false
                                          :sem {:number? true}}
                                   :head {:head {:phrasal? false

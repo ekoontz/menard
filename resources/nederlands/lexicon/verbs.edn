@@ -302,6 +302,17 @@
            :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
            :obj :none}}])
 
+
+ "gapen"
+ [{:curriculum :basic
+   ;; not sure if this verb is strong or not, but
+   ;; copied this from "slapen", which has the :strong?,
+   ;; so saving it but commenting out here:
+   ;;:strong? :a-ie-a
+   :sem {:pred :yawn
+         :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+         :obj :none}}]
+
  "spelen"
  ;; TODO: should not need these exceptions:
  ;; the rule is regular enough that we

@@ -596,4 +596,7 @@
                                  :infl :base}
                               :2 []}})]))
 
- "work" [{:sem {:pred :work}}]}
+ "work" [{:sem {:pred :work}}]
+ "yawn" [{:sem {:pred :yawn
+                :obj :none}}]}
+

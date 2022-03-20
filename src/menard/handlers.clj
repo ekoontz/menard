@@ -189,7 +189,7 @@
        (map first)))
 
 (defn parse-nl-start [string-to-parse]
-  (log/info (str "parsing user guess: " string-to-parse))
+  (log/info (str "parse-nl-start input: '" string-to-parse "'"))
   (let [nl-tokens (nl/tokenize string-to-parse)]
     (cond (> (count nl-tokens) 1)
           (let [intermediate-result (->> string-to-parse
@@ -205,7 +205,7 @@
                                     (get intermediate-result k))]))))))))
 
 (defn parse-en-start [string-to-parse]
-  (log/info (str "parsing user guess: " string-to-parse))
+  (log/info (str "parse-en-start input: '" string-to-parse "'"))
   (let [en-tokens (en/tokenize string-to-parse)]
     (cond (> (count en-tokens) 1)
           (let [intermediate-result (->> string-to-parse
@@ -233,7 +233,7 @@
           retval)))))
 
 (defn parse-en-all [string-to-parse]
-  (log/info (str "parsing user guess: " string-to-parse ".."))
+  (log/info (str "parse-en-all input: '" string-to-parse "'.."))
   (let [en-tokens (en/tokenize string-to-parse)]
     (if (> (count en-tokens) 1)
       (let [start-time (.toEpochMilli (instant))]

@@ -894,16 +894,11 @@
 ;;  :then [{:reflexive? false}]}
 
 
- {:rule :propernouns-are-not-numbers
+ {:rule :nouns-are-not-numbers-by-default
   :if {:cat :noun
-       :propernoun? true}
+       :sem {:number? ::unspec}}
   :then [{:sem {:number? false}}]}
-
- {:rule :pronouns-are-not-numbers
-  :if {:cat :noun
-       :pronoun? true}
-  :then [{:sem {:number? false}}]}
-
+ 
  {:rule :is-conj
   :if {:cat :conjunction}
   :then [{:conjunction? true

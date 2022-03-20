@@ -15,6 +15,7 @@
  "boy" [{:sem {:pred :boy}
          :agr {:human? true
                :gender :masc}}]
+ "bullet" [{:sem {:pred :bullet}}]
  "business" [{:sem {:pred :business}}]
  "buyer" [{:sem {:pred :buyer}}]
  "carrot" [{:sem {:pred :carrot}}]

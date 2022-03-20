@@ -119,6 +119,7 @@
  "kitten" [{:sem {:pred :kitten}}]
  "kleuter" [{:sem {:pred :toddler
                    :ref {:human? true}}}]
+ "kogel" [{:sem {:pred :bullet}}]
  "koper" [{:sem {:pred :buyer
                  :ref {:human? true}}}]
  "koppel" [{:sem {:pred :couple}

@@ -61,6 +61,7 @@
                               :surface "ervoeren"}]]
              [{:sem {:pred :experience}
                :exceptions exceptions}])
+ "fluisteren" [{:sem {:pred :whisper}}]
  "graven" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}
                              :surface "groef"}

@@ -34,8 +34,8 @@
 ;;(def log-these-rules #{"vp-conj"})
 ;;(def log-these-rules #{"np:1" "np:2" "nbar"})
 ;;(def log-these-rules #{"s"})
-(def log-these-rules #{"conj-outer"})
-;;(def log-these-rules #{})
+;;(def log-these-rules #{"conj-outer"})
+(def log-these-rules #{})
 
 ;; <morphology>
 #?(:clj
@@ -59,7 +59,7 @@
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
      (log/debug (str "compiling source file: " source-filename))
-     (binding [menard.lexiconfn/include-derivation? true]
+     (binding [menard.lexiconfn/include-derivation? false]
        (-> source-filename
            l/read-and-eval
            ((fn [lexicon]

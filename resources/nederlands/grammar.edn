@@ -4,7 +4,6 @@
  ;; TODO: unify both of these 'conj-outer' rules using perhaps a ug/ rule
  ;; or the subcat properties of the conjunction.
  ;; Note that for both conj-outer rules, [:cat] = [:head :cat] = [:comp :cat].
- ;; For the first, [:cat] = :adj; for the second, [:cat] = :noun.
  {:rule "conj-outer" ;; [.vier +[+en .twintig]]
   :unify [menard.subcat/a
           menard.ug/comp-cat          
@@ -19,7 +18,7 @@
 
  ;; [conj-outer .[+niet .Ina] +[conj-inner +maar .zichzelf]]
  {:rule "conj-outer" 
-  :unify [menard.subcat/a-no-subcat-constraint-on-comp
+  :unify [menard.subcat/a
           menard.ug/comp-cat
           menard.ug/head-agr
           menard.ug/head-cat          

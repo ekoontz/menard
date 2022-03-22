@@ -19,45 +19,24 @@
                 :arg1 lower
                 :arg2 higher}})
 
-       ;; sense 2. 'en' otherwise e.g. "Guus and Ina" where
-       ;; args have empty subcats
+       ;; sense 2. 'en' otherwise e.g. "Guus and Ina"
        (let [number? (atom false)
              lower (atom {:number? number?})
              higher (atom {:number? number?})]
          {:cat :conjunction
           :subcat {:1 {:teen? false
                        :nul? false
-                       :sem higher
-                       :subcat []}
+                       :sem higher}
                    :2 {:teen? false
-                       :sem lower
-                       :subcat []}
+                       :sem lower}
                    :3 []}
           :sense 2
           :sem {:pred :and ;; note that {:pred :and} is the same as "maar" below.
                 :number? false
                 :args {:first higher
                        :rest {:first lower
-                              :rest []}}}})
-                       
-       (let [number? (atom false)
-             lower (atom {:number? number?})
-             higher (atom {:number? number?})]
-         {:cat :conjunction
-          :subcat {:1 {:teen? false
-                       :nul? false
-                       :sem higher
-                       :subcat {:1 {:top :top} :2 []}}
-                   :2 {:teen? false
-                       :sem lower
-                       :subcat {:1 {:top :top} :2 []}}
-                   :3 []}
-          :sense 3
-          :sem {:pred :and ;; note that {:pred :and} is the same as "maar" below.
-                :number? false
-                :args {:first higher
-                       :rest {:first lower
                               :rest []}}}})]
+                       
  
  "maar" [(let [lower (atom {:polarity :plus})
                higher (atom {:polarity :minus})

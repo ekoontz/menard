@@ -898,13 +898,15 @@
   :if {:cat :noun
        :sem {:number? ::unspec}}
   :then [{:sem {:number? false}}]}
- 
- {:rule :is-conj
-  :if {:cat :conjunction}
+
+ {:rule :conj-subcats
+  :if {:cat :conjunction
+       :subcat {:1 {:subcat ::unspec}}}
   :then [{:conjunction? true
           :subcat {:1 {:conjunction? false
                        :subcat []}
                    :2 {:conjunction? false
                        :subcat []}}}]}
+
  ]
 

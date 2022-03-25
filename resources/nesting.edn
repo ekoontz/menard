@@ -87,8 +87,9 @@
 ;; any grammar rule that is either
 ;; cons-and-nest or nest-only
 ;; needs to also include one of the
-;; following, depending on the :cat
-;; of the :head (and :cat of the parent)
+;; following (2a, 2b, or 2c),
+;; depending on the :cat of the :head
+;; (and :cat) of the parent.
 ;; 
 ;; This is because with cons-and-nest or nest-only
 ;; rules, the :sem of the head is distinct from
@@ -99,20 +100,25 @@
 ;; contents of the :head's sem, plus the :mod
 ;; of the complement, so that the adjunct complement
 ;; can modify the semantics of the heads.
+
+ ;; 2.a.: adjective-headed phrases
  (let [one (atom :top)
        two (atom :top)]
    {:def  'adjective
+    :cat :adjective
     :sem {:pred one
           :number? two}
     :head {:sem {:pred one
                  :number? two}}})
 
+ ;; 2.b.: noun-headed phrases
  (let [one (atom :top)
        two (atom :top)
        three (atom :top)
        four (atom :top)
        five (atom :top)]
    {:def 'noun
+    :cat :noun
     :sem {:pred one
           :quant two
           :ref three
@@ -124,11 +130,13 @@
                  :context four
                  :existential? five}}})
 
+ ;; 2.c.: verb-headed phrases
  (let [one (atom :top)
        two (atom :top)
        three (atom :top)
        four (atom :top)]
    {:def 'verb
+    :cat :verb    
     :sem {:pred one
           :subj two
           :obj three}

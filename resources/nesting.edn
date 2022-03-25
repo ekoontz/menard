@@ -116,19 +116,22 @@
        two (atom :top)
        three (atom :top)
        four (atom :top)
-       five (atom :top)]
+       five (atom :top)
+       six (atom :top)]
    {:def 'noun
     :cat :noun
     :sem {:pred one
           :quant two
           :ref three
           :context four
-          :existential? five}
+          :existential? five
+          :number? six}
     :head {:sem {:pred one
                  :quant two
                  :ref three
                  :context four
-                 :existential? five}}})
+                 :existential? five
+                 :number? six}}})
 
  ;; 2.c.: verb-headed phrases
  (let [one (atom :top)

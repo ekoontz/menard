@@ -18,7 +18,7 @@
 
  ;; [conj-outer .[+niet .Ina] +[conj-inner +maar .zichzelf]]
  {:rule "conj-outer" 
-  :unify [menard.subcat/a
+  :unify [menard.subcat/a1
           menard.ug/comp-cat
           menard.ug/head-agr
           menard.ug/head-cat          

@@ -12,6 +12,15 @@
     :subcat []
     :comp complement})
 
+
+ (let [complement-subcat (atom :top)
+       complement (atom {:subcat complement-subcat})]
+   {:def 'a1
+    :head {:slash? false
+           :subcat {:1 complement :2 []}}
+    :subcat complement-subcat
+    :comp complement})
+ 
  ;; In this rule, the complement
  ;; is not an argument of the head
  ;; e.g. adverb+verb or adj+noun, so the

@@ -279,7 +279,11 @@
 
 #?(:clj
    (def model
-     (ref (merge (create-model "complete")))))
+     (let [model (create-model "complete")]
+       (ref (merge (create-model "complete"))))))
+#?(:clj
+   (def grammar
+     (-> model deref :grammar)))
 
 #?(:clj
 (defn create-model-from-filesystem []

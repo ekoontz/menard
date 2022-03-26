@@ -901,10 +901,11 @@
  
  {:rule :is-conj
   :if {:cat :conjunction}
-  :then [{:conjunction? true
-          :subcat {:1 {:conjunction? false
-                       :subcat []}
-                   :2 {:conjunction? false
-                       :subcat []}}}]}
+  :then [(let [subcat-shared-by-args (atom :top)]
+           {:conjunction? true
+            :subcat {:1 {:conjunction? false
+                         :subcat subcat-shared-by-args}
+                     :2 {:conjunction? false
+                         :subcat subcat-shared-by-args}}})]}
  ]
 

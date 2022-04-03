@@ -145,29 +145,9 @@
           menard.ug/shared-agr
           menard.ug/shared-def]}
  
- {:rule "np:2" ;; '.de +kat'
+ {:rule "np:2" ;; '.de +kat', '.de +katten'
   :np? true
   :reflexive? false
-  :agr {:person :3rd
-        :number :sing}
-  :cat :noun
-  :comp {:cat :det}
-  :slash? false
-  :subcat []
-  :unify [menard.nesting/nest-only
-          menard.nesting/noun
-          menard.subcat/a
-          menard.ug/head-is-root
-          menard.ug/head-last
-          menard.ug/head-rule
-          menard.ug/shared-def
-          menard.ug/shared-number]}
-
- {:rule "np:2" ;; '.de +katten'
-  :np? true
-  :reflexive? false
-  :agr {:person :3rd
-        :number :plur}
   :cat :noun
   :comp {:cat :det}
   :slash? false

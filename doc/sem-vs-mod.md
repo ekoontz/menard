@@ -29,7 +29,7 @@ Below we describe a proposed solution that meets these requirements.
 
 - English rules' use of these meta rules:
   - `nest-mod`: `np`,`vp`.
-  - `cons-mod`: `nmod` (a.k.a. `nbar`),..
+  - `cons-mod`: `nbar`
   - `no-mod`:   `s`,`s/`, `cp`,..
   - `cons-and-nest-mod`: `vmod`.
 
@@ -75,10 +75,10 @@ Below we describe a proposed solution that meets these requirements.
 
 # Rules
 
-`nmod` is a rule where :sem and :mod are siblings (`cons-mod`): 
+`nbar` is a rule where :sem and :mod are siblings (`cons-mod`): 
 
 ```
-{:rule "nmod"
+{:rule "nbar"
  :comp [1]
  :sem [2] {:ref [3]}
  :mod <[4]{:arg [3]} [5]>
@@ -105,7 +105,7 @@ Below we describe a proposed solution that meets these requirements.
 
 Here we'll use the example sentence "the small orange cat that you see hunts a grey mouse stealthily" and its constituent phrases:
 
-## `[s [np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]] [vmod [vp hunts a mouse] stealthily]]`
+## `[s [np the [nbar [nbar small [nbar orange cat]] [cp that [s/ you see]]]] [vmod [vp hunts a mouse] stealthily]]`
 
 `s` is neither `nest-mod`, `cons-mod`, nor `:cons-and-nest-mod`: neither child should have a
 `:mod` feature. This is enforced with `:mod :unspec` as shown below:
@@ -153,7 +153,7 @@ Here we'll use the example sentence "the small orange cat that you see hunts a g
  :comp {:mod :unspec}}
 ```
 
-## `[np the [nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]]`
+## `[np the [nbar [nbar small [nbar orange cat]] [cp that [s/ you see]]]]`
 
 `np` is `nest-mod` and so `[:sem :mod]` = `[:head :mod]`.
 
@@ -188,9 +188,9 @@ Here we'll use the example sentence "the small orange cat that you see hunts a g
  :comp {:mod :unspec}}
 ```
 
-## `[nmod [nmod small [nmod orange cat]] [cp that [s/ you see]]]`
+## `[nbar [nbar small [nbar orange cat]] [cp that [s/ you see]]]`
 
-`nmod` is `cons-mod`; as such, the outer `nmod`: `:sem` and `:mod` are siblings:
+`nbar` is `cons-mod`; as such, the outer `nbar`: `:sem` and `:mod` are siblings:
 
 ### Input to generation
 
@@ -218,9 +218,9 @@ Here we'll use the example sentence "the small orange cat that you see hunts a g
         :arg [1]}>}
 ```
 
-## `[nmod [nmod small [nmod orange cat]]]`
+## `[nbar [nbar small [nbar orange cat]]]`
 
-The middle `nmod`: `:sem` and `:mod` are also siblings:
+The middle `nbar`: `:sem` and `:mod` are also siblings:
 
 ### Output of generation
 
@@ -234,9 +234,9 @@ The middle `nmod`: `:sem` and `:mod` are also siblings:
         :arg [1]}>}
 ```
 
-## `[nmod orange cat]`
+## `[nbar orange cat]`
 
-The inner `nmod`: `:sem` and `:mod` are, as in the parent, siblings:
+The inner `nbar`: `:sem` and `:mod` are, as in the parent, siblings:
 
 ```
 {:cat :noun

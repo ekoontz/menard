@@ -112,8 +112,8 @@
  ;;     mod|first = comp|sem
  ;;     mod|rest  = head|mod
  ;; The parent's [:mod] is the cons of:
- ;;   1) comp's :sem         (the first of the list)
- ;;   2) head's [:mod]       (the rest of the list)
+ ;;   first: comp's :sem
+ ;;   rest:  head's [:mod]
  ;;
  ;;         mod|first[1]
  ;;          | |rest [2]

@@ -89,6 +89,9 @@
 
  ;; nest-only:
  ;; The parent's [:sem :mod] is the parent's :mod.
+ ;; The comp is not involved in the parent's :mod
+ ;; (although the head's :subcat might target the :comp
+ ;;  independently of this rule)
  ;; 
  ;;      sem|mod[1]
  ;;       /   \

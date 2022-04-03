@@ -25,12 +25,18 @@
   :comp {:top :top}}
 
  ;; In this rule, the complement
- ;; is not an argument of the head
- ;; e.g. adverb+verb or adj+noun, so the
+ ;; is not an _argument_ of the head,
+ ;; but rather a _modifier_ of the head,
+ ;; like how an adverb modifies a verb or
+ ;; and adjective modifies a noun.
  ;; subcat list of the parent is simply
  ;; the same as that of the head:
- ;;  {:subcat [[1] :top]
- ;;   :head {:subcat [1]}})
+ ;;
+ ;;      subcat[1]
+ ;;       /      \
+ ;;    head       comp
+ ;;     subcat[1]
+ ;;
  (let [one (atom :top)]
    {:def 'b
     :subcat one

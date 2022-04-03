@@ -161,6 +161,26 @@
           menard.ug/shared-def
           menard.ug/shared-number]}
 
+ {:rule "np:3" ;; '.grote +[nbar .grote +honden]', 'grote grote grote honden', etc.
+  :cat :noun
+  :subcat []
+  :head {:phrasal? true
+         :pronoun? false
+         :propernoun? false}
+  :slash? false
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :agr {:number :plur}
+  :unify [menard.nesting/rest-of-mods-unnested
+          menard.nesting/noun
+          menard.subcat/a-empty-subcat
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.ug/shared-def]}
+ 
  {:rule "s"
   :cat :verb
   :subcat []

@@ -12,6 +12,18 @@
     :subcat []
     :comp complement})
 
+
+ ;; in this subcat, we ignore the head's subcat:
+ ;;      <>
+ ;;     /  \
+ ;;   h<1>   c
+ ;;
+ {:def 'a-empty-subcat
+  :head {:slash? false
+         :subcat {:1 {:top :top} :2 []}}
+  :subcat []
+  :comp {:top :top}}
+
  ;; In this rule, the complement
  ;; is not an argument of the head
  ;; e.g. adverb+verb or adj+noun, so the

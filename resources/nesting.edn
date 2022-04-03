@@ -48,7 +48,8 @@
  ;; - noun
  ;; - verb
  ;;
- ;; These make sure that the inner contents of the head's :sem
+ ;; These per-part-of-speech rules make sure that
+ ;; the inner contents of the head's :sem
  ;; get copied up to the parent's :sem.
  
  ;; - rest-of-mods-unnested:
@@ -88,7 +89,7 @@
     :head {:sem {:mod head-mod}}})
 
  ;; nest-only:
- ;; The parent's [:sem :mod] is the parent's :mod.
+ ;; The parent's [:sem :mod] is the head's :mod.
  ;; The comp is not involved in the parent's :mod
  ;; (although the head's :subcat might target the :comp
  ;;  independently of this rule)

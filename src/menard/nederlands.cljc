@@ -36,6 +36,7 @@
 ;;(def log-these-rules #{"s"})
 ;;(def log-these-rules #{"conj-outer"})
 (def log-these-rules #{})
+(def truncate? true)
 
 ;; <morphology>
 #?(:clj
@@ -569,7 +570,7 @@
               p/grammar (-> model :grammar)
               p/syntax-tree syntax-tree
               p/morph morph
-              p/truncate? true
+              p/truncate? truncate?
               p/split-on #"[ ]"
               p/log-these-rules log-these-rules
               p/lookup-fn analyze]

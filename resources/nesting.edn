@@ -104,10 +104,10 @@
     :mods-nested? true
     :sem {:mod one}
     :mod nil
-    :comp {:mods-nested? true}
     :head {:mods-nested? false
-           :mod one}})
-
+           :mod one}
+    :comp {:mods-nested? true}})
+ 
  ;; cons-only:
  ;;     mod|first = comp|sem
  ;;     mod|rest  = head|mod
@@ -129,10 +129,10 @@
     :mods-nested? false
     :mod {:first one
           :rest two}
-    :comp {:mods-nested? true
-           :sem one}
     :head {:mod two
-           :mods-nested? false}})
+           :mods-nested? false}
+    :comp {:mods-nested? true
+           :sem one}})
 
 ;; part 2: part-of-speech-specific
 ;; nesting rules.

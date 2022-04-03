@@ -126,8 +126,14 @@
   :subcat []
   :head {:pronoun? false
          :propernoun? false
-         ;; Prevent e.g. *"oude de huizen",
-         ;; whereas e.g. "de oude huizen" is ok:
+
+         ;; this ::unspec is to prevent
+         ;; [np:1 grote [katten en honden]].
+         ;; instead we have
+         ;; [np:4 grote [katten en honden]].
+         ;; below.
+         :sem {:args ::unspec}
+
          :subcat []}
   :slash? false
   :comp {:cat :adjective
@@ -177,6 +183,49 @@
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.ug/shared-def]}
+
+ ;; [np:4 .grote
+ ;;       +[conj-outer .katten
+ ;;                    +[conj-inner +en .honden]]]
+ {:rule "np:4" 
+  :cat :noun
+  :subcat []
+  :head {:pronoun? false
+         :propernoun? false
+
+         ;; this
+         ;;  {:top :top}
+         ;; is to prevent:
+         ;;  [np:4 grote [nbar grote honden]]
+         ;; instead we have:
+         ;;  [np:1 grote [nbar grote honden]]         
+         ;; above for that.
+         :sem {:top :top}
+
+         ;; this
+         ;;  {:phrasal? true}
+         ;; is to prevent:
+         ;;  [np:4 grote honden]
+         ;; instead we have:
+         ;;  [np:1 grote honden]
+         ;; above for that.
+         :phrasal? true
+
+         :subcat []}
+  :slash? false
+  :comp {:cat :adjective
+         :modifies-noun true}
+  :agr {:number :plur}
+  :unify [menard.nesting/comp-modifies
+          menard.subcat/b
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.ug/shared-def]}
+
  
  {:rule "s"
   :cat :verb

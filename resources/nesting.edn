@@ -13,8 +13,8 @@
 ;;
 ;; This exclusivity is enforced by the ::only-one-allowed-of below.
 
-;; If it inherits from cons-and-nest-1,
-;; cons-and-nest-2 or nest-only, then it should
+;; If it inherits from rest-of-mods-unnested,
+;; rest-of-mods-nested or nest-only, then it should
 ;; also inherit
 ;; from exactly one of the following (in this
 ;; file below in 'part-2'):

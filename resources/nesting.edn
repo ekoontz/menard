@@ -4,28 +4,19 @@
 ;; (i.e. when the :mod of the head's :sem is nested
 ;;  within the parent's :sem).
 ;;
-;; A grammatical rule can inherit from
-;; at most one (i.e. could be 0) of:
-;; - cons-and-nest-1
-;; - cons-and-nest-2
-;; - cons-only
-;; - nest-only
-;;
-;; This exclusivity is enforced by the ::only-one-allowed-of below.
-
-;; If it inherits from rest-of-mods-unnested,
-;; rest-of-mods-nested or nest-only, then it should
-;; also inherit
-;; from exactly one of the following (in this
-;; file below in 'part-2'):
-;; - adjective
-;; - noun
-;; - verb
-
 [
-;; comp-modifies:
-;;  sem|mod|first = comp|sem
-
+ ;; comp-modifies:
+ ;;
+ ;; sem|mod|first [1]
+ ;; |
+ ;; comp
+ ;; |
+ ;; sem [1]
+ ;; 
+ ;; comp-modifies is used by:
+ ;; - rest-of-mods-unnested
+ ;; - rest-of-mods-nested (below).
+ ;;
  (let [mod (atom :top)]
    {:def 'comp-modifies 
     :mods-nested? true
@@ -33,10 +24,44 @@
     :comp {:mods-nested? true
            :sem mod}
     :head {:mods-nested? false}})
-
- ;; The head's :mod is at the same level as its :sem.
- ;;  rest-of-mods-unnested:
- ;;    sem|mod|rest = head|mod
+ 
+ ;; A grammatical rule can inherit from
+ ;; at most one (i.e. could be 0) of:
+ ;; 
+ ;; - rest-of-mods-unnested
+ ;; - rest-of-mods-nested
+ ;; - cons-only
+ ;; - nest-only
+ ;;
+ ;; This exclusivity is enforced by the ::only-one-allowed-of below.
+ ;;
+ ;; If a rule inherits from:
+ ;; - rest-of-mods-unnested,
+ ;; - rest-of-mods-nested or
+ ;; - nest-only
+ ;;
+ ;; then it should also inherit
+ ;; from exactly one of the following (in this
+ ;; file below in 'part-2'):
+ ;; 
+ ;; - adjective
+ ;; - noun
+ ;; - verb
+ ;;
+ ;; These make sure that the inner contents of the head's :sem
+ ;; get copied up to the parent's :sem.
+ 
+ ;; - rest-of-mods-unnested:
+ ;; The parent's [:sem :mod] is the cons of:
+ ;;   1) comp's :sem         (the first of the list)
+ ;;   2) head's [:mod]       (the rest of the list)
+ ;;
+ ;;         sem|mod|first[1]
+ ;;            |   |rest [2]
+ ;;           / \
+ ;;      head    comp
+ ;;     mod[2]    sem[1]
+ ;;      
  (let [head-mod (atom :top)]
    {:def 'rest-of-mods-unnested
     :unify ['comp-modifies]
@@ -44,9 +69,17 @@
     :sem {:mod {:rest head-mod}}
     :head {:mod head-mod}})
 
- ;; The head's :mod is nested within its :sem.
- ;;   rest-of-mods-nested:
- ;;     sem|mod|rest = head|sem|mod
+ ;; rest-of-mods-nested:
+ ;; The parent's [:sem :mod] is the cons of:
+ ;;   1) comp's :sem         (the first of the list)
+ ;;   2) head's [:sem :mod]  (the rest of the list)
+ ;;
+ ;;       sem|mod|first[1]
+ ;;          |   |rest [2]
+ ;;         / \
+ ;;     head   comp
+ ;; sem|mod[2]  sem[1]
+ ;;
  (let [head-mod (atom :top)]
    {:def 'rest-of-mods-nested
     :unify ['comp-modifies]
@@ -54,9 +87,37 @@
     :sem {:mod {:rest head-mod}}
     :head {:sem {:mod head-mod}}})
 
+ ;; nest-only:
+ ;; The parent's [:sem :mod] is the parent's :mod.
+ ;; 
+ ;;      sem|mod[1]
+ ;;       /   \
+ ;;    head    comp
+ ;;    mod[1]
+ ;;
+ (let [one (atom :top)]
+   {:def 'nest-only
+    ::only-one-allowed-of :nest-only
+    :mods-nested? true
+    :sem {:mod one}
+    :mod nil
+    :comp {:mods-nested? true}
+    :head {:mods-nested? false
+           :mod one}})
+
  ;; cons-only:
  ;;     mod|first = comp|sem
  ;;     mod|rest  = head|mod
+ ;; The parent's [:mod] is the cons of:
+ ;;   1) comp's :sem         (the first of the list)
+ ;;   2) head's [:mod]       (the rest of the list)
+ ;;
+ ;;         mod|first[1]
+ ;;          | |rest [2]
+ ;;         / \
+ ;;     head   comp
+ ;;    mod[2]  sem[1]
+ ;;
  (let [one (atom :top)
        two (atom :top)]
    {:unify ['menard.ug/head-sem 'menard.ug/head-rule]
@@ -69,18 +130,6 @@
            :sem one}
     :head {:mod two
            :mods-nested? false}})
-
- ;; nest-only:
- ;;   sem|mod = head|mod
- (let [one (atom :top)]
-   {:def 'nest-only
-    ::only-one-allowed-of :nest-only
-    :mods-nested? true
-    :sem {:mod one}
-    :mod nil
-    :comp {:mods-nested? true}
-    :head {:mods-nested? false
-           :mod one}})
 
 ;; part 2: part-of-speech-specific
 ;; nesting rules.

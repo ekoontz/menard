@@ -180,7 +180,13 @@
    {:def 'head-sense
     :sense sense
     :head {:sense sense}})
-   
+
+ (let [ref (atom :top)]
+   {:def 'adjunct-modifies-head
+    :head {:sem {:ref ref}}
+    :comp {:sem {:spec ref}}})
+
+ 
  ]
 
 

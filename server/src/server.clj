@@ -4,6 +4,7 @@
    [clojure.data.json :as json :refer [write-str]]
    [config.core :refer [env]]
    [menard.handlers :as handlers]
+   [nrepl.server :refer [start-server stop-server]]
    [reitit.ring :as reitit-ring]
    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
    [ring.adapter.jetty :refer [run-jetty]])
@@ -160,6 +161,8 @@
    (reitit-ring/routes
     (reitit-ring/create-default-handler))
    {:middleware middleware}))
+
+(defonce the-server (start-server :port 7888))
 
 (defn -main [& args]
   (let [port (or (env :port) 3000)]

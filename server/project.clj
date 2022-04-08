@@ -10,7 +10,8 @@
                  [org.clojure/data.json "0.2.7"]
                  [yogthos/config "1.1.6"]
                  [org.clojure/core.async "0.4.474"]
-                 [ring/ring-jetty-adapter "1.7.1"]]
+                 [ring/ring-jetty-adapter "1.7.1"]
+                 [nrepl "0.9.0"]]
   :ring {:init menard.nederlands/start-reload-loop
          :handler server/app}
   :plugins [[lein-ring "0.12.5"]])

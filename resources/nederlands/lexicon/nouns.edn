@@ -157,6 +157,7 @@
               :sem {:pred :performance}}]
  "opstand" [{:sem {:pred :revolt}}]
  "overheid" [{:sem {:pred :government}}]
+ "overweging" [{:sem {:pred :consideration}}]
  "paard" [{:sem {:pred :horse}
            :agr {:gender :neuter}}]
  "peuter" [{:sem {:pred :toddler

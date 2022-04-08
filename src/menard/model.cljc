@@ -56,7 +56,8 @@
         toMillis)))
 
 #?(:clj
-   ;; time in milliseconds that the most-recently-modified file was modified:
+   ;; time in milliseconds that the most-recently-modified file
+   ;; in the top-level resources/ directory was modified:
    (defn latest-file-timestamp-depth-one [top-of-resources]
      (. (->> (fs/glob top-of-resources "*{.edn}")
              (map #(fs/get-attribute % "lastModifiedTime"))

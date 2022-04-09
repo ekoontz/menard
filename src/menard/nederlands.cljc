@@ -13,8 +13,8 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [menard.model :as model :refer [current-ms latest-file-timestamp
-                                            latest-file-timestamp-depth-one]]
+            [menard.model :as model :refer [current-ms
+                                            get-info-of-most-recently-modified]]
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
@@ -393,10 +393,19 @@
    (defn start-reload-loop []
      (def last-file-check (atom 0))
      (go-loop []
-       (let [last-file-modification
-             (let [a (latest-file-timestamp "../resources/nederlands")
-                   b (latest-file-timestamp-depth-one "../resources")]
-               (if (> a b) a b))]
+       (let [last-nl-file-info (get-info-of-most-recently-modified "../resources/nederlands")
+             last-general-file-info (get-info-of-most-recently-modified "../resources")
+             last-file-modification
+             (let [nl-specific-change (:last-modified-time-ms last-nl-file-info)
+                   general-change (:last-modified-time-ms last-general-file-info)]
+               (if (> nl-specific-change general-change)
+                 nl-specific-change general-change))]
+         (log/info (str "last nl file modified: '"
+                        (:parent last-nl-file-info) "/" (:filename last-nl-file-info) "' at "
+                        (:last-modified-time last-nl-file-info)))
+         (log/info (str "last general file modified: '"
+                        (:parent last-general-file-info) "/" (:filename last-general-file-info) "' at "
+                        (:last-modified-time last-general-file-info)))
          (do (load-model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))

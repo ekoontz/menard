@@ -56,6 +56,31 @@
         toMillis)))
 
 #?(:clj
+
+   (defn file-info [top-of-resources]
+     (->> (fs/glob top-of-resources "**{.edn}")
+          (map
+           (fn [file]
+             {:last-modified-time-ms
+              (. (fs/get-attribute file "lastModifiedTime")
+                 toMillis)
+              :last-modified-time
+              (fs/get-attribute file "lastModifiedTime")
+              :parent
+              (-> file .getParent str)
+              :filename
+              (-> file .getFileName str)}))))
+   
+   )
+
+#?(:clj
+   (defn get-info-of-most-recently-modified [top-of-resources]
+     (->> (file-info top-of-resources)
+          (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
+          first))
+   )
+
+#?(:clj
    ;; time in milliseconds that the most-recently-modified file
    ;; in the top-level resources/ directory was modified:
    (defn latest-file-timestamp-depth-one [top-of-resources]

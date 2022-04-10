@@ -286,7 +286,7 @@
   :sem {:obj {:top :top
               :obj :none}}
   :training-wheels {:head {:head {:phrasal? false}
-                           :comp {:cat :noun
+                           :comp {:rule "np:2"
                                   :phrasal? true}}}}
 
  ;; 19

@@ -103,6 +103,7 @@
   :unify [menard.nesting/cons-only
           menard.nesting/noun
           menard.subcat/b
+          menard.ug/adjunct-modifies-head
           menard.ug/head-last
           menard.ug/head-is-root
           menard.ug/head-sense          
@@ -142,6 +143,7 @@
   :unify [menard.nesting/rest-of-mods-unnested
           menard.nesting/noun
           menard.subcat/b
+          menard.ug/adjunct-modifies-head
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-rule
@@ -177,6 +179,7 @@
   :unify [menard.nesting/rest-of-mods-unnested
           menard.nesting/noun
           menard.subcat/a-empty-subcat
+          menard.ug/adjunct-modifies-head
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-rule

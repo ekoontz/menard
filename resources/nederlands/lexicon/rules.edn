@@ -437,12 +437,51 @@
        :possessive? true
        :definite? ::unspec}
   :then [{:definite? true}]}
-
- ;; TODO: vertalen alle voorbeelden comments van Engels tot Nederlands
- {:rule :common-noun
+ 
+ {:rule :common-nouns-are-countable-by-default
   :if {:cat :noun
        :propernoun? false
        :pronoun? false
+       :sem {:countable? ::unspec}
+       :subcat true}
+  :then [{:sem {:countable? true}}]}
+  
+ ;; :arg1 and :arg2 are to represent numbers e.g. "vijf en twintig" is represented as:
+ ;;    {:arg1 {:times 10 :pred 2}
+ ;;     :arg2 {:times 1 :pred 5}}
+ {:rule :common-noun-uncountable
+  :if {:cat :noun
+       :propernoun? false
+       :pronoun? false
+       :sem {:countable? false}
+       :subcat ::unspec}
+  :then [(let [agr (atom {:person :3rd
+                          :number :sing})
+               countable? (atom :top)
+               quant (atom :top)
+               arg1 (atom :top)
+               arg2 (atom :top)]
+           {:cat :noun
+            :reflexive? false
+            :inflection :null
+            :agr agr
+            :sem {:quant quant
+                  :countable? countable?
+                  :arg1 arg1
+                  :arg2 arg2}
+            :subcat {:1 {:cat :det
+                         :agr agr
+                         :sem {:countable? countable?
+                               :arg1 arg1
+                               :arg2 arg2
+                               :pred quant}}
+                     :2 []}})]}
+ 
+ {:rule :common-noun-countable
+  :if {:cat :noun
+       :propernoun? false
+       :pronoun? false
+       :sem {:countable? true}
        :subcat ::unspec}
   :then [(let [agr (atom {:person :3rd})
                countable? (atom :top)

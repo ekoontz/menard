@@ -35,6 +35,7 @@
 ;;(def log-these-rules #{"np:1" "np:2" "nbar"})
 ;;(def log-these-rules #{"s"})
 ;;(def log-these-rules #{"conj-outer"})
+(def include-derivation? false)
 (def log-these-rules #{})
 (def truncate? true)
 
@@ -60,7 +61,7 @@
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
      (log/debug (str "compiling source file: " source-filename))
-     (binding [menard.lexiconfn/include-derivation? false]
+     (binding [menard.lexiconfn/include-derivation? include-derivation?]
        (-> source-filename
            l/read-and-eval
            ((fn [lexicon]
@@ -152,21 +153,22 @@
                 (if (and (= :noun (u/get-in lexeme [:cat]))
                          (not (= true (u/get-in lexeme [:propernoun?])))
                          (not (= true (u/get-in lexeme [:pronoun?]))))
-                  (cond
-                    inflection
-                    (unify lexeme
-                           {:inflection inflection})
+                  (do
+                    (cond
+                      inflection
+                      (unify lexeme
+                             {:inflection inflection})
+                      (and (= :noun (u/get-in lexeme [:cat]))
+                           (= true (u/get-in lexeme [:sem :countable?]))
+                           (not (= true (u/get-in lexeme [:propernoun?])))
+                           (not (= true (u/get-in lexeme [:pronoun?])))
+                           (false? (u/get-in lexeme [:inflected?] false)))
+                      (do
+                        (log/warn (str "no inflection found for lexeme: "
+                                       (u/get-in lexeme [:canonical])))
+                        lexeme)
 
-                    (and (= :noun (u/get-in lexeme [:cat]))
-                         (not (= true (u/get-in lexeme [:propernoun?])))
-                         (not (= true (u/get-in lexeme [:pronoun?])))
-                         (false? (u/get-in lexeme [:inflected?] false)))
-                    (do
-                      (log/warn (str "no inflection found for lexeme: "
-                                     (u/get-in lexeme [:canonical])))
-                      lexeme)
-
-                    :else lexeme)
+                      :else lexeme))
                   lexeme))))
 
            ;; The lexicon is a map where each

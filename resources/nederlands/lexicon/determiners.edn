@@ -45,7 +45,8 @@
                :gender :neuter}}]
  "een" [{:cat :det
          :definite? false
-         :sem {:pred :some}
+         :sem {:pred :some
+               :countable? true}
          :agr {:number :sing}}]
  "geen" [{:cat :det
           :definite? false

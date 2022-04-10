@@ -14,7 +14,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [menard.model :as model :refer [current-ms
-                                            get-info-of-most-recently-modified]]
+                                            get-info-of-files]]
             [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
@@ -393,19 +393,23 @@
    (defn start-reload-loop []
      (def last-file-check (atom 0))
      (go-loop []
-       (let [last-nl-file-info (get-info-of-most-recently-modified "../resources/nederlands")
-             last-general-file-info (get-info-of-most-recently-modified "../resources")
+       (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
+             general-file-infos (get-info-of-files "../resources" "*{.edn}")
+             most-recently-modified-info
+             (->>
+              (concat nl-file-infos
+                      general-file-infos)
+              (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
+              first)
+
              last-file-modification
-             (let [nl-specific-change (:last-modified-time-ms last-nl-file-info)
-                   general-change (:last-modified-time-ms last-general-file-info)]
-               (if (> nl-specific-change general-change)
-                 nl-specific-change general-change))]
-         (log/info (str "last nl file modified: '"
-                        (:parent last-nl-file-info) "/" (:filename last-nl-file-info) "' at "
-                        (:last-modified-time last-nl-file-info)))
-         (log/info (str "last general file modified: '"
-                        (:parent last-general-file-info) "/" (:filename last-general-file-info) "' at "
-                        (:last-modified-time last-general-file-info)))
+             (:last-modified-time-ms most-recently-modified-info)]
+         (if (> last-file-modification @last-file-check)
+           (log/info (str
+                      (:parent most-recently-modified-info) "/"
+                      (:filename most-recently-modified-info)
+                      " at: "
+                      (:last-modified-time most-recently-modified-info))))
          (do (load-model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))

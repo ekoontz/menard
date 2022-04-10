@@ -57,8 +57,8 @@
 
 #?(:clj
 
-   (defn file-info [top-of-resources]
-     (->> (fs/glob top-of-resources "**{.edn}")
+   (defn file-info [top-of-resources pattern]
+     (->> (fs/glob top-of-resources pattern)
           (map
            (fn [file]
              {:last-modified-time-ms
@@ -74,10 +74,8 @@
    )
 
 #?(:clj
-   (defn get-info-of-most-recently-modified [top-of-resources]
-     (->> (file-info top-of-resources)
-          (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
-          first))
+   (defn get-info-of-files [top-of-resources pattern]
+     (->> (file-info top-of-resources pattern)))
    )
 
 #?(:clj

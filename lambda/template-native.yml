@@ -202,7 +202,7 @@ Resources:
       Events:
         Event:
           Type: Api
-            Properties:
+          Properties:
             Path: /rule/en
             Method: get
       AutoPublishAlias: live
@@ -219,7 +219,7 @@ Resources:
       Events:
         Event:
          Type: Api
-           Properties:
+         Properties:
            Path: /rule/nl
            Method: get
       AutoPublishAlias: live

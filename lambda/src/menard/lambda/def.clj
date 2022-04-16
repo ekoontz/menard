@@ -92,6 +92,9 @@
              #'GrammarNL
              #'MorphologyEN
              #'MorphologyNL
-             #'ParseNLStart])
+             #'ParseNLStart
+             #'RuleEN
+             #'RuleNL])
+
 
 

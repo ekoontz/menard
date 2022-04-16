@@ -191,3 +191,37 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
+  RuleEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.RuleEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+	Bucket: !Ref 'BucketName'
+      FunctionName: RuleEN
+      Events:
+        Event:
+	   Type: Api
+	   Properties:
+	     Path: /rule/en
+	     Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  RuleNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.RuleNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+	Bucket: !Ref 'BucketName'
+      FunctionName: RuleNL
+      Events:
+        Event:
+	   Type: Api
+	   Properties:
+	     Path: /rule/nl
+	     Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce

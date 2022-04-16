@@ -74,6 +74,16 @@
   [event context]
   (json-response (handlers/morphology "nl")))
 
+(h/deflambda RuleEN
+  [event context]
+  (let [q (-> event :queryStringParameters :q)]
+    (json-response (handlers/rules "en" q))))
+
+(h/deflambda RuleNL
+  [event context]
+  (let [q (-> event :queryStringParameters :q)]
+    (json-response (handlers/rules "nl" q))))
+
 (h/gen-main [#'Parse
              #'Generate
              #'GenerateEN

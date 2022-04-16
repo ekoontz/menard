@@ -214,7 +214,7 @@ Resources:
       Handler: menard.lambda.def.RuleNL
       CodeUri:
         Key: !Ref 'ObjectKey'
-	Bucket: !Ref 'BucketName'
+        Bucket: !Ref 'BucketName'
       FunctionName: RuleNL
       Events:
         Event:

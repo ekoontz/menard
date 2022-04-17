@@ -154,6 +154,7 @@
  "progress" [{:sem {:pred :progress}}]
  "puppy" [{:sem {:pred :puppy}}]
  "question" [{:sem {:pred :question}}]
+ "referee" [{:sem {:pred :referee}}]
  "relaxation" [{:sem {:pred :relaxation}}]
  "reporter" [{:sem {:pred :reporter}}]
  "representative" [{:sem {:pred :representative}}]

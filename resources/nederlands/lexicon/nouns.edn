@@ -172,6 +172,7 @@
  "roofdier" [{:agr {:gender :neuter}
               :sem {:pred :predator}}]
  "samenvatting" [{:sem {:pred :summary}}]
+ "scheidsrechter" [{:sem {:pred :referee}}]
  "schort" [{:sem {:pred :apron}}]
  "sering" [{:sem {:pred :lilac}}]
  "snuiter" [{:sem {:pred :dude

@@ -77,12 +77,12 @@
 (h/deflambda RuleEN
   [event context]
   (let [q (-> event :queryStringParameters :q)]
-    (json-response (handlers/rules "en" q))))
+    (json-response (handlers/rules q "en"))))
 
 (h/deflambda RuleNL
   [event context]
   (let [q (-> event :queryStringParameters :q)]
-    (json-response (handlers/rules "nl" q))))
+    (json-response (handlers/rules q "nl"))))
 
 (h/gen-main [#'Parse
              #'Generate

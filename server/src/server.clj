@@ -122,6 +122,17 @@
                     (map str)
                     json-response)))}}]
 
+   ["/generate/nl"
+    {:get {:handler
+           (fn [request]
+             (log/info (str "/generate/nl: requested spec: "
+                            (-> request :query-params (get "q"))))
+             (-> request
+                 :query-params
+                 (get "q")
+                 handlers/generate-nl-by-spec
+                 json-response))}}]
+
    ;; deprecated: use /generate/nl instead:
    ["/generate"
     {:get {:handler

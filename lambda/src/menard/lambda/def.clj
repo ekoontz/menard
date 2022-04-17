@@ -19,19 +19,27 @@
   
 (h/deflambda AnalyzeEN
   [event context]
-  (-> event
-      :queryStringParameters
-      :q
-      ((fn [q] (handlers/analyze q "en")))
-      json-response))
+  (let [matching-lexemes
+        (-> event
+            :queryStringParameters
+            :q
+            ((fn [q] (handlers/analyze q "en"))))]
+    (->> matching-lexemes
+         (map dag_unify.serialization/serialize)
+         (map str)
+         json-response)))
 
 (h/deflambda AnalyzeNL
   [event context]
-  (-> event
-      :queryStringParameters
-      :q
-      ((fn [q] (handlers/analyze q "nl")))
-      json-response))
+  (let [matching-lexemes
+        (-> event
+            :queryStringParameters
+            :q
+            ((fn [q] (handlers/analyze q "nl"))))]
+    (->> matching-lexemes
+         (map dag_unify.serialization/serialize)
+         (map str)
+         json-response)))
 
 (h/deflambda Parse
   [event context]
@@ -92,19 +100,27 @@
 
 (h/deflambda RuleEN
   [event context]
-  (-> event
-      :queryStringParameters
-      :q
-      ((fn [q] (handlers/rules q "en")))
-      json-response))
+  (let [matching-rules
+        (-> event
+            :queryStringParameters
+            :q
+            ((fn [q] (handlers/rules q "en"))))]
+    (->> matching-rules
+         (map dag_unify.serialization/serialize)
+         (map str)
+         json-response)))
 
 (h/deflambda RuleNL
   [event context]
-  (-> event
-      :queryStringParameters
-      :q
-      ((fn [q] (handlers/rules q "nl")))
-      json-response))
+  (let [matching-rules
+        (-> event
+            :queryStringParameters
+            :q
+            ((fn [q] (handlers/rules q "nl"))))]
+    (->> matching-rules
+         (map dag_unify.serialization/serialize)
+         (map str)
+         json-response)))
 
 (h/gen-main [#'Parse
              #'Generate

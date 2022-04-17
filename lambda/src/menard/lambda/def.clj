@@ -65,7 +65,15 @@
       handlers/parse-en-start
       json-response))
 
+
+;; TODO: deprecate and remove Generate in favor of GenerateNL.
 (h/deflambda Generate
+  [event context]
+  ;; TODO: use 'spec' rather than 'q':
+  (let [q (-> event :queryStringParameters :q)]
+    (json-response (handlers/generate-nl-by-spec q))))
+
+(h/deflambda GenerateNL
   [event context]
   ;; TODO: use 'spec' rather than 'q':
   (let [q (-> event :queryStringParameters :q)]
@@ -122,11 +130,13 @@
          (map str)
          json-response)))
 
+;; TODO: deprecate and remove 'Generate in favor of 'GenerateNL.
 (h/gen-main [#'AnalyzeEN
              #'AnalyzeNL
              #'Parse
              #'Generate
              #'GenerateEN
+             #'GenerateNL
              #'GenerateWithAlts
              #'GrammarEN
              #'GrammarNL
@@ -135,6 +145,3 @@
              #'ParseNLStart
              #'RuleEN
              #'RuleNL])
-
-
-

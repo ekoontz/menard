@@ -21,6 +21,40 @@ Globals:
     Timeout: !Ref 'Timeout'
     MemorySize: !Ref 'MemorySize'
 Resources:
+  AnalyzeEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.AnalyzeEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: AnalyzeEN
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /analyze/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  AnalyzeNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.AnalyzeNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: AnalyzeNL
+      Events:
+        Event:
+         Type: Api
+         Properties:
+           Path: /analyze/nl
+           Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
   Generate:
     Type: AWS::Serverless::Function
     Properties:

@@ -17,6 +17,22 @@
    :body body
    :isBase64Encoded false})
   
+(h/deflambda AnalyzeEN
+  [event context]
+  (-> event
+      :queryStringParameters
+      :q
+      ((fn [q] (handlers/analyze q "en")))
+      json-response))
+
+(h/deflambda AnalyzeNL
+  [event context]
+  (-> event
+      :queryStringParameters
+      :q
+      ((fn [q] (handlers/analyze q "nl")))
+      json-response))
+
 (h/deflambda Parse
   [event context]
   (-> event

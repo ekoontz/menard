@@ -122,7 +122,9 @@
          (map str)
          json-response)))
 
-(h/gen-main [#'Parse
+(h/gen-main [#'AnalyzeEN
+             #'AnalyzeNL
+             #'Parse
              #'Generate
              #'GenerateEN
              #'GenerateWithAlts

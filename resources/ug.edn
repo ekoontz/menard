@@ -175,7 +175,6 @@
           :arg1 sem1
           :arg2 sem2}})
 
-
  (let [sense (atom :top)]
    {:def 'head-sense
     :sense sense

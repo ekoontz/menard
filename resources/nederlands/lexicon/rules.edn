@@ -940,10 +940,11 @@
  
  {:rule :is-conj
   :if {:cat :conjunction}
-  :then [{:conjunction? true
-          :subcat {:1 {:conjunction? false
-                       :subcat []}
-                   :2 {:conjunction? false
-                       :subcat []}}}]}
+  :then [(let [subcat (atom :top)]
+           {:conjunction? true
+            :subcat {:1 {:conjunction? false
+                         :subcat subcat}
+                     :2 {:conjunction? false
+                         :subcat subcat}}})]}
  ]
 

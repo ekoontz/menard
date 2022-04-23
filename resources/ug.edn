@@ -185,7 +185,10 @@
     :head {:sem {:ref ref}}
     :comp {:sem {:spec ref}}})
 
- 
+ (let [ref (atom :top)]
+   {:def 'mod-args
+    :comp {:sem {:ref ref}}
+    :head {:sem {:args ref}}})
  ]
 
 

@@ -154,7 +154,10 @@
  {:rule "np:2" ;; '.de +kat', '.de +katten'
   :reflexive? false
   :cat :noun
+
+  ;; TODO: probably can remove this:
   :comp {:cat :det}
+
   :slash? false
   :subcat []
   :unify [menard.nesting/nest-only

@@ -119,6 +119,7 @@
  "marriage" [{:sem {:pred :marriage}}]
  "message" [{:sem {:pred :message}}]
  "mistake" [{:sem {:pred :mistake}}]
+ "mistress" [{:sem {:pred :mistress}}] 
  "money" [{:sem {:pred :money}}]
  "monster" [{:sem {:pred :monster}}] 
  "month" [{:sem {:pred :month}}]

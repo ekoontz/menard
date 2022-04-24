@@ -147,6 +147,7 @@
  "meisje" [{:agr {:gender :neuter}
             :sem {:pred :girl
                   :ref {:human? true}}}]
+ "minnares" [{:sem {:pred :mistress}}]
  "moeder" [{:sem {:pred :mother
                   :ref {:human? true}}}]
  "mogelijkheid" [{:sem {:pred :opportunity}}]

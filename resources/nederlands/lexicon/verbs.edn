@@ -379,6 +379,7 @@
                   :obj :none}
             :strong? :e-a-e}]
  "uitgeleggen" [{ :sem {:pred :explain}}]
+ "uitweiden" [{:sem {:pred :elaborate}}]
  "uitwijken" [{:sem {:pred :emigrate}}]
  "wassen" [{:sem {:pred :wash}}]
  "werken" [{:curriculum :basic

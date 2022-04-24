@@ -1,17 +1,18 @@
 ;; This file consists of language independent, or 'universal'
 ;; grammar rules.
 [
- ;;      <>
+
+ ;;      <2>
  ;;     /  \
- ;;   h<1>  1:c
+ ;;   h<1>  1:c<2>
  ;;
- (let [complement (atom {:subcat []})]
+ (let [complement-subcat (atom :top)
+       complement (atom {:subcat complement-subcat})]
    {:def 'a
     :head {:slash? false
            :subcat {:1 complement :2 []}}
-    :subcat []
+    :subcat complement-subcat
     :comp complement})
-
 
  ;; in this subcat, we ignore the head's subcat:
  ;;      <>

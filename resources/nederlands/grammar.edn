@@ -156,6 +156,7 @@
   :cat :noun
   :slash? false
   :subcat []
+  :head {:is-conj-inner? false}
   :unify [menard.nesting/nest-only
           menard.nesting/noun
           menard.subcat/a

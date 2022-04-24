@@ -29,7 +29,7 @@
   :cat :noun
   ;; TODO: depends on the conjunction:
   ;; e.g. "ik en jij"       is {:agr :plur}
-  ;; but "ik maar niet jij" is {:agr :sing}
+  ;; but  "ik maar niet jij" is {:agr :sing}
   :agr {:number :plur}
   :head {:phrasal? true
          :rule "conj-inner"}

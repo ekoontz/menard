@@ -83,6 +83,7 @@
  "magnificent" [{:sem {:pred :magnificent}}]
  "major" [{:sem {:pred :major}}]
  "military" [{:sem {:pred :military}}]
+ "modest" [{:sem {:pred :modest}}] 
  "moody" [{:sem {:pred :moody}}]
  "mysterious" [{:sem {:pred :mysterious}}] 
  "narrow" [{:sem {:pred :narrow}}]

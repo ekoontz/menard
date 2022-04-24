@@ -85,6 +85,8 @@
  "getuig" [{:sem {:pred :witness}}]
  "gevoel" [{:agr {:gender :neuter}
              :sem {:pred :feeling}}]
+ "gezin" [{:agr {:gender :neuter}
+             :sem {:pred :family}}]
  "groep" [{:sem {:pred :group}}]
  "gunsteling" [{:sem {:pred :favorite}}]
  "haar" [{:agr {:gender :neuter} 

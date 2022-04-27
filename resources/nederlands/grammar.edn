@@ -27,6 +27,7 @@
           menard.ug/head-rule
           menard.ug/head-sem]
   :cat :noun
+  :is-conj? true  
   ;; TODO: depends on the conjunction:
   ;; e.g. "ik en jij"       is {:agr :plur}
   ;; but  "ik maar niet jij" is {:agr :sing}
@@ -48,6 +49,7 @@
 
   ;; prevent nesting:
   :is-conj-inner? true
+  :is-conj? true
   :comp {:is-conj-inner? false}}
 
  {:rule "intensifier-bar" ;; [.echt +kleine]
@@ -156,7 +158,7 @@
   :cat :noun
   :slash? false
   :subcat []
-  :head {:is-conj-inner? false}
+  :head {:is-conj? false}
   :unify [menard.nesting/nest-only
           menard.nesting/noun
           menard.subcat/a
@@ -170,6 +172,7 @@
   :cat :noun
   :subcat []
   :head {:phrasal? true
+         :is-conj? false
          :pronoun? false
          :propernoun? false}
   :slash? false

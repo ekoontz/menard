@@ -112,6 +112,7 @@
                   :ref {:human? true}}}]
  "kat" [{:sem {:pred :cat
                :number? false}}]
+ "kei" [{:sem {:pred :boulder}}]
  "kerel" [{:sem {:pred :dude
                  :ref {:human? true}}}]
  "kind" [{:agr {:gender :neuter}

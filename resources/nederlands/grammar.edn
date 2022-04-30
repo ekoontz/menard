@@ -27,7 +27,7 @@
           menard.ug/head-rule
           menard.ug/head-sem]
   :cat :noun
-  :is-conj? true  
+  :is-conj? true
   ;; TODO: depends on the conjunction:
   ;; e.g. "ik en jij"       is {:agr :plur}
   ;; but  "ik maar niet jij" is {:agr :sing}

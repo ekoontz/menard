@@ -89,7 +89,8 @@
   :comp {:cat :adjective
          :modifies-noun true}
   :options [;; vier kleine (but: *kleine vier)
-            {:head {:null? false}
+            {:head {:null? false
+                    :rule "nbar"}
              :mod {:first {:number? true}
                    :rest {:first {:number? false}}}}
             ;; kleine blauwe

@@ -93,7 +93,7 @@
              :mod {:first {:number? true}
                    :rest {:first {:number? false}}}}
             ;; kleine blauwe
-             :head {:null? false
+            {:head {:null? false
                     :rule "nbar"}
              :mod {:first {:number? false}
                    :rest {:first {:number? false}}}}

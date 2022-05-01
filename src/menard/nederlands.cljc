@@ -34,7 +34,6 @@
 ;;(def log-these-rules #{"vp-conj"})
 ;;(def log-these-rules #{"np:1" "np:2" "nbar"})
 ;;(def log-these-rules #{"s"})
-;;(def log-these-rules #{"conj-outer"})
 (def include-derivation? false)
 (def log-these-rules #{})
 (def truncate? true)

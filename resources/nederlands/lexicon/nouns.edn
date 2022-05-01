@@ -15,9 +15,9 @@
  "beschaving" [{:sem {:pred :civilization}}]
  "beslissing" [{:sem {:pred :decision}}]
  "bestemming" [{:sem {:pred :destination}}]
- "bloemkool" [{:sem {:pred :cauliflower}}]
  "bedrijf" [{:agr {:gender :neuter}
              :sem {:pred :business}}]
+ "bloemkool" [{:sem {:pred :cauliflower}}]
  "boek" [{:curriculum :basic
           :agr {:gender :neuter}
           :sem {:pred :book

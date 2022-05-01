@@ -35,6 +35,7 @@
  "company" [{:sem {:pred :company}}]
  "connection" [{:sem {:pred :connection}}]
  "consideration" [{:sem {:pred :consideration}}]
+ "contribution" [{:sem {:pred :contribution}}]
  "conversation" [{:sem {:pred :conversation}}]
  "country" [{:sem {:pred :country}}]
  "couple" [{:sem {:pred :couple}}]

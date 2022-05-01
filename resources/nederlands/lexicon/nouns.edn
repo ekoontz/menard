@@ -17,6 +17,7 @@
  "bestemming" [{:sem {:pred :destination}}]
  "bedrijf" [{:agr {:gender :neuter}
              :sem {:pred :business}}]
+ "bidrage" [{:sem {:pred :contribution}}]
  "bloemkool" [{:sem {:pred :cauliflower}}]
  "boek" [{:curriculum :basic
           :agr {:gender :neuter}

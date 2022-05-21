@@ -82,11 +82,14 @@
   [spec]
   (log/debug (str "spec pre-decode: " spec))
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)]
-    (log/debug (str "generate-by-spec with spec: " spec))
-    (-> spec
-        generate-nl
-        (dissoc :source-tree)
-        (dissoc :target-tree))))
+    (log/debug (str "generate-by-spec: (pre)  input spec: " spec "; generating now.."))
+    (let [result
+          (-> spec
+              generate-nl
+              (dissoc :source-tree)
+              (dissoc :target-tree))]
+      (log/debug (str "generate-by-spec: (post) input spec: " spec "; result: " result))
+      result)))
 
 (defn generate-nl-with-alternations
   "generate with _spec_ unified with each of the alternates, so generate one expression per <spec,alternate> combination."

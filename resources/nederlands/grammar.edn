@@ -156,6 +156,9 @@
   :cat :noun
   :slash? false
   :subcat []
+  :head {:is-conj? false}
+  :options [{:agr {:number :sing}}
+            {:agr {:number :plur}}]
   :unify [menard.nesting/nest-only
           menard.nesting/noun
           menard.subcat/a

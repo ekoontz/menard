@@ -47,6 +47,7 @@
          :phrasal? false}
 
   ;; prevent nesting:
+  :is-conj? true
   :is-conj-inner? true
   :comp {:is-conj-inner? false}}
 

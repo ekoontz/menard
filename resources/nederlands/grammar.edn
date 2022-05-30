@@ -31,6 +31,7 @@
   ;; e.g. "ik en jij"       is {:agr :plur}
   ;; but  "ik maar niet jij" is {:agr :sing}
   :agr {:number :plur}
+  :is-conj? true
   :head {:phrasal? true
          :rule "conj-inner"}
   :comp {:conjunction? false}}

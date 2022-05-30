@@ -183,7 +183,11 @@
               :rest {:first {:number? false
                              :rest []}}}}
   :phrasal? true
-  :training-wheels {:rule "np:2"}}
+  :training-wheels {:rule "np:2"
+                    :head {:rule "nbar"
+                           :head {:rule "nbar"
+                                  :head {:phrasal? false}
+                                  :comp {:phrasal? false}}}}}
 
  ;; </noun expressions>
 

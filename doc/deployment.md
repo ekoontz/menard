@@ -50,7 +50,7 @@ There is a single action:
 |Action provider |  GitHub (Version 2)|
 |Repository name |  ekoontz/menard|
 |Branch name |  main|
-|Start the pipeline on source code change? Yes|
+|Start the pipeline on source code change?| Yes|
 |Output artifact format |  CodePipeline default|
 |Variable namespace | SourceVariables|
 |Output artifacts | SourceArtifact |
@@ -63,7 +63,7 @@ There is a single action:
 |-|-|
 |Action name |  Build|
 |Action provider |  AWS CodeBuild|
-|Region |  any should work but I chose Europe (Frankfurt)|
+|Region |  any should work but I chose Europe/Frankfurt|
 |Input artifacts |  SourceArtifact|
 |Project name |  menard (see above in the CodeBuild section of the docs)|
 |Build type |  Single build|
@@ -79,7 +79,7 @@ There is a single action:
 |-|-|
 |Action name |  deploy|
 |Action provider |  AWS CloudFormation|
-|Region |  any should work but I chose Europe (Frankfurt)|
+|Region |  any should work but I chose Europe/Frankfurt|
 |Input artifacts |  BuildArtifact|
 |Action mode |  Create or update a stack|
 |Stack name |  menard|

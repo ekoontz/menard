@@ -12,6 +12,20 @@ See the [server](https://github.com/ekoontz/menard/tree/main/server) directory.
 See the [lambda](https://github.com/ekoontz/menard/tree/main/lambda)
 directory. 
 
+## ECR
+
+Set up an ECR repository as described in [this README.md](https://github.com/ekoontz/menard/tree/main/lambda/README.md)
+
+## IAM
+
+### CodeBuild
+
+Create the role `codebuild-menard-service-role` with this IAM Policy (TODO).
+
+### Deployer
+
+Create the role `new-deployer` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/code-pipeline-iam-policy.json).
+
 ## CodeBuild
 
 ### Project Configuration
@@ -27,16 +41,34 @@ directory.
 |Source Provider | Github |
 |Repository|Public repository|
 
-
 #### Service role permissions
 
 |Key|Value|
 |-|-|
 |Allow AWS CodeBuild to modify this service role so it can be used with this build project|Yes|
 
-## IAM
+### Environment
 
-Create the role `new-deployer` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/code-pipeline-iam-policy.json).
+|Key|Value|
+|-|-|
+|Image Type|Custom Image|
+|Environment type|ARM (but "Linux" or "Linux GPU" might work too)|
+|Image Registry|Amazon ECR|
+|ECR Account|My ECR Account|
+|Amazon ECR Repository| (use the one you created above in the "ECR" section) |
+|Amazon ECR image|(use the one you created above in the "ECR" section) |
+|Image Pull Credentials|AWS CodeBuild Credentials|
+|Service role|`arn:aws:iam::<YOUR AWS ACCOUNT ID>:role/service-role/codebuild-menard-service-role`|
+|Allow AWS CodeBuild to modify this service role so it can be used with this build project|Yes|
+
+The rest of this form can be left with the default values.
+
+### Buildspec
+
+|Key|Value|
+|-|-|
+|Use a buildspec file|Yes - choose this option|
+|Buildspec Name|[`lambda/buildspec.yml`](https://github.com/ekoontz/menard/tree/main/lambda/buildspec.yml)
 
 ## CodePipeline
 
@@ -74,7 +106,6 @@ There is a single action:
 
 There is a single action:
 
-
 |Key|Value|
 |-|-|
 |Action name |  deploy|
@@ -95,14 +126,12 @@ There is a single action:
 
 #### Template configuration (optional)
 
-
 |Key|Value|
 |-|-|
 |Use configuration file |  (leave this unchecked)
 |Artifact name |  (leave blank)
 |File name |  (leave blank)
 |Template configuration file path |  (leave blank)
-
 
 #### Capabilities (optional)
 

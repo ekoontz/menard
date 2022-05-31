@@ -16,6 +16,10 @@ directory.
 
 Set up an ECR repository as described in [this README.md](https://github.com/ekoontz/menard/tree/main/lambda/README.md)
 
+## S3
+
+Create a bucket called `menard-lambda`.
+
 ## IAM
 
 ### CodeBuild
@@ -70,6 +74,30 @@ The rest of this form can be left with the default values.
 |Use a buildspec file|Yes - choose this option|
 |Buildspec Name|[`lambda/buildspec.yml`](https://github.com/ekoontz/menard/tree/main/lambda/buildspec.yml)
 
+### Batch Configuration
+
+|Key|Value|
+|-|-|
+|New Service Role|Yes - choose this option|
+
+### Artifacts
+
+|Key|Value|
+|-|-|
+|Type|Amazon S3|
+|Bucket Name|menard-lambda|
+|Name|menard.zip|
+|Artifact packaging|Zip|
+|Allow AWS CodeBuild to modify this service role so it can be used with this build project|Yes|
+
+### CloudWatch Logs
+
+|Key|Value|
+|-|-|
+|CloudWatch logs - optional|I chose yes, but I don't find I need to look at the logs, but it's good for debugging especially when trying to get started|
+|Allow AWS CodeBuild to modify this service role so it can be used with this build project|Yes|
+
+
 ## CodePipeline
 
 ### Stage: Source
@@ -113,7 +141,7 @@ There is a single action:
 |Region |  any should work but I chose Europe/Frankfurt|
 |Input artifacts |  BuildArtifact|
 |Action mode |  Create or update a stack|
-|Stack name |  menard|
+|Stack name | menard|
 
 
 #### Template

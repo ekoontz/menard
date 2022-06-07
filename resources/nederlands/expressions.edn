@@ -56,7 +56,9 @@
   :subcat []
   :phrasal? true
   :cat :noun
-  :head {:phrasal? true}
+  :head {:phrasal? true
+         :head {:phrasal? false}
+         :comp {:phrasal? false}}
   :comp {:phrasal? false
          :cat :det}}
 
@@ -123,7 +125,11 @@
               :rest {:first {:pred :top}}}
         :pred :top}
   :subcat []
-  :head {:comp {:rule "intensifier-phrase"}}}
+  :training-wheels {:head {:rule "nbar"
+                           :head {:rule "nbar"
+                                  :head {:phrasal? false}
+                                  :comp {:phrasal? false}}
+                           :comp {:rule "intensifier-phrase"}}}}
  
  ;; 9
  ;; Generate some noun phrases but with less constraints,
@@ -138,15 +144,15 @@
               :rest {:first {:pred :top}}}
         :pred :top}
   :subcat []
-  :head {:rule "nbar"
-         :comp {:rule "intensifier-phrase"
-                :sem {:number? false}}
-         :head {:rule "nbar"
-                :head {:phrasal? false
-                       :cat :noun
-                       :mod []}
-                :comp {:phrasal? false
-                       :cat :adjective}}}}
+  :training-wheels {:head {:rule "nbar"
+                           :comp {:rule "intensifier-phrase"
+                                  :sem {:number? false}}
+                           :head {:rule "nbar"
+                                  :head {:phrasal? false
+                                         :cat :noun
+                                         :mod []}
+                                  :comp {:phrasal? false
+                                         :cat :adjective}}}}}
 
  ;; 10
  {:note "vier en twintig vogels"
@@ -210,8 +216,11 @@
         :obj :none}
   :training-wheels {:agr {:person :3rd}
                     :comp {:rule "np:2"
-                           :head {:comp {:rule "intensifier-phrase"}}}}}
-  
+                           :head {:rule "nbar"
+                                  :head {:rule "nbar"
+                                         :head {:phrasal? false}
+                                         :comp {:phrasal? false}}
+                                  :comp {:rule "intensifier-phrase"}}}}}
 
  ;; 14
  {:note "generalization of the above"
@@ -231,7 +240,11 @@
   :training-wheels {:rule "s"
                     :agr {:person :3rd}
                     :comp {:rule "np:2"
-                           :head {:comp {:rule "intensifier-phrase"}}}}}
+                           :head {:rule "nbar"
+                                  :head {:rule "nbar"
+                                         :head {:phrasal? false}
+                                         :comp {:phrasal? false}}
+                                  :comp {:rule "intensifier-phrase"}}}}}
 
  ;; 15
  {:note "[det | adj noun] verb"
@@ -423,18 +436,21 @@
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :example "de vier en twintig kleine vogels slapen"
   :rule "s"
-  :comp {:rule "np:2"}
   :cat :verb
   :subcat []
   :phrasal? true
-;;  :sem {:subj {:top :top}
-;;        :obj :none}}
-               
   :sem {:subj {:ref {:number :plur}
                :mod {:first {:number? true}
                      :rest {:first {:number? false
                                     :rest []}}}}
-        :obj :none}}
+        :obj :none}
+  :training-wheels {:comp {:rule "np:2"
+                           :head {:rule "nbar"
+                                  :comp {:rule "conj-outer"
+                                         :sem {:number? true}}
+                                  :head {:rule "nbar"
+                                         :head {:phrasal? false}
+                                         :comp {:phrasal? false}}}}}}
 
  ;; 25
  {:note "simple past sentences with regular simple past"

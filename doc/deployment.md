@@ -117,7 +117,15 @@ There is a single action:
 
 ### Stage: Build
 
-There is a single action, which is to ..
+There is a single action, which uses the
+[`buildspec.yml`](https://github.com/ekoontz/menard/tree/main/lambda/buildspec.yml)
+to build the artifacts, which are defined in `buildspec.yml` as the following:
+
+- [`/bootstrap`](https://github.com/ekoontz/menard/tree/main/lambda/bootstrap)
+- `/menard_lambda`: This is the artifact of running `native-image` as specified in the `buildpsec.yml`.
+- [`/template-native.yml`](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml).
+
+Create the following build configuration in the build stage:
 
 |Key|Value|
 |-|-|
@@ -132,7 +140,7 @@ There is a single action, which is to ..
 
 ### Deploy stage
 
-There is a single action, which is to create or update the AWS CloudFormation Stack 'menard'.
+There is a single action, which is to create or update the AWS CloudFormation Stack 'menard' as specified by [/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml).
 
 Use the following for the form that lets you add a new action:
 
@@ -147,7 +155,7 @@ Use the following for the form that lets you add a new action:
 
 #### Template
 
-[/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml) creates the various AWS Lambda functions. Each function defines the following:
+[/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml) creates the various AWS Lambda functions via AWS CloudFormation. Each function defines the following:
 
 - a _Handler_, e.g. `menard.lambda.def.AnalyzeEN` created via `fierycod.holy-lambda.core/deflambda`. Each handler name has the prefix [`menard.lambda.def`](http://github.com/ekoontz/menard/tree/main/lambda/src/menard/lambda/def.clj).
 - a _Path_, used to route requests from the API gateway to the given lambda function.

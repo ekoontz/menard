@@ -117,7 +117,7 @@ There is a single action:
 
 ### Stage: Build
 
-There is a single action:
+There is a single action, which is to ..
 
 |Key|Value|
 |-|-|
@@ -132,7 +132,9 @@ There is a single action:
 
 ### Deploy stage
 
-There is a single action:
+There is a single action, which is to create or update the AWS CloudFormation Stack 'menard'.
+
+Use the following for the form that lets you add a new action:
 
 |Key|Value|
 |-|-|
@@ -143,8 +145,17 @@ There is a single action:
 |Action mode |  Create or update a stack|
 |Stack name | menard|
 
-
 #### Template
+
+[/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml) creates the various AWS Lambda functions. Each function defines the following:
+
+- a _Handler_, e.g. `menard.lambda.def.AnalyzeEN` created via `fierycod.holy-lambda.core/deflambda`. Each handler name has the prefix [`menard.lambda.def`](http://github.com/ekoontz/menard/tree/main/lambda/src/menard/lambda/def.clj).
+- a _Path_, used to route requests from the API gateway to the given lambda function.
+- a _Method_, the HTTP method to be used. Currently only `get` is used by [/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml).
+- a _FunctionName_, e.g. `AnalyzeEN`. This is always simply the last
+  segment of the dotted name in the _Handler_.
+
+Use the following for the form that lets you add a Template:
 
 |Key|Value|
 |-|-|

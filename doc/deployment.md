@@ -119,11 +119,20 @@ There is a single action:
 
 There is a single action, which uses the
 [`buildspec.yml`](https://github.com/ekoontz/menard/tree/main/lambda/buildspec.yml)
-to build the artifacts, which are defined in `buildspec.yml` as the following:
+to build the following artifacts, defined in `buildspec.yml`'s
+`artifacts/files`:
 
 - [`/bootstrap`](https://github.com/ekoontz/menard/tree/main/lambda/bootstrap)
 - `/menard_lambda`: This is the artifact of running `native-image` as specified in the `buildpsec.yml`.
 - [`/template-native.yml`](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml).
+
+These artifacts are created by doing to following steps defined in `buildspec.yml`'s `phases/build/commands`:
+
+1. install [Leiningen](https://leiningen.org/)
+2. `cd` to the [lambda](https://github.com/ekoontz/menard/tree/main/lambda) subdirectory of the menard source tree.
+3. create the uberjar `menard-lambda.jar` as configured by [lambda/project.clj](https://github.com/ekoontz/menard/tree/main/lambda/project.clj)
+4. run [`native-image`](https://www.graalvm.org/22.1/reference-manual/native-image/) on the `menard-lambda.jar` file created in step 3.
+5. copy the `menard_lambda` binary to the top-level directory `/`, along with `bootstrap` and `template-native.yml` as mentioned above.
 
 Create the following build configuration in the build stage:
 
@@ -157,7 +166,7 @@ Use the following for the form that lets you add a new action:
 
 [/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml) creates the various AWS Lambda functions via AWS CloudFormation. Each function defines the following:
 
-- a _Handler_, e.g. `menard.lambda.def.AnalyzeEN` created via `fierycod.holy-lambda.core/deflambda`. Each handler name has the prefix [`menard.lambda.def`](http://github.com/ekoontz/menard/tree/main/lambda/src/menard/lambda/def.clj).
+- a _Handler_, e.g. `menard.lambda.def.AnalyzeEN` created via [`fierycod.holy-lambda.core/deflambda`](https://github.com/FieryCod/holy-lambda/blob/0.0.7/src/clj/fierycod/holy_lambda/core.clj#L249). Each handler name has the prefix [`menard.lambda.def`](http://github.com/ekoontz/menard/tree/main/lambda/src/menard/lambda/def.clj).
 - a _Path_, used to route requests from the API gateway to the given lambda function.
 - a _Method_, the HTTP method to be used. Currently only `get` is used by [/template-native.yml](https://github.com/ekoontz/menard/tree/main/lambda/template-native.yml).
 - a _FunctionName_, e.g. `AnalyzeEN`. This is always simply the last
@@ -218,7 +227,7 @@ configuration; it will be a name within AWS's namespace, such as
 
 ## DNS Settings
 
-Define a ALIAS within the domain `hiro-tan.org` (this is not
+Define an ALIAS within the domain `hiro-tan.org` (this is not
 managed by AWS currently, but a different company,
 [dnssimple.com](https://dnssimple.com).
 

@@ -9,8 +9,8 @@ See the [server](https://github.com/ekoontz/menard/tree/main/server) directory.
 
 # AWS Lambda
 
-See the [lambda](https://github.com/ekoontz/menard/tree/main/lambda)
-directory. 
+See also the [lambda](https://github.com/ekoontz/menard/tree/main/lambda)
+directory. The documentation below references files within that directory.
 
 ## ECR
 

@@ -384,7 +384,8 @@
   :sem {:pred :must
         :subj {:pred :we
                :existential? false}
-        :obj {:obj {:pred :corona}
+        :obj {:obj {:pred :corona
+                    :polarity :plus} ;; prevent "niet Corona"
               :mod {:first {:pred :together}}
               :pred :overcome}}
   :rule "s"

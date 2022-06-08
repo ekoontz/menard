@@ -24,7 +24,7 @@ Create a bucket called `menard-lambda`.
 
 ### CodeBuild
 
-Create the role `codebuild-menard-service-role` with this IAM Policy (TODO).
+Create the role `codebuild-menard-service-role` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/codebuild-menard-service-role.json).
 
 ### Deployer
 

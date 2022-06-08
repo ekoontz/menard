@@ -193,6 +193,44 @@ Add the following capabilities:
 
 This role was created above in the IAM section.
 
+#### Advanced
+
+For 'Parameter Overrides' use:
+
+```
+{ "BucketName": { "Fn::GetArtifactAtt" : [ "BuildArtifact", "BucketName" ] },
+  "ObjectKey": { "Fn::GetArtifactAtt" : [ "BuildArtifact", "ObjectKey" ] }}
+```
+
+This is needed to supply the values `BucketName` and `ObjectKey` in
+the `CodeUri` for each function defined in `template-native.yml`.
+
 ## API Gateway
 
-## 
+When the build pipeline runs, it should have either created a new [API
+Gateway
+API](https://eu-central-1.console.aws.amazon.com/apigateway) called `menard`. Locate
+the `menard` API within the [AWS UI](https://eu-central-1.console.aws.amazon.com/apigateway) and modify the Custom Domains to add the domain name `menard.hiro-tan.org`.
+
+Make a note of the API Gateway domain name within the API's
+configuration; it will be a name within AWS's namespace, such as
+`a-b2cde44f22.execute-api.eu-central-1.amazonaws.com`.
+
+## DNS Settings
+
+Define a ALIAS within the domain `hiro-tan.org` (this is not
+managed by AWS currently, but a different company,
+[dnssimple.com](https://dnssimple.com).
+
+The ALIAS fields should be:
+
+|Key|Value|
+|-|-|
+|Name|`menard.hiro-tan.org`|
+|Content|`a-b2cde44f22.execute-api.eu-central-1.amazonaws.com`|
+
+The actual value of `Content` will be different than this example value.
+
+
+
+

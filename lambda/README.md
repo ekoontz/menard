@@ -1,4 +1,10 @@
-# Docker image
+# See also
+
+ [doc/deployment.md](https://github.com/ekoontz/menard/tree/main/doc/deployment.md), which references (in the ECR section) these steps.
+
+# Publishing the Docker image
+
+These steps build, tag and push the `menard-lambda-deployer` Docker image.
 
 Retrieve an authentication token and authenticate your Docker client
 to your registry.  Use the AWS CLI:

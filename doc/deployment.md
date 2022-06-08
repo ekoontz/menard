@@ -14,7 +14,7 @@ directory.
 
 ## ECR
 
-Set up an ECR repository as described in [this README.md](https://github.com/ekoontz/menard/tree/main/lambda/README.md)
+Set up an ECR repository as described in [this README.md](https://github.com/ekoontz/menard/tree/main/lambda/README.md), including building, tagging, and pushing the Docker image for `menard-lambda-deployer`.
 
 ## S3
 

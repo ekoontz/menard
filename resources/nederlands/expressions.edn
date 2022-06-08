@@ -521,7 +521,9 @@
   :comp {:phrasal? false
          :canonical "er"}
   :head {:rule "vp"
-         :comp {:rule "np:2"}
+         :comp {:rule "np:2"
+                :comp {:phrasal? false}                
+                :head {:phrasal? false}}
          :head {:phrasal? false
                 :separable? false}}}
  ]

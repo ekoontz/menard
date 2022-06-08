@@ -4,8 +4,8 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:logs:eu-central-1:489315381619:log-group:/aws/codebuild/menard",
-                "arn:aws:logs:eu-central-1:489315381619:log-group:/aws/codebuild/menard:*"
+                "arn:aws:logs:AWS_REGION:AWS_ACCOUNT_ID:log-group:/aws/codebuild/menard",
+                "arn:aws:logs:AWS_REGION:AWS_ACCOUNT_ID:log-group:/aws/codebuild/menard:*"
             ],
             "Action": [
                 "logs:CreateLogGroup",
@@ -16,7 +16,7 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:s3:::codepipeline-eu-central-1-*"
+                "arn:aws:s3:::codepipeline-AWS_REGION-*"
             ],
             "Action": [
                 "s3:PutObject",
@@ -48,7 +48,7 @@
                 "codebuild:BatchPutCodeCoverages"
             ],
             "Resource": [
-                "arn:aws:codebuild:eu-central-1:489315381619:report-group/menard-*"
+                "arn:aws:codebuild:AWS_REGION:AWS_ACCOUNT_ID:report-group/menard-*"
             ]
         },
         {
@@ -67,7 +67,7 @@
                 "ecr:GetRepositoryPolicy",
                 "ecr:GetLifecyclePolicy"
             ],
-            "Resource": "arn:aws:ecr:*:489315381619:repository/*"
+            "Resource": "arn:aws:ecr:*:AWS_ACCOUNT_ID:repository/*"
         },
         {
             "Sid": "VisualEditor1",

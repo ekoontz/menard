@@ -9,8 +9,8 @@
                 "iam:CreateRole"
             ],
             "Resource": [
-                "arn:aws:iam::489315381619:role/*",
-                "arn:aws:codedeploy:*:489315381619:application:*"
+                "arn:aws:iam::AWS_ACCOUNT_ID:role/*",
+                "arn:aws:codedeploy:*:AWS_ACCOUNT_ID:application:*"
             ]
         },
         {

@@ -24,11 +24,11 @@ Create a bucket called `menard-lambda`.
 
 ### CodeBuild
 
-Create the role `codebuild-menard-service-role` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/codebuild-menard-service-role.json).
+Create the role `codebuild-menard-service-role` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/codebuild-menard-service-role.json), replacing `AWS_REGION` and `AWS_ACCOUNT_ID` with your selected AWS region and AWS Account ID.
 
 ### Deployer
 
-Create the role `new-deployer` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/code-pipeline-iam-policy.json).
+Create the role `new-deployer` with this [IAM Policy](https://github.com/ekoontz/menard/tree/main/lambda/code-pipeline-iam-policy.json), replacing `AWS_ACCOUNT_ID `with your AWS Account ID.
 
 ## CodeBuild
 

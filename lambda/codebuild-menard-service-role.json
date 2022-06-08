@@ -50,14 +50,7 @@
             "Resource": [
                 "arn:aws:codebuild:eu-central-1:489315381619:report-group/menard-*"
             ]
-        }
-    ]
-}
-
-
-{
-    "Version": "2012-10-17",
-    "Statement": [
+        },
         {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
@@ -82,21 +75,6 @@
             "Action": [
                 "ecr:GetRegistryPolicy",
                 "ecr:DescribeRegistry",
-                "ecr:GetAuthorizationToken"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-
-
-
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
                 "ecr:GetAuthorizationToken",
                 "ecr:BatchCheckLayerAvailability",
                 "ecr:GetDownloadUrlForLayer",

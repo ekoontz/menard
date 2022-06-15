@@ -221,6 +221,7 @@
  "vlinder" [{:sem {:pred :butterfly}}]
  "vogel" [{:sem {:pred :bird}
            :curriculum :basic}]
+ "volger" [{:sem {:pred :follower}}]
  "volksvertegenwoordiger" [{:sem {:pred :representative}}]
  "voorbereiding" [{:sem {:pred :preparation}}]
  "voorbeeld" [{:agr {:gender :neuter}

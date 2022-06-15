@@ -114,6 +114,7 @@
  "vreselijk" [{:sem {:pred :horrible}}]
  "vriendelijk" [{:sem {:pred :friendly}}]
  "voorzichtig" [{:sem {:pred :careful}}]
+ "vunzig" [{:sem {:pred :filthy}}]
  "waanzinnig" [{:sem {:pred :insane}}]
  "waar" [{:sem {:pred :true}}]
  "zacht" [{:sem {:pred :soft}}]

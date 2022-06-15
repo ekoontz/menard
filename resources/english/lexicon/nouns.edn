@@ -164,6 +164,7 @@
  "revolt" [{:sem {:pred :revolt}}]
  "right" [{:sem {:pred :right}}]
  "room" [{:sem {:pred :room}}]
+ "satisfaction" [{:sem {:pred :satisfaction}}]
  "school" [{:sem {:pred :school}}]
  "sea" [{:sem {:pred :sea}}]
  "secret" [{:sem {:pred :secret}}] 

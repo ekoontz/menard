@@ -147,6 +147,7 @@
                :context :neutral
                :ref {:human? true}}}]
  "maand" [{:sem {:pred :month}}]
+ "meeloper" [{:sem {:pred :follower}}] 
  "meisje" [{:agr {:gender :neuter}
             :sem {:pred :girl
                   :ref {:human? true}}}]

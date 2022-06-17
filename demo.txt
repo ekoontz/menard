@@ -1,14 +1,14 @@
 % ./src/scripts/demo.sh
-commit 7c4ee887ec7622a4f963602d5d277b73fdeacb8e (HEAD -> main, ekoontz/main)
+commit 335a4d910526e4d53653220db2d879b602d5eded (HEAD -> main, ekoontz/main)
 Author: Eugene Koontz <ekoontz@hiro-tan.org>
-Date:   Sun Apr 10 19:03:16 2022 +0200
+Date:   Fri Jun 17 07:53:14 2022 +0200
 
-    add another training wheel
+    add {:agr {:person :3rd}} so that 'er' sentences work consistently
 On branch main
 Your branch is up to date with 'ekoontz/main'.
 
 nothing to commit, working tree clean
-nREPL server started on port 64403 on host 127.0.0.1 - nrepl://127.0.0.1:64403
+nREPL server started on port 63902 on host 127.0.0.1 - nrepl://127.0.0.1:63902
 REPL-y 0.5.1, nREPL 0.8.3
 Clojure 1.11.0
 OpenJDK 64-Bit Server VM 17+0
@@ -20,111 +20,111 @@ OpenJDK 64-Bit Server VM 17+0
  Results: Stored in vars *1, *2, *3, an exception in *e
 
 user=> (load "menard/translate")(menard.translate/demo)
-INFO  10 apr. 2022 22:45:59,899 menard.ug: loaded: 30 symbols.
-INFO  10 apr. 2022 22:45:59,907 menard.nesting: loaded: 8 symbols.
-INFO  10 apr. 2022 22:45:59,951 menard.subcat: loaded: 9 symbols.
-INFO  10 apr. 2022 22:45:59,971 menard.nederlands: creating model for Nederlands with name: 'complete'..
-INFO  10 apr. 2022 22:46:13,203 menard.grammar: process: input rules: 24 do-not-eval?
-INFO  10 apr. 2022 22:46:13,212 menard.grammar: process-options: input-grammar: 24 rules.
-INFO  10 apr. 2022 22:46:13,216 menard.grammar: process-options: output-grammar: 36 rules.
-INFO  10 apr. 2022 22:46:13,216 menard.grammar: filter-rules: input-grammar: 36 rules.
-INFO  10 apr. 2022 22:46:13,216 menard.grammar: filter-rules-by-firstness: output-grammar: 36 rules.
-INFO  10 apr. 2022 22:46:13,216 menard.grammar: warn-rules-by-catness: input-grammar: 36 rules.
-WARN  10 apr. 2022 22:46:13,217 menard.grammar: rule: conj-inner has no :cat value specified: might overgeneralize unexpectedly.
-WARN  10 apr. 2022 22:46:13,217 menard.grammar: rule: negp has no :cat value specified: might overgeneralize unexpectedly.
-INFO  10 apr. 2022 22:46:13,217 menard.grammar: warn-rules-by-catness: output-grammar: 36 rules.
-INFO  10 apr. 2022 22:46:13,217 menard.model: loading resources for language: nl..
-INFO  10 apr. 2022 22:46:13,217 menard.model: loaded: 84 lexical rules.
-INFO  10 apr. 2022 22:46:13,217 menard.model: loaded: 475 lexeme keys.
-INFO  10 apr. 2022 22:46:13,217 menard.model: loaded: 5 lexicon indices.
-INFO  10 apr. 2022 22:46:13,217 menard.model: loaded: 132 morphological rules.
-INFO  10 apr. 2022 22:46:13,221 menard.model: loaded: 36 grammar rules.
-INFO  10 apr. 2022 22:46:13,221 menard.model: loaded resources for language: nl.
-INFO  10 apr. 2022 22:46:13,310 menard.english: creating model for English..
-INFO  10 apr. 2022 22:46:13,310 menard.model: loading resources for language: en..
-INFO  10 apr. 2022 22:46:14,614 menard.grammar: process: input rules: 9 do-not-eval?
-INFO  10 apr. 2022 22:46:14,617 menard.grammar: process-options: input-grammar: 9 rules.
-INFO  10 apr. 2022 22:46:14,619 menard.grammar: process-options: output-grammar: 30 rules.
-INFO  10 apr. 2022 22:46:14,619 menard.grammar: filter-rules: input-grammar: 30 rules.
-INFO  10 apr. 2022 22:46:14,619 menard.grammar: filter-rules-by-firstness: output-grammar: 30 rules.
-INFO  10 apr. 2022 22:46:14,619 menard.grammar: warn-rules-by-catness: input-grammar: 30 rules.
-INFO  10 apr. 2022 22:46:14,619 menard.grammar: warn-rules-by-catness: output-grammar: 30 rules.
-INFO  10 apr. 2022 22:46:14,619 menard.model: loaded: 55 lexical rules.
-INFO  10 apr. 2022 22:46:14,619 menard.model: loaded: 565 lexeme keys.
-INFO  10 apr. 2022 22:46:14,619 menard.model: loaded: 2 lexicon indices.
-INFO  10 apr. 2022 22:46:14,619 menard.model: loaded: 36 morphological rules.
-INFO  10 apr. 2022 22:46:14,622 menard.model: loaded: 30 grammar rules.
-INFO  10 apr. 2022 22:46:14,622 menard.model: loaded resources for language: en.
+INFO  17 jun. 2022 08:06:41,000 menard.ug: loaded: 31 symbols.
+INFO  17 jun. 2022 08:06:41,009 menard.nesting: loaded: 8 symbols.
+INFO  17 jun. 2022 08:06:41,057 menard.subcat: loaded: 9 symbols.
+INFO  17 jun. 2022 08:06:41,078 menard.nederlands: creating model for Nederlands with name: 'complete'..
+INFO  17 jun. 2022 08:06:54,494 menard.grammar: process: input rules: 24 do-not-eval?
+INFO  17 jun. 2022 08:06:54,502 menard.grammar: process-options: input-grammar: 24 rules.
+INFO  17 jun. 2022 08:06:54,506 menard.grammar: process-options: output-grammar: 37 rules.
+INFO  17 jun. 2022 08:06:54,507 menard.grammar: filter-rules: input-grammar: 37 rules.
+INFO  17 jun. 2022 08:06:54,507 menard.grammar: filter-rules-by-firstness: output-grammar: 37 rules.
+INFO  17 jun. 2022 08:06:54,507 menard.grammar: warn-rules-by-catness: input-grammar: 37 rules.
+WARN  17 jun. 2022 08:06:54,510 menard.grammar: rule: conj-inner has no :cat value specified: might overgeneralize unexpectedly.
+WARN  17 jun. 2022 08:06:54,510 menard.grammar: rule: negp has no :cat value specified: might overgeneralize unexpectedly.
+INFO  17 jun. 2022 08:06:54,510 menard.grammar: warn-rules-by-catness: output-grammar: 37 rules.
+INFO  17 jun. 2022 08:06:54,510 menard.model: loading resources for language: nl..
+INFO  17 jun. 2022 08:06:54,510 menard.model: loaded: 84 lexical rules.
+INFO  17 jun. 2022 08:06:54,511 menard.model: loaded: 487 lexeme keys.
+INFO  17 jun. 2022 08:06:54,511 menard.model: loaded: 5 lexicon indices.
+INFO  17 jun. 2022 08:06:54,511 menard.model: loaded: 132 morphological rules.
+INFO  17 jun. 2022 08:06:54,514 menard.model: loaded: 37 grammar rules.
+INFO  17 jun. 2022 08:06:54,514 menard.model: loaded resources for language: nl.
+INFO  17 jun. 2022 08:06:54,590 menard.english: creating model for English..
+INFO  17 jun. 2022 08:06:54,590 menard.model: loading resources for language: en..
+INFO  17 jun. 2022 08:06:55,914 menard.grammar: process: input rules: 9 do-not-eval?
+INFO  17 jun. 2022 08:06:55,917 menard.grammar: process-options: input-grammar: 9 rules.
+INFO  17 jun. 2022 08:06:55,920 menard.grammar: process-options: output-grammar: 30 rules.
+INFO  17 jun. 2022 08:06:55,920 menard.grammar: filter-rules: input-grammar: 30 rules.
+INFO  17 jun. 2022 08:06:55,920 menard.grammar: filter-rules-by-firstness: output-grammar: 30 rules.
+INFO  17 jun. 2022 08:06:55,920 menard.grammar: warn-rules-by-catness: input-grammar: 30 rules.
+INFO  17 jun. 2022 08:06:55,920 menard.grammar: warn-rules-by-catness: output-grammar: 30 rules.
+INFO  17 jun. 2022 08:06:55,920 menard.model: loaded: 55 lexical rules.
+INFO  17 jun. 2022 08:06:55,920 menard.model: loaded: 573 lexeme keys.
+INFO  17 jun. 2022 08:06:55,920 menard.model: loaded: 2 lexicon indices.
+INFO  17 jun. 2022 08:06:55,920 menard.model: loaded: 36 morphological rules.
+INFO  17 jun. 2022 08:06:55,923 menard.model: loaded: 30 grammar rules.
+INFO  17 jun. 2022 08:06:55,923 menard.model: loaded resources for language: en.
 nil
 # intensifier adjective; 5 examples:
 ---
-Werkelijk kieskeurig.|
-                     |Actually picky.
-Ongewoon groot.|
-               |Unusually big.
-Helemaal verdacht.|
-                  |Completely suspicious.
-Echt indrukwekkend.|
-                   |Really impressive.
-Volkomen nieuwswaardig.|
-                       |Completely newsworthy.
+Erg bouwvallig.|
+               |Very dilapidated.
+Redelijk geldig.|
+                |Fairly valid.
+Eigenlijk eenvoudig.|
+                    |Actually simple.
+Erg bijzonder.|
+              |Very special.
+Ongewoon gevoelig.|
+                  |Unusually sensitive.
 
 # det noun; 5 examples:
 ---
-Geen vrouw.|
-           |No woman.
-Hun familie.|
-            |Their family.
-De verdedigers.|
-               |The defenders.
-Jullie ambtenaar.|
-                 |Your civil servants.
-Mijn stelsel.|
-             |My systems.
+Die voorstelling.|
+                 |That performance.
+Zijn minnares.|
+              |Its mistress.
+Jullie schort.|
+              |Your apron.
+Zijn zee.|
+         |Its sea.
+Jouw voorstellingen.|
+                    |Your performances.
 
 # noun verb; 5 examples:
 ---
-Jij vertrok.|
-            |You 🤠 departed.
-Loodgieters voeren.|
-                   |Plumbers sailed.
-We zeggen.|
-          |We say.
-Ik bestreed.|
-            |I overcame.
-Jij bereikt.|
-            |You 🤠 achieve.
+Aandachten gapen.|
+                 |Attentions yawn.
+Ze bieden.|
+          |They offer.
+We wasten.|
+          |We washed.
+Getuigen treden.|
+                |Witnesses step.
+Kei's konden.|
+             |Boulders could.
 
 # det noun | verb; 5 examples:
 ---
-Zijn tafel bewegt.|
-                  |His table moves.
-Geen heer blijvt.|
-                 |No gentleman stays.
-Haar toestand lukkt.|
-                    |Her situations succeed.
-Deze lafaard vallt.|
-                   |This coward falls.
-Haar voorbereiding moet.|
-                        |Her preparation must.
+Jouw beschavingen vielen.|
+                         |Your civilizations fell.
+Jouw berichten wassen.|
+                      |Your messages wash.
+Jouw honden speelden.|
+                     |Your dogs played.
+Jouw kogels zagen.|
+                  |Your bullets saw.
+Uw genoegdoeningen moetten.|
+                           |Your satisfactions must.
 
 # det | adj noun; 5 examples:
 ---
-Zijn gevoelige verkoper.|
-                        |Its sensitive seller.
-Uw veertig seringen.|
-                    |Your forty lilacs.
-Onze zes gevoelen.|
-                  |Our six feelings.
-Haar tachtig verbindingen.|
-                          |Her eighty connections.
-Je zielige vernieling.|
-                      |Your pathetic destruction.
+Jullie zes vissen.|
+                  |Your six fish (plural).
+Jullie verknochte gunsteling.|
+                             |Your devoted favorite.
+De vergelijkbare huwelijken.|
+                            |The comparable marriages.
+Die degelijke gezinnen.|
+                       |Those sound families.
+Onze lijpe volksvertegenwoordiger.|
+                                  |Our cool representative.
 
 # 'een huis'; 1 example:
 ---
 Een huis.|
-         |Some house.
+         |A house.
 
 # 'de grote boeken'; 1 example:
 ---
@@ -138,278 +138,279 @@ Een erg kleine druif.|
 
 # [det [[intensifier adj] noun]]; 5 examples:
 ---
-Een redelijk inhalig verantwoordelijk nieuwswaardig koud schattig gevaarte.|
-                                                                           |A reasonably greedy responsible newsworthy cold cute monster.
-Een heel leuk slim huwelijk.|
-                            |A very good smart marriage.
-Een werkelijk opgewonden droevig gaaf geheimzinnig geschenk.|
-                                                            |Some actually excited sad cool mysterious gift.
-Geen heel mooi verward lang ongerust koppig eigenwijs oog.|
-                                                          |No very beautiful confused tall anxious stubborn stubborn eye.
-Een werkelijk eeuwig moelijk stemmig verlegen onnozel vliegtuig.|
-                                                                |Some actually eternal difficult moody shy silly airplane.
+Geen erg buitengewoon eenzaam toneelstuk.|
+                                         |No very extraordinary lonely play.
+Geen ongewoon heet oud paard.|
+                             |No unusually hot old horse.
+Een ongewoon vriendelijk fleurig koppel.|
+                                        |Some unusually friendly bright couple.
+Geen erg mooi verantwoordelijk voorbeeld.|
+                                         |No very beautiful responsible example.
+Een behoorlijk stevig ongerust oog.|
+                                   |Some quite firm anxious eye.
 
 # [np:2 .een +[nbar .[intensifier-phrase .behoorlijk +vies] +[nbar .grote +tafel]]]; 5 examples:
 ---
-Volkomen slechte echt dikke nieuwswaardige roofdieren.|
-                                                      |These completely bad really thick newsworthy predators.
-Jouw volkomen waanzinnige koude mogelijkheden.|
-                                              |Your completely insane cold opportunities.
-Jouw eigenlijk geinige verschrikkelijke mogelijkheden.|
-                                                      |Your actually amusing terrifying opportunities.
-Ongewoon afzonderlijke eigenlijk vriendelijke smerige opstanden.|
-                                                                |No unusually separate actually friendly filthy revolts.
-Ongebruikelijk maar zacht heel bijzondere hedendaagse gebieden.|
-                                                               |_.
+Redelijk hedendaagse helemaal treurige schuchtere handen.|
+                                                         |Nine fairly contemporary completely pathetic shy hands.
+Bouwvallig maar dik echt nijvere korte echtgenoten.|
+                                                   |_.
+Mijn eigenlijk stuitende zwierige voorbereidingen.|
+                                                  |My actually shocking jaunty preparations.
+Erg verschrikkelijke heel vastberadene stemmige vakbonden.|
+                                                          |No very terrifying very determined moody unions.
+Helemaal schattige redelijk indrukwekkende zelfverzekerde pinda's.|
+                                                                  |Nine completely cute reasonably impressive confident peanuts.
 
 # vier en twintig vogels; 5 examples:
 ---
-Twee en negentig vogels.|
-                        |Some ninety two birds.
-Vijf en tachtig vogels.|
-                       |Eighty five birds.
-Zes en tachtig vogels.|
-                      |Some eighty six birds.
-Negen en twintig vogels.|
-                        |Some twenty nine birds.
-Acht en tachtig vogels.|
-                       |Some eighty eight birds.
+Vier en zestig vogels.|
+                      |Some sixty four birds.
+Drie en tachtig vogels.|
+                       |Eighty three birds.
+Vier en negentig vogels.|
+                        |Ninety four birds.
+Zeven en negentig vogels.|
+                         |Some ninety seven birds.
+Vier en twintig vogels.|
+                       |Some twenty four birds.
 
 # de vier kliene vogels; 5 examples:
 ---
-Mijn dertien bedroefde toestanden.|
-                                  |My thirteen sad situations.
-Mijn zestien bouwvallige koppels.|
-                                 |My sixteen dilapidated couples.
-Jullie zeventien buitengewone optredens.|
-                                        |Your seventeen extraordinary performances.
-Wat tachtig spaarzame echtgenoten.|
-                                  |Some eighty frugal husbands.
-Mijn vijf opvallende banen.|
-                           |My five striking jobs.
+Een één vunzige ontwikkeling.|
+                             |Some one filthy development.
+Jouw één tevredene kleuter.|
+                           |Your one satisfied toddler.
+Jouw drie bijzondere courgettes.|
+                                |Your three special zucchinis.
+Dat één lijpe bedrijf.|
+                      |That one cool business.
+Haar één bescheidene tegenslag.|
+                               |Her one modest setback.
 
 # e.g. 'de vier en twintig kleine vogels'; 5 examples:
 ---
-Zijn vijftien kinderachtige loodgieters.|
-                                        |His fifteen childish plumbers.
-Jouw dertien kieskeurige geheimzinnige koppige gesprekken.|
-                                                          |Your thirteen picky mysterious stubborn conversations.
-Zijn elf geldige stuitende ernstige reusachtige berichten.|
-                                                          |His eleven valid shocking serious huge messages.
-Zijn veertien verantwoordelijke vergelijkbare opvallende levendige lastige kopers.|
-                                                                                  |His fourteen responsible comparable striking lively difficult buyers.
-Mijn negen geinige getuigen.|
-                            |My nine amusing witnesses.
+Mijn vijftien verraste families.|
+                                |My fifteen suprised families.
+Uw drie ware dames.|
+                   |Your three true ladies.
+Mijn vijftien vervelende eenzaamheden.|
+                                      |My fifteen annoying lonelinesses.
+Uw twintig laate bomen.|
+                       |Your twenty late trees.
+Deze zes bouwvallige mannen.|
+                            |These six dilapidated men.
 
 # 'De heel sterk slimme vrouwen zingen'.; 1 example:
 ---
-De erg sterke slimme vrouwen zongen.|
-                                    |The very strong smart women sang.
+Jouw erg sterke slimme vrouwen zongen.|
+                                      |Your very strong smart women sang.
 
 # generalization of the above; 5 examples:
 ---
-Hun ongewoon ongeruste bouwvallige voorstelling voer.|
-                                                     |Their unusually anxious dilapidated performances sailed.
-Deze echt zenuwachtige fleurige vrouwen zien.|
-                                             |These really nervous bright women see.
-Deze echt droevige stomme meisjes dromen.|
-                                         |These really sad stupid girls dream.
-Wat redelijk geweldige vieze gesprekken hopen.|
-                                              |Some fairly awesome dirty conversations hope.
-Uw helemaal ongebruikelijke nuttige hond ervoer.|
-                                                |Your completely unusual useful dog experienced.
+Het ongewoon nauwe levendige dier borg.|
+                                       |The unusually narrow lively animal saved.
+Mijn erg reusachtige eenzame toestanden hoesten.|
+                                                |My very huge lonely situations cough.
+Je werkelijk gierige vieze stelsels niezen.|
+                                           |Your actually stingy dirty systems sneeze.
+Uw heel zwierige gemoedelijke overwegingen bergen.|
+                                                  |Your very jaunty pleasant considerations save.
+Je ongewoon zwierige eeuwige snuiters voeren.|
+                                             |Your unusually jaunty eternal guys feed.
 
 # [det | adj noun] verb; 5 examples:
 ---
-Wat bereikbare uitvoeringen uitgeleggen.|
-                                        |Some accessible implementations explain.
-Deze gierige ezel werkte.|
-                         |This stingy donkey worked.
-Jouw teleurgestelde hand biedt.|
-                               |Your disappointed hands offer.
-Onze vier groepen uitwijken.|
-                            |Our four groups emigrate.
-De vier huwelijken vielen.|
-                          |The four marriages fell.
+Geen verdachte bericht ervart.|
+                              |No suspicious message experiences.
+Onze bijzondere maanden vertrokken.|
+                                   |Our special months departed.
+Je verlegene vakbonden konden.|
+                              |Your shy unions could.
+Wat dertig werkgevers bruisden.|
+                               |Some thirty employers bubbled.
+Je één beleid dromt.|
+                    |Your one policy dreams.
 
 # Sentence with object; 5 examples:
 ---
-Eenzaamheden zien ons.|
-                      |Lonelinesses see us.
-Wij zien verhalen.|
-                  |We see stories.
-Jij zag me.|
-           |You 🤠 saw me.
-Katten zien jullie.|
-                   |Cats see you 🤠🤠.
-Wortels zagen bedragen.|
-                       |Carrots saw amounts.
+Zij ziet me.|
+            |She sees me.
+Ik zag lafaarden.|
+                 |I saw cowards.
+Mogelijkheden zagen jij.|
+                        |Opportunities saw you 🤠.
+Ik zag verhalen.|
+                |I saw stories.
+We zagen opleidingen.|
+                     |We saw educations.
 
 # Sentence with reflexive object; 5 examples:
 ---
-Ze ziet zichzelf.|
-                 |She sees herself.
-Mogelijkheden zien zich.|
-                        |Opportunities see themselves.
+Ik zie me.|
+          |I see myself.
 U ziet u.|
          |You 🧐 see yourself.
-U ziet u.|
-         |You 🧐🧐 see yourselves.
-Paarden zien zichzelf.|
-                      |Horses see themselves.
+Ik zie mezelf.|
+              |I see myself.
+Jij ziet jezelf.|
+                |You 🤠 see yourself.
+Je ziet jezelf.|
+               |You 🤠 see yourself.
 
 # [s np [vp v np]]; 5 examples:
 ---
-We borgen onze uitvoering.|
-                          |We saved our implementations.
-Ik bracht een bedrijf.|
-                      |I brought some business.
-Corona bedelvt de lafaard.|
-                          |Corona overwhelms the coward.
-Ik veroorzaakte onze dwasen.|
-                            |I caused our fools.
-Bedragen droegen wat gevaartes.|
-                               |Amounts wore monsters.
+Jij bracht onze jas.|
+                    |You 🤠 brought our coat.
+U bestrijdt zijn kogel.|
+                       |You 🧐🧐 overcome its bullet.
+U droeg uw snuiter.|
+                   |You 🧐 wore your guy.
+Opstanden spelen wat tegenslagen.|
+                                 |Revolts play setbacks.
+Overheden verpesten zijn gesprekken.|
+                                    |Governments ruin his conversations.
 
 # [s n [vp-modal-te v [vp-te:inf to v]]]; 5 examples:
 ---
-Ontwikkelingen proberen te komen.|
-                                 |Developments try to come.
-Ik probeerde te genezen.|
-                        |I tried to heal.
-Geschenken probeerden te hebben.|
-                                |Gifts tried to have.
-Aandachten probeerden te bruizen.|
-                                 |Attentions tried to bubble.
-U probeerde te blazen.|
-                      |You 🧐🧐 tried to blow.
+Je probeerde te bieden.|
+                       |You 🤠 tried to offer.
+Kopers proberen te niezen.|
+                          |Buyers try to sneeze.
+Wij proberen te bruizen.|
+                        |We try to bubble.
+Optredens proberen te beseffen.|
+                               |Performances try to realize.
+Vijvers proberen te slaan.|
+                          |Ponds try to strike.
 
 # modals+infinitive; 5 examples:
 ---
-We proberen gemeenschappen te beseffen.|
-                                       |We try to realize communities.
-We probeerden berichten te lezen.|
-                                 |We tried to read messages.
-We probeerden honden te voorkomen.|
-                                  |We tried to avoid dogs.
-We proberen je te dromen.|
-                         |We try to dream you 🤠.
-We proberen jou te bedriegen.|
-                             |We try to cheat you 🤠.
+We proberen u te zijn.|
+                      |We try to be you 🧐🧐.
+We probeerden peuters te bedelven.|
+                                  |We tried to overwhelm toddlers.
+We proberen voorbeelden te slaan.|
+                                 |We try to strike examples.
+We probeerden jij te bruizen.|
+                             |We tried to bubble you 🤠.
+We proberen u te bruizen.|
+                         |We try to bubble you 🧐🧐.
 
 # using 'kunnen'; 5 examples:
 ---
-U kon maken.|
-            |You 🧐🧐 could make.
-Wij kunnen wassen.|
-                  |We can wash.
-Hij kan weten.|
-              |He can know.
-U kon blijven.|
-              |You 🧐🧐 could stay.
-We kunnen graven.|
-                 |We can dig.
+We kunnen wassen.|
+                 |We can wash.
+Je kon uitgeleggen.|
+                   |You 🤠 could explain.
+We konden beseffen.|
+                   |We could realize.
+Genootschappen konden slaan.|
+                            |Societies could strike.
+Ervaringen kunnen blazen.|
+                         |Experiences can blow.
 
 # corona sentence from de Krant van de Gemente van Amsterdam; 1 example:
 ---
-Corona moeten we samen bestrijden.|
-                                  |We must overcome Corona together.
+Corona moeten wij samen bestrijden.|
+                                   |We must overcome Corona together.
 
 # Generalization of the previous; 1 example:
 ---
-Ezels moet ze nodig eten.|
-                         |_.
+Mij moet jij nodig dromen.|
+                          |_.
 
 # e.g. 'de vier en twintig kleine vogels slapen'; 5 examples:
 ---
-Onze veertig kinderachtige brede mogelijkheden bleven.|
-                                                      |Our forty childish wide opportunities stayed.
-De negentien eenvoudige laate woordvoerders probeerden.|
-                                                       |The eighteen simple late spokespersons tried.
-Hun twalf ongeruste honden hadden.|
-                                  |Their twelve anxious dogs had.
-Haar twalf slechte voorbeelden bedrogen.|
-                                        |Her twelve bad examples cheated.
-Hun negentig tevredene lijpe spaarzame snuiters werken.|
-                                                       |Their ninety satisfied cool frugal dudes work.
+Zijn twee en tachtig lastige geschenken werkten.|
+                                                |His eighty two difficult gifts worked.
+Deze zes en tachtig droevige gebieden sloegen.|
+                                              |These eighty six sad areas hit (past).
+Jullie negen en zestig schrijnende huwelijken uitwijken.|
+                                                        |Your sixty nine poignant marriages emigrate.
+Deze twee en zestig gelauwerde stoetten droomden.|
+                                                 |These sixty two acclaimed processions dreamed.
+Jouw één en twintig zachte pinda's hadden.|
+                                          |Your twenty one soft peanuts had.
 
 # simple past sentences with regular simple past; 5 examples:
 ---
-Overheden bereikten mij.|
-                        |Governments achieved me.
-Je maakte je.|
-             |You 🤠 made yourself.
-Er hoopten jullie.|
-                  |You 🤠🤠 hoped.
-Er bruisde ik.|
-              |I bubbled.
-Voorkeuren bereikten zichzelf.|
-                              |Preferences achieved themselves.
+U waste verbindingen.|
+                     |You 🧐 washed connections.
+Er speelde je.|
+              |You 🤠 played.
+Ina veroorzaakte zich.|
+                      |_.
+Ontwikkelingen voerden me.|
+                          |Developments fed me.
+U verpestte ons.|
+                |You 🧐🧐 ruined us.
 
 # simple past sentences with irregular simple past; 5 examples:
 ---
-Werknemers bestreden mij.|
-                         |Employees overcame me.
-Er sloeg ik.|
-            |I hit (past).
-Jij bestreed je.|
-                |You 🤠 overcame yourself.
-U ervoer zich.|
-              |You 🧐 experienced yourself.
-Er bood jij.|
-            |You 🤠 offered.
+Bloemkolen bewogen jou.|
+                       |Cauliflowers moved you 🤠.
+U bood beslissingen.|
+                    |You 🧐 offered decisions.
+Je groef je.|
+            |You 🤠 dug yourself.
+Er gingen wij.|
+              |We went.
+Wij zeiden ons.|
+               |We said bikes would together.
 
 # 'nodig' sentences with pronouns; 5 examples:
 ---
-Ze heeft mij nodig.|
-                   |She needs me.
-Zij hebben zich nodig.|
-                      |They need themselves.
-U hebt hem nodig.|
-                 |You 🧐 need him.
-Je hebt je nodig.|
-                 |You 🤠 need yourself.
-Ik heb me nodig.|
-                |I need myself.
+We hebben ons nodig.|
+                    |We need ourselves.
+Ze hebben zich nodig.|
+                     |They need themselves.
+Ik heb hem nodig.|
+                 |I need it.
+Hij heeft me nodig.|
+                   |He needs me.
+Ik heb u nodig.|
+               |I need you 🧐.
 
 # ik [vp [vp-ditransitive vindt het] leuk]; 5 examples:
 ---
-Vlinders vinden Corona leuk.|
-                            |Butterflies like Corona.
-Wij vinden vliegtuigen leuk.|
-                            |We like airplanes.
-Haren vinden zichzelf leuk.|
-                           |Hairs like her.
-U vindt mij leuk.|
-                 |You 🧐 like me.
-Roofdieren vonden dwasen leuk.|
-                              |Predators liked fools.
+Boeken vinden beslissingen leuk.|
+                                |Books like decisions.
+Kittens vonden ons leuk.|
+                        |Kittens liked us.
+U vindt huizen leuk.|
+                    |You 🧐🧐 like houses.
+Ik vind druiven leuk.|
+                     |I like grapes.
+Je vond landen leuk.|
+                    |You 🤠 liked countries.
 
 # possessive NPs; 5 examples:
 ---
-Je stoet.|
-         |Your processions.
-Haar geheimzinnigheid.|
-                      |Her mysteries.
-Jullie jongen.|
-              |Your boys.
-Je thuis.|
-         |Your home.
-Haar boeken.|
-            |Her book.
+Hun vissen.|
+           |Their fish (plural).
+Jouw dwaas.|
+           |Your fool.
+Haar maand.|
+           |Her month.
+Zijn vrouw.|
+           |Its woman.
+Jouw haren.|
+           |Your hairs.
 
 ---
-Er waste die hond.|
-                  |That dog washed.
-Er trad je bestemming.|
-                      |Your destination stepped.
-Er bergt het gevoel.|
-                    |The feeling saves.
-Er bereikte jouw kat.|
-                     |Your cats achieved.
-Er probert je vertraging.|
-                         |Your delay tries.
+Er bedriegt mijn mogelijkheid.|
+                              |My opportunity cheats.
+Er voeren je ontspanningen.|
+                           |Your relaxations sailed.
+Er varen zijn jassen.|
+                     |His coats sail.
+Er bewegt uw geit.|
+                  |Your goat moves.
+Er voorkoomde jouw plaats.|
+                          |Your lot avoided.
 
 31
 user=> Bye for now!
-% 
+[vr 22/06/17 08:07 CEST] <ekoontz@MacBo..:~/menard> 1202  (git)-[main]-
+%

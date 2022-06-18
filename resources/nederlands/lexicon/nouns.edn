@@ -78,6 +78,7 @@
           :sem {:pred :money}}]
  "gemeenschap" [{:sem {:pred :community
                        :ref {:human? true}}}]
+ "genodigde" [{:sem {:pred :guest}}]
  "genoegdoening" [{:sem {:pred :satisfaction}}]
  "genootschap" [{:sem {:pred :society}}]
  "geschenk" [{:agr {:gender :neuter}

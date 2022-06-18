@@ -91,6 +91,7 @@
  "government" [{:sem {:pred :government}}]
  "grape" [{:sem {:pred :grape}}]
  "group" [{:sem {:pred :group}}]
+ "guest" [{:sem {:pred :guest}}]
  "guy" [{:sem {:pred :dude}}]
  "hair" [{:sem {:pred :hair}}]
  "hand" [{:sem {:pred :hand}}]

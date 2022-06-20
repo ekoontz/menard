@@ -509,6 +509,31 @@
           :sem {:quant :some}
           :subcat []}]}
 
+ {:rule :common-noun-countable-2
+  :if {:cat :noun
+       :propernoun? false
+       :pronoun? false
+       :sem {:countable? true}
+       :subcat {:1 ::unspec}}
+  :then [(let [agr (atom {:person :3rd})
+               countable? (atom :top)
+               quant (atom :top)
+               arg1 (atom :top)
+               arg2 (atom :top)]
+           {:cat :noun
+            :reflexive? false
+            :agr agr
+            :sem {:quant quant
+                  :countable? countable?
+                  :arg1 arg1
+                  :arg2 arg2}
+            :subcat {:1 {:cat :det
+                         :agr agr
+                         :sem {:countable? countable?
+                               :arg1 arg1
+                               :arg2 arg2
+                               :pred quant}}}})]}
+ 
  {:rule :verbs-infinitive
   :if {:cat :verb
        :infl ::unspec}
@@ -914,15 +939,32 @@
 
  {:rule :prep
   :if {:cat :prep}
-  :then [{:subcat []}
+  :then [
+         ;; preposition with no arguments
+         {:subcat []}
+
+         ;; preposition with one argument, where :sem
+         ;; is simply the :sem of that argument.
          (let [sem (atom :top)
                prep-root (atom :top)]
            {:sem sem
             :separable-prep prep-root
             :subcat {:1 {:cat :noun
-                         :case :accusative
+                         :case :acc
                          :root prep-root
                          :sem sem
+                         :subcat []}
+                     :2 []}})
+         
+         ;; preposition with one argument, where
+         ;; [:sem :obj] is the :sem of that argument.
+         ;; is simply the :sem of that argument.
+         (let [noun-sem (atom :top)
+               sem (atom {:obj noun-sem})]
+           {:sem sem
+            :subcat {:1 {:cat :noun
+                         :sem noun-sem
+                         :case :acc
                          :subcat []}
                      :2 []}})]}
 

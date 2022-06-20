@@ -121,4 +121,6 @@
  "zelfverzekerd" [{:sem {:pred :confident}}]
  "zenuwachtig" [{:sem {:pred :nervous}}]
  "zielig" [{:sem {:pred :pathetic}}]
- "zwierig" [{:sem {:pred :jaunty}}]}
+ "zwierig" [{:sem {:pred :jaunty}}]
+ "zwoel" [{:sem {:pred :sultry}}]}
+

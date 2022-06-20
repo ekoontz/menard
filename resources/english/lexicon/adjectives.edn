@@ -135,6 +135,7 @@
  "stubborn" [{:sem {:pred :stubborn}}]
  "stupid" [{:sem {:pred :stupid}}]
  "substantive" [{:sem {:pred :substantive}}]
+ "sultry" [{:sem {:pred :sultry}}]
  "suprised" [{:sem {:pred :surprised}}]
  "sure" [{:sem {:pred :sure}}]
  "suspicious" [{:sem {:pred :suspicious}}]

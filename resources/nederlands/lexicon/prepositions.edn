@@ -1,1 +1,4 @@
-{"op" [{}]}
+{"op" [{:sem {:pred :on}}]
+ "van" [{:sem {:pred :of}}]}
+
+

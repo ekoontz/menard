@@ -113,6 +113,13 @@
           menard.ug/shared-agr
           menard.ug/shared-def]}
 
+ {:rule "nbar:2"
+  :cat :noun
+  :comp {:cat :prep
+         :subcat []}
+  :unify [menard.ug/head-cat
+          menard.ug/head-first]}
+ 
  {:rule "negp"
   :unify [menard.ug/head-first
           menard.ug/head-sem
@@ -233,7 +240,6 @@
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.ug/shared-def]}
-
  
  {:rule "s"
   :cat :verb
@@ -431,11 +437,19 @@
 
  ;; e.g. [pp .het +op], but we'll also want another "pp" for [pp +op .het]
  ;; opposite word order)
- {:rule "pp" 
+ {:rule "pp:1" 
   :cat :prep
   :unify [menard.subcat/a
           menard.ug/head-is-root
           menard.ug/head-rule
           menard.ug/head-sem
           menard.ug/head-last]}
+
+ {:rule "pp:2" 
+  :cat :prep
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/head-first]}
  ]

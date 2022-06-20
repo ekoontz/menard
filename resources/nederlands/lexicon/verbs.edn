@@ -223,7 +223,8 @@
          :strong? :e-a-e
          :exceptions exceptions
          :sem {:pred :read}}])
-
+ "luieren" [{:sem {:pred :laze
+                   :obj :none}}]
  "lukken" [{:sem {:pred :succeed
                   :obj :none}}]
  "maken" [{:sem {:pred :make}}]

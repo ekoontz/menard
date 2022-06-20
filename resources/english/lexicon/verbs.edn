@@ -371,7 +371,8 @@
           [{:exceptions exceptions
             :sense 1
             :sem {:pred :know}}])
- 
+ "laze" [{:sem {:pred :laze
+                :obj :none}}]
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
            [{:exceptions exceptions  :sem {:pred :leave}}])

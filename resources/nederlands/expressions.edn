@@ -175,8 +175,10 @@
               :rest {:first {:number? false}
                      :rest []}}}
   :phrasal? true
-  :training-wheels {:head {:comp {:phrasal? false}
-                           :head {:comp {:phrasal? false}
+  :training-wheels {:head {:rule "nbar"
+                           :comp {:phrasal? false}
+                           :head {:rule "nbar"
+                                  :comp {:phrasal? false}
                                   :head {:phrasal? false}}}
                     :comp {:cat :det}}}
  ;; 12

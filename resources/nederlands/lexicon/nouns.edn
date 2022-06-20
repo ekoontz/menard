@@ -1,6 +1,9 @@
 {"_" [{:null? true
        :sem {:pred :_}}]
  "aandacht" [{:sem {:pred :attention}}]
+ "aanwezigheid" [{:sem {:pred :presence}
+                  :subcat {:2 {:cat :prep
+                               :subcat []}}}]
  "ambtenaar" [{:sem {:pred :civil-servant}}]
  "baan" [{:sem {:pred :job}}]
  "baby" [{:sem {:pred :baby}}]
@@ -196,6 +199,7 @@
  "thuis" [{:agr {:gender :neuter}
            :sem {:pred :home}}]
  "toestand" [{:sem {:pred :situation}}]
+ "toevlucht" [{:sem {:pred :refuge}}] 
  "toneelstuk" [{:agr {:gender :neuter}
                 :sem {:pred :play}}]
  "uitdaging" [{:sem {:pred :challenge}}]

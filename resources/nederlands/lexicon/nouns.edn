@@ -3,6 +3,7 @@
  "aandacht" [{:sem {:pred :attention}}]
  "aanwezigheid" [{:sem {:pred :presence}
                   :subcat {:2 {:cat :prep
+                               :sem {:pred :of}
                                :subcat []}}}]
  "ambtenaar" [{:sem {:pred :civil-servant}}]
  "baan" [{:sem {:pred :job}}]

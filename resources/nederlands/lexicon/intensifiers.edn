@@ -1,4 +1,5 @@
 {"behoorlijk" [{:sem {:pred :quite}}]
+ "bijster" [{:sem {:pred :quite}}]
  "echt" [{:sem {:pred :really}}]
  "erg" [{:sem {:pred :very}}]
  "eigenlijk" [{:sem {:pred :actually}}]

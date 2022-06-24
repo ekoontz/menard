@@ -22,6 +22,7 @@
  "eigenwijs" [{:sem {:pred :stubborn}}]
  "eng" [{:sem {:pred :scary}}]
  "ernstig" [{:sem {:pred :serious}}]
+ "fatsoenlijk" [{:sem {:pred :decent}}]
  "fleurig" [{:sem {:pred :bright}}]
  "gaaf" [{:sem {:pred :cool}}]
  "geheim" [{:sem {:pred :secret}}]

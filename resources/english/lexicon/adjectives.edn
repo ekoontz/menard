@@ -34,6 +34,7 @@
  "curious" [{:sem {:pred :curious}}]
  "current" [{:sem {:pred :current}}]
  "cute" [{:sem {:pred :cute}}]
+ "decent" [{:sem {:pred :decent}}]
  "determined" [{:sem {:pred :determined}}]
  "devoted" [{:sem {:pred :devoted}}]
  "different" [{:sem {:pred :different}}]

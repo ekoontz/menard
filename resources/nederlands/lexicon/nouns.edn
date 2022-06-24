@@ -21,6 +21,7 @@
  "bloemkool" [{:sem {:pred :cauliflower}}]
  "bedrijf" [{:agr {:gender :neuter}
              :sem {:pred :business}}]
+ "betrekking" [{:sem {:pred :relation}}]
  "bidrage" [{:sem {:pred :contribution}}]
  "boek" [{:curriculum :basic
           :agr {:gender :neuter}

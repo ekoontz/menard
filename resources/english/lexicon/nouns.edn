@@ -163,6 +163,7 @@
  "question" [{:sem {:pred :question}}]
  "referee" [{:sem {:pred :referee}}]
  "refuge" [{:sem {:pred :refuge}}] 
+ "relation" [{:sem {:pred :relation}}]
  "relaxation" [{:sem {:pred :relaxation}}]
  "reporter" [{:sem {:pred :reporter}}]
  "representative" [{:sem {:pred :representative}}]

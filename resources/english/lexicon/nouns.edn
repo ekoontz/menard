@@ -51,6 +51,7 @@
  "development" [{:sem {:pred :development}}]
  "dinner" [{:sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"
+ "disturbance" [{:sem {:pred :disturbance}}]
  "dog" [{:sem {:pred :dog}}]
  "donkey" [{:sem {:pred :donkey}}]
  "dude" [{:sem {:pred :dude}}]

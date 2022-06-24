@@ -168,6 +168,7 @@
  "optreden" [{:agr {:gender :neuter}
               :sem {:pred :performance}}]
  "opstand" [{:sem {:pred :revolt}}]
+ "ordeverstoring" [{:sem {:pred :disturbance}}]
  "overheid" [{:sem {:pred :government}}]
  "overweging" [{:sem {:pred :consideration}}]
  "paard" [{:sem {:pred :horse}

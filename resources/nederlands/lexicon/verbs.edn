@@ -1,4 +1,5 @@
-{"bedelven" [{:sem {:pred :overwhelm}
+{"aangekonigen" [{:sem {:pred :announce}}]
+ "bedelven" [{:sem {:pred :overwhelm}
               :strong? :e-o-o}]
  "bedriegen" [{:sem {:pred :cheat}
                :strong? :ie-oo-o}]

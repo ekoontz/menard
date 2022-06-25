@@ -381,6 +381,8 @@
                          {:infl :past-participle :surface "let"}]]
           [{:exceptions exceptions  :sem {:pred :let}}])
  "like" [{:sem {:pred :like}}]
+ "linger" [{:sem {:pred :linger
+                  :obj :none}}]
  "live" [{:sem {:pred :live}}]
  "look" [{:sem {:pred :look
                 :obj :none}}]

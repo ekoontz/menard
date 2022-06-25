@@ -375,6 +375,8 @@
                                 {:infl :past-simple
                                  :surface "tegenhielden"
                                  :agr {:number :plur}}]}]
+ "toeven" [{:sem {:pred :linger
+                   :obj :none}}]
  "treden" [{:sem {:pred :move
                   :obj :none}
             :strong? :e-a-e}

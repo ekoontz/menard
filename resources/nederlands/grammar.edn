@@ -117,8 +117,10 @@
   :cat :noun
   :comp {:cat :prep
          :subcat []}
-  :unify [menard.ug/head-cat
-          menard.ug/head-first]}
+  :unify [menard.subcat/c
+          menard.ug/head-cat
+          menard.ug/head-first
+          menard.ug/head-sem]}
  
  {:rule "negp"
   :unify [menard.ug/head-first

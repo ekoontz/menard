@@ -46,6 +46,8 @@
              generate
              ((fn [generated]
                 (is (not (nil? generated)))
+                (if (nil? generated)
+                  (log/error (str "failed to generate Dutch expression: i=" i)))
                 generated))
              ((fn [structure]
                 {:structure structure
@@ -53,6 +55,7 @@
              ((fn [{surface :surface
                     structure :structure}]
                 (log/debug (str surface " : " (nl/syntax-tree structure)))
+                (log/info (str surface " : " (nl/syntax-tree structure)))
                 (if intermediate-parsing?
                   (-> (->> (nl/parse surface)
                            ;; remove partial parses, if any:

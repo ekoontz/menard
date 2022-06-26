@@ -950,6 +950,7 @@
            {:sem sem
             :separable-prep prep-root
             :subcat {:1 {:cat :noun
+                         :reflexive? false
                          :case :acc
                          :root prep-root
                          :sem sem
@@ -963,6 +964,7 @@
                sem (atom {:obj noun-sem})]
            {:sem sem
             :subcat {:1 {:cat :noun
+                         :reflexive? false
                          :sem noun-sem
                          :case :acc
                          :subcat []}

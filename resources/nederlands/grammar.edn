@@ -116,6 +116,7 @@
  {:rule "nbar:2"
   :cat :noun
   :comp {:cat :prep
+         :phrasal? true ;; prevent '[nbar:2 +aanwezigheid .van]': should be instead '[nbar:2 +aanzezigheid .[pp van honden]]'
          :subcat []}
   :unify [menard.subcat/c
           menard.ug/head-cat

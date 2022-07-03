@@ -28,6 +28,7 @@
  "child" [{:sem {:pred :child}
            :exceptions [{:agr {:number :plur}
                          :surface "children"}]}]
+ "circumstance" [{:sem {:pred :circumstance}}]
  "civilization" [{:sem {:pred :civilization}}]
  "civil servant" [{:sem {:pred :civil-servant}}]
  "coat" [{:sem {:pred :coat}}]

@@ -89,6 +89,7 @@
  "mysterious" [{:sem {:pred :mysterious}}] 
  "narrow" [{:sem {:pred :narrow}}]
  "national" [{:sem {:pred :national}}]
+ "naughty" [{:sem {:pred :naughty}}]
  "nervous" [{:sem {:pred :nervous}}]
  "neutral" [{:sem {:pred :neutral}}]
  "newsworthy" [{:sem {:pred :newsworthy}}]

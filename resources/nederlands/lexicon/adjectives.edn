@@ -69,6 +69,7 @@
  "nieuwswaardig" [{:sem {:pred :newsworthy}}]
  "nijver" [{:sem {:pred :industrious}}]
  "nuttig" [{:sem {:pred :useful}}]
+ "ondeugend" [{:sem {:pred :naughty}}]
  "ongebruikelijk" [{:sem {:pred :unusual}}]
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]

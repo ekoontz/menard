@@ -375,6 +375,7 @@
                                 {:infl :past-simple
                                  :surface "tegenhielden"
                                  :agr {:number :plur}}]}]
+ "toenemen" [{:sem {:pred :increase}}]
  "toeven" [{:sem {:pred :linger
                    :obj :none}}]
  "treden" [{:sem {:pred :move
@@ -419,6 +420,7 @@
  "verbergen" [{:sem {:pred :hide}}]
  "vergeten" [{:strong? :e-a-e
               :sem {:pred :forget}}]
+ "verhogen" [{:sem {:pred :increase}}]
  "veroorzaaken" [{:sem {:pred :cause}}]
  "verpesten" [{:sem {:pred :ruin}}]
  "vertrekken" [{:sem {:pred :depart

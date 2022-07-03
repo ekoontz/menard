@@ -361,7 +361,7 @@
           :sem {:pred :hope}
           :subcat {:2 {:cat :comp
                        :rule "comp2"}}}]
-
+ "increase" [{:sem {:pred :increase}}]
  "inhibit" [{ :sem {:pred :inhibit}}]
 
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}

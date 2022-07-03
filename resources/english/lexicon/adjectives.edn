@@ -22,6 +22,7 @@
  "certain" [{:sem {:pred :certain}}]
  "childish" [{:sem {:pred :childish}}]
  "clear" [{:sem {:pred :clear}}]
+ "clever" [{:sem {:pred :clever}}] 
  "cold" [{:sem {:pred :cold}}]
  "combative" [{:sem {:pred :combative}}]
  "comparable" [{:sem {:pred :comparable}}]

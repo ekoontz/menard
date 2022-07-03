@@ -102,6 +102,7 @@
  "uitgebroken" [{:sem {:pred :escaped}}]
  "vastberaden" [{:sem {:pred :determined}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]
+ "vernuftig" [{:sem {:pred :clever}}] 
  "verrast" [{:sem {:pred :surprised}}]
  "verdrietig" [{:sem {:pred :sad}}]
  "vergelijkbaar" [{:sem {:pred :comparable}}]

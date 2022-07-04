@@ -247,6 +247,7 @@
  "niezen" [{:sem {:pred :sneeze
                   :obj :none}}]
  
+ "omarmen" [{:sem {:pred :embrace}}]
  "ontworpen" [{:sem {:pred :design}}]
  "optreden" [{:separable? true
               :separable-prep "op"

@@ -230,6 +230,7 @@
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :sem {:pred :eat}}])
  "elaborate" [{:sem {:pred :elaborate}}]
+ "embrace" [{:sem {:pred :embrace}}]
  "emigrate" [{:sem {:pred :emigrate}}]
  "experience" [{:sem {:pred :experience}}]
  "explain" [{:sem {:pred :explain}}]

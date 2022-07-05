@@ -62,6 +62,7 @@
  "greedy" [{:sem {:pred :greedy}}]
  "hard" [{:sem {:pred :hard}}]
  "high" [{:sem {:pred :high}}]
+ "courteous" [{:sem {:pred :courteous}}]
  "horrible" [{:sem {:pred :horrible}}]
  "hot" [{:sem {:pred :hot}}]
  "huge" [{:sem {:pred :huge}}]

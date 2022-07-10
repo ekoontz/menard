@@ -152,7 +152,13 @@
  "predator" [{:sem {:pred :predator}}]
  "prediction" [{:sem {:pred :prediction}}]
  "preparation" [{:sem {:pred :preparation}}]
- "presence" [{:sem {:pred :presence}}] 
+ "presence" [(let [obj (atom :top)]
+               {:sem {:pred :presence
+                      :obj obj}
+                :subcat {:2 {:cat :prep
+                             :sem {:pred :of
+                                   :obj obj}
+                             :subcat []}}})]
  "problem" [{:sem {:pred :problem}}]
  "procession" [{:sem {:pred :procession}}]
  "preference" [{:sem {:pred :preference}}]

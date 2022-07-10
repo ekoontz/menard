@@ -49,6 +49,8 @@
                (dag_unify.core/unify sense
                                      common-part))
              input))
+ "of" [{:cat :prep
+        :sem {:pred :of}}]
  "on" [{:cat :prep
         :sem {:pred :on}}]
  "our" [{:cat :det

@@ -45,6 +45,16 @@
           menard.ug/shared-agr
           menard.subcat/b]}
 
+ {:rule "nbar:2"
+  :cat :noun
+  :comp {:cat :prep
+         :phrasal? true ;; prevent '[nbar:2 +presence .of]': should be instead '[nbar:2 +presence .[pp of dogs]]'
+         :subcat []}
+  :unify [menard.subcat/c
+          menard.ug/head-cat
+          menard.ug/head-first
+          menard.ug/head-sem]}
+ 
  ;; np with no determiner, e.g.:
  ;; 'big cats' in 'big cats sleep'.
  {:rule "np:1" 
@@ -129,6 +139,14 @@
           menard.ug/slash-is-head-slash
           menard.subcat/c]}
 
+ {:rule "pp:2" 
+  :cat :prep
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/head-first]}
+ 
  {:rule "vp-inf" ;; [vp +to .sleep]
   :cat :verb
   :infl :infinitive

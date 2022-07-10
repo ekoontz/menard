@@ -530,6 +530,15 @@
          :head {:phrasal? false
                 :agr {:person :3rd}
                 :separable? false}}}
+
+ ;; 31
+ ;; aanwezigheid van honden
+ {:rule "nbar:2"
+  :training-wheels {:comp {:rule "pp:2"
+                           :head {:phrasal? false}
+                           :comp {:phrasal? false}}
+                    :head {:phrasal? false}}}
+
  ]
 
   

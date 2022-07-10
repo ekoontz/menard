@@ -24,6 +24,12 @@
 # Run with:
 
 ```
+./start.sh
+```
+
+Or for additional control of details:
+
+```
 HOSTNAME=$(hostname); \
   export HOSTNAME=$(echo $(perl -e "print lc('$HOSTNAME');")); \
   pushd .; cd .. && lein install && popd \

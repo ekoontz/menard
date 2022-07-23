@@ -304,11 +304,8 @@
                 :subcat []}}
   :sem {:obj {:top :top
               :obj :none}}
-  :max-depth 4
-  :training-wheels {:head {:head {:phrasal? false}
-                           :comp {:rule "np:2"
-                                  :head {:agr {:person :3rd}}
-                                  :phrasal? true}}}}
+  :max-depth 3
+  :training-wheels {:head {:comp {:head {:agr {:person :3rd}}}}}}
 
  ;; 19
  {:note "[s n [vp-modal-te v [vp-te:inf to v]]]" ;; e.g. 'probeer te slapen'

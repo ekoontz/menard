@@ -32,7 +32,7 @@
   :phrasal? true
   :sem {:subj {:top :top}
         :obj :none}
-  :training-wheels {:head {:phrasal? false}}}
+  :max-depth 1}
 
   ;; 3
  {:note "det noun | verb"
@@ -42,10 +42,9 @@
   :phrasal? true
   :sem {:subj {:top :top}
         :obj :none}
-  :training-wheels {:head {:phrasal? false}
-                    :comp {:phrasal? true
-                           :comp {:cat :det}
-                           :cat :noun}}}
+  :max-depth 2
+  :comp {:comp {:cat :det}}}
+ 
  ;; 4
  {:note "det | adj noun"
   :example "de slimme kat"

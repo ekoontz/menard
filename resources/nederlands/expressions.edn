@@ -20,10 +20,8 @@
   :example "een hond"
   :cat :noun
   :subcat []
-  :phrasal? true
-  :training-wheels {:head {:phrasal? false}
-                    :comp {:phrasal? false
-                           :cat :det}}}
+  :max-depth 1
+  :phrasal? true}
 
  ;; 2
  {:note "noun verb"

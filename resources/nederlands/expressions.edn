@@ -304,8 +304,10 @@
                 :subcat []}}
   :sem {:obj {:top :top
               :obj :none}}
+  :max-depth 4
   :training-wheels {:head {:head {:phrasal? false}
                            :comp {:rule "np:2"
+                                  :head {:agr {:person :3rd}}
                                   :phrasal? true}}}}
 
  ;; 19

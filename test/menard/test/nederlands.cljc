@@ -384,25 +384,32 @@
                                                           }
                         menard.generate/log-all-rules? false]
                 (-> spec
+                    ((fn [spec]
+                       (log/info (str "ok, trying to generate with spec: " spec " (expression #" i ")"))
+                       spec))
                     nl/generate
-                    ((fn [x]
-                       (if (nil? x)
-                         (menard.exception/exception (str "failed to generate using spec: " spec))
-                         x)))
-                    ((fn [x]
+                    ((fn [expression]
+                       (if (nil? expression)
+                         (menard.exception/exception (str "failed to generate using spec: " spec " with fucking expression: " expression)))
+                       expression))
+                    ((fn [expression]
                        (if intermediate-parsing?
-                         (let [first-result (-> x nl/morph nl/parse first)]
-                           (log/info (str "checking if we can parse: " (-> x nl/syntax-tree)))
+                         (let [first-result (-> expression nl/morph nl/parse first)]
                            (is (nil? (:menard.parse/partial? first-result)))
+                           (log/info (str "Successfully parsed generated expression: " (-> expression nl/syntax-tree)))
                            first-result)
-                         x)))
+                         expression)))
                     nl/morph
                     println)))))))
 
 (deftest validations
   (let [start 0
         end (count nl/expressions)
-        do-times 10]
+
+        start 4
+        end 5
+        
+        do-times 200]
   (doall
    (->>
     (range start end)

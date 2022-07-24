@@ -462,6 +462,7 @@
  {:note "simple past sentences with irregular simple past"
   :rule "s"
   :phrasal? true
+  :max-depth 3
   :cat :verb
   :infl :past-simple
   :sem {:subj {:top :top}}

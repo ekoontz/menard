@@ -244,6 +244,7 @@
   :cat :verb
   :subcat []
   :max-depth 3
+  :max-fails 100000
   :head {:phrasal? false}
   :comp {:rule "np:2"}
   :sem {:subj {:mod {:first {:mod []}

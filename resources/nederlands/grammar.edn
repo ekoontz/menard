@@ -186,6 +186,7 @@
   :subcat []
   :head {:phrasal? true
          :pronoun? false
+         :is-conj? false
          :propernoun? false}
   :slash? false
   :comp {:cat :adjective

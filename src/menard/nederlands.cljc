@@ -538,6 +538,7 @@
       (log/debug (str "generating with model name: " (:name model)))
       (log/warn (str "generating with model with no name.")))
     (binding [g/max-depth (:max-depth spec g/max-depth)
+              g/max-fails (:max-fails spec g/max-fails)
               g/allow-backtracking? true]
       (-> spec
           ((fn [x] (unify x (:training-wheels x :top))))

@@ -33,6 +33,7 @@
 #?(:clj (def ^:dynamic truncate? false))
 (def ^:dynamic log-these-rules #{})
 (def ^:dynamic log-all-rules? false)
+(def ^:dynamic exception-if-no-lexemes-found? false)
 
 ;; clojurescript is much slower without these settings:
 ;; TODO: investigate why that only holds true for
@@ -277,6 +278,11 @@
            (#(do
                (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
                  (log/info (str "found this many lexemes: " (count %) " at: " at)))
+               %))
+           
+           (#(if (and exception-if-no-lexemes-found? (empty? %))
+               (do
+                 (exception (str "no lexemes found at all for spec with agr: " (strip-refs (u/get-in spec [:agr])))))
                %))
            
            (#(if (and (empty? %)

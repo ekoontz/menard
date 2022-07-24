@@ -343,6 +343,7 @@
   :head {:rule "vp-modal-np"
          :comp {:rule "vp-np"
                 :head {:rule "vp-te"}}}
+  :max-depth 5
   :target {:rule "s"
            :comp {:cat :noun
                   :subcat []}

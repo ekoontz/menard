@@ -42,6 +42,7 @@
   :sem {:subj {:top :top}
         :obj :none}
   :max-depth 2
+  :max-fails 100000
   :comp {:comp {:cat :det}}}
  
  ;; 4

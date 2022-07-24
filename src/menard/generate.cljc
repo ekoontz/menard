@@ -110,7 +110,7 @@
             (> (count frontier) max-depth)
             (do
               (log/debug (str "too deep: giving up on this tree: " (syntax-tree-fn tree) "."))
-              [])
+              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))
             
             (or (u/get-in tree [::done?])
                 (and (seq frontier) (= frontier stop-generation-at)))

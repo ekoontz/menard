@@ -99,9 +99,11 @@
                       (filter #(= true (u/get-in % [:prod?] true)))))
 
 (deftest all-expressions-work-1
-  (let [expression-sets
+  (let [start 0
+        end (count prod-expressions)
+        expression-sets
         (->>
-         (range 0 (count prod-expressions))
+         (range start end)
          (map (fn [index]
                 {:i index
                  :expressions (take generate-per-expression
@@ -411,10 +413,6 @@
 (deftest validations
   (let [start 0
         end (count nl/expressions)
-
-;;        start 0
-;;        end 9
-        
         do-times 20]
   (doall
    (->>

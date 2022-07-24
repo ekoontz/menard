@@ -126,10 +126,15 @@
      doall)))
 
 (deftest transfer
-  (->>
-   (range 0 (count nl/expressions))
-   (map (fn [i]
-          (doall
-           (take 20
-                 (repeatedly #(transfer-fn i @nl/model))))))
-   doall))
+  (let [start 0
+        end (count nl/expressions)
+        ]
+        
+    (->>
+     (range 0 (count nl/expressions))
+     (map (fn [i]
+            (doall
+             (take 20
+                   (repeatedly #(transfer-fn i @nl/model))))))
+     doall)))
+

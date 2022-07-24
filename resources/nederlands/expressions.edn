@@ -4,24 +4,23 @@
  ;;    (e.g. specific np, then general np, specific np with adjective, general np with adjective, etc.
 
  ;; 0
- {:note "intensifier adjective"
+ {:cat :adjective
   :example "ongewoon slim"
-  :cat :adjective
+  :max-depth 1
   :mod nil
+  :note "intensifier adjective"
   :subcat []
   :phrasal? true
-  :rule "intensifier-phrase"
-  :head {:phrasal? false}
-  :comp {:phrasal? false}}
+  :rule "intensifier-phrase"}
 
  ;; <noun expressions>
  ;; 1
- {:note "det noun"
+ {:cat :noun
   :example "een hond"
-  :cat :noun
-  :subcat []
   :max-depth 1
-  :phrasal? true}
+  :note "det noun"
+  :phrasal? true
+  :subcat []}
 
  ;; 2
  {:note "noun verb"

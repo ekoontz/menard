@@ -222,7 +222,7 @@
   (-> "nederlands/finite-tenses.edn" resource slurp read-string))
 
 (def inf-tense
-  (-> "nederlands/infinite-tense.edn" resource slurp read-string))
+  (-> "nederlands/infinitive-tense.edn" resource slurp read-string))
 
 (def finite-plus-inf-tense
   (concat finite-tenses
@@ -293,7 +293,7 @@
   (log/debug (str "loading subcat.."))
   (menard.subcat/load-from-file)
   (log/debug (str "loading tenses.."))
-  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinite-tense.edn")]
+  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinitive-tense.edn")]
     (def inf-tense (eval (read (java.io.PushbackReader. r)))))
   (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
     (def finite-tenses (eval (read (java.io.PushbackReader. r)))))

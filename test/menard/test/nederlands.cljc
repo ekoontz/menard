@@ -396,8 +396,8 @@
                     nl/generate
                     ((fn [expression]
                        (if (nil? expression)
-                         (menard.exception/exception (str "failed to generate using spec: " spec " with fucking expression: " expression)))
-                       expression))
+                         (menard.exception/exception (str "failed to generate using spec: " spec))
+                       expression)))
                     ((fn [expression]
                        (if intermediate-parsing?
                          (let [first-result (-> expression nl/morph nl/parse first)]

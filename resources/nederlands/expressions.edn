@@ -49,15 +49,13 @@
  {:note "det | adj noun"
   :example "de slimme kat"
   :sem {:mod {:first {:top :top}
-              :rest []}}
+              :rest []}
+        :polarity :plus}
+  :is-conj? false
   :subcat []
   :phrasal? true
   :cat :noun
-  :head {:phrasal? true
-         :head {:phrasal? false}
-         :comp {:phrasal? false}}
-  :comp {:phrasal? false
-         :cat :det}}
+  :max-depth 2}
 
  ;; 5
  {:note "'een huis'"

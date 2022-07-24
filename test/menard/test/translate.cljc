@@ -54,7 +54,6 @@
                  :surface (nl/morph structure)}))
              ((fn [{surface :surface
                     structure :structure}]
-                (log/debug (str surface " : " (nl/syntax-tree structure)))
                 (log/info (str surface " : " (nl/syntax-tree structure)))
                 (if intermediate-parsing?
                   (-> (->> (nl/parse surface)
@@ -80,7 +79,7 @@
              ((fn [{surface :surface
                     structure :structure
                     syntax-tree :syntax-tree}]
-                (log/debug (str "checking: " (clojure.string/join "," (map nl/syntax-tree structure))))
+                (log/info (str "checking: " (nl/syntax-tree structure)))
                 (if (nil? structure)
                   (log/warn (str "couldn't parse: '" surface "' input tree was: " syntax-tree)))
                 (is (not (nil? structure)))

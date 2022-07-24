@@ -252,7 +252,7 @@
  
  ;; 16
  {:note "Sentence with object"
-  :max-depth 3
+  :max-depth 2
   :example "ik zie het"  
   :reflexive? false
   :cat :verb

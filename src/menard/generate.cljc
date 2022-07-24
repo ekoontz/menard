@@ -62,7 +62,7 @@
 (def count-lexeme-fails (atom 0))
 (def count-rule-fails (atom 0))
 ;; keys of the input spec to show for logging and debugging:
-(def show-keys [:cat :canonical :infl :rule :sem ::max])
+(def show-keys [:agr :cat :canonical :infl :rule :sem ::max])
 
 (defn generate
   "Generate a single expression that satisfies _spec_ given the

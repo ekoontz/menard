@@ -158,7 +158,6 @@
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
   (log/debug (str "checking rule: " (u/get-in tree [:rule]) " against log-these-rules: " log-these-rules))
   (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
-    (log/info (str "add with tree: " (syntax-tree-fn tree))))
     (log/info (str "add with tree: " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
   
   (let [at (frontier tree)

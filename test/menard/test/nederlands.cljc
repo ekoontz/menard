@@ -14,6 +14,7 @@
                            :subcat []
                            :root "huis"
                            :agr {:number :sing}
+                           :max-depth 2
                            :sem {:quant :the
                                  :pred :house
                                  :mod {:first {:pred :old
@@ -27,6 +28,7 @@
                              :subcat []
                              :root "huis"
                              :agr {:number :sing}
+                             :max-depth 2
                              :sem {:quant :the
                                    :mod {:first {:pred :old
                                                  :mod []}
@@ -38,6 +40,7 @@
                            :rule "np:2"
                            :subcat []
                            :root "huis"
+                           :max-depth 2                           
                            :agr {:number :sing}
                            :sem {:quant :some
                                  :pred :house
@@ -50,6 +53,7 @@
            (morph (generate {:cat :noun
                              :rule "np:2"
                              :subcat []
+                             :max-depth 2                             
                              :root "huis"
                              :agr {:number :sing}
                              :sem {:quant :some
@@ -63,6 +67,7 @@
          (morph (generate {:cat :noun
                            :rule "np:2"
                            :subcat []
+                           :max-depth 2                             
                            :root "huis"
                            :agr {:number :plur}
                            :sem {:quant :the
@@ -77,6 +82,7 @@
            (morph (generate {:cat :noun
                              :rule "np:2"
                              :subcat []
+                             :max-depth 2                             
                              :root "huis"
                              :agr {:number :plur}
                              :sem {:quant :the
@@ -406,10 +412,10 @@
   (let [start 0
         end (count nl/expressions)
 
-        start 4
-        end 5
+;;        start 0
+;;        end 9
         
-        do-times 200]
+        do-times 20]
   (doall
    (->>
     (range start end)

@@ -51,6 +51,7 @@
   :sem {:mod {:first {:top :top}
               :rest []}
         :polarity :plus}
+  :definite? true
   :is-conj? false
   :subcat []
   :phrasal? true
@@ -59,33 +60,30 @@
 
  ;; 5
  {:note "'een huis'"
-  :rule "np:2"
   :dotimes 1
   :cat :noun
   :subcat []
-  :pronoun? false
+  :phrasal? true
   :agr {:number :sing}
   :sem {:mod []
         :quant :some
-        :pred :house}}
+        :pred :house}
+  :max-depth 2}
 
  ;; 6
  {:note "'de grote boeken'"
   :dotimes 1
   :cat :noun
   :subcat []
-  :agr {:number :plur}  
+  :agr {:number :plur}
+  :definite? true
   :sem {:mod {:first {:pred :big
                       :mod []}
               :rest []}
         :quant :the
         :pred :book}
-  :rule "np:2"
-  :head {:phrasal? true
-         :rule "nbar"
-         :head {:phrasal? false}
-         :comp {:phrasal? false
-                :sem {:number? false}}}}
+  :phrasal? true
+  :max-depth 2}
  
  ;; 7
  {:note "'een heel klein druif'"

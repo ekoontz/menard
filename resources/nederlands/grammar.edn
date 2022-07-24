@@ -149,6 +149,7 @@
 
          :subcat []}
   :slash? false
+  :definite? false
   :comp {:cat :adjective
          :modifies-noun true}
   :agr {:number :plur}

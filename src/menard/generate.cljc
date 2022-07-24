@@ -94,7 +94,9 @@
           frontier (frontier tree)]
       (log/debug (str "generate-all: " frontier ": " (syntax-tree-fn tree)))
       (cond (= :fail tree)
-            []
+            (do
+              (log/debug (str "tree failed. trying rest of trees."))
+              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))
 
             (and counts?
                  (> (+ @count-lexeme-fails @count-rule-fails)

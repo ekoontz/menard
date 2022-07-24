@@ -102,9 +102,10 @@
                  (> (+ @count-lexeme-fails @count-rule-fails)
                     max-fails))
             (do
-              (log/debug (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
-                             " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) " at: " frontier "; looking for: "
-                             (strip-refs (u/get-in tree frontier))))
+              (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+                (log/info (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
+                               " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) " at: " frontier "; looking for: "
+                               (strip-refs (u/get-in tree frontier)))))
               [])
 
             (> (count frontier) max-depth)
@@ -158,6 +159,7 @@
   (log/debug (str "checking rule: " (u/get-in tree [:rule]) " against log-these-rules: " log-these-rules))
   (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
     (log/info (str "add with tree: " (syntax-tree-fn tree))))
+    (log/info (str "add with tree: " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
   
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
@@ -186,7 +188,7 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (when (contains? log-these-rules (u/get-in tree [:rule]))    
+    (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
       (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
                      (str "; looking for: "
                           (strip-refs (select-keys (u/get-in tree at) show-keys))
@@ -228,12 +230,15 @@
        :else ;; (= gen-condition :both)
        (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
                             (add-rule tree grammar syntax-tree-fn))]
-         (log/debug (str "add: adding both lexemes and rules."))
+         (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+           (log/info (str "add: adding both lexemes and rules: allow-backtracking? " allow-backtracking? "; tree: "
+                          (syntax-tree-fn tree))))
          (cond (and (empty? both)
                     allow-backtracking?)
-               (log/debug (str "backtracking: " (syntax-tree-fn tree) " at rule: "
-                               (u/get-in tree (concat (butlast at) [:rule])) " for child: "
-                               (last at)))
+               (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+                 (log/info (str "backtracking: " (syntax-tree-fn tree) " at rule: "
+                                (u/get-in tree (concat (butlast at) [:rule])) " for child: "
+                                (last at))))
                (empty? both)
                (exception (str "dead end: " (syntax-tree-fn tree)
                                "; looking for: "
@@ -262,13 +267,19 @@
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
-    (log/debug (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
-                    (strip-refs
-                     (select-keys spec show-keys))))
+    (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
+                     (strip-refs
+                      (select-keys spec show-keys)))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn)
 
+           (#(do
+               (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+                 (log/info (str "found this many lexemes: " (count %) " at: " at)))
+               %))
+           
            (#(if (and (empty? %)
                       (= false allow-lexeme-backtracking?)
                       (= false (u/get-in spec [:phrasal?] ::none)))
@@ -278,6 +289,9 @@
                %))
 
            (map (fn [candidate-lexeme]
+                  (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+                    (log/info (str "adding candidate lexeme at: " at ":"
+                                   (strip-refs candidate-lexeme))))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)

@@ -129,12 +129,13 @@
   (let [start 0
         end (count nl/expressions)
         ]
-        
-    (->>
-     (range 0 (count nl/expressions))
-     (map (fn [i]
-            (doall
-             (take 20
-                   (repeatedly #(transfer-fn i @nl/model))))))
-     doall)))
+
+    (binding [menard.generate/log-all-rules? false]
+      (->>
+       (range start end)
+       (map (fn [i]
+              (doall
+               (take do-this-many
+                     (repeatedly #(transfer-fn i @nl/model))))))
+       doall))))
 

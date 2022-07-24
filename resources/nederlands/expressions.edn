@@ -39,11 +39,11 @@
   :cat :verb
   :subcat []
   :phrasal? true
+  :definite? true
   :sem {:subj {:top :top}
         :obj :none}
   :max-depth 2
-  :max-fails 100000
-  :comp {:comp {:cat :det}}}
+  :max-fails 100000}
  
  ;; 4
  {:note "det | adj noun"
@@ -91,16 +91,14 @@
   :cat :noun
   :agr {:number :sing}
   :definite? false
-  :rule "np:2"
-  :head {:rule "nbar"
-         :comp {:rule "intensifier-phrase"}}
   :sem {:pred :grape
         :quant :some
         :mod {:first {:pred :small
                       :number? false
                       :mod {:first {:pred :very}}}
               :rest []}}
-  :subcat []}
+  :subcat []
+  :max-depth 3}  
 
  ;; 8
  ;; Generate some noun phrases where the
@@ -112,17 +110,15 @@
   :agr {:number :sing
         :gender :neuter}
   :definite? false
-  :sem {:mod {:first {:number? false
+  :is-conj? false
+  :sem {:polarity :plus
+        :mod {:first {:number? false
                       :pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
   :subcat []
-  :training-wheels {:head {:rule "nbar"
-                           :head {:rule "nbar"
-                                  :head {:phrasal? false}
-                                  :comp {:phrasal? false}}
-                           :comp {:rule "intensifier-phrase"}}}}
+  :max-depth 3}
  
  ;; 9
  ;; Generate some noun phrases but with less constraints,

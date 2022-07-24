@@ -385,7 +385,7 @@
                         menard.generate/log-all-rules? false]
                 (-> spec
                     ((fn [spec]
-                       (log/info (str "ok, trying to generate with spec: " spec " (expression #" i ")"))
+                       (log/info (str "Generating with spec: " spec " (expression #" i ")"))
                        spec))
                     nl/generate
                     ((fn [expression]

@@ -242,7 +242,8 @@
   :rule "s"
   :dotimes 5
   :cat :verb
-  :subcat []  
+  :subcat []
+  :max-depth 3
   :head {:phrasal? false}
   :comp {:rule "np:2"}
   :sem {:subj {:mod {:first {:mod []}

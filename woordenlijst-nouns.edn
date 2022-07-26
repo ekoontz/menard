@@ -1,306 +1,306 @@
-[{:nl "achternaam, de", :en "surname"}
- {:nl "auto, de", :en "car"}
- {:nl "dochter, de", :en "daughter"}
- {:nl "familie, de", :en "family, relatives"}
- {:nl "huisarts, de", :en "family doctor, general practitioner"}
- {:nl "jaar, het", :en "year"}
- {:nl "kinderen, de (het kind)", :en "children (child)"}
- {:nl "man, de", :en "husband (man)"}
- {:nl "moeder, de", :en "mother"}
- {:nl "naam, de ", :en "name"}
- {:nl "nummer, het", :en "number"}
- {:nl "voornaam, de", :en "first name"}
- {:nl "vrouw, de ", :en "wife (woman)"}
- {:nl "winkel, de ", :en "shop"}
- {:nl "zoon, de", :en "son"}
- {:nl "zus, de", :en "sister"}
- {:nl "mobiele telefoon, de", :en "mobile phone"}
- {:nl "restaurant, het", :en "restaurant"}
- {:nl "student, de", :en "student"}
- {:nl "antwoord, het", :en "answer "}
- {:nl "broer, de", :en "brother"}
- {:nl "vader, de", :en "father"}
- {:nl "vraag, de", :en "question"}
- {:nl "adres, het", :en "address"}
- {:nl "cijfer, het", :en "number"}
- {:nl "cursus, de", :en "course"}
- {:nl "huis, het", :en "house"}
- {:nl "krant, de", :en "newspaper"}
- {:nl "plaats, de ", :en "here: town, city"}
- {:nl "straat, de", :en "street"}
- {:nl "vriend, de", :en "friend"}
- {:nl "datum, de", :en "date"}
- {:nl "geboorte, de", :en "birth"}
- {:nl "geslacht, het", :en "gender"}
- {:nl "afspraak, de", :en "appointment, engagement"}
- {:nl "douche, de", :en "shower"}
- {:nl "minuut, de ", :en "minute"}
- {:nl "uur, het (om 3 uur)", :en "hour (at three o' clock)"}
- {:nl "avond, de", :en "evening"}
- {:nl "maand, de", :en "month"}
- {:nl "morgen, de", :en "morning"}
- {:nl "nacht, de", :en "night"}
- {:nl "ochtend, de", :en "the morning"}
- {:nl "week, de", :en "week"}
- {:nl "weekend, het", :en "weekend"}
- {:nl "tijd, de", :en "time"}
- {:nl "collega, de", :en "colleague"}
- {:nl "feest, het", :en "party"}
- {:nl "kwart, het (tijd)", :en "quarter "}
- {:nl "kwartier, het", :en "quarter of an hour"}
- {:nl "land, het", :en "land "}
- {:nl "programma, het (tv)", :en "program"}
- {:nl "verjaardag, de", :en "birthday"}
- {:nl "vriendin, de", :en "female friend / girlfriend"}
- {:nl "bus, de ", :en "bus"}
- {:nl "centrum, het", :en "(town, city) center"}
- {:nl "dag, de", :en "day"}
- {:nl "keer, de (twee keer per week)", :en "time (two times a week)"}
- {:nl "les, de", :en "lesson"}
- {:nl "station, het", :en "station"}
- {:nl "vakantie, de", :en "holiday(s)"}
- {:nl "ziekenhuis, het", :en "hospital"}
- {:nl "bakker, de", :en "baker"}
- {:nl "glas, het (glaasje)", :en "glass"}
- {:nl "wijn, de", :en "wine"}
- {:nl "band, de", :en "relation"}
- {:nl "gerecht, het", :en "meal"}
- {:nl "aardappel, de", :en "potato"}
- {:nl "appel, de", :en "apple"}
- {:nl "fruit, het", :en "fruit"}
- {:nl "kaas, de", :en "cheese"}
- {:nl "kip, de", :en "chicken"}
- {:nl "melk, de", :en "milk"}
- {:nl "ontbijt, het", :en "breakfast"}
- {:nl "school, de ", :en "school"}
- {:nl "thee, de", :en "tea"}
- {:nl "vis, de", :en "fish"}
- {:nl "vlees, het", :en "meat"}
- {:nl "water, het", :en "water"}
- {:nl "zout, het", :en "salt"}
- {:nl "beurt, de ", :en "turn"}
- {:nl "ei, het (eieren)", :en "egg(s)"}
- {:nl "kilo, de", :en "kilo"}
- {:nl "markt, de ", :en "market"}
- {:nl "ons, het", :en "a hundred grammes"}
- {:nl "pond, de", :en "pound (500 grammes)"}
- {:nl "tas, de (tasje erbij?)", :en "bag (would you like a bag?)"}
- {:nl "verkoper, de", :en "salesman, woman, shop assistant"}
- {:nl "bier(tje), het", :en "beer"}
- {:nl "dorst, de (dorst hebben)", :en "thirst (to be thirsty)"}
- {:nl "kop, de", :en "cup"}
- {:nl "boterham, de", :en "sandwich, slice of bread"}
- {:nl "eten, het", :en "food"}
- {:nl "klant, de ", :en "customer, client"}
- {:nl "soort, de ", :en "kind"}
- {:nl "appartement, het", :en "apartment"}
- {:nl "boot, de", :en "boat"}
- {:nl "villa, de", :en "villa"}
- {:nl "bad, het", :en "bath"}
- {:nl "balkon, het", :en "balcony"}
- {:nl "beetje, het", :en "a little"}
- {:nl "dorp, het", :en "village"}
- {:nl "gezin, het", :en "family (parents and children)"}
- {:nl "kamer, de ", :en "room"}
- {:nl "kast, de ", :en "cupboard"}
- {:nl "keuken, de ", :en "kitchen"}
- {:nl "meter, de", :en "meter"}
- {:nl "muziek, de", :en "music"}
- {:nl "raam, het", :en "window"}
- {:nl "slaapkamer, de", :en "bedroom"}
- {:nl "stad, de", :en "town, city"}
- {:nl "toilet, het", :en "toilet"}
- {:nl "tuin, de", :en "garden"}
- {:nl "verdieping, de", :en "floor"}
- {:nl "vierkante meter, de", :en "square meter"}
- {:nl "aantal, het", :en "the number"}
- {:nl "huren, de huur", :en "to rent, rent"}
- {:nl "leeftijd, de", :en "age"}
- {:nl "salaris, het", :en "salary"}
- {:nl "woning, de ", :en "house"}
- {:nl "bank, de (meubel)", :en "couch, sofa"}
- {:nl "bed, het", :en "bed"}
- {:nl "geld, het", :en "money"}
- {:nl "idee, het", :en "idea"}
- {:nl "kleur, de ", :en "colour"}
- {:nl "stoel, de ", :en "chair"}
- {:nl "tafel, de", :en "table"}
- {:nl "brief, de", :en "letter"}
- {:nl "momen(tje), het ", :en "moment (just a moment, hold on please)"}
- {:nl "woningbouwvereniging, de", :en "housing association"}
- {:nl "fiets, de", :en "bicycle"}
- {:nl "richting, de", :en "direction"}
- {:nl "tram, de", :en "tram"}
- {:nl "advies, het", :en "advice"}
- {:nl "eiland, het", :en "island"}
- {:nl "provincie, de", :en "region, province"}
- {:nl "boek, het", :en "book"}
- {:nl "computer, de", :en "computer"}
- {:nl "eind, het", :en "the end"}
- {:nl "kaart, de (plattegrond, de)", :en "(street) map"}
- {:nl "lift, de", :en "lift"}
- {:nl "plein, het", :en "square"}
- {:nl "trap, de ", :en "stairs"}
- {:nl "universiteit, de", :en "university"}
- {:nl "weg, de", :en "road"}
- {:nl "ingang, de", :en "entrance, entry"}
- {:nl "kerk, de ", :en "church"}
- {:nl "kilometer, de", :en "kilometer"}
- {:nl "pad, het (fietspad)", :en "(bi)cycle track/path"}
- {:nl "pad, het (in de supermarkt)", :en "isle (in supermarkets)"}
- {:nl "brug, de", :en "bridge"}
- {:nl "feestdag, de", :en "public holiday"}
- {:nl "fout, de", :en "mistake, error, fault"}
- {:nl "kaart, de (toegangskaart, de)", :en "ticket"}
- {:nl "klas, de (school)", :en "grade, class"}
- {:nl "scherm, het", :en "screen"}
- {:nl "spoor, het", :en "track, platform"}
- {:nl "trein, de", :en "train"}
- {:nl "voordeel, het", :en "advantage"}
- {:nl "ouder, de", :en "parent"}
- {:nl "broek, de", :en "trousers"}
- {:nl "jas, de ", :en "coat"}
- {:nl "jurk, de ", :en "dress"}
- {:nl "paar, het ", :en "pair"}
- {:nl "rok, de", :en "skirt"}
- {:nl "schoen, de", :en "shoe"}
- {:nl "sok, de", :en "sock"}
- {:nl "bank, de (geld)", :en "bank"}
- {:nl "kleren, de", :en "clothes"}
- {:nl "pak, het (kleding)", :en "suit"}
- {:nl "politie, de ", :en "police"}
- {:nl "trui, de", :en "sweater"}
- {:nl "uniform, het", :en "uniform"}
- {:nl "bril, de", :en "glasses, spectacles"}
- {:nl "ding, het", :en "thing"}
- {:nl "haar, het", :en "hair"}
- {:nl "jongen, de ", :en "boy"}
- {:nl "klas(se), de (openbaar vervoer)", :en "class"}
- {:nl "krul, de", :en "curl"}
- {:nl "oog, het", :en "eye"}
- {:nl "uiterlijk, het", :en "appearance"}
- {:nl "gat, het", :en "hole"}
- {:nl "knoop, de", :en "button"}
- {:nl "maat, de ", :en "size"}
- {:nl "plezier, het", :en "fun"}
- {:nl "probleem, het", :en "problem"}
- {:nl "baas, de", :en "boss"}
- {:nl "buurman, de", :en "neighbour (male)"}
- {:nl "compliment, het", :en "compliment"}
- {:nl "dame, de", :en "lady"}
- {:nl "film, de ", :en "film"}
- {:nl "reus, de", :en "giant"}
- {:nl "bioscoop, de", :en "cinema"}
- {:nl "borrel, de", :en "alcoholic drink; a get-together"}
- {:nl "honger, de (ik heb honger)", :en "appetite (I am hungry)"}
- {:nl "kroeg, de", :en "café, pub"}
- {:nl "plan, het", :en "plan"}
- {:nl "rekening, de", :en "bill"}
- {:nl "traditie, de", :en "tradition"}
- {:nl "voorstel, het", :en "proposal, proposition"}
- {:nl "citroen, de", :en "lemon"}
- {:nl "fles, de", :en "bottle"}
- {:nl "kaart, de (menukaart, de)", :en "menu"}
- {:nl "knoflook, de", :en "garlic"}
- {:nl "ober, de", :en "waiter"}
- {:nl "plaats, de", :en "place"}
- {:nl "saus, de", :en "sauce"}
- {:nl "bloem, de ", :en "flower"}
- {:nl "lied(je), het", :en "song"}
- {:nl "maaltijd, de", :en "meal"}
- {:nl "suiker, de", :en "sugar"}
- {:nl "uitnodiging, de", :en "invitation"}
- {:nl "wedstrijd, de", :en "match, game"}
- {:nl "dier, het", :en "animal"}
- {:nl "gebouw, het", :en "building"}
- {:nl "informatie, de ", :en "information"}
- {:nl "park, het", :en "park"}
- {:nl "sprookje, het", :en "fairy tale"}
- {:nl "toegang, de", :en "entrance"}
- {:nl "toegangskaartje, het", :en "ticket"}
- {:nl "autorijles, de", :en "driving lesson"}
- {:nl "postcode, de", :en "postal code"}
- {:nl "telefoonboek, het", :en "telephone directory"}
- {:nl "woonplaats, de", :en "(place of) residence"}
- {:nl "formulier, het", :en "form"}
- {:nl "handtekening, de", :en "signature"}
- {:nl "nationaliteit, de ", :en "nationality"}
- {:nl "halte, de (de bushalte)", :en "(bus) stop"}
- {:nl "kalender, de", :en "calender"}
- {:nl "wc, de", :en "toilet"}
- {:nl "pannenkoek, de", :en "pancake"}
- {:nl "banaan, de", :en "banana"}
- {:nl "gehakt, het ", :en "minced meat"}
- {:nl "hagelslag, de", :en "chocolate sprinkles"}
- {:nl "jam, de", :en "jam"}
- {:nl "koekje, het", :en "biscuit"}
- {:nl "patat, de", :en "chips"}
- {:nl "pinda, de", :en "peanut"}
- {:nl "rijst, de", :en "rice"}
- {:nl "sperzieboon, de", :en "French bean, green bean"}
- {:nl "vegetariër, de", :en "vegetarian"}
- {:nl "vleeswaren, de", :en "cold cuts"}
- {:nl "champignon, de", :en "mushroom"}
- {:nl "slager, de ", :en "butcher"}
- {:nl "supermarkt, de", :en "supermarket"}
- {:nl "tomaat, de", :en "tomato"}
- {:nl "fris, het ", :en "soft drink"}
- {:nl "avondeten, het", :en "dinner, supper"}
- {:nl "lunch, de ", :en "lunch"}
- {:nl "salami, de", :en "salami"}
- {:nl "flatgebouw, het", :en "apartment building"}
- {:nl "rijtjeshuis, het", :en "terraced house"}
- {:nl "hal, de ", :en "hall"}
- {:nl "wasmachine, de", :en "washing machine"}
- {:nl "werkkamer, de", :en "study room"}
- {:nl "zolder, de ", :en "attic"}
- {:nl "meubels, de", :en "furniture"}
- {:nl "plattegrond, de", :en "(street) map"}
- {:nl "kassa, de", :en "check out"}
- {:nl "linkerkant, de", :en "left side"}
- {:nl "zebrapad, het", :en "pedestrian crossing, zebra crossing"}
- {:nl "abonnement, het", :en "season ticket"}
- {:nl "korting, de", :en "discount"}
- {:nl "metro, de", :en "subway, tube, underground"}
- {:nl "OV-chipkaart, de", :en "e-purse for public transportation"}
- {:nl "retour, het (trein)", :en "return trip / ticket"}
- {:nl "automaat, de", :en "ticket machine"}
- {:nl "rechterkant, de", :en "right(-hand) side"}
- {:nl "saldo, het", :en "balance (here: travel with pay)"}
- {:nl "bloes, de", :en "blouse, shirt"}
- {:nl "gympen, de", :en "sneakers"}
- {:nl "spijkerbroek, de", :en "jeans"}
- {:nl "T-shirt, het", :en "t-shirt"}
- {:nl "modeshow, de", :en "fashion show"}
- {:nl "overhemd, het ", :en "shirt"}
- {:nl "pet, de ", :en "cap"}
- {:nl "stropdas, de", :en "tie"}
- {:nl "pauze, de ", :en "break"}
- {:nl "bon, de", :en "the receipt"}
- {:nl "rits, de", :en "zip"}
- {:nl "tegoedbon, de", :en "credit note"}
- {:nl "bushalte, de", :en "bus stop"}
- {:nl "buurvrouw, de", :en "neighbour (female)"}
- {:nl "kapper, de", :en "hairdresser"}
- {:nl "bitterbal, de", :en "type of croquette served as an appetizer"}
- {:nl "borrelhapje, het", :en "snack, appetizer"}
- {:nl "rondje, het (een rondje geven)", :en "round (to stand a round of drinks)"}
- {:nl "appeltaart, de", :en "apple pie"}
- {:nl "biefstuk, de", :en "steak"}
- {:nl "buurjongen, de ", :en "boy next door, boy living nearby"}
- {:nl "dessert, het", :en "dessert"}
- {:nl "garnaal, de ", :en "shrimp, prawn"}
- {:nl "hoofdgerecht, het", :en "main course"}
- {:nl "sla, de", :en "lettuce, salad"}
- {:nl "slagroom, de", :en "whipping, whipped cream"}
- {:nl "taart, de", :en "cake, pie"}
- {:nl "tonijn, de", :en "tuna"}
- {:nl "voorgerecht, het", :en "first course, starter"}
- {:nl "werkdag, de", :en "working day"}
- {:nl "zalm, de", :en "salmon"}
- {:nl "bruiloft, de", :en "wedding"}
- {:nl "diploma, het", :en "diploma, certificate"}
- {:nl "hapje, het", :en "bite"}
- {:nl "voetbal, het", :en "football"}
- {:nl "openingstijden, de", :en "opening hours"}]
+[{:nl "achternaam" :en "surname"}
+ {:nl "auto" :en "car"}
+ {:nl "dochter" :en "daughter"}
+ {:nl "familie" :en "family, relatives"}
+ {:nl "huisarts" :en "family doctor, general practitioner"}
+ {:nl "jaar" :agr {:gender :neuter} :en "year"}
+ {:nl "kinderen, de (het kind)" :en "children (child)"}
+ {:nl "man" :en "husband (man)"}
+ {:nl "moeder" :en "mother"}
+ {:nl "naam, de " :en "name"}
+ {:nl "nummer" :agr {:gender :neuter} :en "number"}
+ {:nl "voornaam" :en "first name"}
+ {:nl "vrouw, de " :en "wife (woman)"}
+ {:nl "winkel, de " :en "shop"}
+ {:nl "zoon" :en "son"}
+ {:nl "zus" :en "sister"}
+ {:nl "mobiele telefoon" :en "mobile phone"}
+ {:nl "restaurant" :agr {:gender :neuter} :en "restaurant"}
+ {:nl "student" :en "student"}
+ {:nl "antwoord" :agr {:gender :neuter} :en "answer "}
+ {:nl "broer" :en "brother"}
+ {:nl "vader" :en "father"}
+ {:nl "vraag" :en "question"}
+ {:nl "adres" :agr {:gender :neuter} :en "address"}
+ {:nl "cijfer" :agr {:gender :neuter} :en "number"}
+ {:nl "cursus" :en "course"}
+ {:nl "huis" :agr {:gender :neuter} :en "house"}
+ {:nl "krant" :en "newspaper"}
+ {:nl "plaats, de " :en "here: town, city"}
+ {:nl "straat" :en "street"}
+ {:nl "vriend" :en "friend"}
+ {:nl "datum" :en "date"}
+ {:nl "geboorte" :en "birth"}
+ {:nl "geslacht" :agr {:gender :neuter} :en "gender"}
+ {:nl "afspraak" :en "appointment, engagement"}
+ {:nl "douche" :en "shower"}
+ {:nl "minuut, de " :en "minute"}
+ {:nl "uur, het (om 3 uur)" :en "hour (at three o' clock)"}
+ {:nl "avond" :en "evening"}
+ {:nl "maand" :en "month"}
+ {:nl "morgen" :en "morning"}
+ {:nl "nacht" :en "night"}
+ {:nl "ochtend" :en "the morning"}
+ {:nl "week" :en "week"}
+ {:nl "weekend" :agr {:gender :neuter} :en "weekend"}
+ {:nl "tijd" :en "time"}
+ {:nl "collega" :en "colleague"}
+ {:nl "feest" :agr {:gender :neuter} :en "party"}
+ {:nl "kwart, het (tijd)" :en "quarter "}
+ {:nl "kwartier" :agr {:gender :neuter} :en "quarter of an hour"}
+ {:nl "land" :agr {:gender :neuter} :en "land "}
+ {:nl "programma, het (tv)" :en "program"}
+ {:nl "verjaardag" :en "birthday"}
+ {:nl "vriendin" :en "female friend / girlfriend"}
+ {:nl "bus, de " :en "bus"}
+ {:nl "centrum" :agr {:gender :neuter} :en "(town, city) center"}
+ {:nl "dag" :en "day"}
+ {:nl "keer, de (twee keer per week)" :en "time (two times a week)"}
+ {:nl "les" :en "lesson"}
+ {:nl "station" :agr {:gender :neuter} :en "station"}
+ {:nl "vakantie" :en "holiday(s)"}
+ {:nl "ziekenhuis" :agr {:gender :neuter} :en "hospital"}
+ {:nl "bakker" :en "baker"}
+ {:nl "glas, het (glaasje)" :en "glass"}
+ {:nl "wijn" :en "wine"}
+ {:nl "band" :en "relation"}
+ {:nl "gerecht" :agr {:gender :neuter} :en "meal"}
+ {:nl "aardappel" :en "potato"}
+ {:nl "appel" :en "apple"}
+ {:nl "fruit" :agr {:gender :neuter} :en "fruit"}
+ {:nl "kaas" :en "cheese"}
+ {:nl "kip" :en "chicken"}
+ {:nl "melk" :en "milk"}
+ {:nl "ontbijt" :agr {:gender :neuter} :en "breakfast"}
+ {:nl "school, de " :en "school"}
+ {:nl "thee" :en "tea"}
+ {:nl "vis" :en "fish"}
+ {:nl "vlees" :agr {:gender :neuter} :en "meat"}
+ {:nl "water" :agr {:gender :neuter} :en "water"}
+ {:nl "zout" :agr {:gender :neuter} :en "salt"}
+ {:nl "beurt, de " :en "turn"}
+ {:nl "ei, het (eieren)" :en "egg(s)"}
+ {:nl "kilo" :en "kilo"}
+ {:nl "markt, de " :en "market"}
+ {:nl "ons" :agr {:gender :neuter} :en "a hundred grammes"}
+ {:nl "pond" :en "pound (500 grammes)"}
+ {:nl "tas, de (tasje erbij?)" :en "bag (would you like a bag?)"}
+ {:nl "verkoper" :en "salesman, woman, shop assistant"}
+ {:nl "bier(tje)" :agr {:gender :neuter} :en "beer"}
+ {:nl "dorst, de (dorst hebben)" :en "thirst (to be thirsty)"}
+ {:nl "kop" :en "cup"}
+ {:nl "boterham" :en "sandwich, slice of bread"}
+ {:nl "eten" :agr {:gender :neuter} :en "food"}
+ {:nl "klant, de " :en "customer, client"}
+ {:nl "soort, de " :en "kind"}
+ {:nl "appartement" :agr {:gender :neuter} :en "apartment"}
+ {:nl "boot" :en "boat"}
+ {:nl "villa" :en "villa"}
+ {:nl "bad" :agr {:gender :neuter} :en "bath"}
+ {:nl "balkon" :agr {:gender :neuter} :en "balcony"}
+ {:nl "beetje" :agr {:gender :neuter} :en "a little"}
+ {:nl "dorp" :agr {:gender :neuter} :en "village"}
+ {:nl "gezin" :agr {:gender :neuter} :en "family (parents and children)"}
+ {:nl "kamer, de " :en "room"}
+ {:nl "kast, de " :en "cupboard"}
+ {:nl "keuken, de " :en "kitchen"}
+ {:nl "meter" :en "meter"}
+ {:nl "muziek" :en "music"}
+ {:nl "raam" :agr {:gender :neuter} :en "window"}
+ {:nl "slaapkamer" :en "bedroom"}
+ {:nl "stad" :en "town, city"}
+ {:nl "toilet" :agr {:gender :neuter} :en "toilet"}
+ {:nl "tuin" :en "garden"}
+ {:nl "verdieping" :en "floor"}
+ {:nl "vierkante meter" :en "square meter"}
+ {:nl "aantal" :agr {:gender :neuter} :en "the number"}
+ {:nl "huren, de huur" :en "to rent, rent"}
+ {:nl "leeftijd" :en "age"}
+ {:nl "salaris" :agr {:gender :neuter} :en "salary"}
+ {:nl "woning, de " :en "house"}
+ {:nl "bank, de (meubel)" :en "couch, sofa"}
+ {:nl "bed" :agr {:gender :neuter} :en "bed"}
+ {:nl "geld" :agr {:gender :neuter} :en "money"}
+ {:nl "idee" :agr {:gender :neuter} :en "idea"}
+ {:nl "kleur, de " :en "colour"}
+ {:nl "stoel, de " :en "chair"}
+ {:nl "tafel" :en "table"}
+ {:nl "brief" :en "letter"}
+ {:nl "momen(tje), het " :en "moment (just a moment, hold on please)"}
+ {:nl "woningbouwvereniging" :en "housing association"}
+ {:nl "fiets" :en "bicycle"}
+ {:nl "richting" :en "direction"}
+ {:nl "tram" :en "tram"}
+ {:nl "advies" :agr {:gender :neuter} :en "advice"}
+ {:nl "eiland" :agr {:gender :neuter} :en "island"}
+ {:nl "provincie" :en "region, province"}
+ {:nl "boek" :agr {:gender :neuter} :en "book"}
+ {:nl "computer" :en "computer"}
+ {:nl "eind" :agr {:gender :neuter} :en "the end"}
+ {:nl "kaart, de (plattegrond, de)" :en "(street) map"}
+ {:nl "lift" :en "lift"}
+ {:nl "plein" :agr {:gender :neuter} :en "square"}
+ {:nl "trap, de " :en "stairs"}
+ {:nl "universiteit" :en "university"}
+ {:nl "weg" :en "road"}
+ {:nl "ingang" :en "entrance, entry"}
+ {:nl "kerk, de " :en "church"}
+ {:nl "kilometer" :en "kilometer"}
+ {:nl "pad, het (fietspad)" :en "(bi)cycle track/path"}
+ {:nl "pad, het (in de supermarkt)" :en "isle (in supermarkets)"}
+ {:nl "brug" :en "bridge"}
+ {:nl "feestdag" :en "public holiday"}
+ {:nl "fout" :en "mistake, error, fault"}
+ {:nl "kaart, de (toegangskaart, de)" :en "ticket"}
+ {:nl "klas, de (school)" :en "grade, class"}
+ {:nl "scherm" :agr {:gender :neuter} :en "screen"}
+ {:nl "spoor" :agr {:gender :neuter} :en "track, platform"}
+ {:nl "trein" :en "train"}
+ {:nl "voordeel" :agr {:gender :neuter} :en "advantage"}
+ {:nl "ouder" :en "parent"}
+ {:nl "broek" :en "trousers"}
+ {:nl "jas, de " :en "coat"}
+ {:nl "jurk, de " :en "dress"}
+ {:nl "paar, het " :en "pair"}
+ {:nl "rok" :en "skirt"}
+ {:nl "schoen" :en "shoe"}
+ {:nl "sok" :en "sock"}
+ {:nl "bank, de (geld)" :en "bank"}
+ {:nl "kleren" :en "clothes"}
+ {:nl "pak, het (kleding)" :en "suit"}
+ {:nl "politie, de " :en "police"}
+ {:nl "trui" :en "sweater"}
+ {:nl "uniform" :agr {:gender :neuter} :en "uniform"}
+ {:nl "bril" :en "glasses, spectacles"}
+ {:nl "ding" :agr {:gender :neuter} :en "thing"}
+ {:nl "haar" :agr {:gender :neuter} :en "hair"}
+ {:nl "jongen, de " :en "boy"}
+ {:nl "klas(se), de (openbaar vervoer)" :en "class"}
+ {:nl "krul" :en "curl"}
+ {:nl "oog" :agr {:gender :neuter} :en "eye"}
+ {:nl "uiterlijk" :agr {:gender :neuter} :en "appearance"}
+ {:nl "gat" :agr {:gender :neuter} :en "hole"}
+ {:nl "knoop" :en "button"}
+ {:nl "maat, de " :en "size"}
+ {:nl "plezier" :agr {:gender :neuter} :en "fun"}
+ {:nl "probleem" :agr {:gender :neuter} :en "problem"}
+ {:nl "baas" :en "boss"}
+ {:nl "buurman" :en "neighbour (male)"}
+ {:nl "compliment" :agr {:gender :neuter} :en "compliment"}
+ {:nl "dame" :en "lady"}
+ {:nl "film, de " :en "film"}
+ {:nl "reus" :en "giant"}
+ {:nl "bioscoop" :en "cinema"}
+ {:nl "borrel" :en "alcoholic drink; a get-together"}
+ {:nl "honger, de (ik heb honger)" :en "appetite (I am hungry)"}
+ {:nl "kroeg" :en "café, pub"}
+ {:nl "plan" :agr {:gender :neuter} :en "plan"}
+ {:nl "rekening" :en "bill"}
+ {:nl "traditie" :en "tradition"}
+ {:nl "voorstel" :agr {:gender :neuter} :en "proposal, proposition"}
+ {:nl "citroen" :en "lemon"}
+ {:nl "fles" :en "bottle"}
+ {:nl "kaart, de (menukaart, de)" :en "menu"}
+ {:nl "knoflook" :en "garlic"}
+ {:nl "ober" :en "waiter"}
+ {:nl "plaats" :en "place"}
+ {:nl "saus" :en "sauce"}
+ {:nl "bloem, de " :en "flower"}
+ {:nl "lied(je)" :agr {:gender :neuter} :en "song"}
+ {:nl "maaltijd" :en "meal"}
+ {:nl "suiker" :en "sugar"}
+ {:nl "uitnodiging" :en "invitation"}
+ {:nl "wedstrijd" :en "match, game"}
+ {:nl "dier" :agr {:gender :neuter} :en "animal"}
+ {:nl "gebouw" :agr {:gender :neuter} :en "building"}
+ {:nl "informatie, de " :en "information"}
+ {:nl "park" :agr {:gender :neuter} :en "park"}
+ {:nl "sprookje" :agr {:gender :neuter} :en "fairy tale"}
+ {:nl "toegang" :en "entrance"}
+ {:nl "toegangskaartje" :agr {:gender :neuter} :en "ticket"}
+ {:nl "autorijles" :en "driving lesson"}
+ {:nl "postcode" :en "postal code"}
+ {:nl "telefoonboek" :agr {:gender :neuter} :en "telephone directory"}
+ {:nl "woonplaats" :en "(place of) residence"}
+ {:nl "formulier" :agr {:gender :neuter} :en "form"}
+ {:nl "handtekening" :en "signature"}
+ {:nl "nationaliteit, de " :en "nationality"}
+ {:nl "halte, de (de bushalte)" :en "(bus) stop"}
+ {:nl "kalender" :en "calender"}
+ {:nl "wc" :en "toilet"}
+ {:nl "pannenkoek" :en "pancake"}
+ {:nl "banaan" :en "banana"}
+ {:nl "gehakt, het " :en "minced meat"}
+ {:nl "hagelslag" :en "chocolate sprinkles"}
+ {:nl "jam" :en "jam"}
+ {:nl "koekje" :agr {:gender :neuter} :en "biscuit"}
+ {:nl "patat" :en "chips"}
+ {:nl "pinda" :en "peanut"}
+ {:nl "rijst" :en "rice"}
+ {:nl "sperzieboon" :en "French bean, green bean"}
+ {:nl "vegetariër" :en "vegetarian"}
+ {:nl "vleeswaren" :en "cold cuts"}
+ {:nl "champignon" :en "mushroom"}
+ {:nl "slager, de " :en "butcher"}
+ {:nl "supermarkt" :en "supermarket"}
+ {:nl "tomaat" :en "tomato"}
+ {:nl "fris, het " :en "soft drink"}
+ {:nl "avondeten" :agr {:gender :neuter} :en "dinner, supper"}
+ {:nl "lunch, de " :en "lunch"}
+ {:nl "salami" :en "salami"}
+ {:nl "flatgebouw" :agr {:gender :neuter} :en "apartment building"}
+ {:nl "rijtjeshuis" :agr {:gender :neuter} :en "terraced house"}
+ {:nl "hal, de " :en "hall"}
+ {:nl "wasmachine" :en "washing machine"}
+ {:nl "werkkamer" :en "study room"}
+ {:nl "zolder, de " :en "attic"}
+ {:nl "meubels" :en "furniture"}
+ {:nl "plattegrond" :en "(street) map"}
+ {:nl "kassa" :en "check out"}
+ {:nl "linkerkant" :en "left side"}
+ {:nl "zebrapad" :agr {:gender :neuter} :en "pedestrian crossing, zebra crossing"}
+ {:nl "abonnement" :agr {:gender :neuter} :en "season ticket"}
+ {:nl "korting" :en "discount"}
+ {:nl "metro" :en "subway, tube, underground"}
+ {:nl "OV-chipkaart" :en "e-purse for public transportation"}
+ {:nl "retour, het (trein)" :en "return trip / ticket"}
+ {:nl "automaat" :en "ticket machine"}
+ {:nl "rechterkant" :en "right(-hand) side"}
+ {:nl "saldo" :agr {:gender :neuter} :en "balance (here: travel with pay)"}
+ {:nl "bloes" :en "blouse, shirt"}
+ {:nl "gympen" :en "sneakers"}
+ {:nl "spijkerbroek" :en "jeans"}
+ {:nl "T-shirt" :agr {:gender :neuter} :en "t-shirt"}
+ {:nl "modeshow" :en "fashion show"}
+ {:nl "overhemd, het " :en "shirt"}
+ {:nl "pet, de " :en "cap"}
+ {:nl "stropdas" :en "tie"}
+ {:nl "pauze, de " :en "break"}
+ {:nl "bon" :en "the receipt"}
+ {:nl "rits" :en "zip"}
+ {:nl "tegoedbon" :en "credit note"}
+ {:nl "bushalte" :en "bus stop"}
+ {:nl "buurvrouw" :en "neighbour (female)"}
+ {:nl "kapper" :en "hairdresser"}
+ {:nl "bitterbal" :en "type of croquette served as an appetizer"}
+ {:nl "borrelhapje" :agr {:gender :neuter} :en "snack, appetizer"}
+ {:nl "rondje, het (een rondje geven)" :en "round (to stand a round of drinks)"}
+ {:nl "appeltaart" :en "apple pie"}
+ {:nl "biefstuk" :en "steak"}
+ {:nl "buurjongen, de " :en "boy next door, boy living nearby"}
+ {:nl "dessert" :agr {:gender :neuter} :en "dessert"}
+ {:nl "garnaal, de " :en "shrimp, prawn"}
+ {:nl "hoofdgerecht" :agr {:gender :neuter} :en "main course"}
+ {:nl "sla" :en "lettuce, salad"}
+ {:nl "slagroom" :en "whipping, whipped cream"}
+ {:nl "taart" :en "cake, pie"}
+ {:nl "tonijn" :en "tuna"}
+ {:nl "voorgerecht" :agr {:gender :neuter} :en "first course, starter"}
+ {:nl "werkdag" :en "working day"}
+ {:nl "zalm" :en "salmon"}
+ {:nl "bruiloft" :en "wedding"}
+ {:nl "diploma" :agr {:gender :neuter} :en "diploma, certificate"}
+ {:nl "hapje" :agr {:gender :neuter} :en "bite"}
+ {:nl "voetbal" :agr {:gender :neuter} :en "football"}
+ {:nl "openingstijden" :en "opening hours"}]
 

@@ -46,7 +46,8 @@
  {:nl "tijd" :en "time"}
  {:nl "collega" :en "colleague"}
  {:nl "feest" :agr {:gender :neuter} :en "party"}
- {:nl "kwart, het (tijd)" :en "quarter "}
+ {:nl "kwart voor" :agr {:gender :neuter} :en "a quarter till"}
+ {:nl "kwart over" :agr {:gender :neuter} :en "a quarter after"} 
  {:nl "kwartier" :agr {:gender :neuter} :en "quarter of an hour"}
  {:nl "land" :agr {:gender :neuter} :en "land "}
  {:nl "programma, het (tv)" :en "program"}

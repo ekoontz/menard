@@ -28,7 +28,7 @@
 ;; For generation and parsing of Dutch.
 ;;
 
-(def create-basic-model? false)
+(def create-basic-model? true)
 
 ;; for parsing diagnostics:
 ;;(def log-these-rules #{"vp-conj"})
@@ -282,7 +282,7 @@
 
 #?(:clj
    (def model
-     (ref (merge (create-model "complete")))))
+     (ref (create-model "complete"))))
 
 #?(:clj
 (defn create-model-from-filesystem []
@@ -371,10 +371,38 @@
         (keys lexicon))
      (into {})))
 
+
+(defn woordenlijst-filter
+  "create a woordenlijst lexicon that only contains closed-class words and :woordenlijst open-class words"
+  [lexicon]
+  (->>
+   (map (fn [k]
+          (let [vals (get lexicon k)
+                filtered-vals (->> vals
+                                   (filter (fn [lexeme]
+                                             (let [cat (u/get-in lexeme [:cat])
+                                                   curriculum (u/get-in lexeme [:curriculum] ::none)]
+                                               (or
+                                                (or (and (= cat :noun)
+                                                         (true? (u/get-in lexeme [:pronoun?]))))
+                                                (or (and (= cat :noun)
+                                                         (true? (u/get-in lexeme [:propernoun?]))))
+                                                (or (and (= cat :noun)
+                                                         (= :woordenlijst curriculum)))
+                                                (and (= cat :numbers))
+                                                (and (= cat :preposition))
+                                                (and (= cat :det))
+                                                (and (= cat :verb)
+                                                     (= :woordenlijst curriculum)))))))]
+            (if (seq filtered-vals)
+              {k filtered-vals})))
+        (keys lexicon))
+     (into {})))
+
 #?(:clj
    (if create-basic-model?
      (def basic-model
-       (ref (merge (create-model "basic" basic-filter))))))
+       (ref (create-model "basic" basic-filter)))))
 
 #?(:clj
    (defn load-model [& [reload?]]

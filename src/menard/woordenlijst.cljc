@@ -10,23 +10,31 @@
   (let [en (:en lexeme)
         nl (:nl lexeme)]
     (-> lexeme
-        (assoc :canonical nl)
-        (assoc :sem {:pred en})
         (dissoc :en)
-        (dissoc :nl))))
+        (dissoc :nl)
+        (assoc :canonical nl)
+        (assoc :cat :noun)
+        (assoc :sem {:pred en})
+        (assoc :curriculum :woordenlijst))))
 
+(defn write-woordenlijst []
+  (do
+    (->> woordenlijst
+         (map make-dutch)
+         vec
+         (spit "/Users/ekoontz/menard/resources/nederlands/lexicon/woordenlijst/nouns.edn")))
+    (->> woordenlijst
+         (map make-english)
+         vec
+         (spit "/Users/ekoontz/menard/resources/english/lexicon/woordenlijst/nouns.edn")))
 
 (defn make-english [lexeme]
   (let [en (:en lexeme)
         nl (:nl lexeme)]
     (-> lexeme
-        (assoc :canonical en)
-        (assoc :sem {:pred en})
         (dissoc :en)
-        (dissoc :nl))))
-
-        
-
-
-
+        (dissoc :nl)
+        (assoc :canonical en)
+        (assoc :cat :noun)
+        (assoc :sem {:pred en}))))
 

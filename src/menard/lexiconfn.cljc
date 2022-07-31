@@ -105,11 +105,20 @@
         (apply-rules-to-lexicon rules false))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
-  (into {}
-        (for [[k lexemes-for-k] lexicon]
-          [k
-           (map map-fn lexemes-for-k)])))
-
+  (log/debug (str "apply-to-every-lexeme with lexicon: " (type lexicon)))
+  (if (not (map? lexicon))
+    (exception (str "input is not a map; it is: " (vec lexicon))))
+  (let [result 
+        (into {}
+              (for [[k lexemes-for-k] lexicon]
+                [k
+                 (do
+                   (log/debug (str "K: " k))
+                   (log/debug (str "V: " (vec lexemes-for-k)))
+                   (log/debug (str "RESULTS: " (vec (map map-fn lexemes-for-k))))
+                   (map map-fn lexemes-for-k))]))]
+    result))
+    
 #?(:clj
    (defn read-and-eval [rules-filename]
      (log/debug (str "read-and-eval with rules-filename: " rules-filename))

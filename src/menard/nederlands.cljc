@@ -56,7 +56,7 @@
 
 #?(:clj
    (defn load-model-spec [model-name]
-     (log/info (str "loading model.."))
+     (log/info (str "loading model: '" model-name "'"))
      (let [loaded-model (model/read-model-spec (str "nederlands/models/" model-name ".edn"))]
        (log/info (str "loaded model spec: " loaded-model)))))
 
@@ -67,7 +67,7 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
-     (log/debug (str "compiling source file: " source-filename))
+     (log/info (str "compile-lexicon-source: source file: " source-filename))
      (binding [menard.lexiconfn/include-derivation? include-derivation?]
        (-> source-filename
            l/read-and-eval
@@ -116,36 +116,36 @@
        (unify lexeme {:irregular-past-simple? false}))))
 
 #?(:clj
-   (defn load-lexicon [lexical-rules & [path-suffix]]
+   (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
+     (log/debug (str "load-lexicon: path-suffix: " path-suffix))
      (let [path-suffix (or path-suffix
                            "nederlands/lexicon/")]
-       (merge-with concat
-                   (compile-lexicon-source (model/use-path (str path-suffix "adjectives.edn"))   lexical-rules
-                                           {:cat :adjective})
-                   (compile-lexicon-source (model/use-path (str path-suffix "adverbs.edn"))      lexical-rules
-                                           {:cat :adverb})
-                   (compile-lexicon-source (model/use-path (str path-suffix "determiners.edn"))  lexical-rules
-                                           {:cat :det})
-                   (compile-lexicon-source (model/use-path (str path-suffix "exclamations.edn")) lexical-rules
-                                           {:cat :exclamation})
-                   (compile-lexicon-source (model/use-path (str path-suffix "intensifiers.edn")) lexical-rules
-                                           {:cat :intensifier})
-                   ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                   (compile-lexicon-source (model/use-path (str path-suffix "misc.edn"))         lexical-rules)
 
-                   (compile-lexicon-source (model/use-path (str path-suffix "nouns.edn"))        lexical-rules
-                                           {:cat :noun})
-                   (compile-lexicon-source (model/use-path (str path-suffix "numbers.edn"))      lexical-rules
-                                           {:cat :adjective
-                                            :sem {:number? true}})
-                   (compile-lexicon-source (model/use-path (str path-suffix "prepositions.edn"))  lexical-rules
-                                           {:cat :prep})
-                   (compile-lexicon-source (model/use-path (str path-suffix "pronouns.edn"))     lexical-rules
-                                           {:cat :noun :pronoun? true})
-                   (compile-lexicon-source (model/use-path (str path-suffix "propernouns.edn"))  lexical-rules
-                                           {:cat :noun :propernoun? true})
-                   (compile-lexicon-source (model/use-path (str path-suffix "verbs.edn"))        lexical-rules
-                                           {:cat :verb} mark-irregular-verbs)))))
+       (log/info (str "lexicon filenames: " (-> model-spec :lexicon :sources keys sort)))
+
+       (reduce (fn [a b]
+                 (merge-with concat a b))
+               (->> (-> model-spec :lexicon :sources keys sort)
+                    (map (fn [filename]
+                           (let [unify-with
+                                 (get
+                                  (get (-> model-spec :lexicon :sources)
+                                       filename)
+                                 :u :top)
+                                 postprocess-fn
+                                 ;; have to (eval) twice for some reason..
+                                 (eval (eval (get (get (-> model-spec :lexicon :sources)
+                                                       filename)
+                                                  :f '(fn [x] x))))]
+                             (log/debug (str "source filename: " filename))
+                             (log/debug (str "unify-with: " unify-with))
+                             (compile-lexicon-source
+                              (model/use-path (str path-suffix filename))
+                              lexical-rules
+                                    
+                              unify-with
+                              
+                              postprocess-fn)))))))))
 
 #?(:clj
 
@@ -247,15 +247,15 @@
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
-   (defn create-model [name]
+   (defn create-model [model-name]
      (log/info (str "creating model for Nederlands "
-                    (if name (str "with name: '" name "'.."))))
-     (let [name (or name "untitled")
-           model-spec (load-model-spec name)
+                    (if model-name (str "with name: '" model-name "'.."))))
+     (let [model-spec (model/read-model-spec
+                       (str "nederlands/models/" model-name ".edn"))
            lexical-rules (load-lexical-rules)
            morphology (load-morphology)
 
-           filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn)
+           filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)
                                  (fn [lexicon] lexicon))
            
            ;; apply those lexical rules
@@ -263,7 +263,7 @@
            ;; compile lexicon:
            lexicon
            (load-lexicon-with-morphology
-            (load-lexicon lexical-rules)
+            (load-lexicon lexical-rules model-spec)
             morphology
             filter-lexicon-fn)
 
@@ -285,7 +285,8 @@
                     (fn [] morphology)
 
                     (fn [] grammar))
-        (merge {:name name})))))
+        (merge {:name model-name
+                :spec model-spec})))))
 
 #?(:clj
    (def model

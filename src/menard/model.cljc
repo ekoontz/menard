@@ -93,14 +93,14 @@
          ((fn [filename]
             (if (re-find #"^file:///" filename)
               (do
-                (log/debug (str "got a file:/// filename: " filename))
+                (log/info (str "got a file:/// filename: " filename ": using filesystem."))
                 filename)
 
               ;; else, assume it's a relative path, in which case we
               ;; we have to "cast" the filename to an io/resource,
               ;; which uses the JVM classpath, not the local filesystem, for relative paths
               (do
-                (log/debug (str "got a non-file:/// filename: " filename))
+                (log/info (str "got a non-file:/// filename: " filename ": using resource."))
                 (io/resource filename)))))
          slurp
          read-string)))

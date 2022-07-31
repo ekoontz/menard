@@ -138,8 +138,8 @@
                                  (eval (eval (get (get (-> model-spec :lexicon :sources)
                                                        filename)
                                                   :f '(fn [x] x))))]
-                             (log/info (str "source filename: " filename))
-                             (log/info (str "unify-with: " unify-with))
+                             (log/debug (str "source filename: " filename))
+                             (log/debug (str "unify-with: " unify-with))
                              (compile-lexicon-source
                               (model/use-path (str path-suffix filename))
                               lexical-rules
@@ -428,7 +428,7 @@
    (defn load-model [& [reload?]]
       (when (or (nil? @model) (true? reload?))
         (try
-          (log/info (str "reloading model.."))
+          (log/info (str (when @model "re") "loading model: " (:name @model)))
           (let [loaded (create-model-from-filesystem (:spec @model))]
             (dosync
              (ref-set model loaded))

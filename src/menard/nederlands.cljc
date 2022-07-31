@@ -247,19 +247,17 @@
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
-   (defn create-model [& [name filter-lexicon-fn]]
+   (defn create-model [name]
      (log/info (str "creating model for Nederlands "
                     (if name (str "with name: '" name "'.."))))
      (let [name (or name "untitled")
-           filter-lexicon-fn (or filter-lexicon-fn
-                                 (fn [lexicon]
-                                   lexicon))
-           complete-model-spec (load-model-spec "complete")
-           woordenlijst-model-spec (load-model-spec "woordenlijst")           
+           model-spec (load-model-spec name)
            lexical-rules (load-lexical-rules)
-
            morphology (load-morphology)
 
+           filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn)
+                                 (fn [lexicon] lexicon))
+           
            ;; apply those lexical rules
            ;; to a source lexicon to create
            ;; compile lexicon:
@@ -381,7 +379,6 @@
         (keys lexicon))
      (into {})))
 
-
 (defn woordenlijst-filter
   "create a woordenlijst lexicon that only contains closed-class words and :woordenlijst open-class words"
   [lexicon]
@@ -412,7 +409,7 @@
 #?(:clj
    (if create-basic-model?
      (def basic-model
-       (ref (create-model "basic" basic-filter)))))
+       (ref (create-model "basic")))))
 
 #?(:clj
    (defn load-model [& [reload?]]

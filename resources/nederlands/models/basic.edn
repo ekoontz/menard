@@ -1,4 +1,4 @@
-{:name "complete"
+{:name "basic"
  :lexicon {:rules "rules.edn"
            :sources {"adjectives.edn"
                      {:u
@@ -26,4 +26,14 @@
                      {:u {:cat :noun :propernoun? true}}
                      "verbs.edn"
                      {:u {:cat :verb}
-                      :f 'menard.nederlands/mark-irregular-verbs}}}}
+                      :f 'menard.nederlands/mark-irregular-verbs}}
+           :filter-fn 'menard.nederlands/basic-filter}}
+
+
+
+
+
+
+
+
+           

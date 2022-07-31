@@ -6,6 +6,7 @@
 
   (:require [clojure.core.async :refer [go-loop]]
             [clojure.string :as string]
+            [config.core :refer [env]]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
@@ -253,8 +254,8 @@
            filter-lexicon-fn (or filter-lexicon-fn
                                  (fn [lexicon]
                                    lexicon))
-           model-spec (load-model-spec "complete")
-           model-spec (load-model-spec "woordenlijst")           
+           complete-model-spec (load-model-spec "complete")
+           woordenlijst-model-spec (load-model-spec "woordenlijst")           
            lexical-rules (load-lexical-rules)
 
            morphology (load-morphology)
@@ -294,55 +295,56 @@
 
 #?(:clj
 (defn create-model-from-filesystem []
-  (log/debug (str "loading ug.."))
-  (menard.ug/load-from-file)
-  (log/debug (str "loading nesting.."))
-  (menard.nesting/load-from-file)
-  (log/debug (str "loading subcat.."))
-  (menard.subcat/load-from-file)
-  (log/debug (str "loading tenses.."))
-  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/infinitive-tense.edn")]
-    (def inf-tense (eval (read (java.io.PushbackReader. r)))))
-  (with-open [r (io/reader "/Users/ekoontz/menard/resources/nederlands/finite-tenses.edn")]
-    (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
-  (def finite-plus-inf-tense
-    (concat finite-tenses
-            inf-tense))
-  (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
-  (log/debug (str "loading grammar.."))
-  (let [grammar (load-grammar "file:///Users/ekoontz/menard/resources/nederlands/grammar.edn")]
-    (log/debug (str "loaded " (count grammar) " grammar rules."))
-    (log/debug (str "loading morphology.."))
-    (let [morphology (load-morphology "file:///Users/ekoontz/menard/resources/nederlands/morphology/")]
-      (log/debug (str "loaded " (count morphology) " morphological rules."))
-      (log/debug (str "loading lexical rules.."))
-      (let [lexical-rules (load-lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/rules.edn")]
-        (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
-        (log/debug (str "loading lexicon.."))
-        (let [lexicon (load-lexicon-with-morphology
-                       (load-lexicon lexical-rules "file:///Users/ekoontz/menard/resources/nederlands/lexicon/")
-                       morphology
-                       (fn [x] x))]
-          (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
-          (log/debug (str "done loading model."))
-          (->
-           (model/load "nl"
-                       ;; loads the lexical rules:
-                       ;; (we already did this above,
-                       ;;  so we'll just return those rules.
-                       (fn [] lexical-rules)
-
-                       ;; function to load the lexicon:
-                       (fn [_] lexicon)
-
-                       ;; create indices on the compiled lexicon:
-                       fill-lexicon-indexes
-
-                       ;; function to load the morphology:
-                       (fn [] morphology)
-
-                       (fn [] grammar))
-           (merge {:name name}))))))))
+  (let [menard-dir (str (:user-dir env) "/")]
+    (log/debug (str "loading ug.."))
+    (menard.ug/load-from-file)
+    (log/debug (str "loading nesting.."))
+    (menard.nesting/load-from-file)
+    (log/debug (str "loading subcat.."))
+    (menard.subcat/load-from-file)
+    (log/debug (str "loading tenses.."))
+    (with-open [r (io/reader (str menard-dir "resources/nederlands/infinitive-tense.edn"))]
+      (def inf-tense (eval (read (java.io.PushbackReader. r)))))
+    (with-open [r (io/reader (str menard-dir "resources/nederlands/finite-tenses.edn"))]
+      (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
+    (def finite-plus-inf-tense
+      (concat finite-tenses
+              inf-tense))
+    (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
+    (log/debug (str "loading grammar.."))
+    (let [grammar (load-grammar (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
+      (log/debug (str "loaded " (count grammar) " grammar rules."))
+      (log/debug (str "loading morphology.."))
+      (let [morphology (load-morphology (str "file://" menard-dir "resources/nederlands/morphology/"))]
+        (log/debug (str "loaded " (count morphology) " morphological rules."))
+        (log/debug (str "loading lexical rules.."))
+        (let [lexical-rules (load-lexical-rules (str "file://" menard-dir "resources/nederlands/lexicon/rules.edn"))]
+          (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
+          (log/debug (str "loading lexicon.."))
+          (let [lexicon (load-lexicon-with-morphology
+                         (load-lexicon lexical-rules (str "file://" menard-dir "resources/nederlands/lexicon/"))
+                         morphology
+                         (fn [x] x))]
+            (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
+            (log/debug (str "done loading model."))
+            (->
+             (model/load "nl"
+                         ;; loads the lexical rules:
+                         ;; (we already did this above,
+                         ;;  so we'll just return those rules.
+                         (fn [] lexical-rules)
+                         
+                         ;; function to load the lexicon:
+                         (fn [_] lexicon)
+                         
+                         ;; create indices on the compiled lexicon:
+                         fill-lexicon-indexes
+                         
+                         ;; function to load the morphology:
+                         (fn [] morphology)
+                         
+                         (fn [] grammar))
+             (merge {:name name})))))))))
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"

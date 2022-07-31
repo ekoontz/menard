@@ -331,7 +331,7 @@
           (log/debug (str "loading lexicon.."))
           (let [lexicon (load-lexicon-with-morphology
                          (load-lexicon lexical-rules
-                                       (:spec @model)
+                                       spec
                                        (str "file://" menard-dir "resources/nederlands/lexicon/"))
                          morphology
                          (fn [x] x))]

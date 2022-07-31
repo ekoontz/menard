@@ -167,7 +167,7 @@
      (log/info (str "creating model for English.."))
      (model/load "en" load-lexical-rules
                  load-lexicon fill-lexicon-indexes
-                 load-morphology load-grammar)))
+                 load-morphology load-grammar {:name "default"})))
 
 #?(:clj
    (def model (ref (create-model))))

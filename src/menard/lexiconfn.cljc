@@ -107,7 +107,7 @@
 (defn apply-to-every-lexeme [lexicon map-fn]
   (log/debug (str "apply-to-every-lexeme with lexicon: " (type lexicon)))
   (if (not (map? lexicon))
-    (exception (str "input is not a map; it is: " (vec lexicon))))
+    (exception (str "input lexeme is not a map; it is: " (vec lexicon))))
   (let [result 
         (into {}
               (for [[k lexemes-for-k] lexicon]

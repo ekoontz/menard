@@ -67,7 +67,7 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
-     (log/info (str "compile-lexicon-source: source file: " source-filename))
+     (log/debug (str "compile-lexicon-source: source file: " source-filename))
      (binding [menard.lexiconfn/include-derivation? include-derivation?]
        (-> source-filename
            l/read-and-eval
@@ -117,7 +117,8 @@
 
 #?(:clj
    (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
-     (log/debug (str "load-lexicon: path-suffix: " path-suffix))
+     (log/info (str "load-lexicon: path-suffix: " path-suffix))
+     (log/info (str "model-spec: " model-spec))
      (let [path-suffix (or path-suffix
                            "nederlands/lexicon/")]
 
@@ -137,8 +138,8 @@
                                  (eval (eval (get (get (-> model-spec :lexicon :sources)
                                                        filename)
                                                   :f '(fn [x] x))))]
-                             (log/debug (str "source filename: " filename))
-                             (log/debug (str "unify-with: " unify-with))
+                             (log/info (str "source filename: " filename))
+                             (log/info (str "unify-with: " unify-with))
                              (compile-lexicon-source
                               (model/use-path (str path-suffix filename))
                               lexical-rules
@@ -284,7 +285,8 @@
                     ;; function to load the morphology:
                     (fn [] morphology)
 
-                    (fn [] grammar))
+                    (fn [] grammar)
+                    model-spec)
         (merge {:name model-name
                 :spec model-spec})))))
 
@@ -293,8 +295,15 @@
      (ref (create-model "complete"))))
 
 #?(:clj
-(defn create-model-from-filesystem []
-  (let [menard-dir (str (:user-dir env) "/")]
+   (def woordenlijst-model
+     (ref (create-model "woordenlijst"))))
+
+#?(:clj
+(defn create-model-from-filesystem [spec]
+  (log/info (str "menard-dir env: " (:menard-dir env)))  
+  (if (empty? (:menard-dir env))
+    (exception (str "you must set MENARD_DIR in your environment.")))
+  (let [menard-dir (str (:menard-dir env) "/")]
     (log/debug (str "loading ug.."))
     (menard.ug/load-from-file)
     (log/debug (str "loading nesting.."))
@@ -321,7 +330,9 @@
           (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
           (log/debug (str "loading lexicon.."))
           (let [lexicon (load-lexicon-with-morphology
-                         (load-lexicon lexical-rules (str "file://" menard-dir "resources/nederlands/lexicon/"))
+                         (load-lexicon lexical-rules
+                                       (:spec @model)
+                                       (str "file://" menard-dir "resources/nederlands/lexicon/"))
                          morphology
                          (fn [x] x))]
             (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
@@ -342,7 +353,8 @@
                          ;; function to load the morphology:
                          (fn [] morphology)
                          
-                         (fn [] grammar))
+                         (fn [] grammar)
+                         spec)
              (merge {:name name})))))))))
 
 (defn basic-filter
@@ -417,7 +429,7 @@
       (when (or (nil? @model) (true? reload?))
         (try
           (log/info (str "reloading model.."))
-          (let [loaded (create-model-from-filesystem)]
+          (let [loaded (create-model-from-filesystem (:spec @model))]
             (dosync
              (ref-set model loaded))
             (log/info (str "model update done.")))

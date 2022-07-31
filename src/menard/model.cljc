@@ -14,20 +14,21 @@
 
 #?(:clj
    (defn load [language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn
-               load-morphology-fn load-grammar-fn]
+               load-morphology-fn load-grammar-fn model-spec]
      (log/info (str "loading resources for language: "
-                    language-name ".."))
-     (let [lexical-rules (lexical-rules-fn)
+                    language-name "; model-spec name: " (:name model-spec)))
+     (let [logging-label (str language-name "/" (:name model-spec))
+           lexical-rules (lexical-rules-fn)
            lexicon (lexicon-fn lexical-rules)
            indices (fill-lexicon-indexes-fn lexicon)
            morphology (load-morphology-fn)
            grammar (load-grammar-fn)]
-       (log/info (str "loaded: " (count lexical-rules) " lexical rules."))
-       (log/info (str "loaded: " (count (keys lexicon)) " lexeme keys."))
-       (log/info (str "loaded: " (count (keys indices)) " lexicon indices."))
-       (log/info (str "loaded: " (count morphology) " morphological rules."))
-       (log/info (str "loaded: " (count grammar) " grammar rules."))
-       (log/info (str "loaded resources for language: " language-name "."))
+       (log/info (str logging-label " loaded: " (count lexical-rules) " lexical rules."))
+       (log/info (str logging-label " loaded: " (count (keys lexicon)) " lexeme keys."))
+       (log/info (str logging-label " loaded: " (count (keys indices)) " lexicon indices."))
+       (log/info (str logging-label " loaded: " (count morphology) " morphological rules."))
+       (log/info (str logging-label " loaded: " (count grammar) " grammar rules."))
+       (log/info (str logging-label " loaded resources for language: " language-name "."))
        {:grammar grammar
         :loaded-when (.getTime (java.util.Date.))
         :language language-name
@@ -93,14 +94,14 @@
          ((fn [filename]
             (if (re-find #"^file:///" filename)
               (do
-                (log/info (str "got a file:/// filename: " filename ": using filesystem."))
+                (log/info (str "got a file:// filename: " filename ": using filesystem."))
                 filename)
 
               ;; else, assume it's a relative path, in which case we
               ;; we have to "cast" the filename to an io/resource,
               ;; which uses the JVM classpath, not the local filesystem, for relative paths
               (do
-                (log/info (str "got a non-file:/// filename: " filename ": using resource."))
+                (log/info (str "got a non-file:// filename: " filename ": using resource."))
                 (io/resource filename)))))
          slurp
          read-string)))

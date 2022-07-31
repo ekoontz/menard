@@ -57,7 +57,7 @@
 #?(:clj
    (defn load-model-spec [model-name]
      (log/info (str "loading model.."))
-     (let [loaded-model (model/read-model (str "nederlands/models/" model-name ".edn"))]
+     (let [loaded-model (model/read-model-spec (str "nederlands/models/" model-name ".edn"))]
        (log/info (str "loaded model spec: " loaded-model)))))
 
 #?(:clj

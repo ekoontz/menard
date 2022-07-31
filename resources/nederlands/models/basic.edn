@@ -28,12 +28,3 @@
                      {:u {:cat :verb}
                       :f 'menard.nederlands/mark-irregular-verbs}}
            :filter-fn 'menard.nederlands/basic-filter}}
-
-
-
-
-
-
-
-
-           

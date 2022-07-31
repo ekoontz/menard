@@ -88,7 +88,7 @@
         toMillis)))
 
 #?(:clj
-   (defn read-model [model-spec-filename]
+   (defn read-model-spec [model-spec-filename]
      (-> model-spec-filename
          ((fn [filename]
             (if (re-find #"^file:///" filename)

@@ -291,7 +291,7 @@
                 :spec model-spec})))))
 
 #?(:clj
-   (def model
+   (def complete-model
      (ref (create-model "complete"))))
 
 #?(:clj
@@ -425,7 +425,7 @@
        (ref (create-model "basic")))))
 
 #?(:clj
-   (defn load-model [& [reload?]]
+   (defn load-model [model & [reload?]]
       (when (or (nil? @model) (true? reload?))
         (try
           (log/info (str (when @model "re") "loading model: " (:name @model)))
@@ -453,14 +453,16 @@
               first)
 
              last-file-modification
-             (:last-modified-time-ms most-recently-modified-info)]
+             (:last-modified-time-ms most-recently-modified-info)
+
+             model complete-model]
          (if (> last-file-modification @last-file-check)
            (log/info (str
                       (:parent most-recently-modified-info) "/"
                       (:filename most-recently-modified-info)
                       " at: "
                       (:last-modified-time most-recently-modified-info))))
-         (do (load-model (> last-file-modification @last-file-check))
+         (do (load-model model (> last-file-modification @last-file-check))
              (swap! last-file-check
                     (fn [_] (current-ms)))))
        (Thread/sleep 10000)
@@ -471,18 +473,18 @@
      (log/debug (str "spec: " (diag/strip-refs spec)))
      (let [pre-result
            (cond (= (u/get-in spec [:cat]) :verb)
-                 (-> @model :indices :verb-lexicon)
+                 (-> @complete-model :indices :verb-lexicon)
 
                  (= (u/get-in spec [:cat]) :adjective)
-                 (-> @model :indices :adjective-lexicon)
+                 (-> @complete-model :indices :adjective-lexicon)
 
                  (= (u/get-in spec [:cat]) :noun)
-                 (-> @model :indices :noun-lexicon)
+                 (-> @complete-model :indices :noun-lexicon)
 
                  (= (u/get-in spec [:cat]) :det)
-                 (-> @model :indices :det-lexicon)
+                 (-> @complete-model :indices :det-lexicon)
 
-                 :else (-> @model :indices :misc-lexicon))
+                 :else (-> @complete-model :indices :misc-lexicon))
            spec (if true spec (u/copy (diag/strip-refs spec)))
            result (if true
                     (->>
@@ -498,7 +500,7 @@
 
 #?(:clj
    (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon (:lexicon @model)
+     (l/write-compiled-lexicon (:lexicon @complete-model)
                                "resources/nederlands/lexicon/compiled.edn")))
 
 #?(:cljs
@@ -537,10 +539,10 @@
   ([tree]
    (cond
      (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @model))
+     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @complete-model))
 
      :else
-     (s/morph tree (:morphology @model))))
+     (s/morph tree (:morphology @complete-model))))
 
   ([tree & {:keys [sentence-punctuation?]}]
    (when sentence-punctuation?
@@ -556,7 +558,7 @@
 
 #?(:clj
    (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar (-> @model :grammar)
+     (grammar/write-compiled-grammar (-> @complete-model :grammar)
                                      "resources/nederlands/grammar/compiled.edn")))
 (declare generate)
 (declare syntax-tree)
@@ -578,7 +580,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
-  (let [model (or model (load-model))
+  (let [model (or complete-model (load-model complete-model))
         model (if (= (type model) clojure.lang.Ref)
                 @model
                 model)]
@@ -596,12 +598,12 @@
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
-  (let [model (load-model)]
+  (let [model (load-model complete-model)]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
       (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (load-model)]
+  (let [model (load-model complete-model)]
     (binding [l/lexicon (-> model :lexicon)
               p/syntax-tree syntax-tree
               l/morphology (:morphology model)]
@@ -619,7 +621,7 @@
             found))))))
 
 (defn parse [expression]
-  (let [model (load-model)
+  (let [model (load-model complete-model)
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")]
@@ -641,7 +643,7 @@
       (p/parse expression))))
 
 (defn parse-start [expression]
-  (let [model (load-model)
+  (let [model (load-model complete-model)
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")]
@@ -752,7 +754,7 @@
                     (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
                   paths)))))
 
-(def morphology (-> model deref :morphology))
+(def morphology (-> complete-model deref :morphology))
 
 (defn parse-all [expression]
-  (p/parse-all expression load-model syntax-tree analyze))
+  (p/parse-all expression (fn [] (load-model complete-model)) syntax-tree analyze))

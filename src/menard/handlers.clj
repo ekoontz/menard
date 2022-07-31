@@ -153,7 +153,7 @@
 (defn grammar [lang]
   (let [unserialized
         (cond (= lang "nl")
-              (-> nl/model deref :grammar)
+              (-> nl/complete-model deref :grammar)
               (= lang "en")
               (-> en/model deref :grammar)
               true [])]
@@ -164,7 +164,7 @@
 (defn morphology [lang]
   (let [unserialized
         (cond (= lang "nl")
-              (-> nl/model deref :morphology)
+              (-> nl/complete-model deref :morphology)
               (= lang "en")
               (-> en/model deref :morphology)
               true [])]
@@ -254,8 +254,8 @@
 
 (defn language-to-model [language]
   (cond (= language "en") en/model
-        (= language "nl") nl/model
-        :else nl/model))
+        (= language "nl") nl/complete-model
+        :else nl/complete-model))
 
 (defn analyze [string-to-analyze language]
   ((-> language

@@ -1,0 +1,8 @@
+{:name "woordenlijst"
+ :lexical-rules "rules.edn"
+ :lexicon {"woordenlijst/nouns.edn"
+           {:u {:cat :noun}}
+           
+           "determiners.edn"
+           {:u {:cat :det}}}}
+

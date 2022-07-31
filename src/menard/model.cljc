@@ -1,6 +1,7 @@
 (ns menard.model
   (:refer-clojure :exclude [load])
   (:require [babashka.fs :as fs]
+            #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
             #?(:cljs [cljslog.core :as log])))
@@ -21,7 +22,6 @@
            indices (fill-lexicon-indexes-fn lexicon)
            morphology (load-morphology-fn)
            grammar (load-grammar-fn)]
-       ;; TODO: show count of rules in each set:
        (log/info (str "loaded: " (count lexical-rules) " lexical rules."))
        (log/info (str "loaded: " (count (keys lexicon)) " lexeme keys."))
        (log/info (str "loaded: " (count (keys indices)) " lexicon indices."))
@@ -86,4 +86,22 @@
              (map #(fs/get-attribute % "lastModifiedTime"))
              sort reverse first)
         toMillis)))
+
+#?(:clj
+   (defn read-model [model-spec-filename]
+     (-> model-spec-filename
+         ((fn [filename]
+            (if (re-find #"^file:///" filename)
+              (do
+                (log/debug (str "got a file:/// filename: " filename))
+                filename)
+
+              ;; else, assume it's a relative path, in which case we
+              ;; we have to "cast" the filename to an io/resource,
+              ;; which uses the JVM classpath, not the local filesystem, for relative paths
+              (do
+                (log/debug (str "got a non-file:/// filename: " filename))
+                (io/resource filename)))))
+         slurp
+         read-string)))
 

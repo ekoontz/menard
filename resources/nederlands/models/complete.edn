@@ -1,0 +1,47 @@
+{:name "complete"
+ :lexical-rules "rules.edn"
+ :lexicon {"adjectives.edn"
+           {:u
+            {:cat :adjective}}
+
+           "adverbs.edn"
+           {:u {:cat :adverb}}
+
+           "determiners.edn"
+           {:u {:cat :det}}
+
+           "exclamations.edn"
+           {:u {:cat :exclamation}}
+
+           "intensifiers.edn"
+           {:u {:cat :intensifier}}
+
+           "misc.edn"
+           {:u {}}
+
+           "nouns.edn"
+           {:u {:cat :noun}}
+
+           "numbers.edn"
+           {:u {:cat :adjective
+                :sem {:number? true}}}
+
+           "prepositions.edn"
+           {:u {:cat :prep}}
+
+           "pronouns.edn"
+           {:u {:cat :noun :pronoun? true}}
+
+           "propernouns.edn"
+           {:u {:cat :noun :propernoun? true}}
+
+           "verbs.edn"
+           {:u {:cat :verb}
+            :f 'menard.nederlands/mark-irregular-verbs}}}
+
+
+
+
+
+
+           

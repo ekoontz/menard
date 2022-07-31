@@ -54,6 +54,12 @@
 ;; <lexicon>
 
 #?(:clj
+   (defn load-model-spec [model-name]
+     (log/info (str "loading model.."))
+     (let [loaded-model (model/read-model (str "nederlands/models/" model-name ".edn"))]
+       (log/info (str "loaded model spec: " loaded-model)))))
+
+#?(:clj
    (defn load-lexical-rules [& [path]]
      (let [path (or path "nederlands/lexicon/rules.edn")]
        (l/read-and-eval (model/use-path path)))))
@@ -131,10 +137,10 @@
                    (compile-lexicon-source (model/use-path (str path-suffix "numbers.edn"))      lexical-rules
                                            {:cat :adjective
                                             :sem {:number? true}})
-                   (compile-lexicon-source (model/use-path (str path-suffix "pronouns.edn"))     lexical-rules
-                                           {:cat :noun :pronoun? true})
                    (compile-lexicon-source (model/use-path (str path-suffix "prepositions.edn"))  lexical-rules
                                            {:cat :prep})
+                   (compile-lexicon-source (model/use-path (str path-suffix "pronouns.edn"))     lexical-rules
+                                           {:cat :noun :pronoun? true})
                    (compile-lexicon-source (model/use-path (str path-suffix "propernouns.edn"))  lexical-rules
                                            {:cat :noun :propernoun? true})
                    (compile-lexicon-source (model/use-path (str path-suffix "verbs.edn"))        lexical-rules
@@ -247,6 +253,8 @@
            filter-lexicon-fn (or filter-lexicon-fn
                                  (fn [lexicon]
                                    lexicon))
+           model-spec (load-model-spec "complete")
+           model-spec (load-model-spec "woordenlijst")           
            lexical-rules (load-lexical-rules)
 
            morphology (load-morphology)

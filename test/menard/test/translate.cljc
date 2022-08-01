@@ -137,6 +137,6 @@
        (map (fn [i]
               (doall
                (take do-this-many
-                     (repeatedly #(transfer-fn i @nl/model))))))
+                     (repeatedly #(transfer-fn i @nl/complete-model))))))
        doall))))
 

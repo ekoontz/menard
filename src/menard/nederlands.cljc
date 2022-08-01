@@ -30,6 +30,8 @@
 ;;
 
 (def create-basic-model? true)
+(def create-complete-model? true)
+(def create-woordenlijst-model? true)
 
 ;; for parsing diagnostics:
 ;;(def log-these-rules #{"vp-conj"})
@@ -117,7 +119,7 @@
 
 #?(:clj
    (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
-     (log/info (str "load-lexicon: path-suffix: " path-suffix))
+     (log/debug (str "load-lexicon: path-suffix: " path-suffix))
      (log/info (str "model-spec: " model-spec))
      (let [path-suffix (or path-suffix
                            "nederlands/lexicon/")]
@@ -291,14 +293,6 @@
                 :spec model-spec})))))
 
 #?(:clj
-   (def complete-model
-     (ref (create-model "complete"))))
-
-#?(:clj
-   (def woordenlijst-model
-     (ref (create-model "woordenlijst"))))
-
-#?(:clj
 (defn create-model-from-filesystem [spec]
   (log/info (str "menard-dir env: " (:menard-dir env)))  
   (if (empty? (:menard-dir env))
@@ -392,37 +386,20 @@
         (keys lexicon))
      (into {})))
 
-(defn woordenlijst-filter
-  "create a woordenlijst lexicon that only contains closed-class words and :woordenlijst open-class words"
-  [lexicon]
-  (->>
-   (map (fn [k]
-          (let [vals (get lexicon k)
-                filtered-vals (->> vals
-                                   (filter (fn [lexeme]
-                                             (let [cat (u/get-in lexeme [:cat])
-                                                   curriculum (u/get-in lexeme [:curriculum] ::none)]
-                                               (or
-                                                (or (and (= cat :noun)
-                                                         (true? (u/get-in lexeme [:pronoun?]))))
-                                                (or (and (= cat :noun)
-                                                         (true? (u/get-in lexeme [:propernoun?]))))
-                                                (or (and (= cat :noun)
-                                                         (= :woordenlijst curriculum)))
-                                                (and (= cat :numbers))
-                                                (and (= cat :preposition))
-                                                (and (= cat :det))
-                                                (and (= cat :verb)
-                                                     (= :woordenlijst curriculum)))))))]
-            (if (seq filtered-vals)
-              {k filtered-vals})))
-        (keys lexicon))
-     (into {})))
-
 #?(:clj
    (if create-basic-model?
      (def basic-model
        (ref (create-model "basic")))))
+
+#?(:clj
+   (if create-complete-model?
+     (def complete-model
+       (ref (create-model "complete")))))
+
+#?(:clj
+   (if create-woordenlijst-model?
+     (def woordenlijst-model
+       (ref (create-model "woordenlijst")))))
 
 #?(:clj
    (defn load-model [model & [reload?]]
@@ -580,7 +557,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
-  (let [model (or complete-model (load-model complete-model))
+  (let [model (or model complete-model (load-model complete-model))
         model (if (= (type model) clojure.lang.Ref)
                 @model
                 model)]

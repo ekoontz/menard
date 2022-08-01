@@ -88,7 +88,7 @@
               (if (nil? apply-fn)
                 lexicon
                 (do
-                  (log/info (str "  apply-to-every-lexeme.."))
+                  (log/info (str "  apply-to-every-lexeme (apply-fn)"))
                   (l/apply-to-every-lexeme lexicon
                                            (fn [lexeme]
                                              (apply-fn lexeme)))))))
@@ -558,8 +558,8 @@
 ;; <functions>
 
 #?(:clj
-   (defn syntax-tree [tree]
-     (s/syntax-tree tree (:morphology (load-model)))))
+   (defn syntax-tree [tree & [model]]
+     (s/syntax-tree tree (:morphology (or model complete-model (load-model complete-model))))))
 
 #?(:cljs
    (defn syntax-tree [tree]

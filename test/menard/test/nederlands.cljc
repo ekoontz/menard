@@ -446,6 +446,7 @@
   (let [spec {:rule "np:2" :cat :noun :max-depth 1 :phrasal? true :subcat []}]
     (is (not (empty?
               (->
+               spec
                (generate menard.nederlands/woordenlijst-model)
                ((fn [x] (str (morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
 

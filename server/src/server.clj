@@ -30,13 +30,18 @@
    :headers headers
    :body (write-str body)})
 
+(defn get-model-name [request]
+  (let [model-name (or (-> request :query-params (get :model)) "complete-model")
+        qualified-model-name (str "menard.nederlands/" model-name)]
+    qualified-model-name))
+
 (def routes
   [
    ["/generate-with-alts/:lang"
     {:get {:handler
            (fn [request]
              (let [language (-> request :path-params (get :lang))
-                   model-name (or (-> request :query-params (get :model)) (str "menard.nederlands/" "complete-model"))
+                   model-name (get-model-name request)
                    use-fn (cond (= language "nl")
                                 handlers/generate-nl-with-alternations
                                 true
@@ -53,7 +58,7 @@
     {:get {:handler
            (fn [request]
              (let [language "nl"
-                   model-name (or (-> request :query-params (get :model)) (str "menard.nederlands/" "complete-model"))
+                   model-name (get-model-name request)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate/nl: requested spec: "
                               spec))
@@ -150,7 +155,7 @@
            (fn [request]
              (let [spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))
-                   model-name (or (-> request :query-params (get :model)) (str "menard.nederlands/" "complete-model"))]
+                   model-name (get-model-name request)]
                (-> (handlers/generate-nl-with-alternations spec alternates model-name)
                    json-response)))}}]
 

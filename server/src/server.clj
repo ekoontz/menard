@@ -36,6 +36,7 @@
     {:get {:handler
            (fn [request]
              (let [language (-> request :path-params (get :lang))
+                   model-name (or (-> request :query-params (get :model)) (str "menard.nederlands/" "complete-model"))
                    use-fn (cond (= language "nl")
                                 handlers/generate-nl-with-alternations
                                 true
@@ -45,7 +46,18 @@
                                       json-response)))
                    spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))]
-               (-> (use-fn spec alternates)
+               (-> (use-fn spec alternates model-name)
+                   json-response)))}}]
+
+   ["/generate/nl"
+    {:get {:handler
+           (fn [request]
+             (let [language "nl"
+                   model-name (or (-> request :query-params (get :model)) (str "menard.nederlands/" "complete-model"))
+                   spec (-> request :query-params (get "q"))]
+               (log/info (str "/generate/nl: requested spec: "
+                              spec))
+               (-> (handlers/generate-nl-by-spec spec model-name)
                    json-response)))}}]
 
    ["/grammar/:lang"
@@ -122,17 +134,6 @@
                     (map str)
                     json-response)))}}]
 
-   ["/generate/nl"
-    {:get {:handler
-           (fn [request]
-             (log/info (str "/generate/nl: requested spec: "
-                            (-> request :query-params (get "q"))))
-             (-> request
-                 :query-params
-                 (get "q")
-                 handlers/generate-nl-by-spec
-                 json-response))}}]
-
    ;; deprecated: use /generate/nl instead:
    ["/generate"
     {:get {:handler
@@ -148,8 +149,9 @@
     {:get {:handler
            (fn [request]
              (let [spec (-> request :query-params (get "spec"))
-                   alternates (-> request :query-params (get "alts"))]
-               (-> (handlers/generate-nl-with-alternations spec alternates)
+                   alternates (-> request :query-params (get "alts"))
+                   model-name (or (-> request :query-params (get :model)) (str "menard.nederlands/" "complete-model"))]
+               (-> (handlers/generate-nl-with-alternations spec alternates model-name)
                    json-response)))}}]
 
    ;; deprecated: use /parse/nl instead:

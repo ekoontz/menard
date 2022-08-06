@@ -569,9 +569,11 @@
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
   (let [model (or model complete-model (load-model complete-model))
-        model (if (= (type model) clojure.lang.Ref)
-                @model
-                model)]
+        model (cond (= (type model) clojure.lang.Ref)
+                    @model
+                    (string? model)
+                    (deref (eval (read-string model)))
+                    true model)]
     (if (:name model)
       (log/debug (str "generating with model name: " (:name model)))
       (log/warn (str "generating with model with no name.")))

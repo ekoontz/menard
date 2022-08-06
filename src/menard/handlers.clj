@@ -13,10 +13,10 @@
 (defn generate-nl
   "generate a Dutch expression from _spec_ and translate to English, and return this pair
    along with the semantics of the English specification also."
-  [spec]
+  [spec model]
   (let [debug (log/debug (str "generate-nl: generating a question with spec: " spec))
         ;; 1. generate a target expression
-        target-expression (->> (repeatedly #(-> spec nl/generate))
+        target-expression (->> (repeatedly #(nl/generate spec model))
                                (remove empty?)
                                (take 1)
                                first)
@@ -79,21 +79,22 @@
 
 (defn generate-nl-by-spec
   "decode a spec from the input request and generate with it."
-  [spec]
+  [spec model]
   (log/debug (str "spec pre-decode: " spec))
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)]
     (log/debug (str "generate-by-spec: (pre)  input spec: " spec "; generating now.."))
     (let [result
-          (-> spec
-              generate-nl
-              (dissoc :source-tree)
-              (dissoc :target-tree))]
+          (generate-nl
+           (-> spec
+               (dissoc :source-tree)
+               (dissoc :target-tree))
+           model)]
       (log/debug (str "generate-by-spec: (post) input spec: " spec "; result: " result))
       result)))
 
 (defn generate-nl-with-alternations
   "generate with _spec_ unified with each of the alternates, so generate one expression per <spec,alternate> combination."
-  [spec alternates]
+  [spec alternates model]
   (if (or (nil? alternates) (empty? alternates))
     (throw (Exception. "alternates were unexpectedly not provided.")))
   (let [alternates (map dag_unify.serialization/deserialize (read-string alternates))
@@ -106,14 +107,15 @@
                   (u/unify alternate spec))))
           ;; the first one is special: we will get the [:head :root] from it
           ;; and use it with the rest of the specs.
-          first-expression (generate-nl (first derivative-specs))
+          first-expression (generate-nl (first derivative-specs) model)
           expressions
           (cons first-expression
                 (->> (rest derivative-specs)
                      (map (fn [derivative-spec]
                             (generate-nl (u/unify derivative-spec
                                                   {:head {:root
-                                                          (u/get-in first-expression [:target-root] :top)}}))))))]
+                                                          (u/get-in first-expression [:target-root] :top)}})
+                                         model)))))]
       (if clean-up-trees
         (->> expressions
              ;; cleanup the huge syntax trees:

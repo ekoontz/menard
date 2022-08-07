@@ -31,6 +31,7 @@
    :body (write-str body)})
 
 (defn get-model-name [request]
+  (log/info (str "get-model-name: user supplied model-name: " (-> request :query-params (get "model"))))
   (let [model-name (or (-> request :query-params (get :model)) "complete-model")
         qualified-model-name (str "menard.nederlands/" model-name)]
     qualified-model-name))
@@ -61,7 +62,7 @@
                    model-name (get-model-name request)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate/nl: requested spec: "
-                              spec))
+                              spec "; using model named: '" model-name "'"))
                (-> (handlers/generate-nl-by-spec spec model-name)
                    json-response)))}}]
 

@@ -13,9 +13,10 @@
 # header: 'Access-Control-Allow-Origin' to that.
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
+MENARD_DIR=${SCRIPT_DIR}/..
 cd ${SCRIPT_DIR}
 
-echo "** start.sh ** starting the server from directory: ${SCRIPT_DIR} and with hostname: ${HOSTNAME}"
 
-ORIGIN=http://${HOSTNAME}:3449 lein ring server-headless
+echo "** start.sh ** starting the language server from directory: ${SCRIPT_DIR} using MENARD_DIR: ${MENARD_DIR} and with hostname: ${HOSTNAME}"
+
+MENARD_DIR=${MENARD_DIR} ORIGIN=http://${HOSTNAME}:3449 lein ring server-headless

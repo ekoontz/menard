@@ -261,6 +261,38 @@
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
+   (defn lexical-index-fn [model]
+           (merge model
+                  {:lexicon-index-fn (fn [spec]
+                                       (log/debug (str "spec: " (diag/strip-refs spec)))
+                                       (let [pre-result
+                                             (cond (= (u/get-in spec [:cat]) :verb)
+                                                   (-> model :indices :verb-lexicon)
+                                                   
+                                                   (= (u/get-in spec [:cat]) :adjective)
+                                                   (-> model :indices :adjective-lexicon)
+                                                   
+                                                   (= (u/get-in spec [:cat]) :noun)
+                                                   (-> model :indices :noun-lexicon)
+                                                   
+                                                   (= (u/get-in spec [:cat]) :det)
+                                                   (-> model :indices :det-lexicon)
+                                                   
+                                                   :else (-> model :indices :misc-lexicon))
+                                             spec (if true spec (u/copy (diag/strip-refs spec)))
+                                             result (if true
+                                                      (->>
+                                                       pre-result
+                                                       (filter #(not (true? (u/get-in % [:null?])))))
+                                                      (->> pre-result
+                                                           (filter #(not (true? (u/get-in % [:null?]))))
+                                                           (map #(unify % spec))
+                                                           (filter #(not (= :fail %)))))]
+                                         (if true
+                                           (shuffle result)
+                                        result)))})))
+
+#?(:clj
    (defn create-model [model-name]
      (log/info (str "creating model for Nederlands "
                     (if model-name (str "with name: '" model-name "'.."))))
@@ -301,7 +333,9 @@
                     (fn [] grammar)
                     model-spec)
         (merge {:name model-name
-                :spec model-spec})))))
+                :spec model-spec})
+        ((fn [model]
+           (lexical-index-fn model)))))))
 
 #?(:clj
 (defn create-model-from-filesystem [spec]
@@ -360,7 +394,8 @@
                          
                          (fn [] grammar)
                          spec)
-             (merge {:name name})))))))))
+             ((fn [model]
+                (lexical-index-fn model)))))))))))
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"

@@ -144,11 +144,13 @@
    ["/generate"
     {:get {:handler
            (fn [request]
-             (-> request
-                 :query-params
-                 (get "q")
-                 handlers/generate-nl-by-spec
-                 json-response))}}]
+             (let [language "nl"
+                   model-name (get-model-name request)
+                   spec (-> request :query-params (get "q"))]
+               (log/info (str "/generate: language: nl; requested spec: "
+                              spec "; using model named: '" model-name "'"))
+               (-> (handlers/generate-nl-by-spec spec model-name)
+                   json-response)))}}]
 
    ;; deprecated: use /generate-with-alts/nl instead:
    ["/generate-with-alts"
@@ -157,6 +159,8 @@
              (let [spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))
                    model-name (get-model-name request)]
+               (log/info (str "/generate-with-alts: language: nl; requested spec: "
+                              spec "; using model named: '" model-name "'"))
                (-> (handlers/generate-nl-with-alternations spec alternates model-name)
                    json-response)))}}]
 

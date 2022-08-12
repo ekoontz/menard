@@ -156,6 +156,7 @@
    ["/generate-with-alts"
     {:get {:handler
            (fn [request]
+             (log/debug (str "/generate-with-alts with request: " request))
              (let [spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))
                    model-name (get-model-name request)]

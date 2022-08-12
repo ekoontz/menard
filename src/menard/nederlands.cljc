@@ -568,6 +568,8 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
+  (log/info (str "generate: model type was: " (type model) (if (string? model) (str "; value: " model))))
+
   (let [model (or model complete-model (load-model complete-model))
         model (cond (= (type model) clojure.lang.Ref)
                     @model
@@ -575,7 +577,7 @@
                     (deref (eval (read-string model)))
                     true model)]
     (if (:name model)
-      (log/debug (str "generating with model name: " (:name model)))
+      (log/info (str "generating with model with :name: " (:name model)))
       (log/warn (str "generating with model with no name.")))
     (binding [g/max-depth (:max-depth spec g/max-depth)
               g/max-fails (:max-fails spec g/max-fails)

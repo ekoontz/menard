@@ -32,7 +32,7 @@
 
 (defn get-model-name [request]
   (log/info (str "get-model-name: user supplied model-name: " (-> request :query-params (get "model"))))
-  (let [model-name (or (-> request :query-params (get :model)) "complete-model")
+  (let [model-name (or (-> request :query-params (get "model")) "complete-model")
         qualified-model-name (str "menard.nederlands/" model-name)]
     qualified-model-name))
 

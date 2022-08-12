@@ -10,12 +10,15 @@
 (defn dag-to-string [dag]
   (-> dag dag_unify.serialization/serialize str))
 
+(def source-generation-tries 1)
+
 (defn generate-nl
   "generate a Dutch expression from _spec_ and translate to English, and return this pair
    along with the semantics of the English specification also."
   [spec model]
   (let [debug (log/debug (str "generate-nl: generating a question with spec: " spec))
         ;; 1. generate a target expression
+        nl-spec (merge spec {:language "nl"})
         target-expression (->> (repeatedly #(nl/generate spec model))
                                (remove empty?)
                                (take 1)
@@ -23,10 +26,14 @@
         target-semantics (-> target-expression (u/get-in [:sem]))
 
         ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
-        source-expression (->> (repeatedly #(-> target-expression tr/nl-to-en-spec en/generate))
-                               (remove empty?)
-                               (take 1)
-                               first)
+        source-expression
+        (->> (repeatedly #(-> target-expression tr/nl-to-en-spec
+                              (merge {:language "en"})
+                              en/generate))
+             (take source-generation-tries)
+             (remove empty?) ;; remove failed attempts
+             (take 1)
+             first)
         debug (log/debug (str "target-semantics: " (-> target-semantics
                                                        dag-to-string)))
         ;; 3. get the semantics of the source expression

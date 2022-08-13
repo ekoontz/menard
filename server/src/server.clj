@@ -4,6 +4,8 @@
    [clojure.data.json :as json :refer [write-str]]
    [config.core :refer [env]]
    [menard.handlers :as handlers]
+   [menard.nederlands.basic :as basic]   
+   [menard.nederlands.woordenlijst :as woordenlijst]
    [nrepl.server :refer [start-server stop-server]]
    [reitit.ring :as reitit-ring]
    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
@@ -35,16 +37,16 @@
   (let [model-name (or (-> request :query-params (get "model")) "complete-model")
         qualified-model-name
         (cond (= "woordenlijst-model" model-name)
-              "menard.nederlands.woordenlijst/model"
+              woordenlijst/model
               (= "woordenlijst" model-name)
-              "menard.nederlands.woordenlijst/model"
+              woordenlijst/model
 
               (= "basic-model" model-name)
-              "menard.nederlands.basic/model"
+              basic/model
               (= "basic" model-name)
-              "menard.nederlands.basic/model"
+              basic/model
               
-              :else (str "menard.nederlands/" model-name))]
+              :else (eval (read-string (str "menard.nederlands/" model-name))))]
     qualified-model-name))
 
 (def routes

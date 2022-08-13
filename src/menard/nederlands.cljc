@@ -492,36 +492,6 @@
        (recur))))
 
 #?(:clj
-   (defn index-fn [spec]
-     (log/debug (str "spec: " (diag/strip-refs spec)))
-     (let [pre-result
-           (cond (= (u/get-in spec [:cat]) :verb)
-                 (-> @complete-model :indices :verb-lexicon)
-
-                 (= (u/get-in spec [:cat]) :adjective)
-                 (-> @complete-model :indices :adjective-lexicon)
-
-                 (= (u/get-in spec [:cat]) :noun)
-                 (-> @complete-model :indices :noun-lexicon)
-
-                 (= (u/get-in spec [:cat]) :det)
-                 (-> @complete-model :indices :det-lexicon)
-
-                 :else (-> @complete-model :indices :misc-lexicon))
-           spec (if true spec (u/copy (diag/strip-refs spec)))
-           result (if true
-                    (->>
-                     pre-result
-                     (filter #(not (true? (u/get-in % [:null?])))))
-                    (->> pre-result
-                         (filter #(not (true? (u/get-in % [:null?]))))
-                         (map #(unify % spec))
-                         (filter #(not (= :fail %)))))]
-       (if true
-         (shuffle result)
-         result))))
-
-#?(:clj
    (defn write-compiled-lexicon []
      (l/write-compiled-lexicon (:lexicon @complete-model)
                                "resources/nederlands/lexicon/compiled.edn")))
@@ -620,14 +590,19 @@
       (-> spec
           ((fn [x] (unify x (:training-wheels x :top))))
           (dissoc :training-wheels)
-          (g/generate (-> model :grammar) index-fn syntax-tree)))))
+          (g/generate (-> model :grammar)
+                      (-> model :lexicon-index-fn)
+                      syntax-tree)))))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
   (let [model (load-model complete-model)]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-      (g/generate-all [spec] (-> model :grammar) index-fn syntax-tree))))
+      (g/generate-all [spec]
+                      (-> model :grammar)
+                      (-> model :lexicon-index-fn)
+                      syntax-tree))))
 
 (defn analyze [surface]
   (let [model (load-model complete-model)]

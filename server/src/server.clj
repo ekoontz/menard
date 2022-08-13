@@ -38,6 +38,12 @@
               "menard.nederlands.woordenlijst/model"
               (= "woordenlijst" model-name)
               "menard.nederlands.woordenlijst/model"
+
+              (= "basic-model" model-name)
+              "menard.nederlands.basic/model"
+              (= "basic" model-name)
+              "menard.nederlands.basic/model"
+              
               :else (str "menard.nederlands/" model-name))]
     qualified-model-name))
 

@@ -71,7 +71,8 @@
   optionaly function to print out a tree _syntax-tree-fn_. See 
   nederlands/generate and english/generate for sample syntax-tree functions."
   [spec grammar lexicon-index-fn & [syntax-tree-fn]]
-  (log/info (str "(generate) with language: " (:language spec "unnamed")))
+  (if (empty? grammar)
+    (exception "grammar is empty."))
   (when counts?
     (reset! count-adds 0)
     (reset! count-lexeme-fails 0)
@@ -420,6 +421,8 @@
    that matches the given _spec_."
   [spec lexicon-index-fn]
   (log/debug (str "get-lexemes with spec: " (strip-refs spec)))
+  (if (nil? lexicon-index-fn)
+    (exception (str "lexical-index-fn was null.")))
   (->> (lexicon-index-fn spec)
 
        (#(do

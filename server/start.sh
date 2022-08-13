@@ -7,10 +7,10 @@
 # - provides various linguistic resources (lexicons,
 #   grammars and morphological rules).
 #
-# The LANGUAGE_ENDPOINT_URL is the URL for the UI server
+# The ORIGIN is the <scheme>://<hostname>:<port> for the UI server.
 # It must be provided as an environmental variable to this
-# script. The language endpoint needs that URL so it can set the
-# header: 'Access-Control-Allow-Origin' to that.
+# script so that the the language endpoint server can set the
+# header: 'Access-Control-Allow-Origin' to that ORIGIN.
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 MENARD_DIR=${SCRIPT_DIR}/..

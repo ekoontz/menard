@@ -39,3 +39,14 @@
               {k filtered-vals})))
         (keys lexicon))
      (into {})))
+
+#?(:clj
+   (if create-basic-model?
+     (def basic-model
+       (ref (create "nederlands/models/basic"
+                    nl/load-lexicon-with-morphology
+                    nl/load-lexicon
+                    nl/load-grammar
+                    nl/create-lexical-index
+                    nl/fill-lexicon-indexes)))))
+

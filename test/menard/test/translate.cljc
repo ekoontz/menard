@@ -1,6 +1,7 @@
 (ns menard.test.translate
   (:require [menard.english :as en]
             [menard.nederlands :as nl]
+            [menard.nederlands.basic :as basic]
             [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
             [dag_unify.serialization :refer [serialize]]
@@ -114,7 +115,7 @@
                   retval)))
          doall)))
 
-(if nl/create-basic-model?
+(if basic/create-basic-model?
   (deftest transfer-basic
     (->>
      (range 0 (count nl/expressions))
@@ -122,7 +123,7 @@
             (println (str "transfering with nl/expression number: " i))
           (doall
            (take 10
-                 (repeatedly #(transfer-fn i @nl/basic-model))))))
+                 (repeatedly #(transfer-fn i @basic/basic-model))))))
      doall)))
 
 (deftest transfer

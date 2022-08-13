@@ -1,6 +1,6 @@
 (ns menard.test.nederlands
-  (:require [menard.nederlands :as nl :refer [analyze basic-model create-basic-model?
-                                              expressions generate load-model morph morphology parse syntax-tree]]
+  (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph morphology parse syntax-tree]]
+            [menard.nederlands.basic :as basic :refer [create-basic-model? basic-model]]
             [menard.nederlands.woordenlijst :as woordenlijst]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]

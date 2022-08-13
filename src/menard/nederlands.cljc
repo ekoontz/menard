@@ -303,7 +303,7 @@
     (let [grammar (load-grammar (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
       (log/debug (str "loaded " (count grammar) " grammar rules."))
       (log/debug (str "loading morphology.."))
-      (let [morphology (load-morphology (str "file://" menard-dir "resources/nederlands/morphology/"))]
+      (let [morphology (model/load-morphology (str "file://" menard-dir "resources/nederlands/morphology/") (-> spec :morphology :sources))]
         (log/debug (str "loaded " (count morphology) " morphological rules."))
         (log/debug (str "loading lexical rules.."))
         (let [lexical-rules (load-lexical-rules (str "file://" menard-dir "resources/nederlands/lexicon/rules.edn"))]

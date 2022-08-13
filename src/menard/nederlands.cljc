@@ -199,6 +199,27 @@
 
            filter-fn))))
 
+(def finite-tenses
+  (-> "nederlands/finite-tenses.edn" resource slurp read-string))
+
+(def inf-tense
+  (-> "nederlands/infinitive-tense.edn" resource slurp read-string))
+
+(def finite-plus-inf-tense
+  (concat finite-tenses
+          inf-tense))
+
+#?(:clj
+   (defn load-grammar [& [path]]
+     (let [path (or path "nederlands/grammar.edn")]
+       (-> (model/use-path path)
+           grammar/read-grammar-fn
+           grammar/process))))
+
+#?(:cljs
+   (def model
+     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
+
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
     (let [flattened-lexicon (flatten (vals lexicon))]
@@ -225,27 +246,6 @@
        (->> flattened-lexicon
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
-
-(def finite-tenses
-  (-> "nederlands/finite-tenses.edn" resource slurp read-string))
-
-(def inf-tense
-  (-> "nederlands/infinitive-tense.edn" resource slurp read-string))
-
-(def finite-plus-inf-tense
-  (concat finite-tenses
-          inf-tense))
-
-#?(:clj
-   (defn load-grammar [& [path]]
-     (let [path (or path "nederlands/grammar.edn")]
-       (-> (model/use-path path)
-           grammar/read-grammar-fn
-           grammar/process))))
-
-#?(:cljs
-   (def model
-     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
    (defn create-lexical-index [model]

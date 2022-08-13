@@ -7,7 +7,6 @@
 (if create-woordenlijst-model?
   (def model
     (ref (create "nederlands/models/woordenlijst"
-                 nl/load-morphology
                  nl/load-lexicon-with-morphology
                  nl/load-lexicon
                  nl/load-grammar

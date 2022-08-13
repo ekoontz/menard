@@ -5,7 +5,8 @@
             #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
             #?(:cljs [cljslog.core :as log])
-            [menard.lexiconfn :as l]))
+            [menard.lexiconfn :as l]
+            [menard.morphology :as m]))
 
 #?(:clj
    (defn use-path [path]
@@ -108,8 +109,14 @@
          read-string)))
 
 #?(:clj
+   (defn load-morphology [path-prefix source-files]
+     (m/compile-morphology-fn
+      (map (fn [source-file]
+             (use-path (str path-prefix "/" source-file)))
+           source-files))))
+
+#?(:clj
    (defn create [path-to-model
-                 load-morphology-fn
                  load-lexicon-with-morphology-fn
                  load-lexicon-fn
                  load-grammar-fn
@@ -123,7 +130,8 @@
        (let [model-spec (read-model-spec model-spec-filename)
              lexical-rules-path (-> model-spec :lexicon :rules)
              lexical-rules (l/read-and-eval (use-path lexical-rules-path))
-             morphology (load-morphology-fn)
+             morphology (load-morphology (-> model-spec :morphology :path)
+                                         (-> model-spec :morphology :sources))
              filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)
                                    (fn [lexicon] lexicon))
              ;; apply those lexical rules

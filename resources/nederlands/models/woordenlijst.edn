@@ -1,4 +1,10 @@
 {:name "woordenlijst"
+ :morphology {:path "nederlands/morphology"
+              :sources ["adjectives.edn"
+                        "misc.edn"
+                        "nouns.edn"
+                        "verbs.edn"
+                        "verbs/simple-past.edn"]}
  :lexicon {:rules "nederlands/lexicon/rules.edn"
            :sources {"woordenlijst/nouns.edn"
                      {:u {:cat :noun}}

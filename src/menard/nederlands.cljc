@@ -41,18 +41,6 @@
 (def log-these-rules #{})
 (def truncate? true)
 
-;; <morphology>
-#?(:clj
-   (defn load-morphology [& [path-prefix]]
-     (let [path-prefix (or path-prefix "nederlands/morphology/")]
-       (m/compile-morphology-fn
-        [(model/use-path (str path-prefix "adjectives.edn"))
-         (model/use-path (str path-prefix "misc.edn"))
-         (model/use-path (str path-prefix "nouns.edn"))
-         (model/use-path (str path-prefix "verbs.edn"))
-         (model/use-path (str path-prefix "verbs/simple-past.edn"))]))))
-;; </morphology>
-
 ;; <lexicon>
 
 #?(:clj
@@ -389,8 +377,7 @@
 #?(:clj
    (if create-basic-model?
      (def basic-model
-       (ref (model/create "nederlands/models/complete"
-                          load-morphology
+       (ref (model/create "nederlands/models/basic"
                           load-lexicon-with-morphology
                           load-lexicon
                           load-grammar
@@ -401,7 +388,6 @@
    (if create-complete-model?
      (def complete-model
        (ref (model/create "nederlands/models/complete"
-                          load-morphology
                           load-lexicon-with-morphology
                           load-lexicon
                           load-grammar

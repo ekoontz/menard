@@ -33,7 +33,10 @@
 (defn get-model-name [request]
   (log/info (str "get-model-name: user supplied model-name: " (-> request :query-params (get "model"))))
   (let [model-name (or (-> request :query-params (get "model")) "complete-model")
-        qualified-model-name (str "menard.nederlands/" model-name)]
+        qualified-model-name
+        (cond (= "woordenlijst-model" model-name)
+              (str "menard.nederlands.woordenlijst/" model-name)
+              :else (str "menard.nederlands/" model-name))]
     qualified-model-name))
 
 (def routes

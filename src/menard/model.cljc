@@ -4,7 +4,8 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
-            #?(:cljs [cljslog.core :as log])))
+            #?(:cljs [cljslog.core :as log])
+            [menard.lexiconfn :as l]))
 
 #?(:clj
    (defn use-path [path]
@@ -106,3 +107,63 @@
          slurp
          read-string)))
 
+#?(:clj
+   (defn create [model-name
+                 load-morphology-fn
+                 load-lexicon-with-morphology-fn
+                 load-lexicon-fn
+                 load-grammar-fn
+                 lexicon-index-fn
+                 fill-lexicon-indexes-fn
+                 ]
+     (log/info (str "creating model for Nederlands "
+                    (if model-name (str "with name: '" model-name "'.."))))
+     (let [model-spec (read-model-spec
+                       (str "nederlands/models/" model-name ".edn"))
+           lexical-rules-path "nederlands/lexicon/rules.edn"
+           lexical-rules (l/read-and-eval (use-path lexical-rules-path))
+           morphology (load-morphology-fn)
+
+           filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)
+                                 (fn [lexicon] lexicon))
+           
+           ;; apply those lexical rules
+           ;; to a source lexicon to create
+           ;; compile lexicon:
+           lexicon (load-lexicon-with-morphology-fn
+                    (load-lexicon-fn lexical-rules model-spec)
+                    morphology
+                    filter-lexicon-fn)
+
+           grammar (load-grammar-fn)]
+       (log/info (str "create: grammar for model-name: "
+                      "'" model-name "'"
+                      " has this many rules: " (count grammar)))
+       (->
+        (load "nl"
+              ;; loads the lexical rules:
+              ;; (we already did this above,
+              ;;  so we'll just return those rules.
+              (fn [] lexical-rules)
+              
+              ;; function to load the lexicon:
+              (fn [_] lexicon)
+              
+              ;; create indices on the compiled lexicon:
+              fill-lexicon-indexes-fn
+              
+              ;; function to load the morphology:
+              (fn [] morphology)
+              
+              (fn [] grammar)
+              model-spec)
+        ((fn [model]
+           (merge model
+                  {:name model-name
+                   :spec model-spec
+                   :lexicon-index-fn (lexicon-index-fn model)})))))))
+
+
+
+
+     

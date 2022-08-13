@@ -1,6 +1,6 @@
 (ns menard.test.nederlands
   (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph morphology parse syntax-tree]]
-            [menard.nederlands.basic :as basic :refer [create-basic-model? basic-model]]
+            [menard.nederlands.basic :as basic]
             [menard.nederlands.woordenlijst :as woordenlijst]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
@@ -22,7 +22,7 @@
                                                :mod []}
                                        :rest []}}}))))
 
-  (if create-basic-model?
+  (if basic/create-model?
     (is (= "het oude huis"
            (morph (generate {:cat :noun
                              :rule "np:2"
@@ -34,7 +34,7 @@
                                    :mod {:first {:pred :old
                                                  :mod []}
                                          :rest []}}}
-                            basic-model)))))
+                            basic/model)))))
 
   (is (= "een oud huis"
          (morph (generate {:cat :noun
@@ -49,7 +49,7 @@
                                                :mod []}
                                        :rest []}}}))))
 
-  (if create-basic-model?
+  (if basic/create-model?
     (is (= "een oud huis"
            (morph (generate {:cat :noun
                              :rule "np:2"
@@ -61,7 +61,7 @@
                                    :mod {:first {:pred :old
                                                  :mod []}
                                          :rest []}}}
-                            basic-model)))))
+                            basic/model)))))
 
 
   (is (= "de oude huizen"
@@ -78,7 +78,7 @@
                                        :rest []}}}))))
 
 
-  (if create-basic-model?
+  (if basic/create-model?
     (is (= "de oude huizen"
            (morph (generate {:cat :noun
                              :rule "np:2"
@@ -91,7 +91,7 @@
                                                  :number? false
                                                  :mod []}
                                          :rest []}}}
-                            basic-model))))))
+                            basic/model))))))
 
 (def generate-per-expression 5)
 

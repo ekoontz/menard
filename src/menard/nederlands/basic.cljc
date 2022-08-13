@@ -1,14 +1,16 @@
 (ns menard.nederlands.basic
   (:require [dag_unify.core :as u]
+            [clojure.tools.logging :as log]
             [menard.nederlands :as nl]
             [menard.model :refer [create]]))
 
-(def create-basic-model? true)
+(def create-model? true)
 
 (defn basic-filter
   "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"
   [lexicon]
   (->>
+   (keys lexicon)
    (map (fn [k]
           (let [vals (get lexicon k)
                 filtered-vals (->> vals
@@ -16,6 +18,7 @@
                                              (let [cat (u/get-in lexeme [:cat])
                                                    curriculum (u/get-in lexeme [:curriculum] ::none)]
                                                (or
+                                                true
                                                 (and (= cat :adjective)
                                                      (= :basic curriculum))
                                                 (and (= cat :adverb)
@@ -36,13 +39,12 @@
                                                 (and (= cat :verb)
                                                      (= :basic curriculum)))))))]
             (if (seq filtered-vals)
-              {k filtered-vals})))
-        (keys lexicon))
-     (into {})))
+              {k filtered-vals}))))
+   (into {})))
 
 #?(:clj
-   (if create-basic-model?
-     (def basic-model
+   (if create-model?
+     (def model
        (ref (create "nederlands/models/basic"
                     nl/load-lexicon-with-morphology
                     nl/load-lexicon

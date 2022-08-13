@@ -5,6 +5,7 @@
             #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
             #?(:cljs [cljslog.core :as log])
+            [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.morphology :as m]))
 
@@ -27,6 +28,8 @@
            grammar (load-grammar-fn)]
        (log/info (str logging-label " loaded: " (count lexical-rules) " lexical rules."))
        (log/info (str logging-label " loaded: " (count (keys lexicon)) " lexeme keys."))
+       (if (empty? (keys lexicon))
+         (exception (str "lexicon was empty for model with spec: " model-spec)))
        (log/info (str logging-label " loaded: " (count (keys indices)) " lexicon indices."))
        (log/info (str logging-label " loaded: " (count morphology) " morphological rules."))
        (log/info (str logging-label " loaded: " (count grammar) " grammar rules."))
@@ -132,7 +135,7 @@
              lexical-rules (l/read-and-eval (use-path lexical-rules-path))
              morphology (load-morphology (-> model-spec :morphology :path)
                                          (-> model-spec :morphology :sources))
-             filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)
+             filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval eval)
                                    (fn [lexicon] lexicon))
              ;; apply those lexical rules
              ;; to a source lexicon to create
@@ -146,6 +149,17 @@
          (log/info (str "create: grammar for "
                         "'" model-spec-filename "'"
                         " has this many rules: " (count grammar)))
+         (log/info (str "create: lexicon for "
+                        "'" model-spec-filename "'"
+                        " has this many lexemes: " (count (keys lexicon))))
+         (if (empty? grammar)
+           (exception (str "create: grammar for model "
+                           "'" model-spec-filename "'"
+                           " is empty.")))
+         (if (empty? (keys lexicon))
+           (exception (str "create: lexicon for model "
+                           "'" model-spec-filename "'"
+                           " is empty.")))
          (->
           (load "nl"
                 ;; loads the lexical rules:

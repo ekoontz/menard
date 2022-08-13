@@ -139,54 +139,52 @@
 
 #?(:clj
 
-   (defn load-lexicon-with-morphology [lexicon morphology-rules & [filter-fn]]
-     (let [filter-fn (or filter-fn
-                         (fn [x]
-                           x))]
-       (-> lexicon
-           (l/apply-to-every-lexeme
-            (fn [lexeme]
-              (let [inflection (get-inflection-of lexeme morphology-rules)]
-                (if (and (= :noun (u/get-in lexeme [:cat]))
+   (defn load-lexicon-with-morphology [lexicon morphology-rules filter-fn]
+     (-> lexicon
+         (l/apply-to-every-lexeme
+          (fn [lexeme]
+            (let [inflection (get-inflection-of lexeme morphology-rules)]
+              (if (and (= :noun (u/get-in lexeme [:cat]))
+                       (not (= true (u/get-in lexeme [:propernoun?])))
+                       (not (= true (u/get-in lexeme [:pronoun?]))))
+                (do
+                  (cond
+                    inflection
+                    (unify lexeme
+                           {:inflection inflection})
+                    (and (= :noun (u/get-in lexeme [:cat]))
+                         (= true (u/get-in lexeme [:sem :countable?]))
                          (not (= true (u/get-in lexeme [:propernoun?])))
-                         (not (= true (u/get-in lexeme [:pronoun?]))))
-                  (do
-                    (cond
-                      inflection
-                      (unify lexeme
-                             {:inflection inflection})
-                      (and (= :noun (u/get-in lexeme [:cat]))
-                           (= true (u/get-in lexeme [:sem :countable?]))
-                           (not (= true (u/get-in lexeme [:propernoun?])))
-                           (not (= true (u/get-in lexeme [:pronoun?])))
-                           (false? (u/get-in lexeme [:inflected?] false)))
-                      (do
-                        (log/warn (str "no inflection found for lexeme: "
-                                       (u/get-in lexeme [:canonical])))
-                        lexeme)
-
-                      :else lexeme))
-                  lexeme))))
-
-           ;; The lexicon is a map where each
-           ;; key is a canonical string
-           ;; and each value is the list of lexemes for
-           ;; that string. we turn the list into a vec
-           ;; so that it's completely realized rather than
-           ;; a lazy sequence, so that when we periodically
-           ;; reload the model from disk, (generate) or
-           ;; (parse) won't have to de-lazify the list:
-           ;; it will already be done before they (generate or
-           ;; parse) see it.
-           ;; (TODO: move this to some function within
-           ;;  menard/model).
-           ((fn [lexicon]
-              (zipmap (keys lexicon)
-                      (map (fn [vs]
-                             (vec vs))
-                           (vals lexicon)))))
-
-           filter-fn))))
+                         (not (= true (u/get-in lexeme [:pronoun?])))
+                         (false? (u/get-in lexeme [:inflected?] false)))
+                    (do
+                      (log/warn (str "no inflection found for lexeme: "
+                                     (u/get-in lexeme [:canonical])))
+                      lexeme)
+                    
+                    :else lexeme))
+                lexeme))))
+         
+         ;; The lexicon is a map where each
+         ;; key is a canonical string
+         ;; and each value is the list of lexemes for
+         ;; that string. we turn the list into a vec
+         ;; so that it's completely realized rather than
+         ;; a lazy sequence, so that when we periodically
+         ;; reload the model from disk, (generate) or
+         ;; (parse) won't have to de-lazify the list:
+         ;; it will already be done before they (generate or
+         ;; parse) see it.
+         ;; (TODO: move this to some function within
+         ;;  menard/model).
+         ((fn [lexicon]
+            (zipmap (keys lexicon)
+                    (map (fn [vs]
+                           (vec vs))
+                         (vals lexicon)))))
+         
+         ((fn [lexicon]
+            (filter-fn lexicon))))))
 
 (def finite-tenses
   (-> "nederlands/finite-tenses.edn" resource slurp read-string))
@@ -474,14 +472,14 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
-  (log/info (str "generate: model type was: " (type model) (if (string? model) (str "; value: " model))))
-
   (let [model (or model complete-model (load-model complete-model))
         model (cond (= (type model) clojure.lang.Ref)
                     @model
-                    (string? model)
-                    (deref (eval (read-string model)))
-                    true model)]
+                    (map? model)
+                    model
+
+                    :else
+                    (exception (str "invalid model: " model)))]
     (if (:name model)
       (log/info (str "generating with model with :name: " (:name model)))
       (log/warn (str "generating with model with no name.")))

@@ -35,7 +35,9 @@
   (let [model-name (or (-> request :query-params (get "model")) "complete-model")
         qualified-model-name
         (cond (= "woordenlijst-model" model-name)
-              (str "menard.nederlands.woordenlijst/" model-name)
+              "menard.nederlands.woordenlijst/model"
+              (= "woordenlijst" model-name)
+              "menard.nederlands.woordenlijst/model"
               :else (str "menard.nederlands/" model-name))]
     qualified-model-name))
 

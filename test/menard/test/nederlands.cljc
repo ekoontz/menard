@@ -1,6 +1,7 @@
 (ns menard.test.nederlands
   (:require [menard.nederlands :as nl :refer [analyze basic-model create-basic-model?
                                               expressions generate load-model morph morphology parse syntax-tree]]
+            [menard.nederlands.woordenlijst :as woordenlijst]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
@@ -447,7 +448,7 @@
     (is (not (empty?
               (->
                spec
-               (generate menard.nederlands/woordenlijst-model)
+               (generate woordenlijst/model)
                ((fn [x] (str (morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
 
 

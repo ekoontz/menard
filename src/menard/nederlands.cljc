@@ -103,7 +103,10 @@
 
 #?(:clj
    (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
-     (log/debug (str "load-lexicon: path-suffix: " path-suffix))
+     (log/info (str "load-lexicon: lexical-rules (type): " (type lexical-rules)))
+     (log/info (str "load-lexicon: path-suffix: " path-suffix))
+     (if (nil? model-spec)
+       (exception "model-spec is unexpectedly nil."))
      (log/info (str "model-spec: " model-spec))
      (let [path-suffix (or path-suffix
                            "nederlands/lexicon/")]
@@ -265,65 +268,71 @@
            result)))))
 
 #?(:clj
-(defn create-model-from-filesystem [spec]
-  (log/info (str "menard-dir env: " (:menard-dir env)))  
-  (if (empty? (:menard-dir env))
-    (exception (str "you must set MENARD_DIR in your environment.")))
-  (let [menard-dir (str (:menard-dir env) "/")]
-    (log/debug (str "loading ug.."))
-    (menard.ug/load-from-file)
-    (log/debug (str "loading nesting.."))
-    (menard.nesting/load-from-file)
-    (log/debug (str "loading subcat.."))
-    (menard.subcat/load-from-file)
-    (log/debug (str "loading tenses.."))
-    (with-open [r (io/reader (str menard-dir "resources/nederlands/infinitive-tense.edn"))]
-      (def inf-tense (eval (read (java.io.PushbackReader. r)))))
-    (with-open [r (io/reader (str menard-dir "resources/nederlands/finite-tenses.edn"))]
-      (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
-    (def finite-plus-inf-tense
-      (concat finite-tenses
-              inf-tense))
-    (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
-    (log/debug (str "loading grammar.."))
-    (let [grammar (load-grammar (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
-      (log/debug (str "loaded " (count grammar) " grammar rules."))
-      (log/debug (str "loading morphology.."))
-      (let [morphology (model/load-morphology (str "file://" menard-dir "resources/nederlands/morphology/") (-> spec :morphology :sources))]
-        (log/debug (str "loaded " (count morphology) " morphological rules."))
-        (log/debug (str "loading lexical rules.."))
-        (let [lexical-rules (load-lexical-rules (str "file://" menard-dir "resources/nederlands/lexicon/rules.edn"))]
-          (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
-          (log/debug (str "loading lexicon.."))
-          (let [lexicon (load-lexicon-with-morphology
-                         (load-lexicon lexical-rules
-                                       spec
-                                       (str "file://" menard-dir "resources/nederlands/lexicon/"))
-                         morphology
-                         (fn [x] x))]
-            (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
-            (log/debug (str "done loading model."))
-            (->
-             (model/load "nl"
-                         ;; loads the lexical rules:
-                         ;; (we already did this above,
-                         ;;  so we'll just return those rules.
-                         (fn [] lexical-rules)
-                         
-                         ;; function to load the lexicon:
-                         (fn [_] lexicon)
-                         
-                         ;; create indices on the compiled lexicon:
-                         fill-lexicon-indexes
-                         
-                         ;; function to load the morphology:
-                         (fn [] morphology)
-                         
-                         (fn [] grammar)
-                         spec)
-             ((fn [model]
-                (merge model
-                       {:lexicon-index-fn (create-lexical-index model)})))))))))))
+(defn create-model-from-filesystem [spec & [use-env]]
+  (if (nil? spec)
+    (exception (str "create-model-from-filesystem: spec was nil.")))
+  (let [env (or use-env env)]
+    (log/info (str "create-model-from-filesystem: menard-dir env: " (:menard-dir env)))
+    (log/info (str "create-model-from-filesystem: spec: " spec))
+    (if (empty? (:menard-dir env))
+      (exception (str "you must set MENARD_DIR in your environment.")))
+    (let [menard-dir (str (:menard-dir env) "/")]
+      (log/debug (str "loading ug.."))
+      (menard.ug/load-from-file)
+      (log/debug (str "loading nesting.."))
+      (menard.nesting/load-from-file)
+      (log/debug (str "loading subcat.."))
+      (menard.subcat/load-from-file)
+      (log/debug (str "loading tenses.."))
+      (with-open [r (io/reader (str menard-dir "resources/nederlands/infinitive-tense.edn"))]
+        (def inf-tense (eval (read (java.io.PushbackReader. r)))))
+      (with-open [r (io/reader (str menard-dir "resources/nederlands/finite-tenses.edn"))]
+        (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
+      (def finite-plus-inf-tense
+        (concat finite-tenses
+                inf-tense))
+      (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
+      (log/debug (str "loading grammar.."))
+      (let [grammar (load-grammar (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
+        (log/debug (str "loaded " (count grammar) " grammar rules."))
+        (log/debug (str "loading morphology.."))
+        (let [morphology (model/load-morphology (str "file://" menard-dir "resources/nederlands/morphology/") (-> spec :morphology :sources))]
+          (log/debug (str "loaded " (count morphology) " morphological rules."))
+          (log/debug (str "loading lexical rules.."))
+          (let [lexical-rules (-> (str "file://" menard-dir "resources/nederlands/lexicon/rules.edn")
+                                  l/read-and-eval)]
+            (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
+            (log/info (str "create-model-from-filesystem: loading lexicon with spec: " spec))
+            (let [lexicon (load-lexicon-with-morphology
+                           (load-lexicon lexical-rules
+                                         spec
+                                         (str "file://" menard-dir "resources/nederlands/lexicon/"))
+                           morphology
+                           (fn [x] x))]
+              (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
+              (log/debug (str "done loading model."))
+              (->
+               (model/load "nl"
+                           ;; loads the lexical rules:
+                           ;; (we already did this above,
+                           ;;  so we'll just return those rules.
+                           (fn [] lexical-rules)
+                           
+                           ;; function to load the lexicon:
+                           (fn [_] lexicon)
+                           
+                           ;; create indices on the compiled lexicon:
+                           fill-lexicon-indexes
+                           
+                           ;; function to load the morphology:
+                           (fn [] morphology)
+                           
+                           (fn [] grammar)
+                           spec)
+               ((fn [model]
+                  (merge model
+                         {:spec spec
+                          :lexicon-index-fn (create-lexical-index model)}))))))))))))
 
 #?(:clj
    (if create-complete-model?
@@ -340,12 +349,15 @@
       (when (or (nil? @model) (true? reload?))
         (try
           (log/info (str (when @model "re") "loading model: " (:name @model)))
+          (log/info (str "THE MODEL'S TYPE IS: " (type model)))
+          (log/info (str "THE MODEL'S DEREF TYPE IS: " (type (-> model deref))))
+          (log/info (str "ITS KEYS ARE: " (-> model deref keys)))
           (let [loaded (create-model-from-filesystem (:spec @model))]
             (dosync
              (ref-set model loaded))
             (log/info (str "model update done.")))
           (catch Exception e (do
-                               (log/info (str "Failed to load model; the error was: " (str e) ". Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
+                               (log/info (str "Failed to load model; the error was: '" (str e) "'. Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
      (if (nil? @model)
        (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
      @model))
@@ -369,6 +381,7 @@
              model complete-model]
          (if (> last-file-modification @last-file-check)
            (log/info (str
+                      "start-reload-loop: "
                       (:parent most-recently-modified-info) "/"
                       (:filename most-recently-modified-info)
                       " at: "

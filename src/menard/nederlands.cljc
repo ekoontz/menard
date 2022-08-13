@@ -40,19 +40,6 @@
 (def log-these-rules #{})
 (def truncate? true)
 
-;; <lexicon>
-
-#?(:clj
-   (defn load-model-spec [model-name]
-     (log/info (str "loading model: '" model-name "'"))
-     (let [loaded-model (model/read-model-spec (str "nederlands/models/" model-name ".edn"))]
-       (log/info (str "loaded model spec: " loaded-model)))))
-
-#?(:clj
-   (defn load-lexical-rules [& [path]]
-     (let [path (or path "nederlands/lexicon/rules.edn")]
-       (l/read-and-eval (model/use-path path)))))
-
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
      (log/info (str "compile-lexicon-source start: '" source-filename "'"))

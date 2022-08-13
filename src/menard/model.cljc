@@ -121,7 +121,7 @@
        (log/info (str "creating model with "
                       "filename: " model-spec-filename " .."))
        (let [model-spec (read-model-spec model-spec-filename)
-             lexical-rules-path "nederlands/lexicon/rules.edn"
+             lexical-rules-path (-> model-spec :lexicon :rules)
              lexical-rules (l/read-and-eval (use-path lexical-rules-path))
              morphology (load-morphology-fn)
              filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)

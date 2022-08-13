@@ -1,5 +1,5 @@
 {:name "woordenlijst"
- :lexicon {:rules "rules.edn"
+ :lexicon {:rules "nederlands/lexicon/rules.edn"
            :sources {"woordenlijst/nouns.edn"
                      {:u {:cat :noun}}
                      "determiners.edn"

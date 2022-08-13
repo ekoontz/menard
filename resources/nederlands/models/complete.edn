@@ -1,5 +1,5 @@
 {:name "complete"
- :lexicon {:rules "rules.edn"
+ :lexicon {:rules "nederlands/lexicon/rules.edn"
            :sources {"adjectives.edn"
                      {:u
                       {:cat :adjective}}

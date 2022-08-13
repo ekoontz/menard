@@ -6,7 +6,7 @@
 
 (if create-woordenlijst-model?
   (def model
-    (ref (create "woordenlijst"
+    (ref (create "nederlands/models/woordenlijst"
                  nl/load-morphology
                  nl/load-lexicon-with-morphology
                  nl/load-lexicon

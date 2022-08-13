@@ -389,7 +389,7 @@
 #?(:clj
    (if create-basic-model?
      (def basic-model
-       (ref (model/create "basic"
+       (ref (model/create "nederlands/models/complete"
                           load-morphology
                           load-lexicon-with-morphology
                           load-lexicon
@@ -400,7 +400,7 @@
 #?(:clj
    (if create-complete-model?
      (def complete-model
-       (ref (model/create "complete"
+       (ref (model/create "nederlands/models/complete"
                           load-morphology
                           load-lexicon-with-morphology
                           load-lexicon

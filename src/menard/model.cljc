@@ -108,7 +108,7 @@
          read-string)))
 
 #?(:clj
-   (defn create [model-name
+   (defn create [path-to-model
                  load-morphology-fn
                  load-lexicon-with-morphology-fn
                  load-lexicon-fn
@@ -116,34 +116,33 @@
                  lexicon-index-fn
                  fill-lexicon-indexes-fn
                  ]
-     (log/info (str "creating model for Nederlands "
-                    (if model-name (str "with name: '" model-name "'.."))))
-     (let [model-spec (read-model-spec
-                       (str "nederlands/models/" model-name ".edn"))
-           lexical-rules-path "nederlands/lexicon/rules.edn"
-           lexical-rules (l/read-and-eval (use-path lexical-rules-path))
-           morphology (load-morphology-fn)
+     (let [model-spec-filename 
+           (str path-to-model ".edn")]
+       (log/info (str "creating model with "
+                      "filename: " model-spec-filename " .."))
+       (let [model-spec (read-model-spec model-spec-filename)
+             lexical-rules-path "nederlands/lexicon/rules.edn"
+             lexical-rules (l/read-and-eval (use-path lexical-rules-path))
+             morphology (load-morphology-fn)
+             filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)
+                                   (fn [lexicon] lexicon))
+             ;; apply those lexical rules
+             ;; to a source lexicon to create
+             ;; compile lexicon:
+             lexicon (load-lexicon-with-morphology-fn
+                      (load-lexicon-fn lexical-rules model-spec)
+                      morphology
+                      filter-lexicon-fn)
 
-           filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval)
-                                 (fn [lexicon] lexicon))
-           
-           ;; apply those lexical rules
-           ;; to a source lexicon to create
-           ;; compile lexicon:
-           lexicon (load-lexicon-with-morphology-fn
-                    (load-lexicon-fn lexical-rules model-spec)
-                    morphology
-                    filter-lexicon-fn)
-
-           grammar (load-grammar-fn)]
-       (log/info (str "create: grammar for model-name: "
-                      "'" model-name "'"
-                      " has this many rules: " (count grammar)))
-       (->
-        (load "nl"
-              ;; loads the lexical rules:
-              ;; (we already did this above,
-              ;;  so we'll just return those rules.
+             grammar (load-grammar-fn)]
+         (log/info (str "create: grammar for "
+                        "'" model-spec-filename "'"
+                        " has this many rules: " (count grammar)))
+         (->
+          (load "nl"
+                ;; loads the lexical rules:
+                ;; (we already did this above,
+                ;;  so we'll just return those rules.
               (fn [] lexical-rules)
               
               ;; function to load the lexicon:
@@ -159,9 +158,9 @@
               model-spec)
         ((fn [model]
            (merge model
-                  {:name model-name
+                  {:name model-spec-filename
                    :spec model-spec
-                   :lexicon-index-fn (lexicon-index-fn model)})))))))
+                   :lexicon-index-fn (lexicon-index-fn model)}))))))))
 
 
 

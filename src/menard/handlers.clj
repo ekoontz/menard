@@ -5,7 +5,6 @@
    [dag_unify.core :as u]
    [menard.english :as en]
    [menard.nederlands :as nl]
-   [menard.nederlands.woordenlijst :as woordenlijst]
    [menard.translate.spec :as tr]))
 
 (defn dag-to-string [dag]

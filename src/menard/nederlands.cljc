@@ -66,7 +66,7 @@
 
 #?(:clj
 
-   (defn load-lexicon-with-morphology [lexicon morphology-rules filter-fn]
+   (defn compile-lexicon [lexicon morphology-rules filter-fn]
      (-> lexicon
          (l/apply-to-every-lexeme
           (fn [lexeme]
@@ -163,7 +163,7 @@
                                   l/read-and-eval)]
             (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
             (log/info (str "create-model-from-filesystem: loading lexicon with spec: " spec))
-            (let [lexicon (load-lexicon-with-morphology
+            (let [lexicon (compile-lexicon
                            (model/load-lexicon lexical-rules
                                                spec
                                                (str "file://" menard-dir "resources/nederlands/lexicon/"))
@@ -187,16 +187,13 @@
    (if create-complete-model?
      (def complete-model
        (ref (model/create "nederlands/models/complete"
-                          load-lexicon-with-morphology)))))
+                          compile-lexicon)))))
 
 #?(:clj
    (defn load-model [model & [reload?]]
       (when (or (nil? @model) (true? reload?))
         (try
           (log/info (str (when @model "re") "loading model: " (:name @model)))
-          (log/info (str "THE MODEL'S TYPE IS: " (type model)))
-          (log/info (str "THE MODEL'S DEREF TYPE IS: " (type (-> model deref))))
-          (log/info (str "ITS KEYS ARE: " (-> model deref keys)))
           (let [loaded (create-model-from-filesystem (:spec @model))]
             (dosync
              (ref-set model loaded))

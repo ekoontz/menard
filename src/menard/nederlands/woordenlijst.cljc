@@ -7,4 +7,5 @@
 (if create-model?
   (def model
     (ref (create "nederlands/models/woordenlijst"
-                 nl/load-lexicon-with-morphology))))
+                 nl/compile-lexicon))))
+

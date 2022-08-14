@@ -264,7 +264,7 @@
 
 #?(:clj
    (defn create [path-to-model
-                 load-lexicon-with-morphology-fn]
+                 compile-lexicon-fn]
      (let [model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "
@@ -279,7 +279,7 @@
              ;; apply those lexical rules
              ;; to a source lexicon to create
              ;; compile lexicon:
-             lexicon (load-lexicon-with-morphology-fn
+             lexicon (compile-lexicon-fn
                       (load-lexicon lexical-rules model-spec)
                       morphology
                       filter-lexicon-fn)

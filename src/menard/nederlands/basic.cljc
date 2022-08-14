@@ -1,13 +1,14 @@
 (ns menard.nederlands.basic
   (:require [dag_unify.core :as u]
             [clojure.tools.logging :as log]
-            [menard.nederlands :as nl]
+            [menard.nederlands :refer [compile-lexicon]]
             [menard.model :refer [create]]))
 
 (def create-model? true)
 
 (defn basic-filter
-  "create a 'basic' lexicon that only contains closed-class words and :basic open-class words"
+  "create a 'basic' lexicon that only contains all closed-class words, but
+   only :basic open-class words"
   [lexicon]
   (->>
    (keys lexicon)
@@ -46,6 +47,6 @@
    (if create-model?
      (def model
        (ref (create "nederlands/models/basic"
-                    nl/compile-lexicon)))))
+                    compile-lexicon)))))
 
 

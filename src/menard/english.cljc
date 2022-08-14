@@ -153,9 +153,12 @@
 #?(:clj
    (defn create-model []
      (log/info (str "creating model for English.."))
-     (model/load "en" load-lexical-rules
-                 load-lexicon
-                 load-morphology load-grammar {:name "default"})))
+     (-> (model/load "en" load-lexical-rules
+                     load-lexicon
+                     load-morphology load-grammar {:name "default"})
+         ((fn [model]
+            (merge model
+                   {:lexicon-index-fn (model/lexicon-index-fn model)}))))))
 
 #?(:clj
    (def model (ref (create-model))))
@@ -208,25 +211,6 @@
          vals
          flatten)))
 
-#?(:clj
-   (defn index-fn [spec]
-     (let [result
-           (cond (= (u/get-in spec [:cat]) :verb)
-                 (-> @model :indices :verb-lexicon)
-
-                 (and (u/get-in spec [:cat])
-                      (not (= :top (u/get-in spec [:cat]))))
-                 (-> @model :indices :non-verb-lexicon)
-
-                 ;; TODO: make a :misc-lexicon index, as in nl.
-                 :else
-                 (lazy-cat
-                  (-> @model :indices :verb-lexicon)
-                  (-> @model :indices :non-verb-lexicon)))]
-       (if true
-         (shuffle result)
-         result))))
-
 #?(:cljs
    (defn index-fn [spec]
      ;; for now a somewhat bad index function: simply returns
@@ -278,10 +262,7 @@
                       " with max-depth: " g/max-depth))
       (g/generate spec
                   (-> model :grammar)
-                  index-fn syntax-tree))))
-
-(defn get-lexemes [spec]
-  (g/get-lexemes spec index-fn))
+                  (-> model :lexicon-index-fn) syntax-tree))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

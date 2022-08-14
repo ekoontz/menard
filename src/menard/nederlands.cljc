@@ -196,13 +196,6 @@
   (concat finite-tenses
           inf-tense))
 
-#?(:clj
-   (defn load-grammar [& [path]]
-     (let [path (or path "nederlands/grammar.edn")]
-       (-> (model/use-path path)
-           grammar/read-grammar-fn
-           grammar/process))))
-
 #?(:cljs
    (def model
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
@@ -291,7 +284,7 @@
                 inf-tense))
       (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
       (log/debug (str "loading grammar.."))
-      (let [grammar (load-grammar (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
+      (let [grammar (model/load-grammar-from-file (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
         (log/debug (str "loaded " (count grammar) " grammar rules."))
         (log/debug (str "loading morphology.."))
         (let [morphology (model/load-morphology (str "file://" menard-dir "resources/nederlands/morphology/") (-> spec :morphology :sources))]
@@ -338,7 +331,6 @@
        (ref (model/create "nederlands/models/complete"
                           load-lexicon-with-morphology
                           load-lexicon
-                          load-grammar
                           create-lexical-index
                           fill-lexicon-indexes)))))
 

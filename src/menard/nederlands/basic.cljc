@@ -48,7 +48,6 @@
        (ref (create "nederlands/models/basic"
                     nl/load-lexicon-with-morphology
                     nl/load-lexicon
-                    nl/load-grammar
                     nl/create-lexical-index
                     nl/fill-lexicon-indexes)))))
 

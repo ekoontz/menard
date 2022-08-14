@@ -6,6 +6,7 @@
             [clojure.string :as string]
             #?(:cljs [cljslog.core :as log])
             [menard.exception :refer [exception]]
+            [menard.grammar :as grammar]
             [menard.lexiconfn :as l]
             [menard.morphology :as m]))
 
@@ -119,10 +120,19 @@
            source-files))))
 
 #?(:clj
+   (defn load-grammar-from-file [path]
+     (-> (use-path path)
+         grammar/read-grammar-fn
+         grammar/process)))
+
+#?(:clj
+   (defn load-grammar [spec]
+     (load-grammar-from-file (-> spec :grammar))))
+
+#?(:clj
    (defn create [path-to-model
                  load-lexicon-with-morphology-fn
                  load-lexicon-fn
-                 load-grammar-fn
                  lexicon-index-fn
                  fill-lexicon-indexes-fn
                  ]
@@ -145,7 +155,7 @@
                       morphology
                       filter-lexicon-fn)
 
-             grammar (load-grammar-fn)]
+             grammar (load-grammar model-spec)]
          (log/info (str "create: grammar for "
                         "'" model-spec-filename "'"
                         " has this many rules: " (count grammar)))

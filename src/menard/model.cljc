@@ -204,7 +204,7 @@
      (if (nil? model-spec)
        (exception "model-spec is unexpectedly nil."))
      (log/info (str "model-spec: " model-spec))
-     (let [path-suffix (or path-suffix (-> model-spec :lexicon :path-suffix))]
+     (let [path-suffix (or path-suffix (-> model-spec :lexicon :path))]
        (log/info (str "lexicon filenames: " (-> model-spec :lexicon :sources keys sort)))
 
        (reduce (fn [a b]
@@ -270,7 +270,9 @@
        (log/info (str "creating model with "
                       "filename: " model-spec-filename " .."))
        (let [model-spec (read-model-spec model-spec-filename)
-             lexical-rules-path (-> model-spec :lexicon :rules)
+             lexical-rules-path (str
+                                 (-> model-spec :lexicon :path) "/"
+                                 (-> model-spec :lexicon :rules))
              lexical-rules (l/read-and-eval (use-path lexical-rules-path))
              morphology (load-morphology (-> model-spec :morphology :path)
                                          (-> model-spec :morphology :sources))

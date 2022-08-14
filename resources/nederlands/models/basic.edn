@@ -6,8 +6,8 @@
                         "verbs.edn"
                         "verbs/simple-past.edn"]}
  :grammar "nederlands/grammar.edn"
- :lexicon {:path-suffix "nederlands/lexicon"
-           :rules "nederlands/lexicon/rules.edn"
+ :lexicon {:path "nederlands/lexicon"
+           :rules "rules.edn"
            :sources {"adjectives.edn"
                      {:u
                       {:cat :adjective}}

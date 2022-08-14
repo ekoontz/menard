@@ -13,9 +13,7 @@
          :pronoun? true
          :reflexive? false
          :sem {:ref {:human? true}
-               :pred :she}}
-        {:cat :det
-         :sem {:pred :she}}]
+               :pred :she}}]
  "herself" [{:case :acc
              :agr {:number :sing
                    :person :3rd

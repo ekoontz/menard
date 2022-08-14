@@ -39,10 +39,6 @@
 (def log-these-rules #{})
 (def truncate? true)
 
-#?(:cljs
-   (def model
-     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
-
 #?(:clj
 (defn create-model-from-filesystem [spec & [use-env]]
   (if (nil? spec)

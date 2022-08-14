@@ -46,6 +46,6 @@
    (if create-model?
      (def model
        (ref (create "nederlands/models/basic"
-                    nl/load-lexicon-with-morphology
-                    nl/load-lexicon)))))
+                    nl/load-lexicon-with-morphology)))))
+
 

@@ -161,6 +161,76 @@
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
 
+(def include-derivation? false)
+
+#?(:clj
+   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
+     (log/info (str "compile-lexicon-source start: '" source-filename "'"))
+     (binding [menard.lexiconfn/include-derivation? include-derivation?]
+       (-> source-filename
+           l/read-and-eval
+           ((fn [lexicon]
+              (if (nil? unify-with)
+                lexicon
+                (do
+                  (log/info (str "  apply-to-every-lexeme..(unify-with)"))
+                  (l/apply-to-every-lexeme lexicon
+                                           (fn [lexeme]
+                                             (let [result (unify lexeme unify-with)]
+                                               (if (= :fail result)
+                                                 (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
+                                               result)))))))
+           ((fn [lexicon]
+              (if (nil? apply-fn)
+                lexicon
+                (do
+                  (log/info (str "  apply-to-every-lexeme (apply-fn)"))
+                  (l/apply-to-every-lexeme lexicon
+                                           (fn [lexeme]
+                                             (apply-fn lexeme)))))))
+           ((fn [lexicon]
+              (log/info (str "  add-exceptions-to-lexicon.."))
+              (l/add-exceptions-to-lexicon lexicon)))
+           ((fn [lexicon]
+              (log/info (str "  apply-rules-in-order.."))
+              (l/apply-rules-in-order lexicon lexical-rules)))
+           ((fn [lexicon]
+              (log/info (str "compile-lexicon-source end: '" source-filename "'."))
+              lexicon))))))
+
+#?(:clj
+   (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
+     (log/info (str "load-lexicon: lexical-rules (type): " (type lexical-rules)))
+     (if (nil? model-spec)
+       (exception "model-spec is unexpectedly nil."))
+     (log/info (str "model-spec: " model-spec))
+     (let [path-suffix (or path-suffix (-> model-spec :lexicon :path-suffix))]
+       (log/info (str "lexicon filenames: " (-> model-spec :lexicon :sources keys sort)))
+
+       (reduce (fn [a b]
+                 (merge-with concat a b))
+               (->> (-> model-spec :lexicon :sources keys sort)
+                    (map (fn [filename]
+                           (let [unify-with
+                                 (get
+                                  (get (-> model-spec :lexicon :sources)
+                                       filename)
+                                 :u :top)
+                                 postprocess-fn
+                                 ;; have to (eval) twice for some reason..
+                                 (eval (eval (get (get (-> model-spec :lexicon :sources)
+                                                       filename)
+                                                  :f '(fn [x] x))))]
+                             (log/debug (str "source filename: " filename))
+                             (log/debug (str "unify-with: " unify-with))
+                             (compile-lexicon-source
+                              (use-path (str path-suffix "/" filename))
+                              lexical-rules
+                                    
+                              unify-with
+                              
+                              postprocess-fn)))))))))
+
 #?(:clj
    (defn lexicon-index-fn [model]
      (fn [spec]
@@ -194,8 +264,7 @@
 
 #?(:clj
    (defn create [path-to-model
-                 load-lexicon-with-morphology-fn
-                 load-lexicon-fn]
+                 load-lexicon-with-morphology-fn]
      (let [model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "
@@ -211,7 +280,7 @@
              ;; to a source lexicon to create
              ;; compile lexicon:
              lexicon (load-lexicon-with-morphology-fn
-                      (load-lexicon-fn lexical-rules model-spec)
+                      (load-lexicon lexical-rules model-spec)
                       morphology
                       filter-lexicon-fn)
 

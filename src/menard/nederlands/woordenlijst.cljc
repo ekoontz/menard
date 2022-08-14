@@ -2,10 +2,9 @@
   (:require [menard.nederlands :as nl]
             [menard.model :refer [create]]))
 
-(def create-woordenlijst-model? true)
+(def create-model? true)
 
-(if create-woordenlijst-model?
+(if create-model?
   (def model
     (ref (create "nederlands/models/woordenlijst"
-                 nl/load-lexicon-with-morphology
-                 nl/load-lexicon))))
+                 nl/load-lexicon-with-morphology))))

@@ -100,18 +100,6 @@
                             vs))
                       (vals lexicon))))))))
 
-#?(:clj
-  (defn fill-lexicon-indexes [lexicon]
-    (let [flattened-lexicon (flatten (vals lexicon))]
-      {:non-verb-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                          (not (u/get-in % [:exception])))))
-       :verb-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (u/get-in % [:exception]))
-                          (= (u/get-in % [:cat]) :verb))))})))
-
 #?(:cljs
    ;; note that we exclude [:exception]s from the lexemes that we use for
    ;; generation since they are only to be used for parsing.
@@ -166,7 +154,7 @@
    (defn create-model []
      (log/info (str "creating model for English.."))
      (model/load "en" load-lexical-rules
-                 load-lexicon fill-lexicon-indexes
+                 load-lexicon
                  load-morphology load-grammar {:name "default"})))
 
 #?(:clj

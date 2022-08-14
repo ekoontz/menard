@@ -23,7 +23,6 @@
             [menard.subcat]
             [menard.ug]
             [dag_unify.core :as u :refer [unify]]
-            [dag_unify.diagnostics :as diag]
             [dag_unify.serialization :refer [deserialize]]))
 ;;
 ;; For generation and parsing of Dutch.
@@ -201,64 +200,6 @@
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
 
 #?(:clj
-  (defn fill-lexicon-indexes [lexicon]
-    (let [flattened-lexicon (flatten (vals lexicon))]
-      {:adjective-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (u/get-in % [:exception]))
-                          (= (u/get-in % [:cat]) :adjective))))
-       :det-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (u/get-in % [:exception]))
-                          (= (u/get-in % [:cat]) :det))))
-       :noun-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (u/get-in % [:exception]))
-                          (= (u/get-in % [:cat]) :noun))))
-       :misc-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (= (u/get-in % [:cat]) :verb))
-                          (not (= (u/get-in % [:cat]) :adjective))
-                          (not (= (u/get-in % [:cat]) :det))
-                          (not (= (u/get-in % [:cat]) :noun))
-                          (not (u/get-in % [:exception])))))
-       :verb-lexicon
-       (->> flattened-lexicon
-            (filter #(and (not (u/get-in % [:exception]))
-                          (= (u/get-in % [:cat]) :verb))))})))
-
-#?(:clj
-   (defn create-lexical-index [model]
-     (fn [spec]
-       (log/debug (str "spec: " (diag/strip-refs spec)))
-       (let [pre-result
-             (cond (= (u/get-in spec [:cat]) :verb)
-                   (-> model :indices :verb-lexicon)
-                   
-                   (= (u/get-in spec [:cat]) :adjective)
-                   (-> model :indices :adjective-lexicon)
-                   
-                   (= (u/get-in spec [:cat]) :noun)
-                   (-> model :indices :noun-lexicon)
-                   
-                   (= (u/get-in spec [:cat]) :det)
-                   (-> model :indices :det-lexicon)
-                   
-                   :else (-> model :indices :misc-lexicon))
-             spec (if true spec (u/copy (diag/strip-refs spec)))
-             result (if true
-                      (->>
-                       pre-result
-                       (filter #(not (true? (u/get-in % [:null?])))))
-                      (->> pre-result
-                           (filter #(not (true? (u/get-in % [:null?]))))
-                           (map #(unify % spec))
-                           (filter #(not (= :fail %)))))]
-         (if true
-           (shuffle result)
-           result)))))
-
-#?(:clj
 (defn create-model-from-filesystem [spec & [use-env]]
   (if (nil? spec)
     (exception (str "create-model-from-filesystem: spec was nil.")))
@@ -304,35 +245,22 @@
               (log/debug (str "done loading model."))
               (->
                (model/load "nl"
-                           ;; loads the lexical rules:
-                           ;; (we already did this above,
-                           ;;  so we'll just return those rules.
                            (fn [] lexical-rules)
-                           
-                           ;; function to load the lexicon:
                            (fn [_] lexicon)
-                           
-                           ;; create indices on the compiled lexicon:
-                           fill-lexicon-indexes
-                           
-                           ;; function to load the morphology:
                            (fn [] morphology)
-                           
                            (fn [] grammar)
                            spec)
                ((fn [model]
                   (merge model
                          {:spec spec
-                          :lexicon-index-fn (create-lexical-index model)}))))))))))))
+                          :lexicon-index-fn (model/lexicon-index-fn model)}))))))))))))
 
 #?(:clj
    (if create-complete-model?
      (def complete-model
        (ref (model/create "nederlands/models/complete"
                           load-lexicon-with-morphology
-                          load-lexicon
-                          create-lexical-index
-                          fill-lexicon-indexes)))))
+                          load-lexicon)))))
 
 #?(:clj
    (defn load-model [model & [reload?]]

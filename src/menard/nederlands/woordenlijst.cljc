@@ -8,6 +8,4 @@
   (def model
     (ref (create "nederlands/models/woordenlijst"
                  nl/load-lexicon-with-morphology
-                 nl/load-lexicon
-                 nl/create-lexical-index
-                 nl/fill-lexicon-indexes))))
+                 nl/load-lexicon))))

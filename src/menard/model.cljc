@@ -5,6 +5,8 @@
             #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
             #?(:cljs [cljslog.core :as log])
+            [dag_unify.core :as u :refer [unify]]
+            [dag_unify.diagnostics :as diag]
             [menard.exception :refer [exception]]
             [menard.grammar :as grammar]
             [menard.lexiconfn :as l]
@@ -17,14 +19,17 @@
        (str "" path))))
 
 #?(:clj
-   (defn load [language-name lexical-rules-fn lexicon-fn fill-lexicon-indexes-fn
+   (declare fill-lexicon-indexes))
+
+#?(:clj
+   (defn load [language-name lexical-rules-fn lexicon-fn
                load-morphology-fn load-grammar-fn model-spec]
      (log/info (str "loading resources for language: "
                     language-name "; model-spec name: " (:name model-spec)))
      (let [logging-label (str language-name "/" (:name model-spec))
            lexical-rules (lexical-rules-fn)
            lexicon (lexicon-fn lexical-rules)
-           indices (fill-lexicon-indexes-fn lexicon)
+           indices (fill-lexicon-indexes lexicon)
            morphology (load-morphology-fn)
            grammar (load-grammar-fn)]
        (log/info (str logging-label " loaded: " (count lexical-rules) " lexical rules."))
@@ -47,7 +52,7 @@
         :indices indices})))
 
 #?(:cljs
-   (defn load [language-name rules-fn lexicon-fn fill-lexicon-indexes-fn
+   (defn load [language-name rules-fn lexicon-fn
                load-morphology-fn load-grammar-fn]
         (log/error (str "should never get here! use compiled linguistic resources."
                         "Clojurescript does not have access to the filesystem "
@@ -130,12 +135,67 @@
      (load-grammar-from-file (-> spec :grammar))))
 
 #?(:clj
+  (defn fill-lexicon-indexes [lexicon]
+    (let [flattened-lexicon (flatten (vals lexicon))]
+      {:adjective-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :adjective))))
+       :det-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :det))))
+       :noun-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :noun))))
+       :misc-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                          (not (= (u/get-in % [:cat]) :adjective))
+                          (not (= (u/get-in % [:cat]) :det))
+                          (not (= (u/get-in % [:cat]) :noun))
+                          (not (u/get-in % [:exception])))))
+       :verb-lexicon
+       (->> flattened-lexicon
+            (filter #(and (not (u/get-in % [:exception]))
+                          (= (u/get-in % [:cat]) :verb))))})))
+
+#?(:clj
+   (defn lexicon-index-fn [model]
+     (fn [spec]
+       (log/debug (str "spec: " (diag/strip-refs spec)))
+       (let [pre-result
+             (cond (= (u/get-in spec [:cat]) :verb)
+                   (-> model :indices :verb-lexicon)
+                   
+                   (= (u/get-in spec [:cat]) :adjective)
+                   (-> model :indices :adjective-lexicon)
+                   
+                   (= (u/get-in spec [:cat]) :noun)
+                   (-> model :indices :noun-lexicon)
+                   
+                   (= (u/get-in spec [:cat]) :det)
+                   (-> model :indices :det-lexicon)
+                   
+                   :else (-> model :indices :misc-lexicon))
+             spec (if true spec (u/copy (diag/strip-refs spec)))
+             result (if true
+                      (->>
+                       pre-result
+                       (filter #(not (true? (u/get-in % [:null?])))))
+                      (->> pre-result
+                           (filter #(not (true? (u/get-in % [:null?]))))
+                           (map #(unify % spec))
+                           (filter #(not (= :fail %)))))]
+         (if true
+           (shuffle result)
+           result)))))
+
+#?(:clj
    (defn create [path-to-model
                  load-lexicon-with-morphology-fn
-                 load-lexicon-fn
-                 lexicon-index-fn
-                 fill-lexicon-indexes-fn
-                 ]
+                 load-lexicon-fn]
      (let [model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "
@@ -179,9 +239,6 @@
               
               ;; function to load the lexicon:
               (fn [_] lexicon)
-              
-              ;; create indices on the compiled lexicon:
-              fill-lexicon-indexes-fn
               
               ;; function to load the morphology:
               (fn [] morphology)

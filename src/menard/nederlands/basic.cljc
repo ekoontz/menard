@@ -47,7 +47,5 @@
      (def model
        (ref (create "nederlands/models/basic"
                     nl/load-lexicon-with-morphology
-                    nl/load-lexicon
-                    nl/create-lexical-index
-                    nl/fill-lexicon-indexes)))))
+                    nl/load-lexicon)))))
 

@@ -211,6 +211,10 @@
          vals
          flatten)))
 
+#?(:clj
+   (defn index-fn [spec]
+     ((-> model deref :lexicon-index-fn) spec)))
+
 #?(:cljs
    (defn index-fn [spec]
      ;; for now a somewhat bad index function: simply returns

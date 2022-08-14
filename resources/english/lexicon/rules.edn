@@ -475,6 +475,7 @@
 
  {:rule :nonreflexive
   :if {:cat :noun
+       :propernoun? ::unspec
        :pronoun? true
        :reflexive? false}
   :then [{:propernoun? false

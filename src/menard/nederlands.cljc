@@ -144,29 +144,37 @@
       (log/debug (str "loading subcat.."))
       (menard.subcat/load-from-file)
       (log/debug (str "loading tenses.."))
-      (with-open [r (io/reader (str menard-dir "resources/nederlands/infinitive-tense.edn"))]
+      (with-open [r (io/reader (str menard-dir "resources/nederlands/"
+                                    "infinitive-tense.edn"))]
         (def inf-tense (eval (read (java.io.PushbackReader. r)))))
-      (with-open [r (io/reader (str menard-dir "resources/nederlands/finite-tenses.edn"))]
+      (with-open [r (io/reader (str menard-dir "resources/nederlands/"
+                                    "finite-tenses.edn"))]
         (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
       (def finite-plus-inf-tense
         (concat finite-tenses
                 inf-tense))
       (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
       (log/debug (str "loading grammar.."))
-      (let [grammar (model/load-grammar-from-file (str "file://" menard-dir "resources/nederlands/grammar.edn"))]
+      (let [grammar (model/load-grammar-from-file (str "file://" menard-dir "resources/"
+                                                       (-> spec :grammar)))]
         (log/debug (str "loaded " (count grammar) " grammar rules."))
         (log/debug (str "loading morphology.."))
-        (let [morphology (model/load-morphology (str "file://" menard-dir "resources/nederlands/morphology/") (-> spec :morphology :sources))]
+        (let [morphology (model/load-morphology (str "file://" menard-dir "resources/"
+                                                     (-> spec :morphology :path) "/")
+                                                (-> spec :morphology :sources))]
           (log/debug (str "loaded " (count morphology) " morphological rules."))
           (log/debug (str "loading lexical rules.."))
-          (let [lexical-rules (-> (str "file://" menard-dir "resources/nederlands/lexicon/rules.edn")
+          (let [lexical-rules (-> (str "file://" menard-dir "resources/"
+                                       (-> spec :lexicon :path) "/"
+                                       (-> spec :lexicon :rules))
                                   l/read-and-eval)]
             (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
             (log/info (str "create-model-from-filesystem: loading lexicon with spec: " spec))
             (let [lexicon (compile-lexicon
                            (model/load-lexicon lexical-rules
                                                spec
-                                               (str "file://" menard-dir "resources/nederlands/lexicon/"))
+                                               (str "file://" menard-dir "resources/"
+                                                    (-> spec :lexicon :path)))
                            morphology
                            (fn [x] x))]
               (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))

@@ -1,6 +1,7 @@
 (ns menard.test.nederlands
-  (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph morphology parse syntax-tree]]
+  (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph parse syntax-tree]]
             [menard.nederlands.basic :as basic]
+            [menard.nederlands.complete :as complete]            
             [menard.nederlands.woordenlijst :as woordenlijst]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
@@ -144,6 +145,9 @@
                  parse
                  (map (fn [x]
                         (log/info (str (syntax-tree x))))))))))
+
+
+(def morphology (-> complete/model deref :morphology))
 
 (deftest noun-morphology
   ;; access all morphological rules for Dutch:

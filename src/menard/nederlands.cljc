@@ -39,25 +39,6 @@
 (def log-these-rules #{})
 (def truncate? true)
 
-#?(:clj
-   (defn get-inflection-of [lexeme morphology]
-     (when lexeme
-       (->> morphology
-            (map (fn [rule]
-                   {:u (reduce unify
-                               [lexeme (:u rule)
-                                {:cat :noun
-                                 :exception false
-                                 :agr {:number :plur}}])
-                    :m (re-find (-> rule :g first)
-                                (:canonical lexeme))}))
-            (filter (fn [x] (and (not (= :fail (:u x)))
-                                 (not (nil? (:m x))))))
-            (map (fn [result]
-                   (-> result :u :inflection)))
-            first))))
-
-
 #?(:cljs
    (def model
      (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.

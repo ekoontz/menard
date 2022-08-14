@@ -425,7 +425,5 @@
                     (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
                   paths)))))
 
-(def morphology (-> complete/model deref :morphology))
-
 (defn parse-all [expression]
   (p/parse-all expression (fn [] (load-model complete/model)) syntax-tree analyze))

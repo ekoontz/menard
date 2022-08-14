@@ -16,7 +16,7 @@
                                         :sem {:number? true}}}
                      "pronouns.edn" {:u {:cat :noun
                                          :pronoun? true
-                                         :propernoun? true}}
+                                         :propernoun? false}}
                      "propernouns.edn" {:u {:cat :noun
                                             :propernoun? true
                                             :pronoun? false}}

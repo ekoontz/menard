@@ -1,7 +1,7 @@
 (ns menard.nederlands.basic
   (:require [dag_unify.core :as u]
             [clojure.tools.logging :as log]
-            [menard.nederlands :refer [compile-lexicon]]
+            [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.model :refer [create]]))
 
 (def create-model? true)

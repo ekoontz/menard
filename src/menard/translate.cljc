@@ -1,5 +1,6 @@
 (ns menard.translate
   (:require [menard.nederlands :as nl]
+            [menard.nederlands.complete :as nl-complete]
             [menard.english :as en]
             [menard.generate :as g]
             [menard.translate.spec :refer [nl-to-en-spec]]

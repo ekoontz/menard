@@ -250,7 +250,7 @@
   :cat :verb
   :subcat []
   :comp {:beginning-of-sentence? true}
-  :options menard.nederlands/finite-tenses  
+  :options menard.nederlands.tenses/finite-tenses  
   :unify [menard.subcat/a
           menard.ug/head-aux
           menard.ug/head-is-root
@@ -264,7 +264,7 @@
   :cat :verb
   :aux false
   :slash? false
-  :options menard.nederlands/finite-plus-inf-tense
+  :options menard.nederlands.tenses/finite-plus-inf-tense
   :comp {:beginning-of-sentence? false}
   :head {:aux false
          :modal false}
@@ -282,7 +282,7 @@
   :cat :verb
   :aux false
   :slash? false
-  :options menard.nederlands/finite-plus-inf-tense
+  :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux false
          :modal :te}
   :comp {:rule "vp-np"}
@@ -300,7 +300,7 @@
   :cat :verb
   :aux false
   :slash? false
-  :options menard.nederlands/finite-plus-inf-tense
+  :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux false
          :modal :te}
   :comp {:rule "vp-te"}
@@ -320,7 +320,7 @@
   :cat :verb
   :aux false
   :slash? false
-  :options menard.nederlands/finite-plus-inf-tense
+  :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux false
          :phrasal? false
          :modal :infinitive}
@@ -361,7 +361,7 @@
   :cat :verb
   :aux false
   :slash? false
-  :options menard.nederlands/inf-tense
+  :options menard.nederlands.tenses/inf-tense
   :head {:aux false
          :rule "vp-te"
          :phrasal? true}
@@ -421,7 +421,7 @@
          :modal :infinitive
          :infl :present
          :subcat {:2 {:modal false}}}
-  :options menard.nederlands/finite-tenses  
+  :options menard.nederlands.tenses/finite-tenses  
   :unify [menard.subcat/e
           menard.ug/head-first
           menard.ug/head-modal

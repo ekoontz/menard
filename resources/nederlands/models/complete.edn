@@ -34,4 +34,4 @@
                      {:u {:cat :noun :propernoun? true}}
                      "verbs.edn"
                      {:u {:cat :verb}
-                      :f 'menard.nederlands/mark-irregular-verbs}}}}
+                      :f 'menard.nederlands.compile/mark-irregular-verbs}}}}

@@ -2,6 +2,7 @@
   (:require [menard.english :as en]
             [menard.nederlands :as nl]
             [menard.nederlands.basic :as basic]
+            [menard.nederlands.complete :as complete]            
             [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
             [dag_unify.serialization :refer [serialize]]
@@ -138,6 +139,6 @@
        (map (fn [i]
               (doall
                (take do-this-many
-                     (repeatedly #(transfer-fn i @nl/complete-model))))))
+                     (repeatedly #(transfer-fn i @complete/model))))))
        doall))))
 

@@ -17,6 +17,9 @@
             [menard.model :as model :refer [current-ms
                                             get-info-of-files]]
             [menard.morphology :as m]
+            [menard.nederlands.compile :refer [compile-lexicon]]
+            [menard.nederlands.tenses :as tenses]
+            [menard.nederlands.complete :as complete]
             [menard.nesting]
             [menard.parse :as p]
             [menard.serialization :as s]
@@ -27,8 +30,6 @@
 ;;
 ;; For generation and parsing of Dutch.
 ;;
-
-(def create-complete-model? true)
 
 ;; for parsing diagnostics:
 ;;(def log-these-rules #{"vp-conj"})
@@ -56,72 +57,6 @@
                    (-> result :u :inflection)))
             first))))
 
-#?(:clj
-   (defn mark-irregular-verbs [lexeme]
-     (if (or (seq (->> (u/get-in lexeme [:exceptions])
-                       (filter #(= :past-simple (u/get-in % [:infl])))))
-             (not (= false (u/get-in lexeme [:strong?] false))))
-       (unify lexeme {:irregular-past-simple? true})
-       (unify lexeme {:irregular-past-simple? false}))))
-
-#?(:clj
-
-   (defn compile-lexicon [lexicon morphology-rules filter-fn]
-     (-> lexicon
-         (l/apply-to-every-lexeme
-          (fn [lexeme]
-            (let [inflection (get-inflection-of lexeme morphology-rules)]
-              (if (and (= :noun (u/get-in lexeme [:cat]))
-                       (not (= true (u/get-in lexeme [:propernoun?])))
-                       (not (= true (u/get-in lexeme [:pronoun?]))))
-                (do
-                  (cond
-                    inflection
-                    (unify lexeme
-                           {:inflection inflection})
-                    (and (= :noun (u/get-in lexeme [:cat]))
-                         (= true (u/get-in lexeme [:sem :countable?]))
-                         (not (= true (u/get-in lexeme [:propernoun?])))
-                         (not (= true (u/get-in lexeme [:pronoun?])))
-                         (false? (u/get-in lexeme [:inflected?] false)))
-                    (do
-                      (log/warn (str "no inflection found for lexeme: "
-                                     (u/get-in lexeme [:canonical])))
-                      lexeme)
-                    
-                    :else lexeme))
-                lexeme))))
-         
-         ;; The lexicon is a map where each
-         ;; key is a canonical string
-         ;; and each value is the list of lexemes for
-         ;; that string. we turn the list into a vec
-         ;; so that it's completely realized rather than
-         ;; a lazy sequence, so that when we periodically
-         ;; reload the model from disk, (generate) or
-         ;; (parse) won't have to de-lazify the list:
-         ;; it will already be done before they (generate or
-         ;; parse) see it.
-         ;; (TODO: move this to some function within
-         ;;  menard/model).
-         ((fn [lexicon]
-            (zipmap (keys lexicon)
-                    (map (fn [vs]
-                           (vec vs))
-                         (vals lexicon)))))
-         
-         ((fn [lexicon]
-            (filter-fn lexicon))))))
-
-(def finite-tenses
-  (-> "nederlands/finite-tenses.edn" resource slurp read-string))
-
-(def inf-tense
-  (-> "nederlands/infinitive-tense.edn" resource slurp read-string))
-
-(def finite-plus-inf-tense
-  (concat finite-tenses
-          inf-tense))
 
 #?(:cljs
    (def model
@@ -143,17 +78,6 @@
       (menard.nesting/load-from-file)
       (log/debug (str "loading subcat.."))
       (menard.subcat/load-from-file)
-      (log/debug (str "loading tenses.."))
-      (with-open [r (io/reader (str menard-dir "resources/nederlands/"
-                                    "infinitive-tense.edn"))]
-        (def inf-tense (eval (read (java.io.PushbackReader. r)))))
-      (with-open [r (io/reader (str menard-dir "resources/nederlands/"
-                                    "finite-tenses.edn"))]
-        (def finite-tenses (eval (read (java.io.PushbackReader. r)))))
-      (def finite-plus-inf-tense
-        (concat finite-tenses
-                inf-tense))
-      (log/debug (str "loaded " (count finite-plus-inf-tense) " tenses."))
       (log/debug (str "loading grammar.."))
       (let [grammar (model/load-grammar-from-file (str "file://" menard-dir "resources/"
                                                        (-> spec :grammar)))]
@@ -192,12 +116,6 @@
                           :lexicon-index-fn (model/lexicon-index-fn model)}))))))))))))
 
 #?(:clj
-   (if create-complete-model?
-     (def complete-model
-       (ref (model/create "nederlands/models/complete"
-                          compile-lexicon)))))
-
-#?(:clj
    (defn load-model [model & [reload?]]
       (when (or (nil? @model) (true? reload?))
         (try
@@ -228,7 +146,7 @@
              last-file-modification
              (:last-modified-time-ms most-recently-modified-info)
 
-             model complete-model]
+             model complete/model]
          (if (> last-file-modification @last-file-check)
            (log/info (str
                       "start-reload-loop: "
@@ -244,7 +162,7 @@
 
 #?(:clj
    (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon (:lexicon @complete-model)
+     (l/write-compiled-lexicon (:lexicon @complete/model)
                                "resources/nederlands/lexicon/compiled.edn")))
 
 #?(:cljs
@@ -283,10 +201,10 @@
   ([tree]
    (cond
      (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @complete-model))
+     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @complete/model))
 
      :else
-     (s/morph tree (:morphology @complete-model))))
+     (s/morph tree (:morphology @complete/model))))
 
   ([tree & {:keys [sentence-punctuation?]}]
    (when sentence-punctuation?
@@ -302,7 +220,7 @@
 
 #?(:clj
    (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar (-> @complete-model :grammar)
+     (grammar/write-compiled-grammar (-> @complete/model :grammar)
                                      "resources/nederlands/grammar/compiled.edn")))
 (declare generate)
 (declare syntax-tree)
@@ -315,7 +233,7 @@
 
 #?(:clj
    (defn syntax-tree [tree & [model]]
-     (s/syntax-tree tree (:morphology (or model complete-model (load-model complete-model))))))
+     (s/syntax-tree tree (:morphology (or model complete/model (load-model complete/model))))))
 
 #?(:cljs
    (defn syntax-tree [tree]
@@ -324,7 +242,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
-  (let [model (or model complete-model (load-model complete-model))
+  (let [model (or model complete/model (load-model complete/model))
         model (cond (= (type model) clojure.lang.Ref)
                     @model
                     (map? model)
@@ -348,7 +266,7 @@
 (defn generate-all
   "generate all expressions that satisfy _spec_."
   [spec]
-  (let [model (load-model complete-model)]
+  (let [model (load-model complete/model)]
     (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
       (g/generate-all [spec]
                       (-> model :grammar)
@@ -356,7 +274,7 @@
                       syntax-tree))))
 
 (defn analyze [surface]
-  (let [model (load-model complete-model)]
+  (let [model (load-model complete/model)]
     (binding [l/lexicon (-> model :lexicon)
               p/syntax-tree syntax-tree
               l/morphology (:morphology model)]
@@ -374,7 +292,7 @@
             found))))))
 
 (defn parse [expression]
-  (let [model (load-model complete-model)
+  (let [model (load-model complete/model)
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")]
@@ -396,7 +314,7 @@
       (p/parse expression))))
 
 (defn parse-start [expression]
-  (let [model (load-model complete-model)
+  (let [model (load-model complete/model)
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")]
@@ -507,7 +425,7 @@
                     (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
                   paths)))))
 
-(def morphology (-> complete-model deref :morphology))
+(def morphology (-> complete/model deref :morphology))
 
 (defn parse-all [expression]
-  (p/parse-all expression (fn [] (load-model complete-model)) syntax-tree analyze))
+  (p/parse-all expression (fn [] (load-model complete/model)) syntax-tree analyze))

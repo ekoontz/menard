@@ -1,5 +1,5 @@
 (ns menard.nederlands.woordenlijst
-  (:require [menard.nederlands :refer [compile-lexicon]]
+  (:require [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.model :refer [create]]))
 
 (def create-model? true)

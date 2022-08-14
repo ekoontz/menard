@@ -5,6 +5,7 @@
    [dag_unify.core :as u]
    [menard.english :as en]
    [menard.nederlands :as nl]
+   [menard.nederlands.complete :as nl-complete]   
    [menard.translate.spec :as tr]))
 
 (defn dag-to-string [dag]
@@ -162,7 +163,7 @@
 (defn grammar [lang]
   (let [unserialized
         (cond (= lang "nl")
-              (-> nl/complete-model deref :grammar)
+              (-> nl-complete/model deref :grammar)
               (= lang "en")
               (-> en/model deref :grammar)
               true [])]
@@ -173,7 +174,7 @@
 (defn morphology [lang]
   (let [unserialized
         (cond (= lang "nl")
-              (-> nl/complete-model deref :morphology)
+              (-> nl-complete/model deref :morphology)
               (= lang "en")
               (-> en/model deref :morphology)
               true [])]
@@ -263,8 +264,8 @@
 
 (defn language-to-model [language]
   (cond (= language "en") en/model
-        (= language "nl") nl/complete-model
-        :else nl/complete-model))
+        (= language "nl") nl-complete/model
+        :else nl-complete/model))
 
 (defn analyze [string-to-analyze language]
   ((-> language

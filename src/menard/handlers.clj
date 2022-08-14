@@ -4,7 +4,6 @@
    [java-time :refer [instant minus]]
    [dag_unify.core :as u]
    [menard.english :as en]
-   [menard.english.complete :as en-complete]      
    [menard.nederlands :as nl]
    [menard.nederlands.complete :as nl-complete]   
    [menard.translate.spec :as tr]))

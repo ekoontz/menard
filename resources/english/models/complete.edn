@@ -19,7 +19,7 @@
                                          :propernoun? false}}
                      "propernouns.edn" {:u {:cat :noun
                                             :propernoun? true
-                                            :pronoun? false}}
-                     "verbs.edn" {:u {:cat :verb}}}}}
+                                            :pronoun? false}}}}}
+
 
            

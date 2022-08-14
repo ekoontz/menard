@@ -9,8 +9,7 @@
  :lexicon {:path "nederlands/lexicon"
            :rules "rules.edn"
            :sources {"adjectives.edn"
-                     {:u
-                      {:cat :adjective}}
+                     {:u {:cat :adjective}}
                      "adverbs.edn"
                      {:u {:cat :adverb}}
                      "determiners.edn"

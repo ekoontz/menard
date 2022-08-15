@@ -4,6 +4,8 @@
    [clojure.data.json :as json :refer [write-str]]
    [config.core :refer [env]]
    [menard.handlers :as handlers]
+   [menard.english.complete :as en-complete]
+   [menard.english.woordenlijst :as en-woordenlijst]   
    [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.complete :as nl-complete]      
    [menard.nederlands.woordenlijst :as nl-woordenlijst]

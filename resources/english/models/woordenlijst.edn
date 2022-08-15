@@ -1,4 +1,5 @@
 {:name "woordenlijst"
+ :language "en"
  :morphology {:path "english/morphology"
               :sources ["misc.edn"
                         "nouns.edn"

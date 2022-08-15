@@ -1,4 +1,5 @@
 {:name "complete"
+ :language "nl"
  :morphology {:path "nederlands/morphology"
               :sources ["adjectives.edn"
                         "misc.edn"

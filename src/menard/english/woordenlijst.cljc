@@ -1,5 +1,6 @@
 (ns menard.english.woordenlijst
-  (:require [menard.english.compile :refer [compile-lexicon]]
+  (:require [dag_unify.core :as u]
+            [menard.english.compile :refer [compile-lexicon]]
             [menard.model :refer [create]]))
 
 (def create-model? true)

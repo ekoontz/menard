@@ -302,7 +302,7 @@
                            "'" model-spec-filename "'"
                            " is empty.")))
          (->
-          (load "nl"
+          (load (-> model-spec :language)
                 ;; loads the lexical rules:
                 ;; (we already did this above,
                 ;;  so we'll just return those rules.

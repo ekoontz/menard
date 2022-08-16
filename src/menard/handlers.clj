@@ -15,13 +15,14 @@
 (def source-generation-tries 1)
 
 (defn generate-nl
-  "generate a Dutch expression from _spec_ and translate to English, and return this pair
+  "generate a Dutch expression from _spec_ and _target_model_ and
+  translate to English with _source_model, and return this pair
    along with the semantics of the English specification also."
-  [spec model]
+  [spec target-model source-model]
   (let [debug (log/debug (str "generate-nl: generating a question with spec: " spec))
         ;; 1. generate a target expression
         nl-spec (merge spec {:language "nl"})
-        target-expression (->> (repeatedly #(nl/generate spec model))
+        target-expression (->> (repeatedly #(nl/generate spec target-model))
                                (remove empty?)
                                (take 1)
                                first)
@@ -103,7 +104,7 @@
 
 (defn generate-nl-with-alternations
   "generate with _spec_ unified with each of the alternates, so generate one expression per <spec,alternate> combination."
-  [spec alternates model]
+  [spec alternates target-model source-model]
   (if (or (nil? alternates) (empty? alternates))
     (throw (Exception. "alternates were unexpectedly not provided.")))
   (let [alternates (map dag_unify.serialization/deserialize (read-string alternates))
@@ -116,7 +117,7 @@
                   (u/unify alternate spec))))
           ;; the first one is special: we will get the [:head :root] from it
           ;; and use it with the rest of the specs.
-          first-expression (generate-nl (first derivative-specs) model)
+          first-expression (generate-nl (first derivative-specs) target-model source-model)
           expressions
           (cons first-expression
                 (->> (rest derivative-specs)
@@ -124,7 +125,8 @@
                             (generate-nl (u/unify derivative-spec
                                                   {:head {:root
                                                           (u/get-in first-expression [:target-root] :top)}})
-                                         model)))))]
+                                         target-model
+                                         source-model)))))]
       (if clean-up-trees
         (->> expressions
              ;; cleanup the huge syntax trees:

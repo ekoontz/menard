@@ -35,8 +35,8 @@
    :headers headers
    :body (write-str body)})
 
-(defn get-model [request]
-  (log/info (str "get-model: user supplied model-name: " (-> request :query-params (get "model"))))
+(defn get-target-model [request]
+  (log/info (str "get-target-model: user supplied model-name: " (-> request :query-params (get "model"))))
   (let [model-name (or (-> request :query-params (get "model")) "complete-model")]
     (cond (= "woordenlijst-model" model-name)
           nl-woordenlijst/model
@@ -50,13 +50,24 @@
           
           :else nl-complete/model)))
 
+(defn get-source-model [request]
+  (log/info (str "get-source-model: user supplied model-name: " (-> request :query-params (get "model"))))
+  (let [model-name (or (-> request :query-params (get "model")) "complete-model")]
+    (cond (= "woordenlijst-model" model-name)
+          en-woordenlijst/model
+          (= "woordenlijst" model-name)
+          en-woordenlijst/model
+          
+          :else en-complete/model)))
+
 (def routes
   [
    ["/generate-with-alts/:lang"
     {:get {:handler
            (fn [request]
              (let [language (-> request :path-params (get :lang))
-                   model (-> request get-model deref)
+                   target-model (-> request get-target-model deref)
+                   source-model (-> request get-source-model deref)
                    use-fn (cond (= language "nl")
                                 handlers/generate-nl-with-alternations
                                 true
@@ -66,14 +77,14 @@
                                       json-response)))
                    spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))]
-               (-> (use-fn spec alternates model)
+               (-> (use-fn spec alternates target-model source-model)
                    json-response)))}}]
 
    ["/generate/nl"
     {:get {:handler
            (fn [request]
              (let [language "nl"
-                   model (-> request get-model deref)
+                   model (-> request get-target-model deref)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate/nl: requested spec: "
                               spec "; using model named: '" (-> model :name) "'"))
@@ -159,7 +170,7 @@
     {:get {:handler
            (fn [request]
              (let [language "nl"
-                   model (-> request get-model deref)
+                   model (-> request get-target-model deref)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate: language: nl; requested spec: "
                               spec "; using model named: '" (-> model :name "'"))
@@ -173,10 +184,11 @@
              (log/debug (str "/generate-with-alts with request: " request))
              (let [spec (-> request :query-params (get "spec"))
                    alternates (-> request :query-params (get "alts"))
-                   model (-> request get-model deref)]
+                   target-model (-> request get-target-model deref)
+                   source-model (-> request get-source-model deref)]
                (log/info (str "/generate-with-alts: language: nl; requested spec: "
-                              spec "; using model named: '" (-> model :name) "'"))
-               (-> (handlers/generate-nl-with-alternations spec alternates model)
+                              spec "; using model named: '" (-> target-model :name) "'"))
+               (-> (handlers/generate-nl-with-alternations spec alternates target-model source-model)
                    json-response)))}}]
 
    ;; deprecated: use /parse/nl instead:

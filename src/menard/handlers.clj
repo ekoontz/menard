@@ -14,7 +14,7 @@
 
 (def source-generation-tries 1)
 
-(defn generate-nl
+(defn generate-nl-and-en
   "generate a Dutch expression from _spec_ and _target_model_ and
   translate to English with _source_model, and return this pair
    along with the semantics of the English specification also."
@@ -94,7 +94,7 @@
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)]
     (log/debug (str "generate-by-spec: (pre)  input spec: " spec "; generating now.."))
     (let [result
-          (generate-nl
+          (generate-nl-and-en
            (-> spec
                (dissoc :source-tree)
                (dissoc :target-tree))
@@ -117,16 +117,16 @@
                   (u/unify alternate spec))))
           ;; the first one is special: we will get the [:head :root] from it
           ;; and use it with the rest of the specs.
-          first-expression (generate-nl (first derivative-specs) target-model source-model)
+          first-expression (generate-nl-and-en (first derivative-specs) target-model source-model)
           expressions
           (cons first-expression
                 (->> (rest derivative-specs)
                      (map (fn [derivative-spec]
-                            (generate-nl (u/unify derivative-spec
-                                                  {:head {:root
-                                                          (u/get-in first-expression [:target-root] :top)}})
-                                         target-model
-                                         source-model)))))]
+                            (generate-nl-and-en (u/unify derivative-spec
+                                                         {:head {:root
+                                                                 (u/get-in first-expression [:target-root] :top)}})
+                                                target-model
+                                                source-model)))))]
       (if clean-up-trees
         (->> expressions
              ;; cleanup the huge syntax trees:

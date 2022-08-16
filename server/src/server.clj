@@ -84,11 +84,12 @@
     {:get {:handler
            (fn [request]
              (let [language "nl"
-                   model (-> request get-target-model deref)
+                   target-model (-> request get-target-model deref)
+                   source-model "TODO"
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate/nl: requested spec: "
-                              spec "; using model named: '" (-> model :name) "'"))
-               (-> (handlers/generate-nl-by-spec spec model)
+                              spec "; using model named: '" (-> target-model :name) "'"))
+               (-> (handlers/generate-nl-and-en-by-spec spec target-model source-model)
                    json-response)))}}]
 
    ["/grammar/:lang"
@@ -170,11 +171,12 @@
     {:get {:handler
            (fn [request]
              (let [language "nl"
-                   model (-> request get-target-model deref)
+                   target-model (-> request get-target-model deref)
+                   source-model "TODO"
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate: language: nl; requested spec: "
-                              spec "; using model named: '" (-> model :name "'"))
-               (-> (handlers/generate-nl-by-spec spec model)
+                              spec "; using model named: '" (-> target-model :name "'"))
+               (-> (handlers/generate-nl-and-en-by-spec spec target-model source-model)
                    json-response))))}}]
 
    ;; deprecated: use /generate-with-alts/nl instead:

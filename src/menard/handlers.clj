@@ -87,9 +87,9 @@
 
 (def ^:const clean-up-trees true)
 
-(defn generate-nl-by-spec
+(defn generate-nl-and-en-by-spec
   "decode a spec from the input request and generate with it."
-  [spec model]
+  [spec nl-model en-model]
   (log/debug (str "spec pre-decode: " spec))
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)]
     (log/debug (str "generate-by-spec: (pre)  input spec: " spec "; generating now.."))
@@ -98,7 +98,7 @@
            (-> spec
                (dissoc :source-tree)
                (dissoc :target-tree))
-           model)]
+           nl-model en-model)]
       (log/debug (str "generate-by-spec: (post) input spec: " spec "; result: " result))
       result)))
 

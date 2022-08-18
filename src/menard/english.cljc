@@ -255,10 +255,10 @@
 
 (defn generate
   "generate one random expression that satisfies _spec_."
-  [spec]
+  [spec & [model]]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
-  (let [model (load-model)]
+  (let [model (or model (load-model))]
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 5 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))]

@@ -32,12 +32,13 @@
         source-expression
         (->> (repeatedly #(-> target-expression tr/nl-to-en-spec
                               (merge {:language "en"})
-                              en/generate))
+                              ((fn [spec]
+                                 (en/generate spec source-model)))))
              (take source-generation-tries)
              (remove empty?) ;; remove failed attempts
              (take 1)
              first)
-        debug (log/debug (str "target-semantics: " (-> target-semantics
+        debug (log/info (str "target-semantics: " (-> target-semantics
                                                        dag-to-string)))
         ;; 3. get the semantics of the source expression
         source-parses (binding [menard.morphology/show-notes? false
@@ -55,17 +56,19 @@
                               (->> source-semantics
                                    (map dag-to-string)
                                    (clojure.string/join ","))))
-        debug (log/debug (str "fail-paths: "
-                             (->> source-semantics
-                                  (map (fn [source-sem]
-                                         (dag_unify.diagnostics/fail-path source-sem
-                                                                          target-semantics)))
-                                  (clojure.string/join ","))))
+        debug (if (= :fail source-semantics)
+                (log/info (str "fail-paths: "
+                               (->> source-semantics
+                                    (map (fn [source-sem]
+                                           (dag_unify.diagnostics/fail-path source-sem
+                                                                            target-semantics)))
+                                    (clojure.string/join ",")))))
         ;; filter source-semantics to find subset that is compatible with target semantics:
         source-semantics (->> source-semantics
                               (remove #(= :fail (u/unify % target-semantics))))]
     (if (empty? source-semantics)
-      (log/error (str "no source semantics compatible with target semantics.!")))
+      (log/error (str "no source semantics compatible with target semantics: "
+                      target-semantics)))
     (log/debug (str "given input input spec: "
                    (-> spec (dissoc :cat) (dissoc :sem))
                    ", generated: '" (-> source-expression en/morph) "'"
@@ -78,8 +81,8 @@
            :target-root (-> target-expression (u/get-in [:head :root] :top))
            :source-sem (map dag-to-string source-semantics)}]
       (when (empty? source-expression)
-        (log/error (str "failed to generate a source expression for spec: " spec "; target expression: "
-                       (nl/syntax-tree target-expression)))
+        (log/error (str "failed to generate a source expression using source model with name: '" (-> source-model :name) "' for spec: " spec "; target expression: "
+                        (nl/syntax-tree target-expression)))
         (log/error (str " tried to generate from: "
                         (dag_unify.serialization/serialize (-> target-expression tr/nl-to-en-spec)))))
       (log/debug (str "generate-nl: returning result: " result))

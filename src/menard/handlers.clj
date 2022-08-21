@@ -39,18 +39,24 @@
              (remove empty?) ;; remove failed attempts
              (take 1)
              first)
-        debug (log/info (str "target-semantics: " (-> target-semantics
-                                                       dag-to-string)))
+        debug (log/info (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
+                                                                                   dag-to-string)))
+
         ;; 3. get the semantics of the source expression
         source-parses (binding [menard.morphology/show-notes? false
                                 menard.parse/take-this-many 100]
-                        (->> source-expression
-                             en/morph
-                             en/parse))
-        debug (log/debug (str "source parses:"
-                              (->> source-parses
-                                   (map en/syntax-tree)
-                                   (clojure.string/join ","))))
+                        (log/info (str "parsing source-expression: "
+                                       (-> source-expression
+                                           en/morph)))
+                        (-> source-expression
+                            en/morph
+                            (en/parse source-model)))
+        debug (log/info (str "source parses:"
+                             (->> source-parses
+                                  (map en/syntax-tree)
+                                  (clojure.string/join ","))))
+        warn (if (empty? source-parses)
+               (log/warn (str "generate-nl-and-en: no source-parses found!")))
         source-semantics (->> source-parses
                               (map #(u/get-in % [:sem])))
         debug (log/debug (str "source semantics: "
@@ -69,7 +75,7 @@
                               (remove #(= :fail (u/unify % target-semantics))))]
     (if (empty? source-semantics)
       (log/error (str "no source semantics compatible with target semantics: "
-                      target-semantics)))
+                      (-> target-semantics strip-refs))))
     (log/debug (str "given input input spec: "
                    (-> spec (dissoc :cat) (dissoc :sem))
                    ", generated: '" (-> source-expression en/morph) "'"

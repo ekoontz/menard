@@ -4,6 +4,7 @@
    [clojure.data.json :as json :refer [write-str]]
    [config.core :refer [env]]
    [menard.handlers :as handlers]
+   [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]   
    [menard.nederlands.basic :as nl-basic]
@@ -36,8 +37,8 @@
    :body (write-str body)})
 
 (defn get-target-model [request]
-  (log/info (str "get-target-model: user supplied model-name: " (-> request :query-params (get "model"))))
-  (let [model-name (or (-> request :query-params (get "model")) "complete-model")]
+  (let [given-model-name (-> request :query-params (get "model"))
+        model-name (or given-model-name "complete-model")]
     (cond (= "woordenlijst-model" model-name)
           nl-woordenlijst/model
           (= "woordenlijst" model-name)
@@ -47,18 +48,28 @@
           nl-basic/model
           (= "basic" model-name)
           nl-basic/model
+
+          given-model-name
+          (do
+            (log/warn (str "request-supplied target-model: '" given-model-name "' doesn't exist: falling back to nl-complete/model."))
+            nl-complete/model)
           
           :else nl-complete/model)))
 
 (defn get-source-model [request]
-  (log/info (str "get-source-model: user supplied model-name: " (-> request :query-params (get "model"))))
-  (let [model-name (or (-> request :query-params (get "model")) "complete-model")]
+  (let [given-model-name (-> request :query-params (get "model"))
+        model-name (or given-model-name "complete-model")]
     (cond (= "woordenlijst-model" model-name)
           en-woordenlijst/model
           (= "woordenlijst" model-name)
           en-woordenlijst/model
-          
-          :else en-complete/model)))
+
+          given-model-name
+          (do
+            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
+            en/model)
+
+          :else en/model)))
 
 (def routes
   [
@@ -85,7 +96,7 @@
            (fn [request]
              (let [language "nl"
                    target-model (-> request get-target-model deref)
-                   source-model "TODO"
+                   source-model (-> request get-source-model deref)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate/nl: requested spec: "
                               spec "; using model named: '" (-> target-model :name) "'"))
@@ -172,7 +183,7 @@
            (fn [request]
              (let [language "nl"
                    target-model (-> request get-target-model deref)
-                   source-model "TODO"
+                   source-model (-> request get-source-model deref)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate: language: nl; requested spec: "
                               spec "; using model named: '" (-> target-model :name "'"))

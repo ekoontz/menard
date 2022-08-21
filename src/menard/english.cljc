@@ -273,8 +273,8 @@
   [spec n]
   (take n (repeatedly #(generate spec))))
 
-(defn analyze [surface]
-  (let [model (load-model)]
+(defn analyze [surface & [model]]
+  (let [model (or model (load-model))]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -286,18 +286,18 @@
 
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
-(defn parse [expression]
-  (let [model (load-model)]
+(defn parse [expression & [model]]
+  (let [model (or model (load-model))]
     (binding [p/grammar (-> model :grammar)
               p/morph morph
               p/syntax-tree syntax-tree
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
-              p/lookup-fn analyze]
+              p/lookup-fn (fn [word] (analyze word model))]
       (p/parse expression))))
 
-(defn parse-start [expression]
-  (let [model (load-model)
+(defn parse-start [expression & [model]]
+  (let [model (or model (load-model))
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")]
@@ -310,7 +310,7 @@
 
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
-              p/lookup-fn analyze]
+              p/lookup-fn (fn [word] (analyze word model))]
       (p/parse-start expression))))
 
 (def expressions

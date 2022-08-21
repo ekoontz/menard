@@ -1,7 +1,7 @@
 (ns menard.serialization
   (:require
    #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
+   #?(:cljs [menard.log :as log])
    [menard.morphology :as m]
    [dag_unify.core :as u]))
 

@@ -3,7 +3,7 @@
    [clojure.set :refer [union]]
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
+   #?(:cljs [menard.log :as log])
    [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :refer [serialize]]

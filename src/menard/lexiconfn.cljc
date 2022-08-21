@@ -4,7 +4,7 @@
    [menard.exception :refer [exception]]
    #?(:clj [clojure.java.io :as io :refer [resource]])
    #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [cljslog.core :as log])
+   #?(:cljs [menard.log :as log])
    [dag_unify.serialization :as s :refer [serialize]]
    [dag_unify.core :as u :refer [fail? unify]]
    [dag_unify.diagnostics :as diag]

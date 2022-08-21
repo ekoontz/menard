@@ -3,6 +3,7 @@
    [clojure.tools.logging :as log]
    [java-time :refer [instant minus]]
    [dag_unify.core :as u]
+   [dag_unify.diagnostics :refer [strip-refs]]
    [menard.english :as en]
    [menard.english.complete :as en-complete]      
    [menard.nederlands :as nl]

@@ -8,7 +8,6 @@
                  [org.clojure/clojure "1.11.0"]
                  [org.clojure/data.json "1.0.0"]
                  [org.clojure/tools.logging "1.2.4"]
-                 [cljslog "0.1.0"]
                  [clojure.java-time "0.3.3"]
                  [org.clojure/core.async "1.5.648"]
                  [babashka/fs "0.1.2"]

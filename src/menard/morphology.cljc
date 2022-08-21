@@ -3,7 +3,7 @@
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])
+            #?(:cljs [menard.log :as log])
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.diagnostics :as diag :refer [fail-path strip-refs]]))
 

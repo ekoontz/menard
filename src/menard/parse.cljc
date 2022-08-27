@@ -13,6 +13,7 @@
 
 (def ^:dynamic lookup-fn
   (fn [_]
+    (log/error (str "default lookup-fn: returning empty list."))
     []))
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree (fn [x] (log/warn (str "'syntax-tree' was not bound."))))

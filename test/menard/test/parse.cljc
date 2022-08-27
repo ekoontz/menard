@@ -6,12 +6,20 @@
             #?(:cljs [cljslog.core :as log])))
 
 (deftest word-glue
-  (let [bits  [     "1"       "0"         "1"         "0"         "1"        ]
-        words ["The"   "White"    "House"     "Press"     "Corps"    "Dinner"]
+  (let [bits1  [     "1"       "0"         "1"         "0"         "1"        ]
+
+
+        words  ["The"   "White"    "House"     "Press"     "Corps"    "Dinner"]
+
+        
+        bits2  [     "1"       "0"         "0"         "0"         "1"        ]
+
         tokens []
         current-token []
         next-word nil]
-    (is (= 0 0))
-    (is (= (parse/word-glue bits words tokens current-token next-word 0)
-           [["The"] ["White" "House"] ["Press" "Corps"] ["Dinner"]]))))
+    (is (= (parse/word-glue bits1 words tokens current-token next-word 0)
+           [["The"] ["White" "House"] ["Press" "Corps"] ["Dinner"]]))
+    (is (= (parse/word-glue bits2 words tokens current-token next-word 0)
+           [["The"] ["White House Press Corps"] ["Dinner"]]))))
+
 

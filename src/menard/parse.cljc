@@ -189,6 +189,64 @@
              (map (fn [k]
                     {k (map syntax-tree (get m k))})))))
 
+(defn pad-right [input length]
+  (if (< (count input) length)
+    (let [remainder (- length (count input))]
+      (str input (clojure.string/join "" (map (fn [_] "0") (range 0 remainder)))))
+    input))
+
+
+;; (bit-patterns (first (menard.parse/tokenize "the white house press corps dinner")))
+(defn bit-patterns [tokens]
+  (let [n (count tokens)]
+    (->> (range 0 (Math/pow 2 n))
+         (map #(pad-right (Integer/toBinaryString %) n)))))
+    
+(defn word-glue [bits words tokens token-in-progress next-word i]
+  ;;     0       1      0      1      0           
+  (log/info (str "iteration: " i))
+  (log/info (str "bits: " bits))
+  (log/info (str "input tokens: " tokens))
+  (log/info (str "input token-in-progress: " token-in-progress))
+  (log/info (str "input next-word: " next-word))
+  (if (nil? token-in-progress)
+    tokens
+    (let [current-bit (if (empty? bits)
+                        "0"
+                        (first bits))
+          next-word (if (= "1" current-bit)
+                      (first (rest words))
+                      next-word)]
+      (log/info (str "output current-bit: " current-bit))
+      (log/info (str "output words: " words))
+      (log/info (str "output next-word: " next-word))
+      (let [tokens (if (= "0" current-bit)
+                     (vec (concat tokens [token-in-progress]))
+                     tokens)
+            token-in-progress (if (= "1" current-bit)
+                                (vec (concat token-in-progress [(first words)]))
+                                [next-word])
+            ]
+        (log/info (str "tokens: " tokens))
+        (log/info (str "token-in-progress: " token-in-progress))
+        (log/info (str ""))
+        (log/info (str ""))
+        (log/info (str ""))        
+        (cond
+          (empty? words)
+          tokens
+          true
+          (word-glue (rest bits) (rest words) tokens token-in-progress next-word (+ i 1)))))))
+
+(declare span-pairs)
+
+(defn words-to-tokens [words]
+  (->> (span-pairs 0 (count words))
+       (map (fn [pairs]
+              (vec (map (fn [[l r]]
+                          (reduce (fn [a b] (str a " " b)) (subvec words l r)))
+                        pairs))))))
+
 (defn span-pairs [i n]
   (cond (= i 0)
         (->> (range 0 (- n 1))
@@ -203,7 +261,7 @@
   "Get all parses for length _span-length_, given :
    - _input_map_, a map from pairs [i,j] => _parses_,
      where i and j are the left and right coordinates within the input string, and _parses_
-     are all the parses for the substring of tokens [w_i....w_j].
+     are all the parses for the substring of tokens [t_i....t_j].
    - _input_length_, the length of the input string in tokens.
    - _grammar_, a list of grammar rules."
   [input-map input-length span-length grammar]

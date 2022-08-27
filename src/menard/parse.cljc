@@ -320,11 +320,17 @@
 ;; (in other words, more than one tokenization is possible, e.g.
 ;;  if a token is made of separate words like "The White House".
 (defn tokenize [input]
-  (filter #(not (string/blank? %)) (string/split input split-on)))
+  [(filter #(not (string/blank? %)) (string/split input split-on))])
 
 (defn parse-start
   [input]
-  (create-input-map (tokenize input)))
+  ;; this 'doall' is necessary to force the lazy sequence
+  ;; to use the bindings for the dynamic variable lookup-fn.
+  (doall
+   (->> (tokenize input)
+        (map (fn [tokenization]
+               (log/info (str "looking at tokenization: " (vec tokenization)))
+               (create-input-map tokenization))))))
 
 (defn parse-in-stages [input-map input-length i grammar surface]
   (if (or (get input-map [0 input-length])

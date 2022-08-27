@@ -202,7 +202,22 @@
     (->> (range 0 (Math/pow 2 n))
          (map #(pad-right (Integer/toBinaryString %) n)))))
     
-(defn word-glue [bits words tokens token-in-progress next-word i]
+(defn word-glue
+  "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
+   Examples of words are:
+   - 'white'
+   - 'house'
+  Examples of tokens are:
+   - 'white',
+   - 'house'
+   - 'white house'
+
+  Inputs:
+  - a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
+  - words: the array of primitive words which we are trying to group into tokens.
+  - token-in-progress: an empty array
+  - next-word: nil"
+  [bits words tokens token-in-progress next-word i]
   ;;     0       1      0      1      0           
   (log/info (str "iteration: " i))
   (log/info (str "bits: " bits))

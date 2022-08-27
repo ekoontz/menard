@@ -5,7 +5,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(deftest foo
+(deftest word-glue
   (let [bits  [     "1"       "0"         "1"         "0"         "1"        ]
         words ["The"   "White"    "House"     "Press"     "Corps"    "Dinner"]
         tokens []

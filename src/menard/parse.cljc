@@ -219,19 +219,32 @@
   - a number that will be interpreted as a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
   - words: string which will be broken apart into space-separted units, which we are trying to group into larger sequences called tokens."
   [words number]
-  (let [grouped
+  (let [bit-vector
+        (-> number
+            Integer/toBinaryString
+            (menard.parse/pad-right 5)
+            (clojure.string/split #""))
+
+        vector-of-words
+        (clojure.string/split words #"[ ]+")
+        
+        grouped
         (word-glue
-         ;; bits:
-         [     "1"       "0"         "1"         "0"         "1"        ]
-         
-         ;; words
-         ["The"   "White"    "House"     "Press"     "Corps"    "Dinner"]
+
+         bit-vector
+         vector-of-words
          
          ;; init'ed stuff:
          []
          []
          0)]
-    ["The" "White House" "Press Corps" "Dinner"]))
+    (log/info (str "bit-vector is: " bit-vector))
+    (log/info (str "vector-of-words is: " vector-of-words))
+    
+    (log/info (str "grouped is: " grouped))
+      (->> grouped
+           (map (fn [vector-of-words]
+                  (clojure.string/join " " vector-of-words))))))
 
 (defn word-glue
   "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
@@ -251,17 +264,17 @@
   [bits words tokens token-in-progress i]
   ;;     0       1      0      1      0           
   ;;     1       0      0      0      1
-  (log/info (str "iteration: " i))
+  (log/debug (str "iteration: " i))
   (if (nil? token-in-progress)
     tokens
     (let [next-word (first words)
           current-bit (if (empty? bits)
                         "0"
                         (first bits))]
-      (log/info (str "input current-bit: " current-bit))
-      (log/info (str "input next-word: " next-word))
-      (log/info (str "input tokens: " tokens))
-      (log/info (str "input token-in-progress: " token-in-progress))
+      (log/debug (str "input current-bit: " current-bit))
+      (log/debug (str "input next-word: " next-word))
+      (log/debug (str "input tokens: " tokens))
+      (log/debug (str "input token-in-progress: " token-in-progress))
       (let [tokens (if (= "1" current-bit)
                      ;; done with the current token (token-in-progress):
                      (vec (concat tokens [(vec (concat token-in-progress [next-word]))]))
@@ -275,11 +288,11 @@
               (if next-word
                 (vec (concat token-in-progress [next-word]))
                 token-in-progress))]
-        (log/info (str "output tokens: " tokens))
-        (log/info (str "output token-in-progress: " (vec token-in-progress)))
-        (log/info (str ""))
-        (log/info (str ""))
-        (log/info (str ""))        
+        (log/debug (str "output tokens: " tokens))
+        (log/debug (str "output token-in-progress: " (vec token-in-progress)))
+        (log/debug (str ""))
+        (log/debug (str ""))
+        (log/debug (str ""))        
         (cond
           (empty? words)
           (vec (concat tokens [token-in-progress]))

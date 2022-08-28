@@ -15,11 +15,10 @@
         bits2  [     "1"       "0"         "0"         "0"         "1"        ]
 
         tokens []
-        current-token []
-        next-word nil]
-    (is (= (parse/word-glue bits1 words tokens current-token next-word 0)
+        current-token []]
+    (is (= (parse/word-glue bits1 words tokens current-token 0)
            [["The"] ["White" "House"] ["Press" "Corps"] ["Dinner"]]))
-    (is (= (parse/word-glue bits2 words tokens current-token next-word 0)
-           [["The"] ["White House Press Corps"] ["Dinner"]]))))
+    (is (= (parse/word-glue bits2 words tokens current-token 0)
+           [["The"] ["White" "House" "Press" "Corps"] ["Dinner"]]))))
 
 

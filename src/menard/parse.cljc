@@ -218,41 +218,44 @@
   - words: the array of primitive words which we are trying to group into tokens.
   - token-in-progress: an empty array
   - next-word: nil"
-  [bits words tokens token-in-progress next-word i]
+  [bits words tokens token-in-progress i]
   ;;     0       1      0      1      0           
+  ;;     1       0      0      0      1
   (log/info (str "iteration: " i))
-  (log/info (str "bits: " bits))
-  (log/info (str "input tokens: " tokens))
-  (log/info (str "input token-in-progress: " token-in-progress))
-  (log/info (str "input next-word: " next-word))
   (if (nil? token-in-progress)
     tokens
-    (let [current-bit (if (empty? bits)
+    (let [next-word (first words)
+          current-bit (if (empty? bits)
                         "0"
-                        (first bits))
-          next-word (if (= "1" current-bit)
-                      (first (rest words))
-                      next-word)]
-      (log/info (str "output current-bit: " current-bit))
-      (log/info (str "output words: " words))
-      (log/info (str "output next-word: " next-word))
-      (let [tokens (if (= "0" current-bit)
-                     (vec (concat tokens [token-in-progress]))
+                        (first bits))]
+      (log/info (str "input current-bit: " current-bit))
+      (log/info (str "input next-word: " next-word))
+      (log/info (str "input tokens: " tokens))
+      (log/info (str "input token-in-progress: " token-in-progress))
+      (let [tokens (if (= "1" current-bit)
+                     ;; done with the current token (token-in-progress):
+                     (vec (concat tokens [(vec (concat token-in-progress [next-word]))]))
                      tokens)
-            token-in-progress (if (= "1" current-bit)
-                                (vec (concat token-in-progress [(first words)]))
-                                [next-word])
-            ]
-        (log/info (str "tokens: " tokens))
-        (log/info (str "token-in-progress: " token-in-progress))
+            token-in-progress
+            (if (= "1" current-bit)
+              ;; done with current token (token-in-progress):
+              []
+              ;; continuing with this token-in-progress;
+              ;; glue next word to it, if any:
+              (if next-word
+                (vec (concat token-in-progress [next-word]))
+                token-in-progress))]
+        (log/info (str "output tokens: " tokens))
+        (log/info (str "output token-in-progress: " (vec token-in-progress)))
         (log/info (str ""))
         (log/info (str ""))
         (log/info (str ""))        
         (cond
           (empty? words)
-          tokens
+          (vec (concat tokens [token-in-progress]))
+          
           true
-          (word-glue (rest bits) (rest words) tokens token-in-progress next-word (+ i 1)))))))
+          (word-glue (rest bits) (rest words) tokens token-in-progress (+ i 1)))))))
 
 (declare span-pairs)
 

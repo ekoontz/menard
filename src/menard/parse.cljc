@@ -190,20 +190,24 @@
              (map (fn [k]
                     {k (map syntax-tree (get m k))})))))
 
-(defn pad-right [input length]
+(defn pad-left [input length]
   (if (< (count input) length)
     (let [remainder (- length (count input))]
-      (str input (clojure.string/join "" (map (fn [_] "0") (range 0 remainder)))))
+      (str (clojure.string/join "" (map (fn [_] "0") (range 0 remainder))) input))
     input))
 
-
-;; (bit-patterns (first (menard.parse/tokenize "the white house press corps dinner")))
-(defn bit-patterns [tokens]
-  (let [n (count tokens)]
-    (->> (range 0 (Math/pow 2 n))
-         (map #(pad-right (Integer/toBinaryString %) n)))))
-
 (declare word-glue)
+(declare word-glue-wrapper)
+
+
+(defn all-groupings [words]
+  (let [vector-of-words
+        (clojure.string/split words #"[ ]+")]
+    (->> (range 0 (int (Math/pow 2
+                                 (- (count vector-of-words)
+                                    1))))
+         (map (fn [i]
+                (word-glue-wrapper vector-of-words i))))))
 
 (defn word-glue-wrapper 
     "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
@@ -217,16 +221,15 @@
 
   Inputs:
   - a number that will be interpreted as a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
-  - words: string which will be broken apart into space-separted units, which we are trying to group into larger sequences called tokens."
-  [words number]
-  (let [bit-vector
+  - words: a sequence of strings, which we are trying to group into larger sub-sequences of strings; each of which sub-sequence is called a token."
+  [vector-of-words number]
+  (let [
+        bit-vector
         (-> number
             Integer/toBinaryString
-            (menard.parse/pad-right 5)
+            (menard.parse/pad-left (- (count vector-of-words) 1))
             (clojure.string/split #""))
 
-        vector-of-words
-        (clojure.string/split words #"[ ]+")
         
         grouped
         (word-glue
@@ -238,10 +241,10 @@
          []
          []
          0)]
-    (log/info (str "bit-vector is: " bit-vector))
-    (log/info (str "vector-of-words is: " vector-of-words))
+    (log/debug (str "bit-vector is: " bit-vector))
+    (log/debug (str "vector-of-words is: " vector-of-words))
     
-    (log/info (str "grouped is: " grouped))
+    (log/debug (str "grouped is: " grouped))
       (->> grouped
            (map (fn [vector-of-words]
                   (clojure.string/join " " vector-of-words))))))

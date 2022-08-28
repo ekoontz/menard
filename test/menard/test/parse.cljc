@@ -6,19 +6,11 @@
             #?(:cljs [cljslog.core :as log])))
 
 (deftest word-glue
-  (let [bits1  [     "1"       "0"         "1"         "0"         "1"        ]
+  (is (contains?
+       (set
+        (menard.parse/all-groupings "The White House Press Corps Dinner"))
+       '("The" "White House" "Press Corps" "Dinner"))))
 
 
-        words  ["The"   "White"    "House"     "Press"     "Corps"    "Dinner"]
 
-        
-        bits2  [     "1"       "0"         "0"         "0"         "1"        ]
-
-        tokens []
-        current-token []]
-    (is (= (parse/word-glue bits1 words tokens current-token 0)
-           [["The"] ["White" "House"] ["Press" "Corps"] ["Dinner"]]))
-    (is (= (parse/word-glue bits2 words tokens current-token 0)
-           [["The"] ["White" "House" "Press" "Corps"] ["Dinner"]]))
-    (is (= (parse/word-glue-wrapper "The White House Press Corps Dinner" 21)
-           ["The" "White House" "Press Corps" "Dinner"]))))
+    

@@ -19,6 +19,8 @@
     (is (= (parse/word-glue bits1 words tokens current-token 0)
            [["The"] ["White" "House"] ["Press" "Corps"] ["Dinner"]]))
     (is (= (parse/word-glue bits2 words tokens current-token 0)
-           [["The"] ["White" "House" "Press" "Corps"] ["Dinner"]]))))
+           [["The"] ["White" "House" "Press" "Corps"] ["Dinner"]]))
 
 
+    (is (= (parse/word-glue-wrapper "The White House Press Corps" 21)
+           ["The" "White House" "Press Corps" "Dinner"]))))

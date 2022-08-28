@@ -202,7 +202,37 @@
   (let [n (count tokens)]
     (->> (range 0 (Math/pow 2 n))
          (map #(pad-right (Integer/toBinaryString %) n)))))
-    
+
+(declare word-glue)
+
+(defn word-glue-wrapper 
+    "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
+   Examples of words are:
+   - 'white'
+   - 'house'
+  Examples of tokens are:
+   - 'white',
+   - 'house'
+   - 'white house'
+
+  Inputs:
+  - a number that will be interpreted as a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
+  - words: string which will be broken apart into space-separted units, which we are trying to group into larger sequences called tokens."
+  [words number]
+  (let [grouped
+        (word-glue
+         ;; bits:
+         [     "1"       "0"         "1"         "0"         "1"        ]
+         
+         ;; words
+         ["The"   "White"    "House"     "Press"     "Corps"    "Dinner"]
+         
+         ;; init'ed stuff:
+         []
+         []
+         0)]
+    ["The" "White House" "Press Corps" "Dinner"]))
+
 (defn word-glue
   "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
    Examples of words are:

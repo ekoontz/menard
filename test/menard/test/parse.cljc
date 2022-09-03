@@ -8,9 +8,13 @@
 (defn lookup-fn [input-string]
   (cond
     (or (= input-string "The")
+        (= input-string "White")
+        (= input-string "House")
+        (= input-string "Press")
+        (= input-string "Corps")        
+        (= input-string "Dinner")
         (= input-string "White House")
-        (= input-string "Press Corps")
-        (= input-string "Dinner"))
+        (= input-string "Press Corps"))
     [{:top :top}]
 
     :else []))

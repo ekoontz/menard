@@ -42,7 +42,7 @@
 
 
 (defn all-groupings [input-string model]
-  (binding [p/lookup-fn (fn [input-string] (analyze input-string model))]
-    (p/all-groupings input-string (fn [surface] (analyze surface model)))))
+  (p/all-groupings input-string (fn [surface] (analyze surface model))))
+
 
 

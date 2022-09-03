@@ -24,6 +24,11 @@
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)
+;; a token can be max 4 words, e.g.
+;; "preston school of industry" is possible, but
+;; but not:
+;; "presidents of the united states of america"
+(def ^:dynamic max-token-length-in-words 4)
 
 (defn pmap-if-available [fn args]
   #?(:clj
@@ -285,7 +290,7 @@
       (log/info (str "input current-bit: " current-bit))
       (log/info (str "input next-word: " next-word))
       (log/info (str "input tokens: " tokens))
-      (log/info (str "input token-in-progress: " token-in-progress))
+      (log/info (str "input token-in-progress: " joined-token-in-progress))
       (let [complete-token
             (cond (= "1" current-bit)
                   (concat token-in-progress [next-word])
@@ -304,9 +309,13 @@
               ;; done with current token (token-in-progress):
               (let [looked-up (lookup-fn joined-complete-token)]
                 (log/debug (str "token is complete: looking up: " joined-complete-token ": " (vec looked-up)))
-                complete-token)
-              ;; else, continuing with this token-in-progress;
-              ;; glue next word to it, if any:
+                (if (seq looked-up)
+                  complete-token
+                  ;; else, not a word: return nothing.
+                  nil))
+              ;; else, token is not complete:
+              ;; continuing with this token-in-progress by
+              ;; gluing next word to it, if any:
               (vec (concat token-in-progress [next-word])))]
         (log/info (str "output tokens: " tokens))
         (log/info (str "output token-in-progress: " (vec token-in-progress)))
@@ -333,7 +342,7 @@
               
               (vec (concat tokens [token-in-progress]))))
 
-          (> (count token-in-progress) 2)
+          (> (count token-in-progress) max-token-length-in-words)
           []
           
           true

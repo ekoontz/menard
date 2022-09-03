@@ -2,7 +2,9 @@
   (:require [dag_unify.core :as u]
             [clojure.tools.logging :as log]
             [menard.nederlands.compile :refer [compile-lexicon]]
-            [menard.model :refer [create]]))
+            [menard.model :refer [create]]
+            [menard.nesting]
+            [menard.subcat]))
 
 (def create-model? true)
 

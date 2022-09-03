@@ -206,13 +206,14 @@
 
 
 (defn all-groupings [words lookup-fn]
-  (let [vector-of-words
-        (clojure.string/split words #"[ ]+")]
+  (let [vector-of-words (clojure.string/split words split-on)]
     (->> (range 0 (int (Math/pow 2
                                  (- (count vector-of-words)
                                     1))))
          (map (fn [i]
-                (word-glue-wrapper vector-of-words i lookup-fn)))
+                (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
+                  (log/info (str "i: " i "; grouping retval: " (vec retval)))
+                  retval)))
          (filter (fn [vector-of-words]
                    (not (empty? vector-of-words)))))))
 
@@ -238,7 +239,7 @@
             (menard.parse/pad-left (- (count vector-of-words) 1))
             (clojure.string/split #""))
 
-        debug (log/debug (str "word-glue-wrapper: bit-vector is: " bit-vector))
+        debug (log/info (str "word-glue-wrapper: bit-vector is: " bit-vector))
         debug (log/debug (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
         
         grouped
@@ -254,7 +255,7 @@
          []
          0)]
     
-    (log/debug (str "grouped is: " grouped))
+    (log/info (str "grouped is: " grouped))
     (->> grouped
          (map (fn [vector-of-words]
                 (clojure.string/join " " vector-of-words))))))
@@ -328,8 +329,11 @@
                          ;; in the lexicon), so
                          ;; add it to the list of already-
                          ;; validated tokens:
-                         (vec (concat tokens [complete-token]))
-
+                         (do
+                           (log/info (str "found in lexicon: "
+                                          joined-complete-token))
+                           (vec (concat tokens [complete-token])))
+                         
                          (empty? words)
                          ;; we're at end of the input,
                          ;; and complete-token
@@ -460,7 +464,6 @@
   [(->> (-> input
             (string/split split-on))
         (filter #(not (string/blank? %))))])
-
 
 (defn parse-start
   [input]

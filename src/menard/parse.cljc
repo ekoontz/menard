@@ -312,9 +312,9 @@
                 complete-token)
               
               :else
-              (do
-                (log/info (str "ok, sooo we got to a continuation with next-word: " next-word))
-                nil))
+              ;; we're not at a word boundary,
+              ;; so there is no complete-token.
+              nil)
             joined-complete-token
             (clojure.string/join " " complete-token)
             
@@ -331,16 +331,14 @@
             (cond
               complete-token
               [next-word]
-              (= "0" current-bit)
+              :else
               ;; token is not complete:
               ;; continuing with this token-in-progress by
               ;; gluing next word to it, if any:
               (let [token-in-progress
                     (concat token-in-progress [next-word])]
                 (log/info (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
-                token-in-progress)
-              :else
-              (log/error (str "should not get here.")))]
+                token-in-progress))]
         (log/info (str "output tokens: " tokens))
         (log/info (str "output token-in-progress: " (vec token-in-progress)))
         (log/info (str ""))
@@ -367,7 +365,7 @@
                      lookup-fn tokens
                      (if (= "1" current-bit)
                        []
-                       token-in-progress)
+                             token-in-progress)
                      (+ i 1)))))))
 
 (declare span-pairs)

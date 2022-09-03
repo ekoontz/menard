@@ -453,7 +453,10 @@
 ;; (in other words, more than one tokenization is possible, e.g.
 ;;  if a token is made of separate words like "The White House".
 (defn tokenize [input]
-  [(filter #(not (string/blank? %)) (string/split input split-on))])
+  [(->> (-> input
+            (string/split split-on))
+        (filter #(not (string/blank? %))))])
+
 
 (defn parse-start
   [input]

@@ -318,15 +318,17 @@
             joined-complete-token
             (clojure.string/join " " complete-token)
             
-            tokens (if (and
-                        complete-token
-                        (seq (lookup-fn joined-complete-token)))
-                     ;; done with the current token:
-                     ;; add it to the list of tokens.
-                     (vec (concat tokens [complete-token]))
+            tokens (cond (and
+                          complete-token
+                          (seq (lookup-fn joined-complete-token)))
+                         ;; done with the current token:
+                         ;; add it to the list of tokens.
+                         (vec (concat tokens [complete-token]))
 
-
-                     tokens)
+                         (empty? words)
+                         []
+                         :else
+                         tokens)
             token-in-progress
             (cond
               complete-token

@@ -343,9 +343,13 @@
                          ;; we're in middle of the input
                          ;; but not at the end of a token:
                          tokens)]
-        (if (and
-             (empty? words)
-             (empty? tokens))
+        (if (or (and
+                 (empty? words)
+                 (empty? tokens))
+                (and
+                 complete-token
+                 (empty? (lookup-fn joined-complete-token))))
+                
           ;; give up.
           []
 

@@ -342,43 +342,50 @@
                          :else
                          ;; we're in middle of the input
                          ;; but not at the end of a token:
-                         tokens)
-            token-in-progress
+                         tokens)]
+        (if (and
+             (empty? words)
+             (empty? tokens))
+          ;; give up.
+          []
+
+          ;; otherwise, keep going:
+          (let [token-in-progress
+                (cond
+                  complete-token
+                  ;; just finished a token, so start a new one in-progress:
+                  [next-word]
+                  
+                  :else
+                  ;; existing token-in-progress is not complete:
+                  ;; continuing with it by
+                  ;; gluing next word to it, if any:
+                  (let [token-in-progress
+                        (concat token-in-progress [next-word])]
+                    (log/info (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
+                    token-in-progress))]
+            (log/info (str "output tokens: " tokens))
+            (log/info (str "output token-in-progress: " (vec token-in-progress)))
+            (log/info (str ""))
+            (log/info (str ""))
+            (log/info (str ""))        
             (cond
-              complete-token
-              ;; start a new token:
-              [next-word]
-
+              (empty? words)
+              (do
+                (log/info (str "words are empty; we're done: "
+                               "going to return: "
+                               (vec tokens)))
+                tokens)
+              
               :else
-              ;; token is not complete:
-              ;; continuing with this token-in-progress by
-              ;; gluing next word to it, if any:
-              (let [token-in-progress
-                    (concat token-in-progress [next-word])]
-                (log/info (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
-                token-in-progress))]
-        (log/info (str "output tokens: " tokens))
-        (log/info (str "output token-in-progress: " (vec token-in-progress)))
-        (log/info (str ""))
-        (log/info (str ""))
-        (log/info (str ""))        
-        (cond
-          (empty? words)
-          (do
-            (log/info (str "words are empty; we're done: "
-                           "going to return: "
-                           (vec tokens)))
-            tokens)
-
-          :else
-          (word-glue (rest bits)
-                     (rest words)
-                     lookup-fn tokens
-                     (if (= "1" current-bit)
-                       []
-                             token-in-progress)
-                     (+ i 1)))))))
-
+              (word-glue (rest bits)
+                         (rest words)
+                         lookup-fn tokens
+                         (if (= "1" current-bit)
+                           []
+                           token-in-progress)
+                         (+ i 1)))))))))
+    
 (declare span-pairs)
 
 (defn words-to-tokens [words]

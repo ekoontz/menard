@@ -238,8 +238,8 @@
             (menard.parse/pad-left (- (count vector-of-words) 1))
             (clojure.string/split #""))
 
-        debug (log/info (str "word-glue-wrapper: bit-vector is: " bit-vector))
-        debug (log/info (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
+        debug (log/debug (str "word-glue-wrapper: bit-vector is: " bit-vector))
+        debug (log/debug (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
         
         grouped
         (word-glue
@@ -277,7 +277,7 @@
   [bits words lookup-fn tokens token-in-progress i]
   ;;     0       1      0      1      0           
   ;;     1       0      0      0      1
-  (log/info (str "iteration: " i))
+  (log/debug (str "iteration: " i))
   (if (nil? token-in-progress)
     tokens
     (let [next-word (first words)
@@ -287,12 +287,12 @@
           joined-token-in-progress
           (clojure.string/join " "
                                token-in-progress)]
-      (log/info (str "input current-bit: " current-bit))
-      (log/info (str "input next-word: " next-word))
-      (log/info (str "input tokens: " tokens))
-      (log/info (str "input words: " words))
-      (log/info (str "input token-in-progress: " (vec token-in-progress)))
-      (log/info (str "input token-in-progress (joined): " joined-token-in-progress))
+      (log/debug (str "input current-bit: " current-bit))
+      (log/debug (str "input next-word: " next-word))
+      (log/debug (str "input tokens: " tokens))
+      (log/debug (str "input words: " words))
+      (log/debug (str "input token-in-progress: " (vec token-in-progress)))
+      (log/debug (str "input token-in-progress (joined): " joined-token-in-progress))
       (let [complete-token
             (cond
 
@@ -307,7 +307,7 @@
               ;; current word.
               (let [complete-token
                     (concat token-in-progress [next-word])]
-                (log/info (str "current-bit=1: new complete-token: "
+                (log/debug (str "current-bit=1: new complete-token: "
                                (vec complete-token)))
                 complete-token)
               
@@ -362,17 +362,17 @@
                   ;; gluing next word to it, if any:
                   (let [token-in-progress
                         (concat token-in-progress [next-word])]
-                    (log/info (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
+                    (log/debug (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
                     token-in-progress))]
-            (log/info (str "output tokens: " tokens))
-            (log/info (str "output token-in-progress: " (vec token-in-progress)))
-            (log/info (str ""))
-            (log/info (str ""))
-            (log/info (str ""))        
+            (log/debug (str "output tokens: " tokens))
+            (log/debug (str "output token-in-progress: " (vec token-in-progress)))
+            (log/debug (str ""))
+            (log/debug (str ""))
+            (log/debug (str ""))        
             (cond
               (empty? words)
               (do
-                (log/info (str "words are empty; we're done: "
+                (log/debug (str "words are empty; we're done: "
                                "going to return: "
                                (vec tokens)))
                 tokens)

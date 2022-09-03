@@ -320,10 +320,12 @@
             
             tokens (cond (and
                           complete-token
+                          (<= (count complete-token) max-token-length-in-words)
                           (seq (lookup-fn joined-complete-token)))
-                         ;; done with the current token,
-                         ;; and the token is findable
-                         ;; in the lexicon, so
+                         ;; We have a completed token,
+                         ;; and this token is valid (
+                         ;; (not too long and findable
+                         ;; in the lexicon), so
                          ;; add it to the list of already-
                          ;; validated tokens:
                          (vec (concat tokens [complete-token]))
@@ -332,17 +334,21 @@
                          ;; we're at end of the input,
                          ;; and complete-token
                          ;; (i.e. token-in-progress)
-                         ;; was not findable in the
-                         ;; lexicon, so give up
+                         ;; was not valid, so give up
                          ;; on this tokenization
                          ;; hypothesis:
                          []
+                         
                          :else
+                         ;; we're in middle of the input
+                         ;; but not at the end of a token:
                          tokens)
             token-in-progress
             (cond
               complete-token
+              ;; start a new token:
               [next-word]
+
               :else
               ;; token is not complete:
               ;; continuing with this token-in-progress by
@@ -363,13 +369,6 @@
                            "going to return: "
                            (vec tokens)))
             tokens)
-
-          (> (count token-in-progress) max-token-length-in-words)
-          []
-
-          (and complete-token
-               (empty? (lookup-fn joined-complete-token)))
-          []
 
           :else
           (word-glue (rest bits)

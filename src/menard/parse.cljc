@@ -356,8 +356,12 @@
 
           (> (count token-in-progress) max-token-length-in-words)
           []
-          
-          true
+
+          (and complete-token
+               (empty? (lookup-fn joined-complete-token)))
+          []
+
+          :else
           (word-glue (rest bits)
                      (rest words)
                      lookup-fn tokens

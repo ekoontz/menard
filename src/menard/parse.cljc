@@ -313,7 +313,7 @@
               
               :else
               ;; we're not at a word boundary,
-              ;; so there is no complete-token.
+              ;; so there is no complete-token yet:
               nil)
             joined-complete-token
             (clojure.string/join " " complete-token)
@@ -321,11 +321,21 @@
             tokens (cond (and
                           complete-token
                           (seq (lookup-fn joined-complete-token)))
-                         ;; done with the current token:
-                         ;; add it to the list of tokens.
+                         ;; done with the current token,
+                         ;; and the token is findable
+                         ;; in the lexicon, so
+                         ;; add it to the list of already-
+                         ;; validated tokens:
                          (vec (concat tokens [complete-token]))
 
                          (empty? words)
+                         ;; we're at end of the input,
+                         ;; and complete-token
+                         ;; (i.e. token-in-progress)
+                         ;; was not findable in the
+                         ;; lexicon, so give up
+                         ;; on this tokenization
+                         ;; hypothesis:
                          []
                          :else
                          tokens)

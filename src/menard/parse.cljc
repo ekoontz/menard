@@ -290,63 +290,81 @@
       (log/info (str "input current-bit: " current-bit))
       (log/info (str "input next-word: " next-word))
       (log/info (str "input tokens: " tokens))
-      (log/info (str "input token-in-progress: " joined-token-in-progress))
+      (log/info (str "input words: " words))
+      (log/info (str "input token-in-progress: " (vec token-in-progress)))
+      (log/info (str "input token-in-progress (joined): " joined-token-in-progress))
       (let [complete-token
-            (cond (= "1" current-bit)
-                  (concat token-in-progress [next-word])
-                  (empty? words)
-                  token-in-progress
-                  :else nil)
+            (cond
+
+              (empty? words)
+              token-in-progress
+              
+              (= "1" current-bit)
+              ;; token is done:
+              ;; complete-token is
+              ;; the concatenation of
+              ;; the token-in-progress with the
+              ;; current word.
+              (let [complete-token
+                    (concat token-in-progress [next-word])]
+                (log/info (str "current-bit=1: new complete-token: "
+                               (vec complete-token)))
+                complete-token)
+              
+              :else
+              (do
+                (log/info (str "ok, sooo we got to a continuation with next-word: " next-word))
+                nil))
             joined-complete-token
             (clojure.string/join " " complete-token)
             
-            tokens (if (= "1" current-bit)
-                     ;; done with the current token (token-in-progress):
+            tokens (if (and
+                        complete-token
+                        (seq (lookup-fn joined-complete-token)))
+                     ;; done with the current token:
+                     ;; add it to the list of tokens.
                      (vec (concat tokens [complete-token]))
+
+
                      tokens)
             token-in-progress
-            (if complete-token
-              ;; done with current token (token-in-progress):
-              (let [looked-up (lookup-fn joined-complete-token)]
-                (log/debug (str "token is complete: looking up: " joined-complete-token ": " (vec looked-up)))
-                (if (seq looked-up)
-                  complete-token
-                  ;; else, not a word: return nothing.
-                  nil))
-              ;; else, token is not complete:
+            (cond
+              complete-token
+              [next-word]
+              (= "0" current-bit)
+              ;; token is not complete:
               ;; continuing with this token-in-progress by
               ;; gluing next word to it, if any:
-              (vec (concat token-in-progress [next-word])))]
+              (let [token-in-progress
+                    (concat token-in-progress [next-word])]
+                (log/info (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
+                token-in-progress)
+              :else
+              (log/error (str "should not get here.")))]
         (log/info (str "output tokens: " tokens))
         (log/info (str "output token-in-progress: " (vec token-in-progress)))
-        (log/debug (str ""))
-        (log/debug (str ""))
-        (log/debug (str ""))        
-        (if (= "1" current-bit)
-          (let [last-word (clojure.string/join " "
-                                               (last tokens))]
-            (log/info (str "looking up last word: " last-word))
-            (log/info (str "   " (count (lookup-fn last-word))))))
+        (log/info (str ""))
+        (log/info (str ""))
+        (log/info (str ""))        
         (cond
           (empty? words)
           (do
             (log/info (str "words are empty; we're done: "
                            "going to return: "
-                           (vec (concat tokens [token-in-progress]))))
-            (let [last-word (clojure.string/join " "
-                                                 token-in-progress)]
-              
-              (log/info (str "looking up last potential token: "
-                             token-in-progress ":"
-                             (count (lookup-fn last-word))))
-              
-              (vec (concat tokens [token-in-progress]))))
+                           (vec tokens)))
+            tokens)
 
           (> (count token-in-progress) max-token-length-in-words)
           []
           
           true
-          (word-glue (rest bits) (rest words) lookup-fn tokens token-in-progress (+ i 1)))))))
+          (word-glue (rest bits)
+                     (rest words)
+                     lookup-fn tokens
+                     (if (= "1" current-bit)
+                       []
+                       token-in-progress)
+                     (+ i 1)))))))
 
 (declare span-pairs)
 

@@ -200,14 +200,16 @@
 (declare word-glue-wrapper)
 
 
-(defn all-groupings [words]
+(defn all-groupings [words lookup-fn]
   (let [vector-of-words
         (clojure.string/split words #"[ ]+")]
     (->> (range 0 (int (Math/pow 2
                                  (- (count vector-of-words)
                                     1))))
          (map (fn [i]
-                (word-glue-wrapper vector-of-words i))))))
+                (word-glue-wrapper vector-of-words i lookup-fn)))
+         (filter (fn [vector-of-words]
+                   (not (empty? vector-of-words)))))))
 
 (defn word-glue-wrapper 
     "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
@@ -222,7 +224,8 @@
   Inputs:
   - a number that will be interpreted as a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
   - words: a sequence of strings, which we are trying to group into larger sub-sequences of strings; each of which sub-sequence is called a token."
-  [vector-of-words number]
+  [vector-of-words number lookup-fn]
+  (log/debug (str "LF (wgw) " lookup-fn))
   (let [
         bit-vector
         (-> number
@@ -230,24 +233,26 @@
             (menard.parse/pad-left (- (count vector-of-words) 1))
             (clojure.string/split #""))
 
+        debug (log/info (str "word-glue-wrapper: bit-vector is: " bit-vector))
+        debug (log/info (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
         
         grouped
         (word-glue
 
          bit-vector
          vector-of-words
+
+         lookup-fn
          
          ;; init'ed stuff:
          []
          []
          0)]
-    (log/debug (str "bit-vector is: " bit-vector))
-    (log/debug (str "vector-of-words is: " vector-of-words))
     
     (log/debug (str "grouped is: " grouped))
-      (->> grouped
-           (map (fn [vector-of-words]
-                  (clojure.string/join " " vector-of-words))))))
+    (->> grouped
+         (map (fn [vector-of-words]
+                (clojure.string/join " " vector-of-words))))))
 
 (defn word-glue
   "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
@@ -264,44 +269,75 @@
   - words: the array of primitive words which we are trying to group into tokens.
   - token-in-progress: an empty array
   - next-word: nil"
-  [bits words tokens token-in-progress i]
+  [bits words lookup-fn tokens token-in-progress i]
   ;;     0       1      0      1      0           
   ;;     1       0      0      0      1
-  (log/debug (str "iteration: " i))
+  (log/info (str "iteration: " i))
   (if (nil? token-in-progress)
     tokens
     (let [next-word (first words)
           current-bit (if (empty? bits)
                         "0"
-                        (first bits))]
-      (log/debug (str "input current-bit: " current-bit))
-      (log/debug (str "input next-word: " next-word))
-      (log/debug (str "input tokens: " tokens))
-      (log/debug (str "input token-in-progress: " token-in-progress))
-      (let [tokens (if (= "1" current-bit)
+                        (first bits))
+          joined-token-in-progress
+          (clojure.string/join " "
+                               token-in-progress)]
+      (log/info (str "input current-bit: " current-bit))
+      (log/info (str "input next-word: " next-word))
+      (log/info (str "input tokens: " tokens))
+      (log/info (str "input token-in-progress: " token-in-progress))
+      (let [complete-token
+            (cond (= "1" current-bit)
+                  (concat token-in-progress [next-word])
+                  (empty? words)
+                  token-in-progress
+                  :else nil)
+            joined-complete-token
+            (clojure.string/join " " complete-token)
+            
+            tokens (if (= "1" current-bit)
                      ;; done with the current token (token-in-progress):
-                     (vec (concat tokens [(vec (concat token-in-progress [next-word]))]))
+                     (vec (concat tokens [complete-token]))
                      tokens)
             token-in-progress
-            (if (= "1" current-bit)
+            (if complete-token
               ;; done with current token (token-in-progress):
-              []
-              ;; continuing with this token-in-progress;
+              (let [looked-up (lookup-fn joined-complete-token)]
+                (log/debug (str "token is complete: looking up: " joined-complete-token ": " (vec looked-up)))
+                complete-token)
+              ;; else, continuing with this token-in-progress;
               ;; glue next word to it, if any:
-              (if next-word
-                (vec (concat token-in-progress [next-word]))
-                token-in-progress))]
-        (log/debug (str "output tokens: " tokens))
-        (log/debug (str "output token-in-progress: " (vec token-in-progress)))
+              (vec (concat token-in-progress [next-word])))]
+        (log/info (str "output tokens: " tokens))
+        (log/info (str "output token-in-progress: " (vec token-in-progress)))
         (log/debug (str ""))
         (log/debug (str ""))
         (log/debug (str ""))        
+        (if (= "1" current-bit)
+          (let [last-word (clojure.string/join " "
+                                               (last tokens))]
+            (log/info (str "looking up last word: " last-word))
+            (log/info (str "   " (count (lookup-fn last-word))))))
         (cond
           (empty? words)
-          (vec (concat tokens [token-in-progress]))
+          (do
+            (log/info (str "words are empty; we're done: "
+                           "going to return: "
+                           (vec (concat tokens [token-in-progress]))))
+            (let [last-word (clojure.string/join " "
+                                                 token-in-progress)]
+              
+              (log/info (str "looking up last potential token: "
+                             token-in-progress ":"
+                             (count (lookup-fn last-word))))
+              
+              (vec (concat tokens [token-in-progress]))))
+
+          (> (count token-in-progress) 2)
+          []
           
           true
-          (word-glue (rest bits) (rest words) tokens token-in-progress (+ i 1)))))))
+          (word-glue (rest bits) (rest words) lookup-fn tokens token-in-progress (+ i 1)))))))
 
 (declare span-pairs)
 

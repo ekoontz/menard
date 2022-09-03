@@ -20,7 +20,7 @@
 (def ^:dynamic morph (fn [x] (log/warn (str "'morph' was not bound."))))
 (def ^:dynamic truncate? false)
 (declare truncate)
-(def ^:dynamic split-on #"[ ']")
+(def ^:dynamic split-on #"[ ']+")
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)

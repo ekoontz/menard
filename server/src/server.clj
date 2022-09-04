@@ -60,9 +60,9 @@
   (let [given-model-name (-> request :query-params (get "model"))
         model-name (or given-model-name "complete-model")]
     (cond (= "woordenlijst-model" model-name)
-          en-woordenlijst/model
+          en-woordenlijst/en-model
           (= "woordenlijst" model-name)
-          en-woordenlijst/model
+          en-woordenlijst/en-model
 
           given-model-name
           (do

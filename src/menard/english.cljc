@@ -293,10 +293,10 @@
               p/syntax-tree syntax-tree
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
-              p/lookup-fn (fn [word] (analyze word model))]
+              p/lookup-fn (fn [token] (analyze token model))]
       (->
        expression
-       (p/all-groupings (fn [word] (analyze word model)))
+       (p/all-groupings (fn [token] (analyze token model)))
        p/parse))))
 
 (defn parse-start [expression & [model]]

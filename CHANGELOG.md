@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.6.0] - 2022-09-04
+
+### Core
+
+- Support multi-word tokenization in menard.parse/parse
+- Introduce new model .edn format with :name, :language, :morphology, :grammar :lexicon and
+  models in this format for nl and en.
+- Update a few dependencies.
+- Remove use of cljslog; use new built-in menard.log instead
+- Add new woordenlijst language model and lexicon in nl and en and intermediate source files.
+- Move tenses from menard.nederlands to their own namespace menard.nederlands.tenses.
+
+### Server
+
+- Update a few dependencies.
+- Improve startup script: add MENARD_DIR where needed and add comments.
 
 ## [1.5.0] - 2022-03-13
 

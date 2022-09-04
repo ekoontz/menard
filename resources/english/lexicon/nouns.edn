@@ -152,10 +152,21 @@
  "predator" [{:sem {:pred :predator}}]
  "prediction" [{:sem {:pred :prediction}}]
  "preparation" [{:sem {:pred :preparation}}]
- "presence" [(let [obj (atom :top)]
+ "presence" [(let [obj (atom :top)
+                   agr (atom :top)]
+
+               ;; TODO: [:subcat :1 :cat] = :det
+               ;;  and  [:subcat :1 :agr] = [:agr]
+               ;; should be in lexical rules.
+               ;; TODO: enforce binding e.g.
+               ;; ok   :  "she saw the picture of herself"
+               ;; but  : *"she saw the picture of himself"
                {:sem {:pred :presence
                       :obj obj}
-                :subcat {:2 {:cat :prep
+                :agr agr
+                :subcat {:1 {:cat :det
+                             :agr agr}
+                         :2 {:cat :prep
                              :sem {:pred :of
                                    :obj obj}
                              :subcat []}}})]

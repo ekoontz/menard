@@ -294,7 +294,10 @@
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/lookup-fn (fn [word] (analyze word model))]
-      (p/parse expression))))
+      (->
+       expression
+       (p/all-groupings (fn [word] (analyze word model)))
+       p/parse))))
 
 (defn parse-start [expression & [model]]
   (let [model (or model (load-model))

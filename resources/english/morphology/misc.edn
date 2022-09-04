@@ -3,7 +3,10 @@
   :u {:cat :adverb}}
  {:g [#"^(.*)$"       "$1"] ;; conjugations don't inflect in English
   :p [#"^(.*)$"       "$1"]
-  :u {:cat :conjunction}}]
+  :u {:cat :conjunction}}
+ {:g [#"^(.*)$"       "$1"] ;; exclamations don't inflect in English
+  :p [#"^(.*)$"       "$1"]
+  :u {:cat :exclamation}}]
 
 
 

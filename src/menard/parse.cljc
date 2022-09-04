@@ -13,8 +13,8 @@
 
 (def ^:dynamic lookup-fn
   (fn [_]
-    (log/error (str "default lookup-fn: returning empty list."))
-    []))
+    (exception (str "lookup-fn was not bound."))))
+
 (def ^:dynamic grammar nil)
 (def ^:dynamic syntax-tree (fn [x] (log/warn (str "'syntax-tree' was not bound."))))
 (def ^:dynamic morph (fn [x] (log/warn (str "'morph' was not bound."))))

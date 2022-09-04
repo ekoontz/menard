@@ -6,14 +6,19 @@
             #?(:cljs [cljslog.core :as log])))
 
 (load-model)
-(deftest all-expressions-work
-  "generate every expression in _expressions_ specification list, and then try to parse that expression."
-  (let [expressions
+(deftest all-specifications-work
+  "generate an expression for every specification in _specifications_,
+   and then try to parse that expression."
+  (let [specifications expressions ;; in menard.english and elsewhere
+        ;; the specifications are called expressions, but that's a bit misleading:
+        ;; the specifications instead specify how a generated expression should
+        ;; look like. So we'll use that meaning of the terms here.
+        expressions
         (->>
-         (range 0 (count expressions))
+         (range 0 (count specifications))
          (pmap (fn [index]
                  (first
-                  (->> (repeatedly #(generate (nth expressions index)))
+                  (->> (repeatedly #(generate (nth specifications index)))
                        (take 3) ;; if generation fails the first time, retry once.
                        (filter #(not (nil? %))))))))]
     (is (empty? (filter empty? expressions)))

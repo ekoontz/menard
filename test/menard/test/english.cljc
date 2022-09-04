@@ -9,22 +9,28 @@
 (deftest all-specifications-work
   "generate an expression for every specification in _specifications_,
    and then try to parse that expression."
-  (let [specifications expressions ;; in menard.english and elsewhere
+  (let [do-this-many-per-spec 3
+        specifications expressions ;; in menard.english and elsewhere
         ;; the specifications are called expressions, but that's a bit misleading:
         ;; the specifications instead specify how a generated expression should
         ;; look like. So we'll use that meaning of the terms here.
-        expressions
-        (->>
-         (range 0 (count specifications))
-         (pmap (fn [index]
-                 (first
-                  (->> (repeatedly #(generate (nth specifications index)))
-                       (take 3) ;; if generation fails the first time, retry once.
-                       (filter #(not (nil? %))))))))]
-    (is (empty? (filter empty? expressions)))
-    (is (empty? (filter empty? (map (fn [expression]
-                                      (log/info (str "parsing generated expression: '" (morph expression) "'"))
-                                      (-> expression
-                                          morph
-                                          parse))
-                                    expressions))))))
+        ]
+    (->>
+     (range 0 (count specifications))
+     (mapv (fn [index]
+             (let [spec (nth specifications index)
+                   generated (->> (repeatedly #(generate spec))
+                                  (filter #(not (nil? %)))
+                                  (take do-this-many-per-spec))]
+               (log/debug (str "generated from spec: " index ":"
+                              (clojure.string/join ","
+                                                   (mapv syntax-tree generated))))
+               (is (= do-this-many-per-spec (count generated)))
+               (->> generated
+                    (map morph)
+                    (mapcat parse)
+                    (mapv (fn [each-parse]
+                            (log/debug (str "each-parse: " (syntax-tree each-parse)))
+                            (is (not (empty? each-parse))))))))))))
+
+

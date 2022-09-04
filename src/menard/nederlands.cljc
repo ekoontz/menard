@@ -254,7 +254,7 @@
 
 (defn analyze
   ([surface]
-   (analyze surface true))
+   (analyze surface false))
   ([surface use-null-lexemes?]
    (let [model (load-model complete/model)]
      (binding [l/lexicon (-> model :lexicon)

@@ -297,7 +297,7 @@
                p/split-on #"[ ]"
                p/log-these-rules log-these-rules
                p/lookup-fn analyze-fn]
-       (log/info (str "calling p/parse with grammar: " (count (-> model :grammar))))
+       (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
        (p/parse (p/all-groupings expression analyze-fn))))))
 
 (defn parse-start [expression]

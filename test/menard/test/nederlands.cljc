@@ -387,7 +387,6 @@
   (validator (nth nl/expressions 15))))))"
   [spec i & [times]]
   (let [times (or times 10)]
-    (log/info (str "  with spec: " spec " (number: " i ")"))
     (count (take
             times
             (repeatedly
@@ -398,7 +397,7 @@
                         menard.generate/log-all-rules? false]
                 (-> spec
                     ((fn [spec]
-                       (log/info (str "Generating with spec: " spec " (expression #" i ")"))
+                       (log/info (str "Generating with spec: #" i))
                        spec))
                     nl/generate
                     ((fn [expression]

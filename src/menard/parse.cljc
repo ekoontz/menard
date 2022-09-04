@@ -241,7 +241,7 @@
             (menard.parse/pad-left (- (count vector-of-words) 1))
             (clojure.string/split #""))
 
-        debug (log/info (str "word-glue-wrapper: bit-vector is: " bit-vector))
+        debug (log/debug (str "word-glue-wrapper: bit-vector is: " bit-vector))
         debug (log/debug (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
         
         grouped
@@ -330,10 +330,7 @@
                          ;; in the lexicon), so
                          ;; add it to the list of already-
                          ;; validated tokens:
-                         (do
-                           (log/info (str "found in lexicon: "
-                                          joined-complete-token))
-                           (vec (concat tokens [complete-token])))
+                         (lazy-cat tokens [complete-token])
                          
                          (empty? words)
                          ;; we're at end of the input,
@@ -422,7 +419,6 @@
    - _input_length_, the length of the input string in tokens.
    - _grammar_, a list of grammar rules."
   [input-map input-length span-length grammar]
-  (log/info (str "parse-spans-of-length; grammar of size: " (count grammar)))
   (cond (> span-length input-length)
         ;; done
         input-map

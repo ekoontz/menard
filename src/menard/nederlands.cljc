@@ -252,45 +252,53 @@
                       (-> model :lexicon-index-fn)
                       syntax-tree))))
 
-(defn analyze [surface]
-  (let [model (load-model complete/model)]
-    (binding [l/lexicon (-> model :lexicon)
-              p/syntax-tree syntax-tree
-              l/morphology (:morphology model)]
-      (let [variants (vec (set [(clojure.string/lower-case surface)
-                                (clojure.string/upper-case surface)
-                                (clojure.string/capitalize surface)]))
-            found (mapcat l/matching-lexemes variants)]
-        (log/debug (str "found: " (count found) " for: [" surface "]"))
-        (if (seq found)
-          found
-          (let [found (l/matching-lexemes "_")]
-            (log/info (str "no lexemes found for: [" surface "]"
-                           (when (seq found)
-                             (str "; will use null lexemes instead."))))
-            found))))))
-
-(defn parse [expression]
-  (let [model (load-model complete/model)
-
-        ;; remove trailing '.' if any:
-        expression (string/replace expression #"[.]*$" "")]
-        ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
-        ;; use it as part of the meaning
+(defn analyze
+  ([surface]
+   (analyze surface true))
+  ([surface use-null-lexemes?]
+   (let [model (load-model complete/model)]
+     (binding [l/lexicon (-> model :lexicon)
+               p/syntax-tree syntax-tree
+               l/morphology (:morphology model)]
+       (let [variants (vec (set [(clojure.string/lower-case surface)
+                                 (clojure.string/upper-case surface)
+                                 (clojure.string/capitalize surface)]))
+             found (mapcat l/matching-lexemes variants)]
+         (log/debug (str "found: " (count found) " for: [" surface "]"))
+         (if (seq found)
+           found
+           (if use-null-lexemes?
+             (let [found (l/matching-lexemes "_")]
+               (log/info (str "no lexemes found for: [" surface "]"
+                              (when (seq found)
+                                (str "; will use null lexemes instead."))))
+               found))))))))
+  
+(defn parse
+  ([expression]
+   (parse expression analyze))
+  ([expression analyze-fn]
+   (let [model (load-model complete/model)
+         
+         ;; remove trailing '.' if any:
+         expression (string/replace expression #"[.]*$" "")]
+     ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
+     ;; use it as part of the meaning
         ;; i.e.
-        ;; '.' -> declarative
-        ;; '?' -> interrogative
-        ;; '!' -> imperative
-    (binding [l/lexicon (-> model :lexicon)
-              l/morphology (-> model :morphology)
-              p/grammar (-> model :grammar)
-              p/syntax-tree syntax-tree
-              p/morph morph
-              p/truncate? truncate?
-              p/split-on #"[ ]"
-              p/log-these-rules log-these-rules
-              p/lookup-fn analyze]
-      (p/parse expression))))
+     ;; '.' -> declarative
+     ;; '?' -> interrogative
+     ;; '!' -> imperative
+     (binding [l/lexicon (-> model :lexicon)
+               l/morphology (-> model :morphology)
+               p/grammar (-> model :grammar)
+               p/syntax-tree syntax-tree
+               p/morph morph
+               p/truncate? truncate?
+               p/split-on #"[ ]"
+               p/log-these-rules log-these-rules
+               p/lookup-fn analyze-fn]
+       (log/info (str "calling p/parse with grammar: " (count (-> model :grammar))))
+       (p/parse (p/all-groupings expression analyze-fn))))))
 
 (defn parse-start [expression]
   (let [model (load-model complete/model)

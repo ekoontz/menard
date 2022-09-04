@@ -7,6 +7,7 @@
    [dag_unify.core :as u]
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :refer [serialize]]
+   [menard.exception :refer [exception]]
    [menard.lexiconfn :as l]))
 
 (def parse-only-one? false)
@@ -178,6 +179,7 @@
                                            parents-with-head))
                                  comp-children)))))
                 head-children))))
+
    (reduce
     (fn [a b]
       (lazy-cat a b)))
@@ -212,7 +214,7 @@
                                     1))))
          (map (fn [i]
                 (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
-                  (log/info (str "i: " i "; grouping retval: " (vec retval)))
+                  (log/debug (str "i: " i "; grouping retval: " (vec retval)))
                   retval)))
          (filter (fn [vector-of-words]
                    (not (empty? vector-of-words)))))))
@@ -255,7 +257,6 @@
          []
          0)]
     
-    (log/info (str "grouped is: " grouped))
     (->> grouped
          (map (fn [vector-of-words]
                 (clojure.string/join " " vector-of-words))))))
@@ -421,40 +422,39 @@
    - _input_length_, the length of the input string in tokens.
    - _grammar_, a list of grammar rules."
   [input-map input-length span-length grammar]
+  (log/info (str "parse-spans-of-length; grammar of size: " (count grammar)))
   (cond (> span-length input-length)
         ;; done
         input-map
         true
-        (do
-          (log/debug (str "span-pairs: " (- input-length span-length) "," span-length))
-          (merge input-map
-                 (->> (span-pairs (- input-length span-length) span-length)
-                      (pmap-if-available
-                       (fn [[[left middle][middle right]]]
-                         (let [all-results (over grammar
-                                                 (get input-map [left middle])
-                                                 (get input-map [middle right]))
-                               taken-results (take take-this-many all-results)
-                               taken-plus-one-results (take (+ 1 take-this-many) all-results)]
-                           (when (> (count taken-plus-one-results) (count taken-results))
-                             (log/warn (str "more than " take-this-many " parses for: '"
-                                            (morph (first taken-results)) "' ; first: "
-                                            (syntax-tree (first taken-results)))))
-                           {[left right] taken-results})))
-                      (reduce (fn [a b]
-                                (merge-with concat a b))))))))
+        (merge input-map
+               (->> (span-pairs (- input-length span-length) span-length)
+                    (pmap-if-available
+                     (fn [[[left middle][middle right]]]
+                       (let [all-results (over grammar
+                                               (get input-map [left middle])
+                                               (get input-map [middle right]))
+                             taken-results (take take-this-many all-results)
+                             taken-plus-one-results (take (+ 1 take-this-many) all-results)]
+                         (when (> (count taken-plus-one-results) (count taken-results))
+                           (log/warn (str "more than " take-this-many " parses for: '"
+                                          (morph (first taken-results)) "' ; first: "
+                                          (syntax-tree (first taken-results)))))
+                         {[left right] taken-results})))
+                    (reduce (fn [a b]
+                              (merge-with concat a b)))))))
 
-(defn lookup-fn-with-trim [string]
+(defn lookup-fn-with-trim [string lookup-fn]
   (let [trimmed (clojure.string/trim string)]
     (when (and (not (string/blank? trimmed))
                (= trimmed string))
       (lookup-fn string))))
 
-(defn create-input-map [tokens]
+(defn create-input-map [tokens lookup-fn]
   (into {}
         (map (fn [i]
                [[i (+ i 1)]
-                (lookup-fn-with-trim (nth tokens i))])
+                (lookup-fn-with-trim (nth tokens i) lookup-fn)])
              (range 0 (count tokens)))))
   
 ;; TODO: should create all possible tokenizations.
@@ -488,51 +488,50 @@
    Use a language-independent tokenizer (split on space and
   apostrophe) to turn the string into a sequence of tokens."
   ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
-  [input]
-  (log/debug (str "parsing input: '" input "'"))
-  ;; TODO: should create all possible tokenizations.
-  ;; (in other words, more than one tokenization is possible, e.g.
-  ;;  if a token is made of separate words like "The White House".
-  (let [tokenization (tokenize input)
-        token-count (count tokenization)
-        all-parses (reduce (fn [input-map span-size]
-                             (parse-spans-of-length input-map token-count span-size grammar))
-                           (create-input-map tokenization)
-                           (range 2 (+ 1 token-count)))
-        result {:token-count (count tokenization)
-                :complete-parses
-                (filter map? (get all-parses
-                                  [0 (count tokenization)]))
-                :all-parses all-parses}]
-    (if (empty? (:complete-parses result))
-
-      ;; if there are no complete parses,
-      ;; cobble together results by combining
-      ;; partial parses with lexical lookups of tokens (if they exists).
-      ;; e.g. we can parse "er zijn katten" so there is a complete parse
-      ;; but "er zijn kat" can't be fully parsed, so we return:
-      ;; [er zijn] [kat].
-      (let [analyses
-            (zipmap
-             tokenization
-             (pmap-if-available
-              (fn [token]
-                (lookup-fn-with-trim token))
-              tokenization))
-            partial-parses (vals (:all-parses result))]
-        (log/info (str "could not parse: \"" input "\". token:sense pairs: "
-                       (string/join ";"
-                                    (pmap-if-available (fn [token]
-                                           (str token ":" (count (get analyses token)) ""))
-                                         tokenization))
-                       (str "; partial parses: " (count (mapcat (fn [parses-for-span]
-                                                                  (pmap-if-available syntax-tree parses-for-span))
-                                                                partial-parses)) ".")))
-        (->> (flatten partial-parses)
-             (map (fn [partial-parse]
-                    (merge partial-parse {::partial? true})))))
-      (do (log/debug (str "parsed input:    \"" input "\""))
-          (:complete-parses result)))))
+  [tokenizations]
+  (if (seq tokenizations)
+    (concat
+     (let [tokenization (first tokenizations)]
+       (let [token-count (count tokenization)
+             all-parses (reduce (fn [input-map span-size]
+                                  (parse-spans-of-length input-map token-count span-size grammar))
+                                (create-input-map tokenization lookup-fn)
+                                (range 2 (+ 1 token-count)))
+             result {:token-count (count tokenization)
+                     :complete-parses
+                     (filter map? (get all-parses
+                                       [0 (count tokenization)]))
+                     :all-parses all-parses}]
+         (if (empty? (:complete-parses result))
+           
+           ;; if there are no complete parses,
+           ;; cobble together results by combining
+           ;; partial parses with lexical lookups of tokens (if they exists).
+           ;; e.g. we can parse "er zijn katten" so there is a complete parse
+           ;; but "er zijn kat" can't be fully parsed, so we return:
+           ;; [er zijn] [kat].
+           (let [analyses
+                 (zipmap
+                  tokenization
+                  (pmap-if-available
+                   (fn [token]
+                     (lookup-fn-with-trim token lookup-fn))
+                   tokenization))
+                 partial-parses (vals (:all-parses result))]
+             (log/info (str "could not parse: \"" (vec tokenization) "\". token:sense pairs: "
+                            (string/join ";"
+                                         (pmap-if-available (fn [token]
+                                                              (str token ":" (count (get analyses token)) ""))
+                                                            tokenization))
+                            (str "; partial parses: " (count (mapcat (fn [parses-for-span]
+                                                                       (pmap-if-available syntax-tree parses-for-span))
+                                                                     partial-parses)) ".")))
+             (->> (flatten partial-parses)
+                  (map (fn [partial-parse]
+                         (merge partial-parse {::partial? true})))))
+           (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
+               (:complete-parses result)))))
+     (parse (rest tokenizations)))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))

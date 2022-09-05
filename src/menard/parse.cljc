@@ -480,10 +480,7 @@
         (parse-in-stages input-length (+ 1 i) grammar surface))))
 
 (defn parse
-  "Return a list of all possible parse trees for a string.
-   Use a language-independent tokenizer (split on space and
-  apostrophe) to turn the string into a sequence of tokens."
-  ;; TODO: remove 'morph' as an input parameter; use a dynamic binding instead.
+  "Return a list of all possible parse trees given all possible tokenizations."
   [tokenizations]
   (if (seq tokenizations)
     (concat

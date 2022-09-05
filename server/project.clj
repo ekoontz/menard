@@ -1,7 +1,7 @@
 (defproject server "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [menard "1.5.0"]
+                 [menard "1.6.1-SNAPSHOT"]
                  [metosin/reitit "0.5.18"]
                  [metosin/reitit-ring "0.5.18"]
                  [ring-server "0.5.0"]

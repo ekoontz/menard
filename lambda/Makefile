@@ -22,7 +22,7 @@ latest.zip: output
 menard-lambda: target/menard-lambda.jar
 	${native_image_cmd}
 
-target/menard-lambda.jar: src/menard/lambda/def.clj src/menard/lambda/handlersclj
+target/menard-lambda.jar: src/menard/lambda/def.clj
 	lein uberjar
 
 # </deploy-native>
@@ -52,8 +52,8 @@ dry-api-native: latest.zip
 	sam local start-api --template template-native.yml
 
 local-test: check-service
-	curl "http://127.0.0.1:3000/parse?q=de+kat"
-	curl "http://127.0.0.1:3000/generate?q=%5B%5B%5B%5D%20%7B%3Acat%20%3Anoun%2C%20%3Asubcat%20%5B%5D%2C%20%3Asem%20%7B%3Aquant%20%3Athe%7D%2C%20%3Aagr%20%7B%3Agender%20%3Acommon%2C%20%3Anumber%20%3Asing%7D%2C%20%3Aphrasal%20true%2C%20%3Ahead%20%7B%3Aphrasal%20false%7D%7D%5D%5D"
+	curl "http://127.0.0.1:3000/parse-start/nl?q=de+kat"
+	curl "http://127.0.0.1:3000/generate/nl?q=%5B%5B%5B%5D%20%7B%3Acat%20%3Anoun%2C%20%3Asubcat%20%5B%5D%2C%20%3Asem%20%7B%3Aquant%20%3Athe%7D%2C%20%3Aagr%20%7B%3Agender%20%3Acommon%2C%20%3Anumber%20%3Asing%7D%2C%20%3Aphrasal%20true%2C%20%3Ahead%20%7B%3Aphrasal%20false%7D%7D%5D%5D"
 	curl 'http://127.0.0.1:3000/generate-with-alts?spec=%5B%5B%5B%5D%20%7B%3Acat%20%3Anoun%2C%20%3Amod%20nil%2C%20%3Asem%20%7B%3Aquant%20%3Athe%7D%2C%20%3Aphrasal%20true%2C%20%3Ahead%20%7B%3Aphrasal%20false%2C%20%3Ainflection%20%3Aheid%7D%7D%5D%5D&alts=(%5B%5B%5B%5D%20%7B%3Asem%20%7B%3Aref%20%7B%3Anumber%20%3Asing%7D%7D%7D%5D%5D%20%5B%5B%5B%5D%20%7B%3Asem%20%7B%3Aref%20%7B%3Anumber%20%3Aplur%7D%7D%7D%5D%5D)'
 
 make-bucket:

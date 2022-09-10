@@ -6,9 +6,9 @@
    [menard.handlers :as handlers]
    [menard.english :as en]
    [menard.english.complete :as en-complete]
-   [menard.english.woordenlijst :as en-woordenlijst]   
+   [menard.english.woordenlijst :as en-woordenlijst]
    [menard.nederlands.basic :as nl-basic]
-   [menard.nederlands.complete :as nl-complete]      
+   [menard.nederlands.complete :as nl-complete]
    [menard.nederlands.woordenlijst :as nl-woordenlijst]
    [nrepl.server :refer [start-server stop-server]]
    [reitit.ring :as reitit-ring]
@@ -36,6 +36,7 @@
    :headers headers
    :body (write-str body)})
 
+;; TODO: move to menard/handlers.
 (defn get-target-model [request]
   (let [given-model-name (-> request :query-params (get "model"))
         model-name (or given-model-name "complete-model")]
@@ -43,7 +44,7 @@
           nl-woordenlijst/model
           (= "woordenlijst" model-name)
           nl-woordenlijst/model
-          
+
           (= "basic-model" model-name)
           nl-basic/model
           (= "basic" model-name)
@@ -53,7 +54,7 @@
           (do
             (log/warn (str "request-supplied target-model: '" given-model-name "' doesn't exist: falling back to nl-complete/model."))
             nl-complete/model)
-          
+
           :else nl-complete/model)))
 
 (defn get-source-model [request]
@@ -94,8 +95,7 @@
    ["/generate/nl"
     {:get {:handler
            (fn [request]
-             (let [language "nl"
-                   target-model (-> request get-target-model deref)
+             (let [target-model (-> request get-target-model deref)
                    source-model (-> request get-source-model deref)
                    spec (-> request :query-params (get "q"))]
                (log/info (str "/generate/nl: requested spec: "
@@ -176,19 +176,6 @@
                     (map dag_unify.serialization/serialize)
                     (map str)
                     json-response)))}}]
-
-   ;; deprecated: use /generate/nl instead:
-   ["/generate"
-    {:get {:handler
-           (fn [request]
-             (let [language "nl"
-                   target-model (-> request get-target-model deref)
-                   source-model (-> request get-source-model deref)
-                   spec (-> request :query-params (get "q"))]
-               (log/info (str "/generate: language: nl; requested spec: "
-                              spec "; using model named: '" (-> target-model :name "'"))
-               (-> (handlers/generate-nl-and-en-by-spec spec target-model source-model)
-                   json-response))))}}]
 
    ;; deprecated: use /generate-with-alts/nl instead:
    ["/generate-with-alts"

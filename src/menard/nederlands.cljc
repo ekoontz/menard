@@ -315,7 +315,7 @@
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/lookup-fn analyze]
-      (p/parse-start expression))))
+      (p/parse-start expression analyze))))
 
 (defn generate-demo [index & [this-many]]
   (->>

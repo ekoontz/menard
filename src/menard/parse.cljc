@@ -206,9 +206,8 @@
 (declare word-glue)
 (declare word-glue-wrapper)
 
-
-(defn all-groupings [words lookup-fn]
-  (let [vector-of-words (clojure.string/split words split-on)]
+(defn all-groupings [input-string lookup-fn]
+  (let [vector-of-words (clojure.string/split input-string split-on)]
     (->> (range 0 (int (Math/pow 2
                                  (- (count vector-of-words)
                                     1))))
@@ -456,20 +455,27 @@
 ;; TODO: should create all possible tokenizations.
 ;; (in other words, more than one tokenization is possible, e.g.
 ;;  if a token is made of separate words like "The White House".
-(defn tokenize [input]
-  [(->> (-> input
-            (string/split split-on))
-        (filter #(not (string/blank? %))))])
+(defn tokenize
+  ([input analyze-fn]
+   (all-groupings input analyze-fn))
+
+  ;; deprecated:
+  ([input]
+   [(->> (-> input
+             (string/split split-on))
+         (filter #(not (string/blank? %))))]))
 
 (defn parse-start
   [input analyze-fn]
   ;; this 'doall' is necessary to force the lazy sequence
   ;; to use the bindings for the dynamic variable lookup-fn.
   ;; TODO: make 'lookup-fn' a parameter to (defn parse-start).
+  (log/debug (str "parse-start input: " input))
+  (log/debug (str "parse-start analyze-fn: " analyze-fn))  
   (doall
-   (->> (tokenize input)
+   (->> (tokenize input analyze-fn)
         (map (fn [tokenization]
-               (log/info (str "looking at tokenization: " (vec tokenization)))
+               (log/debug (str "looking at tokenization: " (vec tokenization)))
                (create-input-map tokenization analyze-fn))))))
 
 (defn parse-in-stages [input-map input-length i grammar surface]

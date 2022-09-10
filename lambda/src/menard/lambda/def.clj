@@ -2,6 +2,7 @@
 (ns menard.lambda.def
   (:gen-class)
   (:require
+   [clojure.tools.logging :as log]
    [fierycod.holy-lambda.core :as h]
    [menard.handlers :as handlers]
    [menard.english :as en]

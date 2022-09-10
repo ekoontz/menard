@@ -58,7 +58,7 @@ Resources:
   GenerateNL:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: menard.lambda.def.Generate
+      Handler: menard.lambda.def.GenerateNL
       CodeUri:
         Key: !Ref 'ObjectKey'
         Bucket: !Ref 'BucketName'

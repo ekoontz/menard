@@ -5,9 +5,9 @@
    [dag_unify.core :as u]
    [dag_unify.diagnostics :refer [strip-refs]]
    [menard.english :as en]
-   [menard.english.complete :as en-complete]      
+   [menard.english.complete :as en-complete]
    [menard.nederlands :as nl]
-   [menard.nederlands.complete :as nl-complete]   
+   [menard.nederlands.complete :as nl-complete]
    [menard.translate.spec :as tr]))
 
 (defn dag-to-string [dag]
@@ -143,7 +143,7 @@
              (map #(-> %
                        (dissoc % :source-tree (dag-to-string (:source-tree %)))
                        (dissoc % :target-tree (dag-to-string (:target-tree %))))))
-          
+
       ;; don't cleanup the syntax trees, but serialize them so they can be printed to json:
       (map #(-> %
                 (assoc :source-tree (dag-to-string (:source-tree %)))
@@ -226,7 +226,7 @@
                                 [(str k)
                                  (map (fn [x] (-> x dag_unify.serialization/serialize str))
                                       (get intermediate-result k))]))))))))
-    
+
 (defn parse-en-start [string-to-parse]
   (log/info (str "parse-en-start input: '" string-to-parse "'"))
   (let [en-tokens (en/tokenize string-to-parse)]

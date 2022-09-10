@@ -3,7 +3,13 @@
   (:gen-class)
   (:require
    [fierycod.holy-lambda.core :as h]
-   [menard.handlers :as handlers]))
+   [menard.handlers :as handlers]
+   [menard.english :as en]
+   [menard.english.complete :as en-complete]
+   [menard.english.woordenlijst :as en-woordenlijst]
+   [menard.nederlands.basic :as nl-basic]
+   [menard.nederlands.complete :as nl-complete]
+   [menard.nederlands.woordenlijst :as nl-woordenlijst]))
 
 (defonce origin "https://hiro-tan.org")
 
@@ -16,7 +22,42 @@
    :headers headers
    :body body
    :isBase64Encoded false})
-  
+
+;; TODO: move to menard/handlers.
+(defn get-target-model [& [given-model-name]]
+  (let [model-name (or given-model-name "complete-model")]
+    (cond (= "woordenlijst-model" model-name)
+          nl-woordenlijst/model
+          (= "woordenlijst" model-name)
+          nl-woordenlijst/model
+
+          (= "basic-model" model-name)
+          nl-basic/model
+          (= "basic" model-name)
+          nl-basic/model
+
+          given-model-name
+          (do
+            (log/warn (str "request-supplied target-model: '" given-model-name "' doesn't exist: falling back to nl-complete/model."))
+            nl-complete/model)
+
+          :else nl-complete/model)))
+
+;; TODO: move to menard/handlers.
+(defn get-source-model [& [given-model-name]]
+  (let [model-name (or given-model-name "complete-model")]
+    (cond (= "woordenlijst-model" model-name)
+          en-woordenlijst/en-model
+          (= "woordenlijst" model-name)
+          en-woordenlijst/en-model
+
+          given-model-name
+          (do
+            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
+            en/model)
+
+          :else en/model)))
+
 (h/deflambda AnalyzeEN
   [event context]
   (let [matching-lexemes
@@ -65,19 +106,13 @@
       handlers/parse-en-start
       json-response))
 
-
-;; TODO: deprecate and remove Generate in favor of GenerateNL.
-(h/deflambda Generate
-  [event context]
-  ;; TODO: use 'spec' rather than 'q':
-  (let [q (-> event :queryStringParameters :q)]
-    (json-response (handlers/generate-nl-by-spec q))))
-
 (h/deflambda GenerateNL
   [event context]
-  ;; TODO: use 'spec' rather than 'q':
-  (let [q (-> event :queryStringParameters :q)]
-    (json-response (handlers/generate-nl-by-spec q))))
+  (let [spec (-> event :queryStringParameters :q)
+        model (-> event :queryStringParameters :model)
+        target-model (get-target-model model)
+        source-model (get-source-model model)]
+    (json-response (handlers/generate-nl-and-en-by-spec spec target-model source-model))))
 
 (h/deflambda GenerateEN
   [event context]
@@ -87,8 +122,11 @@
 (h/deflambda GenerateWithAlts
   [event context]
   (let [spec (-> event :queryStringParameters :spec)
-        alternates (-> event :queryStringParameters :alts)]
-    (json-response (handlers/generate-nl-with-alternations spec alternates))))
+        alternates (-> event :queryStringParameters :alts)
+        model (-> event :queryStringParameters :model)
+        target-model (get-target-model model)
+        source-model (get-source-model model)]
+    (json-response (handlers/generate-nl-with-alternations spec alternates target-model source-model))))
 
 (h/deflambda GrammarEN
   [event context]

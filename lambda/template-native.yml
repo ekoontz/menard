@@ -38,3 +38,224 @@ Resources:
       AutoPublishAlias: live
       DeploymentPreference:
           Type: AllAtOnce
+  AnalyzeNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.AnalyzeNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: AnalyzeNL
+      Events:
+        Event:
+         Type: Api
+         Properties:
+           Path: /analyze/nl
+           Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  GenerateNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GenerateNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GenerateNL
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate/nl
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  GenerateEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GenerateEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GenerateEN
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  GenerateWithAlts:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GenerateWithAlts
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GenerateWithAlts
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /generate-with-alts
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  GrammarEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GrammarEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GrammarEN
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /grammar/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  GrammarNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.GrammarNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: GrammarNL
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /grammar/nl
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  MorphologyEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.MorphologyEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: MorphologyEN
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /morphology/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  MorphologyNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.MorphologyNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: MorphologyNL
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /morphology/nl
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  Parse:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.Parse
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: Parse
+      Events:
+       Event:
+          Type: Api
+          Properties:
+            Path: /parse
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  ParseENStart:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.ParseENStart
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: ParseENStart
+      Events:
+       Event:
+          Type: Api
+          Properties:
+            Path: /parse-start/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  ParseNLStart:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.ParseNLStart
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: ParseNLStart
+      Events:
+       Event:
+          Type: Api
+          Properties:
+            Path: /parse-start/nl
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  RuleEN:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.RuleEN
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: RuleEN
+      Events:
+        Event:
+          Type: Api
+          Properties:
+            Path: /rule/en
+            Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce
+  RuleNL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: menard.lambda.def.RuleNL
+      CodeUri:
+        Key: !Ref 'ObjectKey'
+        Bucket: !Ref 'BucketName'
+      FunctionName: RuleNL
+      Events:
+        Event:
+         Type: Api
+         Properties:
+           Path: /rule/nl
+           Method: get
+      AutoPublishAlias: live
+      DeploymentPreference:
+          Type: AllAtOnce

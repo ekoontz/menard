@@ -296,9 +296,11 @@
                p/log-these-rules log-these-rules
                p/lookup-fn analyze-fn]
        (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
-       (p/parse (p/all-groupings expression analyze-fn)))))
+       (->
+        expression
+        (p/all-groupings analyze-fn)
+        p/parse))))
 
-  ;; deprecated:
   ([expression]
    (parse expression analyze)))
 

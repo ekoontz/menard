@@ -173,7 +173,6 @@
 (h/gen-main [#'AnalyzeEN
              #'AnalyzeNL
              #'Parse
-             #'Generate
              #'GenerateEN
              #'GenerateNL
              #'GenerateWithAlts

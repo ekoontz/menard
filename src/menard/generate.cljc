@@ -71,6 +71,7 @@
   optionaly function to print out a tree _syntax-tree-fn_. See 
   nederlands/generate and english/generate for sample syntax-tree functions."
   [spec grammar lexicon-index-fn & [syntax-tree-fn]]
+  (log/info (str "menard.generate: start."))
   (if (empty? grammar)
     (exception "grammar is empty."))
   (when counts?

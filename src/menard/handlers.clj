@@ -219,15 +219,20 @@
   (let [intermediate-results (->> string-to-parse
                                   clojure.string/lower-case
                                   nl/parse-start)]
-    (->> intermediate-results
-         (map (fn [intermediate-result]
-                (into {}
-                      (->> (keys intermediate-result)
-                           (map (fn [k]
-                                  [(str k)
-                                   (map (fn [x] (-> x dag_unify.serialization/serialize str))
-                                        (get intermediate-result k))])))))))))
-
+    (log/info (str "INTERMEDIATE RESULTS: " (vec intermediate-results)))
+    (let [result
+          (->> intermediate-results
+               (map (fn [intermediate-result]
+                      (log/info (str "INTERMEDIATE RESULT: " intermediate-result))
+                      (into {}
+                            (->> (keys intermediate-result)
+                                 (map (fn [k]
+                                        [(str k)
+                                         (map (fn [x] (-> x dag_unify.serialization/serialize str))
+                                              (get intermediate-result k))])))))))]
+      (log/info (str "parse-nl-start: RESULT: " (vec result)))
+      result)))
+    
 (defn parse-en-start [string-to-parse]
   (log/info (str "parse-en-start input: '" string-to-parse "'"))
   (let [en-tokens (en/tokenize string-to-parse)]

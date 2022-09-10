@@ -468,9 +468,9 @@
   ;; TODO: make 'lookup-fn' a parameter to (defn parse-start).
   (doall
    (->> (tokenize input)
-        (mapcat (fn [tokenization]
-                  (log/info (str "looking at tokenization: " (vec tokenization)))
-                  (create-input-map tokenization analyze-fn))))))
+        (map (fn [tokenization]
+               (log/info (str "looking at tokenization: " (vec tokenization)))
+               (create-input-map tokenization analyze-fn))))))
 
 (defn parse-in-stages [input-map input-length i grammar surface]
   (if (or (get input-map [0 input-length])

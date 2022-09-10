@@ -146,6 +146,7 @@
                      (-> query-params
                          (get "q")
                          parse-start))]
+               (log/info (str "/parse-start/ " language ": INTERMEDIATE RESULT: " intermediate-result))
                (json-response intermediate-result)))}}]
    
    ["/analyze/:lang"

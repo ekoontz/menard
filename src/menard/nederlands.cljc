@@ -275,8 +275,6 @@
                found))))))))
   
 (defn parse
-  ([expression]
-   (parse expression analyze))
   ([expression analyze-fn]
    (let [model (load-model complete/model)
          
@@ -298,7 +296,11 @@
                p/log-these-rules log-these-rules
                p/lookup-fn analyze-fn]
        (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
-       (p/parse (p/all-groupings expression analyze-fn))))))
+       (p/parse (p/all-groupings expression analyze-fn)))))
+
+  ;; deprecated:
+  ([expression]
+   (parse expression analyze)))
 
 (defn parse-start [expression]
   (let [model (load-model complete/model)
@@ -358,7 +360,7 @@
 
 (defn tokenize [input-string]
   (binding [p/split-on #"[ ]"]
-    (p/tokenize input-string)))
+    (p/tokenize input-string analyze)))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

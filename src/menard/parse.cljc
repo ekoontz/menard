@@ -218,7 +218,7 @@
          (filter (fn [vector-of-words]
                    (not (empty? vector-of-words)))))))
 
-(defn word-glue-wrapper 
+(defn word-glue-wrapper
     "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
    Examples of words are:
    - 'white'
@@ -242,7 +242,7 @@
 
         debug (log/debug (str "word-glue-wrapper: bit-vector is: " bit-vector))
         debug (log/debug (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
-        
+
         grouped
         (word-glue
 
@@ -250,12 +250,12 @@
          vector-of-words
 
          lookup-fn
-         
+
          ;; init'ed stuff:
          []
          []
          0)]
-    
+
     (->> grouped
          (map (fn [vector-of-words]
                 (clojure.string/join " " vector-of-words))))))
@@ -276,7 +276,7 @@
   - token-in-progress: an empty array
   - next-word: nil"
   [bits words lookup-fn tokens token-in-progress i]
-  ;;     0       1      0      1      0           
+  ;;     0       1      0      1      0
   ;;     1       0      0      0      1
   (log/debug (str "iteration: " i))
   (if (nil? token-in-progress)
@@ -299,7 +299,7 @@
 
               (empty? words)
               token-in-progress
-              
+
               (= "1" current-bit)
               ;; token is done:
               ;; complete-token is
@@ -311,14 +311,14 @@
                 (log/debug (str "current-bit=1: new complete-token: "
                                (vec complete-token)))
                 complete-token)
-              
+
               :else
               ;; we're not at a word boundary,
               ;; so there is no complete-token yet:
               nil)
             joined-complete-token
             (clojure.string/join " " complete-token)
-            
+
             tokens (cond (and
                           complete-token
                           (<= (count complete-token) max-token-length-in-words)
@@ -330,7 +330,7 @@
                          ;; add it to the list of already-
                          ;; validated tokens:
                          (lazy-cat tokens [complete-token])
-                         
+
                          (empty? words)
                          ;; we're at end of the input,
                          ;; and complete-token
@@ -339,7 +339,7 @@
                          ;; on this tokenization
                          ;; hypothesis:
                          []
-                         
+
                          :else
                          ;; we're in middle of the input
                          ;; but not at the end of a token:
@@ -350,7 +350,7 @@
                 (and
                  complete-token
                  (empty? (lookup-fn joined-complete-token))))
-                
+
           ;; give up.
           []
 
@@ -360,7 +360,7 @@
                   complete-token
                   ;; just finished a token, so start a new one in-progress:
                   [next-word]
-                  
+
                   :else
                   ;; existing token-in-progress is not complete:
                   ;; continuing with it by
@@ -373,7 +373,7 @@
             (log/debug (str "output token-in-progress: " (vec token-in-progress)))
             (log/debug (str ""))
             (log/debug (str ""))
-            (log/debug (str ""))        
+            (log/debug (str ""))
             (cond
               (empty? words)
               (do
@@ -381,7 +381,7 @@
                                "going to return: "
                                (vec tokens)))
                 tokens)
-              
+
               :else
               (word-glue (rest bits)
                          (rest words)
@@ -390,7 +390,7 @@
                            []
                            token-in-progress)
                          (+ i 1)))))))))
-    
+
 (declare span-pairs)
 
 (defn words-to-tokens [words]
@@ -451,7 +451,7 @@
                [[i (+ i 1)]
                 (lookup-fn-with-trim (nth tokens i) lookup-fn)])
              (range 0 (count tokens)))))
-  
+
 ;; TODO: should create all possible tokenizations.
 ;; (in other words, more than one tokenization is possible, e.g.
 ;;  if a token is made of separate words like "The White House".
@@ -471,7 +471,7 @@
   ;; to use the bindings for the dynamic variable lookup-fn.
   ;; TODO: make 'lookup-fn' a parameter to (defn parse-start).
   (log/debug (str "parse-start input: " input))
-  (log/debug (str "parse-start analyze-fn: " analyze-fn))  
+  (log/debug (str "parse-start analyze-fn: " analyze-fn))
   (doall
    (->> (tokenize input analyze-fn)
         (map (fn [tokenization]
@@ -503,7 +503,7 @@
                                        [0 (count tokenization)]))
                      :all-parses all-parses}]
          (if (empty? (:complete-parses result))
-           
+
            ;; if there are no complete parses,
            ;; cobble together results by combining
            ;; partial parses with lexical lookups of tokens (if they exists).

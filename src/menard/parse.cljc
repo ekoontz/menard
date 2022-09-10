@@ -562,7 +562,7 @@
                       (assoc :1 (strip-map (u/get-in tree [:1])))
                       (assoc :2 (strip-map (u/get-in tree [:2]))))))
               syntax-tree syntax-tree-fn]
-      (let [input-map (parse-start expression)]
+      (let [input-map (parse-start expression analyze-fn)]
         (-> input-map
             (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)
             ((fn [m]

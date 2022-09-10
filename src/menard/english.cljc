@@ -314,7 +314,7 @@
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
               p/lookup-fn (fn [word] (analyze word model))]
-      (p/parse-start expression))))
+      (p/parse-start expression analyze))))
 
 (def expressions
   (-> "english/expressions.edn"

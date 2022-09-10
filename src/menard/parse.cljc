@@ -465,6 +465,7 @@
   [input]
   ;; this 'doall' is necessary to force the lazy sequence
   ;; to use the bindings for the dynamic variable lookup-fn.
+  ;; TODO: make 'lookup-fn' a parameter to (defn parse-start).
   (doall
    (->> (tokenize input)
         (map (fn [tokenization]

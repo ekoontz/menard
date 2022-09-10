@@ -214,7 +214,7 @@
        (map #(not (= :top (u/get-in % [:sem :pred] :top))))
        (map first)))
 
-(defn parse-nl-start [string-to-parse]
+(defn parse-nl-start-tmp [string-to-parse]
   (log/info (str "parse-nl-start input: '" string-to-parse "'"))
   (let [nl-tokens (nl/tokenize string-to-parse)]
     (cond (> (count nl-tokens) 1)
@@ -229,6 +229,13 @@
                               [(str k)
                                (map (fn [x] (-> x dag_unify.serialization/serialize str))
                                     (get intermediate-result k))]))))))))
+
+(defn parse-nl-start [string-to-parse]
+  [{"[0 1]"
+   '("[[[] {:cat :det, :phrasal? false, :null? false, :inflected? true, :possessive? false, :curriculum :user/none, :agr {:gender :common, :number :sing}, :definite? true, :sem {:pred :the}, :canonical \"de\"}]]"
+     "[[[] {:cat :det, :phrasal? false, :null? false, :inflected? true, :possessive? false, :curriculum :user/none, :agr {:number :plur}, :definite? true, :sem {:pred :the}, :canonical \"de\"}]]"),
+   "[1 2]"
+   '("[[[] {:pronoun? false, :cat :noun, :phrasal? false, :regular true, :null? false, :mod [], :curriculum :user/none, :subcat {:1 {:cat :det, :agr :top, :sem {:countable? :top, :arg1 :top, :arg2 :top, :pred :top}}, :2 []}, :agr :top, :propernoun? false, :sem {:countable? :top, :pred :cat, :arg2 :top, :ref {:canine? false, :human? false, :number :top}, :mod [], :existential? false, :quant :top, :number? false, :context :none, :arg1 :top}, :canonical \"kat\", :inflection :repeated-consonant, :reflexive? false, :surface \"kat\"}] [[[:agr] [:subcat :1 :agr]] {:gender :common, :number :top, :person :3rd}] [[[:sem :ref :number] [:agr :number] [:subcat :1 :agr :number]] :sing] [[[:sem :countable?] [:subcat :1 :sem :countable?]] true] [[[:subcat :1 :sem :arg1] [:sem :arg1]] :top] [[[:sem :arg2] [:subcat :1 :sem :arg2]] :top] [[[:subcat :1 :sem :pred] [:sem :quant]] :top]]")}])
 
 (defn parse-en-start [string-to-parse]
   (log/info (str "parse-en-start input: '" string-to-parse "'"))

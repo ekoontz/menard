@@ -1,0 +1,668 @@
+woord;vertaling Engels;vertaling Arabisch;hoofdstuk;taak
+achternaam, de;surname;لقب العائلة;1;intro
+auto, de;car;سيارة;1;intro
+dochter, de;daughter;ابنة;1;intro
+en;and;و;1;intro
+familie, de;family, relatives;عائلة/ أقارب;1;intro
+geven (geeft);to give ;يعطي;1;intro
+hebben;to have;يمتلك;1;intro
+heten;to be called;يسمى/ يدعى;1;intro
+huisarts, de;family doctor, general practitioner;طبيب العائلة/ طبيب عام;1;intro
+jaar, het;year;عام/ سنة;1;intro
+kinderen, de (het kind);children (child);أطفال (طفل);1;intro
+komen;to come;يأتي;1;intro
+man, de;husband (man);زوج (رجل);1;intro
+met;with;مع;1;intro
+moeder, de;mother;أم;1;intro
+naam, de ;name;اسم;1;intro
+nieuw;new;جديد;1;intro
+nu;now;الآن;1;intro
+nummer, het;number;رقم;1;intro
+op;on, at;في;1;intro
+uit (ik kom uit…);out (I am from);خارج (أنا أتيت من);1;intro
+vandaan ;from;من;1;intro
+voornaam, de;first name;الاسم الاول;1;intro
+vrouw, de ;wife (woman);زوجة (امرأة);1;intro
+werken;to work;يعمل;1;intro
+winkel, de ;shop;متجر;1;intro
+wonen;to live;يعيش;1;intro
+zijn (ben, bent, is);to be;يكون;1;intro
+zoon, de;son;ابن;1;intro
+zus, de;sister;اخت;1;intro
+daar;there;هناك;1;slot
+dan;then, than;ثم;1;slot
+hier;here;هنا;1;slot
+kennen;to know;يعلم;1;slot
+kunnen;can, to be able to;يستطيع;1;slot
+leuk ;nice;لطيف;1;slot
+mobiele telefoon, de;mobile phone;خاتف خليوي;1;slot
+naar;to;الى;1;slot
+restaurant, het;restaurant;مطعم;1;slot
+snel;quick(ly), soon;بسرعة;1;slot
+student, de;student;تلميذ;1;slot
+studeren;to study;يدرس;1;slot
+wachten;to wait;ينتظر;1;slot
+doen;to do;يقوم بـ;1;taak 1
+antwoord, het;answer ;يجيب/ جواب;1;taak 1
+antwoorden;to answer;يجيب/ جواب;1;taak 1
+bedanken;to thank;يشكر;1;taak 1
+beginnen;to begin;يبدأ;1;taak 1
+bij;at;في;1;taak 1
+binnenkomen;come in;يدخل;1;taak 1
+broer, de;brother;أخ;1;taak 1
+gaan;to go ;يذهب;1;taak 1
+goed;oké, good;جيد;1;taak 1
+hoe (hoe heet je?);how (what's your name);كيف (ما اسمك);1;taak 1
+ja;yes;نعم;1;taak 1
+luisteren;to listen;يسمع;1;taak 1
+meedoen;to participate;يشارك;1;taak 1
+meneer, de ;sir (hello sir) / Mr. (Mr. Bos);سيد;1;taak 1
+mevrouw, de ;madam (hello madam) / Mrs. Ms. Bos;سيدة;1;taak 1
+moeten;must / shall;يجب;1;taak 1
+nee;no;لا;1;taak 1
+ook;also, too;ايضا;1;taak 1
+schrijven;to write (down);يدوّن;1;taak 1
+vader, de;father;اب;1;taak 1
+voorstellen;to introduce;قدم شخصاً/ يُعرّف;1;taak 1
+vraag, de;question;سؤال;1;taak 1
+vragen *;to ask;يسأل/ سؤال;1;taak 1
+waar;where;أين;1;taak 1
+wat;what;ماذا;1;taak 1
+wie;who;من;1;taak 1
+zitten;to sit, to be;يجلس;1;taak 1
+zullen (zal);shall / will;سوف;1;taak 1
+achter;after, behind;بعد/ خلف;1;taak 2
+adres, het;address;عنوان;1;taak 2
+bellen;to call, to phone;يتصل هاتفياً;1;taak 2
+cijfer, het;number;عدد/ رقم;1;taak 2
+cursus, de;course;دورة;1;taak 2
+fijn;nice, lovely, great;جيد/ لطيف;1;taak 2
+geen;no;لا;1;taak 2
+huis, het;house;بيت;1;taak 2
+kijken;to look;ينظر;1;taak 2
+klopt dat?;is that correct?;هل هذا صحيح؟;1;taak 2
+krant, de;newspaper;جريدة;1;taak 2
+niet;not;لا (للنفي);1;taak 2
+ongeveer;about;تقريباً;1;taak 2
+plaats, de ;here: town, city;مدينة او بلدة;1;taak 2
+soms;sometimes;أحياناً;1;taak 2
+staan (de postcode staat op de brief);to stand (the postal code is on the letter);يقف (الرمز البريدي موجود على الرسالة);1;taak 2
+straat, de;street;شارع;1;taak 2
+vandaag;today;اليوم;1;taak 2
+volgen;to follow;يتبع;1;taak 2
+welk;which, what;ماذا/ أي;1;taak 2
+groeten;to greet;يرحب/ يلقي التحية;1;taak 3
+vriend, de;friend;صديق;1;taak 3
+weer;again;مرة أخرى;1;taak 3
+weggaan;to leave;يرحل;1;taak 3
+willen;to want;يريد;1;taak 3
+zeggen;to say;يقول;1;taak 3
+datum, de;date;تاريخ;1;taak 4
+geboorte, de;birth;ولادة;1;taak 4
+geslacht, het;gender;النوع/ الجنس (ذكر ام انثى);1;taak 4
+invullen;fill in,out;ملء;1;taak 4
+maart;march;آذار;1;taak 4
+Nederlands(e);Dutch;هولندي;1;taak 4
+onder;here: at the bottom;اسفل;1;taak 4
+persoonlijk;personal;شخصي;1;taak 4
+zetten (een handtekening zetten);to put (to put your signature, to sign);يضع (يضع توقيعه، يوقّع);1;taak 4
+zoeken;to look for ;يبحث;1;taak 4
+afspraak, de;appointment, engagement;موعد;2;intro
+bijna;nearly, almost;تقريباً/ حوالي;2;intro
+douche, de;shower;الدوش في الحملم;2;intro
+gelijk ;right ;صحيح;2;intro
+minuut, de ;minute;دقيقة;2;intro
+net ;just ;فقط;2;intro
+opschieten;to hurry up;يسرع;2;intro
+over (over 10 minuten);about (in 10 minutes);حوالي (خلال عشر دقائق);2;intro
+sorry;sorry;اسف;2;intro
+te (te laat);too (too late);جداً (تأخير جداً);2;intro
+thuis;at home;في المنزل;2;intro
+uur, het (om 3 uur);hour (at three o' clock);ساعة (في الساعة الثالثة);2;intro
+veel;much, many;كثير;2;intro
+wakker;awake;مستيقظ;2;intro
+avond, de;evening;مساء;2;taak 1
+gisteren;yesterday;البارحة;2;taak 1
+kiezen;to choose;يختار;2;taak 1
+leren;to teach / to learn;يَدرس/ يُدرّس;2;taak 1
+maand, de;month;شهر;2;taak 1
+middag;afternoon;بعد الظهيرة;2;taak 1
+morgen;tomorrow;غداً;2;taak 1
+morgen, de;morning;صباحاً;2;taak 1
+nacht, de;night;ليل;2;taak 1
+ochtend, de;the morning;الصباح;2;taak 1
+of;or;أو;2;taak 1
+rijden;to drive;يقود;2;taak 1
+vanavond;tonight;الليلة;2;taak 1
+vanmiddag;this afternoon;بعد ظهر هذا اليوم;2;taak 1
+volgend;next;القادم;2;taak 1
+vrij ;free, a day off;حر/ يوم عطلة;2;taak 1
+week, de;week;اسبوع;2;taak 1
+weekend, het;weekend;نهاية الاسبوع;2;taak 1
+tijd, de;time;الوقت;2;taak 2
+aflopen ;to end;يُنهي;2;taak 2
+alweer;already;قبل الآن/ سابقاً;2;taak 2
+collega, de;colleague;زميل;2;taak 2
+eten;to eat, to have dinner, lunch etc.;يأكل/ يتناول الطعام;2;taak 2
+feest, het;party;حفلة;2;taak 2
+graag (welke programma's wil je graag zien?);which programs would you like to see;تحب أن تشاهد أي برنامج؟;2;taak 2
+half;half;نصف;2;taak 2
+klaar;ready;جاهز;2;taak 2
+kwart, het (tijd);quarter ;ربع;2;taak 2
+kwartier, het;quarter of an hour;ربع الساعة;2;taak 2
+laat;late;متأخر;2;taak 2
+land, het;land ;أرض/ بلد;2;taak 2
+lezen;to read;يقرأ;2;taak 2
+over (kwart over twee);past (a quarter past two);بعد (الثانية والربع);2;taak 2
+precies ;precise / right on time;تماماً;2;taak 2
+programma, het (tv);program;برنامج;2;taak 2
+verjaardag, de;birthday;عيد ميلاد;2;taak 2
+voor (vijf voor acht);to (five minutes to eight);الا (الثامنة الا خمس دقائق);2;taak 2
+vriendin, de;female friend / girlfriend;صديقة;2;taak 2
+ander;other;آخر;2;taak 3
+anderhalf;one and a half;واحد ونصف;2;taak 3
+bus, de ;bus;باص;2;taak 3
+centrum, het;(town, city) center;مركز (البلدة او المدينة);2;taak 3
+dag, de;day;يوم;2;taak 3
+duren;to last;يدوم;2;taak 3
+dus;so;اذا;2;taak 3
+hoeveel;how much, how many;كم عدد;2;taak 3
+keer, de (twee keer per week);time (two times a week);مرة (مرتين في الاسبوع);2;taak 3
+lang;long;طويل;2;taak 3
+les, de;lesson;درس;2;taak 3
+nemen;to take;يأخذ;2;taak 3
+per (twee keer per week);per (two times a week);زوجان/ اثنان (مرتين في الاسبوع);2;taak 3
+station, het;station;محطة;2;taak 3
+tot (van … tot);from … to;من... الى...;2;taak 3
+vaak;often;عادة;2;taak 3
+vakantie, de;holiday(s);عطلة/ اجازة;2;taak 3
+ziekenhuis, het;hospital;مشفى;2;taak 3
+al;already;قبل الآن/ سابقاً;2;taak 4
+danken (dank je wel);to thank (thank you);يشكر;2;taak 4
+geboren;born;وُلِدَ;2;taak 4
+hartelijk (hartelijk gefeliciteerd);congratulations, sincere best wishes;تهانينا;2;taak 4
+hartelijk (hartelijke groeten);best regards;مع اطيب التحيات;2;taak 4
+jong;young;فتي/ شاب;2;taak 4
+oud;old;السن/ كبير;2;taak 4
+pas (pas 19);only 19;فقط 19;2;taak 4
+toch (dat is toch niet oud);that's not old, is it?;ليس كبير، اليس كذلك؟;2;taak 4
+tot (tot zaterdag);to (see you on Saturday);الى (الى السبت);2;taak 4
+vieren;to celebrate;يحتفل;2;taak 4
+wanneer;when;متى;2;taak 4
+worden;to become, to get;يصبح;2;taak 4
+bakker, de;baker;خباز;3;intro
+bezorgen;to deliver;يوصل;3;intro
+brood,  het ;bread, loaf;خبز;3;intro
+glas, het (glaasje);glass;كأس;3;intro
+kopen;to buy;يشتري;3;intro
+wijn, de;wine;نبيذ;3;intro
+alles;all;كل;3;lezen
+band, de;relation;علاقة/ رابطة;3;slot
+bijzonder;special ;خصوصي;3;slot
+gerecht, het;meal;وجبة;3;slot
+meenemen;bring, take along;أحضر/ أجلب;3;slot
+mooi;beautiful, nice;جميل;3;slot
+aardappel, de;potato;بطاطا;3;taak 1
+appel, de;apple;تفاح;3;taak 1
+bijvoorbeeld;for example;مثلاً/ على سبيل المثال;3;taak 1
+boodschap(pen) de;shopping, purchases;التسوق;3;taak 1
+drinken;to drink;يشرب;3;taak 1
+fruit, het;fruit;فواكه;3;taak 1
+gek zijn op;to be crazy about;مجنون بـ;3;taak 1
+groente;vegetables;خضار;3;taak 1
+heerlijk;delightful, lovely;لذيذ;3;taak 1
+houden van;to like;يحب;3;taak 1
+kaas, de;cheese;جبن;3;taak 1
+kip, de;chicken;دجاج;3;taak 1
+kosten;cost;سعر;3;taak 1
+lekker;nice, good, tasty;جيد/ لذيذ;3;taak 1
+lekker vinden;to like;يعجب;3;taak 1
+maken;to make;يصنع;3;taak 1
+melk, de;milk;حليب;3;taak 1
+mogen;can, may, to be allowed to;يمكن;3;taak 1
+nooit;never;ابداً;3;taak 1
+ontbijt, het;breakfast;فطور;3;taak 1
+school, de ;school;مدرسة;3;taak 1
+thee, de;tea;شاي;3;taak 1
+vis, de;fish;سمك;3;taak 1
+vlees, het;meat;لحم;3;taak 1
+water, het;water;ماء;3;taak 1
+zo (ik houd niet zo van bier);so (I don't like beer too much);اذا (لا احب البيرة ايضاً);3;taak 1
+zoet;sweet;حلو;3;taak 1
+zout, het;salt;مالح;3;taak 1
+alstublieft;please / here you are (formal);من فضلك (رسمي);3;taak 2
+beurt, de ;turn;الدور;3;taak 2
+bruin;brown;بني;3;taak 2
+duur;expensive;غالي;3;taak 2
+ei, het (eieren);egg(s);بيض;3;taak 2
+goedkoop;cheap;رخيص;3;taak 2
+graag (twee koffie graag);two coffees please;اثنان قهوة لو سمحت;3;taak 2
+gram;gram(me);غرام;3;taak 2
+kilo, de;kilo;كيلو;3;taak 2
+markt, de ;market;سوق;3;taak 2
+ons, het;a hundred grammes;100 غرام;3;taak 2
+pond, de;pound (500 grammes);500 غرام;3;taak 2
+snijden (gesneden);to cut, to slice (sliced bread);يقطع شرائح;3;taak 2
+tas, de (tasje erbij?);bag (would you like a bag?);حقيبة/ كيس (هل تريد كيساً);3;taak 2
+verkoper, de;salesman, woman, shop assistant;بائع;3;taak 2
+wit;white;ابيض;3;taak 2
+aanbieden;to offer;يقدم عرضاً;3;taak 3
+alsjeblieft;please / here you are (informal);من فضلك (غير رسمي);3;taak 3
+bier(tje), het;beer;بيرة;3;taak 3
+dorst, de (dorst hebben);thirst (to be thirsty);عطشان;3;taak 3
+gezellig;pleasant, enjoyable, comfortable;حميم/ مريح/ ممتع;3;taak 3
+halen;to get;يحصل على;3;taak 3
+iets;something, anything;شيء ما/ أي شيء;3;taak 3
+koffie,de;coffee;قهوة;3;taak 3
+kop, de;cup;فنجان;3;taak 3
+wat (iets);here: something ;هنا: شيء;3;taak 3
+zin hebben in;to feel like;لا اشعر برغبة في;3;taak 3
+bestellen;to order;يطلب;3;taak 4
+boterham, de;sandwich, slice of bread;شطيرة;3;taak 4
+eten, het;food;طعام;3;taak 4
+klant, de ;customer, client;زبون/ عميل;3;taak 4
+klein;small;صغير;3;taak 4
+meestal;mostly, usually;غالباً/ عادة;3;taak 4
+soort, de ;kind;نوع;3;taak 4
+tussen;between;بين;3;taak 4
+warm;warm, hot;دافئ;3;taak 4
+appartement, het;apartment;شقة;4;intro
+boot, de;boat;قارب;4;intro
+villa, de;villa;فيلا;4;intro
+arm;poor;فقير;4;slot
+eigen;own;يملك;4;slot
+eindelijk;at last;في النهاية;4;slot
+alleen;by yourself / only;وحيد;4;taak 1
+bad, het;bath;حمام;4;taak 1
+balkon, het;balcony;شرفة;4;taak 1
+beetje, het;a little;قليل;4;taak 1
+beneden;downstairs;الطابق السفلي;4;taak 1
+boven;upstairs;الطابق العلوي;4;taak 1
+daarom;therefore;لذلك;4;taak 1
+delen;to share;يتشارك;4;taak 1
+dorp, het;village;قرية;4;taak 1
+fantastisch;fantastic;عظيم/ رائع;4;taak 1
+gezin, het;family (parents and children);الاسرة (الاهل والابناء);4;taak 1
+groot;big;كبير;4;taak 1
+kamer, de ;room;غرفة;4;taak 1
+kast, de ;cupboard;خزانة;4;taak 1
+keuken, de ;kitchen;مطبخ;4;taak 1
+licht;bright;مضيء;4;taak 1
+meter, de;meter;متر;4;taak 1
+muziek, de;music;موسيقا;4;taak 1
+natuurlijk;of course;طبعا;4;taak 1
+raam, het;window;نافذة;4;taak 1
+rustig;quiet(ly);هادئ;4;taak 1
+slaapkamer, de;bedroom;غرفة النوم;4;taak 1
+stad, de;town, city;مدينة/ بلدة;4;taak 1
+toilet, het;toilet;دورة المياه;4;taak 1
+tuin, de;garden;حديقة;4;taak 1
+verdieping, de;floor;طابق;4;taak 1
+vierkante meter, de;square meter;متر مربع;4;taak 1
+vrij (vrij klein);rather (rather small);صغير نوعاً ما;4;taak 1
+zelfs;even;حتى;4;taak 1
+zonder;without;من دون;4;taak 1
+aantal, het;the number;عدد;4;taak 2
+algemeen;all;عام;4;taak 2
+bedoelen;to mean;يعني;4;taak 2
+betalen;to pay;يدفع;4;taak 2
+helaas;unfortunately;للأسف;4;taak 2
+helpen;to help;يساعد;4;taak 2
+hoog;high;مرتفع;4;taak 2
+huren, de huur;to rent, rent;يؤجر/ أجار;4;taak 2
+jammer (het is jammer voor u);a pity, too bad (I am sorry for you);للأسف/ أنا اسف على ذلك);4;taak 2
+krijgen;to get, to receive;يستلم;4;taak 2
+laag;low;منخفض;4;taak 2
+leeftijd, de;age;العمر;4;taak 2
+misschien;perhaps;ربما;4;taak 2
+prachtig;beautiful, wonderful;رائع;4;taak 2
+reageren;to respond, to react;يقوم برد فعل;4;taak 2
+ruim;spacious;واسع;4;taak 2
+salaris, het;salary;راتب;4;taak 2
+spijten;to be sorry;يعتذر;4;taak 2
+te koop;for sale;للبيع;4;taak 2
+verder (verder zoeken);farther, further (to go on looking);المزيد (يستمر بالبحث);4;taak 2
+verhuizen;to move;ينقل سكنه;4;taak 2
+verkeerd;wrong;خطأ;4;taak 2
+via;through;من خلال;4;taak 2
+woning, de ;house;سكن/ بيت;4;taak 2
+zien;to see;يرى;4;taak 2
+bank, de (meubel);couch, sofa;اريكة/ كنبة;4;taak 3
+bed, het;bed;سرير;4;taak 3
+echt (waar);real(ly) / yes it is;حقاً/ أجل;4;taak 3
+erg;very;جداً;4;taak 3
+geld, het;money;نقود;4;taak 3
+idee, het;idea;فكرة;4;taak 3
+kleur, de ;colour;لون;4;taak 3
+kussen;pillow;وسادة;4;taak 3
+passen bij / in;to go / to match with - to go well in;يتناسب مع/ يليق مع;4;taak 3
+stoel, de ;chair;كرسي;4;taak 3
+tafel, de;table;طاولة;4;taak 3
+bekijken;to look at;ينظر الى;4;taak 4
+brief, de;letter;رسالة;4;taak 4
+momen(tje), het ;moment (just a moment, hold on please);ثانية (انتظر ثانية من فضلك);4;taak 4
+prima;excellent;ممتاز;4;taak 4
+spreken;to speak, to talk;يتكلم;4;taak 4
+vanaf;from;مِن;4;taak 4
+woningbouwvereniging, de;housing association;جمعيات الاسكان;4;taak 4
+fiets, de;bicycle;دراجة;5;2
+fietsen;to cycle;يركب الدراجة;5;intro
+onderweg;on the way;في الطريق;5;intro
+richting, de;direction;اتجاه;5;intro
+tram, de;tram;الترام;5;intro
+uitstappen;to get off;يترجل من/ ينزل من;5;intro
+vol;full;ممتلئ;5;intro
+advies, het;advice;نصيحة;5;slot
+eiland, het;island;جزيرة;5;slot
+provincie, de;region, province;مقاطعة;5;slot
+boek, het;book;كتاب;5;taak 1
+computer, de;computer;كومبيوتر;5;taak 1
+eind, het;the end;النهاية;5;taak 1
+hoezo;what do you mean;ماذا تقصد؟;5;taak 1
+kaart, de (plattegrond, de);(street) map;خريطة (شارع);5;taak 1
+lift, de;lift;مصعد;5;taak 1
+lopen;to walk;يمشي;5;taak 1
+meegaan;go along, go with, accompany;يذهب مع/ يرافق;5;taak 1
+niks/niets;nothing;لا شيء;5;taak 1
+plein, het;square;ساحة;5;taak 1
+rechts ;(on / to the) right;على اليمين;5;taak 1
+regenen;to rain;تمطر;5;taak 1
+snappen;to get, to catch, to grasp;يفهم/ يلقط;5;taak 1
+trap, de ;stairs;درج;5;taak 1
+universiteit, de;university;جامعة;5;taak 1
+ver;far;بعيد;5;taak 1
+vlakbij;close by, nearby;قريب;5;taak 1
+weg, de;road;طريق;5;taak 1
+ingang, de;entrance, entry;مدخل;5;taak 2
+kerk, de ;church;كنيسة;5;taak 2
+kilometer, de;kilometer;كيلومتر;5;taak 2
+langs (langs de supermarkt);you pass the supermarket;تقطع السوبرماركت;5;taak 2
+langs (langs het water);along the water's edge;على طول حافة المياه;5;taak 2
+links;left;يسار;5;taak 2
+na;after;بعد;5;taak 2
+naast;next to;جانب;5;taak 2
+oversteken;to cross the street;يقطع الشارع;5;taak 2
+pad, het (fietspad);(bi)cycle track/path;طريق الدراجة;5;taak 2
+pad, het (in de supermarkt);isle (in supermarkets);ممر (في السوبرماركت);5;taak 2
+parkeren;to park;يوقف/ يركن السيارة;5;taak 2
+steeds;always, constantly;دائماً;5;taak 2
+vinden;to find;يجد;5;taak 2
+aankomen;to arrive;يصل;5;taak 3
+brug, de;bridge;جسر;5;taak 3
+door;through;خلال;5;taak 3
+drukken;to press, push;يضغط/ يكبس;5;taak 3
+feestdag, de;public holiday;عطلة عامة;5;taak 3
+fout, de;mistake, error, fault;غلط;5;taak 3
+heel (de hele dag);the whole day;كل اليوم;5;taak 3
+kaart, de (toegangskaart, de);ticket;تذكرة;5;taak 3
+klas, de (school);grade, class;صف;5;taak 3
+reis (enkele reis);trip (single / one-way ticket) ;رحلة (بطاقة ذهاب فقط);5;taak 3
+scherm, het;screen;شاشة;5;taak 3
+spoor, het;track, platform;رصيف;5;taak 3
+tijdens;during;اثناء;5;taak 3
+trein, de;train;قطار;5;taak 3
+vertrekken;to leave;يغادر;5;taak 3
+voordeel, het;advantage;فائدة;5;taak 3
+dezelfde;the same;نفس/ ذات;5;taak 4
+elk;every, each;كل/ كل واحد;5;taak 4
+openbaar vervoer;public transport;مواصلات عامة;5;taak 4
+ouder, de;parent;اب او ام;5;taak 4
+reizen;to travel;يسافر;5;taak 4
+broek, de;trousers;بنطال;6;intro
+geel;yellow;اصفر;6;intro
+groen;green;اخضر;6;intro
+jas, de ;coat;معطف;6;intro
+jurk, de ;dress;فستان;6;intro
+paar, het ;pair;زوج من;6;intro
+paars;purple;بنفسجي;6;intro
+rok, de;skirt;تنورة;6;intro
+rood;red;احمر;6;intro
+schoen, de;shoe;فردة حذاء;6;intro
+sok, de;sock;فردة جورب;6;intro
+zwart;black;اسود;6;intro
+bank, de (geld);bank;البنك;6;taak 1
+belangrijk;important;مهم;6;taak 1
+blauw;blue;ازرق;6;taak 1
+donker;dark ;غامق;6;taak 1
+dragen;to wear;يرتدي;6;taak 1
+kleren, de;clothes;ملابس;6;taak 1
+kort;short;قصير;6;taak 1
+net (voor kleren);good / Sunday best (for clothes);افضل الملابس;6;taak 1
+pak, het (kleding);suit;بدلة;6;taak 1
+politie, de ;police;شرطة;6;taak 1
+trui, de;sweater;كنزة;6;taak 1
+uitgaan;to go out;يخرج;6;taak 1
+uniform, het;uniform;زي موحد;6;taak 1
+zo'n;about;عن;6;taak 1
+blond;blond;اشقر;6;taak 2
+bril, de;glasses, spectacles;نظارات;6;taak 2
+ding, het;thing;شيء;6;taak 2
+haar, het;hair;شعر;6;taak 2
+jongen, de ;boy;صبي;6;taak 2
+klas(se), de (openbaar vervoer);class;الدرجة (في المواصلات العامة);6;taak 2
+krul, de;curl;مجعد;6;taak 2
+oog, het;eye;عين;6;taak 2
+raden;to guess;يخمّن;6;taak 2
+steil (haar);straight;سوي/ مستقيم;6;taak 2
+uiterlijk, het;appearance;مظهر;6;taak 2
+verliefd;in love;يحب;6;taak 2
+gat, het;hole;ثقب;6;taak 3
+kapot;torn, broken;مكسور/ معطل;6;taak 3
+knoop, de;button;زر;6;taak 3
+maat, de ;size;مقاس;6;taak 3
+plezier, het;fun;متعة;6;taak 3
+probleem, het;problem;مشكلة;6;taak 3
+ruilen;to exchange;يبدّل;6;taak 3
+stuk;broken;مكسور/ معطل;6;taak 3
+vervelend;annoying, unpleasant;مزعج;6;taak 3
+baas, de;boss;مدير;6;taak 4
+buurman, de;neighbour (male);جار;6;taak 4
+compliment, het;compliment;اطراء;6;taak 4
+dame, de;lady;فتاة;6;taak 4
+elkaar;each other, one another;بعضها البعض;6;taak 4
+niemand;nobody, no one ;لا احد;6;taak 4
+opstaan;to get up / to stand up;يقف;6;taak 4
+film, de ;film;فيلم;7;intro
+reus, de;giant;عملاق;7;slot
+bekend;familiar;معروف;7;taak 1
+bioscoop, de;cinema;سينما;7;taak 1
+borrel, de;"alcoholic drink; a get-together";شرب المشروبات الكحولية;7;taak 1
+daarna;after that, afterwards;بعد ذلك;7;taak 1
+eerst;first;اولاً;7;taak 1
+honger, de (ik heb honger);appetite (I am hungry);انا جائع;7;taak 1
+kroeg, de;café, pub;مقهى، بار;7;taak 1
+plan, het;plan;خطة;7;taak 1
+rekening, de;bill;فاتورة;7;taak 1
+straks;later;قريباً/ بعد قليل;7;taak 1
+traditie, de;tradition;تقاليد;7;taak 1
+voorstel, het;proposal, proposition;اقتراح;7;taak 1
+want;because, for;لأن;7;taak 1
+zielig;pitiful, pathetic;مثير للشفقة;7;taak 1
+aankomen;to gain weight;يكسب وزناً;7;taak 2
+citroen, de;lemon;ليمون;7;taak 2
+fles, de;bottle;زجاجة;7;taak 2
+geloven;think, believe;يعتقد;7;taak 2
+gewoon;simply, just, usual;فقط/ ببساطة;7;taak 2
+kaart, de (menukaart, de);menu;قائمة الطعام;7;taak 2
+knoflook, de;garlic;ثوم;7;taak 2
+lijken (de zalm lijkt me erg lekker);seem, appear (the salmon looks very nice);يبدو (السلمون يبدو شهياً);7;taak 2
+nog (nog een witte wijn);another (another white wine);واحدة أخرى (زجاجة نبيذ أخرى);7;taak 2
+nog (nog leuker);even (even nicer);حتى افضل;7;taak 2
+ober, de;waiter;نادل;7;taak 2
+plaats, de;place;مكان;7;taak 2
+saus, de;sauce;صلصة;7;taak 2
+tegen (daar kan ik geen nee tegen zeggen);against, by, to (I can't say no to that);مقابل (لا استطيع ان اقول لا لهذا);7;taak 2
+bloem, de ;flower;زهرة;7;taak 3
+gelukkig;happy (glad to hear it);سعيد (سعيد لسماع هذا);7;taak 3
+geweldig;terrific, fantastic;رائع;7;taak 3
+koken;cook, do the cooking;يطبخ;7;taak 3
+lenen;to borrow;يستعير;7;taak 3
+lied(je), het;song;اغنية;7;taak 3
+maaltijd, de;meal;وجبة;7;taak 3
+namelijk ;you see, as it happens;انت ترى/ كما حدث;7;taak 3
+pakken ;to get ;يحصل;7;taak 3
+slecht;bad;سيء;7;taak 3
+suiker, de;sugar;سكر;7;taak 3
+trouwen;to get married;يتزوج;7;taak 3
+uitnodigen;to invite;يدعو;7;taak 3
+uitnodiging, de;invitation;دعوة;7;taak 3
+volgens;according to;بناء على;7;taak 3
+wedstrijd, de;match, game;لعبة/ مباراة/ مسابقة;7;taak 3
+al(le);general;عام;7;taak 4
+bang ;frightened;خائف;7;taak 4
+dagelijks;daily, every day;كل يوم/ يومياً;7;taak 4
+dier, het;animal;حيوان;7;taak 4
+gebouw, het;building;بناء/ مبنى;7;taak 4
+gratis;free;مجاني;7;taak 4
+informatie, de ;information;معلومات;7;taak 4
+minstens;at least;على الاقل;7;taak 4
+open;open;يفتح;7;taak 4
+park, het;park;حديقة;7;taak 4
+praktisch;practical;عملي;7;taak 4
+sprookje, het;fairy tale;قصة خيالية;7;taak 4
+toegang, de;entrance;مدخل;7;taak 4
+toegangskaartje, het;ticket;بطاقة;7;taak 4
+varen;to sail;يبحر;7;taak 4
+autorijles, de;driving lesson;درس قيادة;1;intro
+in ;in ;في;1;intro
+weten  *;to know;;1;taak 1
+dankuwel;thank you (formal);شكراً لك (تستخدم للشكر بشكل رسمي);1;taak 2
+postcode, de;postal code;الرمز البريدي;1;taak 2
+telefoonboek, het;telephone directory;دليل الهاتف;1;taak 2
+woonplaats, de;(place of) residence;مكان السكن;1;taak 2
+formulier, het;form;استمارة;1;taak 4
+handtekening, de;signature;توقيع;1;taak 4
+nationaliteit, de ;nationality;جنسية;1;taak 4
+slapen *;to sleep;;2;intro
+door de week;on weekdays;;2;taak 1
+ 's avonds;in the evening;في المساء;2;taak 1
+ 's middags;in the afternoon;بعد الظهر;2;taak 1
+ 's morgens;in the morning;في الصباح;2;taak 1
+ 's nachts;at night;في الليل;2;taak 1
+ 's ochtends;in the morning;في الصباح;2;taak 1
+sporten;to exercise, to work out;يمارس الرياضة;2;taak 1
+tussen de middag;at lunch time ;;2;taak 1
+vanmorgen;this afternoon;;2;taak 1
+vannacht;tonight;;2;taak 1
+vanochtend;this morning;;2;taak 1
+vorig;hier: last;;2;taak 1
+hoe laat ;(at) what time ;كم الوقت;2;taak 2
+lezen  *;to read;;2;taak 2
+halte, de (de bushalte);(bus) stop;;2;taak 3
+feliciteren;to congratulate;يهنئ;2;taak 4
+jarig (ik ben jarig);it's my birthday;انه عيد ميلادي;2;taak 4
+kalender, de;calender;التقويم (رزنامة);2;taak 4
+lieve;dear ;;2;taak 4
+wc, de;toilet;دورة المياه;2;taak 4
+pannenkoek, de;pancake;فطيرة;3;slot
+banaan, de;banana;موز;3;taak 1
+gehakt, het ;minced meat;لحم مفروم;3;taak 1
+hagelslag, de;chocolate sprinkles;رشات الشوكولا;3;taak 1
+hartig;salty, well seasoned;مالح (من غير الحلويات);3;taak 1
+jam, de;jam;مربى;3;taak 1
+koekje, het;biscuit;بسكوت;3;taak 1
+lusten;to like;يعجب;3;taak 1
+patat, de;chips;بطاطا مقلية;3;taak 1
+pinda, de;peanut;الفول السوداني;3;taak 1
+praten (over);to talk (about);;3;taak 1
+rijst, de;rice;رز;3;taak 1
+sperzieboon, de;French bean, green bean;فاصولياء خضراء;3;taak 1
+vegetariër, de;vegetarian;نباتي;3;taak 1
+vies;nasty;;3;taak 1
+vleeswaren, de;cold cuts;لحوم باردة;3;taak 1
+champignon, de;mushroom;فطر;3;taak 2
+niets;nothing;;3;taak 2
+slager, de ;butcher;لحام/ قصاب;3;taak 2
+supermarkt, de;supermarket;سوبرماركت;3;taak 2
+tomaat, de;tomato;طماطم;3;taak 2
+fris, het ;soft drink;مشروبات غازية;3;taak 3
+proost;cheers;نخب/ هتاف;3;taak 3
+avondeten, het;dinner, supper;عشاء;3;taak 4
+denken  *;to think;;3;taak 4
+lunch, de ;lunch;غداء;3;taak 4
+salami, de;salami;سلامي;3;taak 4
+flatgebouw, het;apartment building;مبنى سكني;4;intro
+rijtjeshuis, het;terraced house;بيت ضمن صف من البيوت المتلاصقة;4;intro
+langskomen;to come around;يأتي/ يزور;4;slot
+hal, de ;hall;قاعة;4;taak 1
+hartstikke;terribly, awfully, ;بشكل فظيع;4;taak 1
+wasmachine, de;washing machine;غسالة;4;taak 1
+werkkamer, de;study room;غرفة الدراسة;4;taak 1
+zolder, de ;attic;علية;4;taak 1
+inschrijven;to register;يسجل;4;taak 2
+meubels, de;furniture;مفروشات;4;taak 3
+binnengaan;to go in(to);يذهب الى الداخل;5;taak 1
+plattegrond, de;(street) map;خريطة (شارع);5;taak 1
+kassa, de;check out;الدفع;5;taak 2
+linkerkant, de;left side;الجهة اليسرى;5;taak 2
+linksaf ;(to the) left;على اليسار;5;taak 2
+pinnen;to pay with an ATM card;يدفع ببطاقة البنك;5;taak 2
+rechtdoor;straight ahead;الى الامام;5;taak 2
+rechtsaf  gaan;to turn right;يلتف يميناً;5;taak 2
+zebrapad, het;pedestrian crossing, zebra crossing;ممر المشاة;5;taak 2
+abonnement, het;season ticket;اشتراك;5;taak 3
+benieuwd;curious;فضولي;5;taak 3
+instappen;get in / on;يدخل الى;5;taak 3
+korting, de;discount;حسم;5;taak 3
+metro, de;subway, tube, underground;مترو الانفاق;5;taak 3
+naartoe (waar gaat u naartoe?);to (where are you going to)?;الى (الى اين تذهب؟);5;taak 3
+opladen;to charge;يشحن;5;taak 3
+OV-chipkaart, de;e-purse for public transportation;بطاقة للدفع للمواصلات العامة;5;taak 3
+overstappen;to change / to transfer;تغيير/ تبديل;5;taak 3
+retour, het (trein);return trip / ticket;بطاقة ذهاب واياب;5;taak 3
+wijzen (de weg)  *;to show the way;;5;taak 3
+automaat, de;ticket machine;الة شراء البطاقات;5;taak 4
+inchecken;to check in;;5;taak 4
+rechterkant, de;right(-hand) side;الجهة اليمنى;5;taak 4
+saldo, het;balance (here: travel with pay);;5;taak 4
+uitchecken;to check out;;5;taak 4
+bloes, de;blouse, shirt;قميص نسائي;6;intro
+gympen, de;sneakers;حذاء رياضي;6;intro
+spijkerbroek, de;jeans;جينز;6;intro
+T-shirt, het;t-shirt;قميص قصير الكمين;6;intro
+aanhebben;to wear;يرتدي;6;taak 1
+hardlopen;to run;يركض;6;taak 1
+lichtblauw;light blue;ازرق فاتح;6;taak 1
+modeshow, de;fashion show;عرض ازياء;6;taak 1
+overhemd, het ;shirt;قميص رجالي;6;taak 1
+pet, de ;cap;قبعة;6;taak 1
+stropdas, de;tie;ربطة عنق;6;taak 1
+eruitzien ;to look ;يبدو;6;taak 2
+pauze, de ;break;استراحة;6;taak 2
+bon, de;the receipt;فاتورة/ ايصال;6;taak 3
+eraf zijn (er is een knoop af);a button has come off;انقطع الزر;6;taak 3
+rits, de;zip;سحاب;6;taak 3
+tegoedbon, de;credit note;قسيمة;6;taak 3
+teruggeven;to give back;يُعيد/ يُرجع;6;taak 3
+teruggeven (geld);to refund;يعيد المال;6;taak 3
+bushalte, de;bus stop;موقف الباص;6;taak 4
+buurvrouw, de;neighbour (female);جارة;6;taak 4
+kapper, de;hairdresser;حلاق;6;taak 4
+bitterbal, de;type of croquette served as an appetizer;نوع مقبلات;7;taak 1
+borrelhapje, het;snack, appetizer;مقبلات;7;taak 1
+rondje, het (een rondje geven);round (to stand a round of drinks);جولة (يقدم جولة من المشروبات);7;taak 1
+terugbellen;to call back;يعاود الاتصال;7;taak 1
+appeltaart, de;apple pie;فطيرة التفاح;7;taak 2
+biefstuk, de;steak;شريحة لحم;7;taak 2
+buurjongen, de ;boy next door, boy living nearby;ابن الجيران;7;taak 2
+dessert, het;dessert;حلويات;7;taak 2
+garnaal, de ;shrimp, prawn;قريدس;7;taak 2
+gebakken;baked, fried;مخبوز/ مقلي;7;taak 2
+gegrild;grilled;مشوي;7;taak 2
+hoofdgerecht, het;main course;الطبق الرئيسي;7;taak 2
+sla, de;lettuce, salad;خس/ سلطة;7;taak 2
+slagroom, de;whipping, whipped cream;كريمة;7;taak 2
+taart, de;cake, pie;فطيرة;7;taak 2
+tonijn, de;tuna;سمك التونة;7;taak 2
+voorgerecht, het;first course, starter;مقبلات;7;taak 2
+werkdag, de;working day;يوم عمل;7;taak 2
+zalm, de;salmon;سمك السلمون;7;taak 2
+aanstaande;next;القادم;7;taak 3
+bruiloft, de;wedding;عرس;7;taak 3
+diploma, het;diploma, certificate;شهادة;7;taak 3
+hapje, het;bite;عضة;7;taak 3
+om een uur of (twee);about (two) o' clock;حوالي الساعة الثانية;7;taak 3
+voetbal, het;football;كرة القدم;7;taak 3
+bang voor;afraid of;يخاف من;7;taak 4
+openingstijden, de;opening hours;ساعات الدوام;7;taak 4
+spannend;exciting;مثير;7;taak 4

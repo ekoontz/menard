@@ -72,7 +72,8 @@
   nederlands/generate and english/generate for sample syntax-tree functions."
   [spec grammar lexicon-index-fn & [syntax-tree-fn]]
   (log/info (str "menard.generate: start."))
-  (if (empty? grammar)
+  (when (empty? grammar)
+    (log/error (str "grammar is empty."))
     (exception "grammar is empty."))
   (when counts?
     (reset! count-adds 0)

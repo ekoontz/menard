@@ -445,13 +445,28 @@
              (filter #(= :sing (u/get-in % [:subcat :1 :agr :number]))))]
     (is (seq treedt-2nd-sing))))
 
-
-(deftest woordenlijst
+(deftest woordenlijst-generate
   (let [spec {:rule "np:2" :cat :noun :max-depth 1 :phrasal? true :subcat []}]
     (is (not (empty?
               (->
                spec
                (generate woordenlijst/model)
                ((fn [x] (str (morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
+
+(deftest woordenlijst-model-parse
+  (is (=
+       (->> (parse "de tonijnnen" @menard.nederlands.woordenlijst/model)
+            (map syntax-tree)
+            first)
+       "[np:2 .de +tonijnnen]")))
+
+(deftest complete-model-parse
+  (is (=
+       (->> (parse "de katten" @menard.nederlands.complete/model)
+            (map syntax-tree)
+            first)
+       "[np:2 .de +katten]")))
+
+   
 
 

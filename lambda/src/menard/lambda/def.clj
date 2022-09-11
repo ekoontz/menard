@@ -58,9 +58,8 @@
 
 (h/deflambda ParseNLStart
   [event context]
-  (let [model (if (-> event :queryStringParameters :model)
-                (-> event :queryStringParameters :model handlers/get-target-model deref)
-                (-> handlers/get-target-model deref))]
+  (let [model-name (or (-> event :queryStringParameters :model) "complete-model")
+        model (-> model-name handlers/get-target-model deref)]
     (-> event
         :queryStringParameters
         :q

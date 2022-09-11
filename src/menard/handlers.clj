@@ -7,7 +7,10 @@
    [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
+<<<<<<< HEAD
    [menard.nederlands :as nl]
+=======
+>>>>>>> c221a3e43 (implement TODO: move get-target-model and get-source-model to menard.handlers)
    [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.complete :as nl-complete]
    [menard.nederlands.woordenlijst :as nl-woordenlijst]
@@ -38,6 +41,7 @@
           :else nl-complete/model)))
 
 (defn get-source-model [& [given-model-name]]
+<<<<<<< HEAD
   (let [result
         (let [model-name (or given-model-name "complete-model")]
           (cond (= "woordenlijst-model" model-name)
@@ -53,6 +57,20 @@
                 :else en/model))]
     (log/info (str "get-source-model: returning model of type:" (type result)))
     result))
+=======
+  (let [model-name (or given-model-name "complete-model")]
+    (cond (= "woordenlijst-model" model-name)
+          en-woordenlijst/en-model
+          (= "woordenlijst" model-name)
+          en-woordenlijst/en-model
+          
+          given-model-name
+          (do
+            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
+            en/model)
+          
+          :else en/model)))
+>>>>>>> c221a3e43 (implement TODO: move get-target-model and get-source-model to menard.handlers)
 
 (defn generate-nl-and-en
   "generate a Dutch expression from _spec_ and _target_model_ and

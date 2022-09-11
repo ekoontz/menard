@@ -258,6 +258,7 @@
   [spec & [model]]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
+  (log/info (str "menard.english/generate with spec: " spec))
   (let [model (or model (load-model))]
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 5 (get-in spec [:max-depth]))

@@ -275,13 +275,18 @@
                             (when (seq found)
                               (str "; will use null lexemes instead."))))
              found)))))))
-  
+
+(defn resolve-model [model]
+  (cond (= (type model) clojure.lang.Ref) @model
+        (map? model)                      model
+        :else                             (exception (str "invalid model: " model))))
+
 (defn parse
-  ([expression analyze-fn]
-   (let [model (load-model complete/model)
-         
+  ([expression model]
+   (let [model (resolve-model model)
          ;; remove trailing '.' if any:
-         expression (string/replace expression #"[.]*$" "")]
+         expression (string/replace expression #"[.]*$" "")
+         analyze-fn #(analyze % false model)]
      ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
      ;; use it as part of the meaning
         ;; i.e.
@@ -302,15 +307,12 @@
         expression
         (p/all-groupings analyze-fn)
         p/parse))))
-
   ([expression]
-   (parse expression analyze)))
+   (parse expression (load-model complete/model))))
 
 (defn parse-start [expression & [model]]
   (let [model (or model (load-model complete/model))
-        model (cond (= (type model) clojure.lang.Ref) @model
-                    (map? model)                      model
-                    :else                             (exception (str "invalid model: " model)))
+        model (resolve-model model)
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")
@@ -429,6 +431,3 @@
                     :else                             (exception (str "invalid model: " model)))
         lookup-fn (fn [token] (analyze token false model))]
     (p/parse-all expression (fn [] model) syntax-tree lookup-fn)))
-
-
-

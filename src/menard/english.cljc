@@ -268,7 +268,7 @@
                     model
                     
                     :else
-                    (let [error-message (str "invalid model: " model)]
+                    (let [error-message (str "menard.english/generate: invalid model: " model)]
                       (log/error error-message)
                       (exception error-message)))]
     (log/info (str "menard.english/generate with model type (2): " (type model)))    
@@ -300,7 +300,16 @@
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
 (defn parse [expression & [model]]
-  (let [model (or model (load-model))]
+  (let [model (or model (load-model))
+        model (cond (= (type model) clojure.lang.Ref)
+                    @model
+                    (map? model)
+                    model
+                    
+                    :else
+                    (let [error-message (str "menard.english/parse: invalid model: " model)]
+                      (log/error error-message)
+                      (exception error-message)))]
     (log/info (str "menard.english parse with model type: "
                    (type model)))
     (if (map? model)

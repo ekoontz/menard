@@ -306,11 +306,14 @@
   ([expression]
    (parse expression analyze)))
 
-(defn parse-start [expression]
-  (let [model (load-model complete/model)
+(defn parse-start [expression & [model]]
+  (let [model (or model (load-model complete/model))
+        model (cond (= (type model) clojure.lang.Ref) @model
+                    (map? model)                      model
+                    :else                             (exception (str "invalid model: " model)))
 
         ;; remove trailing '.' if any:
-        expression (string/replace expression #"[.]*$" "")]
+        expression (string/replace expression #"[.]*$" "")
         ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
         ;; use it as part of the meaning
         ;; i.e.
@@ -318,10 +321,11 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
 
+        lookup-fn (fn [token] (analyze token false model))]
     (binding [l/morphology (-> model :morphology)
               p/split-on #"[ ]"
-              p/lookup-fn analyze]
-      (p/parse-start expression analyze))))
+              p/lookup-fn lookup-fn]
+      (p/parse-start expression lookup-fn))))
 
 (defn generate-demo [index & [this-many]]
   (->>
@@ -418,5 +422,13 @@
                     (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
                   paths)))))
 
-(defn parse-all [expression]
-  (p/parse-all expression (fn [] (load-model complete/model)) syntax-tree analyze))
+(defn parse-all [expression & [model]]
+  (let [model (or model (load-model complete/model))
+        model (cond (= (type model) clojure.lang.Ref) @model
+                    (map? model)                      model
+                    :else                             (exception (str "invalid model: " model)))
+        lookup-fn (fn [token] (analyze token false model))]
+    (p/parse-all expression (fn [] model) syntax-tree lookup-fn)))
+
+
+

@@ -259,8 +259,16 @@
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
   (log/info (str "menard.english/generate with spec: " spec))
-  (log/info (str "menard.english/generate with model type: " (type model)))
-  (let [model (or model (load-model))]
+  (log/info (str "menard.english/generate with model type (1): " (type model)))
+  (let [model (or model (load-model))
+        model (cond (= (type model) clojure.lang.Ref)
+                    @model
+                    (map? model)
+                    model
+                    
+                    :else
+                    (exception (str "invalid model: " model)))]
+    (log/info (str "menard.english/generate with model type (2): " (type model)))    
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 5 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))]

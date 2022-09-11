@@ -301,6 +301,12 @@
 ;; to improve performance:
 (defn parse [expression & [model]]
   (let [model (or model (load-model))]
+    (log/info (str "menard.english parse with model type: "
+                   (type model)))
+    (if (map? model)
+      (log/info (str "menard.english parse with model name: "
+                     (-> model :name)))
+      (log/error (str "model is not a map as expected!")))
     (binding [p/grammar (-> model :grammar)
               p/morph morph
               p/syntax-tree syntax-tree

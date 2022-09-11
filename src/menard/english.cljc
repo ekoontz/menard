@@ -5,6 +5,7 @@
   #?(:cljs (:require-macros [menard.grammar]))
 
   (:require [clojure.string :as string]
+            [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
             [menard.grammar :as grammar]
@@ -267,7 +268,9 @@
                     model
                     
                     :else
-                    (exception (str "invalid model: " model)))]
+                    (let [error-message (str "invalid model: " model)]
+                      (log/error error-message)
+                      (exception error-message)))]
     (log/info (str "menard.english/generate with model type (2): " (type model)))    
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 5 (get-in spec [:max-depth]))

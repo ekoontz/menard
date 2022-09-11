@@ -250,11 +250,12 @@
        (map #(not (= :top (u/get-in % [:sem :pred] :top))))
        (map first)))
 
-(defn parse-nl-start [string-to-parse]
-  (log/info (str "menard.handler/parse-nl-start input: '" string-to-parse "'"))
-  (->> string-to-parse
-       clojure.string/lower-case
-       nl/parse-start
+(defn parse-nl-start [string-to-parse model]
+  (log/debug (str "menard.handler/parse-nl-start input: '" string-to-parse "' with model (type):" (type model)))
+  (log/debug (str "menard.handler/parse-nl-start input: '" string-to-parse "' with model name:" (:name model)))  
+  (->> (-> string-to-parse
+           clojure.string/lower-case
+           (nl/parse-start model))
        (map (fn [intermediate-result]
               (into {}
                     (->> (keys intermediate-result)
@@ -264,7 +265,7 @@
                                       (get intermediate-result k))]))))))))
 
 (defn parse-en-start [string-to-parse]
-  (log/info (str "parse-en-start input: '" string-to-parse "'"))
+  (log/debug (str "parse-en-start input: '" string-to-parse "'"))
   (let [en-tokens (en/tokenize string-to-parse)]
     (cond (> (count en-tokens) 1)
           (let [intermediate-result (->> string-to-parse

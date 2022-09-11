@@ -108,14 +108,16 @@
                                      handlers/parse-nl-start)
                    query-params (-> request :query-params)
                    do-all? (-> query-params (get "all"))
+                   model (-> query-params (get "model") handlers/get-target-model deref)
                    intermediate-result
                    (if (and do-all? (seq do-all?))
                      (-> query-params
                          (get "q")
-                         parse-all)
+                         (parse-all model))
                      (-> query-params
                          (get "q")
-                         parse-start))]
+                         (parse-start model)))]
+               (log/info (str "ran parse-start with model named: " (-> model :name)))
                (json-response intermediate-result)))}}]
    
    ["/analyze/:lang"

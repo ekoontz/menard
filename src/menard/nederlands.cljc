@@ -256,23 +256,25 @@
   ([surface]
    (analyze surface false))
   ([surface use-null-lexemes?]
-   (let [model (load-model complete/model)]
-     (binding [l/lexicon (-> model :lexicon)
-               p/syntax-tree syntax-tree
-               l/morphology (:morphology model)]
-       (let [variants (vec (set [(clojure.string/lower-case surface)
-                                 (clojure.string/upper-case surface)
-                                 (clojure.string/capitalize surface)]))
-             found (mapcat l/matching-lexemes variants)]
-         (log/debug (str "found: " (count found) " for: [" surface "]"))
-         (if (seq found)
-           found
-           (if use-null-lexemes?
-             (let [found (l/matching-lexemes "_")]
-               (log/info (str "no lexemes found for: [" surface "]"
-                              (when (seq found)
-                                (str "; will use null lexemes instead."))))
-               found))))))))
+   (analyze surface false @complete/model))
+  ([surface use-null-lexemes? model]
+   (binding [l/lexicon (-> model :lexicon)
+             p/syntax-tree syntax-tree
+             l/morphology (:morphology model)]
+     (log/debug (str "analyze with model named: " (-> model :name)))
+     (let [variants (vec (set [(clojure.string/lower-case surface)
+                               (clojure.string/upper-case surface)
+                               (clojure.string/capitalize surface)]))
+           found (mapcat l/matching-lexemes variants)]
+       (log/debug (str "found: " (count found) " for: [" surface "]"))
+       (if (seq found)
+         found
+         (if use-null-lexemes?
+           (let [found (l/matching-lexemes "_")]
+             (log/info (str "no lexemes found for: [" surface "]"
+                            (when (seq found)
+                              (str "; will use null lexemes instead."))))
+             found)))))))
   
 (defn parse
   ([expression analyze-fn]

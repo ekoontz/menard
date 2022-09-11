@@ -64,7 +64,7 @@
     (-> event
         :queryStringParameters
         :q
-        #(handlers/parse-nl-start % model)
+        (#(handlers/parse-nl-start % model))
         json-response)))
 
 (h/deflambda ParseENStart

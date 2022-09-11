@@ -36,41 +36,11 @@
    :headers headers
    :body (write-str body)})
 
-;; TODO: move to menard/handlers.
 (defn get-target-model [request]
-  (let [given-model-name (-> request :query-params (get "model"))
-        model-name (or given-model-name "complete-model")]
-    (cond (= "woordenlijst-model" model-name)
-          nl-woordenlijst/model
-          (= "woordenlijst" model-name)
-          nl-woordenlijst/model
-
-          (= "basic-model" model-name)
-          nl-basic/model
-          (= "basic" model-name)
-          nl-basic/model
-
-          given-model-name
-          (do
-            (log/warn (str "request-supplied target-model: '" given-model-name "' doesn't exist: falling back to nl-complete/model."))
-            nl-complete/model)
-
-          :else nl-complete/model)))
+  (-> request :query-params (get "model") handlers/get-target-model))
 
 (defn get-source-model [request]
-  (let [given-model-name (-> request :query-params (get "model"))
-        model-name (or given-model-name "complete-model")]
-    (cond (= "woordenlijst-model" model-name)
-          en-woordenlijst/en-model
-          (= "woordenlijst" model-name)
-          en-woordenlijst/en-model
-
-          given-model-name
-          (do
-            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
-            en/model)
-
-          :else en/model)))
+  (-> request :query-params (get "model") handlers/get-source-model))
 
 (def routes
   [

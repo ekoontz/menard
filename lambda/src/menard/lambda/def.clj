@@ -4,7 +4,7 @@
   (:require
    [clojure.tools.logging :as log]
    [fierycod.holy-lambda.core :as h]
-   [menard.handlers :as handlers]
+   [menard.handlers :as handlers :use [get-source-model get-target-model]]
    [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
@@ -23,41 +23,6 @@
    :headers headers
    :body body
    :isBase64Encoded false})
-
-;; TODO: move to menard/handlers.
-(defn get-target-model [& [given-model-name]]
-  (let [model-name (or given-model-name "complete-model")]
-    (cond (= "woordenlijst-model" model-name)
-          nl-woordenlijst/model
-          (= "woordenlijst" model-name)
-          nl-woordenlijst/model
-
-          (= "basic-model" model-name)
-          nl-basic/model
-          (= "basic" model-name)
-          nl-basic/model
-
-          given-model-name
-          (do
-            (log/warn (str "request-supplied target-model: '" given-model-name "' doesn't exist: falling back to nl-complete/model."))
-            nl-complete/model)
-
-          :else nl-complete/model)))
-
-;; TODO: move to menard/handlers.
-(defn get-source-model [& [given-model-name]]
-  (let [model-name (or given-model-name "complete-model")]
-    (cond (= "woordenlijst-model" model-name)
-          en-woordenlijst/en-model
-          (= "woordenlijst" model-name)
-          en-woordenlijst/en-model
-
-          given-model-name
-          (do
-            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
-            en/model)
-
-          :else en/model)))
 
 (h/deflambda AnalyzeEN
   [event context]

@@ -6,14 +6,50 @@
    [dag_unify.diagnostics :refer [strip-refs]]
    [menard.english :as en]
    [menard.english.complete :as en-complete]
+   [menard.english.woordenlijst :as en-woordenlijst]
    [menard.nederlands :as nl]
+   [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.complete :as nl-complete]
+   [menard.nederlands.woordenlijst :as nl-woordenlijst]
    [menard.translate.spec :as tr]))
 
 (defn dag-to-string [dag]
   (-> dag dag_unify.serialization/serialize str))
 
 (def source-generation-tries 1)
+
+(defn get-target-model [& [given-model-name]]
+  (let [model-name (or given-model-name "complete-model")]
+    (cond (= "woordenlijst-model" model-name)
+          nl-woordenlijst/model
+          (= "woordenlijst" model-name)
+          nl-woordenlijst/model
+
+          (= "basic-model" model-name)
+          nl-basic/model
+          (= "basic" model-name)
+          nl-basic/model
+
+          given-model-name
+          (do
+            (log/warn (str "request-supplied target-model: '" given-model-name "' doesn't exist: falling back to nl-complete/model."))
+            nl-complete/model)
+
+          :else nl-complete/model)))
+
+(defn get-source-model [& [given-model-name]]
+  (let [model-name (or given-model-name "complete-model")]
+    (cond (= "woordenlijst-model" model-name)
+          en-woordenlijst/en-model
+          (= "woordenlijst" model-name)
+          en-woordenlijst/en-model
+          
+          given-model-name
+          (do
+            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
+            en/model)
+          
+          :else en/model)))
 
 (defn generate-nl-and-en
   "generate a Dutch expression from _spec_ and _target_model_ and
@@ -215,7 +251,7 @@
        (map first)))
 
 (defn parse-nl-start [string-to-parse]
-  (log/info (str "parse-nl-start input: '" string-to-parse "'"))
+  (log/info (str "menard.handler/parse-nl-start input: '" string-to-parse "'"))
   (->> string-to-parse
        clojure.string/lower-case
        nl/parse-start

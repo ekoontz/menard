@@ -6,7 +6,8 @@
             [menard.lexiconfn :as l]
             [menard.model :refer [create]]
             [menard.parse :as p]
-            [menard.serialization :as s]))
+            [menard.serialization :as s]
+            [menard.nederlands.tenses :as tenses]))
 
 (def create-model? true)
 

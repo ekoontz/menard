@@ -478,13 +478,13 @@
                (log/debug (str "looking at tokenization: " (vec tokenization)))
                (create-input-map tokenization analyze-fn))))))
 
-(defn parse-in-stages [input-map input-length i grammar surface]
+(defn parse-in-stages [input-map input-length i grammar]
   (if (or (get input-map [0 input-length])
           (> i input-length))
     input-map
     (-> input-map
         (parse-spans-of-length input-length i grammar)
-        (parse-in-stages input-length (+ 1 i) grammar surface))))
+        (parse-in-stages input-length (+ 1 i) grammar))))
 
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
@@ -564,7 +564,7 @@
               syntax-tree syntax-tree-fn]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map
-            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) expression)
+            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar))
             ((fn [m]
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))

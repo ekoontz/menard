@@ -259,8 +259,8 @@
   [spec & [model]]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
-  (log/info (str "menard.english/generate with spec: " spec))
-  (log/info (str "menard.english/generate with model type (1): " (type model)))
+  (log/debug (str "menard.english/generate with spec: " spec))
+  (log/debug (str "menard.english/generate with model type (1): " (type model)))
   (let [model (or model (load-model))
         model (cond (= (type model) clojure.lang.Ref)
                     @model
@@ -310,12 +310,12 @@
                     (let [error-message (str "menard.english/parse: invalid model: " model)]
                       (log/error error-message)
                       (exception error-message)))]
-    (log/info (str "menard.english parse with model type: "
-                   (type model)))
     (if (map? model)
-      (log/info (str "menard.english parse with model name: "
+      (log/info (str "menard.english/parse with model name: "
                      (-> model :name)))
-      (log/error (str "model is not a map as expected!")))
+      (let [error-message (str "menard.english/parse: model is not a map as expected!")]
+        (log/error error-message)
+        (exception error-message)))
     (binding [p/grammar (-> model :grammar)
               p/morph morph
               p/syntax-tree syntax-tree

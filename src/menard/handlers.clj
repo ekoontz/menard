@@ -185,19 +185,22 @@
                 (assoc :source-tree (dag-to-string (:source-tree %)))
                 (assoc :target-tree (dag-to-string (:target-tree %)))))))))
 
-(defn generate-en [spec]
+(defn generate-en [spec model]
   (log/debug (str "generate-en spec: " spec))
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)
         phrasal? (u/get-in spec [:phrasal?] true)
+        debug (log/info (str "generate-en: spec: " spec "; model name: "
+                             (-> model deref name)))
         result (->> (repeatedly #(-> spec
-                                     en/generate))
+                                     (en/generate model)))
                     (take 2)
                     (filter #(not (nil? %)))
                     first)]
     (log/debug (str "generate-en: phrasal? " phrasal?))
     (when (nil? result)
       (log/warn (str "failed to generate on two occasions with spec: "
-                     (dag-to-string spec))))
+                     (dag-to-string spec) " and model named: "
+                     (-> model deref :name))))
     (log/debug (str "generate-en: result: " (-> result en/syntax-tree)))
     {:tree (-> result en/syntax-tree)
      :sem (-> result (u/get-in [:sem]) dag_unify.serialization/serialize)

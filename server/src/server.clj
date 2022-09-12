@@ -83,11 +83,11 @@
    ["/generate/en"
     {:get {:handler
            (fn [request]
-             (let [source-model (-> request get-source-model deref)
+             (let [model (-> request get-source-model deref)
                    spec (-> request :query-params (get "spec"))]
                (log/debug (str "generate/en spec: " spec))
                (let [response (handlers/generate-en spec model)]
-                 (-> spec handlers/generate-en json-response))))}}]
+                 (-> response json-response))))}}]
 
    ["/morphology/:lang"
     {:get {:handler

@@ -229,7 +229,7 @@
                     (exception (str "invalid model: " model)))
         name (-> model :spec :name)]
     (if name
-      (log/info (str "generating with model named: " name))
+      (log/debut (str "generating with model named: " name))
       (log/warn (str "generating with model with no name, but has keys: " (keys model)
                      " and maybe a spec? " (:spec model))))
     (binding [g/max-depth (:max-depth spec g/max-depth)

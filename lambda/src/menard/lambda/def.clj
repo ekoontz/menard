@@ -84,8 +84,10 @@
 
 (h/deflambda GenerateEN
   [event context]
-  (let [spec (-> event :queryStringParameters :spec)]
-    (json-response (handlers/generate-en spec))))
+  (let [spec (-> event :queryStringParameters :spec)
+        model (-> event :queryStringParameters :model)
+        source-model (get-source-model model)]
+    (json-response (handlers/generate-en spec model))))
 
 (h/deflambda GenerateWithAlts
   [event context]

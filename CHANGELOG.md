@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.6.2] - 2022-09-13
+
+- handlers.clj: most generation and parse functions require a 'model' param.
+- server/ definition updates to support 'model' param.
+- AWS Lambda definition updates to support 'model' param.
+- Logging improvements.
+- Remove previously-deprecated AWS deflambda Generate
+- Remove previously-deprecated server.clj's route /generate.
+- Add some woordenlijst-related unit tests.
+
 ## [1.6.1] - 2022-09-10
 
 - Multi-word tokenization integrated with menard.parse/parse-start.

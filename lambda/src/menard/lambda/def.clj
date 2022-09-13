@@ -89,7 +89,7 @@
         model (-> event :queryStringParameters :model)
         source-model (get-source-model model)]
     (log/info (str "GenerateEN: got source model: type: " (type model)))
-    (json-response (handlers/generate-en spec model))))
+    (json-response (handlers/generate-en spec source-model))))
 
 (h/deflambda GenerateWithAlts
   [event context]

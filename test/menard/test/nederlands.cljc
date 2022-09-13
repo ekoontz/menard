@@ -395,9 +395,10 @@
                                                           ;; you want to debug here:
                                                           }
                         menard.generate/log-all-rules? false]
+                (log/info (str "Generating " times " expression(s) with spec: #" i))
                 (-> spec
                     ((fn [spec]
-                       (log/info (str "Generating with spec: #" i))
+                       (log/debug (str "Generating with spec: #" i))
                        spec))
                     nl/generate
                     ((fn [expression]

@@ -51,7 +51,6 @@
                   en/model)
                 
                 :else en/model))]
-    (log/info (str "get-source-model: returning model of type:" (type result)))
     result))
 
 (defn generate-nl-and-en
@@ -257,7 +256,6 @@
        (map first)))
 
 (defn parse-nl-start [string-to-parse model]
-  (log/debug (str "menard.handler/parse-nl-start input: '" string-to-parse "' with model (type):" (type model)))
   (log/debug (str "menard.handler/parse-nl-start input: '" string-to-parse "' with model name:" (:name model)))  
   (->> (-> string-to-parse
            clojure.string/lower-case

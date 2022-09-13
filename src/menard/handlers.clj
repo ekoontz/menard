@@ -7,14 +7,7 @@
    [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
-<<<<<<< HEAD
-<<<<<<< HEAD
    [menard.nederlands :as nl]
-=======
->>>>>>> c221a3e43 (implement TODO: move get-target-model and get-source-model to menard.handlers)
-=======
-   [menard.nederlands :as nl]
->>>>>>> edf87d057 (fix missing dependency)
    [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.complete :as nl-complete]
    [menard.nederlands.woordenlijst :as nl-woordenlijst]

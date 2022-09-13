@@ -38,18 +38,21 @@
           :else nl-complete/model)))
 
 (defn get-source-model [& [given-model-name]]
-  (let [model-name (or given-model-name "complete-model")]
-    (cond (= "woordenlijst-model" model-name)
-          en-woordenlijst/en-model
-          (= "woordenlijst" model-name)
-          en-woordenlijst/en-model
-          
-          given-model-name
-          (do
-            (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
-            en/model)
-          
-          :else en/model)))
+  (let [result
+        (let [model-name (or given-model-name "complete-model")]
+          (cond (= "woordenlijst-model" model-name)
+                en-woordenlijst/en-model
+                (= "woordenlijst" model-name)
+                en-woordenlijst/en-model
+                
+                given-model-name
+                (do
+                  (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
+                  en/model)
+                
+                :else en/model))]
+    (log/info (str "get-source-model: returning model of type:" (type result)))
+    result))
 
 (defn generate-nl-and-en
   "generate a Dutch expression from _spec_ and _target_model_ and

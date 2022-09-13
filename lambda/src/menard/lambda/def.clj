@@ -80,6 +80,7 @@
         model (-> event :queryStringParameters :model)
         target-model (get-target-model model)
         source-model (get-source-model model)]
+    (log/info (str "GenerateNL: got source model: type: " (type model)))    
     (json-response (handlers/generate-nl-and-en-by-spec spec target-model source-model))))
 
 (h/deflambda GenerateEN
@@ -87,6 +88,7 @@
   (let [spec (-> event :queryStringParameters :spec)
         model (-> event :queryStringParameters :model)
         source-model (get-source-model model)]
+    (log/info (str "GenerateEN: got source model: type: " (type model)))
     (json-response (handlers/generate-en spec model))))
 
 (h/deflambda GenerateWithAlts

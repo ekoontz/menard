@@ -1,5 +1,6 @@
 (ns menard.woordenlijst
-  (:require [dag_unify.core :as u :refer [unify]]))
+  (:require [dag_unify.core :as u :refer [unify]]
+            [clojure.tools.logging :as log]))
 
 (def woordenlijst
   (-> "/Users/ekoontz/menard/woordenlijst-nouns.edn"
@@ -36,17 +37,26 @@
         (->> woordenlijst
              (map make-english)
              vec)]
-    (spit "/Users/ekoontz/menard/resources/nederlands/lexicon/woordenlijst/nouns.edn"
-          (zipmap
-           (map :canonical dutch-items)
-           (map (fn [lexeme]
-                  [(dissoc lexeme :canonical)])
-                dutch-items)))
-    (spit "/Users/ekoontz/menard/resources/english/lexicon/woordenlijst/nouns.edn"
-          (zipmap
-           (map :canonical english-items)
-           (map (fn [lexeme]
-                  [(dissoc lexeme :canonical)])
-                english-items)))))
+    (log/info (str "writing out.."))
+
+    (clojure.pprint/pprint
+     (zipmap (map :canonical dutch-items)
+             (map (fn [lexeme]
+                    [(dissoc lexeme :canonical)])
+                  dutch-items))
+     (clojure.java.io/writer 
+      "/Users/ekoontz/menard/resources/nederlands/lexicon/woordenlijst/nouns.edn"))
+
+    (clojure.pprint/pprint
+     (zipmap (map :canonical english-items)
+             (map (fn [lexeme]
+                    [(dissoc lexeme :canonical)])
+                  english-items))
+     (clojure.java.io/writer 
+      "/Users/ekoontz/menard/resources/english/lexicon/woordenlijst/nouns.edn"))))
+
+
+
+
 
 

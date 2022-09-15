@@ -1,0 +1,671 @@
+[
+{:nl "woord" :en "vertaling Engels"}
+ {:nl "achternaam, de" :en "surname"}
+ {:nl "auto, de" :en "car"}
+ {:nl "dochter, de" :en "daughter"}
+ {:nl "en" :en "and"}
+ {:nl "familie, de" :en "family, relatives"}
+ {:nl "geven (geeft)" :en "to give "}
+ {:nl "hebben" :en "to have"}
+ {:nl "heten" :en "to be called"}
+ {:nl "huisarts, de" :en "family doctor, general practitioner"}
+ {:nl "jaar, het" :en "year"}
+ {:nl "kinderen, de (het kind)" :en "children (child)"}
+ {:nl "komen" :en "to come"}
+ {:nl "man, de" :en "husband (man)"}
+ {:nl "met" :en "with"}
+ {:nl "moeder, de" :en "mother"}
+ {:nl "naam, de " :en "name"}
+ {:nl "nieuw" :en "new"}
+ {:nl "nu" :en "now"}
+ {:nl "nummer, het" :en "number"}
+ {:nl "op" :en "on, at"}
+ {:nl "uit (ik kom uit…)" :en "out (I am from)"}
+ {:nl "vandaan " :en "from"}
+ {:nl "voornaam, de" :en "first name"}
+ {:nl "vrouw, de " :en "wife (woman)"}
+ {:nl "werken" :en "to work"}
+ {:nl "winkel, de " :en "shop"}
+ {:nl "wonen" :en "to live"}
+ {:nl "zijn (ben, bent, is)" :en "to be"}
+ {:nl "zoon, de" :en "son"}
+ {:nl "zus, de" :en "sister"}
+ {:nl "daar" :en "there"}
+ {:nl "dan" :en "then, than"}
+ {:nl "hier" :en "here"}
+ {:nl "kennen" :en "to know"}
+ {:nl "kunnen" :en "can, to be able to"}
+ {:nl "leuk " :en "nice"}
+ {:nl "mobiele telefoon, de" :en "mobile phone"}
+ {:nl "naar" :en "to"}
+ {:nl "restaurant, het" :en "restaurant"}
+ {:nl "snel" :en "quick(ly), soon"}
+ {:nl "student, de" :en "student"}
+ {:nl "studeren" :en "to study"}
+ {:nl "wachten" :en "to wait"}
+ {:nl "doen" :en "to do"}
+ {:nl "antwoord, het" :en "answer "}
+ {:nl "antwoorden" :en "to answer"}
+ {:nl "bedanken" :en "to thank"}
+ {:nl "beginnen" :en "to begin"}
+ {:nl "bij" :en "at"}
+ {:nl "binnenkomen" :en "come in"}
+ {:nl "broer, de" :en "brother"}
+ {:nl "gaan" :en "to go "}
+ {:nl "goed" :en "oké, good"}
+ {:nl "hoe (hoe heet je?)" :en "how (what's your name)"}
+ {:nl "ja" :en "yes"}
+ {:nl "luisteren" :en "to listen"}
+ {:nl "meedoen" :en "to participate"}
+ {:nl "meneer, de " :en "sir (hello sir) / Mr. (Mr. Bos)"}
+ {:nl "mevrouw, de " :en "madam (hello madam) / Mrs. Ms. Bos"}
+ {:nl "moeten" :en "must / shall"}
+ {:nl "nee" :en "no"}
+ {:nl "ook" :en "also, too"}
+ {:nl "schrijven" :en "to write (down)"}
+ {:nl "vader, de" :en "father"}
+ {:nl "voorstellen" :en "to introduce"}
+ {:nl "vraag, de" :en "question"}
+ {:nl "vragen *" :en "to ask"}
+ {:nl "waar" :en "where"}
+ {:nl "wat" :en "what"}
+ {:nl "wie" :en "who"}
+ {:nl "zitten" :en "to sit, to be"}
+ {:nl "zullen (zal)" :en "shall / will"}
+ {:nl "achter" :en "after, behind"}
+ {:nl "adres, het" :en "address"}
+ {:nl "bellen" :en "to call, to phone"}
+ {:nl "cijfer, het" :en "number"}
+ {:nl "cursus, de" :en "course"}
+ {:nl "fijn" :en "nice, lovely, great"}
+ {:nl "geen" :en "no"}
+ {:nl "huis, het" :en "house"}
+ {:nl "kijken" :en "to look"}
+ {:nl "klopt dat?" :en "is that correct?"}
+ {:nl "krant, de" :en "newspaper"}
+ {:nl "niet" :en "not"}
+ {:nl "ongeveer" :en "about"}
+ {:nl "plaats, de " :en "here: town, city"}
+ {:nl "soms" :en "sometimes"}
+ {:nl "staan (de postcode staat op de brief)" :en "to stand (the postal code is on the letter)"}
+ {:nl "straat, de" :en "street"}
+ {:nl "vandaag" :en "today"}
+ {:nl "volgen" :en "to follow"}
+ {:nl "welk" :en "which, what"}
+ {:nl "groeten" :en "to greet"}
+ {:nl "vriend, de" :en "friend"}
+ {:nl "weer" :en "again"}
+ {:nl "weggaan" :en "to leave"}
+ {:nl "willen" :en "to want"}
+ {:nl "zeggen" :en "to say"}
+ {:nl "datum, de" :en "date"}
+ {:nl "geboorte, de" :en "birth"}
+ {:nl "geslacht, het" :en "gender"}
+ {:nl "invullen" :en "fill in,out"}
+ {:nl "maart" :en "march"}
+ {:nl "Nederlands(e)" :en "Dutch"}
+ {:nl "onder" :en "here: at the bottom"}
+ {:nl "persoonlijk" :en "personal"}
+ {:nl "zetten (een handtekening zetten)" :en "to put (to put your signature, to sign)"}
+ {:nl "zoeken" :en "to look for "}
+ {:nl "afspraak, de" :en "appointment, engagement"}
+ {:nl "bijna" :en "nearly, almost"}
+ {:nl "douche, de" :en "shower"}
+ {:nl "gelijk " :en "right "}
+ {:nl "minuut, de " :en "minute"}
+ {:nl "net " :en "just "}
+ {:nl "opschieten" :en "to hurry up"}
+ {:nl "over (over 10 minuten)" :en "about (in 10 minutes)"}
+ {:nl "sorry" :en "sorry"}
+ {:nl "te (te laat)" :en "too (too late)"}
+ {:nl "thuis" :en "at home"}
+ {:nl "uur, het (om 3 uur)" :en "hour (at three o' clock)"}
+ {:nl "veel" :en "much, many"}
+ {:nl "wakker" :en "awake"}
+ {:nl "avond, de" :en "evening"}
+ {:nl "gisteren" :en "yesterday"}
+ {:nl "kiezen" :en "to choose"}
+ {:nl "leren" :en "to teach / to learn"}
+ {:nl "maand, de" :en "month"}
+ {:nl "middag" :en "afternoon"}
+ {:nl "morgen" :en "tomorrow"}
+ {:nl "morgen, de" :en "morning"}
+ {:nl "nacht, de" :en "night"}
+ {:nl "ochtend, de" :en "the morning"}
+ {:nl "of" :en "or"}
+ {:nl "rijden" :en "to drive"}
+ {:nl "vanavond" :en "tonight"}
+ {:nl "vanmiddag" :en "this afternoon"}
+ {:nl "volgend" :en "next"}
+ {:nl "vrij " :en "free, a day off"}
+ {:nl "week, de" :en "week"}
+ {:nl "weekend, het" :en "weekend"}
+ {:nl "tijd, de" :en "time"}
+ {:nl "aflopen " :en "to end"}
+ {:nl "alweer" :en "already"}
+ {:nl "collega, de" :en "colleague"}
+ {:nl "eten" :en "to eat, to have dinner, lunch etc."}
+ {:nl "feest, het" :en "party"}
+ {:nl "graag (welke programma's wil je graag zien?)" :en "which programs would you like to see"}
+ {:nl "half" :en "half"}
+ {:nl "klaar" :en "ready"}
+ {:nl "kwart, het (tijd)" :en "quarter "}
+ {:nl "kwartier, het" :en "quarter of an hour"}
+ {:nl "laat" :en "late"}
+ {:nl "land, het" :en "land "}
+ {:nl "lezen" :en "to read"}
+ {:nl "over (kwart over twee)" :en "past (a quarter past two)"}
+ {:nl "precies " :en "precise / right on time"}
+ {:nl "programma, het (tv)" :en "program"}
+ {:nl "verjaardag, de" :en "birthday"}
+ {:nl "voor (vijf voor acht)" :en "to (five minutes to eight)"}
+ {:nl "vriendin, de" :en "female friend / girlfriend"}
+ {:nl "ander" :en "other"}
+ {:nl "anderhalf" :en "one and a half"}
+ {:nl "bus, de " :en "bus"}
+ {:nl "centrum, het" :en "(town, city) center"}
+ {:nl "dag, de" :en "day"}
+ {:nl "duren" :en "to last"}
+ {:nl "dus" :en "so"}
+ {:nl "hoeveel" :en "how much, how many"}
+ {:nl "keer, de (twee keer per week)" :en "time (two times a week)"}
+ {:nl "lang" :en "long"}
+ {:nl "les, de" :en "lesson"}
+ {:nl "nemen" :en "to take"}
+ {:nl "per (twee keer per week)" :en "per (two times a week)"}
+ {:nl "station, het" :en "station"}
+ {:nl "tot (van … tot)" :en "from … to"}
+ {:nl "vaak" :en "often"}
+ {:nl "vakantie, de" :en "holiday(s)"}
+ {:nl "ziekenhuis, het" :en "hospital"}
+ {:nl "al" :en "already"}
+ {:nl "danken (dank je wel)" :en "to thank (thank you)"}
+ {:nl "geboren" :en "born"}
+ {:nl "hartelijk (hartelijk gefeliciteerd)" :en "congratulations, sincere best wishes"}
+ {:nl "hartelijk (hartelijke groeten)" :en "best regards"}
+ {:nl "jong" :en "young"}
+ {:nl "oud" :en "old"}
+ {:nl "pas (pas 19)" :en "only 19"}
+ {:nl "toch (dat is toch niet oud)" :en "that's not old, is it?"}
+ {:nl "tot (tot zaterdag)" :en "to (see you on Saturday)"}
+ {:nl "vieren" :en "to celebrate"}
+ {:nl "wanneer" :en "when"}
+ {:nl "worden" :en "to become, to get"}
+ {:nl "bakker, de" :en "baker"}
+ {:nl "bezorgen" :en "to deliver"}
+ {:nl "brood, het " :en "bread, loaf"}
+ {:nl "glas, het (glaasje)" :en "glass"}
+ {:nl "kopen" :en "to buy"}
+ {:nl "wijn, de" :en "wine"}
+ {:nl "alles" :en "all"}
+ {:nl "band, de" :en "relation"}
+ {:nl "bijzonder" :en "special "}
+ {:nl "gerecht, het" :en "meal"}
+ {:nl "meenemen" :en "bring, take along"}
+ {:nl "mooi" :en "beautiful, nice"}
+ {:nl "aardappel, de" :en "potato"}
+ {:nl "appel, de" :en "apple"}
+ {:nl "bijvoorbeeld" :en "for example"}
+ {:nl "boodschap(pen) de" :en "shopping, purchases"}
+ {:nl "drinken" :en "to drink"}
+ {:nl "fruit, het" :en "fruit"}
+ {:nl "gek zijn op" :en "to be crazy about"}
+ {:nl "groente" :en "vegetables"}
+ {:nl "heerlijk" :en "delightful, lovely"}
+ {:nl "houden van" :en "to like"}
+ {:nl "kaas, de" :en "cheese"}
+ {:nl "kip, de" :en "chicken"}
+ {:nl "kosten" :en "cost"}
+ {:nl "lekker" :en "nice, good, tasty"}
+ {:nl "lekker vinden" :en "to like"}
+ {:nl "maken" :en "to make"}
+ {:nl "melk, de" :en "milk"}
+ {:nl "mogen" :en "can, may, to be allowed to"}
+ {:nl "nooit" :en "never"}
+ {:nl "ontbijt, het" :en "breakfast"}
+ {:nl "school, de " :en "school"}
+ {:nl "thee, de" :en "tea"}
+ {:nl "vis, de" :en "fish"}
+ {:nl "vlees, het" :en "meat"}
+ {:nl "water, het" :en "water"}
+ {:nl "zo (ik houd niet zo van bier)" :en "so (I don't like beer too much)"}
+ {:nl "zoet" :en "sweet"}
+ {:nl "zout, het" :en "salt"}
+ {:nl "alstublieft" :en "please / here you are (formal)"}
+ {:nl "beurt, de " :en "turn"}
+ {:nl "bruin" :en "brown"}
+ {:nl "duur" :en "expensive"}
+ {:nl "ei, het (eieren)" :en "egg(s)"}
+ {:nl "goedkoop" :en "cheap"}
+ {:nl "graag (twee koffie graag)" :en "two coffees please"}
+ {:nl "gram" :en "gram(me)"}
+ {:nl "kilo, de" :en "kilo"}
+ {:nl "markt, de " :en "market"}
+ {:nl "ons, het" :en "a hundred grammes"}
+ {:nl "pond, de" :en "pound (500 grammes)"}
+ {:nl "snijden (gesneden)" :en "to cut, to slice (sliced bread)"}
+ {:nl "tas, de (tasje erbij?)" :en "bag (would you like a bag?)"}
+ {:nl "verkoper, de" :en "salesman, woman, shop assistant"}
+ {:nl "wit" :en "white"}
+ {:nl "aanbieden" :en "to offer"}
+ {:nl "alsjeblieft" :en "please / here you are (informal)"}
+ {:nl "bier(tje), het" :en "beer"}
+ {:nl "dorst, de (dorst hebben)" :en "thirst (to be thirsty)"}
+ {:nl "gezellig" :en "pleasant, enjoyable, comfortable"}
+ {:nl "halen" :en "to get"}
+ {:nl "iets" :en "something, anything"}
+ {:nl "koffie,de" :en "coffee"}
+ {:nl "kop, de" :en "cup"}
+ {:nl "wat (iets)" :en "here: something "}
+ {:nl "zin hebben in" :en "to feel like"}
+ {:nl "bestellen" :en "to order"}
+ {:nl "boterham, de" :en "sandwich, slice of bread"}
+ {:nl "eten, het" :en "food"}
+ {:nl "klant, de " :en "customer, client"}
+ {:nl "klein" :en "small"}
+ {:nl "meestal" :en "mostly, usually"}
+ {:nl "soort, de " :en "kind"}
+ {:nl "tussen" :en "between"}
+ {:nl "warm" :en "warm, hot"}
+ {:nl "appartement, het" :en "apartment"}
+ {:nl "boot, de" :en "boat"}
+ {:nl "villa, de" :en "villa"}
+ {:nl "arm" :en "poor"}
+ {:nl "eigen" :en "own"}
+ {:nl "eindelijk" :en "at last"}
+ {:nl "alleen" :en "by yourself / only"}
+ {:nl "bad, het" :en "bath"}
+ {:nl "balkon, het" :en "balcony"}
+ {:nl "beetje, het" :en "a little"}
+ {:nl "beneden" :en "downstairs"}
+ {:nl "boven" :en "upstairs"}
+ {:nl "daarom" :en "therefore"}
+ {:nl "delen" :en "to share"}
+ {:nl "dorp, het" :en "village"}
+ {:nl "fantastisch" :en "fantastic"}
+ {:nl "gezin, het" :en "family (parents and children)"}
+ {:nl "groot" :en "big"}
+ {:nl "kamer, de " :en "room"}
+ {:nl "kast, de " :en "cupboard"}
+ {:nl "keuken, de " :en "kitchen"}
+ {:nl "licht" :en "bright"}
+ {:nl "meter, de" :en "meter"}
+ {:nl "muziek, de" :en "music"}
+ {:nl "natuurlijk" :en "of course"}
+ {:nl "raam, het" :en "window"}
+ {:nl "rustig" :en "quiet(ly)"}
+ {:nl "slaapkamer, de" :en "bedroom"}
+ {:nl "stad, de" :en "town, city"}
+ {:nl "toilet, het" :en "toilet"}
+ {:nl "tuin, de" :en "garden"}
+ {:nl "verdieping, de" :en "floor"}
+ {:nl "vierkante meter, de" :en "square meter"}
+ {:nl "vrij (vrij klein)" :en "rather (rather small)"}
+ {:nl "zelfs" :en "even"}
+ {:nl "zonder" :en "without"}
+ {:nl "aantal, het" :en "the number"}
+ {:nl "algemeen" :en "all"}
+ {:nl "bedoelen" :en "to mean"}
+ {:nl "betalen" :en "to pay"}
+ {:nl "helaas" :en "unfortunately"}
+ {:nl "helpen" :en "to help"}
+ {:nl "hoog" :en "high"}
+ {:nl "huren, de huur" :en "to rent, rent"}
+ {:nl "jammer (het is jammer voor u)" :en "a pity, too bad (I am sorry for you)"}
+ {:nl "krijgen" :en "to get, to receive"}
+ {:nl "laag" :en "low"}
+ {:nl "leeftijd, de" :en "age"}
+ {:nl "misschien" :en "perhaps"}
+ {:nl "prachtig" :en "beautiful, wonderful"}
+ {:nl "reageren" :en "to respond, to react"}
+ {:nl "ruim" :en "spacious"}
+ {:nl "salaris, het" :en "salary"}
+ {:nl "spijten" :en "to be sorry"}
+ {:nl "te koop" :en "for sale"}
+ {:nl "verder (verder zoeken)" :en "farther, further (to go on looking)"}
+ {:nl "verhuizen" :en "to move"}
+ {:nl "verkeerd" :en "wrong"}
+ {:nl "via" :en "through"}
+ {:nl "woning, de " :en "house"}
+ {:nl "zien" :en "to see"}
+ {:nl "bank, de (meubel)" :en "couch, sofa"}
+ {:nl "bed, het" :en "bed"}
+ {:nl "echt (waar)" :en "real(ly) / yes it is"}
+ {:nl "erg" :en "very"}
+ {:nl "geld, het" :en "money"}
+ {:nl "idee, het" :en "idea"}
+ {:nl "kleur, de " :en "colour"}
+ {:nl "kussen" :en "pillow"}
+ {:nl "passen bij / in" :en "to go / to match with - to go well in"}
+ {:nl "stoel, de " :en "chair"}
+ {:nl "tafel, de" :en "table"}
+ {:nl "bekijken" :en "to look at"}
+ {:nl "brief, de" :en "letter"}
+ {:nl "momen(tje), het " :en "moment (just a moment, hold on please)"}
+ {:nl "prima" :en "excellent"}
+ {:nl "spreken" :en "to speak, to talk"}
+ {:nl "vanaf" :en "from"}
+ {:nl "woningbouwvereniging, de" :en "housing association"}
+ {:nl "fiets, de" :en "bicycle"}
+ {:nl "fietsen" :en "to cycle"}
+ {:nl "onderweg" :en "on the way"}
+ {:nl "richting, de" :en "direction"}
+ {:nl "tram, de" :en "tram"}
+ {:nl "uitstappen" :en "to get off"}
+ {:nl "vol" :en "full"}
+ {:nl "advies, het" :en "advice"}
+ {:nl "eiland, het" :en "island"}
+ {:nl "provincie, de" :en "region, province"}
+ {:nl "boek, het" :en "book"}
+ {:nl "computer, de" :en "computer"}
+ {:nl "eind, het" :en "the end"}
+ {:nl "hoezo" :en "what do you mean"}
+ {:nl "kaart, de (plattegrond, de)" :en "(street) map"}
+ {:nl "lift, de" :en "lift"}
+ {:nl "lopen" :en "to walk"}
+ {:nl "meegaan" :en "go along, go with, accompany"}
+ {:nl "niks/niets" :en "nothing"}
+ {:nl "plein, het" :en "square"}
+ {:nl "rechts " :en "(on / to the) right"}
+ {:nl "regenen" :en "to rain"}
+ {:nl "snappen" :en "to get, to catch, to grasp"}
+ {:nl "trap, de " :en "stairs"}
+ {:nl "universiteit, de" :en "university"}
+ {:nl "ver" :en "far"}
+ {:nl "vlakbij" :en "close by, nearby"}
+ {:nl "weg, de" :en "road"}
+ {:nl "ingang, de" :en "entrance, entry"}
+ {:nl "kerk, de " :en "church"}
+ {:nl "kilometer, de" :en "kilometer"}
+ {:nl "langs (langs de supermarkt)" :en "you pass the supermarket"}
+ {:nl "langs (langs het water)" :en "along the water's edge"}
+ {:nl "links" :en "left"}
+ {:nl "na" :en "after"}
+ {:nl "naast" :en "next to"}
+ {:nl "oversteken" :en "to cross the street"}
+ {:nl "pad, het (fietspad)" :en "(bi)cycle track/path"}
+ {:nl "pad, het (in de supermarkt)" :en "isle (in supermarkets)"}
+ {:nl "parkeren" :en "to park"}
+ {:nl "steeds" :en "always, constantly"}
+ {:nl "vinden" :en "to find"}
+ {:nl "aankomen" :en "to arrive"}
+ {:nl "brug, de" :en "bridge"}
+ {:nl "door" :en "through"}
+ {:nl "drukken" :en "to press, push"}
+ {:nl "feestdag, de" :en "public holiday"}
+ {:nl "fout, de" :en "mistake, error, fault"}
+ {:nl "heel (de hele dag)" :en "the whole day"}
+ {:nl "kaart, de (toegangskaart, de)" :en "ticket"}
+ {:nl "klas, de (school)" :en "grade, class"}
+ {:nl "reis (enkele reis)" :en "trip (single / one-way ticket) "}
+ {:nl "scherm, het" :en "screen"}
+ {:nl "spoor, het" :en "track, platform"}
+ {:nl "tijdens" :en "during"}
+ {:nl "trein, de" :en "train"}
+ {:nl "vertrekken" :en "to leave"}
+ {:nl "voordeel, het" :en "advantage"}
+ {:nl "dezelfde" :en "the same"}
+ {:nl "elk" :en "every, each"}
+ {:nl "openbaar vervoer" :en "public transport"}
+ {:nl "ouder, de" :en "parent"}
+ {:nl "reizen" :en "to travel"}
+ {:nl "broek, de" :en "trousers"}
+ {:nl "geel" :en "yellow"}
+ {:nl "groen" :en "green"}
+ {:nl "jas, de " :en "coat"}
+ {:nl "jurk, de " :en "dress"}
+ {:nl "paar, het " :en "pair"}
+ {:nl "paars" :en "purple"}
+ {:nl "rok, de" :en "skirt"}
+ {:nl "rood" :en "red"}
+ {:nl "schoen, de" :en "shoe"}
+ {:nl "sok, de" :en "sock"}
+ {:nl "zwart" :en "black"}
+ {:nl "bank, de (geld)" :en "bank"}
+ {:nl "belangrijk" :en "important"}
+ {:nl "blauw" :en "blue"}
+ {:nl "donker" :en "dark "}
+ {:nl "dragen" :en "to wear"}
+ {:nl "kleren, de" :en "clothes"}
+ {:nl "kort" :en "short"}
+ {:nl "net (voor kleren)" :en "good / Sunday best (for clothes)"}
+ {:nl "pak, het (kleding)" :en "suit"}
+ {:nl "politie, de " :en "police"}
+ {:nl "trui, de" :en "sweater"}
+ {:nl "uitgaan" :en "to go out"}
+ {:nl "uniform, het" :en "uniform"}
+ {:nl "zo'n" :en "about"}
+ {:nl "blond" :en "blond"}
+ {:nl "bril, de" :en "glasses, spectacles"}
+ {:nl "ding, het" :en "thing"}
+ {:nl "haar, het" :en "hair"}
+ {:nl "jongen, de " :en "boy"}
+ {:nl "klas(se), de (openbaar vervoer)" :en "class"}
+ {:nl "krul, de" :en "curl"}
+ {:nl "oog, het" :en "eye"}
+ {:nl "raden" :en "to guess"}
+ {:nl "steil (haar)" :en "straight"}
+ {:nl "uiterlijk, het" :en "appearance"}
+ {:nl "verliefd" :en "in love"}
+ {:nl "gat, het" :en "hole"}
+ {:nl "kapot" :en "torn, broken"}
+ {:nl "knoop, de" :en "button"}
+ {:nl "maat, de " :en "size"}
+ {:nl "plezier, het" :en "fun"}
+ {:nl "probleem, het" :en "problem"}
+ {:nl "ruilen" :en "to exchange"}
+ {:nl "stuk" :en "broken"}
+ {:nl "vervelend" :en "annoying, unpleasant"}
+ {:nl "baas, de" :en "boss"}
+ {:nl "buurman, de" :en "neighbour (male)"}
+ {:nl "compliment, het" :en "compliment"}
+ {:nl "dame, de" :en "lady"}
+ {:nl "elkaar" :en "each other, one another"}
+ {:nl "niemand" :en "nobody, no one "}
+ {:nl "opstaan" :en "to get up / to stand up"}
+ {:nl "film, de " :en "film"}
+ {:nl "reus, de" :en "giant"}
+ {:nl "bekend" :en "familiar"}
+ {:nl "bioscoop, de" :en "cinema"}
+ {:nl "borrel, de" :en "alcoholic drink"}
+ {:nl "daarna" :en "after that, afterwards"}
+ {:nl "eerst" :en "first"}
+ {:nl "honger, de (ik heb honger)" :en "appetite (I am hungry)"}
+ {:nl "kroeg, de" :en "café, pub"}
+ {:nl "plan, het" :en "plan"}
+ {:nl "rekening, de" :en "bill"}
+ {:nl "straks" :en "later"}
+ {:nl "traditie, de" :en "tradition"}
+ {:nl "voorstel, het" :en "proposal, proposition"}
+ {:nl "want" :en "because, for"}
+ {:nl "zielig" :en "pitiful, pathetic"}
+ {:nl "aankomen" :en "to gain weight"}
+ {:nl "citroen, de" :en "lemon"}
+ {:nl "fles, de" :en "bottle"}
+ {:nl "geloven" :en "think, believe"}
+ {:nl "gewoon" :en "simply, just, usual"}
+ {:nl "kaart, de (menukaart, de)" :en "menu"}
+ {:nl "knoflook, de" :en "garlic"}
+ {:nl "lijken (de zalm lijkt me erg lekker)" :en "seem, appear (the salmon looks very nice)"}
+ {:nl "nog (nog een witte wijn)" :en "another (another white wine)"}
+ {:nl "nog (nog leuker)" :en "even (even nicer)"}
+ {:nl "ober, de" :en "waiter"}
+ {:nl "plaats, de" :en "place"}
+ {:nl "saus, de" :en "sauce"}
+ {:nl "tegen (daar kan ik geen nee tegen zeggen)" :en "against, by, to (I can't say no to that)"}
+ {:nl "bloem, de " :en "flower"}
+ {:nl "gelukkig" :en "happy (glad to hear it)"}
+ {:nl "geweldig" :en "terrific, fantastic"}
+ {:nl "koken" :en "cook, do the cooking"}
+ {:nl "lenen" :en "to borrow"}
+ {:nl "lied(je), het" :en "song"}
+ {:nl "maaltijd, de" :en "meal"}
+ {:nl "namelijk " :en "you see, as it happens"}
+ {:nl "pakken " :en "to get "}
+ {:nl "slecht" :en "bad"}
+ {:nl "suiker, de" :en "sugar"}
+ {:nl "trouwen" :en "to get married"}
+ {:nl "uitnodigen" :en "to invite"}
+ {:nl "uitnodiging, de" :en "invitation"}
+ {:nl "volgens" :en "according to"}
+ {:nl "wedstrijd, de" :en "match, game"}
+ {:nl "al(le)" :en "general"}
+ {:nl "bang " :en "frightened"}
+ {:nl "dagelijks" :en "daily, every day"}
+ {:nl "dier, het" :en "animal"}
+ {:nl "gebouw, het" :en "building"}
+ {:nl "gratis" :en "free"}
+ {:nl "informatie, de " :en "information"}
+ {:nl "minstens" :en "at least"}
+ {:nl "open" :en "open"}
+ {:nl "park, het" :en "park"}
+ {:nl "praktisch" :en "practical"}
+ {:nl "sprookje, het" :en "fairy tale"}
+ {:nl "toegang, de" :en "entrance"}
+ {:nl "toegangskaartje, het" :en "ticket"}
+ {:nl "varen" :en "to sail"}
+ {:nl "autorijles, de" :en "driving lesson"}
+ {:nl "in " :en "in "}
+ {:nl "weten *" :en "to know"}
+ {:nl "dankuwel" :en "thank you (formal)"}
+ {:nl "postcode, de" :en "postal code"}
+ {:nl "telefoonboek, het" :en "telephone directory"}
+ {:nl "woonplaats, de" :en "(place of) residence"}
+ {:nl "formulier, het" :en "form"}
+ {:nl "handtekening, de" :en "signature"}
+ {:nl "nationaliteit, de " :en "nationality"}
+ {:nl "slapen *" :en "to sleep"}
+ {:nl "door de week" :en "on weekdays"}
+ {:nl " 's avonds" :en "in the evening"}
+ {:nl " 's middags" :en "in the afternoon"}
+ {:nl " 's morgens" :en "in the morning"}
+ {:nl " 's nachts" :en "at night"}
+ {:nl " 's ochtends" :en "in the morning"}
+ {:nl "sporten" :en "to exercise, to work out"}
+ {:nl "tussen de middag" :en "at lunch time "}
+ {:nl "vanmorgen" :en "this afternoon"}
+ {:nl "vannacht" :en "tonight"}
+ {:nl "vanochtend" :en "this morning"}
+ {:nl "vorig" :en "hier: last"}
+ {:nl "hoe laat " :en "(at) what time "}
+ {:nl "lezen *" :en "to read"}
+ {:nl "halte, de (de bushalte)" :en "(bus) stop"}
+ {:nl "feliciteren" :en "to congratulate"}
+ {:nl "jarig (ik ben jarig)" :en "it's my birthday"}
+ {:nl "kalender, de" :en "calender"}
+ {:nl "lieve" :en "dear "}
+ {:nl "wc, de" :en "toilet"}
+ {:nl "pannenkoek, de" :en "pancake"}
+ {:nl "banaan, de" :en "banana"}
+ {:nl "gehakt, het " :en "minced meat"}
+ {:nl "hagelslag, de" :en "chocolate sprinkles"}
+ {:nl "hartig" :en "salty, well seasoned"}
+ {:nl "jam, de" :en "jam"}
+ {:nl "koekje, het" :en "biscuit"}
+ {:nl "lusten" :en "to like"}
+ {:nl "patat, de" :en "chips"}
+ {:nl "pinda, de" :en "peanut"}
+ {:nl "praten (over)" :en "to talk (about)"}
+ {:nl "rijst, de" :en "rice"}
+ {:nl "sperzieboon, de" :en "French bean, green bean"}
+ {:nl "vegetariër, de" :en "vegetarian"}
+ {:nl "vies" :en "nasty"}
+ {:nl "vleeswaren, de" :en "cold cuts"}
+ {:nl "champignon, de" :en "mushroom"}
+ {:nl "niets" :en "nothing"}
+ {:nl "slager, de " :en "butcher"}
+ {:nl "supermarkt, de" :en "supermarket"}
+ {:nl "tomaat, de" :en "tomato"}
+ {:nl "fris, het " :en "soft drink"}
+ {:nl "proost" :en "cheers"}
+ {:nl "avondeten, het" :en "dinner, supper"}
+ {:nl "denken *" :en "to think"}
+ {:nl "lunch, de " :en "lunch"}
+ {:nl "salami, de" :en "salami"}
+ {:nl "flatgebouw, het" :en "apartment building"}
+ {:nl "rijtjeshuis, het" :en "terraced house"}
+ {:nl "langskomen" :en "to come around"}
+ {:nl "hal, de " :en "hall"}
+ {:nl "hartstikke" :en "terribly, awfully, "}
+ {:nl "wasmachine, de" :en "washing machine"}
+ {:nl "werkkamer, de" :en "study room"}
+ {:nl "zolder, de " :en "attic"}
+ {:nl "inschrijven" :en "to register"}
+ {:nl "meubels, de" :en "furniture"}
+ {:nl "binnengaan" :en "to go in(to)"}
+ {:nl "plattegrond, de" :en "(street) map"}
+ {:nl "kassa, de" :en "check out"}
+ {:nl "linkerkant, de" :en "left side"}
+ {:nl "linksaf " :en "(to the) left"}
+ {:nl "pinnen" :en "to pay with an ATM card"}
+ {:nl "rechtdoor" :en "straight ahead"}
+ {:nl "rechtsaf gaan" :en "to turn right"}
+ {:nl "zebrapad, het" :en "pedestrian crossing, zebra crossing"}
+ {:nl "abonnement, het" :en "season ticket"}
+ {:nl "benieuwd" :en "curious"}
+ {:nl "instappen" :en "get in / on"}
+ {:nl "korting, de" :en "discount"}
+ {:nl "metro, de" :en "subway, tube, underground"}
+ {:nl "naartoe (waar gaat u naartoe?)" :en "to (where are you going to)?"}
+ {:nl "opladen" :en "to charge"}
+ {:nl "OV-chipkaart, de" :en "e-purse for public transportation"}
+ {:nl "overstappen" :en "to change / to transfer"}
+ {:nl "retour, het (trein)" :en "return trip / ticket"}
+ {:nl "wijzen (de weg) *" :en "to show the way"}
+ {:nl "automaat, de" :en "ticket machine"}
+ {:nl "inchecken" :en "to check in"}
+ {:nl "rechterkant, de" :en "right(-hand) side"}
+ {:nl "saldo, het" :en "balance (here: travel with pay)"}
+ {:nl "uitchecken" :en "to check out"}
+ {:nl "bloes, de" :en "blouse, shirt"}
+ {:nl "gympen, de" :en "sneakers"}
+ {:nl "spijkerbroek, de" :en "jeans"}
+ {:nl "T-shirt, het" :en "t-shirt"}
+ {:nl "aanhebben" :en "to wear"}
+ {:nl "hardlopen" :en "to run"}
+ {:nl "lichtblauw" :en "light blue"}
+ {:nl "modeshow, de" :en "fashion show"}
+ {:nl "overhemd, het " :en "shirt"}
+ {:nl "pet, de " :en "cap"}
+ {:nl "stropdas, de" :en "tie"}
+ {:nl "eruitzien " :en "to look "}
+ {:nl "pauze, de " :en "break"}
+ {:nl "bon, de" :en "the receipt"}
+ {:nl "eraf zijn (er is een knoop af)" :en "a button has come off"}
+ {:nl "rits, de" :en "zip"}
+ {:nl "tegoedbon, de" :en "credit note"}
+ {:nl "teruggeven" :en "to give back"}
+ {:nl "teruggeven (geld)" :en "to refund"}
+ {:nl "bushalte, de" :en "bus stop"}
+ {:nl "buurvrouw, de" :en "neighbour (female)"}
+ {:nl "kapper, de" :en "hairdresser"}
+ {:nl "bitterbal, de" :en "type of croquette served as an appetizer"}
+ {:nl "borrelhapje, het" :en "snack, appetizer"}
+ {:nl "rondje, het (een rondje geven)" :en "round (to stand a round of drinks)"}
+ {:nl "terugbellen" :en "to call back"}
+ {:nl "appeltaart, de" :en "apple pie"}
+ {:nl "biefstuk, de" :en "steak"}
+ {:nl "buurjongen, de " :en "boy next door, boy living nearby"}
+ {:nl "dessert, het" :en "dessert"}
+ {:nl "garnaal, de " :en "shrimp, prawn"}
+ {:nl "gebakken" :en "baked, fried"}
+ {:nl "gegrild" :en "grilled"}
+ {:nl "hoofdgerecht, het" :en "main course"}
+ {:nl "sla, de" :en "lettuce, salad"}
+ {:nl "slagroom, de" :en "whipping, whipped cream"}
+ {:nl "taart, de" :en "cake, pie"}
+ {:nl "tonijn, de" :en "tuna"}
+ {:nl "voorgerecht, het" :en "first course, starter"}
+ {:nl "werkdag, de" :en "working day"}
+ {:nl "zalm, de" :en "salmon"}
+ {:nl "aanstaande" :en "next"}
+ {:nl "bruiloft, de" :en "wedding"}
+ {:nl "diploma, het" :en "diploma, certificate"}
+ {:nl "hapje, het" :en "bite"}
+ {:nl "om een uur of (twee)" :en "about (two) o' clock"}
+ {:nl "voetbal, het" :en "football"}
+ {:nl "bang voor" :en "afraid of"}
+ {:nl "openingstijden, de" :en "opening hours"}
+ {:nl "spannend" :en "exciting"}
+
+]

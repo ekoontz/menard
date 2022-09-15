@@ -1,1 +1,1714 @@
-{"kerk" [{:cat :noun, :sem {:pred "church"}, :curriculum :woordenlijst}], "vriend" [{:cat :noun, :sem {:pred "friend"}, :curriculum :woordenlijst}], "postcode" [{:cat :noun, :sem {:pred "postal code"}, :curriculum :woordenlijst}], "flatgebouw" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "apartment building"}, :curriculum :woordenlijst}], "jongen" [{:cat :noun, :sem {:pred "boy"}, :curriculum :woordenlijst}], "avondeten" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "dinner, supper"}, :curriculum :woordenlijst}], "rijst" [{:cat :noun, :sem {:pred "rice"}, :curriculum :woordenlijst}], "beetje" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "a little"}, :curriculum :woordenlijst}], "hal" [{:cat :noun, :sem {:pred "hall"}, :curriculum :woordenlijst}], "pinda" [{:cat :noun, :sem {:pred "peanut"}, :curriculum :woordenlijst}], "ouder" [{:cat :noun, :sem {:pred "parent"}, :curriculum :woordenlijst}], "uiterlijk" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "appearance"}, :curriculum :woordenlijst}], "nacht" [{:cat :noun, :sem {:pred "night"}, :curriculum :woordenlijst}], "kassa" [{:cat :noun, :sem {:pred "check out"}, :curriculum :woordenlijst}], "taart" [{:cat :noun, :sem {:pred "cake, pie"}, :curriculum :woordenlijst}], "morgen" [{:cat :noun, :sem {:pred "morning"}, :curriculum :woordenlijst}], "lied(je)" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "song"}, :curriculum :woordenlijst}], "weekend" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "weekend"}, :curriculum :woordenlijst}], "hoofdgerecht" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "main course"}, :curriculum :woordenlijst}], "zus" [{:cat :noun, :sem {:pred "sister"}, :curriculum :woordenlijst}], "winkel" [{:cat :noun, :sem {:pred "shop"}, :curriculum :woordenlijst}], "broek" [{:cat :noun, :sem {:pred "trousers"}, :curriculum :woordenlijst}], "oog" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "eye"}, :curriculum :woordenlijst}], "fout" [{:cat :noun, :sem {:pred "mistake, error, fault"}, :curriculum :woordenlijst}], "handtekening" [{:cat :noun, :sem {:pred "signature"}, :curriculum :woordenlijst}], "abonnement" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "season ticket"}, :curriculum :woordenlijst}], "paar, het " [{:cat :noun, :sem {:pred "pair"}, :curriculum :woordenlijst}], "zout" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "salt"}, :curriculum :woordenlijst}], "park" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "park"}, :curriculum :woordenlijst}], "werkkamer" [{:cat :noun, :sem {:pred "study room"}, :curriculum :woordenlijst}], "hapje" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "bite"}, :curriculum :woordenlijst}], "ons" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "a hundred grammes"}, :curriculum :woordenlijst}], "wedstrijd" [{:cat :noun, :sem {:pred "match, game"}, :curriculum :woordenlijst}], "ding" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "thing"}, :curriculum :woordenlijst}], "universiteit" [{:cat :noun, :sem {:pred "university"}, :curriculum :woordenlijst}], "keer, de (twee keer per week)" [{:cat :noun, :sem {:pred "time (two times a week)"}, :curriculum :woordenlijst}], "werkdag" [{:cat :noun, :sem {:pred "working day"}, :curriculum :woordenlijst}], "supermarkt" [{:cat :noun, :sem {:pred "supermarket"}, :curriculum :woordenlijst}], "eind" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "the end"}, :curriculum :woordenlijst}], "sperzieboon" [{:cat :noun, :sem {:pred "French bean, green bean"}, :curriculum :woordenlijst}], "pad, het (fietspad)" [{:cat :noun, :sem {:pred "(bi)cycle track/path"}, :curriculum :woordenlijst}], "sla" [{:cat :noun, :sem {:pred "lettuce, salad"}, :curriculum :woordenlijst}], "dorp" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "village"}, :curriculum :woordenlijst}], "linkerkant" [{:cat :noun, :sem {:pred "left side"}, :curriculum :woordenlijst}], "vraag" [{:cat :noun, :sem {:pred "question"}, :curriculum :woordenlijst}], "probleem" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "problem"}, :curriculum :woordenlijst}], "autorijles" [{:cat :noun, :sem {:pred "driving lesson"}, :curriculum :woordenlijst}], "dier" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "animal"}, :curriculum :woordenlijst}], "citroen" [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst}], "tegoedbon" [{:cat :noun, :sem {:pred "credit note"}, :curriculum :woordenlijst}], "fruit" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "fruit"}, :curriculum :woordenlijst}], "kinderen, de (het kind)" [{:cat :noun, :sem {:pred "children (child)"}, :curriculum :woordenlijst}], "cijfer" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "number"}, :curriculum :woordenlijst}], "lift" [{:cat :noun, :sem {:pred "lift"}, :curriculum :woordenlijst}], "openingstijden" [{:cat :noun, :sem {:pred "opening hours"}, :curriculum :woordenlijst}], "tomaat" [{:cat :noun, :sem {:pred "tomato"}, :curriculum :woordenlijst}], "meter" [{:cat :noun, :sem {:pred "meter"}, :curriculum :woordenlijst}], "woning" [{:cat :noun, :sem {:pred "house"}, :curriculum :woordenlijst}], "appeltaart" [{:cat :noun, :sem {:pred "apple pie"}, :curriculum :woordenlijst}], "boot" [{:cat :noun, :sem {:pred "boat"}, :curriculum :woordenlijst}], "naam" [{:cat :noun, :sem {:pred "name"}, :curriculum :woordenlijst}], "buurvrouw" [{:cat :noun, :sem {:pred "neighbour (female)"}, :curriculum :woordenlijst}], "hagelslag" [{:cat :noun, :sem {:pred "chocolate sprinkles"}, :curriculum :woordenlijst}], "collega" [{:cat :noun, :sem {:pred "colleague"}, :curriculum :woordenlijst}], "vakantie" [{:cat :noun, :sem {:pred "holiday(s)"}, :curriculum :woordenlijst}], "water" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "water"}, :curriculum :woordenlijst}], "melk" [{:cat :noun, :sem {:pred "milk"}, :curriculum :woordenlijst}], "stoel" [{:cat :noun, :sem {:pred "chair"}, :curriculum :woordenlijst}], "beurt" [{:cat :noun, :sem {:pred "turn"}, :curriculum :woordenlijst}], "scherm" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "screen"}, :curriculum :woordenlijst}], "rits" [{:cat :noun, :sem {:pred "zip"}, :curriculum :woordenlijst}], "gat" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "hole"}, :curriculum :woordenlijst}], "slagroom" [{:cat :noun, :sem {:pred "whipping, whipped cream"}, :curriculum :woordenlijst}], "weg" [{:cat :noun, :sem {:pred "road"}, :curriculum :woordenlijst}], "villa" [{:cat :noun, :sem {:pred "villa"}, :curriculum :woordenlijst}], "plattegrond" [{:cat :noun, :sem {:pred "(street) map"}, :curriculum :woordenlijst}], "informatie" [{:cat :noun, :sem {:pred "information"}, :curriculum :woordenlijst}], "aantal" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "the number"}, :curriculum :woordenlijst}], "land" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "land "}, :curriculum :woordenlijst}], "garnaal" [{:cat :noun, :sem {:pred "shrimp, prawn"}, :curriculum :woordenlijst}], "kwart voor" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "a quarter till"}, :curriculum :woordenlijst}], "knoop" [{:cat :noun, :sem {:pred "button"}, :curriculum :woordenlijst}], "banaan" [{:cat :noun, :sem {:pred "banana"}, :curriculum :woordenlijst}], "klas(se), de (openbaar vervoer)" [{:cat :noun, :sem {:pred "class"}, :curriculum :woordenlijst}], "krul" [{:cat :noun, :sem {:pred "curl"}, :curriculum :woordenlijst}], "ingang" [{:cat :noun, :sem {:pred "entrance, entry"}, :curriculum :woordenlijst}], "nationaliteit" [{:cat :noun, :sem {:pred "nationality"}, :curriculum :woordenlijst}], "tas, de (tasje erbij?)" [{:cat :noun, :sem {:pred "bag (would you like a bag?)"}, :curriculum :woordenlijst}], "cursus" [{:cat :noun, :sem {:pred "course"}, :curriculum :woordenlijst}], "saldo" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "balance (here: travel with pay)"}, :curriculum :woordenlijst}], "ober" [{:cat :noun, :sem {:pred "waiter"}, :curriculum :woordenlijst}], "bitterbal" [{:cat :noun, :sem {:pred "type of croquette served as an appetizer"}, :curriculum :woordenlijst}], "fris, het " [{:cat :noun, :sem {:pred "soft drink"}, :curriculum :woordenlijst}], "dame" [{:cat :noun, :sem {:pred "lady"}, :curriculum :woordenlijst}], "dessert" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "dessert"}, :curriculum :woordenlijst}], "korting" [{:cat :noun, :sem {:pred "discount"}, :curriculum :woordenlijst}], "buurjongen" [{:cat :noun, :sem {:pred "boy next door, boy living nearby"}, :curriculum :woordenlijst}], "keuken" [{:cat :noun, :sem {:pred "kitchen"}, :curriculum :woordenlijst}], "broer" [{:cat :noun, :sem {:pred "brother"}, :curriculum :woordenlijst}], "trein" [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst}], "geboorte" [{:cat :noun, :sem {:pred "birth"}, :curriculum :woordenlijst}], "datum" [{:cat :noun, :sem {:pred "date"}, :curriculum :woordenlijst}], "brief" [{:cat :noun, :sem {:pred "letter"}, :curriculum :woordenlijst}], "kapper" [{:cat :noun, :sem {:pred "hairdresser"}, :curriculum :woordenlijst}], "vis" [{:cat :noun, :sem {:pred "fish"}, :curriculum :woordenlijst}], "slaapkamer" [{:cat :noun, :sem {:pred "bedroom"}, :curriculum :woordenlijst}], "bank, de (geld)" [{:cat :noun, :sem {:pred "bank"}, :curriculum :woordenlijst}], "suiker" [{:cat :noun, :sem {:pred "sugar"}, :curriculum :woordenlijst}], "stropdas" [{:cat :noun, :sem {:pred "tie"}, :curriculum :woordenlijst}], "schoen" [{:cat :noun, :sem {:pred "shoe"}, :curriculum :woordenlijst}], "kleren" [{:cat :noun, :sem {:pred "clothes"}, :curriculum :woordenlijst}], "rechterkant" [{:cat :noun, :sem {:pred "right(-hand) side"}, :curriculum :woordenlijst}], "gehakt, het " [{:cat :noun, :sem {:pred "minced meat"}, :curriculum :woordenlijst}], "straat" [{:cat :noun, :sem {:pred "street"}, :curriculum :woordenlijst}], "band" [{:cat :noun, :sem {:pred "relation"}, :curriculum :woordenlijst}], "vegetariër" [{:cat :noun, :sem {:pred "vegetarian"}, :curriculum :woordenlijst}], "moeder" [{:cat :noun, :sem {:pred "mother"}, :curriculum :woordenlijst}], "geld" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "money"}, :curriculum :woordenlijst}], "bus" [{:cat :noun, :sem {:pred "bus"}, :curriculum :woordenlijst}], "bank, de (meubel)" [{:cat :noun, :sem {:pred "couch, sofa"}, :curriculum :woordenlijst}], "zoon" [{:cat :noun, :sem {:pred "son"}, :curriculum :woordenlijst}], "kast" [{:cat :noun, :sem {:pred "cupboard"}, :curriculum :woordenlijst}], "buurman" [{:cat :noun, :sem {:pred "neighbour (male)"}, :curriculum :woordenlijst}], "klant" [{:cat :noun, :sem {:pred "customer, client"}, :curriculum :woordenlijst}], "computer" [{:cat :noun, :sem {:pred "computer"}, :curriculum :woordenlijst}], "spoor" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "track, platform"}, :curriculum :woordenlijst}], "maaltijd" [{:cat :noun, :sem {:pred "meal"}, :curriculum :woordenlijst}], "bushalte" [{:cat :noun, :sem {:pred "bus stop"}, :curriculum :woordenlijst}], "zebrapad" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "pedestrian crossing, zebra crossing"}, :curriculum :woordenlijst}], "champignon" [{:cat :noun, :sem {:pred "mushroom"}, :curriculum :woordenlijst}], "restaurant" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "restaurant"}, :curriculum :woordenlijst}], "achternaam" [{:cat :noun, :sem {:pred "surname"}, :curriculum :woordenlijst}], "uniform" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "uniform"}, :curriculum :woordenlijst}], "huren, de huur" [{:cat :noun, :sem {:pred "to rent, rent"}, :curriculum :woordenlijst}], "patat" [{:cat :noun, :sem {:pred "chips"}, :curriculum :woordenlijst}], "kalender" [{:cat :noun, :sem {:pred "calender"}, :curriculum :woordenlijst}], "knoflook" [{:cat :noun, :sem {:pred "garlic"}, :curriculum :woordenlijst}], "sok" [{:cat :noun, :sem {:pred "sock"}, :curriculum :woordenlijst}], "telefoonboek" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "telephone directory"}, :curriculum :woordenlijst}], "zalm" [{:cat :noun, :sem {:pred "salmon"}, :curriculum :woordenlijst}], "lunch" [{:cat :noun, :sem {:pred "lunch"}, :curriculum :woordenlijst}], "vlees" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "meat"}, :curriculum :woordenlijst}], "meubels" [{:cat :noun, :sem {:pred "furniture"}, :curriculum :woordenlijst}], "woningbouwvereniging" [{:cat :noun, :sem {:pred "housing association"}, :curriculum :woordenlijst}], "eiland" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "island"}, :curriculum :woordenlijst}], "salami" [{:cat :noun, :sem {:pred "salami"}, :curriculum :woordenlijst}], "koekje" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "biscuit"}, :curriculum :woordenlijst}], "compliment" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "compliment"}, :curriculum :woordenlijst}], "fiets" [{:cat :noun, :sem {:pred "bicycle"}, :curriculum :woordenlijst}], "tijd" [{:cat :noun, :sem {:pred "time"}, :curriculum :woordenlijst}], "pond" [{:cat :noun, :sem {:pred "pound (500 grammes)"}, :curriculum :woordenlijst}], "slager" [{:cat :noun, :sem {:pred "butcher"}, :curriculum :woordenlijst}], "man" [{:cat :noun, :sem {:pred "husband (man)"}, :curriculum :woordenlijst}], "markt" [{:cat :noun, :sem {:pred "market"}, :curriculum :woordenlijst}], "ochtend" [{:cat :noun, :sem {:pred "the morning"}, :curriculum :woordenlijst}], "auto" [{:cat :noun, :sem {:pred "car"}, :curriculum :woordenlijst}], "advies" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "advice"}, :curriculum :woordenlijst}], "kaas" [{:cat :noun, :sem {:pred "cheese"}, :curriculum :woordenlijst}], "boterham" [{:cat :noun, :sem {:pred "sandwich, slice of bread"}, :curriculum :woordenlijst}], "pannenkoek" [{:cat :noun, :sem {:pred "pancake"}, :curriculum :woordenlijst}], "soort" [{:cat :noun, :sem {:pred "kind"}, :curriculum :woordenlijst}], "momen(tje), het " [{:cat :noun, :sem {:pred "moment (just a moment, hold on please)"}, :curriculum :woordenlijst}], "student" [{:cat :noun, :sem {:pred "student"}, :curriculum :woordenlijst}], "voorstel" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "proposal, proposition"}, :curriculum :woordenlijst}], "kroeg" [{:cat :noun, :sem {:pred "café, pub"}, :curriculum :woordenlijst}], "leeftijd" [{:cat :noun, :sem {:pred "age"}, :curriculum :woordenlijst}], "douche" [{:cat :noun, :sem {:pred "shower"}, :curriculum :woordenlijst}], "diploma" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "diploma, certificate"}, :curriculum :woordenlijst}], "wijn" [{:cat :noun, :sem {:pred "wine"}, :curriculum :woordenlijst}], "voorgerecht" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "first course, starter"}, :curriculum :woordenlijst}], "voetbal" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "football"}, :curriculum :woordenlijst}], "kilometer" [{:cat :noun, :sem {:pred "kilometer"}, :curriculum :woordenlijst}], "rekening" [{:cat :noun, :sem {:pred "bill"}, :curriculum :woordenlijst}], "glas, het (glaasje)" [{:cat :noun, :sem {:pred "glass"}, :curriculum :woordenlijst}], "wc" [{:cat :noun, :sem {:pred "toilet"}, :curriculum :woordenlijst}], "reus" [{:cat :noun, :sem {:pred "giant"}, :curriculum :woordenlijst}], "familie" [{:cat :noun, :sem {:pred "family, relatives"}, :curriculum :woordenlijst}], "retour, het (trein)" [{:cat :noun, :sem {:pred "return trip / ticket"}, :curriculum :woordenlijst}], "les" [{:cat :noun, :sem {:pred "lesson"}, :curriculum :woordenlijst}], "week" [{:cat :noun, :sem {:pred "week"}, :curriculum :woordenlijst}], "tram" [{:cat :noun, :sem {:pred "tram"}, :curriculum :woordenlijst}], "antwoord" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "answer "}, :curriculum :woordenlijst}], "geslacht" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "gender"}, :curriculum :woordenlijst}], "borrel" [{:cat :noun, :sem {:pred "alcoholic drink; a get-together"}, :curriculum :woordenlijst}], "tonijn" [{:cat :noun, :sem {:pred "tuna"}, :curriculum :woordenlijst}], "brug" [{:cat :noun, :sem {:pred "bridge"}, :curriculum :woordenlijst}], "kip" [{:cat :noun, :sem {:pred "chicken"}, :curriculum :woordenlijst}], "bakker" [{:cat :noun, :sem {:pred "baker"}, :curriculum :woordenlijst}], "wasmachine" [{:cat :noun, :sem {:pred "washing machine"}, :curriculum :woordenlijst}], "politie" [{:cat :noun, :sem {:pred "police"}, :curriculum :woordenlijst}], "thee" [{:cat :noun, :sem {:pred "tea"}, :curriculum :woordenlijst}], "saus" [{:cat :noun, :sem {:pred "sauce"}, :curriculum :woordenlijst}], "sprookje" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "fairy tale"}, :curriculum :woordenlijst}], "dochter" [{:cat :noun, :sem {:pred "daughter"}, :curriculum :woordenlijst}], "mobiele telefoon" [{:cat :noun, :sem {:pred "mobile phone"}, :curriculum :woordenlijst}], "verjaardag" [{:cat :noun, :sem {:pred "birthday"}, :curriculum :woordenlijst}], "kwart over" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "a quarter after"}, :curriculum :woordenlijst}], "gezin" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "family (parents and children)"}, :curriculum :woordenlijst}], "gerecht" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "meal"}, :curriculum :woordenlijst}], "bed" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "bed"}, :curriculum :woordenlijst}], "muziek" [{:cat :noun, :sem {:pred "music"}, :curriculum :woordenlijst}], "centrum" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "(town, city) center"}, :curriculum :woordenlijst}], "kop" [{:cat :noun, :sem {:pred "cup"}, :curriculum :woordenlijst}], "vader" [{:cat :noun, :sem {:pred "father"}, :curriculum :woordenlijst}], "plein" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "square"}, :curriculum :woordenlijst}], "tafel" [{:cat :noun, :sem {:pred "table"}, :curriculum :woordenlijst}], "gympen" [{:cat :noun, :sem {:pred "sneakers"}, :curriculum :woordenlijst}], "borrelhapje" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "snack, appetizer"}, :curriculum :woordenlijst}], "overhemd, het " [{:cat :noun, :sem {:pred "shirt"}, :curriculum :woordenlijst}], "kilo" [{:cat :noun, :sem {:pred "kilo"}, :curriculum :woordenlijst}], "OV-chipkaart" [{:cat :noun, :sem {:pred "e-purse for public transportation"}, :curriculum :woordenlijst}], "jam" [{:cat :noun, :sem {:pred "jam"}, :curriculum :woordenlijst}], "verdieping" [{:cat :noun, :sem {:pred "floor"}, :curriculum :woordenlijst}], "rijtjeshuis" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "terraced house"}, :curriculum :woordenlijst}], "voornaam" [{:cat :noun, :sem {:pred "first name"}, :curriculum :woordenlijst}], "bruiloft" [{:cat :noun, :sem {:pred "wedding"}, :curriculum :woordenlijst}], "rok" [{:cat :noun, :sem {:pred "skirt"}, :curriculum :woordenlijst}], "jurk" [{:cat :noun, :sem {:pred "dress"}, :curriculum :woordenlijst}], "raam" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "window"}, :curriculum :woordenlijst}], "bad" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "bath"}, :curriculum :woordenlijst}], "kaart, de (plattegrond, de)" [{:cat :noun, :sem {:pred "(street) map"}, :curriculum :woordenlijst}], "aardappel" [{:cat :noun, :sem {:pred "potato"}, :curriculum :woordenlijst}], "vleeswaren" [{:cat :noun, :sem {:pred "cold cuts"}, :curriculum :woordenlijst}], "pet" [{:cat :noun, :sem {:pred "cap"}, :curriculum :woordenlijst}], "traditie" [{:cat :noun, :sem {:pred "tradition"}, :curriculum :woordenlijst}], "plezier" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "fun"}, :curriculum :woordenlijst}], "vriendin" [{:cat :noun, :sem {:pred "female friend / girlfriend"}, :curriculum :woordenlijst}], "afspraak" [{:cat :noun, :sem {:pred "appointment, engagement"}, :curriculum :woordenlijst}], "boek" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "book"}, :curriculum :woordenlijst}], "maand" [{:cat :noun, :sem {:pred "month"}, :curriculum :woordenlijst}], "adres" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "address"}, :curriculum :woordenlijst}], "haar" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "hair"}, :curriculum :woordenlijst}], "honger, de (ik heb honger)" [{:cat :noun, :sem {:pred "appetite (I am hungry)"}, :curriculum :woordenlijst}], "bon" [{:cat :noun, :sem {:pred "the receipt"}, :curriculum :woordenlijst}], "plan" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "plan"}, :curriculum :woordenlijst}], "spijkerbroek" [{:cat :noun, :sem {:pred "jeans"}, :curriculum :woordenlijst}], "kaart, de (menukaart, de)" [{:cat :noun, :sem {:pred "menu"}, :curriculum :woordenlijst}], "pak, het (kleding)" [{:cat :noun, :sem {:pred "suit"}, :curriculum :woordenlijst}], "uitnodiging" [{:cat :noun, :sem {:pred "invitation"}, :curriculum :woordenlijst}], "tuin" [{:cat :noun, :sem {:pred "garden"}, :curriculum :woordenlijst}], "kleur" [{:cat :noun, :sem {:pred "colour"}, :curriculum :woordenlijst}], "ziekenhuis" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "hospital"}, :curriculum :woordenlijst}], "jaar" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "year"}, :curriculum :woordenlijst}], "vrouw" [{:cat :noun, :sem {:pred "wife (woman)"}, :curriculum :woordenlijst}], "automaat" [{:cat :noun, :sem {:pred "ticket machine"}, :curriculum :woordenlijst}], "kwartier" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "quarter of an hour"}, :curriculum :woordenlijst}], "rondje, het (een rondje geven)" [{:cat :noun, :sem {:pred "round (to stand a round of drinks)"}, :curriculum :woordenlijst}], "programma, het (tv)" [{:cat :noun, :sem {:pred "program"}, :curriculum :woordenlijst}], "avond" [{:cat :noun, :sem {:pred "evening"}, :curriculum :woordenlijst}], "richting" [{:cat :noun, :sem {:pred "direction"}, :curriculum :woordenlijst}], "appartement" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "apartment"}, :curriculum :woordenlijst}], "woonplaats" [{:cat :noun, :sem {:pred "(place of) residence"}, :curriculum :woordenlijst}], "bier(tje)" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "beer"}, :curriculum :woordenlijst}], "toegang" [{:cat :noun, :sem {:pred "entrance"}, :curriculum :woordenlijst}], "appel" [{:cat :noun, :sem {:pred "apple"}, :curriculum :woordenlijst}], "modeshow" [{:cat :noun, :sem {:pred "fashion show"}, :curriculum :woordenlijst}], "idee" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "idea"}, :curriculum :woordenlijst}], "stad" [{:cat :noun, :sem {:pred "town, city"}, :curriculum :woordenlijst}], "provincie" [{:cat :noun, :sem {:pred "region, province"}, :curriculum :woordenlijst}], "zolder" [{:cat :noun, :sem {:pred "attic"}, :curriculum :woordenlijst}], "metro" [{:cat :noun, :sem {:pred "subway, tube, underground"}, :curriculum :woordenlijst}], "verkoper" [{:cat :noun, :sem {:pred "salesman, woman, shop assistant"}, :curriculum :woordenlijst}], "trap" [{:cat :noun, :sem {:pred "stairs"}, :curriculum :woordenlijst}], "dorst, de (dorst hebben)" [{:cat :noun, :sem {:pred "thirst (to be thirsty)"}, :curriculum :woordenlijst}], "nummer" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "number"}, :curriculum :woordenlijst}], "voordeel" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "advantage"}, :curriculum :woordenlijst}], "uur, het (om 3 uur)" [{:cat :noun, :sem {:pred "hour (at three o' clock)"}, :curriculum :woordenlijst}], "kamer" [{:cat :noun, :sem {:pred "room"}, :curriculum :woordenlijst}], "bloes" [{:cat :noun, :sem {:pred "blouse, shirt"}, :curriculum :woordenlijst}], "biefstuk" [{:cat :noun, :sem {:pred "steak"}, :curriculum :woordenlijst}], "klas, de (school)" [{:cat :noun, :sem {:pred "grade, class"}, :curriculum :woordenlijst}], "maat" [{:cat :noun, :sem {:pred "size"}, :curriculum :woordenlijst}], "baas" [{:cat :noun, :sem {:pred "boss"}, :curriculum :woordenlijst}], "huis" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "house"}, :curriculum :woordenlijst}], "toegangskaartje" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "ticket"}, :curriculum :woordenlijst}], "trui" [{:cat :noun, :sem {:pred "sweater"}, :curriculum :woordenlijst}], "plaats" [{:cat :noun, :sem {:pred "place"}, :curriculum :woordenlijst}], "minuut" [{:cat :noun, :sem {:pred "minute"}, :curriculum :woordenlijst}], "station" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "station"}, :curriculum :woordenlijst}], "dag" [{:cat :noun, :sem {:pred "day"}, :curriculum :woordenlijst}], "jas" [{:cat :noun, :sem {:pred "coat"}, :curriculum :woordenlijst}], "huisarts" [{:cat :noun, :sem {:pred "family doctor, general practitioner"}, :curriculum :woordenlijst}], "bril" [{:cat :noun, :sem {:pred "glasses, spectacles"}, :curriculum :woordenlijst}], "toilet" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "toilet"}, :curriculum :woordenlijst}], "pauze" [{:cat :noun, :sem {:pred "break"}, :curriculum :woordenlijst}], "film" [{:cat :noun, :sem {:pred "film"}, :curriculum :woordenlijst}], "bioscoop" [{:cat :noun, :sem {:pred "cinema"}, :curriculum :woordenlijst}], "salaris" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "salary"}, :curriculum :woordenlijst}], "ontbijt" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "breakfast"}, :curriculum :woordenlijst}], "eten" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "food"}, :curriculum :woordenlijst}], "fles" [{:cat :noun, :sem {:pred "bottle"}, :curriculum :woordenlijst}], "kaart, de (toegangskaart, de)" [{:cat :noun, :sem {:pred "ticket"}, :curriculum :woordenlijst}], "school" [{:cat :noun, :sem {:pred "school"}, :curriculum :woordenlijst}], "halte, de (de bushalte)" [{:cat :noun, :sem {:pred "(bus) stop"}, :curriculum :woordenlijst}], "gebouw" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "building"}, :curriculum :woordenlijst}], "vierkante meter" [{:cat :noun, :sem {:pred "square meter"}, :curriculum :woordenlijst}], "ei, het (eieren)" [{:cat :noun, :sem {:pred "egg(s)"}, :curriculum :woordenlijst}], "feestdag" [{:cat :noun, :sem {:pred "public holiday"}, :curriculum :woordenlijst}], "krant" [{:cat :noun, :sem {:pred "newspaper"}, :curriculum :woordenlijst}], "T-shirt" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "t-shirt"}, :curriculum :woordenlijst}], "pad, het (in de supermarkt)" [{:cat :noun, :sem {:pred "isle (in supermarkets)"}, :curriculum :woordenlijst}], "bloem" [{:cat :noun, :sem {:pred "flower"}, :curriculum :woordenlijst}], "feest" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "party"}, :curriculum :woordenlijst}], "formulier" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "form"}, :curriculum :woordenlijst}], "balkon" [{:agr {:gender :neuter}, :cat :noun, :sem {:pred "balcony"}, :curriculum :woordenlijst}]}
+{"wedstrijd, de"
+ [{:cat :noun, :sem {:pred "match, game"}, :curriculum :woordenlijst}],
+ "antwoorden"
+ [{:cat :noun, :sem {:pred "to answer"}, :curriculum :woordenlijst}],
+ "oog, het"
+ [{:cat :noun, :sem {:pred "eye"}, :curriculum :woordenlijst}],
+ "baas, de"
+ [{:cat :noun, :sem {:pred "boss"}, :curriculum :woordenlijst}],
+ "openingstijden, de"
+ [{:cat :noun,
+   :sem {:pred "opening hours"},
+   :curriculum :woordenlijst}],
+ "geboren"
+ [{:cat :noun, :sem {:pred "born"}, :curriculum :woordenlijst}],
+ "bon, de"
+ [{:cat :noun, :sem {:pred "the receipt"}, :curriculum :woordenlijst}],
+ "abonnement, het"
+ [{:cat :noun,
+   :sem {:pred "season ticket"},
+   :curriculum :woordenlijst}],
+ "ontbijt, het"
+ [{:cat :noun, :sem {:pred "breakfast"}, :curriculum :woordenlijst}],
+ "oversteken"
+ [{:cat :noun,
+   :sem {:pred "to cross the street"},
+   :curriculum :woordenlijst}],
+ "trap, de "
+ [{:cat :noun, :sem {:pred "stairs"}, :curriculum :woordenlijst}],
+ "film, de "
+ [{:cat :noun, :sem {:pred "film"}, :curriculum :woordenlijst}],
+ "hartelijk (hartelijk gefeliciteerd)"
+ [{:cat :noun,
+   :sem {:pred "congratulations, sincere best wishes"},
+   :curriculum :woordenlijst}],
+ "aardappel, de"
+ [{:cat :noun, :sem {:pred "potato"}, :curriculum :woordenlijst}],
+ "tijdens"
+ [{:cat :noun, :sem {:pred "during"}, :curriculum :woordenlijst}],
+ "al(le)"
+ [{:cat :noun, :sem {:pred "general"}, :curriculum :woordenlijst}],
+ "feest, het"
+ [{:cat :noun, :sem {:pred "party"}, :curriculum :woordenlijst}],
+ "duur"
+ [{:cat :noun, :sem {:pred "expensive"}, :curriculum :woordenlijst}],
+ "gek zijn op"
+ [{:cat :noun,
+   :sem {:pred "to be crazy about"},
+   :curriculum :woordenlijst}],
+ "snappen"
+ [{:cat :noun,
+   :sem {:pred "to get, to catch, to grasp"},
+   :curriculum :woordenlijst}],
+ "champignon, de"
+ [{:cat :noun, :sem {:pred "mushroom"}, :curriculum :woordenlijst}],
+ "kunnen"
+ [{:cat :noun,
+   :sem {:pred "can, to be able to"},
+   :curriculum :woordenlijst}],
+ "automaat, de"
+ [{:cat :noun,
+   :sem {:pred "ticket machine"},
+   :curriculum :woordenlijst}],
+ "krant, de"
+ [{:cat :noun, :sem {:pred "newspaper"}, :curriculum :woordenlijst}],
+ "krul, de"
+ [{:cat :noun, :sem {:pred "curl"}, :curriculum :woordenlijst}],
+ "autorijles, de"
+ [{:cat :noun,
+   :sem {:pred "driving lesson"},
+   :curriculum :woordenlijst}],
+ "pannenkoek, de"
+ [{:cat :noun, :sem {:pred "pancake"}, :curriculum :woordenlijst}],
+ "blauw"
+ [{:cat :noun, :sem {:pred "blue"}, :curriculum :woordenlijst}],
+ "kast, de "
+ [{:cat :noun, :sem {:pred "cupboard"}, :curriculum :woordenlijst}],
+ "vrij "
+ [{:cat :noun,
+   :sem {:pred "free, a day off"},
+   :curriculum :woordenlijst}],
+ "voetbal, het"
+ [{:cat :noun, :sem {:pred "football"}, :curriculum :woordenlijst}],
+ "woningbouwvereniging, de"
+ [{:cat :noun,
+   :sem {:pred "housing association"},
+   :curriculum :woordenlijst}],
+ "minstens"
+ [{:cat :noun, :sem {:pred "at least"}, :curriculum :woordenlijst}],
+ "bril, de"
+ [{:cat :noun,
+   :sem {:pred "glasses, spectacles"},
+   :curriculum :woordenlijst}],
+ "formulier, het"
+ [{:cat :noun, :sem {:pred "form"}, :curriculum :woordenlijst}],
+ "anderhalf"
+ [{:cat :noun,
+   :sem {:pred "one and a half"},
+   :curriculum :woordenlijst}],
+ "leeftijd, de"
+ [{:cat :noun, :sem {:pred "age"}, :curriculum :woordenlijst}],
+ "rechtsaf gaan"
+ [{:cat :noun,
+   :sem {:pred "to turn right"},
+   :curriculum :woordenlijst}],
+ "ingang, de"
+ [{:cat :noun,
+   :sem {:pred "entrance, entry"},
+   :curriculum :woordenlijst}],
+ "vegetariër, de"
+ [{:cat :noun, :sem {:pred "vegetarian"}, :curriculum :woordenlijst}],
+ "nog (nog een witte wijn)"
+ [{:cat :noun,
+   :sem {:pred "another (another white wine)"},
+   :curriculum :woordenlijst}],
+ "brug, de"
+ [{:cat :noun, :sem {:pred "bridge"}, :curriculum :woordenlijst}],
+ "pond, de"
+ [{:cat :noun,
+   :sem {:pred "pound (500 grammes)"},
+   :curriculum :woordenlijst}],
+ "villa, de"
+ [{:cat :noun, :sem {:pred "villa"}, :curriculum :woordenlijst}],
+ "bakker, de"
+ [{:cat :noun, :sem {:pred "baker"}, :curriculum :woordenlijst}],
+ "weekend, het"
+ [{:cat :noun, :sem {:pred "weekend"}, :curriculum :woordenlijst}],
+ "jam, de"
+ [{:cat :noun, :sem {:pred "jam"}, :curriculum :woordenlijst}],
+ "bitterbal, de"
+ [{:cat :noun,
+   :sem {:pred "type of croquette served as an appetizer"},
+   :curriculum :woordenlijst}],
+ "morgen"
+ [{:cat :noun, :sem {:pred "tomorrow"}, :curriculum :woordenlijst}],
+ "raden"
+ [{:cat :noun, :sem {:pred "to guess"}, :curriculum :woordenlijst}],
+ "hartig"
+ [{:cat :noun,
+   :sem {:pred "salty, well seasoned"},
+   :curriculum :woordenlijst}],
+ "lang" [{:cat :noun, :sem {:pred "long"}, :curriculum :woordenlijst}],
+ "borrelhapje, het"
+ [{:cat :noun,
+   :sem {:pred "snack, appetizer"},
+   :curriculum :woordenlijst}],
+ "groot" [{:cat :noun, :sem {:pred "big"}, :curriculum :woordenlijst}],
+ "mogen"
+ [{:cat :noun,
+   :sem {:pred "can, may, to be allowed to"},
+   :curriculum :woordenlijst}],
+ "hebben"
+ [{:cat :noun, :sem {:pred "to have"}, :curriculum :woordenlijst}],
+ "vertrekken"
+ [{:cat :noun, :sem {:pred "to leave"}, :curriculum :woordenlijst}],
+ "pauze, de "
+ [{:cat :noun, :sem {:pred "break"}, :curriculum :woordenlijst}],
+ "vlees, het"
+ [{:cat :noun, :sem {:pred "meat"}, :curriculum :woordenlijst}],
+ "datum, de"
+ [{:cat :noun, :sem {:pred "date"}, :curriculum :woordenlijst}],
+ "wat" [{:cat :noun, :sem {:pred "what"}, :curriculum :woordenlijst}],
+ "boodschap(pen) de"
+ [{:cat :noun,
+   :sem {:pred "shopping, purchases"},
+   :curriculum :woordenlijst}],
+ "werkkamer, de"
+ [{:cat :noun, :sem {:pred "study room"}, :curriculum :woordenlijst}],
+ "namelijk "
+ [{:cat :noun,
+   :sem {:pred "you see, as it happens"},
+   :curriculum :woordenlijst}],
+ "en" [{:cat :noun, :sem {:pred "and"}, :curriculum :woordenlijst}],
+ "kilometer, de"
+ [{:cat :noun, :sem {:pred "kilometer"}, :curriculum :woordenlijst}],
+ "beginnen"
+ [{:cat :noun, :sem {:pred "to begin"}, :curriculum :woordenlijst}],
+ "elk"
+ [{:cat :noun, :sem {:pred "every, each"}, :curriculum :woordenlijst}],
+ "moeten"
+ [{:cat :noun,
+   :sem {:pred "must / shall"},
+   :curriculum :woordenlijst}],
+ "langskomen"
+ [{:cat :noun,
+   :sem {:pred "to come around"},
+   :curriculum :woordenlijst}],
+ "gram"
+ [{:cat :noun, :sem {:pred "gram(me)"}, :curriculum :woordenlijst}],
+ "cursus, de"
+ [{:cat :noun, :sem {:pred "course"}, :curriculum :woordenlijst}],
+ "winkel, de "
+ [{:cat :noun, :sem {:pred "shop"}, :curriculum :woordenlijst}],
+ "aanbieden"
+ [{:cat :noun, :sem {:pred "to offer"}, :curriculum :woordenlijst}],
+ "kalender, de"
+ [{:cat :noun, :sem {:pred "calender"}, :curriculum :woordenlijst}],
+ "alleen"
+ [{:cat :noun,
+   :sem {:pred "by yourself / only"},
+   :curriculum :woordenlijst}],
+ "broek, de"
+ [{:cat :noun, :sem {:pred "trousers"}, :curriculum :woordenlijst}],
+ "paar, het "
+ [{:cat :noun, :sem {:pred "pair"}, :curriculum :woordenlijst}],
+ "plan, het"
+ [{:cat :noun, :sem {:pred "plan"}, :curriculum :woordenlijst}],
+ "gisteren"
+ [{:cat :noun, :sem {:pred "yesterday"}, :curriculum :woordenlijst}],
+ "opstaan"
+ [{:cat :noun,
+   :sem {:pred "to get up / to stand up"},
+   :curriculum :woordenlijst}],
+ "koken"
+ [{:cat :noun,
+   :sem {:pred "cook, do the cooking"},
+   :curriculum :woordenlijst}],
+ "naar" [{:cat :noun, :sem {:pred "to"}, :curriculum :woordenlijst}],
+ " 's middags"
+ [{:cat :noun,
+   :sem {:pred "in the afternoon"},
+   :curriculum :woordenlijst}],
+ "werken"
+ [{:cat :noun, :sem {:pred "to work"}, :curriculum :woordenlijst}],
+ "warm"
+ [{:cat :noun, :sem {:pred "warm, hot"}, :curriculum :woordenlijst}],
+ "kort"
+ [{:cat :noun, :sem {:pred "short"}, :curriculum :woordenlijst}],
+ "slager, de "
+ [{:cat :noun, :sem {:pred "butcher"}, :curriculum :woordenlijst}],
+ "zout, het"
+ [{:cat :noun, :sem {:pred "salt"}, :curriculum :woordenlijst}],
+ "plezier, het"
+ [{:cat :noun, :sem {:pred "fun"}, :curriculum :woordenlijst}],
+ "volgend"
+ [{:cat :noun, :sem {:pred "next"}, :curriculum :woordenlijst}],
+ "vannacht"
+ [{:cat :noun, :sem {:pred "tonight"}, :curriculum :woordenlijst}],
+ "drukken"
+ [{:cat :noun,
+   :sem {:pred "to press, push"},
+   :curriculum :woordenlijst}],
+ "klant, de "
+ [{:cat :noun,
+   :sem {:pred "customer, client"},
+   :curriculum :woordenlijst}],
+ "wijn, de"
+ [{:cat :noun, :sem {:pred "wine"}, :curriculum :woordenlijst}],
+ "eindelijk"
+ [{:cat :noun, :sem {:pred "at last"}, :curriculum :woordenlijst}],
+ "invullen"
+ [{:cat :noun, :sem {:pred "fill in,out"}, :curriculum :woordenlijst}],
+ "bij" [{:cat :noun, :sem {:pred "at"}, :curriculum :woordenlijst}],
+ "vragen *"
+ [{:cat :noun, :sem {:pred "to ask"}, :curriculum :woordenlijst}],
+ "kijken"
+ [{:cat :noun, :sem {:pred "to look"}, :curriculum :woordenlijst}],
+ "kleren, de"
+ [{:cat :noun, :sem {:pred "clothes"}, :curriculum :woordenlijst}],
+ "boven"
+ [{:cat :noun, :sem {:pred "upstairs"}, :curriculum :woordenlijst}],
+ "rekening, de"
+ [{:cat :noun, :sem {:pred "bill"}, :curriculum :woordenlijst}],
+ "reis (enkele reis)"
+ [{:cat :noun,
+   :sem {:pred "trip (single / one-way ticket) "},
+   :curriculum :woordenlijst}],
+ "overstappen"
+ [{:cat :noun,
+   :sem {:pred "to change / to transfer"},
+   :curriculum :woordenlijst}],
+ "keer, de (twee keer per week)"
+ [{:cat :noun,
+   :sem {:pred "time (two times a week)"},
+   :curriculum :woordenlijst}],
+ "keuken, de "
+ [{:cat :noun, :sem {:pred "kitchen"}, :curriculum :woordenlijst}],
+ "voor (vijf voor acht)"
+ [{:cat :noun,
+   :sem {:pred "to (five minutes to eight)"},
+   :curriculum :woordenlijst}],
+ "alles" [{:cat :noun, :sem {:pred "all"}, :curriculum :woordenlijst}],
+ "zin hebben in"
+ [{:cat :noun,
+   :sem {:pred "to feel like"},
+   :curriculum :woordenlijst}],
+ "of" [{:cat :noun, :sem {:pred "or"}, :curriculum :woordenlijst}],
+ "pad, het (fietspad)"
+ [{:cat :noun,
+   :sem {:pred "(bi)cycle track/path"},
+   :curriculum :woordenlijst}],
+ "sperzieboon, de"
+ [{:cat :noun,
+   :sem {:pred "French bean, green bean"},
+   :curriculum :woordenlijst}],
+ "daar"
+ [{:cat :noun, :sem {:pred "there"}, :curriculum :woordenlijst}],
+ "uitnodiging, de"
+ [{:cat :noun, :sem {:pred "invitation"}, :curriculum :woordenlijst}],
+ "aflopen "
+ [{:cat :noun, :sem {:pred "to end"}, :curriculum :woordenlijst}],
+ "nee" [{:cat :noun, :sem {:pred "no"}, :curriculum :woordenlijst}],
+ " 's morgens"
+ [{:cat :noun,
+   :sem {:pred "in the morning"},
+   :curriculum :woordenlijst}],
+ "tomaat, de"
+ [{:cat :noun, :sem {:pred "tomato"}, :curriculum :woordenlijst}],
+ "jurk, de "
+ [{:cat :noun, :sem {:pred "dress"}, :curriculum :woordenlijst}],
+ "dezelfde"
+ [{:cat :noun, :sem {:pred "the same"}, :curriculum :woordenlijst}],
+ "wat (iets)"
+ [{:cat :noun,
+   :sem {:pred "here: something "},
+   :curriculum :woordenlijst}],
+ "vanavond"
+ [{:cat :noun, :sem {:pred "tonight"}, :curriculum :woordenlijst}],
+ " 's ochtends"
+ [{:cat :noun,
+   :sem {:pred "in the morning"},
+   :curriculum :woordenlijst}],
+ "jarig (ik ben jarig)"
+ [{:cat :noun,
+   :sem {:pred "it's my birthday"},
+   :curriculum :woordenlijst}],
+ "openbaar vervoer"
+ [{:cat :noun,
+   :sem {:pred "public transport"},
+   :curriculum :woordenlijst}],
+ "zo (ik houd niet zo van bier)"
+ [{:cat :noun,
+   :sem {:pred "so (I don't like beer too much)"},
+   :curriculum :woordenlijst}],
+ "melk, de"
+ [{:cat :noun, :sem {:pred "milk"}, :curriculum :woordenlijst}],
+ "al"
+ [{:cat :noun, :sem {:pred "already"}, :curriculum :woordenlijst}],
+ "sok, de"
+ [{:cat :noun, :sem {:pred "sock"}, :curriculum :woordenlijst}],
+ "probleem, het"
+ [{:cat :noun, :sem {:pred "problem"}, :curriculum :woordenlijst}],
+ "vandaag"
+ [{:cat :noun, :sem {:pred "today"}, :curriculum :woordenlijst}],
+ "schrijven"
+ [{:cat :noun,
+   :sem {:pred "to write (down)"},
+   :curriculum :woordenlijst}],
+ "tonijn, de"
+ [{:cat :noun, :sem {:pred "tuna"}, :curriculum :woordenlijst}],
+ "voorstel, het"
+ [{:cat :noun,
+   :sem {:pred "proposal, proposition"},
+   :curriculum :woordenlijst}],
+ "plaats, de "
+ [{:cat :noun,
+   :sem {:pred "here: town, city"},
+   :curriculum :woordenlijst}],
+ "meedoen"
+ [{:cat :noun,
+   :sem {:pred "to participate"},
+   :curriculum :woordenlijst}],
+ "maart"
+ [{:cat :noun, :sem {:pred "march"}, :curriculum :woordenlijst}],
+ "weer"
+ [{:cat :noun, :sem {:pred "again"}, :curriculum :woordenlijst}],
+ "gerecht, het"
+ [{:cat :noun, :sem {:pred "meal"}, :curriculum :woordenlijst}],
+ "borrel, de"
+ [{:cat :noun,
+   :sem {:pred "alcoholic drink"},
+   :curriculum :woordenlijst}],
+ "zetten (een handtekening zetten)"
+ [{:cat :noun,
+   :sem {:pred "to put (to put your signature, to sign)"},
+   :curriculum :woordenlijst}],
+ "kinderen, de (het kind)"
+ [{:cat :noun,
+   :sem {:pred "children (child)"},
+   :curriculum :woordenlijst}],
+ "benieuwd"
+ [{:cat :noun, :sem {:pred "curious"}, :curriculum :woordenlijst}],
+ "slapen *"
+ [{:cat :noun, :sem {:pred "to sleep"}, :curriculum :woordenlijst}],
+ "gegrild"
+ [{:cat :noun, :sem {:pred "grilled"}, :curriculum :woordenlijst}],
+ "jongen, de "
+ [{:cat :noun, :sem {:pred "boy"}, :curriculum :woordenlijst}],
+ "universiteit, de"
+ [{:cat :noun, :sem {:pred "university"}, :curriculum :woordenlijst}],
+ "hartstikke"
+ [{:cat :noun,
+   :sem {:pred "terribly, awfully, "},
+   :curriculum :woordenlijst}],
+ "advies, het"
+ [{:cat :noun, :sem {:pred "advice"}, :curriculum :woordenlijst}],
+ "suiker, de"
+ [{:cat :noun, :sem {:pred "sugar"}, :curriculum :woordenlijst}],
+ "via"
+ [{:cat :noun, :sem {:pred "through"}, :curriculum :woordenlijst}],
+ "opschieten"
+ [{:cat :noun, :sem {:pred "to hurry up"}, :curriculum :woordenlijst}],
+ "jong"
+ [{:cat :noun, :sem {:pred "young"}, :curriculum :woordenlijst}],
+ "voordeel, het"
+ [{:cat :noun, :sem {:pred "advantage"}, :curriculum :woordenlijst}],
+ "ander"
+ [{:cat :noun, :sem {:pred "other"}, :curriculum :woordenlijst}],
+ "ochtend, de"
+ [{:cat :noun, :sem {:pred "the morning"}, :curriculum :woordenlijst}],
+ "vaak"
+ [{:cat :noun, :sem {:pred "often"}, :curriculum :woordenlijst}],
+ "thuis"
+ [{:cat :noun, :sem {:pred "at home"}, :curriculum :woordenlijst}],
+ "bekijken"
+ [{:cat :noun, :sem {:pred "to look at"}, :curriculum :woordenlijst}],
+ "rustig"
+ [{:cat :noun, :sem {:pred "quiet(ly)"}, :curriculum :woordenlijst}],
+ "heel (de hele dag)"
+ [{:cat :noun,
+   :sem {:pred "the whole day"},
+   :curriculum :woordenlijst}],
+ "dragen"
+ [{:cat :noun, :sem {:pred "to wear"}, :curriculum :woordenlijst}],
+ "aanhebben"
+ [{:cat :noun, :sem {:pred "to wear"}, :curriculum :woordenlijst}],
+ "dus" [{:cat :noun, :sem {:pred "so"}, :curriculum :woordenlijst}],
+ "diploma, het"
+ [{:cat :noun,
+   :sem {:pred "diploma, certificate"},
+   :curriculum :woordenlijst}],
+ "rood" [{:cat :noun, :sem {:pred "red"}, :curriculum :woordenlijst}],
+ "nu" [{:cat :noun, :sem {:pred "now"}, :curriculum :woordenlijst}],
+ "lopen"
+ [{:cat :noun, :sem {:pred "to walk"}, :curriculum :woordenlijst}],
+ "dochter, de"
+ [{:cat :noun, :sem {:pred "daughter"}, :curriculum :woordenlijst}],
+ "centrum, het"
+ [{:cat :noun,
+   :sem {:pred "(town, city) center"},
+   :curriculum :woordenlijst}],
+ "boot, de"
+ [{:cat :noun, :sem {:pred "boat"}, :curriculum :woordenlijst}],
+ "kopen"
+ [{:cat :noun, :sem {:pred "to buy"}, :curriculum :woordenlijst}],
+ "danken (dank je wel)"
+ [{:cat :noun,
+   :sem {:pred "to thank (thank you)"},
+   :curriculum :woordenlijst}],
+ "pakken "
+ [{:cat :noun, :sem {:pred "to get "}, :curriculum :woordenlijst}],
+ "handtekening, de"
+ [{:cat :noun, :sem {:pred "signature"}, :curriculum :woordenlijst}],
+ "toegang, de"
+ [{:cat :noun, :sem {:pred "entrance"}, :curriculum :woordenlijst}],
+ "dag, de"
+ [{:cat :noun, :sem {:pred "day"}, :curriculum :woordenlijst}],
+ "verdieping, de"
+ [{:cat :noun, :sem {:pred "floor"}, :curriculum :woordenlijst}],
+ "opladen"
+ [{:cat :noun, :sem {:pred "to charge"}, :curriculum :woordenlijst}],
+ "huis, het"
+ [{:cat :noun, :sem {:pred "house"}, :curriculum :woordenlijst}],
+ "knoflook, de"
+ [{:cat :noun, :sem {:pred "garlic"}, :curriculum :woordenlijst}],
+ "helaas"
+ [{:cat :noun,
+   :sem {:pred "unfortunately"},
+   :curriculum :woordenlijst}],
+ "zielig"
+ [{:cat :noun,
+   :sem {:pred "pitiful, pathetic"},
+   :curriculum :woordenlijst}],
+ "provincie, de"
+ [{:cat :noun,
+   :sem {:pred "region, province"},
+   :curriculum :woordenlijst}],
+ "gebakken"
+ [{:cat :noun,
+   :sem {:pred "baked, fried"},
+   :curriculum :woordenlijst}],
+ "ook"
+ [{:cat :noun, :sem {:pred "also, too"}, :curriculum :woordenlijst}],
+ "saus, de"
+ [{:cat :noun, :sem {:pred "sauce"}, :curriculum :woordenlijst}],
+ "plein, het"
+ [{:cat :noun, :sem {:pred "square"}, :curriculum :woordenlijst}],
+ "plaats, de"
+ [{:cat :noun, :sem {:pred "place"}, :curriculum :woordenlijst}],
+ "tuin, de"
+ [{:cat :noun, :sem {:pred "garden"}, :curriculum :woordenlijst}],
+ "rechterkant, de"
+ [{:cat :noun,
+   :sem {:pred "right(-hand) side"},
+   :curriculum :woordenlijst}],
+ "beetje, het"
+ [{:cat :noun, :sem {:pred "a little"}, :curriculum :woordenlijst}],
+ "klas(se), de (openbaar vervoer)"
+ [{:cat :noun, :sem {:pred "class"}, :curriculum :woordenlijst}],
+ "meegaan"
+ [{:cat :noun,
+   :sem {:pred "go along, go with, accompany"},
+   :curriculum :woordenlijst}],
+ "traditie, de"
+ [{:cat :noun, :sem {:pred "tradition"}, :curriculum :woordenlijst}],
+ "maand, de"
+ [{:cat :noun, :sem {:pred "month"}, :curriculum :woordenlijst}],
+ "om een uur of (twee)"
+ [{:cat :noun,
+   :sem {:pred "about (two) o' clock"},
+   :curriculum :woordenlijst}],
+ "slecht"
+ [{:cat :noun, :sem {:pred "bad"}, :curriculum :woordenlijst}],
+ "uniform, het"
+ [{:cat :noun, :sem {:pred "uniform"}, :curriculum :woordenlijst}],
+ "zo'n"
+ [{:cat :noun, :sem {:pred "about"}, :curriculum :woordenlijst}],
+ "verliefd"
+ [{:cat :noun, :sem {:pred "in love"}, :curriculum :woordenlijst}],
+ "voorgerecht, het"
+ [{:cat :noun,
+   :sem {:pred "first course, starter"},
+   :curriculum :woordenlijst}],
+ "nationaliteit, de "
+ [{:cat :noun, :sem {:pred "nationality"}, :curriculum :woordenlijst}],
+ "vanaf"
+ [{:cat :noun, :sem {:pred "from"}, :curriculum :woordenlijst}],
+ "veel"
+ [{:cat :noun, :sem {:pred "much, many"}, :curriculum :woordenlijst}],
+ "vrij (vrij klein)"
+ [{:cat :noun,
+   :sem {:pred "rather (rather small)"},
+   :curriculum :woordenlijst}],
+ "werkdag, de"
+ [{:cat :noun, :sem {:pred "working day"}, :curriculum :woordenlijst}],
+ "halen"
+ [{:cat :noun, :sem {:pred "to get"}, :curriculum :woordenlijst}],
+ "kapper, de"
+ [{:cat :noun, :sem {:pred "hairdresser"}, :curriculum :woordenlijst}],
+ "bekend"
+ [{:cat :noun, :sem {:pred "familiar"}, :curriculum :woordenlijst}],
+ "bang "
+ [{:cat :noun, :sem {:pred "frightened"}, :curriculum :woordenlijst}],
+ "tas, de (tasje erbij?)"
+ [{:cat :noun,
+   :sem {:pred "bag (would you like a bag?)"},
+   :curriculum :woordenlijst}],
+ "niks/niets"
+ [{:cat :noun, :sem {:pred "nothing"}, :curriculum :woordenlijst}],
+ "toilet, het"
+ [{:cat :noun, :sem {:pred "toilet"}, :curriculum :woordenlijst}],
+ "appartement, het"
+ [{:cat :noun, :sem {:pred "apartment"}, :curriculum :woordenlijst}],
+ "politie, de "
+ [{:cat :noun, :sem {:pred "police"}, :curriculum :woordenlijst}],
+ "steil (haar)"
+ [{:cat :noun, :sem {:pred "straight"}, :curriculum :woordenlijst}],
+ "terugbellen"
+ [{:cat :noun,
+   :sem {:pred "to call back"},
+   :curriculum :woordenlijst}],
+ "fris, het "
+ [{:cat :noun, :sem {:pred "soft drink"}, :curriculum :woordenlijst}],
+ "ziekenhuis, het"
+ [{:cat :noun, :sem {:pred "hospital"}, :curriculum :woordenlijst}],
+ "zus, de"
+ [{:cat :noun, :sem {:pred "sister"}, :curriculum :woordenlijst}],
+ "trui, de"
+ [{:cat :noun, :sem {:pred "sweater"}, :curriculum :woordenlijst}],
+ "te koop"
+ [{:cat :noun, :sem {:pred "for sale"}, :curriculum :woordenlijst}],
+ "buurjongen, de "
+ [{:cat :noun,
+   :sem {:pred "boy next door, boy living nearby"},
+   :curriculum :woordenlijst}],
+ "jaar, het"
+ [{:cat :noun, :sem {:pred "year"}, :curriculum :woordenlijst}],
+ "kosten"
+ [{:cat :noun, :sem {:pred "cost"}, :curriculum :woordenlijst}],
+ "tafel, de"
+ [{:cat :noun, :sem {:pred "table"}, :curriculum :woordenlijst}],
+ "tegoedbon, de"
+ [{:cat :noun, :sem {:pred "credit note"}, :curriculum :woordenlijst}],
+ "niet" [{:cat :noun, :sem {:pred "not"}, :curriculum :woordenlijst}],
+ "rechts "
+ [{:cat :noun,
+   :sem {:pred "(on / to the) right"},
+   :curriculum :woordenlijst}],
+ "vriend, de"
+ [{:cat :noun, :sem {:pred "friend"}, :curriculum :woordenlijst}],
+ "uitstappen"
+ [{:cat :noun, :sem {:pred "to get off"}, :curriculum :woordenlijst}],
+ "middag"
+ [{:cat :noun, :sem {:pred "afternoon"}, :curriculum :woordenlijst}],
+ "wonen"
+ [{:cat :noun, :sem {:pred "to live"}, :curriculum :woordenlijst}],
+ "modeshow, de"
+ [{:cat :noun,
+   :sem {:pred "fashion show"},
+   :curriculum :woordenlijst}],
+ "haar, het"
+ [{:cat :noun, :sem {:pred "hair"}, :curriculum :woordenlijst}],
+ "bestellen"
+ [{:cat :noun, :sem {:pred "to order"}, :curriculum :woordenlijst}],
+ "gratis"
+ [{:cat :noun, :sem {:pred "free"}, :curriculum :woordenlijst}],
+ "huisarts, de"
+ [{:cat :noun,
+   :sem {:pred "family doctor, general practitioner"},
+   :curriculum :woordenlijst}],
+ "bang voor"
+ [{:cat :noun, :sem {:pred "afraid of"}, :curriculum :woordenlijst}],
+ "ongeveer"
+ [{:cat :noun, :sem {:pred "about"}, :curriculum :woordenlijst}],
+ "eigen" [{:cat :noun, :sem {:pred "own"}, :curriculum :woordenlijst}],
+ "band, de"
+ [{:cat :noun, :sem {:pred "relation"}, :curriculum :woordenlijst}],
+ "bank, de (geld)"
+ [{:cat :noun, :sem {:pred "bank"}, :curriculum :woordenlijst}],
+ "regenen"
+ [{:cat :noun, :sem {:pred "to rain"}, :curriculum :woordenlijst}],
+ "koffie,de"
+ [{:cat :noun, :sem {:pred "coffee"}, :curriculum :woordenlijst}],
+ "geloven"
+ [{:cat :noun,
+   :sem {:pred "think, believe"},
+   :curriculum :woordenlijst}],
+ "uitgaan"
+ [{:cat :noun, :sem {:pred "to go out"}, :curriculum :woordenlijst}],
+ "bezorgen"
+ [{:cat :noun, :sem {:pred "to deliver"}, :curriculum :woordenlijst}],
+ "gat, het"
+ [{:cat :noun, :sem {:pred "hole"}, :curriculum :woordenlijst}],
+ "informatie, de "
+ [{:cat :noun, :sem {:pred "information"}, :curriculum :woordenlijst}],
+ "praktisch"
+ [{:cat :noun, :sem {:pred "practical"}, :curriculum :woordenlijst}],
+ "boek, het"
+ [{:cat :noun, :sem {:pred "book"}, :curriculum :woordenlijst}],
+ "nooit"
+ [{:cat :noun, :sem {:pred "never"}, :curriculum :woordenlijst}],
+ "gehakt, het "
+ [{:cat :noun, :sem {:pred "minced meat"}, :curriculum :woordenlijst}],
+ "zelfs"
+ [{:cat :noun, :sem {:pred "even"}, :curriculum :woordenlijst}],
+ "hoe laat "
+ [{:cat :noun,
+   :sem {:pred "(at) what time "},
+   :curriculum :woordenlijst}],
+ "langs (langs de supermarkt)"
+ [{:cat :noun,
+   :sem {:pred "you pass the supermarket"},
+   :curriculum :woordenlijst}],
+ "achternaam, de"
+ [{:cat :noun, :sem {:pred "surname"}, :curriculum :woordenlijst}],
+ "goedkoop"
+ [{:cat :noun, :sem {:pred "cheap"}, :curriculum :woordenlijst}],
+ "naartoe (waar gaat u naartoe?)"
+ [{:cat :noun,
+   :sem {:pred "to (where are you going to)?"},
+   :curriculum :woordenlijst}],
+ "wachten"
+ [{:cat :noun, :sem {:pred "to wait"}, :curriculum :woordenlijst}],
+ "algemeen"
+ [{:cat :noun, :sem {:pred "all"}, :curriculum :woordenlijst}],
+ "eind, het"
+ [{:cat :noun, :sem {:pred "the end"}, :curriculum :woordenlijst}],
+ "dame, de"
+ [{:cat :noun, :sem {:pred "lady"}, :curriculum :woordenlijst}],
+ "woord"
+ [{:cat :noun,
+   :sem {:pred "vertaling Engels"},
+   :curriculum :woordenlijst}],
+ "feestdag, de"
+ [{:cat :noun,
+   :sem {:pred "public holiday"},
+   :curriculum :woordenlijst}],
+ "linkerkant, de"
+ [{:cat :noun, :sem {:pred "left side"}, :curriculum :woordenlijst}],
+ "water, het"
+ [{:cat :noun, :sem {:pred "water"}, :curriculum :woordenlijst}],
+ "Nederlands(e)"
+ [{:cat :noun, :sem {:pred "Dutch"}, :curriculum :woordenlijst}],
+ "leuk "
+ [{:cat :noun, :sem {:pred "nice"}, :curriculum :woordenlijst}],
+ "hoe (hoe heet je?)"
+ [{:cat :noun,
+   :sem {:pred "how (what's your name)"},
+   :curriculum :woordenlijst}],
+ "stuk"
+ [{:cat :noun, :sem {:pred "broken"}, :curriculum :woordenlijst}],
+ "snel"
+ [{:cat :noun,
+   :sem {:pred "quick(ly), soon"},
+   :curriculum :woordenlijst}],
+ "bank, de (meubel)"
+ [{:cat :noun, :sem {:pred "couch, sofa"}, :curriculum :woordenlijst}],
+ "volgen"
+ [{:cat :noun, :sem {:pred "to follow"}, :curriculum :woordenlijst}],
+ "richting, de"
+ [{:cat :noun, :sem {:pred "direction"}, :curriculum :woordenlijst}],
+ "jas, de "
+ [{:cat :noun, :sem {:pred "coat"}, :curriculum :woordenlijst}],
+ "laat" [{:cat :noun, :sem {:pred "late"}, :curriculum :woordenlijst}],
+ "mevrouw, de "
+ [{:cat :noun,
+   :sem {:pred "madam (hello madam) / Mrs. Ms. Bos"},
+   :curriculum :woordenlijst}],
+ "bijvoorbeeld"
+ [{:cat :noun, :sem {:pred "for example"}, :curriculum :woordenlijst}],
+ "restaurant, het"
+ [{:cat :noun, :sem {:pred "restaurant"}, :curriculum :woordenlijst}],
+ "voornaam, de"
+ [{:cat :noun, :sem {:pred "first name"}, :curriculum :woordenlijst}],
+ "gelukkig"
+ [{:cat :noun,
+   :sem {:pred "happy (glad to hear it)"},
+   :curriculum :woordenlijst}],
+ "lunch, de "
+ [{:cat :noun, :sem {:pred "lunch"}, :curriculum :woordenlijst}],
+ "hoog" [{:cat :noun, :sem {:pred "high"}, :curriculum :woordenlijst}],
+ "zien"
+ [{:cat :noun, :sem {:pred "to see"}, :curriculum :woordenlijst}],
+ "instappen"
+ [{:cat :noun, :sem {:pred "get in / on"}, :curriculum :woordenlijst}],
+ "supermarkt, de"
+ [{:cat :noun, :sem {:pred "supermarket"}, :curriculum :woordenlijst}],
+ "kussen"
+ [{:cat :noun, :sem {:pred "pillow"}, :curriculum :woordenlijst}],
+ "rits, de"
+ [{:cat :noun, :sem {:pred "zip"}, :curriculum :woordenlijst}],
+ "vieren"
+ [{:cat :noun,
+   :sem {:pred "to celebrate"},
+   :curriculum :woordenlijst}],
+ "avond, de"
+ [{:cat :noun, :sem {:pred "evening"}, :curriculum :woordenlijst}],
+ "gympen, de"
+ [{:cat :noun, :sem {:pred "sneakers"}, :curriculum :woordenlijst}],
+ "huren, de huur"
+ [{:cat :noun,
+   :sem {:pred "to rent, rent"},
+   :curriculum :woordenlijst}],
+ "mooi"
+ [{:cat :noun,
+   :sem {:pred "beautiful, nice"},
+   :curriculum :woordenlijst}],
+ "zoeken"
+ [{:cat :noun,
+   :sem {:pred "to look for "},
+   :curriculum :woordenlijst}],
+ "meneer, de "
+ [{:cat :noun,
+   :sem {:pred "sir (hello sir) / Mr. (Mr. Bos)"},
+   :curriculum :woordenlijst}],
+ "woning, de "
+ [{:cat :noun, :sem {:pred "house"}, :curriculum :woordenlijst}],
+ "helpen"
+ [{:cat :noun, :sem {:pred "to help"}, :curriculum :woordenlijst}],
+ "bed, het"
+ [{:cat :noun, :sem {:pred "bed"}, :curriculum :woordenlijst}],
+ "postcode, de"
+ [{:cat :noun, :sem {:pred "postal code"}, :curriculum :woordenlijst}],
+ "door"
+ [{:cat :noun, :sem {:pred "through"}, :curriculum :woordenlijst}],
+ "achter"
+ [{:cat :noun,
+   :sem {:pred "after, behind"},
+   :curriculum :woordenlijst}],
+ "fijn"
+ [{:cat :noun,
+   :sem {:pred "nice, lovely, great"},
+   :curriculum :woordenlijst}],
+ "alstublieft"
+ [{:cat :noun,
+   :sem {:pred "please / here you are (formal)"},
+   :curriculum :woordenlijst}],
+ "belangrijk"
+ [{:cat :noun, :sem {:pred "important"}, :curriculum :woordenlijst}],
+ "wit" [{:cat :noun, :sem {:pred "white"}, :curriculum :woordenlijst}],
+ "T-shirt, het"
+ [{:cat :noun, :sem {:pred "t-shirt"}, :curriculum :woordenlijst}],
+ "dier, het"
+ [{:cat :noun, :sem {:pred "animal"}, :curriculum :woordenlijst}],
+ "gebouw, het"
+ [{:cat :noun, :sem {:pred "building"}, :curriculum :woordenlijst}],
+ "natuurlijk"
+ [{:cat :noun, :sem {:pred "of course"}, :curriculum :woordenlijst}],
+ "vanmorgen"
+ [{:cat :noun,
+   :sem {:pred "this afternoon"},
+   :curriculum :woordenlijst}],
+ "weten *"
+ [{:cat :noun, :sem {:pred "to know"}, :curriculum :woordenlijst}],
+ "geweldig"
+ [{:cat :noun,
+   :sem {:pred "terrific, fantastic"},
+   :curriculum :woordenlijst}],
+ "trouwen"
+ [{:cat :noun,
+   :sem {:pred "to get married"},
+   :curriculum :woordenlijst}],
+ "metro, de"
+ [{:cat :noun,
+   :sem {:pred "subway, tube, underground"},
+   :curriculum :woordenlijst}],
+ "snijden (gesneden)"
+ [{:cat :noun,
+   :sem {:pred "to cut, to slice (sliced bread)"},
+   :curriculum :woordenlijst}],
+ "school, de "
+ [{:cat :noun, :sem {:pred "school"}, :curriculum :woordenlijst}],
+ "minuut, de "
+ [{:cat :noun, :sem {:pred "minute"}, :curriculum :woordenlijst}],
+ "vakantie, de"
+ [{:cat :noun, :sem {:pred "holiday(s)"}, :curriculum :woordenlijst}],
+ "vis, de"
+ [{:cat :noun, :sem {:pred "fish"}, :curriculum :woordenlijst}],
+ "tijd, de"
+ [{:cat :noun, :sem {:pred "time"}, :curriculum :woordenlijst}],
+ "arm" [{:cat :noun, :sem {:pred "poor"}, :curriculum :woordenlijst}],
+ "net (voor kleren)"
+ [{:cat :noun,
+   :sem {:pred "good / Sunday best (for clothes)"},
+   :curriculum :woordenlijst}],
+ "kapot"
+ [{:cat :noun,
+   :sem {:pred "torn, broken"},
+   :curriculum :woordenlijst}],
+ "welk"
+ [{:cat :noun, :sem {:pred "which, what"}, :curriculum :woordenlijst}],
+ "fantastisch"
+ [{:cat :noun, :sem {:pred "fantastic"}, :curriculum :woordenlijst}],
+ "zullen (zal)"
+ [{:cat :noun,
+   :sem {:pred "shall / will"},
+   :curriculum :woordenlijst}],
+ "trein, de"
+ [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst}],
+ "gelijk "
+ [{:cat :noun, :sem {:pred "right "}, :curriculum :woordenlijst}],
+ "vriendin, de"
+ [{:cat :noun,
+   :sem {:pred "female friend / girlfriend"},
+   :curriculum :woordenlijst}],
+ "door de week"
+ [{:cat :noun, :sem {:pred "on weekdays"}, :curriculum :woordenlijst}],
+ "flatgebouw, het"
+ [{:cat :noun,
+   :sem {:pred "apartment building"},
+   :curriculum :woordenlijst}],
+ "woonplaats, de"
+ [{:cat :noun,
+   :sem {:pred "(place of) residence"},
+   :curriculum :woordenlijst}],
+ "sprookje, het"
+ [{:cat :noun, :sem {:pred "fairy tale"}, :curriculum :woordenlijst}],
+ "thee, de"
+ [{:cat :noun, :sem {:pred "tea"}, :curriculum :woordenlijst}],
+ "hoeveel"
+ [{:cat :noun,
+   :sem {:pred "how much, how many"},
+   :curriculum :woordenlijst}],
+ "vrouw, de "
+ [{:cat :noun,
+   :sem {:pred "wife (woman)"},
+   :curriculum :woordenlijst}],
+ "half" [{:cat :noun, :sem {:pred "half"}, :curriculum :woordenlijst}],
+ "naast"
+ [{:cat :noun, :sem {:pred "next to"}, :curriculum :woordenlijst}],
+ "kilo, de"
+ [{:cat :noun, :sem {:pred "kilo"}, :curriculum :woordenlijst}],
+ "langs (langs het water)"
+ [{:cat :noun,
+   :sem {:pred "along the water's edge"},
+   :curriculum :woordenlijst}],
+ "momen(tje), het "
+ [{:cat :noun,
+   :sem {:pred "moment (just a moment, hold on please)"},
+   :curriculum :woordenlijst}],
+ "bloes, de"
+ [{:cat :noun,
+   :sem {:pred "blouse, shirt"},
+   :curriculum :woordenlijst}],
+ "alweer"
+ [{:cat :noun, :sem {:pred "already"}, :curriculum :woordenlijst}],
+ "persoonlijk"
+ [{:cat :noun, :sem {:pred "personal"}, :curriculum :woordenlijst}],
+ "eraf zijn (er is een knoop af)"
+ [{:cat :noun,
+   :sem {:pred "a button has come off"},
+   :curriculum :woordenlijst}],
+ "kennen"
+ [{:cat :noun, :sem {:pred "to know"}, :curriculum :woordenlijst}],
+ "wijzen (de weg) *"
+ [{:cat :noun,
+   :sem {:pred "to show the way"},
+   :curriculum :woordenlijst}],
+ "reizen"
+ [{:cat :noun, :sem {:pred "to travel"}, :curriculum :woordenlijst}],
+ "duren"
+ [{:cat :noun, :sem {:pred "to last"}, :curriculum :woordenlijst}],
+ "fruit, het"
+ [{:cat :noun, :sem {:pred "fruit"}, :curriculum :woordenlijst}],
+ "teruggeven"
+ [{:cat :noun,
+   :sem {:pred "to give back"},
+   :curriculum :woordenlijst}],
+ "ons, het"
+ [{:cat :noun,
+   :sem {:pred "a hundred grammes"},
+   :curriculum :woordenlijst}],
+ "ding, het"
+ [{:cat :noun, :sem {:pred "thing"}, :curriculum :woordenlijst}],
+ "slagroom, de"
+ [{:cat :noun,
+   :sem {:pred "whipping, whipped cream"},
+   :curriculum :woordenlijst}],
+ "les, de"
+ [{:cat :noun, :sem {:pred "lesson"}, :curriculum :woordenlijst}],
+ "weggaan"
+ [{:cat :noun, :sem {:pred "to leave"}, :curriculum :woordenlijst}],
+ "wie" [{:cat :noun, :sem {:pred "who"}, :curriculum :woordenlijst}],
+ "sla, de"
+ [{:cat :noun,
+   :sem {:pred "lettuce, salad"},
+   :curriculum :woordenlijst}],
+ "rijtjeshuis, het"
+ [{:cat :noun,
+   :sem {:pred "terraced house"},
+   :curriculum :woordenlijst}],
+ "bruiloft, de"
+ [{:cat :noun, :sem {:pred "wedding"}, :curriculum :woordenlijst}],
+ "maaltijd, de"
+ [{:cat :noun, :sem {:pred "meal"}, :curriculum :woordenlijst}],
+ "buurvrouw, de"
+ [{:cat :noun,
+   :sem {:pred "neighbour (female)"},
+   :curriculum :woordenlijst}],
+ "glas, het (glaasje)"
+ [{:cat :noun, :sem {:pred "glass"}, :curriculum :woordenlijst}],
+ "komen"
+ [{:cat :noun, :sem {:pred "to come"}, :curriculum :woordenlijst}],
+ "ruim"
+ [{:cat :noun, :sem {:pred "spacious"}, :curriculum :woordenlijst}],
+ "hardlopen"
+ [{:cat :noun, :sem {:pred "to run"}, :curriculum :woordenlijst}],
+ "klein"
+ [{:cat :noun, :sem {:pred "small"}, :curriculum :woordenlijst}],
+ "biefstuk, de"
+ [{:cat :noun, :sem {:pred "steak"}, :curriculum :woordenlijst}],
+ "retour, het (trein)"
+ [{:cat :noun,
+   :sem {:pred "return trip / ticket"},
+   :curriculum :woordenlijst}],
+ "elkaar"
+ [{:cat :noun,
+   :sem {:pred "each other, one another"},
+   :curriculum :woordenlijst}],
+ "misschien"
+ [{:cat :noun, :sem {:pred "perhaps"}, :curriculum :woordenlijst}],
+ "aankomen"
+ [{:cat :noun,
+   :sem {:pred "to gain weight"},
+   :curriculum :woordenlijst}],
+ "land, het"
+ [{:cat :noun, :sem {:pred "land "}, :curriculum :woordenlijst}],
+ "brief, de"
+ [{:cat :noun, :sem {:pred "letter"}, :curriculum :woordenlijst}],
+ "met" [{:cat :noun, :sem {:pred "with"}, :curriculum :woordenlijst}],
+ "inschrijven"
+ [{:cat :noun, :sem {:pred "to register"}, :curriculum :woordenlijst}],
+ "worden"
+ [{:cat :noun,
+   :sem {:pred "to become, to get"},
+   :curriculum :woordenlijst}],
+ "hoofdgerecht, het"
+ [{:cat :noun, :sem {:pred "main course"}, :curriculum :woordenlijst}],
+ "eerst"
+ [{:cat :noun, :sem {:pred "first"}, :curriculum :woordenlijst}],
+ "station, het"
+ [{:cat :noun, :sem {:pred "station"}, :curriculum :woordenlijst}],
+ "lusten"
+ [{:cat :noun, :sem {:pred "to like"}, :curriculum :woordenlijst}],
+ "gaan"
+ [{:cat :noun, :sem {:pred "to go "}, :curriculum :woordenlijst}],
+ "zolder, de "
+ [{:cat :noun, :sem {:pred "attic"}, :curriculum :woordenlijst}],
+ "parkeren"
+ [{:cat :noun, :sem {:pred "to park"}, :curriculum :woordenlijst}],
+ "vader, de"
+ [{:cat :noun, :sem {:pred "father"}, :curriculum :woordenlijst}],
+ "groeten"
+ [{:cat :noun, :sem {:pred "to greet"}, :curriculum :woordenlijst}],
+ "citroen, de"
+ [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst}],
+ "over (kwart over twee)"
+ [{:cat :noun,
+   :sem {:pred "past (a quarter past two)"},
+   :curriculum :woordenlijst}],
+ "graag (twee koffie graag)"
+ [{:cat :noun,
+   :sem {:pred "two coffees please"},
+   :curriculum :woordenlijst}],
+ "wc, de"
+ [{:cat :noun, :sem {:pred "toilet"}, :curriculum :woordenlijst}],
+ "auto, de"
+ [{:cat :noun, :sem {:pred "car"}, :curriculum :woordenlijst}],
+ "vanochtend"
+ [{:cat :noun,
+   :sem {:pred "this morning"},
+   :curriculum :woordenlijst}],
+ "kleur, de "
+ [{:cat :noun, :sem {:pred "colour"}, :curriculum :woordenlijst}],
+ "lezen"
+ [{:cat :noun, :sem {:pred "to read"}, :curriculum :woordenlijst}],
+ "nemen"
+ [{:cat :noun, :sem {:pred "to take"}, :curriculum :woordenlijst}],
+ "klaar"
+ [{:cat :noun, :sem {:pred "ready"}, :curriculum :woordenlijst}],
+ "vraag, de"
+ [{:cat :noun, :sem {:pred "question"}, :curriculum :woordenlijst}],
+ "meenemen"
+ [{:cat :noun,
+   :sem {:pred "bring, take along"},
+   :curriculum :woordenlijst}],
+ "denken *"
+ [{:cat :noun, :sem {:pred "to think"}, :curriculum :woordenlijst}],
+ "prachtig"
+ [{:cat :noun,
+   :sem {:pred "beautiful, wonderful"},
+   :curriculum :woordenlijst}],
+ "sorry"
+ [{:cat :noun, :sem {:pred "sorry"}, :curriculum :woordenlijst}],
+ "alsjeblieft"
+ [{:cat :noun,
+   :sem {:pred "please / here you are (informal)"},
+   :curriculum :woordenlijst}],
+ "klopt dat?"
+ [{:cat :noun,
+   :sem {:pred "is that correct?"},
+   :curriculum :woordenlijst}],
+ "kiezen"
+ [{:cat :noun, :sem {:pred "to choose"}, :curriculum :woordenlijst}],
+ "binnenkomen"
+ [{:cat :noun, :sem {:pred "come in"}, :curriculum :woordenlijst}],
+ "zalm, de"
+ [{:cat :noun, :sem {:pred "salmon"}, :curriculum :woordenlijst}],
+ "hier" [{:cat :noun, :sem {:pred "here"}, :curriculum :woordenlijst}],
+ "willen"
+ [{:cat :noun, :sem {:pred "to want"}, :curriculum :woordenlijst}],
+ "beurt, de "
+ [{:cat :noun, :sem {:pred "turn"}, :curriculum :woordenlijst}],
+ "leren"
+ [{:cat :noun,
+   :sem {:pred "to teach / to learn"},
+   :curriculum :woordenlijst}],
+ "onder"
+ [{:cat :noun,
+   :sem {:pred "here: at the bottom"},
+   :curriculum :woordenlijst}],
+ "soms"
+ [{:cat :noun, :sem {:pred "sometimes"}, :curriculum :woordenlijst}],
+ "links"
+ [{:cat :noun, :sem {:pred "left"}, :curriculum :woordenlijst}],
+ "garnaal, de "
+ [{:cat :noun,
+   :sem {:pred "shrimp, prawn"},
+   :curriculum :woordenlijst}],
+ "onderweg"
+ [{:cat :noun, :sem {:pred "on the way"}, :curriculum :woordenlijst}],
+ "licht"
+ [{:cat :noun, :sem {:pred "bright"}, :curriculum :woordenlijst}],
+ "wakker"
+ [{:cat :noun, :sem {:pred "awake"}, :curriculum :woordenlijst}],
+ "heerlijk"
+ [{:cat :noun,
+   :sem {:pred "delightful, lovely"},
+   :curriculum :woordenlijst}],
+ "pet, de "
+ [{:cat :noun, :sem {:pred "cap"}, :curriculum :woordenlijst}],
+ "naam, de "
+ [{:cat :noun, :sem {:pred "name"}, :curriculum :woordenlijst}],
+ "overhemd, het "
+ [{:cat :noun, :sem {:pred "shirt"}, :curriculum :woordenlijst}],
+ "pinda, de"
+ [{:cat :noun, :sem {:pred "peanut"}, :curriculum :woordenlijst}],
+ "kroeg, de"
+ [{:cat :noun, :sem {:pred "café, pub"}, :curriculum :woordenlijst}],
+ "geboorte, de"
+ [{:cat :noun, :sem {:pred "birth"}, :curriculum :woordenlijst}],
+ "ja" [{:cat :noun, :sem {:pred "yes"}, :curriculum :woordenlijst}],
+ "drinken"
+ [{:cat :noun, :sem {:pred "to drink"}, :curriculum :woordenlijst}],
+ "week, de"
+ [{:cat :noun, :sem {:pred "week"}, :curriculum :woordenlijst}],
+ "vervelend"
+ [{:cat :noun,
+   :sem {:pred "annoying, unpleasant"},
+   :curriculum :woordenlijst}],
+ "lied(je), het"
+ [{:cat :noun, :sem {:pred "song"}, :curriculum :woordenlijst}],
+ "verkoper, de"
+ [{:cat :noun,
+   :sem {:pred "salesman, woman, shop assistant"},
+   :curriculum :woordenlijst}],
+ "kaas, de"
+ [{:cat :noun, :sem {:pred "cheese"}, :curriculum :woordenlijst}],
+ "volgens"
+ [{:cat :noun,
+   :sem {:pred "according to"},
+   :curriculum :woordenlijst}],
+ "hagelslag, de"
+ [{:cat :noun,
+   :sem {:pred "chocolate sprinkles"},
+   :curriculum :woordenlijst}],
+ "geel"
+ [{:cat :noun, :sem {:pred "yellow"}, :curriculum :woordenlijst}],
+ "buurman, de"
+ [{:cat :noun,
+   :sem {:pred "neighbour (male)"},
+   :curriculum :woordenlijst}],
+ "straks"
+ [{:cat :noun, :sem {:pred "later"}, :curriculum :woordenlijst}],
+ "doen"
+ [{:cat :noun, :sem {:pred "to do"}, :curriculum :woordenlijst}],
+ "reageren"
+ [{:cat :noun,
+   :sem {:pred "to respond, to react"},
+   :curriculum :woordenlijst}],
+ "waar"
+ [{:cat :noun, :sem {:pred "where"}, :curriculum :woordenlijst}],
+ "familie, de"
+ [{:cat :noun,
+   :sem {:pred "family, relatives"},
+   :curriculum :woordenlijst}],
+ "kerk, de "
+ [{:cat :noun, :sem {:pred "church"}, :curriculum :woordenlijst}],
+ "fles, de"
+ [{:cat :noun, :sem {:pred "bottle"}, :curriculum :woordenlijst}],
+ "wasmachine, de"
+ [{:cat :noun,
+   :sem {:pred "washing machine"},
+   :curriculum :woordenlijst}],
+ "tram, de"
+ [{:cat :noun, :sem {:pred "tram"}, :curriculum :woordenlijst}],
+ "kaart, de (plattegrond, de)"
+ [{:cat :noun,
+   :sem {:pred "(street) map"},
+   :curriculum :woordenlijst}],
+ "kip, de"
+ [{:cat :noun, :sem {:pred "chicken"}, :curriculum :woordenlijst}],
+ "fiets, de"
+ [{:cat :noun, :sem {:pred "bicycle"}, :curriculum :woordenlijst}],
+ "graag (welke programma's wil je graag zien?)"
+ [{:cat :noun,
+   :sem {:pred "which programs would you like to see"},
+   :curriculum :woordenlijst}],
+ "groente"
+ [{:cat :noun, :sem {:pred "vegetables"}, :curriculum :woordenlijst}],
+ "prima"
+ [{:cat :noun, :sem {:pred "excellent"}, :curriculum :woordenlijst}],
+ "erg" [{:cat :noun, :sem {:pred "very"}, :curriculum :woordenlijst}],
+ "lenen"
+ [{:cat :noun, :sem {:pred "to borrow"}, :curriculum :woordenlijst}],
+ "kassa, de"
+ [{:cat :noun, :sem {:pred "check out"}, :curriculum :woordenlijst}],
+ "feliciteren"
+ [{:cat :noun,
+   :sem {:pred "to congratulate"},
+   :curriculum :woordenlijst}],
+ "heten"
+ [{:cat :noun,
+   :sem {:pred "to be called"},
+   :curriculum :woordenlijst}],
+ "tot (van … tot)"
+ [{:cat :noun, :sem {:pred "from … to"}, :curriculum :woordenlijst}],
+ "sporten"
+ [{:cat :noun,
+   :sem {:pred "to exercise, to work out"},
+   :curriculum :woordenlijst}],
+ "rechtdoor"
+ [{:cat :noun,
+   :sem {:pred "straight ahead"},
+   :curriculum :woordenlijst}],
+ "lift, de"
+ [{:cat :noun, :sem {:pred "lift"}, :curriculum :woordenlijst}],
+ "telefoonboek, het"
+ [{:cat :noun,
+   :sem {:pred "telephone directory"},
+   :curriculum :woordenlijst}],
+ "in " [{:cat :noun, :sem {:pred "in "}, :curriculum :woordenlijst}],
+ "daarna"
+ [{:cat :noun,
+   :sem {:pred "after that, afterwards"},
+   :curriculum :woordenlijst}],
+ "donker"
+ [{:cat :noun, :sem {:pred "dark "}, :curriculum :woordenlijst}],
+ "park, het"
+ [{:cat :noun, :sem {:pred "park"}, :curriculum :woordenlijst}],
+ "man, de"
+ [{:cat :noun,
+   :sem {:pred "husband (man)"},
+   :curriculum :woordenlijst}],
+ "tegen (daar kan ik geen nee tegen zeggen)"
+ [{:cat :noun,
+   :sem {:pred "against, by, to (I can't say no to that)"},
+   :curriculum :woordenlijst}],
+ "lekker vinden"
+ [{:cat :noun, :sem {:pred "to like"}, :curriculum :woordenlijst}],
+ "patat, de"
+ [{:cat :noun, :sem {:pred "chips"}, :curriculum :woordenlijst}],
+ "bloem, de "
+ [{:cat :noun, :sem {:pred "flower"}, :curriculum :woordenlijst}],
+ "teruggeven (geld)"
+ [{:cat :noun, :sem {:pred "to refund"}, :curriculum :woordenlijst}],
+ "korting, de"
+ [{:cat :noun, :sem {:pred "discount"}, :curriculum :woordenlijst}],
+ "uitchecken"
+ [{:cat :noun,
+   :sem {:pred "to check out"},
+   :curriculum :woordenlijst}],
+ "zijn (ben, bent, is)"
+ [{:cat :noun, :sem {:pred "to be"}, :curriculum :woordenlijst}],
+ "zeggen"
+ [{:cat :noun, :sem {:pred "to say"}, :curriculum :woordenlijst}],
+ "linksaf "
+ [{:cat :noun,
+   :sem {:pred "(to the) left"},
+   :curriculum :woordenlijst}],
+ "appel, de"
+ [{:cat :noun, :sem {:pred "apple"}, :curriculum :woordenlijst}],
+ "pinnen"
+ [{:cat :noun,
+   :sem {:pred "to pay with an ATM card"},
+   :curriculum :woordenlijst}],
+ "geven (geeft)"
+ [{:cat :noun, :sem {:pred "to give "}, :curriculum :woordenlijst}],
+ "steeds"
+ [{:cat :noun,
+   :sem {:pred "always, constantly"},
+   :curriculum :woordenlijst}],
+ "groen"
+ [{:cat :noun, :sem {:pred "green"}, :curriculum :woordenlijst}],
+ "collega, de"
+ [{:cat :noun, :sem {:pred "colleague"}, :curriculum :woordenlijst}],
+ "want"
+ [{:cat :noun,
+   :sem {:pred "because, for"},
+   :curriculum :woordenlijst}],
+ "vandaan "
+ [{:cat :noun, :sem {:pred "from"}, :curriculum :woordenlijst}],
+ "zwart"
+ [{:cat :noun, :sem {:pred "black"}, :curriculum :woordenlijst}],
+ "eten, het"
+ [{:cat :noun, :sem {:pred "food"}, :curriculum :woordenlijst}],
+ "vol" [{:cat :noun, :sem {:pred "full"}, :curriculum :woordenlijst}],
+ "rok, de"
+ [{:cat :noun, :sem {:pred "skirt"}, :curriculum :woordenlijst}],
+ "adres, het"
+ [{:cat :noun, :sem {:pred "address"}, :curriculum :woordenlijst}],
+ "toch (dat is toch niet oud)"
+ [{:cat :noun,
+   :sem {:pred "that's not old, is it?"},
+   :curriculum :woordenlijst}],
+ "spoor, het"
+ [{:cat :noun,
+   :sem {:pred "track, platform"},
+   :curriculum :woordenlijst}],
+ "paars"
+ [{:cat :noun, :sem {:pred "purple"}, :curriculum :woordenlijst}],
+ "bus, de "
+ [{:cat :noun, :sem {:pred "bus"}, :curriculum :woordenlijst}],
+ "nog (nog leuker)"
+ [{:cat :noun,
+   :sem {:pred "even (even nicer)"},
+   :curriculum :woordenlijst}],
+ "net "
+ [{:cat :noun, :sem {:pred "just "}, :curriculum :woordenlijst}],
+ "scherm, het"
+ [{:cat :noun, :sem {:pred "screen"}, :curriculum :woordenlijst}],
+ "aantal, het"
+ [{:cat :noun, :sem {:pred "the number"}, :curriculum :woordenlijst}],
+ "honger, de (ik heb honger)"
+ [{:cat :noun,
+   :sem {:pred "appetite (I am hungry)"},
+   :curriculum :woordenlijst}],
+ "lichtblauw"
+ [{:cat :noun, :sem {:pred "light blue"}, :curriculum :woordenlijst}],
+ "ober, de"
+ [{:cat :noun, :sem {:pred "waiter"}, :curriculum :woordenlijst}],
+ "maken"
+ [{:cat :noun, :sem {:pred "to make"}, :curriculum :woordenlijst}],
+ "delen"
+ [{:cat :noun, :sem {:pred "to share"}, :curriculum :woordenlijst}],
+ "afspraak, de"
+ [{:cat :noun,
+   :sem {:pred "appointment, engagement"},
+   :curriculum :woordenlijst}],
+ "reus, de"
+ [{:cat :noun, :sem {:pred "giant"}, :curriculum :woordenlijst}],
+ "muziek, de"
+ [{:cat :noun, :sem {:pred "music"}, :curriculum :woordenlijst}],
+ "lezen *"
+ [{:cat :noun, :sem {:pred "to read"}, :curriculum :woordenlijst}],
+ "studeren"
+ [{:cat :noun, :sem {:pred "to study"}, :curriculum :woordenlijst}],
+ "gewoon"
+ [{:cat :noun,
+   :sem {:pred "simply, just, usual"},
+   :curriculum :woordenlijst}],
+ "tussen de middag"
+ [{:cat :noun,
+   :sem {:pred "at lunch time "},
+   :curriculum :woordenlijst}],
+ "markt, de "
+ [{:cat :noun, :sem {:pred "market"}, :curriculum :woordenlijst}],
+ "kaart, de (menukaart, de)"
+ [{:cat :noun, :sem {:pred "menu"}, :curriculum :woordenlijst}],
+ "pak, het (kleding)"
+ [{:cat :noun, :sem {:pred "suit"}, :curriculum :woordenlijst}],
+ "brood, het "
+ [{:cat :noun, :sem {:pred "bread, loaf"}, :curriculum :woordenlijst}],
+ "verjaardag, de"
+ [{:cat :noun, :sem {:pred "birthday"}, :curriculum :woordenlijst}],
+ "bedoelen"
+ [{:cat :noun, :sem {:pred "to mean"}, :curriculum :woordenlijst}],
+ "vlakbij"
+ [{:cat :noun,
+   :sem {:pred "close by, nearby"},
+   :curriculum :woordenlijst}],
+ "precies "
+ [{:cat :noun,
+   :sem {:pred "precise / right on time"},
+   :curriculum :woordenlijst}],
+ "salami, de"
+ [{:cat :noun, :sem {:pred "salami"}, :curriculum :woordenlijst}],
+ "schoen, de"
+ [{:cat :noun, :sem {:pred "shoe"}, :curriculum :woordenlijst}],
+ "rijst, de"
+ [{:cat :noun, :sem {:pred "rice"}, :curriculum :woordenlijst}],
+ "spijten"
+ [{:cat :noun, :sem {:pred "to be sorry"}, :curriculum :woordenlijst}],
+ "fout, de"
+ [{:cat :noun,
+   :sem {:pred "mistake, error, fault"},
+   :curriculum :woordenlijst}],
+ "spannend"
+ [{:cat :noun, :sem {:pred "exciting"}, :curriculum :woordenlijst}],
+ "computer, de"
+ [{:cat :noun, :sem {:pred "computer"}, :curriculum :woordenlijst}],
+ "rondje, het (een rondje geven)"
+ [{:cat :noun,
+   :sem {:pred "round (to stand a round of drinks)"},
+   :curriculum :woordenlijst}],
+ "voorstellen"
+ [{:cat :noun,
+   :sem {:pred "to introduce"},
+   :curriculum :woordenlijst}],
+ "eiland, het"
+ [{:cat :noun, :sem {:pred "island"}, :curriculum :woordenlijst}],
+ "programma, het (tv)"
+ [{:cat :noun, :sem {:pred "program"}, :curriculum :woordenlijst}],
+ "meubels, de"
+ [{:cat :noun, :sem {:pred "furniture"}, :curriculum :woordenlijst}],
+ "vorig"
+ [{:cat :noun, :sem {:pred "hier: last"}, :curriculum :woordenlijst}],
+ "gezellig"
+ [{:cat :noun,
+   :sem {:pred "pleasant, enjoyable, comfortable"},
+   :curriculum :woordenlijst}],
+ "spijkerbroek, de"
+ [{:cat :noun, :sem {:pred "jeans"}, :curriculum :woordenlijst}],
+ "bad, het"
+ [{:cat :noun, :sem {:pred "bath"}, :curriculum :woordenlijst}],
+ "vies"
+ [{:cat :noun, :sem {:pred "nasty"}, :curriculum :woordenlijst}],
+ " 's avonds"
+ [{:cat :noun,
+   :sem {:pred "in the evening"},
+   :curriculum :woordenlijst}],
+ "op" [{:cat :noun, :sem {:pred "on, at"}, :curriculum :woordenlijst}],
+ "blond"
+ [{:cat :noun, :sem {:pred "blond"}, :curriculum :woordenlijst}],
+ "pas (pas 19)"
+ [{:cat :noun, :sem {:pred "only 19"}, :curriculum :woordenlijst}],
+ "varen"
+ [{:cat :noun, :sem {:pred "to sail"}, :curriculum :woordenlijst}],
+ "staan (de postcode staat op de brief)"
+ [{:cat :noun,
+   :sem {:pred "to stand (the postal code is on the letter)"},
+   :curriculum :woordenlijst}],
+ "gezin, het"
+ [{:cat :noun,
+   :sem {:pred "family (parents and children)"},
+   :curriculum :woordenlijst}],
+ "kop, de"
+ [{:cat :noun, :sem {:pred "cup"}, :curriculum :woordenlijst}],
+ "lieve"
+ [{:cat :noun, :sem {:pred "dear "}, :curriculum :woordenlijst}],
+ "maat, de "
+ [{:cat :noun, :sem {:pred "size"}, :curriculum :woordenlijst}],
+ "krijgen"
+ [{:cat :noun,
+   :sem {:pred "to get, to receive"},
+   :curriculum :woordenlijst}],
+ "idee, het"
+ [{:cat :noun, :sem {:pred "idea"}, :curriculum :woordenlijst}],
+ "lijken (de zalm lijkt me erg lekker)"
+ [{:cat :noun,
+   :sem {:pred "seem, appear (the salmon looks very nice)"},
+   :curriculum :woordenlijst}],
+ "ver" [{:cat :noun, :sem {:pred "far"}, :curriculum :woordenlijst}],
+ "over (over 10 minuten)"
+ [{:cat :noun,
+   :sem {:pred "about (in 10 minutes)"},
+   :curriculum :woordenlijst}],
+ "bijna"
+ [{:cat :noun,
+   :sem {:pred "nearly, almost"},
+   :curriculum :woordenlijst}],
+ "knoop, de"
+ [{:cat :noun, :sem {:pred "button"}, :curriculum :woordenlijst}],
+ "uit (ik kom uit…)"
+ [{:cat :noun,
+   :sem {:pred "out (I am from)"},
+   :curriculum :woordenlijst}],
+ "rijden"
+ [{:cat :noun, :sem {:pred "to drive"}, :curriculum :woordenlijst}],
+ "vinden"
+ [{:cat :noun, :sem {:pred "to find"}, :curriculum :woordenlijst}],
+ "niets"
+ [{:cat :noun, :sem {:pred "nothing"}, :curriculum :woordenlijst}],
+ "lekker"
+ [{:cat :noun,
+   :sem {:pred "nice, good, tasty"},
+   :curriculum :woordenlijst}],
+ "dorst, de (dorst hebben)"
+ [{:cat :noun,
+   :sem {:pred "thirst (to be thirsty)"},
+   :curriculum :woordenlijst}],
+ "hapje, het"
+ [{:cat :noun, :sem {:pred "bite"}, :curriculum :woordenlijst}],
+ "open" [{:cat :noun, :sem {:pred "open"}, :curriculum :woordenlijst}],
+ "zonder"
+ [{:cat :noun, :sem {:pred "without"}, :curriculum :woordenlijst}],
+ "ouder, de"
+ [{:cat :noun, :sem {:pred "parent"}, :curriculum :woordenlijst}],
+ "morgen, de"
+ [{:cat :noun, :sem {:pred "morning"}, :curriculum :woordenlijst}],
+ "stropdas, de"
+ [{:cat :noun, :sem {:pred "tie"}, :curriculum :woordenlijst}],
+ "uur, het (om 3 uur)"
+ [{:cat :noun,
+   :sem {:pred "hour (at three o' clock)"},
+   :curriculum :woordenlijst}],
+ "meter, de"
+ [{:cat :noun, :sem {:pred "meter"}, :curriculum :woordenlijst}],
+ "goed"
+ [{:cat :noun, :sem {:pred "oké, good"}, :curriculum :woordenlijst}],
+ "fietsen"
+ [{:cat :noun, :sem {:pred "to cycle"}, :curriculum :woordenlijst}],
+ "daarom"
+ [{:cat :noun, :sem {:pred "therefore"}, :curriculum :woordenlijst}],
+ "tot (tot zaterdag)"
+ [{:cat :noun,
+   :sem {:pred "to (see you on Saturday)"},
+   :curriculum :woordenlijst}],
+ "na" [{:cat :noun, :sem {:pred "after"}, :curriculum :woordenlijst}],
+ "boterham, de"
+ [{:cat :noun,
+   :sem {:pred "sandwich, slice of bread"},
+   :curriculum :woordenlijst}],
+ "OV-chipkaart, de"
+ [{:cat :noun,
+   :sem {:pred "e-purse for public transportation"},
+   :curriculum :woordenlijst}],
+ "klas, de (school)"
+ [{:cat :noun,
+   :sem {:pred "grade, class"},
+   :curriculum :woordenlijst}],
+ "weg, de"
+ [{:cat :noun, :sem {:pred "road"}, :curriculum :woordenlijst}],
+ "soort, de "
+ [{:cat :noun, :sem {:pred "kind"}, :curriculum :woordenlijst}],
+ "nieuw" [{:cat :noun, :sem {:pred "new"}, :curriculum :woordenlijst}],
+ "broer, de"
+ [{:cat :noun, :sem {:pred "brother"}, :curriculum :woordenlijst}],
+ "verkeerd"
+ [{:cat :noun, :sem {:pred "wrong"}, :curriculum :woordenlijst}],
+ "douche, de"
+ [{:cat :noun, :sem {:pred "shower"}, :curriculum :woordenlijst}],
+ "uitnodigen"
+ [{:cat :noun, :sem {:pred "to invite"}, :curriculum :woordenlijst}],
+ " 's nachts"
+ [{:cat :noun, :sem {:pred "at night"}, :curriculum :woordenlijst}],
+ "spreken"
+ [{:cat :noun,
+   :sem {:pred "to speak, to talk"},
+   :curriculum :woordenlijst}],
+ "taart, de"
+ [{:cat :noun, :sem {:pred "cake, pie"}, :curriculum :woordenlijst}],
+ "binnengaan"
+ [{:cat :noun,
+   :sem {:pred "to go in(to)"},
+   :curriculum :woordenlijst}],
+ "plattegrond, de"
+ [{:cat :noun,
+   :sem {:pred "(street) map"},
+   :curriculum :woordenlijst}],
+ "per (twee keer per week)"
+ [{:cat :noun,
+   :sem {:pred "per (two times a week)"},
+   :curriculum :woordenlijst}],
+ "dagelijks"
+ [{:cat :noun,
+   :sem {:pred "daily, every day"},
+   :curriculum :woordenlijst}],
+ "kwartier, het"
+ [{:cat :noun,
+   :sem {:pred "quarter of an hour"},
+   :curriculum :woordenlijst}],
+ "raam, het"
+ [{:cat :noun, :sem {:pred "window"}, :curriculum :woordenlijst}],
+ "cijfer, het"
+ [{:cat :noun, :sem {:pred "number"}, :curriculum :woordenlijst}],
+ "eruitzien "
+ [{:cat :noun, :sem {:pred "to look "}, :curriculum :woordenlijst}],
+ "zoet"
+ [{:cat :noun, :sem {:pred "sweet"}, :curriculum :woordenlijst}],
+ "geld, het"
+ [{:cat :noun, :sem {:pred "money"}, :curriculum :woordenlijst}],
+ "tussen"
+ [{:cat :noun, :sem {:pred "between"}, :curriculum :woordenlijst}],
+ "dankuwel"
+ [{:cat :noun,
+   :sem {:pred "thank you (formal)"},
+   :curriculum :woordenlijst}],
+ "wanneer"
+ [{:cat :noun, :sem {:pred "when"}, :curriculum :woordenlijst}],
+ "te (te laat)"
+ [{:cat :noun,
+   :sem {:pred "too (too late)"},
+   :curriculum :woordenlijst}],
+ "inchecken"
+ [{:cat :noun, :sem {:pred "to check in"}, :curriculum :woordenlijst}],
+ "koekje, het"
+ [{:cat :noun, :sem {:pred "biscuit"}, :curriculum :woordenlijst}],
+ "bruin"
+ [{:cat :noun, :sem {:pred "brown"}, :curriculum :woordenlijst}],
+ "stoel, de "
+ [{:cat :noun, :sem {:pred "chair"}, :curriculum :woordenlijst}],
+ "compliment, het"
+ [{:cat :noun, :sem {:pred "compliment"}, :curriculum :woordenlijst}],
+ "slaapkamer, de"
+ [{:cat :noun, :sem {:pred "bedroom"}, :curriculum :woordenlijst}],
+ "hoezo"
+ [{:cat :noun,
+   :sem {:pred "what do you mean"},
+   :curriculum :woordenlijst}],
+ "verhuizen"
+ [{:cat :noun, :sem {:pred "to move"}, :curriculum :woordenlijst}],
+ "betalen"
+ [{:cat :noun, :sem {:pred "to pay"}, :curriculum :woordenlijst}],
+ "oud" [{:cat :noun, :sem {:pred "old"}, :curriculum :woordenlijst}],
+ "zoon, de"
+ [{:cat :noun, :sem {:pred "son"}, :curriculum :woordenlijst}],
+ "hartelijk (hartelijke groeten)"
+ [{:cat :noun,
+   :sem {:pred "best regards"},
+   :curriculum :woordenlijst}],
+ "beneden"
+ [{:cat :noun, :sem {:pred "downstairs"}, :curriculum :woordenlijst}],
+ "zitten"
+ [{:cat :noun,
+   :sem {:pred "to sit, to be"},
+   :curriculum :woordenlijst}],
+ "echt (waar)"
+ [{:cat :noun,
+   :sem {:pred "real(ly) / yes it is"},
+   :curriculum :woordenlijst}],
+ "bier(tje), het"
+ [{:cat :noun, :sem {:pred "beer"}, :curriculum :woordenlijst}],
+ "nummer, het"
+ [{:cat :noun, :sem {:pred "number"}, :curriculum :woordenlijst}],
+ "kamer, de "
+ [{:cat :noun, :sem {:pred "room"}, :curriculum :woordenlijst}],
+ "salaris, het"
+ [{:cat :noun, :sem {:pred "salary"}, :curriculum :woordenlijst}],
+ "toegangskaartje, het"
+ [{:cat :noun, :sem {:pred "ticket"}, :curriculum :woordenlijst}],
+ "vleeswaren, de"
+ [{:cat :noun, :sem {:pred "cold cuts"}, :curriculum :woordenlijst}],
+ "student, de"
+ [{:cat :noun, :sem {:pred "student"}, :curriculum :woordenlijst}],
+ "dan"
+ [{:cat :noun, :sem {:pred "then, than"}, :curriculum :woordenlijst}],
+ "banaan, de"
+ [{:cat :noun, :sem {:pred "banana"}, :curriculum :woordenlijst}],
+ "meestal"
+ [{:cat :noun,
+   :sem {:pred "mostly, usually"},
+   :curriculum :woordenlijst}],
+ "eten"
+ [{:cat :noun,
+   :sem {:pred "to eat, to have dinner, lunch etc."},
+   :curriculum :woordenlijst}],
+ "zebrapad, het"
+ [{:cat :noun,
+   :sem {:pred "pedestrian crossing, zebra crossing"},
+   :curriculum :woordenlijst}],
+ "jammer (het is jammer voor u)"
+ [{:cat :noun,
+   :sem {:pred "a pity, too bad (I am sorry for you)"},
+   :curriculum :woordenlijst}],
+ "hal, de "
+ [{:cat :noun, :sem {:pred "hall"}, :curriculum :woordenlijst}],
+ "appeltaart, de"
+ [{:cat :noun, :sem {:pred "apple pie"}, :curriculum :woordenlijst}],
+ "ruilen"
+ [{:cat :noun, :sem {:pred "to exchange"}, :curriculum :woordenlijst}],
+ "uiterlijk, het"
+ [{:cat :noun, :sem {:pred "appearance"}, :curriculum :woordenlijst}],
+ "avondeten, het"
+ [{:cat :noun,
+   :sem {:pred "dinner, supper"},
+   :curriculum :woordenlijst}],
+ "iets"
+ [{:cat :noun,
+   :sem {:pred "something, anything"},
+   :curriculum :woordenlijst}],
+ "stad, de"
+ [{:cat :noun, :sem {:pred "town, city"}, :curriculum :woordenlijst}],
+ "houden van"
+ [{:cat :noun, :sem {:pred "to like"}, :curriculum :woordenlijst}],
+ "balkon, het"
+ [{:cat :noun, :sem {:pred "balcony"}, :curriculum :woordenlijst}],
+ "bijzonder"
+ [{:cat :noun, :sem {:pred "special "}, :curriculum :woordenlijst}],
+ "bedanken"
+ [{:cat :noun, :sem {:pred "to thank"}, :curriculum :woordenlijst}],
+ "dorp, het"
+ [{:cat :noun, :sem {:pred "village"}, :curriculum :woordenlijst}],
+ "passen bij / in"
+ [{:cat :noun,
+   :sem {:pred "to go / to match with - to go well in"},
+   :curriculum :woordenlijst}],
+ "kaart, de (toegangskaart, de)"
+ [{:cat :noun, :sem {:pred "ticket"}, :curriculum :woordenlijst}],
+ "luisteren"
+ [{:cat :noun, :sem {:pred "to listen"}, :curriculum :woordenlijst}],
+ "aanstaande"
+ [{:cat :noun, :sem {:pred "next"}, :curriculum :woordenlijst}],
+ "bellen"
+ [{:cat :noun,
+   :sem {:pred "to call, to phone"},
+   :curriculum :woordenlijst}],
+ "bioscoop, de"
+ [{:cat :noun, :sem {:pred "cinema"}, :curriculum :woordenlijst}],
+ "dessert, het"
+ [{:cat :noun, :sem {:pred "dessert"}, :curriculum :woordenlijst}],
+ "nacht, de"
+ [{:cat :noun, :sem {:pred "night"}, :curriculum :woordenlijst}],
+ "proost"
+ [{:cat :noun, :sem {:pred "cheers"}, :curriculum :woordenlijst}],
+ "halte, de (de bushalte)"
+ [{:cat :noun, :sem {:pred "(bus) stop"}, :curriculum :woordenlijst}],
+ "niemand"
+ [{:cat :noun,
+   :sem {:pred "nobody, no one "},
+   :curriculum :woordenlijst}],
+ "straat, de"
+ [{:cat :noun, :sem {:pred "street"}, :curriculum :woordenlijst}],
+ "laag" [{:cat :noun, :sem {:pred "low"}, :curriculum :woordenlijst}],
+ "ei, het (eieren)"
+ [{:cat :noun, :sem {:pred "egg(s)"}, :curriculum :woordenlijst}],
+ "praten (over)"
+ [{:cat :noun,
+   :sem {:pred "to talk (about)"},
+   :curriculum :woordenlijst}],
+ "geslacht, het"
+ [{:cat :noun, :sem {:pred "gender"}, :curriculum :woordenlijst}],
+ "kwart, het (tijd)"
+ [{:cat :noun, :sem {:pred "quarter "}, :curriculum :woordenlijst}],
+ "vanmiddag"
+ [{:cat :noun,
+   :sem {:pred "this afternoon"},
+   :curriculum :woordenlijst}],
+ "bushalte, de"
+ [{:cat :noun, :sem {:pred "bus stop"}, :curriculum :woordenlijst}],
+ "verder (verder zoeken)"
+ [{:cat :noun,
+   :sem {:pred "farther, further (to go on looking)"},
+   :curriculum :woordenlijst}],
+ "saldo, het"
+ [{:cat :noun,
+   :sem {:pred "balance (here: travel with pay)"},
+   :curriculum :woordenlijst}],
+ "pad, het (in de supermarkt)"
+ [{:cat :noun,
+   :sem {:pred "isle (in supermarkets)"},
+   :curriculum :woordenlijst}],
+ "antwoord, het"
+ [{:cat :noun, :sem {:pred "answer "}, :curriculum :woordenlijst}],
+ "mobiele telefoon, de"
+ [{:cat :noun,
+   :sem {:pred "mobile phone"},
+   :curriculum :woordenlijst}],
+ "vierkante meter, de"
+ [{:cat :noun,
+   :sem {:pred "square meter"},
+   :curriculum :woordenlijst}],
+ "moeder, de"
+ [{:cat :noun, :sem {:pred "mother"}, :curriculum :woordenlijst}],
+ "geen" [{:cat :noun, :sem {:pred "no"}, :curriculum :woordenlijst}]}

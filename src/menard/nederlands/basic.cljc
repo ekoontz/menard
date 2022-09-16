@@ -47,6 +47,5 @@
    (if create-model?
      (def model
        (ref (create "nederlands/models/basic"
+                    "basic"
                     compile-lexicon)))))
-
-

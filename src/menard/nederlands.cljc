@@ -19,7 +19,11 @@
             [menard.morphology :as m]
             [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.nederlands.tenses :as tenses]
+
+            ;; models
+            [menard.nederlands.basic :as basic]
             [menard.nederlands.complete :as complete]
+
             [menard.nesting]
             [menard.parse :as p]
             [menard.serialization :as s]
@@ -89,7 +93,8 @@
                            spec)
                ((fn [model]
                   (merge model
-                         {:spec spec
+                         {:name (-> spec :name)
+                          :spec spec
                           :lexicon-index-fn (model/lexicon-index-fn model)}))))))))))))
 
 #?(:clj
@@ -100,7 +105,7 @@
           (let [loaded (create-model-from-filesystem (:spec @model))]
             (dosync
              (ref-set model loaded))
-            (log/info (str "model update done.")))
+            (log/info (str "loaded model: " (:name @model))))
           (catch Exception e (do
                                (log/info (str "Failed to load model; the error was: '" (str e) "'. Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
      (if (nil? @model)
@@ -109,31 +114,41 @@
 
 #?(:clj
    (defn start-reload-loop []
-     (def last-file-check (atom 0))
+     (def last-file-checks {"complete" (atom 0)
+                            "basic" (atom 0)})
      (go-loop []
-       (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
-             general-file-infos (get-info-of-files "../resources" "*{.edn}")
-             most-recently-modified-info
-             (->>
-              (concat nl-file-infos
-                      general-file-infos)
-              (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
-              first)
 
-             last-file-modification
-             (:last-modified-time-ms most-recently-modified-info)
+       (let [models [complete/model basic/model]]
+         (doall
+          (->> models
+               (map (fn [model]
+                      (let [last-file-check (get last-file-checks (-> model deref :name))]
+                        (log/info (str "checking model: " (-> model deref :name) " for changes since: " @last-file-check))                
+                        ;; TODO: check model config files rather than <path> <filename-pattern>:
+                        (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
+                              general-file-infos (get-info-of-files "../resources" "*{.edn}")
+                              most-recently-modified-info
+                              (->>
+                               (concat nl-file-infos
+                                       general-file-infos)
+                               (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
+                               first)
+                              
+                              last-file-modification
+                              (:last-modified-time-ms most-recently-modified-info)
+                              model complete/model]
+                          (if (> last-file-modification @last-file-check)
+                            (do
+                              (log/info (str
+                                         "start-reload-loop with model: " (-> model deref :name) ": most recently modified file was: "
+                                         (:parent most-recently-modified-info) "/"
+                                         (:filename most-recently-modified-info)
+                                         " at: "
+                                         (:last-modified-time most-recently-modified-info)))
+                              (load-model model (> last-file-modification @last-file-check))))
+                          (swap! last-file-check
+                                 (fn [_] (current-ms))))))))))
 
-             model complete/model]
-         (if (> last-file-modification @last-file-check)
-           (log/info (str
-                      "start-reload-loop: "
-                      (:parent most-recently-modified-info) "/"
-                      (:filename most-recently-modified-info)
-                      " at: "
-                      (:last-modified-time most-recently-modified-info))))
-         (do (load-model model (> last-file-modification @last-file-check))
-             (swap! last-file-check
-                    (fn [_] (current-ms)))))
        (Thread/sleep 10000)
        (recur))))
 

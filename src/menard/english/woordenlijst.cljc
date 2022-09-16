@@ -14,9 +14,7 @@
 (when create-model?
   (def en-model
     (ref (create "english/models/woordenlijst"
-                 compile-lexicon)))
-  (def nl-model
-    (ref (create "nederlands/models/woordenlijst"
+                 "woordenlijst"
                  compile-lexicon))))
 
 (defn syntax-tree [tree model]
@@ -44,6 +42,3 @@
 
 (defn all-groupings [input-string model]
   (p/all-groupings input-string (fn [surface] (analyze surface model))))
-
-
-

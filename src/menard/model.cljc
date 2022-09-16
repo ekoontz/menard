@@ -264,6 +264,7 @@
 
 #?(:clj
    (defn create [path-to-model
+                 name
                  compile-lexicon-fn]
      (let [model-spec-filename 
            (str path-to-model ".edn")]
@@ -318,7 +319,7 @@
               model-spec)
         ((fn [model]
            (merge model
-                  {:name model-spec-filename
+                  {:name name
                    :spec model-spec
                    :lexicon-index-fn (lexicon-index-fn model)}))))))))
 

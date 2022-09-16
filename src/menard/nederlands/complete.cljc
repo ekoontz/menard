@@ -12,6 +12,7 @@
    (if create-model?
      (def model
        (ref (create "nederlands/models/complete"
+                    "complete"
                     compile-lexicon)))))
 
 

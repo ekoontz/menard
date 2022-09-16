@@ -7,5 +7,6 @@
 (if create-model?
   (def model
     (ref (create "nederlands/models/woordenlijst"
+                 "woordenlijst"
                  compile-lexicon))))
 

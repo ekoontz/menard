@@ -105,7 +105,7 @@
         (apply-rules-to-lexicon rules false))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
-  (log/debug (str "apply-to-every-lexeme with lexicon: " (type lexicon)))
+  (log/debug (str "apply-to-every-lexeme with lexicon with: " (count keys) " key" (if (not (= 1 (count keys))) "s")))
   (if (not (map? lexicon))
     (exception (str "input lexeme is not a map; it is: " (vec lexicon))))
   (let [result 
@@ -152,7 +152,7 @@
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
   [surface]
-  (log/debug (str "matching-lexemes for surface: '" surface "' with lexicon: " (type lexicon)))
+  (log/debug (str "matching-lexemes for surface: '" surface "' with lexicon with: " (count keys) " key" (if (not (= 1 (count keys))) "s")))
   (let [;; Apply morphological rules against surface to find a set of hypotheses
         ;; about the surface form. Each morphological rule has a :p key,
         ;; which we used to turn the surface form in to the canonical form.

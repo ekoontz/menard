@@ -14,7 +14,6 @@
         (dissoc :en)
         (dissoc :nl)
         (assoc :canonical nl)
-        (assoc :cat :noun)
         (assoc :sem {:pred en})
         (assoc :curriculum :woordenlijst))))
 
@@ -31,6 +30,29 @@
 (defn write-woordenlijst []
   (let [dutch-items
         (->> woordenlijst
+             (map (fn [lexeme]
+                    (let [nl (:nl lexeme)]
+                      (cond (re-find #"., de$" nl)
+                            (->
+                             lexeme
+                             (assoc :nl (clojure.string/replace
+                                         nl
+                                         #"^(.*), de$" "$1"))
+                             (assoc :cat :noun))
+
+                            (re-find #"., het$" nl)
+                            (->
+                             lexeme
+                             (assoc :nl (clojure.string/replace
+                                         nl
+                                         #"^(.*), het$" "$1"))
+                             (assoc :agr {:gender :neuter})
+                             (assoc :cat :noun))
+                            
+                            ;; throw away lexemes that don't match
+                            ;; any rules
+                            :else nil))))
+             (filter seq)
              (map make-dutch)
              vec)
         english-items

@@ -21,7 +21,9 @@
    [reitit.ring :as reitit-ring]
    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
    [ring.adapter.jetty :refer [run-jetty]]
-   [clojure.core.async :refer [go-loop]])
+   [clojure.core.async :refer [go-loop]]
+   [java-time :as jt])
+   
   (:gen-class))
 
 (defonce origin
@@ -215,17 +217,13 @@
 
 (defn start-reload-loop []
   (log/info (str "**** server/start-reload-loop ****"))
-  ;; TODO: move into model itself.
-  (def last-file-checks {"complete" (atom 0)
-                         "basic" (atom 0)})
   (go-loop []
-
     (let [models [nl-complete/model nl-basic/model]]
       (doall
        (->> models
             (map (fn [model]
-                   (let [last-file-check (get last-file-checks (-> model deref :name))]
-                     (log/info (str "checking model: " (-> model deref :name) " for changes since: " @last-file-check))                
+                   (let [last-file-check (get (-> model deref) :last-checked 0)]
+                     (log/info (str "checking model: " (-> model deref :name) " for changes since: " (jt/java-date last-file-check)))
                      ;; TODO: check model config files rather than <path> <filename-pattern>:
                      (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
                            general-file-infos (get-info-of-files "../resources" "*{.edn}")
@@ -238,7 +236,7 @@
                            
                            last-file-modification
                            (:last-modified-time-ms most-recently-modified-info)]
-                       (if (> last-file-modification @last-file-check)
+                       (when (> last-file-modification last-file-check)
                          (do
                            (log/info (str
                                       "start-reload-loop with model: " (-> model deref :name) ": most recently modified file was: "
@@ -248,10 +246,8 @@
                                       (:last-modified-time most-recently-modified-info)))
                            (dosync (ref-set model
                                             (merge
-                                             (load-model model (> last-file-modification @last-file-check))                                             
-                                             {:last-checked @last-file-check})))))
-                       (swap! last-file-check
-                              (fn [_] (current-ms))))))))))
+                                             (load-model model true)
+                                             {:last-checked last-file-modification}))))))))))))
 
     (Thread/sleep 10000)
     (recur)))

@@ -1,5 +1,6 @@
 (ns menard.test.nederlands
-  (:require [menard.nederlands :as nl :refer [analyze expressions generate load-model morph parse syntax-tree]]
+  (:require [menard.model :refer [load-model]]
+            [menard.nederlands :as nl :refer [analyze expressions generate morph parse syntax-tree]]
             [menard.nederlands.basic :as basic]
             [menard.nederlands.complete :as complete]            
             [menard.nederlands.woordenlijst :as woordenlijst]

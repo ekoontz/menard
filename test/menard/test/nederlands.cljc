@@ -469,6 +469,19 @@
             first)
        "[np:2 .de +katten]")))
 
-   
+(deftest woordenlijst-generate
+  (let [spec {:cat :noun,
+              :agr {:number :plur}
+              :rule "np:2",
+              :phrasal? true,
+              :subcat [],
+              :sem {:quant :the
+                    :pred "cold cuts"}}]
+    (is (not (nil?
+              (-> spec
+                  (menard.nederlands/generate @menard.nederlands.woordenlijst/model)))))))
+
+
+
 
 

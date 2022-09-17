@@ -97,7 +97,7 @@
                (if (empty source-expression)
 
                  ;; 1. was not able to generate an english expression from the spec:
-                 (log/warn (str "generate-nl-and-en: no english expression could be generated for spec: " (-> target-expression tr/nl-to-en-spec)))
+                 (log/warn (str "generate-nl-and-en: no english expression could be generated for spec: " (-> target-expression tr/nl-to-en-spec strip-refs)))
                
 
                  ;; 2. was able to generate an english expression, but

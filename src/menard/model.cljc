@@ -389,7 +389,6 @@
       (if (empty? (:menard-dir env))
         (exception (str "you must set MENARD_DIR in your environment.")))
       (let [menard-dir (str (:menard-dir env) "/")]
-        (log/info (str "FUCK MENARD-DIR: " menard-dir))
         (log/debug (str "loading ug.."))
         (menard.ug/load-from-file)
         (log/debug (str "loading nesting.."))

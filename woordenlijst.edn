@@ -303,7 +303,7 @@
  {:nl "vrij (vrij klein)" :en "rather (rather small)"}
  {:nl "zelfs" :en "even"}
  {:nl "zonder" :en "without"}
- {:nl "aantal, het" :en "the number"}
+ {:nl "aantal, het" :en "number"}
  {:nl "algemeen" :en "all"}
  {:nl "bedoelen" :en "to mean"}
  {:nl "betalen" :en "to pay"}
@@ -358,7 +358,7 @@
  {:nl "provincie, de" :en "region, province"}
  {:nl "boek, het" :en "book"}
  {:nl "computer, de" :en "computer"}
- {:nl "eind, het" :en "the end"}
+ {:nl "eind, het" :en "end"}
  {:nl "hoezo" :en "what do you mean"}
  {:nl "kaart, de (plattegrond, de)" :en "(street) map"}
  {:nl "lift, de" :en "lift"}
@@ -394,7 +394,7 @@
  {:nl "drukken" :en "to press, push"}
  {:nl "feestdag, de" :en "public holiday"}
  {:nl "fout, de" :en "mistake, error, fault"}
- {:nl "heel (de hele dag)" :en "the whole day"}
+ {:nl "heel" :note "(the whole day)" :en "whole"}
  {:nl "kaart, de (toegangskaart, de)" :en "ticket"}
  {:nl "klas, de (school)" :en "grade, class"}
  {:nl "reis (enkele reis)" :en "trip (single / one-way ticket) "}
@@ -630,7 +630,7 @@
  {:nl "stropdas, de" :en "tie"}
  {:nl "eruitzien " :en "to look "}
  {:nl "pauze, de " :en "break"}
- {:nl "bon, de" :en "the receipt"}
+ {:nl "bon, de" :en "receipt"}
  {:nl "eraf zijn (er is een knoop af)" :en "a button has come off"}
  {:nl "rits, de" :en "zip"}
  {:nl "tegoedbon, de" :en "credit note"}
@@ -665,7 +665,7 @@
  {:nl "om een uur of (twee)" :en "about (two) o' clock"}
  {:nl "voetbal, het" :en "football"}
  {:nl "bang voor" :en "afraid of"}
- {:nl "openingstijden, de" :en "opening hours"}
+ {:nl "openingstijd, de" :en "opening time"}
  {:nl "spannend" :en "exciting"}
 
 ]

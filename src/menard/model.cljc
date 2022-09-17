@@ -1,6 +1,7 @@
 (ns menard.model
   (:refer-clojure :exclude [load])
   (:require [babashka.fs :as fs]
+            [config.core :refer [env]]
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             [clojure.string :as string]
@@ -10,8 +11,13 @@
             [menard.exception :refer [exception]]
             [menard.grammar :as grammar]
             [menard.lexiconfn :as l]
-            [menard.morphology :as m]))
+            [menard.morphology :as m]
+            [menard.nederlands.tenses]
+            [menard.nesting]
+            [menard.subcat]
+            [menard.ug]))
 
+;; TODO: use path/use-path
 #?(:clj
    (defn use-path [path]
      (if (System/getenv "MODEL_URL")
@@ -20,6 +26,14 @@
 
 #?(:clj
    (declare fill-lexicon-indexes))
+
+#?(:clj
+   (defn foo2 []
+     47))
+
+#?(:clj
+   (defn foo []
+     46))
 
 #?(:clj
    (defn load [language-name lexical-rules-fn lexicon-fn
@@ -323,7 +337,116 @@
                    :spec model-spec
                    :lexicon-index-fn (lexicon-index-fn model)}))))))))
 
+(def basic-spec
+  {:name "basic"
+ :language "nl"
+ :morphology {:path "nederlands/morphology"
+              :sources ["adjectives.edn"
+                        "misc.edn"
+                        "nouns.edn"
+                        "verbs.edn"
+                        "verbs/simple-past.edn"]}
+ :grammar "nederlands/grammar.edn"
+ :lexicon {:path "nederlands/lexicon"
+           :rules "rules.edn"
+           :sources {"adjectives.edn"
+                     {:u
+                      {:cat :adjective}}
+                     "adverbs.edn"
+                     {:u {:cat :adverb}}
+                     "determiners.edn"
+                     {:u {:cat :det}}
+                     "exclamations.edn"
+                     {:u {:cat :exclamation}}
+                     "intensifiers.edn"
+                     {:u {:cat :intensifier}}
+                     "misc.edn"
+                     {:u {}}
+                     "nouns.edn"
+                     {:u {:cat :noun}}
+                     "numbers.edn"
+                     {:u {:cat :adjective
+                          :sem {:number? true}}}
+                     "prepositions.edn"
+                     {:u {:cat :prep}}
+                     "pronouns.edn"
+                     {:u {:cat :noun :pronoun? true}}
+                     "propernouns.edn"
+                     {:u {:cat :noun :propernoun? true}}
+                     "verbs.edn"
+                     {:u {:cat :verb}
+                      :f 'menard.nederlands.compile/mark-irregular-verbs}}
+           :filter-fn 'menard.nederlands.basic/basic-filter}})
 
 
+#?(:clj
+   (defn create-model-from-filesystem [spec compile-lexicon-fn & [use-env]]
+    (if (nil? spec)
+      (exception (str "create-model-from-filesystem: spec was nil.")))
+    (let [env (or use-env env)]
+      (log/info (str "create-model-from-filesystem: menard-dir env: " (:menard-dir env)))
+      (log/info (str "create-model-from-filesystem: spec: " spec))
+      (if (empty? (:menard-dir env))
+        (exception (str "you must set MENARD_DIR in your environment.")))
+      (let [menard-dir (str (:menard-dir env) "/")]
+        (log/info (str "FUCK MENARD-DIR: " menard-dir))
+        (log/debug (str "loading ug.."))
+        (menard.ug/load-from-file)
+        (log/debug (str "loading nesting.."))
+        (menard.nesting/load-from-file)
+        (log/debug (str "loading subcat.."))
+        (menard.subcat/load-from-file)
+        (log/debug (str "loading grammar.."))
+        (let [grammar (load-grammar-from-file (str "file://" menard-dir "resources/"
+                                                   (-> spec :grammar)))]
+          (log/debug (str "loaded " (count grammar) " grammar rules."))
+          (log/debug (str "loading morphology.."))
+          (let [morphology (load-morphology (str "file://" menard-dir "resources/"
+                                                 (-> spec :morphology :path) "/")
+                                            (-> spec :morphology :sources))]
+            (log/debug (str "loaded " (count morphology) " morphological rules."))
+            (log/debug (str "loading lexical rules.."))
+            (let [lexical-rules (-> (str "file://" menard-dir "resources/"
+                                         (-> spec :lexicon :path) "/"
+                                         (-> spec :lexicon :rules))
+                                    l/read-and-eval)]
+              (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
+              (log/info (str "create-model-from-filesystem: loading lexicon with spec: " spec))
+              (let [lexicon (compile-lexicon-fn
+                             (load-lexicon lexical-rules
+                                           spec
+                                           (str "file://" menard-dir "resources/"
+                                                (-> spec :lexicon :path)))
+                             morphology
+                             (fn [x] x))]
+                (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
+                (log/debug (str "done loading model."))
 
-     
+                (->
+                 (load "nl"
+                       (fn [] lexical-rules)
+                       (fn [_] lexicon)
+                       (fn [] morphology)
+                       (fn [] grammar)
+                       spec)
+                 ((fn [model]
+                    (merge model
+                           {:name (-> spec :name)
+                            :spec spec
+                            :lexicon-index-fn (lexicon-index-fn model)}))))))))))))
+
+#?(:clj
+   (defn load-model [model & [reload?]]
+      (when (or (nil? @model) (true? reload?))
+        (try
+          (log/info (str (when @model "re") "loading model: " (:name @model)))
+          (let [loaded (create-model-from-filesystem (:spec @model))]
+            (dosync
+             (ref-set model loaded))
+            (log/info (str "loaded model: " (:name @model))))
+          (catch Exception e (do
+                               (log/info (str "Failed to load model; the error was: '" (str e) "'. Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
+     (if (nil? @model)
+       (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
+     @model))
+

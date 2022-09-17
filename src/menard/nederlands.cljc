@@ -15,7 +15,8 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [menard.model :as model :refer [current-ms
-                                            get-info-of-files]]
+                                            get-info-of-files
+                                            load-model]]
             [menard.morphology :as m]
             [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.nederlands.tenses :as tenses]
@@ -42,115 +43,6 @@
 ;;(def log-these-rules #{"conj-outer"})
 (def log-these-rules #{})
 (def truncate? true)
-
-#?(:clj
-(defn create-model-from-filesystem [spec & [use-env]]
-  (if (nil? spec)
-    (exception (str "create-model-from-filesystem: spec was nil.")))
-  (let [env (or use-env env)]
-    (log/info (str "create-model-from-filesystem: menard-dir env: " (:menard-dir env)))
-    (log/info (str "create-model-from-filesystem: spec: " spec))
-    (if (empty? (:menard-dir env))
-      (exception (str "you must set MENARD_DIR in your environment.")))
-    (let [menard-dir (str (:menard-dir env) "/")]
-      (log/debug (str "loading ug.."))
-      (menard.ug/load-from-file)
-      (log/debug (str "loading nesting.."))
-      (menard.nesting/load-from-file)
-      (log/debug (str "loading subcat.."))
-      (menard.subcat/load-from-file)
-      (log/debug (str "loading grammar.."))
-      (let [grammar (model/load-grammar-from-file (str "file://" menard-dir "resources/"
-                                                       (-> spec :grammar)))]
-        (log/debug (str "loaded " (count grammar) " grammar rules."))
-        (log/debug (str "loading morphology.."))
-        (let [morphology (model/load-morphology (str "file://" menard-dir "resources/"
-                                                     (-> spec :morphology :path) "/")
-                                                (-> spec :morphology :sources))]
-          (log/debug (str "loaded " (count morphology) " morphological rules."))
-          (log/debug (str "loading lexical rules.."))
-          (let [lexical-rules (-> (str "file://" menard-dir "resources/"
-                                       (-> spec :lexicon :path) "/"
-                                       (-> spec :lexicon :rules))
-                                  l/read-and-eval)]
-            (log/debug (str "loaded " (count lexical-rules) " lexical rules."))
-            (log/info (str "create-model-from-filesystem: loading lexicon with spec: " spec))
-            (let [lexicon (compile-lexicon
-                           (model/load-lexicon lexical-rules
-                                               spec
-                                               (str "file://" menard-dir "resources/"
-                                                    (-> spec :lexicon :path)))
-                           morphology
-                           (fn [x] x))]
-              (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))
-              (log/debug (str "done loading model."))
-              (->
-               (model/load "nl"
-                           (fn [] lexical-rules)
-                           (fn [_] lexicon)
-                           (fn [] morphology)
-                           (fn [] grammar)
-                           spec)
-               ((fn [model]
-                  (merge model
-                         {:name (-> spec :name)
-                          :spec spec
-                          :lexicon-index-fn (model/lexicon-index-fn model)}))))))))))))
-
-#?(:clj
-   (defn load-model [model & [reload?]]
-      (when (or (nil? @model) (true? reload?))
-        (try
-          (log/info (str (when @model "re") "loading model: " (:name @model)))
-          (let [loaded (create-model-from-filesystem (:spec @model))]
-            (dosync
-             (ref-set model loaded))
-            (log/info (str "loaded model: " (:name @model))))
-          (catch Exception e (do
-                               (log/info (str "Failed to load model; the error was: '" (str e) "'. Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
-     (if (nil? @model)
-       (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
-     @model))
-
-#?(:clj
-   (defn start-reload-loop []
-     (def last-file-checks {"complete" (atom 0)
-                            "basic" (atom 0)})
-     (go-loop []
-
-       (let [models [complete/model basic/model]]
-         (doall
-          (->> models
-               (map (fn [model]
-                      (let [last-file-check (get last-file-checks (-> model deref :name))]
-                        (log/info (str "checking model: " (-> model deref :name) " for changes since: " @last-file-check))                
-                        ;; TODO: check model config files rather than <path> <filename-pattern>:
-                        (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
-                              general-file-infos (get-info-of-files "../resources" "*{.edn}")
-                              most-recently-modified-info
-                              (->>
-                               (concat nl-file-infos
-                                       general-file-infos)
-                               (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
-                               first)
-                              
-                              last-file-modification
-                              (:last-modified-time-ms most-recently-modified-info)
-                              model complete/model]
-                          (if (> last-file-modification @last-file-check)
-                            (do
-                              (log/info (str
-                                         "start-reload-loop with model: " (-> model deref :name) ": most recently modified file was: "
-                                         (:parent most-recently-modified-info) "/"
-                                         (:filename most-recently-modified-info)
-                                         " at: "
-                                         (:last-modified-time most-recently-modified-info)))
-                              (load-model model (> last-file-modification @last-file-check))))
-                          (swap! last-file-check
-                                 (fn [_] (current-ms))))))))))
-
-       (Thread/sleep 10000)
-       (recur))))
 
 #?(:clj
    (defn write-compiled-lexicon []

@@ -4,7 +4,7 @@
    #?(:clj [clojure.java.io :as io :refer [resource]])
    [menard.ug :as ug]
    [menard.lexiconfn :refer [read-and-eval]]
-   [menard.model :refer [use-path]]
+   [menard.path :refer [use-path]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])))
 

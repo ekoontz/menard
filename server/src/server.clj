@@ -2,18 +2,26 @@
   (:require
    [clojure.tools.logging :as log]
    [clojure.data.json :as json :refer [write-str]]
+   [clojure.java.io :as io :refer [resource]]
    [config.core :refer [env]]
+   [menard.exception :refer [exception]]
    [menard.handlers :as handlers]
    [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
+   [menard.lexiconfn :as l]
+   [menard.model :as model :refer [create-model-from-filesystem
+                                   current-ms
+                                   get-info-of-files]]
    [menard.nederlands.basic :as nl-basic]
+   [menard.nederlands.compile :refer [compile-lexicon]]
    [menard.nederlands.complete :as nl-complete]
    [menard.nederlands.woordenlijst :as nl-woordenlijst]
    [nrepl.server :refer [start-server stop-server]]
    [reitit.ring :as reitit-ring]
    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-   [ring.adapter.jetty :refer [run-jetty]])
+   [ring.adapter.jetty :refer [run-jetty]]
+   [clojure.core.async :refer [go-loop]])
   (:gen-class))
 
 (defonce origin
@@ -190,4 +198,61 @@
 (defn -main [& args]
   (let [port (or (env :port) 3000)]
     (run-jetty app {:port port :join? false})))
+
+(defn load-model [model & [reload?]]
+  (when (or (nil? @model) (true? reload?))
+    (try
+      (log/info (str (when @model "re") "loading model: " (:name @model)))
+      (let [loaded (create-model-from-filesystem compile-lexicon (:spec @model))]
+        (dosync
+         (ref-set model loaded))
+        (log/info (str "loaded model: " (:name @model))))
+      (catch Exception e (do
+                           (log/info (str "Failed to load model; the error was: '" (str e) "'. Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
+  (if (nil? @model)
+    (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
+  @model)
+
+(defn start-reload-loop []
+  (log/info (str "**** server/start-reload-loop ****"))
+  ;; TODO: move into model itself.
+  (def last-file-checks {"complete" (atom 0)
+                         "basic" (atom 0)})
+  (go-loop []
+
+    (let [models [nl-complete/model nl-basic/model]]
+      (doall
+       (->> models
+            (map (fn [model]
+                   (let [last-file-check (get last-file-checks (-> model deref :name))]
+                     (log/info (str "checking model: " (-> model deref :name) " for changes since: " @last-file-check))                
+                     ;; TODO: check model config files rather than <path> <filename-pattern>:
+                     (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
+                           general-file-infos (get-info-of-files "../resources" "*{.edn}")
+                           most-recently-modified-info
+                           (->>
+                            (concat nl-file-infos
+                                    general-file-infos)
+                            (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
+                            first)
+                           
+                           last-file-modification
+                           (:last-modified-time-ms most-recently-modified-info)]
+                       (if (> last-file-modification @last-file-check)
+                         (do
+                           (log/info (str
+                                      "start-reload-loop with model: " (-> model deref :name) ": most recently modified file was: "
+                                      (:parent most-recently-modified-info) "/"
+                                      (:filename most-recently-modified-info)
+                                      " at: "
+                                      (:last-modified-time most-recently-modified-info)))
+                           (dosync (ref-set model
+                                            (merge
+                                             (load-model model (> last-file-modification @last-file-check))                                             
+                                             {:last-checked @last-file-check})))))
+                       (swap! last-file-check
+                              (fn [_] (current-ms))))))))))
+
+    (Thread/sleep 10000)
+    (recur)))
 

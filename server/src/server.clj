@@ -203,7 +203,7 @@
   (when (or (nil? @model) (true? reload?))
     (try
       (log/info (str (when @model "re") "loading model: " (:name @model)))
-      (let [loaded (create-model-from-filesystem compile-lexicon (:spec @model))]
+      (let [loaded (create-model-from-filesystem (:spec @model) compile-lexicon)]
         (dosync
          (ref-set model loaded))
         (log/info (str "loaded model: " (:name @model))))

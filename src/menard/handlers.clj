@@ -77,24 +77,35 @@
              (remove empty?) ;; remove failed attempts
              (take 1)
              first)
-        debug (log/info (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
-                                                                                   dag-to-string)))
+        debug (log/debug (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
+                                                                                    dag-to-string)))
 
         ;; 3. get the semantics of the source expression
         source-parses (binding [menard.morphology/show-notes? false
                                 menard.parse/take-this-many 100]
-                        (log/info (str "parsing source-expression: "
-                                       (-> source-expression
-                                           en/morph)))
+                        (log/debug (str "parsing source-expression: "
+                                        (-> source-expression
+                                            en/morph)))
                         (-> source-expression
                             en/morph
                             (en/parse source-model)))
-        debug (log/info (str "source parses:"
-                             (->> source-parses
-                                  (map en/syntax-tree)
-                                  (clojure.string/join ","))))
+        debug (log/debug (str "source parses:"
+                              (->> source-parses
+                                   (map en/syntax-tree)
+                                   (clojure.string/join ","))))
         warn (if (empty? source-parses)
-               (log/warn (str "generate-nl-and-en: no source-parses found!")))
+               (if (empty source-expression)
+
+                 ;; 1. was not able to generate an english expression from the spec:
+                 (log/warn (str "generate-nl-and-en: no english expression could be generated for spec: " (-> target-expression tr/nl-to-en-spec)))
+               
+
+                 ;; 2. was able to generate an english expression, but
+                 ;; couldn't parse what was generated:
+                 (log/warn (str "generate-nl-and-en: no source (english) parses found for: "
+                              "'"
+                              (-> source-expression en/morph)
+                              "'"))))
         source-semantics (->> source-parses
                               (map #(u/get-in % [:sem])))
         debug (log/debug (str "source semantics: "
@@ -102,12 +113,12 @@
                                    (map dag-to-string)
                                    (clojure.string/join ","))))
         debug (if (= :fail source-semantics)
-                (log/info (str "fail-paths: "
-                               (->> source-semantics
-                                    (map (fn [source-sem]
-                                           (dag_unify.diagnostics/fail-path source-sem
-                                                                            target-semantics)))
-                                    (clojure.string/join ",")))))
+                (log/debug (str "fail-paths: "
+                                (->> source-semantics
+                                     (map (fn [source-sem]
+                                            (dag_unify.diagnostics/fail-path source-sem
+                                                                             target-semantics)))
+                                     (clojure.string/join ",")))))
         ;; filter source-semantics to find subset that is compatible with target semantics:
         source-semantics (->> source-semantics
                               (remove #(= :fail (u/unify % target-semantics))))]
@@ -191,8 +202,8 @@
   (log/debug (str "generate-en spec: " spec))
   (let [spec (-> spec read-string dag_unify.serialization/deserialize)
         phrasal? (u/get-in spec [:phrasal?] true)
-        debug (log/info (str "generate-en: spec: " spec "; model name: "
-                             (-> model :name)))
+        debug (log/debug (str "generate-en: spec: " spec "; model name: "
+                              (-> model :name)))
         result (->> (repeatedly #(-> spec
                                      (en/generate model)))
                     (take 2)

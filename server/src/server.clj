@@ -216,14 +216,13 @@
   @model)
 
 (defn start-reload-loop []
-  (log/info (str "**** server/start-reload-loop ****"))
   (go-loop []
     (let [models [nl-complete/model nl-basic/model]]
       (doall
        (->> models
             (map (fn [model]
                    (let [last-file-check (get (-> model deref) :last-checked 0)]
-                     (log/info (str "checking model: " (-> model deref :name) " for changes since: " (jt/java-date last-file-check)))
+                     (log/info (str "checking model last modified at: "  (jt/java-date last-file-check) " with model name: " (-> model deref :name) " for changes.."))
                      ;; TODO: check model config files rather than <path> <filename-pattern>:
                      (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
                            general-file-infos (get-info-of-files "../resources" "*{.edn}")
@@ -239,7 +238,7 @@
                        (when (> last-file-modification last-file-check)
                          (do
                            (log/info (str
-                                      "start-reload-loop with model: " (-> model deref :name) ": most recently modified file was: "
+                                      "start-reload-loop: reloading model: " (-> model deref :name) ": most recently modified file was: "
                                       (:parent most-recently-modified-info) "/"
                                       (:filename most-recently-modified-info)
                                       " at: "

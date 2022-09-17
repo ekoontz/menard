@@ -36,7 +36,7 @@
  [{:cat :noun, :sem {:pred "cake, pie"}, :curriculum :woordenlijst}],
  "morgen"
  [{:cat :noun, :sem {:pred "morning"}, :curriculum :woordenlijst}],
- "lied(je)"
+ "lied"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "song"},
@@ -166,7 +166,7 @@
  "boot" [{:cat :noun, :sem {:pred "boat"}, :curriculum :woordenlijst}],
  "buurvrouw"
  [{:cat :noun,
-   :sem {:pred "neighbour (female)"},
+   :sem {:pred "female neighbour"},
    :curriculum :woordenlijst}],
  "hagelslag"
  [{:cat :noun,
@@ -175,7 +175,7 @@
  "collega"
  [{:cat :noun, :sem {:pred "colleague"}, :curriculum :woordenlijst}],
  "vakantie"
- [{:cat :noun, :sem {:pred "holiday(s)"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "holiday"}, :curriculum :woordenlijst}],
  "water"
  [{:agr {:gender :neuter},
    :cat :noun,
@@ -228,7 +228,7 @@
  "saldo"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "balance (here: travel with pay)"},
+   :sem {:pred "account balance"},
    :curriculum :woordenlijst}],
  "ober"
  [{:cat :noun, :sem {:pred "waiter"}, :curriculum :woordenlijst}],
@@ -291,7 +291,7 @@
  "zoon" [{:cat :noun, :sem {:pred "son"}, :curriculum :woordenlijst}],
  "buurman"
  [{:cat :noun,
-   :sem {:pred "neighbour (male)"},
+   :sem {:pred "male neighbour"},
    :curriculum :woordenlijst}],
  "computer"
  [{:cat :noun, :sem {:pred "computer"}, :curriculum :woordenlijst}],
@@ -370,14 +370,14 @@
  "tijd" [{:cat :noun, :sem {:pred "time"}, :curriculum :woordenlijst}],
  "pond"
  [{:cat :noun,
-   :sem {:pred "pound (500 grammes)"},
+   :sem {:pred "pound"},
    :curriculum :woordenlijst}],
  "man"
  [{:cat :noun,
-   :sem {:pred "husband (man)"},
+   :sem {:pred "husband"},
    :curriculum :woordenlijst}],
  "ochtend"
- [{:cat :noun, :sem {:pred "the morning"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "morning"}, :curriculum :woordenlijst}],
  "auto" [{:cat :noun, :sem {:pred "car"}, :curriculum :woordenlijst}],
  "advies"
  [{:agr {:gender :neuter},
@@ -484,7 +484,7 @@
  "gezin"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "family (parents and children)"},
+   :sem {:pred "family"},
    :curriculum :woordenlijst}],
  "gerecht"
  [{:agr {:gender :neuter},
@@ -632,7 +632,7 @@
  [{:cat :noun,
    :sem {:pred "(place of) residence"},
    :curriculum :woordenlijst}],
- "bier(tje)"
+ "bier"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "beer"},
@@ -767,4 +767,7 @@
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "balcony"},
-   :curriculum :woordenlijst}]}
+   :curriculum :woordenlijst}]
+ "ei" [{:cat :noun, :sem {:pred "egg"}}]}
+
+

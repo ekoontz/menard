@@ -164,11 +164,10 @@
  "then, than" [{:cat :noun, :sem {:pred "then, than"}}],
  "to come around" [{:cat :noun, :sem {:pred "to come around"}}],
  "in love" [{:cat :noun, :sem {:pred "in love"}}],
- "egg(s)" [{:cat :noun, :sem {:pred "egg(s)"}}],
+ "egg" [{:cat :noun, :sem {:pred "egg"}}],
  "shower" [{:cat :noun, :sem {:pred "shower"}}],
- "gram(me)" [{:cat :noun, :sem {:pred "gram(me)"}}],
- "balance (here: travel with pay)"
- [{:cat :noun, :sem {:pred "balance (here: travel with pay)"}}],
+ "account balance"
+ [{:cat :noun, :sem {:pred "account balance"}}],
  "long" [{:cat :noun, :sem {:pred "long"}}],
  "farther, further (to go on looking)"
  [{:cat :noun, :sem {:pred "farther, further (to go on looking)"}}],
@@ -280,7 +279,6 @@
  "to call, to phone" [{:cat :noun, :sem {:pred "to call, to phone"}}],
  "short" [{:cat :noun, :sem {:pred "short"}}],
  "again" [{:cat :noun, :sem {:pred "again"}}],
- "the morning" [{:cat :noun, :sem {:pred "the morning"}}],
  "to sleep" [{:cat :noun, :sem {:pred "to sleep"}}],
  "beautiful, wonderful"
  [{:cat :noun, :sem {:pred "beautiful, wonderful"}}],
@@ -342,7 +340,7 @@
  [{:cat :noun, :sem {:pred "to thank (thank you)"}}],
  "to end" [{:cat :noun, :sem {:pred "to end"}}],
  "unfortunately" [{:cat :noun, :sem {:pred "unfortunately"}}],
- "husband (man)" [{:cat :noun, :sem {:pred "husband (man)"}}],
+ "husband" [{:cat :noun, :sem {:pred "husband"}}],
  "meat" [{:cat :noun, :sem {:pred "meat"}}],
  "salami" [{:cat :noun, :sem {:pred "salami"}}],
  "entrance" [{:cat :noun, :sem {:pred "entrance"}}],
@@ -404,8 +402,8 @@
  "to leave" [{:cat :noun, :sem {:pred "to leave"}}],
  "question" [{:cat :noun, :sem {:pred "question"}}],
  "to get " [{:cat :noun, :sem {:pred "to get "}}],
- "neighbour (female)"
- [{:cat :noun, :sem {:pred "neighbour (female)"}}],
+ "female neighbour"
+ [{:cat :noun, :sem {:pred "female neighbour"}}],
  "subway, tube, underground"
  [{:cat :noun, :sem {:pred "subway, tube, underground"}}],
  "family doctor, general practitioner"
@@ -593,8 +591,8 @@
  "beautiful, nice" [{:cat :noun, :sem {:pred "beautiful, nice"}}],
  "a button has come off"
  [{:cat :noun, :sem {:pred "a button has come off"}}],
- "pound (500 grammes)"
- [{:cat :noun, :sem {:pred "pound (500 grammes)"}}],
+ "pound"
+ [{:cat :noun, :sem {:pred "pound"}}],
  "hair" [{:cat :noun, :sem {:pred "hair"}}],
  "to go in(to)" [{:cat :noun, :sem {:pred "to go in(to)"}}],
  "information" [{:cat :noun, :sem {:pred "information"}}],

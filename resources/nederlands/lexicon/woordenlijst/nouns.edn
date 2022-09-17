@@ -187,7 +187,7 @@
    :cat :noun,
    :sem {:pred "screen"},
    :curriculum :woordenlijst}],
- "rits" [{:cat :noun, :sem {:pred "zip"}, :curriculum :woordenlijst}],
+ "rits" [{:cat :noun, :sem {:pred "zipper"}, :curriculum :woordenlijst}],
  "gat"
  [{:agr {:gender :neuter},
    :cat :noun,

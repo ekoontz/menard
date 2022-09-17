@@ -702,7 +702,7 @@
  "to find" [{:cat :noun, :sem {:pred "to find"}}],
  "get in / on" [{:cat :noun, :sem {:pred "get in / on"}}],
  "end" [{:cat :noun, :sem {:pred "end"}}],
- "zip" [{:cat :noun, :sem {:pred "zip"}}],
+ "zipper" [{:cat :noun, :sem {:pred "zipper"}}],
  "to choose" [{:cat :noun, :sem {:pred "to choose"}}],
  "son" [{:cat :noun, :sem {:pred "son"}}],
  "at" [{:cat :noun, :sem {:pred "at"}}],

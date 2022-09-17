@@ -109,7 +109,7 @@
  "eind"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "the end"},
+   :sem {:pred "end"},
    :curriculum :woordenlijst}],
  "sperzieboon"
  [{:cat :noun,
@@ -157,10 +157,6 @@
    :sem {:pred "number"},
    :curriculum :woordenlijst}],
  "lift" [{:cat :noun, :sem {:pred "lift"}, :curriculum :woordenlijst}],
- "openingstijden"
- [{:cat :noun,
-   :sem {:pred "opening hours"},
-   :curriculum :woordenlijst}],
  "tomaat"
  [{:cat :noun, :sem {:pred "tomato"}, :curriculum :woordenlijst}],
  "meter"
@@ -211,7 +207,7 @@
  "aantal"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "the number"},
+   :sem {:pred "number"},
    :curriculum :woordenlijst}],
  "land"
  [{:agr {:gender :neuter},
@@ -287,6 +283,10 @@
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "money"},
+   :curriculum :woordenlijst}],
+ "openingstijd"
+ [{:cat :noun,
+   :sem {:pred "opening time"},
    :curriculum :woordenlijst}],
  "zoon" [{:cat :noun, :sem {:pred "son"}, :curriculum :woordenlijst}],
  "buurman"
@@ -548,7 +548,10 @@
  "aardappel"
  [{:cat :noun, :sem {:pred "potato"}, :curriculum :woordenlijst}],
  "vleeswaren"
- [{:cat :noun, :sem {:pred "cold cuts"}, :curriculum :woordenlijst}],
+ [{:agr {:number :plur},
+   :cat :noun,
+   :sem {:pred "cold cuts"},
+   :curriculum :woordenlijst}],
  "traditie"
  [{:cat :noun, :sem {:pred "tradition"}, :curriculum :woordenlijst}],
  "plezier"
@@ -582,7 +585,7 @@
    :sem {:pred "hair"},
    :curriculum :woordenlijst}],
  "bon"
- [{:cat :noun, :sem {:pred "the receipt"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "receipt"}, :curriculum :woordenlijst}],
  "plan"
  [{:agr {:gender :neuter},
    :cat :noun,

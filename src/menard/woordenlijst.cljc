@@ -49,7 +49,13 @@
                          (assoc :nl (clojure.string/replace
                                      nl
                                      #"^(.*), het$" "$1"))
-                         (assoc :agr {:gender :neuter})
+
+
+                         ;; might be existing :agr, so unify
+                         ;; {:gender :neuter} with it, if so.
+                         (assoc :agr (unify {:gender :neuter}
+                                            (get lexeme :agr :top)))
+
                          (assoc :cat :noun))
                         
                         ;; throw away lexemes that don't match

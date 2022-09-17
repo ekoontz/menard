@@ -570,7 +570,7 @@
  {:nl "sperzieboon, de" :en "French bean, green bean"}
  {:nl "vegetariër, de" :en "vegetarian"}
  {:nl "vies" :en "nasty"}
- {:nl "vleeswaren, de" :en "cold cuts"}
+ {:nl "vleeswaren, de" :agr {:number :plur} :en "cold cuts"}
  {:nl "champignon, de" :en "mushroom"}
  {:nl "niets" :en "nothing"}
  {:nl "slager, de " :en "butcher"}

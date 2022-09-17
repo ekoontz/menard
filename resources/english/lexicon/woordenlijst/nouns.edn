@@ -8,7 +8,6 @@
  "past (a quarter past two)"
  [{:cat :noun, :sem {:pred "past (a quarter past two)"}}],
  "table" [{:cat :noun, :sem {:pred "table"}}],
- "the whole day" [{:cat :noun, :sem {:pred "the whole day"}}],
  "must / shall" [{:cat :noun, :sem {:pred "must / shall"}}],
  "football" [{:cat :noun, :sem {:pred "football"}}],
  "pitiful, pathetic" [{:cat :noun, :sem {:pred "pitiful, pathetic"}}],
@@ -25,6 +24,7 @@
  "colour" [{:cat :noun, :sem {:pred "colour"}}],
  "practical" [{:cat :noun, :sem {:pred "practical"}}],
  "free" [{:cat :noun, :sem {:pred "free"}}],
+ "opening time" [{:cat :noun, :sem {:pred "opening time"}}],
  "to be called" [{:cat :noun, :sem {:pred "to be called"}}],
  "curl" [{:cat :noun, :sem {:pred "curl"}}],
  "weekend" [{:cat :noun, :sem {:pred "weekend"}}],
@@ -70,7 +70,6 @@
  "family, relatives" [{:cat :noun, :sem {:pred "family, relatives"}}],
  "appointment, engagement"
  [{:cat :noun, :sem {:pred "appointment, engagement"}}],
- "the end" [{:cat :noun, :sem {:pred "the end"}}],
  "think, believe" [{:cat :noun, :sem {:pred "think, believe"}}],
  "children (child)" [{:cat :noun, :sem {:pred "children (child)"}}],
  "newspaper" [{:cat :noun, :sem {:pred "newspaper"}}],
@@ -297,6 +296,7 @@
  "chips" [{:cat :noun, :sem {:pred "chips"}}],
  "computer" [{:cat :noun, :sem {:pred "computer"}}],
  "tie" [{:cat :noun, :sem {:pred "tie"}}],
+ "receipt" [{:cat :noun, :sem {:pred "receipt"}}],
  "restaurant" [{:cat :noun, :sem {:pred "restaurant"}}],
  "tonight" [{:cat :noun, :sem {:pred "tonight"}}],
  "just " [{:cat :noun, :sem {:pred "just "}}],
@@ -312,7 +312,8 @@
  "to be sorry" [{:cat :noun, :sem {:pred "to be sorry"}}],
  "(place of) residence"
  [{:cat :noun, :sem {:pred "(place of) residence"}}],
- "cold cuts" [{:cat :noun, :sem {:pred "cold cuts"}}],
+ "cold cuts"
+ [{:agr {:number :plur}, :cat :noun, :sem {:pred "cold cuts"}}],
  "therefore" [{:cat :noun, :sem {:pred "therefore"}}],
  "warm, hot" [{:cat :noun, :sem {:pred "warm, hot"}}],
  "born" [{:cat :noun, :sem {:pred "born"}}],
@@ -320,7 +321,6 @@
  "to thank" [{:cat :noun, :sem {:pred "to thank"}}],
  "to check in" [{:cat :noun, :sem {:pred "to check in"}}],
  "uniform" [{:cat :noun, :sem {:pred "uniform"}}],
- "the receipt" [{:cat :noun, :sem {:pred "the receipt"}}],
  "study room" [{:cat :noun, :sem {:pred "study room"}}],
  "evening" [{:cat :noun, :sem {:pred "evening"}}],
  "yellow" [{:cat :noun, :sem {:pred "yellow"}}],
@@ -391,7 +391,6 @@
  "to ask" [{:cat :noun, :sem {:pred "to ask"}}],
  "mistake, error, fault"
  [{:cat :noun, :sem {:pred "mistake, error, fault"}}],
- "opening hours" [{:cat :noun, :sem {:pred "opening hours"}}],
  "Dutch" [{:cat :noun, :sem {:pred "Dutch"}}],
  "eye" [{:cat :noun, :sem {:pred "eye"}}],
  "hospital" [{:cat :noun, :sem {:pred "hospital"}}],
@@ -427,6 +426,7 @@
  "a pity, too bad (I am sorry for you)"
  [{:cat :noun, :sem {:pred "a pity, too bad (I am sorry for you)"}}],
  "postal code" [{:cat :noun, :sem {:pred "postal code"}}],
+ "whole" [{:note "(the whole day)", :cat :noun, :sem {:pred "whole"}}],
  "never" [{:cat :noun, :sem {:pred "never"}}],
  "number" [{:cat :noun, :sem {:pred "number"}}],
  "wedding" [{:cat :noun, :sem {:pred "wedding"}}],
@@ -607,7 +607,6 @@
  "square meter" [{:cat :noun, :sem {:pred "square meter"}}],
  "later" [{:cat :noun, :sem {:pred "later"}}],
  "vertaling Engels" [{:cat :noun, :sem {:pred "vertaling Engels"}}],
- "the number" [{:cat :noun, :sem {:pred "the number"}}],
  "come in" [{:cat :noun, :sem {:pred "come in"}}],
  "through" [{:cat :noun, :sem {:pred "through"}}],
  "month" [{:cat :noun, :sem {:pred "month"}}],
@@ -702,6 +701,7 @@
  "bank" [{:cat :noun, :sem {:pred "bank"}}],
  "to find" [{:cat :noun, :sem {:pred "to find"}}],
  "get in / on" [{:cat :noun, :sem {:pred "get in / on"}}],
+ "end" [{:cat :noun, :sem {:pred "end"}}],
  "zip" [{:cat :noun, :sem {:pred "zip"}}],
  "to choose" [{:cat :noun, :sem {:pred "to choose"}}],
  "son" [{:cat :noun, :sem {:pred "son"}}],

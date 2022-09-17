@@ -131,7 +131,7 @@
  {:nl "morgen" :en "tomorrow"}
  {:nl "morgen, de" :en "morning"}
  {:nl "nacht, de" :en "night"}
- {:nl "ochtend, de" :en "the morning"}
+ {:nl "ochtend, de" :en "morning"}
  {:nl "of" :en "or"}
  {:nl "rijden" :en "to drive"}
  {:nl "vanavond" :en "tonight"}

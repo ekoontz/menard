@@ -427,7 +427,10 @@
  [{:cat :noun, :sem {:pred "bill"}, :curriculum :woordenlijst}],
  "wc" [{:cat :noun, :sem {:pred "toilet"}, :curriculum :woordenlijst}],
  "reus"
- [{:cat :noun, :sem {:pred "giant"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "giant"}, :curriculum :woordenlijst
+   :exceptions [{:agr {:number :plur}
+                 :surface "reuzen"}]}]
+
  "familie"
  [{:cat :noun,
    :sem {:pred "family, relatives"},

@@ -26,19 +26,18 @@
                                                :mod []}
                                        :rest []}}}))))
 
-  (if basic/create-model?
-    (is (= "het oude huis"
-           (morph (generate {:cat :noun
-                             :rule "np:2"
-                             :subcat []
-                             :root "huis"
-                             :agr {:number :sing}
+  (is (= "het oude huis"
+         (morph (generate {:cat :noun
+                           :rule "np:2"
+                           :subcat []
+                           :root "huis"
+                           :agr {:number :sing}
                              :max-depth 2
-                             :sem {:quant :the
-                                   :mod {:first {:pred :old
-                                                 :mod []}
-                                         :rest []}}}
-                            basic/model)))))
+                           :sem {:quant :the
+                                 :mod {:first {:pred :old
+                                               :mod []}
+                                       :rest []}}}
+                          basic/model))))
 
   (is (= "een oud huis"
          (morph (generate {:cat :noun
@@ -53,19 +52,18 @@
                                                :mod []}
                                        :rest []}}}))))
 
-  (if basic/create-model?
-    (is (= "een oud huis"
-           (morph (generate {:cat :noun
-                             :rule "np:2"
-                             :subcat []
-                             :max-depth 2                             
-                             :root "huis"
-                             :agr {:number :sing}
-                             :sem {:quant :some
-                                   :mod {:first {:pred :old
+  (is (= "een oud huis"
+         (morph (generate {:cat :noun
+                           :rule "np:2"
+                           :subcat []
+                           :max-depth 2                             
+                           :root "huis"
+                           :agr {:number :sing}
+                           :sem {:quant :some
+                                 :mod {:first {:pred :old
                                                  :mod []}
-                                         :rest []}}}
-                            basic/model)))))
+                                       :rest []}}}
+                          basic/model))))
 
 
   (is (= "de oude huizen"
@@ -82,20 +80,19 @@
                                        :rest []}}}))))
 
 
-  (if basic/create-model?
-    (is (= "de oude huizen"
-           (morph (generate {:cat :noun
-                             :rule "np:2"
-                             :subcat []
-                             :max-depth 2                             
+  (is (= "de oude huizen"
+         (morph (generate {:cat :noun
+                           :rule "np:2"
+                           :subcat []
+                           :max-depth 2                             
                              :root "huis"
-                             :agr {:number :plur}
-                             :sem {:quant :the
-                                   :mod {:first {:pred :old
-                                                 :number? false
-                                                 :mod []}
-                                         :rest []}}}
-                            basic/model))))))
+                           :agr {:number :plur}
+                           :sem {:quant :the
+                                 :mod {:first {:pred :old
+                                               :number? false
+                                               :mod []}
+                                       :rest []}}}
+                          basic/model)))))
 
 (def generate-per-expression 5)
 

@@ -580,7 +580,6 @@
  "to study" [{:cat :noun, :sem {:pred "to study"}}],
  "to listen" [{:cat :noun, :sem {:pred "to listen"}}],
  "to have" [{:cat :noun, :sem {:pred "to have"}}],
- "afternoon" [{:cat :noun, :sem {:pred "afternoon"}}],
  "with" [{:cat :noun, :sem {:pred "with"}}],
  "another (another white wine)"
  [{:cat :noun, :sem {:pred "another (another white wine)"}}],

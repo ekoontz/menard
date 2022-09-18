@@ -487,7 +487,8 @@
   "Return a list of all possible parse trees given all possible tokenizations."
   [tokenizations]
   (if (seq tokenizations)
-    (lazy-cat
+    (concat ;; can make this lazy-cat *after* we get rid of dynamic variables
+     ;; e.g. lookup-fn.
      (let [tokenization (first tokenizations)]
        (let [token-count (count tokenization)
              all-parses (reduce (fn [input-map span-size]

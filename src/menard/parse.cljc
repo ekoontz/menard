@@ -12,21 +12,22 @@
 
 (def parse-only-one? false)
 
-(def ^:dynamic lookup-fn
-  (fn [_]
-    (exception (str "lookup-fn was not bound."))))
-
-(def ^:dynamic grammar nil)
-(def ^:dynamic syntax-tree (fn [x] (log/warn (str "'syntax-tree' was not bound."))))
-(def ^:dynamic morph (fn [x] (log/warn (str "'morph' was not bound."))))
+;; remove these: they prevent lazy evaluation.
 (def ^:dynamic truncate? false)
-(declare truncate)
 (def ^:dynamic split-on #"[ ']+")
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)
 ;; a token can be max 7 words, e.g. "presidents of the united states of america".
 (def ^:dynamic max-token-length-in-words 7)
+
+;; TODO: remove these: get from model instead.
+(def ^:dynamic lookup-fn (fn [_] (exception (str "lookup-fn was not bound."))))
+(def ^:dynamic grammar (fn [x] (exception (str "'grammar' was not bound."))))
+(def ^:dynamic syntax-tree (fn [x] (exception (str "'syntax-tree' was not bound."))))
+(def ^:dynamic morph (fn [x] (exception (str "'morph' was not bound."))))
+
+(declare truncate)
 
 (defn pmap-if-available [fn args]
   #?(:clj

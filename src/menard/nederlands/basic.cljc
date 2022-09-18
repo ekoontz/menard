@@ -4,8 +4,6 @@
             [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.model :refer [create]]))
 
-(def create-model? true)
-
 (defn basic-filter
   "create a 'basic' lexicon that only contains all closed-class words, but
    only :basic open-class words"
@@ -43,9 +41,18 @@
               {k filtered-vals}))))
    (into {})))
 
-#?(:clj
-   (if create-model?
-     (def model
-       (ref (create "nederlands/models/basic"
-                    "basic"
-                    compile-lexicon)))))
+(def model
+  (ref (create "nederlands/models/basic"
+               "basic"
+               compile-lexicon)))
+
+(defn analyze [token]
+  (let [use-null-tokens? false]
+    (menard.nederlands/analyze token use-null-tokens? model)))
+
+(defn parse [expression]
+  (menard.nederlands/parse expression model))
+
+(defn generate [spec]
+  (menard.nederlands/generate expression model))
+

@@ -6,13 +6,21 @@
             [menard.nesting]
             [menard.subcat]))
 
-(def create-model? true)
+(def model
+  (ref (create "nederlands/models/complete"
+               "complete"
+               compile-lexicon)))
 
-#?(:clj
-   (if create-model?
-     (def model
-       (ref (create "nederlands/models/complete"
-                    "complete"
-                    compile-lexicon)))))
+(defn analyze [token]
+  (let [use-null-tokens? false]
+    (menard.nederlands/analyze token use-null-tokens? model)))
+  
+(defn parse [expression]
+  (menard.nederlands/parse expression model))
+
+(defn generate [spec]
+  (menard.nederlands/generate expression model))
+
+
 
 

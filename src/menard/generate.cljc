@@ -391,16 +391,16 @@
      (map
       #(u/unify! %
                  (assoc-in {} (concat [:syntax-tree] at-num)
-                                   (let [one-is-head? (tr/headness? % (concat at [:1]))]
-                                     {:head? (= :head (last at))
-                                      :reflexive? (u/get-in % (concat at [:reflexive?])
-                                                           :top)
-                                      :1 {:head? one-is-head?}
-                                      :2 {:head? (not one-is-head?)}
-                                      :variant (u/get-in % [:variant])
-                                      :rule
-                                      (or rule-name
-                                          (u/get-in % (concat at [:rule])))}))))
+                           (let [one-is-head? (tr/headness? % (concat at [:1]))]
+                             {:head? (= :head (last at))
+                              :reflexive? (u/get-in % (concat at [:reflexive?])
+                                                    :top)
+                              :1 {:head? one-is-head?}
+                              :2 {:head? (not one-is-head?)}
+                              :variant (u/get-in % [:variant])
+                              :rule
+                              (or rule-name
+                                  (u/get-in % (concat at [:rule])))}))))
 
      (remove #(= % :fail))
 
@@ -440,7 +440,6 @@
                        unify (:unify tuple)]
                    (cond (not (= :fail unify))
                          true
-
                          :else (do
                                 (log/trace (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
                                 (when counts? (swap! count-lexeme-fails inc))

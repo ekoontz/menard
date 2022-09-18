@@ -181,8 +181,8 @@
  "form" [{:cat :noun, :sem {:pred "form"}}],
  "supermarket" [{:cat :noun, :sem {:pred "supermarket"}}],
  "vegetarian" [{:cat :noun, :sem {:pred "vegetarian"}}],
- "family (parents and children)"
- [{:cat :noun, :sem {:pred "family (parents and children)"}}],
+ "family"
+ [{:cat :noun, :sem {:pred "family"}}],
  "ticket" [{:cat :noun, :sem {:pred "ticket"}}],
  "thirst (to be thirsty)"
  [{:cat :noun, :sem {:pred "thirst (to be thirsty)"}}],
@@ -288,10 +288,10 @@
  "yes" [{:cat :noun, :sem {:pred "yes"}}],
  "dress" [{:cat :noun, :sem {:pred "dress"}}],
  "chair" [{:cat :noun, :sem {:pred "chair"}}],
- "answer " [{:cat :noun, :sem {:pred "answer "}}],
+ "answer" [{:cat :noun, :sem {:pred "answer"}}],
  "boy next door, boy living nearby"
  [{:cat :noun, :sem {:pred "boy next door, boy living nearby"}}],
- "chips" [{:cat :noun, :sem {:pred "chips"}}],
+ "chip" [{:cat :noun, :sem {:pred "chip"}}],
  "computer" [{:cat :noun, :sem {:pred "computer"}}],
  "tie" [{:cat :noun, :sem {:pred "tie"}}],
  "receipt" [{:cat :noun, :sem {:pred "receipt"}}],
@@ -311,7 +311,7 @@
  "(place of) residence"
  [{:cat :noun, :sem {:pred "(place of) residence"}}],
  "cold cuts"
- [{:agr {:number :plur}, :cat :noun, :sem {:pred "cold cuts"}}],
+ [{:agr {:number :plur}, :regular false :cat :noun, :sem {:pred "cold cuts"}}],
  "therefore" [{:cat :noun, :sem {:pred "therefore"}}],
  "warm, hot" [{:cat :noun, :sem {:pred "warm, hot"}}],
  "born" [{:cat :noun, :sem {:pred "born"}}],
@@ -450,7 +450,7 @@
  "to say" [{:cat :noun, :sem {:pred "to say"}}],
  "per (two times a week)"
  [{:cat :noun, :sem {:pred "per (two times a week)"}}],
- "a hundred grammes" [{:cat :noun, :sem {:pred "a hundred grammes"}}],
+ "hundred grammes" [{:cat :noun, :sem {:pred "hundred grammes"}}],
  "old" [{:cat :noun, :sem {:pred "old"}}],
  "afternoon" [{:cat :noun, :sem {:pred "afternoon"}}],
  "region, province" [{:cat :noun, :sem {:pred "region, province"}}],
@@ -520,7 +520,7 @@
  "to (five minutes to eight)"
  [{:cat :noun, :sem {:pred "to (five minutes to eight)"}}],
  "village" [{:cat :noun, :sem {:pred "village"}}],
- "holiday(s)" [{:cat :noun, :sem {:pred "holiday(s)"}}],
+ "holiday" [{:cat :noun, :sem {:pred "holiday"}}],
  "sauce" [{:cat :noun, :sem {:pred "sauce"}}],
  "here" [{:cat :noun, :sem {:pred "here"}}],
  "island" [{:cat :noun, :sem {:pred "island"}}],
@@ -672,7 +672,7 @@
  "female friend / girlfriend"
  [{:cat :noun, :sem {:pred "female friend / girlfriend"}}],
  "tea" [{:cat :noun, :sem {:pred "tea"}}],
- "neighbour (male)" [{:cat :noun, :sem {:pred "neighbour (male)"}}],
+ "male neighbour" [{:cat :noun, :sem {:pred "male neighbour"}}],
  "to want" [{:cat :noun, :sem {:pred "to want"}}],
  "cheers" [{:cat :noun, :sem {:pred "cheers"}}],
  "to put (to put your signature, to sign)"

@@ -91,7 +91,7 @@
  "ons"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "a hundred grammes"},
+   :sem {:pred "hundred grammes"},
    :curriculum :woordenlijst}],
  "wedstrijd"
  [{:cat :noun, :sem {:pred "match, game"}, :curriculum :woordenlijst}],
@@ -324,7 +324,7 @@
    :sem {:pred "uniform"},
    :curriculum :woordenlijst}],
  "patat"
- [{:cat :noun, :sem {:pred "chips"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "chip"}, :curriculum :woordenlijst}],
  "kalender"
  [{:cat :noun, :sem {:pred "calender"}, :curriculum :woordenlijst}],
  "knoflook"
@@ -442,7 +442,7 @@
  "antwoord"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "answer "},
+   :sem {:pred "answer"},
    :curriculum :woordenlijst}],
  "geslacht"
  [{:agr {:gender :neuter},

@@ -13,7 +13,6 @@
 (def parse-only-one? false)
 
 ;; remove these: they prevent lazy evaluation.
-(def ^:dynamic truncate? false)
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)
@@ -156,7 +155,7 @@
       (dissoc :1)
       (dissoc :2)))
 
-(defn over [parents left-children right-children]
+(defn over [parents left-children right-children truncate?]
   (->>
    parents
    (pmap-if-available
@@ -412,7 +411,7 @@
      are all the parses for the substring of tokens [t_i....t_j].
    - _input_length_, the length of the input string in tokens.
    - _grammar_, a list of grammar rules."
-  [input-map input-length span-length grammar]
+  [input-map input-length span-length grammar truncate?]
   (cond (> span-length input-length)
         ;; done
         input-map
@@ -423,7 +422,8 @@
                      (fn [[[left middle][middle right]]]
                        (let [all-results (over grammar
                                                (get input-map [left middle])
-                                               (get input-map [middle right]))
+                                               (get input-map [middle right])
+                                               truncate?)
                              taken-results (take take-this-many all-results)
                              taken-plus-one-results (take (+ 1 take-this-many) all-results)]
                          (when (> (count taken-plus-one-results) (count taken-results))
@@ -464,24 +464,24 @@
                (log/debug (str "looking at tokenization: " (vec tokenization)))
                (create-input-map tokenization analyze-fn))))))
 
-(defn parse-in-stages [input-map input-length i grammar]
+(defn parse-in-stages [input-map input-length i grammar truncate?]
   (if (or (get input-map [0 input-length])
           (> i input-length))
     input-map
     (-> input-map
-        (parse-spans-of-length input-length i grammar)
-        (parse-in-stages input-length (+ 1 i) grammar))))
+        (parse-spans-of-length input-length i grammar truncate?)
+        (parse-in-stages input-length (+ 1 i) grammar truncate?))))
 
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
-  [tokenizations]
+  [tokenizations truncate?]
   (if (seq tokenizations)
     (concat ;; can make this lazy-cat *after* we get rid of dynamic variables
      ;; e.g. lookup-fn.
      (let [tokenization (first tokenizations)]
        (let [token-count (count tokenization)
              all-parses (reduce (fn [input-map span-size]
-                                  (parse-spans-of-length input-map token-count span-size grammar))
+                                  (parse-spans-of-length input-map token-count span-size grammar truncate?))
                                 (create-input-map tokenization lookup-fn)
                                 (range 2 (+ 1 token-count)))
              result {:token-count (count tokenization)
@@ -517,12 +517,12 @@
                          (merge partial-parse {::partial? true})))))
            (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
                (:complete-parses result)))))
-     (parse (rest tokenizations)))))
+     (parse (rest tokenizations) truncate?))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
 
-(defn parse-all [expression load-model-fn syntax-tree-fn split-on analyze-fn]
+(defn parse-all [expression load-model-fn syntax-tree-fn split-on analyze-fn truncate?]
   (let [model (load-model-fn)
 
         ;; remove trailing '.' if any:
@@ -539,7 +539,7 @@
               syntax-tree syntax-tree-fn]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map
-            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar))
+            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) truncate?)
             ((fn [m]
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))

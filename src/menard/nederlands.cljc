@@ -206,14 +206,13 @@
                p/grammar (-> model :grammar)
                p/syntax-tree syntax-tree
                p/morph morph
-               p/truncate? truncate?
                p/log-these-rules log-these-rules
                p/lookup-fn analyze-fn]
        (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
        (->
         expression
         (p/all-groupings split-on analyze-fn)
-        p/parse))))
+        (p/parse truncate?)))))
   ([expression]
    (parse expression (load-model complete/model))))
 
@@ -264,8 +263,7 @@
    count))
 
 (defn demo-with-pruning [index & [this-many]]
-  (binding [g/fold? true
-            g/truncate? true]
+  (binding [g/fold? true]
     (->>
      (repeatedly #(println (-> (nth expressions index)
                                generate
@@ -335,4 +333,4 @@
                     (map? model)                      model
                     :else                             (exception (str "invalid model: " model)))
         lookup-fn (fn [token] (analyze token false model))]
-    (p/parse-all expression (fn [] model) syntax-tree lookup-fn)))
+    (p/parse-all expression (fn [] model) syntax-tree lookup-fn truncate?)))

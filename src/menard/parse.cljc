@@ -285,7 +285,7 @@
               ;; the token-in-progress with the
               ;; current word.
               (let [complete-token
-                    (concat token-in-progress [next-word])]
+                    (lazy-cat token-in-progress [next-word])]
                 (log/debug (str "current-bit=1: new complete-token: "
                                (vec complete-token)))
                 complete-token)
@@ -344,7 +344,7 @@
                   ;; continuing with it by
                   ;; gluing next word to it, if any:
                   (let [token-in-progress
-                        (concat token-in-progress [next-word])]
+                        (lazy-cat token-in-progress [next-word])]
                     (log/debug (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
                     token-in-progress))]
             (log/debug (str "output tokens: " tokens))
@@ -374,16 +374,16 @@
 (defn words-to-tokens [words]
   (->> (span-pairs 0 (count words))
        (map (fn [pairs]
-              (vec (map (fn [[l r]]
-                          (reduce (fn [a b] (str a " " b)) (subvec words l r)))
-                        pairs))))))
+              (map (fn [[l r]]
+                     (reduce (fn [a b] (str a " " b)) (subvec words l r)))
+                   pairs)))))
 
 (defn span-pairs [i n]
   (cond (= i 0)
         (->> (range 0 (- n 1))
              (map (fn [x] [[0 (+ 1 x)][(+ 1 x) n]])))
         true
-        (concat
+        (lazy-cat
          (span-pairs (- i 1) n)
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
@@ -462,7 +462,7 @@
   "Return a list of all possible parse trees given all possible tokenizations."
   [tokenizations grammar lookup-fn syntax-tree morph truncate?]
   (if (seq tokenizations)
-    (concat ;; can make this lazy-cat *after* we get rid of dynamic variables
+    (lazy-cat
      ;; e.g. lookup-fn.
      (let [tokenization (first tokenizations)]
        (let [token-count (count tokenization)

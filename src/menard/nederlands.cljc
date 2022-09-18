@@ -162,7 +162,6 @@
    (analyze surface false @complete/model))
   ([surface use-null-lexemes? model]
    (binding [l/lexicon (-> model :lexicon)
-             p/syntax-tree syntax-tree
              l/morphology (:morphology model)]
      (log/debug (str "analyze with model named: " (-> model :name)))
      (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -197,15 +196,13 @@
      ;; '?' -> interrogative
      ;; '!' -> imperative
      (binding [l/lexicon (-> model :lexicon)
-               l/morphology (-> model :morphology)
-               p/syntax-tree syntax-tree
-               p/morph morph]
+               l/morphology (-> model :morphology)]
        (let [grammar (-> model :grammar)]
          (log/debug (str "calling p/parse with grammar: " (count grammar)))
          (->
           expression
           (p/all-groupings split-on analyze-fn)
-          (p/parse grammar analyze-fn truncate?))))))
+          (p/parse grammar analyze-fn syntax-tree morph truncate?))))))
   ([expression]
    (parse expression (load-model complete/model))))
 

@@ -21,10 +21,6 @@
 ;; a token can be max 7 words, e.g. "presidents of the united states of america".
 (def max-token-length-in-words 7)
 
-;; TODO: remove these: get from model instead.
-(def ^:dynamic syntax-tree (fn [x] (exception (str "'syntax-tree' was not bound."))))
-(def ^:dynamic morph (fn [x] (exception (str "'morph' was not bound."))))
-
 (defn pmap-if-available [fn args]
   #?(:clj
      ;; map is slower (no concurrency) but better for debugging since you can see the
@@ -70,7 +66,7 @@
 
 (defn overh
   "add given head as the head child of the phrase: parent."
-  [parent head]
+  [parent head syntax-tree]
   {:pre [(map? parent)
          (map? head)]
    :post [(vector? %)]}
@@ -109,7 +105,7 @@
 
 (defn overc
   "add given child as the complement of the parent"
-  [parent comp]
+  [parent comp syntax-tree]
   {:pre [(map? comp)
          (map? parent)]
    :post [(vector? %)]}
@@ -140,7 +136,7 @@
                   "."))))
         []))))
 
-(defn truncate [tree]
+(defn truncate [tree syntax-tree morph]
   (log/debug (str "truncating tree: " (syntax-tree tree)))
   (log/debug   (str "truncating:    " (syntax-tree tree)))
   (-> tree
@@ -151,7 +147,7 @@
       (dissoc :1)
       (dissoc :2)))
 
-(defn over [parents left-children right-children truncate?]
+(defn over [parents left-children right-children syntax-tree morph truncate?]
   (->>
    parents
    (pmap-if-available
@@ -161,11 +157,11 @@
                                             [right-children left-children])]
         (mapcat (fn [head-child]
                   (-> parent
-                      (overh head-child)
+                      (overh head-child syntax-tree)
                       ((fn [parents-with-head]
                          (mapcat (fn [comp-child]
                                    (mapcat (fn [parent-with-head]
-                                             (overc parent-with-head comp-child))
+                                             (overc parent-with-head comp-child syntax-tree))
                                            parents-with-head))
                                  comp-children)))))
                 head-children))))
@@ -176,16 +172,8 @@
 
    (map (fn [tree]
           (if truncate?
-            (truncate tree)
+            (truncate tree syntax-tree morph)
             tree)))))
-
-(defn summary
-  "for diagnostic logging"
-  [m]
-  (into {}
-        (->> (keys m)
-             (map (fn [k]
-                    {k (map syntax-tree (get m k))})))))
 
 (defn pad-left [input length]
   (if (< (count input) length)
@@ -407,7 +395,7 @@
      are all the parses for the substring of tokens [t_i....t_j].
    - _input_length_, the length of the input string in tokens.
    - _grammar_, a list of grammar rules."
-  [input-map input-length span-length grammar truncate?]
+  [input-map input-length span-length grammar syntax-tree morph truncate?]
   (cond (> span-length input-length)
         ;; done
         input-map
@@ -419,6 +407,8 @@
                        (let [all-results (over grammar
                                                (get input-map [left middle])
                                                (get input-map [middle right])
+                                               syntax-tree
+                                               morph
                                                truncate?)
                              taken-results (take take-this-many all-results)
                              taken-plus-one-results (take (+ 1 take-this-many) all-results)]
@@ -460,24 +450,24 @@
                (log/debug (str "looking at tokenization: " (vec tokenization)))
                (create-input-map tokenization analyze-fn))))))
 
-(defn parse-in-stages [input-map input-length i grammar truncate?]
+(defn parse-in-stages [input-map input-length i grammar syntax-tree morph truncate?]
   (if (or (get input-map [0 input-length])
           (> i input-length))
     input-map
     (-> input-map
-        (parse-spans-of-length input-length i grammar truncate?)
-        (parse-in-stages input-length (+ 1 i) grammar truncate?))))
+        (parse-spans-of-length input-length i grammar syntax-tree morph truncate?)
+        (parse-in-stages input-length (+ 1 i) grammar syntax-tree morph truncate?))))
 
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
-  [tokenizations grammar lookup-fn truncate?]
+  [tokenizations grammar lookup-fn syntax-tree morph truncate?]
   (if (seq tokenizations)
     (concat ;; can make this lazy-cat *after* we get rid of dynamic variables
      ;; e.g. lookup-fn.
      (let [tokenization (first tokenizations)]
        (let [token-count (count tokenization)
              all-parses (reduce (fn [input-map span-size]
-                                  (parse-spans-of-length input-map token-count span-size grammar truncate?))
+                                  (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
                                 (create-input-map tokenization lookup-fn)
                                 (range 2 (+ 1 token-count)))
              result {:token-count (count tokenization)
@@ -513,12 +503,12 @@
                          (merge partial-parse {::partial? true})))))
            (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
                (:complete-parses result)))))
-     (parse (rest tokenizations) grammar lookup-fn truncate?))))
+     (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
 
-(defn parse-all [expression load-model-fn syntax-tree-fn split-on analyze-fn truncate?]
+(defn parse-all [expression load-model-fn syntax-tree-fn split-on analyze-fn morph-fn truncate?]
   (let [model (load-model-fn)
 
         ;; remove trailing '.' if any:
@@ -530,11 +520,10 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
     (binding [l/morphology (-> model :morphology)
-              log-these-rules log-these-rules
-              syntax-tree syntax-tree-fn]
+              log-these-rules log-these-rules]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map
-            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) truncate?)
+            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) syntax-tree-fn truncate?)
             ((fn [m]
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))

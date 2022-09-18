@@ -159,7 +159,8 @@
                      load-morphology load-grammar {:name "default"})
          ((fn [model]
             (merge model
-                   {:lexicon-index-fn (model/lexicon-index-fn model)}))))))
+                   {:name "default"
+                    :lexicon-index-fn (model/lexicon-index-fn model)}))))))
 
 #?(:clj
    (def model (ref (create-model))))

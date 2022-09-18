@@ -487,7 +487,7 @@
   "Return a list of all possible parse trees given all possible tokenizations."
   [tokenizations]
   (if (seq tokenizations)
-    (concat
+    (lazy-cat
      (let [tokenization (first tokenizations)]
        (let [token-count (count tokenization)
              all-parses (reduce (fn [input-map span-size]

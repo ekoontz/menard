@@ -11,16 +11,5 @@
                "complete"
                compile-lexicon)))
 
-(defn analyze [token]
-  (let [use-null-tokens? false]
-    (menard.nederlands/analyze token use-null-tokens? model)))
-  
-(defn parse [expression]
-  (menard.nederlands/parse expression model))
-
-(defn generate [spec]
-  (menard.nederlands/generate expression model))
-
-
 
 

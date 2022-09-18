@@ -308,7 +308,8 @@
                     :else
                     (let [error-message (str "menard.english/parse: invalid model: " model)]
                       (log/error error-message)
-                      (exception error-message)))]
+                      (exception error-message)))
+        split-on #"[ ]"]
     (if (map? model)
       (log/info (str "menard.english/parse with model name: "
                      (-> model :name)))
@@ -323,7 +324,7 @@
               p/lookup-fn (fn [token] (analyze token model))]
       (->
        expression
-       (p/all-groupings (fn [token] (analyze token model)))
+       (p/all-groupings split-on (fn [token] (analyze token model)))
        p/parse))))
 
 (defn parse-start [expression & [model]]

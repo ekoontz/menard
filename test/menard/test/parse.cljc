@@ -19,10 +19,13 @@
 
     :else []))
 
+(def split-on #"[ ]")
+
 (deftest word-glue
   (is (contains?
        (set
-        (menard.parse/all-groupings "The White House Press Corps Dinner" lookup-fn))
+        (menard.parse/all-groupings "The White House Press Corps Dinner" split-on
+                                    lookup-fn))
        '("The" "White House" "Press Corps" "Dinner"))))
 
 

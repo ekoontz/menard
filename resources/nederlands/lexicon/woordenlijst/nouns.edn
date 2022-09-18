@@ -212,7 +212,7 @@
  "land"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "land "},
+   :sem {:pred "land"},
    :curriculum :woordenlijst}],
  "knoop"
  [{:cat :noun, :sem {:pred "button"}, :curriculum :woordenlijst}],

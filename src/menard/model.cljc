@@ -214,7 +214,7 @@
 
 #?(:clj
    (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
-     (log/info (str "load-lexicon: lexical-rules (type): " (type lexical-rules)))
+     (log/info (str "load-lexicon: lexical-rules count): " (count lexical-rules)))
      (if (nil? model-spec)
        (exception "model-spec is unexpectedly nil."))
      (log/info (str "model-spec: " model-spec))

@@ -198,15 +198,14 @@
      ;; '!' -> imperative
      (binding [l/lexicon (-> model :lexicon)
                l/morphology (-> model :morphology)
-               p/grammar (-> model :grammar)
                p/syntax-tree syntax-tree
-               p/morph morph
-               p/lookup-fn analyze-fn]
-       (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
-       (->
-        expression
-        (p/all-groupings split-on analyze-fn)
-        (p/parse truncate?)))))
+               p/morph morph]
+       (let [grammar (-> model :grammar)]
+         (log/debug (str "calling p/parse with grammar: " (count grammar)))
+         (->
+          expression
+          (p/all-groupings split-on analyze-fn)
+          (p/parse grammar analyze-fn truncate?))))))
   ([expression]
    (parse expression (load-model complete/model))))
 
@@ -224,8 +223,7 @@
         ;; '!' -> imperative
 
         lookup-fn (fn [token] (analyze token false model))]
-    (binding [l/morphology (-> model :morphology)
-              p/lookup-fn lookup-fn]
+    (binding [l/morphology (-> model :morphology)]
       (p/parse-start expression split-on lookup-fn))))
 
 (defn generate-demo [index & [this-many]]

@@ -22,8 +22,6 @@
 (def max-token-length-in-words 7)
 
 ;; TODO: remove these: get from model instead.
-(def ^:dynamic lookup-fn (fn [_] (exception (str "lookup-fn was not bound."))))
-(def ^:dynamic grammar (fn [x] (exception (str "'grammar' was not bound."))))
 (def ^:dynamic syntax-tree (fn [x] (exception (str "'syntax-tree' was not bound."))))
 (def ^:dynamic morph (fn [x] (exception (str "'morph' was not bound."))))
 
@@ -472,7 +470,7 @@
 
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
-  [tokenizations truncate?]
+  [tokenizations grammar lookup-fn truncate?]
   (if (seq tokenizations)
     (concat ;; can make this lazy-cat *after* we get rid of dynamic variables
      ;; e.g. lookup-fn.
@@ -515,7 +513,7 @@
                          (merge partial-parse {::partial? true})))))
            (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
                (:complete-parses result)))))
-     (parse (rest tokenizations) truncate?))))
+     (parse (rest tokenizations) grammar lookup-fn truncate?))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
@@ -533,7 +531,6 @@
         ;; '!' -> imperative
     (binding [l/morphology (-> model :morphology)
               log-these-rules log-these-rules
-              lookup-fn analyze-fn
               syntax-tree syntax-tree-fn]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map

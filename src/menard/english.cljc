@@ -316,17 +316,15 @@
       (let [error-message (str "menard.english/parse: model is not a map as expected!")]
         (log/error error-message)
         (exception error-message)))
-    (binding [p/grammar (-> model :grammar)
-              p/morph morph
+    (binding [p/morph morph
               p/syntax-tree syntax-tree
               l/lexicon (-> model :lexicon)
-              l/morphology (-> model :morphology)
-              p/lookup-fn (fn [token] (analyze token model))]
+              l/morphology (-> model :morphology)]
       (let [truncate? true]
         (->
          expression
          (p/all-groupings split-on (fn [token] (analyze token model)))
-         (p/parse truncate?))))))
+         (p/parse (-> model :grammar) #(analyze % model) truncate?))))))
 
 (defn parse-start [expression & [model]]
   (let [model (or model (load-model))
@@ -341,8 +339,7 @@
         ;; '!' -> imperative
 
         split-on #"[ ]"]
-    (binding [l/morphology (-> model :morphology)
-              p/lookup-fn (fn [word] (analyze word model))]
+    (binding [l/morphology (-> model :morphology)]
       (p/parse-start expression split-on analyze))))
 
 (def expressions

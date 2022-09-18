@@ -25,11 +25,8 @@
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)
-;; a token can be max 4 words, e.g.
-;; "preston school of industry" is possible, but
-;; but not:
-;; "presidents of the united states of america"
-(def ^:dynamic max-token-length-in-words 4)
+;; a token can be max 7 words, e.g. "presidents of the united states of america".
+(def ^:dynamic max-token-length-in-words 7)
 
 (defn pmap-if-available [fn args]
   #?(:clj

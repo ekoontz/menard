@@ -382,7 +382,7 @@
 (deftest universiteiten
   (is (= "universiteiten"
          (->
-          {:canonical "universiteiten"
+          {:canonical "universiteit"
            :null? false
            :cat :noun
            :agr {:number :plur

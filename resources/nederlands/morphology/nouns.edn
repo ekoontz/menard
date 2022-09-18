@@ -116,8 +116,9 @@
       :regular true}}
 
  ;; <jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
- {:g [#"^(.*)(n)$"    "$1$2$2en"] 
-  :p [#"^(.*)(n)nen$" "$1$2"] 
+ ;; but not: tonijn        -> tonijnen, not *tonijnnen.
+ {:g [#"^(.*[aeiou])(n)$"    "$1$2$2en"] 
+  :p [#"^(.*[aeiou])(n)nen$" "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant

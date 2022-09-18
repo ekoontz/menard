@@ -390,6 +390,17 @@
                  :regular true}}
           (morph-leaf morphology)))))
 
+(deftest tonijnen
+  (is (= "tonijnen"
+         (->
+          {:canonical "tonijn"
+           :null? false
+           :cat :noun
+           :agr {:number :plur
+                 :pronoun? false
+                 :regular true}}
+          (morph-leaf morphology)))))
+
 (deftest parsing-tests
   (is
    (= "[s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .samen +bestrijden]]]"
@@ -479,10 +490,10 @@
 
 (deftest woordenlijst-model-parse
   (is (=
-       (->> (parse "de tonijnnen" @menard.nederlands.woordenlijst/model)
+       (->> (parse "de tonijnen" @menard.nederlands.woordenlijst/model)
             (map syntax-tree)
             first)
-       "[np:2 .de +tonijnnen]")))
+       "[np:2 .de +tonijnen]")))
 
 (deftest complete-model-parse
   (is (=

@@ -368,6 +368,28 @@
                  :person :3rd}}
           (morph-leaf morphology)))))
 
+(deftest katten
+  (is (= "katten"
+         (->
+          {:canonical "kat"
+           :null? false
+           :cat :noun
+           :agr {:number :plur}
+           :pronoun? false
+           :regular true}
+          (morph-leaf morphology)))))
+
+(deftest universiteiten
+  (is (= "universiteiten"
+         (->
+          {:canonical "universiteiten"
+           :null? false
+           :cat :noun
+           :agr {:number :plur
+                 :pronoun? false
+                 :regular true}}
+          (morph-leaf morphology)))))
+
 (deftest parsing-tests
   (is
    (= "[s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .samen +bestrijden]]]"

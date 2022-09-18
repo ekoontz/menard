@@ -136,7 +136,10 @@
       :regular true}}
 
  ;; boodschap->boodschappen,
- ;; but groep->groepen, not *groeppen:
+ ;; but exclude groep->groepen, not *groeppen:
+ ;; TODO: generalize not with (.*a) but with
+ ;; (consonant)(vowel) as we do with repeated 't'
+ ;; in the next rule:
  {:g [#"^(.*a)(p)$"    "$1$2$2en"] 
   :p [#"^(.*a)(p)pen$" "$1$2"] 
   :u {:cat :noun
@@ -153,14 +156,23 @@
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
- {:g [#"^(.*[aieou])(t)$" "$1$2$2en"] 
-  :p [#"^(.*)(t)ten$"     "$1$2"] 
+
+ ;; kat -> katten
+ ;; but exclude:
+ ;; universiteit   -> *universiteitten
+ ;;  (universiteit   -> universiteiten)
+ {;;      consonant  vowel   t   ->   double-t
+  :g [#"^(.*[^aeiou][aieou])(t)$"    "$1$2$2en"] 
+  
+  ;;      consonant  vowel   tt   ->  single-t
+  :p [#"^(.*[^aeiou][aeiou])(t)ten$" "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
+
  ;; </jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
 
  {:g [#"^(.*)f$"    "$1ven"]         ;; druif   -> druiven

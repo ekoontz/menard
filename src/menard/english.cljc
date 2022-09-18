@@ -243,8 +243,8 @@
 (declare sentence-punctuation)
 
 (defn tokenize [input-string]
-  (binding [p/split-on #"[ ]"]
-    (p/tokenize input-string)))
+  (let [split-on #"[ ]"]
+    (p/tokenize split-on input-string)))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
@@ -330,7 +330,7 @@
   (let [model (or model (load-model))
 
         ;; remove trailing '.' if any:
-        expression (string/replace expression #"[.]*$" "")]
+        expression (string/replace expression #"[.]*$" "")
         ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
         ;; use it as part of the meaning
         ;; i.e.
@@ -338,10 +338,10 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
 
+        split-on #"[ ]"]
     (binding [l/morphology (-> model :morphology)
-              p/split-on #"[ ]"
               p/lookup-fn (fn [word] (analyze word model))]
-      (p/parse-start expression analyze))))
+      (p/parse-start expression split-on analyze))))
 
 (def expressions
   (-> "english/expressions.edn"
@@ -360,4 +360,4 @@
              (println)))))))
 
 (defn parse-all [expression]
-  (p/parse-all expression load-model syntax-tree analyze))
+  (p/parse-all expression load-model syntax-tree #"[ ]" analyze))

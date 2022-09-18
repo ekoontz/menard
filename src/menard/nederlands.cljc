@@ -43,6 +43,7 @@
 ;;(def log-these-rules #{"conj-outer"})
 (def log-these-rules #{})
 (def truncate? true)
+(def split-on #"[ ]")
 
 #?(:clj
    (defn write-compiled-lexicon []
@@ -206,13 +207,12 @@
                p/syntax-tree syntax-tree
                p/morph morph
                p/truncate? truncate?
-               p/split-on #"[ ]"
                p/log-these-rules log-these-rules
                p/lookup-fn analyze-fn]
        (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
        (->
         expression
-        (p/all-groupings analyze-fn)
+        (p/all-groupings split-on analyze-fn)
         p/parse))))
   ([expression]
    (parse expression (load-model complete/model))))
@@ -232,9 +232,8 @@
 
         lookup-fn (fn [token] (analyze token false model))]
     (binding [l/morphology (-> model :morphology)
-              p/split-on #"[ ]"
               p/lookup-fn lookup-fn]
-      (p/parse-start expression lookup-fn))))
+      (p/parse-start expression split-on lookup-fn))))
 
 (defn generate-demo [index & [this-many]]
   (->>
@@ -276,8 +275,7 @@
      count)))
 
 (defn tokenize [input-string]
-  (binding [p/split-on #"[ ]"]
-    (p/tokenize input-string analyze)))
+  (p/tokenize input-string split-on analyze))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."

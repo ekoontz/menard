@@ -14,7 +14,6 @@
 
 ;; remove these: they prevent lazy evaluation.
 (def ^:dynamic truncate? false)
-(def ^:dynamic split-on #"[ ']+")
 (def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)
@@ -204,7 +203,7 @@
 (declare word-glue)
 (declare word-glue-wrapper)
 
-(defn all-groupings [input-string lookup-fn]
+(defn all-groupings [input-string split-on lookup-fn]
   (let [vector-of-words (clojure.string/split input-string split-on)]
     (->> (range 0 (int (Math/pow 2
                                  (- (count vector-of-words)
@@ -450,28 +449,19 @@
                 (lookup-fn-with-trim (nth tokens i) lookup-fn)])
              (range 0 (count tokens)))))
 
-;; TODO: should create all possible tokenizations.
-;; (in other words, more than one tokenization is possible, e.g.
-;;  if a token is made of separate words like "The White House".
 (defn tokenize
-  ([input analyze-fn]
-   (all-groupings input analyze-fn))
-
-  ;; deprecated:
-  ([input]
-   [(->> (-> input
-             (string/split split-on))
-         (filter #(not (string/blank? %))))]))
+  ([input split-on analyze-fn]
+   (all-groupings input analyze-fn)))
 
 (defn parse-start
-  [input analyze-fn]
+  [input split-on analyze-fn]
   ;; this 'doall' is necessary to force the lazy sequence
   ;; to use the bindings for the dynamic variable lookup-fn.
   ;; TODO: make 'lookup-fn' a parameter to (defn parse-start).
   (log/debug (str "parse-start input: " input))
   (log/debug (str "parse-start analyze-fn: " analyze-fn))
   (doall
-   (->> (tokenize input analyze-fn)
+   (->> (tokenize input split-on analyze-fn)
         (map (fn [tokenization]
                (log/debug (str "looking at tokenization: " (vec tokenization)))
                (create-input-map tokenization analyze-fn))))))
@@ -534,7 +524,7 @@
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
 
-(defn parse-all [expression load-model-fn syntax-tree-fn analyze-fn]
+(defn parse-all [expression load-model-fn syntax-tree-fn split-on analyze-fn]
   (let [model (load-model-fn)
 
         ;; remove trailing '.' if any:
@@ -546,10 +536,8 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
     (binding [l/morphology (-> model :morphology)
-              split-on #"[ ]"
               log-these-rules log-these-rules
               lookup-fn analyze-fn
-              truncate? true
               truncate-fn
               (fn [tree]
                 (let [left-is-head? (= (get tree :1) (get tree :head))]

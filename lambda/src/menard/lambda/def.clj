@@ -68,11 +68,13 @@
 
 (h/deflambda ParseENStart
   [event context]
-  (-> event
-      :queryStringParameters
-      :q
-      handlers/parse-en-start
-      json-response))
+  (let [model-name (or (-> event :queryStringParameters :model) "complete-model")
+        model (-> model-name handlers/get-source-model deref)]
+    (-> event
+        :queryStringParameters
+        :q
+        (#(handlers/parse-en-start % model))
+        json-response)))
 
 (h/deflambda GenerateNL
   [event context]

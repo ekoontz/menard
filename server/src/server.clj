@@ -119,7 +119,11 @@
                                      handlers/parse-nl-start)
                    query-params (-> request :query-params)
                    do-all? (-> query-params (get "all"))
-                   model (-> query-params (get "model") handlers/get-target-model deref)
+                   get-model-fn (cond (= language "en")
+                                      handlers/get-source-model
+                                      :else
+                                      handlers/get-target-model)
+                   model (-> query-params (get "model") get-model-fn deref)
                    intermediate-result
                    (if (and do-all? (seq do-all?))
                      (-> query-params
@@ -217,7 +221,9 @@
 
 (defn start-reload-loop []
   (go-loop []
-    (let [models [nl-complete/model nl-basic/model]]
+    (let [models [;;nl-complete/model
+                  ;;nl-basic/model
+                  nl-woordenlijst/model]]
       (doall
        (->> models
             (map (fn [model]

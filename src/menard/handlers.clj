@@ -279,13 +279,13 @@
                                  (map (fn [x] (-> x dag_unify.serialization/serialize str))
                                       (get intermediate-result k))]))))))))
 
-(defn parse-en-start [string-to-parse]
+(defn parse-en-start [string-to-parse model]
   (log/debug (str "parse-en-start input: '" string-to-parse "'"))
   (let [en-tokens (en/tokenize string-to-parse)]
     (cond (> (count en-tokens) 1)
           (let [intermediate-result (->> string-to-parse
                                          clojure.string/lower-case
-                                         en/parse-start)]
+                                         (en/parse-start model))]
             (log/debug (str "parse-en-start: intermediate-result: "
                             intermediate-result))
             (into {}
@@ -331,8 +331,8 @@
 
 (defn analyze [string-to-analyze language]
   ((-> language
-      language-to-analyze-fn)
-      string-to-analyze))
+       language-to-analyze-fn)
+   string-to-analyze))
 
 (defn rules [rule-name language]
   (let [model (language-to-model language)]

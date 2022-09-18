@@ -13,11 +13,11 @@
 (def parse-only-one? false)
 
 ;; remove these: they prevent lazy evaluation.
-(def ^:dynamic take-this-many 30)
 (def ^:dynamic debug-rule-for-comp nil)
 (def ^:dynamic enable-pmap? true)
 ;; a token can be max 7 words, e.g. "presidents of the united states of america".
 (def ^:dynamic max-token-length-in-words 7)
+(def ^:dynamic log-these-rules #{})
 
 ;; TODO: remove these: get from model instead.
 (def ^:dynamic lookup-fn (fn [_] (exception (str "lookup-fn was not bound."))))
@@ -25,6 +25,7 @@
 (def ^:dynamic syntax-tree (fn [x] (exception (str "'syntax-tree' was not bound."))))
 (def ^:dynamic morph (fn [x] (exception (str "'morph' was not bound."))))
 
+(def take-this-many 30)
 (declare truncate)
 
 (defn pmap-if-available [fn args]
@@ -36,8 +37,6 @@
        (map fn args)))
   #?(:cljs
      (map fn args)))
-
-(def ^:dynamic log-these-rules #{})
 
 (defn fail-path [dag1 dag2]
   (cond (or (not (map? dag1))

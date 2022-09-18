@@ -81,8 +81,7 @@
                                                                                     dag-to-string)))
 
         ;; 3. get the semantics of the source expression
-        source-parses (binding [menard.morphology/show-notes? false
-                                menard.parse/take-this-many 100]
+        source-parses (binding [menard.morphology/show-notes? false]
                         (log/debug (str "parsing source-expression: "
                                         (-> source-expression
                                             en/morph)))

@@ -322,10 +322,11 @@
               l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)
               p/lookup-fn (fn [token] (analyze token model))]
-      (->
-       expression
-       (p/all-groupings split-on (fn [token] (analyze token model)))
-       p/parse))))
+      (let [truncate? true]
+        (->
+         expression
+         (p/all-groupings split-on (fn [token] (analyze token model)))
+         (p/parse truncate?))))))
 
 (defn parse-start [expression & [model]]
   (let [model (or model (load-model))

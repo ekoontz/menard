@@ -21,7 +21,8 @@
              (let [spec (nth specifications index)
                    generated (->> (repeatedly #(generate spec))
                                   (filter #(not (nil? %)))
-                                  (take do-this-many-per-spec))]
+                                  (take do-this-many-per-spec))
+                   truncate? true]
                (log/debug (str "generated from spec: " index ":"
                               (clojure.string/join ","
                                                    (mapv syntax-tree generated))))

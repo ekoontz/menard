@@ -515,14 +515,13 @@
                      (lookup-fn-with-trim token lookup-fn))
                    tokenization))
                  partial-parses (vals (:all-parses result))]
-             (log/info (str "could not parse: \"" (vec tokenization) "\". token:sense pairs: "
-                            (string/join ";"
-                                         (pmap-if-available (fn [token]
-                                                              (str token ":" (count (get analyses token)) ""))
-                                                            tokenization))
-                            (str "; partial parses: " (count (mapcat (fn [parses-for-span]
-                                                                       (pmap-if-available syntax-tree parses-for-span))
-                                                                     partial-parses)) ".")))
+             (log/debug (str "could not parse: \"" (vec tokenization) "\" with "
+                             (count tokenization) " tokens having "
+                             "token:sense pairs: "
+                             (string/join ";"
+                                          (pmap-if-available (fn [token]
+                                                               (str token ":" (count (get analyses token)) ""))
+                                                             tokenization))))
              (->> (flatten partial-parses)
                   (map (fn [partial-parse]
                          (merge partial-parse {::partial? true})))))

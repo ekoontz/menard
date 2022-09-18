@@ -14,11 +14,12 @@
 (def enable-pmap? true)
 (def take-this-many 30)
 
-;; remove these: they prevent lazy evaluation.
+;; modify this to log specific parse rules e.g.
+;; (def log-these-rules #{"np:1" "np:2" "nbar"}).
+(def log-these-rules #{})
 
 ;; a token can be max 7 words, e.g. "presidents of the united states of america".
 (def max-token-length-in-words 7)
-(def ^:dynamic log-these-rules #{})
 
 ;; TODO: remove these: get from model instead.
 (def ^:dynamic lookup-fn (fn [_] (exception (str "lookup-fn was not bound."))))

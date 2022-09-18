@@ -37,11 +37,6 @@
 ;;
 
 ;; for parsing diagnostics:
-;;(def log-these-rules #{"vp-conj"})
-;;(def log-these-rules #{"np:1" "np:2" "nbar"})
-;;(def log-these-rules #{"s"})
-;;(def log-these-rules #{"conj-outer"})
-(def log-these-rules #{})
 (def truncate? true)
 (def split-on #"[ ]")
 
@@ -206,7 +201,6 @@
                p/grammar (-> model :grammar)
                p/syntax-tree syntax-tree
                p/morph morph
-               p/log-these-rules log-these-rules
                p/lookup-fn analyze-fn]
        (log/debug (str "calling p/parse with grammar: " (count (-> model :grammar))))
        (->

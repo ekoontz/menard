@@ -156,8 +156,6 @@
       (dissoc :1)
       (dissoc :2)))
 
-(def ^:dynamic truncate-fn truncate)
-
 (defn over [parents left-children right-children]
   (->>
    parents
@@ -183,7 +181,7 @@
 
    (map (fn [tree]
           (if truncate?
-            (truncate-fn tree)
+            (truncate tree)
             tree)))))
 
 (defn summary
@@ -538,15 +536,6 @@
     (binding [l/morphology (-> model :morphology)
               log-these-rules log-these-rules
               lookup-fn analyze-fn
-              truncate-fn
-              (fn [tree]
-                (let [left-is-head? (= (get tree :1) (get tree :head))]
-                  (-> tree
-                      (dissoc :head)
-                      (dissoc :comp)
-                      (assoc :left-is-head? left-is-head?)
-                      (assoc :1 (strip-map (u/get-in tree [:1])))
-                      (assoc :2 (strip-map (u/get-in tree [:2]))))))
               syntax-tree syntax-tree-fn]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map

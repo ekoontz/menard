@@ -116,16 +116,15 @@
                   retval)))
          doall)))
 
-(if basic/create-model?
-  (deftest transfer-basic
-    (->>
-     (range 0 (count nl/expressions))
-     (map (fn [i]
-            (println (str "transfering with nl/expression number: " i))
+(deftest transfer-basic
+  (->>
+   (range 0 (count nl/expressions))
+   (map (fn [i]
+          (println (str "transfering with nl/expression number: " i))
           (doall
            (take 10
                  (repeatedly #(transfer-fn i @basic/model))))))
-     doall)))
+   doall))
 
 (deftest transfer
   (let [start 0

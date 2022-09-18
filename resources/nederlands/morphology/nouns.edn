@@ -87,9 +87,9 @@
       :agr {:number :plur}
       :regular true}}
 
- ;; TODO: see what other consonants to add besides 'g':
- {:g [#"^(.*)oo([g])$"  "$1o$2en"]  ;; oog -> ogen
-  :p [#"^(.*)o([g])en$" "$1oo$2"]    ;; ogen -> oog
+ ;; TODO: see what other consonants to add besides 'g' and 'p':
+ {:g [#"^(.*)oo([gp])$"  "$1o$2en"]  ;; oog -> ogen
+  :p [#"^(.*)o([gp])en$" "$1oo$2"]    ;; ogen -> oog
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel

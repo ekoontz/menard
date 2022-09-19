@@ -410,6 +410,17 @@
                  :regular true}}
           (morph-leaf morphology)))))
 
+(deftest generate-brillen
+  (is (= "brillen"
+         (->
+          {:canonical "bril"
+           :null? false
+           :cat :noun
+           :agr {:number :plur
+                 :pronoun? false
+                 :regular true}}
+          (morph-leaf morphology)))))
+
 (deftest parsing-tests
   (is
    (= "[s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .samen +bestrijden]]]"

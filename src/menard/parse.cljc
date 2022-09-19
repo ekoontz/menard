@@ -435,7 +435,7 @@
 
 (defn tokenize
   ([input split-on analyze-fn]
-   (all-groupings input analyze-fn)))
+   (all-groupings input split-on analyze-fn)))
 
 (defn parse-start
   [input split-on analyze-fn]

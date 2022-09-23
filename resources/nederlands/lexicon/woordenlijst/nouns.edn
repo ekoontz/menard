@@ -245,7 +245,9 @@
  "korting"
  [{:cat :noun, :sem {:pred "discount"}, :curriculum :woordenlijst}],
  "broer"
- [{:cat :noun, :sem {:pred "brother"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "brother"}, :curriculum :woordenlijst
+   :exceptions [{:agr {:number :plur}
+                 :surface "broers"}]}]
  "trein"
  [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst}],
  "geboorte"

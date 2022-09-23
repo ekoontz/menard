@@ -117,8 +117,8 @@
 
  ;; <bril,jas,kat,boodschap,man -> brillen, jassen,katten,boodschappen,mannen>
  ;; but         : tonijn        -> tonijnen, not *tonijnnen.
- {:g [#"^(.*[aeiou])(n)$"    "$1$2$2en"] 
-  :p [#"^(.*[aeiou])(n)nen$" "$1$2"] 
+ {:g [#"^(.*[^aeiou][aeiou])(n)$"    "$1$2$2en"] 
+  :p [#"^(.*[^aeiou][aeiou])(n)nen$" "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant

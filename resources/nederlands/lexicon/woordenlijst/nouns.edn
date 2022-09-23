@@ -143,9 +143,7 @@
    :sem {:pred "animal"},
    :curriculum :woordenlijst}],
  "citroen"
- [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst
-   :exceptions [{:agr {:number :plur}
-                 :surface "citroenen"}]}]
+ [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst}]
  "tegoedbon"
  [{:cat :noun, :sem {:pred "credit note"}, :curriculum :woordenlijst}],
  "fruit"
@@ -253,7 +251,7 @@
    :exceptions [{:agr {:number :plur}
                  :surface "broers"}]}]
  "trein"
- [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst
  "geboorte"
  [{:cat :noun, :sem {:pred "birth"}, :curriculum :woordenlijst}],
  "datum"
@@ -436,7 +434,6 @@
  [{:cat :noun, :sem {:pred "giant"}, :curriculum :woordenlijst
    :exceptions [{:agr {:number :plur}
                  :surface "reuzen"}]}]
-
  "familie"
  [{:cat :noun,
    :sem {:pred "family, relatives"},

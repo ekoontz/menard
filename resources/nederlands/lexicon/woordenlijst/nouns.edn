@@ -192,7 +192,9 @@
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "hole"},
-   :curriculum :woordenlijst}],
+   :curriculum :woordenlijst
+   :exception [{:agr {:number :plur}
+                :surface "gaten"}]}]
  "slagroom"
  [{:cat :noun,
    :sem {:pred "whipping, whipped cream"},

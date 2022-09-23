@@ -223,6 +223,7 @@
   (go-loop []
     (let [models [;;nl-complete/model
                   ;;nl-basic/model
+                  en-woordenlijst/model
                   nl-woordenlijst/model]]
       (doall
        (->> models
@@ -230,11 +231,13 @@
                    (let [last-file-check (get (-> model deref) :last-checked 0)]
                      (log/info (str "checking model last modified at: "  (jt/java-date last-file-check) " with model name: " (-> model deref :name) " for changes.."))
                      ;; TODO: check model config files rather than <path> <filename-pattern>:
-                     (let [nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
+                     (let [en-file-infos (get-info-of-files "../resources/english" "**{.edn}")
+                           nl-file-infos (get-info-of-files "../resources/nederlands" "**{.edn}")
                            general-file-infos (get-info-of-files "../resources" "*{.edn}")
                            most-recently-modified-info
                            (->>
-                            (concat nl-file-infos
+                            (concat en-file-infos
+                                    nl-file-infos
                                     general-file-infos)
                             (sort (fn [a b] (> (:last-modified-time-ms a) (:last-modified-time-ms b))))
                             first)

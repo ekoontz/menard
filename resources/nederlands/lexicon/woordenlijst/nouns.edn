@@ -251,7 +251,7 @@
    :exceptions [{:agr {:number :plur}
                  :surface "broers"}]}]
  "trein"
- [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst
+ [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst}]
  "geboorte"
  [{:cat :noun, :sem {:pred "birth"}, :curriculum :woordenlijst}],
  "datum"

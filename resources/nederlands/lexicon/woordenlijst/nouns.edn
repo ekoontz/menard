@@ -768,6 +768,10 @@
    :cat :noun,
    :sem {:pred "balcony"},
    :curriculum :woordenlijst}]
- "ei" [{:cat :noun, :sem {:pred "egg"}}]}
+ "ei" [{:cat :noun, :sem {:pred "egg"}
+        :exceptions [{:agr {:number :plur}
+                      :surface "eiren"}]}]}
+
+
 
 

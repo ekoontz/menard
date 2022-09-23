@@ -610,7 +610,9 @@
  "that's not old, is it?"
  [{:cat :noun, :sem {:pred "that's not old, is it?"}}],
  "size" [{:cat :noun, :sem {:pred "size"}}],
- "trousers" [{:cat :noun, :sem {:pred "trousers"}}],
+ "pair of trousers" [{:cat :noun, :sem {:pred "trousers"}
+                      :exceptions [{:agr {:number :plur}
+                                    :surface "pairs of trousers"}]}]
  "sir (hello sir) / Mr. (Mr. Bos)"
  [{:cat :noun, :sem {:pred "sir (hello sir) / Mr. (Mr. Bos)"}}],
  "colleague" [{:cat :noun, :sem {:pred "colleague"}}],
@@ -722,7 +724,9 @@
  "to wear" [{:cat :noun, :sem {:pred "to wear"}}],
  "yesterday" [{:cat :noun, :sem {:pred "yesterday"}}],
  "school" [{:cat :noun, :sem {:pred "school"}}],
- "jeans" [{:cat :noun, :sem {:pred "jeans"}}],
+ "pair of jeans" [{:cat :noun, :sem {:pred "jeans"}
+                   :exceptions [{:agr {:number :plur}
+                                 :surface "pairs of jeans"}]}]
  "young" [{:cat :noun, :sem {:pred "young"}}],
  "(town, city) center"
  [{:cat :noun, :sem {:pred "(town, city) center"}}],

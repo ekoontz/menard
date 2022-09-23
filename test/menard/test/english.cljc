@@ -35,4 +35,21 @@
                             (log/debug (str "each-parse: " (syntax-tree each-parse)))
                             (is (not (empty? each-parse))))))))))))
 
+(deftest woordenlijst-generate
+  (let [spec {:rule "np:2"
+              :cat :noun
+              :agr {:number :sing}
+              :max-depth 1
+              :sem {:pred "trousers"}
+              :phrasal? true
+              :subcat []}]
+    (is (not (empty?
+              (->
+               spec
+               ((fn [spec]
+                  (let [generated-expression
+                        (generate spec woordenlijst/model)]
+                    (log/info (str "generated: " (morph generated-expression)))
+                    generated-expression)))
+               ((fn [x] (str (morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
 

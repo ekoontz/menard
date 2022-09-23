@@ -578,10 +578,13 @@
  "much, many" [{:cat :noun, :sem {:pred "much, many"}}],
  "no" [{:cat :noun, :sem {:pred "no"}}],
  "e-purse for public transportation"
- [{:cat :noun, :sem {:pred "e-purse for public transportation"}}],
+ [{:cat :noun, :sem {:pred "e-purse for public transportation"}
+   :exceptions [{:agr {:number :plur}
+                 :surface "e-purses for public transportation"}]}]
  "date" [{:cat :noun, :sem {:pred "date"}}],
  "congratulations, sincere best wishes"
- [{:cat :noun, :sem {:pred "congratulations, sincere best wishes"}}],
+ [{:cat :noun, :sem {:pred "congratulations, sincere best wishes"}
+   :agr {:number :sing}}]
  "(street) map" [{:cat :noun, :sem {:pred "(street) map"}}],
  "for example" [{:cat :noun, :sem {:pred "for example"}}],
  "to refund" [{:cat :noun, :sem {:pred "to refund"}}],

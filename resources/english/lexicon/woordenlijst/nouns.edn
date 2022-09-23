@@ -49,7 +49,9 @@
  "to run" [{:cat :noun, :sem {:pred "to run"}}],
  "downstairs" [{:cat :noun, :sem {:pred "downstairs"}}],
  "purple" [{:cat :noun, :sem {:pred "purple"}}],
- "advice" [{:cat :noun, :sem {:pred "advice"}}],
+ "advice" [{:cat :noun, :sem {:pred "advice"}
+            :exceptions [{:agr {:number :plur}
+                          :surface "pieces of advice"}]}]
  "to live" [{:cat :noun, :sem {:pred "to live"}}],
  "to offer" [{:cat :noun, :sem {:pred "to offer"}}],
  "park" [{:cat :noun, :sem {:pred "park"}}],
@@ -61,7 +63,9 @@
  "to sail" [{:cat :noun, :sem {:pred "to sail"}}],
  "type of croquette served as an appetizer"
  [{:cat :noun,
-   :sem {:pred "type of croquette served as an appetizer"}}],
+   :sem {:pred "croquette served as an appetizer"}
+   :exception [{:agr {:number :plur}
+                :surface "croquettes served as an appetizer"}]}]
  "excellent" [{:cat :noun, :sem {:pred "excellent"}}],
  "to go / to match with - to go well in"
  [{:cat :noun, :sem {:pred "to go / to match with - to go well in"}}],
@@ -355,8 +359,14 @@
  [{:cat :noun, :sem {:pred "can, to be able to"}}],
  "bag (would you like a bag?)"
  [{:cat :noun, :sem {:pred "bag (would you like a bag?)"}}],
- "glasses, spectacles"
- [{:cat :noun, :sem {:pred "glasses, spectacles"}}],
+ "pair of glasses"
+ [{:cat :noun, :sem {:pred "glasses, spectacles"}
+   :exceptions [{:agr {:number :plur}
+                 :surface "pairs of glasses"}]}]
+ "spectacles"
+ [{:cat :noun, :sem {:pred "glasses, spectacles"}
+   :exceptions [{:agr {:number :plur}
+                 :surface "pairs of spectacles"}]}]
  "to look at" [{:cat :noun, :sem {:pred "to look at"}}],
  "often" [{:cat :noun, :sem {:pred "often"}}],
  "broken" [{:cat :noun, :sem {:pred "broken"}}],
@@ -370,13 +380,17 @@
  "address" [{:cat :noun, :sem {:pred "address"}}],
  "direction" [{:cat :noun, :sem {:pred "direction"}}],
  "proposal, proposition"
- [{:cat :noun, :sem {:pred "proposal, proposition"}}],
+ [{:cat :noun, :sem {:pred "proposal, proposition"}
+   :exceptions [{:surface "proposals, propostitions"
+                 :agr {:number :plur}}]}]
  "general" [{:cat :noun, :sem {:pred "general"}}],
  "cinema" [{:cat :noun, :sem {:pred "cinema"}}],
  "which, what" [{:cat :noun, :sem {:pred "which, what"}}],
  "student" [{:cat :noun, :sem {:pred "student"}}],
  "what" [{:cat :noun, :sem {:pred "what"}}],
- "customer, client" [{:cat :noun, :sem {:pred "customer, client"}}],
+ "customer, client" [{:cat :noun, :sem {:pred "customer, client"}
+                      :exceptions [{:agr {:number :plur}
+                                    :surface "customers, clients"}]}]
  "nothing" [{:cat :noun, :sem {:pred "nothing"}}],
  "to know" [{:cat :noun, :sem {:pred "to know"}}],
  "music" [{:cat :noun, :sem {:pred "music"}}],
@@ -671,7 +685,9 @@
  "shall / will" [{:cat :noun, :sem {:pred "shall / will"}}],
  "best regards" [{:cat :noun, :sem {:pred "best regards"}}],
  "female friend / girlfriend"
- [{:cat :noun, :sem {:pred "female friend / girlfriend"}}],
+ [{:cat :noun, :sem {:pred "female friend / girlfriend"}
+   :exceptions [{:surface "female friends / girlfriends"
+                 :agr {:number :plur}}]}]
  "tea" [{:cat :noun, :sem {:pred "tea"}}],
  "male neighbour" [{:cat :noun, :sem {:pred "male neighbour"}}],
  "to want" [{:cat :noun, :sem {:pred "to want"}}],

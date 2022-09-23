@@ -143,7 +143,9 @@
    :sem {:pred "animal"},
    :curriculum :woordenlijst}],
  "citroen"
- [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst
+   :exceptions [{:agr {:number :plur}
+                 :surface "citroenen"}]}]
  "tegoedbon"
  [{:cat :noun, :sem {:pred "credit note"}, :curriculum :woordenlijst}],
  "fruit"
@@ -193,8 +195,8 @@
    :cat :noun,
    :sem {:pred "hole"},
    :curriculum :woordenlijst
-   :exception [{:agr {:number :plur}
-                :surface "gaten"}]}]
+   :exceptions [{:agr {:number :plur}
+                 :surface "gaten"}]}]
  "slagroom"
  [{:cat :noun,
    :sem {:pred "whipping, whipped cream"},
@@ -460,7 +462,12 @@
  "tonijn"
  [{:cat :noun, :sem {:pred "tuna"}, :curriculum :woordenlijst}],
  "brug"
- [{:cat :noun, :sem {:pred "bridge"}, :curriculum :woordenlijst}],
+ [{:cat :noun, :sem {:pred "bridge"}, :curriculum :woordenlijst
+   :exceptions [{:surface "bruggen"
+                 ;; maybe this is regular:
+                 ;; if so, fix morphology/nouns.edn and
+                 ;; remove this.
+                 :agr {:number :plur}}]}]
  "kip"
  [{:cat :noun, :sem {:pred "chicken"}, :curriculum :woordenlijst}],
  "bakker"

@@ -346,7 +346,7 @@
    :cat :noun,
    :sem {:pred "meat"},
    :curriculum :woordenlijst}],
- "meubels"
+ "meubel"
  [{:cat :noun, :sem {:pred "furniture"}, :curriculum :woordenlijst}],
  "woningbouwvereniging"
  [{:cat :noun,

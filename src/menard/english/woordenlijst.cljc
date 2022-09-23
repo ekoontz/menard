@@ -11,9 +11,8 @@
 
 (def create-model? true)
 
-;; TODO: s/en-model/model/
 (when create-model?
-  (def en-model
+  (def model
     (ref (create "english/models/woordenlijst"
                  "woordenlijst"
                  compile-lexicon))))

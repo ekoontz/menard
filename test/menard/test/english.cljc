@@ -3,7 +3,8 @@
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [cljslog.core :as log])))
+            #?(:cljs [cljslog.core :as log])
+            [menard.english.woordenlijst :as woordenlijst]))
 
 (load-model)
 (deftest all-specifications-work

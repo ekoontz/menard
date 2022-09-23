@@ -41,9 +41,9 @@
   (let [result
         (let [model-name (or given-model-name "complete-model")]
           (cond (= "woordenlijst-model" model-name)
-                en-woordenlijst/en-model
+                en-woordenlijst/model
                 (= "woordenlijst" model-name)
-                en-woordenlijst/en-model
+                en-woordenlijst/model
                 
                 given-model-name
                 (do

@@ -64,8 +64,8 @@
  "type of croquette served as an appetizer"
  [{:cat :noun,
    :sem {:pred "croquette served as an appetizer"}
-   :exception [{:agr {:number :plur}
-                :surface "croquettes served as an appetizer"}]}]
+   :exceptions [{:agr {:number :plur}
+                 :surface "croquettes served as an appetizer"}]}]
  "excellent" [{:cat :noun, :sem {:pred "excellent"}}],
  "to go / to match with - to go well in"
  [{:cat :noun, :sem {:pred "to go / to match with - to go well in"}}],

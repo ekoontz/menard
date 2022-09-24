@@ -3,6 +3,7 @@
    [clojure.tools.logging :as log]
    [java-time :refer [instant minus]]
    [dag_unify.core :as u]
+   [dag_unify.serialization :refer [serialize]]
    [dag_unify.diagnostics :refer [strip-refs]]
    [menard.english :as en]
    [menard.english.complete :as en-complete]
@@ -64,9 +65,7 @@
         source-model (cond (= (type source-model) clojure.lang.Ref)
                            @source-model
                            :else source-model)
-        debug (log/info (str "generate-nl-and-en: generating a question with spec: " spec))
-        debug (log/info (str "generate-nl-and-en: target-model type: " (type target-model)))
-        debug (log/info (str "generate-nl-and-en: source-model type: " (type source-model)))
+        debug (log/debug (str "generate-nl-and-en: generating a target expression with spec: " (serialize spec)))
 
         ;; 1. generate a target expression
         nl-spec (merge spec {:language "nl"})
@@ -77,33 +76,26 @@
         target-semantics (-> target-expression (u/get-in [:sem]))
 
         ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
-        debug (log/info (str "generate-nl-and-en: target-semantics: " (strip-refs target-semantics)))
-        debug (log/info (str "generate-nl-and-en: source-model keys: " (-> source-model keys)))
-        debug (log/info (str "generate-nl-and-en: source-spec: " (-> target-expression tr/nl-to-en-spec)))
+        debug (log/debug (str "generate-nl-and-en: target-semantics: " (serialize target-semantics)))
         source-expression
         (->> (repeatedly #(-> target-expression tr/nl-to-en-spec
                               (merge {:language "en"})
                               ((fn [spec]
-                                 (log/info (str "generate-nl-and-en: en/generate with spec: " spec))
+                                 (log/debug (str "generate-nl-and-en: en/generate with spec: " (serialize spec)))
                                  (en/generate spec source-model)))))
              (take source-generation-tries)
              (remove empty?) ;; remove failed attempts
              (take 1)
              first)
-        debug (log/info (str "generated an en source expression (maybe): " (type source-expression)))
-        debug (log/info (str " morph of the en source expression (maybe): " (-> source-expression en/morph)))
-        debug (log/info (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
-                                                                                   dag-to-string)))
-        
         ;; 3. get the semantics of the source expression
         source-parses (binding [menard.morphology/show-notes? false]
-                        (log/info (str "parsing source-expression: "
-                                       (-> source-expression
-                                           en/morph)))
+                        (log/debug (str "parsing source-expression: "
+                                        (-> source-expression
+                                            en/morph)))
                         (-> source-expression
                             en/morph
                             (en/parse source-model)))
-        debug (log/info (str "source parses:"
+        debug (log/debug (str "source parses:"
                               (->> source-parses
                                    (map en/syntax-tree)
                                    (clojure.string/join ","))))

@@ -394,10 +394,6 @@
                        (fn [] grammar)
                        spec)
                  ((fn [model]
-
-                    (log/info (str "create-model-from-filesystem: THE 55th RULE: "
-                                   (-> model :morphology (nth 55))))
-                    
                     (merge model
                            {:name (-> spec :name)
                             :spec spec

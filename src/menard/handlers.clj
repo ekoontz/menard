@@ -58,7 +58,13 @@
   translate to English with _source_model, and return this pair
    along with the semantics of the English specification also."
   [spec target-model source-model]
-  (let [debug (log/info (str "generate-nl-and-en: generating a question with spec: " spec))
+  (let [target-model (cond (= (type target-model) clojure.lang.Ref)
+                           @target-model
+                           :else target-model)
+        source-model (cond (= (type source-model) clojure.lang.Ref)
+                           @source-model
+                           :else source-model)
+        debug (log/info (str "generate-nl-and-en: generating a question with spec: " spec))
         debug (log/info (str "generate-nl-and-en: target-model type: " (type target-model)))
         debug (log/info (str "generate-nl-and-en: source-model type: " (type source-model)))
 
@@ -72,7 +78,7 @@
 
         ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
         debug (log/info (str "generate-nl-and-en: target-semantics: " (strip-refs target-semantics)))
-        debug (log/info (str "generate-nl-and-en: source-model keys: " (-> source-model deref keys)))
+        debug (log/info (str "generate-nl-and-en: source-model keys: " (-> source-model keys)))
         debug (log/info (str "generate-nl-and-en: source-spec: " (-> target-expression tr/nl-to-en-spec)))
         source-expression
         (->> (repeatedly #(-> target-expression tr/nl-to-en-spec

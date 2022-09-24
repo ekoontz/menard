@@ -337,46 +337,6 @@
                    :spec model-spec
                    :lexicon-index-fn (lexicon-index-fn model)}))))))))
 
-(def basic-spec
-  {:name "basic"
- :language "nl"
- :morphology {:path "nederlands/morphology"
-              :sources ["adjectives.edn"
-                        "misc.edn"
-                        "nouns.edn"
-                        "verbs.edn"
-                        "verbs/simple-past.edn"]}
- :grammar "nederlands/grammar.edn"
- :lexicon {:path "nederlands/lexicon"
-           :rules "rules.edn"
-           :sources {"adjectives.edn"
-                     {:u
-                      {:cat :adjective}}
-                     "adverbs.edn"
-                     {:u {:cat :adverb}}
-                     "determiners.edn"
-                     {:u {:cat :det}}
-                     "exclamations.edn"
-                     {:u {:cat :exclamation}}
-                     "intensifiers.edn"
-                     {:u {:cat :intensifier}}
-                     "misc.edn"
-                     {:u {}}
-                     "nouns.edn"
-                     {:u {:cat :noun}}
-                     "numbers.edn"
-                     {:u {:cat :adjective
-                          :sem {:number? true}}}
-                     "prepositions.edn"
-                     {:u {:cat :prep}}
-                     "pronouns.edn"
-                     {:u {:cat :noun :pronoun? true}}
-                     "propernouns.edn"
-                     {:u {:cat :noun :propernoun? true}}
-                     "verbs.edn"
-                     {:u {:cat :verb}
-                      :f 'menard.nederlands.compile/mark-irregular-verbs}}
-           :filter-fn 'menard.nederlands.basic/basic-filter}})
 
 
 #?(:clj

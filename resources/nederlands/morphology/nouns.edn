@@ -136,8 +136,8 @@
       :regular true}}
 
  ;; plek,gesprek -> plekken,gesprekken
- {:g [#"([lrt])([eou])k$"        "$1$2kken"]
-  :p [#"(.*)([lrt])([eou])kken$" "$1$2$3k"]
+ {:g [#"([lrst])([eou])k$"        "$1$2kken"]
+  :p [#"(.*)([lrst])([eou])kken$" "$1$2$3k"]
   :u {:cat :noun
       :null? false
       :inflection :repeated-k

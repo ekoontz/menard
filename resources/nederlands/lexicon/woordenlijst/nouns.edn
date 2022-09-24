@@ -236,7 +236,7 @@
  [{:cat :noun, :sem {:pred "waiter"}, :curriculum :woordenlijst}],
  "bitterbal"
  [{:cat :noun,
-   :sem {:pred "type of croquette served as an appetizer"},
+   :sem {:pred "croquette served as an appetizer"},
    :curriculum :woordenlijst}],
  "dame" [{:cat :noun, :sem {:pred "lady"}, :curriculum :woordenlijst}],
  "dessert"

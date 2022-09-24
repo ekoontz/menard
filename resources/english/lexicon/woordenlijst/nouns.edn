@@ -262,7 +262,9 @@
  "appetite (I am hungry)"
  [{:cat :noun, :sem {:pred "appetite (I am hungry)"}}],
  "to like" [{:cat :noun, :sem {:pred "to like"}}],
- "sneakers" [{:cat :noun, :sem {:pred "sneakers"}}],
+ "pair of sneakers" [{:cat :noun, :sem {:pred "sneakers"}
+                      :exceptions [{:agr {:number :plur}
+                                    :surface "pairs of sneakers"}]}]
  "personal" [{:cat :noun, :sem {:pred "personal"}}],
  "driving lesson" [{:cat :noun, :sem {:pred "driving lesson"}}],
  "tomorrow" [{:cat :noun, :sem {:pred "tomorrow"}}],

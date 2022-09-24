@@ -178,11 +178,18 @@
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
- 
- ;; kat -> katten
- ;; but exclude:
- ;; universiteit   -> *universiteitten
- ;;  (universiteit   -> universiteiten)
+ {;; bed -> bedden
+  :g [#"^(.*[^aeiou][aieou])(d)$"    "$1$2$2en"] 
+  
+  ;;      consonant  vowel   dd   ->  single-d
+  :p [#"^(.*[^aeiou][aeiou])(d)den$" "$1$2"] 
+  :u {:cat :noun
+      :null? false
+      :inflection :repeated-consonant
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
+
  {;;      consonant  vowel   t   ->   double-t
   :g [#"^(.*[^aeiou][aieou])(t)$"    "$1$2$2en"] 
   
@@ -194,7 +201,7 @@
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
-
+ 
  ;; </jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
 
  {:g [#"^(.*)f$"    "$1ven"]         ;; druif   -> druiven

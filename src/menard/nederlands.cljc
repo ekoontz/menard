@@ -132,18 +132,21 @@
                     (exception (str "invalid model: " model)))
         name (-> model :spec :name)]
     (if name
-      (log/debug (str "generating with model named: " name))
+      (log/info (str "menard.nederlands/generate: generating with model named: " name))
       (log/warn (str "generating with model with no name, but has keys: " (keys model)
                      " and maybe a spec? " (:spec model))))
-    (binding [g/max-depth (:max-depth spec g/max-depth)
-              g/max-fails (:max-fails spec g/max-fails)
-              g/allow-backtracking? true]
-      (-> spec
-          ((fn [x] (unify x (:training-wheels x :top))))
-          (dissoc :training-wheels)
+    (let [retval
+          (binding [g/max-depth (:max-depth spec g/max-depth)
+                    g/max-fails (:max-fails spec g/max-fails)
+                    g/allow-backtracking? true]
+            (-> spec
+                ((fn [x] (unify x (:training-wheels x :top))))
+                (dissoc :training-wheels)
           (g/generate (-> model :grammar)
                       (-> model :lexicon-index-fn)
-                      syntax-tree)))))
+                      syntax-tree)))]
+      (log/info (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
+      retval)))
 
 (defn generate-all
   "generate all expressions that satisfy _spec_."

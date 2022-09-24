@@ -102,6 +102,7 @@
  "treurig" [{:sem {:pred :pathetic}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "vastberaden" [{:sem {:pred :determined}}]
+ "veelzijdig" [{:sem {:pred :versatile}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]
  "vernuftig" [{:sem {:pred :clever}}] 
  "verrast" [{:sem {:pred :surprised}}]

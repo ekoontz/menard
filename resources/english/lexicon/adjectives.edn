@@ -151,6 +151,7 @@
  "unusual" [{:sem {:pred :unusual}}]
  "useful" [{:sem {:pred :useful}}]
  "valid" [{:sem {:pred :valid}}]
+ "versatile" [{:sem {:pred :versatile}}]
  "white" [{:sem {:pred :white}}]
  "whole" [{:sem {:pred :whole}}]
  "wide" [{:sem {:pred :wide}}]

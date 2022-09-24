@@ -572,8 +572,8 @@
  "car" [{:cat :noun, :sem {:pred "car"}}],
  "at lunch time " [{:cat :noun, :sem {:pred "at lunch time "}}],
  "piece of furniture" [{:cat :noun, :sem {:pred "furniture"}
-                        :exception [{:agr {:number :plur}
-                                     :surface "pieces of furniture"}]}]
+                        :exceptions [{:agr {:number :plur}
+                                      :surface "pieces of furniture"}]}]
  "to get, to catch, to grasp"
  [{:cat :noun, :sem {:pred "to get, to catch, to grasp"}}],
  "to arrive" [{:cat :noun, :sem {:pred "to arrive"}}],

@@ -58,7 +58,10 @@
   translate to English with _source_model, and return this pair
    along with the semantics of the English specification also."
   [spec target-model source-model]
-  (let [debug (log/debug (str "generate-nl-and-en: generating a question with spec: " spec))
+  (let [debug (log/info (str "generate-nl-and-en: generating a question with spec: " spec))
+        debug (log/info (str "generate-nl-and-en: target-model type: " (type target-model)))
+        debug (log/info (str "generate-nl-and-en: source-model type: " (type source-model)))
+
         ;; 1. generate a target expression
         nl-spec (merge spec {:language "nl"})
         target-expression (->> (repeatedly #(nl/generate spec target-model))

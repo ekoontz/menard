@@ -447,7 +447,9 @@
  "wedding" [{:cat :noun, :sem {:pred "wedding"}}],
  "pedestrian crossing, zebra crossing"
  [{:cat :noun, :sem {:pred "pedestrian crossing, zebra crossing"}}],
- "match, game" [{:cat :noun, :sem {:pred "match, game"}}],
+ "match, game" [{:cat :noun, :sem {:pred "match, game"}
+                 :exceptions [{:agr {:number :plur}
+                               :surface "matches, games"}]}]
  "along the water's edge"
  [{:cat :noun, :sem {:pred "along the water's edge"}}],
  "to participate" [{:cat :noun, :sem {:pred "to participate"}}],

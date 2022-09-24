@@ -72,12 +72,13 @@
 
         ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
         debug (log/info (str "generate-nl-and-en: target-semantics: " (strip-refs target-semantics)))
-        debug (log/info (str "generate-nl-and-en: source-model keys: " (keys source-model)))
+        debug (log/info (str "generate-nl-and-en: source-model keys: " (-> source-model deref keys)))
         debug (log/info (str "generate-nl-and-en: source-spec: " (-> target-expression tr/nl-to-en-spec)))
         source-expression
         (->> (repeatedly #(-> target-expression tr/nl-to-en-spec
                               (merge {:language "en"})
                               ((fn [spec]
+                                 (log/info (str "generate-nl-and-en: en/generate with spec: " spec))
                                  (en/generate spec source-model)))))
              (take source-generation-tries)
              (remove empty?) ;; remove failed attempts

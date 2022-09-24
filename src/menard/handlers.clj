@@ -129,10 +129,10 @@
                    ", generated: '" (-> source-expression en/morph) "'"
                    " -> '"  (-> target-expression nl/morph) "'"))
     (let [result
-          {:source (-> source-expression en/morph)
-           :target (-> target-expression nl/morph)
-           :source-tree (-> source-expression en/syntax-tree)
-           :target-tree (-> target-expression nl/syntax-tree)
+          {:source (-> source-expression ((:morph-fn source-model)))
+           :target (-> target-expression ((:morph-fn target-model)))
+           :source-tree (-> source-expression ((:syntax-tree-fn source-model)))
+           :target-tree (-> target-expression ((:syntax-tree-fn target-model)))
            :target-root (-> target-expression (u/get-in [:head :root] :top))
            :source-sem (map dag-to-string source-semantics)}]
       (when (empty? source-expression)

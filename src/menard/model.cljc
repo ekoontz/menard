@@ -14,6 +14,7 @@
             [menard.morphology :as m]
             [menard.nederlands.tenses]
             [menard.nesting]
+            [menard.serialization :as s]
             [menard.subcat]
             [menard.ug]))
 
@@ -133,6 +134,8 @@
 
 #?(:clj
    (defn load-morphology [path-prefix source-files]
+     (log/info (str "load-morphology: path-prefix: " path-prefix
+                    "; source-files: " (vec source-files)))
      (m/compile-morphology-fn
       (map (fn [source-file]
              (use-path (str path-prefix "/" source-file)))
@@ -321,23 +324,25 @@
                 ;; loads the lexical rules:
                 ;; (we already did this above,
                 ;;  so we'll just return those rules.
-              (fn [] lexical-rules)
-              
-              ;; function to load the lexicon:
-              (fn [_] lexicon)
-              
-              ;; function to load the morphology:
-              (fn [] morphology)
-              
-              (fn [] grammar)
-              model-spec)
-        ((fn [model]
-           (merge model
-                  {:name name
-                   :spec model-spec
-                   :lexicon-index-fn (lexicon-index-fn model)}))))))))
+                (fn [] lexical-rules)
 
+                ;; function to load the lexicon:
+                (fn [_] lexicon)
 
+                ;; function to load the morphology:
+                (fn [] morphology)
+
+                (fn [] grammar)
+                model-spec)
+          ((fn [model]
+             (merge model
+                    {:name name
+                     :spec model-spec
+                     :lexicon-index-fn (lexicon-index-fn model)
+                     :syntax-tree-fn (fn [tree]
+                                       (s/syntax-tree tree (:morphology model)))
+                     :morph-fn (fn [tree]
+                                 (s/morph tree (:morphology model)))}))))))))
 
 #?(:clj
    (defn create-model-from-filesystem [spec compile-lexicon-fn & [use-env]]
@@ -389,9 +394,17 @@
                        (fn [] grammar)
                        spec)
                  ((fn [model]
+
+                    (log/info (str "create-model-from-filesystem: THE 55th RULE: "
+                                   (-> model :morphology (nth 55))))
+                    
                     (merge model
                            {:name (-> spec :name)
                             :spec spec
+                            :syntax-tree-fn (fn [tree]
+                                              (s/syntax-tree tree (:morphology model)))
+                            :morph-fn (fn [tree]
+                                        (s/morph tree (:morphology model)))
                             :lexicon-index-fn (lexicon-index-fn model)}))))))))))))
 
 #?(:clj

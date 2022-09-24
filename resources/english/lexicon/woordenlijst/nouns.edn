@@ -163,7 +163,7 @@
  "to get, to receive"
  [{:cat :noun, :sem {:pred "to get, to receive"}}],
  "to be" [{:cat :noun, :sem {:pred "to be"}}],
- "check out" [{:cat :noun, :sem {:pred "check out"}}],
+ "check out counter" [{:cat :noun, :sem {:pred "check out"}}],
  "father" [{:cat :noun, :sem {:pred "father"}}],
  "salary" [{:cat :noun, :sem {:pred "salary"}}],
  "then, than" [{:cat :noun, :sem {:pred "then, than"}}],
@@ -378,8 +378,10 @@
  "butcher" [{:cat :noun, :sem {:pred "butcher"}}],
  "French bean, green bean"
  [{:cat :noun, :sem {:pred "French bean, green bean"}}],
- "salesman, woman, shop assistant"
- [{:cat :noun, :sem {:pred "salesman, woman, shop assistant"}}],
+ "salesman, saleswoman, shop assistant"
+ [{:cat :noun, :sem {:pred "salesman, woman, shop assistant"}
+   :exceptions [{:agr {:number :plural}
+                 :surface "salesmen, saleswomen, shop assistants"}]}]
  "address" [{:cat :noun, :sem {:pred "address"}}],
  "direction" [{:cat :noun, :sem {:pred "direction"}}],
  "proposal, proposition"
@@ -404,8 +406,12 @@
  [{:cat :noun, :sem {:pred "happy (glad to hear it)"}}],
  "or" [{:cat :noun, :sem {:pred "or"}}],
  "to ask" [{:cat :noun, :sem {:pred "to ask"}}],
- "mistake, error, fault"
- [{:cat :noun, :sem {:pred "mistake, error, fault"}}],
+ "mistake"
+ [{:cat :noun, :sem {:pred "mistake, error, fault"}}]
+ "error"
+ [{:cat :noun, :sem {:pred "mistake, error, fault"}}]
+ "fault"
+ [{:cat :noun, :sem {:pred "mistake, error, fault"}}]
  "Dutch" [{:cat :noun, :sem {:pred "Dutch"}}],
  "eye" [{:cat :noun, :sem {:pred "eye"}}],
  "hospital" [{:cat :noun, :sem {:pred "hospital"}}],
@@ -423,7 +429,9 @@
  [{:cat :noun, :sem {:pred "female neighbour"}}],
  "subway, tube, underground"
  [{:cat :noun, :sem {:pred "subway, tube, underground"}}],
- "family doctor, general practitioner"
+ "family doctor"
+ [{:cat :noun, :sem {:pred "family doctor, general practitioner"}}],
+ "general practitioner"
  [{:cat :noun, :sem {:pred "family doctor, general practitioner"}}],
  "bicycle" [{:cat :noun, :sem {:pred "bicycle"}}],
  "awake" [{:cat :noun, :sem {:pred "awake"}}],

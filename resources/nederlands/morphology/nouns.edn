@@ -126,12 +126,9 @@
       :agr {:number :plur}
       :regular true}}
 
- ;; bril -> brillen
-
-
  ;; plek,gesprek -> plekken,gesprekken
- {:g [#"([lr])([e])k$"        "$1$2kken"]
-  :p [#"(.*)([lr])([e])kken$" "$1$2$3k"]
+ {:g [#"([lr])([eo])k$"        "$1$2kken"]
+  :p [#"(.*)([lr])([eo])kken$" "$1$2$3k"]
   :u {:cat :noun
       :null? false
       :inflection :repeated-k

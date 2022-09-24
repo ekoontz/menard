@@ -469,7 +469,8 @@
  "hundred grammes" [{:cat :noun, :sem {:pred "hundred grammes"}}],
  "old" [{:cat :noun, :sem {:pred "old"}}],
  "afternoon" [{:cat :noun, :sem {:pred "afternoon"}}],
- "region, province" [{:cat :noun, :sem {:pred "region, province"}}],
+ "region" [{:cat :noun, :sem {:pred "region, province"}}]
+ "province" [{:cat :noun, :sem {:pred "region, province"}}]
  "brown" [{:cat :noun, :sem {:pred "brown"}}],
  "to feel like" [{:cat :noun, :sem {:pred "to feel like"}}],
  "time" [{:cat :noun, :sem {:pred "time"}}],

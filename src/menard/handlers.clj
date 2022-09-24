@@ -84,6 +84,8 @@
              (remove empty?) ;; remove failed attempts
              (take 1)
              first)
+        debug (log/info (str "generated an en source expression (maybe): " (type source-expression)))
+        debug (log/info (str " morph of the en source expression (maybe): " (-> source-expression en/morph)))
         debug (log/info (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
                                                                                    dag-to-string)))
         

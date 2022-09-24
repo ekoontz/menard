@@ -89,13 +89,13 @@
         
         ;; 3. get the semantics of the source expression
         source-parses (binding [menard.morphology/show-notes? false]
-                        (log/debug (str "parsing source-expression: "
-                                        (-> source-expression
-                                            en/morph)))
+                        (log/info (str "parsing source-expression: "
+                                       (-> source-expression
+                                           en/morph)))
                         (-> source-expression
                             en/morph
                             (en/parse source-model)))
-        debug (log/debug (str "source parses:"
+        debug (log/info (str "source parses:"
                               (->> source-parses
                                    (map en/syntax-tree)
                                    (clojure.string/join ","))))

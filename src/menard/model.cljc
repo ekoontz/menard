@@ -319,30 +319,33 @@
            (exception (str "create: lexicon for model "
                            "'" model-spec-filename "'"
                            " is empty.")))
-         (->
-          (load (-> model-spec :language)
-                ;; loads the lexical rules:
-                ;; (we already did this above,
-                ;;  so we'll just return those rules.
-                (fn [] lexical-rules)
+         (let [retval
+               (->
+                (load (-> model-spec :language)
+                      ;; loads the lexical rules:
+                      ;; (we already did this above,
+                      ;;  so we'll just return those rules.
+                      (fn [] lexical-rules)
 
-                ;; function to load the lexicon:
-                (fn [_] lexicon)
+                      ;; function to load the lexicon:
+                      (fn [_] lexicon)
 
-                ;; function to load the morphology:
-                (fn [] morphology)
+                      ;; function to load the morphology:
+                      (fn [] morphology)
 
-                (fn [] grammar)
-                model-spec)
-          ((fn [model]
-             (merge model
-                    {:name name
-                     :spec model-spec
-                     :lexicon-index-fn (lexicon-index-fn model)
-                     :syntax-tree-fn (fn [tree]
-                                       (s/syntax-tree tree (:morphology model)))
-                     :morph-fn (fn [tree]
-                                 (s/morph tree (:morphology model)))}))))))))
+                      (fn [] grammar)
+                      model-spec)
+                ((fn [model]
+                   (merge model
+                          {:name name
+                           :spec model-spec
+                           :lexicon-index-fn (lexicon-index-fn model)
+                           :syntax-tree-fn (fn [tree]
+                                             (s/syntax-tree tree (:morphology model)))
+                           :morph-fn (fn [tree]
+                                       (s/morph tree (:morphology model)))}))))]
+           (log/info (str "returning model with keys: " (keys retval)))
+           retval)))))
 
 #?(:clj
    (defn create-model-from-filesystem [spec compile-lexicon-fn & [use-env]]

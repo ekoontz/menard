@@ -71,6 +71,9 @@
         target-semantics (-> target-expression (u/get-in [:sem]))
 
         ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
+        debug (log/info (str "generate-nl-and-en: target-semantics: " (strip-refs target-semantics)))
+        debug (log/info (str "generate-nl-and-en: source-model keys: " (keys source-model)))
+        debug (log/info (str "generate-nl-and-en: source-spec: " (-> target-expression tr/nl-to-en-spec)))
         source-expression
         (->> (repeatedly #(-> target-expression tr/nl-to-en-spec
                               (merge {:language "en"})
@@ -80,9 +83,9 @@
              (remove empty?) ;; remove failed attempts
              (take 1)
              first)
-        debug (log/debug (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
-                                                                                    dag-to-string)))
-
+        debug (log/info (str "handlers/generate-nl-and-en: target-semantics: " (-> target-semantics
+                                                                                   dag-to-string)))
+        
         ;; 3. get the semantics of the source expression
         source-parses (binding [menard.morphology/show-notes? false]
                         (log/debug (str "parsing source-expression: "

@@ -79,8 +79,9 @@
 (h/deflambda GenerateNL
   [event context]
   (let [spec (-> event :queryStringParameters :q)
-        target-model (get-target-model model)
-        source-model (get-source-model model)]
+        model-name (-> event :queryStringParameters :model)
+        target-model (get-target-model model-name)
+        source-model (get-source-model model-name)]
     (log/info (str "GenerateNL: got source model: type: " (type source-model)))
     (log/info (str "GenerateNL: got target model: type: " (type target-model)))    
     (json-response (handlers/generate-nl-and-en-by-spec spec target-model source-model))))

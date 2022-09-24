@@ -106,6 +106,15 @@
       :agr {:number :plur}
       :regular true}}
 
+ {:g [#"^(.*a)as$"    "$1zen"]       ;; baas   -> bazen
+  :p [#"^(.*)azen$"   "$1aas"] 
+  :u {:cat :noun
+      :null? false
+      :inflection :s2z
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
+
  {:g [#"^(.*ts)$"       "$1en"]      ;; fiets    -> fietsen
   :p [#"^(.*ts)en$"     "$1"]
   :u {:cat :noun

@@ -14,7 +14,7 @@ phases:
       - java -jar /leiningen-2.9.10-standalone.jar -m leiningen.core.main install
       - cd lambda
       - java -jar /leiningen-2.9.10-standalone.jar -m leiningen.core.main uberjar
-      - native-image -jar target/menard-lambda.jar menard_lambda --report-unsupported-elements-at-runtime --no-fallback --verbose --enable-url-protocols=http,https --no-server  --initialize-at-build-time --initialize-at-build-time=org.apache.log4j.CategoryKey
+      - native-image -jar target/menard-lambda.jar menard_lambda --report-unsupported-elements-at-runtime --no-fallback --verbose --enable-url-protocols=http,https --initialize-at-build-time=org.apache.log4j.CategoryKey
       - cp bootstrap menard_lambda /
       - cp template-native.yml /
   post_build:

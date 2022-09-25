@@ -27,8 +27,11 @@ target/menard-lambda.jar: src/menard/lambda/def.clj
 
 # </deploy-native>
 
-build-docker:
+build-docker: leiningen-2.9.10-standalone.jar
 	docker build . -t menard-lambda-deployer
+
+leiningen-2.9.10-standalone.jar:
+	curl https://github.com/technomancy/leiningen/releases/download/2.9.10/leiningen-2.9.10-standalone.jar -L > $@
 
 check-service:
 	@(nc -z localhost 3000) || echo "AWS API service is not running: run 'make dry-api-native &'."

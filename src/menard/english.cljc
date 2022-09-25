@@ -157,10 +157,8 @@
      (-> (model/load "en" load-lexical-rules
                      load-lexicon
                      load-morphology load-grammar {:name "default"})
-         ((fn [model]
-            (merge model
-                   {:name "default"
-                    :lexicon-index-fn (model/lexicon-index-fn model)}))))))
+         (merge {:name "default"})
+         (model/add-functions))))
 
 #?(:clj
    (def model (ref (create-model))))

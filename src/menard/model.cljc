@@ -280,6 +280,16 @@
            result)))))
 
 #?(:clj
+   (defn add-functions [model]
+     (-> model
+         (merge
+          {:lexicon-index-fn (lexicon-index-fn model)
+           :syntax-tree-fn (fn [tree]
+                             (s/syntax-tree tree (:morphology model)))
+           :morph-fn (fn [tree]
+                       (s/morph tree (:morphology model)))}))))
+
+#?(:clj
    (defn create [path-to-model
                  name
                  compile-lexicon-fn]
@@ -335,15 +345,8 @@
 
                       (fn [] grammar)
                       model-spec)
-                ((fn [model]
-                   (merge model
-                          {:name name
-                           :spec model-spec
-                           :lexicon-index-fn (lexicon-index-fn model)
-                           :syntax-tree-fn (fn [tree]
-                                             (s/syntax-tree tree (:morphology model)))
-                           :morph-fn (fn [tree]
-                                       (s/morph tree (:morphology model)))}))))]
+                (merge {:name name :spec model-spec})
+                (add-functions))]
            (log/info (str "returning model with keys: " (keys retval)))
            retval)))))
 
@@ -396,15 +399,8 @@
                        (fn [] morphology)
                        (fn [] grammar)
                        spec)
-                 ((fn [model]
-                    (merge model
-                           {:name (-> spec :name)
-                            :spec spec
-                            :syntax-tree-fn (fn [tree]
-                                              (s/syntax-tree tree (:morphology model)))
-                            :morph-fn (fn [tree]
-                                        (s/morph tree (:morphology model)))
-                            :lexicon-index-fn (lexicon-index-fn model)}))))))))))))
+                 (merge {:name (-> spec :name) :spec spec})
+                 (add-functions))))))))))
 
 #?(:clj
    (defn load-model [model & [reload?]]

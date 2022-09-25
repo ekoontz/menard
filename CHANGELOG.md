@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.6.3] - 2022-09-25
+
+- Add three keys to every model: :lexicon-fn, :morph-fn, :syntax-tree-fn to simplify calling of these functions with the correct model.
+- Use known-working version of GraalVM's native-image in Dockerfile for creating AWS Lambda native image.
+- Improvements for woordenlijst models.
+
 ## [1.6.2] - 2022-09-13
 
 - handlers.clj: most generation and parse functions require a 'model' param.

@@ -2,7 +2,7 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/tools.logging "1.1.0"]
                  [clojure.java-time "0.3.3"]
-                 [menard "1.6.2"]
+                 [menard "1.6.3"]
                  [metosin/reitit "0.5.18"]
                  [metosin/reitit-ring "0.5.18"]
                  [ring-server "0.5.0"]

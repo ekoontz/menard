@@ -709,7 +709,9 @@
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "station"},
-   :curriculum :woordenlijst}],
+   :curriculum :woordenlijst
+   :exceptions [{:agr {:number :plur}
+                 :surface "stations"}]}]
  "dag" [{:cat :noun, :sem {:pred "day"}, :curriculum :woordenlijst}],
  "huisarts"
  [{:cat :noun,

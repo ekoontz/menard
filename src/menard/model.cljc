@@ -29,14 +29,6 @@
    (declare fill-lexicon-indexes))
 
 #?(:clj
-   (defn foo2 []
-     47))
-
-#?(:clj
-   (defn foo []
-     46))
-
-#?(:clj
    (defn load [language-name lexical-rules-fn lexicon-fn
                load-morphology-fn load-grammar-fn model-spec]
      (log/info (str "loading resources for language: "

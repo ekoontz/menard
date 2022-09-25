@@ -37,27 +37,36 @@ make push
 
 The image `menard_lambda` is a native image that contains the individual AWS Lambdas that are run against requests as described in `template-native.yml`.
 
-1. Start a Docker process for `menard-lambda-deployer` with:
+1. Build the `menard-lambda-deployer` Docker image with `make image`.
+
+2. Start a Docker process for `menard-lambda-deployer` with:
 
 ```
-cd ~/menard # one level above the directory `lambda` where this `README.md` is located.
+cd .. # one level above the directory `lambda` where this `README.md` is located.
 docker run -v ${PWD}:/project -t -i menard-lambda-deployer:latest bash
 ```
 
-2. Set up the environment
+3. Set up the environment
+
+(within the docker process started above in step 2.)
 
 ```
+cd /project
 java -jar /leiningen-2.9.10-standalone.jar -m leiningen.core.main install
 ```
 
-3. Build the uberjar
+4. Build the uberjar
+
+(within the docker process started above in step 2.)
 
 ```
-cd lambda
+cd /project/lambda
 java -jar /leiningen-2.9.10-standalone.jar -m leiningen.core.main uberjar
 ```
 
-4. Build the native image
+5. Build the native image
+
+(within the docker process started above in step 2.)
 
 ```
 gu install native-image

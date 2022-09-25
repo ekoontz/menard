@@ -18,18 +18,52 @@ have the latest version of the AWS CLI and Docker installed.  Build
 your Docker image using the following command:
 
 ```
-docker build -t menard-lambda-deployer .
+make image
 ```
 
 After the build completes, tag your image so you can push the image to this repository:
 
 ```
-docker tag menard-lambda-deployer:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/menard-lambda-deployer:latest
+make tag
 ```
 
 Run the following command to push this image to your newly created AWS repository:
 
 ```
-docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/menard-lambda-deployer:latest
+make push
 ```
 
+# Manually building `menard_lambda`
+
+The image `menard_lambda` is a native image that contains the individual AWS Lambdas that are run against requests as described in `template-native.yml`.
+
+1. Start a Docker process for `menard-lambda-deployer` with:
+
+```
+cd ~/menard # one level above the directory `lambda` where this `README.md` is located.
+docker run -v ${PWD}:/project -t -i menard-lambda-deployer:latest bash
+```
+
+2. Set up the environment
+
+```
+java -jar /leiningen-2.9.10-standalone.jar -m leiningen.core.main install
+```
+
+3. Build the uberjar
+
+```
+cd lambda
+java -jar /leiningen-2.9.10-standalone.jar -m leiningen.core.main uberjar
+```
+
+4. Build the native image
+
+```
+gu install native-image
+native-image -jar target/menard-lambda.jar menard_lambda \
+    --report-unsupported-elements-at-runtime --no-fallback --verbose \
+	--enable-url-protocols=http,https --no-server  --initialize-at-build-time \
+	--initialize-at-build-time=org.apache.log4j.CategoryKey \
+	--trace-object-instantiation=java.lang.Thread
+```

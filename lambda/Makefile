@@ -1,4 +1,4 @@
-.PHONY: all check-service clean deploy deploy-native destroy destroy-bucket dry-api dry-api-native logs-tail make-bucket
+.PHONY: all check-service clean deploy deploy-native destroy destroy-bucket dry-api dry-api-native logs-tail make-bucket image tag push
 BUCKET_NAME=menard-lambda
 STACK_NAME=menard
 APP_REGION=eu-central-1
@@ -27,8 +27,15 @@ target/menard-lambda.jar: src/menard/lambda/def.clj
 
 # </deploy-native>
 
-build-docker: leiningen-2.9.10-standalone.jar
+image: leiningen-2.9.10-standalone.jar
 	docker build . -t menard-lambda-deployer
+
+tag:
+	docker tag menard-lambda-deployer:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/menard-lambda-deployer:latest
+
+push:
+	docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/menard-lambda-deployer:latest
+
 
 leiningen-2.9.10-standalone.jar:
 	curl https://github.com/technomancy/leiningen/releases/download/2.9.10/leiningen-2.9.10-standalone.jar -L > $@

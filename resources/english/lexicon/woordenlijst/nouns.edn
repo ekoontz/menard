@@ -453,7 +453,7 @@
  "never" [{:cat :noun, :sem {:pred "never"}}],
  "number" [{:cat :noun, :sem {:pred "number"}}],
  "wedding" [{:cat :noun, :sem {:pred "wedding"}}],
- "pedestrian crossing, zebra crossing"
+ "pedestrian crossing"
  [{:cat :noun, :sem {:pred "pedestrian crossing, zebra crossing"}}],
  "match, game" [{:cat :noun, :sem {:pred "match, game"}
                  :exceptions [{:agr {:number :plur}

@@ -312,7 +312,9 @@
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "pedestrian crossing, zebra crossing"},
-   :curriculum :woordenlijst}],
+   :curriculum :woordenlijst
+   :exceptions [{:agr {:number :plural}
+                 :surface "zebrapaden"}]}]
  "champignon"
  [{:cat :noun, :sem {:pred "mushroom"}, :curriculum :woordenlijst}],
  "restaurant"

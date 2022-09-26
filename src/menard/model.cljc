@@ -174,7 +174,7 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
-     (log/info (str "compile-lexicon-source start: '" source-filename "'"))
+     (log/debug (str "compile-lexicon-source start: '" source-filename "'"))
      (binding [menard.lexiconfn/include-derivation? include-derivation?]
        (-> source-filename
            l/read-and-eval
@@ -182,7 +182,7 @@
               (if (nil? unify-with)
                 lexicon
                 (do
-                  (log/info (str "  apply-to-every-lexeme..(unify-with)"))
+                  (log/debug (str "  apply-to-every-lexeme..(unify-with)"))
                   (l/apply-to-every-lexeme lexicon
                                            (fn [lexeme]
                                              (let [result (unify lexeme unify-with)]
@@ -193,18 +193,18 @@
               (if (nil? apply-fn)
                 lexicon
                 (do
-                  (log/info (str "  apply-to-every-lexeme (apply-fn)"))
+                  (log/debug (str "  apply-to-every-lexeme (apply-fn)"))
                   (l/apply-to-every-lexeme lexicon
                                            (fn [lexeme]
                                              (apply-fn lexeme)))))))
            ((fn [lexicon]
-              (log/info (str "  add-exceptions-to-lexicon.."))
+              (log/debug (str "  add-exceptions-to-lexicon.."))
               (l/add-exceptions-to-lexicon lexicon)))
            ((fn [lexicon]
-              (log/info (str "  apply-rules-in-order.."))
+              (log/debug (str "  apply-rules-in-order.."))
               (l/apply-rules-in-order lexicon lexical-rules)))
            ((fn [lexicon]
-              (log/info (str "compile-lexicon-source end: '" source-filename "'."))
+              (log/info (str "compile-lexicon-source compiled: '" source-filename "'."))
               lexicon))))))
 
 #?(:clj
@@ -212,7 +212,7 @@
      (log/info (str "load-lexicon: lexical-rules count): " (count lexical-rules)))
      (if (nil? model-spec)
        (exception "model-spec is unexpectedly nil."))
-     (log/info (str "model-spec: " model-spec))
+     (log/debug (str "model-spec: " model-spec))
      (let [path-suffix (or path-suffix (-> model-spec :lexicon :path))]
        (log/info (str "lexicon filenames: " (-> model-spec :lexicon :sources keys sort)))
 

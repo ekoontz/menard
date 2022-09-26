@@ -1,12 +1,14 @@
 % ./src/scripts/demo.sh
-commit f97735fb7359354b24d1ef4d74c58fa2b659aff4 (HEAD -> release-1.6.3)
+commit 1f52ba800dc31eb36e351987a2de7f7e02ad6bf3 (HEAD -> main, ekoontz/main, ekoontz/HEAD)
 Author: Eugene Koontz <ekoontz@hiro-tan.org>
-Date:   Sun Sep 25 23:14:02 2022 +0200
+Date:   Mon Sep 26 09:04:34 2022 +0200
 
-    update CHANGELOG.md, version numbers
-On branch release-1.6.3
+    turn down logging
+On branch main
+Your branch is up to date with 'ekoontz/main'.
+
 nothing to commit, working tree clean
-nREPL server started on port 49466 on host 127.0.0.1 - nrepl://127.0.0.1:49466
+nREPL server started on port 51062 on host 127.0.0.1 - nrepl://127.0.0.1:51062
 REPL-y 0.5.1, nREPL 0.9.0
 Clojure 1.11.1
 OpenJDK 64-Bit Server VM 18.0.2+0
@@ -18,858 +20,464 @@ OpenJDK 64-Bit Server VM 18.0.2+0
  Results: Stored in vars *1, *2, *3, an exception in *e
 
 user=> (load "menard/translate")(menard.translate/demo)
-INFO  25 sep. 2022 23:14:18,173 menard.ug: loaded: 31 symbols.
-INFO  25 sep. 2022 23:14:18,179 menard.nesting: loaded: 8 symbols.
-INFO  25 sep. 2022 23:14:18,186 menard.subcat: loaded: 9 symbols.
-INFO  25 sep. 2022 23:14:18,225 menard.model: creating model with filename: nederlands/models/basic.edn ..
-INFO  25 sep. 2022 23:14:18,226 menard.model: got a non-file:// filename: nederlands/models/basic.edn: using resource.
-INFO  25 sep. 2022 23:14:18,239 menard.model: load-morphology: path-prefix: nederlands/morphology; source-files: ["adjectives.edn" "misc.edn" "nouns.edn" "verbs.edn" "verbs/simple-past.edn"]
-INFO  25 sep. 2022 23:14:18,251 menard.model: load-lexicon: lexical-rules count): 85
-INFO  25 sep. 2022 23:14:18,255 menard.model: model-spec: {:name "basic", :language "nl", :morphology {:path "nederlands/morphology", :sources ["adjectives.edn" "misc.edn" "nouns.edn" "verbs.edn" "verbs/simple-past.edn"]}, :grammar "nederlands/grammar.edn", :lexicon {:path "nederlands/lexicon", :rules "rules.edn", :sources {"adjectives.edn" {:u {:cat :adjective}}, "prepositions.edn" {:u {:cat :prep}}, "nouns.edn" {:u {:cat :noun}}, "misc.edn" {:u {}}, "numbers.edn" {:u {:cat :adjective, :sem {:number? true}}}, "propernouns.edn" {:u {:cat :noun, :propernoun? true}}, "adverbs.edn" {:u {:cat :adverb}}, "determiners.edn" {:u {:cat :det}}, "verbs.edn" {:u {:cat :verb}, :f (quote menard.nederlands.compile/mark-irregular-verbs)}, "pronouns.edn" {:u {:cat :noun, :pronoun? true}}, "intensifiers.edn" {:u {:cat :intensifier}}, "exclamations.edn" {:u {:cat :exclamation}}}, :filter-fn (quote menard.nederlands.basic/basic-filter)}}
-INFO  25 sep. 2022 23:14:18,256 menard.model: lexicon filenames: ("adjectives.edn" "adverbs.edn" "determiners.edn" "exclamations.edn" "intensifiers.edn" "misc.edn" "nouns.edn" "numbers.edn" "prepositions.edn" "pronouns.edn" "propernouns.edn" "verbs.edn")
-INFO  25 sep. 2022 23:14:18,256 menard.model: compile-lexicon-source start: 'nederlands/lexicon/adjectives.edn'
-INFO  25 sep. 2022 23:14:18,259 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,260 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,261 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,264 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,376 menard.model: compile-lexicon-source end: 'nederlands/lexicon/adjectives.edn'.
-INFO  25 sep. 2022 23:14:18,377 menard.model: compile-lexicon-source start: 'nederlands/lexicon/adverbs.edn'
-INFO  25 sep. 2022 23:14:18,378 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,378 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,378 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,378 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,381 menard.model: compile-lexicon-source end: 'nederlands/lexicon/adverbs.edn'.
-INFO  25 sep. 2022 23:14:18,381 menard.model: compile-lexicon-source start: 'nederlands/lexicon/determiners.edn'
-INFO  25 sep. 2022 23:14:18,382 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,382 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,382 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,382 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,403 menard.model: compile-lexicon-source end: 'nederlands/lexicon/determiners.edn'.
-INFO  25 sep. 2022 23:14:18,404 menard.model: compile-lexicon-source start: 'nederlands/lexicon/exclamations.edn'
-INFO  25 sep. 2022 23:14:18,404 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,405 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,405 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,405 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,407 menard.model: compile-lexicon-source end: 'nederlands/lexicon/exclamations.edn'.
-INFO  25 sep. 2022 23:14:18,408 menard.model: compile-lexicon-source start: 'nederlands/lexicon/intensifiers.edn'
-INFO  25 sep. 2022 23:14:18,408 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,408 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,408 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,408 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,417 menard.model: compile-lexicon-source end: 'nederlands/lexicon/intensifiers.edn'.
-INFO  25 sep. 2022 23:14:18,417 menard.model: compile-lexicon-source start: 'nederlands/lexicon/misc.edn'
-INFO  25 sep. 2022 23:14:18,418 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,418 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,418 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,419 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,424 menard.model: compile-lexicon-source end: 'nederlands/lexicon/misc.edn'.
-INFO  25 sep. 2022 23:14:18,424 menard.model: compile-lexicon-source start: 'nederlands/lexicon/nouns.edn'
-INFO  25 sep. 2022 23:14:18,429 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,430 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,430 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,433 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,808 menard.model: compile-lexicon-source end: 'nederlands/lexicon/nouns.edn'.
-INFO  25 sep. 2022 23:14:18,808 menard.model: compile-lexicon-source start: 'nederlands/lexicon/numbers.edn'
-INFO  25 sep. 2022 23:14:18,810 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,810 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,810 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,811 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,837 menard.model: compile-lexicon-source end: 'nederlands/lexicon/numbers.edn'.
-INFO  25 sep. 2022 23:14:18,838 menard.model: compile-lexicon-source start: 'nederlands/lexicon/prepositions.edn'
-INFO  25 sep. 2022 23:14:18,838 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,838 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,838 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,838 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,840 menard.model: compile-lexicon-source end: 'nederlands/lexicon/prepositions.edn'.
-INFO  25 sep. 2022 23:14:18,840 menard.model: compile-lexicon-source start: 'nederlands/lexicon/pronouns.edn'
-INFO  25 sep. 2022 23:14:18,843 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,843 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,843 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,843 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,905 menard.model: compile-lexicon-source end: 'nederlands/lexicon/pronouns.edn'.
-INFO  25 sep. 2022 23:14:18,905 menard.model: compile-lexicon-source start: 'nederlands/lexicon/propernouns.edn'
-INFO  25 sep. 2022 23:14:18,906 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,906 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,906 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,906 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:18,915 menard.model: compile-lexicon-source end: 'nederlands/lexicon/propernouns.edn'.
-INFO  25 sep. 2022 23:14:18,915 menard.model: compile-lexicon-source start: 'nederlands/lexicon/verbs.edn'
-INFO  25 sep. 2022 23:14:18,921 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:18,921 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:18,921 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:18,926 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:21,371 menard.model: compile-lexicon-source end: 'nederlands/lexicon/verbs.edn'.
-INFO  25 sep. 2022 23:14:32,652 menard.grammar: process: input rules: 26 do-not-eval?
-INFO  25 sep. 2022 23:14:32,664 menard.grammar: process-options: input-grammar: 26 rules.
-INFO  25 sep. 2022 23:14:32,669 menard.grammar: process-options: output-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:32,669 menard.grammar: filter-rules: input-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:32,670 menard.grammar: filter-rules-by-firstness: output-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:32,670 menard.grammar: warn-rules-by-catness: input-grammar: 39 rules.
-WARN  25 sep. 2022 23:14:32,670 menard.grammar: rule: conj-inner has no :cat value specified: might overgeneralize unexpectedly.
-WARN  25 sep. 2022 23:14:32,670 menard.grammar: rule: negp has no :cat value specified: might overgeneralize unexpectedly.
-INFO  25 sep. 2022 23:14:32,670 menard.grammar: warn-rules-by-catness: output-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:32,674 menard.model: create: grammar for 'nederlands/models/basic.edn' has this many rules: 39
-INFO  25 sep. 2022 23:14:32,674 menard.model: create: lexicon for 'nederlands/models/basic.edn' has this many lexemes: 508
-INFO  25 sep. 2022 23:14:32,674 menard.model: loading resources for language: nl; model-spec name: basic
-INFO  25 sep. 2022 23:14:32,674 menard.model: nl/basic loaded: 85 lexical rules.
-INFO  25 sep. 2022 23:14:32,674 menard.model: nl/basic loaded: 508 lexeme keys.
-INFO  25 sep. 2022 23:14:32,674 menard.model: nl/basic loaded: 5 lexicon indices.
-INFO  25 sep. 2022 23:14:32,674 menard.model: nl/basic loaded: 135 morphological rules.
-INFO  25 sep. 2022 23:14:32,674 menard.model: nl/basic loaded: 39 grammar rules.
-INFO  25 sep. 2022 23:14:32,674 menard.model: nl/basic loaded resources for language: nl.
-INFO  25 sep. 2022 23:14:32,675 menard.model: returning model with keys: (:morphology :name :grammar :syntax-tree-fn :spec :lexicon-index-fn :language :morph-fn :indices :lexicon :loaded-when)
-INFO  25 sep. 2022 23:14:32,685 menard.model: creating model with filename: nederlands/models/complete.edn ..
-INFO  25 sep. 2022 23:14:32,685 menard.model: got a non-file:// filename: nederlands/models/complete.edn: using resource.
-INFO  25 sep. 2022 23:14:32,697 menard.model: load-morphology: path-prefix: nederlands/morphology; source-files: ["adjectives.edn" "misc.edn" "nouns.edn" "verbs.edn" "verbs/simple-past.edn"]
-INFO  25 sep. 2022 23:14:32,707 menard.model: load-lexicon: lexical-rules count): 85
-INFO  25 sep. 2022 23:14:32,707 menard.model: model-spec: {:name "complete", :language "nl", :morphology {:path "nederlands/morphology", :sources ["adjectives.edn" "misc.edn" "nouns.edn" "verbs.edn" "verbs/simple-past.edn"]}, :grammar "nederlands/grammar.edn", :lexicon {:path "nederlands/lexicon", :rules "rules.edn", :sources {"adjectives.edn" {:u {:cat :adjective}}, "prepositions.edn" {:u {:cat :prep}}, "nouns.edn" {:u {:cat :noun}}, "misc.edn" {:u {}}, "numbers.edn" {:u {:cat :adjective, :sem {:number? true}}}, "propernouns.edn" {:u {:cat :noun, :propernoun? true}}, "adverbs.edn" {:u {:cat :adverb}}, "determiners.edn" {:u {:cat :det}}, "verbs.edn" {:u {:cat :verb}, :f (quote menard.nederlands.compile/mark-irregular-verbs)}, "pronouns.edn" {:u {:cat :noun, :pronoun? true}}, "intensifiers.edn" {:u {:cat :intensifier}}, "exclamations.edn" {:u {:cat :exclamation}}}}}
-INFO  25 sep. 2022 23:14:32,708 menard.model: lexicon filenames: ("adjectives.edn" "adverbs.edn" "determiners.edn" "exclamations.edn" "intensifiers.edn" "misc.edn" "nouns.edn" "numbers.edn" "prepositions.edn" "pronouns.edn" "propernouns.edn" "verbs.edn")
-INFO  25 sep. 2022 23:14:32,708 menard.model: compile-lexicon-source start: 'nederlands/lexicon/adjectives.edn'
-INFO  25 sep. 2022 23:14:32,711 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,711 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,711 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,712 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:32,814 menard.model: compile-lexicon-source end: 'nederlands/lexicon/adjectives.edn'.
-INFO  25 sep. 2022 23:14:32,815 menard.model: compile-lexicon-source start: 'nederlands/lexicon/adverbs.edn'
-INFO  25 sep. 2022 23:14:32,816 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,817 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,817 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,817 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:32,819 menard.model: compile-lexicon-source end: 'nederlands/lexicon/adverbs.edn'.
-INFO  25 sep. 2022 23:14:32,819 menard.model: compile-lexicon-source start: 'nederlands/lexicon/determiners.edn'
-INFO  25 sep. 2022 23:14:32,821 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,821 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,821 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,822 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:32,844 menard.model: compile-lexicon-source end: 'nederlands/lexicon/determiners.edn'.
-INFO  25 sep. 2022 23:14:32,844 menard.model: compile-lexicon-source start: 'nederlands/lexicon/exclamations.edn'
-INFO  25 sep. 2022 23:14:32,845 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,845 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,845 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,845 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:32,848 menard.model: compile-lexicon-source end: 'nederlands/lexicon/exclamations.edn'.
-INFO  25 sep. 2022 23:14:32,848 menard.model: compile-lexicon-source start: 'nederlands/lexicon/intensifiers.edn'
-INFO  25 sep. 2022 23:14:32,849 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,849 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,849 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,850 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:32,858 menard.model: compile-lexicon-source end: 'nederlands/lexicon/intensifiers.edn'.
-INFO  25 sep. 2022 23:14:32,859 menard.model: compile-lexicon-source start: 'nederlands/lexicon/misc.edn'
-INFO  25 sep. 2022 23:14:32,860 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,860 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,860 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,861 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:32,866 menard.model: compile-lexicon-source end: 'nederlands/lexicon/misc.edn'.
-INFO  25 sep. 2022 23:14:32,867 menard.model: compile-lexicon-source start: 'nederlands/lexicon/nouns.edn'
-INFO  25 sep. 2022 23:14:32,873 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:32,873 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:32,873 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:32,875 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:33,244 menard.model: compile-lexicon-source end: 'nederlands/lexicon/nouns.edn'.
-INFO  25 sep. 2022 23:14:33,245 menard.model: compile-lexicon-source start: 'nederlands/lexicon/numbers.edn'
-INFO  25 sep. 2022 23:14:33,247 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:33,247 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:33,247 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:33,248 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:33,276 menard.model: compile-lexicon-source end: 'nederlands/lexicon/numbers.edn'.
-INFO  25 sep. 2022 23:14:33,277 menard.model: compile-lexicon-source start: 'nederlands/lexicon/prepositions.edn'
-INFO  25 sep. 2022 23:14:33,277 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:33,277 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:33,277 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:33,277 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:33,279 menard.model: compile-lexicon-source end: 'nederlands/lexicon/prepositions.edn'.
-INFO  25 sep. 2022 23:14:33,279 menard.model: compile-lexicon-source start: 'nederlands/lexicon/pronouns.edn'
-INFO  25 sep. 2022 23:14:33,284 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:33,284 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:33,284 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:33,285 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:33,347 menard.model: compile-lexicon-source end: 'nederlands/lexicon/pronouns.edn'.
-INFO  25 sep. 2022 23:14:33,348 menard.model: compile-lexicon-source start: 'nederlands/lexicon/propernouns.edn'
-INFO  25 sep. 2022 23:14:33,350 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:33,350 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:33,350 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:33,350 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:33,358 menard.model: compile-lexicon-source end: 'nederlands/lexicon/propernouns.edn'.
-INFO  25 sep. 2022 23:14:33,361 menard.model: compile-lexicon-source start: 'nederlands/lexicon/verbs.edn'
-INFO  25 sep. 2022 23:14:33,368 menard.model:   apply-to-every-lexeme..(unify-with)
-INFO  25 sep. 2022 23:14:33,368 menard.model:   apply-to-every-lexeme (apply-fn)
-INFO  25 sep. 2022 23:14:33,368 menard.model:   add-exceptions-to-lexicon..
-INFO  25 sep. 2022 23:14:33,373 menard.model:   apply-rules-in-order..
-INFO  25 sep. 2022 23:14:35,818 menard.model: compile-lexicon-source end: 'nederlands/lexicon/verbs.edn'.
-INFO  25 sep. 2022 23:14:47,129 menard.grammar: process: input rules: 26 do-not-eval?
-INFO  25 sep. 2022 23:14:47,137 menard.grammar: process-options: input-grammar: 26 rules.
-INFO  25 sep. 2022 23:14:47,140 menard.grammar: process-options: output-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:47,141 menard.grammar: filter-rules: input-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:47,141 menard.grammar: filter-rules-by-firstness: output-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:47,141 menard.grammar: warn-rules-by-catness: input-grammar: 39 rules.
-WARN  25 sep. 2022 23:14:47,141 menard.grammar: rule: conj-inner has no :cat value specified: might overgeneralize unexpectedly.
-WARN  25 sep. 2022 23:14:47,141 menard.grammar: rule: negp has no :cat value specified: might overgeneralize unexpectedly.
-INFO  25 sep. 2022 23:14:47,141 menard.grammar: warn-rules-by-catness: output-grammar: 39 rules.
-INFO  25 sep. 2022 23:14:47,144 menard.model: create: grammar for 'nederlands/models/complete.edn' has this many rules: 39
-INFO  25 sep. 2022 23:14:47,144 menard.model: create: lexicon for 'nederlands/models/complete.edn' has this many lexemes: 508
-INFO  25 sep. 2022 23:14:47,144 menard.model: loading resources for language: nl; model-spec name: complete
-INFO  25 sep. 2022 23:14:47,144 menard.model: nl/complete loaded: 85 lexical rules.
-INFO  25 sep. 2022 23:14:47,144 menard.model: nl/complete loaded: 508 lexeme keys.
-INFO  25 sep. 2022 23:14:47,144 menard.model: nl/complete loaded: 5 lexicon indices.
-INFO  25 sep. 2022 23:14:47,144 menard.model: nl/complete loaded: 135 morphological rules.
-INFO  25 sep. 2022 23:14:47,144 menard.model: nl/complete loaded: 39 grammar rules.
-INFO  25 sep. 2022 23:14:47,144 menard.model: nl/complete loaded resources for language: nl.
-INFO  25 sep. 2022 23:14:47,144 menard.model: returning model with keys: (:morphology :name :grammar :syntax-tree-fn :spec :lexicon-index-fn :language :morph-fn :indices :lexicon :loaded-when)
-INFO  25 sep. 2022 23:14:47,211 menard.english: creating model for English..
-INFO  25 sep. 2022 23:14:47,211 menard.model: loading resources for language: en; model-spec name: default
-INFO  25 sep. 2022 23:14:48,533 menard.grammar: process: input rules: 11 do-not-eval?
-INFO  25 sep. 2022 23:14:48,536 menard.grammar: process-options: input-grammar: 11 rules.
-INFO  25 sep. 2022 23:14:48,538 menard.grammar: process-options: output-grammar: 32 rules.
-INFO  25 sep. 2022 23:14:48,538 menard.grammar: filter-rules: input-grammar: 32 rules.
-INFO  25 sep. 2022 23:14:48,538 menard.grammar: filter-rules-by-firstness: output-grammar: 32 rules.
-INFO  25 sep. 2022 23:14:48,538 menard.grammar: warn-rules-by-catness: input-grammar: 32 rules.
-INFO  25 sep. 2022 23:14:48,538 menard.grammar: warn-rules-by-catness: output-grammar: 32 rules.
-INFO  25 sep. 2022 23:14:48,539 menard.model: en/default loaded: 55 lexical rules.
-INFO  25 sep. 2022 23:14:48,539 menard.model: en/default loaded: 594 lexeme keys.
-INFO  25 sep. 2022 23:14:48,539 menard.model: en/default loaded: 5 lexicon indices.
-INFO  25 sep. 2022 23:14:48,539 menard.model: en/default loaded: 37 morphological rules.
-INFO  25 sep. 2022 23:14:48,541 menard.model: en/default loaded: 32 grammar rules.
-INFO  25 sep. 2022 23:14:48,541 menard.model: en/default loaded resources for language: en.
+INFO  26 sep. 2022 09:05:16,710 menard.ug: loaded: 31 symbols.
+INFO  26 sep. 2022 09:05:16,715 menard.nesting: loaded: 8 symbols.
+INFO  26 sep. 2022 09:05:16,722 menard.subcat: loaded: 9 symbols.
+INFO  26 sep. 2022 09:05:16,760 menard.model: creating model with filename: nederlands/models/basic.edn ..
+INFO  26 sep. 2022 09:05:16,761 menard.model: got a non-file:// filename: nederlands/models/basic.edn: using resource.
+INFO  26 sep. 2022 09:05:16,775 menard.model: load-morphology: path-prefix: nederlands/morphology; source-files: ["adjectives.edn" "misc.edn" "nouns.edn" "verbs.edn" "verbs/simple-past.edn"]
+INFO  26 sep. 2022 09:05:16,788 menard.model: load-lexicon: lexical-rules count): 85
+INFO  26 sep. 2022 09:05:16,789 menard.model: lexicon filenames: ("adjectives.edn" "adverbs.edn" "determiners.edn" "exclamations.edn" "intensifiers.edn" "misc.edn" "nouns.edn" "numbers.edn" "prepositions.edn" "pronouns.edn" "propernouns.edn" "verbs.edn")
+INFO  26 sep. 2022 09:05:16,910 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/adjectives.edn'.
+INFO  26 sep. 2022 09:05:16,914 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/adverbs.edn'.
+INFO  26 sep. 2022 09:05:16,937 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/determiners.edn'.
+INFO  26 sep. 2022 09:05:16,940 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/exclamations.edn'.
+INFO  26 sep. 2022 09:05:16,950 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/intensifiers.edn'.
+INFO  26 sep. 2022 09:05:16,959 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/misc.edn'.
+INFO  26 sep. 2022 09:05:17,344 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/nouns.edn'.
+INFO  26 sep. 2022 09:05:17,374 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/numbers.edn'.
+INFO  26 sep. 2022 09:05:17,378 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/prepositions.edn'.
+INFO  26 sep. 2022 09:05:17,442 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/pronouns.edn'.
+INFO  26 sep. 2022 09:05:17,452 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/propernouns.edn'.
+INFO  26 sep. 2022 09:05:19,903 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/verbs.edn'.
+INFO  26 sep. 2022 09:05:31,130 menard.grammar: process: input rules: 26 do-not-eval?
+INFO  26 sep. 2022 09:05:31,139 menard.grammar: process-options: input-grammar: 26 rules.
+INFO  26 sep. 2022 09:05:31,144 menard.grammar: process-options: output-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:31,144 menard.grammar: filter-rules: input-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:31,144 menard.grammar: filter-rules-by-firstness: output-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:31,144 menard.grammar: warn-rules-by-catness: input-grammar: 39 rules.
+WARN  26 sep. 2022 09:05:31,144 menard.grammar: rule: conj-inner has no :cat value specified: might overgeneralize unexpectedly.
+WARN  26 sep. 2022 09:05:31,144 menard.grammar: rule: negp has no :cat value specified: might overgeneralize unexpectedly.
+INFO  26 sep. 2022 09:05:31,144 menard.grammar: warn-rules-by-catness: output-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:31,148 menard.model: create: grammar for 'nederlands/models/basic.edn' has this many rules: 39
+INFO  26 sep. 2022 09:05:31,148 menard.model: create: lexicon for 'nederlands/models/basic.edn' has this many lexemes: 508
+INFO  26 sep. 2022 09:05:31,148 menard.model: loading resources for language: nl; model-spec name: basic
+INFO  26 sep. 2022 09:05:31,148 menard.model: nl/basic loaded: 85 lexical rules.
+INFO  26 sep. 2022 09:05:31,148 menard.model: nl/basic loaded: 508 lexeme keys.
+INFO  26 sep. 2022 09:05:31,148 menard.model: nl/basic loaded: 5 lexicon indices.
+INFO  26 sep. 2022 09:05:31,148 menard.model: nl/basic loaded: 135 morphological rules.
+INFO  26 sep. 2022 09:05:31,149 menard.model: nl/basic loaded: 39 grammar rules.
+INFO  26 sep. 2022 09:05:31,149 menard.model: nl/basic loaded resources for language: nl.
+INFO  26 sep. 2022 09:05:31,150 menard.model: returning model with keys: (:morphology :name :grammar :syntax-tree-fn :spec :lexicon-index-fn :language :morph-fn :indices :lexicon :loaded-when)
+INFO  26 sep. 2022 09:05:31,154 menard.model: creating model with filename: nederlands/models/complete.edn ..
+INFO  26 sep. 2022 09:05:31,155 menard.model: got a non-file:// filename: nederlands/models/complete.edn: using resource.
+INFO  26 sep. 2022 09:05:31,167 menard.model: load-morphology: path-prefix: nederlands/morphology; source-files: ["adjectives.edn" "misc.edn" "nouns.edn" "verbs.edn" "verbs/simple-past.edn"]
+INFO  26 sep. 2022 09:05:31,177 menard.model: load-lexicon: lexical-rules count): 85
+INFO  26 sep. 2022 09:05:31,177 menard.model: lexicon filenames: ("adjectives.edn" "adverbs.edn" "determiners.edn" "exclamations.edn" "intensifiers.edn" "misc.edn" "nouns.edn" "numbers.edn" "prepositions.edn" "pronouns.edn" "propernouns.edn" "verbs.edn")
+INFO  26 sep. 2022 09:05:31,285 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/adjectives.edn'.
+INFO  26 sep. 2022 09:05:31,289 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/adverbs.edn'.
+INFO  26 sep. 2022 09:05:31,311 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/determiners.edn'.
+INFO  26 sep. 2022 09:05:31,316 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/exclamations.edn'.
+INFO  26 sep. 2022 09:05:31,326 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/intensifiers.edn'.
+INFO  26 sep. 2022 09:05:31,334 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/misc.edn'.
+INFO  26 sep. 2022 09:05:31,724 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/nouns.edn'.
+INFO  26 sep. 2022 09:05:31,753 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/numbers.edn'.
+INFO  26 sep. 2022 09:05:31,756 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/prepositions.edn'.
+INFO  26 sep. 2022 09:05:31,821 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/pronouns.edn'.
+INFO  26 sep. 2022 09:05:31,832 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/propernouns.edn'.
+INFO  26 sep. 2022 09:05:34,310 menard.model: compile-lexicon-source compiled: 'nederlands/lexicon/verbs.edn'.
+INFO  26 sep. 2022 09:05:45,419 menard.grammar: process: input rules: 26 do-not-eval?
+INFO  26 sep. 2022 09:05:45,427 menard.grammar: process-options: input-grammar: 26 rules.
+INFO  26 sep. 2022 09:05:45,431 menard.grammar: process-options: output-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:45,431 menard.grammar: filter-rules: input-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:45,431 menard.grammar: filter-rules-by-firstness: output-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:45,431 menard.grammar: warn-rules-by-catness: input-grammar: 39 rules.
+WARN  26 sep. 2022 09:05:45,431 menard.grammar: rule: conj-inner has no :cat value specified: might overgeneralize unexpectedly.
+WARN  26 sep. 2022 09:05:45,431 menard.grammar: rule: negp has no :cat value specified: might overgeneralize unexpectedly.
+INFO  26 sep. 2022 09:05:45,431 menard.grammar: warn-rules-by-catness: output-grammar: 39 rules.
+INFO  26 sep. 2022 09:05:45,434 menard.model: create: grammar for 'nederlands/models/complete.edn' has this many rules: 39
+INFO  26 sep. 2022 09:05:45,435 menard.model: create: lexicon for 'nederlands/models/complete.edn' has this many lexemes: 508
+INFO  26 sep. 2022 09:05:45,435 menard.model: loading resources for language: nl; model-spec name: complete
+INFO  26 sep. 2022 09:05:45,435 menard.model: nl/complete loaded: 85 lexical rules.
+INFO  26 sep. 2022 09:05:45,435 menard.model: nl/complete loaded: 508 lexeme keys.
+INFO  26 sep. 2022 09:05:45,435 menard.model: nl/complete loaded: 5 lexicon indices.
+INFO  26 sep. 2022 09:05:45,436 menard.model: nl/complete loaded: 135 morphological rules.
+INFO  26 sep. 2022 09:05:45,436 menard.model: nl/complete loaded: 39 grammar rules.
+INFO  26 sep. 2022 09:05:45,436 menard.model: nl/complete loaded resources for language: nl.
+INFO  26 sep. 2022 09:05:45,436 menard.model: returning model with keys: (:morphology :name :grammar :syntax-tree-fn :spec :lexicon-index-fn :language :morph-fn :indices :lexicon :loaded-when)
+INFO  26 sep. 2022 09:05:45,498 menard.english: creating model for English..
+INFO  26 sep. 2022 09:05:45,498 menard.model: loading resources for language: en; model-spec name: default
+INFO  26 sep. 2022 09:05:46,794 menard.grammar: process: input rules: 11 do-not-eval?
+INFO  26 sep. 2022 09:05:46,797 menard.grammar: process-options: input-grammar: 11 rules.
+INFO  26 sep. 2022 09:05:46,799 menard.grammar: process-options: output-grammar: 32 rules.
+INFO  26 sep. 2022 09:05:46,799 menard.grammar: filter-rules: input-grammar: 32 rules.
+INFO  26 sep. 2022 09:05:46,799 menard.grammar: filter-rules-by-firstness: output-grammar: 32 rules.
+INFO  26 sep. 2022 09:05:46,799 menard.grammar: warn-rules-by-catness: input-grammar: 32 rules.
+INFO  26 sep. 2022 09:05:46,799 menard.grammar: warn-rules-by-catness: output-grammar: 32 rules.
+INFO  26 sep. 2022 09:05:46,799 menard.model: en/default loaded: 55 lexical rules.
+INFO  26 sep. 2022 09:05:46,799 menard.model: en/default loaded: 594 lexeme keys.
+INFO  26 sep. 2022 09:05:46,799 menard.model: en/default loaded: 5 lexicon indices.
+INFO  26 sep. 2022 09:05:46,799 menard.model: en/default loaded: 37 morphological rules.
+INFO  26 sep. 2022 09:05:46,802 menard.model: en/default loaded: 32 grammar rules.
+INFO  26 sep. 2022 09:05:46,802 menard.model: en/default loaded resources for language: en.
 nil
 # intensifier adjective; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:48,565 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-INFO  25 sep. 2022 23:14:48,579 menard.nederlands: menard.nederlands/generate: generated: [intensifier-phrase .echt +voorzichtig]
-Echt voorzichtig.|
-INFO  25 sep. 2022 23:14:48,589 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |Really careful.
-INFO  25 sep. 2022 23:14:48,597 menard.nederlands: menard.nederlands/generate: generated: [intensifier-phrase .eigenlijk +leuk]
-Eigenlijk leuk.|
-INFO  25 sep. 2022 23:14:48,603 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-               |Actually good.
-INFO  25 sep. 2022 23:14:48,610 menard.nederlands: menard.nederlands/generate: generated: [intensifier-phrase .ongewoon +benieuwd]
-Ongewoon benieuwd.|
-INFO  25 sep. 2022 23:14:48,615 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                  |Unusually curious.
-INFO  25 sep. 2022 23:14:48,622 menard.nederlands: menard.nederlands/generate: generated: [intensifier-phrase .eigenlijk +stevig]
-Eigenlijk stevig.|
-INFO  25 sep. 2022 23:14:48,628 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |Actually firm.
-INFO  25 sep. 2022 23:14:48,636 menard.nederlands: menard.nederlands/generate: generated: [intensifier-phrase .bijster +schuchter]
-Bijster schuchter.|
-                  |Quite shy.
+Ongewoon nauwkeurig.|
+                    |Unusually accurate.
+Redelijk zwierig.|
+                 |Reasonably jaunty.
+Echt lijp.|
+          |Really cool.
+Echt afzonderlijk.|
+                  |Really separate.
+Eigenlijk tevreden.|
+                   |Actually satisfied.
 
-INFO  25 sep. 2022 23:14:48,641 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # det noun; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:48,663 menard.nederlands: menard.nederlands/generate: generated: [np:1 .eenzaam +woordvoerder]
-Eenzame woordvoerders.|
-INFO  25 sep. 2022 23:14:48,697 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |Lonely spokespersons.
-INFO  25 sep. 2022 23:14:48,701 menard.nederlands: menard.nederlands/generate: generated: [negp +niet .toestand]
-Niet toestanden.|
-INFO  25 sep. 2022 23:14:48,711 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                |Some situations.
-INFO  25 sep. 2022 23:14:48,719 menard.nederlands: menard.nederlands/generate: generated: [negp +niet .bestemming]
-Niet bestemmingen.|
-INFO  25 sep. 2022 23:14:48,756 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                  |Some destinations.
-INFO  25 sep. 2022 23:14:48,764 menard.nederlands: menard.nederlands/generate: generated: [negp +niet .rechtbank]
-Niet rechtbanken.|
-INFO  25 sep. 2022 23:14:48,796 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |Some courts.
-INFO  25 sep. 2022 23:14:48,801 menard.nederlands: menard.nederlands/generate: generated: [negp +niet .maand]
-Niet maanden.|
-INFO  25 sep. 2022 23:14:48,808 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-             |Some months.
+Gierige ambtenaren.|
+                   |Stingy civil servants.
+Een koppel.|
+           |A couple.
+Zijn aandacht.|
+              |Its attention.
+Niet gevaartes.|
+               |Some monsters.
+Eigenwijze feiten.|
+                  |Some stubborn facts.
 
 # noun verb; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:48,820 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .baan +bedelven]
-Banen bedelven.|
-INFO  25 sep. 2022 23:14:48,850 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-               |Jobs overwhelm.
-INFO  25 sep. 2022 23:14:48,859 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .meisje +kijken]
-Meisjes keken.|
-INFO  25 sep. 2022 23:14:48,889 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-              |Girls looked.
-INFO  25 sep. 2022 23:14:48,904 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .we +hebben]
-We hebben.|
-INFO  25 sep. 2022 23:14:48,939 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-          |We have.
-INFO  25 sep. 2022 23:14:48,949 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .ik +beseffen]
-Ik besefte.|
-INFO  25 sep. 2022 23:14:48,988 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-           |I realized.
-INFO  25 sep. 2022 23:14:48,995 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .ik +aangekonigen]
-Ik aangekoniigde.|
-                 |I announced.
-INFO  25 sep. 2022 23:14:49,023 menard.nederlands: menard.nederlands/generate: generating with model named: complete
+Wij lukken.|
+           |We succeed.
+We bleven.|
+          |We stayed.
+Je bedelvt.|
+           |You 🤠 overwhelm.
+Jij verbergde.|
+              |You 🤠 hid.
+Courgettes zeiden.|
+                  |Zucchinis said.
 
 # det noun | verb; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:49,034 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .haar +veroorzaaken]
-Haren veroorzaakten.|
-INFO  25 sep. 2022 23:14:49,082 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                    |Hairs caused.
-INFO  25 sep. 2022 23:14:49,093 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .wij +bewegen]
-Wij bewegen.|
-INFO  25 sep. 2022 23:14:49,123 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-            |We move.
-INFO  25 sep. 2022 23:14:49,138 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .we +luieren]
-We luieren.|
-INFO  25 sep. 2022 23:14:49,170 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-           |We laze.
-INFO  25 sep. 2022 23:14:49,185 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +blaffen]
-We blaften.|
-INFO  25 sep. 2022 23:14:49,211 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-           |We barked.
-INFO  25 sep. 2022 23:14:49,223 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .wij +vallen]
-Wij vallen.|
-           |We fall.
+Je trad.|
+        |You 🤠 stepped.
+Kerels uitwijkten.|
+                  |Dudes emigrated.
+We blazen.|
+          |We blow.
+Wij treden.|
+           |We move.
+We gingen.|
+          |We went.
 
-INFO  25 sep. 2022 23:14:49,267 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # det | adj noun; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:49,331 menard.nederlands: menard.nederlands/generate: generated: [np:2 .je +[nbar .vriendelijk +genootschap]]
-Je vriendelijke genootschappen.|
-INFO  25 sep. 2022 23:14:49,406 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                               |Your friendly societies.
-INFO  25 sep. 2022 23:14:49,448 menard.nederlands: menard.nederlands/generate: generated: [np:2 .hun +[nbar .nijver +getuig]]
-Hun nijvere getuig.|
-INFO  25 sep. 2022 23:14:49,499 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                   |Their industrious witness.
-INFO  25 sep. 2022 23:14:49,550 menard.nederlands: menard.nederlands/generate: generated: [np:2 .onze +[nbar .tachtig +moeder]]
-Onze tachtig moeders.|
-INFO  25 sep. 2022 23:14:49,632 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                     |Our eighty mothers.
-INFO  25 sep. 2022 23:14:49,694 menard.nederlands: menard.nederlands/generate: generated: [np:2 .mijn +[nbar .nuttig +ambtenaar]]
-Mijn nuttige ambtenaar.|
-INFO  25 sep. 2022 23:14:49,762 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                       |My useful civil servant.
-INFO  25 sep. 2022 23:14:49,804 menard.nederlands: menard.nederlands/generate: generated: [np:2 .onze +[nbar .vernuftig +tafel]]
-Onze vernuftige tafel.|
-                      |Our clever table.
-INFO  25 sep. 2022 23:14:49,860 menard.nederlands: menard.nederlands/generate: generating with model named: complete
+Deze onschuldige gunsteling.|
+                            |This innocent favorite.
+Die hoffelijke banen.|
+                     |Those courteous jobs.
+De opvallende woordvoerders.|
+                            |The striking spokespersons.
+Die negentien geiten.|
+                     |Those eighteen goats.
+Die één vakbond.|
+                |That one union.
 
 # 'een huis'; 1 example:
 ---
-INFO  25 sep. 2022 23:14:49,865 menard.nederlands: menard.nederlands/generate: generated: [negp +niet .zich]
-Niet zich.|
-INFO  25 sep. 2022 23:14:49,866 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-          |_.
+Niet huizen.|
+            |_.
 
 # 'de grote boeken'; 1 example:
 ---
-INFO  25 sep. 2022 23:14:49,973 menard.nederlands: menard.nederlands/generate: generated: [np:2 .de +[nbar .groot +boeken]]
 De grote boeken.|
-INFO  25 sep. 2022 23:14:50,014 menard.nederlands: menard.nederlands/generate: generating with model named: complete
                 |The big books.
 
 # 'een heel klein druif'; 1 example:
 ---
-INFO  25 sep. 2022 23:14:50,055 menard.nederlands: menard.nederlands/generate: generated: [negp +niet .[np:1 .[intensifier-phrase .erg +klein] +druif]]
-Niet erg kleine druiven.|
-                        |_.
+Een erg kleine druif.|
+                     |A very small grape.
 
-INFO  25 sep. 2022 23:14:50,086 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # [det [[intensifier adj] noun]]; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:50,177 menard.nederlands: menard.nederlands/generate: generated: [np:2 .een +[nbar .[conj-inner +maar .vier] +[nbar .verdacht +roofdier]]]
-Een maar vier verdacht roofdier.|
-INFO  25 sep. 2022 23:14:50,539 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                |_.
-INFO  25 sep. 2022 23:14:50,630 menard.nederlands: menard.nederlands/generate: generated: [np:2 .Ina +[nbar .[conj-inner +en .groot] +[conj-inner +en .hond]]]
-Ina en groot en honden.|
-INFO  25 sep. 2022 23:14:51,202 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                       |_.
-INFO  25 sep. 2022 23:14:51,321 menard.nederlands: menard.nederlands/generate: generated: [np:2 .fiets +[nbar .[conj-inner +en .stom] +[conj-inner +en .woordvoerder]]]
-Fietsen en stom en woordvoerders.|
-INFO  25 sep. 2022 23:14:52,040 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                 |_.
-INFO  25 sep. 2022 23:14:52,113 menard.nederlands: menard.nederlands/generate: generated: [np:2 .geen +[nbar:2 +aanwezigheid .[pp:2 +van .paard]]]
-Geen aanwezigheid van paarden.|
-INFO  25 sep. 2022 23:14:52,209 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                              |No presence of ourselves.
-INFO  25 sep. 2022 23:14:52,347 menard.nederlands: menard.nederlands/generate: generated: [np:2 .geen +[nbar .[intensifier-phrase .ongewoon +lastig] +[nbar .schrijnend +gevaarte]]]
-Geen ongewoon lastig schrijnend gevaarte.|
-INFO  25 sep. 2022 23:14:52,483 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                         |No unusually difficult poignant monster.
+Geen aanwezigheid tegenslagen van.|
+                                  |No reasonably long courteous presence of setbacks.
+Wat aanwezigheid van kittens.|
+                             |Some presence of themselves.
+Geen aanwezigheid kraaien van.|
+                              |No presence of themselves.
+Chirurgen eigenlijk gelauwerd maar katten.|
+                                          |_.
+Geen aanwezigheid ze van.|
+                         |No really busy presence of yourselves.
 
 # [np:2 .een +[nbar .[intensifier-phrase .behoorlijk +vies] +[nbar .grote +tafel]]]; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:52,532 menard.nederlands: menard.nederlands/generate: generated: [np:2 .jullie +[nbar .[intensifier-phrase .bijster +veelzijdig] +[nbar .gelauwerd +mededeling]]]
-Jullie bijster veelzijdige gelauwerde mededelingen.|
-INFO  25 sep. 2022 23:14:52,697 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                                   |Your quite versatile acclaimed statements.
-INFO  25 sep. 2022 23:14:52,742 menard.nederlands: menard.nederlands/generate: generated: [np:2 .hun +[nbar .[intensifier-phrase .redelijk +sterk] +[nbar .treurig +koper]]]
-Hun redelijk sterke treurige kopers.|
-INFO  25 sep. 2022 23:14:52,900 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                    |Their reasonably strong pathetic buyers.
-INFO  25 sep. 2022 23:14:52,953 menard.nederlands: menard.nederlands/generate: generated: [np:3 .[conj-inner +en .dertig] +[nbar .[intensifier-phrase .behoorlijk +inhalig] +[nbar .klein +oog]]]
-En dertig behoorlijk inhalige kleine ogen.|
-INFO  25 sep. 2022 23:14:53,206 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                          |Its thirty seven quite greedy small eyes.
-INFO  25 sep. 2022 23:14:53,265 menard.nederlands: menard.nederlands/generate: generated: [np:3 .[conj-outer .vijf +[conj-inner +en .negentig]] +[nbar .[intensifier-phrase .redelijk +breed] +[nbar .gevoelig +mededeling]]]
-Vijf en negentig redelijk brede gevoelige mededelingen.|
-INFO  25 sep. 2022 23:14:53,508 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                                       |The ninety five fairly wide sensitive statements.
-INFO  25 sep. 2022 23:14:53,552 menard.nederlands: menard.nederlands/generate: generated: [np:2 .jouw +[nbar .[intensifier-phrase .ongewoon +lijp] +[nbar .kieskeurig +gevoel]]]
-Jouw ongewoon lijpe kieskeurige gevoelen.|
-                                         |Your unusually cool picky feelings.
+Haar behoorlijk goede lastige bomen.|
+                                    |Her quite good difficult trees.
+Zeven en zestig echt huidige geldige mannen.|
+                                            |These sixty seven really current valid men.
+Verwarrend maar nuttig echt verdachte spaarzame stelsels.|
+                                                         |_.
+Erg grote eigenlijk eenvoudige tevredene zenuwen.|
+                                                 |The very big actually simple satisfied nerves.
+Deze bijster vastberadene nieuwsgierige boodschappen.|
+                                                     |These quite determined curious messages.
 
-INFO  25 sep. 2022 23:14:53,683 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # vier en twintig vogels; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:53,702 menard.nederlands: menard.nederlands/generate: generated: [np:1 .[conj-outer .negen +[conj-inner +en .tachtig]] +vogel]
-Negen en tachtig vogels.|
-INFO  25 sep. 2022 23:14:53,718 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                        |Eighty nine birds.
-INFO  25 sep. 2022 23:14:53,733 menard.nederlands: menard.nederlands/generate: generated: [np:1 .[conj-outer .twee +[conj-inner +en .zestig]] +vogel]
-Twee en zestig vogels.|
-INFO  25 sep. 2022 23:14:53,805 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |Some sixty two birds.
-INFO  25 sep. 2022 23:14:53,826 menard.nederlands: menard.nederlands/generate: generated: [np:1 .[conj-outer .vier +[conj-inner +en .dertig]] +vogel]
-Vier en dertig vogels.|
-INFO  25 sep. 2022 23:14:53,845 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |Thirty four birds.
-INFO  25 sep. 2022 23:14:53,853 menard.nederlands: menard.nederlands/generate: generated: [np:1 .[conj-outer .acht +[conj-inner +en .tachtig]] +vogel]
-Acht en tachtig vogels.|
-INFO  25 sep. 2022 23:14:53,890 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                       |Eighty eight birds.
-INFO  25 sep. 2022 23:14:53,903 menard.nederlands: menard.nederlands/generate: generated: [np:1 .[conj-outer .vier +[conj-inner +en .dertig]] +vogel]
-Vier en dertig vogels.|
-                      |Thirty four birds.
+Vier en twintig vogels.|
+                       |Some twenty four birds.
+Drie en vijftig vogels.|
+                       |Fifty three birds.
+Zeven en veertig vogels.|
+                        |Some forty seven birds.
+Negen en negentig vogels.|
+                         |Some ninety nine birds.
+Zeven en veertig vogels.|
+                        |Some forty seven birds.
 
-INFO  25 sep. 2022 23:14:53,940 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # de vier kliene vogels; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:53,969 menard.nederlands: menard.nederlands/generate: generated: [np:2 .hun +[nbar .negentig +[nbar .verrast +bericht]]]
-Hun negentig verraste berichten.|
-INFO  25 sep. 2022 23:14:54,134 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                |Their ninety suprised messages.
-INFO  25 sep. 2022 23:14:54,164 menard.nederlands: menard.nederlands/generate: generated: [np:2 .mijn +[nbar .één +[nbar .uitgebroken +boom]]]
-Mijn één uitgebrokene boom.|
-INFO  25 sep. 2022 23:14:54,322 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                           |My one escaped tree.
-INFO  25 sep. 2022 23:14:54,353 menard.nederlands: menard.nederlands/generate: generated: [np:2 .zijn +[nbar .één +[nbar .lomp +voorbereiding]]]
-Zijn één lompe voorbereiding.|
-INFO  25 sep. 2022 23:14:54,478 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                             |His one rude preparation.
-INFO  25 sep. 2022 23:14:54,507 menard.nederlands: menard.nederlands/generate: generated: [np:2 .jouw +[nbar .één +[nbar .droevig +ontspanning]]]
-Jouw één droevige ontspanning.|
-INFO  25 sep. 2022 23:14:54,633 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                              |Your one sad relaxation.
-INFO  25 sep. 2022 23:14:54,663 menard.nederlands: menard.nederlands/generate: generated: [np:2 .hun +[nbar .één +[nbar .aanspreekbaar +feit]]]
-Hun één aanspreekbare feit.|
-INFO  25 sep. 2022 23:14:54,844 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                           |Their one approachable fact.
+Onze één gierige vergissing.|
+                            |Our one stingy mistake.
+Mijn vijftien eigenwijze stoeten.|
+                                 |My fifteen stubborn processions.
+Onze één spaarzame sering.|
+                          |Our one thrifty lilac.
+De dertien lieve gunstelingen.|
+                              |The thirteen nice favorites.
+Haar één moelijke maand.|
+                        |Her one difficult month.
 
 # e.g. 'de vier en twintig kleine vogels'; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:54,876 menard.nederlands: menard.nederlands/generate: generated: [np:2 .wat +[nbar .achttien +[nbar .stuitend +idee]]]
-Wat achttien stuitende ideeën.|
-INFO  25 sep. 2022 23:14:55,007 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                              |Some eighteen shocking ideas.
-INFO  25 sep. 2022 23:14:55,056 menard.nederlands: menard.nederlands/generate: generated: [np:2 .je +[nbar .zeventien +[nbar .opgewonden +vrouw]]]
-Je zeventien opgewondene vrouwen.|
-INFO  25 sep. 2022 23:14:55,158 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                 |Your seventeen excited women.
-INFO  25 sep. 2022 23:14:55,205 menard.nederlands: menard.nederlands/generate: generated: [np:2 .wat +[nbar .vijftien +[nbar .bedroefd +verdediger]]]
-Wat vijftien bedroefde verdedigers.|
-INFO  25 sep. 2022 23:14:55,314 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                   |Some fifteen sad defenders.
-INFO  25 sep. 2022 23:14:55,367 menard.nederlands: menard.nederlands/generate: generated: [np:2 .onze +[nbar .vier +[nbar .nuttig +rechtbank]]]
-Onze vier nuttige rechtbanken.|
-INFO  25 sep. 2022 23:14:55,470 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                              |Our four useful courts.
-INFO  25 sep. 2022 23:14:55,521 menard.nederlands: menard.nederlands/generate: generated: [np:2 .mijn +[nbar .teen +[nbar .vunzig +gunsteling]]]
-Mijn teen vunzige gunstelingen.|
-INFO  25 sep. 2022 23:14:55,684 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                               |My ten filthy favorites.
+Onze dertig uitgebrokene geiten.|
+                                |Our thirty escaped goats.
+De veertig verknochte stelsels.|
+                               |The forty devoted systems.
+Jullie vier degelijke volksvertegenwoordigers.|
+                                              |Your four sound representatives.
+Onze vijftien strijdbare zakken.|
+                                |Our fifteen combative cases.
+Die nul heete zenuwen.|
+                      |Those zero hot nerves.
 
 # 'De heel sterk slimme vrouwen zingen'.; 1 example:
 ---
-INFO  25 sep. 2022 23:14:55,799 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .die +[nbar .[intensifier-phrase .heel +sterk] +[nbar .slim +vrouw]]] +zongen]
-Die heel sterke slimme vrouwen zongen.|
-INFO  25 sep. 2022 23:14:55,977 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                      |Those very strong smart women sang.
+Zijn erg sterke slimme vrouwen zingen.|
+                                      |His very strong smart women sing.
 
 # generalization of the above; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:56,041 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .haar +[nbar .[intensifier-phrase .volkomen +kieskeurig] +[nbar .lief +echtgenote]]] +bellen]
-Haar volkomen kieskeurige lieve echtgenotes bellen.|
-INFO  25 sep. 2022 23:14:56,191 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                                   |Her completely picky nice wives telephone.
-INFO  25 sep. 2022 23:14:56,258 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .uw +[nbar .[intensifier-phrase .behoorlijk +nijver] +[nbar .heet +vrouw]]] +leest]
-Uw behoorlijk nijvere heete vrouw leest.|
-INFO  25 sep. 2022 23:14:56,476 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                        |Your quite industrious hot woman reads.
-INFO  25 sep. 2022 23:14:56,534 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .mijn +[nbar .[intensifier-phrase .eigenlijk +ongebruikelijk] +[nbar .stemmig +huwelijk]]] +veroorzaaken]
-Mijn eigenlijk ongebruikelijke stemmige huwelijken veroorzaaken.|
-INFO  25 sep. 2022 23:14:56,689 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                                                |My actually unusual moody marriages cause.
-INFO  25 sep. 2022 23:14:56,751 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .een +[nbar .[intensifier-phrase .echt +koud] +[nbar .nuttig +werkgever]]] +uitwijken]
-Een echt koude nuttige werkgever uitwijkte.|
-INFO  25 sep. 2022 23:14:56,938 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                           |Some really cold useful employer emigrated.
-INFO  25 sep. 2022 23:14:57,003 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .hun +[nbar .[intensifier-phrase .werkelijk +belangrijk] +[nbar .moedig +beslissing]]] +bereiken]
-Hun werkelijk belangrijke moedige beslissing bereikte.|
-INFO  25 sep. 2022 23:14:57,186 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                                      |Their actually important brave decision achieved.
+Jullie eigenlijk reusachtige hedendaagse banen bewegen.|
+                                                       |Your actually huge contemporary jobs move.
+Jouw redelijk enge verdachte tafel fluistert.|
+                                             |Your reasonably scary suspicious table whispers.
+Zijn echt ernstige zachte bedragen bedriegen.|
+                                             |His really serious soft amounts cheat.
+Onze heel schrijnende spaarzame geit hoestt.|
+                                            |Our very poignant frugal goat coughs.
+Onze ongewoon moedige teleurgestelde volgers zijn.|
+                                                  |Our unusually brave disappointed followers are.
 
 # [det | adj noun] verb; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:57,258 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .haar +[nbar .verlegen +ontspanning]] +uitgeleggen]
-Haar verlegene ontspanningen uitgeleggen.|
-INFO  25 sep. 2022 23:14:57,393 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                         |Her shy relaxations explain.
-INFO  25 sep. 2022 23:14:57,447 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .dit +[nbar .onwenselijk +thuis]] +slapen]
-Dit onwenselijke thuis sliep.|
-INFO  25 sep. 2022 23:14:57,572 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                             |This undesirable home slept.
-INFO  25 sep. 2022 23:14:57,868 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .haar +[nbar .nul +vlinder]] +verbergen]
-Haar nul vlinders verbergen.|
-INFO  25 sep. 2022 23:14:57,968 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |Her zero butterflies hide.
-INFO  25 sep. 2022 23:14:58,355 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .hun +[nbar .vier +vete]] +werken]
-Hun vier vetes werken.|
-INFO  25 sep. 2022 23:14:58,454 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |Their four feuds work.
-INFO  25 sep. 2022 23:14:58,494 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .dat +[nbar .één +thuis]] +stond]
-Dat één thuis stond.|
-INFO  25 sep. 2022 23:14:58,606 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                    |That one home stood.
+Hun geheime meisjes keken.|
+                          |Their secret girls looked.
+Jouw één betrekking veroorzaakte.|
+                                 |Your one relation caused.
+Wat ernstige ervaringen staan.|
+                              |Serious experiences stand.
+Haar vier voorstellingen spelen.|
+                                |Her four performances play.
+Onze vijftig vetes voeren.|
+                          |Our fifty feuds feed.
 
 # Sentence with object; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:58,625 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .toevlucht +[vp(:present-simple){-} +zien .gebied]]
-Toevluchten zien gebieden.|
-INFO  25 sep. 2022 23:14:58,719 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                          |Refuges see areas.
-INFO  25 sep. 2022 23:14:58,733 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .u +[vp(:past-simple){-} +zag .ons]]
-U zag ons.|
-INFO  25 sep. 2022 23:14:58,822 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-          |You 🧐🧐 saw us.
-INFO  25 sep. 2022 23:14:58,858 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .voorbereiding +[vp(:present-simple){-} +zien .me]]
-Voorbereidingen zien me.|
-INFO  25 sep. 2022 23:14:58,952 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                        |Preparations see me.
-INFO  25 sep. 2022 23:14:58,971 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .u +[vp(:past-simple){-} +zag .haar]]
-U zag haren.|
-INFO  25 sep. 2022 23:14:59,053 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-            |You 🧐🧐 saw hairs.
-INFO  25 sep. 2022 23:14:59,081 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .wij +[vp(:past-simple){-} +zagen .jullie]]
-Wij zagen jullie.|
-INFO  25 sep. 2022 23:14:59,168 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |We saw you 🤠🤠.
+Ik zie dagen.|
+             |I see days.
+Baby's zagen u.|
+               |Babies saw you 🧐.
+We zien jij.|
+            |We see you 🤠.
+Genodigdes zien jou.|
+                    |Guests see you 🤠.
+Wij zagen berichten.|
+                    |We saw messages.
 
 # Sentence with reflexive object; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:59,189 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .jij +[vp(:present-simple){+} +ziet .jezelf]]
-Jij ziet jezelf.|
-INFO  25 sep. 2022 23:14:59,266 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                |You 🤠 see yourself.
-INFO  25 sep. 2022 23:14:59,317 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .dier +[vp(:present-simple){+} +zien .zich]]
-Dieren zien zich.|
-INFO  25 sep. 2022 23:14:59,408 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |Animals see themselves.
-INFO  25 sep. 2022 23:14:59,500 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .Saskia +[vp(:present-simple){+} +ziet .zichzelf]]
-Saskia ziet zichzelf.|
-INFO  25 sep. 2022 23:14:59,563 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                     |Saskia sees herself.
-INFO  25 sep. 2022 23:14:59,601 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .ik +[vp(:present-simple){+} +zie .mezelf]]
-Ik zie mezelf.|
-INFO  25 sep. 2022 23:14:59,671 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-              |I see myself.
-INFO  25 sep. 2022 23:14:59,709 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .Femke +[vp(:present-simple){+} +ziet .zichzelf]]
-Femke ziet zichzelf.|
-                    |Femke sees herself.
+Ik zie me.|
+          |I see myself.
+Jij ziet je.|
+            |You 🤠 see yourself.
+U ziet zich.|
+            |You 🧐 see yourself.
+U ziet u.|
+         |You 🧐🧐 see yourselves.
+Ina ziet zichzelf.|
+                  |_.
 
-INFO  25 sep. 2022 23:14:59,780 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # [s np [vp v np]]; 5 examples:
 ---
-INFO  25 sep. 2022 23:14:59,824 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .ik +[vp(:past-simple){-} +tegenhield .[np:1 .goed +boodschap]]]
-Ik tegenhield goede boodschappen.|
-INFO  25 sep. 2022 23:14:59,956 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                 |I inhibited some good messages.
-INFO  25 sep. 2022 23:14:59,986 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .vogel +[vp(:present-simple){-} +lezen .[negp +niet .plaats]]]
-Vogels lezen niet plaatsen.|
-INFO  25 sep. 2022 23:15:00,066 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                           |Birds read lots.
-INFO  25 sep. 2022 23:15:00,089 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .jullie +[vp(:past-simple){-} +dromen .[negp +niet .hij]]]
-Jullie droomden niet hij.|
-INFO  25 sep. 2022 23:15:00,167 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                         |You 🤠🤠 dreamed him.
-INFO  25 sep. 2022 23:15:00,194 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .ik +[vp(:past-simple){-} +dragen .[negp +niet .vijver]]]
-Ik droeg niet vijvers.|
-INFO  25 sep. 2022 23:15:00,259 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |I carried ponds.
-INFO  25 sep. 2022 23:15:00,292 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .ik +[vp(:present-simple){-} +sla .[negp +niet .wortel]]]
-Ik sla niet wortels.|
-                    |I hit carrots.
+Gebieden geloovden niet ideeën.|
+                               |Areas believed ideas.
+U voorkomt niet ordeverstoringen.|
+                                 |You 🧐 prevent disturbances.
+U aangekoniigde niet groepen.|
+                             |You 🧐 announced groups.
+Je voorkoomde prachtige ordeverstoringen.|
+                                         |You 🤠 avoided magnificent disturbances.
+Optredens voorkomen lastige plaatsen.|
+                                     |Performances prevent difficult lots.
 
-INFO  25 sep. 2022 23:15:00,374 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # [s n [vp-modal-te v [vp-te:inf to v]]]; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:00,433 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .kleuter +[vp-modal-te(:past-simple){-} +proberen .[vp-te{-} +te .gaan]]]
-Kleuters probeerden te gaan.|
-INFO  25 sep. 2022 23:15:00,516 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |Toddlers tried to go.
-INFO  25 sep. 2022 23:15:00,665 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .hij +[vp-modal-te(:present-simple){-} +probeert .[vp-te{-} +te .weten]]]
-Hij probeert te weten.|
-INFO  25 sep. 2022 23:15:00,764 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |He tries to know.
-INFO  25 sep. 2022 23:15:00,803 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .u +[vp-modal-te(:present-simple){-} +probeert .[vp-te{-} +te .aangekonigen]]]
-U probeert te aangekonigen.|
-INFO  25 sep. 2022 23:15:00,881 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                           |You 🧐🧐 try to announce.
-INFO  25 sep. 2022 23:15:01,024 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .mededeling +[vp-modal-te(:present-simple){-} +proberen .[vp-te{-} +te .komen]]]
-Mededelingen proberen te komen.|
-INFO  25 sep. 2022 23:15:01,138 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                               |Announcements try to come.
-INFO  25 sep. 2022 23:15:01,207 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .we +[vp-modal-te(:present-simple){-} +proberen .[vp-te{-} +te .maken]]]
-We proberen te maken.|
-                     |We try to make.
+U probeert te graven.|
+                     |You 🧐 try to dig.
+Wij probeerden te komen.|
+                        |We tried to come.
+Wij probeerden te slapen.|
+                         |We tried to sleep.
+U probeerde te wassen.|
+                      |You 🧐 tried to wash.
+U probeert te vallen.|
+                     |You 🧐🧐 try to fall.
 
-INFO  25 sep. 2022 23:15:01,314 menard.nederlands: menard.nederlands/generate: generating with model named: complete
 # modals+infinitive; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:01,478 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +[vp-modal-np(:past-simple){-} +proberen .[vp-np(:infinitive){-} .zaak +[vp-te{-} +te .bewegen]]]]
-We probeerden zakken te bewegen.|
-INFO  25 sep. 2022 23:15:01,545 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                |We tried to move cases.
-INFO  25 sep. 2022 23:15:01,721 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +[vp-modal-np(:past-simple){-} +proberen .[vp-np(:infinitive){-} .jij +[vp-te{-} +te .dragen]]]]
-We probeerden jij te dragen.|
-INFO  25 sep. 2022 23:15:01,801 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |We tried to carry you 🤠.
-INFO  25 sep. 2022 23:15:01,896 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +[vp-modal-np(:past-simple){-} +proberen .[vp-np(:infinitive){-} .je +[vp-te{-} +te .maken]]]]
-We probeerden je te maken.|
-INFO  25 sep. 2022 23:15:01,986 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                          |We tried to make you 🤠.
-INFO  25 sep. 2022 23:15:02,172 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +[vp-modal-np(:past-simple){-} +proberen .[vp-np(:infinitive){-} .jullie +[vp-te{-} +te .eten]]]]
-We probeerden jullie te eten.|
-INFO  25 sep. 2022 23:15:02,252 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                             |We tried to eat you 🤠🤠.
-INFO  25 sep. 2022 23:15:02,355 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +[vp-modal-np(:past-simple){-} +proberen .[vp-np(:infinitive){-} .jou +[vp-te{-} +te .omarmen]]]]
-We probeerden jou te omarmen.|
-INFO  25 sep. 2022 23:15:02,429 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                             |We tried to embrace you 🤠.
+We proberen jij te toenemen.|
+                            |We try to increase you 🤠.
+We probeerden verhalen te dragen.|
+                                 |We tried to wear stories.
+We proberen bomen te eten.|
+                          |We try to eat trees.
+We proberen jou te eten.|
+                        |We try to eat you 🤠.
+We proberen u te verpesten.|
+                           |We try to ruin you 🧐🧐.
 
 # using 'kunnen'; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:02,507 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .verslaggever +[vp-infinitive(:past-simple){-} +konden .wassen]]
-Verslaggevers konden wassen.|
-INFO  25 sep. 2022 23:15:02,586 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |Reporters could wash.
-INFO  25 sep. 2022 23:15:02,620 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .mededeling +[vp-infinitive(:past-simple){-} +konden .tegengehouden]]
-Mededelingen konden tegengehouden.|
-INFO  25 sep. 2022 23:15:02,727 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                  |Notices could inhibit.
-INFO  25 sep. 2022 23:15:02,743 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .jij +[vp-infinitive(:past-simple){-} +kon .hopen]]
-Jij kon hopen.|
-INFO  25 sep. 2022 23:15:02,817 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-              |You 🤠 could hope.
-INFO  25 sep. 2022 23:15:02,895 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .heer +[vp-infinitive(:present-simple){-} +kunnen .niezen]]
-Heren kunnen niezen.|
-INFO  25 sep. 2022 23:15:02,994 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                    |Gentlemen can sneeze.
-INFO  25 sep. 2022 23:15:03,038 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .dier +[vp-infinitive(:present-simple){-} +kunnen .zingen]]
-Dieren kunnen zingen.|
-INFO  25 sep. 2022 23:15:03,107 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                     |Animals can sing.
+Je kon ontworpen.|
+                 |You 🤠 could design.
+Lafaarden konden ervaren.|
+                         |Cowards could experience.
+Wij konden niezen.|
+                  |We could sneeze.
+Verhalen konden hopen.|
+                      |Stories could hope.
+U kon staan.|
+            |You 🧐🧐 could stand.
 
 # corona sentence from de Krant van de Gemente van Amsterdam; 1 example:
 ---
-INFO  25 sep. 2022 23:15:03,344 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .we] .[adverb-vp{-} .samen +bestrijden]]]
-Corona moeten we samen bestrijden.|
-INFO  25 sep. 2022 23:15:03,543 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                  |We must overcome Corona together.
+Corona moeten wij samen bestrijden.|
+                                   |We must overcome Corona together.
 
 # Generalization of the previous; 1 example:
 ---
-INFO  25 sep. 2022 23:15:03,610 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .ons +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .nodig +bergen]]]
-Ons moeten wij nodig bergen.|
-INFO  25 sep. 2022 23:15:03,922 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |_.
+Bloemkolen moeten berichten nodig zingen.|
+                                         |_.
 
 # e.g. 'de vier en twintig kleine vogels slapen'; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:03,978 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple) .[np:2 .die +[nbar .[conj-outer .vijf +[conj-inner +en .negentig]] +[nbar .prachtig +boeken]]] +kunnen]
-Die vijf en negentig prachtige boeken kunnen.|
-INFO  25 sep. 2022 23:15:04,202 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                             |Those ninety five magnificent books can.
-INFO  25 sep. 2022 23:15:04,272 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .[np:2 .deze +[nbar .[conj-outer .vier +[conj-inner +en .vijftig]] +[nbar .kort +dier]]] +lukken]
-Deze vier en vijftig korte dieren lukken.|
-INFO  25 sep. 2022 23:15:04,489 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                         |These fifty four short animals succeed.
-INFO  25 sep. 2022 23:15:04,564 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple) .[np:2 .mijn +[nbar .[conj-outer .zeven +[conj-inner +en .dertig]] +[nbar .oud +overweging]]] +moeten]
-Mijn zeven en dertig oude overwegingen moetten.|
-INFO  25 sep. 2022 23:15:04,757 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                               |My thirty seven old considerations must.
-INFO  25 sep. 2022 23:15:04,807 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .wat +[nbar .[conj-outer .drie +[conj-inner +en .zestig]] +[nbar .lief +dier]]] +lezen]
-Wat drie en zestig lieve dieren lazen.|
-INFO  25 sep. 2022 23:15:04,966 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                      |Some sixty three nice animals read (past).
-INFO  25 sep. 2022 23:15:05,010 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .[np:2 .onze +[nbar .[conj-outer .vier +[conj-inner +en .tachtig]] +[nbar .stevig +kleuter]]] +verhogen]
-Onze vier en tachtig stevige kleuters verhoogden.|
-INFO  25 sep. 2022 23:15:05,167 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                                 |Our eighty four firm toddlers increased.
+Hun vijf en zestig aantrekkelijke hoogleraren ervaren.|
+                                                      |Their sixty five attractive professors experience.
+Onze negen en dertig enge snuiters kenden.|
+                                          |Our thirty nine scary guys knew.
+Jullie één en twintig schitterende feiten bedolven.|
+                                                   |Your twenty one splendid facts overwhelmed.
+Die acht en negentig eigenwijze hoogleraren verbergden.|
+                                                       |Those ninety eight stubborn professors hid.
+Uw twee en vijftig onnozele toneelstukken fluisteren.|
+                                                     |Your fifty two silly plays whisper.
 
 # simple past sentences with regular simple past; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:05,182 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .we +[vp(:past-simple){-} +uitgeleggen .geschenk]]
-We uitgelegden geschenken.|
-INFO  25 sep. 2022 23:15:05,261 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                          |We explained gifts.
-INFO  25 sep. 2022 23:15:05,273 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){+} .voorspelling +[vp(:past-simple){+} +maken .zich]]
-Voorspellingen maakten zich.|
-INFO  25 sep. 2022 23:15:05,341 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |Predictions made themselves.
-INFO  25 sep. 2022 23:15:05,357 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){+} .Ina +[vp(:past-simple){+} +ontworpen .zichzelf]]
-Ina ontworpte zichzelf.|
-INFO  25 sep. 2022 23:15:05,515 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                       |_.
-INFO  25 sep. 2022 23:15:05,540 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){+} .u +[vp(:past-simple){+} +toenemen .u]]
-U toeneemde u.|
-INFO  25 sep. 2022 23:15:05,607 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-              |You 🧐🧐 increased yourselves.
-INFO  25 sep. 2022 23:15:05,627 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .er +[vp(:past-simple){-} +bereiken .me]]
-Er bereikte me.|
-INFO  25 sep. 2022 23:15:05,655 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-               |I achieved.
+Jij voerde me.|
+              |You 🤠 fed me.
+Pogingen aangekoniigden zichzelf.|
+                                 |Attempts announced themselves.
+U verbergde katten.|
+                   |You 🧐 hid cats.
+Er beseften volksvertegenwoordigers.|
+                                    |Representatives realized.
+Er speelden rechtbanken.|
+                        |Courts played.
 
 # simple past sentences with irregular simple past; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:05,671 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .u +[vp(:past-simple){-} +ervoer .genodigde]]
-U ervoer genodigdes.|
-INFO  25 sep. 2022 23:15:05,750 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                    |You 🧐 experienced guests.
-INFO  25 sep. 2022 23:15:05,760 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .u +[vp(:past-simple){-} +bracht .me]]
-U bracht me.|
-INFO  25 sep. 2022 23:15:05,833 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-            |You 🧐🧐 brought me.
-INFO  25 sep. 2022 23:15:05,853 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .er +[vp(:past-simple){-} +bieden .mij]]
-Er bood mij.|
-INFO  25 sep. 2022 23:15:05,879 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-            |I offered.
-INFO  25 sep. 2022 23:15:05,897 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .mogelijkheid +[vp(:past-simple){-} +dragen .ons]]
-Mogelijkheden droegen ons.|
-INFO  25 sep. 2022 23:15:05,982 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                          |Opportunities wore us.
-INFO  25 sep. 2022 23:15:05,997 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){+} .wij +[vp(:past-simple){+} +zeiden .onszelf]]
-Wij zeiden onszelf.|
-INFO  25 sep. 2022 23:15:06,079 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                   |We said ourselves.
+We hadden onszelf.|
+                  |We had ourselves.
+We bewogen stelsels.|
+                    |We moved systems.
+Vliegtuigen borgen jullie.|
+                          |Airplanes saved you 🤠🤠.
+Wij voeren zenuwen.|
+                   |We sailed nerves.
+Zij voer zichzelf.|
+                  |She sailed herself.
 
 # 'nodig' sentences with pronouns; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:06,109 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .zij +[adverb-nodig{-} .[vp(:present-simple){-} +hebben .jij] +nodig]]
-Zij hebben jij nodig.|
-INFO  25 sep. 2022 23:15:06,193 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                     |They need you 🤠.
-INFO  25 sep. 2022 23:15:06,229 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .ik +[adverb-nodig{+} .[vp(:present-simple){+} +heb .mezelf] +nodig]]
 Ik heb mezelf nodig.|
-INFO  25 sep. 2022 23:15:06,336 menard.nederlands: menard.nederlands/generate: generating with model named: complete
                     |I need myself.
-INFO  25 sep. 2022 23:15:06,353 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .je +[adverb-nodig{-} .[vp(:present-simple){-} +hebt .ze] +nodig]]
-Je hebt ze nodig.|
-INFO  25 sep. 2022 23:15:06,437 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |You 🤠 need them.
-INFO  25 sep. 2022 23:15:06,476 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .u +[adverb-nodig{-} .[vp(:present-simple){-} +hebt .ze] +nodig]]
-U hebt ze nodig.|
-INFO  25 sep. 2022 23:15:06,657 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                |You 🧐🧐 need them.
-INFO  25 sep. 2022 23:15:06,690 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){+} .ik +[adverb-nodig{+} .[vp(:present-simple){+} +heb .mezelf] +nodig]]
-Ik heb mezelf nodig.|
-INFO  25 sep. 2022 23:15:06,748 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                    |I need myself.
+Zij heeft mij nodig.|
+                    |She needs me.
+We hebben hem nodig.|
+                    |We need him.
+Ik heb jij nodig.|
+                 |I need you 🤠.
+U hebt het nodig.|
+                 |You 🧐 need it.
 
 # ik [vp [vp-ditransitive vindt het] leuk]; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:06,767 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple) .u +[vp(:present-simple) +[vp-ditransitive +vinden .kerel] .leuk]]
-U vindt kerels leuk.|
-INFO  25 sep. 2022 23:15:06,856 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                    |You 🧐🧐 like guys.
-INFO  25 sep. 2022 23:15:06,879 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple) .jullie +[vp(:present-simple) +[vp-ditransitive +vinden .me] .leuk]]
-Jullie vinden me leuk.|
-INFO  25 sep. 2022 23:15:06,962 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                      |You 🤠🤠 like me.
-INFO  25 sep. 2022 23:15:07,005 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple) .wij +[vp(:present-simple) +[vp-ditransitive +vinden .voorbereiding] .leuk]]
-Wij vinden voorbereidingen leuk.|
-INFO  25 sep. 2022 23:15:07,099 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                                |We like preparations.
-INFO  25 sep. 2022 23:15:07,130 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple) .werkgever +[vp(:past-simple) +[vp-ditransitive +vinden .hond] .leuk]]
-Werkgevers vonden honden leuk.|
-INFO  25 sep. 2022 23:15:07,223 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                              |Employers liked dogs.
-INFO  25 sep. 2022 23:15:07,305 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple) .we +[vp(:present-simple) +[vp-ditransitive +vinden .been] .leuk]]
-We vinden benen leuk.|
-INFO  25 sep. 2022 23:15:07,394 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                     |We like legs.
+Plaatsen vinden Guus leuk.|
+                          |Lots like Guus.
+Boeken vonden getuigen leuk.|
+                            |Books liked witnesses.
+We vinden hem leuk.|
+                   |We like him.
+U vindt peuters leuk.|
+                     |You 🧐🧐 like toddlers.
+Wij vonden echtgenoten leuk.|
+                            |We liked husbands.
 
 # possessive NPs; 5 examples:
 ---
-INFO  25 sep. 2022 23:15:07,402 menard.nederlands: menard.nederlands/generate: generated: [np:2 .jouw +tegenslag]
-Jouw tegenslag.|
-INFO  25 sep. 2022 23:15:07,420 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-               |Your setback.
-INFO  25 sep. 2022 23:15:07,428 menard.nederlands: menard.nederlands/generate: generated: [np:2 .mijn +verdediger]
-Mijn verdedigers.|
-INFO  25 sep. 2022 23:15:07,460 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                 |My defenders.
-INFO  25 sep. 2022 23:15:07,468 menard.nederlands: menard.nederlands/generate: generated: [np:2 .haar +opstand]
-Haar opstanden.|
-INFO  25 sep. 2022 23:15:07,484 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-               |Her revolts.
-INFO  25 sep. 2022 23:15:07,493 menard.nederlands: menard.nederlands/generate: generated: [np:2 .jouw +verkoper]
-Jouw verkopers.|
-INFO  25 sep. 2022 23:15:07,498 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-               |Your sellers.
-INFO  25 sep. 2022 23:15:07,507 menard.nederlands: menard.nederlands/generate: generated: [np:2 .jouw +kogel]
-Jouw kogels.|
-INFO  25 sep. 2022 23:15:07,526 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-            |Your bullets.
+Onze moeders.|
+             |Our mothers.
+Hun vergissingen.|
+                 |Their mistakes.
+Haar courgettes.|
+                |Her zucchinis.
+Zijn mededeling.|
+                |Its announcement.
+Hun vooruitgang.|
+                |Their progress.
 
 ---
-INFO  25 sep. 2022 23:15:07,557 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .er +[vp(:past-simple){-} +uitwijken .[np:2 .je +huwelijk]]]
-Er uitwijkten je huwelijken.|
-INFO  25 sep. 2022 23:15:07,616 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |Your marriages emigrated.
-INFO  25 sep. 2022 23:15:07,647 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .er +[vp(:present-simple){-} +hebben .[np:2 .wat +werknemer]]]
-Er hebben wat werknemers.|
-INFO  25 sep. 2022 23:15:07,701 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                         |Employees have.
-INFO  25 sep. 2022 23:15:07,733 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .er +[vp(:past-simple){-} +bellen .[np:2 .deze +vertraging]]]
-Er belden deze vertragingen.|
-INFO  25 sep. 2022 23:15:07,781 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                            |These delays telephoned.
-INFO  25 sep. 2022 23:15:07,815 menard.nederlands: menard.nederlands/generate: generated: [s(:present-simple){-} .er +[vp(:present-simple){-} +bestrijden .[np:2 .je +poging]]]
-Er bestrijden je pogingen.|
-INFO  25 sep. 2022 23:15:07,866 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                          |Your attempts overcome.
-INFO  25 sep. 2022 23:15:07,898 menard.nederlands: menard.nederlands/generate: generated: [s(:past-simple){-} .er +[vp(:past-simple){-} +bereiken .[np:2 .mijn +maand]]]
-Er bereikten mijn maanden.|
-INFO  25 sep. 2022 23:15:07,961 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                          |My months achieved.
+Er ontworpten je volksvertegenwoordigers.|
+                                         |Your representatives designed.
+Er blijvt hun maand.|
+                    |Their month stays.
+Er bereikt zijn bericht.|
+                        |Its message achieves.
+Er vergat zijn rechtbank.|
+                         |His court forgot.
+Er fluistert mijn scheidsrechter.|
+                                 |My referee whispers.
 
 ---
-INFO  25 sep. 2022 23:15:07,991 menard.nederlands: menard.nederlands/generate: generated: [nbar:2 +aanwezigheid .[pp:2 +van .geld]]
-Aanwezigheid van gelden.|
-INFO  25 sep. 2022 23:15:08,067 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                        |Its presence of ourselves.
-INFO  25 sep. 2022 23:15:08,093 menard.nederlands: menard.nederlands/generate: generated: [nbar:2 +aanwezigheid .[pp:2 +van .vrouw]]
-Aanwezigheid van vrouwen.|
-INFO  25 sep. 2022 23:15:08,155 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                         |Its presences of women.
-INFO  25 sep. 2022 23:15:08,176 menard.nederlands: menard.nederlands/generate: generated: [nbar:2 +aanwezigheid .[pp:2 +van .vliegtuig]]
-Aanwezigheid van vliegtuigen.|
-INFO  25 sep. 2022 23:15:08,259 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                             |Her presence of themselves.
-INFO  25 sep. 2022 23:15:08,281 menard.nederlands: menard.nederlands/generate: generated: [nbar:2 +aanwezigheid .[pp:2 +van .been]]
-Aanwezigheid van benen.|
-INFO  25 sep. 2022 23:15:08,360 menard.nederlands: menard.nederlands/generate: generating with model named: complete
-                       |Our presence of legs.
-INFO  25 sep. 2022 23:15:08,390 menard.nederlands: menard.nederlands/generate: generated: [nbar:2 +aanwezigheid .[pp:2 +van .kinderen]]
-Aanwezigheid van kinderen.|
-                          |Her presences of children.
+Aanwezigheid van ontspanningen.|
+                               |Its presences of relaxations.
+Aanwezigheid van mededelingen.|
+                              |His presence of themselves.
+Aanwezigheid van stoelen.|
+                         |My presence of ourselves.
+Aanwezigheid van huizen.|
+                        |The presence of houses.
+Aanwezigheid van vijvers.|
+                         |His presence of ourselves.
 
 32
 user=> Bye for now!
-[zo 22/09/25 23:15 CEST] <ekoontz@MacBo..:~/menard> 1005  (git)-[release-1.6.3]-
+[ma 22/09/26 09:06 CEST] <ekoontz@MacBo..:~/menard> 1028  (git)-[main]-
 %

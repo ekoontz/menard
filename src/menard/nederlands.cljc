@@ -132,7 +132,7 @@
                     (exception (str "invalid model: " model)))
         name (-> model :spec :name)]
     (if name
-      (log/info (str "menard.nederlands/generate: generating with model named: " name))
+      (log/debug (str "menard.nederlands/generate: generating with model named: " name))
       (log/warn (str "generating with model with no name, but has keys: " (keys model)
                      " and maybe a spec? " (:spec model))))
     (let [retval
@@ -145,7 +145,7 @@
           (g/generate (-> model :grammar)
                       (-> model :lexicon-index-fn)
                       syntax-tree)))]
-      (log/info (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
+      (log/debug (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
       retval)))
 
 (defn generate-all

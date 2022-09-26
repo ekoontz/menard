@@ -427,7 +427,7 @@
  "to get " [{:cat :noun, :sem {:pred "to get "}}],
  "female neighbour"
  [{:cat :noun, :sem {:pred "female neighbour"}}],
- "subway, tube, underground"
+ "subway"
  [{:cat :noun, :sem {:pred "subway, tube, underground"}}],
  "family doctor"
  [{:cat :noun, :sem {:pred "family doctor, general practitioner"}}],

@@ -98,6 +98,7 @@
  "guy" [{:sem {:pred :dude}}]
  "hair" [{:sem {:pred :hair}}]
  "hand" [{:sem {:pred :hand}}]
+ "hiding place" [{:sem {:pred :hiding-place}}] 
  "home" [{:sem {:pred :home}}]
  "horse" [{:sem {:pred :horse}}] 
  "house" [{:sem {:pred :house}}]

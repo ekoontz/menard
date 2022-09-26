@@ -195,6 +195,7 @@
  "samenvatting" [{:sem {:pred :summary}}]
  "scheidsrechter" [{:sem {:pred :referee}}]
  "schort" [{:sem {:pred :apron}}]
+ "schuilplaats" [{:sem {:pred :hiding-place}}]
  "sering" [{:sem {:pred :lilac}}]
  "snuiter" [{:sem {:pred :dude
                    :ref {:human? true}}}]

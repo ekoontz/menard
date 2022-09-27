@@ -72,7 +72,9 @@
  [{:cat :noun, :sem {:pred "to go / to match with - to go well in"}}],
  "two coffees please"
  [{:cat :noun, :sem {:pred "two coffees please"}}],
- "family, relatives" [{:cat :noun, :sem {:pred "family, relatives"}}],
+ "family" [{:cat :noun, :sem {:pred "family"}}],
+ "relatives" [{:cat :noun, :sem {:pred "relatives"}
+               :agr {:number :plur}}]
  "appointment, engagement"
  [{:cat :noun, :sem {:pred "appointment, engagement"}}],
  "think, believe" [{:cat :noun, :sem {:pred "think, believe"}}],

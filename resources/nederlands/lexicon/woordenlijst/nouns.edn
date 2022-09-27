@@ -438,8 +438,12 @@
                  :surface "reuzen"}]}]
  "familie"
  [{:cat :noun,
-   :sem {:pred "family, relatives"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "family"},
+   :curriculum :woordenlijst}
+  {:cat :noun,
+   :sem {:pred "relatives"},
+   :curriculum :woordenlijst
+   :agr {:number :plur}}]
  "les"
  [{:cat :noun, :sem {:pred "lesson"}, :curriculum :woordenlijst}],
  "week" [{:cat :noun, :sem {:pred "week"}, :curriculum :woordenlijst}],

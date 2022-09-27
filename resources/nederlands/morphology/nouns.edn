@@ -150,8 +150,8 @@
  ;; TODO: generalize not with (.*a) but with
  ;; (consonant)(vowel) as we do with repeated 't'
  ;; in the next rule:
- {:g [#"^(.*[ao])(p)$"    "$1$2$2en"] 
-  :p [#"^(.*[ao])(p)pen$" "$1$2"] 
+ {:g [#"^(.*[aio])(p)$"    "$1$2$2en"] 
+  :p [#"^(.*[aio])(p)pen$" "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection ::repeated-consonant

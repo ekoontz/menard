@@ -52,16 +52,16 @@
                 en-woordenlijst/model
 
                 (= "complete-model" model-name)
-                en/model
+                en-complete/model
                 (= "complete" model-name)
-                en/model
+                en-complete/model
                 
                 given-model-name
                 (do
-                  (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to (legacy) en/model."))
-                  en/model)
+                  (log/warn (str "request-supplied source-model: '" given-model-name "' doesn't exist: falling back to en-complete/model."))
+                  en-complete/model)
                 
-                :else en/model))]
+                :else en-complete/model))]
     result))
 
 (defn generate-nl-and-en
@@ -247,7 +247,7 @@
         (cond (= lang "nl")
               (-> nl-complete/model deref :grammar)
               (= lang "en")
-              (-> en/model deref :grammar)
+              (-> en-complete/model deref :grammar)
               true [])]
     (log/debug (str "grammar for lang: " lang " unserialized: " unserialized))
     (->> unserialized
@@ -258,7 +258,7 @@
         (cond (= lang "nl")
               (-> nl-complete/model deref :morphology)
               (= lang "en")
-              (-> en/model deref :morphology)
+              (-> en-complete/model deref :morphology)
               true [])]
     (log/debug (str "morphology for lang: " lang " unserialized: " unserialized))    
     (->> unserialized
@@ -342,7 +342,7 @@
         :else nl/analyze))
 
 (defn language-to-model [language]
-  (cond (= language "en") en/model
+  (cond (= language "en") en-complete/model
         (= language "nl") nl-complete/model
         :else nl-complete/model))
 

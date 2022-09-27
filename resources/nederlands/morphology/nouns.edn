@@ -135,6 +135,15 @@
       :agr {:number :plur}
       :regular true}}
 
+ {:g [#"^(.*[^aeiou][aeiou])(m)$"    "$1$2$2en"] 
+  :p [#"^(.*[^aeiou][aeiou])(m)men$" "$1$2"] 
+  :u {:cat :noun
+      :null? false
+      :inflection :repeated-consonant
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
+
  ;; plek,gesprek -> plekken,gesprekken
  {:g [#"([lrst])([eou])k$"        "$1$2kken"]
   :p [#"(.*)([lrst])([eou])kken$" "$1$2$3k"]

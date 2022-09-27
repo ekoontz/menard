@@ -163,7 +163,7 @@
 
 #?(:clj
    (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar (-> @model :grammar)
+     (grammar/write-compiled-grammar (-> @complete/model :grammar)
                                      "resources/english/grammar/compiled.edn")))
 
 #?(:clj
@@ -195,7 +195,7 @@
 
 #?(:clj
    (defn write-compiled-lexicon []
-     (l/write-compiled-lexicon (:lexicon @model)
+     (l/write-compiled-lexicon (:lexicon @complete/model)
                                "resources/english/lexicon/compiled.edn")))
 
 #?(:cljs
@@ -222,7 +222,7 @@
              lexicon)))))
 
 (defn syntax-tree [tree]
-  (s/syntax-tree tree (:morphology @model)))
+  (s/syntax-tree tree (:morphology @complete/model)))
 
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel; 
@@ -253,7 +253,7 @@
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
   (log/debug (str "menard.english/generate with spec: " spec))
-  (let [model (or model complete/model (load-model))
+  (let [model (or model complete/model)
         model (cond (= (type model) clojure.lang.Ref)
                     @model
                     (map? model)
@@ -278,7 +278,7 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface & [model]]
-  (let [model (or model (load-model))]
+  (let [model (or model complete/model)]
     (binding [l/lexicon (-> model :lexicon)
               l/morphology (-> model :morphology)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
@@ -291,7 +291,7 @@
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
 (defn parse [expression & [model]]
-  (let [model (or model (load-model))
+  (let [model (or model complete/model)
         model (cond (= (type model) clojure.lang.Ref)
                     @model
                     (map? model)
@@ -317,7 +317,7 @@
          (p/parse (-> model :grammar) #(analyze % model) syntax-tree morph truncate?))))))
 
 (defn parse-start [expression & [model]]
-  (let [model (or model (load-model))
+  (let [model (or model complete/model)
 
         ;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")
@@ -349,4 +349,4 @@
              (println)))))))
 
 (defn parse-all [expression]
-  (p/parse-all expression load-model syntax-tree #"[ ]" analyze))
+  (p/parse-all expression complete/model syntax-tree #"[ ]" analyze))

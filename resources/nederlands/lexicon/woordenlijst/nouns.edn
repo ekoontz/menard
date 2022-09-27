@@ -91,7 +91,7 @@
  "ons"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "hundred grammes"},
+   :sem {:pred "hundred grammes"}
    :curriculum :woordenlijst}],
  "wedstrijd"
  [{:cat :noun, :sem {:pred "match, game"}, :curriculum :woordenlijst}],

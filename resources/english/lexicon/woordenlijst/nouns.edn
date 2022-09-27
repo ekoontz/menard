@@ -479,7 +479,7 @@
  "to say" [{:cat :noun, :sem {:pred "to say"}}],
  "per (two times a week)"
  [{:cat :noun, :sem {:pred "per (two times a week)"}}],
- "hundred grammes" [{:cat :noun, :sem {:pred "hundred grammes"}}],
+ "ounce" [{:cat :noun, :sem {:pred "hundred grammes"}}]
  "old" [{:cat :noun, :sem {:pred "old"}}],
  "afternoon" [{:cat :noun, :sem {:pred "afternoon"}}],
  "region" [{:cat :noun, :sem {:pred "region, province"}}]

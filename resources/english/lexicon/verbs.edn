@@ -578,29 +578,37 @@
           :subcat {:2 {:cat :verb
                        :infl :base}}}]
  
- "would" (let [common {:aux true
-                       :infl :present
-                       :inflected? true
-                       :sem {:tense :conditional}}]
-           (map #(dag_unify.core/unify % common)
-                [{:derivation {:sense 1}
-                  :sem {:obj :none}
-                  :subcat {:2 []}}
-                 {:derivation {:sense 2}           
-                  :subcat {:2 {:cat :verb
-                               :infl :base}}}
-                 ;; TODO: be, can, do, may, should, will, would: all these
-                 ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
-                 ;; generalize with a lexical rule. See above related TODO about "will".
-                 (let [sem (atom {:tense :condition})]
-                   {:derivation {:sense 3}
-                    :sem sem
-                    :subcat {:1 {:cat :verb
-                                 :aux false
-                                 :sem sem
-                                 :subcat []
-                                 :infl :base}
-                              :2 []}})]))
+ "would" [{:derivation {:sense 1}
+           :sem {:obj :none
+                 :tense :conditional}
+           :subcat {:2 []}
+           :aux true
+           :infl :present
+           :inflected? true}
+                  
+          {:derivation {:sense 2}           
+           :subcat {:2 {:cat :verb
+                        :infl :base}}
+           :aux true
+           :infl :present
+           :inflected? true
+           :sem {:tense :conditional}}
+
+          ;; TODO: be, can, do, may, should, will, would: all these
+          ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
+          ;; generalize with a lexical rule. See above related TODO about "will".
+          (let [sem (atom {:tense :conditional})]
+            {:derivation {:sense 3}
+             :sem sem
+             :subcat {:1 {:cat :verb
+                          :aux false
+                          :sem sem
+                          :subcat []
+                          :infl :base}
+                      :2 []}
+             :aux true
+             :infl :present
+             :inflected? true})]
 
  "work" [{:sem {:pred :work}}]
  "yawn" [{:sem {:pred :yawn

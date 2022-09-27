@@ -1,12 +1,11 @@
 (ns menard.test.english
-  (:require [menard.english :as en :refer [analyze expressions generate load-model morph parse syntax-tree]]
+  (:require [menard.english :as en :refer [analyze expressions generate morph parse syntax-tree]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [menard.english.woordenlijst :as woordenlijst]))
 
-(load-model)
 (deftest all-specifications-work
   "generate an expression for every specification in _specifications_,
    and then try to parse that expression."

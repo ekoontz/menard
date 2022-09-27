@@ -30,160 +30,20 @@
 ;; For generation and parsing of English.
 ;;
 
-;; <morphology>
-#?(:clj
-   (defn load-morphology []
-     (m/compile-morphology-fn
-      [(model/use-path "english/morphology/misc.edn")
-       (model/use-path "english/morphology/nouns.edn")
-       (model/use-path "english/morphology/verbs.edn")])))
-
-#?(:cljs
-   (defn load-morphology []
-     (m/compile-morphology
-      ["english/morphology/misc.edn"
-       "english/morphology/nouns.edn"
-       "english/morphology/verbs.edn"])))
-
-;; </morphology>
-
-;; <lexicon>
-
-#?(:clj
-   (defn load-lexical-rules []
-     (l/read-and-eval (model/use-path "english/lexicon/rules.edn"))))
-
-#?(:clj
-   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with]]
-     (binding [menard.lexiconfn/include-derivation? false]
-       (-> source-filename
-           l/read-and-eval
-           ((fn [lexicon]
-              (l/apply-to-every-lexeme lexicon
-                                       (fn [lexeme]
-                                         (if (nil? unify-with)
-                                           lexeme
-                                           (unify lexeme unify-with))))))
-           l/add-exceptions-to-lexicon
-           (l/apply-rules-in-order lexical-rules)))))
-
-#?(:clj
-   (defn load-lexicon [lexical-rules]
-     (->
-      (merge-with concat
-                  (compile-lexicon-source (model/use-path "english/lexicon/adjectives.edn")   lexical-rules {:cat :adjective})
-                  (compile-lexicon-source (model/use-path "english/lexicon/adverbs.edn")      lexical-rules {:cat :adverb})
-                  (compile-lexicon-source (model/use-path "english/lexicon/exclamations.edn") lexical-rules {:cat :exclamation})
-                  (compile-lexicon-source (model/use-path "english/lexicon/intensifiers.edn") lexical-rules {:cat :intensifier})
-                  ;; misc has various :cat values, so can't supply a :cat for this part of the lexicon:
-                  (compile-lexicon-source (model/use-path "english/lexicon/misc.edn")         lexical-rules)
-                  (compile-lexicon-source (model/use-path "english/lexicon/nouns.edn")        lexical-rules {:cat :noun})
-                  (compile-lexicon-source (model/use-path "english/lexicon/numbers.edn")      lexical-rules {:cat :adjective})
-                  (compile-lexicon-source (model/use-path "english/lexicon/pronouns.edn")     lexical-rules {:cat :noun
-                                                                                                             :pronoun? true
-                                                                                                             :propernoun? false})
-                  (compile-lexicon-source (model/use-path "english/lexicon/propernouns.edn")  lexical-rules {:cat :noun
-                                                                                                             :pronoun? false
-                                                                                                             :propernoun? true})
-                  (compile-lexicon-source (model/use-path "english/lexicon/verbs.edn")        lexical-rules {:cat :verb}))
-      ;; The lexicon is a map where each
-      ;; key is a canonical string
-      ;; and each value is the list of lexemes for
-      ;; that string. we turn the list into a vec
-      ;; so that it's completely realized rather than
-      ;; a lazy sequence, so that when we periodically
-      ;; reload the model from disk, (generate) or
-      ;; (parse) won't have to de-lazify the list:
-      ;; it will already be done before they (generate or
-      ;; parse) see it.
-      ;; (TODO: move this to some function within
-      ;;  menard/model).
-      ((fn [lexicon]
-         (zipmap (keys lexicon)
-                 (map (fn [vs]
-                        (if true (vec vs)
-                            vs))
-                      (vals lexicon))))))))
-
-#?(:cljs
-   ;; note that we exclude [:exception]s from the lexemes that we use for
-   ;; generation since they are only to be used for parsing.
-   (def lexeme-map
-     {:verb (->> lexicon
-                 (filter #(= :verb (u/get-in % [:cat])))
-                 (filter #(not (u/get-in % [:exception]))))
-      :det (->> lexicon
-                (filter #(= :det (u/get-in % [:cat]))))
-      :intensifier (->> lexicon
-                        (filter #(= :intensifier (u/get-in % [:cat]))))
-      :noun (->> lexicon
-                 (filter #(= :noun (u/get-in % [:cat])))
-                 (filter #(not (u/get-in % [:exception]))))
-      :top lexicon
-      :adjective (->> lexicon
-                      (filter #(= :adjective (u/get-in % [:cat]))))}))
-
-;; </lexicon>
-
 (declare an)
 (declare sentence-punctuation)
-
-;; <grammar>
-
-#?(:cljs
-   (def loaded-grammar
-     (->> (menard.grammar/read-compiled-grammar
-           "english/grammar/compiled.edn")
-          (map deserialize))))
-
-;; </grammar>
-
-#?(:clj
-   (defn load-grammar []
-     (->>
-      (-> (model/use-path "english/grammar.edn")
-          grammar/read-grammar-fn
-          grammar/process))))
-
-#?(:clj
-   (defn create-model []
-     (log/info (str "creating model for English.."))
-     (-> (model/load "en" load-lexical-rules
-                     load-lexicon
-                     load-morphology load-grammar {:name "default"})
-         (merge {:name "default"})
-         (model/add-functions))))
-
-#?(:clj
-   (def model (ref (create-model))))
-
-#?(:cljs
-   (def model
-     (atom nil))) ;; TODO: add call to macro function like with morphology/compile-morphology.
-
-#?(:clj
-   (defn write-compiled-grammar []
-     (grammar/write-compiled-grammar (-> @complete/model :grammar)
-                                     "resources/english/grammar/compiled.edn")))
-
-#?(:clj
-   (defn load-model []
-     (dosync
-      (when (nil? @model)
-        (ref-set model (create-model))))
-     @model))
 
 (defn morph
   ([tree]
    (cond
      (map? (u/get-in tree [:syntax-tree]))
      (-> (u/get-in tree [:syntax-tree])
-         (s/morph (:morphology @model))
+         (s/morph (:morphology @complete/model))
          an)
 
      :else
      (-> tree
-         (s/morph (:morphology @model))
+         (s/morph (:morphology @complete/model))
          an)))
 
   ([tree & {:keys [sentence-punctuation?]}]
@@ -207,7 +67,7 @@
 
 #?(:clj
    (defn index-fn [spec]
-     ((-> model deref :lexicon-index-fn) spec)))
+     ((-> complete/model deref :lexicon-index-fn) spec)))
 
 #?(:cljs
    (defn index-fn [spec]

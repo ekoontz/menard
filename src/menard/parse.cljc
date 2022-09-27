@@ -418,7 +418,9 @@
                                           (syntax-tree (first taken-results)))))
                          {[left right] taken-results})))
                     (reduce (fn [a b]
-                              (merge-with concat a b)))))))
+                              (merge-with
+                               (fn [a b] (lazy-cat a b))
+                               a b)))))))
 
 (defn lookup-fn-with-trim [string lookup-fn]
   (let [trimmed (clojure.string/trim string)]

@@ -2,6 +2,7 @@
   (:require [dag_unify.core :as u]
             [clojure.tools.logging :as log]
             [menard.english.compile :refer [compile-lexicon]]
+            [menard.english.tenses :refer [tenses]]            
             [menard.model :refer [create]]))
 
 (def create-model? true)

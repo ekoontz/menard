@@ -5,6 +5,10 @@
   #?(:cljs (:require-macros [menard.grammar]))
 
   (:require [clojure.string :as string]
+
+            ;; models
+            [menard.english.complete :as complete]
+            
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.generate :as g]
@@ -125,16 +129,6 @@
 (declare sentence-punctuation)
 
 ;; <grammar>
-
-(def finite-tenses
-  (-> "english/finite-tenses.edn" resource slurp read-string))
-
-(def nonfinite-tenses
-  (-> "english/nonfinite-tenses.edn" resource slurp read-string))
-
-(def tenses
-  (concat finite-tenses
-          nonfinite-tenses))
 
 #?(:cljs
    (def loaded-grammar
@@ -259,7 +253,7 @@
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
   (log/debug (str "menard.english/generate with spec: " spec))
-  (let [model (or model (load-model))
+  (let [model (or model complete/model (load-model))
         model (cond (= (type model) clojure.lang.Ref)
                     @model
                     (map? model)

@@ -97,7 +97,7 @@
 
  {:rule "adverb" ;; '[adverb +[vp +overcome .Corona] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
-  :options menard.english/tenses
+  :options menard.english.tenses/tenses
   :prod? true
   :cat :verb
   :subcat {:1 {:top :top}
@@ -117,7 +117,7 @@
  {:rule "s"
   :cat :verb
   :subcat []
-  :options menard.english/finite-tenses  
+  :options menard.english.tenses/finite-tenses  
   :unify [menard.ug/head-aux
           menard.ug/head-is-root
           menard.ug/head-last
@@ -129,7 +129,7 @@
   :cat :verb
   :aux false
   :slash? false
-  :options menard.english/tenses
+  :options menard.english.tenses/tenses
   :head {:aux false}
   :unify [menard.ug/head-first
           menard.ug/head-is-root

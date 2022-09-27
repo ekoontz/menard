@@ -221,8 +221,8 @@
 
 (defn start-reload-loop []
   (go-loop []
-    (let [models [;;nl-complete/model
-                  ;;nl-basic/model
+    (let [models [nl-complete/model
+                  en-complete/model
                   en-woordenlijst/model
                   nl-woordenlijst/model]]
       (doall

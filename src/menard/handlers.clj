@@ -85,7 +85,10 @@
                                first)
         target-semantics (-> target-expression (u/get-in [:sem]))
 
-        ;; 2. try twice to generate a source expression: fails occasionally for unknown reasons:
+        debug (log/info (str "target-expression st: " (-> target-expression nl/syntax-tree)))
+
+        
+        ;; 2. try _source-generation-tries_ to generate a source expression: fails occasionally for unknown reasons:
         debug (log/info (str "generate-nl-and-en: target-semantics: " (serialize target-semantics)))
         source-expression
         (->> (repeatedly #(-> target-expression tr/nl-to-en-spec

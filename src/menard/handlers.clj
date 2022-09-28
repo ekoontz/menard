@@ -127,10 +127,6 @@
                               "'"))))
         source-semantics (->> source-parses
                               (map #(u/get-in % [:sem])))
-        debug (log/info (str "source semantics: "
-                             (->> source-semantics
-                                  (map dag-to-string)
-                                  (clojure.string/join ","))))
         debug (if (= :fail source-semantics)
                 (log/debug (str "fail-paths: "
                                 (->> source-semantics

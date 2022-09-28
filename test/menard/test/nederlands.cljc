@@ -463,7 +463,7 @@
                        (if intermediate-parsing?
                          (let [first-result (-> expression nl/morph nl/parse first)]
                            (is (nil? (:menard.parse/partial? first-result)))
-                           (log/info (str "Successfully parsed generated expression: " (-> expression nl/syntax-tree)))
+                           (log/debug (str "Successfully parsed generated expression: " (-> expression nl/syntax-tree)))
                            first-result)
                          expression)))
                     nl/morph

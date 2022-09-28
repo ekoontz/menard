@@ -68,8 +68,7 @@
   "add given head as the head child of the phrase: parent."
   [parent head syntax-tree]
   {:pre [(map? parent)
-         (map? head)]
-   :post [(vector? %)]}
+         (map? head)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
     (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
  (let [pre-check? (not (= :fail
@@ -85,29 +84,28 @@
                                        "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                        :fail))]
    (if (not (= :fail result))
-     (do
-       (when (contains? log-these-rules (u/get-in parent [:rule]))
-         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
-       [result])
-     (do
-       (when (contains? log-these-rules (u/get-in parent [:rule]))
-         (let [fp (fail-path parent {:head head})]
-           (log/info
-            (str "overh fail: " (syntax-tree parent)
-                 " <- " (syntax-tree head)
-                 " fail-path: " (vec fp)
-                 ". parent has: " (u/pprint (u/get-in parent fp))
-                 ", but head has: " (u/pprint (u/get-in head (rest fp)))
-                 (if (:menard.lexiconfn/derivation head)
-                   (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
-                 "."))))
-        []))))
+     ;; not :fail: 
+     (when (contains? log-these-rules (u/get-in parent [:rule]))     
+       (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
+
+     ;; :fail:
+     (when (contains? log-these-rules (u/get-in parent [:rule]))
+       (let [fp (fail-path parent {:head head})]
+         (log/info
+          (str "overh fail: " (syntax-tree parent)
+               " <- " (syntax-tree head)
+               " fail-path: " (vec fp)
+               ". parent has: " (u/pprint (u/get-in parent fp))
+               ", but head has: " (u/pprint (u/get-in head (rest fp)))
+               (if (:menard.lexiconfn/derivation head)
+                 (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
+               ".")))))
+   result))
 
 (defn overc
   "add given child as the complement of the parent"
   [parent comp syntax-tree]
-  {:pre [(map? comp)
-         (map? parent)]
+  {:pre [(map? comp)]
    :post [(vector? %)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
     (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
@@ -160,13 +158,12 @@
          (map (fn [head-child]
                 (-> parent
                     (overh head-child syntax-tree)
-                    ((fn [parents-with-head]
+                    ((fn [parent-with-head]
                        (->>
                         (map (fn [comp-child]
-                               (->> parents-with-head
-                                    (map (fn [parent-with-head]
-                                           (overc parent-with-head comp-child syntax-tree)))
-                                    flatten))
+                               (->>
+                                (overc parent-with-head comp-child syntax-tree)
+                                flatten))
                              comp-children)
                         flatten))))))
          flatten))))

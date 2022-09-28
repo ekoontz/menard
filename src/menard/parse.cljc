@@ -105,8 +105,7 @@
 (defn overc
   "add given child as the complement of the parent"
   [parent comp syntax-tree]
-  {:pre [(map? comp)]
-   :post [(vector? %)]}
+  {:pre [(map? comp)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
     (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
   (let [pre-check? (not (= :fail (u/unify
@@ -121,7 +120,6 @@
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
-        [result])
       (do
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (let [fp (fail-path parent {:comp comp})]
@@ -131,8 +129,8 @@
                   " fail path: " (vec fp)
                   ". parent has: " (u/pprint (u/get-in parent fp))
                   ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
-                  "."))))
-        []))))
+                  ".")))))))
+    result))
 
 (defn truncate [tree syntax-tree morph]
   (log/debug (str "truncating tree: " (syntax-tree tree)))
@@ -159,17 +157,15 @@
                 (-> parent
                     (overh head-child syntax-tree)
                     ((fn [parent-with-head]
-                       (->>
-                        (map (fn [comp-child]
-                               (->>
-                                (overc parent-with-head comp-child syntax-tree)
-                                flatten))
-                             comp-children)
-                        flatten))))))
+                       (map (fn [comp-child]
+                              (overc parent-with-head comp-child syntax-tree))
+                            comp-children))))))
          flatten))))
 
    flatten
 
+   (remove #(= :fail %))
+   
    (map (fn [tree]
           (if truncate?
             (truncate tree syntax-tree morph)

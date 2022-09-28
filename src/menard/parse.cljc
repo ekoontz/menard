@@ -171,9 +171,7 @@
                         flatten))))))
          flatten))))
 
-   (reduce
-    (fn [a b]
-      (lazy-cat a b)))
+   flatten
 
    (map (fn [tree]
           (if truncate?

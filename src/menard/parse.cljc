@@ -156,9 +156,10 @@
          (map (fn [head-child]
                 (let [parent-with-head
                       (overh parent head-child syntax-tree)]
-                  (map (fn [comp-child]
-                         (overc parent-with-head comp-child syntax-tree))
-                       comp-children))))))))
+                  (->> comp-children
+                       (map (fn [comp-child]
+                              (overc parent-with-head comp-child syntax-tree)))
+                       (remove #(= :fail %))))))))))
 
    flatten
 

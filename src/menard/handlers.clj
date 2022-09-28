@@ -17,7 +17,7 @@
 (defn dag-to-string [dag]
   (-> dag dag_unify.serialization/serialize str))
 
-(def source-generation-tries 1)
+(def source-generation-tries 2)
 
 (defn get-target-model [& [given-model-name]]
   (let [model-name (or given-model-name "complete-model")]

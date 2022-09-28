@@ -155,16 +155,21 @@
       (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
                                             [left-children right-children]
                                             [right-children left-children])]
-        (mapcat (fn [head-child]
-                  (-> parent
-                      (overh head-child syntax-tree)
-                      ((fn [parents-with-head]
-                         (mapcat (fn [comp-child]
-                                   (mapcat (fn [parent-with-head]
-                                             (overc parent-with-head comp-child syntax-tree))
-                                           parents-with-head))
-                                 comp-children)))))
-                head-children))))
+        (->>
+         head-children
+         (map (fn [head-child]
+                (-> parent
+                    (overh head-child syntax-tree)
+                    ((fn [parents-with-head]
+                       (->>
+                        (map (fn [comp-child]
+                               (->> parents-with-head
+                                    (map (fn [parent-with-head]
+                                           (overc parent-with-head comp-child syntax-tree)))
+                                    flatten))
+                             comp-children)
+                        flatten))))))
+         flatten))))
 
    (reduce
     (fn [a b]

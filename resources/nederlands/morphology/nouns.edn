@@ -66,6 +66,15 @@
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
+
+ {:g [#"^(.*a)as$"    "$1zen"]       ;; baas   -> bazen
+  :p [#"^(.*)azen$"   "$1aas"] 
+  :u {:cat :noun
+      :null? false
+      :inflection :s2z
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
  
  ;; TODO: nouns end in 's' if they end in
  ;; "aar(d), -erd,-ier when referring to people" (F. p 55).
@@ -108,15 +117,6 @@
 
  {:g [#"^(.*o)ns$"    "$1zen"]       ;; ons   -> onzen
   :p [#"^(.*on)zen$"   "$1s"] 
-  :u {:cat :noun
-      :null? false
-      :inflection :s2z
-      :pronoun? false
-      :agr {:number :plur}
-      :regular true}}
-
- {:g [#"^(.*a)as$"    "$1zen"]       ;; baas   -> bazen
-  :p [#"^(.*)azen$"   "$1aas"] 
   :u {:cat :noun
       :null? false
       :inflection :s2z

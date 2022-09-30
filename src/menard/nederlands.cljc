@@ -135,6 +135,8 @@
       (log/debug (str "menard.nederlands/generate: generating with model named: " name))
       (log/warn (str "generating with model with no name, but has keys: " (keys model)
                      " and maybe a spec? " (:spec model))))
+
+    ;; TODO: these bindings will go away soon.
     (let [retval
           (binding [g/max-depth (:max-depth spec g/max-depth)
                     g/max-fails (:max-fails spec g/max-fails)
@@ -326,3 +328,21 @@
                     :else                             (exception (str "invalid model: " model)))
         lookup-fn (fn [token] (analyze token false model))]
     (p/parse-all expression (fn [] model) syntax-tree lookup-fn truncate?)))
+
+(defn round-trip-demo [& [spec times]]
+  (let [spec (or spec
+                 {:phrasal? true
+                         :head {:phrasal? false}
+                  :comp {:phrasal? false}})
+        times (or times 10)]
+    (->> (repeatedly #(-> spec
+                          generate
+                          morph
+                          parse
+                          first
+                          syntax-tree
+                          println))
+         (take times)
+         count)))
+
+

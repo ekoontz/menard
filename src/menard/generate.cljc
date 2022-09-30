@@ -70,25 +70,28 @@
   _grammar_, and the lexicon indexed by _lexicon-index-fn_, and an
   optionaly function to print out a tree _syntax-tree-fn_. See 
   nederlands/generate and english/generate for sample syntax-tree functions."
-  [spec grammar lexicon-index-fn & [syntax-tree-fn]]
-  (log/debug (str "menard.generate: start."))
-  (when (empty? grammar)
-    (log/error (str "grammar is empty."))
-    (exception "grammar is empty."))
-  (when counts?
-    (reset! count-adds 0)
-    (reset! count-lexeme-fails 0)
-    (reset! count-rule-fails 0))
-  (let [syntax-tree-fn (or syntax-tree-fn (fn [tree] (ser/syntax-tree tree [])))
-        result
-        (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
-    (when profiling?
-      (log/debug (str "generated: " (syntax-tree-fn result) " with "
-                     @count-adds " add" (when (not (= @count-adds 1)) "s") ", "
-                     @count-lexeme-fails " lexeme fail" (when (not (= @count-lexeme-fails 1)) "s") " and "
-                     @count-rule-fails " rule fail" (when (not (= @count-rule-fails 1)) "s")
-                     ".")))
-    result))
+  ([spec model]
+   (generate spec (:grammar model) (:lexicon-index-fn model) (:syntax-tree-fn model)))
+
+  ([spec grammar lexicon-index-fn & [syntax-tree-fn]]
+   (log/debug (str "menard.generate: start."))
+   (when (empty? grammar)
+     (log/error (str "grammar is empty."))
+     (exception "grammar is empty."))
+   (when counts?
+     (reset! count-adds 0)
+     (reset! count-lexeme-fails 0)
+     (reset! count-rule-fails 0))
+   (let [syntax-tree-fn (or syntax-tree-fn (fn [tree] (ser/syntax-tree tree [])))
+         result
+         (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
+     (when profiling?
+       (log/debug (str "generated: " (syntax-tree-fn result) " with "
+                       @count-adds " add" (when (not (= @count-adds 1)) "s") ", "
+                       @count-lexeme-fails " lexeme fail" (when (not (= @count-lexeme-fails 1)) "s") " and "
+                       @count-rule-fails " rule fail" (when (not (= @count-rule-fails 1)) "s")
+                       ".")))
+     result)))
 
 (defn generate-all
   "Recursively generate trees given input trees. continue recursively

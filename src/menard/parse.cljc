@@ -18,6 +18,9 @@
 ;; (def log-these-rules #{"np:1" "np:2" "nbar"}).
 (def log-these-rules #{})
 
+(def fail-counter 0)
+(def succeed-counter 0)
+
 ;; a token can be max 7 words, e.g. "presidents of the united states of america".
 (def max-token-length-in-words 7)
 
@@ -86,21 +89,25 @@
                        :fail))]
    (if (not (= :fail result))
      ;; not :fail: 
-     (when (contains? log-these-rules (u/get-in parent [:rule]))     
-       (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result))))
+     (do
+       (def succeed-counter (+ 1 succeed-counter))
+       (when (contains? log-these-rules (u/get-in parent [:rule]))     
+         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
 
      ;; :fail:
-     (when (contains? log-these-rules (u/get-in parent [:rule]))
-       (let [fp (fail-path parent {:head head})]
-         (log/info
-          (str "overh fail: " (syntax-tree parent)
-               " <- " (syntax-tree head)
-               " fail-path: " (vec fp)
-               ". parent has: " (u/pprint (u/get-in parent fp))
-               ", but head has: " (u/pprint (u/get-in head (rest fp)))
-               (if (:menard.lexiconfn/derivation head)
-                 (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
-               ".")))))
+     (do
+       (def fail-counter (+ 1 fail-counter))
+       (when (and true (contains? log-these-rules (u/get-in parent [:rule])))
+         (let [fp (fail-path parent {:head head})]
+           (log/info
+            (str "overh fail: " (syntax-tree parent)
+                 " <- " (syntax-tree head)
+                 " fail-path: " (vec fp)
+                 ". parent has: " (u/pprint (u/get-in parent fp))
+                 ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                 (if (:menard.lexiconfn/derivation head)
+                   (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
+                 "."))))))
    result))
 
 (defn overc
@@ -119,9 +126,11 @@
               :else :fail)]
     (if (not (= :fail result))
       (do
+        (def succeed-counter (+ 1 succeed-counter))
         (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result))))
+          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))))
       (do
+        (def fail-counter (+ 1 fail-counter))
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (let [fp (fail-path parent {:comp comp})]
             (log/info
@@ -130,7 +139,7 @@
                   " fail path: " (vec fp)
                   ". parent has: " (u/pprint (u/get-in parent fp))
                   ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
-                  ".")))))))
+                  "."))))))
     result))
 
 (defn truncate [tree syntax-tree morph]

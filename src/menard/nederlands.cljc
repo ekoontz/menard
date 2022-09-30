@@ -340,6 +340,7 @@
                           morph
                           parse
                           first
+                          time
                           syntax-tree
                           println))
          (take times)

@@ -67,6 +67,17 @@
                   (recur [] (rest keys))))
               kvs)))))
 
+(defn summary [dag]
+  {:agr (u/get-in dag [:agr] :top)
+   :cat (u/get-in dag [:cat] :top)
+   :subcat (u/get-in dag [:subcat] :top)
+   :phrasal? (u/get-in dag [:phrasal?] :top)})
+  
+(defn pre-check [child-spec child]
+  (let [child-spec-summary (summary child-spec)
+        child-summary (summary child)]
+    (u/unify child-spec-summary child-summary)))
+
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head syntax-tree]
@@ -74,10 +85,7 @@
          (map? head)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
     (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
- (let [pre-check? (not (= :fail
-                          (u/unify
-                           (u/get-in parent [:head :cat] :top)
-                           (u/get-in head [:cat] :top))))
+  (let [pre-check? true
         result (cond pre-check?
                      (u/unify parent
                               {:head head})
@@ -87,28 +95,29 @@
                                                                     parent) "; head: " (syntax-tree head) "; "
                                        "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                        :fail))]
-   (if (not (= :fail result))
-     ;; not :fail: 
-     (do
-       (def succeed-counter (+ 1 succeed-counter))
-       (when (contains? log-these-rules (u/get-in parent [:rule]))     
-         (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
-
-     ;; :fail:
-     (do
-       (def fail-counter (+ 1 fail-counter))
-       (when (and true (contains? log-these-rules (u/get-in parent [:rule])))
-         (let [fp (fail-path parent {:head head})]
-           (log/info
-            (str "overh fail: " (syntax-tree parent)
-                 " <- " (syntax-tree head)
-                 " fail-path: " (vec fp)
-                 ". parent has: " (u/pprint (u/get-in parent fp))
-                 ", but head has: " (u/pprint (u/get-in head (rest fp)))
-                 (if (:menard.lexiconfn/derivation head)
-                   (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
-                 "."))))))
-   result))
+    (if (not (= :fail result))
+      ;; not :fail: 
+      (do
+        (def succeed-counter (+ 1 succeed-counter))
+        (when (contains? log-these-rules (u/get-in parent [:rule]))     
+          (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
+      
+      ;; :fail:
+      (do
+        (when pre-check?
+          (def fail-counter (+ 1 fail-counter))
+          (when (and true (contains? log-these-rules (u/get-in parent [:rule])))
+            (let [fp (fail-path parent {:head head})]
+              (log/info
+             (str "overh fail: " (syntax-tree parent)
+                  " <- " (syntax-tree head)
+                  " fail-path: " (vec fp)
+                  ". parent has: " (u/pprint (u/get-in parent fp))
+                  ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                  (if (:menard.lexiconfn/derivation head)
+                    (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
+                  ".")))))))
+    result))
 
 (defn overc
   "add given child as the complement of the parent"
@@ -116,9 +125,7 @@
   {:pre [(map? comp)]}
   (when (contains? log-these-rules (u/get-in parent [:rule]))
     (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
-  (let [pre-check? (not (= :fail (u/unify
-                                  (u/get-in parent [:comp :cat] :top)
-                                  (u/get-in comp [:cat] :top))))
+  (let [pre-check? true
         result
         (cond pre-check?
               (u/unify! (u/copy parent)
@@ -130,16 +137,17 @@
         (when (contains? log-these-rules (u/get-in parent [:rule]))
           (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))))
       (do
-        (def fail-counter (+ 1 fail-counter))
-        (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (let [fp (fail-path parent {:comp comp})]
-            (log/info
-             (str "overc fail: " (syntax-tree parent)
-                  " <- " (syntax-tree comp)
-                  " fail path: " (vec fp)
-                  ". parent has: " (u/pprint (u/get-in parent fp))
-                  ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
-                  "."))))))
+        (when pre-check?
+          (def fail-counter (+ 1 fail-counter))
+          (when (contains? log-these-rules (u/get-in parent [:rule]))
+            (let [fp (fail-path parent {:comp comp})]
+              (log/info
+               (str "overc fail: " (syntax-tree parent)
+                    " <- " (syntax-tree comp)
+                    " fail path: " (vec fp)
+                    ". parent has: " (u/pprint (u/get-in parent fp))
+                    ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
+                    ".")))))))
     result))
 
 (defn truncate [tree syntax-tree morph]
@@ -156,17 +164,32 @@
 (defn over [parents left-children right-children syntax-tree morph truncate?]
   (->>
    parents
+   
    (pmap-if-available
     (fn [parent]
       (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
                                             [left-children right-children]
-                                            [right-children left-children])]
+                                            [right-children left-children])
+            head-summary (u/get-in parent [:head])
+            comp-summary (u/get-in parent [:comp])]
         (->>
          head-children
+
+         (filter (fn [head-child]
+                   (not (= :fail
+                           (u/unify head-summary
+                                    (summary head-child))))))
+         
          (map (fn [head-child]
                 (let [parent-with-head
                       (overh parent head-child syntax-tree)]
                   (->> comp-children
+
+                       (filter (fn [comp-child]
+                                 (not (= :fail
+                                         (u/unify comp-summary
+                                                  (summary comp-child))))))
+                       
                        (map (fn [comp-child]
                               (overc parent-with-head comp-child syntax-tree)))
                        (remove #(= :fail %))))))))))

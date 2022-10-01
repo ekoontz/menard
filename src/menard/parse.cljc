@@ -469,16 +469,12 @@
 
 (defn parse-start
   [input split-on analyze-fn]
-  ;; this 'doall' is necessary to force the lazy sequence
-  ;; to use the bindings for the dynamic variable lookup-fn.
-  ;; TODO: make 'lookup-fn' a parameter to (defn parse-start).
   (log/debug (str "parse-start input: " input))
   (log/debug (str "parse-start analyze-fn: " analyze-fn))
-  (doall
-   (->> (tokenize input split-on analyze-fn)
-        (map (fn [tokenization]
-               (log/debug (str "looking at tokenization: " (vec tokenization)))
-               (create-input-map tokenization analyze-fn))))))
+  (->> (tokenize input split-on analyze-fn)
+       (map (fn [tokenization]
+              (log/debug (str "looking at tokenization: " (vec tokenization)))
+              (create-input-map tokenization analyze-fn)))))
 
 (defn parse-in-stages [input-map input-length i grammar syntax-tree morph truncate?]
   (if (or (get input-map [0 input-length])

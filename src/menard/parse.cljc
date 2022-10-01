@@ -225,6 +225,7 @@
                   retval)))
          (filter (fn [vector-of-words]
                    (not (empty? vector-of-words)))))))
+         (take 1))))
 
 (defn word-glue-wrapper
     "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.

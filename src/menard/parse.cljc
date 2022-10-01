@@ -72,8 +72,9 @@
   (when (contains? log-these-rules (u/get-in parent [:rule]))
     (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
  (let [pre-check? (not (= :fail
+                          (u/unify
                            (u/get-in parent [:head :cat] :top)
-                           (u/get-in head [:cat] :top)))
+                           (u/get-in head [:cat] :top))))
         result (cond pre-check?
                      (u/unify parent
                               {:head head})

@@ -78,6 +78,14 @@
         child-summary (summary child)]
     (u/unify child-spec-summary child-summary)))
 
+(defn overh-compact
+  "add given head as the head child of the phrase: parent. like overh but shorter."
+  [parent head syntax-tree]
+  {:pre [(map? parent)
+         (map? head)]}
+  (u/unify parent
+           {:head head}))
+
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head syntax-tree]
@@ -118,6 +126,13 @@
                     (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
                   ".")))))))
     result))
+
+(defn overc-compact
+  "add given child as the complement of the parent. like overc, but shorter."
+  [parent comp syntax-tree]
+  {:pre [(map? comp)]}
+  (u/unify! (u/copy parent)
+            {:comp (u/copy comp)}))
 
 (defn overc
   "add given child as the complement of the parent"
@@ -182,7 +197,7 @@
          
          (map (fn [head-child]
                 (let [parent-with-head
-                      (overh parent head-child syntax-tree)]
+                      (overh-compact parent head-child syntax-tree)]
                   (->> comp-children
 
                        (filter (fn [comp-child]
@@ -191,7 +206,7 @@
                                                   (summary comp-child))))))
                        
                        (map (fn [comp-child]
-                              (overc parent-with-head comp-child syntax-tree)))
+                              (overc-compact parent-with-head comp-child syntax-tree)))
                        (remove #(= :fail %))))))))))
 
    flatten

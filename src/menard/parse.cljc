@@ -214,9 +214,11 @@
 
 (defn all-groupings [input-string split-on lookup-fn]
   (let [vector-of-words (clojure.string/split input-string split-on)]
-    (->> (range 0 (int (Math/pow 2
-                                 (- (count vector-of-words)
-                                    1))))
+    (->> (range (int (Math/pow 2
+                               (- (count vector-of-words)
+                                  1)))
+                0 -1)
+         
          (map (fn [i]
                 (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
                   (log/debug (str "i: " i "; grouping retval: " (vec retval)))

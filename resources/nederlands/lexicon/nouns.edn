@@ -10,6 +10,7 @@
                                  :subcat []}}})]
  "ambtenaar" [{:sem {:pred :civil-servant}}]
  "baan" [{:sem {:pred :job}}]
+ "baas" [{:sem {:pred :boss}}]
  "baby" [{:sem {:pred :baby}}]
  "been" [{:agr {:gender :neuter}
           :sem {:pred :leg}}]

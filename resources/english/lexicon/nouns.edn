@@ -13,6 +13,7 @@
  "bird" [{:agr {:gender :neuter}
           :sem {:pred :bird}}]
  "book" [{:sem {:pred :book}}]
+ "boss" [{:sem {:pred :boss}}]
  "boulder" [{:sem {:pred :boulder}}] 
  "boy" [{:sem {:pred :boy}
          :agr {:human? true

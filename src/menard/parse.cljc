@@ -239,7 +239,10 @@
                   (log/debug (str "i: " i "; grouping retval: " (vec retval)))
                   retval)))
          (filter (fn [vector-of-words]
-                   (not (empty? vector-of-words)))))))
+                   (not (empty? vector-of-words))))
+
+         ;; taking only 1 means we'll miss multi-word tokenizations, but
+         ;; for this branch, it's worth it for the speedup.
          (take 1))))
 
 (defn word-glue-wrapper

@@ -337,6 +337,7 @@
         times (or times 10)]
     (->> (repeatedly #(-> spec
                           generate
+                          time
                           morph
                           parse
                           first

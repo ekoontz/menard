@@ -39,7 +39,7 @@
             (not (map? dag2)))
         []
         :else 
-        (let [keys (vec (set (concat (keys dag1) (keys dag2))))]
+        (let [keys (seq (set (concat (keys dag1) (keys dag2))))]
           (loop [kvs []
                  keys keys]
             (if (seq keys)

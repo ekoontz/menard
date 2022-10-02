@@ -229,17 +229,29 @@
 
 (defn all-groupings [input-string split-on lookup-fn]
   (let [vector-of-words (clojure.string/split input-string split-on)]
-    (->> (range (int (Math/pow 2
-                               (- (count vector-of-words)
-                                  1)))
-                0 -1)
-         
-         (map (fn [i]
-                (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
-                  (log/debug (str "i: " i "; grouping retval: " (vec retval)))
-                  retval)))
-         (filter (fn [vector-of-words]
-                   (not (empty? vector-of-words)))))))
+    (->>
+     ;; Generate a sequence from ((#words-1)^2) to 1, descending.
+     ;; e.g. if the words are "the very small cat",
+     ;; the number of words is 4, #words - 1 = 3, 2^3 = 8, so
+     ;; generate: [8,7,6,5,4,3,2].
+     (range (- (int (Math/pow 2
+                              (- (count vector-of-words)
+                                 1)))
+               1)
+            0 -1)
+
+     ;; For each such member of the sequence,
+     ;; generate the tokens-into-words groupings.
+     ;; Each such grouping will be a sequence of words, where
+     ;; each such word is found in the lexicon by lookup-fn.
+     (map (fn [i]
+            (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
+              (log/debug (str "i: " i "; grouping retval: " (vec retval)))
+              retval)))
+
+     ;; Remove the empty ones (where not every "word" was found by lookup-fn).
+     (filter (fn [vector-of-words]
+               (not (empty? vector-of-words)))))))
 
 (defn word-glue-wrapper
     "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
@@ -255,7 +267,6 @@
   - a number that will be interpreted as a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
   - words: a sequence of strings, which we are trying to group into larger sub-sequences of strings; each of which sub-sequence is called a token."
   [vector-of-words number lookup-fn]
-  (log/debug (str "LF (wgw) " lookup-fn))
   (let [
         bit-vector
         (-> number
@@ -264,7 +275,6 @@
             (clojure.string/split #""))
 
         debug (log/debug (str "word-glue-wrapper: bit-vector is: " bit-vector))
-        debug (log/debug (str "word-glue-wrapper: vector-of-words is: " vector-of-words))
 
         grouped
         (word-glue
@@ -347,7 +357,7 @@
                           (<= (count complete-token) max-token-length-in-words)
                           (seq (lookup-fn joined-complete-token)))
                          ;; We have a completed token,
-                         ;; and this token is valid (
+                         ;; and this token is valid
                          ;; (not too long and findable
                          ;; in the lexicon), so
                          ;; add it to the list of already-

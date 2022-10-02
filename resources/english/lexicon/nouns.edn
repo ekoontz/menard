@@ -1,5 +1,6 @@
 {"_" [{:null? true :inflected? true :sem {:pred :_}}]
  "airplane" [{:sem {:pred :airplane}}]
+ "allegation" [{:sem {:pred :allegation}}] 
  "amount" [{:sem {:pred :amount}}]
  "animal" [{:sem {:pred :animal}}]
  "announcement" [{:sem {:pred :announcement}}] 

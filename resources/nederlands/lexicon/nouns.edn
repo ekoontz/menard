@@ -1,6 +1,7 @@
 {"_" [{:null? true
        :sem {:pred :_}}]
  "aandacht" [{:sem {:pred :attention}}]
+ "aantijging" [{:sem {:pred :allegation}}]
  "aanwezigheid" [(let [obj (atom :top)]
                    {:sem {:pred :presence
                           :obj obj}

@@ -698,7 +698,8 @@
  "at least" [{:cat :noun, :sem {:pred "at least"}}],
  "nationality" [{:cat :noun, :sem {:pred "nationality"}}],
  "station" [{:cat :noun, :sem {:pred "station"}}],
- "café, pub" [{:cat :noun, :sem {:pred "café, pub"}}],
+ "café" [{:cat :noun, :sem {:pred "café, pub"}}]
+ "pub" [{:cat :noun, :sem {:pred "café, pub"}}] 
  "return trip / ticket"
  [{:cat :noun, :sem {:pred "return trip / ticket"}}],
  "even (even nicer)" [{:cat :noun, :sem {:pred "even (even nicer)"}}],

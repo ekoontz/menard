@@ -10,6 +10,7 @@
  "bescheiden" [{:sem {:pred :modest}}]
  "bezig" [{:sem {:pred :busy}}]
  "bijzonder" [{:sem {:pred :special}}]
+ "blut" [{:sem {:pred :out-of-money}}] 
  "bouwvallig" [{:sem {:pred :dilapidated}}]
  "breed" [{:sem {:pred :wide}}]
  "buitengewoon" [{:sem {:pred :extraordinary}}]

@@ -95,6 +95,7 @@
  "stemmig" [{:sem {:pred :moody}}]
  "sterk" [{:sem {:pred :strong} :curriculum :basic}]
  "stevig" [{:sem {:pred :firm}}]
+ "stiekem" [{:sem {:pred :sneaky}}] 
  "stom" [{:sem {:pred :stupid}}]
  "strijdbaar" [{:sem {:pred :combative}}]
  "stuitend" [{ :sem {:pred :shocking}}]

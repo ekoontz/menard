@@ -130,6 +130,7 @@
  "simple" [{:sem {:pred :simple}}]
  "small" [{:sem {:pred :small}}]
  "smart" [{:sem {:pred :smart}}]
+ "sneaky" [{:sem {:pred :sneaky}}] 
  "social" [{:sem {:pred :social}}]
  "soft" [{:sem {:pred :soft}}]
  "sound" [{:sem {:pred :sound}}] ;; as in "sound advice", or "sound beliefs"

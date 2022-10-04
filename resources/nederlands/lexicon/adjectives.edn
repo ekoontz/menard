@@ -101,6 +101,7 @@
  "teleurgesteld" [{:sem {:pred :disappointed}}]
  "tevreden" [{:sem {:pred :satisfied}}]
  "treurig" [{:sem {:pred :pathetic}}]
+ "tureluurs" [{:sem {:pred :crazy}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "vastberaden" [{:sem {:pred :determined}}]
  "veelzijdig" [{:sem {:pred :versatile}}]

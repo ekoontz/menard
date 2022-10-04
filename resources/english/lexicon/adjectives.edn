@@ -33,6 +33,7 @@
  "confusing" [{:sem {:pred :confusing}}]
  "contemporary" [{:sem {:pred :contemporary}}]
  "cool" [{:sem {:pred :cool}}]
+ "crazy" [{:sem {:pred :crazy}}]
  "curious" [{:sem {:pred :curious}}]
  "current" [{:sem {:pred :current}}]
  "cute" [{:sem {:pred :cute}}]

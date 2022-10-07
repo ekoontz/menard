@@ -192,6 +192,7 @@
  "plek" [{:sem {:pred :place}}]
  "poging" [{:sem {:pred :attempt}}]
  "rechtbank" [{:sem {:pred :court}}]
+ "regenlaars" [{:sem {:pred :rain-boot}}]
  "roofdier" [{:agr {:gender :neuter}
               :sem {:pred :predator}}]
  "samenvatting" [{:sem {:pred :summary}}]

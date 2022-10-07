@@ -184,6 +184,7 @@
  "progress" [{:sem {:pred :progress}}]
  "puppy" [{:sem {:pred :puppy}}]
  "question" [{:sem {:pred :question}}]
+ "rain boot" [{:sem {:pred :rain-boot}}]
  "referee" [{:sem {:pred :referee}}]
  "refuge" [{:sem {:pred :refuge}}] 
  "relation" [{:sem {:pred :relation}}]

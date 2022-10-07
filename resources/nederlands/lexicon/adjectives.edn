@@ -16,6 +16,7 @@
  "buitengewoon" [{:sem {:pred :extraordinary}}]
  "degelijk" [{:sem {:pred :sound}}] ;; 'sound' as in "sound advice"
  "dik" [{:sem {:pred :thick}}]
+ "dreigend" [{:sem {:pred :threatening}}]
  "droevig" [{:sem {:pred :sad}}]
  "eenvoudig" [{:sem {:pred :simple}}]
  "eenzaam" [{:sem {:pred :lonely}}]

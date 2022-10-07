@@ -88,7 +88,10 @@
           :sem {:pred :money}}]
  "gemeenschap" [{:sem {:pred :community
                        :ref {:human? true}}}]
- "genodigde" [{:sem {:pred :guest}}]
+ "genodigde" [{:sem {:pred :guest}
+               ;; TODO: should be regular
+               :exceptions [{:agr {:number :plur}
+                             :surface "genodigden"}]}]
  "genoegdoening" [{:sem {:pred :satisfaction}}]
  "genootschap" [{:sem {:pred :society}}]
  "geschenk" [{:agr {:gender :neuter}

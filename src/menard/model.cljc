@@ -240,6 +240,9 @@
                               
                               postprocess-fn)))))))))
 
+(def filter-for-fails? false)
+(def filter-out-nils? false)
+
 #?(:clj
    (defn lexicon-index-fn [model]
      (fn [spec]
@@ -258,13 +261,14 @@
                    (-> model :indices :det-lexicon)
                    
                    :else (-> model :indices :misc-lexicon))
-             spec (if true spec (u/copy (diag/strip-refs spec)))
-             result (if true
+             result (if (false? filter-for-fails?)
                       (->>
                        pre-result
-                       (filter #(not (true? (u/get-in % [:null?])))))
+                       (filter #(or (false? filter-out-nils?)
+                                    (not (true? (u/get-in % [:null?]))))))
                       (->> pre-result
-                           (filter #(not (true? (u/get-in % [:null?]))))
+                           (filter #(or (false? filter-out-nils?)
+                                        (not (true? (u/get-in % [:null?])))))
                            (map #(unify % spec))
                            (filter #(not (= :fail %)))))]
          (if true

@@ -443,6 +443,8 @@
          (->> (range i (+ i (- n 1)))
               (map (fn [x] [[i (+ 1 x)][(+ 1 x) (+ i n)]]))))))
 
+(def split-on #"[ ]")
+
 (defn parse-spans-of-length
   "Get all parses for length _span-length_, given :
    - _input_map_, a map from pairs [i,j] => _parses_,
@@ -511,52 +513,78 @@
         (parse-spans-of-length input-length i grammar syntax-tree morph truncate?)
         (parse-in-stages input-length (+ 1 i) grammar syntax-tree morph truncate?))))
 
+
+;; TODO: move analyze to its own namespace (menard.analyze)
+(declare analyze)
+
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
-  [tokenizations grammar lookup-fn syntax-tree morph truncate?]
-  (if (seq tokenizations)
-    (lazy-cat
-     ;; e.g. lookup-fn.
-     (let [tokenization (first tokenizations)]
-       (let [token-count (count tokenization)
-             all-parses (reduce (fn [input-map span-size]
-                                  (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
-                                (create-input-map tokenization lookup-fn)
-                                (range 2 (+ 1 token-count)))
-             result {:token-count (count tokenization)
-                     :complete-parses
-                     (filter map? (get all-parses
-                                       [0 (count tokenization)]))
-                     :all-parses all-parses}]
-         (if (empty? (:complete-parses result))
+  ([tokenizations grammar lookup-fn syntax-tree morph truncate?]
+   (if (seq tokenizations)
+     (lazy-cat
+      ;; e.g. lookup-fn.
+      (let [tokenization (first tokenizations)]
+        (let [token-count (count tokenization)
+              all-parses (reduce (fn [input-map span-size]
+                                   (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
+                                 (create-input-map tokenization lookup-fn)
+                                 (range 2 (+ 1 token-count)))
+              result {:token-count (count tokenization)
+                      :complete-parses
+                      (filter map? (get all-parses
+                                        [0 (count tokenization)]))
+                      :all-parses all-parses}]
+          (if (empty? (:complete-parses result))
 
-           ;; if there are no complete parses,
-           ;; cobble together results by combining
-           ;; partial parses with lexical lookups of tokens (if they exists).
-           ;; e.g. we can parse "er zijn katten" so there is a complete parse
-           ;; but "er zijn kat" can't be fully parsed, so we return:
-           ;; [er zijn] [kat].
-           (let [analyses
-                 (zipmap
-                  tokenization
-                  (pmap-if-available
-                   (fn [token]
-                     (lookup-fn-with-trim token lookup-fn))
-                   tokenization))
-                 partial-parses (vals (:all-parses result))]
-             (log/debug (str "could not parse: \"" (vec tokenization) "\" with "
-                             (count tokenization) " tokens having "
-                             "token:sense pairs: "
-                             (string/join ";"
-                                          (pmap-if-available (fn [token]
-                                                               (str token ":" (count (get analyses token)) ""))
-                                                             tokenization))))
-             (->> (flatten partial-parses)
-                  (map (fn [partial-parse]
-                         (merge partial-parse {::partial? true})))))
-           (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
-               (:complete-parses result)))))
-     (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?))))
+            ;; if there are no complete parses,
+            ;; cobble together results by combining
+            ;; partial parses with lexical lookups of tokens (if they exists).
+            ;; e.g. we can parse "er zijn katten" so there is a complete parse
+            ;; but "er zijn kat" can't be fully parsed, so we return:
+            ;; [er zijn] [kat].
+            (let [analyses
+                  (zipmap
+                   tokenization
+                   (pmap-if-available
+                    (fn [token]
+                      (lookup-fn-with-trim token lookup-fn))
+                    tokenization))
+                  partial-parses (vals (:all-parses result))]
+              (log/debug (str "could not parse: \"" (vec tokenization) "\" with "
+                              (count tokenization) " tokens having "
+                              "token:sense pairs: "
+                              (string/join ";"
+                                           (pmap-if-available (fn [token]
+                                                                (str token ":" (count (get analyses token)) ""))
+                                                              tokenization))))
+              (->> (flatten partial-parses)
+                   (map (fn [partial-parse]
+                          (merge partial-parse {::partial? true})))))
+            (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
+                (:complete-parses result)))))
+      (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?))))
+  ([expression model]
+   (let [model (menard.model/resolve-model model)
+         ;; remove trailing '.' if any:
+         expression (string/replace expression #"[.]*$" "")
+         analyze-fn #(analyze % true model)]
+     ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
+     ;; use it as part of the meaning
+        ;; i.e.
+     ;; '.' -> declarative
+     ;; '?' -> interrogative
+     ;; '!' -> imperative
+     (binding [l/lexicon (-> model :lexicon)
+               l/morphology (-> model :morphology)]
+       (let [grammar (-> model :grammar)
+             syntax-tree (-> model :syntax-tree-fn)
+             morph (-> model :morph-fn)
+             truncate? true]
+         (log/debug (str "calling p/parse with grammar: " (count grammar)))
+         (->
+          expression
+          (all-groupings split-on analyze-fn)
+          (parse grammar analyze-fn syntax-tree morph truncate?)))))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
@@ -580,3 +608,23 @@
             ((fn [m]
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))
+
+;; TODO: move analyze to its own namespace (menard.analyze)
+(defn analyze [surface use-null-lexemes? model]
+  (binding [l/lexicon (-> model :lexicon)
+            l/morphology (:morphology model)]
+    (log/debug (str "analyze with model named: " (-> model :name)))
+    (let [variants (vec (set [(clojure.string/lower-case surface)
+                              (clojure.string/upper-case surface)
+                              (clojure.string/capitalize surface)]))
+          found (mapcat l/matching-lexemes variants)]
+      (log/debug (str "found: " (count found) " for: [" surface "]"))
+      (if (seq found)
+        found
+        (if use-null-lexemes?
+          (let [found (l/matching-lexemes "_")]
+            (log/info (str "no lexemes found for: [" surface "]"
+                           (when (seq found)
+                             (str "; will use null lexemes instead."))))
+            found))))))
+

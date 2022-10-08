@@ -193,7 +193,7 @@
    (let [model (resolve-model model)
          ;; remove trailing '.' if any:
          expression (string/replace expression #"[.]*$" "")
-         analyze-fn #(analyze % false model)]
+         analyze-fn #(analyze % true model)]
      ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
      ;; use it as part of the meaning
         ;; i.e.
@@ -224,7 +224,9 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
 
-        lookup-fn (fn [token] (analyze token false model))]
+        lookup-fn (fn [token]
+                    (log/info (str "menard.nederlands/parse-start: looking up: " token))
+                    (analyze token true model))]
     (binding [l/morphology (-> model :morphology)]
       (p/parse-start expression split-on lookup-fn))))
 

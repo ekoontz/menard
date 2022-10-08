@@ -409,3 +409,10 @@
        (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
      @model))
 
+
+(defn resolve-model [model]
+  (cond (= (type model) clojure.lang.Ref) @model
+        (map? model)                      model
+        :else                             (exception (str "invalid model: " model))))
+
+

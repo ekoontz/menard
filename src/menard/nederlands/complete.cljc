@@ -4,9 +4,13 @@
             [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.model :refer [create]]
             [menard.nesting]
+            [menard.parse :as parse]
             [menard.subcat]))
 
 (def model
   (ref (create "nederlands/models/complete"
                "complete"
                compile-lexicon)))
+
+(defn parse [expression]
+  (parse/parse expression model))

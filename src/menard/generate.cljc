@@ -3,6 +3,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [menard.exception :refer [exception]]
+   [menard.model :as model]
    [menard.serialization :as ser]
    [menard.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
@@ -71,7 +72,8 @@
   optionaly function to print out a tree _syntax-tree-fn_. See 
   nederlands/generate and english/generate for sample syntax-tree functions."
   ([spec model]
-   (generate spec (:grammar model) (:lexicon-index-fn model) (:syntax-tree-fn model)))
+   (let [model (model/resolve-model model)]
+     (generate spec (:grammar model) (:lexicon-index-fn model) (:syntax-tree-fn model))))
 
   ([spec grammar lexicon-index-fn & [syntax-tree-fn]]
    (log/debug (str "menard.generate: start."))

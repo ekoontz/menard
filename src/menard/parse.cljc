@@ -623,8 +623,8 @@
         found
         (if use-null-lexemes?
           (let [found (l/matching-lexemes "_")]
-            (log/info (str "no lexemes found for: [" surface "]"
-                           (when (seq found)
-                             (str "; will use null lexemes instead."))))
+            (log/debug (str "no lexemes found for: [" surface "]"
+                            (when (seq found)
+                              (str "; will use null lexemes instead."))))
             found))))))
 

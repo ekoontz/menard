@@ -1,7 +1,7 @@
 (ns menard.test.nederlands
   (:require [menard.model :refer [load-model]]
             [menard.nederlands :as nl
-             :refer [expressions]]
+             :refer [analyze expressions generate morph parse syntax-tree]]
             [menard.nederlands.basic :as basic]
             [menard.nederlands.complete :as complete]            
             [menard.nederlands.woordenlijst :as woordenlijst]
@@ -13,7 +13,7 @@
 
 (deftest adjective-agreement
   (is (= "het oude huis"
-         (nl/morph (nl/generate {:cat :noun
+         (morph (generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :root "huis"
@@ -26,7 +26,7 @@
                                        :rest []}}}))))
 
   (is (= "het oude huis"
-         (nl/morph (nl/generate {:cat :noun
+         (morph (generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :root "huis"
@@ -39,7 +39,7 @@
                           basic/model))))
 
   (is (= "een oud huis"
-         (nl/morph (nl/generate {:cat :noun
+         (morph (generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :root "huis"
@@ -52,7 +52,7 @@
                                        :rest []}}}))))
 
   (is (= "een oud huis"
-         (nl/morph (nl/generate {:cat :noun
+         (morph (generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :max-depth 2                             
@@ -66,7 +66,7 @@
 
 
   (is (= "de oude huizen"
-         (nl/morph (nl/generate {:cat :noun
+         (morph (generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :max-depth 2                             
@@ -80,18 +80,18 @@
 
 
   (is (= "de oude huizen"
-         (nl/morph (nl/generate {:cat :noun
-                           :rule "np:2"
-                           :subcat []
-                           :max-depth 2                             
-                             :root "huis"
-                           :agr {:number :plur}
-                           :sem {:quant :the
-                                 :mod {:first {:pred :old
-                                               :number? false
-                                               :mod []}
-                                       :rest []}}}
-                          basic/model)))))
+         (morph (generate {:cat :noun
+                            :rule "np:2"
+                            :subcat []
+                            :max-depth 2                             
+                            :root "huis"
+                            :agr {:number :plur}
+                            :sem {:quant :the
+                                  :mod {:first {:pred :old
+                                                :number? false
+                                                :mod []}
+                                        :rest []}}}
+                           basic/model)))))
 
 (def generate-per-expression 5)
 

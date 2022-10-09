@@ -420,21 +420,52 @@
         :else                             (exception (str "invalid model: " model))))
 
 
-(defmacro install-the-usual-suspects []
-  '(do
-     (defn analyze [expression]
-       (menard.parse/analyze expression model))
+(defmacro install-the-usual-suspects [model]
+  `(do
+     (log/info (str "defining the usual suspects with model named: " (-> ~model deref :name)))
      
-     (defn generate [expression]
-       (menard.generate/generate expression model))
+     (defn ~'analyze [~'word & [~'return-nil-entries?]]
+       (let [~'return-nil-entries? (or ~'return-nil-entries? false)]
+         (menard.parse/analyze ~'word ~'return-nil-entries? (-> ~model deref))))
      
-    (defn morph [expression]
-      (menard.serialization/morph expression
-                           (-> model deref :morphology)))
-    
-    (defn parse [expression]
-      (menard.parse/parse expression model))
-    
-    (defn syntax-tree [expression]
-      (menard.serialization/syntax-tree expression
-                                        (-> model deref :morphology)))))
+     (comment
+
+     (defn ~'analyze [expression]
+       (menard.parse/analyze expression ~model))
+
+       (defn ~'generate [expression]
+       (log/info (str "generating with spec:" expression
+                      " with model: "
+                      (-> ~model deref :name)))
+       (menard.generate/generate expression ~model))
+     
+     (defn ~'morph [expression]
+       (menard.serialization/morph expression
+                                   (-> ~model deref :morphology)))
+     
+     (defn ~'parse [expression]
+       (menard.parse/parse expression model))
+     
+     (defn ~'syntax-tree [expression]
+       (menard.serialization/syntax-tree expression
+                                         (-> ~model deref :morphology))))
+
+     (log/info (str "DONE DEFINING THE FUNCTIONS!!!; using the model named: "
+                    (-> ~model deref :name)))))
+
+(defmacro do-the-fooness [model]
+  `(def ~'get-model-name
+     (fn []
+       (log/info (str "model name is: " (-> ~model deref :name)))
+       (-> ~model deref :name))))
+
+
+
+
+
+
+
+
+
+
+

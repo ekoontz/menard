@@ -613,7 +613,7 @@
 (defn analyze [surface use-null-lexemes? model]
   (binding [l/lexicon (-> model :lexicon)
             l/morphology (:morphology model)]
-    (log/debug (str "analyze with model named: " (-> model :name)))
+    (log/debug (str "analyzing: '" surface "' with model named: " (-> model :name)))
     (let [variants (vec (set [(clojure.string/lower-case surface)
                               (clojure.string/upper-case surface)
                               (clojure.string/capitalize surface)]))

@@ -432,6 +432,12 @@
        (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
        (menard.generate/generate ~'spec ~model))
      
+
+     (defn ~'morph [~'expression]
+       (log/info (str "morphing with model: " (-> ~model deref :name)))
+       (menard.serialization/morph ~'expression
+                                   (-> ~model deref :morphology)))
+
      (comment
 
        (defn ~'generate [expression]

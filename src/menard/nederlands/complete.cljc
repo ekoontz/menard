@@ -24,11 +24,14 @@
   (generate/generate expression model))
 
 (defn morph [expression]
-  (serialization/morph expression model))
+  (serialization/morph expression
+                       (-> model deref :morphology)))
 
 (defn parse [expression]
   (parse/parse expression model))
 
 (defn syntax-tree [expression]
-  (serialization/syntax-tree expression model))
+  (serialization/syntax-tree expression
+                             (-> model deref :morphology)))
+
 

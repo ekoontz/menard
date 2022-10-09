@@ -420,3 +420,21 @@
         :else                             (exception (str "invalid model: " model))))
 
 
+(defmacro install-the-usual-suspects []
+  '(do
+     (defn analyze [expression]
+       (menard.parse/analyze expression model))
+     
+     (defn generate [expression]
+       (menard.generate/generate expression model))
+     
+    (defn morph [expression]
+      (menard.serialization/morph expression
+                           (-> model deref :morphology)))
+    
+    (defn parse [expression]
+      (menard.parse/parse expression model))
+    
+    (defn syntax-tree [expression]
+      (menard.serialization/syntax-tree expression
+                                        (-> model deref :morphology)))))

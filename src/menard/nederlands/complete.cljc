@@ -14,24 +14,4 @@
                "complete"
                compile-lexicon)))
 
-;; TODO: these functions should be a macro in menard.model.
-;; e.g. (menard.model/install-the-usual-suspects)
-
-(defn analyze [expression]
-  (parse/analyze expression model))
-
-(defn generate [expression]
-  (generate/generate expression model))
-
-(defn morph [expression]
-  (serialization/morph expression
-                       (-> model deref :morphology)))
-
-(defn parse [expression]
-  (parse/parse expression model))
-
-(defn syntax-tree [expression]
-  (serialization/syntax-tree expression
-                             (-> model deref :morphology)))
-
-
+(menard.model/install-the-usual-suspects)

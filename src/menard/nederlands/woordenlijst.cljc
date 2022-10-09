@@ -7,3 +7,5 @@
   (ref (create "nederlands/models/woordenlijst"
                "woordenlijst"
                compile-lexicon)))
+
+(menard.model/install-the-usual-suspects)

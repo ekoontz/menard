@@ -14,7 +14,8 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [menard.model :as model :refer [current-ms
+            [menard.model :as model :refer [create
+                                            current-ms
                                             get-info-of-files
                                             load-model]]
             [menard.morphology :as m]
@@ -35,6 +36,13 @@
 ;;
 ;; For generation and parsing of Dutch.
 ;;
+
+(def model
+  (ref (create "nederlands/models/complete"
+               "complete"
+               compile-lexicon)))
+
+(menard.model/install-the-usual-suspects)
 
 ;; for parsing diagnostics:
 (def truncate? true)
@@ -77,21 +85,6 @@
 
 (declare sentence-punctuation)
 
-(defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @complete/model))
-
-     :else
-     (s/morph tree (:morphology @complete/model))))
-
-  ([tree & {:keys [sentence-punctuation?]}]
-   (when sentence-punctuation?
-     (-> tree
-         morph
-         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
-
 #?(:cljs
    (def grammar
      (->> (menard.grammar/read-compiled-grammar
@@ -102,133 +95,15 @@
    (defn write-compiled-grammar []
      (grammar/write-compiled-grammar (-> @complete/model :grammar)
                                      "resources/nederlands/grammar/compiled.edn")))
-(declare generate)
-(declare syntax-tree)
 
 (def expressions
   (->> (-> "nederlands/expressions.edn"
            grammar/read-expressions)))
 
-;; <functions>
-
-#?(:clj
-   (defn syntax-tree [tree & [model]]
-     (s/syntax-tree tree (:morphology (or model complete/model (load-model complete/model))))))
-
-#?(:cljs
-   (defn syntax-tree [tree]
-     (s/syntax-tree tree [])))
-
-(defn generate
-  "generate one random expression that satisfies _spec_."
-  [spec & [model]]
-  (let [model (or model complete/model (load-model complete/model))
-        model (cond (= (type model) clojure.lang.Ref)
-                    @model
-                    (map? model)
-                    model
-
-                    :else
-                    (exception (str "invalid model: " model)))
-        name (-> model :spec :name)]
-    (if name
-      (log/debug (str "menard.nederlands/generate: generating with model named: " name))
-      (log/warn (str "generating with model with no name, but has keys: " (keys model)
-                     " and maybe a spec? " (:spec model))))
-
-    ;; TODO: these bindings will go away soon.
-    (let [retval
-          (binding [g/max-depth (:max-depth spec g/max-depth)
-                    g/max-fails (:max-fails spec g/max-fails)
-                    g/allow-backtracking? true]
-            (-> spec
-                ((fn [x] (unify x (:training-wheels x :top))))
-                (dissoc :training-wheels)
-          (g/generate (-> model :grammar)
-                      (-> model :lexicon-index-fn)
-                      syntax-tree)))]
-      (log/debug (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
-      retval)))
-
-(defn generate-all
-  "generate all expressions that satisfy _spec_."
-  [spec]
-  (let [model (load-model complete/model)]
-    (binding [] ;;  g/stop-generation-at [:head :comp :head :comp]
-      (g/generate-all [spec]
-                      (-> model :grammar)
-                      (-> model :lexicon-index-fn)
-                      syntax-tree))))
-
-(defn analyze
-  ([surface]
-   (analyze surface false))
-  ([surface use-null-lexemes?]
-   (analyze surface false @complete/model))
-  ([surface use-null-lexemes? model]
-   (binding [l/lexicon (-> model :lexicon)
-             l/morphology (:morphology model)]
-     (log/debug (str "analyze with model named: " (-> model :name)))
-     (let [variants (vec (set [(clojure.string/lower-case surface)
-                               (clojure.string/upper-case surface)
-                               (clojure.string/capitalize surface)]))
-           found (mapcat l/matching-lexemes variants)]
-       (log/debug (str "found: " (count found) " for: [" surface "]"))
-       (if (seq found)
-         found
-         (if use-null-lexemes?
-           (let [found (l/matching-lexemes "_")]
-             (log/debug (str "no lexemes found for: [" surface "]"
-                             (when (seq found)
-                               (str "; will use null lexemes instead."))))
-             found)))))))
-
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model
         (map? model)                      model
         :else                             (exception (str "invalid model: " model))))
-
-(defn parse
-  ([expression model]
-   (let [model (resolve-model model)
-         ;; remove trailing '.' if any:
-         expression (string/replace expression #"[.]*$" "")
-         analyze-fn #(analyze % true model)]
-     ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
-     ;; use it as part of the meaning
-        ;; i.e.
-     ;; '.' -> declarative
-     ;; '?' -> interrogative
-     ;; '!' -> imperative
-     (binding [l/lexicon (-> model :lexicon)
-               l/morphology (-> model :morphology)]
-       (let [grammar (-> model :grammar)]
-         (log/debug (str "calling p/parse with grammar: " (count grammar)))
-         (->
-          expression
-          (p/all-groupings split-on analyze-fn)
-          (p/parse grammar analyze-fn syntax-tree morph truncate?))))))
-  ([expression]
-   (parse expression (load-model complete/model))))
-
-(defn parse-start [expression & [model]]
-  (let [model (or model (load-model complete/model))
-        model (resolve-model model)
-
-        ;; remove trailing '.' if any:
-        expression (string/replace expression #"[.]*$" "")
-        ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
-        ;; use it as part of the meaning
-        ;; i.e.
-        ;; '.' -> declarative
-        ;; '?' -> interrogative
-        ;; '!' -> imperative
-
-        lookup-fn (fn [token]
-                    (log/info (str "menard.nederlands/parse-start: looking up: " token))
-                    (analyze token true model))]
-    (binding [l/morphology (-> model :morphology)]
-      (p/parse-start expression split-on lookup-fn))))
 
 (defn generate-demo [index & [this-many]]
   (->>
@@ -315,21 +190,6 @@
 ;;
 ;; => parses with selected parts shown
 ;;
-(defn ugin
-  ([& paths]
-   (fn [arg1]
-     (reduce dag_unify.core/unify
-             (map (fn [path]
-                    (dag_unify.serialization/create-path-in path (u/get-in arg1 path)))
-                  paths)))))
-
-(defn parse-all [expression & [model]]
-  (let [model (or model (load-model complete/model))
-        model (cond (= (type model) clojure.lang.Ref) @model
-                    (map? model)                      model
-                    :else                             (exception (str "invalid model: " model)))
-        lookup-fn (fn [token] (analyze token false model))]
-    (p/parse-all expression (fn [] model) syntax-tree lookup-fn truncate?)))
 
 (defn round-trip-demo [& [spec times]]
   (let [spec (or spec
@@ -348,5 +208,3 @@
                           println))
          (take times)
          count)))
-
-

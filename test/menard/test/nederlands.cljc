@@ -1,8 +1,7 @@
 (ns menard.test.nederlands
   (:require [menard.model :refer [load-model]]
             [menard.nederlands :as nl
-             :refer [analyze expressions generate morph
-                     parse syntax-tree]]
+             :refer [expressions]]
             [menard.nederlands.basic :as basic]
             [menard.nederlands.complete :as complete]            
             [menard.nederlands.woordenlijst :as woordenlijst]
@@ -14,7 +13,7 @@
 
 (deftest adjective-agreement
   (is (= "het oude huis"
-         (morph (generate {:cat :noun
+         (nl/morph (nl/generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :root "huis"
@@ -27,7 +26,7 @@
                                        :rest []}}}))))
 
   (is (= "het oude huis"
-         (morph (generate {:cat :noun
+         (nl/morph (nl/generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :root "huis"
@@ -40,7 +39,7 @@
                           basic/model))))
 
   (is (= "een oud huis"
-         (morph (generate {:cat :noun
+         (nl/morph (nl/generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :root "huis"
@@ -53,7 +52,7 @@
                                        :rest []}}}))))
 
   (is (= "een oud huis"
-         (morph (generate {:cat :noun
+         (nl/morph (nl/generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :max-depth 2                             
@@ -67,7 +66,7 @@
 
 
   (is (= "de oude huizen"
-         (morph (generate {:cat :noun
+         (nl/morph (nl/generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :max-depth 2                             
@@ -81,7 +80,7 @@
 
 
   (is (= "de oude huizen"
-         (morph (generate {:cat :noun
+         (nl/morph (nl/generate {:cat :noun
                            :rule "np:2"
                            :subcat []
                            :max-depth 2                             
@@ -109,7 +108,7 @@
          (map (fn [index]
                 {:i index
                  :expressions (take generate-per-expression
-                                    (repeatedly #(generate (nth expressions index))))})))]
+                                    (repeatedly #(nl/generate (nth expressions index))))})))]
     (doall
      (map (fn [expression-set]
             (let [i (:i expression-set)
@@ -124,7 +123,7 @@
          (range 0 (count prod-expressions))
          (map (fn [index]
                 (take generate-per-expression
-                      (repeatedly #(or (generate (nth expressions index))
+                      (repeatedly #(or (nl/generate (nth expressions index))
                                        ;; if generation fails, save the :note
                                        ;; so we can see where the fail happened in the
                                        ;; log/info messages printed below.
@@ -135,7 +134,7 @@
               (map (fn [expression-set]
                      (->> expression-set
                           (map (fn [expression]
-                                 (log/info (str (-> expression :note) ": '" (morph expression) "': parse: "
+                                 (log/info (str (-> expression :note) ": '" (nl/morph expression) "': parse: "
                                                 (-> expression morph parse first syntax-tree))))))))
               (remove #(not (empty? %))))))))
 
@@ -505,20 +504,22 @@
     (is (not (empty?
               (->
                spec
-               (generate woordenlijst/model)
-               ((fn [x] (str (morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
+               woordenlijst/generate
+               ((fn [x] (str (nl/morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
 
 (deftest woordenlijst-model-parse
   (is (=
-       (->> (parse "de tonijnen" @menard.nederlands.woordenlijst/model)
-            (map syntax-tree)
+       (->> "do tonijnen"
+            woordenlijst/parse
+            (map nl/syntax-tree)
             first)
        "[np:2 .de +tonijnen]")))
 
 (deftest complete-model-parse
   (is (=
-       (->> (parse "de katten" @menard.nederlands.complete/model)
-            (map syntax-tree)
+       (->> "de katten"
+            nl/parse
+            (map nl/syntax-tree)
             first)
        "[np:2 .de +katten]")))
 
@@ -532,4 +533,5 @@
                     :pred "cold cuts"}}]
     (is (not (nil?
               (-> spec
-                  (menard.nederlands/generate @menard.nederlands.woordenlijst/model)))))))
+                  nl/generate))))))
+

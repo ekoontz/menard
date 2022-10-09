@@ -427,11 +427,12 @@
      (defn ~'analyze [~'word & [~'return-nil-entries?]]
        (let [~'return-nil-entries? (or ~'return-nil-entries? false)]
          (menard.parse/analyze ~'word ~'return-nil-entries? (-> ~model deref))))
+
+     (defn ~'generate [~'spec]
+       (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
+       (menard.generate/generate ~'spec ~model))
      
      (comment
-
-     (defn ~'analyze [expression]
-       (menard.parse/analyze expression ~model))
 
        (defn ~'generate [expression]
        (log/info (str "generating with spec:" expression

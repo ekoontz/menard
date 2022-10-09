@@ -42,7 +42,7 @@
                "complete"
                compile-lexicon)))
 
-(menard.model/install-the-usual-suspects)
+(menard.model/install-the-usual-suspects model)
 
 ;; for parsing diagnostics:
 (def truncate? true)

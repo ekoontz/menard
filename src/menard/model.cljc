@@ -428,15 +428,12 @@
        (let [~'return-nil-entries? (or ~'return-nil-entries? false)]
          (menard.parse/analyze ~'word ~'return-nil-entries? (-> ~model deref))))
 
-     (defn ~'generate [~'spec]
-       (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
-       (menard.generate/generate ~'spec ~model))
 
      (defn ~'morph [~'expression]
        (log/debug (str "morphing with model: " (-> ~model deref :name)))
        (menard.serialization/morph ~'expression
                                    (-> ~model deref :morphology)))
-
+     
      (defn ~'parse [~'expression]
        (log/debug (str "morphing with model: " (-> ~model deref :name)))
        (menard.parse/parse ~'expression
@@ -445,4 +442,23 @@
      (defn ~'syntax-tree [~'expression]
        (log/debug (str "syntax-tree with model: " (-> ~model deref :name)))       
        (menard.serialization/syntax-tree ~'expression
-                                         (-> ~model deref :morphology)))))
+                                         (-> ~model deref :morphology)))
+
+     (defn ~'generate [~'spec]
+       (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
+       (menard.generate/generate ~'spec ~model)
+       )
+     
+     (comment 
+
+     (defn ~'generate [~'spec]
+       (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
+       (menard.generate/generate ~'spec ~model)))
+
+
+
+     (log/info (str "defined the functions with model: "
+                    (-> ~model deref :name)))))
+
+
+

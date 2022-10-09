@@ -9,6 +9,7 @@
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.diagnostics :as diag]
             [menard.exception :refer [exception]]
+            [menard.generate :as generate]
             [menard.grammar :as grammar]
             [menard.lexiconfn :as l]
             [menard.morphology :as m]
@@ -446,16 +447,7 @@
 
      (defn ~'generate [~'spec]
        (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
-       (menard.generate/generate ~'spec ~model)
-       )
-     
-     (comment 
-
-     (defn ~'generate [~'spec]
-       (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
-       (menard.generate/generate ~'spec ~model)))
-
-
+       (menard.generate/generate ~'spec (-> ~model deref :grammar) (-> ~model deref :lexicon-index-fn) (-> ~model deref :syntax-tree-fn)))
 
      (log/info (str "defined the functions with model: "
                     (-> ~model deref :name)))))

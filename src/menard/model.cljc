@@ -431,48 +431,18 @@
      (defn ~'generate [~'spec]
        (log/info (str "generating with spec: " ~'spec " and model named: " (-> ~model deref :name)))
        (menard.generate/generate ~'spec ~model))
-     
 
      (defn ~'morph [~'expression]
-       (log/info (str "morphing with model: " (-> ~model deref :name)))
+       (log/debug (str "morphing with model: " (-> ~model deref :name)))
        (menard.serialization/morph ~'expression
                                    (-> ~model deref :morphology)))
 
-     (comment
+     (defn ~'parse [~'expression]
+       (log/debug (str "morphing with model: " (-> ~model deref :name)))
+       (menard.parse/parse ~'expression
+                           ~model))
 
-       (defn ~'generate [expression]
-       (log/info (str "generating with spec:" expression
-                      " with model: "
-                      (-> ~model deref :name)))
-       (menard.generate/generate expression ~model))
-     
-     (defn ~'morph [expression]
-       (menard.serialization/morph expression
-                                   (-> ~model deref :morphology)))
-     
-     (defn ~'parse [expression]
-       (menard.parse/parse expression model))
-     
-     (defn ~'syntax-tree [expression]
-       (menard.serialization/syntax-tree expression
-                                         (-> ~model deref :morphology))))
-
-     (log/info (str "DONE DEFINING THE FUNCTIONS!!!; using the model named: "
-                    (-> ~model deref :name)))))
-
-(defmacro do-the-fooness [model]
-  `(def ~'get-model-name
-     (fn []
-       (log/info (str "model name is: " (-> ~model deref :name)))
-       (-> ~model deref :name))))
-
-
-
-
-
-
-
-
-
-
-
+     (defn ~'syntax-tree [~'expression]
+       (log/debug (str "syntax-tree with model: " (-> ~model deref :name)))       
+       (menard.serialization/syntax-tree ~'expression
+                                         (-> ~model deref :morphology)))))

@@ -166,18 +166,20 @@
   ([surface use-null-lexemes?]
    (analyze surface false @complete/model))
   ([surface use-null-lexemes? model]
-   (binding [l/lexicon (-> model :lexicon)
-             l/morphology (:morphology model)]
+   (binding [l/morphology (:morphology model)]
      (log/debug (str "analyze with model named: " (-> model :name)))
      (let [variants (vec (set [(clojure.string/lower-case surface)
                                (clojure.string/upper-case surface)
                                (clojure.string/capitalize surface)]))
-           found (mapcat l/matching-lexemes variants)]
+           lexicon (-> model :lexicon)
+           found (mapcat (fn [variant]
+                           (l/matching-lexemes variant lexicon))
+                         variants)]
        (log/debug (str "found: " (count found) " for: [" surface "]"))
        (if (seq found)
          found
          (if use-null-lexemes?
-           (let [found (l/matching-lexemes "_")]
+           (let [found (l/matching-lexemes "_" lexicon)]
              (log/debug (str "no lexemes found for: [" surface "]"
                              (when (seq found)
                                (str "; will use null lexemes instead."))))
@@ -200,8 +202,7 @@
      ;; '.' -> declarative
      ;; '?' -> interrogative
      ;; '!' -> imperative
-     (binding [l/lexicon (-> model :lexicon)
-               l/morphology (-> model :morphology)]
+     (binding [l/morphology (-> model :morphology)]
        (let [grammar (-> model :grammar)]
          (log/debug (str "calling p/parse with grammar: " (count grammar)))
          (->

@@ -146,12 +146,11 @@
 #?(:cljs
    (defn read-and-eval [rules-filename]))
 
-(def ^:dynamic lexicon)
 (def ^:dynamic morphology)
 
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
-  [surface]
+  [surface lexicon]
   (log/debug (str "matching-lexemes for surface: '" surface "' with lexicon with: " (count keys) " key" (if (not (= 1 (count keys))) "s")))
   (let [;; Apply morphological rules against surface to find a set of hypotheses
         ;; about the surface form. Each morphological rule has a :p key,

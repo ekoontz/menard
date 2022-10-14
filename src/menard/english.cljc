@@ -138,15 +138,15 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface & [model]]
-  (let [model (or model complete/model)]
-    (binding [l/lexicon (-> model :lexicon)
-              l/morphology (-> model :morphology)]
+  (let [model (or model complete/model)
+        lexicon (-> model :lexicon)]
+    (binding [l/morphology (-> model :morphology)]
       (let [variants (vec (set [(clojure.string/lower-case surface)
                                 (clojure.string/upper-case surface)
                                 (clojure.string/capitalize surface)]))]
         (->> variants
              (mapcat (fn [surface]
-                       (l/matching-lexemes surface))))))))
+                       (l/matching-lexemes surface lexicon))))))))
 
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
@@ -168,8 +168,7 @@
       (let [error-message (str "menard.english/parse: model is not a map as expected!")]
         (log/error error-message)
         (exception error-message)))
-    (binding [l/lexicon (-> model :lexicon)
-              l/morphology (-> model :morphology)]
+    (binding [l/morphology (-> model :morphology)]
       (let [truncate? true]
         (->
          expression

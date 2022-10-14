@@ -574,8 +574,7 @@
      ;; '.' -> declarative
      ;; '?' -> interrogative
      ;; '!' -> imperative
-     (binding [l/lexicon (-> model :lexicon)
-               l/morphology (-> model :morphology)]
+     (binding [l/morphology (-> model :morphology)]
        (let [grammar (-> model :grammar)
              syntax-tree (-> model :syntax-tree-fn)
              morph (-> model :morph-fn)
@@ -611,20 +610,21 @@
 
 ;; TODO: move analyze to its own namespace (menard.analyze)
 (defn analyze [surface use-null-lexemes? model]
-  (binding [l/lexicon (-> model :lexicon)
-            l/morphology (:morphology model)]
-    (log/debug (str "analyze with model named: " (-> model :name)))
-    (let [variants (vec (set [(clojure.string/lower-case surface)
-                              (clojure.string/upper-case surface)
-                              (clojure.string/capitalize surface)]))
-          found (mapcat l/matching-lexemes variants)]
-      (log/debug (str "found: " (count found) " for: [" surface "]"))
-      (if (seq found)
-        found
-        (if use-null-lexemes?
-          (let [found (l/matching-lexemes "_")]
-            (log/info (str "no lexemes found for: [" surface "]"
-                           (when (seq found)
-                             (str "; will use null lexemes instead."))))
-            found))))))
+  (let [lexicon (-> model :lexicon)]
+    (binding [l/morphology (:morphology model)]
+      (log/debug (str "analyze with model named: " (-> model :name)))
+      (let [variants (vec (set [(clojure.string/lower-case surface)
+                                (clojure.string/upper-case surface)
+                                (clojure.string/capitalize surface)]))
+            found (mapcat l/matching-lexemes variants lexicon)]
+        (log/debug (str "found: " (count found) " for: [" surface "]"))
+        (if (seq found)
+          found
+          (if use-null-lexemes?
+            (let [found (l/matching-lexemes "_" lexicon)]
+              (log/info (str "no lexemes found for: [" surface "]"
+                             (when (seq found)
+                               (str "; will use null lexemes instead."))))
+              found)))))))
+
 

@@ -598,8 +598,7 @@
         ;; '.' -> declarative
         ;; '?' -> interrogative
         ;; '!' -> imperative
-    (binding [l/morphology (-> model :morphology)
-              log-these-rules log-these-rules]
+    (binding [log-these-rules log-these-rules]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map
             (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) syntax-tree-fn truncate?)
@@ -610,7 +609,7 @@
 ;; TODO: move analyze to its own namespace (menard.analyze)
 (defn analyze [surface use-null-lexemes? model]
   (let [lexicon (-> model :lexicon)]
-    (binding [l/morphology (:morphology model)]
+    (binding []
       (log/debug (str "analyze with model named: " (-> model :name)))
       (let [morphology (:morphology model)
             variants (vec (set [(clojure.string/lower-case surface)

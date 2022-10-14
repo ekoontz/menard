@@ -146,8 +146,6 @@
 #?(:cljs
    (defn read-and-eval [rules-filename]))
 
-(def ^:dynamic morphology)
-
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
   [surface lexicon morphology]

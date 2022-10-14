@@ -609,21 +609,21 @@
 ;; TODO: move analyze to its own namespace (menard.analyze)
 (defn analyze [surface use-null-lexemes? model]
   (let [lexicon (-> model :lexicon)]
-    (binding []
-      (log/debug (str "analyze with model named: " (-> model :name)))
-      (let [morphology (:morphology model)
-            variants (vec (set [(clojure.string/lower-case surface)
-                                (clojure.string/upper-case surface)
-                                (clojure.string/capitalize surface)]))
-            found (mapcat l/matching-lexemes variants lexicon morphology)]
-        (log/debug (str "found: " (count found) " for: [" surface "]"))
-        (if (seq found)
-          found
-          (if use-null-lexemes?
+    (log/debug (str "analyze with model named: " (-> model :name)))
+    (let [morphology (:morphology model)
+          variants (vec (set [(clojure.string/lower-case surface)
+                              (clojure.string/upper-case surface)
+                              (clojure.string/capitalize surface)]))
+          found (mapcat l/matching-lexemes variants lexicon morphology)]
+      (log/debug (str "found: " (count found) " for: [" surface "]"))
+      (if (seq found)
+        found
+        (if use-null-lexemes?
             (let [found (l/matching-lexemes "_" lexicon morphology)]
               (log/info (str "no lexemes found for: [" surface "]"
                              (when (seq found)
                                (str "; will use null lexemes instead."))))
-              found)))))))
+              found))))))
+
 
 

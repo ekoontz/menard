@@ -574,16 +574,15 @@
      ;; '.' -> declarative
      ;; '?' -> interrogative
      ;; '!' -> imperative
-     (binding [l/morphology (-> model :morphology)]
-       (let [grammar (-> model :grammar)
-             syntax-tree (-> model :syntax-tree-fn)
-             morph (-> model :morph-fn)
-             truncate? true]
-         (log/debug (str "calling p/parse with grammar: " (count grammar)))
-         (->
-          expression
-          (all-groupings split-on analyze-fn)
-          (parse grammar analyze-fn syntax-tree morph truncate?)))))))
+     (let [grammar (-> model :grammar)
+           syntax-tree (-> model :syntax-tree-fn)
+           morph (-> model :morph-fn)
+           truncate? true]
+       (log/debug (str "calling p/parse with grammar: " (count grammar)))
+       (->
+        expression
+        (all-groupings split-on analyze-fn)
+        (parse grammar analyze-fn syntax-tree morph truncate?))))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))

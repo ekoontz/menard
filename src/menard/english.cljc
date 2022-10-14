@@ -141,12 +141,13 @@
   (let [model (or model complete/model)
         lexicon (-> model :lexicon)]
     (binding [l/morphology (-> model :morphology)]
-      (let [variants (vec (set [(clojure.string/lower-case surface)
+      (let [morphology (-> model :morphology)
+            variants (vec (set [(clojure.string/lower-case surface)
                                 (clojure.string/upper-case surface)
                                 (clojure.string/capitalize surface)]))]
         (->> variants
              (mapcat (fn [surface]
-                       (l/matching-lexemes surface lexicon))))))))
+                       (l/matching-lexemes surface lexicon morphology))))))))
 
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:

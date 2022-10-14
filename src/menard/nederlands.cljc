@@ -172,14 +172,15 @@
                                (clojure.string/upper-case surface)
                                (clojure.string/capitalize surface)]))
            lexicon (-> model :lexicon)
+           morphology (:morphology model)
            found (mapcat (fn [variant]
-                           (l/matching-lexemes variant lexicon))
+                           (l/matching-lexemes variant lexicon morphology))
                          variants)]
        (log/debug (str "found: " (count found) " for: [" surface "]"))
        (if (seq found)
          found
          (if use-null-lexemes?
-           (let [found (l/matching-lexemes "_" lexicon)]
+           (let [found (l/matching-lexemes "_" lexicon morphology)]
              (log/debug (str "no lexemes found for: [" surface "]"
                              (when (seq found)
                                (str "; will use null lexemes instead."))))

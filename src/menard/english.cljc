@@ -140,14 +140,13 @@
 (defn analyze [surface & [model]]
   (let [model (or model complete/model)
         lexicon (-> model :lexicon)]
-    (binding [l/morphology (-> model :morphology)]
-      (let [morphology (-> model :morphology)
-            variants (vec (set [(clojure.string/lower-case surface)
-                                (clojure.string/upper-case surface)
-                                (clojure.string/capitalize surface)]))]
-        (->> variants
-             (mapcat (fn [surface]
-                       (l/matching-lexemes surface lexicon morphology))))))))
+    (let [morphology (-> model :morphology)
+          variants (vec (set [(clojure.string/lower-case surface)
+                              (clojure.string/upper-case surface)
+                              (clojure.string/capitalize surface)]))]
+      (->> variants
+           (mapcat (fn [surface]
+                     (l/matching-lexemes surface lexicon morphology)))))))
 
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
@@ -169,12 +168,11 @@
       (let [error-message (str "menard.english/parse: model is not a map as expected!")]
         (log/error error-message)
         (exception error-message)))
-    (binding [l/morphology (-> model :morphology)]
-      (let [truncate? true]
-        (->
-         expression
-         (p/all-groupings split-on (fn [token] (analyze token model)))
-         (p/parse (-> model :grammar) #(analyze % model) syntax-tree morph truncate?))))))
+    (let [truncate? true]
+      (->
+       expression
+       (p/all-groupings split-on (fn [token] (analyze token model)))
+       (p/parse (-> model :grammar) #(analyze % model) syntax-tree morph truncate?)))))
 
 (defn parse-start [expression & [model]]
   (let [model (or model complete/model)
@@ -189,8 +187,7 @@
         ;; '!' -> imperative
 
         split-on #"[ ]"]
-    (binding [l/morphology (-> model :morphology)]
-      (p/parse-start expression split-on analyze))))
+    (p/parse-start expression split-on analyze)))
 
 (def expressions
   (-> "english/expressions.edn"

@@ -166,25 +166,24 @@
   ([surface use-null-lexemes?]
    (analyze surface false @complete/model))
   ([surface use-null-lexemes? model]
-   (binding [l/morphology (:morphology model)]
-     (log/debug (str "analyze with model named: " (-> model :name)))
-     (let [variants (vec (set [(clojure.string/lower-case surface)
-                               (clojure.string/upper-case surface)
-                               (clojure.string/capitalize surface)]))
-           lexicon (-> model :lexicon)
-           morphology (:morphology model)
-           found (mapcat (fn [variant]
-                           (l/matching-lexemes variant lexicon morphology))
-                         variants)]
-       (log/debug (str "found: " (count found) " for: [" surface "]"))
-       (if (seq found)
-         found
-         (if use-null-lexemes?
-           (let [found (l/matching-lexemes "_" lexicon morphology)]
-             (log/debug (str "no lexemes found for: [" surface "]"
-                             (when (seq found)
-                               (str "; will use null lexemes instead."))))
-             found)))))))
+   (log/debug (str "analyze with model named: " (-> model :name)))
+   (let [variants (vec (set [(clojure.string/lower-case surface)
+                             (clojure.string/upper-case surface)
+                             (clojure.string/capitalize surface)]))
+         lexicon (-> model :lexicon)
+         morphology (:morphology model)
+         found (mapcat (fn [variant]
+                         (l/matching-lexemes variant lexicon morphology))
+                       variants)]
+     (log/debug (str "found: " (count found) " for: [" surface "]"))
+     (if (seq found)
+       found
+       (if use-null-lexemes?
+         (let [found (l/matching-lexemes "_" lexicon morphology)]
+           (log/debug (str "no lexemes found for: [" surface "]"
+                           (when (seq found)
+                             (str "; will use null lexemes instead."))))
+           found))))))
 
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model
@@ -203,13 +202,12 @@
      ;; '.' -> declarative
      ;; '?' -> interrogative
      ;; '!' -> imperative
-     (binding [l/morphology (-> model :morphology)]
-       (let [grammar (-> model :grammar)]
-         (log/debug (str "calling p/parse with grammar: " (count grammar)))
-         (->
-          expression
+     (let [grammar (-> model :grammar)]
+       (log/debug (str "calling p/parse with grammar: " (count grammar)))
+       (->
+        expression
           (p/all-groupings split-on analyze-fn)
-          (p/parse grammar analyze-fn syntax-tree morph truncate?))))))
+          (p/parse grammar analyze-fn syntax-tree morph truncate?)))))
   ([expression]
    (parse expression (load-model complete/model))))
 
@@ -229,8 +227,7 @@
         lookup-fn (fn [token]
                     (log/info (str "menard.nederlands/parse-start: looking up: " token))
                     (analyze token true model))]
-    (binding [l/morphology (-> model :morphology)]
-      (p/parse-start expression split-on lookup-fn))))
+    (p/parse-start expression split-on lookup-fn)))
 
 (defn generate-demo [index & [this-many]]
   (->>

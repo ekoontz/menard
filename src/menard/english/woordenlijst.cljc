@@ -15,4 +15,6 @@
   (def model
     (ref (create "english/models/woordenlijst"
                  "woordenlijst"
-                 compile-lexicon))))
+                 compile-lexicon
+                 false))))
+

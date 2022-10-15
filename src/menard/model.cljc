@@ -241,10 +241,9 @@
                               postprocess-fn)))))))))
 
 (def filter-for-fails? false)
-(def filter-out-nils? false)
 
 #?(:clj
-   (defn lexicon-index-fn [model]
+   (defn lexicon-index-fn [model filter-out-nils?]
      (fn [spec]
        (log/debug (str "spec: " (diag/strip-refs spec)))
        (let [pre-result
@@ -276,10 +275,10 @@
            result)))))
 
 #?(:clj
-   (defn add-functions [model]
+   (defn add-functions [model filter-out-nils?]
      (-> model
          (merge
-          {:lexicon-index-fn (lexicon-index-fn model)
+          {:lexicon-index-fn (lexicon-index-fn model filter-out-nils?)
            :syntax-tree-fn (fn [tree]
                              (s/syntax-tree tree (:morphology model)))
            :morph-fn (fn [tree]
@@ -288,7 +287,7 @@
 #?(:clj
    (defn create [path-to-model
                  name
-                 compile-lexicon-fn]
+                 compile-lexicon-fn filter-out-nils?]
      (let [model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "
@@ -342,7 +341,7 @@
                       (fn [] grammar)
                       model-spec)
                 (merge {:name name :spec model-spec})
-                (add-functions))]
+                (add-functions filter-out-nils?))]
            (log/info (str "returning model with keys: " (keys retval)))
            retval)))))
 

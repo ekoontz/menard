@@ -6,4 +6,5 @@
 (def model
   (ref (create "nederlands/models/woordenlijst"
                "woordenlijst"
-               compile-lexicon)))
+               compile-lexicon
+               false)))

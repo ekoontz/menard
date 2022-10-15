@@ -10,7 +10,7 @@
 (def model
   (ref (create "nederlands/models/complete"
                "complete"
-               compile-lexicon)))
+               compile-lexicon false)))
 
 (defn parse [expression]
   (parse/parse expression model))

@@ -147,7 +147,7 @@
           (g/generate (-> model :grammar)
                       (-> model :lexicon-index-fn)
                       syntax-tree)))]
-      (log/debug (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
+      (log/info (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
       retval)))
 
 (defn generate-all

@@ -58,22 +58,24 @@
                     structure :structure}]
                 (log/info (str surface " : " (nl/syntax-tree structure)))
                 (if intermediate-parsing?
-                  (-> (->> (nl/parse surface)
-                           ;; remove partial parses, if any:
-                           (filter #(not (= true (:menard.parse/partial? %))))
-                           ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
-                           (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
-                           ;; and take only one parse to test against:
-                           (take 1))
-                      first
-                      ((fn [parsed-structure]
-                         (if (not (nil? parsed-structure))
-                           {:surface surface
-                            :syntax-tree (nl/syntax-tree structure)
-                            :structure parsed-structure}
-                           {:surface surface
-                            :syntax-tree (nl/syntax-tree structure)
-                            :structure structure}))))
+                  (do
+                    (log/info (str "calling nl/parse on:'" surface "'"))
+                    (-> (->> (nl/parse surface)
+                             ;; remove partial parses, if any:
+                             (filter #(not (= true (:menard.parse/partial? %))))
+                             ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
+                             (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
+                             ;; and take only one parse to test against:
+                             (take 1))
+                        first
+                        ((fn [parsed-structure]
+                           (if (not (nil? parsed-structure))
+                             {:surface surface
+                              :syntax-tree (nl/syntax-tree structure)
+                              :structure parsed-structure}
+                             {:surface surface
+                              :syntax-tree (nl/syntax-tree structure)
+                              :structure structure})))))
                   ;; intermediate-parsing? is false:
                   {:surface surface
                    :syntax-tree (nl/syntax-tree structure)
@@ -81,7 +83,7 @@
              ((fn [{surface :surface
                     structure :structure
                     syntax-tree :syntax-tree}]
-                (log/info (str "checking: " (nl/syntax-tree structure)))
+                (log/info (str "checking result of nl/parse: " (nl/syntax-tree structure)))
                 (if (nil? structure)
                   (log/warn (str "couldn't parse: '" surface "' input tree was: " syntax-tree)))
                 (is (not (nil? structure)))

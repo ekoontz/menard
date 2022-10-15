@@ -150,6 +150,8 @@
   "given a surface form _surface_, find all matching lexical entries."
   [surface lexicon morphology]
   (log/debug (str "matching-lexemes for surface: '" surface "'"))
+  (if (= "_" surface)
+    (exception (str "how did we get here?")))
   (let [;; Apply morphological rules against surface to find a set of hypotheses
         ;; about the surface form. Each morphological rule has a :p key,
         ;; which we used to turn the surface form in to the canonical form.

@@ -70,10 +70,7 @@
   _grammar_, and the lexicon indexed by _lexicon-index-fn_, and an
   optionaly function to print out a tree _syntax-tree-fn_. See 
   nederlands/generate and english/generate for sample syntax-tree functions."
-  ([spec model]
-   (generate spec (:grammar model) (:lexicon-index-fn model) (:syntax-tree-fn model)))
-
-  ([spec grammar lexicon-index-fn & [syntax-tree-fn]]
+  ([spec grammar lexicon-index-fn syntax-tree-fn]
    (log/debug (str "menard.generate: start."))
    (when (empty? grammar)
      (log/error (str "grammar is empty."))
@@ -82,8 +79,7 @@
      (reset! count-adds 0)
      (reset! count-lexeme-fails 0)
      (reset! count-rule-fails 0))
-   (let [syntax-tree-fn (or syntax-tree-fn (fn [tree] (ser/syntax-tree tree [])))
-         result
+   (let [result
          (first (generate-all [spec] grammar lexicon-index-fn syntax-tree-fn))]
      (when profiling?
        (log/debug (str "generated: " (syntax-tree-fn result) " with "

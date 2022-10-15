@@ -46,6 +46,7 @@
  "court" [{:sem {:pred :court}}]
  "coward" [{:sem {:pred :coward}}]
  "crow" [{:sem {:pred :crow}}]
+ "crowd" [{:sem {:pred :crowd}}] 
  "day" [{:sem {:pred :day}}]
  "decision" [{:sem {:pred :decision}}]
  "defender" [{:sem {:pred :defender}}]

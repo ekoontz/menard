@@ -168,6 +168,7 @@
  "meisje" [{:agr {:gender :neuter}
             :sem {:pred :girl
                   :ref {:human? true}}}]
+ "menigte" [{:sem {:pred :crowd}}] 
  "minnares" [{:sem {:pred :mistress}}]
  "moeder" [{:sem {:pred :mother
                   :ref {:human? true}}}]

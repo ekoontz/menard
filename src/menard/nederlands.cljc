@@ -195,7 +195,7 @@
    (let [model (resolve-model model)
          ;; remove trailing '.' if any:
          expression (string/replace expression #"[.]*$" "")
-         analyze-fn #(analyze % true model)]
+         analyze-fn #(analyze % false model)]
      ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
      ;; use it as part of the meaning
         ;; i.e.

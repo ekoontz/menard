@@ -128,7 +128,7 @@
                    (if (and do-all? (seq do-all?))
                      (-> query-params
                          (get "q")
-                         (parse-all model))
+                         (parse-all (-> model :grammar)))
                      (-> query-params
                          (get "q")
                          (parse-start model)))]

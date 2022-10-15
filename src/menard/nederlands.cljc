@@ -328,7 +328,7 @@
                     (map? model)                      model
                     :else                             (exception (str "invalid model: " model)))
         lookup-fn (fn [token] (analyze token false model))]
-    (p/parse-all expression (fn [] model) syntax-tree lookup-fn truncate?)))
+    (p/parse-all expression (:grammar model) syntax-tree lookup-fn truncate?)))
 
 (defn round-trip-demo [& [spec times]]
   (let [spec (or spec

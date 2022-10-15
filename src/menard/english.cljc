@@ -206,4 +206,4 @@
              (println)))))))
 
 (defn parse-all [expression]
-  (p/parse-all expression complete/model syntax-tree #"[ ]" analyze))
+  (p/parse-all expression (-> complete/model deref :grammar) syntax-tree #"[ ]" analyze))

@@ -562,35 +562,13 @@
                           (merge partial-parse {::partial? true})))))
             (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
                 (:complete-parses result)))))
-      (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?))))
-  ([expression model]
-   (let [model (menard.model/resolve-model model)
-         ;; remove trailing '.' if any:
-         expression (string/replace expression #"[.]*$" "")
-         analyze-fn #(analyze % true model)]
-     ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
-     ;; use it as part of the meaning
-        ;; i.e.
-     ;; '.' -> declarative
-     ;; '?' -> interrogative
-     ;; '!' -> imperative
-     (let [grammar (-> model :grammar)
-           syntax-tree (-> model :syntax-tree-fn)
-           morph (-> model :morph-fn)
-           truncate? true]
-       (log/debug (str "calling p/parse with grammar: " (count grammar)))
-       (->
-        expression
-        (all-groupings split-on analyze-fn)
-        (parse grammar analyze-fn syntax-tree morph truncate?))))))
+      (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?)))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
 
-(defn parse-all [expression load-model-fn syntax-tree-fn split-on analyze-fn morph-fn truncate?]
-  (let [model (load-model-fn)
-
-        ;; remove trailing '.' if any:
+(defn parse-all [expression grammar syntax-tree-fn split-on analyze-fn morph-fn truncate?]
+  (let [;; remove trailing '.' if any:
         expression (string/replace expression #"[.]*$" "")]
         ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
         ;; use it as part of the meaning
@@ -601,29 +579,7 @@
     (binding [log-these-rules log-these-rules]
       (let [input-map (parse-start expression analyze-fn)]
         (-> input-map
-            (parse-in-stages (count (keys input-map)) 2 (-> model :grammar) syntax-tree-fn truncate?)
+            (parse-in-stages (count (keys input-map)) 2 grammar syntax-tree-fn truncate?)
             ((fn [m]
                {[0 (count (keys input-map))]
                 (get m [0 (count (keys input-map))])})))))))
-
-;; TODO: move analyze to its own namespace (menard.analyze)
-(defn analyze [surface use-null-lexemes? model]
-  (let [lexicon (-> model :lexicon)]
-    (log/debug (str "analyze with model named: " (-> model :name)))
-    (let [morphology (:morphology model)
-          variants (vec (set [(clojure.string/lower-case surface)
-                              (clojure.string/upper-case surface)
-                              (clojure.string/capitalize surface)]))
-          found (mapcat l/matching-lexemes variants lexicon morphology)]
-      (log/debug (str "found: " (count found) " for: [" surface "]"))
-      (if (seq found)
-        found
-        (if use-null-lexemes?
-            (let [found (l/matching-lexemes "_" lexicon morphology)]
-              (log/info (str "no lexemes found for: [" surface "]"
-                             (when (seq found)
-                               (str "; will use null lexemes instead."))))
-              found))))))
-
-
-

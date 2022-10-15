@@ -493,8 +493,8 @@
              (range 0 (count tokens)))))
 
 (defn tokenize
-  ([input split-on analyze-fn]
-   (all-groupings input split-on analyze-fn)))
+  [input split-on analyze-fn]
+  (all-groupings input split-on analyze-fn))
 
 (defn parse-start
   [input split-on analyze-fn]

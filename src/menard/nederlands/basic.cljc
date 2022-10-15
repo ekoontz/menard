@@ -45,4 +45,4 @@
   (ref (create "nederlands/models/basic"
                "basic"
                compile-lexicon
-               false)))
+               true)))

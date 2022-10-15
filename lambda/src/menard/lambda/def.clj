@@ -5,7 +5,6 @@
    [clojure.tools.logging :as log]
    [fierycod.holy-lambda.core :as h]
    [menard.handlers :as handlers :use [get-source-model get-target-model]]
-   [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
    [menard.nederlands.basic :as nl-basic]

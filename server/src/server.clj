@@ -6,13 +6,11 @@
    [config.core :refer [env]]
    [menard.exception :refer [exception]]
    [menard.handlers :as handlers]
-   [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
    [menard.lexiconfn :as l]
-   [menard.model :as model :refer [create-model-from-filesystem
-                                   current-ms
-                                   get-info-of-files]]
+   [menard.model :refer [create-model-from-filesystem
+                         current-ms get-info-of-files]]
    [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.compile :refer [compile-lexicon]]
    [menard.nederlands.complete :as nl-complete]

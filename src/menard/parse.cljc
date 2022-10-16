@@ -517,7 +517,12 @@
 ;; TODO: move analyze to its own namespace (menard.analyze)
 (declare analyze)
 
-(defn parse-tokenization [tokenization grammar lookup-fn syntax-tree morph truncate?]
+(defn parse-tokenization 
+  "Return all the possible parses given:
+     1. the _tokenization_, a list of tokens,
+     1. the _lookup-fn_, which gives a set of lexemes for the token,
+     2. the grammar."
+  [tokenization grammar lookup-fn syntax-tree morph truncate?]
   (let [token-count (count tokenization)
         all-parses (reduce (fn [input-map span-size]
                              (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
@@ -537,7 +542,9 @@
       ;; e.g. we can parse "er zijn katten" so there is a complete parse
       ;; but "er zijn kat" can't be fully parsed, so we return:
       ;; [er zijn] [kat].
-      (->> (vals (:all-parses result))
+      (->> result
+           :all-parses
+           vals
            flatten
            (map (fn [partial-parse]
                   (merge partial-parse {::partial? true})))))))
@@ -545,10 +552,11 @@
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
   [tokenizations grammar lookup-fn syntax-tree morph truncate?]
-  (reduce (fn [a b] (lazy-cat a b))
-          (map (fn [tokenization]
-                 (parse-tokenization tokenization grammar lookup-fn syntax-tree morph truncate?))
-               tokenizations)))
+  (->>
+   tokenizations
+   (map #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))
+   (reduce (fn [a b] (lazy-cat a b)))))
+
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))

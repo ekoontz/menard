@@ -555,8 +555,7 @@
   (->>
    tokenizations
    (map #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))
-   (reduce (fn [a b] (lazy-cat a b)))))
-
+   flatten))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))

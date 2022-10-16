@@ -195,7 +195,13 @@
    (let [model (resolve-model model)
          ;; remove trailing '.' if any:
          expression (string/replace expression #"[.]*$" "")
+
+         ;; meaning of 1st arg passed to (analyze):
+         ;; true: use null lexemes
+         ;; false: DON'T use null lexemes
          analyze-fn #(analyze % false model)
+         
+
          ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
          ;; use it as part of the meaning
          ;; i.e.

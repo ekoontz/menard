@@ -530,9 +530,8 @@
                                  (create-input-map tokenization lookup-fn)
                                  (range 2 (+ 1 token-count)))
               result {:token-count (count tokenization)
-                      :complete-parses
-                      (filter map? (get all-parses
-                                        [0 (count tokenization)]))
+                      :complete-parses (->> (get all-parses [0 (count tokenization)])
+                                            (filter map?))
                       :all-parses all-parses}]
           (if (empty? (:complete-parses result))
 

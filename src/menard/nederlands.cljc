@@ -197,9 +197,9 @@
          expression (string/replace expression #"[.]*$" "")
 
          ;; meaning of 1st arg passed to (analyze):
-         analyze-fn #(analyze % false model)
          ;; true: allow use of null lexemes
          ;; false: DON'T allow use of null lexemes
+         analyze-fn #(analyze % true model)
          
 
          ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and

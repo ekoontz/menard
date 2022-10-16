@@ -517,51 +517,38 @@
 ;; TODO: move analyze to its own namespace (menard.analyze)
 (declare analyze)
 
+(defn parse-tokenization [tokenization grammar lookup-fn syntax-tree morph truncate?]
+  (let [token-count (count tokenization)
+        all-parses (reduce (fn [input-map span-size]
+                             (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
+                           (create-input-map tokenization lookup-fn)
+                           (range 2 (+ 1 token-count)))
+        result {:token-count (count tokenization)
+                :complete-parses (->> (-> all-parses
+                                          (get [0 (count tokenization)]))
+                                      (filter map?))
+                :all-parses all-parses}]
+    (if (seq (:complete-parses result))
+      (:complete-parses result)
+      
+      ;; if there are no complete parses,
+      ;; cobble together results by combining
+      ;; partial parses with lexical lookups of tokens (if they exists).
+      ;; e.g. we can parse "er zijn katten" so there is a complete parse
+      ;; but "er zijn kat" can't be fully parsed, so we return:
+      ;; [er zijn] [kat].
+      (->> (vals (:all-parses result))
+           flatten
+           (map (fn [partial-parse]
+                  (merge partial-parse {::partial? true})))))))
+ 
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
   [tokenizations grammar lookup-fn syntax-tree morph truncate?]
-  (if (seq tokenizations)
-    (lazy-cat
-     ;; e.g. lookup-fn.
-     (let [tokenization (first tokenizations)]
-       (let [token-count (count tokenization)
-             all-parses (reduce (fn [input-map span-size]
-                                  (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
-                                (create-input-map tokenization lookup-fn)
-                                (range 2 (+ 1 token-count)))
-             result {:token-count (count tokenization)
-                     :complete-parses (->> (-> all-parses
-                                               (get [0 (count tokenization)]))
-                                           (filter map?))
-                     :all-parses all-parses}]
-         (if (empty? (:complete-parses result))
-           ;; if there are no complete parses,
-           ;; cobble together results by combining
-           ;; partial parses with lexical lookups of tokens (if they exists).
-           ;; e.g. we can parse "er zijn katten" so there is a complete parse
-           ;; but "er zijn kat" can't be fully parsed, so we return:
-           ;; [er zijn] [kat].
-           (let [analyses
-                 (zipmap
-                  tokenization
-                  (pmap-if-available
-                   (fn [token]
-                     (lookup-fn-with-trim token lookup-fn))
-                   tokenization))
-                 partial-parses (vals (:all-parses result))]
-             (log/debug (str "could not parse: \"" (vec tokenization) "\" with "
-                             (count tokenization) " tokens having "
-                             "token:sense pairs: "
-                             (string/join ";"
-                                          (pmap-if-available (fn [token]
-                                                               (str token ":" (count (get analyses token)) ""))
-                                                             tokenization))))
-             (->> (flatten partial-parses)
-                  (map (fn [partial-parse]
-                         (merge partial-parse {::partial? true})))))
-           (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
-               (:complete-parses result)))))
-     (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?))))
+  (reduce (fn [a b] (lazy-cat a b))
+          (map (fn [tokenization]
+                 (parse-tokenization tokenization grammar lookup-fn syntax-tree morph truncate?))
+               tokenizations)))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))

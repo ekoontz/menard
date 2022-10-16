@@ -178,7 +178,8 @@
      (log/debug (str "found: " (count found) " for: [" surface "]"))
      (if (seq found)
        found
-       (if use-null-lexemes?
+       (if (and use-null-lexemes?
+                (not (string/includes? surface " ")))
          (let [found (l/matching-lexemes "_" lexicon morphology)]
            (log/debug (str "no lexemes found for: [" surface "]"
                            (when (seq found)
@@ -195,19 +196,43 @@
    (let [model (resolve-model model)
          ;; remove trailing '.' if any:
          expression (string/replace expression #"[.]*$" "")
-         analyze-fn #(analyze % false model)]
-     ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
-     ;; use it as part of the meaning
-        ;; i.e.
-     ;; '.' -> declarative
-     ;; '?' -> interrogative
-     ;; '!' -> imperative
-     (let [grammar (-> model :grammar)]
-       (log/debug (str "calling p/parse with grammar: " (count grammar)))
-       (->
-        expression
-          (p/all-groupings split-on analyze-fn)
-          (p/parse grammar analyze-fn syntax-tree morph truncate?)))))
+
+         ;; meaning of 1st arg passed to (analyze):
+         ;; true: allow use of null lexemes
+         analyze-fn-with-nulls #(analyze % true model)
+         ;; false: DON'T allow use of null lexemes
+         analyze-fn-without-nulls #(analyze % false model)
+
+         ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
+         ;; use it as part of the meaning
+         ;; i.e.
+         ;; '.' -> declarative
+         ;; '?' -> interrogative
+         ;; '!' -> imperative
+         grammar (-> model :grammar)]
+     (log/debug (str "calling p/parse with grammar: " (count grammar)))
+     (let [parses-without-nulls
+           (->> (p/parse expression grammar analyze-fn-without-nulls
+                         syntax-tree morph split-on truncate?)
+                (filter :complete?))]
+       (log/info (str "was without-null parses empty? " (empty? parses-without-nulls)))
+       (if (seq parses-without-nulls)
+         parses-without-nulls
+
+         ;; else if no results ,try *with* nulls:
+         (let [parses-with-nulls
+               (->> (p/parse expression grammar analyze-fn-with-nulls
+                             syntax-tree morph split-on truncate?)
+                    (filter :complete?))]
+           (log/info (str "was with-null parses empty? " (empty? parses-with-nulls)))
+           (if (seq parses-with-nulls)
+             parses-with-nulls
+             (let [parses-with-null-appended
+                   (->> (p/parse (str expression " _") grammar analyze-fn-with-nulls
+                                 syntax-tree morph split-on truncate?)
+                        (filter :complete?))]
+               (log/info (str "was with-null-appended parses empty? " (empty? parses-with-null-appended)))
+               parses-with-null-appended)))))))
   ([expression]
    (parse expression (load-model complete/model))))
 
@@ -224,10 +249,16 @@
         ;; '?' -> interrogative
         ;; '!' -> imperative
 
-        lookup-fn (fn [token]
-                    (log/info (str "menard.nederlands/parse-start: looking up: " token))
-                    (analyze token true model))]
-    (p/parse-start expression split-on lookup-fn)))
+        lookup-fn-without-nulls
+        (fn [token]
+          (log/info (str "menard.nederlands/parse-start: looking up: " token))
+          (analyze token false model))
+        lookup-fn-with-nulls
+        (fn [token]
+          (log/info (str "menard.nederlands/parse-start: looking up: " token))
+          (analyze token true model))]
+    (lazy-cat (p/parse-start expression split-on lookup-fn-without-nulls)
+              (p/parse-start expression split-on lookup-fn-with-nulls))))
 
 (defn generate-demo [index & [this-many]]
   (->>
@@ -347,5 +378,3 @@
                           println))
          (take times)
          count)))
-
-

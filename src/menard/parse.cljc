@@ -8,7 +8,8 @@
    [dag_unify.diagnostics :as diag]
    [dag_unify.serialization :refer [serialize]]
    [menard.exception :refer [exception]]
-   [menard.lexiconfn :as l]))
+   [menard.lexiconfn :as l]
+   [menard.parse.word :as word]))
 
 (def parse-only-one? false)
 (def enable-pmap? true)
@@ -34,11 +35,20 @@
   #?(:cljs
      (map fn args)))
 
+(defn mapcat-lazy-seq
+  "Apply _f_ to each meber of coll and concatenate the results using lazy-cat.
+  Prevents normal clojure behaviour of chunking from happening.
+  Inspired thanks to https://gist.github.com/enforser/f43e42a803ca8c351daa4aba079955b4#file-lazy-side-effects-clj-L45"
+  [f coll]
+  (when (not-empty coll)
+    (lazy-seq (lazy-cat (f (first coll))
+                        (mapcat-lazy-seq f (rest coll))))))
+
 (defn fail-path [dag1 dag2]
   (cond (or (not (map? dag1))
             (not (map? dag2)))
         []
-        :else 
+        :else
         (let [keys (seq (set (concat (keys dag1) (keys dag2))))]
           (loop [kvs []
                  keys keys]
@@ -72,7 +82,7 @@
    :cat (u/get-in dag [:cat] :top)
    :subcat (u/get-in dag [:subcat] :top)
    :phrasal? (u/get-in dag [:phrasal?] :top)})
-  
+
 (defn pre-check [child-spec child]
   (let [child-spec-summary (summary child-spec)
         child-summary (summary child)]
@@ -104,12 +114,12 @@
                                        "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
                        :fail))]
     (if (not (= :fail result))
-      ;; not :fail: 
+      ;; not :fail:
       (do
         (def succeed-counter (+ 1 succeed-counter))
-        (when (contains? log-these-rules (u/get-in parent [:rule]))     
+        (when (contains? log-these-rules (u/get-in parent [:rule]))
           (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
-      
+
       ;; :fail:
       (do
         (when pre-check?
@@ -179,7 +189,7 @@
 (defn over [parents left-children right-children syntax-tree morph truncate?]
   (->>
    parents
-   
+
    (pmap-if-available
     (fn [parent]
       (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
@@ -194,7 +204,7 @@
                    (not (= :fail
                            (u/unify head-summary
                                     (summary head-child))))))
-         
+
          (map (fn [head-child]
                 (let [parent-with-head
                       (overh-compact parent head-child syntax-tree)]
@@ -204,7 +214,7 @@
                                  (not (= :fail
                                          (u/unify comp-summary
                                                   (summary comp-child))))))
-                       
+
                        (map (fn [comp-child]
                               (overc-compact parent-with-head comp-child syntax-tree)))
                        (remove #(= :fail %))))))))))
@@ -212,226 +222,11 @@
    flatten
 
    (remove #(= :fail %))
-   
+
    (map (fn [tree]
           (if truncate?
             (truncate tree syntax-tree morph)
             tree)))))
-
-(defn pad-left [input length]
-  (if (< (count input) length)
-    (let [remainder (- length (count input))]
-      (str (clojure.string/join "" (map (fn [_] "0") (range 0 remainder))) input))
-    input))
-
-(declare word-glue)
-(declare word-glue-wrapper)
-
-(defn all-groupings [input-string split-on lookup-fn]
-  (let [vector-of-words (clojure.string/split input-string split-on)]
-    (->>
-     ;; Generate a sequence from ((#words-1)^2) to 1, descending.
-     ;; e.g. if the words are "the very small cat",
-     ;; the number of words is 4, #words - 1 = 3, 2^3 = 8, so
-     ;; generate: [8,7,6,5,4,3,2].
-     (range (- (int (Math/pow 2
-                              (- (count vector-of-words)
-                                 1)))
-               1)
-            0 -1)
-
-     ;; For each such member of the sequence,
-     ;; generate the tokens-into-words groupings.
-     ;; Each such grouping will be a sequence of words, where
-     ;; each such word is found in the lexicon by lookup-fn.
-     (map (fn [i]
-            (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
-              (log/debug (str "i: " i "; grouping retval: " (vec retval)))
-              retval)))
-
-     ;; Remove the empty ones (where not every "word" was found by lookup-fn).
-     (filter (fn [vector-of-words]
-               (not (empty? vector-of-words)))))))
-
-(defn word-glue-wrapper
-    "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
-   Examples of words are:
-   - 'white'
-   - 'house'
-  Examples of tokens are:
-   - 'white',
-   - 'house'
-   - 'white house'
-
-  Inputs:
-  - a number that will be interpreted as a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
-  - words: a sequence of strings, which we are trying to group into larger sub-sequences of strings; each of which sub-sequence is called a token."
-  [vector-of-words number lookup-fn]
-  (let [
-        bit-vector
-        (-> number
-            Integer/toBinaryString
-            (menard.parse/pad-left (- (count vector-of-words) 1))
-            (clojure.string/split #""))
-
-        debug (log/debug (str "word-glue-wrapper: bit-vector is: " bit-vector))
-
-        grouped
-        (word-glue
-
-         bit-vector
-         vector-of-words
-
-         lookup-fn
-
-         ;; init'ed stuff:
-         []
-         []
-         0)]
-
-    (->> grouped
-         (map (fn [vector-of-words]
-                (clojure.string/join " " vector-of-words))))))
-
-(defn word-glue
-  "This function 'glues' words together into tokens, or in other words, transforms a vector of words into a vector of tokens, where tokens are defined as a sequence of words.
-   Examples of words are:
-   - 'white'
-   - 'house'
-  Examples of tokens are:
-   - 'white',
-   - 'house'
-   - 'white house'
-
-  Inputs:
-  - a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
-  - words: the array of primitive words which we are trying to group into tokens.
-  - token-in-progress: an empty array
-  - next-word: nil"
-  [bits words lookup-fn tokens token-in-progress i]
-  ;;     0       1      0      1      0
-  ;;     1       0      0      0      1
-  (log/debug (str "iteration: " i))
-  (if (nil? token-in-progress)
-    tokens
-    (let [next-word (first words)
-          current-bit (if (empty? bits)
-                        "0"
-                        (first bits))
-          joined-token-in-progress
-          (clojure.string/join " "
-                               token-in-progress)]
-      (log/debug (str "input current-bit: " current-bit))
-      (log/debug (str "input next-word: " next-word))
-      (log/debug (str "input tokens: " tokens))
-      (log/debug (str "input words: " words))
-      (log/debug (str "input token-in-progress: " (vec token-in-progress)))
-      (log/debug (str "input token-in-progress (joined): " joined-token-in-progress))
-      (let [complete-token
-            (cond
-
-              (empty? words)
-              token-in-progress
-
-              (= "1" current-bit)
-              ;; token is done:
-              ;; complete-token is
-              ;; the concatenation of
-              ;; the token-in-progress with the
-              ;; current word.
-              (let [complete-token
-                    (lazy-cat token-in-progress [next-word])]
-                (log/debug (str "current-bit=1: new complete-token: "
-                               (vec complete-token)))
-                complete-token)
-
-              :else
-              ;; we're not at a word boundary,
-              ;; so there is no complete-token yet:
-              nil)
-            joined-complete-token
-            (clojure.string/join " " complete-token)
-
-            tokens (cond (and
-                          complete-token
-                          (<= (count complete-token) max-token-length-in-words)
-                          (seq (lookup-fn joined-complete-token)))
-                         ;; We have a completed token,
-                         ;; and this token is valid
-                         ;; (not too long and findable
-                         ;; in the lexicon), so
-                         ;; add it to the list of already-
-                         ;; validated tokens:
-                         (lazy-cat tokens [complete-token])
-
-                         (empty? words)
-                         ;; we're at end of the input,
-                         ;; and complete-token
-                         ;; (i.e. token-in-progress)
-                         ;; was not valid, so give up
-                         ;; on this tokenization
-                         ;; hypothesis:
-                         []
-
-                         :else
-                         ;; we're in middle of the input
-                         ;; but not at the end of a token:
-                         tokens)]
-        (if (or (and
-                 (empty? words)
-                 (empty? tokens))
-                (and
-                 complete-token
-                 (empty? (lookup-fn joined-complete-token))))
-
-          ;; give up.
-          []
-
-          ;; otherwise, keep going:
-          (let [token-in-progress
-                (cond
-                  complete-token
-                  ;; just finished a token, so start a new one in-progress:
-                  [next-word]
-
-                  :else
-                  ;; existing token-in-progress is not complete:
-                  ;; continuing with it by
-                  ;; gluing next word to it, if any:
-                  (let [token-in-progress
-                        (lazy-cat token-in-progress [next-word])]
-                    (log/debug (str "current-bit is 0, so token-in-progress will be:" (vec token-in-progress) " with next-word: " next-word))
-                    token-in-progress))]
-            (log/debug (str "output tokens: " tokens))
-            (log/debug (str "output token-in-progress: " (vec token-in-progress)))
-            (log/debug (str ""))
-            (log/debug (str ""))
-            (log/debug (str ""))
-            (cond
-              (empty? words)
-              (do
-                (log/debug (str "words are empty; we're done: "
-                               "going to return: "
-                               (vec tokens)))
-                tokens)
-
-              :else
-              (word-glue (rest bits)
-                         (rest words)
-                         lookup-fn tokens
-                         (if (= "1" current-bit)
-                           []
-                           token-in-progress)
-                         (+ i 1)))))))))
-
-(declare span-pairs)
-
-(defn words-to-tokens [words]
-  (->> (span-pairs 0 (count words))
-       (map (fn [pairs]
-              (map (fn [[l r]]
-                     (reduce (fn [a b] (str a " " b)) (subvec words l r)))
-                   pairs)))))
 
 (defn span-pairs [i n]
   (cond (= i 0)
@@ -494,7 +289,7 @@
 
 (defn tokenize
   [input split-on analyze-fn]
-  (all-groupings input split-on analyze-fn))
+  (word/groupings input split-on analyze-fn max-token-length-in-words))
 
 (defn parse-start
   [input split-on analyze-fn]
@@ -513,59 +308,54 @@
         (parse-spans-of-length input-length i grammar syntax-tree morph truncate?)
         (parse-in-stages input-length (+ 1 i) grammar syntax-tree morph truncate?))))
 
-
 ;; TODO: move analyze to its own namespace (menard.analyze)
 (declare analyze)
 
+(defn parse-tokenization
+  "Return all the possible parses given:
+     1. the _tokenization_, a list of tokens,
+     1. the _lookup-fn_, which gives a set of lexemes for the token,
+     2. the grammar."
+  [tokenization grammar lookup-fn syntax-tree morph truncate?]
+  (log/debug (str "looking at tokenization: " (vec tokenization)))
+  (let [token-count (count tokenization)
+        all-parses (reduce (fn [input-map span-size]
+                             (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
+                           (create-input-map tokenization lookup-fn)
+                           (range 2 (+ 1 token-count)))
+        result {:token-count (count tokenization)
+                :complete-parses (->> (-> all-parses
+                                          (get [0 (count tokenization)]))
+                                      (filter map?)
+                                      (map (fn [x]
+                                             (merge x
+                                                    {:complete? true}))))
+                :all-parses all-parses}]
+    (if (seq (:complete-parses result))
+      (do
+        (log/debug (str "found some complete results; first: " (syntax-tree (first (:complete-parses result)))))
+        (log/debug (str " total results for this tokenization: " (count (:complete-parses result))))
+        (:complete-parses result))
+
+      ;; if there are no complete parses,
+      ;; cobble together results by combining
+      ;; partial parses with lexical lookups of tokens (if they exists).
+      ;; e.g. we can parse "er zijn katten" so there is a complete parse
+      ;; but "er zijn kat" can't be fully parsed, so we return:
+      ;; [er zijn] [kat].
+      (do
+        (log/debug (str "partial result: " result))
+        (->> result
+             :all-parses
+             vals
+             flatten)))))
+
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
-  ([tokenizations grammar lookup-fn syntax-tree morph truncate?]
-   (if (seq tokenizations)
-     (lazy-cat
-      ;; e.g. lookup-fn.
-      (let [tokenization (first tokenizations)]
-        (let [token-count (count tokenization)
-              all-parses (reduce (fn [input-map span-size]
-                                   (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
-                                 (create-input-map tokenization lookup-fn)
-                                 (range 2 (+ 1 token-count)))
-              result {:token-count (count tokenization)
-                      :complete-parses
-                      (filter map? (get all-parses
-                                        [0 (count tokenization)]))
-                      :all-parses all-parses}]
-          (if (empty? (:complete-parses result))
-
-            ;; if there are no complete parses,
-            ;; cobble together results by combining
-            ;; partial parses with lexical lookups of tokens (if they exists).
-            ;; e.g. we can parse "er zijn katten" so there is a complete parse
-            ;; but "er zijn kat" can't be fully parsed, so we return:
-            ;; [er zijn] [kat].
-            (let [analyses
-                  (zipmap
-                   tokenization
-                   (pmap-if-available
-                    (fn [token]
-                      (lookup-fn-with-trim token lookup-fn))
-                    tokenization))
-                  partial-parses (vals (:all-parses result))]
-              (log/debug (str "could not parse: \"" (vec tokenization) "\" with "
-                              (count tokenization) " tokens having "
-                              "token:sense pairs: "
-                              (string/join ";"
-                                           (pmap-if-available (fn [token]
-                                                                (str token ":" (count (get analyses token)) ""))
-                                                              tokenization))))
-              (->> (flatten partial-parses)
-                   (map (fn [partial-parse]
-                          (merge partial-parse {::partial? true})))))
-            (do (log/debug (str "parsed input:    \"" (vec tokenization) "\""))
-                (:complete-parses result)))))
-      (parse (rest tokenizations) grammar lookup-fn syntax-tree morph truncate?)))))
-
-(defn strip-map [m]
-  (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
+  [expression grammar lookup-fn syntax-tree morph split-on truncate?]
+  (->>
+   (word/groupings expression split-on lookup-fn max-token-length-in-words)
+   (mapcat-lazy-seq #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))))
 
 (defn parse-all [expression grammar syntax-tree-fn split-on analyze-fn morph-fn truncate?]
   (let [;; remove trailing '.' if any:

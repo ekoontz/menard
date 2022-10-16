@@ -171,8 +171,7 @@
     (let [truncate? true]
       (->
        expression
-       (p/all-groupings split-on (fn [token] (analyze token model)))
-       (p/parse (-> model :grammar) #(analyze % model) syntax-tree morph truncate?)))))
+       (p/parse (-> model :grammar) #(analyze % model) syntax-tree morph split-on truncate?)))))
 
 (defn parse-start [expression & [model]]
   (let [model (or model complete/model)

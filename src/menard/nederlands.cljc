@@ -203,11 +203,11 @@
          ;; '?' -> interrogative
          ;; '!' -> imperative
          grammar (-> model :grammar)]
-       (log/debug (str "calling p/parse with grammar: " (count grammar)))
-       (->
-        expression
-          (p/all-groupings split-on analyze-fn)
-          (p/parse grammar analyze-fn syntax-tree morph truncate?)))))
+     (log/debug (str "calling p/parse with grammar: " (count grammar)))
+     (->
+      expression
+      (p/all-groupings split-on analyze-fn)
+      (p/parse grammar analyze-fn syntax-tree morph truncate?))))
   ([expression]
    (parse expression (load-model complete/model))))
 

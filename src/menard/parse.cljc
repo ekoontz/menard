@@ -523,6 +523,7 @@
      1. the _lookup-fn_, which gives a set of lexemes for the token,
      2. the grammar."
   [tokenization grammar lookup-fn syntax-tree morph truncate?]
+  (log/debug (str "looking at tokenization: " (vec tokenization)))
   (let [token-count (count tokenization)
         all-parses (reduce (fn [input-map span-size]
                              (parse-spans-of-length input-map token-count span-size grammar syntax-tree morph truncate?))
@@ -542,12 +543,15 @@
       ;; e.g. we can parse "er zijn katten" so there is a complete parse
       ;; but "er zijn kat" can't be fully parsed, so we return:
       ;; [er zijn] [kat].
-      (->> result
+      (do
+        (log/debug (str "partial result: " result))
+        (->> result
            :all-parses
            vals
            flatten
            (map (fn [partial-parse]
                   (merge partial-parse {::partial? true})))))))
+                  (merge partial-parse {::partial? true}))))))))
  
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."

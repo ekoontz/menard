@@ -535,7 +535,10 @@
                                       (filter map?))
                 :all-parses all-parses}]
     (if (seq (:complete-parses result))
-      (:complete-parses result)
+      (->> 
+       (:complete-parses result)
+       (map (fn [complete-parse]
+              (assoc complete-parse ::complete? true))))
       
       ;; if there are no complete parses,
       ;; cobble together results by combining
@@ -548,9 +551,7 @@
         (->> result
            :all-parses
            vals
-           flatten
-           (map (fn [partial-parse]
-                  (merge partial-parse {::partial? true}))))))))
+           flatten)))))
  
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."

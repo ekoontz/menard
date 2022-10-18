@@ -575,6 +575,24 @@
             1
             :else (compare (morph x) (morph y))))))
 
+(defn add-nil-variants [string]
+  [(str "_ " string) string (str string " _")])
+
+(defn remove-from [x from morph]
+  (if (seq from)
+    (if (= (morph x) (morph (first from)))
+      (remove-from x (rest from) morph)
+      from)))
+
+(defn skip-duplicates [input morph]
+  (if (seq input)
+    (if (seq (rest input))
+      (let [first (first input)
+            second (second input)]
+        (if (= (morph first) (morph second))
+          (cons first (skip-duplicates (remove-from first (rest input) morph) morph))
+          (cons first (skip-duplicates (rest input) morph))))
+      input)))
 
 (defn parse-all [expression grammar syntax-tree-fn split-on analyze-fn morph-fn truncate?]
   (let [;; remove trailing '.' if any:

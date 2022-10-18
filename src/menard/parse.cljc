@@ -550,7 +550,6 @@
            vals
            flatten
            (map (fn [partial-parse]
-                  (merge partial-parse {::partial? true})))))))
                   (merge partial-parse {::partial? true}))))))))
  
 (defn parse

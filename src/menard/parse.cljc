@@ -572,6 +572,12 @@
           cy (count my)]
       (cond
 
+        (> cx cy)
+        -1
+
+        (> cy cx)
+        1
+
         (and (nil? (re-find  #"_" mx))
              (re-find #"_" my))
         -1
@@ -579,12 +585,6 @@
              (nil? (re-find #"_" my)))
         1
 
-
-        (> cx cy)
-        -1
-
-        (> cy cx)
-        1
 
         :else 0))))
 

@@ -576,7 +576,22 @@
             :else (compare (morph x) (morph y))))))
 
 (defn add-nil-variants [string]
-  [(str "_ " string) string (str string " _")])
+  (let [string (clojure.string/trim string)]
+    [
+     ;; 1. input preceded by two _'s.
+     (str "_ _ " string)
+
+     ;; 2. input preceded by one _.
+     (str "_ " string)
+
+     string
+
+     ;; 3. input followed by one _.
+     (str string " _")
+
+
+     ;; 3. input followed by two _'s.   
+     (str string " _ _")]))
 
 (defn remove-from [x from morph]
   (if (seq from)

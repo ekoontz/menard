@@ -563,9 +563,18 @@
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))
 
-(defn parse-comparator [x y]
-  (and (true? (u/get-in x [:phrasal?]))
-       (false? (u/get-in y [:phrasal?]))))
+(defn parse-comparator [morph]
+  (fn [x y]
+    (let [mx (morph x)
+          my (morph y)
+          cx (count mx)
+          cy (count my)]
+      (cond (> cx cy)
+            -1
+            (< cx cy)
+            1
+            :else (compare (morph x) (morph y))))))
+
 
 (defn parse-all [expression grammar syntax-tree-fn split-on analyze-fn morph-fn truncate?]
   (let [;; remove trailing '.' if any:

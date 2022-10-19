@@ -352,6 +352,8 @@
             joined-complete-token
             (clojure.string/join " " complete-token)
 
+            looked-up-results (lookup-fn joined-complete-token)
+            
             tokens (cond (and
                           complete-token
                           (<= (count complete-token) max-token-length-in-words)

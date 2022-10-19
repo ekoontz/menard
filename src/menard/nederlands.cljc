@@ -354,4 +354,20 @@
          (take times)
          count)))
 
+(defn foo [input]
+  (->> input
+       ;;(parse input)
+       parse
+       
+       ;; TODO: move this later and conditional on there
+       ;; not being a complete parse in the beginning:
+       ;; each variant is quite expensive, so only consider other
+       ;; variants if the default variant doesn't have a complete parse.
+;;       (p/add-nil-variants)
+;;       list
+;;       (mapcat parse)
+       (sort (p/parse-comparator morph))
+       (map syntax-tree)
+       (take 1)
+       time))
 

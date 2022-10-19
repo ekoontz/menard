@@ -304,13 +304,11 @@
    - 'white house'
 
   Inputs:
-  - a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
+  - bits: a bit vector [.....] of bits ('0' or '1') which define how to form the tokens.
   - words: the array of primitive words which we are trying to group into tokens.
   - token-in-progress: an empty array
   - next-word: nil"
   [bits words lookup-fn tokens token-in-progress i]
-  ;;     0       1      0      1      0
-  ;;     1       0      0      0      1
   (log/debug (str "iteration: " i))
   (if (nil? token-in-progress)
     tokens
@@ -355,6 +353,9 @@
             looked-up-results (if (not (empty? joined-complete-token))
                                 (->> (lookup-fn joined-complete-token)
                                      (filter #(not (u/get-in % [:null?])))))
+
+            debug (if (not (empty? looked-up-results))
+                    (log/debug (str "looking up: '" joined-complete-token "' found this many results: " (count looked-up-results))))
             
             tokens (cond (and
                           complete-token
@@ -414,8 +415,7 @@
             (cond
               (empty? words)
               (do
-                (log/debug (str "words are empty; we're done: "
-                               "going to return: "
+                (log/debug (str "Returning a valid tokenization: "
                                (vec tokens)))
                 tokens)
 

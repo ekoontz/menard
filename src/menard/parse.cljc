@@ -352,7 +352,9 @@
             joined-complete-token
             (clojure.string/join " " complete-token)
 
-            looked-up-results (lookup-fn joined-complete-token)
+            looked-up-results (if (not (empty? joined-complete-token))
+                                (->> (lookup-fn joined-complete-token)
+                                     (filter #(not (u/get-in % [:null?])))))
             
             tokens (cond (and
                           complete-token

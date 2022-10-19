@@ -539,10 +539,12 @@
                                       (filter map?))
                 :all-parses all-parses}]
     (if (seq (:complete-parses result))
-      (->> 
-       (:complete-parses result)
-       (map (fn [complete-parse]
-              (assoc complete-parse ::complete? true))))
+      (do
+        (log/info (str "found some complete results; first: " (syntax-tree (first (:complete-parses result)))))
+        (->> 
+         (:complete-parses result)
+         (map (fn [complete-parse]
+                (assoc complete-parse ::complete? true)))))
       
       ;; if there are no complete parses,
       ;; cobble together results by combining

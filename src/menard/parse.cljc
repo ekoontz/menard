@@ -555,9 +555,9 @@
       (do
         (log/debug (str "partial result: " result))
         (->> result
-           :all-parses
-           vals
-           flatten)))))
+             :all-parses
+             vals
+             flatten)))))
  
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."

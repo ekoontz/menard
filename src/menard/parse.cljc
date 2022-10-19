@@ -359,7 +359,7 @@
             tokens (cond (and
                           complete-token
                           (<= (count complete-token) max-token-length-in-words)
-                          (seq (lookup-fn joined-complete-token)))
+                          (seq looked-up-results))
                          ;; We have a completed token,
                          ;; and this token is valid
                          ;; (not too long and findable
@@ -386,7 +386,7 @@
                  (empty? tokens))
                 (and
                  complete-token
-                 (empty? (lookup-fn joined-complete-token))))
+                 (empty? looked-up-results)))
 
           ;; give up.
           []

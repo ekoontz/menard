@@ -92,6 +92,7 @@
  "moody" [{:sem {:pred :moody}}]
  "mysterious" [{:sem {:pred :mysterious}}] 
  "narrow" [{:sem {:pred :narrow}}]
+ "nasty" [{:sem {:pred :nasty}}] 
  "national" [{:sem {:pred :national}}]
  "naughty" [{:sem {:pred :naughty}}]
  "nervous" [{:sem {:pred :nervous}}]

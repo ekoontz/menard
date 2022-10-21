@@ -126,6 +126,9 @@
                 :countable? true}}]
  "idee" [{:sem {:pred :idea}}]
  "jas" [{:sem {:pred :coat}}]
+ "joch" [{:agr {:gender :neuter}
+          :sem {:pred :kid
+                :ref {:human? true}}}]
  "jongen" [{:sem {:pred :boy
                   :ref {:human? true}}}]
  "kat" [{:sem {:pred :cat

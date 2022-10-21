@@ -112,6 +112,8 @@
  "implementation" [{:sem {:pred :implementation}}]
  "jerk" [{:sem {:pred :jerk}}]
  "job" [{:sem {:pred :job}}]
+ "kid" [{:sem {:pred :kid
+               :ref {:human? true}}}]
  "kitten" [{:sem {:pred :kitten}}]
  "lady" [{:sem {:pred :woman
                 :context :polite}

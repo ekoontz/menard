@@ -229,6 +229,9 @@
 
 (defn all-groupings [input-string split-on lookup-fn]
   (let [vector-of-words (clojure.string/split input-string split-on)]
+    (log/info (str "total size of space to check: "
+                   (int (Math/pow 2 (- (count vector-of-words)
+                                       1)))))
     (->>
      ;; Generate a sequence from ((#words-1)^2) to 1, descending.
      ;; e.g. if the words are "the very small cat",
@@ -327,7 +330,6 @@
       (log/debug (str "input token-in-progress (joined): " joined-token-in-progress))
       (let [complete-token
             (cond
-
               (empty? words)
               token-in-progress
 
@@ -540,11 +542,9 @@
                 :all-parses all-parses}]
     (if (seq (:complete-parses result))
       (do
-        (log/info (str "found some complete results; first: " (syntax-tree (first (:complete-parses result)))))
-        (->> 
-         (:complete-parses result)
-         (map (fn [complete-parse]
-                (assoc complete-parse ::complete? true)))))
+        (log/debug (str "found some complete results; first: " (syntax-tree (first (:complete-parses result)))))
+        (log/debug (str " total results for this tokenization: " (count (:complete-parses result))))
+        (:complete-parses result))
       
       ;; if there are no complete parses,
       ;; cobble together results by combining

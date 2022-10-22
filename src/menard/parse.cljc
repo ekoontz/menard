@@ -238,7 +238,14 @@
 
 (defn all-groupings [input-string split-on lookup-fn]
   (let [vector-of-words (clojure.string/split input-string split-on)
-        lookups (atom {})]
+        lookups (atom {})
+        new-lookup-fn (fn [string lookups]
+                        (if (get @lookups string)
+                          (do
+                            (get @lookups string))
+                          (let [looked-up (lookup-fn string)]
+                            (swap! lookups (fn [_]
+                                             (assoc @lookups string looked-up))))))]
     (log/info (str "total size of space to check: "
                    (int (Math/pow 2 (- (count vector-of-words)
                                        1)))))
@@ -259,7 +266,9 @@
      ;; each such word is found in the lexicon by lookup-fn.
      (map
       (fn [i]
-        (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
+        (let [retval (word-glue-wrapper vector-of-words i
+                                        (fn [input] (if true (new-lookup-fn input lookups)
+                                                        (lookup-fn input))))]
           (when (= 0 (mod i 1000))
             (log/info (str "i: " i "; grouping retval: " (vec retval))))
           retval)))

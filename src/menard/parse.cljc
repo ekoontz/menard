@@ -276,6 +276,7 @@
 
      ;; Remove the empty ones (where not every "word" was found by lookup-fn).
      (filter (fn [vector-of-words]
+               (log/debug (str "vector of words: " (vec vector-of-words)))
                (not (empty? vector-of-words)))))))
 
 (defn word-glue-wrapper
@@ -379,7 +380,7 @@
                                      (filter #(not (u/get-in % [:null?])))))
 
             debug (if (not (empty? looked-up-results))
-                    (log/debug (str "looking up: '" joined-complete-token "' found this many results: " (count looked-up-results))))
+                    (log/debug (str "looking up: '" joined-complete-token "' found this many results: " (count looked-up-results) "; the first is: " (first looked-up-results))))
             
             tokens (cond (and
                           complete-token
@@ -440,7 +441,7 @@
               (empty? words)
               (do
                 (log/debug (str "Returning a valid tokenization: "
-                               (vec tokens)))
+                                (vec tokens)))
                 tokens)
 
               :else

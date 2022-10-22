@@ -312,7 +312,7 @@
   - token-in-progress: an empty array
   - next-word: nil"
   [bits words lookup-fn tokens token-in-progress i]
-  (log/debug (str "iteration: " i))
+  (log/debug (str "word-glue iteration: " i))
   (if (nil? token-in-progress)
     tokens
     (let [next-word (first words)

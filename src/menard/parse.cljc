@@ -271,7 +271,7 @@
                                         (fn [input] (if true (new-lookup-fn input lookups)
                                                         (lookup-fn input))))]
           (when (= 0 (mod i 1000))
-            (log/info (str "i: " i "; grouping retval: " (vec retval))))
+            (log/info (str "all-groupings: iteration: " i)))
           retval)))
 
      ;; Remove the empty ones (where not every "word" was found by lookup-fn).

@@ -562,7 +562,7 @@
              :all-parses
              vals
              flatten)))))
- 
+
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
   [expression grammar lookup-fn syntax-tree morph split-on analyze-fn truncate?]

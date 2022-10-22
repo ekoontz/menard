@@ -190,6 +190,9 @@
         (map? model)                      model
         :else                             (exception (str "invalid model: " model))))
 
+(defn analyze-fn [input]
+  (analyze input true (resolve-model complete/model)))
+
 (defn parse
   ([expression model]
    (let [model (resolve-model model)

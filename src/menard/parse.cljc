@@ -247,10 +247,12 @@
      ;; generate the tokens-into-words groupings.
      ;; Each such grouping will be a sequence of words, where
      ;; each such word is found in the lexicon by lookup-fn.
-     (map (fn [i]
-            (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
-              (log/debug (str "i: " i "; grouping retval: " (vec retval)))
-              retval)))
+     (map
+      (fn [i]
+        (let [retval (word-glue-wrapper vector-of-words i lookup-fn)]
+          (when (= 0 (mod i 1000))
+            (log/info (str "i: " i "; grouping retval: " (vec retval))))
+          retval)))
 
      ;; Remove the empty ones (where not every "word" was found by lookup-fn).
      (filter (fn [vector-of-words]

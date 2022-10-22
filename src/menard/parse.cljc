@@ -245,7 +245,8 @@
                             (get @lookups string))
                           (let [looked-up (lookup-fn string)]
                             (swap! lookups (fn [_]
-                                             (assoc @lookups string looked-up))))))]
+                                             (assoc @lookups string looked-up)))
+                            looked-up)))]
     (log/info (str "total size of space to check: "
                    (int (Math/pow 2 (- (count vector-of-words)
                                        1)))))

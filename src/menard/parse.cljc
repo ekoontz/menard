@@ -237,7 +237,8 @@
 (declare word-glue-wrapper)
 
 (defn all-groupings [input-string split-on lookup-fn]
-  (let [vector-of-words (clojure.string/split input-string split-on)]
+  (let [vector-of-words (clojure.string/split input-string split-on)
+        lookups (atom {})]
     (log/info (str "total size of space to check: "
                    (int (Math/pow 2 (- (count vector-of-words)
                                        1)))))

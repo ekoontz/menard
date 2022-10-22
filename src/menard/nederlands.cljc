@@ -210,10 +210,7 @@
          ;; '!' -> imperative
          grammar (-> model :grammar)]
      (log/debug (str "calling p/parse with grammar: " (count grammar)))
-     (->
-      expression
-      (p/all-groupings split-on analyze-fn)
-      (p/parse grammar analyze-fn syntax-tree morph truncate?))))
+     (p/parse expression grammar analyze-fn syntax-tree morph split-on analyze-fn truncate?)))
   ([expression]
    (parse expression (load-model complete/model))))
 

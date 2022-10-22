@@ -561,9 +561,9 @@
  
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
-  [tokenizations grammar lookup-fn syntax-tree morph truncate?]
+  [expression grammar lookup-fn syntax-tree morph split-on analyze-fn truncate?]
   (->>
-   tokenizations
+   (all-groupings expression split-on analyze-fn)
    (map #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))
    flatten))
 

@@ -434,13 +434,6 @@
 
 (declare span-pairs)
 
-(defn words-to-tokens [words]
-  (->> (span-pairs 0 (count words))
-       (map (fn [pairs]
-              (map (fn [[l r]]
-                     (reduce (fn [a b] (str a " " b)) (subvec words l r)))
-                   pairs)))))
-
 (defn span-pairs [i n]
   (cond (= i 0)
         (->> (range 0 (- n 1))

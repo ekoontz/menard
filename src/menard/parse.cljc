@@ -34,6 +34,15 @@
   #?(:cljs
      (map fn args)))
 
+(defn mapcat-lazy-seq
+  "Apply _f_ to each meber of coll and concatenate the results using lazy-cat.
+  Prevents normal clojure behaviour of chunking from happening.
+  Inspired thanks to https://gist.github.com/enforser/f43e42a803ca8c351daa4aba079955b4#file-lazy-side-effects-clj-L45"
+  [f coll]
+  (when (not-empty coll)
+    (lazy-seq (lazy-cat (f (first coll))
+                        (mapcat-lazy-seq f (rest coll))))))
+
 (defn fail-path [dag1 dag2]
   (cond (or (not (map? dag1))
             (not (map? dag2)))
@@ -559,8 +568,7 @@
   [expression grammar lookup-fn syntax-tree morph split-on analyze-fn truncate?]
   (->>
    (all-groupings expression split-on analyze-fn)
-   (map #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))
-   flatten))
+   (mapcat-lazy-seq #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))))
 
 (defn strip-map [m]
   (select-keys m [:1 :2 :canonical :left-is-head? :rule :surface]))

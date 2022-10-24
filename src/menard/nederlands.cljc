@@ -356,21 +356,17 @@
 
 (defn foo [input]
   (->> input
-       ;;(parse input)
-       parse
-
-       ;; this *SHOULD* return fast after only a single result:
-       ;; see: https://gist.github.com/enforser/f43e42a803ca8c351daa4aba079955b4
-       ;; for how to fix.
-       (take 1)
-
        ;; TODO: move this later and conditional on there
        ;; not being a complete parse in the beginning:
        ;; each variant is quite expensive, so only consider other
        ;; variants if the default variant doesn't have a complete parse.
-;;       (p/add-nil-variants)
-;;       list
-;;       (mapcat parse)
-       (sort (p/parse-comparator morph))
-       (map syntax-tree)
-       time))
+       ;;       (p/add-nil-variants)
+
+       list
+       (mapcat parse)
+
+       ;; disabled because it forces all parses to be generated:
+       ;; (sort (p/parse-comparator morph))
+       (map syntax-tree)))
+
+

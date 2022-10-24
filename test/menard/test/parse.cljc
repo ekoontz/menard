@@ -48,22 +48,37 @@
           {dinner :top}}}}}}
 
      ;; 2. add compound words:
-     (unify {the
-             {white-house :top}})
-     (unify {the
-             {white
-              {house
-               {press-corps :top}}}})
-
+     (u/assoc-in! (->> ["the"]
+                       (map keyword))
+                  {white-house :top})
+     (u/assoc-in! (->> ["the" "white house"]
+                       (map keyword))
+                  {press-corps :top})
+     
      ;; 3. make reentrances to "press corps":
-     (unify (let [press-corps (atom :top)]
-              {the {white {house press-corps}
-                    white-house press-corps}}))
+     ((fn [with]
+        (let [press-corps (atom :top)]
+          (do
+            (u/assoc-in! with (->> ["the" "white" "house"]
+                                   (map keyword))
+                         press-corps)
+            (u/assoc-in! with (->> ["the" "white house"]
+                                   (map keyword))
+                         press-corps)))))
 
      ;; 4. make reentrances to "dinner":
-     (unify (let [dinner (atom :top)]
-              {the {white {house {press {corps dinner}}}
-                    white-house {press-corps dinner}}}))
+     ((fn [with]
+        (let [dinner (atom :top)]
+          (do
+            (u/assoc-in! with (->> ["the" "white house"
+                                    "press corps"]
+                                   (map keyword))
+                         dinner)
+            (u/assoc-in! with (->> ["the" "white house"
+                                    "press" "corps"]
+                                   (map keyword))
+                         dinner)))))
+
      )))
 
 

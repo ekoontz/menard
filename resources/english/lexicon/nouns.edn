@@ -49,7 +49,7 @@
  "crow" [{:sem {:pred :crow}}]
  "crowd" [{:sem {:pred :crowd}}] 
  "day" [{:sem {:pred :day}}]
- "afschrijving" [{:sem {:pred :debit}}]
+ "debit" [{:sem {:pred :debit}}]
  "decision" [{:sem {:pred :decision}}]
  "defender" [{:sem {:pred :defender}}]
  "delay" [{:sem {:pred :delay}}]

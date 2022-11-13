@@ -1,18 +1,18 @@
 (let [plur-modifier
       {:cat :adjective
        :agr {:number :plur}
-       :modifies-noun true}
+       :modifies-noun? true}
       definite-singular-modifier
       {:cat :adjective
        :definite? true
        :agr {:number :sing}
-       :modifies-noun true}
+       :modifies-noun? true}
       indefinite-singular-common-modifier
       {:cat :adjective
        :definite? false
        :agr {:gender :common
              :number :sing}
-       :modifies-noun true}]
+       :modifies-noun? true}]
   [{:g [#"" ""]
     :p [#"" ""]
     :u {:cat :adjective
@@ -34,7 +34,7 @@
         :definite? false
         :null? false
         :inflection :adj-no-e-suffix
-        :modifies-noun true}}
+        :modifies-noun? true}}
 
    ;; generation: hedendaag   -> hedendaagse
    ;; parsing:    hedendaagse -> hedendaag

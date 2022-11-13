@@ -87,7 +87,7 @@
   :slash? false
   :subcat {:1 :top :2 []}
   :comp {:cat :adjective
-         :modifies-noun true}
+         :modifies-noun? true}
   :options [;; vier kleine (but: *kleine vier)
             {:head {:null? false}
              :mod {:first {:number? true}
@@ -151,7 +151,7 @@
   :slash? false
   :definite? false
   :comp {:cat :adjective
-         :modifies-noun true}
+         :modifies-noun? true}
   :agr {:number :plur}
   :unify [menard.nesting/rest-of-mods-unnested
           menard.nesting/noun
@@ -190,7 +190,7 @@
          :propernoun? false}
   :slash? false
   :comp {:cat :adjective
-         :modifies-noun true}
+         :modifies-noun? true}
   :agr {:number :plur}
   :unify [menard.nesting/rest-of-mods-unnested
           menard.nesting/noun
@@ -233,7 +233,7 @@
          :subcat []}
   :slash? false
   :comp {:cat :adjective
-         :modifies-noun true}
+         :modifies-noun? true}
   :agr {:number :plur}
   :unify [menard.nesting/comp-modifies
           menard.subcat/b

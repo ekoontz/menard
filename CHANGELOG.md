@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.6.4] - 2022-11-19
+
+- Improve word-grouping algorithm and move to new namespace: 'menard.parse.word'.
+- Replace dynamic variables with function parameters.
+- Fixes for Dutch noun pluralization morphology.
+- Move English tenses to their own namespace: 'menard.english.tenses'.
+
 ## [1.6.3] - 2022-09-25
 
 - Add three keys to every model: :lexicon-fn, :morph-fn, :syntax-tree-fn to simplify calling of these functions with the correct model.

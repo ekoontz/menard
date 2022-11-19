@@ -127,14 +127,14 @@
           (when (and true (contains? log-these-rules (u/get-in parent [:rule])))
             (let [fp (fail-path parent {:head head})]
               (log/info
-             (str "overh fail: " (syntax-tree parent)
-                  " <- " (syntax-tree head)
-                  " fail-path: " (vec fp)
-                  ". parent has: " (u/pprint (u/get-in parent fp))
-                  ", but head has: " (u/pprint (u/get-in head (rest fp)))
-                  (if (:menard.lexiconfn/derivation head)
-                    (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
-                  ".")))))))
+               (str "overh fail: " (syntax-tree parent)
+                    " <- " (syntax-tree head)
+                    " fail-path: " (vec fp)
+                    ". parent has: " (u/pprint (u/get-in parent fp))
+                    ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                    (if (:menard.lexiconfn/derivation head)
+                      (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
+                    ".")))))))
     result))
 
 (defn overc-compact
@@ -177,7 +177,6 @@
 
 (defn truncate [tree syntax-tree morph]
   (log/debug (str "truncating tree: " (syntax-tree tree)))
-  (log/debug   (str "truncating:    " (syntax-tree tree)))
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))
@@ -301,6 +300,7 @@
               (create-input-map tokenization analyze-fn)))))
 
 (defn parse-in-stages [input-map input-length i grammar syntax-tree morph truncate?]
+  (log/debug (str "parse-in-stages with truncate? " truncate?))
   (if (or (get input-map [0 input-length])
           (> i input-length))
     input-map

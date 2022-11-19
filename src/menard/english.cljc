@@ -93,10 +93,11 @@
       (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
 
 (declare sentence-punctuation)
+(declare analyze)
 
 (defn tokenize [input-string]
   (let [split-on #"[ ]"]
-    (p/tokenize split-on input-string)))
+    (p/tokenize input-string split-on analyze)))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
@@ -138,6 +139,7 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface & [model]]
+  (log/debug (str "analyze: " surface))
   (let [model (or model complete/model)
         lexicon (-> model :lexicon)]
     (let [morphology (-> model :morphology)

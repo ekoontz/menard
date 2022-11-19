@@ -147,7 +147,7 @@
           (g/generate (-> model :grammar)
                       (-> model :lexicon-index-fn)
                       syntax-tree)))]
-      (log/info (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
+      (log/debug (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
       retval)))
 
 (defn generate-all
@@ -215,7 +215,7 @@
            (->> (p/parse expression grammar analyze-fn-without-nulls
                          syntax-tree morph split-on truncate?)
                 (filter :complete?))]
-       (log/info (str "was without-null parses empty? " (empty? parses-without-nulls)))
+       (log/debug (str "was without-null parses empty? " (empty? parses-without-nulls)))
        (if (seq parses-without-nulls)
          parses-without-nulls
 
@@ -224,14 +224,14 @@
                (->> (p/parse expression grammar analyze-fn-with-nulls
                              syntax-tree morph split-on truncate?)
                     (filter :complete?))]
-           (log/info (str "was with-null parses empty? " (empty? parses-with-nulls)))
+           (log/debug (str "was with-null parses empty? " (empty? parses-with-nulls)))
            (if (seq parses-with-nulls)
              parses-with-nulls
              (let [parses-with-null-appended
                    (->> (p/parse (str expression " _") grammar analyze-fn-with-nulls
                                  syntax-tree morph split-on truncate?)
                         (filter :complete?))]
-               (log/info (str "was with-null-appended parses empty? " (empty? parses-with-null-appended)))
+               (log/debug (str "was with-null-appended parses empty? " (empty? parses-with-null-appended)))
                parses-with-null-appended)))))))
   ([expression]
    (parse expression (load-model complete/model))))
@@ -251,11 +251,11 @@
 
         lookup-fn-without-nulls
         (fn [token]
-          (log/info (str "menard.nederlands/parse-start: looking up: " token))
+          (log/debug (str "menard.nederlands/parse-start: looking up: " token))
           (analyze token false model))
         lookup-fn-with-nulls
         (fn [token]
-          (log/info (str "menard.nederlands/parse-start: looking up: " token))
+          (log/debug (str "menard.nederlands/parse-start: looking up: " token))
           (analyze token true model))]
     (lazy-cat (p/parse-start expression split-on lookup-fn-without-nulls)
               (p/parse-start expression split-on lookup-fn-with-nulls))))

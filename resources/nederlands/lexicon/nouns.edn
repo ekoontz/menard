@@ -152,6 +152,7 @@
  "kraai" [{:sem {:pred :crow}
           :exceptions [{:agr {:number :plur}
                         :surface "kraaien"}]}]
+ "kronkelweg" [{:sem {:pred :winding-road}}]
  "lafaard" [{:sem {:pred :coward
                    :ref {:human? true}}}]
  "land" [{:sem {:pred :country}

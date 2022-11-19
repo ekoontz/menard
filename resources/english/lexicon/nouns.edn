@@ -218,6 +218,7 @@
  "spokesperson" [{:sem {:pred :spokesperson}}]
  "state" [{:sem {:pred :state}}]
  "statement" [{:sem {:pred :statement}}] 
+ "steep" [{:sem {:pred :steep}}]
  "story" [{:sem {:pred :story}}]
  "student" [{:sem {:pred :student}}]
  "study" [{:sem {:pred :study}}]

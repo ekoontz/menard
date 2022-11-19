@@ -94,6 +94,7 @@
           :curriculum :basic}]
  "smerig" [{:sem {:pred :filthy}}]
  "spaarzaam" [{:sem {:pred :frugal}}]
+ "steil" [{:sem {:pred :steep}}]
  "stemmig" [{:sem {:pred :moody}}]
  "sterk" [{:sem {:pred :strong} :curriculum :basic}]
  "stevig" [{:sem {:pred :firm}}]

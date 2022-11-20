@@ -94,10 +94,10 @@
 
 (declare sentence-punctuation)
 (declare analyze)
+(def split-on #"[ ]+")
 
 (defn tokenize [input-string]
-  (let [split-on #"[ ]"]
-    (p/tokenize input-string split-on analyze)))
+  (p/tokenize input-string split-on analyze))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
@@ -162,8 +162,7 @@
                     :else
                     (let [error-message (str "menard.english/parse: invalid model: " model)]
                       (log/error error-message)
-                      (exception error-message)))
-        split-on #"[ ]"]
+                      (exception error-message)))]
     (if (map? model)
       (log/info (str "menard.english/parse with model name: "
                      (-> model :name)))
@@ -186,8 +185,7 @@
         ;; '.' -> declarative
         ;; '?' -> interrogative
         ;; '!' -> imperative
-
-        split-on #"[ ]"]
+        ]
     (p/parse-start expression split-on analyze)))
 
 (def expressions

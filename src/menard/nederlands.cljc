@@ -38,7 +38,7 @@
 
 ;; for parsing diagnostics:
 (def truncate? true)
-(def split-on #"[ ]")
+(def split-on #"[ ]+")
 
 #?(:clj
    (defn write-compiled-lexicon []

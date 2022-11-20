@@ -212,8 +212,13 @@
  "sering" [{:sem {:pred :lilac}}]
  "snuiter" [{:sem {:pred :dude
                    :ref {:human? true}}}]
+
+ ;; TODO: shouldn't need this as an exception:
+ ;;  "stel"->"stellen" seems regular.
  "stel" [{:agr {:gender :neuter}
-          :sem {:pred :couple}}]
+          :sem {:pred :couple}
+          :exception [{:agr {:number :plur}
+                       :surface "stellen"}]}]
  "stelsel" [{:agr {:gender :neuter}
              :sem {:pred :system}}]
  "stoel" [{:sem {:pred :chair}}]

@@ -9,7 +9,7 @@
                                  :sem {:pred :of
                                        :obj obj}
                                  :subcat []}}})]
- "afschriving" [{:sem {:pred :debit}}]
+ "afschrijving" [{:sem {:pred :debit}}]
  "ambtenaar" [{:sem {:pred :civil-servant}}]
  "baan" [{:sem {:pred :job}}]
  "baas" [{:sem {:pred :boss}}]

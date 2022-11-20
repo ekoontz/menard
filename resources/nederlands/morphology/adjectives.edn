@@ -68,6 +68,23 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
+
+   ;; generation: laag -> lage
+   ;; parsing:    lage -> laag
+   ;; TODO: merge this with eenzaam -> eenzame
+   ;; rule below.
+   (let [g [#"aag$" "age"]
+         p [#"age$" "aag"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+
    ;; generation: vies -> vieze
    ;; parsing:    vieze -> vies
    (let [g [#"s$"   "ze"]

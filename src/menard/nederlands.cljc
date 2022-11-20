@@ -236,6 +236,13 @@
   ([expression]
    (parse expression (load-model complete/model))))
 
+
+(defn parse-starts-with-no-nulls [parse-starts]
+  (->> parse-starts
+       (filter (fn [parse-start]
+                 (empty? (->> (vals parse-start)
+                              (filter #(nil? %))))))))
+
 (defn parse-start [expression & [model]]
   (let [model (or model (load-model complete/model))
         model (resolve-model model)
@@ -256,9 +263,16 @@
         lookup-fn-with-nulls
         (fn [token]
           (log/debug (str "menard.nederlands/parse-start: looking up: " token))
-          (analyze token true model))]
-    (lazy-cat (p/parse-start expression split-on lookup-fn-without-nulls)
-              (p/parse-start expression split-on lookup-fn-with-nulls))))
+          (analyze token true model))
+        without-nulls (p/parse-start expression split-on lookup-fn-without-nulls)]
+    (if (empty? (parse-starts-with-no-nulls without-nulls))
+      ;; if not all 'words' could be analyzed (i.e. found in the lexicon),
+      ;; then try again to analyze, which will
+      ;; analyze unknown words as null lexemes as provided by lookup-fn-with-nulls.
+      (do
+        (log/debug (str "some unknown lexemes in: '" expression "'; trying again allowing nulls.."))
+        (p/parse-start expression split-on lookup-fn-with-nulls))
+      without-nulls)))
 
 (defn generate-demo [index & [this-many]]
   (->>

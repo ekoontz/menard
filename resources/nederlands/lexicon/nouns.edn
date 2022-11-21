@@ -201,6 +201,7 @@
            {:sem {:pred :place}}]
  "plek" [{:sem {:pred :place}}]
  "poging" [{:sem {:pred :attempt}}]
+ "raap" [{:sem {:pred :turnip}}]
  "rechtbank" [{:sem {:pred :court}}]
  "regenlaars" [{:sem {:pred :rain-boot}}]
  "roofdier" [{:agr {:gender :neuter}
@@ -210,6 +211,9 @@
  "schort" [{:sem {:pred :apron}
             :agr {:gender :neuter}}]
  "schuilplaats" [{:sem {:pred :hiding-place}}]
+ "schurk" [{:sem {:pred :rogue}}
+           {:sem {:pred :scoundrel}}
+           {:sem {:pred :villian}}]
  "sering" [{:sem {:pred :lilac}}]
  "snuiter" [{:sem {:pred :dude
                    :ref {:human? true}}}]

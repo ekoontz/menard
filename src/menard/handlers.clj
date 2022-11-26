@@ -227,9 +227,9 @@
                     first)]
     (log/debug (str "generate-en: phrasal? " phrasal?))
     (when (nil? result)
-      (log/warn (str "failed to generate on two occasions with spec: "
-                     (dag-to-string spec) " and model named: "
-                     (-> model :name))))
+      (log/error (str "failed to generate on two occasions with spec: "
+                      (dag-to-string spec) " and model named: "
+                      (-> model :name))))
     (log/debug (str "generate-en: result: " (-> result en/syntax-tree)))
     {:tree (-> result en/syntax-tree)
      :sem (-> result (u/get-in [:sem]) dag_unify.serialization/serialize)

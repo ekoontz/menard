@@ -95,7 +95,8 @@
                :exceptions [{:agr {:number :plur}
                              :surface "genodigden"}]}]
  "genoegdoening" [{:sem {:pred :satisfaction}}]
- "genootschap" [{:sem {:pred :society}}]
+ "genootschap" [{:agr {:gender :neuter}
+                 :sem {:pred :society}}]
  "geschenk" [{:agr {:gender :neuter}
               :sem {:pred :gift}}]
  "gesprek" [{:agr {:gender :neuter}

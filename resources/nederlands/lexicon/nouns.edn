@@ -28,6 +28,8 @@
  "bloemkool" [{:sem {:pred :cauliflower}}]
  "bedrijf" [{:agr {:gender :neuter}
              :sem {:pred :business}}]
+ "betoog" [{:agr {:gender :neuter}
+            :sem {:pred :speech}}]
  "betrekking" [{:sem {:pred :relation}}]
  "bijdrage" [{:sem {:pred :contribution}}]
  "bijschrijving" [{:sem {:pred :credit}}]

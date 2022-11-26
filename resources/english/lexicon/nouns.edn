@@ -217,6 +217,7 @@
  "situation" [{:sem {:pred :situation}}]
  "society" [{:sem {:pred :society}}]
  "solution" [{:sem {:pred :solution}}]
+ "speech" [{:sem {:pred :speech}}]
  "spokesperson" [{:sem {:pred :spokesperson}}]
  "state" [{:sem {:pred :state}}]
  "statement" [{:sem {:pred :statement}}] 

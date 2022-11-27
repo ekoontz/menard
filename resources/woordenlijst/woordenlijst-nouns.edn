@@ -137,7 +137,7 @@
  {:nl "provincie" :en "region, province"}
  {:nl "boek" :agr {:gender :neuter} :en "book"}
  {:nl "computer" :en "computer"}
- {:nl "eind" :agr {:gender :neuter} :en "the end"}
+ {:nl "eind" :agr {:gender :neuter} :en "end"}
  {:nl "kaart, de (plattegrond, de)" :en "(street) map"}
  {:nl "lift" :en "lift"}
  {:nl "plein" :agr {:gender :neuter} :en "square"}

@@ -1,793 +1,1040 @@
 {"vriend"
- [{:cat :noun, :sem {:pred "friend"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "friend"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "postcode"
- [{:cat :noun, :sem {:pred "postal code"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "postal code"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "flatgebouw"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "apartment building"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "avondeten"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "dinner, supper"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "rijst"
- [{:cat :noun, :sem {:pred "rice"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "rice"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "beetje"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "a little"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "pinda"
- [{:cat :noun, :sem {:pred "peanut"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "peanut"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "ouder"
- [{:cat :noun, :sem {:pred "parent"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "parent"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "uiterlijk"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "appearance"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "nacht"
- [{:cat :noun, :sem {:pred "night"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "night"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "kassa"
- [{:cat :noun, :sem {:pred "check out"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "check out"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "taart"
- [{:cat :noun, :sem {:pred "cake, pie"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "cake, pie"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "morgen"
- [{:cat :noun, :sem {:pred "morning"}, :curriculum :woordenlijst}],
- "lied"
+ [{:cat :noun,
+   :sem {:pred "morning"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
+ "lied(je)"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "song"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "weekend"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "weekend"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "hoofdgerecht"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "main course"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "zus"
- [{:cat :noun, :sem {:pred "sister"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "sister"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "broek"
- [{:cat :noun, :sem {:pred "trousers"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "trousers"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "oog"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "eye"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "fout"
  [{:cat :noun,
    :sem {:pred "mistake, error, fault"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "handtekening"
- [{:cat :noun, :sem {:pred "signature"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "signature"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "abonnement"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "season ticket"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "zout"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "salt"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "park"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "park"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "werkkamer"
- [{:cat :noun, :sem {:pred "study room"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "study room"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "hapje"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "bite"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "ons"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "hundred grammes"}
-   :curriculum :woordenlijst}],
+   :sem {:pred "a hundred grammes"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "wedstrijd"
- [{:cat :noun, :sem {:pred "match, game"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "match, game"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "ding"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "thing"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "universiteit"
- [{:cat :noun, :sem {:pred "university"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "university"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "werkdag"
- [{:cat :noun, :sem {:pred "working day"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "working day"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "supermarkt"
- [{:cat :noun, :sem {:pred "supermarket"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "supermarket"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "eind"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "end"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "the end"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "sperzieboon"
  [{:cat :noun,
    :sem {:pred "French bean, green bean"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "sla"
  [{:cat :noun,
    :sem {:pred "lettuce, salad"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "dorp"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "village"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "linkerkant"
- [{:cat :noun, :sem {:pred "left side"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "left side"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "vraag"
- [{:cat :noun, :sem {:pred "question"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "question"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "probleem"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "problem"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "autorijles"
  [{:cat :noun,
    :sem {:pred "driving lesson"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "dier"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "animal"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "citroen"
- [{:cat :noun, :sem {:pred "lemon"}, :curriculum :woordenlijst}]
+ [{:cat :noun,
+   :sem {:pred "lemon"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "tegoedbon"
- [{:cat :noun, :sem {:pred "credit note"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "credit note"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "fruit"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "fruit"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "cijfer"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "number"},
-   :curriculum :woordenlijst}],
- "lift" [{:cat :noun, :sem {:pred "lift"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
+ "lift"
+ [{:cat :noun,
+   :sem {:pred "lift"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
+ "openingstijden"
+ [{:cat :noun,
+   :sem {:pred "opening hours"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "tomaat"
- [{:cat :noun, :sem {:pred "tomato"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "tomato"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "meter"
- [{:cat :noun, :sem {:pred "meter"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "meter"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "appeltaart"
- [{:cat :noun, :sem {:pred "apple pie"}, :curriculum :woordenlijst}],
- "boot" [{:cat :noun, :sem {:pred "boat"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "apple pie"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "boot"
+ [{:cat :noun,
+   :sem {:pred "boat"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "buurvrouw"
  [{:cat :noun,
-   :sem {:pred "female neighbour"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "neighbour (female)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "hagelslag"
  [{:cat :noun,
    :sem {:pred "chocolate sprinkles"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "collega"
- [{:cat :noun, :sem {:pred "colleague"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "colleague"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "vakantie"
- [{:cat :noun, :sem {:pred "holiday"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "holiday(s)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "water"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "water"},
-   :curriculum :woordenlijst}],
- "melk" [{:cat :noun, :sem {:pred "milk"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
+ "melk"
+ [{:cat :noun,
+   :sem {:pred "milk"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "scherm"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "screen"},
-   :curriculum :woordenlijst}],
- "rits" [{:cat :noun, :sem {:pred "zipper"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
+ "rits"
+ [{:cat :noun,
+   :sem {:pred "zip"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "gat"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "hole"},
-   :curriculum :woordenlijst
-   :exceptions [{:agr {:number :plur}
-                 :surface "gaten"}]}]
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "slagroom"
  [{:cat :noun,
    :sem {:pred "whipping, whipped cream"},
-   :curriculum :woordenlijst}],
- "weg" [{:cat :noun, :sem {:pred "road"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "weg"
+ [{:cat :noun,
+   :sem {:pred "road"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "villa"
- [{:cat :noun, :sem {:pred "villa"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "villa"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "plattegrond"
  [{:cat :noun,
    :sem {:pred "(street) map"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "aantal"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "number"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "the number"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "land"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "land"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "land "},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "knoop"
- [{:cat :noun, :sem {:pred "button"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "button"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "banaan"
- [{:cat :noun, :sem {:pred "banana"}, :curriculum :woordenlijst}],
- "krul" [{:cat :noun, :sem {:pred "curl"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "banana"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
+ "krul"
+ [{:cat :noun,
+   :sem {:pred "curl"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "ingang"
  [{:cat :noun,
    :sem {:pred "entrance, entry"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "cursus"
- [{:cat :noun, :sem {:pred "course"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "course"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "saldo"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "account balance"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "balance (here: travel with pay)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "ober"
- [{:cat :noun, :sem {:pred "waiter"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "waiter"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "bitterbal"
  [{:cat :noun,
-   :sem {:pred "croquette served as an appetizer"},
-   :curriculum :woordenlijst}],
- "dame" [{:cat :noun, :sem {:pred "lady"}, :curriculum :woordenlijst}],
+   :sem {:pred "type of croquette served as an appetizer"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "dame"
+ [{:cat :noun,
+   :sem {:pred "lady"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "dessert"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "dessert"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "korting"
- [{:cat :noun, :sem {:pred "discount"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "discount"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "broer"
- [{:cat :noun, :sem {:pred "brother"}, :curriculum :woordenlijst
-   :exceptions [{:agr {:number :plur}
-                 :surface "broers"}]}]
+ [{:cat :noun,
+   :sem {:pred "brother"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "trein"
- [{:cat :noun, :sem {:pred "train"}, :curriculum :woordenlijst}]
+ [{:cat :noun,
+   :sem {:pred "train"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "geboorte"
- [{:cat :noun, :sem {:pred "birth"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "birth"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "datum"
- [{:cat :noun, :sem {:pred "date"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "date"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "brief"
- [{:cat :noun, :sem {:pred "letter"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "letter"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "kapper"
- [{:cat :noun, :sem {:pred "hairdresser"}, :curriculum :woordenlijst}],
- "vis" [{:cat :noun, :sem {:pred "fish"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "hairdresser"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
+ "vis"
+ [{:cat :noun,
+   :sem {:pred "fish"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "slaapkamer"
- [{:cat :noun, :sem {:pred "bedroom"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "bedroom"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "suiker"
- [{:cat :noun, :sem {:pred "sugar"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "sugar"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "stropdas"
- [{:cat :noun, :sem {:pred "tie"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "tie"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "schoen"
- [{:cat :noun, :sem {:pred "shoe"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "shoe"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "kleren"
- [{:cat :noun, :sem {:pred "clothes"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "clothes"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "rechterkant"
  [{:cat :noun,
    :sem {:pred "right(-hand) side"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "straat"
- [{:cat :noun, :sem {:pred "street"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "street"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "band"
- [{:cat :noun, :sem {:pred "relation"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "relation"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "vegetariër"
- [{:cat :noun, :sem {:pred "vegetarian"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "vegetarian"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "moeder"
- [{:cat :noun, :sem {:pred "mother"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "mother"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "geld"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "money"},
-   :curriculum :woordenlijst}],
- "openingstijd"
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
+ "zoon"
  [{:cat :noun,
-   :sem {:pred "opening time"},
-   :curriculum :woordenlijst}],
- "zoon" [{:cat :noun, :sem {:pred "son"}, :curriculum :woordenlijst}],
+   :sem {:pred "son"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "buurman"
  [{:cat :noun,
-   :sem {:pred "male neighbour"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "neighbour (male)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "computer"
- [{:cat :noun, :sem {:pred "computer"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "computer"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "spoor"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "track, platform"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "maaltijd"
- [{:cat :noun, :sem {:pred "meal"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "meal"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "bushalte"
- [{:cat :noun, :sem {:pred "bus stop"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "bus stop"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "zebrapad"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "pedestrian crossing, zebra crossing"},
-   :curriculum :woordenlijst
-   :exceptions [{:agr {:number :plur}
-                 :surface "zebrapaden"}]}]
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "champignon"
- [{:cat :noun, :sem {:pred "mushroom"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "mushroom"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "restaurant"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "restaurant"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "achternaam"
- [{:cat :noun, :sem {:pred "surname"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "surname"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "uniform"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "uniform"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "patat"
- [{:cat :noun, :sem {:pred "chip"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "chips"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "kalender"
- [{:cat :noun, :sem {:pred "calender"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "calender"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "knoflook"
- [{:cat :noun, :sem {:pred "garlic"}, :curriculum :woordenlijst}],
- "sok" [{:cat :noun, :sem {:pred "sock"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "garlic"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "sok"
+ [{:cat :noun,
+   :sem {:pred "sock"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "telefoonboek"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "telephone directory"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "zalm"
- [{:cat :noun, :sem {:pred "salmon"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "salmon"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "vlees"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "meat"},
-   :curriculum :woordenlijst}],
- "meubel"
- [{:cat :noun, :sem {:pred "furniture"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
+ "meubels"
+ [{:cat :noun,
+   :sem {:pred "furniture"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "woningbouwvereniging"
  [{:cat :noun,
    :sem {:pred "housing association"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "eiland"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "island"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "salami"
- [{:cat :noun, :sem {:pred "salami"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "salami"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "koekje"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "biscuit"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "compliment"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "compliment"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "fiets"
- [{:cat :noun, :sem {:pred "bicycle"}, :curriculum :woordenlijst}],
- "tijd" [{:cat :noun, :sem {:pred "time"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "bicycle"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
+ "tijd"
+ [{:cat :noun,
+   :sem {:pred "time"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "pond"
  [{:cat :noun,
-   :sem {:pred "pound"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "pound (500 grammes)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "man"
  [{:cat :noun,
-   :sem {:pred "husband"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "husband (man)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "ochtend"
- [{:cat :noun, :sem {:pred "morning"}, :curriculum :woordenlijst}],
- "auto" [{:cat :noun, :sem {:pred "car"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "the morning"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
+ "auto"
+ [{:cat :noun,
+   :sem {:pred "car"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "advies"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "advice"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "kaas"
- [{:cat :noun, :sem {:pred "cheese"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "cheese"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "boterham"
  [{:cat :noun,
    :sem {:pred "sandwich, slice of bread"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "pannenkoek"
- [{:cat :noun, :sem {:pred "pancake"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "pancake"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "student"
- [{:cat :noun, :sem {:pred "student"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "student"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "voorstel"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "proposal, proposition"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "kroeg"
- [{:cat :noun, :sem {:pred "café, pub"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "café, pub"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "leeftijd"
- [{:cat :noun, :sem {:pred "age"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "age"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "douche"
- [{:cat :noun, :sem {:pred "shower"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "shower"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "diploma"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "diploma, certificate"},
-   :curriculum :woordenlijst}],
- "wijn" [{:cat :noun, :sem {:pred "wine"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "wijn"
+ [{:cat :noun,
+   :sem {:pred "wine"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "voorgerecht"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "first course, starter"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "voetbal"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "football"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "kilometer"
- [{:cat :noun, :sem {:pred "kilometer"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "kilometer"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "rekening"
- [{:cat :noun, :sem {:pred "bill"}, :curriculum :woordenlijst}],
- "wc" [{:cat :noun, :sem {:pred "toilet"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "bill"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "wc"
+ [{:cat :noun,
+   :sem {:pred "toilet"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "reus"
- [{:cat :noun, :sem {:pred "giant"}, :curriculum :woordenlijst
-   :exceptions [{:agr {:number :plur}
-                 :surface "reuzen"}]}]
+ [{:cat :noun,
+   :sem {:pred "giant"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "familie"
  [{:cat :noun,
-   :sem {:pred "family"},
-   :curriculum :woordenlijst}
-  {:cat :noun,
-   :sem {:pred "relatives"},
-   :curriculum :woordenlijst
-   :agr {:number :plur}}]
+   :sem {:pred "family, relatives"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "les"
- [{:cat :noun, :sem {:pred "lesson"}, :curriculum :woordenlijst}],
- "week" [{:cat :noun, :sem {:pred "week"}, :curriculum :woordenlijst}],
- "tram" [{:cat :noun, :sem {:pred "tram"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "lesson"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
+ "week"
+ [{:cat :noun,
+   :sem {:pred "week"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
+ "tram"
+ [{:cat :noun,
+   :sem {:pred "tram"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "antwoord"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "answer"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "answer "},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "geslacht"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "gender"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "borrel"
  [{:cat :noun,
    :sem {:pred "alcoholic drink"},
-   :curriculum :woordenlijst}],
+   :curriculum
+   {:name :woordenlijst, :hoofdstuk "شرب المشروبات الكحولية"}}],
  "tonijn"
- [{:cat :noun, :sem {:pred "tuna"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "tuna"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "brug"
- [{:cat :noun, :sem {:pred "bridge"}, :curriculum :woordenlijst
-   :exceptions [{:surface "bruggen"
-                 ;; maybe this is regular:
-                 ;; if so, fix morphology/nouns.edn and
-                 ;; remove this.
-                 :agr {:number :plur}}]}]
+ [{:cat :noun,
+   :sem {:pred "bridge"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "kip"
- [{:cat :noun, :sem {:pred "chicken"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "chicken"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "bakker"
- [{:cat :noun, :sem {:pred "baker"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "baker"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "wasmachine"
  [{:cat :noun,
    :sem {:pred "washing machine"},
-   :curriculum :woordenlijst}],
- "thee" [{:cat :noun, :sem {:pred "tea"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
+ "thee"
+ [{:cat :noun,
+   :sem {:pred "tea"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "saus"
- [{:cat :noun, :sem {:pred "sauce"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "sauce"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "sprookje"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "fairy tale"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "dochter"
- [{:cat :noun, :sem {:pred "daughter"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "daughter"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "mobiele telefoon"
  [{:cat :noun,
    :sem {:pred "mobile phone"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "verjaardag"
- [{:cat :noun, :sem {:pred "birthday"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "birthday"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "gezin"
  [{:agr {:gender :neuter},
    :cat :noun,
-   :sem {:pred "family"},
-   :curriculum :woordenlijst}],
+   :sem {:pred "family (parents and children)"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "gerecht"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "meal"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "bed"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "bed"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "muziek"
- [{:cat :noun, :sem {:pred "music"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "music"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "centrum"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "(town, city) center"},
-   :curriculum :woordenlijst}],
- "kop" [{:cat :noun, :sem {:pred "cup"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
+ "kop"
+ [{:cat :noun,
+   :sem {:pred "cup"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "vader"
- [{:cat :noun, :sem {:pred "father"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "father"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "plein"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "square"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "tafel"
- [{:cat :noun, :sem {:pred "table"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "table"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "gympen"
- [{:cat :noun, :sem {:pred "sneakers"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "sneakers"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "borrelhapje"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "snack, appetizer"},
-   :curriculum :woordenlijst}],
- "kilo" [{:cat :noun, :sem {:pred "kilo"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "kilo"
+ [{:cat :noun,
+   :sem {:pred "kilo"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "OV-chipkaart"
  [{:cat :noun,
    :sem {:pred "e-purse for public transportation"},
-   :curriculum :woordenlijst}],
- "jam" [{:cat :noun, :sem {:pred "jam"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
+ "jam"
+ [{:cat :noun,
+   :sem {:pred "jam"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "verdieping"
- [{:cat :noun, :sem {:pred "floor"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "floor"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "rijtjeshuis"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "terraced house"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "voornaam"
- [{:cat :noun, :sem {:pred "first name"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "first name"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "bruiloft"
- [{:cat :noun, :sem {:pred "wedding"}, :curriculum :woordenlijst}],
- "rok" [{:cat :noun, :sem {:pred "skirt"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "wedding"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "rok"
+ [{:cat :noun,
+   :sem {:pred "skirt"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "raam"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "window"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "bad"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "bath"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "aardappel"
- [{:cat :noun, :sem {:pred "potato"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "potato"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "vleeswaren"
- [{:agr {:number :plur},
-   :cat :noun,
+ [{:cat :noun,
    :sem {:pred "cold cuts"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "traditie"
- [{:cat :noun, :sem {:pred "tradition"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "tradition"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "plezier"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "fun"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "vriendin"
  [{:cat :noun,
    :sem {:pred "female friend / girlfriend"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "afspraak"
  [{:cat :noun,
    :sem {:pred "appointment, engagement"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "boek"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "book"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "maand"
- [{:cat :noun, :sem {:pred "month"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "month"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "adres"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "address"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "haar"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "hair"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "bon"
- [{:cat :noun, :sem {:pred "receipt"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "the receipt"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "plan"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "plan"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "spijkerbroek"
- [{:cat :noun, :sem {:pred "jeans"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "jeans"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "uitnodiging"
- [{:cat :noun, :sem {:pred "invitation"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "invitation"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "tuin"
- [{:cat :noun, :sem {:pred "garden"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "garden"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "ziekenhuis"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "hospital"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "jaar"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "year"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "automaat"
  [{:cat :noun,
    :sem {:pred "ticket machine"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "kwartier"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "quarter of an hour"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "avond"
- [{:cat :noun, :sem {:pred "evening"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "evening"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "richting"
- [{:cat :noun, :sem {:pred "direction"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "direction"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "appartement"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "apartment"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "woonplaats"
  [{:cat :noun,
    :sem {:pred "(place of) residence"},
-   :curriculum :woordenlijst}],
- "bier"
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
+ "bier(tje)"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "beer"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "toegang"
- [{:cat :noun, :sem {:pred "entrance"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "entrance"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "appel"
- [{:cat :noun, :sem {:pred "apple"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "apple"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "modeshow"
  [{:cat :noun,
    :sem {:pred "fashion show"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "idee"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "idea"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "stad"
- [{:cat :noun, :sem {:pred "town, city"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "town, city"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "provincie"
  [{:cat :noun,
    :sem {:pred "region, province"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "metro"
  [{:cat :noun,
    :sem {:pred "subway, tube, underground"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "verkoper"
  [{:cat :noun,
    :sem {:pred "salesman, woman, shop assistant"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "nummer"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "number"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "voordeel"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "advantage"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "bloes"
  [{:cat :noun,
    :sem {:pred "blouse, shirt"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "biefstuk"
- [{:cat :noun, :sem {:pred "steak"}, :curriculum :woordenlijst}],
- "baas" [{:cat :noun, :sem {:pred "boss"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "steak"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
+ "baas"
+ [{:cat :noun,
+   :sem {:pred "boss"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "huis"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "house"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "toegangskaartje"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "ticket"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "trui"
- [{:cat :noun, :sem {:pred "sweater"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "sweater"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "plaats"
- [{:cat :noun, :sem {:pred "place"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "place"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "station"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "station"},
-   :curriculum :woordenlijst
-   :exceptions [{:agr {:number :plur}
-                 :surface "stations"}]}]
- "dag" [{:cat :noun, :sem {:pred "day"}, :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
+ "dag"
+ [{:cat :noun,
+   :sem {:pred "day"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "huisarts"
  [{:cat :noun,
    :sem {:pred "family doctor, general practitioner"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "bril"
  [{:cat :noun,
    :sem {:pred "glasses, spectacles"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "toilet"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "toilet"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "bioscoop"
- [{:cat :noun, :sem {:pred "cinema"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "cinema"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "salaris"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "salary"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "ontbijt"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "breakfast"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "eten"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "food"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "fles"
- [{:cat :noun, :sem {:pred "bottle"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "bottle"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "gebouw"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "building"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "vierkante meter"
  [{:cat :noun,
    :sem {:pred "square meter"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}],
  "feestdag"
  [{:cat :noun,
    :sem {:pred "public holiday"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "5"}}],
  "krant"
- [{:cat :noun, :sem {:pred "newspaper"}, :curriculum :woordenlijst}],
+ [{:cat :noun,
+   :sem {:pred "newspaper"},
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "T-shirt"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "t-shirt"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "6"}}],
  "feest"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "party"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "formulier"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "form"},
-   :curriculum :woordenlijst}],
+   :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "balkon"
  [{:agr {:gender :neuter},
    :cat :noun,
    :sem {:pred "balcony"},
-   :curriculum :woordenlijst}]
- "ei" [{:cat :noun, :sem {:pred "egg"}
-        :exceptions [{:agr {:number :plur}
-                      :surface "eiren"}]}]}
-
-
-
-
+   :curriculum {:name :woordenlijst, :hoofdstuk "4"}}]}

@@ -94,14 +94,11 @@
     (clojure.pprint/pprint
      (zipmap (map :canonical english-items)
              (map (fn [lexeme]
-                    [(dissoc lexeme :canonical)])
+                    [(-> lexeme
+                         (dissoc :canonical)
+                         ;; Removing this since we probably don't
+                         ;; need it on the English side.
+                         (dissoc :curriculum))])
                   english-items))
      (clojure.java.io/writer
       engels-filename))))
-
-
-
-
-
-
-

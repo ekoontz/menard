@@ -10,6 +10,8 @@
    :cat :noun,
    :sem {:pred "past (a quarter past two)"}}],
  "table" [{:hoofdstuk "4", :cat :noun, :sem {:pred "table"}}],
+ "family, relative"
+ [{:hoofdstuk "1", :cat :noun, :sem {:pred "family, relative"}}],
  "the whole day"
  [{:hoofdstuk "5", :cat :noun, :sem {:pred "the whole day"}}],
  "must / shall"
@@ -91,8 +93,6 @@
    :sem {:pred "to go / to match with - to go well in"}}],
  "two coffees please"
  [{:hoofdstuk "3", :cat :noun, :sem {:pred "two coffees please"}}],
- "family, relatives"
- [{:hoofdstuk "1", :cat :noun, :sem {:pred "family, relatives"}}],
  "appointment, engagement"
  [{:hoofdstuk "2",
    :cat :noun,

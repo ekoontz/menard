@@ -4,7 +4,7 @@
  {:nl "auto, de" :en "car" :hoofdstuk "1" }
  {:nl "dochter, de" :en "daughter" :hoofdstuk "1" }
  {:nl "en" :en "and" :hoofdstuk "1" }
- {:nl "familie, de" :en "family, relatives" :hoofdstuk "1" }
+ {:nl "familie, de" :en "family, relative" :hoofdstuk "1" }
  {:nl "geven (geeft)" :en "to give " :hoofdstuk "1" }
  {:nl "hebben" :en "to have" :hoofdstuk "1" }
  {:nl "heten" :en "to be called" :hoofdstuk "1" }

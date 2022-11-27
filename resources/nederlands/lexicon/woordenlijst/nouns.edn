@@ -610,7 +610,7 @@
    :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "familie"
  [{:cat :noun,
-   :sem {:pred "family, relatives"},
+   :sem {:pred "family, relative"},
    :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "les"
  [{:cat :noun,

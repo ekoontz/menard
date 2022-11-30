@@ -43,9 +43,9 @@
       :agr {:number :plur}
       :regular true}}
 
-  ;; noun pluralization ending in -s:
- {:g [#"([^aeiouy])(e|el|em|en|er|ie|um)$"  "$1$2s" ]
-  :p [#"([^aeiouy])(e|el|em|en|er|ie|um)s$" "$1$2"  ]
+ ;; noun pluralization ending in -s:
+ {:g [#"([^aeiouy])(e|el|em|en|er|ie|oer|um)$"  "$1$2s" ]
+  :p [#"([^aeiouy])(e|el|em|en|er|ie|oer|um)s$" "$1$2"  ]
   ;;                                    tafels -> tafel 
   :u {:cat :noun
       :null? false

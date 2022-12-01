@@ -461,7 +461,7 @@
    :curriculum {:name :woordenlijst, :hoofdstuk "3"}}],
  "kalender"
  [{:cat :noun,
-   :sem {:pred "calender"},
+   :sem {:pred "calendar"},
    :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "knoflook"
  [{:cat :noun,

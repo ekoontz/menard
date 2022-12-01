@@ -192,7 +192,7 @@
  "first name"
  [{:hoofdstuk "1", :cat :noun, :sem {:pred "first name"}}],
  "afraid of" [{:hoofdstuk "7", :cat :noun, :sem {:pred "afraid of"}}],
- "calender" [{:hoofdstuk "2", :cat :noun, :sem {:pred "calender"}}],
+ "calendar" [{:hoofdstuk "2", :cat :noun, :sem {:pred "calendar"}}],
  "how (what's your name)"
  [{:hoofdstuk "1", :cat :noun, :sem {:pred "how (what's your name)"}}],
  "to pay" [{:hoofdstuk "4", :cat :noun, :sem {:pred "to pay"}}],

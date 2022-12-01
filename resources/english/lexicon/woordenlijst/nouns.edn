@@ -176,7 +176,7 @@
  [{:hoofdstuk "6", :cat :noun, :sem {:pred "credit note"}}],
  "meter" [{:hoofdstuk "4", :cat :noun, :sem {:pred "meter"}}],
  "this morning"
- [{:hoofdstuk "2", :cat :noun, :sem {:pred "this morning"}}],
+ [{:hoofdstuk "2", :cat :noun, :sem {:pred "this morning"} :subcat []}],
  "not" [{:hoofdstuk "1", :cat :noun, :sem {:pred "not"}}],
  "to travel" [{:hoofdstuk "5", :cat :noun, :sem {:pred "to travel"}}],
  "to write (down)"
@@ -382,8 +382,6 @@
  [{:hoofdstuk "1", :cat :noun, :sem {:pred "to call, to phone"}}],
  "short" [{:hoofdstuk "6", :cat :noun, :sem {:pred "short"}}],
  "again" [{:hoofdstuk "1", :cat :noun, :sem {:pred "again"}}],
- "the morning"
- [{:hoofdstuk "2", :cat :noun, :sem {:pred "the morning"}}],
  "to sleep" [{:hoofdstuk "2", :cat :noun, :sem {:pred "to sleep"}}],
  "beautiful, wonderful"
  [{:hoofdstuk "4", :cat :noun, :sem {:pred "beautiful, wonderful"}}],

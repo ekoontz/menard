@@ -659,7 +659,7 @@
  "to go out" [{:hoofdstuk "6", :cat :noun, :sem {:pred "to go out"}}],
  "out (I am from)"
  [{:hoofdstuk "1", :cat :noun, :sem {:pred "out (I am from)"}}],
- "land " [{:hoofdstuk "2", :cat :noun, :sem {:pred "land "}}],
+ "land" [{:hoofdstuk "2", :cat :noun, :sem {:pred "land "}}],
  "salt" [{:hoofdstuk "3", :cat :noun, :sem {:pred "salt"}}],
  "annoying, unpleasant"
  [{:hoofdstuk "6", :cat :noun, :sem {:pred "annoying, unpleasant"}}],

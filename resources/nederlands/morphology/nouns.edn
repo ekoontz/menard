@@ -25,7 +25,7 @@
  ;; abbreviations pluralize with an apostrophe (e.g. "wc" -> "wc's")
  ;; for parsing, we include both: ' and ’ as apostrophe-variants
  {:g [#"(.*)$"   "$1's"] ;; wc -> wc's
-  :p [#"(['’]s$" ""]     ;; wc's -> wc
+  :p [#"['’]s$"  ""]     ;; wc's -> wc
   :u {:cat :noun
       :null? false
       :abbreviation? true

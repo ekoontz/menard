@@ -62,6 +62,7 @@
  "weekend"
  [{:agr {:gender :neuter},
    :cat :noun,
+   :inflection :s
    :sem {:pred "weekend"},
    :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "hoofdgerecht"

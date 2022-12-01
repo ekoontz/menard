@@ -236,7 +236,7 @@
    :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "vakantie"
  [{:cat :noun,
-   :sem {:pred "holiday(s)"},
+   :sem {:pred "holiday"},
    :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "water"
  [{:agr {:gender :neuter},

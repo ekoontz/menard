@@ -220,7 +220,7 @@
  "to come around"
  [{:hoofdstuk "4", :cat :noun, :sem {:pred "to come around"}}],
  "in love" [{:hoofdstuk "6", :cat :noun, :sem {:pred "in love"}}],
- "egg(s)" [{:hoofdstuk "3", :cat :noun, :sem {:pred "egg(s)"}}],
+ "egg" [{:hoofdstuk "3", :cat :noun, :sem {:pred "egg"}}],
  "shower" [{:hoofdstuk "2", :cat :noun, :sem {:pred "shower"}}],
  "gram(me)" [{:hoofdstuk "3", :cat :noun, :sem {:pred "gram(me)"}}],
  "balance (here: travel with pay)"
@@ -701,8 +701,8 @@
    :cat :noun,
    :sem {:pred "to (five minutes to eight)"}}],
  "village" [{:hoofdstuk "4", :cat :noun, :sem {:pred "village"}}],
- "holiday(s)"
- [{:hoofdstuk "2", :cat :noun, :sem {:pred "holiday(s)"}}],
+ "holiday"
+ [{:hoofdstuk "2", :cat :noun, :sem {:pred "holiday"}}],
  "sauce" [{:hoofdstuk "7", :cat :noun, :sem {:pred "sauce"}}],
  "here" [{:hoofdstuk "1", :cat :noun, :sem {:pred "here"}}],
  "island" [{:hoofdstuk "5", :cat :noun, :sem {:pred "island"}}],

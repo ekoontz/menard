@@ -530,7 +530,7 @@
    :curriculum {:name :woordenlijst, :hoofdstuk "1"}}],
  "ochtend"
  [{:cat :noun,
-   :sem {:pred "the morning"},
+   :sem {:pred "morning"},
    :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "auto"
  [{:cat :noun,

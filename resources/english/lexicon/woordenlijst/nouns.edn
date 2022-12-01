@@ -393,7 +393,7 @@
  "yes" [{:hoofdstuk "1", :cat :noun, :sem {:pred "yes"}}],
  "dress" [{:hoofdstuk "6", :cat :noun, :sem {:pred "dress"}}],
  "chair" [{:hoofdstuk "4", :cat :noun, :sem {:pred "chair"}}],
- "answer " [{:hoofdstuk "1", :cat :noun, :sem {:pred "answer "}}],
+ "answer" [{:hoofdstuk "1", :cat :noun, :sem {:pred "answer "}}],
  "boy next door, boy living nearby"
  [{:hoofdstuk "7",
    :cat :noun,

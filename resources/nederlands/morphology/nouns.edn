@@ -21,18 +21,6 @@
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
-
- ;; abbreviations pluralize with an apostrophe (e.g. "wc" -> "wc's")
- ;; for parsing, we include both: ' and ’ as apostrophe-variants
- {:g [#"(.*)$"   "$1's"] ;; wc -> wc's
-  :p [#"(['’]s$" ""]     ;; wc's -> wc
-  :u {:cat :noun
-      :null? false
-      :abbreviation? true
-      :inflection :apostrophe-s
-      :pronoun? false
-      :agr {:number :plur}
-      :regular true}}
  
  ;; if a singular noun ends in -heid, then noun pluralization ends in -heden:
  {:g [#"heid$"  "heden"]           ;; mogelijkheid -> mogelijkheden
@@ -73,7 +61,6 @@
  {:g [#"^(.*)([a])\2([k])$"   "$1$2$3$3en"]    ;; zaak    -> zakken
   :p [#"^(.*)([a])([k])\3en$" "$1$2$2$3"]      ;; zakken  -> zaak
   :u {:cat :noun
-      :abbreviation? false
       :null? false
       :inflection :repeat-consonant-shorten-vowel
       :pronoun? false

@@ -603,7 +603,6 @@
    :curriculum {:name :woordenlijst, :hoofdstuk "7"}}],
  "wc"
  [{:cat :noun,
-   :abbreviation? true
    :sem {:pred "toilet"},
    :curriculum {:name :woordenlijst, :hoofdstuk "2"}}],
  "reus"

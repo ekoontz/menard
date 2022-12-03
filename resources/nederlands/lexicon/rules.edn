@@ -6,6 +6,11 @@
   :if {:null? false}
   :then [{:null? false}]}
 
+ {:rule :noun-abbreviation
+  :if {:cat :noun
+       :abbreviation? ::none}
+  :then [{:abbreviation? false}]}
+
  {:rule :noun-semantics
   :if {:cat :noun
        :null? false

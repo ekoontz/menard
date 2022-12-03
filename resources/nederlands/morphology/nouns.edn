@@ -53,7 +53,7 @@
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
-
+ 
  ;; this is a complicated pattern where, in pluralization, the
  ;; vowel shortens (aa->a) and the consonant lengthens (k->kk):
  ;; For now, only matching 'a' for the vowel and 'k' for the consonant,
@@ -249,12 +249,25 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*[^st])$"    "$1en"]      ;; hond   -> honden
- :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
- :u {:cat :noun
-     :null? false
-     :inflection :en
-     :pronoun? false
-     :agr {:number :plur}
-     :regular true}}]
+ {:g [#"^(.*[^st])$"    "$1en"]     ;; hond   -> honden
+  :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
+  :u {:cat :noun
+      :abbreviation? false
+      :null? false
+      :inflection :en
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
+
+ {:g [#"(.*)$"      "$1's" ]
+  :p [#"(.*)[']s$"  "$1"  ]
+  :u {:cat :noun
+      :abbreviation? true
+      :null? false
+      :inflection :abbreviation
+      :pronoun? false
+      :agr {:number :plur}
+      :regular true}}
+
+ ]
 

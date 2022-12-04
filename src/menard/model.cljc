@@ -408,7 +408,7 @@
             (log/info (str "loaded model: " (:name @model))))
           (catch Exception e (do
                                (log/info (str "Failed to load model; the error was: '" (str e) "'. Will keep current model as-is and wait 10 seconds and see if it's fixed then."))))))
-     (if (nil? @model)
+     (when (nil? @model)
        (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
      @model))
 

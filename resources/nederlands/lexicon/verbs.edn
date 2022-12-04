@@ -413,6 +413,20 @@
                    :subj {:ref {:human? true}}
                    :obj {:ref {:human? false}}}
              :exceptions exceptions}])
+
+ "willen" ;; F. 40.1
+ (let [exceptions [{:infl :present
+                    :agr {:number :sing}
+                    :surface "wil"}
+                   {:infl :present
+                    :agr {:number :sing
+                          :person :2nd}
+                    :surface "wilt"}]]
+   [{:curriculum :basic
+     :exceptions exceptions
+     :modal :infinitive
+     :sem {:pred :want}}])
+
  "vallen" [{:strong? :a-ie-a
             :sem {:pred :fall
                   :obj :none}}]

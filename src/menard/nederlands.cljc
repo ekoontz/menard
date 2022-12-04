@@ -14,9 +14,7 @@
             #?(:clj [clojure.java.io :as io :refer [resource]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
-            [menard.model :as model :refer [current-ms
-                                            get-info-of-files
-                                            load-model]]
+            [menard.model :refer [load-model]]
             [menard.morphology :as m]
             [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.nederlands.tenses :as tenses]

@@ -230,19 +230,20 @@
                   :obj :none}}]
  "maken" [{:sem {:pred :make}}]
 
- "moeten" ;; F. 40.1
+ "mogen" ;; F. 40.1
  (let [exceptions [{:infl :present
                     :agr {:number :sing}
-                    :surface "moet"}
-
-                   {:infl :present
-                    :agr {:number :plur}
-                    :surface "moeten"}]]
-
+                    :surface "mag"}]]
    [{:curriculum :basic
      :exceptions exceptions
      :modal :infinitive
-     :sem {:pred :must}}])
+     :sem {:pred :be-allowed}}])
+
+ "moeten" ;; F. 40.1
+ [{:curriculum :basic
+   :exceptions exceptions
+   :modal :infinitive
+   :sem {:pred :must}}]
 
  "niezen" [{:sem {:pred :sneeze
                   :obj :none}}]

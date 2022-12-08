@@ -157,7 +157,7 @@
  "play" [{:sem {:pred :play}}]
  "plumber" [{:sem {:pred :plumber}}]
  "point" [{:sem {:pred :point}}]
- "policy" [{:sem {:pred :policy}}] 
+ "policy" [{:sem {:pred :policy}}]
  "pond" [{:sem {:pred :pond}}]
  "predator" [{:sem {:pred :predator}}]
  "prediction" [{:sem {:pred :prediction}}]

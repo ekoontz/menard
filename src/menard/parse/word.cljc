@@ -14,7 +14,7 @@
                                    (clojure.string/join " "
                                                         (subvec token-vector left right))]
                                (when (seq (lookup-fn possible-word))
-                                 (log/info (str " found word: " possible-word))
+                                 (log/debug (str " found word: " possible-word))
                                  [[left right]
                                   {:surface possible-word}])))))))))
 
@@ -38,24 +38,24 @@
   (->> (keys wm)
        (filter #(= (last %) i))
        (map (fn [k]
-              (log/info (str "get-paths-at with k: " k "; i: " i))
+              (log/debug (str "get-paths-at with k: " k "; i: " i))
               (concat (first (get-paths-at wm (first k)))
                       [(:surface (get wm k))])))))
 
 (defn add-subgraph [input i wm]
   (let [paths (get-paths-at wm i)]
-    (log/info (str "add-subgraph: i= " i "; paths at: " (vec paths)))
+    (log/debug (str "add-subgraph: i= " i "; paths at: " (vec paths)))
     (if (seq (rest paths))
       (let [retval
             (reduce u/unify!
                     (cons input
                           (get-to paths)))]
-        (log/info (str "retval: " (u/pprint retval)))
+        (log/debug (str "retval: " (u/pprint retval)))
         retval)
       input)))
 
 (defn graph- [input wm i token-vector-count]
-  (log/info (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i))
+  (log/debug (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i))
   (if (< i (+ 1 token-vector-count))
     (-> input
         (add-subgraph i wm)
@@ -73,17 +73,16 @@
   paths through the vector where each arc in the graph is a word."
   [input-string split-on lookup-fn max-word-length-in-tokens]
   (let [token-vector (-> input-string
-                         (clojure.string/split split-on))]
+                         (clojure.string/split split-on))
+        word-map (word-map token-vector lookup-fn max-word-length-in-tokens)]
+    (log/debug (str "word-map: " word-map))
     (-> (basic token-vector)
-        (graph- (word-map token-vector lookup-fn max-word-length-in-tokens)
-                0
-                (count token-vector)))))
+        (graph- word-map 0 (count token-vector)))))
 
 (defn groupings
   "Given a string, return all possible word groupings."
   [input-string split-on lookup-fn max-word-length-in-tokens]
-  (let [graph
-        (graph input-string split-on lookup-fn max-word-length-in-tokens)]
-    (log/info (str "groupings graph: " (u/pprint graph)))
+  (let [graph (graph input-string split-on lookup-fn max-word-length-in-tokens)]
+    (log/debug (str "groupings graph: " (u/pprint graph)))
     (u/paths graph)))
 

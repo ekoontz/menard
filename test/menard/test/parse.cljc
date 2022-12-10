@@ -36,18 +36,15 @@
 ;; </mock-data>
 
 ;; <tests>
-;;(deftest word-graph-test-1
+(deftest word-graph-test-1
   ;; TODO: add more tests for the graph
-;;  (is (map? (word/graph expression-1 split-on lookup-fn-1 max-word-length-in-tokens))))
+  (is (map? (word/graph expression-1 split-on lookup-fn-1 max-word-length-in-tokens))))
 
 (deftest word-groupings-test-1
   (let [found-groupings (word/groupings expression-1 split-on lookup-fn-1 max-word-length-in-tokens)]
-    (log/info (str "FOUND GROUPINGS: " (vec found-groupings)))
     (is (= (count found-groupings) 4))))
 
 (deftest word-groupings-test-2
   (let [found-groupings (word/groupings expression-2 split-on lookup-fn-2 max-word-length-in-tokens)]
-    (log/info (str "found-groupings: " found-groupings))
     (is (= (count found-groupings) 2))))
-
 ;; </tests>

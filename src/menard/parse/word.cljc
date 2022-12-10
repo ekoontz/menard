@@ -13,7 +13,8 @@
                              (let [possible-word
                                    (clojure.string/join " "
                                                         (subvec token-vector left right))]
-                               (if (seq (lookup-fn possible-word))
+                               (when (seq (lookup-fn possible-word))
+                                 (log/info (str " found word: " possible-word))
                                  [[left right]
                                   {:surface possible-word}])))))))))
 
@@ -36,18 +37,25 @@
   [wm i]
   (->> (keys wm)
        (filter #(= (last %) i))
-       (map (fn [k] (concat (first (get-paths-at wm (first k)))
-                            [(:surface (get wm k))])))))
+       (map (fn [k]
+              (log/info (str "get-paths-at with k: " k "; i: " i))
+              (concat (first (get-paths-at wm (first k)))
+                      [(:surface (get wm k))])))))
 
 (defn add-subgraph [input i wm]
   (let [paths (get-paths-at wm i)]
+    (log/info (str "add-subgraph: i= " i "; paths at: " (vec paths)))
     (if (seq (rest paths))
-      (reduce u/unify!
-              (cons input
-                    (get-to paths)))
+      (let [retval
+            (reduce u/unify!
+                    (cons input
+                          (get-to paths)))]
+        (log/info (str "retval: " (u/pprint retval)))
+        retval)
       input)))
 
 (defn graph- [input wm i token-vector-count]
+  (log/info (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i))
   (if (< i token-vector-count)
     (-> input
         (add-subgraph i wm)
@@ -74,4 +82,8 @@
 (defn groupings
   "Given a string, return all possible word groupings."
   [input-string split-on lookup-fn max-word-length-in-tokens]
-  (u/paths (graph input-string split-on lookup-fn max-word-length-in-tokens)))
+  (let [graph
+        (graph input-string split-on lookup-fn max-word-length-in-tokens)]
+    (log/info (str "groupings graph: " (u/pprint graph)))
+    (u/paths graph)))
+

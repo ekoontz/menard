@@ -150,29 +150,25 @@
            (mapcat (fn [surface]
                      (l/matching-lexemes surface lexicon morphology)))))))
 
+(defn resolve-model [model]
+  (cond (= (type model) clojure.lang.Ref) @model
+        (map? model)                      model
+        :else                             (exception (str "invalid model: " model))))
+
 ;; TODO: consider setting p/truncate? false here in (defn parse)
 ;; to improve performance:
 (defn parse [expression & [model]]
-  (let [model (or model complete/model)
-        model (cond (= (type model) clojure.lang.Ref)
-                    @model
-                    (map? model)
-                    model
-                    
-                    :else
-                    (let [error-message (str "menard.english/parse: invalid model: " model)]
-                      (log/error error-message)
-                      (exception error-message)))]
-    (if (map? model)
-      (log/info (str "menard.english/parse with model name: "
-                     (-> model :name)))
-      (let [error-message (str "menard.english/parse: model is not a map as expected!")]
-        (log/error error-message)
-        (exception error-message)))
+  (let [model (resolve-model (or model complete/model))]
+    (log/info (str "menard.english/parse with model name: "
+                   (-> model :name)))
     (let [truncate? true]
       (->
        expression
        (p/parse (-> model :grammar) #(analyze % model) syntax-tree morph split-on truncate?)))))
+
+;;(defn parses [expression & [model]]
+;;  (->
+;;   (p/parse-in-stages 
 
 (defn parse-start [expression & [model]]
   (let [model (or model complete/model)

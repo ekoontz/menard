@@ -108,8 +108,8 @@
                         (-> source-expression
                             en/morph
                             (en/parse source-model)))
-        debug (log/debug (str "source parses:"
-                              (->> source-parses
+        debug (log/info (str "source parses:"
+                             (->> source-parses
                                    (map en/syntax-tree)
                                    (clojure.string/join ","))))
         warn (if (empty? source-parses)

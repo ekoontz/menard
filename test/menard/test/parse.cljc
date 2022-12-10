@@ -6,8 +6,12 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+(def split-on #"[ ]")
+(def max-word-length-in-tokens 3)
+
 ;; <mock data>
-(defn lookup-fn [input-string]
+(def expression-1 "The White House Press Corps Dinner")
+(defn lookup-fn-1 [input-string]
   (cond
     (or (= input-string "The")
         (= input-string "White")
@@ -19,17 +23,31 @@
         (= input-string "Press Corps"))
     [{:top :top}]
     :else []))
-(def expression "The White House Press Corps Dinner")
-(def split-on #"[ ]")
-(def max-word-length-in-tokens 3)
+
+(def expression-2 "the hiding place")
+(defn lookup-fn-2 [input-string]
+  (cond
+    (or (= input-string "the")
+        (= input-string "hiding")
+        (= input-string "place")
+        (= input-string "hiding place"))
+    [{:top :top}]
+    :else []))
 ;; </mock-data>
 
 ;; <tests>
-(deftest word-graph-test
+;;(deftest word-graph-test-1
   ;; TODO: add more tests for the graph
-  (is (map? (word/graph expression split-on lookup-fn max-word-length-in-tokens))))
+;;  (is (map? (word/graph expression-1 split-on lookup-fn-1 max-word-length-in-tokens))))
 
-(deftest word-groupings-test
-  (is (seq (word/groupings expression split-on lookup-fn max-word-length-in-tokens))))
+(deftest word-groupings-test-1
+  (let [found-groupings (word/groupings expression-1 split-on lookup-fn-1 max-word-length-in-tokens)]
+    (log/info (str "FOUND GROUPINGS: " (vec found-groupings)))
+    (is (= (count found-groupings) 4))))
+
+(deftest word-groupings-test-2
+  (let [found-groupings (word/groupings expression-2 split-on lookup-fn-2 max-word-length-in-tokens)]
+    (log/info (str "found-groupings: " found-groupings))
+    (is (= (count found-groupings) 2))))
 
 ;; </tests>

@@ -56,7 +56,7 @@
 
 (defn graph- [input wm i token-vector-count]
   (log/info (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i))
-  (if (< i token-vector-count)
+  (if (< i (+ 1 token-vector-count))
     (-> input
         (add-subgraph i wm)
         (graph- wm (+ 1 i) token-vector-count))

@@ -241,7 +241,6 @@
 
  "moeten" ;; F. 40.1
  [{:curriculum :basic
-   :exceptions exceptions
    :modal :infinitive
    :sem {:pred :must}}]
 

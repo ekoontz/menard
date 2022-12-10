@@ -56,10 +56,10 @@
                  :surface (nl/morph structure)}))
              ((fn [{surface :surface
                     structure :structure}]
-                (log/info (str surface " : " (nl/syntax-tree structure)))
+                (log/debug (str surface " : " (nl/syntax-tree structure)))
                 (if intermediate-parsing?
                   (do
-                    (log/info (str "calling nl/parse on:'" surface "'"))
+                    (log/debug (str "calling nl/parse on:'" surface "'"))
                     (-> (->> (nl/parse surface)
                              ;; remove partial parses, if any:
                              (filter #(not (= true (:menard.parse/partial? %))))
@@ -83,7 +83,7 @@
              ((fn [{surface :surface
                     structure :structure
                     syntax-tree :syntax-tree}]
-                (log/info (str "checking result of nl/parse: " (nl/syntax-tree structure)))
+                (log/debug (str "checking result of nl/parse: " (nl/syntax-tree structure)))
                 (if (nil? structure)
                   (log/warn (str "couldn't parse: '" surface "' input tree was: " syntax-tree)))
                 (is (not (nil? structure)))

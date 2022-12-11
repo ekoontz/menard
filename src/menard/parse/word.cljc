@@ -50,18 +50,18 @@
     retval))
 
 (defn add-subgraph [input i wm]
-  (let [paths (get-paths-at wm i)]
-    (log/debug (str "add-subgraph: input: " input "; i: " i "; paths: " (vec paths)))
-    (if (seq paths)
-      (let [retval
-            (reduce u/unify!
-                    (cons input
-                          (get-to paths)))]
-        (log/debug (str "add-subgraph result: " (u/pprint retval)))
-        retval)
-      (do
-        (log/debug (str "add-subgraph simply returning input: " input))
-        input))))
+  (let [paths (get-paths-at wm i)
+        arguments (cons input (get-to paths))
+        retval (if (seq (rest arguments))
+                 (reduce u/unify! arguments)
+                 input)]
+      (log/debug (str "add-subgraph: input: " (u/pprint input) "; "
+                      "i: " i "; "
+                      "paths: " (vec paths) "; "
+                      (if (seq (rest arguments))
+                        (str "arguments: " (->> arguments (map u/pprint) vec) "; "))
+                      "return value: " (u/pprint retval)))
+      retval))
 
 (defn graph- [input wm i token-vector-count]
   (if (< i (+ 1 token-vector-count))

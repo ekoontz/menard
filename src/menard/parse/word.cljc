@@ -34,7 +34,11 @@
 (defn get-to
   "example:
 
-    (get-to [[:a :b :c][:d :e][:f]) =>
+    (get-to [[:a :b :c]
+             [:d :e]
+             [:f])
+
+                   =>
 
     {:a {:b {:c [[1] :top]}}
      :d {:e [1]}

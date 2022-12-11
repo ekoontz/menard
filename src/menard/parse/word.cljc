@@ -63,15 +63,15 @@
 
 (defn add-subgraph [input i wm]
   (let [paths (get-paths-at wm i)
-        arguments (cons input (get-to paths))
-        retval (if (seq (rest arguments))
-                 (reduce u/unify! arguments)
+        graphs (cons input (get-to paths))
+        retval (if (seq (rest graphs))
+                 (reduce u/unify! graphs)
                  input)]
       (log/debug (str "add-subgraph: input: " (u/pprint input) "; "
                       "i: " i "; "
                       "paths: " (vec paths) "; "
-                      (if (seq (rest arguments))
-                        (str "arguments: " (->> arguments (map u/pprint) vec) "; "))
+                      (if (seq (rest graphs))
+                        (str "graphs: " (->> graphs (map u/pprint) vec) "; "))
                       "return value: " (u/pprint retval)))
       retval))
 

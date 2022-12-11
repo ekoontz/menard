@@ -33,9 +33,20 @@
         (= input-string "hiding place"))
     [{:top :top}]
     :else []))
+
+;; in this case, suppose that although "boot" and "rain boot" are words in the lexicon,
+;; "rain" by itself is not:
+(def expression-3 "the rain boot")
+(defn lookup-fn-3 [input-string]
+  (cond
+    (or (= input-string "the")
+        (= input-string "boot")
+        (= input-string "rain boot"))
+    [{:top :top}]
+    :else []))
+
 ;; </mock-data>
 
-;; <tests>
 (deftest word-graph-test-1
   ;; TODO: add more tests for the graph
   (is (map? (word/graph expression-1 split-on lookup-fn-1 max-word-length-in-tokens))))
@@ -47,4 +58,8 @@
 (deftest word-groupings-test-2
   (let [found-groupings (word/groupings expression-2 split-on lookup-fn-2 max-word-length-in-tokens)]
     (is (= (count found-groupings) 2))))
-;; </tests>
+
+(deftest word-groupings-test-3
+  (let [found-groupings (word/groupings expression-3 split-on lookup-fn-3 max-word-length-in-tokens)]
+    (is (= (count found-groupings) 3))))
+

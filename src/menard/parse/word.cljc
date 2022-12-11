@@ -18,6 +18,11 @@
                                  [[left right]
                                   {:surface possible-word}])))))))))
 
+(defn word-map [token-vector lookup-fn max-word-length-in-tokens]
+  (->> (get-possible-words token-vector lookup-fn max-word-length-in-tokens)
+       (remove nil?)
+       (into {})))
+
 (defn get-to- [path val]
   (if (seq (rest path))
     {(first path) (get-to- (rest path) val)}
@@ -35,12 +40,14 @@
 (defn get-paths-at
   "find all paths at position _i_"
   [wm i]
-  (->> (keys wm)
-       (filter #(= (last %) i))
-       (map (fn [k]
-              (log/debug (str "get-paths-at with k: " k "; i: " i))
-              (concat (first (get-paths-at wm (first k)))
-                      [(:surface (get wm k))])))))
+  (let [retval
+        (->> (keys wm)
+             (filter #(= (last %) i))
+             (map (fn [k]
+                    (concat (first (get-paths-at wm (first k)))
+                            [(:surface (get wm k))]))))]
+    (log/debug (str "get-paths-at: wm: " wm "; i: " i "; keys: " (vec (keys wm)) "; returning: " (vec retval)))
+    retval))
 
 (defn add-subgraph [input i wm]
   (let [paths (get-paths-at wm i)]
@@ -50,22 +57,20 @@
             (reduce u/unify!
                     (cons input
                           (get-to paths)))]
-        (log/debug (str "retval: " (u/pprint retval)))
+        (log/debug (str "add-subgraph result: " (u/pprint retval)))
         retval)
-      input)))
+      (do
+        (log/debug (str "add-subgraph simply returning input: " input))
+        input))))
 
 (defn graph- [input wm i token-vector-count]
-  (log/debug (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i))
   (if (< i (+ 1 token-vector-count))
-    (-> input
-        (add-subgraph i wm)
-        (graph- wm (+ 1 i) token-vector-count))
-    input))
-
-(defn word-map [token-vector lookup-fn max-word-length-in-tokens]
-  (->> (get-possible-words token-vector lookup-fn max-word-length-in-tokens)
-       (remove nil?)
-       (into {})))
+    (let [subgraph (add-subgraph input i wm)]
+      (log/debug (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i "; subgraph: " (u/pprint subgraph)))
+      (graph- subgraph wm (+ 1 i) token-vector-count))
+    (do
+      (log/debug (str "graph- with input: " (u/pprint input) "; wm: " wm "; i: " i "; returning: " (u/pprint input)))      
+      input)))
 
 (defn graph
   "Given a string, tokenize it into a vector of tokens,
@@ -85,4 +90,3 @@
   (let [graph (graph input-string split-on lookup-fn max-word-length-in-tokens)]
     (log/debug (str "groupings graph: " (u/pprint graph)))
     (u/paths graph)))
-

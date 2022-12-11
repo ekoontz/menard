@@ -44,8 +44,8 @@
 
 (defn add-subgraph [input i wm]
   (let [paths (get-paths-at wm i)]
-    (log/debug (str "add-subgraph: i= " i "; paths at: " (vec paths)))
-    (if (seq (rest paths))
+    (log/debug (str "add-subgraph: input: " input "; i: " i "; paths: " (vec paths)))
+    (if (seq paths)
       (let [retval
             (reduce u/unify!
                     (cons input

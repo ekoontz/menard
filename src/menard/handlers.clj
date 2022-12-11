@@ -153,9 +153,8 @@
            :target-root (-> target-expression (u/get-in [:head :root] :top))
            :source-sem (map dag-to-string source-semantics)}]
       (when (empty? source-expression)
-        (log/error (str "failed to generate a source expression using source model with name: '" (-> source-model :name) "' for spec: " spec "; target expression: "
-                        (nl/syntax-tree target-expression)))
-        (log/error (str " tried to generate from: "
+        (log/warn (str "failed to generate a source expression using source model with name: '" (-> source-model :name) "' for spec: " spec "; target expression: "
+                        (nl/syntax-tree target-expression) "; tried to generate from: "
                         (dag_unify.serialization/serialize (-> target-expression tr/nl-to-en-spec)))))
       (log/debug (str "generate-nl: returning result: " result))
       result)))

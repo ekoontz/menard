@@ -128,6 +128,7 @@
  "short" [{:sem {:pred :short}}] 
  "shy" [{:sem {:pred :shy}}]
  "silly" [{:sem {:pred :silly}}]
+ "similar" [{:sem {:pred :similar}}]
  "simple" [{:sem {:pred :simple}}]
  "small" [{:sem {:pred :small}}]
  "smart" [{:sem {:pred :smart}}]

@@ -115,7 +115,8 @@
  "vernuftig" [{:sem {:pred :clever}}] 
  "verrast" [{:sem {:pred :surprised}}]
  "verdrietig" [{:sem {:pred :sad}}]
- "vergelijkbaar" [{:sem {:pred :comparable}}]
+ "vergelijkbaar" [{:sem {:pred :comparable}}
+                  {:sem {:pred :similar}}]
  "verlegen" [{:sem {:pred :shy}}]
  "verschrikkelijk" [{:sem {:pred :terrifying}}]
  "verward" [{:sem {:pred :confused}}]

@@ -28,6 +28,7 @@
  "fatsoenlijk" [{:sem {:pred :decent}}]
  "fleurig" [{:sem {:pred :bright}}]
  "fraai" [{:sem {:pred :beautiful}}]
+ "gek" [{:sem {:pred :crazy}}]
  "gaaf" [{:sem {:pred :cool}}]
  "geheim" [{:sem {:pred :secret}}]
  "geinig" [{:sem {:pred :amusing}}]

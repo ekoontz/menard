@@ -260,6 +260,20 @@
           menard.ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           ]}
 
+ {:rule "s-interrog"
+  :cat :verb
+  :subcat []
+  :sem {:mood :interog}
+  :options menard.nederlands.tenses/finite-tenses  
+  :unify [menard.subcat/a
+          menard.ug/head-aux
+          menard.ug/head-is-root
+          menard.ug/head-first
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
+          ]}
+ 
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
   :aux? false

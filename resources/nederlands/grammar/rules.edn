@@ -1,0 +1,5 @@
+[
+ {:rule :mood
+  :if {:sem {:mood ::none}}
+  :then [{:sem {:mood :decl}}]}
+]

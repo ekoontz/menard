@@ -72,8 +72,24 @@
     (log/info (str "warn-rules-by-catness: output-grammar: " (count output-grammar) " rules."))
     output-grammar))
 
-(defn process [grammar & [do-not-eval?]]
-  (log/info (str "process: input rules: " (count grammar) " do-not-eval? " do-not-eval?))
+(defn apply-processing-rules-to [rule processing-rules]
+  (log/debug (str "looking at rule: " (:rule rule) " and applying this many processing-rules: " (count processing-rules)))
+  (->> processing-rules
+       (mapcat (fn [processing-rule]
+                 (let [{processing-rule-name :rule
+                        antecedent :if
+                        consequents :then} processing-rule
+                       result-if (unify rule antecedent)]
+                   (if (not (= :fail result-if))
+                     (->>
+                      consequents
+                      (map (fn [consequent]
+                             (unify rule consequent)))
+                      (remove #(= :fail %)))
+                     [rule]))))))
+
+(defn process [grammar & [grammar-processing-rules]]
+  (log/info (str "PROCESSING THE RULES: " (count grammar)))
   (->> grammar
 
        ;; each member of :unify in a rule is a symbol.
@@ -82,11 +98,19 @@
        (map #(reduce unify
                      (cons (dissoc % :unify)
                            (map (fn [each]
-                                  (if do-not-eval? each (eval each)))
+                                  (eval each))
                                 (:unify %)))))
        process-options
        filter-rules-by-firstness
        warn-rules-by-catness
+       
+       (mapcat #(if (seq grammar-processing-rules)
+                  ;; some processing rules: apply each to this grammar rule:
+                  (apply-processing-rules-to % grammar-processing-rules)
+
+                  ;; no processing rules: just return the gramamr rule:
+                  [%]))
+       
        (remove #(= :fail %))
        (map #(u/assoc-in % [:phrasal?] true))
        (map #(u/assoc-in % [:menard.generate/started?] true))))

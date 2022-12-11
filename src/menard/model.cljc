@@ -134,14 +134,19 @@
            source-files))))
 
 #?(:clj
-   (defn load-grammar-from-file [path]
+   (defn load-grammar-from-file [path & [processing-rules-path]]
      (-> (use-path path)
          grammar/read-grammar-fn
-         grammar/process)))
+         (grammar/process
+          (if processing-rules-path
+            (-> processing-rules-path
+                use-path
+                grammar/read-grammar-fn))))))
 
 #?(:clj
    (defn load-grammar [spec]
-     (load-grammar-from-file (-> spec :grammar))))
+     (log/info (str "LOOKING FOR GRAMMAR IN: " spec))
+     (load-grammar-from-file (-> spec :grammar) (-> spec :grammar-rules))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]
@@ -399,7 +404,7 @@
 
 #?(:clj
    (defn load-model [model & [reload?]]
-      (when (or (nil? @model) (true? reload?))
+     (when (or (nil? @model) (true? reload?))
         (try
           (log/info (str (when @model "re") "loading model: " (:name @model)))
           (let [loaded (create-model-from-filesystem (:spec @model))]
@@ -411,7 +416,6 @@
      (when (nil? @model)
        (log/error (str "load-model: model couldn't be loaded. Tried both built-in jar and filesystem.")))
      @model))
-
 
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model

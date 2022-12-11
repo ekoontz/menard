@@ -6,7 +6,8 @@
                         "nouns.edn"
                         "verbs.edn"
                         "verbs/simple-past.edn"]}
- :grammar "nederlands/grammar.edn"
+ :grammar "nederlands/grammar/grammar.edn"
+ :grammar-rules "nederlands/grammar/rules.edn" 
  :lexicon {:path "nederlands/lexicon"
            :rules "rules.edn"
            :sources {"adjectives.edn"

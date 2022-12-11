@@ -31,7 +31,15 @@
 (defn basic [token-vector]
   (get-to- token-vector :top))
 
-(defn get-to [paths]
+(defn get-to
+  "example:
+
+    (get-to [[:a :b :c][:d :e][:f]) =>
+
+    {:a {:b {:c [[1] :top]}}
+     :d {:e [1]}
+     :f [1]}"
+  [paths]
   (let [ref (atom :top)]
     (map (fn [path]
            (get-to- path ref))

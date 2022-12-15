@@ -127,6 +127,8 @@
  "verradelijk" [{:sem {:pred :treacherous}}]
  "vervelend" [{:sem {:pred :annoying}}]
  "vies" [{:sem {:pred :dirty}}]
+ "voordelig" [{:sem {:pred :useful}}
+              {:sem {:pred :profitable}}]
  "vreselijk" [{:sem {:pred :horrible}}]
  "vriendelijk" [{:sem {:pred :friendly}}]
  "vroeg" [{:sem {:pred :early}}]

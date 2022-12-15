@@ -110,6 +110,7 @@
  "poignant" [{:sem {:pred :poignant}}]
  "political" [{:sem {:pred :political}}]
  "possible" [{:sem {:pred :possible}}]
+ "profitable" [{:sem {:pred :profitable}}] 
  "public" [{:sem {:pred :public}}]
  "real" [{:sem {:pred :real}}]
  "recent" [{:sem {:pred :recent}}]

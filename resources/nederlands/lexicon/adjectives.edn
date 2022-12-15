@@ -126,6 +126,7 @@
  "verknocht" [{:sem {:pred :devoted}}]
  "verradelijk" [{:sem {:pred :treacherous}}]
  "vervelend" [{:sem {:pred :annoying}}]
+ "verwend" [{:sem {:pred :spoiled}}] 
  "vies" [{:sem {:pred :dirty}}]
  "voordelig" [{:sem {:pred :useful}}
               {:sem {:pred :profitable}}]

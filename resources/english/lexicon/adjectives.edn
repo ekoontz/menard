@@ -154,6 +154,7 @@
  "thick" [{:sem {:pred :thick}}]
  "threatening" [{:sem {:pred :threatening}}]
  "thrifty" [{:sem {:pred :frugal}}]
+ "treacherous" [{:sem {:pred :treacherous}}]
  "true" [{:sem {:pred :true}}]
  "unusual" [{:sem {:pred :unusual}}]
  "useful" [{:sem {:pred :useful}}]

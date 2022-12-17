@@ -89,7 +89,7 @@
                      [rule]))))))
 
 (defn process [grammar & [grammar-processing-rules]]
-  (log/info (str "PROCESSING THE RULES: " (count grammar)))
+  (log/info (str "grammar/process on " (count grammar) (if (not (= (count grammar) 1)) "s") "."))
   (->> grammar
 
        ;; each member of :unify in a rule is a symbol.

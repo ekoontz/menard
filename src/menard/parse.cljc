@@ -17,7 +17,7 @@
 
 ;; modify this to log specific parse rules e.g.
 ;; (def log-these-rules #{"np:1" "np:2" "nbar"}).
-(def log-these-rules #{})
+(def log-these-rules #{"s-interrog"})
 
 (def fail-counter 0)
 (def succeed-counter 0)
@@ -215,7 +215,7 @@
                                                   (summary comp-child))))))
 
                        (map (fn [comp-child]
-                              (overc-compact parent-with-head comp-child syntax-tree)))
+                              (overc parent-with-head comp-child syntax-tree)))
                        (remove #(= :fail %))))))))))
 
    flatten

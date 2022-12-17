@@ -127,10 +127,10 @@
 
  {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :options menard.english.tenses/tenses
-  :head {:aux false}
+  :head {:aux? false}
   :unify [menard.ug/head-first
           menard.ug/head-is-root
           menard.ug/head-reflexive

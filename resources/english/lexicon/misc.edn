@@ -31,7 +31,7 @@
                           :sem sem
                           :slash? slash
                           :subcat {:1 {:cat :verb
-                                       :aux false
+                                       :aux? false
                                        :sem sem
                                        :slash? slash}
                                    :2 []}}

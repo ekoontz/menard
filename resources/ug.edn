@@ -26,8 +26,8 @@
 
  (let [aux (atom :top)]
    {:def 'head-aux
-    :aux aux
-    :head {:aux aux}})
+    :aux? aux
+    :head {:aux? aux}})
 
   (let [head (atom :top)
         comp (atom :top)]

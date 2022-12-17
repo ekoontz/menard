@@ -74,7 +74,7 @@
  {:rule :subcat-frames-nonmodal-1
   :if {:cat :verb
        :modal false
-       :aux false
+       :aux? false
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
              :obj ::unspec}}
@@ -122,7 +122,7 @@
  {:rule :subcat-frames-intransitive
   :if {:cat :verb
        :modal false
-       :aux false
+       :aux? false
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
              :obj :none}}
@@ -157,7 +157,7 @@
  {:rule :subcat-frames-modal-base
   :if {:cat :verb
        :modal :base
-       :aux false}
+       :aux? false}
   :then [(let [subj (atom :top)]
            {:sem {:subj subj}
             :subcat {:1 {:sem subj}}})]}
@@ -165,15 +165,15 @@
  {:rule :subcat-frames-modal-infinitive
   :if {:cat :verb
        :modal :infinitive
-       :aux false}
+       :aux? false}
   :then [(let [subj (atom :top)]
            {:sem {:subj subj}
             :subcat {:1 {:sem subj}}})]}
  
- {:rule :aux-default-is-false
+ {:rule :aux?-default-is-false
   :if {:cat :verb
-       :aux ::unspec}
-  :then [{:aux false}]}
+       :aux? ::unspec}
+  :then [{:aux? false}]}
 
  ;; <non-inflecting rules>
  ;;
@@ -345,7 +345,7 @@
               :inflected? true
               :sem {:subj subj
                     :obj obj}
-              :subcat {:2 {:aux false
+              :subcat {:2 {:aux? false
                            :infl :base
                            :cat :verb
                            :modal false
@@ -363,9 +363,9 @@
                                     ;; satisfied ("see it").
                                     :2 []
                                     }}}})]}
- {:rule :aux-verbs
+ {:rule :aux?-verbs
   :if {:cat :verb
-       :aux true
+       :aux? true
        :subcat {:1 {:cat :noun}}}
   :then (let [agr (atom :top)
               subject (atom {:agr agr
@@ -534,7 +534,7 @@
 
  {:rule :aux-verbs-with-verb-arg
   :if {:cat :verb
-       :aux true
+       :aux? true
        :subcat {:2 {:cat :verb}}}
   :then (let [agr (atom :top)
               sem (atom :top)
@@ -547,7 +547,7 @@
                :modal false
                :reflexive? reflexive
                :slash? false
-               :aux false
+               :aux? false
                :cat :verb
                :sem sem
                :subcat {:1 subject
@@ -557,7 +557,7 @@
                :modal false
                :reflexive? reflexive
                :slash? true
-               :aux false
+               :aux? false
                :cat :verb
                :sem sem
                :subcat {:1 subject

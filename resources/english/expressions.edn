@@ -3,7 +3,7 @@
  {:rule "np:2" ;; the big cat
   :head {:phrasal? true}}
  {:rule "s"
-  :aux false
+  :aux? false
   :comp {:rule "np:2"
          :agr {:person :3rd}
          :head {:phrasal? false}

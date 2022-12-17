@@ -32,7 +32,7 @@
             :exceptions exceptions})
          { ;; "is sleeping"
           :sense 4
-          :aux true
+          :aux? true
           :infl :present
           :sem {:tense :present
                 :aspect :progressive}
@@ -40,7 +40,7 @@
           :exceptions exceptions}
          { ;; "is" (aux sense)
           :sense 5
-          :aux true
+          :aux? true
           :infl :present
           :sem {:tense :present
                 :aspect :progressive
@@ -49,7 +49,7 @@
           :exceptions exceptions}
          { ;; "was sleeping"
           :sense 6
-          :aux true
+          :aux? true
           :infl :past-simple
           :sem {:tense :past
                 :aspect :progressive}
@@ -57,7 +57,7 @@
           :exceptions exceptions}
          { ;; "was" (aux sense)
           :sense 7
-          :aux true
+          :aux? true
           :infl :past-simple
           :sem {:tense :past
                 :aspect :progressive
@@ -143,14 +143,14 @@
          {:agr agr
           :exceptions exceptions
           
-          :aux true
+          :aux? true
           :infl :present
           :derivation {:sense 2}
           :sem {:aspect :habitual
                 :tense :present
                 :mood :interog}
           :subcat {:1 {:cat :verb
-                       :aux false
+                       :aux? false
                        :agr agr
                        :rule "s-comp"
                        :phrasal? true
@@ -165,12 +165,12 @@
            {:agr agr
             :exceptions exceptions
             
-            :aux true
+            :aux? true
             :infl :past-simple
             :derivation {:sense 3}
             :sem sem
             :subcat {:1 {:cat :verb
-                         :aux false
+                         :aux? false
                          :agr agr
                          :rule "s-comp"
                          :phrasal? true
@@ -187,13 +187,13 @@
             :exceptions exceptions
             
             :reflexive? false
-            :aux true
+            :aux? true
             :infl :past-simple
             :derivation {:sense 4}
             :sem sem
             :subcat {:1 {:cat :verb
                          :slash? true
-                         :aux false
+                         :aux? false
                          :agr agr
                          :phrasal? true
                          :sem sem
@@ -209,13 +209,13 @@
             :exceptions exceptions
             
             :reflexive? false
-            :aux true
+            :aux? true
             :infl :present
             :derivation {:sense 5}
             :sem sem
             :subcat {:1 {:cat :verb
                          :slash? true
-                         :aux false
+                         :aux? false
                          :agr agr
                          :phrasal? true
                          :sem sem
@@ -305,14 +305,14 @@
                                   {:infl :past-simple :surface "had"}
                                   {:infl :past-participle :surface "had"}]]
           [{
-            ;; {:aux false} not needed because of rule: aux-default-is-false,
+            ;; {:aux? false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
-            :aux false
+            :aux? false
             :derivation {:sense 1}
             :sem {:pred :have}
             :exceptions non-aux-exceptions}
            {
-            :aux true
+            :aux? true
             :derivation {:sense 2}
             :sem {:tense :past
                   :obj :anaphor
@@ -320,21 +320,21 @@
             :subcat {:2 []}
             :exceptions aux-exceptions}
            {
-            :aux true
+            :aux? true
             :derivation {:sense 3}
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
            {
-            :aux true
+            :aux? true
             :derivation {:sense 4}
             :sem {:tense :past
                   :obj :anaphor
                   :aspect :pluperfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
-           {:aux true
+           {:aux? true
             :derivation {:sense 5}
             :sem {:tense :past
                   :aspect :pluperfect}
@@ -571,7 +571,7 @@
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:
  ;; {intrans,trans} x {decl,interog} = {intrans + decl, intrans + interog, trans + decl, trans + interog}
- "will" [{:aux true
+ "will" [{:aux? true
           :infl :present
           :inflected? true
           :sem {:tense :future}
@@ -582,14 +582,14 @@
            :sem {:obj :none
                  :tense :conditional}
            :subcat {:2 []}
-           :aux true
+           :aux? true
            :infl :present
            :inflected? true}
                   
           {:derivation {:sense 2}           
            :subcat {:2 {:cat :verb
                         :infl :base}}
-           :aux true
+           :aux? true
            :infl :present
            :inflected? true
            :sem {:tense :conditional}}
@@ -601,12 +601,12 @@
             {:derivation {:sense 3}
              :sem sem
              :subcat {:1 {:cat :verb
-                          :aux false
+                          :aux? false
                           :sem sem
                           :subcat []
                           :infl :base}
                       :2 []}
-             :aux true
+             :aux? true
              :infl :present
              :inflected? true})]
 

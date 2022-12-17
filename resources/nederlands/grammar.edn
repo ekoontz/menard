@@ -262,11 +262,11 @@
 
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :comp {:beginning-of-sentence? false}
-  :head {:aux false
+  :head {:aux? false
          :modal false}
 
   :unify [menard.subcat/c
@@ -280,10 +280,10 @@
  
  {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np .honden [vp-te +te .zien]]]
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
-  :head {:aux false
+  :head {:aux? false
          :modal :te}
   :comp {:rule "vp-np"}
   :unify [menard.subcat/c
@@ -298,10 +298,10 @@
 
  {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[+te slapen]]
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
-  :head {:aux false
+  :head {:aux? false
          :modal :te}
   :comp {:rule "vp-te"}
   :unify [menard.subcat/c
@@ -318,10 +318,10 @@
  ;; is copied up:
  {:rule "vp-infinitive" ;; [vp +moet .bestrijden]
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
-  :head {:aux false
+  :head {:aux? false
          :phrasal? false
          :modal :infinitive}
   :unify [menard.subcat/i
@@ -359,10 +359,10 @@
 
  {:rule "vp-np" ;; [vp-np .[np de kat] +[vp-te +te .zien]]
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :options menard.nederlands.tenses/inf-tense
-  :head {:aux false
+  :head {:aux? false
          :rule "vp-te"
          :phrasal? true}
   :unify [menard.subcat/c
@@ -376,7 +376,7 @@
 
  {:rule "vp-te" ;; '+te .slapen'
   :cat :verb
-  :aux false
+  :aux? false
   :slash? false
   :infl :te
   ;; TODO: should not need {:phrasal? false}

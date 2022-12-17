@@ -259,7 +259,7 @@
   :cat :verb
   :subcat []
   :sem {:mood :interog}
-  :options menard.nederlands.tenses/finite-tenses  
+  :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/a
           menard.ug/head-aux
           menard.ug/head-is-root

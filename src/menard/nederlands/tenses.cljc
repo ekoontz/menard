@@ -10,4 +10,3 @@
 (def finite-plus-inf-tense
   (concat finite-tenses
           inf-tense))
-

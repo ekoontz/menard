@@ -254,21 +254,19 @@
           menard.ug/head-sem
           menard.ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           ]}
-
- {:rule "s-interrog"
+ 
+ {:rule "s-interrog" ;; [s-interrog(:present-simple){+} +[modal+subject kan .hij] .[vp-object-inf{-} .mij +zien]]
   :cat :verb
+  :inverted-object? false
   :subcat []
-  :sem {:mood :interog}
   :options menard.nederlands.tenses/finite-tenses
-  :unify [menard.subcat/a
+  :unify [menard.subcat/a-comp-with-one-subcat
           menard.ug/head-aux
           menard.ug/head-is-root
           menard.ug/head-first
           menard.ug/head-rule
-          menard.ug/head-sem
-          menard.ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
-          ]}
- 
+          menard.ug/head-sem]}
+
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
   :options menard.nederlands.tenses/finite-plus-inf-tense
@@ -285,12 +283,12 @@
           menard.ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           menard.ug/slash-is-head-slash]}
 
- {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np .honden [vp-te +te .zien]]]
+ {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np-te .honden [vp-te +te .zien]]]
   :cat :verb
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux? false
          :modal :te}
-  :comp {:rule "vp-np"}
+  :comp {:rule "vp-np-te"}
   :unify [menard.subcat/c
           menard.ug/head-first
           menard.ug/head-infl
@@ -334,6 +332,27 @@
           menard.ug/head-sem
           menard.ug/nest-comp-mod
           menard.ug/slash-is-head-slash]}
+
+ {:rule "vp-object-inf" ;; [vp .mij +helpen]
+  :cat :verb
+  :aux false
+  :infl :infinitive
+  :sem {:tense :infinitive}
+
+  ;; prevent "slapen" in "er slaapt een kat"
+  ;; from matching as [vp ."de kat" +slapen]:
+  :subcat {:1 {:sem {:existential? false}}} 
+
+  :unify [menard.subcat/c
+          menard.ug/head-last
+          menard.ug/head-infl
+          menard.ug/head-is-root
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/sem-mod-is-empty
+          menard.ug/slash-is-head-slash
+          ]}
 
  {:rule "vp-ditransitive"
   :cat :verb

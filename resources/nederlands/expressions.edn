@@ -205,7 +205,8 @@
                                     :number? false}
                             :rest []}}}
         :obj :none}
-  :training-wheels {:agr {:person :3rd}
+  :training-wheels {:rule "s"
+                    :agr {:person :3rd}
                     :comp {:rule "np:2"
                            :head {:rule "nbar"
                                   :head {:rule "nbar"
@@ -341,9 +342,14 @@
         :subj {:person :1st}}
   :subcat []
   :head {:rule "vp-modal-np"
-         :comp {:rule "vp-np"
+         :comp {:rule "vp-np-te"
                 :head {:rule "vp-te"}}}
   :max-depth 5
+  :training-wheels {:rule "s"}
+  ;; can remove this as soon as:
+  ;; 1. s-interrog has:
+  ;;    {:mood interrogative}
+  ;; 2. we add that same :mood to this spec.
   :target {:rule "s"
            :comp {:cat :noun
                   :subcat []}

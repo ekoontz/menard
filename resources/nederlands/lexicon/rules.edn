@@ -193,7 +193,8 @@
        :sem {:obj ::unspec}}
   :then [{:derivation {:sense :intransitive}
           :subcat {:1 {:cat :noun
-                       :subcat []}}
+                       :subcat []}
+                   :2 []}
           :sem {:args :none
                 :obj :none}}
          {:derivation {:sense :transitive}
@@ -209,6 +210,7 @@
        :te? false
        :modal false
        :agr {:person :3rd}
+       :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
              :obj :none}}
   :then [;; 1. non-existential, intransitive:
@@ -310,7 +312,7 @@
  {:rule :subject-is-subcat-1
   :if {:cat :verb
        :subcat {:1 {:cat :noun
-                    :sem {:existential? ::unspec}}}}
+                    :sem {:existential? false}}}}
   :then [(let [person (atom :top)
                subj (atom {:person person})]
            {:agr {:person person}
@@ -395,7 +397,8 @@
   :if {:cat :verb
        :modal :infinitive
        :subcat {:2 {:top :top}}}
-  :then (let [subj (atom :top)
+  :then (let [agr (atom :top)
+              subj (atom :top)
               obj-with-subject-only (atom {:subj subj
                                            :obj :none})
               obj-with-subject-and-object (atom {:subj subj
@@ -404,15 +407,21 @@
           [
            ;; intransitive "ik kan"
            {:derivation {:sense :intransitive}
+            :rule-sense 1
+            :agr agr
             :sem {:subj subj
                   :obj :none}
-            :subcat {:2 []}}
+            :subcat {:1 {:agr agr}
+                     :2 []}}
 
            ;;  "ik kan fietsen"
            {:derivation {:sense :obj-with-subject-only}
+            :rule-sense 2
+            :agr agr
             :sem {:subj subj
                   :obj obj-with-subject-only}
-            :subcat {:2 {:aux? false
+            :subcat {:1 {:agr agr}
+                     :2 {:aux? false
                          :infl :infinitive
                          :cat :verb
                          :modal false
@@ -421,12 +430,14 @@
 
            ;;  "ik kan het zien"
            {:derivation {:sense :obj-with-subject-and-object}
+            :rule-sense 3
+            :agr agr
             :sem {:subj subj
                   :obj obj-with-subject-and-object}
-            :subcat {:2 {:aux? false
+            :subcat {:1 {:agr agr}
+                     :2 {:aux? false
                          :infl :infinitive
                          :cat :verb
-                         :modal false
                          :subcat {:1 {:sem subj}}
                          :sem obj-with-subject-and-object}}}])}
 

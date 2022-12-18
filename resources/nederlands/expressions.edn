@@ -383,13 +383,13 @@
               :mod {:first {:pred :together}}
               :pred :overcome}}
   :rule "s"
-  :head {:rule "vp-slash-object"
-         :head {:rule "modal+subject"
-                :head {:phrasal? false
+  :head {:rule "vp-slash-object"                     ;; "moeten we samen bestrijden"
+         :head {:rule "modal+subject"                ;; "moeten we"
+                :head {:phrasal? false               ;; "moeten"
                        :agr {:person :1st}
                        :sem {:subj {:person :1st}}}
-                :comp {:phrasal? false}}
-         :comp {:rule "adverb-vp"
+                :comp {:phrasal? false}}             ;; "we"
+         :comp {:rule "adverb-vp"                    ;; "samen bestrijden"
                 :head {:phrasal? false
                        :subcat {:1 {:top :top}
                                 :2 {:top :top}

@@ -7,4 +7,9 @@
   :if {:slash? ::none}
   :then [{:slash? false}]}
 
+ {:rule :aux
+  :if {:cat :verb
+       :aux? ::none}
+  :then [{:aux? false}]}
+ 
  ]

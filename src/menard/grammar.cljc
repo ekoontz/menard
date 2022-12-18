@@ -73,7 +73,7 @@
     output-grammar))
 
 (defn apply-processing-rules-to [rule processing-rules]
-  (log/info (str "looking at rule: " (:rule rule) " and applying this many processing-rules: " (count processing-rules)))
+  (log/debug (str "looking at rule: " (:rule rule) " and applying this many processing-rules: " (count processing-rules)))
   (if (empty? processing-rules)
     rule
     (let [processing-rule (first processing-rules)

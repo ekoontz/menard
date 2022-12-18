@@ -109,17 +109,20 @@
              :3 []}
     :comp complement-3})
 
- (let [one (atom :top)
+ ;;      <obj, ..>
+ ;;      /      \
+ ;;   h<1, ..>   1<_, obj>
+ (let [obj (atom :top)
        mod (atom :top)
        sem (atom :top)
-       two (atom {:mod mod
-                  :sem sem
-                  :subcat {:2 one}})]
+       comp (atom {:mod mod
+                   :sem sem
+                   :subcat {:2 obj}})]
    {:def 'h
     :sem {:obj {:mod mod}}
-    :subcat {:1 one}
-    :head {:subcat {:1 two}}
-    :comp two})
+    :subcat {:1 obj}
+    :head {:subcat {:1 comp}}
+    :comp comp})
 
  (let [one   (atom :top)
        three (atom :top)

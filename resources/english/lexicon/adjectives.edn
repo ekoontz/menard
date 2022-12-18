@@ -44,6 +44,7 @@
  "difficult" [{:sem {:pred :difficult}}]
  "dilapidated" [{:sem {:pred :dilapidated}}]
  "disappointed" [{:sem {:pred :disappointed}}]
+ "distraught" [{:sem {:pred :distraught}}] 
  "dirty" [{:sem {:pred :dirty}}]
  "early" [{:sem {:pred :early}}]
  "easy" [{:sem {:pred :easy}}]

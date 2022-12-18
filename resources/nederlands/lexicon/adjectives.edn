@@ -87,6 +87,7 @@
  "oud" [{:sem {:pred :old} :curriculum :basic}]
  "prachtig" [{:sem {:pred :magnificent}}]
  "pril" [{:sem {:pred :early}}]
+ "radeloos" [{:sem {:pred :distraught}}]
  "reusachtig" [{:sem {:pred :huge}}]
  "schattig" [{:sem {:pred :cute}}]
  "schitterend" [{:sem {:pred :splendid}}]

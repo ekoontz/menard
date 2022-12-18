@@ -145,8 +145,10 @@
 
 #?(:clj
    (defn load-grammar [spec]
-     (log/info (str "LOOKING FOR GRAMMAR IN: " spec))
-     (load-grammar-from-file (-> spec :grammar) (-> spec :grammar-rules))))
+     (let [grammar-filename (-> spec :grammar)
+           postprocessing-rules (-> spec :grammar-rules)]
+     (log/info (str "loading rules from: " grammar-filename " and postprocessing rules with: " postprocessing-rules))
+     (load-grammar-from-file grammar-filename postprocessing-rules))))
 
 #?(:clj
   (defn fill-lexicon-indexes [lexicon]

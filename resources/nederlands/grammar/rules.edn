@@ -2,4 +2,9 @@
  {:rule :mood
   :if {:sem {:mood ::none}}
   :then [{:sem {:mood :decl}}]}
-]
+
+ {:rule :slash
+  :if {:slash? ::none}
+  :then [{:slash? false}]}
+
+ ]

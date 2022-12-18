@@ -271,6 +271,7 @@
  
  {:rule "vp" ;; [vp +zie .het]
   :cat :verb
+  :aux? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :comp {:beginning-of-sentence? false}
   :head {:aux? false
@@ -287,6 +288,7 @@
  
  {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np .honden [vp-te +te .zien]]]
   :cat :verb
+  :aux? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux? false
          :modal :te}
@@ -303,6 +305,7 @@
 
  {:rule "vp-modal-te" ;; [vp-modal-te +proberen .[+te slapen]]
   :cat :verb
+  :aux? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux? false
          :modal :te}
@@ -321,6 +324,7 @@
  ;; is copied up:
  {:rule "vp-infinitive" ;; [vp +moet .bestrijden]
   :cat :verb
+  :aux? false
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux? false
          :phrasal? false
@@ -360,6 +364,7 @@
 
  {:rule "vp-np" ;; [vp-np .[np de kat] +[vp-te +te .zien]]
   :cat :verb
+  :aux? false
   :options menard.nederlands.tenses/inf-tense
   :head {:aux? false
          :rule "vp-te"
@@ -375,6 +380,7 @@
 
  {:rule "vp-te" ;; '+te .slapen'
   :cat :verb
+  :aux? false
   :infl :te
   ;; TODO: should not need {:phrasal? false}
   ;; since that can be inferred from the {"canonical" ".."}:

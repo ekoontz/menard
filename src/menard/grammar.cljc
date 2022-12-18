@@ -73,20 +73,26 @@
     output-grammar))
 
 (defn apply-processing-rules-to [rule processing-rules]
-  (log/debug (str "looking at rule: " (:rule rule) " and applying this many processing-rules: " (count processing-rules)))
-  (->> processing-rules
-       (mapcat (fn [processing-rule]
-                 (let [{processing-rule-name :rule
+  (log/info (str "looking at rule: " (:rule rule) " and applying this many processing-rules: " (count processing-rules)))
+  (if (empty? processing-rules)
+    rule
+    (let [processing-rule (first processing-rules)
+          result (let [{processing-rule-name :rule
                         antecedent :if
-                        consequents :then} processing-rule
+                        consequent :then} processing-rule
                        result-if (unify rule antecedent)]
                    (if (not (= :fail result-if))
-                     (->>
-                      consequents
-                      (map (fn [consequent]
-                             (unify rule consequent)))
-                      (remove #(= :fail %)))
-                     [rule]))))))
+                     (let [unify-result (unify rule consequent)]
+                       (if (= :fail unify-result)
+                         (do
+                           (log/warn (str "postprocessing-rule: " processing-rule " failed for rule: " (:rule rule) ": leaving rule unmodified by that postprocessing rule."))
+                           rule)
+
+                         ;; antecedent succeeded and unify with consequent succeeded; continue with the rest of the rules.
+                         unify-result))
+                     ;; antecedent failed; continue with the rest of the rules.
+                     rule))]
+      (apply-processing-rules-to result (rest processing-rules)))))
 
 (defn process [grammar & [grammar-processing-rules]]
   (log/info (str "grammar/process on " (count grammar) (if (not (= (count grammar) 1)) "s") "."))
@@ -104,12 +110,12 @@
        filter-rules-by-firstness
        warn-rules-by-catness
        
-       (mapcat #(if (seq grammar-processing-rules)
-                  ;; some processing rules: apply each to this grammar rule:
-                  (apply-processing-rules-to % grammar-processing-rules)
+       (map #(if (seq grammar-processing-rules)
+               ;; some processing rules: apply each to this grammar rule:
+               (apply-processing-rules-to % grammar-processing-rules)
 
-                  ;; no processing rules: just return the gramamr rule:
-                  [%]))
+               ;; no processing rules: just return the gramamr rule:
+               %))
        
        (remove #(= :fail %))
        (map #(u/assoc-in % [:phrasal?] true))

@@ -17,7 +17,8 @@
 
 ;; modify this to log specific parse rules e.g.
 ;; (def log-these-rules #{"np:1" "np:2" "nbar"}).
-(def log-these-rules #{"s-interrog"})
+;;(def log-these-rules #{"s-interrog"})
+(def log-these-rules #{})
 
 (def fail-counter 0)
 (def succeed-counter 0)

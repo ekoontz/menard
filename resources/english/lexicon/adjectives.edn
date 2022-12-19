@@ -32,7 +32,7 @@
  "confused" [{:sem {:pred :confused}}]
  "confusing" [{:sem {:pred :confusing}}]
  "contemporary" [{:sem {:pred :contemporary}}]
- "convenient" [{:sem {:pred :inconvenient}}]
+ "convenient" [{:sem {:pred :convenient}}]
  "cool" [{:sem {:pred :cool}}]
  "courteous" [{:sem {:pred :courteous}}]
  "crazy" [{:sem {:pred :crazy}}]

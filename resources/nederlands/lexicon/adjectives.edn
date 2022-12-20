@@ -127,7 +127,7 @@
  "verwarrend" [{:sem {:pred :confusing}}]
  "verdacht" [{:sem {:pred :suspicious}}]
  "verknocht" [{:sem {:pred :devoted}}]
- "verradelijk" [{:sem {:pred :treacherous}}]
+ "verraderlijk" [{:sem {:pred :treacherous}}]
  "vervelend" [{:sem {:pred :annoying}}]
  "verwend" [{:sem {:pred :spoiled}}] 
  "vies" [{:sem {:pred :dirty}}]

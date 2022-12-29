@@ -185,7 +185,7 @@
        :p p
        :u indefinite-singular-common-modifier}])
    
-   ;; generation: lief -> lieve
+   ;; generation: lief  -> lieve
    ;; parsing:    lieve -> lief
    (let [g [#"f$"   "ve"]
          p [#"ve$"  "f"]]
@@ -212,10 +212,10 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
-   ;; generation: klein -> kleine
+   ;; generation: klein  -> kleine
    ;; parsing:    kleine -> klein
    ;; but avoid:
-   ;;    groot -> *groote
+   ;;              groot -> *groote
    ;; instead, groot -> grote is handled above with the
    ;; rule above with the comment "groot -> grote".
    (let [g [#"([aieou][aeiou][^t])$"  "$1e"]

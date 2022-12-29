@@ -171,6 +171,20 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
+   ;; generation: radeloos -> radeloze
+   ;; parsing:    radeloze -> radeloos
+   (let [g [#"oos$" "oze"]
+         p [#"oze$" "oos"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+   
    ;; generation: lief -> lieve
    ;; parsing:    lieve -> lief
    (let [g [#"f$"   "ve"]

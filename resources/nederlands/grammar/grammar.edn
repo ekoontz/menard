@@ -6,9 +6,9 @@
  ;; Note that for both conj-outer rules, [:cat] = [:head :cat] = [:comp :cat].
  {:rule "conj-outer" ;; [.vier +[+en .twintig]]
   :unify [menard.subcat/a
-          menard.ug/comp-cat          
+          menard.ug/comp-cat
           menard.ug/head-agr
-          menard.ug/head-cat                    
+          menard.ug/head-cat
           menard.ug/head-last
           menard.ug/head-sem]
   :cat :adjective
@@ -17,11 +17,11 @@
   :comp {:conjunction? false}}
 
  ;; [conj-outer .[+niet .Ina] +[conj-inner +maar .zichzelf]]
- {:rule "conj-outer" 
+ {:rule "conj-outer"
   :unify [menard.subcat/a
           menard.ug/comp-cat
           menard.ug/head-agr
-          menard.ug/head-cat          
+          menard.ug/head-cat
           menard.ug/head-last
           menard.ug/head-reflexive
           menard.ug/head-rule
@@ -64,7 +64,7 @@
           menard.ug/head-last
           menard.ug/shared-def]}
 
- {:rule "intensifier-phrase" 
+ {:rule "intensifier-phrase"
   :cat :adjective
   :head {:cat :adjective
          :sem {:number? false}}
@@ -73,7 +73,7 @@
           menard.nesting/rest-of-mods-unnested
           menard.subcat/b
           menard.ug/head-agr
-          menard.ug/head-is-root          
+          menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/shared-def]}
 
@@ -83,7 +83,7 @@
   :head {:pronoun? false
          :propernoun? false
          :subcat {:1 {:top :top}
-                  :2 []}}  
+                  :2 []}}
   :subcat {:1 :top :2 []}
   :comp {:cat :adjective
          :modifies-noun? true}
@@ -107,7 +107,7 @@
           menard.ug/adjunct-modifies-head
           menard.ug/head-last
           menard.ug/head-is-root
-          menard.ug/head-sense          
+          menard.ug/head-sense
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.ug/shared-def]}
@@ -121,7 +121,7 @@
           menard.ug/head-cat
           menard.ug/head-first
           menard.ug/head-sem]}
- 
+
  {:rule "negp"
   :unify [menard.ug/head-first
           menard.ug/head-sem
@@ -130,10 +130,10 @@
           menard.subcat/a]
   :sem {:polarity :minus}
   :head {:cat :neg}}
-  
+
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
- {:rule "np:1" 
+ {:rule "np:1"
   :cat :noun
   :subcat []
   :head {:pronoun? false
@@ -161,7 +161,7 @@
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.ug/shared-def]}
- 
+
  {:rule "np:2" ;; '.de +kat', '.de +katten'
   :reflexive? false
   :cat :noun
@@ -202,7 +202,7 @@
  ;; [np:4 .grote
  ;;       +[conj-outer .katten
  ;;                    +[conj-inner +en .honden]]]
- {:rule "np:4" 
+ {:rule "np:4"
   :cat :noun
   :subcat []
   :head {:pronoun? false
@@ -213,7 +213,7 @@
          ;; is to prevent:
          ;;  [np:4 grote [nbar grote honden]]
          ;; instead we have:
-         ;;  [np:1 grote [nbar grote honden]]         
+         ;;  [np:1 grote [nbar grote honden]]
          ;; above for that.
          :sem {:top :top}
 
@@ -240,12 +240,12 @@
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.ug/shared-def]}
- 
+
  {:rule "s"
   :cat :verb
   :subcat []
   :comp {:beginning-of-sentence? true}
-  :options menard.nederlands.tenses/finite-tenses  
+  :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/a
           menard.ug/head-aux
           menard.ug/head-is-root
@@ -284,7 +284,7 @@
           menard.ug/head-sem
           menard.ug/sem-mod-is-empty ;; temporary until I figure out how to use [:head :sem :mod] for this rule.
           menard.ug/slash-is-head-slash]}
- 
+
  {:rule "vp-modal-np" ;; [vp-modal-np +proberen .[vp-np .honden [vp-te +te .zien]]]
   :cat :verb
   :options menard.nederlands.tenses/finite-plus-inf-tense
@@ -389,7 +389,7 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash
           menard.ug/sem-mod-is-comp-mod]}
- 
+
  {:rule "adverb-vp" ;; '.samen +bestrijden'
   :prod? true
   :cat :verb
@@ -439,7 +439,7 @@
 
  ;; e.g. [pp .het +op], but we'll also want another "pp" for [pp +op .het]
  ;; opposite word order)
- {:rule "pp:1" 
+ {:rule "pp:1"
   :cat :prep
   :unify [menard.subcat/a
           menard.ug/head-is-root
@@ -447,7 +447,7 @@
           menard.ug/head-sem
           menard.ug/head-last]}
 
- {:rule "pp:2" 
+ {:rule "pp:2"
   :cat :prep
   :unify [menard.subcat/a
           menard.ug/head-is-root

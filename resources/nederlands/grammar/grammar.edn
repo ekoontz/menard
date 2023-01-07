@@ -319,7 +319,7 @@
  
  ;; the object of the non-modal verb (in the complement)
  ;; is copied up:
- {:rule "vp-infinitive" ;; [vp +moet .bestrijden]
+ {:rule "vp-modal-infinitive" ;; [vp +moet .bestrijden]
   :cat :verb
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux? false

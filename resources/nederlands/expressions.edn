@@ -356,7 +356,7 @@
   :example "ze kunnen lezen"
   :cat :verb
   :subcat []
-  :head {:rule "vp-infinitive"
+  :head {:rule "vp-modal-infinitive"
          :head {:phrasal? false
                 :canonical "kunnen"}
          :comp {:phrasal? false}}

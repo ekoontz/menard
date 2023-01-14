@@ -1,3 +1,4 @@
+
 ;; TODO: F.49: distinguish between stressed and unstressed for:
 ;; - jij (je)
 ;; - wij (we)
@@ -202,7 +203,8 @@
              :person :2nd
              :ref {:human? true
                    :context :polite
-                   :number :sing}}}
+                   :number :sing}}
+       :sense 1}
       {:case :acc
        :agr {:person :2nd
              :number :sing}
@@ -210,7 +212,8 @@
        :sem {:pred :you
              :ref {:human? true
                    :context :polite
-                   :number :sing}}}
+                   :number :sing}}
+       :sense 2}
       {:case :acc
        :agr {:person :2nd}
        :reflexive? false
@@ -218,7 +221,8 @@
              :person-not :1st             
              :ref {:human? true
                    :person :2nd
-                   :context :polite}}}
+                   :context :polite}}
+       :sense 3}
 
       ;; semantically plural, but still grammatically singular:
       {:case :nom
@@ -229,7 +233,8 @@
              :person :2nd
              :ref {:human? true
                    :context :polite
-                   :number :plur}}}
+                   :number :plur}}
+       :sense 4}
       {:case :acc
        :semantic-number-differs-from-agreement-number? true       
        :agr {:person :2nd
@@ -238,7 +243,8 @@
        :sem {:pred :you
              :ref {:human? true
                    :context :polite
-                   :number :plur}}}]
+                   :number :plur}}
+       :sense 5}]
       
  "we" [{:agr {:person :1st
               :number :plur}

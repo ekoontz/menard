@@ -60,6 +60,6 @@
            "+" ".")
          (syntax-tree (u/get-in tree [:2]) morphology) "]")
     :else
-    (m/morph-leaf tree morphology)))
+    (m/morph-leaf tree morphology {:show-sense? true})))
 
 

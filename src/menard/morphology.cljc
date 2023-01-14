@@ -51,12 +51,13 @@
    an inflected string. The morphology is a set of rules, each of which has a :u and a :g. The :u is
    what to unify the structure against, and the :g contains a _from_ and a _to_, both of which
    are regular expressions used to transform the canonical form into the inflected form."
-  [structure morphology]
+  [structure morphology & [option-map]]
   (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)
                      false
                      inflected?)
+        show-sense? (or (:show-sense? option-map false) false)
         surface (u/get-in structure [:surface])
         matching-rules
         (when (and
@@ -112,45 +113,49 @@
       (do
         (log/debug (str "found an exception: using that: " first-matching-exception))
         (morph-leaf first-matching-exception morphology))
-
-      (u/get-in structure [:surface])
-      (do
-        (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
-        (str
-         (u/get-in structure [:surface])
-         (if (and show-notes?
-                  (u/get-in structure [:note])
-                  (not (= :top (u/get-in structure [:note])))
-                  (seq (u/get-in structure [:note])))
-           (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
-             (str " " decode-notes)))))
-
-      (seq matching-rules)
-      (let [{[from to] :g} (first matching-rules)]
-        (log/debug (str "using matching rule:" (first matching-rules)))
-        (clojure.string/replace canonical from to))
-
-      (= true (u/get-in structure [:inflected?] false))
-      (do
-        (log/debug (str "leaf's :inflected? is true; found canonical: '" canonical "'; using that."))
-        (str canonical
-             (if (and show-notes?
-                      (u/get-in structure [:note])
-                      (not (= :top (u/get-in structure [:note])))
-                      (seq (u/get-in structure [:note])))
-               (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
-                 (str " " decode-notes)))))
-
-      (and (false? inflected?) (empty? matching-rules)
-           (not (= structure {:head? false}))
-           (not (= structure {:head? true}))
-           canonical)
-      (do
-        (log/debug (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
-        canonical)
-
       :else
-      "_")))
+      (str
+       (cond
+         (u/get-in structure [:surface])
+         (do
+           (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
+           (str
+            (u/get-in structure [:surface])
+            (if (and show-notes?
+                     (u/get-in structure [:note])
+                     (not (= :top (u/get-in structure [:note])))
+                     (seq (u/get-in structure [:note])))
+              (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
+                (str " " decode-notes)))))
+
+         (seq matching-rules)
+         (let [{[from to] :g} (first matching-rules)]
+           (log/debug (str "using matching rule:" (first matching-rules)))
+           (clojure.string/replace canonical from to))
+
+         (= true (u/get-in structure [:inflected?] false))
+         (do
+           (log/debug (str "leaf's :inflected? is true; found canonical: '" canonical "'; using that."))
+           (str canonical
+                (if (and show-notes?
+                         (u/get-in structure [:note])
+                         (not (= :top (u/get-in structure [:note])))
+                         (seq (u/get-in structure [:note])))
+                  (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
+                    (str " " decode-notes)))))
+
+         (and (false? inflected?) (empty? matching-rules)
+              (not (= structure {:head? false}))
+              (not (= structure {:head? true}))
+              canonical)
+         (do
+           (log/debug (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
+           canonical)
+
+         :else
+         "_")
+       (let [sense (if show-sense? (u/get-in structure [:sense]))]
+         (when sense (str "(" sense ")")))))))
 
 ;; Using a macro here for use by Clojurescript, so that
 ;; the Clojure (Java) side compiles it, since I haven't tried to get

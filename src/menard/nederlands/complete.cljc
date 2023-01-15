@@ -14,3 +14,10 @@
 
 (defn parse [expression]
   (parse/parse expression model))
+
+(defn reload []
+  (def model
+    (ref (create "nederlands/models/complete"
+                 "complete"
+                 compile-lexicon true {:existing-model @model
+                                       :use-existing-lexicon? true}))))

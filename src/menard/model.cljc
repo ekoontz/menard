@@ -294,8 +294,12 @@
 #?(:clj
    (defn create [path-to-model
                  name
-                 compile-lexicon-fn filter-out-nils?]
-     (let [model-spec-filename 
+                 compile-lexicon-fn filter-out-nils? & [option-map]]
+     (let [existing-model (:existing-model option-map)
+           use-existing-grammar? (if (and existing-model (:use-existing-grammar? option-map false)) true false)
+           use-existing-lexicon? (if (and existing-model (:use-existing-lexicon? option-map false)) true false)
+           use-existing-morphology? (if (and existing-model (:use-existing-morphology? option-map false)) true false)
+           model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "
                       "filename: " model-spec-filename " .."))
@@ -303,20 +307,26 @@
              lexical-rules-path (str
                                  (-> model-spec :lexicon :path) "/"
                                  (-> model-spec :lexicon :rules))
-             lexical-rules (l/read-and-eval (use-path lexical-rules-path))
-             morphology (load-morphology (-> model-spec :morphology :path)
-                                         (-> model-spec :morphology :sources))
+             lexical-rules (when (false? use-existing-lexicon?) (l/read-and-eval (use-path lexical-rules-path)))
+             morphology (if (false? use-existing-morphology?)
+                          (load-morphology (-> model-spec :morphology :path)
+                                           (-> model-spec :morphology :sources))
+                          (:morphology existing-model))
              filter-lexicon-fn (or (-> model-spec :lexicon :filter-fn eval eval)
                                    (fn [lexicon] lexicon))
              ;; apply those lexical rules
              ;; to a source lexicon to create
              ;; compile lexicon:
-             lexicon (compile-lexicon-fn
-                      (load-lexicon lexical-rules model-spec)
-                      morphology
-                      filter-lexicon-fn)
-
-             grammar (load-grammar model-spec)]
+             lexicon
+             (if use-existing-lexicon?
+               (:lexicon existing-model)
+               (compile-lexicon-fn
+                (load-lexicon lexical-rules model-spec)
+                morphology
+                filter-lexicon-fn))
+             grammar (if use-existing-grammar?
+                       (:grammar existing-model)
+                       (load-grammar model-spec))]
          (log/info (str "create: grammar for "
                         "'" model-spec-filename "'"
                         " has this many rules: " (count grammar)))

@@ -9,6 +9,7 @@
  "attempt" [{:sem {:pred :attempt}}]
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]
+ "bush" [{:sem {:pred :bush}}] 
  "butterfly" [{:sem {:pred :butterfly}}]
  "bike" [{:sem {:pred :bike}}]
  "bird" [{:agr {:gender :neuter}

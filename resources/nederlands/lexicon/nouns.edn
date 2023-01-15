@@ -230,6 +230,7 @@
              :sem {:pred :system}}]
  "stoel" [{:sem {:pred :chair}}]
  "stoet" [{:sem {:pred :procession}}]
+ "struik" [{:sem {:pred :bush}}] 
  "tafel" [{:sem {:pred :table}}]
  "tegenslag" [{:sem {:pred :setback}}]
  "thuis" [{:agr {:gender :neuter}

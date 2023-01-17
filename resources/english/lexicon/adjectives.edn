@@ -120,6 +120,7 @@
  "recent" [{:sem {:pred :recent}}]
  "responsible" [{:sem {:pred :responsible}}]
  "right" [{:sem {:pred :right}}]
+ "rowdy" [{:sem {:pred :rowdy}}] 
  "rude" [{:sem {:pred :rude}}]
  "sad" [{:sem {:pred :sad}}]
  "same" [{:sem {:pred :same}}]

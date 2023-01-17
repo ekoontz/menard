@@ -4,6 +4,7 @@
  "aardig" [{:sem {:pred :nice}}]
  "afzonderlijk" [{:sem {:pred :separate}}]
  "akelig" [{:sem {:pred :nasty}}] 
+ "baldadig" [{:sem {:pred :rowdy}}] 
  "belangrijk" [{:sem {:pred :important}}]
  "bedroefd" [{:sem {:pred :sad}}]
  "benieuwd" [{:sem {:pred :curious}}]

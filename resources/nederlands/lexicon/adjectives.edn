@@ -116,6 +116,7 @@
  "tevreden" [{:sem {:pred :satisfied}}]
  "treurig" [{:sem {:pred :pathetic}}]
  "tureluurs" [{:sem {:pred :crazy}}]
+ "uitdagend" [{:sem {:pred :challenging}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "vastberaden" [{:sem {:pred :determined}}]
  "veelzijdig" [{:sem {:pred :versatile}}]

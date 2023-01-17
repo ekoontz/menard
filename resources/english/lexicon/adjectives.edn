@@ -21,6 +21,7 @@
  "busy" [{:sem {:pred :busy}}]
  "careful" [{:sem {:pred :careful}}]
  "certain" [{:sem {:pred :certain}}]
+ "challenging" [{:sem {:pred :challenging}}]
  "childish" [{:sem {:pred :childish}}]
  "clear" [{:sem {:pred :clear}}]
  "clever" [{:sem {:pred :clever}}] 

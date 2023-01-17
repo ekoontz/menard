@@ -91,6 +91,7 @@
  "low" [{:sem {:pred :low}}]
  "magnificent" [{:sem {:pred :magnificent}}]
  "major" [{:sem {:pred :major}}]
+ "merciless" [{:sem {:pred :merciless}}]
  "military" [{:sem {:pred :military}}]
  "modest" [{:sem {:pred :modest}}] 
  "moody" [{:sem {:pred :moody}}]

@@ -38,6 +38,7 @@
  "geldig" [{:sem {:pred :valid}}]
  "gelegen" [{:sem {:pred :convenient}}]
  "gemoedelijk" [{:sem {:pred :pleasant}}]
+ "genadeloos" [{:sem {:pred :merciless}}] 
  "gevoelig" [{:sem {:pred :sensitive}}]
  "geweldig" [{:sem {:pred :awesome}}]
  "gierig" [{:sem {:pred :stingy}}]

@@ -2,6 +2,7 @@
  "aanspreekbaar" [{:sem {:pred :approachable}}]
  "aantrekkelijk" [{:sem {:pred :attractive}}]
  "aardig" [{:sem {:pred :nice}}]
+ "aarzeldend" [{:sem {:pred :hesitant}}] 
  "afzonderlijk" [{:sem {:pred :separate}}]
  "akelig" [{:sem {:pred :nasty}}] 
  "baldadig" [{:sem {:pred :rowdy}}] 

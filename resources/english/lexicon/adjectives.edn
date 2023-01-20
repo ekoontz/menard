@@ -68,6 +68,7 @@
  "greedy" [{:sem {:pred :greedy}}]
  "grumpy" [{:sem {:pred :grumpy}}]
  "hard" [{:sem {:pred :hard}}]
+ "hesitant" [{:sem {:pred :hesitant}}] 
  "high" [{:sem {:pred :high}}]
  "horrible" [{:sem {:pred :horrible}}]
  "hot" [{:sem {:pred :hot}}]

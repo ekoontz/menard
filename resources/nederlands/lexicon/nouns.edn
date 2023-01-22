@@ -82,6 +82,8 @@
  "geheimzinnigheid" [{:sem {:pred :mystery}}]
  "gevaarte" [{:agr {:gender :neuter}
               :sem {:pred :monster}}]
+ "gevaar" [{:sem {:pred :danger}}
+           {:sem {:pred :hazard}}]
  "geit" [{:sem {:pred :goat}
           ;; need this to prevent "geitten" which applies because
           ;; of nederlands.morphology/:repeated-consonant:

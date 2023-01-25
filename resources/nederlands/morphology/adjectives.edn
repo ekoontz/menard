@@ -184,6 +184,21 @@
       {:g g
        :p p
        :u indefinite-singular-common-modifier}])
+
+   ;; generation: heet -> hete
+   ;; parsing:    hete -> heet
+   (let [g [#"eet$" "ete"]
+         p [#"ete$" "eets"]]
+     [{:g g
+       :p p
+       :u plur-modifier}
+      {:g g
+       :p p
+       :u definite-singular-modifier}
+      {:g g
+       :p p
+       :u indefinite-singular-common-modifier}])
+
    
    ;; generation: lief  -> lieve
    ;; parsing:    lieve -> lief

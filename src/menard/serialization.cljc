@@ -62,4 +62,49 @@
     :else
     (m/morph-leaf tree morphology {:show-sense? true})))
 
+(defn get-derivation [structure]
+  (let [d (u/get-in structure [:menard.lexiconfn/derivation])
+        hd (u/get-in structure [:head-derivation])
+        cd (u/get-in structure [:comp-derivation])
+        encoded-d (if (seq d)
+                    (menard.lexiconfn/encode-derivation d))
+        encoded-hd (if (seq hd)
+                     (menard.lexiconfn/encode-derivation hd))
+        encoded-cd (if (seq cd)
+                     (menard.lexiconfn/encode-derivation cd))]
+    (cond (seq encoded-d)
+          encoded-d
+          (seq encoded-hd)
+          encoded-hd
+          (seq encoded-cd)
+          encoded-cd)))
+
+(defn pprint [structure]
+  (let [d (u/get-in structure [:menard.lexiconfn/derivation])
+        hd (u/get-in structure [:head-derivation])
+        cd (u/get-in structure [:comp-derivation])
+        encoded-d (if (seq d)
+                    (menard.lexiconfn/encode-derivation d))
+        encoded-hd (if (seq hd)
+                     (menard.lexiconfn/encode-derivation hd))
+        encoded-cd (if (seq cd)
+                     (menard.lexiconfn/encode-derivation cd))]
+    (-> structure
+        (dissoc :menard.lexiconfn/derivation)
+        (dissoc :head-derivation)
+        (dissoc :comp-derivation)
+        ((fn [structure]
+           (if (seq encoded-d)
+             (assoc structure :derivation encoded-d)
+             structure)))
+        ((fn [structure]
+           (if (seq encoded-hd)
+             (assoc structure :head-derivation encoded-hd)
+             structure)))
+        ((fn [structure]
+           (if (seq encoded-cd)
+             (assoc structure :comp-derivation encoded-cd)
+             structure)))
+        u/pprint)))
+
 

@@ -177,75 +177,73 @@
             (filter #(and (not (u/get-in % [:exception]))
                           (= (u/get-in % [:cat]) :verb))))})))
 
-(def include-derivation? false)
+#?(:clj
+   (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
+;;     (if (false? include-derivation?)
+;;       (exception "c-l-s false?."))
+;;     (if (true? include-derivation?)
+;;       (exception "c-l-s true?."))
+     (log/info (str "compile-lexicon-source start: '" source-filename "'"))
+     (-> source-filename
+         l/read-and-eval
+         ((fn [lexicon]
+            (if (nil? unify-with)
+              lexicon
+              (do
+                (log/debug (str "  apply-to-every-lexeme..(unify-with)"))
+                (l/apply-to-every-lexeme lexicon
+                                         (fn [lexeme]
+                                           (let [result (unify lexeme unify-with)]
+                                             (if (= :fail result)
+                                               (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
+                                             result)))))))
+         ((fn [lexicon]
+            (if (nil? apply-fn)
+              lexicon
+              (do
+                (log/debug (str "  apply-to-every-lexeme (apply-fn)"))
+                (l/apply-to-every-lexeme lexicon
+                                         (fn [lexeme]
+                                           (apply-fn lexeme)))))))
+         ((fn [lexicon]
+            (log/debug (str "  add-exceptions-to-lexicon.."))
+            (l/add-exceptions-to-lexicon lexicon)))
+         ((fn [lexicon]
+            (log/info (str "  apply-rules-in-order with include-derivation? " include-derivation?))
+            (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
+         ((fn [lexicon]
+            (log/info (str "compile-lexicon-source compiled: '" source-filename "'."))
+            lexicon)))))
 
 #?(:clj
-   (defn compile-lexicon-source [source-filename lexical-rules & [unify-with apply-fn]]
-     (log/debug (str "compile-lexicon-source start: '" source-filename "'"))
-     (binding [menard.lexiconfn/include-derivation? include-derivation?]
-       (-> source-filename
-           l/read-and-eval
-           ((fn [lexicon]
-              (if (nil? unify-with)
-                lexicon
-                (do
-                  (log/debug (str "  apply-to-every-lexeme..(unify-with)"))
-                  (l/apply-to-every-lexeme lexicon
-                                           (fn [lexeme]
-                                             (let [result (unify lexeme unify-with)]
-                                               (if (= :fail result)
-                                                 (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
-                                               result)))))))
-           ((fn [lexicon]
-              (if (nil? apply-fn)
-                lexicon
-                (do
-                  (log/debug (str "  apply-to-every-lexeme (apply-fn)"))
-                  (l/apply-to-every-lexeme lexicon
-                                           (fn [lexeme]
-                                             (apply-fn lexeme)))))))
-           ((fn [lexicon]
-              (log/debug (str "  add-exceptions-to-lexicon.."))
-              (l/add-exceptions-to-lexicon lexicon)))
-           ((fn [lexicon]
-              (log/debug (str "  apply-rules-in-order.."))
-              (l/apply-rules-in-order lexicon lexical-rules)))
-           ((fn [lexicon]
-              (log/info (str "compile-lexicon-source compiled: '" source-filename "'."))
-              lexicon))))))
-
-#?(:clj
-   (defn load-lexicon [lexical-rules model-spec & [path-suffix]]
+   (defn load-lexicon [lexical-rules model-spec path-suffix include-derivation?]
      (log/info (str "load-lexicon: lexical-rules count): " (count lexical-rules)))
      (if (nil? model-spec)
        (exception "model-spec is unexpectedly nil."))
      (log/debug (str "model-spec: " model-spec))
-     (let [path-suffix (or path-suffix (-> model-spec :lexicon :path))]
-       (log/info (str "lexicon filenames: " (-> model-spec :lexicon :sources keys sort)))
-
-       (reduce (fn [a b]
-                 (merge-with concat a b))
-               (->> (-> model-spec :lexicon :sources keys sort)
-                    (map (fn [filename]
-                           (let [unify-with
-                                 (get
-                                  (get (-> model-spec :lexicon :sources)
-                                       filename)
-                                 :u :top)
-                                 postprocess-fn
-                                 ;; have to (eval) twice for some reason..
-                                 (eval (eval (get (get (-> model-spec :lexicon :sources)
-                                                       filename)
-                                                  :f '(fn [x] x))))]
-                             (log/debug (str "source filename: " filename))
-                             (log/debug (str "unify-with: " unify-with))
-                             (compile-lexicon-source
-                              (use-path (str path-suffix "/" filename))
-                              lexical-rules
-                                    
-                              unify-with
-                              
-                              postprocess-fn)))))))))
+     (log/info (str "lexicon filenames: " (-> model-spec :lexicon :sources keys sort)))
+     (reduce (fn [a b]
+               (merge-with concat a b))
+             (->> (-> model-spec :lexicon :sources keys sort)
+                  (map (fn [filename]
+                         (let [unify-with
+                               (get
+                                (get (-> model-spec :lexicon :sources)
+                                     filename)
+                                :u :top)
+                               postprocess-fn
+                               ;; have to (eval) twice for some reason..
+                               (eval (eval (get (get (-> model-spec :lexicon :sources)
+                                                     filename)
+                                                :f '(fn [x] x))))]
+                           (log/debug (str "source filename: " filename))
+                           (log/debug (str "unify-with: " unify-with))
+                           (compile-lexicon-source
+                            (use-path (str path-suffix "/" filename))
+                            lexical-rules
+                            include-derivation?             
+                            unify-with
+                            postprocess-fn))))))))
 
 (def filter-for-fails? false)
 
@@ -294,15 +292,31 @@
 #?(:clj
    (defn create [path-to-model
                  name
+                 ;; TODO: move filter-out-nils?
+                 ;; to option-map.
                  compile-lexicon-fn filter-out-nils? & [option-map]]
      (let [existing-model (:existing-model option-map)
            use-existing-grammar? (if (and existing-model (:use-existing-grammar? option-map false)) true false)
            use-existing-lexicon? (if (and existing-model (:use-existing-lexicon? option-map false)) true false)
            use-existing-morphology? (if (and existing-model (:use-existing-morphology? option-map false)) true false)
+
+           ;; include-derivation? if and only if:
+           ;; 1. existing-model exists
+           ;; 2. use-existing-lexicon? is true
+           ;; 3. include-derivation? is true in the option-map.
+           include-derivation? (if (and (false? use-existing-lexicon?)
+                                        (:include-derivation? option-map false)) true false)
+           validation-warnings
+           (if (:include-derivation? option-map)
+             (if (false? include-derivation?)
+               (log/warn (str "You set :include-derivation? to be true but we are keeping it off - sorry. Maybe because: existing-model is not nil: " (not (nil? existing-model)) " or use-existing-lexicon? is not false: " (not (false? use-existing-lexicon?))))
+               (log/info (str "You set :include-derivation? to be true and we will respect that!"))))
            model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "
                       "filename: " model-spec-filename " .."))
+       (log/info (str "(create): include-derivation? " include-derivation?))
+       (log/info (str "(create): use-existing-lexicon? " use-existing-lexicon?))       
        (let [model-spec (read-model-spec model-spec-filename)
              lexical-rules-path (str
                                  (-> model-spec :lexicon :path) "/"
@@ -321,7 +335,7 @@
              (if use-existing-lexicon?
                (:lexicon existing-model)
                (compile-lexicon-fn
-                (load-lexicon lexical-rules model-spec)
+                (load-lexicon lexical-rules model-spec (-> model-spec :lexicon :path) include-derivation?)
                 morphology
                 filter-lexicon-fn))
              grammar (if use-existing-grammar?
@@ -359,7 +373,7 @@
                       model-spec)
                 (merge {:name name :spec model-spec})
                 (add-functions filter-out-nils?))]
-           (log/info (str "returning model with keys: " (keys retval)))
+           (log/debug (str "returning model with keys: " (keys retval)))
            retval)))))
 
 #?(:clj
@@ -398,7 +412,8 @@
                              (load-lexicon lexical-rules
                                            spec
                                            (str "file://" menard-dir "resources/"
-                                                (-> spec :lexicon :path)))
+                                                (-> spec :lexicon :path))
+                                           false) ;; include-derivation? parameter
                              morphology
                              (fn [x] x))]
                 (log/debug (str "loaded " (count (keys lexicon)) " lexical keys."))

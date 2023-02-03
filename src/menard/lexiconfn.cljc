@@ -15,11 +15,6 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
-;; add debugging information.
-;; TODO: use a general-purpose 'debug' flag
-;; and set this to true if that flag is on.
-(def ^:dynamic include-derivation? true)
-
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))
        (map (fn [[x y]]
@@ -27,15 +22,31 @@
        (sort (fn [x y]
                (< (first (first x)) (first (first y)))))))
 
-(defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i]
+(defn add-derivation [rule-name consequent i]
+  {::derivation {rule-name (merge
+                            (if (u/get-in consequent [:derivation :sense])
+                              {:sense (u/get-in consequent [:derivation :sense])}
+                              {})
+                            {:applied? (if consequent true false)
+                             ::order i})}})
+
+(defn encode-derivation [derivation]
+  (string/join " "
+               (sort (into {}
+                           (map (fn [[k v]]
+                                  (if (get v :applied?)
+                                    [(get v (keyword (str "menard.lexiconfn/order")))
+                                     (if (get v :sense) [k (get v :sense)] k)])) derivation)))))
+
+(defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i include-derivation?]
   (let [result (unify lexeme consequent)]
-    (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
-                    "; result: " result))
+    (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent "; include-derivation? " include-derivation?
+                   "; result: " result))
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "
                                    (u/get-in lexeme [:canonical]) " with derivation: "
-                                   (display-derivation (u/get-in lexeme [:menard.lexiconfn/derivation]))
+                                   (display-derivation (u/get-in lexeme [::derivation]))
                                    "; fail-path was: " fail-path ";"
                                    " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
                                    " consequent's value for path: " (u/get-in consequent fail-path))]
@@ -43,20 +54,18 @@
             (exception error-message))
           :else
           (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " result))
-              (log/debug (str "include-derivation? set to: " include-derivation?))
               (if include-derivation?
                 (unify (dissoc result :derivation)
-                       {::derivation {rule-name (merge (if (u/get-in consequent [:derivation :sense])
-                                                         {:sense (u/get-in consequent [:derivation :sense])}
-                                                         {})
-                                                       {::order i})}})
+                       (add-derivation rule-name consequent i))
+                ;; else, remove :derivation to save memory and runtime
+                ;; processing:
                 (dissoc result :derivation))))))
 
 (defn apply-rules-to-lexeme
   "given a lexeme and a list of rules, return a list
    of all the possible lexemes following from the
    consequent of each rule in the list."
-  [rules lexeme if-no-rules-matched? i]
+  [rules lexeme i include-derivation?]
   (cond
 
     ;; a null rule: commented out with (comment ..):
@@ -64,8 +73,7 @@
          (nil? (first rules)))
     (apply-rules-to-lexeme (rest rules)
                            lexeme
-                           if-no-rules-matched?
-                           i)
+                           i include-derivation?)
 
     (seq rules)
     (let [rule (first rules)
@@ -73,21 +81,21 @@
       (if (not (= :fail (unify antecedent lexeme)))
         (->> (:then rule)
              (map (fn [consequent]
-                    (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i)))
+                    (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i include-derivation?)))
              (mapcat (fn [new-lexeme]
-                       (apply-rules-to-lexeme (rest rules) new-lexeme if-no-rules-matched? (+ i 1)))))
+                       (apply-rules-to-lexeme (rest rules) new-lexeme (+ i 1) include-derivation?))))
         ;; else
         (apply-rules-to-lexeme (rest rules)
-                               lexeme
-                               if-no-rules-matched?
-                               i)))
+                               (unify lexeme (add-derivation (:rule rule) nil i))
+                               (+ i 1) include-derivation?)))
     :else
     [lexeme]))
 
-(defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched?]
+(defn apply-rules-to-lexicon [lexicon rules include-derivation?]
   (into {}
         (for [k (sort (keys lexicon))]
-          (let [lexemes (seq (get lexicon k))]
+          (let [lexemes (seq (get lexicon k))
+                include-derivation? include-derivation?]
             (log/debug (str "applying rules for: " k))
             (when lexemes ;; keys whose value is nil or null are removed.
               [k (->> lexemes
@@ -96,13 +104,14 @@
                                     {:phrasal? false
                                      :canonical (u/get-in lexeme [:canonical] k)})))
                       (mapcat (fn [lexeme]
-                                (apply-rules-to-lexeme rules lexeme if-no-rules-matched? 0))))])))))
+                                (apply-rules-to-lexeme rules lexeme 0 include-derivation?))))])))))
 
-(defn apply-rules-in-order [lexicon rules]
-  (if (empty? rules)
-    lexicon
-    (-> lexicon
-        (apply-rules-to-lexicon rules false))))
+(defn apply-rules-in-order [lexicon rules include-derivation?]
+  (let [include-derivation? include-derivation?]
+    (if (empty? rules)
+      lexicon
+      (-> lexicon
+          (apply-rules-to-lexicon rules include-derivation?)))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
   (log/debug (str "apply-to-every-lexeme with lexicon with: " (count keys) " key" (if (not (= 1 (count keys))) "s")))

@@ -234,7 +234,6 @@
   ([expression]
    (parse expression (load-model complete/model))))
 
-
 (defn parse-starts-with-no-nulls [parse-starts]
   (->> parse-starts
        (filter (fn [parse-start]
@@ -390,3 +389,5 @@
                           println))
          (take times)
          count)))
+
+;; (->> "mij zien" parse (map #(u/get-in % [:head-derivation])) (map menard.lexiconfn/encode-derivation))

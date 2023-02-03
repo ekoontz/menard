@@ -12,7 +12,7 @@
    [menard.parse.word :as word]
    [menard.serialization :as s]))
 
-(def developer-mode? true)
+(def developer-mode? false)
 
 ;; <performance-optimized defaults>
 (def parse-only-one? false)

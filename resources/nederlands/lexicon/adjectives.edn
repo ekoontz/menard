@@ -80,6 +80,8 @@
  "nijver" [{:sem {:pred :industrious}}]
  "nukkig" [{:sem {:pred :grumpy}}]
  "nuttig" [{:sem {:pred :useful}}]
+ "omslachtig" [{:sem {:pred :devious}}
+               {:sem {:pred :cumbersome}}]
  "ondeugend" [{:sem {:pred :naughty}}]
  "ongebruikelijk" [{:sem {:pred :unusual}}]
  "ongelegen" [{:sem {:pred :inconvenient}}]

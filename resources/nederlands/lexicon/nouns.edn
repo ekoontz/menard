@@ -169,6 +169,9 @@
                       :ref {:human? true}}}]
  "man" [{:sem {:pred :man
                :context :neutral
+               :ref {:human? true}}}
+        {:sem {:pred :husband
+               :context :neutral
                :ref {:human? true}}}]
  "maand" [{:sem {:pred :month}}]
  "mededeling" [{:sem {:pred :announcement}}

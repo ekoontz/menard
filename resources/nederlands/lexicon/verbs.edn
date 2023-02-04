@@ -240,9 +240,16 @@
      :sem {:pred :be-allowed}}])
 
  "moeten" ;; F. 40.1
- [{:curriculum :basic
-   :modal :infinitive
-   :sem {:pred :must}}]
+ (let [exceptions [{:infl :past-simple
+                    :agr {:number :sing}
+                    :surface "moest"}
+                   {:infl :past-simple
+                    :agr {:number :plur}
+                    :surface "moesten"}]]
+   [{:curriculum :basic
+     :modal :infinitive
+     :sem {:pred :must}
+     :exceptions exceptions}])
 
  "niezen" [{:sem {:pred :sneeze
                   :obj :none}}]
@@ -347,7 +354,7 @@
                             :surface "stonden"}]]
            [{:sem {:pred :stand
                    :obj :none}
-              :exceptions exceptions}])
+             :exceptions exceptions}])
 
  "te"
  [(let [sem (atom :top)

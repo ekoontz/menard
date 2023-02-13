@@ -9,16 +9,35 @@
    [dag_unify.serialization :refer [serialize]]
    [menard.exception :refer [exception]]
    [menard.lexiconfn :as l]
-   [menard.parse.word :as word]))
+   [menard.parse.word :as word]
+   [menard.serialization :as s]))
 
-(def parse-only-one? false)
+(def developer-mode? false)
+
+;; <performance-optimized defaults>
 (def enable-pmap? true)
 (def take-this-many 30)
+(def summary-filter? true)
+(def log-these-rules-as-parents #{})
+(def log-these-rules-as-head-children #{})
+(def log-these-rules-as-comp-children #{})
+(def over-compact? true)
+;; </performance-optimized defaults>
 
-;; modify this to log specific parse rules e.g.
-;; (def log-these-rules #{"np:1" "np:2" "nbar"}).
-;;(def log-these-rules #{"s-interrog"})
-(def log-these-rules #{})
+;; <developer-mode overrides of performance-optimized defaults>
+(when developer-mode?
+  (def enable-pmap? false)
+  (def summary-filter? false)
+  (def over-compact? false)
+
+  ;; modify these to log specific parse rules e.g.
+  ;;  (def log-these-rules-as-parents #{"s-interrog" "modal+subject"})
+;;  (def log-these-rules-as-parents #{"modal+subject"})  
+;;  (def log-these-rules-as-head-children #{"modal+subject"})
+;;  (def log-these-rules-as-comp-children #{"vp-object-inf"})
+
+  )
+;; </developer-mode overrides of performance-optimized defaults>
 
 (def fail-counter 0)
 (def succeed-counter 0)
@@ -84,11 +103,6 @@
    :subcat (u/get-in dag [:subcat] :top)
    :phrasal? (u/get-in dag [:phrasal?] :top)})
 
-(defn pre-check [child-spec child]
-  (let [child-spec-summary (summary child-spec)
-        child-summary (summary child)]
-    (u/unify child-spec-summary child-summary)))
-
 (defn overh-compact
   "add given head as the head child of the phrase: parent. like overh but shorter."
   [parent head syntax-tree]
@@ -97,46 +111,64 @@
   (u/unify parent
            {:head head}))
 
-(defn overh
+(defn overh-full
   "add given head as the head child of the phrase: parent."
   [parent head syntax-tree]
   {:pre [(map? parent)
          (map? head)]}
-  (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/info (str "overh attempting: " (syntax-tree parent) " <- " (syntax-tree head))))
-  (let [pre-check? true
-        result (cond pre-check?
-                     (u/unify parent
-                              {:head head})
-                     :else
-                     (do
-                       (log/debug (str "failed precheck: parent: " (syntax-tree
-                                                                    parent) "; head: " (syntax-tree head) "; "
-                                       "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
-                       :fail))]
-    (if (not (= :fail result))
-      ;; not :fail:
-      (do
-        (def succeed-counter (+ 1 succeed-counter))
-        (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
+  (let [log-this? (and (contains? log-these-rules-as-parents (u/get-in parent [:rule]))
+                       (or
+                        (contains? log-these-rules-as-head-children (u/get-in head [:rule]))
+                        (false? (u/get-in head [:phrasal?]))))]
+    (when log-this?
+      (log/info (str "overh attempt: " (syntax-tree parent) " <- " (syntax-tree head))))
+    (let [pre-check? true
+          result (cond pre-check?
+                       (u/unify parent
+                                {:head head})
+                       :else
+                       (do
+                         (log/debug (str "failed precheck: parent: " (syntax-tree
+                                                                      parent) "; head: " (syntax-tree head) "; "
+                                         "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
+                         :fail))]
+      (if (not (= :fail result))
+        ;; not :fail:
+        (do
+          (def succeed-counter (+ 1 succeed-counter))
+          (when log-this?
+            (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
 
-      ;; :fail:
-      (do
-        (when pre-check?
-          (def fail-counter (+ 1 fail-counter))
-          (when (and true (contains? log-these-rules (u/get-in parent [:rule])))
-            (let [fp (fail-path parent {:head head})]
-              (log/info
-               (str "overh fail: " (syntax-tree parent)
-                    " <- " (syntax-tree head)
-                    " fail-path: " (vec fp)
-                    ". parent has: " (u/pprint (u/get-in parent fp))
-                    ", but head has: " (u/pprint (u/get-in head (rest fp)))
-                    (if (:menard.lexiconfn/derivation head)
-                      (str " head derivation: " (u/get-in head [:menard.lexiconfn/derivation])))
-                    ".")))))))
-    result))
+        ;; :fail:
+        (do
+          (when pre-check?
+            (def fail-counter (+ 1 fail-counter))
+            (when log-this?
+              (let [fp (fail-path parent {:head head})]
+                (log/info
+                 (str "overh fail:    " (syntax-tree parent)
+                      " <- " (syntax-tree head)
+                      " fail-path: " (vec fp)
+                      ". Parent has: " (u/pprint (u/get-in parent fp))
+                      ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                      (let [derivation (cond
+                                         (seq (u/get-in head [:menard.lexiconfn/derivation]))
+                                         (u/get-in head [:menard.lexiconfn/derivation])
+                                         (seq (u/get-in head [:head-derivation]))
+                                         (u/get-in head [:head-derivation])
+                                         :else nil)
+                            derivation (l/encode-derivation derivation)]
+                        (if (seq derivation)
+                          (str ". Head derivation: " derivation)))
+                      ".")))))))
+      result)))
+
+(defn overh [parent head syntax-tree]
+  {:pre [(map? parent)
+         (map? head)]}
+  (if over-compact?
+    (overh-full parent head syntax-tree)
+    (overh-compact parent head syntax-tree)))
 
 (defn overc-compact
   "add given child as the complement of the parent. like overc, but shorter."
@@ -145,36 +177,44 @@
   (u/unify! (u/copy parent)
             {:comp (u/copy comp)}))
 
-(defn overc
+(defn overc-full
   "add given child as the complement of the parent"
   [parent comp syntax-tree]
   {:pre [(map? comp)]}
-  (when (contains? log-these-rules (u/get-in parent [:rule]))
-    (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
-  (let [pre-check? true
-        result
-        (cond pre-check?
-              (u/unify! (u/copy parent)
-                        {:comp (u/copy comp)})
-              :else :fail)]
-    (if (not (= :fail result))
-      (do
-        (def succeed-counter (+ 1 succeed-counter))
-        (when (contains? log-these-rules (u/get-in parent [:rule]))
-          (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))))
-      (do
-        (when pre-check?
-          (def fail-counter (+ 1 fail-counter))
-          (when (contains? log-these-rules (u/get-in parent [:rule]))
-            (let [fp (fail-path parent {:comp comp})]
-              (log/info
-               (str "overc fail: " (syntax-tree parent)
-                    " <- " (syntax-tree comp)
-                    " fail path: " (vec fp)
-                    ". parent has: " (u/pprint (u/get-in parent fp))
-                    ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
-                    ".")))))))
-    result))
+  (let [log-this? (and (contains? log-these-rules-as-parents (u/get-in parent [:rule]))
+                       (contains? log-these-rules-as-comp-children (u/get-in comp [:rule])))]
+    (when log-this?
+      (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
+    (let [pre-check? true
+          result
+          (cond pre-check?
+                (u/unify! (u/copy parent)
+                          {:comp (u/copy comp)})
+                :else :fail)]
+      (if (not (= :fail result))
+        (do
+          (def succeed-counter (+ 1 succeed-counter))
+          (when log-this?
+            (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))))
+        (do
+          (when pre-check?
+            (def fail-counter (+ 1 fail-counter))
+            (when log-this?
+              (let [fp (fail-path parent {:comp comp})]
+                (log/info
+                 (str "overc fail: " (syntax-tree parent)
+                      " <- " (syntax-tree comp)
+                      " fail path: " (vec fp)
+                      ". parent has: " (u/pprint (u/get-in parent fp))
+                      ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
+                      ", comp derivation: " (s/get-derivation comp)
+                      ".")))))))
+      result)))
+
+(defn overc [parent comp syntax-tree]
+  (if over-compact?
+    (overc-full parent comp syntax-tree)
+    (overc-compact parent comp syntax-tree)))
 
 (defn truncate [tree syntax-tree morph]
   (log/debug (str "truncating tree: " (syntax-tree tree)))
@@ -201,13 +241,14 @@
          head-children
 
          (filter (fn [head-child]
-                   (not (= :fail
-                           (u/unify head-summary
-                                    (summary head-child))))))
+                   (or (false? summary-filter?)
+                       (not (= :fail
+                               (u/unify head-summary
+                                        (summary head-child)))))))
 
          (map (fn [head-child]
                 (let [parent-with-head
-                      (overh-compact parent head-child syntax-tree)]
+                      (overh parent head-child syntax-tree)]
                   (->> comp-children
 
                        (filter (fn [comp-child]
@@ -367,10 +408,10 @@
         ;; '.' -> declarative
         ;; '?' -> interrogative
         ;; '!' -> imperative
-    (binding [log-these-rules log-these-rules]
-      (let [input-map (parse-start expression analyze-fn)]
-        (-> input-map
-            (parse-in-stages (count (keys input-map)) 2 grammar syntax-tree-fn truncate?)
-            ((fn [m]
-               {[0 (count (keys input-map))]
-                (get m [0 (count (keys input-map))])})))))))
+    (let [input-map (parse-start expression analyze-fn)]
+      (-> input-map
+          (parse-in-stages (count (keys input-map)) 2 grammar syntax-tree-fn truncate?)
+          ((fn [m]
+             {[0 (count (keys input-map))]
+              (get m [0 (count (keys input-map))])}))))))
+

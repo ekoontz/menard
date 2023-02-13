@@ -16,7 +16,6 @@
             #?(:cljs [cljslog.core :as log])
             [menard.model :refer [load-model]]
             [menard.morphology :as m]
-            [menard.nederlands.compile :refer [compile-lexicon]]
             [menard.nederlands.tenses :as tenses]
 
             ;; models
@@ -25,6 +24,7 @@
 
             [menard.nesting]
             [menard.parse :as p]
+            [menard.punctuation :refer [sentence-punctuation]]
             [menard.serialization :as s]
             [menard.subcat]
             [menard.ug]
@@ -73,8 +73,6 @@
              (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
              lexicon)))))
 
-(declare sentence-punctuation)
-
 (defn morph
   ([tree]
    (cond
@@ -119,7 +117,7 @@
 
 (defn generate
   "generate one random expression that satisfies _spec_."
-  [spec & [model]]
+  [spec model]
   (let [model (or model complete/model (load-model complete/model))
         model (cond (= (type model) clojure.lang.Ref)
                     @model
@@ -234,7 +232,6 @@
   ([expression]
    (parse expression (load-model complete/model))))
 
-
 (defn parse-starts-with-no-nulls [parse-starts]
   (->> parse-starts
        (filter (fn [parse-start]
@@ -313,15 +310,6 @@
 (defn tokenize [input-string]
   (p/tokenize input-string split-on analyze))
 
-(defn sentence-punctuation
-  "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
-  [input mood]
-  (str (string/capitalize (first input))
-       (subs input 1 (count input))
-       (if (= mood :interog)
-         "?"
-         ".")))
-
 (defn roundtrip [input]
   (-> input
       parse
@@ -390,3 +378,5 @@
                           println))
          (take times)
          count)))
+
+;; (->> "mij zien" parse (map #(u/get-in % [:head-derivation])) (map menard.lexiconfn/encode-derivation))

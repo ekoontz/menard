@@ -6,6 +6,7 @@
 
 (defn get-inflection-of [lexeme morphology]
   (when lexeme
+    (log/debug (str "getting inflection of: " (menard.serialization/pprint lexeme)))
     (->> morphology
          (map (fn [rule]
                 {:u (reduce unify

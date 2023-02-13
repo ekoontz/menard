@@ -154,8 +154,11 @@
 
          :else
          "_")
-       (let [sense (if show-sense? (u/get-in structure [:sense]))]
-         (when sense (str "(" sense ")")))))))
+       (let [sense (if show-sense?
+                     (str (u/get-in structure [:sense])
+                          (if (u/get-in structure [:rule-sense])
+                            (str "/" (u/get-in structure [:rule-sense])))))]
+         (when (seq sense) (str "(" sense ")")))))))
 
 ;; Using a macro here for use by Clojurescript, so that
 ;; the Clojure (Java) side compiles it, since I haven't tried to get

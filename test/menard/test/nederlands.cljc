@@ -3,8 +3,7 @@
             [menard.nederlands :as nl
              :refer [analyze expressions generate morph
                      parse syntax-tree]]
-            [menard.nederlands.basic :as basic]
-            [menard.nederlands.complete :as complete]            
+            [menard.nederlands.complete :as complete]
             [menard.nederlands.woordenlijst :as woordenlijst]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
@@ -24,20 +23,9 @@
                                  :pred :house
                                  :mod {:first {:pred :old
                                                :mod []}
-                                       :rest []}}}))))
-
-  (is (= "het oude huis"
-         (morph (generate {:cat :noun
-                           :rule "np:2"
-                           :subcat []
-                           :root "huis"
-                           :agr {:number :sing}
-                             :max-depth 2
-                           :sem {:quant :the
-                                 :mod {:first {:pred :old
-                                               :mod []}
                                        :rest []}}}
-                          basic/model))))
+                          complete/model))))
+
 
   (is (= "een oud huis"
          (morph (generate {:cat :noun
@@ -50,21 +38,8 @@
                                  :pred :house
                                  :mod {:first {:pred :old
                                                :mod []}
-                                       :rest []}}}))))
-
-  (is (= "een oud huis"
-         (morph (generate {:cat :noun
-                           :rule "np:2"
-                           :subcat []
-                           :max-depth 2                             
-                           :root "huis"
-                           :agr {:number :sing}
-                           :sem {:quant :some
-                                 :mod {:first {:pred :old
-                                                 :mod []}
                                        :rest []}}}
-                          basic/model))))
-
+                          complete/model))))
 
   (is (= "de oude huizen"
          (morph (generate {:cat :noun
@@ -77,22 +52,10 @@
                                  :mod {:first {:pred :old
                                                :number? false
                                                :mod []}
-                                       :rest []}}}))))
-
-
-  (is (= "de oude huizen"
-         (morph (generate {:cat :noun
-                           :rule "np:2"
-                           :subcat []
-                           :max-depth 2                             
-                             :root "huis"
-                           :agr {:number :plur}
-                           :sem {:quant :the
-                                 :mod {:first {:pred :old
-                                               :number? false
-                                               :mod []}
                                        :rest []}}}
-                          basic/model)))))
+                          complete/model)))))
+
+                
 
 (def generate-per-expression 5)
 
@@ -109,7 +72,8 @@
          (map (fn [index]
                 {:i index
                  :expressions (take generate-per-expression
-                                    (repeatedly #(generate (nth expressions index))))})))]
+                                    (repeatedly #(generate (nth expressions index)
+                                                           complete/model)))})))]
     (doall
      (map (fn [expression-set]
             (let [i (:i expression-set)
@@ -124,7 +88,7 @@
          (range 0 (count prod-expressions))
          (map (fn [index]
                 (take generate-per-expression
-                      (repeatedly #(or (generate (nth expressions index))
+                      (repeatedly #(or (generate (nth expressions index) complete/model)
                                        ;; if generation fails, save the :note
                                        ;; so we can see where the fail happened in the
                                        ;; log/info messages printed below.
@@ -423,13 +387,13 @@
 
 (deftest parsing-tests
   (is
-   (= "[s(:present-simple){-} .Corona +[vp-slash-object{-} +[modal+subject(:present-simple){-} +moeten .wij] .[adverb-vp{-} .samen +bestrijden]]]"
+   (= "[s(:present-simple){-} .Corona +[vp-sans-object{-} +[modal+subject(:present-simple){-} +moeten(/3) .wij] .[adverb-vp{-} .samen +bestrijden]]]"
       (->> "Corona moeten wij samen bestrijden" nl/parse (filter #(= false (u/get-in % [:reflexive?])))  (map nl/syntax-tree) (take 1) first)))
   (is
-   (= "[s(:present-simple){-} .ik +[vp-modal-np(:present-simple){-} +probeer .[vp-np(:infinitive){-} .honden +[vp-te{-} +te .zien]]]]"
+   (= "[s(:present-simple){-} .ik +[vp-modal-np(:present-simple){-} +probeer .[vp-np-te(:infinitive){-} .honden +[vp-te{-} +te .zien]]]]"
       (->> "ik probeer honden te zien" nl/parse (filter #(= false (u/get-in % [:reflexive?]))) (map nl/syntax-tree) (take 1) first)))
   (is
-   (= "[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te{-} +te .zien]]]"
+   (= "[s(:present-simple){-} .ik +[vp-modal-te(:present-simple){-} +probeer .[vp-te +te .zien]]]"
       (->> "ik probeer te zien" nl/parse (filter #(= false (u/get-in % [:reflexive?]))) (map nl/syntax-tree) (take 1) first))))
 
 ;; If true, generates Dutch, then parses it, so we test
@@ -454,7 +418,8 @@
                     ((fn [spec]
                        (log/debug (str "Generating with spec: #" i))
                        spec))
-                    nl/generate
+                    ((fn [spec]
+                       (nl/generate spec complete/model)))
                     ((fn [expression]
                        (if (nil? expression)
                          (menard.exception/exception (str "failed to generate using spec: " spec))

@@ -1,7 +1,7 @@
 (ns menard.test.translate
   (:require [menard.english :as en]
+            [menard.exception :refer [exception]]
             [menard.nederlands :as nl]
-            [menard.nederlands.basic :as basic]
             [menard.nederlands.complete :as complete]            
             [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
@@ -117,16 +117,6 @@
                   (is (seq en))
                   retval)))
          doall)))
-
-(deftest transfer-basic
-  (->>
-   (range 0 (count nl/expressions))
-   (map (fn [i]
-          (println (str "transfering with nl/expression number: " i))
-          (doall
-           (take 10
-                 (repeatedly #(transfer-fn i @basic/model))))))
-   doall))
 
 (deftest transfer
   (let [start 0

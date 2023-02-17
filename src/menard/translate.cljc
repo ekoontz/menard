@@ -70,7 +70,7 @@
                  source-expressions
                  (let [spec (nth nl/expressions index)]
                    (->>
-                    (repeatedly #(nl/generate spec nl-complete/model))
+                    (repeatedly #(nl/generate spec))
                     (take generate-this-many)))]
              ;; for each expression:
              ;; generate it, and print the surface form

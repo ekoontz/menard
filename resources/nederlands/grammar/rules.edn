@@ -10,5 +10,11 @@
  {:rule :aux
   :if {:cat :verb
        :aux? ::none}
-  :then [{:aux? false}]}
+  :then {:aux? false}}
+
+ {:rule :inverted-object?
+  :if {:cat :verb
+       :inverted-object? ::none}
+  :then {:inverted-object? false}}
+
  ]

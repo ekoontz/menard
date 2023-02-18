@@ -3,7 +3,7 @@
 [
  ;;      <>
  ;;     /  \
- ;;   h<1>  1:c
+ ;;   h<1>  1:c<>
  ;;
  (let [complement (atom {:subcat []})]
    {:def 'a
@@ -12,6 +12,17 @@
     :subcat []
     :comp complement})
 
+
+ ;;      <>
+ ;;     /  \
+ ;;   h<1>  1:c<2>
+ (let [complement (atom {:subcat {:1 {:top :top}
+                                  :2 []}})]
+   {:def 'a-comp-with-one-subcat
+    :head {:slash? false
+           :subcat {:1 complement :2 []}}
+    :subcat []
+    :comp complement})
 
  ;; in this subcat, we ignore the head's subcat:
  ;;      <>
@@ -112,16 +123,17 @@
  ;;      <obj, ..>
  ;;      /      \
  ;;   h<1, ..>   1<_, obj>
- (let [obj (atom :top)
-       mod (atom :top)
-       sem (atom :top)
-       comp (atom {:mod mod
-                   :sem sem
-                   :subcat {:2 obj}})]
+ (let [comp-sem (atom :top)
+       obj (atom {:top :top})
+       comp (atom {:subcat {:1 {:top :top}
+                            :2 obj}
+                   :sem comp-sem})]
    {:def 'h
-    :sem {:obj {:mod mod}}
-    :subcat {:1 obj}
-    :head {:subcat {:1 comp}}
+    :subcat {:1 obj
+             :2 []}
+    :head {:subcat {:1 comp
+                    :2 []}
+           :sem {:obj comp-sem}}
     :comp comp})
 
  (let [one   (atom :top)

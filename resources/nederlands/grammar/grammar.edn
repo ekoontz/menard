@@ -425,8 +425,8 @@
           menard.ug/head-rule
           menard.ug/head-sem]}
 
- ;; +[vp-slash-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
- {:rule "vp-slash-object"
+ ;; +[vp-sans-object +[modal+subject(:present-simple) +moeten .we] .[adverb .samen +bestrijden]]
+ {:rule "vp-sans-object"
   :prod? true
   :cat :verb
   :reflexive? false

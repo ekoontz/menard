@@ -290,7 +290,7 @@
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :head {:aux? false
          :modal :te}
-  :comp {:rule "vp-np"}
+  :comp {:rule "vp-np-te"}
   :unify [menard.subcat/c
           menard.ug/head-first
           menard.ug/head-infl
@@ -316,7 +316,7 @@
           menard.ug/head-sem
           menard.ug/sem-mod-is-empty
           menard.ug/slash-is-head-slash]}
- 
+
  ;; the object of the non-modal verb (in the complement)
  ;; is copied up:
  {:rule "vp-modal-infinitive" ;; [vp +moet .bestrijden]
@@ -355,10 +355,10 @@
   :unify [menard.subcat/d
           menard.ug/head-infl
           menard.ug/head-last
-          menard.ug/head-reflexive          
+          menard.ug/head-reflexive
           menard.ug/head-sem]}
 
- {:rule "vp-np" ;; [vp-np .[np de kat] +[vp-te +te .zien]]
+ {:rule "vp-np-te" ;; [vp-np-te .[np de kat] +[vp-te +te .zien]]
   :cat :verb
   :options menard.nederlands.tenses/inf-tense
   :head {:aux? false
@@ -418,7 +418,7 @@
          :modal :infinitive
          :infl :present
          :subcat {:2 {:modal false}}}
-  :options menard.nederlands.tenses/finite-tenses  
+  :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/e
           menard.ug/head-first
           menard.ug/head-modal

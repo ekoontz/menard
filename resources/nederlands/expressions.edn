@@ -341,7 +341,7 @@
         :subj {:person :1st}}
   :subcat []
   :head {:rule "vp-modal-np"
-         :comp {:rule "vp-np"
+         :comp {:rule "vp-np-te"
                 :head {:rule "vp-te"}}}
   :max-depth 5
   :target {:rule "s"

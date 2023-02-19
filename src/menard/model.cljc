@@ -179,10 +179,6 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
-;;     (if (false? include-derivation?)
-;;       (exception "c-l-s false?."))
-;;     (if (true? include-derivation?)
-;;       (exception "c-l-s true?."))
      (log/info (str "compile-lexicon-source start: '" source-filename "'"))
      (-> source-filename
          l/read-and-eval
@@ -209,7 +205,7 @@
             (log/debug (str "  add-exceptions-to-lexicon.."))
             (l/add-exceptions-to-lexicon lexicon)))
          ((fn [lexicon]
-            (log/info (str "  apply-rules-in-order with include-derivation? " include-derivation?))
+            (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
          ((fn [lexicon]
             (log/info (str "compile-lexicon-source compiled: '" source-filename "'."))

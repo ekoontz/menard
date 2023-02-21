@@ -210,18 +210,18 @@
        (let [result (add-rule tree grammar syntax-tree-fn)]
          (when (and warn-on-no-matches? (empty? result))
            (let [fail-paths
-                 (vec 
-                  (->> grammar
-                       (filter #(= (u/get-in spec [:rule])
+                 (->> grammar
+                      (filter #(or (= ::none (u/get-in spec [:rule] ::none))
+                                   = (u/get-in spec [:rule])
                                    (u/get-in % [:rule])))
-                       (map (fn [rule]
-                              (diag/fail-path spec rule)))))]
+                      (map (fn [rule]
+                             (str (u/get-in rule [:rule]) ":" (diag/fail-path spec rule)))))]
              (log/warn (str (syntax-tree-fn tree) ": no rule: "
                             (u/get-in spec [:rule]) " matched spec: "
                             (strip-refs (u/get-in tree at)) " at: " at
                             "; fail-paths:"
                             (when (seq fail-paths)
-                              fail-paths)))))
+                              (vec fail-paths))))))
          result)
 
        ;; condition 3: add only lexemes at location _at_:

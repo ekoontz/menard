@@ -24,12 +24,12 @@
 
  ;; 2
  {:note "noun verb"
-  :rule "s"
   :example "ik slaap"
   :subcat []
   :cat :verb
   :phrasal? true
-  :sem {:subj {:top :top}
+  :sem {:mood :declarative
+        :subj {:top :top}
         :obj :none}
   :max-depth 1}
 

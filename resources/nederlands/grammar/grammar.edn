@@ -244,7 +244,6 @@
  {:rule "s"
   :cat :verb
   :subcat []
-  :sem {:mood :declarative}
   :comp {:beginning-of-sentence? true}
   :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/a
@@ -260,7 +259,6 @@
   :cat :verb
   :inverted-object? false
   :subcat []
-  :sem {:mood :interrogative}  
   :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/a-comp-with-one-subcat
           menard.ug/head-aux

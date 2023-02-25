@@ -30,6 +30,7 @@
   :cat :verb
   :phrasal? true
   :sem {:subj {:top :top}
+        :mood :declarative
         :obj :none}
   :max-depth 1}
 

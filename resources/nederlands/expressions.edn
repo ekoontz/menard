@@ -29,8 +29,7 @@
   :subcat []
   :cat :verb
   :phrasal? true
-  :sem {:mood :declarative
-        :subj {:top :top}
+  :sem {:subj {:top :top}
         :obj :none}
   :max-depth 1}
 

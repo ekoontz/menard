@@ -24,7 +24,6 @@
 
  ;; 2
  {:note "noun verb"
-  :rule "s"
   :example "ik slaap"
   :subcat []
   :cat :verb

@@ -154,6 +154,8 @@
                       (let [derivation (cond
                                          (seq (u/get-in head [:menard.lexiconfn/derivation]))
                                          (u/get-in head [:menard.lexiconfn/derivation])
+                                         (keyword? (u/get-in head [:head-derivation]))
+                                         nil
                                          (seq (u/get-in head [:head-derivation]))
                                          (u/get-in head [:head-derivation])
                                          :else nil)
@@ -182,7 +184,9 @@
   [parent comp syntax-tree]
   {:pre [(map? comp)]}
   (let [log-this? (and (contains? log-these-rules-as-parents (u/get-in parent [:rule]))
-                       (contains? log-these-rules-as-comp-children (u/get-in comp [:rule])))]
+                       (or
+                        (contains? log-these-rules-as-comp-children (u/get-in comp [:rule]))
+                        (false? (u/get-in comp [:phrasal?]))))]
     (when log-this?
       (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
     (let [pre-check? true

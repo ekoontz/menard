@@ -65,7 +65,9 @@
 (defn get-derivation [structure]
   (let [d (u/get-in structure [:menard.lexiconfn/derivation])
         hd (u/get-in structure [:head-derivation])
+        hd (if (keyword? hd) nil hd)
         cd (u/get-in structure [:comp-derivation])
+        cd (if (keyword? cd) nil cd)
         encoded-d (if (seq d)
                     (menard.lexiconfn/encode-derivation d))
         encoded-hd (if (seq hd)

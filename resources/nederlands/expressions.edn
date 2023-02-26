@@ -195,7 +195,7 @@
   :cat :verb
   :subcat []
   :agr {:number :plur}
-  :sem {:mood :interrogative
+  :sem {:mood :declarative
         :pred :sing
         :subj {:pred :woman
                :context :neutral

@@ -148,6 +148,7 @@
  "vunzig" [{:sem {:pred :filthy}}]
  "wanzinnig" [{:sem {:pred :insane}}]
  "waar" [{:sem {:pred :true}}]
+ "weerloos" [{:sem {:pred :defenceless}}] 
  "zacht" [{:sem {:pred :soft}}]
  "zelfverzekerd" [{:sem {:pred :confident}}]
  "zenuwachtig" [{:sem {:pred :nervous}}]

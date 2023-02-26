@@ -42,6 +42,7 @@
  "current" [{:sem {:pred :current}}]
  "cute" [{:sem {:pred :cute}}]
  "decent" [{:sem {:pred :decent}}]
+ "defenceless" [{:sem {:pred :defenceless}}] 
  "determined" [{:sem {:pred :determined}}]
  "devious" [{:sem {:pred :devious}}]
  "devoted" [{:sem {:pred :devoted}}]

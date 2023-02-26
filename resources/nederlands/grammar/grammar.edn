@@ -432,6 +432,7 @@
  ;; [modal+subject(:present-simple) +moeten .jullie]
  {:rule "modal+subject"
   :prod? true
+  :sem {:mood :interrogative} ;; so that it can be the head of e.g. "[+[moeten jullie] [hij zien]]"
   :cat :verb
   :reflexive? false
   :head {:phrasal? false

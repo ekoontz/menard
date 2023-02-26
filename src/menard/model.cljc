@@ -221,23 +221,23 @@
      (reduce (fn [a b]
                (merge-with concat a b))
              (->> (-> model-spec :lexicon :sources keys sort)
-                  (pmap (fn [filename]
-                          (let [unify-with
-                                (get
-                                 (get (-> model-spec :lexicon :sources)
-                                      filename)
-                                 :u :top)
-                                postprocess-fn
-                                ;; have to (eval) twice for some reason..
+                  (map (fn [filename]
+                         (let [unify-with
+                               (get
+                                (get (-> model-spec :lexicon :sources)
+                                     filename)
+                                :u :top)
+                               postprocess-fn
+                               ;; have to (eval) twice for some reason..
                                 (eval (eval (get (get (-> model-spec :lexicon :sources)
                                                       filename)
                                                  :f '(fn [x] x))))]
-                            (log/debug (str "source filename: " filename))
-                            (log/debug (str "unify-with: " unify-with))
-                            (compile-lexicon-source
-                             (use-path (str path-suffix "/" filename))
-                             lexical-rules
-                             include-derivation?             
+                           (log/debug (str "source filename: " filename))
+                           (log/debug (str "unify-with: " unify-with))
+                           (compile-lexicon-source
+                            (use-path (str path-suffix "/" filename))
+                            lexical-rules
+                            include-derivation?             
                              unify-with
                              postprocess-fn))))))))
 

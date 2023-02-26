@@ -1,7 +1,7 @@
 [
  {:rule :mood
   :if {:sem {:mood ::none}}
-  :then {:sem {:mood :decl}}}
+  :then {:sem {:mood :declarative}}}
 
  {:rule :slash
   :if {:slash? ::none}

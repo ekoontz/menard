@@ -154,6 +154,8 @@
                       (let [derivation (cond
                                          (seq (u/get-in head [:menard.lexiconfn/derivation]))
                                          (u/get-in head [:menard.lexiconfn/derivation])
+                                         (keyword? (u/get-in head [:head-derivation]))
+                                         nil
                                          (seq (u/get-in head [:head-derivation]))
                                          (u/get-in head [:head-derivation])
                                          :else nil)

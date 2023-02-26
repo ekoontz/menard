@@ -1,4 +1,8 @@
 [
+ {:rule :mood
+  :if {:sem {:mood ::none}}
+  :then {:sem {:mood :decl}}}
+
  {:rule :slash
   :if {:slash? ::none}
   :then {:slash? false}}
@@ -12,4 +16,5 @@
   :if {:cat :verb
        :inverted-object? ::none}
   :then {:inverted-object? false}}
+
  ]

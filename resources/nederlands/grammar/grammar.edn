@@ -259,7 +259,6 @@
   :cat :verb
   :inverted-object? false
   :subcat []
-  :sem {:mood :interrogative}
   :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/a-comp-with-one-subcat
           menard.ug/head-aux
@@ -441,7 +440,7 @@
   :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/e
           menard.ug/head-first
-           menard.ug/head-modal
+          menard.ug/head-modal
           menard.ug/head-rule
           menard.ug/head-sem]}
 

@@ -24,12 +24,12 @@
 
  ;; 2
  {:note "noun verb"
+  :rule "s"
   :example "ik slaap"
   :subcat []
   :cat :verb
   :phrasal? true
   :sem {:subj {:top :top}
-        :mood :declarative
         :obj :none}
   :max-depth 1}
 
@@ -195,8 +195,7 @@
   :cat :verb
   :subcat []
   :agr {:number :plur}
-  :sem {:mood :declarative
-        :pred :sing
+  :sem {:pred :sing
         :subj {:pred :woman
                :context :neutral
                :mod {:first {:pred :strong
@@ -207,7 +206,12 @@
                             :rest []}}}
         :obj :none}
 
-  :training-wheels {:agr {:person :3rd}
+  ;; can remove the {:rule "s"} as soon as:
+  ;; 1. s-interrog has:
+  ;;    {:mood interrogative}
+  ;; 2. we add that same :mood to this spec.
+  :training-wheels {:rule "s"
+                    :agr {:person :3rd}
                     :comp {:rule "np:2"
                            :head {:rule "nbar"
                                   :head {:rule "nbar"
@@ -221,8 +225,7 @@
   :example "De heel sterke slimme vrouwen zingen"
   :cat :verb
   :subcat []
-  :sem {:mood :declarative
-        :pred :top
+  :sem {:pred :top
         :subj {:pred :top
                :mod {:first {:pred :top
                              :number? false
@@ -231,7 +234,8 @@
                                     :number? false}
                             :rest []}}}
         :obj :none}
-  :training-wheels {:agr {:person :3rd}
+  :training-wheels {:rule "s"
+                    :agr {:person :3rd}
                     :comp {:rule "np:2"
                            :head {:rule "nbar"
                                   :head {:rule "nbar"
@@ -241,6 +245,7 @@
 
  ;; 15
  {:note "[det | adj noun] verb"
+  :rule "s"
   :dotimes 5
   :cat :verb
   :subcat []
@@ -248,8 +253,7 @@
   :max-fails 100000
   :head {:phrasal? false}
   :comp {:rule "np:2"}
-  :sem {:mood :declarative
-        :subj {:mod {:first {:mod []}
+  :sem {:subj {:mod {:first {:mod []}
                      :rest []}}
         :obj :none}}
  
@@ -260,8 +264,7 @@
   :reflexive? false
   :cat :verb
   :subcat []
-  :sem {:mood :declarative
-        :pred :see
+  :sem {:pred :see
         :obj {:obj :none}}
   :training-wheels {:head {:rule "vp"
                            :head {:phrasal? false}}}}
@@ -275,8 +278,7 @@
   :subcat []
   :phrasal? true
   :reflexive? true
-  :sem {:mood :declarative
-        :tense :present
+  :sem {:tense :present
         :aspect :simple
         :pred :see
         :obj {:obj :none}}
@@ -297,8 +299,7 @@
          :head {:subcat {:2 {:cat :noun}}}
          :comp {:cat :noun
                 :subcat []}}
-  :sem {:mood :declarative
-        :obj {:top :top
+  :sem {:obj {:top :top
               :obj :none}}
   :max-depth 3
   :training-wheels {:head {:comp {:head {:agr {:person :3rd}}}}}}
@@ -314,8 +315,7 @@
          :comp {:cat :verb
                 :head {:phrasal? false
                        :reflexive? false}}}
-  :sem {:mood :declarative
-        :obj {:top :top
+  :sem {:obj {:top :top
               :obj :none}}
   :training-wheels {:head {:rule "vp-modal-te"
                            :comp {:rule "vp-te"
@@ -343,8 +343,7 @@
   ;; </workaround>
 
   :cat :verb
-  :sem {:mood :declarative
-        :obj {:obj {:top :top}}
+  :sem {:obj {:obj {:top :top}}
         :subj {:person :1st}}
   :subcat []
   :head {:rule "vp-modal-np"
@@ -356,7 +355,8 @@
   ;; 1. s-interrog has:
   ;;    {:mood interrogative}
   ;; 2. we add that same :mood to this spec.
-  :target {:comp {:cat :noun
+  :target {:rule "s"
+           :comp {:cat :noun
                   :subcat []}
            :head {:rule "vp"
                   :comp {:rule "vp-inf"
@@ -386,14 +386,14 @@
   :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal? true,
   :reflexive? false
-  :sem {:mood :declarative
-        :pred :must
+  :sem {:pred :must
         :subj {:pred :we
                :existential? false}
         :obj {:obj {:pred :corona
                     :polarity :plus} ;; prevent "niet Corona"
               :mod {:first {:pred :together}}
               :pred :overcome}}
+  :rule "s"
   :head {:rule "vp-sans-object"                     ;; "moeten we samen bestrijden"
          :head {:rule "modal+subject"                ;; "moeten we"
                 :head {:phrasal? false               ;; "moeten"
@@ -417,13 +417,13 @@
   :prod? true
   :phrasal? true,
   :reflexive? false
-  :sem {:mood :declarative
-        :pred :must
+  :sem {:pred :must
         :subj {:pred :top
                :existential? false}
         :obj {:obj {:pred :top}
               :mod {:first {:pred :top}}
               :pred :top}}
+  :rule "s"
   :head {:rule "vp-sans-object"
          :head {:rule "modal+subject"
                 :head {:phrasal? false
@@ -441,11 +441,11 @@
  ;; 24
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :example "de vier en twintig kleine vogels slapen"
+  :rule "s"
   :cat :verb
   :subcat []
   :phrasal? true
-  :sem {:mood :declarative
-        :subj {:ref {:number :plur}
+  :sem {:subj {:ref {:number :plur}
                :mod {:first {:number? true}
                      :rest {:first {:number? false
                                     :rest []}}}}
@@ -460,23 +460,23 @@
 
  ;; 25
  {:note "simple past sentences with regular simple past"
+  :rule "s"
   :phrasal? true
   :cat :verb
   :infl :past-simple
-  :sem {:mood :declarative
-        :subj {:top :top}}
+  :sem {:subj {:top :top}}
   :training-wheels {:head {:rule "vp"
                            :head {:phrasal? false
                                   :irregular-past-simple? false}}}}
 
  ;; 26
  {:note "simple past sentences with irregular simple past"
+  :rule "s"
   :phrasal? true
   :max-depth 3
   :cat :verb
   :infl :past-simple
-  :sem {:mood :declarative
-        :subj {:top :top}}
+  :sem {:subj {:top :top}}
   :head {:rule "vp"
          :head {:phrasal? false
                 :irregular-past-simple? true}}}
@@ -495,8 +495,7 @@
   :subcat []
   :cat :verb
   :infl :present
-  :sem {:mood :declarative
-        :tense :present
+  :sem {:tense :present
         :aspect :simple
         :pred :need
         :subj {:pred :top}
@@ -522,9 +521,9 @@
          :possessive? true}}
 
  ;; 30
- {:reflexive? false
-  :sem {:mood :declarative
-        :subj {:top :top}
+ {:rule "s"
+  :reflexive? false
+  :sem {:subj {:top :top}
         :obj :none}
   :comp {:phrasal? false
          :canonical "er"}

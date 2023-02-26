@@ -167,8 +167,8 @@
   {:pre [(map? parent)
          (map? head)]}
   (if over-compact?
-    (overh-full parent head syntax-tree)
-    (overh-compact parent head syntax-tree)))
+    (overh-compact parent head syntax-tree)
+    (overh-full parent head syntax-tree)))
 
 (defn overc-compact
   "add given child as the complement of the parent. like overc, but shorter."
@@ -213,8 +213,8 @@
 
 (defn overc [parent comp syntax-tree]
   (if over-compact?
-    (overc-full parent comp syntax-tree)
-    (overc-compact parent comp syntax-tree)))
+    (overc-compact parent comp syntax-tree)
+    (overc-full parent comp syntax-tree)))
 
 (defn truncate [tree syntax-tree morph]
   (log/debug (str "truncating tree: " (syntax-tree tree)))

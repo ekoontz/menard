@@ -95,7 +95,7 @@
          ;; [comp2 +that .[s you will see a cat]]
          {:cat :comp
           :subcat {:1 {:cat :verb
-                       :sem {:mood :decl}
+                       :sem {:mood :declarative}
                        :subcat []}
                    :2 []}}
          ;; "that book"

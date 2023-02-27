@@ -148,20 +148,20 @@
           :derivation {:sense 2}
           :sem {:aspect :habitual
                 :tense :present
-                :mood :interog}
+                :mood :interrogative}
           :subcat {:1 {:cat :verb
                        :aux? false
                        :agr agr
                        :rule "s-comp"
                        :phrasal? true
-                       :sem {:mood :decl}
+                       :sem {:mood :declarative}
                        :subcat []
                        :infl :base}
                    :2 []}}
 
          ;; "did you sleep?"
          (let [sem (atom {:tense :past
-                          :mood :interog})]
+                          :mood :interrogative})]
            {:agr agr
             :exceptions exceptions
             
@@ -181,7 +181,7 @@
 
          ;; "what did she see?"
          (let [sem (atom {:tense :past
-                          :mood :interog
+                          :mood :interrogative
                           :aspect :progressive})]
            {:agr agr
             :exceptions exceptions
@@ -203,7 +203,7 @@
                      :2 []}})
          ;; "what does she see?"
          (let [sem (atom {:tense :present
-                          :mood :interog
+                          :mood :interrogative
                           :aspect :progressive})]
            {:agr agr
             :exceptions exceptions

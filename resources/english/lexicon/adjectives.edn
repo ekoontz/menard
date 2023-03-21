@@ -106,6 +106,7 @@
  "nasty" [{:sem {:pred :nasty}}] 
  "national" [{:sem {:pred :national}}]
  "naughty" [{:sem {:pred :naughty}}]
+ "neglected" [{:sem {:pred :neglected}}] 
  "nervous" [{:sem {:pred :nervous}}]
  "neutral" [{:sem {:pred :neutral}}]
  "newsworthy" [{:sem {:pred :newsworthy}}]

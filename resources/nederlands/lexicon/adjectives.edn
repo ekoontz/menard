@@ -138,6 +138,7 @@
  "verknocht" [{:sem {:pred :devoted}}]
  "verraderlijk" [{:sem {:pred :treacherous}}]
  "vervelend" [{:sem {:pred :annoying}}]
+ "verwaarloosd" [{:sem {:pred :neglected}}] 
  "verwend" [{:sem {:pred :spoiled}}] 
  "vies" [{:sem {:pred :dirty}}]
  "voordelig" [{:sem {:pred :useful}}
@@ -156,4 +157,3 @@
  "zielig" [{:sem {:pred :pathetic}}]
  "zwierig" [{:sem {:pred :jaunty}}]
  "zwoel" [{:sem {:pred :sultry}}]}
-

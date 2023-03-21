@@ -57,6 +57,7 @@
            :curriculum :basic}]
  "kieskeurig" [{:sem {:pred :picky}}]
  "kinderachtig" [{:sem {:pred :childish}}]
+ "knullig" [{:sem {:pred :awkward}}]
  "koppig" [{:sem {:pred :stubborn}}]
  "koud" [{:sem {:pred :cold}}] 
  "kort" [{:sem {:pred :short}}] 

@@ -9,6 +9,7 @@
  "approachable" [{:sem {:pred :approachable}}]
  "attractive" [{:sem {:pred :attractive}}]
  "awesome" [{:sem {:pred :awesome}}]
+ "awkward" [{:sem {:pred :awkward}}]
  "bad" [{:sem {:pred :bad}}]
  "beautiful" [{:sem {:pred :beautiful}}]
  "best" [{:sem {:pred :best}}]

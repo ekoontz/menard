@@ -38,6 +38,7 @@
  "cool" [{:sem {:pred :cool}}]
  "courteous" [{:sem {:pred :courteous}}]
  "crazy" [{:sem {:pred :crazy}}]
+ "cunning" [{:sem {:pred :cunning}}]
  "cumbersome" [{:sem {:pred :cumbersome}}]
  "curious" [{:sem {:pred :curious}}]
  "current" [{:sem {:pred :current}}]

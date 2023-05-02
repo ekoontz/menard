@@ -105,6 +105,7 @@
  "slecht" [{:sem {:pred :bad}}]
  "slim" [{:sem {:pred :smart}
           :curriculum :basic}]
+ "sluw" [{:sem {:pred :cunning}}]
  "smerig" [{:sem {:pred :filthy}}]
  "spaarzaam" [{:sem {:pred :frugal}}]
  "steil" [{:sem {:pred :steep}}]

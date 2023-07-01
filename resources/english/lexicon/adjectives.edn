@@ -30,6 +30,7 @@
  "combative" [{:sem {:pred :combative}}]
  "comparable" [{:sem {:pred :comparable}}]
  "complicated" [{:sem {:pred :complicated}}]
+ "condescending" [{:sem {:pred :condescending}}]
  "confident" [{:sem {:pred :confident}}]
  "confused" [{:sem {:pred :confused}}]
  "confusing" [{:sem {:pred :confusing}}]

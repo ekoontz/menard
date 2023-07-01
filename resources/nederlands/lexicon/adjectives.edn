@@ -76,6 +76,7 @@
  "mooi" [{:sem {:pred :beautiful}}] 
  "nauw" [{:sem {:pred :narrow}}]
  "nauwkeurig" [{:sem {:pred :accurate}}]
+ "neerbuigend" [{:sem {:pred :condescending}}]
  "nieuwsgierig" [{:sem {:pred :curious}}]
  "nieuwswaardig" [{:sem {:pred :newsworthy}}]
  "nijver" [{:sem {:pred :industrious}}]

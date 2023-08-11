@@ -124,6 +124,7 @@
  "tureluurs" [{:sem {:pred :crazy}}]
  "uitdagend" [{:sem {:pred :challenging}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
+ "uitmuntend" [{:sem {:pred :excellent}}]
  "vastberaden" [{:sem {:pred :determined}}]
  "veelzijdig" [{:sem {:pred :versatile}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]

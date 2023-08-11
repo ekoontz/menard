@@ -61,6 +61,7 @@
  "escaped" [{:sem {:pred :escaped}}]
  "eternal"  [{:sem {:pred :eternal}}]
  "excited" [{:sem {:pred :excited}}]
+ "excellent" [{:sem {:pred :excellent}}]
  "extraordinary" [{:sem {:pred :extraordinary}}]
  "federal" [{:sem {:pred :federal}}]
  "filthy" [{:sem {:pred :filthy}}]

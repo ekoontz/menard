@@ -48,6 +48,7 @@
  "groot" [{:sem {:pred :big} :curriculum :basic}]
  "hedendaag" [{:sem {:pred :contemporary}}] 
  "heet" [{:sem {:pred :hot}}]
+ "heus" [{:sem {:pred :real}}]
  "hoffelijk" [{:sem {:pred :courteous}}]
  "huidig" [{:sem {:pred :current}}]
  "indrukwekkend" [{:sem {:pred :impressive}}]

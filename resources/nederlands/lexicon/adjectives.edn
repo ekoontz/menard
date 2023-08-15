@@ -10,6 +10,7 @@
  "bedroefd" [{:sem {:pred :sad}}]
  "benieuwd" [{:sem {:pred :curious}}]
  "bereikbaar" [{:sem {:pred :accessible}}]
+ "berooid" [{:sem {:pred :destitute}}]
  "bescheiden" [{:sem {:pred :modest}}]
  "bezig" [{:sem {:pred :busy}}]
  "bijzonder" [{:sem {:pred :special}}]

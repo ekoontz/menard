@@ -84,6 +84,7 @@
  "huge" [{:sem {:pred :huge}}]
  "human" [{:sem {:pred :human}}]
  "inconvenient" [{:sem {:pred :inconvenient}}]
+ "individual" [{:sem {:pred :individual}}] 
  "interesting" [{:sem {:pred :interesting}}]
  "important" [{:sem {:pred :important}}]
  "impressive" [{:sem {:pred :impressive}}]

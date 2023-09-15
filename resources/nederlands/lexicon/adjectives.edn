@@ -130,6 +130,7 @@
  "vastberaden" [{:sem {:pred :determined}}]
  "veelzijdig" [{:sem {:pred :versatile}}]
  "verantwoordelijk" [{:sem {:pred :responsible}}]
+ "vermakelijk" [{:sem {:pred :entertaining}}] 
  "vernuftig" [{:sem {:pred :clever}}] 
  "verrast" [{:sem {:pred :surprised}}]
  "verdrietig" [{:sem {:pred :sad}}]

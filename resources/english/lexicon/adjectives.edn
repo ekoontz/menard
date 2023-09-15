@@ -59,6 +59,7 @@
  "early" [{:sem {:pred :early}}]
  "easy" [{:sem {:pred :easy}}]
  "economic" [{:sem {:pred :economic}}]
+ "entertaining" [{:sem {:pred :entertaining}}] 
  "escaped" [{:sem {:pred :escaped}}]
  "eternal"  [{:sem {:pred :eternal}}]
  "excited" [{:sem {:pred :excited}}]

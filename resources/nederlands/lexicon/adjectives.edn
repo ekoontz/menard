@@ -155,7 +155,7 @@
  "vroeg" [{:sem {:pred :early}}]
  "voorzichtig" [{:sem {:pred :careful}}]
  "vunzig" [{:sem {:pred :filthy}}]
- "wanzinnig" [{:sem {:pred :insane}}]
+ "waanzinnig" [{:sem {:pred :insane}}]
  "waar" [{:sem {:pred :true}}]
  "weerloos" [{:sem {:pred :defenceless}}] 
  "zacht" [{:sem {:pred :soft}}]

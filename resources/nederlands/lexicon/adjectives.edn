@@ -9,6 +9,7 @@
  "baldadig" [{:sem {:pred :rowdy}}] 
  "belangrijk" [{:sem {:pred :important}}]
  "bedroefd" [{:sem {:pred :sad}}]
+ "behoorlijk" [{:sem {:pred :fairly}}] 
  "benieuwd" [{:sem {:pred :curious}}]
  "bereikbaar" [{:sem {:pred :accessible}}]
  "berooid" [{:sem {:pred :destitute}}]

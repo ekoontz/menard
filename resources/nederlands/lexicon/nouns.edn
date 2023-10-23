@@ -84,6 +84,8 @@
               :sem {:pred :monster}}]
  "gevaar" [{:sem {:pred :danger}}
            {:sem {:pred :hazard}}]
+ "gewaad" [{:sem {:pred :robe}
+            :agr {:pred :neuter}}]
  "geit" [{:sem {:pred :goat}
           ;; need this to prevent "geitten" which applies because
           ;; of nederlands.morphology/:repeated-consonant:
@@ -174,6 +176,7 @@
                :context :neutral
                :ref {:human? true}}}]
  "maand" [{:sem {:pred :month}}]
+ "mantel" [{:sem {:pred :robe}}]
  "mededeling" [{:sem {:pred :announcement}}
                {:sem {:pred :notice}}
                {:sem {:pred :statement}}]

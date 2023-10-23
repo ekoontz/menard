@@ -201,6 +201,7 @@
  "representative" [{:sem {:pred :representative}}]
  "revolt" [{:sem {:pred :revolt}}]
  "right" [{:sem {:pred :right}}]
+ "robe" [{:sem {:pred :robe}}]
  "rogue" [{:sem {:pred :rogue}}]
  "room" [{:sem {:pred :room}}]
  "satisfaction" [{:sem {:pred :satisfaction}}]

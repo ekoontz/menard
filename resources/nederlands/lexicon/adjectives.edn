@@ -162,6 +162,7 @@
  "zacht" [{:sem {:pred :soft}}]
  "zelfverzekerd" [{:sem {:pred :confident}}]
  "zenuwachtig" [{:sem {:pred :nervous}}]
+ "zelfzuchtig" [{:sem {:pred :selfish}}] 
  "zielig" [{:sem {:pred :pathetic}}]
  "zwierig" [{:sem {:pred :jaunty}}]
  "zwoel" [{:sem {:pred :sultry}}]}

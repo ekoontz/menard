@@ -142,6 +142,7 @@
  "satisfied" [{:sem {:pred :satisfied}}]
  "scary" [{:sem {:pred :scary}}]
  "secret" [{:sem {:pred :secret}}]
+ "selfish" [{:sem {:pred :selfish}}] 
  "sensitive" [{:sem {:pred :sensitive}}]
  "separate" [{:sem {:pred :separate}}]
  "serious" [{:sem {:pred :serious}}]

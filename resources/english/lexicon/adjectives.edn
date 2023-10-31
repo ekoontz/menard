@@ -163,6 +163,7 @@
  "special" [{:sem {:pred :special}}]
  "splendid" [{:sem {:pred :splendid}}]
  "spoiled" [{:sem {:pred :spoiled}}] 
+ "staggering" [{:sem {:pred :staggering}}]
  "steep" [{:sem {:pred :steep}}]
  "striking" [{:sem {:pred :striking}}]
  "stingy" [{:sem {:pred :stingy}}]

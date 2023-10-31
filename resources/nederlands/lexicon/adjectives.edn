@@ -75,6 +75,7 @@
  "lijp" [{:sem {:pred :cool}}]
  "lomp" [{:sem {:pred :rude}}]
  "makkelijk" [{:sem {:pred :easy}}]
+ "meeslepend" [{:sem {:pred :compelling}}]
  "moedig" [{:sem {:pred :brave}}]
  "moelijk" [{:sem {:pred :difficult}}]
  "mooi" [{:sem {:pred :beautiful}}] 

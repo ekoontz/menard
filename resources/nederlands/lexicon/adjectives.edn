@@ -94,6 +94,7 @@
  "ongerust" [{:sem {:pred :anxious}}]
  "onschuldig" [{:sem {:pred :innocent}}]
  "onnozel" [{:sem {:pred :silly}}]
+ "onthutsend" [{:sem {:pred :staggering}}]
  "onwenselijk" [{:sem {:pred :undesirable}}]
  "onzijdig" [{:sem {:pred :neutral}}]
  "opgewonden" [{:sem {:pred :excited}}]

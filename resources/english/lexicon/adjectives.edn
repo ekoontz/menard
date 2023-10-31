@@ -29,6 +29,7 @@
  "cold" [{:sem {:pred :cold}}]
  "combative" [{:sem {:pred :combative}}]
  "comparable" [{:sem {:pred :comparable}}]
+ "compelling" [{:sem {:pred :compelling}}]
  "complicated" [{:sem {:pred :complicated}}]
  "condescending" [{:sem {:pred :condescending}}]
  "confident" [{:sem {:pred :confident}}]

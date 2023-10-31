@@ -119,6 +119,7 @@
  "stevig" [{:sem {:pred :firm}}]
  "stiekem" [{:sem {:pred :sneaky}}] 
  "stom" [{:sem {:pred :stupid}}]
+ "stout" [{:sem {:pred :naughty}}]
  "strak" [{:sem {:pred :sleek}}]
  "strijdbaar" [{:sem {:pred :combative}}]
  "stuitend" [{ :sem {:pred :shocking}}]

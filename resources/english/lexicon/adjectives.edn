@@ -66,6 +66,7 @@
  "excited" [{:sem {:pred :excited}}]
  "excellent" [{:sem {:pred :excellent}}]
  "extraordinary" [{:sem {:pred :extraordinary}}]
+ "exuberant" [{:sem {:pred :exuberant}}]
  "fairly" [{:sem {:pred :fairly}}]
  "federal" [{:sem {:pred :federal}}]
  "filthy" [{:sem {:pred :filthy}}]

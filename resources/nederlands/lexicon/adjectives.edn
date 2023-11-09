@@ -129,6 +129,7 @@
  "tevreden" [{:sem {:pred :satisfied}}]
  "treurig" [{:sem {:pred :pathetic}}]
  "tureluurs" [{:sem {:pred :crazy}}]
+ "uitbundig" [{:sem {:pred :exuberent}}]
  "uitdagend" [{:sem {:pred :challenging}}]
  "uitgebroken" [{:sem {:pred :escaped}}]
  "uitmuntend" [{:sem {:pred :excellent}}]

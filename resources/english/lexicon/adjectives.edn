@@ -130,6 +130,7 @@
  "pleasant" [{:sem {:pred :pleasant}}]
  "poignant" [{:sem {:pred :poignant}}]
  "political" [{:sem {:pred :political}}]
+ "pompous" [{:sem {:pred :pompous}}]
  "possible" [{:sem {:pred :possible}}]
  "profitable" [{:sem {:pred :profitable}}] 
  "public" [{:sem {:pred :public}}]

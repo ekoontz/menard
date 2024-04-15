@@ -52,6 +52,7 @@
  "heet" [{:sem {:pred :hot}}]
  "heus" [{:sem {:pred :real}}]
  "hoffelijk" [{:sem {:pred :courteous}}]
+ "hoogdravend" [{:sem {:pred :pompous}}]
  "huidig" [{:sem {:pred :current}}]
  "indrukwekkend" [{:sem {:pred :impressive}}]
  "ingewikkeld" [{:sem {:pred :complicated}}]

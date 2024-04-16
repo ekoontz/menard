@@ -126,6 +126,7 @@
  "undesirable" [{:sem {:pred :undesirable}}] 
  "other" [{:sem {:pred :other}}]
  "pathetic" [{:sem {:pred :pathetic}}]
+ "peculiar" [{:sem {:pred :pompous}}]
  "picky" [{:sem {:pred :picky}}]
  "pleasant" [{:sem {:pred :pleasant}}]
  "poignant" [{:sem {:pred :poignant}}]

@@ -27,6 +27,7 @@
  "eenvoudig" [{:sem {:pred :simple}}]
  "eenzaam" [{:sem {:pred :lonely}}]
  "eeuwig"  [{:sem {:pred :eternal}}]
+ "eigenaardig" [{:sem {:pred :peculiar}}]
  "eigenwijs" [{:sem {:pred :stubborn}}]
  "eng" [{:sem {:pred :scary}}]
  "ernstig" [{:sem {:pred :serious}}]

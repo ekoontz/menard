@@ -1,7 +1,6 @@
 (ns menard.test.español
   (:require [menard.español :as es
-             :refer [analyze generate morph
-                     parse syntax-tree]]
+             :refer [generate morph]]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]

@@ -1,9 +1,7 @@
 (ns menard.test.español
-  (:require [menard.model :refer [load-model]]
-            [menard.nederlands :as nl
-             :refer [analyze expressions generate morph
+  (:require [menard.español :as es
+             :refer [analyze generate morph
                      parse syntax-tree]]
-            [menard.español.complete :as complete]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
@@ -19,8 +17,7 @@
                            :agr {:number :sing}
                            :max-depth 2
                            :sem {:pred :want
-                                 :subj {:first {:pred :I}}}}
-                          complete/model)))))
+                                 :subj {:first {:pred :I}}}})))))
 
 
 

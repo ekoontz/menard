@@ -147,7 +147,7 @@
    (defn load-grammar [spec]
      (let [grammar-filename (-> spec :grammar)
            postprocessing-rules (-> spec :grammar-rules)]
-     (log/info (str "loading rules from: " grammar-filename " and postprocessing rules with: " postprocessing-rules))
+     (log/info (str "loading grammar rules from: " grammar-filename " and grammar postprocessing rules with: " postprocessing-rules))
      (load-grammar-from-file grammar-filename postprocessing-rules))))
 
 #?(:clj

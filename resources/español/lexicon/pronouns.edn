@@ -1,0 +1,6 @@
+{"yo" [{:case :nom
+       :agr {:number :sing
+             :person :1st}
+       :sem {:ref {:human? true}
+             :pred :i}
+        :reflexive? false}]}

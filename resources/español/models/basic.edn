@@ -3,7 +3,10 @@
  :lexicon {:path "español/lexicon"
            :rules "rules.edn"
            :sources {"verbs.edn"
-                     {:u {:cat :verb}}}}
+                     {:u {:cat :verb}}
+                     "pronouns.edn"
+                     {:u {:cat :noun
+                          :pronoun? true}}}}
  :grammar "español/grammar.edn"
  :grammar-rules "español/grammar-rules.edn"}
 

@@ -1,7 +1,11 @@
 [
  {:rule "s"
   :cat :verb
-  :subcat []}
+  :subcat []
+  :head {:cat :verb}
+  :unify [menard.subcat/a
+          menard.ug/head-last]
+  }
  ]
 
 

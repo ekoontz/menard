@@ -1,12 +1,17 @@
-{"querer" (let [shared-part-of-querer
-                {:synsem {:cat :verb}
-                 :espanol {:boot-stem "quier"
-                           :preterito-stem "quis"
-                           :futuro-stem "querr"}}]
-            [{:unify [shared-part-of-querer]
-              :synsem {:sem {:pred :want}}}
-             {:unify [shared-part-of-querer]
-              :synsem {:sem {:pred :love}}}])}
+{"querer" (let [exceptions {:boot-stem "quier"
+                            :preterito-stem "quis"
+                            :futuro-stem "querr"}
+                subcat {:1 {:cat :noun}}]
+            [{:exceptions exceptions
+              :subcat subcat
+              :sem {:pred :want}}
+             {:exceptions exceptions
+              :subcat subcat              
+              :sem {:pred :love}}])}
+
+
+
+
 
 
 

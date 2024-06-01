@@ -1,0 +1,13 @@
+{:name "basic"
+ :language "es"
+ :lexicon {:path "español/lexicon"
+           :rules "rules.edn"
+           :sources {"verbs.edn"
+                     {:u {:cat :verb}}}}
+ :grammar "español/grammar.edn"
+ :grammar-rules "español/grammar-rules.edn"}
+
+
+
+
+

@@ -1,0 +1,13 @@
+{
+ "querer" (let [shared-part-of-querer
+                {:synsem {:cat :verb}
+                 :espanol {:boot-stem "quier"
+                           :preterito-stem "quis"
+                           :futuro-stem "querr"}}]
+            [{:unify [shared-part-of-querer]
+              :synsem {:sem {:pred :want}}}
+             {:unify [shared-part-of-querer]
+              :synsem {:sem {:pred :love}}}])}
+
+
+

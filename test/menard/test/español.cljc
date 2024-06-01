@@ -7,16 +7,16 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+(def spec {:cat :verb
+           :rule "s"
+           :subcat []
+           :root "querer"
+           :sem {:pred :want
+                 :subj {:first {:pred :I}}}})
+
 (deftest subject-agreement
   (is (= "yo quiero"
-         (morph (generate {:cat :noun
-                           :rule "np:2"
-                           :subcat []
-                           :root "querer"
-                           :agr {:number :sing}
-                           :max-depth 2
-                           :sem {:pred :want
-                                 :subj {:first {:pred :I}}}})))))
+         (morph (generate spec)))))
 
 
 

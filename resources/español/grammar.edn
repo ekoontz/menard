@@ -4,7 +4,9 @@
   :subcat []
   :head {:cat :verb}
   :unify [menard.subcat/a
-          menard.ug/head-last]
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/head-sem]
   }
  ]
 

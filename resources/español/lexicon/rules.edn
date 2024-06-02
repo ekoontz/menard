@@ -31,17 +31,25 @@
                         :surface {:prefix [:stems :boot]
                                   :suffix "eren"}}]}]}
 
- {:rule :subcat-1
+ {:rule :subcat
   :if {:cat :verb
        :subcat ::unspec}
-  :then [
-         ;; intransitive
-         {:subcat {:1 {:cat :noun}
-                   :2 []}}
-         ;; transitive
-         {:subcat {:1 {:cat :noun}
-                   :2 {:cat :noun}
-                   :3 []}}]}
+  :then (let [subj (atom :top)
+              obj (atom :top)]
+          [
+           ;; intransitive
+           {:subcat {:1 {:cat :noun
+                         :sem subj}
+                     :2 []}
+            :sem {:subj subj}}
+           ;; transitive
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :sem subj}
+                     :2 {:cat :noun
+                         :sem obj}
+                     :3 []}}])}
 
  {:rule :subject-verb-agreement
   :if {:cat :verb

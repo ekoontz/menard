@@ -35,4 +35,9 @@
     retval))
 
 (defn morph [tree]
-  "yo quiero")
+   (cond
+     (map? (u/get-in tree [:syntax-tree]))
+     (s/morph (u/get-in tree [:syntax-tree]) (:morphology @model))
+
+     :else
+     (s/morph tree (:morphology @model))))

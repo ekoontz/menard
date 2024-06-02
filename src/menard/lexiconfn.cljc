@@ -38,6 +38,22 @@
                                     [(get v (keyword (str "menard.lexiconfn/order")))
                                      (if (get v :sense) [k (get v :sense)] k)])) derivation)))))
 
+(defn eval-surface-fns [consequent lexeme]
+  (if (seq (:exceptions consequent))
+    (let [retval
+          (merge consequent
+                 {:exceptions (map (fn [exception]
+                                     (let [surface (:surface exception)]
+                                       (cond (fn? surface)
+                                             ;; TODO: lock down what can be evaluated 
+                                             (merge exception
+                                                    {:surface (surface lexeme)})
+                                             :else
+                                             exception)))
+                                   (:exceptions consequent))})]
+      retval)
+    consequent))
+  
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i include-derivation?]
   (let [consequent (eval-surface-fns consequent lexeme)
         result (unify lexeme consequent)]

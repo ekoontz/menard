@@ -12,11 +12,8 @@
            :subcat []
            :root "querer"
            :sem {:pred :want
-                 :subj {:first {:pred :I}}}})
+                 :subj {:pred :i}}})
 
 (deftest subject-agreement
   (is (= "yo quiero"
          (morph (generate spec)))))
-
-
-

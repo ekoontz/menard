@@ -31,7 +31,7 @@
               (g/generate (-> model :grammar)
                           (-> model :lexicon-index-fn)
                           es-syntax-tree)))]
-    (log/info (str "menard.espa~nol/generate: generated: " (-> retval es-syntax-tree)))
+    (log/debug (str "menard.espa~nol/generate: generated: " (-> retval es-syntax-tree)))
     retval))
 
 (defn morph [tree]

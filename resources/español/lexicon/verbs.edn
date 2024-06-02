@@ -1,17 +1,7 @@
-{"querer" (let [exceptions {:boot-stem "quier"
-                            :preterito-stem "quis"
-                            :futuro-stem "querr"}
-                subcat {:1 {:cat :noun}}]
-            [{:exceptions exceptions
-              :subcat subcat
+{"querer" (let [stems {:boot      "quier"
+                       :preterito "quis"
+                       :futuro    "querr"}]
+            [{:stems stems
               :sem {:pred :want}}
-             {:exceptions exceptions
-              :subcat subcat              
+             {:stems stems
               :sem {:pred :love}}])}
-
-
-
-
-
-
-

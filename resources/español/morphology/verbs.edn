@@ -1,15 +1,18 @@
 [
- {:g [#"^(.*)$"  "quiero"] 
-  :p [#"^(.*)$"  "querer"] 
-  :u {:cat :verb
-      :canonical "querer"
-      :agr {:number :sing
-            :person :1st}}}
+
+ ;; <present-tense rules>
+
  {:g [#"^(.*)er$"  "$1o"] 
   :p [#"^(.*)o$"   "$1er"] 
   :u {:cat :verb
+      :infl :present
       :agr {:number :sing
             :person :1st}}}
+ ;; </present-tense rules>
+
+ ;; .. other tenses..
+
+ 
  {:g [#"^(.*)$"   "$1"] 
   :p [#"^(.*)$"   "$1"] 
   :u {:cat :verb}}

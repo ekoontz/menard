@@ -1,3 +1,40 @@
 [
- {}
-]
+ {:rule :boot-stem?
+  :if {:cat :verb
+       :stems {:boot ::unspec}}
+  :then {:boot-stem? false}}
+
+ {:rule :boot-stem
+  :if {:cat :verb
+       :boot-stem? true}
+  :then [{:exceptions [{:infl :present
+                        :agr {:person :1st :number :sing}
+                        :surface #(str (u/get-in % [:stems :boot]) "o")
+                        }
+                       ;; TODO: other numbers and persons.
+                       ]}]}
+
+ {:rule :subcat-1
+  :if {:cat :verb
+       :subcat ::unspec}
+  :then [
+         ;; intransitive
+         {:subcat {:1 {:cat :noun}
+                   :2 []}}
+         ;; transitive
+         {:subcat {:1 {:cat :noun}
+                   :2 {:cat :noun}
+                   :3 []}}]}
+
+ {:rule :subject-verb-agreement
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :subcat []}}})]}
+ 
+
+ ]

@@ -122,7 +122,7 @@
           (apply-rules-to-lexicon rules include-derivation?)))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
-  (log/debug (str "apply-to-every-lexeme with lexicon with: " (count keys) " key" (if (not (= 1 (count keys))) "s")))
+  (log/debug (str "apply-to-every-lexeme."))
   (if (not (map? lexicon))
     (exception (str "input lexeme is not a map; it is: " (vec lexicon))))
   (let [result 

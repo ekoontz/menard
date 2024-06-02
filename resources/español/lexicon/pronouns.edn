@@ -1,6 +1,65 @@
-{"yo" [{:case :nom
+{"él" [(let [agr {:person :3rd
+                  :gender :masc
+                  :number :sing}]
+         {:case :nom
+          :agr agr
+          :sem {:human true
+                :gender :masc
+                :pred :he}}
+         {:case :nom
+          :agr agr
+          :sem {:human false
+                :gender :masc
+                :pred :it}})]
+ "ella" [(let [agr {:person :3rd
+                    :gender :fem
+                    :number :sing}]
+           {:case :nom
+            :agr agr
+            :sem {:human true
+                  :gender :fem
+                  :pred :she}}
+           {:case :nom
+            :agr agr
+            :sem {:human false
+                  :gender :fem
+                  :pred :it}})]
+ "ellas" [(let [agr {:person :3rd
+                     :gender :fem
+                     :number :plur}]
+            {:case :nom
+             :agr agr
+             :sem {:human true
+                   :gender :fem
+                   :pred :they}}
+            {:case :nom
+             :agr agr
+             :sem {:human false
+                  :gender :fem
+                   :pred :they}})]
+ "ellos" [(let [agr {:person :3rd
+                     :gender :masc
+                     :number :plur}]
+            {:case :nom
+             :agr agr
+             :sem {:human true
+                   :gender :masc
+                   :pred :they}}
+            {:case :nom
+             :agr agr
+             :sem {:human false
+                  :gender :masc
+                   :pred :they}})]
+ "tu" [{:case :nom
+        :agr {:number :sing
+              :person :2nd}
+        :sem {:ref {:human? true}
+              :pred :you}
+        :reflexive? false}]
+ "yo" [{:case :nom
         :agr {:number :sing
               :person :1st}
         :sem {:ref {:human? true}
               :pred :i}
         :reflexive? false}]}
+

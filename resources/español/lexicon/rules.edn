@@ -11,8 +11,25 @@
                         :agr {:person :1st :number :sing}
                         :surface {:prefix [:stems :boot]
                                   :suffix "o"}}
-                       ;; TODO: other numbers and persons.
-                       ]}]}
+
+                       {:infl :present
+                        :agr {:person :2nd :number :sing}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "es"}}
+
+                       {:infl :present
+                        :agr {:person :3rd :number :sing}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "ere"}}
+                       
+
+                       ;; 1st and 2nd plur are conjugated according
+                       ;; to the regular rules.
+
+                       {:infl :present
+                        :agr {:person :3rd :number :plur}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "eren"}}]}]}
 
  {:rule :subcat-1
   :if {:cat :verb

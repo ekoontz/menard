@@ -39,14 +39,14 @@
                                      (if (get v :sense) [k (get v :sense)] k)])) derivation)))))
 
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i include-derivation?]
-  (let [result (unify lexeme consequent)]
+  (let [consequent (eval-surface-fns consequent lexeme)
+        result (unify lexeme consequent)]
     (log/debug (str "apply-rule-to-lexeme: "
-                   ;;"lexeme: " (u/pprint lexeme)
-                   "; consequent: " (u/pprint consequent)
-                   "; antecedent:" (u/pprint antecedent)
-                   "; include-derivation? " include-derivation?
-                   "; result: " (u/pprint result)
-                   ))
+                    ;;"lexeme: " (u/pprint lexeme)
+                    "; consequent: " (u/pprint consequent)
+                    "; antecedent:" (u/pprint antecedent)
+                    "; include-derivation? " include-derivation?
+                    "; result: " (u/pprint result)))
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "

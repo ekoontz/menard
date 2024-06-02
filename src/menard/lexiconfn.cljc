@@ -44,12 +44,15 @@
           (merge consequent
                  {:exceptions (map (fn [exception]
                                      (let [surface (:surface exception)]
-                                       (cond (fn? surface)
-                                             ;; TODO: lock down what can be evaluated 
-                                             (merge exception
-                                                    {:surface (surface lexeme)})
-                                             :else
-                                             exception)))
+                                       (cond
+                                         (map? surface)
+                                         (merge exception
+                                                {:surface (str (u/get-in lexeme (:prefix surface))
+                                                               (:suffix surface))})
+                                         (string? surface)
+                                         exception
+                                         :else
+                                         (exception "Cannot find surface form given intermediate surface value: " surface))))
                                    (:exceptions consequent))})]
       retval)
     consequent))

@@ -9,8 +9,8 @@
        :boot-stem? true}
   :then [{:exceptions [{:infl :present
                         :agr {:person :1st :number :sing}
-                        :surface #(str (u/get-in % [:stems :boot]) "o")
-                        }
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "o"}}
                        ;; TODO: other numbers and persons.
                        ]}]}
 

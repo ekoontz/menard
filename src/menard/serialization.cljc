@@ -34,12 +34,13 @@
                       (= :verb (u/get-in tree [:cat]))
                       (not (= defined? :top))))
            (let [value (u/get-in tree [:reflexive?])]
-             (str "{" (cond (= value true)
-                            "+"
-                            (= value false)
-                            "-"
-                            (nil? value) "*NONE*"
-                            :else value) "}")))
+             (if value
+               (str "{" (cond (= value true)
+                              "+"
+                              (= value false)
+                              "-"
+                              (nil? value) ""
+                              :else value) "}"))))
            " "
          (if (or (= true (u/get-in tree [:1 :head?]))
                  (= (u/get-in tree [:1]) (u/get-in tree [:head])))

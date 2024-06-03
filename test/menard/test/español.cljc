@@ -24,7 +24,7 @@
                     :subj {:pred :i}}}
              generate
              morph)))
-  (is (= "ellas quiereren"
+  (is (= "ellas quieren"
          (-> {:cat :verb
               :rule "s"
               :subcat []

@@ -16,4 +16,24 @@
 
 (deftest subject-agreement
   (is (= "yo quiero"
-         (morph (generate spec)))))
+         (-> {:cat :verb
+              :rule "s"
+              :subcat []
+              :root "querer"
+              :sem {:pred :want
+                    :subj {:pred :i}}}
+             generate
+             morph)))
+  (is (= "ellas quiereren"
+         (-> {:cat :verb
+              :rule "s"
+              :subcat []
+              :root "querer"
+              :agr {:number :plur
+                    :gender :fem}
+              :sem {:pred :want
+                    :subj {:pred :they}}}
+             generate
+             morph))))
+
+

@@ -50,12 +50,30 @@
              :sem {:human false
                   :gender :masc
                    :pred :they}})]
+
+ "nosotros" [{:case :nom
+        :agr {:number :plur
+              :person :1st}
+        :sem {:ref {:human? true}
+              :pred :we}
+        :reflexive? false}]
+
+
  "tu" [{:case :nom
         :agr {:number :sing
               :person :2nd}
         :sem {:ref {:human? true}
               :pred :you}
         :reflexive? false}]
+
+ "vosotros" [{:case :nom
+        :agr {:number :plur
+              :person :2nd}
+        :sem {:ref {:human? true}
+              :pred :you}
+        :reflexive? false}]
+
+
  "yo" [{:case :nom
         :agr {:number :sing
               :person :1st}

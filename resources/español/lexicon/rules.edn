@@ -7,7 +7,8 @@
  {:rule :boot-stem
   :if {:cat :verb
        :boot-stem? true}
-  :then [{:exceptions [{:infl :present
+  :then [{:exceptions [;; 1st, 2nd and 3rd plural:
+                       {:infl :present
                         :agr {:person :1st :number :sing}
                         :surface {:prefix [:stems :boot]
                                   :suffix "o"}}
@@ -23,9 +24,11 @@
                                   :suffix "ere"}}
                        
 
-                       ;; 1st and 2nd plur are conjugated according
-                       ;; to the regular rules.
+                       ;; (1st and 2nd plur are conjugated according
+                       ;; to the regular rules, so :exception needed for them).
 
+                       
+                       ;; 3rd plur:
                        {:infl :present
                         :agr {:person :3rd :number :plur}
                         :surface {:prefix [:stems :boot]

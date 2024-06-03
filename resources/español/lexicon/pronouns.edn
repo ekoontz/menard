@@ -51,12 +51,21 @@
                   :gender :masc
                    :pred :they}})]
 
+ "nosotras" [{:case :nom
+              :agr {:number :plur
+                    :gender :fem
+                    :person :1st}
+              :sem {:ref {:human? true}
+                    :pred :we}
+              :reflexive? false}]
+
  "nosotros" [{:case :nom
-        :agr {:number :plur
-              :person :1st}
-        :sem {:ref {:human? true}
-              :pred :we}
-        :reflexive? false}]
+              :agr {:number :plur
+                    :gender :masc
+                    :person :1st}
+              :sem {:ref {:human? true}
+                    :pred :we}
+              :reflexive? false}]
 
 
  "tu" [{:case :nom
@@ -83,12 +92,21 @@
                    :formal? true}
              :reflexive? false}]
 
+ "vosotras" [{:case :nom
+              :agr {:number :plur
+                    :gender :fem
+                    :person :2nd}
+              :sem {:ref {:human? true}
+                    :pred :you}
+              :reflexive? false}]
+
  "vosotros" [{:case :nom
-        :agr {:number :plur
-              :person :2nd}
-        :sem {:ref {:human? true}
-              :pred :you}
-        :reflexive? false}]
+              :agr {:number :plur
+                    :gender :masc                    
+                    :person :2nd}
+              :sem {:ref {:human? true}
+                    :pred :you}
+              :reflexive? false}]
 
 
  "yo" [{:case :nom

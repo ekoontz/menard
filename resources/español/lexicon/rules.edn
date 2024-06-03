@@ -29,30 +29,48 @@
        :stems {:boot? true}}
   :then [{:exceptions [;; 1st, 2nd and 3rd plural:
                        {:infl :present
-                        :agr {:person :1st :number :sing}
+                        :agr {:person :1st
+                              :number :sing}
                         :surface {:prefix [:stems :boot]
                                   :suffix "o"}}
 
                        {:infl :present
-                        :agr {:person :2nd :number :sing}
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? false}
                         :surface {:prefix [:stems :boot]
                                   :suffix "es"}}
 
                        {:infl :present
-                        :agr {:person :3rd :number :sing}
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? true}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "ere"}}
-                       
+                                  :suffix "e"}}
+
+                       {:infl :present
+                        :agr {:person :3rd
+                              :number :sing}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "e"}}
 
                        ;; (1st and 2nd plur are conjugated according
                        ;; to the regular rules, so :exception needed for them).
 
-                       
+
+                       ;; 2nd person formal (ustedes)
+                       {:infl :present
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? true}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "en"}}
+
                        ;; 3rd plur:
                        {:infl :present
                         :agr {:person :3rd :number :plur}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "eren"}}]}]}
+                                  :suffix "en"}}]}]}
 
  {:rule :subcat
   :if {:cat :verb

@@ -1,7 +1,14 @@
-{"querer" (let [stems {:boot      "quier"
+{
+ "hablar" [{:sem {:pred :speak
+                   :subj {:human true}}}
+           {:sem {:pred :talk
+                  :subj {:human true}}}]
+
+ "querer" (let [stems {:boot      "quier"
                        :preterito "quis"
                        :futuro    "querr"}]
             [{:stems stems
               :sem {:pred :want}}
              {:stems stems
-              :sem {:pred :love}}])}
+              :sem {:pred :love}}])
+ }

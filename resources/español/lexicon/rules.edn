@@ -1,12 +1,32 @@
 [
+ {:rule :stems?
+  :if {:cat :verb
+       :stems ::unspec}
+  :then [{:stems {:boot? false
+                  :futuro? false
+                  :preterito? false}}]}
+                  
  {:rule :boot-stem?
   :if {:cat :verb
+       :stems? true
        :stems {:boot ::unspec}}
-  :then {:boot-stem? false}}
+  :then [{:stems {:boot? false}}]}
+
+ {:rule :futuro-stem?
+  :if {:cat :verb
+       :stems? true
+       :stems {:futuro ::unspec}}
+  :then [{:stems {:futuro? false}}]}
+
+ {:rule :preterito-stem?
+  :if {:cat :verb
+       :stems? true
+       :stems {:preterito ::unspec}}
+  :then [{:stems {:preterito? false}}]}
 
  {:rule :boot-stem
   :if {:cat :verb
-       :boot-stem? true}
+       :stems {:boot? true}}
   :then [{:exceptions [;; 1st, 2nd and 3rd plural:
                        {:infl :present
                         :agr {:person :1st :number :sing}

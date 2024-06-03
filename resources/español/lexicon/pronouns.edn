@@ -66,6 +66,23 @@
               :pred :you}
         :reflexive? false}]
 
+ "usted" [{:case :nom
+           :agr {:number :sing
+                 :person :2nd
+                 :formal? true}
+           :sem {:ref {:human? true}
+                 :pred :you}
+           :reflexive? false}]
+
+ "ustedes" [{:case :nom
+             :agr {:number :plur
+                   :person :2nd
+                   :formal? true}            
+             :sem {:ref {:human? true}
+                   :pred :you
+                   :formal? true}
+             :reflexive? false}]
+
  "vosotros" [{:case :nom
         :agr {:number :plur
               :person :2nd}

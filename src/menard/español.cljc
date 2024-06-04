@@ -5,6 +5,7 @@
             [menard.morphology :refer [morph-leaf]]
             [menard.serialization :as s]
             [dag_unify.core :as u :refer [unify]]
+            #?(:clj [clojure.java.io :as io :refer [resource]])
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
@@ -41,3 +42,23 @@
 
      :else
      (s/morph tree (:morphology @model))))
+
+(defn convert []
+  (->> (-> "resources/español/lexicon.edn"
+           slurp
+           read-string)
+       (filter (fn [[k v]]
+                 (or true (= :verb (u/get-in v [:synsem :cat])))))
+       (map (fn [[k v]]
+              (cond (map? v)
+                    [k (-> {:cat :verb
+                            :sem (u/get-in v [:synsem :sem])}
+                           (merge (if (u/get-in v [:synsem :agr])
+                                    {:agr (u/get-in v [:synsem :agr])}
+                                    {}))
+                           (merge (if (u/get-in v [:espanol])
+                                    {:agr (u/get-in v [:espanol])}
+                                    {})))]
+                    :else
+                    [k v])))
+       (into {})))

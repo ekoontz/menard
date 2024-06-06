@@ -70,10 +70,17 @@
               :agr {:person :3rd :number :sing}
               :surface (u/get-in exceptions [:preterito :3sing])}])))
 
+(defn convert-stems [exceptions]
+  (merge
+   (when (u/get-in exceptions [:boot-stem])
+     {:stems {:boot (u/get-in exceptions [:boot-stem])}})
+   (when (u/get-in exceptions [:preterito-stem])
+     {:stems {:boot (u/get-in exceptions [:preterito-stem])}})))
+
 (defn convert []
   (->> (-> "resources/español/lexicon.edn"
            slurp
-                 read-string)
+           read-string)
        (map (fn [[k v]]
               [k (if (vector? v)
                    v [v])]))
@@ -87,9 +94,18 @@
                                           {:agr (u/get-in v [:synsem :agr])}
                                           {}))
                                  (merge (if (u/get-in v [:espanol])
-                                          {:exceptions (vec (convert-exceptions (u/get-in v [:espanol])))}
-                                          {})))))
+                                          (let [converted-exceptions (convert-exceptions (u/get-in v [:espanol]))]
+                                            (if (not (empty? converted-exceptions))
+                                              {:exceptions (vec converted-exceptions)}
+                                              {}))))
+                                 (merge (if (u/get-in v [:espanol])
+                                          (let [stems (convert-stems (u/get-in v [:espanol]))]
+                                            (if stems
+                                              stems
+                                              {})))))))
+
                       vec)]))
        (into {})))
+
 
 

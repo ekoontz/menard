@@ -90,9 +90,6 @@
   (->> (-> "resources/español/lexicon.edn"
            slurp
            read-string) 
-       (filter (fn [[k v]]
-                 (or true (= k "conducir")
-                     (= k "pararse"))))
        (map (fn [[k v]]
               [k (convert-unifies v)]))
        (map (fn [[k v]]
@@ -108,6 +105,8 @@
                              (-> {}
                                  (merge (when (u/get-in v [:synsem :sem])
                                           {:sem (u/get-in v [:synsem :sem])}))
+                                 (merge (when (u/get-in v [:synsem :cat])
+                                          {:cat (u/get-in v [:synsem :cat])}))
                                  (merge (when (u/get-in v [:synsem :agr])
                                           {:agr (u/get-in v [:synsem :agr])}
                                           {}))
@@ -123,4 +122,8 @@
                                               {}))))))))]))
        (map (fn [[k vs]]
               [k (vec vs)]))
+       (filter (fn [[k v]]
+                 (not (empty? (->> v
+                                   (map #(u/get-in % [:cat]))
+                                   (filter #(= :verb %)))))))
        (into {})))

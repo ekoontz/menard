@@ -43,22 +43,53 @@
      :else
      (s/morph tree (:morphology @model))))
 
+(defn convert-exceptions [exceptions]
+  (concat (when (u/get-in exceptions [:present :1sing])
+            [{:infl :present
+              :agr {:person :1st :number :sing}
+              :surface (u/get-in exceptions [:present :1sing])}])
+          (when (u/get-in exceptions [:present :2sing])
+            [{:infl :present
+              :agr {:person :2nd :number :sing}
+              :surface (u/get-in exceptions [:present :2sing])}])
+          (when (u/get-in exceptions [:present :2sing])
+            [{:infl :present
+              :agr {:person :3rd :number :sing}
+              :surface (u/get-in exceptions [:present :3sing])}])
+          
+          (when (u/get-in exceptions [:preterito :1sing])
+            [{:infl :preterito
+              :agr {:person :1st :number :sing}
+              :surface (u/get-in exceptions [:preterito :1sing])}])
+          (when (u/get-in exceptions [:preterito :2sing])
+            [{:infl :preterito
+              :agr {:person :2nd :number :sing}
+              :surface (u/get-in exceptions [:preterito :2sing])}])
+          (when (u/get-in exceptions [:preterito :2sing])
+            [{:infl :preterito
+              :agr {:person :3rd :number :sing}
+              :surface (u/get-in exceptions [:preterito :3sing])}])))
+
 (defn convert []
   (->> (-> "resources/español/lexicon.edn"
            slurp
-           read-string)
-       (filter (fn [[k v]]
-                 (or true (= :verb (u/get-in v [:synsem :cat])))))
+                 read-string)
        (map (fn [[k v]]
-              (cond (map? v)
-                    [k (-> {:cat :verb
-                            :sem (u/get-in v [:synsem :sem])}
-                           (merge (if (u/get-in v [:synsem :agr])
-                                    {:agr (u/get-in v [:synsem :agr])}
-                                    {}))
-                           (merge (if (u/get-in v [:espanol])
-                                    {:agr (u/get-in v [:espanol])}
-                                    {})))]
-                    :else
-                    [k v])))
+              [k (if (vector? v)
+                   v [v])]))
+       (map (fn [[k vs]]
+              [k (->> vs
+                      (map (fn [v]
+                             (-> {}
+                                 (merge (when (u/get-in v [:synsem :sem])
+                                          {:sem (u/get-in v [:synsem :sem])}))
+                                 (merge (when (u/get-in v [:synsem :agr])
+                                          {:agr (u/get-in v [:synsem :agr])}
+                                          {}))
+                                 (merge (if (u/get-in v [:espanol])
+                                          {:exceptions (vec (convert-exceptions (u/get-in v [:espanol])))}
+                                          {})))))
+                      vec)]))
        (into {})))
+
+

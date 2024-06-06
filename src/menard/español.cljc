@@ -77,13 +77,31 @@
    (when (u/get-in exceptions [:preterito-stem])
      {:stems {:boot (u/get-in exceptions [:preterito-stem])}})))
 
+(defn convert-unifies [v]
+  (let [evalled (eval v)]
+    (if (vector? evalled)
+      (->> evalled
+           (map (fn [v]
+                  (apply unify (concat (get v :unify [:top])
+                                       [(dissoc v :unify)])))))
+      evalled)))
+
 (defn convert []
   (->> (-> "resources/español/lexicon.edn"
            slurp
-           read-string)
+           read-string) 
+       (filter (fn [[k v]]
+                 (or true (= k "conducir")
+                     (= k "pararse"))))
        (map (fn [[k v]]
-              [k (if (vector? v)
-                   v [v])]))
+              [k (convert-unifies v)]))
+       (map (fn [[k v]]
+              [k (cond (vector? v)
+                       v
+                       (seq? v)
+                       (vec v)
+                       :else
+                       [v])]))
        (map (fn [[k vs]]
               [k (->> vs
                       (map (fn [v]
@@ -102,10 +120,7 @@
                                           (let [stems (convert-stems (u/get-in v [:espanol]))]
                                             (if stems
                                               stems
-                                              {})))))))
-
-                      vec)]))
+                                              {}))))))))]))
+       (map (fn [[k vs]]
+              [k (vec vs)]))
        (into {})))
-
-
-

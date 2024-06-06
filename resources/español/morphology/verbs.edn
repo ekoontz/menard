@@ -2,6 +2,13 @@
 
  ;; <present-tense rules>
 
+ {:g [#"^(.+)ar$"  "$1o"] 
+  :p [#"^(.+)o$"   "$1ar"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :sing
+            :person :1st}}}
+
  {:g [#"^(.+)er$"  "$1o"] 
   :p [#"^(.+)o$"   "$1er"] 
   :u {:cat :verb
@@ -9,12 +16,20 @@
       :agr {:number :sing
             :person :1st}}}
 
- {:g [#"^(.+)ar$"  "$1o"] 
-  :p [#"^(.+)o$"   "$1ar"] 
+ {:g [#"^(.+)ir$"  "$1o"] 
+  :p [#"^(.+)o$"   "$1ir"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
             :person :1st}}}
+
+ {:g [#"^(.+)ar$"  "$1es"] 
+  :p [#"^(.+)es$"  "$1ar"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :sing
+            :person :2nd
+            :formal? false}}}
 
  {:g [#"^(.+)er$"  "$1es"] 
   :p [#"^(.+)es$"  "$1er"] 
@@ -24,12 +39,13 @@
             :person :2nd
             :formal? false}}}
 
- {:g [#"^(.+)er$"  "$1e"] 
-  :p [#"^(.+)e$"   "$1er"] 
+ {:g [#"^(.+)ir$"  "$1es"] 
+  :p [#"^(.+)es$"  "$1ir"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
-            :formal? true}}}
+            :person :2nd
+            :formal? false}}}
 
  {:g [#"^(.+)ar$"  "$1a"] 
   :p [#"^(.+)a$"   "$1ar"] 
@@ -38,6 +54,27 @@
       :agr {:number :sing
             :formal? true}}}
 
+ {:g [#"^(.+)er$"  "$1e"] 
+  :p [#"^(.+)e$"   "$1er"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :sing
+            :formal? true}}}
+
+ {:g [#"^(.+)ir$"  "$1e"] 
+  :p [#"^(.+)e$"   "$1ir"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :sing
+            :formal? true}}}
+
+ {:g [#"^(.+)ar$"   "$1amos"] 
+  :p [#"^(.+)amos$" "$1ar"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :plur
+            :person :1st}}}
+
  {:g [#"^(.+)er$"   "$1emos"] 
   :p [#"^(.+)emos$" "$1er"] 
   :u {:cat :verb
@@ -45,13 +82,12 @@
       :agr {:number :plur
             :person :1st}}}
 
- {:g [#"^(.+)er$"   "$1éis"] 
-  :p [#"^(.+)éis$"  "$1er"] 
+ {:g [#"^(.+)ir$"   "$1imos"] 
+  :p [#"^(.+)imos$" "$1ir"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :plur
-            :person :2nd
-            :formal? false}}}
+            :person :1st}}}
 
  {:g [#"^(.+)ar$"   "$1áis"] 
   :p [#"^(.+)áis$"  "$1er"] 
@@ -60,15 +96,31 @@
       :agr {:number :plur
             :person :2nd
             :formal? false}}}
+
+ {:g [#"^(.+)er$"   "$1éis"] 
+  :p [#"^(.+)éis$"  "$1er"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :plur
+            :person :2nd
+            :formal? false}}}
  
- {:g [#"^(.+)er$"   "$1en"] 
-  :p [#"^(.+)en$"   "$1er"] 
+ {:g [#"^(.+)ir$"   "$1eis"] 
+  :p [#"^(.+)eis$"  "$1ir"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :plur
             :person :2nd
             :formal? true}}}
  
+ {:g [#"^(.+)ar$"  "$1en"] 
+  :p [#"^(.+)en$"  "$1ar"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :plur
+            :person :3rd
+            :formal? false}}}
+
  {:g [#"^(.+)er$"  "$1en"] 
   :p [#"^(.+)en$"  "$1er"] 
   :u {:cat :verb
@@ -76,6 +128,15 @@
       :agr {:number :plur
             :person :3rd
             :formal? false}}}
+
+ {:g [#"^(.+)ir$"  "$1en"] 
+  :p [#"^(.+)en$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :plur
+            :person :3rd
+            :formal? false}}}
+
  ;; </present-tense rules>
 
  ;; .. other tenses..

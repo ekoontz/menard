@@ -75,7 +75,7 @@
    (when (u/get-in exceptions [:boot-stem])
      {:stems {:boot (u/get-in exceptions [:boot-stem])}})
    (when (u/get-in exceptions [:preterito-stem])
-     {:stems {:boot (u/get-in exceptions [:preterito-stem])}})))
+     {:stems {:preterito (u/get-in exceptions [:preterito-stem])}})))
 
 (defn convert-unifies [v]
   (let [evalled (eval v)]

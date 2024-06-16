@@ -58,3 +58,29 @@
             retval)
         final-check))))
 
+(defn es-to-en-spec [es-expression]
+  (log/info (str "es-to-en-spec: es-expression: " (serialize es-expression)))
+  {:agr {:number
+         (or
+          (u/get-in es-expression [:sem :subj :ref :number])
+          (u/get-in es-expression [:agr :number] :top))
+         :person (u/get-in es-expression [:agr :person] :top)
+         :gender (let [gender (u/get-in es-expression [:agr :gender] :top)]
+                   (cond (or (= gender :masc) (= gender :fem))
+                         gender
+                         :else :top))}
+   :cat (u/get-in es-expression [:cat])
+   :max-depth (u/get-in es-expression [:target :max-depth] max-depth)
+   :phrasal? (u/get-in es-expression [:phrasal?] true)
+   :reflexive? (cond (= :top (u/get-in es-expression [:reflexive?] :top))
+                     false
+                     :else
+                     (u/get-in es-expression [:reflexive?] :top))
+   :sem (unify (u/get-in es-expression [:sem] :top)
+               (cond (not (= :fail
+                             (unify (u/get-in es-expression [:sem] :top)
+                                    {:obj {:obj (u/get-in es-expression [:sem :obj :obj])}})))
+                     (unify (u/get-in es-expression [:sem] :top)
+                            {:obj {:obj (u/get-in es-expression [:sem :obj :obj])}})
+                     true :top))
+   :subcat []})

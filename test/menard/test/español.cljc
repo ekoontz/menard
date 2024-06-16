@@ -14,6 +14,11 @@
            :sem {:pred :want
                  :subj {:pred :i}}})
 
+(def spec2 {:cat :verb
+            :rule "s"
+            :subcat []
+            :sem {:pred :want}})
+
 (deftest subject-agreement
   (is (= "yo quiero"
          (-> {:cat :verb
@@ -36,4 +41,9 @@
              generate
              morph))))
 
+(deftest find-root-verb
+  (is (= "querer"
+         (-> spec generate (u/get-in [:root]))))
+  (is (= "querer"
+         (-> spec2 generate (u/get-in [:root])))))
 

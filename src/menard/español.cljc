@@ -21,18 +21,17 @@
      (s/syntax-tree tree (-> model deref :morphology))))
 
 (defn generate [spec]
+  (log/info (str "generate: generating with: " spec))
   (let [model (deref model)
         retval
         (binding [g/max-depth (:max-depth spec g/max-depth)
                   g/max-fails (:max-fails spec g/max-fails)
                   g/allow-backtracking? true]
           (-> spec
-              ((fn [x] (unify x (:training-wheels x :top))))
-              (dissoc :training-wheels)
               (g/generate (-> model :grammar)
                           (-> model :lexicon-index-fn)
                           es-syntax-tree)))]
-    (log/debug (str "menard.espa~nol/generate: generated: " (-> retval es-syntax-tree)))
+    (log/info (str "generate: generated: " (-> retval es-syntax-tree)))
     retval))
 
 (defn morph [tree]

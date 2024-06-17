@@ -185,7 +185,7 @@
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
   [surface lexicon morphology]
-  (log/debug (str "matching-lexemes for surface: '" surface "'"))
+  (log/info (str "matching-lexemes for surface: '" surface "'"))
   (let [;; Apply morphological rules against surface to find a set of hypotheses
         ;; about the surface form. Each morphological rule has a :p key,
         ;; which we used to turn the surface form in to the canonical form.
@@ -202,12 +202,13 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
+                        (log/info (str "FOUND with from: " from))
                         {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
 
              ((fn [rules]
-                (log/debug (str "found: " (count rules) " matching rules."))
+                (log/info (str "found: " (count rules) " matching rules."))
                 rules))
 
              ;; Now we have a set of tuples T, each member of which has form: {:u U, :canonical C},
@@ -236,13 +237,13 @@
              ;; and where the unification with that rule was successful.
              ;; where the _surface_ has been
              ((fn [lexemes]
-                (log/debug (str "found: " (count lexemes) " inflections for surface: " surface  "."))
+                (log/info (str "found: " (count lexemes) " inflections for surface: " surface  "."))
                 lexemes))
 
              (map (fn [lexeme]
-                    (log/debug (str "  " surface " -> "
-                                    (select-keys (dag_unify.diagnostics/strip-refs lexeme)
-                                                 [:canonical :sense])))
+                    (log/info (str "  " surface " -> "
+                                   (select-keys (dag_unify.diagnostics/strip-refs lexeme)
+                                                [:canonical :sense])))
                     lexeme))
 
              ;; Add {:surface surface} to the output:
@@ -309,24 +310,6 @@
         (log/debug (str "returning: " (count result) " analyses for: " surface "."))
         result))))
 
-(defn exceptions
-  "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"
-  [canonical lexeme]
-  (map (fn [exception]
-         (let [u-result
-               (reduce unify
-                       [(d/dissoc-in lexeme [:exceptions])
-                        exception
-                        {:exception true
-                         :inflected? true
-                         :canonical canonical}])
-               result
-               (when (not (= :fail u-result))
-                 {(:surface exception)
-                  [u-result]})]
-           result))
-       (:exceptions lexeme)))
-
 (defn merge-with-all
   "having some personal cognitive difficulty in using apply with merge-with,
    so instead using this function as a workaround."
@@ -342,7 +325,20 @@
  [canonical lexemes]
  (->> lexemes
       (mapcat (fn [lexeme]
-                (exceptions canonical lexeme)))
+                (map (fn [exception]
+                       (let [u-result
+                             (reduce unify
+                                     [(d/dissoc-in lexeme [:exceptions])
+                                      exception
+                                      {:exception? true
+                                       :inflected? true
+                                       :canonical canonical}])
+                             result
+                             (when (not (= :fail u-result))
+                               {(:surface exception)
+                                [u-result]})]
+                         result))
+                     (:exceptions lexeme))))
       (merge-with-all concat)))
 
 (defn add-exceptions-to-lexicon

@@ -325,20 +325,18 @@
  [canonical lexemes]
  (->> lexemes
       (mapcat (fn [lexeme]
-                (map (fn [exception]
-                       (let [u-result
-                             (reduce unify
-                                     [(d/dissoc-in lexeme [:exceptions])
-                                      exception
-                                      {:exception? true
-                                       :inflected? true
-                                       :canonical canonical}])
-                             result
-                             (when (not (= :fail u-result))
-                               {(:surface exception)
-                                [u-result]})]
-                         result))
-                     (:exceptions lexeme))))
+                (->> (:exceptions lexeme)
+                     (map (fn [exception]
+                            (let [u-result
+                                  (unify
+                                   (d/dissoc-in lexeme [:exceptions])
+                                   exception
+                                   {:exception? true
+                                    :inflected? true
+                                    :canonical canonical})]
+                              (when (not (= :fail u-result))
+                                {(:surface exception)
+                                 [u-result]})))))))
       (merge-with-all concat)))
 
 (defn add-exceptions-to-lexicon

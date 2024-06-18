@@ -112,6 +112,7 @@
  "house" [{:sem {:pred :house}}]
  "husband" [{:sem {:pred :husband}}]
  "idea" [{:sem {:pred :idea}}]
+ "idiot" [{:sem {:pred :idiot}}]
  "implementation" [{:sem {:pred :implementation}}]
  "jerk" [{:sem {:pred :jerk}}]
  "job" [{:sem {:pred :job}}]

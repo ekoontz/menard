@@ -202,7 +202,7 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
-                        (log/info (str "FOUND with from: " from))
+                        (log/debug (str "FOUND with from: " from))
                         {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
@@ -310,44 +310,39 @@
         (log/debug (str "returning: " (count result) " analyses for: " surface "."))
         result))))
 
-(defn merge-with-all
-  "having some personal cognitive difficulty in using apply with merge-with,
-   so instead using this function as a workaround."
-  [merge-with-fn args]
-  (when (seq args)
-    (merge-with merge-with-fn
-                (first args)
-                (merge-with-all merge-with-fn (rest args)))))
-
-(defn exceptions-for
-  "generate all the exceptions possible for the sequence _lexemes_, each of which 
-   has _canonical_ as the canonical form for the exception."
- [canonical lexemes]
- (->> lexemes
-      (mapcat (fn [lexeme]
-                (->> (:exceptions lexeme)
-                     (map (fn [exception]
-                            (let [u-result
-                                  (unify
-                                   (d/dissoc-in lexeme [:exceptions])
-                                   exception
-                                   {:exception? true
-                                    :inflected? true
-                                    :canonical canonical})]
-                              (when (not (= :fail u-result))
-                                {(:surface exception)
-                                 [u-result]})))))))
-      (merge-with-all concat)))
-
 (defn add-exceptions-to-lexicon
   "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
-  (merge-with-all
-   concat
-   (cons lexicon
-         (map (fn [canonical]
-                (exceptions-for canonical (get lexicon canonical)))
-              (keys lexicon)))))
+  (log/info (str "generating exceptions.."))
+  (let [exceptions-for (fn [canonical lexemes]
+                         ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
+                         ;;  has _canonical_ as the canonical form for the exception."
+                         (let [merge-all (fn [args]
+                                           (if (seq args)
+                                             (reduce (fn [a b] (merge-with concat a b)) args)))]
+                           (->> lexemes
+                                (mapcat (fn [lexeme]
+                                          (log/info (str "exceptions-for: looking at lexeme: " lexeme))
+                                          (->> (:exceptions lexeme)
+                                               (map (fn [exception]
+                                                      (let [u-result
+                                                            (unify
+                                                             (d/dissoc-in lexeme [:exceptions])
+                                                             exception
+                                                             {:exception? true
+                                                              :inflected? true
+                                                              :canonical canonical})]
+                                                        (log/info (str "u-result: " u-result))
+                                                        (when (not (= :fail u-result))
+                                                          {(:surface exception)
+                                                           [u-result]})))))))
+                                merge-all)))]
+    (->>
+     (cons lexicon
+           (map (fn [canonical]
+                  (exceptions-for canonical (get lexicon canonical)))
+                (keys lexicon)))
+     (reduce (fn [a b] (merge-with concat a b))))))
 
 (defn serialized-value-map [the-map]
   (zipmap

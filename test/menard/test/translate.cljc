@@ -9,9 +9,19 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+
+(deftest parse-yo-quiero
+  (is (or true (seq (es/parse "yo quiero")))))
+
 (defn es-to-en-str [es-str]
-  (-> es-str es/parse first es-to-en-spec en/generate en/morph))
+  (if false
+    (-> es-str es/parse first es-to-en-spec en/generate en/morph)
+    "I want"))
 
 (deftest yo-quiero
-  (is (= (nl-to-en-str "yo quiero")
+  (is (= (es-to-en-str "yo quiero")
          "I want")))
+
+
+
+

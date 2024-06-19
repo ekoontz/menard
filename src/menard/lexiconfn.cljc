@@ -322,7 +322,7 @@
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]
                            (->> lexemes
                                 (mapcat (fn [lexeme]
-                                          (log/info (str "exceptions-for: looking at lexeme: " lexeme))
+                                          (log/debug (str "exceptions-for: looking at lexeme: " lexeme))
                                           (->> (:exceptions lexeme)
                                                (map (fn [exception]
                                                       (let [u-result
@@ -332,7 +332,7 @@
                                                              {:exception? true
                                                               :inflected? true
                                                               :canonical canonical})]
-                                                        (log/info (str "u-result: " u-result))
+                                                        (log/debug (str "new exception: " u-result))
                                                         (when (not (= :fail u-result))
                                                           {(:surface exception)
                                                            [u-result]})))))))

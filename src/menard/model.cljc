@@ -186,7 +186,7 @@
             (if (nil? unify-with)
               lexicon
               (do
-                (log/debug (str "  apply-to-every-lexeme..(unify-with)"))
+                (log/info (str "  apply-to-every-lexeme..(unify-with: " unify-with))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
                                            (let [result (unify lexeme unify-with)]
@@ -202,18 +202,21 @@
                                          (fn [lexeme]
                                            (apply-fn lexeme)))))))
          ((fn [lexicon]
-            (log/debug (str "  add-exceptions-to-lexicon.."))
-            (l/add-exceptions-to-lexicon lexicon)))
-         ((fn [lexicon]
             (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
+
          ((fn [lexicon]
-            (log/info (str "compile-lexicon-source compiled: '" source-filename "'."))
+            (log/info (str "  add-exceptions-to-lexicon.."))
+            (l/add-exceptions-to-lexicon lexicon)))
+
+         ((fn [lexicon]
+            (log/info (str "compile-lexicon-source end: '" source-filename "'."))
             lexicon)))))
 
 #?(:clj
    (defn load-lexicon [lexical-rules model-spec path-suffix include-derivation?]
      (log/info (str "load-lexicon: lexical-rules count): " (count lexical-rules)))
+     (log/debug (str "load-lexicon: lexical-rules are: " lexical-rules))
      (if (nil? model-spec)
        (exception "model-spec is unexpectedly nil."))
      (log/debug (str "model-spec: " model-spec))
@@ -228,10 +231,9 @@
                                      filename)
                                 :u :top)
                                postprocess-fn
-                               ;; have to (eval) twice for some reason..
-                                (eval (eval (get (get (-> model-spec :lexicon :sources)
-                                                      filename)
-                                                 :f '(fn [x] x))))]
+                               (eval (get (get (-> model-spec :lexicon :sources)
+                                               filename)
+                                          :f (fn [x] x)))]
                            (log/debug (str "source filename: " filename))
                            (log/debug (str "unify-with: " unify-with))
                            (compile-lexicon-source

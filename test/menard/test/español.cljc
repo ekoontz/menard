@@ -1,6 +1,6 @@
 (ns menard.test.español
   (:require [menard.español :as es
-             :refer [generate morph]]
+             :refer [generate morph syntax-tree]]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
@@ -20,26 +20,36 @@
             :sem {:pred :want}})
 
 (deftest subject-agreement
-  (is (= "yo quiero"
-         (-> {:cat :verb
-              :rule "s"
-              :subcat []
-              :root "querer"
-              :sem {:pred :want
-                    :subj {:pred :i}}}
-             generate
-             morph)))
-  (is (= "ellas quieren"
-         (-> {:cat :verb
-              :rule "s"
-              :subcat []
-              :root "querer"
-              :agr {:number :plur
-                    :gender :fem}
-              :sem {:pred :want
-                    :subj {:pred :they}}}
-             generate
-             morph))))
+  (count
+   (take 10
+         (repeatedly #(is (= "yo quiero"
+                             (-> {:cat :verb
+                                  :rule "s"
+                                  :subcat []
+                                  :root "querer"
+                                  :sem {:pred :want
+                                        :subj {:pred :i}}}
+                                 generate
+                                 ((fn [x]
+                                    (log/info (str "syntax-tree: " (syntax-tree x)))
+                                    x))
+                                 morph
+                                 ((fn [x]
+                                    (log/info (str "morph: " x))
+                                    x))))))))
+  (count
+   (take 10
+         (repeatedly #(is (= "ellas quieren"
+                             (-> {:cat :verb
+                                  :rule "s"
+                                  :subcat []
+                                  :root "querer"
+                                  :agr {:number :plur
+                                        :gender :fem}
+                                  :sem {:pred :want
+                                        :subj {:pred :they}}}
+                                 generate
+                                 morph)))))))
 
 (deftest find-root-verb
   (is (= "querer"

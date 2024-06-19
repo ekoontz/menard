@@ -36,6 +36,8 @@
 
 ;; for parsing diagnostics:
 (def truncate? true)
+
+;; how to split up a string into tokens that can be analyzed:
 (def split-on #"[ ]+")
 
 #?(:clj

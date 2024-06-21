@@ -165,7 +165,7 @@
 
 (defn parse
   ([expression model]
-   (let [model model
+   (let [model @model
          ;; remove trailing '.' if any:
          expression (clojure.string/replace expression #"[.]*$" "")
 

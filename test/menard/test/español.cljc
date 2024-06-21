@@ -1,6 +1,6 @@
 (ns menard.test.español
   (:require [menard.español :as es
-             :refer [generate morph syntax-tree]]
+             :refer [analyze generate morph parse syntax-tree]]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
@@ -56,4 +56,17 @@
          (-> spec generate (u/get-in [:root]))))
   (is (= "querer"
          (-> spec2 generate (u/get-in [:root])))))
+
+(deftest analyze-1
+  (let [analysis (analyze "quiero")]
+    (is (seq analysis))
+    (is (= "querer" (->> analysis (map #(u/get-in % [:canonical])) set first)))
+    (is (= :present (->> analysis (map #(u/get-in % [:infl])) set first)))
+    (is (= {:person :1st :number :sing} (->> analysis (map #(u/get-in % [:agr])) set first)))))
+
+(deftest parse-1
+  (let [parses (parse "yo quiero")]
+    (is (= "[s .yo +quiero]" (-> parses first syntax-tree)))))
+
+
 

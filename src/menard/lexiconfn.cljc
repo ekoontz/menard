@@ -123,14 +123,18 @@
         (for [k (sort (keys lexicon))]
           (let [lexemes (seq (get lexicon k))
                 include-derivation? include-derivation?]
-            (log/debug (str "applying rules for: " k))
+            (log/debug (str "apply-rules-to-lexicon: applying rules for: " k))
             (when lexemes ;; keys whose value is nil or null are removed.
               [k (->> lexemes
                       (map (fn [lexeme]
+                             (if (nil? lexeme)
+                               (exception (str "lexeme is unexpectedly nil; lexicon: " lexicon)))
+                             (log/debug (str "apply-rules-to-lexicon: 1st step: for lexeme: " lexeme))
                              (unify lexeme
                                     {:phrasal? false
                                      :canonical (u/get-in lexeme [:canonical] k)})))
                       (mapcat (fn [lexeme]
+                                (log/debug (str "apply-rules-to-lexicon: 2nd step: for lexeme: " lexeme))
                                 (apply-rules-to-lexeme rules lexeme 0 include-derivation?))))])))))
 
 (defn apply-rules-in-order [lexicon rules include-derivation?]
@@ -141,7 +145,7 @@
           (apply-rules-to-lexicon rules include-derivation?)))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
-  (log/debug (str "apply-to-every-lexeme."))
+  (log/debug (str "apply-to-every-lexeme: map-fn: " map-fn))
   (if (not (map? lexicon))
     (exception (str "input lexeme is not a map; it is: " (vec lexicon))))
   (let [result 
@@ -185,7 +189,7 @@
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
   [surface lexicon morphology]
-  (log/info (str "matching-lexemes for surface: '" surface "'"))
+  (log/debug (str "matching-lexemes for surface: '" surface "'"))
   (let [;; Apply morphological rules against surface to find a set of hypotheses
         ;; about the surface form. Each morphological rule has a :p key,
         ;; which we used to turn the surface form in to the canonical form.
@@ -208,7 +212,7 @@
              (filter #(not (nil? %)))
 
              ((fn [rules]
-                (log/info (str "found: " (count rules) " matching rules."))
+                (log/debug (str "found: " (count rules) " matching rules."))
                 rules))
 
              ;; Now we have a set of tuples T, each member of which has form: {:u U, :canonical C},
@@ -237,13 +241,13 @@
              ;; and where the unification with that rule was successful.
              ;; where the _surface_ has been
              ((fn [lexemes]
-                (log/info (str "found: " (count lexemes) " inflections for surface: " surface  "."))
+                (log/debug (str "found: " (count lexemes) " inflections for surface: " surface  "."))
                 lexemes))
 
              (map (fn [lexeme]
-                    (log/info (str "  " surface " -> "
-                                   (select-keys (dag_unify.diagnostics/strip-refs lexeme)
-                                                [:canonical :sense])))
+                    (log/debug (str "  " surface " -> "
+                                    (select-keys (dag_unify.diagnostics/strip-refs lexeme)
+                                                 [:canonical :sense])))
                     lexeme))
 
              ;; Add {:surface surface} to the output:
@@ -313,7 +317,7 @@
 (defn add-exceptions-to-lexicon
   "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
-  (log/info (str "generating exceptions.."))
+  (log/debug (str "generating exceptions.."))
   (let [exceptions-for (fn [canonical lexemes]
                          ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
                          ;;  has _canonical_ as the canonical form for the exception."
@@ -322,6 +326,11 @@
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]
                            (->> lexemes
                                 (mapcat (fn [lexeme]
+                                          (log/debug (str "add-exceptions-to-lexicon: "
+                                                          "canonical: " canonical "; " 
+                                                          "lexeme: " lexeme))
+                                          (if (not (map? lexeme))
+                                            (exception (str "the lexeme was unexpectedly not a map: " lexeme)))
                                           (log/debug (str "exceptions-for: looking at lexeme: " lexeme))
                                           (->> (:exceptions lexeme)
                                                (map (fn [exception]
@@ -340,6 +349,7 @@
     (->>
      (cons lexicon
            (map (fn [canonical]
+                  (log/debug (str "calling exceptions-for with canonical: " canonical " with: " (vec (get lexicon canonical))))
                   (exceptions-for canonical (get lexicon canonical)))
                 (keys lexicon)))
      (reduce (fn [a b] (merge-with concat a b))))))

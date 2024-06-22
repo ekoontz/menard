@@ -2,6 +2,7 @@
   (:require [menard.nederlands :as nl]
             [menard.nederlands.complete :as nl-complete]
             [menard.english :as en]
+            [menard.español :as es]
             [menard.generate :as g]
             [menard.translate.spec :refer [nl-to-en-spec]]
             #?(:clj [clojure.tools.logging :as log])
@@ -122,3 +123,20 @@
     :context :unspec,
     :subj [1],
     :obj :anaphor}})
+
+
+(defn es-to-en [es-input]
+  (-> es-input es/parse first
+      ((fn [es-parse]
+         (-> {:sem (-> es-parse (u/get-in [:sem]))
+              :cat (-> es-parse (u/get-in [:cat]))
+              :infl (-> es-parse (u/get-in [:infl]))
+              :subcat (-> es-parse (u/get-in [:subcat]))}
+
+             (u/unify {;; fix espanol parsing to generate these:
+                       :sem {:subj {:existential? false} 
+                             :obj :none
+                             :mod []}
+                       :aux? false})
+             en/generate
+             en/morph)))))

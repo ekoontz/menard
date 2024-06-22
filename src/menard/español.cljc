@@ -143,7 +143,7 @@
   ([surface use-null-lexemes?]
    (analyze surface false @model))
   ([surface use-null-lexemes? model]
-   (log/info (str "analyze with model named: " (-> model :name) "; morphology size: " (count (vec (:morphology model)))))
+   (log/debug (str "analyze with model named: " (-> model :name) "; morphology size: " (count (vec (:morphology model)))))
    (let [variants (vec (set [(clojure.string/lower-case surface)
                              (clojure.string/upper-case surface)
                              (clojure.string/capitalize surface)]))
@@ -152,7 +152,7 @@
          found (mapcat (fn [variant]
                          (l/matching-lexemes variant lexicon morphology))
                        variants)]
-     (log/info (str "found: " (count found) " for: [" surface "]"))
+     (log/debug (str "found: " (count found) " for: [" surface "]"))
      (if (seq found)
        found
        (if (and use-null-lexemes?

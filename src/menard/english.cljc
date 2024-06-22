@@ -159,8 +159,8 @@
 ;; to improve performance:
 (defn parse [expression & [model]]
   (let [model (resolve-model (or model complete/model))]
-    (log/info (str "menard.english/parse with model name: "
-                   (-> model :name)))
+    (log/debug (str "menard.english/parse with model name: "
+                    (-> model :name)))
     (let [truncate? true]
       (->
        expression

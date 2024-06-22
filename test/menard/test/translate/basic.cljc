@@ -1,7 +1,11 @@
 (ns menard.test.translate.basic
-  (:require [menard.nederlands.basic :as basic]
+  (:require [menard.model :refer [load-model]]
+            [menard.nederlands :as nl
+             :refer [analyze expressions generate morph
+                     parse syntax-tree]]
+            [menard.nederlands.basic :as basic]
             [menard.test.translate :refer [transfer-fn]]
-            [clojure.test :refer [deftest]]))
+            [clojure.test :refer [deftest is]]))
 
 (deftest transfer-basic
   (->>

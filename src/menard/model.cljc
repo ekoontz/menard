@@ -179,17 +179,20 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
-     (log/info (str "compile-lexicon-source start: '" source-filename "'"))
+     (log/debug (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
      (-> source-filename
          l/read-and-eval
          ((fn [lexicon]
             (if (nil? unify-with)
-              lexicon
               (do
-                (log/info (str "  apply-to-every-lexeme..(unify-with: " unify-with))
+                (log/debug (str "compile-lexicon-source: unify-with is nil."))
+                lexicon)
+              (do
+                (log/debug (str "  compile-lexicon-source: apply-to-every-lexeme..(unify-with: " unify-with ") to lexicon: " lexicon))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
                                            (let [result (unify lexeme unify-with)]
+                                             (log/debug (str "compile-lexicon-source: lexeme: " lexeme))
                                              (if (= :fail result)
                                                (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
                                              result)))))))
@@ -197,7 +200,7 @@
             (if (nil? apply-fn)
               lexicon
               (do
-                (log/debug (str "  apply-to-every-lexeme (apply-fn)"))
+                (log/debug (str "  apply-to-every-lexeme (apply-fn: " apply-fn "): lexicon: " lexicon))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
                                            (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
@@ -211,11 +214,11 @@
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
 
          ((fn [lexicon]
-            (log/info (str "  add-exceptions-to-lexicon.."))
+            (log/debug (str "  add-exceptions-to-lexicon: lexicon: " lexicon))
             (l/add-exceptions-to-lexicon lexicon)))
 
          ((fn [lexicon]
-            (log/info (str "compile-lexicon-source end: '" source-filename "'."))
+            (log/debug (str "compile-lexicon-source end: '" source-filename "'."))
             lexicon)))))
 
 #?(:clj

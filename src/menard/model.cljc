@@ -200,7 +200,12 @@
                 (log/debug (str "  apply-to-every-lexeme (apply-fn)"))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
-                                           (apply-fn lexeme)))))))
+                                           (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
+                                           (let [result ((eval apply-fn) lexeme)]
+                                             (log/debug (str "compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme "; result: " result))
+                                             (when (nil? result)
+                                               (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
+                                             result)))))))
          ((fn [lexicon]
             (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))

@@ -4,9 +4,6 @@
             [menard.español :as es]
             [clojure.test :refer [deftest is]]))
 
-(def es-input "yo quiero")
-(def es-parse (-> es-input es/parse first))
-
 (defn es-to-en [es-input]
   (-> es-input es/parse first
       ((fn [es-parse]

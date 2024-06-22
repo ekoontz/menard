@@ -189,6 +189,7 @@
  "moeder" [{:sem {:pred :mother
                   :ref {:human? true}}}]
  "mogelijkheid" [{:sem {:pred :opportunity}}]
+ "naarling" [{:sem {:pred :idiot}}]
  "omstandigheid" [{:sem {:pred :circumstance}}]
  "ontspanning" [{:sem {:pred :relaxation}}]
  "ontwikkeling" [{:sem {:pred :development}}]

@@ -82,6 +82,7 @@
                     (let [{u :u
                            [from _] :g
                            debug :debug} rule]
+                      (log/debug (str "morph-leaf: from: " from "; canonical: " canonical))
                       (and (string? canonical)
                            (re-find from canonical)
                            (let [result (unify u structure)]

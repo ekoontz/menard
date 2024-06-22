@@ -36,6 +36,8 @@
 
 ;; for parsing diagnostics:
 (def truncate? true)
+
+;; how to split up a string into tokens that can be analyzed:
 (def split-on #"[ ]+")
 
 #?(:clj
@@ -140,9 +142,9 @@
             (-> spec
                 ((fn [x] (unify x (:training-wheels x :top))))
                 (dissoc :training-wheels)
-          (g/generate (-> model :grammar)
-                      (-> model :lexicon-index-fn)
-                      syntax-tree)))]
+                (g/generate (-> model :grammar)
+                            (-> model :lexicon-index-fn)
+                            syntax-tree)))]
       (log/debug (str "menard.nederlands/generate: generated: " (-> retval syntax-tree)))
       retval)))
 

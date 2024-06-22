@@ -1,0 +1,106 @@
+[
+ {:rule :stems?
+  :if {:cat :verb
+       :stems ::unspec}
+  :then [{:stems {:boot? false
+                  :futuro? false
+                  :preterito? false}}]}
+                  
+ {:rule :boot-stem?
+  :if {:cat :verb
+       :stems? true
+       :stems {:boot ::unspec}}
+  :then [{:stems {:boot? false}}]}
+
+ {:rule :futuro-stem?
+  :if {:cat :verb
+       :stems? true
+       :stems {:futuro ::unspec}}
+  :then [{:stems {:futuro? false}}]}
+
+ {:rule :preterito-stem?
+  :if {:cat :verb
+       :stems? true
+       :stems {:preterito ::unspec}}
+  :then [{:stems {:preterito? false}}]}
+
+ {:rule :boot-stem
+  :if {:cat :verb
+       :stems {:boot? true}}
+  :then [{:exceptions [;; 1st, 2nd and 3rd plural:
+                       {:infl :present
+                        :agr {:person :1st
+                              :number :sing}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "o"}}
+
+                       {:infl :present
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? false}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "es"}}
+
+                       {:infl :present
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? true}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "e"}}
+
+                       {:infl :present
+                        :agr {:person :3rd
+                              :number :sing}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "e"}}
+
+                       ;; (1st and 2nd plur are conjugated according
+                       ;; to the regular rules, so :exception needed for them).
+
+
+                       ;; 2nd person formal (ustedes)
+                       {:infl :present
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? true}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "en"}}
+
+                       ;; 3rd plur:
+                       {:infl :present
+                        :agr {:person :3rd :number :plur}
+                        :surface {:prefix [:stems :boot]
+                                  :suffix "en"}}]}]}
+
+ {:rule :subcat
+  :if {:cat :verb
+       :subcat ::unspec}
+  :then (let [subj (atom :top)
+              obj (atom :top)]
+          [
+           ;; intransitive
+           {:subcat {:1 {:cat :noun
+                         :sem subj}
+                     :2 []}
+            :sem {:subj subj}}
+           ;; transitive
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :sem subj}
+                     :2 {:cat :noun
+                         :sem obj}
+                     :3 []}}])}
+
+ {:rule :subject-verb-agreement
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :subcat []}}})]}
+ 
+
+ ]

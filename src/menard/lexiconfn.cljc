@@ -38,15 +38,34 @@
                                     [(get v (keyword (str "menard.lexiconfn/order")))
                                      (if (get v :sense) [k (get v :sense)] k)])) derivation)))))
 
+(defn eval-surface-fns [consequent lexeme]
+  (if (seq (:exceptions consequent))
+    (let [retval
+          (merge consequent
+                 {:exceptions (map (fn [exception]
+                                     (let [surface (:surface exception)]
+                                       (cond
+                                         (map? surface)
+                                         (merge exception
+                                                {:surface (str (u/get-in lexeme (:prefix surface))
+                                                               (:suffix surface))})
+                                         (string? surface)
+                                         exception
+                                         :else
+                                         (exception "Cannot find surface form given intermediate surface value: " surface))))
+                                   (:exceptions consequent))})]
+      retval)
+    consequent))
+  
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i include-derivation?]
-  (let [result (unify lexeme consequent)]
+  (let [consequent (eval-surface-fns consequent lexeme)
+        result (unify lexeme consequent)]
     (log/debug (str "apply-rule-to-lexeme: "
-                   ;;"lexeme: " (u/pprint lexeme)
-                   "; consequent: " (u/pprint consequent)
-                   "; antecedent:" (u/pprint antecedent)
-                   "; include-derivation? " include-derivation?
-                   "; result: " (u/pprint result)
-                   ))
+                    ;;"lexeme: " (u/pprint lexeme)
+                    "; consequent: " (u/pprint consequent)
+                    "; antecedent:" (u/pprint antecedent)
+                    "; include-derivation? " include-derivation?
+                    "; result: " (u/pprint result)))
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "
@@ -104,14 +123,18 @@
         (for [k (sort (keys lexicon))]
           (let [lexemes (seq (get lexicon k))
                 include-derivation? include-derivation?]
-            (log/debug (str "applying rules for: " k))
+            (log/debug (str "apply-rules-to-lexicon: applying rules for: " k))
             (when lexemes ;; keys whose value is nil or null are removed.
               [k (->> lexemes
                       (map (fn [lexeme]
+                             (if (nil? lexeme)
+                               (exception (str "lexeme is unexpectedly nil; lexicon: " lexicon)))
+                             (log/debug (str "apply-rules-to-lexicon: 1st step: for lexeme: " lexeme))
                              (unify lexeme
                                     {:phrasal? false
                                      :canonical (u/get-in lexeme [:canonical] k)})))
                       (mapcat (fn [lexeme]
+                                (log/debug (str "apply-rules-to-lexicon: 2nd step: for lexeme: " lexeme))
                                 (apply-rules-to-lexeme rules lexeme 0 include-derivation?))))])))))
 
 (defn apply-rules-in-order [lexicon rules include-derivation?]
@@ -122,7 +145,7 @@
           (apply-rules-to-lexicon rules include-derivation?)))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
-  (log/debug (str "apply-to-every-lexeme with lexicon with: " (count keys) " key" (if (not (= 1 (count keys))) "s")))
+  (log/debug (str "apply-to-every-lexeme: map-fn: " map-fn))
   (if (not (map? lexicon))
     (exception (str "input lexeme is not a map; it is: " (vec lexicon))))
   (let [result 
@@ -155,7 +178,7 @@
          slurp
          read-string
          ((fn [rule]
-           (eval rule))))))
+            (eval rule))))))
 
 ;; (read-and-eval) doesn't do anything and should not be called from
 ;; Clojurescript. This definition is provided to avoid Clojurescript warnings
@@ -183,6 +206,7 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
+                        (log/debug (str "FOUND with from: " from))
                         {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
@@ -290,51 +314,45 @@
         (log/debug (str "returning: " (count result) " analyses for: " surface "."))
         result))))
 
-(defn exceptions
-  "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"
-  [canonical lexeme]
-  (map (fn [exception]
-         (let [u-result
-               (reduce unify
-                       [(d/dissoc-in lexeme [:exceptions])
-                        exception
-                        {:exception true
-                         :inflected? true
-                         :canonical canonical}])
-               result
-               (when (not (= :fail u-result))
-                 {(:surface exception)
-                  [u-result]})]
-           result))
-       (:exceptions lexeme)))
-
-(defn merge-with-all
-  "having some personal cognitive difficulty in using apply with merge-with,
-   so instead using this function as a workaround."
-  [merge-with-fn args]
-  (when (seq args)
-    (merge-with merge-with-fn
-                (first args)
-                (merge-with-all merge-with-fn (rest args)))))
-
-(defn exceptions-for
-  "generate all the exceptions possible for the sequence _lexemes_, each of which 
-   has _canonical_ as the canonical form for the exception."
- [canonical lexemes]
- (->> lexemes
-      (mapcat (fn [lexeme]
-                (exceptions canonical lexeme)))
-      (merge-with-all concat)))
-
 (defn add-exceptions-to-lexicon
   "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
-  (merge-with-all
-   concat
-   (cons lexicon
-         (map (fn [canonical]
-                (exceptions-for canonical (get lexicon canonical)))
-              (keys lexicon)))))
+  (log/debug (str "generating exceptions.."))
+  (let [exceptions-for (fn [canonical lexemes]
+                         ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
+                         ;;  has _canonical_ as the canonical form for the exception."
+                         (let [merge-all (fn [args]
+                                           (if (seq args)
+                                             (reduce (fn [a b] (merge-with concat a b)) args)))]
+                           (->> lexemes
+                                (mapcat (fn [lexeme]
+                                          (log/debug (str "add-exceptions-to-lexicon: "
+                                                          "canonical: " canonical "; " 
+                                                          "lexeme: " lexeme))
+                                          (if (not (map? lexeme))
+                                            (exception (str "the lexeme was unexpectedly not a map: " lexeme)))
+                                          (log/debug (str "exceptions-for: looking at lexeme: " lexeme))
+                                          (->> (:exceptions lexeme)
+                                               (map (fn [exception]
+                                                      (let [u-result
+                                                            (unify
+                                                             (d/dissoc-in lexeme [:exceptions])
+                                                             exception
+                                                             {:exception? true
+                                                              :inflected? true
+                                                              :canonical canonical})]
+                                                        (log/debug (str "new exception: " u-result))
+                                                        (when (not (= :fail u-result))
+                                                          {(:surface exception)
+                                                           [u-result]})))))))
+                                merge-all)))]
+    (->>
+     (cons lexicon
+           (map (fn [canonical]
+                  (log/debug (str "calling exceptions-for with canonical: " canonical " with: " (vec (get lexicon canonical))))
+                  (exceptions-for canonical (get lexicon canonical)))
+                (keys lexicon)))
+     (reduce (fn [a b] (merge-with concat a b))))))
 
 (defn serialized-value-map [the-map]
   (zipmap

@@ -147,7 +147,7 @@
    (defn load-grammar [spec]
      (let [grammar-filename (-> spec :grammar)
            postprocessing-rules (-> spec :grammar-rules)]
-     (log/info (str "loading rules from: " grammar-filename " and postprocessing rules with: " postprocessing-rules))
+     (log/info (str "loading grammar rules from: " grammar-filename " and grammar postprocessing rules with: " postprocessing-rules))
      (load-grammar-from-file grammar-filename postprocessing-rules))))
 
 #?(:clj
@@ -179,17 +179,20 @@
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
-     (log/info (str "compile-lexicon-source start: '" source-filename "'"))
+     (log/debug (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
      (-> source-filename
          l/read-and-eval
          ((fn [lexicon]
             (if (nil? unify-with)
-              lexicon
               (do
-                (log/debug (str "  apply-to-every-lexeme..(unify-with)"))
+                (log/debug (str "compile-lexicon-source: unify-with is nil."))
+                lexicon)
+              (do
+                (log/debug (str "  compile-lexicon-source: apply-to-every-lexeme..(unify-with: " unify-with ") to lexicon: " lexicon))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
                                            (let [result (unify lexeme unify-with)]
+                                             (log/debug (str "compile-lexicon-source: lexeme: " lexeme))
                                              (if (= :fail result)
                                                (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
                                              result)))))))
@@ -197,23 +200,31 @@
             (if (nil? apply-fn)
               lexicon
               (do
-                (log/debug (str "  apply-to-every-lexeme (apply-fn)"))
+                (log/debug (str "  apply-to-every-lexeme (apply-fn: " apply-fn "): lexicon: " lexicon))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
-                                           (apply-fn lexeme)))))))
-         ((fn [lexicon]
-            (log/debug (str "  add-exceptions-to-lexicon.."))
-            (l/add-exceptions-to-lexicon lexicon)))
+                                           (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
+                                           (let [result ((eval apply-fn) lexeme)]
+                                             (log/debug (str "compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme "; result: " result))
+                                             (when (nil? result)
+                                               (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
+                                             result)))))))
          ((fn [lexicon]
             (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
+
          ((fn [lexicon]
-            (log/info (str "compile-lexicon-source compiled: '" source-filename "'."))
+            (log/debug (str "  add-exceptions-to-lexicon: lexicon: " lexicon))
+            (l/add-exceptions-to-lexicon lexicon)))
+
+         ((fn [lexicon]
+            (log/debug (str "compile-lexicon-source end: '" source-filename "'."))
             lexicon)))))
 
 #?(:clj
    (defn load-lexicon [lexical-rules model-spec path-suffix include-derivation?]
      (log/info (str "load-lexicon: lexical-rules count): " (count lexical-rules)))
+     (log/debug (str "load-lexicon: lexical-rules are: " lexical-rules))
      (if (nil? model-spec)
        (exception "model-spec is unexpectedly nil."))
      (log/debug (str "model-spec: " model-spec))
@@ -228,10 +239,9 @@
                                      filename)
                                 :u :top)
                                postprocess-fn
-                               ;; have to (eval) twice for some reason..
-                                (eval (eval (get (get (-> model-spec :lexicon :sources)
-                                                      filename)
-                                                 :f '(fn [x] x))))]
+                               (eval (get (get (-> model-spec :lexicon :sources)
+                                               filename)
+                                          :f (fn [x] x)))]
                            (log/debug (str "source filename: " filename))
                            (log/debug (str "unify-with: " unify-with))
                            (compile-lexicon-source

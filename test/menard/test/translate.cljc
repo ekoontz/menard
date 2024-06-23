@@ -24,7 +24,6 @@
   (is (= (es-to-en-str "yo quiero")
          "I want")))
 
-
 (defn nl-to-en-str [nl-str]
   (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))
 

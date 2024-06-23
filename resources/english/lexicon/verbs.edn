@@ -97,6 +97,7 @@
                            :surface "blown"}]]
           [{:sem {:pred :blow}
             :exceptions exceptions}])
+ "break" [{:sem {:pred :break}}]
  "bring" (let [exceptions [{:infl :past-simple
                            :surface "brought"}
                           {:infl :past-participle
@@ -115,6 +116,7 @@
 
  "carry" [{ :sem {:pred :carry}}]
  "cause" [{:sem {:pred :cause}}]
+ "change" [{:sem {:pred :change}}]
  "cheat" [{:sem {:pred :cheat}}]
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}

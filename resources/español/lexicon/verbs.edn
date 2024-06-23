@@ -1,4 +1,5 @@
 {
+ "cambiar" [{:sem {:pred :change}, :cat :verb}]
  "hablar" [{:sem {:pred :speak
                    :subj {:human true}}}
            {:sem {:pred :talk
@@ -11,4 +12,5 @@
               :sem {:pred :want}}
              {:stems stems
               :sem {:pred :love}}])
+ "romper" [{:sem {:pred :break}, :cat :verb}]
  }

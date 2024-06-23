@@ -140,7 +140,7 @@
 
 (defn analyze [surface & [model]]
   (log/debug (str "analyze: " surface))
-  (let [model (or model complete/model)
+  (let [model (or model @complete/model)
         lexicon (-> model :lexicon)]
     (let [morphology (-> model :morphology)
           variants (vec (set [(clojure.string/lower-case surface)

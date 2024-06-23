@@ -70,9 +70,11 @@
 
  "tu" [{:case :nom
         :agr {:number :sing
-              :person :2nd}
+              :person :2nd
+              :formal? false}
         :sem {:ref {:human? true}
-              :pred :you}
+              :pred :you
+              :formal? false}
         :reflexive? false}]
 
  "usted" [{:case :nom
@@ -80,7 +82,8 @@
                  :person :2nd
                  :formal? true}
            :sem {:ref {:human? true}
-                 :pred :you}
+                 :pred :you
+                 :formal? true}                 
            :reflexive? false}]
 
  "ustedes" [{:case :nom
@@ -95,9 +98,11 @@
  "vosotras" [{:case :nom
               :agr {:number :plur
                     :gender :fem
-                    :person :2nd}
+                    :person :2nd
+                    :formal? false}
               :sem {:ref {:human? true}
-                    :pred :you}
+                    :pred :you
+                    :formal? false}
               :reflexive? false}]
 
  "vosotros" [{:case :nom
@@ -105,9 +110,9 @@
                     :gender :masc                    
                     :person :2nd}
               :sem {:ref {:human? true}
-                    :pred :you}
+                    :pred :you
+                    :formal? false}
               :reflexive? false}]
-
 
  "yo" [{:case :nom
         :agr {:number :sing

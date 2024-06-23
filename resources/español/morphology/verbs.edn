@@ -90,7 +90,7 @@
             :person :1st}}}
 
  {:g [#"^(.+)ar$"   "$1áis"] 
-  :p [#"^(.+)áis$"  "$1er"] 
+  :p [#"^(.+)áis$"  "$1ar"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :plur

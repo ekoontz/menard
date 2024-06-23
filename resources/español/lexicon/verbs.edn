@@ -5,6 +5,7 @@
            {:sem {:pred :talk
                   :subj {:human true}}}]
 
+ "limpiar" [{:sem {:pred :clean}, :cat :verb}]
  "querer" (let [stems {:boot      "quier"
                        :preterito "quis"
                        :futuro    "querr"}]

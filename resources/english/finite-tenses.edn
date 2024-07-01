@@ -21,7 +21,7 @@
  {:variant :past
   :infl :past-simple
   :sem {:tense :past
-          :aspect :simple}}
+        :aspect :simple}}
  
  ;; "is seeing"
  {:variant :present-progressive

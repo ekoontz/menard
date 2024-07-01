@@ -374,6 +374,12 @@
           [{:agr agr
             :subcat {:1 subject}}])}
 
+ {:rule :aux?-verbs-subcat-2
+  :if {:cat :verb
+       :aux? true
+       :subcat {:2 {:top :top}}}
+  :then [{:subcat {:2 {:cat :verb}}}]}
+ 
  {:rule :ditransitive-false
   :if {:cat :verb
        :to? false

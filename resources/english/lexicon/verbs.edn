@@ -47,7 +47,7 @@
                 :obj :anaphor}
           :subcat {:2 []}
           :exceptions exceptions}
-         { ;; "was sleeping"
+         { ;; "was sleeping" (aux sense, gerund complement)
           :sense 6
           :aux? true
           :infl :past-simple
@@ -55,7 +55,7 @@
                 :aspect :progressive}
           :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
-         { ;; "was" (aux sense)
+         { ;; "was" (aux sense, no verb complement)
           :sense 7
           :aux? true
           :infl :past-simple

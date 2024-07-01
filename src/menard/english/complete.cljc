@@ -12,4 +12,5 @@
      (def model
        (ref (create "english/models/complete"
                     "complete"
-                    compile-lexicon false)))))
+                    compile-lexicon false {:include-derivation? false})))))
+

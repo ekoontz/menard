@@ -17,6 +17,8 @@
 
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))
+       (filter (fn [[x y]]
+                 (true? (get x :applied?))))
        (map (fn [[x y]]
               {(get x :menard.lexiconfn/order) y}))
        (sort (fn [x y]

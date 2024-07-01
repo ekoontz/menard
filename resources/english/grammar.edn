@@ -125,13 +125,13 @@
           menard.ug/head-sem
           menard.subcat/a]}
 
- {:rule "vp" ;; [vp +see .it], [vp +must .[vp see it]]
+ {:rule "vp" ;; [vp +see .it]
   :cat :verb
-  :aux? false
   :slash? false
   :options menard.english.tenses/tenses
   :head {:aux? false}
-  :unify [menard.ug/head-first
+  :unify [menard.ug/head-aux
+          menard.ug/head-first
           menard.ug/head-is-root
           menard.ug/head-reflexive
           menard.ug/head-rule
@@ -139,6 +139,21 @@
           menard.ug/slash-is-head-slash
           menard.subcat/c]}
 
+ {:rule "vp-aux" ;; [vp[aux] +will .sleep]
+  :cat :verb
+  :slash? false
+  :head {:aux? true}  
+  :options menard.english.tenses/finite-tenses
+  :unify [menard.ug/head-aux
+          menard.ug/head-first
+          menard.ug/comp-is-root
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/slash-is-head-slash
+          menard.subcat/c
+          ]}
+ 
  {:rule "pp:2" 
   :cat :prep
   :unify [menard.subcat/a

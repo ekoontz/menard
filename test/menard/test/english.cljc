@@ -4,6 +4,7 @@
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
+            [menard.lexiconfn :refer [display-derivation]]
             [menard.english.woordenlijst :as woordenlijst]))
 
 (deftest all-specifications-work

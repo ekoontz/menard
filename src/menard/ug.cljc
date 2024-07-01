@@ -11,6 +11,8 @@
 
 #?(:clj
    (defn load-from-file []
+     ;; TODO: should not be hardwired
+     ;; to my own home dir.
      (define (with-open [r (io/reader "/Users/ekoontz/menard/resources/ug.edn")]
                (eval (read (java.io.PushbackReader. r)))))))
 

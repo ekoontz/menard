@@ -136,7 +136,7 @@
 
          ;; 2. existential, intransitive
          ;; the 'semantic-subject' is the meaningful subject of the
-         ;; verb, e.g. the 'hond' in 'er slaapt een hond', as opposed to the
+         ;; verb, e.g. the 'dog' in 'there was a dog', as opposed to the
          ;; merely syntactic subject, 'er'.
          (let [semantic-subject (atom {:existential? false})
                agr (atom :top)]
@@ -328,41 +328,40 @@
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
   {:rule :modal-base-1
-  :if {:cat :verb
-       :modal :base}
-  :then 
-          [;; "I can/could"
-           {:derivation {:modal-base-1 {:marker 1}}
-            :inflected? true
-            :sem {:obj :none}
-            :subcat {:2 []}} ;; "can"
+   :if {:cat :verb
+        :modal :base}
+   :then [;; "I can/could"
+          {:derivation {:modal-base-1 {:marker 1}}
+           :inflected? true
+           :sem {:obj :none}
+           :subcat {:2 []}} ;; "can"
 
-           ;;  "can/could <vp[base,nonmodal]>" non-reflexive
-           (let [subj (atom :top)
-                 subcat-subj (atom {:sem subj})
-                 obj (atom {:subj subj})]
-             {:derivation {:modal-base-1 {:marker 2}}
-              :inflected? true
-              :sem {:subj subj
-                    :obj obj}
-              :subcat {:2 {:aux? false
-                           :infl :base
-                           :cat :verb
-                           :modal false
-                           :sem obj
-                           :subcat {:1 subcat-subj
-                                    ;; the complement has only [:subcat :1]
-                                    ;; and no [:subcat :2]: 
-                                    ;; e.g. in both:
-                                    ;; "can [sleep]" : intransitive.
-                                    ;; "can [see it]": transitive with object.
-                                    ;; The bracketed expressions in each of the
-                                    ;; examples above subcategorizes only for
-                                    ;; the subject, with the object
-                                    ;; either not existing ("sleep") or already
-                                    ;; satisfied ("see it").
-                                    :2 []
-                                    }}}})]}
+          ;;  "can/could <vp[base,nonmodal]>" non-reflexive
+          (let [subj (atom :top)
+                subcat-subj (atom {:sem subj})
+                obj (atom {:subj subj})]
+            {:derivation {:modal-base-1 {:marker 2}}
+             :inflected? true
+             :sem {:subj subj
+                   :obj obj}
+             :subcat {:2 {:aux? false
+                          :infl :base
+                          :cat :verb
+                          :modal false
+                          :sem obj
+                          :subcat {:1 subcat-subj
+                                   ;; the complement has only [:subcat :1]
+                                   ;; and no [:subcat :2]: 
+                                   ;; e.g. in both:
+                                   ;; "can [sleep]" : intransitive.
+                                   ;; "can [see it]": transitive with object.
+                                   ;; The bracketed expressions in each of the
+                                   ;; examples above subcategorizes only for
+                                   ;; the subject, with the object
+                                   ;; either not existing ("sleep") or already
+                                   ;; satisfied ("see it").
+                                   :2 []
+                                   }}}})]}
  {:rule :aux?-verbs
   :if {:cat :verb
        :aux? true

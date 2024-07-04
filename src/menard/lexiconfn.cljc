@@ -21,10 +21,10 @@
                  (true? (get x :applied?))))
        (map (fn [[x y]]
               (if (get x :ci)
-                {(get x :menard.lexiconfn/order) [y (get x :ci)]}
-                {(get x :menard.lexiconfn/order) y})))                
+                [(get x :menard.lexiconfn/order) y (get x :ci)]
+                [(get x :menard.lexiconfn/order) y])))
        (sort (fn [x y]
-               (< (first (first x)) (first (first y)))))))
+               (< (first x) (first y))))))
 
 (defn add-derivation [rule-name consequent antecedent-index consequent-index]
   {::derivation {rule-name (merge

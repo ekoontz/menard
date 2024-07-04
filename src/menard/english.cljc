@@ -202,3 +202,10 @@
 
 (defn parse-all [expression]
   (p/parse-all expression (-> complete/model deref :grammar) syntax-tree #"[ ]" analyze))
+
+(defn get-grammar [rule-name]
+  (->> (-> complete/model deref :grammar)
+       (filter #(= rule-name (:rule %)))))
+
+(defn get-lexicon [lexeme]
+  (get (-> complete/model deref :lexicon) lexeme))

@@ -20,17 +20,22 @@
        (filter (fn [[x y]]
                  (true? (get x :applied?))))
        (map (fn [[x y]]
-              {(get x :menard.lexiconfn/order) y}))
+              (if (get x :ci)
+                {(get x :menard.lexiconfn/order) [y (get x :ci)]}
+                {(get x :menard.lexiconfn/order) y})))                
        (sort (fn [x y]
                (< (first (first x)) (first (first y)))))))
 
-(defn add-derivation [rule-name consequent i]
+(defn add-derivation [rule-name consequent antecedent-index consequent-index]
   {::derivation {rule-name (merge
                             (if (u/get-in consequent [:derivation :sense])
                               {:sense (u/get-in consequent [:derivation :sense])}
                               {})
+                            (if consequent-index
+                              {:ci consequent-index}
+                              {})
                             {:applied? (if consequent true false)
-                             ::order i})}})
+                             ::order antecedent-index})}})
 
 (defn encode-derivation [derivation]
   (string/join " "
@@ -59,15 +64,18 @@
       retval)
     consequent))
   
-(defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent i include-derivation?]
+(defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent antecedent-index
+                            consequent-index include-derivation?]
   (let [consequent (eval-surface-fns consequent lexeme)
         result (unify lexeme consequent)]
     (log/debug (str "apply-rule-to-lexeme: "
                     ;;"lexeme: " (u/pprint lexeme)
                     "; consequent: " (u/pprint consequent)
                     "; antecedent:" (u/pprint antecedent)
+                    "; consequent-index:" consequent-index
                     "; include-derivation? " include-derivation?
-                    "; result: " (u/pprint result)))
+                    ;;"; result: " (u/pprint result)
+                    ))
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "
@@ -82,7 +90,8 @@
           (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " result))
               (if include-derivation?
                 (unify (dissoc result :derivation)
-                       (add-derivation rule-name consequent i))
+                       (add-derivation rule-name consequent
+                                       antecedent-index consequent-index))
                 ;; else, remove :derivation to save memory and runtime
                 ;; processing:
                 (dissoc result :derivation))))))
@@ -103,17 +112,19 @@
 
     (seq rules)
     (let [rule (first rules)
-          antecedent (:if rule)]
+          antecedent (:if rule)
+          consequents (:then rule)]
       (if (not (= :fail (unify antecedent lexeme)))
-        (->> (:then rule)
-             (map (fn [consequent]
-                    (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i include-derivation?)))
+        (->> (vec (zipmap (range 0 (count consequents)) consequents))
+             (map (fn [[consequent-index consequent]]
+                    (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i (if (> (count consequents) 1) consequent-index) include-derivation?)))
              (mapcat (fn [new-lexeme]
                        (apply-rules-to-lexeme (rest rules) new-lexeme (+ i 1) include-derivation?))))
-        ;; else
+        ;; else: failed to unify this lexeme antecedent of the rule,
+        ;; so the rule doesn't apply to the lexeme.
         (apply-rules-to-lexeme (rest rules)
                                (let [lexeme (if include-derivation? 
-                                              (unify lexeme (add-derivation (:rule rule) nil i))
+                                              (unify lexeme (add-derivation (:rule rule) nil i nil))
                                               lexeme)]
                                  lexeme)
                                (+ i 1) include-derivation?)))

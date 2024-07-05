@@ -10,4 +10,7 @@
 
 (defn pprint [lexeme]
   (u/pprint (merge (dissoc lexeme :menard.lexiconfn/derivation)
-                   {:derivation (derivation-of lexeme)})))
+                   (let [derivation (derivation-of lexeme)]
+                     (when (seq derivation)
+                       {:derivation (derivation-of lexeme)})))))
+

@@ -78,9 +78,10 @@
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
              :obj ::unspec}}
-  :then [;; 1. intransitive. more processing will be done below in :subcat-frames-instansitive
+  :then [;; 1. intransitive. more processing will be done below in :subcat-frames-intransitive
          ;; based on what we set here.
          {:sem {:obj :none}
+          :subcat {:2 []}
           :derivation {:subcat-frames-nonmodal-1 {:sense 1}}}
 
          ;; transitive, nonreflexive:

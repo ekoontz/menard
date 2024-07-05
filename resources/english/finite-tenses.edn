@@ -1,14 +1,12 @@
 [;; "would see"
  {:variant :conditional
-  :infl :present
   :sem {:tense :conditional}
-  :head {:aux? true}}
+  :head {:aux? false}}
  
  ;; "will see"
  {:variant :future
-  :infl :present
   :sem {:tense :future}
-  :head {:aux? true}}
+  :head {:aux? false}}
  
  ;; "sees"
  {:variant :present-simple

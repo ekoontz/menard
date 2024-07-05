@@ -17,7 +17,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])
             [menard.model :as model]
-            [menard.morphology :as m]
             [menard.nesting]
             [menard.parse :as p]
             [menard.serialization :as s]
@@ -138,18 +137,57 @@
   [spec n]
   (take n (repeatedly #(generate spec))))
 
+;; <TODO> move into declarative grammar
+(def post-analyze-rules
+  [{:rule :present-tense-non-aux
+    :if {:cat :verb
+         :aux? false
+         :modal false
+         :infl :present}
+    :then [{:sem {:tense :present
+                  :aspect :simple}}]}])
+;; </TODO>
+
+(defn post-analyze-rule
+  "take lexemes and a rule and return a list of lexemes.
+   For each lexeme, if the rule is applicable (unifying the antecedent :if),
+   then concatenate the result of applying the rule to the input
+   lexeme. If the rule is not applicable, then simply return
+   a list containing only that rule."
+  [lexemes rule]
+  (let [{if :if
+         then :then} rule]
+    (->> lexemes
+         (mapcat (fn [lexeme]
+                   (if (not (= :fail (unify if lexeme)))
+                     (->> then
+                          (map (fn [each-then]
+                                 (let [unify (unify each-then lexeme)]
+                                   (if (= :fail unify)
+                                     (exception (str "unified rule's :if but not its :then: rule: " rule "; lexeme: " (u/pprint lexeme)))
+                                     unify)))))
+                     [lexeme]))))))
+
+(defn post-analyze [lexemes rules]
+  (if (seq rules)
+    (post-analyze
+     (post-analyze-rule lexemes (first rules))
+     (rest rules))
+    lexemes))
+
 (defn analyze [surface & [model]]
   (log/debug (str "analyze: " surface))
   (let [model (or model @complete/model)
-        lexicon (-> model :lexicon)]
-    (let [morphology (-> model :morphology)
-          variants (vec (set [(clojure.string/lower-case surface)
-                              (clojure.string/upper-case surface)
-                              (clojure.string/capitalize surface)]))]
-      (->> variants
-           (mapcat (fn [surface]
-                     (l/matching-lexemes surface lexicon morphology)))))))
-
+        lexicon (-> model :lexicon)
+        morphology (-> model :morphology)
+        variants (vec (set [(clojure.string/lower-case surface)
+                            (clojure.string/upper-case surface)
+                            (clojure.string/capitalize surface)]))]
+    (->> variants
+         (mapcat #(l/matching-lexemes % lexicon morphology))
+         (mapcat (fn [lexeme]
+                   (post-analyze [lexeme] post-analyze-rules))))))
+  
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model
         (map? model)                      model

@@ -137,8 +137,8 @@
   [spec n]
   (take n (repeatedly #(generate spec))))
 
-;; <TODO> move into declarative grammar
-(def post-analyze-rules
+;; <TODO> move into declarative grammar (i.e. the model).
+(def post-lexical-retrieval-rules
   [{:rule :present-tense-non-aux
     :if {:cat :verb
          :aux? false
@@ -148,12 +148,14 @@
                   :aspect :simple}}]}])
 ;; </TODO>
 
-(defn post-analyze-rule
-  "take lexemes and a rule and return a list of lexemes.
+(defn post-lexical-retrieval-rule
+  "takes: a list of lexemes and a rule
+   return: a list of lexemes.
+  
    For each lexeme, if the rule is applicable (unifying the antecedent :if),
    then concatenate the result of applying the rule to the input
-   lexeme. If the rule is not applicable, then simply return
-   a list containing only that rule."
+   lexeme. If the :if of the rule does not unify with the lexeme, then simply return
+   a list containing only that lexeme."
   [lexemes rule]
   (let [{if :if
          then :then} rule]
@@ -168,10 +170,10 @@
                                      unify)))))
                      [lexeme]))))))
 
-(defn post-analyze [lexemes rules]
+(defn post-lexical-retrieval [lexemes rules]
   (if (seq rules)
-    (post-analyze
-     (post-analyze-rule lexemes (first rules))
+    (post-lexical-retrieval
+     (post-lexical-retrieval-rule lexemes (first rules))
      (rest rules))
     lexemes))
 
@@ -186,7 +188,7 @@
     (->> variants
          (mapcat #(l/matching-lexemes % lexicon morphology))
          (mapcat (fn [lexeme]
-                   (post-analyze [lexeme] post-analyze-rules))))))
+                   (post-lexical-retrieval [lexeme] post-lexical-retrieval-rules))))))
   
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model

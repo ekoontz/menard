@@ -146,6 +146,14 @@
          :infl :present}
     :then [{:sem {:tense :present
                   :aspect :simple}}]}
+
+   {:rule :modal-infinitive-present
+    :if {:cat :verb
+         :aux? false
+         :modal :infinitive
+         :infl :present}
+    :then [{:sem {:tense :present
+                  :aspect :simple}}]}
    
    {:rule :past-simple-non-aux
     :if {:cat :verb

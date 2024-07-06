@@ -46,11 +46,11 @@
           ((fn [lexeme]
              (merge
               lexeme
-              (cond (seq derivation)
+              (cond (and (not (keyword? derivation)) (seq derivation))
                     {:derivation (menard.lexiconfn/display-derivation derivation)}
-                    (seq head-derivation)
+                    (and (not (keyword? head-derivation)) (seq head-derivation))
                     {:head-derivation (menard.lexiconfn/display-derivation head-derivation)}
-                    (seq comp-derivation)
+                    (and (not (keyword? comp-derivation)) (seq comp-derivation))
                     {:comp-derivation (menard.lexiconfn/display-derivation comp-derivation)}))))
           u/pprint)
       :else lexeme)))

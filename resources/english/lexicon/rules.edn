@@ -78,10 +78,32 @@
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
              :obj ::unspec}}
-  :then [;; 1. intransitive. more processing will be done below in :subcat-frames-intransitive
-         ;; based on what we set here.
-         {:sem {:obj :none}}
-
+  :then [;; 1. non-existential, intransitive:
+         (let [subj (atom {:existential? false})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :2 []}})
+         ;; 2. existential, intransitive
+         ;; the 'semantic-subject' is the meaningful subject of the
+         ;; verb, e.g. the 'dog' in 'there was a dog', as opposed to the
+         ;; merely syntactic subject, 'er'.
+         (let [semantic-subject (atom {:existential? false})
+               agr (atom :top)]
+           {:reflexive? false
+            :agr agr
+            :sem {:subj semantic-subject
+                  :obj :none}
+            :subcat {:1 {:cat :noun
+                         :pronoun? true
+                         :sem {:existential? true}}
+                     :2 {:cat :noun
+                         :subcat []
+                         :agr agr
+                         :sem semantic-subject}
+                     :3 []}})
+         
          ;; transitive, nonreflexive:
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})]
@@ -115,48 +137,6 @@
             :reflexive? true
             :sem {:subj subj
                   :obj obj}})]}
-
- {:rule :intransitives
-  :if {:cat :verb
-       :aux? false
-       :modal false
-       :subcat {:2 ::unspec}
-       :sem {:obj :none}}
-  :then [{:subcat {:2 []}
-          :reflexive? false}]}
-  
- {:rule :subcat-frames-intransitive
-  :if {:cat :verb
-       :modal false
-       :aux? false
-       :subcat {:2 ::unspec}
-       :sem {:subj {:existential? ::unspec}
-             :obj :none}}
-  :then [;; 1. non-existential, intransitive:
-         (let [subj (atom {:existential? false})]
-           {:sem {:subj subj
-                  :obj :none}
-            :subcat {:1 {:sem subj}
-                     :2 []}})
-
-         ;; 2. existential, intransitive
-         ;; the 'semantic-subject' is the meaningful subject of the
-         ;; verb, e.g. the 'dog' in 'there was a dog', as opposed to the
-         ;; merely syntactic subject, 'er'.
-         (let [semantic-subject (atom {:existential? false})
-               agr (atom :top)]
-           {:reflexive? false
-            :agr agr
-            :sem {:subj semantic-subject
-                  :obj :none}
-            :subcat {:1 {:cat :noun
-                         :pronoun? true
-                         :sem {:existential? true}}
-                     :2 {:cat :noun
-                         :subcat []
-                         :agr agr
-                         :sem semantic-subject}
-                     :3 []}})]}
 
  {:rule :modal-base-shared-subcat
   :if {:cat :verb

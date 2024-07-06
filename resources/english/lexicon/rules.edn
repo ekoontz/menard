@@ -169,6 +169,13 @@
            {:subcat {:1 subcat-1
                      :2 {:subcat {:1 subcat-1}}}})]}
 
+ {:rule :modal-base-intransitive
+  :if {:cat :verb
+       :modal :base
+       :sem {:pred ::unspec}
+       :subcat {:2 []}}
+  :then [{:sem {:pred :anaphor}}]}
+
  {:rule :subcat-frames-modal-base
   :if {:cat :verb
        :modal :base

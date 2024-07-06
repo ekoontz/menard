@@ -3,36 +3,42 @@
   :p [#"^(.*ay)s$"  "$1y"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
   :p [#"^(.*)ies$" "$1y"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
   :p [#"^(.*)oes$" "$1o"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*e)$"  "$1s"] ;; give -> gives
   :p [#"^(.*e)s$" "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*ch)$"   "$1es"] ;; teach -> teaches
   :p [#"^(.*ch)es$" "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
   :p [#"^(.*[^e])s$" "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :sing}}}
 
@@ -40,30 +46,35 @@
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :1st
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :2nd
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :1st
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :2nd
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
+      :modal false
       :agr {:person :3rd
             :number :plur}}}
 
@@ -72,36 +83,42 @@
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-simple}}
 
  ;; try/tried (but not play/played)
  {:g [#"^(.*[^aeiou])y$" "$1ied"]
   :p [#"^(.*[^aeiou])ied$" "$1y"]
   :u {:cat :verb
+      :modal false
       :infl :past-simple}}
 
  ;; explain/explained,ruin/ruined, coin/coined/
  {:g [#"^(.*[aou]in)$"   "$1ed"]
   :p [#"^(.*[aou]in)ed$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-simple}}
 
  ;; prohibit/prohibited
  {:g [#"^(.*it)$"   "$1ed"]
   :p [#"^(.*it)ed$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-simple}}
  
  ;; stop/stopped,step/stepped
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
   :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-simple}}
  
  ;; walk/walked
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-simple}}
 
  ;; inflection: past-participle
@@ -109,24 +126,28 @@
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-participle}}
 
  ;; try/tried (but not play/played)
  {:g [#"^(.*[^aeiou])y$" "$1ied"]
   :p [#"^(.*[^aeiou])ied$" "$1y"]
   :u {:cat :verb
+      :modal false
       :infl :past-participle}}
 
   ;; explain/explained
  {:g [#"^(.*ain)$"   "$1ed"]
   :p [#"^(.*ain)ed$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-participle}}
 
  ;; prohibit/prohibited
  {:g [#"^(.*it)$"   "$1ed"]
   :p [#"^(.*it)ed$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-participle}}
 
   ;; stop/stopped,step/stepped
@@ -134,12 +155,14 @@
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
   :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-participle}}
 
  ;; walk/walked
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :past-participle}}
  
  ;; base inflection: used as a complement for auxiliaries like "will" and "would".
@@ -147,12 +170,14 @@
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
+      :modal false
       :infl :base}}
 
  ;; stop/stopping,put/putting,run/running,let/letting
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ing"]
   :p [#"^(.*[eiou][npst])([npst])ing$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :gerund}}
  
  ;; smoke/smoking
@@ -161,17 +186,20 @@
  {:g [#"^(..*[^e])e$"    "$1ing"]
   :p [#"^(..*)ing$"  "$1e"]
   :u {:cat :verb
+      :modal false
       :infl :gerund}}
 
  ;; walk/walking
  {:g [#"^(.*)$"    "$1ing"]
   :p [#"^(.*)ing$" "$1"]
   :u {:cat :verb
+      :modal false
       :infl :gerund}}
 
  ;; smoke/smoking
  {:g [#"^(.*)e$"    "$1ing"]
   :p [#"^(.*)ing$"  "$1e"]
   :u {:cat :verb
+      :modal false
       :infl :gerund}}]
 

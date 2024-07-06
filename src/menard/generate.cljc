@@ -3,6 +3,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
    [menard.exception :refer [exception]]
+   [menard.lexiconfn :as l]
    [menard.serialization :as ser]
    [menard.treeops :as tr]
    [dag_unify.core :as u :refer [unify]]
@@ -298,7 +299,7 @@
            (map (fn [candidate-lexeme]
                   (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
                     (log/info (str "adding candidate lexeme at: " at ":"
-                                   (strip-refs candidate-lexeme))))
+                                   (l/pprint candidate-lexeme))))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)

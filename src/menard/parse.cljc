@@ -16,7 +16,7 @@
 
 ;; <performance-optimized defaults>
 (def enable-pmap? true)
-(def take-this-many 30)
+(def take-this-many 300)
 (def summary-filter? true)
 (def log-these-rules-as-parents #{})
 (def log-these-rules-as-head-children #{})

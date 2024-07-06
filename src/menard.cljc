@@ -12,17 +12,21 @@
   (let [derivation (u/get-in lexeme [:menard.lexiconfn/derivation])
         head-derivation (u/get-in lexeme [:head-derivation])
         comp-derivation (u/get-in lexeme [:comp-derivation])]
-    (-> lexeme
-        (dissoc :menard.lexiconfn/derivation)
-        (dissoc :head-derivation)
-        (dissoc :comp-derivation)        
-        ((fn [lexeme]
-           (merge
-            lexeme
-            (cond (seq derivation)
-                  {:derivation (menard.lexiconfn/display-derivation derivation)}
-                  (seq head-derivation)
-                  {:head-derivation (menard.lexiconfn/display-derivation head-derivation)}
-                  (seq comp-derivation)
-                  {:comp-derivation (menard.lexiconfn/display-derivation comp-derivation)}))))
-        u/pprint)))
+    (cond
+      (map? lexeme)
+      (-> lexeme
+          (dissoc :menard.lexiconfn/derivation)
+          (dissoc :head-derivation)
+          (dissoc :comp-derivation)        
+          ((fn [lexeme]
+             (merge
+              lexeme
+              (cond (seq derivation)
+                    {:derivation (menard.lexiconfn/display-derivation derivation)}
+                    (seq head-derivation)
+                    {:head-derivation (menard.lexiconfn/display-derivation head-derivation)}
+                    (seq comp-derivation)
+                    {:comp-derivation (menard.lexiconfn/display-derivation comp-derivation)}))))
+          u/pprint)
+      :else lexeme)))
+

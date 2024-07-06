@@ -145,6 +145,14 @@
          :modal false
          :infl :present}
     :then [{:sem {:tense :present
+                  :aspect :simple}}]}
+   
+   {:rule :past-simple-non-aux
+    :if {:cat :verb
+         :aux? false
+         :modal false
+         :infl :past-simple}
+    :then [{:sem {:tense :past
                   :aspect :simple}}]}])
 ;; </TODO>
 

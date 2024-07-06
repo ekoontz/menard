@@ -283,7 +283,6 @@
 
  {:rule :subject-verb-agreement
   :if {:cat :verb
-       :modal false
        :subcat {:1 {:cat :noun}}}
   :then [(let [agr (atom :top)]
            {:agr agr

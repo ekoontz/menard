@@ -83,8 +83,11 @@
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "
-                                   (u/get-in lexeme [:canonical]) " with derivation: "
-                                   (display-derivation (u/get-in lexeme [::derivation]))
+                                   "'" (u/get-in lexeme [:canonical]) "'"
+                                   (when (u/get-in lexeme [:sense])
+                                     (str " sense: " (u/get-in lexeme [:sense])))
+                                   " with derivation: "
+                                   (vec (display-derivation (u/get-in lexeme [::derivation])))
                                    "; fail-path was: " fail-path ";"
                                    " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
                                    " consequent's value for path: " (u/get-in consequent fail-path))]

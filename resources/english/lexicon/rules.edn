@@ -157,10 +157,22 @@
                          :agr agr
                          :sem semantic-subject}
                      :3 []}})]}
- 
+
+ {:rule :modal-base-shared-subcat
+  :if {:cat :verb
+       :modal :base}
+  :then [;; intransitive form: "I would"
+         {:subcat {:2 []}}
+
+         ;; transitive "I would sleep"
+         (let [subcat-1 (atom :top)]
+           {:subcat {:1 subcat-1
+                     :2 {:subcat {:1 subcat-1}}}})]}
+
  {:rule :subcat-frames-modal-base
   :if {:cat :verb
        :modal :base
+       :sem {:shared? false}
        :aux? false}
   :then [(let [subj (atom :top)]
            {:sem {:subj subj}
@@ -271,6 +283,7 @@
 
  {:rule :subject-verb-agreement
   :if {:cat :verb
+       :modal false
        :subcat {:1 {:cat :noun}}}
   :then [(let [agr (atom :top)]
            {:agr agr
@@ -331,15 +344,13 @@
                          :sem obj
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
-  {:rule :modal-base-1
-   :if {:cat :verb
-        :modal :base}
-   :then [;; "I can/could"
-          {:inflected? true
-           :sem {:obj :none}
-           :subcat {:2 []}} ;; "can"
 
-          ;;  "can/could <vp[base,nonmodal]>" non-reflexive
+ {:rule :modal-base-subordinate-sem
+   :if {:cat :verb
+        :modal :base
+        :sem {:shared? false}
+        :subcat {:2 {:top :top}}}
+   :then [;;  "can/could <vp[base,nonmodal]>" non-reflexive
           (let [subj (atom :top)
                 subcat-subj (atom {:sem subj})
                 obj (atom {:subj subj})]
@@ -364,6 +375,23 @@
                                    ;; satisfied ("see it").
                                    :2 []
                                    }}}})]}
+
+ {:rule :modal-base-shared-sem
+  :if {:cat :verb
+       :modal :base
+       :sem {:shared? true}
+       :subcat {:2 {:top :top}}}
+  :then 
+  [;;  "will/would <vp[base,nonmodal]>" non-reflexive
+   (let [sem (atom :top)]
+     {:inflected? true
+      :sem sem
+      :subcat {:2 {:aux? false
+                   :infl :base
+                   :cat :verb
+                   :modal false
+                   :sem sem}}})]}
+ 
  {:rule :aux?-verbs
   :if {:cat :verb
        :aux? true
@@ -501,10 +529,11 @@
   :if {:cat :verb
        :modal :base
        :subcat {:2 {:top :top}}}
+  ;; TODO: remove all of these atoms; they are not used.
   :then (let [subj (atom :top)
               subcat-subj (atom {:sem subj})
               obj (atom {:subj subj})]
-          [;;  "can see her"
+           [;;  "can see her"
            {:reflexive? false
             :subcat {:2 {:reflexive? false}}}
 

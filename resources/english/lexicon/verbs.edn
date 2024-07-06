@@ -108,7 +108,8 @@
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
-         :sem {:pred :be-able-to}
+         :sem {:pred :be-able-to
+               :shared? false}
          :exceptions [{:infl :present
                        :surface "can"}
                       {:infl :past-simple
@@ -400,7 +401,8 @@
  "move" [{:sem {:pred :move}}]
  "must" [{:modal :base
           :inflected? true
-          :sem {:pred :must}}]
+          :sem {:pred :must
+                :shared? false}}]
  "offer" [{:sem {:pred :offer}}] 
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]
@@ -579,12 +581,14 @@
  ;; {intrans,trans} x {decl,interog} = {intrans + decl, intrans + interog, trans + decl, trans + interog}
  "will" [{:infl :present
           :modal :base
-          :sem {:tense :future}}]
+          :sem {:tense :future
+                :shared? true}}]
 
  ;; TODO: be, can, do, may, should, will, would: all these
  ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
  ;; generalize with a lexical rule. See above related TODO about "will".
- "would" [{:sem {:tense :conditional}
+ "would" [{:sem {:tense :conditional
+                 :shared? true}
            :modal :base
            :infl :present}]
 

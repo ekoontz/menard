@@ -117,7 +117,7 @@
  {:rule "s"
   :cat :verb
   :subcat []
-  :options menard.english.tenses/finite-tenses  
+  :options menard.english.tenses/finite-tenses
   :unify [menard.ug/head-aux
           menard.ug/head-is-root
           menard.ug/head-last
@@ -128,7 +128,6 @@
  {:rule "vp" ;; [vp +see .it]
   :cat :verb
   :slash? false
-;;  :options menard.english.tenses/tenses
   :unify [menard.ug/head-aux
           menard.ug/head-first
           menard.ug/head-is-root

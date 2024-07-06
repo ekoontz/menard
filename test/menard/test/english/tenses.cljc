@@ -1,7 +1,7 @@
 (ns menard.test.english.tenses
   (:require [menard.english :as en :refer [analyze expressions generate morph parse syntax-tree get-grammar get-lexicon]]
             [dag_unify.core :as u :refer [unify]]
-            [menard :as m]
+            [menard.lexiconfn :as l]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))

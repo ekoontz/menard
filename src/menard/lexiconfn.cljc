@@ -119,7 +119,7 @@
             (log/error error-message)
             (exception error-message))
           :else
-          (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " result))
+          (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " (pprint result)))
               (if include-derivation?
                 (unify (dissoc result :derivation)
                        (add-derivation rule-name consequent
@@ -366,6 +366,7 @@
   (let [exceptions-for (fn [canonical lexemes]
                          ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
                          ;;  has _canonical_ as the canonical form for the exception."
+                         (log/debug (str "canonical: " canonical))
                          (let [merge-all (fn [args]
                                            (if (seq args)
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]
@@ -373,7 +374,7 @@
                                 (mapcat (fn [lexeme]
                                           (log/debug (str "add-exceptions-to-lexicon: "
                                                           "canonical: " canonical "; " 
-                                                          "lexeme: " lexeme))
+                                                          "lexeme: " (pprint lexeme)))
                                           (if (not (map? lexeme))
                                             (exception (str "the lexeme was unexpectedly not a map: " lexeme)))
                                           (log/debug (str "exceptions-for: looking at lexeme: " lexeme))

@@ -238,20 +238,6 @@
                                          :head {:phrasal? false}
                                          :comp {:phrasal? false}}
                                   :comp {:rule "intensifier-phrase"}}}}}
-
- ;; 15
- {:note "[det | adj noun] verb"
-  :dotimes 5
-  :cat :verb
-  :subcat []
-  :max-depth 3
-  :max-fails 100000
-  :head {:phrasal? false}
-  :comp {:rule "np:2"}
-  :sem {:mood :declarative
-        :subj {:mod {:first {:mod []}
-                     :rest []}}
-        :obj :none}}
  
  ;; 16
  {:note "Sentence with object"

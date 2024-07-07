@@ -1,6 +1,7 @@
 (ns menard.test.español
   (:require [menard.español :as es
              :refer [analyze generate morph parse syntax-tree]]
+            [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
@@ -28,6 +29,7 @@
                                   :subcat []
                                   :root "querer"
                                   :sem {:pred :want
+                                        :tense :present
                                         :subj {:pred :i}}}
                                  generate
                                  ((fn [x]
@@ -47,6 +49,7 @@
                                   :agr {:number :plur
                                         :gender :fem}
                                   :sem {:pred :want
+                                        :tense :present
                                         :subj {:pred :they}}}
                                  generate
                                  morph)))))))
@@ -68,5 +71,20 @@
   (let [parses (parse "yo quiero")]
     (is (= "[s .yo +quiero]" (-> parses first syntax-tree)))))
 
+(deftest analyze-present-tense
+  ;; irregular
+  (let [quiero (->> "quiero" analyze first)]
+    (is (= (u/get-in quiero [:agr]) {:person :1st :number :sing}))
+    (is (= (u/get-in quiero [:sem :pred]) :want))
+    (is (= (u/get-in quiero [:infl]) :present)))
+  ;; regular
+  (let [hablan (->> "hablan" analyze first)]
+    (is (= (u/get-in hablan [:agr :number]) :plur))
+    (is (= (u/get-in hablan [:infl]) :present))))
 
+
+
+
+
+    
 

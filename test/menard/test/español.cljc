@@ -82,6 +82,12 @@
     (is (= (u/get-in hablan [:agr :number]) :plur))
     (is (= (u/get-in hablan [:infl]) :present))))
 
+(deftest analyze-future-tense
+  ;; regular
+  (let [hablaré (->> "hablaré" analyze first)]
+    (is (= (u/get-in hablaré [:agr :number]) :sing))
+    (is (= (u/get-in hablaré [:infl]) :future))))
+
 
 
 

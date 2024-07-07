@@ -161,6 +161,16 @@
 
  ;; </present-tense rules>
 
- ;; .. other tenses..
-]  
+ ;; <future tense>
+
+
+ {:g [#"^(.+)ar$"    "$1é"] 
+  :p [#"^(.+ar)é$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :sing
+            :person :1st}}}
+
+ ;; </future tense>
+ ]  
 

@@ -175,7 +175,17 @@
        :verb-lexicon
        (->> flattened-lexicon
             (filter #(and (not (u/get-in % [:exception]))
-                          (= (u/get-in % [:cat]) :verb))))})))
+                          (= (u/get-in % [:cat]) :verb))))
+       :pred-lexicon
+       (let [preds (->> flattened-lexicon
+                        (map #(u/get-in % [:sem :pred]))
+                        set
+                        (remove nil?))]
+         (zipmap preds
+                 (map (fn [pred]
+                        (->> flattened-lexicon
+                             (filter #(= pred (u/get-in % [:sem :pred])))))
+                      preds)))})))
 
 #?(:clj
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
@@ -256,9 +266,13 @@
 #?(:clj
    (defn lexicon-index-fn [model filter-out-nils?]
      (fn [spec]
-       (log/debug (str "spec: " (diag/strip-refs spec)))
-       (let [pre-result
-             (cond (= (u/get-in spec [:cat]) :verb)
+       (log/debug (str "lexicon-index-fn called with spec: " (l/pprint spec)))
+       (let [pred (u/get-in spec [:sem :pred])
+             pre-result
+             (cond pred
+                   (-> model :indices :pred-lexicon (get pred))
+
+                   (= (u/get-in spec [:cat]) :verb)
                    (-> model :indices :verb-lexicon)
                    
                    (= (u/get-in spec [:cat]) :adjective)

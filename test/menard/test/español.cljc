@@ -86,11 +86,14 @@
   ;; regular
   (let [hablaré (->> "hablaré" analyze first)]
     (is (= (u/get-in hablaré [:agr :number]) :sing))
-    (is (= (u/get-in hablaré [:infl]) :future))))
-
-
-
-
-
-    
+    (is (= (u/get-in hablaré [:agr :person]) :1st))    
+    (is (= (u/get-in hablaré [:infl]) :future))
+    (is (or (= (u/get-in hablaré [:sem :pred]) :speak)
+            (= (u/get-in hablaré [:sem :pred]) :talk))))    
+  (let [hablaréis (->> "hablaréis" analyze first)]
+    (is (= (u/get-in hablaréis [:agr :number]) :plur))
+    (is (= (u/get-in hablaréis [:agr :person]) :2nd))    
+    (is (= (u/get-in hablaréis [:infl]) :future))
+    (is (or (= (u/get-in hablaréis [:sem :pred]) :speak)
+            (= (u/get-in hablaréis [:sem :pred]) :talk)))))
 

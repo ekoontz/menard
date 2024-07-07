@@ -162,8 +162,6 @@
  ;; </present-tense rules>
 
  ;; <future tense>
-
-
  {:g [#"^(.+)ar$"    "$1é"] 
   :p [#"^(.+ar)é$"   "$1"] 
   :u {:cat :verb
@@ -171,6 +169,41 @@
       :agr {:number :sing
             :person :1st}}}
 
+ {:g [#"^(.+)ar$"    "$1ás"] 
+  :p [#"^(.+ar)ás$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.+)ar$"    "$1á"] 
+  :p [#"^(.+ar)á$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.+)ar$"     "$1emos"] 
+  :p [#"^(.+ar)emos$" "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.+)ar$"    "$1éis"] 
+  :p [#"^(.+ar)éis$" "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.+)ar$"    "$1án"] 
+  :p [#"^(.+ar)án$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :plur
+            :person :3rd}}}
+ 
  ;; </future tense>
  ]  
 

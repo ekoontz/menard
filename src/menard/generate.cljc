@@ -285,7 +285,7 @@
            
            (#(if (and exception-if-no-lexemes-found? (empty? %))
                (do
-                 (exception (str "no lexemes found at all for spec with agr: " (strip-refs (u/get-in spec [:agr])))))
+                 (exception (str "no lexemes found at all for spec: " (l/pprint spec))))
                %))
            
            (#(if (and (empty? %)

@@ -107,6 +107,8 @@
          "?"
          ".")))
 
+(declare wrapped-lexicon-index-fn)
+
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
@@ -130,7 +132,7 @@
                       " with max-depth: " g/max-depth))
       (g/generate spec
                   (-> model :grammar)
-                  (-> model :lexicon-index-fn) syntax-tree))))
+                  (wrapped-lexicon-index-fn (-> model :lexicon-index-fn)) syntax-tree))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
@@ -159,7 +161,8 @@
     :if {:cat :verb
          :aux? false
          :modal false
-         :infl :past-simple}
+         :infl :past-simple
+         :sem {:tense ::unspec}}
     :then [{:sem {:tense :past
                   :aspect :simple}}]}])
 ;; </TODO>
@@ -205,7 +208,15 @@
          (mapcat #(l/matching-lexemes % lexicon morphology))
          (mapcat (fn [lexeme]
                    (post-lexical-retrieval [lexeme] post-lexical-retrieval-rules))))))
-  
+
+(defn wrapped-lexicon-index-fn [the-fn]
+  (fn [spec]
+    (log/debug (str "wrapped-lexicon-index-fn called with spec: " spec))
+    (let [result (the-fn spec)]
+      (log/debug (str "result count: " (count result)))
+      (-> result
+          (post-lexical-retrieval post-lexical-retrieval-rules)))))
+
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model
         (map? model)                      model

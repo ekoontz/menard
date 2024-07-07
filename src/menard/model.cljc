@@ -180,6 +180,7 @@
        (let [preds (->> flattened-lexicon
                         (map #(u/get-in % [:sem :pred]))
                         set
+                        (remove #(= :top %))
                         (remove nil?))]
          (zipmap preds
                  (map (fn [pred]
@@ -269,7 +270,8 @@
        (log/debug (str "lexicon-index-fn called with spec: " (l/pprint spec)))
        (let [pred (u/get-in spec [:sem :pred])
              pre-result
-             (cond pred
+             (cond (and pred
+                        (not (= pred :top)))
                    (-> model :indices :pred-lexicon (get pred))
 
                    (= (u/get-in spec [:cat]) :verb)

@@ -209,10 +209,10 @@
          (mapcat (fn [lexeme]
                    (post-lexical-retrieval [lexeme] post-lexical-retrieval-rules))))))
 
-(defn wrapped-lexicon-index-fn [the-fn]
+(defn wrapped-lexicon-index-fn [lexical-index-fn]
   (fn [spec]
     (log/debug (str "wrapped-lexicon-index-fn called with spec: " spec))
-    (let [result (the-fn spec)]
+    (let [result (lexical-index-fn spec)]
       (log/debug (str "result count: " (count result)))
       (-> result
           (post-lexical-retrieval post-lexical-retrieval-rules)))))

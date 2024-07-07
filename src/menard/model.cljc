@@ -285,15 +285,16 @@
                    (-> model :indices :det-lexicon)
                    
                    :else (-> model :indices :misc-lexicon))
-             nils-possibly-filtered (if (false? filter-out-nils?)
-                                      pre-result
-                                      (filter #(not (true? (u/get-in % [:null?])))))
-             fails-possibly-filtered (if (false? filter-for-fails?)
-                                       nils-possibly-filtered
-                                       (->> nils-possibly-filtered
-                                            (map #(unify % spec))
-                                            (filter #(not (= :fail %)))))
-             result fails-possibly-filtered]
+             result (if (false? filter-for-fails?)
+                      (->>
+                       pre-result
+                       (filter #(or (false? filter-out-nils?)
+                                    (not (true? (u/get-in % [:null?]))))))
+                      (->> pre-result
+                           (filter #(or (false? filter-out-nils?)
+                                        (not (true? (u/get-in % [:null?])))))
+                           (map #(unify % spec))
+                           (filter #(not (= :fail %)))))]
          (if true
            (shuffle result)
            result)))))

@@ -69,7 +69,7 @@
 
 (deftest parse-1
   (let [parses (parse "yo quiero")]
-    (is (= "[s .yo +quiero]" (-> parses first syntax-tree)))))
+    (is (= "[s(:present-simple) .yo +quiero]" (-> parses first syntax-tree)))))
 
 (deftest analyze-present-tense
   ;; irregular

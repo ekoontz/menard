@@ -490,7 +490,10 @@
     [tree]
 
     ;; not done yet; keep going.
-    (-> tree (add grammar index-fn syntax-tree) first (add-until-done grammar index-fn syntax-tree))))
+    (-> tree
+        (add grammar index-fn syntax-tree)
+        first
+        (add-until-done grammar index-fn syntax-tree))))
 
 (defn- add-until
   "to the tree _tree_, do (add) _n_ times."

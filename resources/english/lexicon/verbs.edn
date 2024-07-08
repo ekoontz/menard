@@ -108,6 +108,7 @@
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
+         :infl :base
          :sem {:pred :be-able-to
                :shared? false}
          :exceptions [{:infl :present
@@ -400,6 +401,7 @@
           [{:exceptions exceptions  :sem {:pred :mean}}])
  "move" [{:sem {:pred :move}}]
  "must" [{:modal :base
+          :infl :base
           :inflected? true
           :sem {:pred :must
                 :shared? false}}]
@@ -579,18 +581,16 @@
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:
  ;; {intrans,trans} x {decl,interog} = {intrans + decl, intrans + interog, trans + decl, trans + interog}
- "will" [{:infl :present
+ "will" [{:infl :base
           :modal :base
-          :sem {:tense :future
-                :shared? true}}]
+          :sem {:tense :future}}]
 
  ;; TODO: be, can, do, may, should, will, would: all these
  ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
  ;; generalize with a lexical rule. See above related TODO about "will".
- "would" [{:sem {:tense :conditional
-                 :shared? true}
+ "would" [{:sem {:tense :conditional}
            :modal :base
-           :infl :present}]
+           :infl :base}]
 
  "work" [{:sem {:pred :work}}]
  "yawn" [{:sem {:pred :yawn

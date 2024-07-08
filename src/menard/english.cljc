@@ -141,12 +141,29 @@
 
 ;; <TODO> move into declarative grammar (i.e. the model).
 (def post-lexical-retrieval-rules
-  [{:rule :present-tense-non-aux
+  [{:rule :tense-non-aux-infl
+    :if {:cat :verb
+         :aux? false
+         :modal false
+         :infl ::unspec}
+    :then [{:infl :base}
+           {:infl :present}]}
+
+    {:rule :tense-non-aux-present
     :if {:cat :verb
          :aux? false
          :modal false
          :infl :present}
-    :then [{:sem {:tense :present
+    :then [{:infl :present
+            :sem {:tense :present
+                  :aspect :simple}}]}
+   {:rule :tense-non-aux-future
+    :if {:cat :verb
+         :aux? false
+         :modal false
+         :infl :present}
+    :then [{:infl :present
+            :sem {:tense :present
                   :aspect :simple}}]}
 
    {:rule :modal-infinitive-present

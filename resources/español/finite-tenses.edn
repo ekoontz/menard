@@ -1,0 +1,13 @@
+[;; "she will see"
+ {:variant :future
+  :infl :future
+  :sem {:tense :future}}
+ 
+ ;; "she sees"
+ {:variant :present-simple
+  :abbreviation :simple-present
+  :infl :present
+  :sem {:tense :present
+        :aspect :simple}}]
+
+ 

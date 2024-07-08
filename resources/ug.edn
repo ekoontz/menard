@@ -112,6 +112,11 @@
    {:def 'head-sem
     :sem sem
     :head {:sem sem}})
+
+ (let [modal (atom :top)]
+   {:def 'head-modal
+    :modal modal
+    :head {:modal modal}})
  
  ;; sem|obj|mod=comp|mod
  (let [mod (atom :top)]

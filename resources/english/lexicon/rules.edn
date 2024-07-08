@@ -67,6 +67,14 @@
   :if {:cat :verb
        :modal ::unspec}
   :then [{:modal false}]}
+
+ {:rule :subcat-frames-intransitive
+  :if {:cat :verb
+       :aux? false
+       :modal false
+       :sem {:obj :none}
+       :subcat {:2 ::unspec}}
+  :then [{:subcat {:2 []}}]}
  
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
@@ -331,23 +339,30 @@
                          :subcat {:1 {:sem subj}
                                   :2 []}}}})]}
 
- {:rule :modal-base-subordinate-sem
+ ;;  "can/could <vp[base,nonmodal]>" 
+ {:rule :modal-base
    :if {:cat :verb
         :modal :base
-        :sem {:shared? false}
         :subcat {:2 {:top :top}}}
-   :then [;;  "can/could <vp[base,nonmodal]>" non-reflexive
-          (let [subj (atom :top)
-                subcat-subj (atom {:sem subj})
-                obj (atom {:subj subj})]
+  :then [(let [subj (atom :top)
+               pred (atom :top)
+               obj (atom :top)
+               reflexive? (atom :top)
+               subcat-subj (atom :top)]
             {:inflected? true
+             :reflexive? reflexive?
              :sem {:subj subj
+                   :pred pred
                    :obj obj}
-             :subcat {:2 {:aux? false
+             :subcat {:1 subcat-subj
+                      :2 {:aux? false
                           :infl :base
                           :cat :verb
                           :modal false
-                          :sem obj
+                          :reflexive? reflexive?                          
+                          :sem {:subj subj
+                                :pred pred
+                                :obj obj}
                           :subcat {:1 subcat-subj
                                    ;; the complement has only [:subcat :1]
                                    ;; and no [:subcat :2]: 
@@ -362,22 +377,6 @@
                                    :2 []
                                    }}}})]}
 
- {:rule :modal-base-shared-sem
-  :if {:cat :verb
-       :modal :base
-       :sem {:shared? true}
-       :subcat {:2 {:top :top}}}
-  :then 
-  [;;  "will/would <vp[base,nonmodal]>" non-reflexive
-   (let [sem (atom :top)]
-     {:inflected? true
-      :sem sem
-      :subcat {:2 {:aux? false
-                   :infl :base
-                   :cat :verb
-                   :modal false
-                   :sem sem}}})]}
- 
  {:rule :aux?-verbs
   :if {:cat :verb
        :aux? true
@@ -510,22 +509,6 @@
           :interogative? false
           :reflexive? false
           :subcat []}]}
-
- {:rule :modal-base-2 ;; "must" in "it must be"
-  :if {:cat :verb
-       :modal :base
-       :subcat {:2 {:top :top}}}
-  ;; TODO: remove all of these atoms; they are not used.
-  :then (let [subj (atom :top)
-              subcat-subj (atom {:sem subj})
-              obj (atom {:subj subj})]
-           [;;  "can see her"
-           {:reflexive? false
-            :subcat {:2 {:reflexive? false}}}
-
-           ;;  "can see herself"
-           {:reflexive? true
-            :subcat {:2 {:reflexive? true}}}])}
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb

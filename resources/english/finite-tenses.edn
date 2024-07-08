@@ -1,15 +1,17 @@
 [;; "would see"
  {:variant :conditional
-  :infl :present
+  :infl :base
   :sem {:tense :conditional}
-  :head {:aux? false}}
+  :head {:aux? false
+         :modal :base}}
  
- ;; "will see"
+ ;; "will"
  {:variant :future
-  :infl :present  
+  :infl :base
   :sem {:tense :future}
-  :head {:aux? false}}
- 
+  :head {:aux? false
+         :modal :base}}
+
  ;; "sees"
  {:variant :present-simple
   :abbreviation :simple-present

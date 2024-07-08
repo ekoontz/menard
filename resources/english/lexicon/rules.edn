@@ -67,14 +67,6 @@
   :if {:cat :verb
        :modal ::unspec}
   :then [{:modal false}]}
-
- {:rule :subcat-frames-intransitive
-  :if {:cat :verb
-       :aux? false
-       :modal false
-       :sem {:obj :none}
-       :subcat {:2 ::unspec}}
-  :then [{:subcat {:2 []}}]}
  
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms

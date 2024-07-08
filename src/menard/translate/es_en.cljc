@@ -11,23 +11,16 @@
 
 (defn es-to-en [es-input]
   (log/info (str "es-to-en: es-input: " es-input))
-  (-> es-input es/parse first
-      ((fn [es-parse]
-         (let [spec
-               (-> {:sem (-> es-parse (u/get-in [:sem]))
+  (let [es-parse (-> es-input es/parse first)
+        english-spec
+        (-> (unify {:sem {:mod []}}
+                   {:sem (-> es-parse (u/get-in [:sem]))
                     :cat (-> es-parse (u/get-in [:cat]))
-                    :infl (-> es-parse (u/get-in [:infl]))
-                    :subcat (-> es-parse (u/get-in [:subcat]))}
-                   
-                   (u/unify {;; fix espanol parsing to generate these:
-                             :sem {:subj {:existential? false} 
-                                   :obj :none
-                                   :mod []}
-                             :aux? false}))]
-           (log/info (str "english spec: " (l/pprint spec)))
-           (-> spec
-               en/generate
-               en/morph))))))
+                    :subcat (-> es-parse (u/get-in [:subcat]))}))]
+    (log/info (str "english spec: " (l/pprint english-spec)))
+    (-> english-spec
+        en/generate
+        en/morph)))
 
 
 

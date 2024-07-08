@@ -169,8 +169,8 @@
       :agr {:number :sing
             :person :1st}}}
 
- {:g [#"^(.+)ar$"    "$1ás"] 
-  :p [#"^(.+ar)ás$"   "$1"] 
+ {:g [#"^(.+)ar$"   "$1ás"] 
+  :p [#"^(.+)ás$"   "$1ar"] 
   :u {:cat :verb
       :infl :future
       :agr {:number :sing
@@ -183,7 +183,7 @@
       :agr {:number :sing
             :person :3rd}}}
 
- {:g [#"^(.+)ar$"     "$1emos"] 
+ {:g [#"^(.+ar)$"     "$1emos"] 
   :p [#"^(.+ar)emos$" "$1"] 
   :u {:cat :verb
       :infl :future

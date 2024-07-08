@@ -1,5 +1,6 @@
 (ns menard.español 
-  (:require [menard.generate :as g]
+  (:require [menard.español.tenses :refer [tenses]]            
+            [menard.generate :as g]
             [menard.lexiconfn :as l]
             [menard.model :refer [create load-model]]
             [menard.morphology :refer [morph-leaf]]
@@ -207,4 +208,17 @@
                parses-with-null-appended)))))))
   ([expression]
    (parse expression model)))
+
+
+(defn get-grammar [rule-name]
+  (->> (-> model deref :grammar)
+       (filter #(= rule-name (:rule %)))))
+
+(defn get-lexicon [lexeme]
+  (get (-> model deref :lexicon) lexeme))
+
+(defn get-indices []
+  (-> model deref :indices))
+
+
 

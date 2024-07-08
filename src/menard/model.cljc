@@ -12,7 +12,6 @@
             [menard.grammar :as grammar]
             [menard.lexiconfn :as l]
             [menard.morphology :as m]
-            [menard.nederlands.tenses]
             [menard.nesting]
             [menard.serialization :as s]
             [menard.subcat]
@@ -178,14 +177,13 @@
                           (= (u/get-in % [:cat]) :verb))))
        :pred-lexicon
        (let [preds (->> flattened-lexicon
-                        (map #(u/get-in % [:sem :pred]))
+                        (map #(u/get-in % [:sem :pred] :top))
                         set
-                        (remove #(= :top %))
                         (remove nil?))]
          (zipmap preds
                  (map (fn [pred]
                         (->> flattened-lexicon
-                             (filter #(= pred (u/get-in % [:sem :pred])))))
+                             (filter #(= pred (u/get-in % [:sem :pred] :top)))))
                       preds)))})))
 
 #?(:clj
@@ -272,8 +270,13 @@
              pre-result
              (cond (and pred
                         (not (= pred :top)))
-                   (-> model :indices :pred-lexicon (get pred))
+                   (concat (-> model :indices :pred-lexicon (get pred))
+                           (-> model :indices :pred-lexicon :top))
 
+                   ;; TODO: consider (concat (-> model :indices :cat :top))
+                   ;; to each of these [:cat] indices as we do with :pred-lexicon.
+                   ;; (defn fill-lexicon-indexes) will also need changes to add
+                   ;; such [:cat]=:top lexemes to each index.
                    (= (u/get-in spec [:cat]) :verb)
                    (-> model :indices :verb-lexicon)
                    

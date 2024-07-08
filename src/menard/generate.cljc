@@ -271,9 +271,7 @@
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
     (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
-      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: "
-                     (strip-refs
-                      (select-keys spec show-keys)))))
+      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn)
@@ -422,7 +420,7 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn]
-  (log/debug (str "get-lexemes with spec: " (strip-refs spec)))
+  (log/debug (str "get-lexemes with spec: " (l/pprint spec)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
   (->> (lexicon-index-fn spec)
@@ -438,12 +436,19 @@
        (filter (fn [tuple]
                  (let [lexeme (:lexeme tuple)
                        unify (:unify tuple)]
+                   (log/debug (str "candidate lexeme: " (l/pprint lexeme)))
                    (cond (not (= :fail unify))
                          true
-                         :else (do
-                                (log/trace (str "lexeme candidate failed: " (dag_unify.diagnostics/fail-path spec lexeme)))
-                                (when counts? (swap! count-lexeme-fails inc))
-                                false)))))
+                         :else (let [fail-path
+                                     (dag_unify.diagnostics/fail-path spec lexeme)]
+                                 (log/debug (str "lexeme candidate failed: " fail-path "; "
+                                                "lexeme's value: "
+                                                (u/get-in lexeme fail-path) "; "
+                                                "spec's value: "
+                                                (u/get-in spec fail-path)))
+
+                                 (when counts? (swap! count-lexeme-fails inc))
+                                 false)))))
        (map :unify)))
 
 (defn frontier

@@ -3,6 +3,7 @@
   :cat :verb
   :subcat []
   :head {:cat :verb}
+  :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/a
           menard.ug/head-is-root
           menard.ug/head-last
@@ -10,5 +11,3 @@
           menard.ug/head-sem]
   }
  ]
-
-

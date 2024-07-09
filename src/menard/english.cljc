@@ -141,7 +141,7 @@
 
 ;; <TODO> move into declarative grammar (i.e. the model).
 (def post-lexical-retrieval-rules
-  [{:rule :tense-non-aux-infl
+  [{:rule :unspecified-infl-to-present-and-base
     :if {:cat :verb
          :aux? false
          :modal false
@@ -149,7 +149,7 @@
     :then [{:infl :base}
            {:infl :present}]}
 
-    {:rule :tense-non-aux-present
+    {:rule :present-infl-to-present-tense
     :if {:cat :verb
          :aux? false
          :modal false

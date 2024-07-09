@@ -71,7 +71,7 @@
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument:
- {:rule :subcat-frames-nonmodal-1
+ {:rule :subcat-frames-nonmodal
   :if {:cat :verb
        :modal false
        :aux? false

@@ -5,7 +5,7 @@
             [dag_unify.serialization :refer [serialize]]
             [dag_unify.diagnostics :as diag]))
 
-(def max-depth 20)
+(def max-depth 5)
 
 (defn nl-to-en-spec [nl-expression]
   (log/debug (str "nl-to-en-spec: nl-expression: " (serialize nl-expression)))

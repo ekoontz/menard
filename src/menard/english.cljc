@@ -114,7 +114,7 @@
   [spec & [model]]
   ;; should block on this until a model exists: maybe @model should be a future
   ;; or a promise (not sure what the difference is).
-  (log/info (str "menard.english/generate with spec: " (u/pprint spec)))
+  (log/debug (str "menard.english/generate with spec: " (u/pprint spec)))
   (let [model (or model complete/model)
         model (cond (= (type model) clojure.lang.Ref)
                     @model

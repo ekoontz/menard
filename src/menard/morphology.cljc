@@ -33,6 +33,8 @@
     ;; no emoji or other cues for now.
     (= notes [:human?])
     nil
+    (= notes [:human])
+    nil
     (= notes [:nonhuman])
     nil
 

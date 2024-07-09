@@ -82,7 +82,7 @@
          :pronoun? true
          :reflexive? false}]
  "them" [{:case :acc
-          :note [:human?]
+          :note [:human]
           :agr {:person :3rd :number :plur}
           :sem {:pred :they
                 :ref {:human? true}}

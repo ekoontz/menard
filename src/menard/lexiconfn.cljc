@@ -76,27 +76,36 @@
 
 (defn eval-surface-fns [consequent lexeme]
   (if (seq (:exceptions consequent))
-    (let [retval
-          (merge consequent
-                 {:exceptions (map (fn [exception]
-                                     (let [surface (:surface exception)]
-                                       (cond
-                                         (map? surface)
-                                         (merge exception
-                                                {:surface (str (u/get-in lexeme (:prefix surface))
+    (merge consequent
+           {:exceptions (map (fn [exception]
+                               (let [surface (:surface exception)]
+                                 (cond
+                                   (map? surface)
+                                   (merge exception
+                                          {:surface (str (u/get-in lexeme (:prefix surface))
                                                                (:suffix surface))})
-                                         (string? surface)
-                                         exception
-                                         :else
-                                         (exception "Cannot find surface form given intermediate surface value: " surface))))
-                                   (:exceptions consequent))})]
-      retval)
+                                   (string? surface)
+                                   exception
+                                   :else
+                                   (exception "Cannot find surface form given intermediate surface value: " surface))))
+                             (:exceptions consequent))})
     consequent))
   
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent antecedent-index
                             consequent-index include-derivation?]
+  (log/debug (str "rule-name: " rule-name))
+  (log/debug (str "consequent: " consequent))
+  (log/debug (str "lexeme: " (pprint lexeme)))
   (let [consequent (eval-surface-fns consequent lexeme)
-        result (unify lexeme consequent)]
+        existing-exceptions (:exceptions lexeme)
+        new-exceptions (:exceptions consequent)
+        result (unify (dissoc lexeme :exceptions)
+                      (dissoc consequent :exceptions)
+                      (if (or (seq existing-exceptions)
+                              (seq new-exceptions))
+                        {:exceptions (concat existing-exceptions
+                                             new-exceptions)}
+                        :top))]
     (log/debug (str "apply-rule-to-lexeme: "
                     ;;"lexeme: " (u/pprint lexeme)
                     "; consequent: " (u/pprint consequent)

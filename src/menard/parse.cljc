@@ -149,8 +149,8 @@
                  (str "overh fail:    " (syntax-tree parent)
                       " <- " (syntax-tree head)
                       " fail-path: " (vec fp)
-                      ". Parent has: " (u/pprint (u/get-in parent fp))
-                      ", but head has: " (u/pprint (u/get-in head (rest fp)))
+                      ". Parent wants: " (l/pprint (u/get-in parent fp))
+                      ", but head has: " (l/pprint (u/get-in head (rest fp)))
                       (let [derivation (cond
                                          (seq (u/get-in head [:menard.lexiconfn/derivation]))
                                          (u/get-in head [:menard.lexiconfn/derivation])
@@ -209,9 +209,9 @@
                  (str "overc fail: " (syntax-tree parent)
                       " <- " (syntax-tree comp)
                       " fail path: " (vec fp)
-                      ". parent has: " (u/pprint (u/get-in parent fp))
-                      ", but comp has: " (u/pprint (u/get-in comp (rest fp)))
-                      ", comp derivation: " (s/get-derivation comp)
+                      ". parent wants: " (l/pprint (u/get-in parent fp))
+                      ", but comp has: " (l/pprint (u/get-in comp (rest fp)))
+                      ", comp derivation: " (l/encode-derivation (or (u/get-in comp [:menard.lexiconfn/derivation])))
                       ".")))))))
       result)))
 

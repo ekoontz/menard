@@ -14,9 +14,11 @@
   (let [es-parse (-> es-input es/parse first)
         english-spec
         (-> (unify {:sem {:mod []}}
-                   {:sem (-> es-parse (u/get-in [:sem]))
+                   {:agr (-> es-parse (u/get-in [:agr]))
+                    :sem (-> es-parse (u/get-in [:sem]))
                     :cat (-> es-parse (u/get-in [:cat]))
                     :subcat (-> es-parse (u/get-in [:subcat]))}))]
+    (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
     (log/info (str "english spec: " (l/pprint english-spec)))
     (-> english-spec
         en/generate

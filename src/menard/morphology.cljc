@@ -11,23 +11,23 @@
 
 (def emoji
   {:informal ["🤠"]
-   :polite   ["🧐"]})
+   :formal   ["🧐"]})
 
 (defn decode-notes [notes]
   (cond
     (= notes [:informal :singular])
     (str (clojure.string/join ""
                               (take 1 (repeatedly #(first (shuffle (get emoji :informal)))))))
-    (= notes [:polite :singular])
+    (= notes [:formal :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get emoji :polite)))))))
+                              (take 1 (repeatedly #(first (shuffle (get emoji :formal)))))))
     (= notes [:informal :plural])
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji :informal)))))))
 
-    (= notes [:polite :plural])
+    (= notes [:formal :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji :polite)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji :formal)))))))
 
 
     ;; no emoji or other cues for now.

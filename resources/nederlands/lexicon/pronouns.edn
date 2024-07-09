@@ -202,7 +202,7 @@
        :sem {:pred :you
              :person :2nd
              :ref {:human? true
-                   :context :polite
+                   :context :formal
                    :number :sing}}
        :sense 1}
       {:case :acc
@@ -211,7 +211,7 @@
        :reflexive? true
        :sem {:pred :you
              :ref {:human? true
-                   :context :polite
+                   :context :formal
                    :number :sing}}
        :sense 2}
       {:case :acc
@@ -221,7 +221,7 @@
              :person-not :1st             
              :ref {:human? true
                    :person :2nd
-                   :context :polite}}
+                   :context :formal}}
        :sense 3}
 
       ;; semantically plural, but still grammatically singular:
@@ -232,7 +232,7 @@
        :sem {:pred :you
              :person :2nd
              :ref {:human? true
-                   :context :polite
+                   :context :formal
                    :number :plur}}
        :sense 4}
       {:case :acc
@@ -242,7 +242,7 @@
        :reflexive? true
        :sem {:pred :you
              :ref {:human? true
-                   :context :polite
+                   :context :formal
                    :number :plur}}
        :sense 5}]
       
@@ -309,7 +309,7 @@
                 :number :sing}
           :reflexive? true
           :sem {:ref {:human? true
-                      :context :polite
+                      :context :formal
                       :number :sing}}}
 
          ;; 'zich' 2nd person, plural:
@@ -320,7 +320,7 @@
           :reflexive? true
           :sem {:pred :you
                 :ref {:human? true
-                      :context :polite
+                      :context :formal
                       :number :plur}}}]
   "zichzelf" [{:case :acc
               :agr {:number :sing

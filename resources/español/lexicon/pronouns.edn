@@ -67,32 +67,31 @@
                     :pred :we}
               :reflexive? false}]
 
-
  "tu" [{:case :nom
         :agr {:number :sing
               :person :2nd
               :formal? false}
-        :sem {:ref {:human? true}
-              :pred :you
-              :formal? false}
+        :sem {:ref {:human? true
+                    :context :informal}
+              :pred :you}
         :reflexive? false}]
 
  "usted" [{:case :nom
            :agr {:number :sing
                  :person :2nd
                  :formal? true}
-           :sem {:ref {:human? true}
-                 :pred :you
-                 :formal? true}                 
+           :sem {:ref {:human? true
+                       :context :formal}
+                 :pred :you}
            :reflexive? false}]
 
  "ustedes" [{:case :nom
              :agr {:number :plur
                    :person :2nd
                    :formal? true}            
-             :sem {:ref {:human? true}
-                   :pred :you
-                   :formal? true}
+             :sem {:ref {:human? true
+                         :context :formal}
+                   :pred :you}
              :reflexive? false}]
 
  "vosotras" [{:case :nom
@@ -100,18 +99,17 @@
                     :gender :fem
                     :person :2nd
                     :formal? false}
-              :sem {:ref {:human? true}
-                    :pred :you
-                    :formal? false}
+              :sem {:ref {:human? true
+                          :context :informal}
+                    :pred :you}
               :reflexive? false}]
 
  "vosotros" [{:case :nom
               :agr {:number :plur
-                    :gender :masc                    
-                    :person :2nd}
-              :sem {:ref {:human? true}
-                    :pred :you
-                    :formal? false}
+                    :gender :masc}
+              :sem {:ref {:human? true
+                          :context :informal}
+                    :pred :you}
               :reflexive? false}]
 
  "yo" [{:case :nom

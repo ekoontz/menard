@@ -150,16 +150,16 @@
         {:agr {:person :2nd
                :number :sing}
          :case :nom
-         :note [:polite :singular]
+         :note [:formal :singular]
          :sem {:pred :you
-               :ref {:context :polite}}}
+               :ref {:context :formal}}}
 
         {:agr {:person :2nd
                :number :plur}
          :case :nom
-         :note [:polite :plural]
+         :note [:formal :plural]
          :sem {:pred :you
-               :ref {:context :polite}}}
+               :ref {:context :formal}}}
 
         {:agr {:person :2nd
                :number :sing}
@@ -180,17 +180,17 @@
         {:agr {:person :2nd
                :number :sing}
          :case :acc
-         :note [:polite :singular]
+         :note [:formal :singular]
          :sem {:pred :you
-               :ref {:context :polite}
+               :ref {:context :formal}
                :person-not :1st}}
 
         {:agr {:person :2nd
                :number :plur}
          :case :acc
-         :note [:polite :plural]
+         :note [:formal :plural]
          :sem {:pred :you
-               :ref {:context :polite}
+               :ref {:context :formal}
                :person-not :1st}}]
  
  "yourself" [{:case :acc

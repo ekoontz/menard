@@ -3,12 +3,12 @@
                   :number :sing}]
          {:case :nom
           :agr agr
-          :sem {:human true
+          :sem {:ref {:human? true}
                 :gender :masc
                 :pred :he}}
          {:case :nom
           :agr agr
-          :sem {:human false
+          :sem {:ref {:human? false}
                 :gender :masc
                 :pred :it}})]
  "ella" [(let [agr {:person :3rd
@@ -16,12 +16,12 @@
                     :number :sing}]
            {:case :nom
             :agr agr
-            :sem {:human true
+            :sem {:ref {:human? true}
                   :gender :fem
                   :pred :she}}
            {:case :nom
             :agr agr
-            :sem {:human false
+            :sem {:ref {:human? false}
                   :gender :fem
                   :pred :it}})]
  "ellas" [(let [agr {:person :3rd
@@ -29,12 +29,12 @@
                      :number :plur}]
             {:case :nom
              :agr agr
-             :sem {:human true
+             :sem {:ref {:human? true}
                    :gender :fem
                    :pred :they}}
             {:case :nom
              :agr agr
-             :sem {:human false
+             :sem {:ref {:human? false}
                   :gender :fem
                    :pred :they}})]
  "ellos" [(let [agr {:person :3rd
@@ -42,12 +42,12 @@
                      :number :plur}]
             {:case :nom
              :agr agr
-             :sem {:human true
+             :sem {:ref {:human? true}
                    :gender :masc
                    :pred :they}}
             {:case :nom
              :agr agr
-             :sem {:human false
+             :sem {:ref {:human? false}
                   :gender :masc
                    :pred :they}})]
 

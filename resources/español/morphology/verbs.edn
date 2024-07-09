@@ -158,11 +158,9 @@
       :agr {:number :plur
             :person :3rd
             :formal? false}}}
-
  ;; </present-tense rules>
 
  ;; <future tense>
-
  {:g [#"^(.+[aie]r)$"    "$1é"] 
   :p [#"^(.+[aie]r)é$"   "$1"] 
   :u {:cat :verb
@@ -198,13 +196,57 @@
       :agr {:number :plur
             :person :2nd}}}
 
- {:g [#"^(.+[aie]r)$"    "$1án"] 
-  :p [#"^(.+[aie]r)án$"  "$1"] 
+ {:g [#"^(.+[aie]r)$"     "$1án"] 
+  :p [#"^(.+[aie]r)án$"   "$1"] 
   :u {:cat :verb
       :infl :future
       :agr {:number :plur
             :person :3rd}}}
- 
  ;; </future tense>
+
+ ;; <conditional tense>
+ {:g [#"^(.+[aie]r)$"      "$1ía"] 
+  :p [#"^(.+[aie]r)ía$"    "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :sing
+            :person :1st}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1ías"] 
+  :p [#"^(.+)ías$"         "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1ía"] 
+  :p [#"^(.+[aie]r)ía$"    "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1íamos"] 
+  :p [#"^(.+[aie]r)íamos$" "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1íamos"] 
+  :p [#"^(.+[aie]r)íamos$" "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1ían"] 
+  :p [#"^(.+[aie]r)ían$"   "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :plur
+            :person :3rd}}}
+ ;; </conditional tense> 
+ 
  ]  
 

@@ -33,31 +33,25 @@
                               :number :sing}
                         :surface {:prefix [:stems :boot]
                                   :suffix "o"}}
-
                        {:infl :present
                         :agr {:person :2nd
                               :number :sing
                               :formal? false}
                         :surface {:prefix [:stems :boot]
                                   :suffix "es"}}
-
                        {:infl :present
                         :agr {:person :2nd
                               :number :sing
                               :formal? true}
                         :surface {:prefix [:stems :boot]
                                   :suffix "e"}}
-
                        {:infl :present
                         :agr {:person :3rd
                               :number :sing}
                         :surface {:prefix [:stems :boot]
                                   :suffix "e"}}
-
-                       ;; (1st and 2nd plur are conjugated according
-                       ;; to the regular rules, so :exception needed for them).
-
-
+                        ;; (1st and 2nd plur are conjugated according
+                        ;; to the regular rules, so no :exception needed for them).
                        ;; 2nd person formal (ustedes)
                        {:infl :present
                         :agr {:person :2nd
@@ -65,12 +59,76 @@
                               :formal? true}
                         :surface {:prefix [:stems :boot]
                                   :suffix "en"}}
-
                        ;; 3rd plur:
                        {:infl :present
                         :agr {:person :3rd :number :plur}
                         :surface {:prefix [:stems :boot]
                                   :suffix "en"}}]}]}
+
+ {:rule :future-and-conditional-stem
+  :if {:cat :verb
+       :stems {:futuro? true}}
+  :then [{:exceptions [{:infl :future
+                        :agr {:person :1st
+                              :number :sing}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "é"}}
+                       {:infl :future
+                        :agr {:person :2nd
+                              :number :sing}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ás"}}
+                       {:infl :future
+                        :agr {:person :3rd
+                              :number :sing}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "á"}}
+                       {:infl :future
+                        :agr {:person :1st
+                              :number :plur}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "emos"}}
+                       {:infl :future
+                        :agr {:person :2nd
+                              :number :plur}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "és"}}
+                       {:infl :future
+                        :agr {:person :3rd
+                              :number :plur}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "án"}}
+                       ;; conditional
+                       {:infl :conditional
+                        :agr {:person :1st
+                              :number :sing}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ía"}}
+                       {:infl :conditional
+                        :agr {:person :2nd
+                              :number :sing}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ías"}}
+                       {:infl :conditional
+                        :agr {:person :3rd
+                              :number :sing}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ía"}}
+                       {:infl :conditional
+                        :agr {:person :1st
+                              :number :plur}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "íamos"}}
+                       {:infl :conditional
+                        :agr {:person :2nd
+                              :number :plur}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "íais"}}
+                       {:infl :conditional
+                        :agr {:person :3rd
+                              :number :plur}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ían"}}]}]}
 
  {:rule :subcat
   :if {:cat :verb
@@ -82,7 +140,8 @@
            {:subcat {:1 {:cat :noun
                          :sem subj}
                      :2 []}
-            :sem {:subj subj}}
+            :sem {:subj subj
+                  :obj :none}}
            ;; transitive
            {:sem {:subj subj
                   :obj obj}
@@ -101,12 +160,17 @@
                          :cat :noun
                          :case :nom
                          :subcat []}}})]}
- 
 
  {:rule :existential-false
   :if {:cat :noun
        :pronoun? true
        :sem {:existential? ::unspec}}
    :then [{:sem {:existential? false}}]}
+
+
+ {:rule :verbs-have-empty-sem-modifiers
+  :if {:cat :verb
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
  
  ]

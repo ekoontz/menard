@@ -72,7 +72,8 @@
                            (map (fn [[k v]]
                                   (if (get v :applied?)
                                     [(get v (keyword (str "menard.lexiconfn/order")))
-                                     (if (get v :sense) [k (get v :sense)] k)])) derivation)))))
+                                     (if (get v :sense) [k (get v :sense)] k)]))
+                                derivation)))))
 
 (defn eval-surface-fns [consequent lexeme]
   (if (seq (:exceptions consequent))

@@ -129,6 +129,7 @@
  {:rule "vp" ;; [vp +see .it]
   :cat :verb
   :slash? false
+  :head {:phrasal? false}
   :unify [menard.ug/head-aux
           menard.ug/head-first
           menard.ug/head-modal          

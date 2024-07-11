@@ -613,7 +613,26 @@
                          :infl :base
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}])}
+
+ {:rule :modal-infinitive
+  :if {:cat :verb
+       :modal :infinitive}
+  :then (let [subj (atom :top)
+              subcat-1-is-shared (atom {:sem subj})
+              complement-sem (atom {:subj subj})]
+          [;; "needs"
+           {:subcat {:2 []}}
+
+           ;; "needs to leave"
+           {:sem {:subj subj
+                  :obj complement-sem}
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :infl :infinitive
+                         :sem complement-sem
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}
+
  ]
 

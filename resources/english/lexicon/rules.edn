@@ -138,41 +138,6 @@
             :sem {:subj subj
                   :obj obj}})]}
 
- {:rule :modal-base-shared-subcat
-  :if {:cat :verb
-       :modal :base}
-  :then [;; intransitive form: "I would"
-         {:subcat {:2 []}}
-
-         ;; transitive "I would sleep"
-         (let [subcat-1 (atom :top)]
-           {:subcat {:1 subcat-1
-                     :2 {:subcat {:1 subcat-1}}}})]}
-
- {:rule :modal-base-intransitive
-  :if {:cat :verb
-       :modal :base
-       :sem {:pred ::unspec}
-       :subcat {:2 []}}
-  :then [{:sem {:pred :anaphor}}]}
-
- {:rule :subcat-frames-modal-base
-  :if {:cat :verb
-       :modal :base
-       :sem {:shared? false}
-       :aux? false}
-  :then [(let [subj (atom :top)]
-           {:sem {:subj subj}
-            :subcat {:1 {:sem subj}}})]}
-
- {:rule :subcat-frames-modal-infinitive
-  :if {:cat :verb
-       :modal :infinitive
-       :aux? false}
-  :then [(let [subj (atom :top)]
-           {:sem {:subj subj}
-            :subcat {:1 {:sem subj}}})]}
- 
  {:rule :aux?-default-is-false
   :if {:cat :verb
        :aux? ::unspec}
@@ -288,87 +253,6 @@
        :propernoun? true}
   :then [{:inflected? true}]}
 
- ;; TODO: move reflexive and agreement stuff to another rule so that
- ;; modal-infinitive is simpler and clearer.
- {:rule :modal-infinitive
-  :if {:cat :verb
-       :modal :infinitive}
-  :then [;; intransitive: "she tries"
-         {:sem {:obj :none}
-          :reflexive? false
-          :subcat {:2 []}}
-
-         ;; transitive and non-reflexive: "she tries to see it"
-         (let [subj (atom :top)
-               obj (atom {:subj subj})]
-           {:reflexive? false
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:2 {:infl :infinitive
-                         :cat :verb
-                         :phrasal? true
-                         :reflexive? false
-                         :sem obj
-                         :subcat {:1 {:sem subj}
-                                  :2 []}}}})
-
-         ;; transitive and reflexive: "she tries to see herself"
-         (let [subj-ref (atom :top)
-               subj (atom {:ref subj-ref})
-               obj (atom {:subj subj
-                          :obj {:ref subj-ref}})
-               agr (atom :top)]
-           {:reflexive? true
-            :agr agr
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:2 {:agr agr
-                         :infl :infinitive
-                         :phrasal? true
-                         :cat :verb
-                         :reflexive? true
-                         :sem obj
-                         :subcat {:1 {:sem subj}
-                                  :2 []}}}})]}
-
- ;;  "can/could <vp[base,nonmodal]>" 
- {:rule :modal-base
-   :if {:cat :verb
-        :modal :base
-        :subcat {:2 {:top :top}}}
-  :then [(let [subj (atom :top)
-               pred (atom :top)
-               obj (atom :top)
-               reflexive? (atom :top)
-               subcat-subj (atom :top)]
-            {:inflected? true
-             :reflexive? reflexive?
-             :sem {:subj subj
-                   :pred pred
-                   :obj obj}
-             :subcat {:1 subcat-subj
-                      :2 {:aux? false
-                          :infl :base
-                          :cat :verb
-                          :modal :none
-                          :reflexive? reflexive?                          
-                          :sem {:subj subj
-                                :pred pred
-                                :obj obj}
-                          :subcat {:1 subcat-subj
-                                   ;; the complement has only [:subcat :1]
-                                   ;; and no [:subcat :2]: 
-                                   ;; e.g. in both:
-                                   ;; "can [sleep]" : intransitive.
-                                   ;; "can [see it]": transitive with object.
-                                   ;; The bracketed expressions in each of the
-                                   ;; examples above subcategorizes only for
-                                   ;; the subject, with the object
-                                   ;; either not existing ("sleep") or already
-                                   ;; satisfied ("see it").
-                                   :2 []
-                                   }}}})]}
-
  {:rule :aux?-verbs
   :if {:cat :verb
        :aux? true
@@ -388,7 +272,7 @@
  
  {:rule :ditransitive-false
   :if {:cat :verb
-       :to? false
+       :modal :none
        :subcat {:3 ::unspec}}
   :then [{:cat :verb
           :subcat {:3 []}}]}
@@ -504,6 +388,7 @@
  
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then [(let [iobj (atom :top)]
@@ -513,6 +398,7 @@
 
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}
   :then [(let [iobj (atom :top)
@@ -587,6 +473,7 @@
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then (let [iobj (atom :top)
@@ -607,6 +494,7 @@
 
  {:rule :ditransitive-reflexivity
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:cat :prep}
                 :3 {:cat :noun}}}
   :then (let [obj (atom :top)
@@ -639,6 +527,7 @@
  ;; TODO: add semantics for both [:subcat :2]'s.
  {:rule :verb-with-s
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:rule "s"
                     :cat :verb
                     :subcat []}}}
@@ -648,6 +537,7 @@
  ;; TODO: add semantics for both [:subcat :2]'s.
  {:rule :verb-with-comp2
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:rule "comp2"
                     :cat :comp
                     :subcat []}}}
@@ -662,23 +552,14 @@
 
  {:rule :complementizer-complements ;; e.g. "believe [that it ..]"
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:cat :comp}}}
   :then [{:subcat {:2 {:phrasal? true}}
           :sem {:obj {:obj {:top :top}}}}]}
 
- {:rule :sentential-complements
-  :if {:cat :verb
-       :modal :infinitive
-       :subcat {:2 {:cat :verb
-                    :sem {:obj ::unspec}}}}
-  :then [;; "try [to see it]"
-         {:sem {:obj {:obj {:top :top}}}}
-
-         ;; "try [to sleep]"
-         {:subcat {:2 {:sem {:obj :none}}}}]}
-
  {:rule :prepositional-complements
   :if {:cat :verb
+       :modal :none
        :subcat {:2 {:cat :prep}}}
   :then [{:subcat {:2 {:phrasal? true}}}]}
 
@@ -688,6 +569,12 @@
        :to? false
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
+
+ {:rule :modal-base
+  :if {:cat :verb
+       :modal :base}
+  :then [{:inflected? true
+          :subcat {:2 []}}]}
  
  ]
 

@@ -76,9 +76,12 @@
  {:rule :intransitive
   :if {:cat :verb
        :intransitive? true}
-  :then [{:subcat {:2 []
-                   :3 []}
-          :reflexive? false}]}
+  :then (let [subj (atom :top)]
+          [{:sem {:subj subj}
+            :subcat {:1 {:sem subj}
+                     :2 []
+                     :3 []}
+            :reflexive? false}])}
  
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
@@ -585,8 +588,35 @@
  {:rule :modal-base
   :if {:cat :verb
        :modal :base}
-  :then [{:inflected? true
-          :subcat {:2 []}}]}
- 
+  :then (let [subj (atom :top)
+              pred (atom :top)
+              subcat-1-is-shared (atom {:sem subj})]
+          [;; "would"
+           {:inflected? true
+            :subcat {:2 []}}
+
+           ;; "would study"
+           {:inflected? true
+            :sem {:pred pred
+                  :subj subj}
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :modal :none
+                         :infl :base
+                         :sem {:subj subj
+                               :pred pred}
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}
+           ;; "would want to study"
+           {:inflected? true
+            :sem {:pred pred
+                  :subj subj}
+            :subcat {:2 {:cat :verb
+                         :modal :infinitive
+                         :infl :base
+                         :sem {:subj subj
+                               :pred pred}
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}])}
  ]
 

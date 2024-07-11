@@ -589,33 +589,30 @@
   :if {:cat :verb
        :modal :base}
   :then (let [subj (atom :top)
-              pred (atom :top)
-              subcat-1-is-shared (atom {:sem subj})]
+              subcat-1-is-shared (atom {:sem subj})
+              sem (atom {:subj subj})]
           [;; "would"
            {:inflected? true
             :subcat {:2 []}}
 
            ;; "would study"
            {:inflected? true
-            :sem {:pred pred
-                  :subj subj}
+            :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
                          :modal :none
                          :infl :base
-                         :sem {:subj subj
-                               :pred pred}
+                         :sem sem
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}
            ;; "would want to study"
            {:inflected? true
-            :sem {:pred pred
-                  :subj subj}
+            :sem sem
             :subcat {:2 {:cat :verb
                          :modal :infinitive
                          :infl :base
-                         :sem {:subj subj
-                               :pred pred}
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}
  ]

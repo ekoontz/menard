@@ -66,14 +66,14 @@
  {:rule :modal-default-false
   :if {:cat :verb
        :modal ::unspec}
-  :then [{:modal false}]}
+  :then [{:modal :none}]}
  
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument:
  {:rule :subcat-frames-nonmodal
   :if {:cat :verb
-       :modal false
+       :modal :none
        :aux? false
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
@@ -350,7 +350,7 @@
                       :2 {:aux? false
                           :infl :base
                           :cat :verb
-                          :modal false
+                          :modal :none
                           :reflexive? reflexive?                          
                           :sem {:subj subj
                                 :pred pred
@@ -539,7 +539,7 @@
               reflexive (atom :top)
               verb-argument
               {:agr agr
-               :modal false
+               :modal :none
                :reflexive? reflexive
                :slash? false
                :aux? false
@@ -549,7 +549,7 @@
                         :2 []}}
               verb-argument-slash
               {:agr agr
-               :modal false
+               :modal :none
                :reflexive? reflexive
                :slash? true
                :aux? false
@@ -684,7 +684,7 @@
 
  {:rule :nested-obj-null
   :if {:cat :verb
-       :modal false
+       :modal :none
        :to? false
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}

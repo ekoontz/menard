@@ -178,7 +178,7 @@
   :if {:cat :verb
        :te? false
        :modal ::unspec}
-  :then [{:modal false}]}
+  :then [{:modal :none}]}
 
  ;; if a verb does not specify a particular
  ;; transitivity, generate both intransitive and transitive forms
@@ -187,7 +187,7 @@
  {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux? false
-       :modal false
+       :modal :none
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}
        :sem {:obj ::unspec}}
@@ -208,7 +208,7 @@
   :if {:cat :verb
        :separable? false
        :te? false
-       :modal false
+       :modal :none
        :agr {:person :3rd}
        :subcat {:2 ::unspec}
        :sem {:subj {:existential? ::unspec}
@@ -322,7 +322,7 @@
  {:rule :intransitive-verbs
   :if {:cat :verb
        :aux? false
-       :modal false
+       :modal :none
        :sem {:obj :none}
        :subcat {:2 ::unspec}}
   :then [{:reflexive? false
@@ -330,14 +330,14 @@
 
  {:rule :subcat-2-is-acc
   :if {:cat :verb
-       :modal false
+       :modal :none
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
   :then [{:subcat {:2 {:case :acc}}}]}
 
  {:rule :subcat-2-is-acc-conj
   :if {:cat :verb
-       :modal false
+       :modal :none
        :sem {:args {:top :top}}
        :subcat {:2 {:cat :conjunction}}}
   :then [{:subcat {:2 {:case :acc}}}]}
@@ -391,7 +391,7 @@
  {:rule :modal-false
   :if {:cat :verb
        :modal ::unspec}
-  :then [{:modal false}]}
+  :then [{:modal :none}]}
   
  {:rule :modal-infinitive
   :if {:cat :verb
@@ -424,7 +424,7 @@
                      :2 {:aux? false
                          :infl :infinitive
                          :cat :verb
-                         :modal false
+                         :modal :none
                          :sem obj-with-subject-only
                          :subcat {:1 {:sem subj}}}}}
 
@@ -730,7 +730,7 @@
   :if {:cat :verb
        :separable? false
        :te? false
-       :modal false
+       :modal :none
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat ::unspec}}}
   :then [{:subcat {:2 {:cat :noun}}}]}
@@ -774,7 +774,7 @@
               reflexive (atom :top)
               verb-argument
               {:agr agr
-               :modal false
+               :modal :none
                :reflexive? reflexive
                :slash? false
                :aux? false
@@ -784,7 +784,7 @@
                         :2 []}}
               verb-argument-slash
               {:agr agr
-               :modal false
+               :modal :none
                :reflexive? reflexive
                :slash? true
                :aux? false
@@ -902,7 +902,7 @@
 
  {:rule :nested-obj-null
   :if {:cat :verb
-       :modal false
+       :modal :none
        :te? false
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}

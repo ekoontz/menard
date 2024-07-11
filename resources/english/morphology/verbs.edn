@@ -3,7 +3,7 @@
   :p [#"^(.*ay)s$"  "$1y"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*ay)$"   "$1s"] ;; play  -> plays
@@ -18,7 +18,7 @@
   :p [#"^(.*)ies$" "$1y"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
@@ -33,7 +33,7 @@
   :p [#"^(.*)oes$" "$1o"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
@@ -48,7 +48,7 @@
   :p [#"^(.*e)s$" "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*e)$"  "$1s"] ;; give -> gives
@@ -63,7 +63,7 @@
   :p [#"^(.*ch)es$" "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*ch)$"   "$1es"] ;; teach -> teaches
@@ -78,7 +78,7 @@
   :p [#"^(.*[^e])s$" "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
@@ -93,7 +93,7 @@
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :1st
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
@@ -108,7 +108,7 @@
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :2nd
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
@@ -123,7 +123,7 @@
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :1st
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
@@ -138,7 +138,7 @@
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :2nd
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
@@ -153,7 +153,7 @@
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :infl :present
-      :modal false
+      :modal :none
       :agr {:person :3rd
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
@@ -169,7 +169,7 @@
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-simple}}
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
@@ -181,7 +181,7 @@
  {:g [#"^(.*[^aeiou])y$" "$1ied"]
   :p [#"^(.*[^aeiou])ied$" "$1y"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-simple}}
  {:g [#"^(.*[^aeiou])y$" "$1ied"]
   :p [#"^(.*[^aeiou])ied$" "$1y"]
@@ -193,7 +193,7 @@
  {:g [#"^(.*[aou]in)$"   "$1ed"]
   :p [#"^(.*[aou]in)ed$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-simple}}
  {:g [#"^(.*[aou]in)$"   "$1ed"]
   :p [#"^(.*[aou]in)ed$" "$1"]
@@ -205,7 +205,7 @@
  {:g [#"^(.*it)$"   "$1ed"]
   :p [#"^(.*it)ed$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-simple}}
  ;; prohibit/prohibited
  {:g [#"^(.*it)$"   "$1ed"]
@@ -218,7 +218,7 @@
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
   :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-simple}}
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
   :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
@@ -230,7 +230,7 @@
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-simple}}
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
@@ -243,7 +243,7 @@
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-participle}}
  {:g [#"^(.*)e$" "$1ed"]
   :p [#"^(.*e)d$" "$1"]
@@ -255,7 +255,7 @@
  {:g [#"^(.*[^aeiou])y$" "$1ied"]
   :p [#"^(.*[^aeiou])ied$" "$1y"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-participle}}
  {:g [#"^(.*[^aeiou])y$" "$1ied"]
   :p [#"^(.*[^aeiou])ied$" "$1y"]
@@ -267,7 +267,7 @@
  {:g [#"^(.*ain)$"   "$1ed"]
   :p [#"^(.*ain)ed$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-participle}}
  {:g [#"^(.*ain)$"   "$1ed"]
   :p [#"^(.*ain)ed$" "$1"]
@@ -279,7 +279,7 @@
  {:g [#"^(.*it)$"   "$1ed"]
   :p [#"^(.*it)ed$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-participle}}
  {:g [#"^(.*it)$"   "$1ed"]
   :p [#"^(.*it)ed$" "$1"]
@@ -292,7 +292,7 @@
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
   :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-participle}}
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
   :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
@@ -304,7 +304,7 @@
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :past-participle}}
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
@@ -317,7 +317,7 @@
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :base}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
@@ -329,7 +329,7 @@
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ing"]
   :p [#"^(.*[eiou][npst])([npst])ing$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :gerund}}
  
  ;; smoke/smoking
@@ -338,7 +338,7 @@
  {:g [#"^(..*[^e])e$"    "$1ing"]
   :p [#"^(..*)ing$"  "$1e"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :gerund}}
  {:g [#"^(..*[^e])e$"    "$1ing"]
   :p [#"^(..*)ing$"  "$1e"]
@@ -350,7 +350,7 @@
  {:g [#"^(.*)$"    "$1ing"]
   :p [#"^(.*)ing$" "$1"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :gerund}}
  {:g [#"^(.*)$"    "$1ing"]
   :p [#"^(.*)ing$" "$1"]
@@ -362,7 +362,7 @@
  {:g [#"^(.*)e$"    "$1ing"]
   :p [#"^(.*)ing$"  "$1e"]
   :u {:cat :verb
-      :modal false
+      :modal :none
       :infl :gerund}}
  {:g [#"^(.*)e$"    "$1ing"]
   :p [#"^(.*)ing$"  "$1e"]

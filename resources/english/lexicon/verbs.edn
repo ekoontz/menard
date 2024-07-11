@@ -418,7 +418,7 @@
          ;; need some money
          {:sense 2
           :sem {:pred :need}
-          :modal false}]
+          :modal :none}]
 
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]
@@ -556,7 +556,7 @@
      :infl :infinitive
      :sem sem
      :subcat {:1 {:cat :verb
-                  :modal false
+                  :modal :none
                   :agr agr
                   :reflexive? reflexive?
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"

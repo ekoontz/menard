@@ -37,10 +37,10 @@
                                    :2 []}}
              input
              [{:infl infl-base
-               :subcat {:1 {:modal false
+               :subcat {:1 {:modal :none
                             :infl infl-base}}}
               {:infl infl-gerund
-               :subcat {:1 {:modal false
+               :subcat {:1 {:modal :none
                             :infl infl-gerund}}}
               {:infl infl-infinitive
                :subcat {:1 {:modal :infinitive

@@ -273,7 +273,7 @@
   :options menard.nederlands.tenses/finite-plus-inf-tense
   :comp {:beginning-of-sentence? false}
   :head {:aux? false
-         :modal false}
+         :modal :none}
 
   :unify [menard.subcat/c
           menard.ug/head-first
@@ -365,7 +365,7 @@
           menard.ug/head-sem]}
 
  {:rule "adverb-nodig" ;; [s .jij +[adverb-nodig .[vp +hebt .[wat. +geld]] +nodig]]
-  :modal false
+  :modal :none
   :cat :verb
   :sem {:subj {:existential? false}
         :obj {:top :top}} ;; prevent e.g. 'er heeft wat geld nodig'
@@ -437,7 +437,7 @@
   :head {:phrasal? false
          :modal :infinitive
          :infl :present
-         :subcat {:2 {:modal false}}}
+         :subcat {:2 {:modal :none}}}
   :options menard.nederlands.tenses/finite-tenses
   :unify [menard.subcat/e
           menard.ug/head-first

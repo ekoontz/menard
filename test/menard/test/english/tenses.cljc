@@ -45,3 +45,26 @@
                                                       :subj {:pred :they}
                                                       :obj {:pred :she}}}))))
                         :fail)))))
+
+(deftest conditionals
+  (let [parses (->> "I would see him" en/parse)]
+    (is (contains? (->> parses (map en/syntax-tree) set)
+                   "[s(:conditional) .I +[vp +would .[vp +see .him]]]"))
+    (is (not (contains? (->> parses
+                             (map #(unify %
+                                          {:obj
+                                           {:obj :none,
+                                            :existential? false,
+                                            :mod [],
+                                            :ref {:human? true, :number :sing},
+                                            :pred :he},
+                                           :subj
+                                           {:existential? false,
+                                            :mod [],
+                                            :ref {:human? true, :number :sing},
+                                            :pred :i},
+                                           :mod [],
+                                           :pred :see,
+                                           :tense :conditional}))
+                             set)
+                        :fail)))))

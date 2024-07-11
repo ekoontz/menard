@@ -144,7 +144,7 @@
   [{:rule :unspecified-infl-to-present-and-base
     :if {:cat :verb
          :aux? false
-         :modal false
+         :modal :none
          :infl ::unspec}
     :then [{:infl :base}
            {:infl :present}]}
@@ -152,7 +152,7 @@
     {:rule :present-infl-to-present-tense
     :if {:cat :verb
          :aux? false
-         :modal false
+         :modal :none
          :infl :present}
     :then [{:infl :present
             :sem {:tense :present
@@ -160,7 +160,7 @@
    {:rule :tense-non-aux-future
     :if {:cat :verb
          :aux? false
-         :modal false
+         :modal :none
          :infl :present}
     :then [{:infl :present
             :sem {:tense :present
@@ -177,7 +177,7 @@
    {:rule :past-simple-non-aux
     :if {:cat :verb
          :aux? false
-         :modal false
+         :modal :none
          :infl :past-simple
          :sem {:tense ::unspec}}
     :then [{:sem {:tense :past

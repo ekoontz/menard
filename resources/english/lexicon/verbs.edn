@@ -1,5 +1,5 @@
 {
- "achieve" [{ :sem {:pred :achieve}}]
+ "achieve" [{:sem {:pred :achieve}}]
  "announce" [{ :sem {:pred :announce}}]
  "ask" [{ :sem {:pred :ask}}]
  "avoid" [{ :sem {:pred :avoid}}]

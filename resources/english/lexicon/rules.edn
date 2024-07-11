@@ -585,15 +585,19 @@
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
 
- {:rule :modal-base
+ {:rule :modal-base-no-pred
   :if {:cat :verb
-       :modal :base}
+       :modal :base
+       :sem {:pred ::unspec}}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
               sem (atom {:subj subj})]
           [;; "would"
            {:inflected? true
-            :subcat {:2 []}}
+            :sem {:subj subj
+                  :pred :anaphoric}
+            :subcat {:1 {:sem subj}
+                     :2 []}}
 
            ;; "would study"
            {:inflected? true
@@ -615,6 +619,8 @@
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}
 
+ ;; TODO: :modal-base-with-pred
+ 
  {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}
@@ -622,7 +628,9 @@
               subcat-1-is-shared (atom {:sem subj})
               complement-sem (atom {:subj subj})]
           [;; "needs"
-           {:subcat {:2 []}}
+           {:sem {:subj subj}
+            :subcat {:1 {:sem subj}
+                     :2 []}}
 
            ;; "needs to leave"
            {:sem {:subj subj

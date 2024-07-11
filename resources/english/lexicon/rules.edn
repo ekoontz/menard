@@ -67,6 +67,18 @@
   :if {:cat :verb
        :modal ::unspec}
   :then [{:modal :none}]}
+
+ {:rule :intransitive-default-false
+  :if {:cat :verb
+       :intransitive? ::unspec}
+  :then [{:intransitive? false}]}
+
+ {:rule :intransitive
+  :if {:cat :verb
+       :intransitive? true}
+  :then [{:subcat {:2 []
+                   :3 []}
+          :reflexive? false}]}
  
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms

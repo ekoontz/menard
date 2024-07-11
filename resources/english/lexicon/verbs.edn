@@ -485,6 +485,7 @@
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions
+             :intransitive? true
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])

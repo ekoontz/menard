@@ -24,7 +24,7 @@ Consider these examples:
 
 With the following abbreviations:
 
-- :infl(B=base,P=present)
+- :infl(B=base,F=finite (e.g. :present))
 - :modal(I=infinitive,N=none,T=to,B=base),
 
 we have:
@@ -34,7 +34,7 @@ we have:
    / \
 she
        studies
-       PN
+       FN
 
        vp
       /  \
@@ -44,7 +44,7 @@ she
        vp
       /  \
    wants  vp
-   PI    /  \
+   FI    /  \
         to  study
         T   BN
 
@@ -70,10 +70,22 @@ she
               T  BN
 ```
 
-And the [:infl,:modal] possibilities shown here are:
+Using the following abbreviations:
 
-- [PN]
-- [PI][T][BN]
+- FN: Finite inflection, Nonmodal
+- FI: Finite inflection, Infinitive Modal
+- T: to
+- BN: Base inflection, Nonmodal
+- BI: Base inflection, Infinitive Modal
+
+- :infl(B=base,F=finite)
+- :modal(I=infinitive,N=none,T=to,B=base),
+
+
+The [:infl,:modal] possibilities shown in the above syntax trees are:
+
+- [FN]
+- [FI][T][BN]
 - [B][BN]
 - [B][BI][T][BN]
 - [B][BI][T][BI][T][BN]
@@ -81,11 +93,45 @@ And the [:infl,:modal] possibilities shown here are:
 Or in regular expression form:
 
 ```
-PN | ((PI T) | B) (BI T)* BN
+FN | ((FI T) | B) (BI T)* BN
 ```
 
 ## Generalizations
 
-- a top-level VP's head is always one of: {PN,PI,B}.
+- a top-level VP's head is always one of: {FN,FI,B}.
 - a top-level VP's comp depends on the choice of which of these is chosen.
-- all VPs below this comp are also dependent on this choice.
+- the top-level's VP comp and all below it depends on this choice.
+
+## Lexical Rules
+
+All verbs can be divided into one of these 3:
+
+- B: Base Modals - will, would, could, etc
+  - {:modal :base}
+  - inflection
+    - base inflection only
+  - [:subcat :2]
+     - [] (i.e. no :2]
+     - BI
+     - BN
+
+- FI: Infinitive Modals: try, want, etc
+  - {:modal :infinitive}
+  - inflection
+    - finite (FI)
+    - base inflection (BI)
+  - [:subcat :2]
+     - [] (i.e. no :2)
+     - T (i.e. to- phrases) e.g. "to study"
+
+- N: nonmodals (study, sleep, etc)
+  - {:modal :none}
+  - inflection
+    - finite (FN)
+    - base inflection (BN)
+  - transitivity:
+    - intransitive (sleep, etc)
+    - transitive (see, hit, etc)
+  - [:subcat :2]
+    - [] (i.e. no :2)
+    - noun

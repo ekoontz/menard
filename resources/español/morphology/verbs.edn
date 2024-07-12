@@ -169,8 +169,7 @@
   :u {:cat :verb
       :infl :present
       :agr {:number :plur
-            :person :3rd
-            :formal? false}}}
+            :person :3rd}}}
  ;; </present-tense rules>
 
  ;; <future tense>

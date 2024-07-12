@@ -203,6 +203,8 @@
                      (->> then
                           (map (fn [each-then]
                                  (let [unify (unify each-then lexeme)]
+                                   (log/debug (str "post-lexical-retrieval-rule matched: " each-then))
+                                   (log/debug (str " lexeme: " (l/pprint lexeme)))
                                    (if (= :fail unify)
                                      (exception (str "unified rule's :if but not its :then: rule: " rule "; lexeme: " (l/pprint lexeme)))
                                      unify)))))

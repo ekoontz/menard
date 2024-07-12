@@ -74,14 +74,30 @@
             :person :2nd            
             :formal? true}}}
 
+ {:g [#"^(.+)ar$"  "$1a"] 
+  :p [#"^(.+)a$"   "$1ar"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :sing
+            :person :3rd
+            :formal? true}}}
+
+ {:g [#"^(.+)er$"  "$1e"] 
+  :p [#"^(.+)e$"   "$1er"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :sing
+            :person :3rd            
+            :formal? true}}}
+
  {:g [#"^(.+)ir$"  "$1e"] 
   :p [#"^(.+)e$"   "$1ir"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
-            :person :2nd            
+            :person :3rd            
             :formal? true}}}
-
+ 
  ;;   plural
  ;;     1st person
  {:g [#"^(.+)ar$"   "$1amos"] 

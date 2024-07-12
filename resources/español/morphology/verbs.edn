@@ -141,7 +141,7 @@
 
  ;;     2nd person 
  ;;       formal
- {:g [#"^(.+)ar$"   "$1an"] 
+ {:g [#"^(.+)ar$"  "$1an"] 
   :p [#"^(.+)an$"  "$1ar"] 
   :u {:cat :verb
       :infl :present

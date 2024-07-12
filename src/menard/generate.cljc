@@ -274,7 +274,7 @@
       (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " with spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
-      (->> (get-lexemes spec lexicon-index-fn)
+      (->> (get-lexemes spec lexicon-index-fn at)
 
            (#(do
                (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
@@ -419,8 +419,8 @@
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
-  [spec lexicon-index-fn]
-  (log/debug (str "get-lexemes with spec: " (l/pprint spec)))
+  [spec lexicon-index-fn at]
+  (log/debug (str "get-lexemes with spec: " (l/pprint spec) " at: " at))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
   (->> (lexicon-index-fn spec)

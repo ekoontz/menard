@@ -612,7 +612,8 @@
            ;; "would want to study"
            {:inflected? true
             :sem sem
-            :subcat {:2 {:cat :verb
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
                          :modal :infinitive
                          :infl :base
                          :sem sem

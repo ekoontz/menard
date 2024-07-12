@@ -157,6 +157,7 @@
     :then [{:infl :present
             :sem {:tense :present
                   :aspect :simple}}]}
+
    {:rule :tense-non-aux-future
     :if {:cat :verb
          :aux? false

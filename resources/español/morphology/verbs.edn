@@ -7,7 +7,8 @@
       :infl :base}}
  
  ;; <present-tense rules>
-
+ ;;   singular
+ ;;     1st person
  {:g [#"^(.+)ar$"  "$1o"] 
   :p [#"^(.+)o$"   "$1ar"] 
   :u {:cat :verb
@@ -29,6 +30,8 @@
       :agr {:number :sing
             :person :1st}}}
 
+ ;;     2nd person
+ ;;       informal
  {:g [#"^(.+)ar$"  "$1es"] 
   :p [#"^(.+)es$"  "$1ar"] 
   :u {:cat :verb
@@ -53,11 +56,13 @@
             :person :2nd
             :formal? false}}}
 
+ ;;       formal 
  {:g [#"^(.+)ar$"  "$1a"] 
   :p [#"^(.+)a$"   "$1ar"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
+            :person :2nd
             :formal? true}}}
 
  {:g [#"^(.+)er$"  "$1e"] 
@@ -65,6 +70,7 @@
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
+            :person :2nd            
             :formal? true}}}
 
  {:g [#"^(.+)ir$"  "$1e"] 
@@ -74,6 +80,8 @@
       :agr {:number :sing
             :formal? true}}}
 
+ ;;   plural
+ ;;     1st person
  {:g [#"^(.+)ar$"   "$1amos"] 
   :p [#"^(.+)amos$" "$1ar"] 
   :u {:cat :verb
@@ -95,6 +103,8 @@
       :agr {:number :plur
             :person :1st}}}
 
+ ;;     2nd person
+ ;;       informal
  {:g [#"^(.+)ar$"   "$1áis"] 
   :p [#"^(.+)áis$"  "$1ar"] 
   :u {:cat :verb
@@ -111,6 +121,7 @@
             :person :2nd
             :formal? false}}}
  
+ ;;       formal
  {:g [#"^(.+)ar$"   "$1an"] 
   :p [#"^(.+)an$"  "$1ar"] 
   :u {:cat :verb
@@ -135,6 +146,7 @@
             :person :2nd
             :formal? true}}}
  
+ ;;     3rd person
  {:g [#"^(.+)ar$"  "$1en"] 
   :p [#"^(.+)en$"  "$1ar"] 
   :u {:cat :verb

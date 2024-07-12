@@ -203,7 +203,7 @@
                           (map (fn [each-then]
                                  (let [unify (unify each-then lexeme)]
                                    (if (= :fail unify)
-                                     (exception (str "unified rule's :if but not its :then: rule: " rule "; lexeme: " (u/pprint lexeme)))
+                                     (exception (str "unified rule's :if but not its :then: rule: " rule "; lexeme: " (l/pprint lexeme)))
                                      unify)))))
                      [lexeme]))))))
 

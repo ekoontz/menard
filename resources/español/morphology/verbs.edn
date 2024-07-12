@@ -56,6 +56,7 @@
             :person :2nd
             :formal? false}}}
 
+ ;;     2nd person
  ;;       formal 
  {:g [#"^(.+)ar$"  "$1a"] 
   :p [#"^(.+)a$"   "$1ar"] 
@@ -121,7 +122,8 @@
       :agr {:number :plur
             :person :2nd
             :formal? false}}}
- 
+
+ ;;     2nd person 
  ;;       formal
  {:g [#"^(.+)ar$"   "$1an"] 
   :p [#"^(.+)an$"  "$1ar"] 

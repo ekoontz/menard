@@ -629,7 +629,8 @@
               subcat-1-is-shared (atom {:sem subj})
               complement-sem (atom {:subj subj})]
           [;; "needs"
-           {:sem {:subj subj}
+           {:sem {:subj subj
+                  :obj :none}
             :subcat {:1 {:sem subj}
                      :2 []}}
 

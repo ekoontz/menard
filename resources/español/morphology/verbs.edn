@@ -153,16 +153,7 @@
   :u {:cat :verb
       :infl :present
       :agr {:number :plur
-            :person :3rd
-            :formal? false}}}
-
- {:g [#"^(.+)er$"  "$1en"] 
-  :p [#"^(.+)en$"  "$1er"] 
-  :u {:cat :verb
-      :infl :present
-      :agr {:number :plur
-            :person :3rd
-            :formal? false}}}
+            :person :3rd}}}
 
  {:g [#"^(.+)ir$"  "$1en"] 
   :p [#"^(.+)en$"  "$1ir"] 

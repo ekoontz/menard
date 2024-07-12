@@ -50,15 +50,16 @@
                               :number :sing}
                         :surface {:prefix [:stems :boot]
                                   :suffix "e"}}
-                        ;; (1st and 2nd plur are conjugated according
+                        ;; (1st and 2nd plur informal are conjugated according
                         ;; to the regular rules, so no :exception needed for them).
+
                        ;; 2nd person formal (ustedes)
                        {:infl :present
                         :agr {:person :2nd
                               :number :plur
                               :formal? true}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "en"}}
+                                  :suffix "e"}}
                        ;; 3rd plur:
                        {:infl :present
                         :agr {:person :3rd :number :plur}

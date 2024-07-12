@@ -214,7 +214,16 @@
   :p [#"^(.+[aie]r)éis$" "$1"] 
   :u {:cat :verb
       :infl :future
-      :agr {:number :plur
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.+[aie]r)$"    "$1á"] 
+  :p [#"^(.+[aie]r)á$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:formal? true
+            :number :plur
             :person :2nd}}}
 
  {:g [#"^(.+[aie]r)$"     "$1án"] 
@@ -254,11 +263,20 @@
       :agr {:number :plur
             :person :1st}}}
 
- {:g [#"^(.+[aie]r)$"      "$1íamos"] 
-  :p [#"^(.+[aie]r)íamos$" "$1"] 
+ {:g [#"^(.+[aie]r)$"      "$1íais"] 
+  :p [#"^(.+[aie]r)íais$"  "$1"] 
   :u {:cat :verb
       :infl :conditional
       :agr {:number :plur
+            :formal? false
+            :person :2nd}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1ía"] 
+  :p [#"^(.+[aie]r)ía$"    "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :plur
+            :formal? true
             :person :2nd}}}
 
  {:g [#"^(.+[aie]r)$"      "$1ían"] 

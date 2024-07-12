@@ -78,6 +78,7 @@
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
+            :person :2nd            
             :formal? true}}}
 
  ;;   plural

@@ -172,7 +172,8 @@
          :modal :infinitive
          :infl :present}
     :then [{:sem {:tense :present
-                  :aspect :simple}}]}
+                  :aspect :simple}}
+           {:infl :base}]}
    
    {:rule :past-simple-non-aux
     :if {:cat :verb

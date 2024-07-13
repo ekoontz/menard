@@ -2,7 +2,12 @@
  :language "es"
  :morphology {:path "español/morphology"
               :sources ["nouns.edn"
-                        "verbs.edn"]}
+
+                        ;; TODO: break verbs.edn into smaller files.
+                        ;; one part of this breakup is already done with
+                        ;; verbs-imperfect.edn.
+                        "verbs.edn"
+                        "verbs-imperfect.edn"]}
  :grammar "español/grammar.edn"
  :grammar-rules "español/grammar-rules.edn"
  :lexicon {:path "español/lexicon"

@@ -167,14 +167,20 @@
             :sem {:tense :present
                   :aspect :simple}}]}
 
+   {:rule :modal-infinitive-base-default
+    :if {:cat :verb
+         :aux? false
+         :modal :infinitive
+         :infl ::unspec}
+    :then [{:infl :base}]}
+
    {:rule :modal-infinitive-present
     :if {:cat :verb
          :aux? false
          :modal :infinitive
-         :infl :present}
+         :infl ::unspec}
     :then [{:sem {:tense :present
-                  :aspect :simple}}
-           {:infl :base}]}
+                  :aspect :simple}}]}
    
    {:rule :past-simple-non-aux
     :if {:cat :verb

@@ -722,7 +722,6 @@
            {:inflected? true
             :sem {:subj subj
                   :pred :top}
-
             :subcat {:1 {:sem subj}
                      :2 []}}
 

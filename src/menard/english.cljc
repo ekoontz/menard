@@ -184,6 +184,13 @@
     :then [{:sem {:tense :present
                   :aspect :progressive}}]}
    
+   {:rule :past-participle
+    :if {:cat :verb
+         :aux? true
+         :modal :past-participle}
+    :then [{:sem {:tense :past
+                  :aspect :progressive}}]}
+
    {:rule :past-simple-non-aux
     :if {:cat :verb
          :aux? false

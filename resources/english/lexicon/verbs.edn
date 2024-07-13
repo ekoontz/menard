@@ -282,7 +282,7 @@
                    {:infl :past-participle :surface "gone"}]]
    [{:exceptions exceptions
      :sem {:pred :go
-           :obj :none}}
+           :intransitive? true}}
     {:exceptions exceptions
       :sem {:pred :go}
      :subcat {:2 {:cat :prep

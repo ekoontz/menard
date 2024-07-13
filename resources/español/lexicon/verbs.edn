@@ -24,5 +24,32 @@
              {:stems stems
               :sem {:pred :love}}])
  "romper" [{:sem {:pred :break}}]
+ "ir" [{:intransitive? true
+        :sem {:pred :go}
+        ;; https://es.wiktionary.org/wiki/ir
+        :exceptions [{:infl :present,
+                      :agr {:person :1st, :number :sing},
+                      :surface "voy"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :sing, :formal? false},
+                      :surface "vas"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :sing, :formal? true},
+                      :surface "va"}
+                     {:infl :present,
+                      :agr {:person :3rd, :number :sing},
+                      :surface "va"}
+                     {:infl :present,
+                      :agr {:person :1st, :number :plur},
+                      :surface "vamos"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :plur, :informal? true},
+                      :surface "vais"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :plur, :formal? true},
+                      :surface "van"}
+                     {:infl :present,
+                      :agr {:person :3rd, :number :plur},
+                      :surface "van"}]}]
  }
 

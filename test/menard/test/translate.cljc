@@ -2,6 +2,7 @@
   (:require [menard.english :as en]
             [menard.español :as es]
             [menard.exception :refer [exception]]
+            [menard.lexiconfn :as l]
             [menard.translate.spec :refer [es-to-en-spec]]
             [menard.nederlands :as nl]
             [menard.nederlands.complete :as complete]            

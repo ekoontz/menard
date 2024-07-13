@@ -569,11 +569,10 @@
          :modal :infinitive}]
  "turn" [{:sem {:pred :turn}}]
  "use" [{:sem {:pred :use}}]
- "walk" [{ :sem {:pred :walk}}]
+ "walk" [{:sem {:pred :walk}}]
  "want" [{:sem {:pred :want}
           :modal :infinitive}]
- "wash" [{ :sem {:pred :wash}}]
-
+ "wash" [{:sem {:pred :wash}}]
  "wear" [{:sem {:pred :wear}
           :exceptions [{:infl :past-simple :surface "wore"}
                        {:infl :past-participle :surface "wore"}]}]

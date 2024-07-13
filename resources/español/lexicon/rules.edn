@@ -59,7 +59,7 @@
                               :number :plur
                               :formal? true}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "e"}}
+                                  :suffix "en"}}
                        ;; 3rd plur:
                        {:infl :present
                         :agr {:person :3rd :number :plur}

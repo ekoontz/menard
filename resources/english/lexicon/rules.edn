@@ -628,7 +628,8 @@
        :modal :infinitive}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
-              complement-sem (atom {:subj subj})]
+              complement-sem (atom {:subj subj
+                                    :ref :none})]
           [;; "needs"
            {:sem {:subj subj
                   :obj :none}

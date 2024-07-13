@@ -34,6 +34,13 @@
       :agr {:person :3rd
             :number :sing}}}
 
+ {:g [#"^(.*ss)$"   "$1es"] ;; guess -> guesses
+  :p [#"^(.*ss)es$" "$1"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+
  {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
   :p [#"^(.*[^e])s$" "$1"] 
   :u {:cat :verb

@@ -32,8 +32,8 @@
 
  ;;     2nd person
  ;;       informal
- {:g [#"^(.+)ar$"  "$1es"] 
-  :p [#"^(.+)es$"  "$1ar"] 
+ {:g [#"^(.+)ar$"  "$1as"] 
+  :p [#"^(.+)as$"  "$1ar"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :sing
@@ -190,10 +190,19 @@
             :person :1st}}}
 
  {:g [#"^(.+[aie]r)$"   "$1ás"] 
-  :p [#"^(.+)ás$"   "$1"] 
+  :p [#"^(.+)ás$"       "$1"] 
   :u {:cat :verb
       :infl :future
-      :agr {:number :sing
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.+[aie]r)$"   "$1á"] 
+  :p [#"^(.+)á$"        "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:formal? true
+            :number :sing
             :person :2nd}}}
 
  {:g [#"^(.+[aie]r)$"    "$1á"] 
@@ -247,6 +256,15 @@
   :u {:cat :verb
       :infl :conditional
       :agr {:number :sing
+            :formal? false
+            :person :2nd}}}
+
+ {:g [#"^(.+[aie]r)$"      "$1ía"] 
+  :p [#"^(.+[aie]r)ía$"    "$1"] 
+  :u {:cat :verb
+      :infl :conditional
+      :agr {:number :sing
+            :formal? true
             :person :2nd}}}
 
  {:g [#"^(.+[aie]r)$"      "$1ía"] 
@@ -271,8 +289,8 @@
             :formal? false
             :person :2nd}}}
 
- {:g [#"^(.+[aie]r)$"      "$1ía"] 
-  :p [#"^(.+[aie]r)ía$"    "$1"] 
+ {:g [#"^(.+[aie]r)$"      "$1ían"] 
+  :p [#"^(.+[aie]r)ían$"    "$1"] 
   :u {:cat :verb
       :infl :conditional
       :agr {:number :plur

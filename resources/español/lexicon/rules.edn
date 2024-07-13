@@ -190,9 +190,15 @@
                          :case :nom
                          :subcat []}}})]}
 
- {:rule :existential-false
+ {:rule :existential-false-pronouns
   :if {:cat :noun
        :pronoun? true
+       :sem {:existential? ::unspec}}
+   :then [{:sem {:existential? false}}]}
+
+ {:rule :existential-false-propernouns
+  :if {:cat :noun
+       :propernoun? true
        :sem {:existential? ::unspec}}
    :then [{:sem {:existential? false}}]}
 

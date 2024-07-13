@@ -226,7 +226,8 @@
         morphology (-> model :morphology)
         variants (vec (set [(clojure.string/lower-case surface)
                             (clojure.string/upper-case surface)
-                            (clojure.string/capitalize surface)]))]
+                            (clojure.string/capitalize surface)
+                            surface]))]
     (->> variants
          (mapcat #(l/matching-lexemes % lexicon morphology))
          (mapcat (fn [lexeme]

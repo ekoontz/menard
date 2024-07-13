@@ -147,7 +147,8 @@
    (log/debug (str "analyze with model named: " (-> model :name) "; morphology size: " (count (vec (:morphology model)))))
    (let [variants (vec (set [(clojure.string/lower-case surface)
                              (clojure.string/upper-case surface)
-                             (clojure.string/capitalize surface)]))
+                             (clojure.string/capitalize surface)
+                             surface]))
          lexicon (-> model :lexicon)
          morphology (:morphology model)
          found (mapcat (fn [variant]

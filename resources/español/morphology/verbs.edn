@@ -227,8 +227,8 @@
             :number :plur
             :person :2nd}}}
 
- {:g [#"^(.+[aie]r)$"    "$1á"] 
-  :p [#"^(.+[aie]r)á$"   "$1"] 
+ {:g [#"^(.+[aie]r)$"    "$1án"] 
+  :p [#"^(.+[aie]r)án$"   "$1"] 
   :u {:cat :verb
       :infl :future
       :agr {:formal? true

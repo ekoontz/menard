@@ -42,16 +42,54 @@
                  :number :sing
                  :person :3rd}
            :sem {:ref {:human? true}
-                 :pred :femke}
-           
-          }]
+                 :pred :femke}}]
+ "Juan" [{:case :nom
+          :agr {:gender :masc
+                :person :3rd
+                :number :sing}
+          :sem {:human? true
+                :pred :Juan}}]
+ "Juana" [{:case :nom
+           :agr {:gender :fem
+                 :person :3rd
+                 :number :sing}
+           :sem {:human? true
+                 :pred :Juana}}]
+ "Juan and I" [{:case :nom
+               :agr {:gender :masc
+                     :person :1st
+                     :number :plur}
+                 :sem {:human? true
+                       :pred :Juan-and-i}}]
+ "Juana and I" [{:case :nom
+                 :agr {:gender :masc
+                       :person :1st
+                       :number :plur}
+                 :sem {:human? true
+                       :pred :Juana-and-i}}]
+ "Juana and Pedro" [{:case :nom
+                     :agr {:gender :masc
+                           :person :3rd
+                           :number :plur}
+                     :sem {:human? true
+                           :pred :Juana-and-Pedro}}]
+ "Pedro" [{:case :nom
+           :agr {:gender :masc
+                 :person :3rd
+                 :number :sing}
+           :sem {:human? true
+                 :pred :Pedro}}]
+ "You and Pedro" [{:case :nom
+                   :agr {:gender :masc
+                         :person :2nd
+                         :number :plur}
+                   :sem {:human? true
+                         :pred :Pedro-and-you}}]
  "Saskia" [{:cat :noun
             :agr {:gender :fem
                   :human? true}
             :sem {:ref {:human? true}
-                  :pred :saskia}
-            
-            }]}
+                  :pred :saskia}}]}
 
 
 

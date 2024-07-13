@@ -201,5 +201,35 @@
   :if {:cat :verb
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}
+
+ {:rule :propernoun-misc-defaults
+  :if {:cat :noun
+       :propernoun? true}
+  :then [{:interogative? false
+          :reflexive? false}]}
+
+ {:rule :propernoun-subcat-default
+  :if {:cat :noun
+       :propernoun? true
+       :subcat ::unspec}
+  :then [{:subcat []}]}
+
+ {:rule :propernoun-sem-mod-default
+  :if {:cat :noun
+       :propernoun? true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+ 
+ {:rule :propernoun-person-default
+  :if {:cat :noun
+       :propernoun? true
+       :agr {:person ::unspec}}
+  :then [{:agr {:person :3rd}}]}
+
+  {:rule :propernoun-number-default
+  :if {:cat :noun
+       :propernoun? true
+       :agr {:number ::unspec}}
+  :then [{:agr {:number :sing}}]}
  
  ]

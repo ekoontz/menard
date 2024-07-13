@@ -11,11 +11,8 @@
                      {:u {:cat :verb}}
                      "pronouns.edn"
                      {:u {:cat :noun
-                          :pronoun? true}}}}}
-
-
-
-
-
-
-
+                          :pronoun? true}}
+                     "propernouns.edn"
+                     {:u {:cat :noun
+                          :propernoun? true
+                          :pronoun? false}}}}}

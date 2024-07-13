@@ -6,6 +6,10 @@
  "acertar" [{:stems {:boot "aciert"}
              :sem {:pred :guess}}]
  "acompañar" [{:sem {:pred :accompany}}]
+ "advertir" [{:stems {:boot "adviert"}
+              :sem {:pred :warn}}]
+ "almorzar" [{:stems {:boot "almuerz"}
+              :sem {:pred :have-lunch}}]
  "cambiar" [{:sem {:pred :change}}]
  "hablar" [{:sem {:pred :speak
                   :subj {:human true}}}

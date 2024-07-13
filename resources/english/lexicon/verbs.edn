@@ -254,6 +254,10 @@
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]
            [{:exceptions exceptions  :sem {:pred :feel}}])
+ "have lunch" (let [exceptions [{:infl :present :agr {:person :3rd :number :sing} :surface "has lunch"}
+                                {:infl :past-simple :surface "had lunch"}
+                                {:infl :past-participle :surface "had lunch"}]]
+                [{:exceptions exceptions  :sem {:pred :have-lunch}}])
  "find" (let [exceptions [{:infl :past-simple :surface "found"}
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
@@ -579,6 +583,8 @@
  "use" [{:sem {:pred :use}}]
  "walk" [{:sem {:pred :walk}}]
  "want" [{:sem {:pred :want}
+          :modal :infinitive}]
+ "warn" [{:sem {:pred :warn}
           :modal :infinitive}]
  "wash" [{:sem {:pred :wash}}]
  "wear" [{:sem {:pred :wear}

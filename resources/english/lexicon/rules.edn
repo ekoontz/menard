@@ -77,7 +77,8 @@
   :if {:cat :verb
        :intransitive? true}
   :then (let [subj (atom :top)]
-          [{:sem {:subj subj}
+          [{:sem {:subj subj
+                  :obj :none}
             :subcat {:1 {:sem subj}
                      :2 []
                      :3 []}

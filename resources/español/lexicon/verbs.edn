@@ -4,7 +4,6 @@
                    :subj {:human true}}}
            {:sem {:pred :talk
                   :subj {:human true}}}]
-
  "limpiar" [{:sem {:pred :clean}}]
  "querer" (let [stems {:boot      "quier"
                        :preterito "quis"

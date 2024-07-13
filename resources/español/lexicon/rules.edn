@@ -76,9 +76,16 @@
                                   :suffix "é"}}
                        {:infl :future
                         :agr {:person :2nd
-                              :number :sing}
+                              :number :sing
+                              :formal? false}
                         :surface {:prefix [:stems :futuro]
                                   :suffix "ás"}}
+                       {:infl :future
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? true}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "á"}}
                        {:infl :future
                         :agr {:person :3rd
                               :number :sing}
@@ -91,9 +98,16 @@
                                   :suffix "emos"}}
                        {:infl :future
                         :agr {:person :2nd
-                              :number :plur}
+                              :number :plur
+                              :formal? false}
                         :surface {:prefix [:stems :futuro]
-                                  :suffix "és"}}
+                                  :suffix "éis"}}
+                       {:infl :future
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? true}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "án"}}
                        {:infl :future
                         :agr {:person :3rd
                               :number :plur}
@@ -112,7 +126,14 @@
                                   :suffix "ías"}}
                        {:infl :conditional
                         :agr {:person :3rd
-                              :number :sing}
+                              :number :sing
+                              :formal? false}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ía"}}
+                       {:infl :conditional
+                        :agr {:person :3rd
+                              :number :sing
+                              :formal? true}
                         :surface {:prefix [:stems :futuro]
                                   :suffix "ía"}}
                        {:infl :conditional
@@ -122,9 +143,16 @@
                                   :suffix "íamos"}}
                        {:infl :conditional
                         :agr {:person :2nd
-                              :number :plur}
+                              :number :plur
+                              :formal? false}
                         :surface {:prefix [:stems :futuro]
                                   :suffix "íais"}}
+                       {:infl :conditional
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? true}
+                        :surface {:prefix [:stems :futuro]
+                                  :suffix "ían"}}
                        {:infl :conditional
                         :agr {:person :3rd
                               :number :plur}

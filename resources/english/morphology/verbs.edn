@@ -27,8 +27,8 @@
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*ch)$"   "$1es"] ;; teach -> teaches
-  :p [#"^(.*ch)es$" "$1"] 
+ {:g [#"^(.*[cs]h)$"   "$1es"] ;; teach -> teaches, finish -> finishes
+  :p [#"^(.*[cs]h)es$" "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd

@@ -1,7 +1,14 @@
 {
+ "abandonar" [{:sem {:pred :abandon}}]
+ "abrazar" [{:sem {:pred :hug}}]
+ "acabar" [{:sem {:pred :finish}}]
+ "aceptar" [{:sem {:pred :accept}}]
+ "acertar" [{:stems {:boot "aciert"}
+             :sem {:pred :guess}}]
+ "acompañar" [{:sem {:pred :accompany}}]
  "cambiar" [{:sem {:pred :change}}]
  "hablar" [{:sem {:pred :speak
-                   :subj {:human true}}}
+                  :subj {:human true}}}
            {:sem {:pred :talk
                   :subj {:human true}}}]
  "limpiar" [{:sem {:pred :clean}}]
@@ -14,3 +21,4 @@
               :sem {:pred :love}}])
  "romper" [{:sem {:pred :break}}]
  }
+

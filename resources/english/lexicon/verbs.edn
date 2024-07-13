@@ -1,4 +1,7 @@
 {
+ "abandon" [{:sem {:pred :abandon}}]
+ "accept" [{:sem {:pred :accept}}]  
+ "accompany" [{:sem {:pred :accompany}}] 
  "achieve" [{:sem {:pred :achieve}}]
  "announce" [{ :sem {:pred :announce}}]
  "ask" [{ :sem {:pred :ask}}]
@@ -254,6 +257,7 @@
  "find" (let [exceptions [{:infl :past-simple :surface "found"}
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
+ "finish" [{:sem {:pred :finish}}]
  "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
                           {:infl :past-participle :surface "forgotten"}]]
           [{:exceptions exceptions  :sem {:pred :forget}}])
@@ -280,6 +284,7 @@
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
               :3 []}}])
+ "guess" [{:sem {:pred :guess}}]
  "have" (let [;; TODO: factor out commonalities in agreement into a new variable called 'agr-exceptions' and then
               ;; multiply by aux-exceptions and non-aux-exceptions.
               aux-exceptions [{:agr {:person :1st} :surface "have" :infl :present
@@ -367,6 +372,7 @@
           :sem {:pred :hope}
           :subcat {:2 {:cat :comp
                        :rule "comp2"}}}]
+ "hug" [{:sem {:pred :hug}}]
  "increase" [{:sem {:pred :increase}}]
  "inhibit" [{ :sem {:pred :inhibit}}]
 

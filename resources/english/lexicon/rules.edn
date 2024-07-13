@@ -621,7 +621,12 @@
           [;; "would"
            {:inflected? true
             :sem {:subj subj
-                  :pred :anaphoric}
+                  ;; this :top isn't used anywhere else;
+                  ;; it's a placeholder for future work, where the
+                  ;; pred will be resolved to something in the previous
+                  ;; expressions.
+                  :pred :top}
+            
             :subcat {:1 {:sem subj}
                      :2 []}
             :modal-with-pred? false}

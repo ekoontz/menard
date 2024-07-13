@@ -169,7 +169,7 @@
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ing"]
   :p [#"^(.*[eiou][npst])([npst])ing$" "$1"]
   :u {:cat :verb
-      :infl :gerund}}
+      :infl :present-participle}}
  
  ;; smoke/smoking
  ;; the double-dots prevent 'e'-removal for "be" or "see"
@@ -177,18 +177,18 @@
  {:g [#"^(..*[^e])e$" "$1ing"]
   :p [#"^(..*)ing$"   "$1e"]
   :u {:cat :verb
-      :infl :gerund}}
+      :infl :present-participle}}
 
  ;; walk/walking
  {:g [#"^(.*)$"    "$1ing"]
   :p [#"^(.*)ing$" "$1"]
   :u {:cat :verb
-      :infl :gerund}}
+      :infl :present-participle}}
 
  ;; smoke/smoking
  {:g [#"^(.*)e$"    "$1ing"]
   :p [#"^(.*)ing$"  "$1e"]
   :u {:cat :verb
-      :infl :gerund}}]
+      :infl :present-participle}}]
 
  

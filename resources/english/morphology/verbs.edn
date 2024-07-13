@@ -335,13 +335,13 @@
  ;; smoke/smoking
  ;; the double-dots prevent 'e'-removal for "be" or "see"
  ;;    be->being, not bing; see -> seeing, not seing
- {:g [#"^(..*[^e])e$"    "$1ing"]
-  :p [#"^(..*)ing$"  "$1e"]
+ {:g [#"^(..*[^e])e$" "$1ing"]
+  :p [#"^(..*)ing$"   "$1e"]
   :u {:cat :verb
       :modal :none
       :infl :gerund}}
- {:g [#"^(..*[^e])e$"    "$1ing"]
-  :p [#"^(..*)ing$"  "$1e"]
+ {:g [#"^(..*[^e])e$" "$1ing"]
+  :p [#"^(..*)ing$"   "$1e"]
   :u {:cat :verb
       :modal :infinitive
       :infl :gerund}}

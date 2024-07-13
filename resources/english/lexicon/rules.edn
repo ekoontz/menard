@@ -613,19 +613,13 @@
  ;; e.g. "would" as {:tense :conditional}
  {:rule :modal-base-no-pred
   :if {:cat :verb
-       :modal :base
-       :sem {:pred ::unspec}}
+       :modal :base}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
               sem (atom {:subj subj})]
           [;; "would"
            {:inflected? true
-            :sem {:subj subj
-                  ;; this :top isn't used anywhere else;
-                  ;; it's a placeholder for future work, where the
-                  ;; pred will be resolved to something in the previous
-                  ;; expressions.
-                  :pred :top}
+            :sem {:subj subj}
             
             :subcat {:1 {:sem subj}
                      :2 []}

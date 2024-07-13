@@ -176,6 +176,13 @@
            {:infl :present
             :sem {:tense :present
                   :aspect :simple}}]}
+
+   {:rule :present-participle
+    :if {:cat :verb
+         :aux? true
+         :modal :present-participle}
+    :then [{:sem {:tense :present
+                  :aspect :progressive}}]}
    
    {:rule :past-simple-non-aux
     :if {:cat :verb

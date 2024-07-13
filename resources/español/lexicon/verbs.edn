@@ -1,11 +1,11 @@
 {
- "cambiar" [{:sem {:pred :change}, :cat :verb}]
+ "cambiar" [{:sem {:pred :change}}]
  "hablar" [{:sem {:pred :speak
                    :subj {:human true}}}
            {:sem {:pred :talk
                   :subj {:human true}}}]
 
- "limpiar" [{:sem {:pred :clean}, :cat :verb}]
+ "limpiar" [{:sem {:pred :clean}}]
  "querer" (let [stems {:boot      "quier"
                        :preterito "quis"
                        :futuro    "querr"}]
@@ -13,5 +13,5 @@
               :sem {:pred :want}}
              {:stems stems
               :sem {:pred :love}}])
- "romper" [{:sem {:pred :break}, :cat :verb}]
+ "romper" [{:sem {:pred :break}}]
  }

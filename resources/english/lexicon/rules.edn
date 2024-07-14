@@ -671,7 +671,7 @@
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
                          :modal :none
-                         :infl :past-participle
+                         :infl :present-participle
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}

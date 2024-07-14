@@ -122,7 +122,8 @@
                                    (when (u/get-in lexeme [:sense])
                                      (str " sense: " (u/get-in lexeme [:sense])))
                                    " with derivation: "
-                                   (vec (display-derivation (u/get-in lexeme [::derivation])))
+                                   (let [derivation (u/get-in lexeme [::derivation])]
+                                     (vec (display-derivation derivation)))
                                    "; fail-path was: " fail-path ";"
                                    " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
                                    " consequent's value for path: " (u/get-in consequent fail-path))]

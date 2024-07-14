@@ -219,7 +219,7 @@
                                                (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
                                              result)))))))
          ((fn [lexicon]
-            (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
+            (when include-derivation? (log/debug (str "  apply-rules-in-order with derivations included.")))
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
 
          ((fn [lexicon]

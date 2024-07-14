@@ -388,8 +388,6 @@
  "look" [{:sem {:pred :look
                 :obj :none}}]
  "love" [{:sem {:pred :love}
-          :modal :infinitive}
-         {:sem {:pred :love}
           :modal :infinitive}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
                           {:infl :past-participle :surface "made"}]]

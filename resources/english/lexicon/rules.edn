@@ -268,23 +268,6 @@
   :if {:cat :noun
        :propernoun? true}
   :then [{:inflected? true}]}
-
- {:rule :aux?-verbs
-  :if {:cat :verb
-       :aux? true
-       :subcat {:1 {:cat :noun}}}
-  :then (let [agr (atom :top)
-              subject (atom {:agr agr
-                             :cat :noun
-                             :subcat []})]
-          [{:agr agr
-            :subcat {:1 subject}}])}
-
- {:rule :aux?-verbs-subcat-2
-  :if {:cat :verb
-       :aux? true
-       :subcat {:2 {:top :top}}}
-  :then [{:subcat {:2 {:cat :verb}}}]}
  
  {:rule :ditransitive-false
   :if {:cat :verb
@@ -448,51 +431,6 @@
                          :case :acc
                          :sem obj
                          :subcat []}}})]}
-
- {:rule :aux-verbs-with-verb-arg
-  :if {:cat :verb
-       :aux? true
-       :subcat {:2 {:cat :verb}}}
-  :then (let [agr (atom :top)
-              sem (atom :top)
-              subject (atom {:agr agr
-                             :cat :noun
-                             :subcat []})
-              reflexive (atom :top)
-              verb-argument
-              {:agr agr
-               :modal :none
-               :reflexive? reflexive
-               :slash? false
-               :aux? false
-               :cat :verb
-               :sem sem
-               :subcat {:1 subject
-                        :2 []}}
-              verb-argument-slash
-              {:agr agr
-               :modal :none
-               :reflexive? reflexive
-               :slash? true
-               :aux? false
-               :cat :verb
-               :sem sem
-               :subcat {:1 subject
-                        :2 {:top :top}}}]
-          
-          [;; [s .she *[vp-aux *has .seen]]
-           {:agr agr
-            :reflexive? reflexive
-            :sem sem
-            :subcat {:1 subject
-                     :2 verb-argument}}
-
-           ;; [nbar *cat .[s-slash .she *[vp-aux-slash *has .seen]]]
-           {:agr agr
-            :reflexive? reflexive
-            :sem sem
-            :subcat {:1 subject
-                     :2 verb-argument-slash}}])}
 
  {:rule :nouns-are-not-interogative
   :if {:cat :noun

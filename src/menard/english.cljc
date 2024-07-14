@@ -141,7 +141,7 @@
 
 ;; <TODO> move into declarative grammar (i.e. the model).
 (def post-lexical-retrieval-rules
-  [{:rule :unspecified-infl-to-present-and-base
+  [{:rule :modal-none
     :if {:cat :verb
          :aux? false
          :modal :none
@@ -149,8 +149,18 @@
     :then [{:infl :base}
            {:infl :present}
            {:infl :present-participle}
-           {:infl :past-participle}]}
-
+           {:infl :past-participle}
+           {:infl :past-simple}]}
+   {:rule :modal-infinitive
+    :if {:cat :verb
+         :aux? false
+         :modal :infinitive
+         :infl ::unspec}
+    :then [{:infl :base}
+           {:infl :present}
+           {:infl :present-participle}
+           {:infl :past-participle}
+           {:infl :past-simple}]}
     {:rule :present-infl-to-present-tense
     :if {:cat :verb
          :aux? false
@@ -159,7 +169,6 @@
     :then [{:infl :present
             :sem {:tense :present
                   :aspect :simple}}]}
-
    {:rule :tense-non-aux-future
     :if {:cat :verb
          :aux? false
@@ -168,17 +177,6 @@
     :then [{:infl :present
             :sem {:tense :present
                   :aspect :simple}}]}
-
-   {:rule :modal-infinitive
-    :if {:cat :verb
-         :aux? false
-         :modal :infinitive
-         :infl ::unspec}
-    :then [{:infl :base}
-           {:infl :present
-            :sem {:tense :present
-                  :aspect :simple}}]}
-   
    {:rule :past-simple-non-aux
     :if {:cat :verb
          :aux? false

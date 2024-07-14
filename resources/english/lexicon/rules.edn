@@ -606,6 +606,14 @@
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
 
+<<<<<<< HEAD
+=======
+ ;; "will","would"
+ ;; the modal verb (e.g. 'will','would') has
+ ;; no :pred of its own, but only tense.
+ ;; e.g. "will" as {:tense :future}
+ ;; e.g. "would" as {:tense :conditional}
+>>>>>>> d5500fd8e (split modal-base into modal-base-no-pred and modal-base-with-pred)
  {:rule :modal-base-no-pred
   :if {:cat :verb
        :modal :base
@@ -617,8 +625,13 @@
            {:inflected? true
             :sem {:subj subj
                   :pred :anaphoric}
+<<<<<<< HEAD
+=======
+            
+>>>>>>> d5500fd8e (split modal-base into modal-base-no-pred and modal-base-with-pred)
             :subcat {:1 {:sem subj}
-                     :2 []}}
+                     :2 []}
+            :modal-with-pred? false}
 
            ;; "would study"
            {:inflected? true
@@ -629,7 +642,8 @@
                          :infl :base
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
-                                  :2 []}}}}
+                                  :2 []}}}
+            :modal-with-pred? false}
            ;; "would want to study"
            {:inflected? true
             :sem sem
@@ -639,10 +653,99 @@
                          :infl :base
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}
+            :modal-with-pred? false}])}
+
+ ;; "can","must","might","may"
+ ;; the modal verb (e.g. 'can') has
+ ;; a :pred {:pred :be-able-to} and
+ ;; its complement (the base verb) is the :obj of that pred
+ ;; e.g. "can study"
+ ;;   {:pred :be-able-to
+ ;;    :obj {:pred :study}}
+ {:rule :modal-base-with-pred
+  :if {:cat :verb
+       :modal :base
+       :modal-with-pred? true}
+  :then (let [subj (atom :top)
+              subcat-1-is-shared (atom {:sem subj})
+              complement-sem (atom {:subj subj
+                                    :ref :none})]
+          [;; "can"
+           {:inflected? true
+            :sem {:subj subj
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :2 []}}
+
+           ;; "can study"
+           {:sem {:subj subj
+                  :obj complement-sem}
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :modal :none
+                         :sem complement-sem
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}
+
+           ;; TODO add support for {:modal :infinitive}
+           ;; e.g. "can want to study"
+           ;; as we have above in :modal-base-no-pred
+           ])}
+
+ ;; e.g. "I am studying"
+ {:rule :modal-present-participle
+  :if {:cat :verb
+       :modal :present-participle}
+  :then (let [subj (atom :top)
+              subcat-1-is-shared (atom {:sem subj})
+              sem (atom {:subj subj})]
+          [;; "is"
+           {:inflected? true
+            :sem {:subj subj
+                  :pred :top}
+            
+            :subcat {:1 {:sem subj}
+                     :2 []}}
+
+           ;; 'is' in 'is studying'
+           {:inflected? true
+            :sem sem
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :modal :none
+                         :infl :present-participle
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}
 
- ;; TODO: :modal-base-with-pred
- 
+ ;; e.g. "I was studying"
+ {:rule :modal-past-participle
+  :if {:cat :verb
+       :modal :past-participle}
+  :then (let [subj (atom :top)
+              subcat-1-is-shared (atom {:sem subj})
+              sem (atom {:subj subj})]
+          [;; "was"
+           {:inflected? true
+            :sem {:subj subj
+                  :pred :top}
+
+            :subcat {:1 {:sem subj}
+                     :2 []}}
+
+           ;; 'was' in 'was studying'
+           {:inflected? true
+            :sem sem
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :modal :none
+                         :infl :past-participle
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}])}
+
+  ;; e.g. "I need to study"
  {:rule :modal-infinitive
   :if {:cat :verb
        :modal :infinitive}

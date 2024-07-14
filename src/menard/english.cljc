@@ -183,10 +183,9 @@
     :if {:cat :verb
          :aux? false
          :modal :none
-         :infl :past-simple
-         :sem {:tense ::unspec}}
+         :infl :past-simple}
     :then [{:sem {:tense :past
-                  :aspect :simple}}]}])
+                  :aspect :perfect}}]}])
 ;; </TODO>
 
 (defn post-lexical-retrieval-rule

@@ -20,9 +20,11 @@
                        :preterito "quis"
                        :futuro    "querr"}]
             [{:stems stems
+              :sem {:pred :like}}
+             {:stems stems
               :sem {:pred :want}}
              {:stems stems
-              :sem {:pred :love}}])
+              :sem {:pred :love}}]
  "romper" [{:sem {:pred :break}}]
  "ir" [{:intransitive? true
         :sem {:pred :go}

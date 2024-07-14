@@ -606,14 +606,11 @@
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
 
-<<<<<<< HEAD
-=======
  ;; "will","would"
  ;; the modal verb (e.g. 'will','would') has
  ;; no :pred of its own, but only tense.
  ;; e.g. "will" as {:tense :future}
  ;; e.g. "would" as {:tense :conditional}
->>>>>>> d5500fd8e (split modal-base into modal-base-no-pred and modal-base-with-pred)
  {:rule :modal-base-no-pred
   :if {:cat :verb
        :modal :base
@@ -625,10 +622,6 @@
            {:inflected? true
             :sem {:subj subj
                   :pred :anaphoric}
-<<<<<<< HEAD
-=======
-            
->>>>>>> d5500fd8e (split modal-base into modal-base-no-pred and modal-base-with-pred)
             :subcat {:1 {:sem subj}
                      :2 []}
             :modal-with-pred? false}

@@ -30,12 +30,11 @@
   (def summary-filter? false)
   (def over-compact? false)
 
-  ;; modify these to log specific parse rules e.g.
-  ;;  (def log-these-rules-as-parents #{"s-interrog" "modal+subject"})
-;;  (def log-these-rules-as-parents #{"modal+subject"})  
-;;  (def log-these-rules-as-head-children #{"modal+subject"})
-;;  (def log-these-rules-as-comp-children #{"vp-object-inf"})
-
+  ;; modify these to log specific parse rules e.g.:
+  ;;
+  ;; (def log-these-rules-as-parents #{"s"})
+  ;; (def log-these-rules-as-head-children #{"vp"})  
+  
   )
 ;; </developer-mode overrides of performance-optimized defaults>
 

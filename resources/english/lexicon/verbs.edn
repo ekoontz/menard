@@ -12,7 +12,8 @@
                         {:infl :present :surface "are"}
                         {:infl :past-simple :agr {:number :plur} :surface "were"}
                         {:infl :past-simple :agr {:person :2nd} :surface "were"}
-                        {:infl :past-simple :surface "was"}
+                        {:infl :past-simple :agr {:person :1st :number :sing} :surface "was"}
+                        {:infl :past-simple :agr {:person :3rd :number :sing} :surface "was"}                        
                         {:infl :past-participle :surface "been"}]]
         [{:sense 1
           :sem {:pred :be

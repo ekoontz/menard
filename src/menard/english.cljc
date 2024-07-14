@@ -147,7 +147,9 @@
          :modal :none
          :infl ::unspec}
     :then [{:infl :base}
-           {:infl :present}]}
+           {:infl :present}
+           {:infl :present-participle}
+           {:infl :past-participle}]}
 
     {:rule :present-infl-to-present-tense
     :if {:cat :verb

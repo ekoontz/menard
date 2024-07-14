@@ -221,8 +221,8 @@
                                    (log/debug (str "post-lexical-retrieval-rule matched: " each-then))
                                    (log/debug (str " lexeme: " (l/pprint lexeme)))
                                    (if (= :fail unify)
-                                     (exception (str "lexeme: " (l/pprint lexeme)
-                                                     " unified rule's :if but not its :then: rule: " rule ": fail-path: " (diag/fail-path lexeme each-then)))
+                                     (exception (str "lexeme matched post-lexical-retrieval-rule's :if but not its :then. Lexeme: " (l/pprint lexeme)
+                                                     " rule: " rule ": fail-path: " (diag/fail-path lexeme each-then)))
                                      unify)))))
                      [lexeme]))))))
 

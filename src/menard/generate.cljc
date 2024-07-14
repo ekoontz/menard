@@ -33,6 +33,7 @@
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
 (def ^:dynamic log-these-rules #{})
+;;(def ^:dynamic log-these-rules #{"s" "vp"})
 (def ^:dynamic log-all-rules? false)
 (def ^:dynamic exception-if-no-lexemes-found? false)
 

@@ -182,7 +182,6 @@
    {:rule :past-simple-non-aux
     :if {:cat :verb
          :aux? false
-         :modal :none
          :infl :past-simple}
     :then [{:sem {:tense :past
                   :aspect :perfect}}]}])

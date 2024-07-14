@@ -598,10 +598,7 @@
  "walk" [{:sem {:pred :walk}}]
  "want" [{:sem {:pred :want}
           :modal :infinitive}]
- "warn" [{:sem {:pred :warn}
-          :modal :none}
-         {:sem {:pred :warn}
-          :modal :infinitive}]
+ "warn" [{:sem {:pred :warn}}]
  "wash" [{:sem {:pred :wash}}]
  "wear" [{:sem {:pred :wear}
           :exceptions [{:infl :past-simple :surface "wore"}

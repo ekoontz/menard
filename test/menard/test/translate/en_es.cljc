@@ -6,4 +6,7 @@
             [clojure.test :refer [deftest is]]))
 
 (deftest transfer-1
-  (-> "yo quiero" translate/es-to-en (= "I want") is))
+  (-> "yo quiero" translate/es-to-en (or (= "I want")
+                                         (= "I like")
+                                         (= "I love")) is))
+

@@ -54,6 +54,7 @@
    what to unify the structure against, and the :g contains a _from_ and a _to_, both of which
    are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology & [option-map]]
+  (log/debug (str "morph-leaf: structure: " (l/pprint structure)))
   (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)
@@ -119,7 +120,8 @@
       :else
       (str
        (cond
-         (u/get-in structure [:surface])
+         (and (u/get-in structure [:surface])
+              (not (= (u/get-in structure [:surface]) :top)))
          (do
            (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
            (str

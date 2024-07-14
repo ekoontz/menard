@@ -176,7 +176,7 @@
             :person :3rd}}}
 
  {:g [#"^(.*)er$"  "$1ían"] 
-  :p [#"^(.*)$ían" "$1er"] 
+  :p [#"^(.*)ían$" "$1er"] 
   :u {:cat :verb
       :infl :imperfect
       :agr {:number :plur

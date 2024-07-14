@@ -249,9 +249,9 @@
 
 (defn wrapped-lexicon-index-fn [lexical-index-fn]
   (fn [spec]
-    (log/debug (str "wrapped-lexicon-index-fn called with spec: " spec))
+    (log/debug (str "wrapped-lexicon-index-fn: input spec: " spec))
     (let [result (lexical-index-fn spec)]
-      (log/debug (str "result count: " (count result)))
+      (log/debug (str "wrapped-lexicon-index-fn found: " (count result) " lexemes matching spec: " (l/pprint spec)))
       (-> result
           (post-lexical-retrieval post-lexical-retrieval-rules)))))
 

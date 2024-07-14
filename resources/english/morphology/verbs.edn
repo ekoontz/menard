@@ -172,8 +172,8 @@
       :infl :present-participle}}
 
  ;; stop/stopping,put/putting,run/running,let/letting
- {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ing"]
-  :p [#"^(.*[eiou][npst])([npst])ing$" "$1"]
+ {:g [#"^(.*[eiou])([gnpst])$"          "$1$2$2ing"]
+  :p [#"^(.*[eiou][gnpst])([gnpst])ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
  

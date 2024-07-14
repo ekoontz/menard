@@ -387,7 +387,8 @@
  "live" [{:sem {:pred :live}}]
  "look" [{:sem {:pred :look
                 :obj :none}}]
- "love" [{:sem {:pred :love}}
+ "love" [{:sem {:pred :love}
+          :modal :infinitive}
          {:sem {:pred :love}
           :modal :infinitive}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
@@ -543,11 +544,12 @@
             ;; TODO: "the cat they think that you will see"
  
  "to" ;; "to sleep"
- [(let [sem (atom :top)
-        agr (atom :top)
-        reflexive? (atom :top)]
-    {
-     :agr agr
+ (let [sem (atom :top)
+       agr (atom :top)
+       reflexive? (atom :top)]
+   [
+    ;; used to sleep
+    {:agr agr
      :reflexive? reflexive?
      :to? true
      :inflected? true
@@ -560,12 +562,39 @@
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
                   :infl :base
                   :sem sem}
-              :2 []}})]
+              :2 []}}
+
+    ;; used to try to sleep
+    {:agr agr
+     :reflexive? reflexive?
+     :to? true
+     :inflected? true
+     :infl :infinitive
+     :sem sem
+     :subcat {:1 {:cat :verb
+                  :modal :infinitive
+                  :agr agr
+                  :reflexive? reflexive?
+                  :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
+                  :infl :base
+                  :sem sem}
+              :2 []}}])
 
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
  "turn" [{:sem {:pred :turn}}]
  "use" [{:sem {:pred :use}}]
+
+ ;; e.g. "I used to eat there"
+ "used" [{:aux? true
+          :infl :past-simple
+          :inflected? true
+          :exception? true
+          :modal :infinitive
+          :sem {:tense :past
+                :aspect :progressive}
+          :used-to? true}]
+ 
  "walk" [{:sem {:pred :walk}}]
  "want" [{:sem {:pred :want}
           :modal :infinitive}]

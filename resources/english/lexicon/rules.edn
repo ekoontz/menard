@@ -544,11 +544,12 @@
        :sem {:obj {:obj ::unspec}}}
   :then [{:sem {:obj {:obj :none}}}]}
 
- ;; "will","would"
+ ;; "will","would","used to"
  ;; the modal verb (e.g. 'will','would') has
  ;; no :pred of its own, but only tense.
- ;; e.g. "will" as {:tense :future}
- ;; e.g. "would" as {:tense :conditional}
+ ;; e.g.: "will" as {:tense :future}
+ ;;       "would" as {:tense :conditional}
+ ;;       "used to" as {:tense :past, :aspect :progressive}
  {:rule :modal-base-no-pred
   :if {:cat :verb
        :modal :base
@@ -679,9 +680,10 @@
                                   :2 []}}}}])}
 
   ;; e.g. "I need to study"
- {:rule :modal-infinitive
+ {:rule :modal-infinitive-non-used-to
   :if {:cat :verb
-       :modal :infinitive}
+       :modal :infinitive
+       :used-to? false}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
               complement-sem (atom {:subj subj
@@ -690,7 +692,8 @@
            {:sem {:subj subj
                   :obj :none}
             :subcat {:1 {:sem subj}
-                     :2 []}}
+                     :2 []}
+            :used-to? false}
 
            ;; "needs to leave"
            {:sem {:subj subj
@@ -700,7 +703,36 @@
                          :infl :infinitive
                          :sem complement-sem
                          :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}
+            :used-to? false}])}
+
+ {:rule :modal-infinitive-used-to
+  :if {:cat :verb
+       :modal :infinitive
+       :used-to? true}
+  :then (let [subj (atom :top)
+              subcat-1-is-shared (atom {:sem subj})
+              sem (atom {:subj subj})]
+          [
+           ;; "used to"
+           {:sense 1
+            :sem {:subj subj
+                  :pred :anaphoric}
+            :subcat {:1 {:sem subj}
+                     :2 {:canonical "to"
+                         :phrasal? false}}}
+           
+           ;; "used to leave"
+           {:sense 2
+            :sem sem
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :aux? false
+                         :infl :infinitive
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}
 
+ 
  ]
 

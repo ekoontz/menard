@@ -165,6 +165,12 @@
   :u {:cat :verb
       :infl :base}}
 
+ ;; abandon/abandoning
+ {:g [#"^(.*[o])([n])$"  "$1$2ing"]
+  :p [#"^(.*[o][n])ing$" "$1"]
+  :u {:cat :verb
+      :infl :present-participle}}
+
  ;; stop/stopping,put/putting,run/running,let/letting
  {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ing"]
   :p [#"^(.*[eiou][npst])([npst])ing$" "$1"]

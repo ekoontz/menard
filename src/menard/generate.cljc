@@ -275,8 +275,11 @@
       (log/info (str "add-lexeme: " (syntax-tree tree) " at: " at " looking for lexeme matching spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
-      (->> (get-lexemes spec lexicon-index-fn at)
-
+      (->> (let [lexemes (get-lexemes spec lexicon-index-fn at)
+                 exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)]
+             (if (seq exceptions)
+               exceptions
+               lexemes))
            (#(do
                (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
                  (log/info (str "found this many lexemes: " (count %) " at: " at)))

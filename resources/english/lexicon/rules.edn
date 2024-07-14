@@ -613,13 +613,15 @@
  ;; e.g. "would" as {:tense :conditional}
  {:rule :modal-base-no-pred
   :if {:cat :verb
-       :modal :base}
+       :modal :base
+       :sem {:pred ::unspec}}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
               sem (atom {:subj subj})]
           [;; "would"
            {:inflected? true
-            :sem {:subj subj}
+            :sem {:subj subj
+                  :pred :anaphoric}
             
             :subcat {:1 {:sem subj}
                      :2 []}

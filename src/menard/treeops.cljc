@@ -102,7 +102,8 @@
    :root (atom :top)
    :sem (atom :top)
    :separable? (atom :top)
-   :strong? (atom :top)})
+   :strong? (atom :top)
+   :surface (atom :top)})
 
 (defn numeric-frontier [syntax-tree]
   (cond

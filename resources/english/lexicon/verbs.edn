@@ -570,6 +570,8 @@
  "want" [{:sem {:pred :want}
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}
+          :modal :none}
+         {:sem {:pred :warn}
           :modal :infinitive}]
  "wash" [{:sem {:pred :wash}}]
  "wear" [{:sem {:pred :wear}

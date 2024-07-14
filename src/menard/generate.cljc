@@ -449,7 +449,7 @@
                                  (when (contains? log-these-rules (last at))
                                    (log/info (str "lexeme candidate failed: " fail-path "; "
                                                   "lexeme's value: "
-                                                  (u/get-in lexeme fail-path) "; "
+                                                  (l/pprint (u/get-in lexeme fail-path)) "; "
                                                   "spec's value: "
                                                   (u/get-in spec fail-path))))
                                  (when counts? (swap! count-lexeme-fails inc))

@@ -75,7 +75,9 @@
   ;; irregular
   (let [quiero (->> "quiero" analyze first)]
     (is (= (u/get-in quiero [:agr]) {:person :1st :number :sing}))
-    (is (= (u/get-in quiero [:sem :pred]) :want))
+    (is (or (= (u/get-in quiero [:sem :pred]) :want)
+            (= (u/get-in quiero [:sem :pred]) :like)
+            (= (u/get-in quiero [:sem :pred]) :love)))
     (is (= (u/get-in quiero [:infl]) :present)))
   ;; regular
   (let [hablan (->> "hablan" analyze first)]

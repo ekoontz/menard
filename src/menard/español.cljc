@@ -47,6 +47,7 @@
      :else
      (s/morph tree (:morphology @model))))
 
+;; <cleanup after importing and deleting menard/resources/español/lexicon.edn>
 (defn convert-exceptions [exceptions]
   (concat (when (u/get-in exceptions [:present :1sing])
             [{:infl :present
@@ -131,6 +132,7 @@
                                    (map #(u/get-in % [:cat]))
                                    (filter #(= :verb %)))))))
        (into {})))
+;; </cleanup after importing and deleting menard/resources/español/lexicon.edn>
 
 ;; for parsing diagnostics:
 (def truncate? true)

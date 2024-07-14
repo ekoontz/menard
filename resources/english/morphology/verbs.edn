@@ -102,6 +102,12 @@
   :u {:cat :verb
       :infl :past-simple}}
 
+ ;; abandon/abandoned
+ {:g [#"^(.*[o])([n])$"  "$1$2ed"]
+  :p [#"^(.*[o][n])ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
+ 
  ;; prohibit/prohibited
  {:g [#"^(.*it)$"   "$1ed"]
   :p [#"^(.*it)ed$" "$1"]
@@ -109,8 +115,8 @@
       :infl :past-simple}}
  
  ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([npst])$"          "$1$2$2ed"]
-  :p [#"^(.*[eiou][npst])([npst])ed$"  "$1"]
+ {:g [#"^(.*[eiou])([gnpst])$"          "$1$2$2ed"]
+  :p [#"^(.*[eiou][npst])([gnpst])ed$"  "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -136,6 +142,12 @@
   ;; explain/explained
  {:g [#"^(.*ain)$"   "$1ed"]
   :p [#"^(.*ain)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+
+ ;; abandon/abandoned
+ {:g [#"^(.*[o])([n])$"  "$1$2ed"]
+  :p [#"^(.*[o][n])ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 

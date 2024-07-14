@@ -84,7 +84,12 @@
                            :surface "blown"}]]
           [{:sem {:pred :blow}
             :exceptions exceptions}])
- "break" [{:sem {:pred :break}}]
+ "break" (let [exceptions [{:infl :past-simple
+                           :surface "broke"}
+                          {:infl :past-participle
+                           :surface "broken"}]]
+           [{:sem {:pred :break}
+             :exceptions exceptions}])
  "bring" (let [exceptions [{:infl :past-simple
                            :surface "brought"}
                           {:infl :past-participle
@@ -485,7 +490,12 @@
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
- "speak" [{:sem {:pred :speak}}]
+ "speak" (let [exceptions [{:infl :past-simple
+                           :surface "spoke"}
+                          {:infl :past-participle
+                           :surface "spoken"}]]
+           [{:sem {:pred :speak}
+             :exceptions exceptions}])
  "sneeze" [{:sem {:pred :sneeze}}]
  "stand" (let [exceptions [{:infl :past-simple :surface "stood"}
                            {:infl :past-participle :surface "stood"}]]

@@ -39,7 +39,7 @@
           :sense 4
           :aux? true
           :infl :present
-          :modal :participle
+          :modal :present-participle
           :sem {:tense :present
                 :aspect :progressive}
           :exceptions exceptions}
@@ -47,7 +47,7 @@
           :sense 5
           :aux? true
           :infl :past-simple
-          :modal :participle
+          :modal :past-participle
           :sem {:tense :past
                 :aspect :progressive}
           :exceptions exceptions}])

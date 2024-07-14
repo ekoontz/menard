@@ -12,7 +12,7 @@
     (is (not (contains? (set (->> parses
                                   (map #(unify %
                                                {:sem {:pred :see
-                                                      :aspect :simple
+                                                      :aspect :perfect
                                                       :tense :past
                                                       :subj {:pred :she}
                                                       :obj {:pred :he}}}))))

@@ -52,6 +52,59 @@
                       :surface "van"}
                      {:infl :present,
                       :agr {:person :3rd, :number :plur},
-                      :surface "van"}]}]
+                      :surface "van"}
+
+                     {:infl :imperfect
+                      :agr {:person :1st, :number :sing}
+                      :surface "iba"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :sing, :formal? false}
+                      :surface "ibas"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :sing, :formal? true}
+                      :surface "iba"}
+                     {:infl :imperfect
+                      :agr {:person :3rd, :number :sing}
+                      :surface "iba"}
+                     {:infl :imperfect
+                      :agr {:person :1st, :number :plur}
+                      :surface "ibamos"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :plur, :formal? false}
+                      :surface "ibais"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :plur, :formal? true}
+                      :surface "iban"}
+                     {:infl :imperfect
+                      :agr {:person :3rd, :number :plur}
+                      :surface "iban"}
+
+                     {:infl :preterito
+                      :agr {:person :1st, :number :sing}
+                      :surface "fui"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :sing, :formal? false}
+                      :surface "fuiste"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :sing, :formal? true}
+                      :surface "fue"}
+                     {:infl :preterito
+                      :agr {:person :3rd, :number :sing}
+                      :surface "fue"}
+                     {:infl :preterito
+                      :agr {:person :1st, :number :plur}
+                      :surface "fuimos"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :plur, :formal? false}
+                      :surface "fuisteis"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :plur, :formal? true}
+                      :surface "fueron"}
+                     {:infl :preterito
+                      :agr {:person :3rd, :number :plur}
+                      :surface "fueron"}
+
+                     ]}]
+                     
  }
 

@@ -1,0 +1,62 @@
+[
+ {:g [#"^(.*[aie]r)$"    "$1é"] 
+  :p [#"^(.*[aie]r)é$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :sing
+            :person :1st}}}
+
+ {:g [#"^(.*[aie]r)$"   "$1ás"] 
+  :p [#"^(.*)ás$"       "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*[aie]r)$"   "$1á"] 
+  :p [#"^(.*)á$"        "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*[aie]r)$"    "$1á"] 
+  :p [#"^(.*[aie]r)á$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.*[aie]r)$"     "$1emos"] 
+  :p [#"^(.*[aie]r)emos$" "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.*[aie]r)$"    "$1éis"] 
+  :p [#"^(.*[aie]r)éis$" "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*[aie]r)$"    "$1án"] 
+  :p [#"^(.*[aie]r)án$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*[aie]r)$"     "$1án"] 
+  :p [#"^(.*[aie]r)án$"   "$1"] 
+  :u {:cat :verb
+      :infl :future
+      :agr {:number :plur
+            :person :3rd}}}
+
+]

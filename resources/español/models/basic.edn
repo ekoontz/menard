@@ -2,11 +2,9 @@
  :language "es"
  :morphology {:path "español/morphology"
               :sources ["nouns.edn"
-
-                        ;; TODO: break verbs.edn into smaller files.
-                        ;; one part of this breakup is already done with
-                        ;; imperfect.edn and preterito.edn.
                         "verbs.edn"
+                        "conditional.edn"
+                        "future.edn"
                         "imperfect.edn"
                         "preterito.edn"]}
  :grammar "español/grammar.edn"

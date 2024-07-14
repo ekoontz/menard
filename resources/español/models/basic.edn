@@ -2,10 +2,10 @@
  :language "es"
  :morphology {:path "español/morphology"
               :sources ["nouns.edn"
-                        "verbs.edn"
                         "conditional.edn"
                         "future.edn"
                         "imperfect.edn"
+                        "misc-verbs.edn"
                         "preterito.edn"]}
  :grammar "español/grammar.edn"
  :grammar-rules "español/grammar-rules.edn"

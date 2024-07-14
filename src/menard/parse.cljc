@@ -211,7 +211,8 @@
                       " fail path: " (vec fp)
                       ". parent wants: " (l/pprint (u/get-in parent fp))
                       ", but comp has: " (l/pprint (u/get-in comp (rest fp)))
-                      ", comp derivation: " (l/encode-derivation (or (u/get-in comp [:menard.lexiconfn/derivation])))
+                      ", head derivation: " (l/encode-derivation (or (u/get-in parent [:head :menard.lexiconfn/derivation])))
+                      ", comp derivation: " (l/encode-derivation (or (u/get-in comp [:menard.lexiconfn/derivation])))                      
                       ".")))))))
       result)))
 

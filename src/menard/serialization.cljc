@@ -2,6 +2,7 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [menard.log :as log])
+   [menard.lexiconfn :as l]
    [menard.morphology :as m]
    [dag_unify.core :as u]))
 
@@ -18,7 +19,9 @@
     (str "_ "
          (morph (u/get-in tree [:2]) morphology))
     :else
-    (m/morph-leaf tree morphology)))
+    (do
+      (log/debug (str "calling m/morph-leaf with tree: " (l/pprint tree)))
+      (m/morph-leaf tree morphology))))
 
 (defn syntax-tree [tree morphology]
   (cond

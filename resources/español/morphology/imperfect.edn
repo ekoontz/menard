@@ -1,0 +1,192 @@
+[
+ ;; https://en.wikipedia.org/wiki/Spanish_grammar?useskin=vector#Imperfect_or_%22copret%C3%A9rito%22
+ ;;   singular
+ ;;     1st person
+ {:g [#"^(.*)ar$"  "$1aba"] 
+  :p [#"^(.*)aba$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :1st}}}
+
+ {:g [#"^(.*)er$"  "$1ía"]
+  :p [#"^(.*)ía$"  "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :1st}}}
+
+ {:g [#"^(.*)ir$"  "$1ía"] 
+  :p [#"^(.*)ía$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :1st}}}
+
+ ;;     2nd person. informal
+ {:g [#"^(.*)ar$"   "$1abas"] 
+  :p [#"^(.*)abas$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$"  "$1ías"] 
+  :p [#"^(.*)ías$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$"  "$1ías"] 
+  :p [#"^(.*)ías$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ ;;     2nd person. formal
+ {:g [#"^(.*)ar$"  "$1aba"] 
+  :p [#"^(.*)aba$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$" "$1ía"] 
+  :p [#"^(.*)ía$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$" "$1ía"] 
+  :p [#"^(.*)ía$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)ar$"  "$1ía"] 
+  :p [#"^(.*)ía$"   "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.*)er$"  "$1ía"] 
+  :p [#"^(.*)ía$"  "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.*)ir$"  "$1ía"] 
+  :p [#"^(.*)ía$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :3rd}}}
+
+ ;;   plural
+ ;;     1st person
+ {:g [#"^(.*)ar$"     "$1ábamos"] 
+  :p [#"^(.*)ábamos$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.*)er$"    "$1íamos"] 
+  :p [#"^(.*)íamos$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.*)ir$"    "$1íamos"] 
+  :p [#"^(.*)íamos$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :1st}}}
+
+ ;;     2nd person informal
+ {:g [#"^(.*)ar$"    "$1abais"] 
+  :p [#"^(.*)abais$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$"   "$1íais"] 
+  :p [#"^(.*)íais$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$"   "$1íais"] 
+  :p [#"^(.*)íais$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ ;;     2nd person formal
+ {:g [#"^(.*)ar$"   "$1aban"] 
+  :p [#"^(.*)aban$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$"  "$1ían"] 
+  :p [#"^(.*)ían$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$"  "$1ían"] 
+  :p [#"^(.*)ían$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+ 
+ ;;     3rd person
+ {:g [#"^(.*)ar$"   "$1aban"] 
+  :p [#"^(.*)aban$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :3rd}}}
+
+ {:g [#"^(.*)er$"  "$1ían"] 
+  :p [#"^(.*)$ían" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :3rd}}}
+
+ {:g [#"^(.*)ir$"  "$1ían"] 
+  :p [#"^(.*)ían$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :3rd}}}
+ ]
+

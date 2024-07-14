@@ -5,9 +5,10 @@
 
                         ;; TODO: break verbs.edn into smaller files.
                         ;; one part of this breakup is already done with
-                        ;; verbs-imperfect.edn.
+                        ;; imperfect.edn and preterito.edn.
                         "verbs.edn"
-                        "verbs-imperfect.edn"]}
+                        "imperfect.edn"
+                        "preterito.edn"]}
  :grammar "español/grammar.edn"
  :grammar-rules "español/grammar-rules.edn"
  :lexicon {:path "español/lexicon"

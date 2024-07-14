@@ -1,0 +1,193 @@
+[
+ ;; https://en.wikipedia.org/wiki/Spanish_grammar?useskin=vector#Preterite
+ ;;   singular
+ ;;     1st person
+ {:g [#"^(.*)ar$"  "$1é"] 
+  :p [#"^(.*)é$"   "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :1st}}}
+
+ {:g [#"^(.*)er$"  "$1í"]
+  :p [#"^(.*)í$"   "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :1st}}}
+
+ {:g [#"^(.*)ir$"  "$1í"] 
+  :p [#"^(.*)í$"   "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :1st}}}
+
+ ;;     2nd person. informal
+ {:g [#"^(.*)ar$"   "$1aste"] 
+  :p [#"^(.*)aste$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$"   "$1iste"] 
+  :p [#"^(.*)iste$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$"   "$1iste"] 
+  :p [#"^(.*)iste$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :sing
+            :person :2nd}}}
+
+ ;;     2nd person formal
+ {:g [#"^(.*)ar$"  "$1ó"] 
+  :p [#"^(.*)ó$"   "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$" "$1ió"] 
+  :p [#"^(.*)ió$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$" "$1ió"] 
+  :p [#"^(.*)ió$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}}}
+
+ ;;     3rd person
+ {:g [#"^(.*)ar$"  "$1ó"] 
+  :p [#"^(.*)ó$"   "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.*)er$"  "$1ió"] 
+  :p [#"^(.*)ió$"  "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :3rd}}}
+
+ {:g [#"^(.*)ir$"  "$1ió"] 
+  :p [#"^(.*)ió$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :sing
+            :person :3rd}}}
+
+ ;;   plural
+ ;;     1st person
+ {:g [#"^(.*)ar$"   "$1amos"] 
+  :p [#"^(.*)amos$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.*)er$"   "$1imos"] 
+  :p [#"^(.*)imos$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :1st}}}
+
+ {:g [#"^(.*)ir$"   "$1imos"] 
+  :p [#"^(.*)imos$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :1st}}}
+
+ ;;     2nd person informal
+ {:g [#"^(.*)ar$"     "$1asteis"] 
+  :p [#"^(.*)asteis$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$"     "$1isteis"] 
+  :p [#"^(.*)isteis$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$"     "$1isteis"] 
+  :p [#"^(.*)isteis$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}}}
+
+ ;;     2nd person formal
+ {:g [#"^(.*)ar$"   "$1aron"] 
+  :p [#"^(.*)aron$" "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)er$"    "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1ieron"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+
+ {:g [#"^(.*)ir$"    "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}}}
+ 
+ ;;     3rd person
+ {:g [#"^(.*)ar$"    "$1aron"] 
+  :p [#"^(.*)aron$"  "$1ar"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :3rd}}}
+
+ {:g [#"^(.*)er$"    "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1er"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :3rd}}}
+
+ {:g [#"^(.*)ir$"    "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1ir"] 
+  :u {:cat :verb
+      :infl :imperfect
+      :agr {:number :plur
+            :person :3rd}}}
+ ]
+

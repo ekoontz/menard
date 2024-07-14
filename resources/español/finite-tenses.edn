@@ -10,4 +10,18 @@
   :abbreviation :simple-present
   :infl :present
   :sem {:tense :present
-        :aspect :simple}}]
+        :aspect :simple}}
+
+ {:variant :imperfect
+  :infl :imperfect
+  :sem {:tense :past
+        :aspect :progressive}}
+
+  {:variant :preterito
+  :infl :preterito
+  :sem {:tense :past
+        :aspect :perfect}}
+
+ 
+
+ ]

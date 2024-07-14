@@ -33,7 +33,9 @@
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
 (def ^:dynamic log-these-rules #{})
-;;(def ^:dynamic log-these-rules #{"s" "vp"})
+(def ^:dynamic log-these-paths #{})
+;;(def ^:dynamic log-these-rules #{"s" "vp" "vp-inf"})
+;;(def ^:dynamic log-these-paths #{[:head :head]})
 (def ^:dynamic log-all-rules? false)
 (def ^:dynamic exception-if-no-lexemes-found? false)
 
@@ -276,13 +278,19 @@
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (let [lexemes (get-lexemes spec lexicon-index-fn at)
+                 debug (log/debug (str "pre-inflected?-filtering: " (vec (map l/pprint lexemes))))
                  exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)]
+             (log/debug (str "exceptions: " (vec (map l/pprint exceptions))))
              (if (seq exceptions)
                exceptions
                lexemes))
            (#(do
                (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
-                 (log/info (str "found this many lexemes: " (count %) " at: " at)))
+                 (log/info (str "found this many lexemes: " (count %) " at: " at))
+                 (do
+                   (vec (map (fn [lexeme]
+                               (log/info (str "found lexeme:" (l/pprint lexeme))))
+                             %))))
                %))
            
            (#(if (and exception-if-no-lexemes-found? (empty? %))
@@ -440,13 +448,13 @@
        (filter (fn [tuple]
                  (let [lexeme (:lexeme tuple)
                        unify (:unify tuple)]
-                   (when (contains? log-these-rules (last at))
-                     (log/info (str "candidate lexeme: " (l/pprint lexeme))))
+                   (when (contains? log-these-paths at)
+                     (log/info (str "candidate lexeme: at: " at ": " (l/pprint lexeme))))
                    (cond (not (= :fail unify))
                          true
                          :else (let [fail-path
                                      (dag_unify.diagnostics/fail-path spec lexeme)]
-                                 (when (contains? log-these-rules (last at))
+                                 (when (contains? log-these-paths at)
                                    (log/info (str "lexeme candidate failed: " fail-path "; "
                                                   "lexeme's value: "
                                                   (l/pprint (u/get-in lexeme fail-path)) "; "

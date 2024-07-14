@@ -635,7 +635,7 @@
           [;; "is"
            {:inflected? true
             :sem {:subj subj
-                  :pred :top}
+                  :pred :anaphoric}
             
             :subcat {:1 {:sem subj}
                      :2 []}}
@@ -645,6 +645,7 @@
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :aux? false                         
                          :modal :none
                          :infl :present-participle
                          :sem sem
@@ -655,13 +656,13 @@
  {:rule :modal-past-participle
   :if {:cat :verb
        :modal :past-participle}
-  :then (let [subj (atom :top)
+  :then (let [subj (atom {:existential? false})
               subcat-1-is-shared (atom {:sem subj})
               sem (atom {:subj subj})]
           [;; "was"
            {:inflected? true
             :sem {:subj subj
-                  :pred :top}
+                  :pred :anaphoric}
             :subcat {:1 {:sem subj}
                      :2 []}}
 
@@ -670,6 +671,7 @@
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :aux? false
                          :modal :none
                          :infl :present-participle
                          :sem sem

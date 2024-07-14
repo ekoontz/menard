@@ -23,7 +23,7 @@
  {:variant :past
   :infl :past-simple
   :sem {:tense :past
-        :aspect :simple}}
+        :aspect :simple}} ;; or should this be perfect, to translate Spanish preterito?
  
  ;; "is seeing"
  {:variant :present-progressive
@@ -34,7 +34,7 @@
  
  ;; "was seeing"
  {:variant :past-progressive
-  :infl :past-simple    
+  :infl :past-simple
   :head {:aux? true}
   :sem {:tense :past
         :aspect :progressive}}

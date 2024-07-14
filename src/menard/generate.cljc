@@ -436,17 +436,18 @@
        (filter (fn [tuple]
                  (let [lexeme (:lexeme tuple)
                        unify (:unify tuple)]
-                   (log/debug (str "candidate lexeme: " (l/pprint lexeme)))
+                   (when (contains? log-these-rules (last at))
+                     (log/info (str "candidate lexeme: " (l/pprint lexeme))))
                    (cond (not (= :fail unify))
                          true
                          :else (let [fail-path
                                      (dag_unify.diagnostics/fail-path spec lexeme)]
-                                 (log/debug (str "lexeme candidate failed: " fail-path "; "
-                                                "lexeme's value: "
-                                                (u/get-in lexeme fail-path) "; "
-                                                "spec's value: "
-                                                (u/get-in spec fail-path)))
-
+                                 (when (contains? log-these-rules (last at))
+                                   (log/info (str "lexeme candidate failed: " fail-path "; "
+                                                  "lexeme's value: "
+                                                  (u/get-in lexeme fail-path) "; "
+                                                  "spec's value: "
+                                                  (u/get-in spec fail-path))))
                                  (when counts? (swap! count-lexeme-fails inc))
                                  false)))))
        (map :unify)))

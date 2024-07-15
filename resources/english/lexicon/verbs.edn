@@ -114,7 +114,8 @@
  "cause" [{:sem {:pred :cause}}]
  "change" [{:sem {:pred :change}}]
  "cheat" [{:sem {:pred :cheat}}]
- "clean" [{:sem {:pred :clean}}] 
+ "clean" [{:sem {:pred :clean}}]
+ "close" [{:sem {:pred :close}}]  
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle
@@ -414,6 +415,7 @@
                 :obj :none}}]
  "love" [{:sem {:pred :love}
           :modal :infinitive}]
+ "lower" [{:sem {:pred :lower}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
                           {:infl :past-participle :surface "made"}]]
            [{:exceptions exceptions  :sem {:pred :make}}])
@@ -515,6 +517,7 @@
                            :surface "spoken"}]]
            [{:sem {:pred :speak}
              :exceptions exceptions}])
+ "spell" [{:sem {:pred :spell}}]
  "sneeze" [{:sem {:pred :sneeze}}]
  "stand" (let [exceptions [{:infl :past-simple :surface "stood"}
                            {:infl :past-participle :surface "stood"}]]

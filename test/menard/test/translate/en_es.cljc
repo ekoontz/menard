@@ -2,6 +2,7 @@
   (:require [dag_unify.core :as u]
             [menard.english :as en]
             [menard.español :as es]
+            [menard.lexiconfn :as l]
             [menard.translate.es-en :as translate]
             [clojure.test :refer [deftest is]]))
 

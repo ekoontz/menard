@@ -11,6 +11,7 @@
           :sem {:ref {:human? false}
                 :gender :masc
                 :pred :it}}])
+
  "ella" (let [agr {:person :3rd
                    :gender :fem
                    :number :sing}]
@@ -24,6 +25,7 @@
             :sem {:ref {:human? false}
                   :gender :fem
                   :pred :it}}])
+
  "ellas" (let [agr {:person :3rd
                     :gender :fem
                     :number :plur}]
@@ -49,8 +51,7 @@
              :agr agr
              :sem {:ref {:human? false}
                    :gender :masc
-                   :pred :they}}])}
-
+                   :pred :they}}])
 
  "nosotras" [{:case :nom
               :agr {:number :plur
@@ -120,4 +121,5 @@
         :sem {:ref {:human? true}
               :pred :i}
         :reflexive? false}]}
+
 

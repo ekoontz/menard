@@ -393,7 +393,10 @@
                           {:infl :past-participle :surface "known"}]]
           [{:exceptions exceptions
             :sense 1
-            :sem {:pred :know}}])
+            :sem {:pred :know}}
+           {:exceptions exceptions
+            :sense 1
+            :sem {:pred :know-c}}])
  "laze" [{:sem {:pred :laze}
           :intransitive? true}]
  "learn" [{:sem {:pred :learn}}] 
@@ -624,7 +627,8 @@
                 :aspect :progressive}
           :used-to? true}]
  
- "walk" [{:sem {:pred :walk}}]
+ "walk" [{:sem {:pred :walk}}
+         {:sem {:pred :walk-c}}]
  "want" [{:sem {:pred :want}
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}}]

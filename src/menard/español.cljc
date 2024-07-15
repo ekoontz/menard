@@ -16,7 +16,14 @@
   (ref (create "español/models/basic"
                "basic"
                (fn [lexicon _ _] lexicon)
-               true)))
+               true
+
+
+               {:include-derivation? false}
+               ;; change to true to  ^^^^^
+               ;;show derivation.
+               )))
+
 
 #?(:clj
    (defn syntax-tree [tree]

@@ -10,6 +10,20 @@
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
               :sem {:pred :have-lunch}}]
+ "andar" [{:stems {:preterito "anduv"}
+           :sem {:pred :walk}}]
+ "anunciar" [{:sem {:pred :announce}}]
+ "añadir" [{:sem {:pred :add}}]
+
+ ;; commenting out until we have support for prepositional verbs in English e.g. "turn it off"
+ ;; "apagar" [{:sem {:pred :turn-off}}]
+ "apoyar" [{:sem {:pred :support}}]
+ "aprender" [{:sem {:pred :learn}}]
+ "aprobar" [{:sem {:pred :approve}}]
+
+ "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
+               {:sem {:pred :enjoy}}]
+
  "cambiar" [{:sem {:pred :change}}]
  "hablar" [{:sem {:pred :speak
                   :subj {:human true}}}

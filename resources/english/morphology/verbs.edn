@@ -113,10 +113,9 @@
   :p [#"^(.*it)ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
- 
- ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([gnpst])$"          "$1$2$2ed"]
-  :p [#"^(.*[eiou][npst])([gnpst])ed$"  "$1"]
+
+ {:g [#"^(.*op)$"     "$1ed"]
+  :p [#"^(.*op)ed$"   "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  

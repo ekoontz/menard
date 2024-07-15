@@ -60,6 +60,8 @@
       :agr {:person :3rd, :number :sing},
       :surface "cayò"}]}]
 
+ "cambiar" [{:sem {:pred :change}}]
+ 
  ;; reflexive not supported yet
  ;; "cambiarse"
  ;;  [{:sem
@@ -124,8 +126,56 @@
  "crear" [{:sem {:pred :create}}]
  "creer" [{:sem {:pred :believe}}]
 
+
+ "dar"
+  [{:sem {:pred :give},
+    :exceptions
+    [{:infl :present,
+      :agr {:person :1st, :number :sing},
+      :surface "doy"}
+     {:infl :preterito,
+      :agr {:person :1st, :number :sing},
+      :surface "di"}
+     {:infl :preterito,
+      :agr {:person :2nd, :number :sing},
+      :surface "diste"}
+     {:infl :preterito,
+      :agr {:person :3rd, :number :sing},
+      :surface "dio"}]}]
+ "dañar" [{:sem {:pred :damage}}]
+ "deber" [{:sem {:pred :have-to}}]
+ "decidir" [{:sem {:pred :decide}}]
+ "defender" [{:sem {:pred :defend}, :stems {:boot "defiend"}}]
+ "dejar" [{:sem {:pred :leave-behind}}]
+ "deletrear" [{:sem {:pred :spell}}]
+ "desarrollar" [{:sem {:pred :develop}}]
+ "desear" [{:sem {:pred :desire}}]
+;; "despertarse"
+;;  [{:sem
+;;    {:pred :wake-up,
+;;     :reflexive true,
+;;     :subj [[1] {:human true}],
+;;     :obj [1]}}]
+ "dibujar" [{:sem {:pred :draw}}]
+;; "divertirse"
+;;  [{:sem
+;;    {:pred :have-fun,
+;;     :reflexive true,
+;;     :subj [[1] {:human true}],
+;;     :obj [1]},
+;;    :stems {:boot "diviert"}}]
+ "dormir" [{:sem {:pred :sleep}, :stems {:boot "duerm"}}]
+
+;; "dormirse"
+;;  [{:sem
+;;    {:pred :fall-asleep,
+;;     :reflexive true,
+;;     :subj [[1] {:human true}],
+;;     :obj [1]},
+;;    :stems {:boot "duerm"}}]
+
  
- "cambiar" [{:sem {:pred :change}}]
+ 
  "hablar" [{:sem {:pred :speak
                   :subj {:human true}}}
            {:sem {:pred :talk

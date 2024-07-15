@@ -448,6 +448,7 @@
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
        :modal :none
+       :reflexive? ::unspec
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then (let [iobj (atom :top)

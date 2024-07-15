@@ -159,20 +159,45 @@
                         :surface {:prefix [:stems :futuro]
                                   :suffix "ían"}}]}]}
 
- {:rule :subcat
+ {:rule :transitivity-both
   :if {:cat :verb
-       :subcat ::unspec}
-  :then (let [subj (atom :top)
-              obj (atom :top)]
-          [
-           ;; intransitive
-           {:subcat {:1 {:cat :noun
+       :intransitive? ::unspec
+       :transitive? ::unspec}
+  :then [{:intransitive? true
+          :transitive? false}
+         {:intransitive? false
+          :transitive? true}]}
+
+ {:rule :intrans-only
+  :if {:cat :verb
+       :intransitive? true
+       :transitive? ::unspec}
+  :then [{:transitive? false}]}
+
+ {:rule :trans-only
+  :if {:cat :verb
+       :intransitive? ::unspec
+       :transitive? true}
+  :then [{:intransitive? false}]}
+ 
+ {:rule :subcat-intransitive
+  :if {:cat :verb
+       :intransitive? true}
+  :then (let [subj (atom :top)]
+          [{:transitive? false
+            :subcat {:1 {:cat :noun
                          :sem subj}
                      :2 []}
             :sem {:subj subj
-                  :obj :none}}
-           ;; transitive
-           {:sem {:subj subj
+                  :obj :none}}])}
+
+ {:rule :subcat-transitive
+  :if {:cat :verb
+       :transitive? true}
+  :then (let [subj (atom :top)
+              obj (atom :top)]
+          [{:intransitive? false
+            :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:cat :noun
                          :sem subj}

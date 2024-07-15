@@ -23,7 +23,108 @@
 
  "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
                {:sem {:pred :enjoy}}]
+ "asegurar" [{:sem {:pred :assure}}
+             {:sem {:pred :insure}}]
 
+ "aumentar" [{:sem {:pred :increase}}]
+ "ayudar" [{:sem {:pred :help}
+            :intransitive? true}
+           {:sem {:pred :help,
+                  :obj {:human true}}
+            :transitive? true}]
+
+ "bailar" [{:sem {:pred :dance}}]
+ "bajar" [{:sem {:pred :lower}}]
+ "beber" [{:sem {:pred :drink}}]
+ "buscar" [{:sem {:pred :look-for}} {:sem {:pred :look-up}}]
+ "caber"
+  [{:sem {:pred :fit},
+    :exceptions
+    [{:infl :present,
+      :agr {:person :1st, :number :sing},
+      :surface "quepo"}],
+    :stems {:preterito "cup"}}]
+ "caer"
+  [{:sem {:pred :fall},
+    :exceptions
+    [{:infl :present,
+      :agr {:person :1st, :number :sing},
+      :surface "caigo"}
+     {:infl :preterito,
+      :agr {:person :1st, :number :sing},
+      :surface "caì"}
+     {:infl :preterito,
+      :agr {:person :2nd, :number :sing},
+      :surface "caiste"}
+     {:infl :preterito,
+      :agr {:person :3rd, :number :sing},
+      :surface "cayò"}]}]
+
+ ;; reflexive not supported yet
+ ;; "cambiarse"
+ ;;  [{:sem
+ ;;    {:pred :change-clothes,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]}}]
+
+ "caminar" [{:sem {:pred :walk-c}}]
+ "cancelar" [{:sem {:pred :cancel}}]
+ "cantar" [{:sem {:pred :sing}}]
+
+ ;; reflexive not supported yet
+ ;; "casarse"
+ ;;[{:sem
+ ;;    {:pred :get-married,
+ ;;  :reflexive true,
+ ;; :subj [[1] {:human true}],
+ ;; :obj [1]}}]
+
+ "cenar" [{:sem {:pred :have-dinner}}]
+ "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
+ "comentar" [{:sem {:pred :comment}}]
+ "comenzar" [{:sem {:pred :begin}, :stems {:boot "comienz"}}]
+ "comer" [{:sem {:pred :eat}}]
+ "compartir" [{:sem {:pred :share}}]
+ "comprar"
+ [{:intransitive? true
+   :sem {:pred :buy, :subj {:human true}}}
+  {:transitive? true
+   :sem {:pred :buy, :subj {:human true}, :obj {:buyable true}}}]
+ "comprender" [{:sem {:pred :understand-deeply}}]
+ "conducir"
+  [{:sem {:pred :lead},
+    :exceptions
+    [{:infl :present,
+      :agr {:person :1st, :number :sing},
+      :surface "conduzco"}],
+    :stems {:preterito "conduj"}}
+   {:sem {:pred :drive-c},
+    :exceptions
+    [{:infl :present,
+      :agr {:person :1st, :number :sing},
+      :surface "conduzco"}],
+    :stems {:preterito "conduj"}}]
+ "confesar" [{:sem {:pred :confess}, :stems {:boot "confies"}}]
+ "conocer"
+  [{:sem {:pred :know-c},
+    :exceptions
+    [{:infl :present,
+      :agr {:person :1st, :number :sing},
+      :surface "conozco"}]}]
+ "consentir" [{:sem {:pred :consent}, :stems {:boot "consient"}}]
+ "conservar" [{:sem {:pred :conserve}} {:sem {:pred :preserve}}]
+ "considerar" [{:sem {:pred :consider}}]
+ "contar" [{:sem {:pred :count}, :stems {:boot "cuent"}}]
+ "contestar" [{:sem {:pred :answer}}]
+ "convertir" [{:sem {:pred :convert}, :stems {:boot "conviert"}}]
+ "correr" [{:sem {:pred :run}}]
+ "corresponder" [{:sem {:pred :correspond}}]
+ "cortar" [{:sem {:pred :cut}}]
+ "crear" [{:sem {:pred :create}}]
+ "creer" [{:sem {:pred :believe}}]
+
+ 
  "cambiar" [{:sem {:pred :change}}]
  "hablar" [{:sem {:pred :speak
                   :subj {:human true}}}

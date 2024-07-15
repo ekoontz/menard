@@ -1,7 +1,7 @@
-{"él" [(let [agr {:person :3rd
-                  :gender :masc
-                  :number :sing}]
-         {:case :nom
+{"él" (let [agr {:person :3rd
+                 :gender :masc
+                 :number :sing}]
+        [{:case :nom
           :agr agr
           :sem {:ref {:human? true}
                 :gender :masc
@@ -10,11 +10,11 @@
           :agr agr
           :sem {:ref {:human? false}
                 :gender :masc
-                :pred :it}})]
- "ella" [(let [agr {:person :3rd
-                    :gender :fem
-                    :number :sing}]
-           {:case :nom
+                :pred :it}}])
+ "ella" (let [agr {:person :3rd
+                   :gender :fem
+                   :number :sing}]
+          [{:case :nom
             :agr agr
             :sem {:ref {:human? true}
                   :gender :fem
@@ -23,11 +23,11 @@
             :agr agr
             :sem {:ref {:human? false}
                   :gender :fem
-                  :pred :it}})]
- "ellas" [(let [agr {:person :3rd
-                     :gender :fem
-                     :number :plur}]
-            {:case :nom
+                  :pred :it}}])
+ "ellas" (let [agr {:person :3rd
+                    :gender :fem
+                    :number :plur}]
+           [{:case :nom
              :agr agr
              :sem {:ref {:human? true}
                    :gender :fem
@@ -35,12 +35,12 @@
             {:case :nom
              :agr agr
              :sem {:ref {:human? false}
-                  :gender :fem
-                   :pred :they}})]
- "ellos" [(let [agr {:person :3rd
-                     :gender :masc
-                     :number :plur}]
-            {:case :nom
+                   :gender :fem
+                   :pred :they}}])
+ "ellos" (let [agr {:person :3rd
+                    :gender :masc
+                    :number :plur}]
+           [{:case :nom
              :agr agr
              :sem {:ref {:human? true}
                    :gender :masc
@@ -48,8 +48,9 @@
             {:case :nom
              :agr agr
              :sem {:ref {:human? false}
-                  :gender :masc
-                   :pred :they}})]
+                   :gender :masc
+                   :pred :they}}])}
+
 
  "nosotras" [{:case :nom
               :agr {:number :plur

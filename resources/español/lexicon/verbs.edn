@@ -36,7 +36,8 @@
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "beber" [{:sem {:pred :drink}}]
- "buscar" [{:sem {:pred :look-for}} {:sem {:pred :look-up}}]
+ "buscar" [{:sem {:pred :look-for}}
+           {:sem {:pred :look-up}}]
  "caber"
   [{:sem {:pred :fit},
     :exceptions
@@ -93,7 +94,7 @@
    :sem {:pred :buy, :subj {:human true}}}
   {:transitive? true
    :sem {:pred :buy, :subj {:human true}, :obj {:buyable true}}}]
- "comprender" [{:sem {:pred :understand-deeply}}]
+ "comprender" [{:sem {:pred :understand}}]
  "conducir"
   [{:sem {:pred :lead},
     :exceptions
@@ -107,26 +108,29 @@
       :agr {:person :1st, :number :sing},
       :surface "conduzco"}],
     :stems {:preterito "conduj"}}]
- "confesar" [{:sem {:pred :confess}, :stems {:boot "confies"}}]
+ "confesar" [{:sem {:pred :confess},
+              :stems {:boot "confies"}}]
  "conocer"
   [{:sem {:pred :know-c},
     :exceptions
     [{:infl :present,
       :agr {:person :1st, :number :sing},
       :surface "conozco"}]}]
- "consentir" [{:sem {:pred :consent}, :stems {:boot "consient"}}]
- "conservar" [{:sem {:pred :conserve}} {:sem {:pred :preserve}}]
+ "consentir" [{:sem {:pred :consent},
+               :stems {:boot "consient"}}]
+ "conservar" [{:sem {:pred :conserve}}
+              {:sem {:pred :preserve}}]
  "considerar" [{:sem {:pred :consider}}]
- "contar" [{:sem {:pred :count}, :stems {:boot "cuent"}}]
+ "contar" [{:sem {:pred :count},
+            :stems {:boot "cuent"}}]
  "contestar" [{:sem {:pred :answer}}]
- "convertir" [{:sem {:pred :convert}, :stems {:boot "conviert"}}]
+ "convertir" [{:sem {:pred :convert},
+               :stems {:boot "conviert"}}]
  "correr" [{:sem {:pred :run}}]
  "corresponder" [{:sem {:pred :correspond}}]
  "cortar" [{:sem {:pred :cut}}]
  "crear" [{:sem {:pred :create}}]
  "creer" [{:sem {:pred :believe}}]
-
-
  "dar"
   [{:sem {:pred :give},
     :exceptions
@@ -143,7 +147,7 @@
       :agr {:person :3rd, :number :sing},
       :surface "dio"}]}]
  "dañar" [{:sem {:pred :damage}}]
- "deber" [{:sem {:pred :have-to}}]
+ "deber" [{:sem {:pred :must}}]
  "decidir" [{:sem {:pred :decide}}]
  "defender" [{:sem {:pred :defend}, :stems {:boot "defiend"}}]
  "dejar" [{:sem {:pred :leave-behind}}]

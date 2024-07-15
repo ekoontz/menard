@@ -43,6 +43,7 @@
           :infl :present
           :modal :present-participle
           :sem {:tense :present
+                :mental-state? false
                 :aspect :progressive}
           :exceptions exceptions}
          { ;; the 'was' in 'was sleeping' (aux sense, participle complement)
@@ -51,6 +52,7 @@
           :infl :past-simple
           :modal :past-participle
           :sem {:tense :past
+                :mental-state? false                
                 :aspect :progressive}
           :exceptions exceptions}])
 
@@ -109,7 +111,7 @@
                        :surface "can"}
                       {:infl :past-simple
                        :surface "could"}]}]
-
+ "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]
  "cause" [{:sem {:pred :cause}}]
  "change" [{:sem {:pred :change}}]
@@ -123,11 +125,20 @@
           [{:sem {:pred :come
                   :obj :none}
             :exceptions exceptions}])
+ "consider" [{:sem {:pred :consider}}]
+ "convert" [{:sem {:pred :convert}}] 
+ "correspond" [{:sem {:pred :correspond}}]
  "cough" [{:sem {:pred :cough}}]
- "cut" [{:sem {:pred :cut}}] 
+ "count" [{:sem {:pred :count}}] 
+ "cut" [{:sem {:pred :cut}
+         :exceptions [{:infl :past-simple
+                       :surface "cut"}]}]
+ "damage" [{:sem {:pred :damage}}]
  "dance" [{:sem {:pred :dance}}]
+ "decide" [{:sem {:pred :decide}}] 
  "depart" [{:sem {:pred :depart}}]
  "design" [{:sem {:pred :design}}]
+ "desire" [{:sem {:pred :desire}}] 
  "dig" [{:sem {:pred :dig}
          :exceptions [{:infl :past-simple
                        :surface "dug"}
@@ -264,6 +275,9 @@
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
                           {:infl :past-participle :surface "given"}]]
           [{:exceptions exceptions
+            :sem {:pred :give}
+            :intransitive? true}
+           {:exceptions exceptions
             :subcat {:2 {:cat :prep
                          :sem {:pred :to}}
                      :3 {:cat :noun}}
@@ -411,10 +425,12 @@
                           {:infl :past-participle :surface "known"}]]
           [{:exceptions exceptions
             :sense 1
-            :sem {:pred :know}}
+            :sem {:pred :know
+                  :mental-state? true}}
            {:exceptions exceptions
             :sense 1
-            :sem {:pred :know-c}}])
+            :sem {:pred :know-c
+                  :mental-state? true}}])
  "laze" [{:sem {:pred :laze}
           :intransitive? true}]
  "learn" [{:sem {:pred :learn}}] 
@@ -424,13 +440,32 @@
  "let" (let [exceptions [{:infl :past-simple :surface "let"}
                          {:infl :past-participle :surface "let"}]]
           [{:exceptions exceptions  :sem {:pred :let}}])
- "like" [{:sem {:pred :like}}]
+ "like" [{:sem {:pred :like
+                :mental-state? true}}]
  "linger" [{:sem {:pred :linger
                   :obj :none}}]
  "live" [{:sem {:pred :live}}]
  "look" [{:sem {:pred :look
-                :obj :none}}]
- "love" [{:sem {:pred :love}
+                :obj :none}}
+         {:reflexive? false
+          :sem {:pred :look-for
+                :iobj :none                
+                :obj :none}
+          :subcat {:2 {:cat :prep
+                       :phrasal? false
+                       :canonical "for"}
+                   :3 []}}
+         {:reflexive? false
+          :sem {:pred :look-up
+                :iobj :none
+                :obj :none}
+          :subcat {:2 {:cat :prep
+                       :phrasal? false
+                       :canonical "up"}
+                   :3 []}}]
+          
+ "love" [{:sem {:pred :love
+                :mental-state? true}
           :modal :infinitive}]
  "lower" [{:sem {:pred :lower}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
@@ -635,6 +670,7 @@
                        :sem {:pred :off}}}
           :sem {:pred :turn-off}}]
          
+ "understand" [{:sem {:pred :understand}}]
  "use" [{:sem {:pred :use}}]
 
  ;; e.g. "I used to eat there"
@@ -649,7 +685,8 @@
  
  "walk" [{:sem {:pred :walk}}
          {:sem {:pred :walk-c}}]
- "want" [{:sem {:pred :want}
+ "want" [{:sem {:pred :want
+                :mental-state? true}
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}}]
  "wash" [{:sem {:pred :wash}}]

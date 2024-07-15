@@ -149,7 +149,8 @@
  "dañar" [{:sem {:pred :damage}}]
  "deber" [{:sem {:pred :must}}]
  "decidir" [{:sem {:pred :decide}}]
- "defender" [{:sem {:pred :defend}, :stems {:boot "defiend"}}]
+ "defender" [{:sem {:pred :defend},
+              :stems {:boot "defiend"}}]
  "dejar" [{:sem {:pred :leave-behind}}]
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]

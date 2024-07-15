@@ -5,8 +5,10 @@
  "achieve" [{:sem {:pred :achieve}}]
  "add" [{:sem {:pred :add}}]
  "announce" [{ :sem {:pred :announce}}]
+ "answer" [{:sem {:pred :answer}}]
  "approve" [{:sem {:pred :approve}}] 
  "ask" [{ :sem {:pred :ask}}]
+ "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
@@ -125,20 +127,27 @@
           [{:sem {:pred :come
                   :obj :none}
             :exceptions exceptions}])
+ "comment" [{:sem {:pred :comment}}]
+ "confess" [{:sem {:pred :confess}}]
+ "consent" [{:sem {:pred :consent}}]
+ "conserve" [{:sem {:pred :conserve}}]
  "consider" [{:sem {:pred :consider}}]
  "convert" [{:sem {:pred :convert}}] 
  "correspond" [{:sem {:pred :correspond}}]
  "cough" [{:sem {:pred :cough}}]
  "count" [{:sem {:pred :count}}] 
+ "create" [{:sem {:pred :create}}]
  "cut" [{:sem {:pred :cut}
          :exceptions [{:infl :past-simple
                        :surface "cut"}]}]
  "damage" [{:sem {:pred :damage}}]
  "dance" [{:sem {:pred :dance}}]
  "decide" [{:sem {:pred :decide}}] 
+ "defend" [{:sem {:pred :defend}}]
  "depart" [{:sem {:pred :depart}}]
  "design" [{:sem {:pred :design}}]
  "desire" [{:sem {:pred :desire}}] 
+ "develop" [{:sem {:pred :develop}}]
  "dig" [{:sem {:pred :dig}
          :exceptions [{:infl :past-simple
                        :surface "dug"}
@@ -238,8 +247,16 @@
                      :2 []}})])
 
  "dream" [{:sem {:pred :dream}}]
- 
- "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
+ "draw" [{:sem {:pred :draw}
+          :exceptions [{:infl :past-simple :surface "drew"}
+                       {:infl :past-participle :surface "drawn"}]}]
+ "drink" [{:sem {:pred :drink}
+           :exceptions [{:infl :past-simple :surface "drank"}
+                        {:infl :past-participle :surface "drunk"}]}]
+ "drive" [{:sem {:pred :drive-c}
+          :exceptions [{:infl :past-simple :surface "drove"}
+                       {:infl :past-participle :surface "drove"}]}]
+  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :sem {:pred :eat}}])
  "elaborate" [{:sem {:pred :elaborate}}]
@@ -265,6 +282,7 @@
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
  "finish" [{:sem {:pred :finish}}]
+ "fit" [{:sem {:pred :fit}}] 
  "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
                           {:infl :past-participle :surface "forgotten"}]]
           [{:exceptions exceptions  :sem {:pred :forget}}])
@@ -417,7 +435,7 @@
  "hug" [{:sem {:pred :hug}}]
  "increase" [{:sem {:pred :increase}}]
  "inhibit" [{ :sem {:pred :inhibit}}]
-
+ "insure" [{ :sem {:pred :insure}}]
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}
                           {:infl :past-participle :surface "kept"}]]
            [{:exceptions exceptions  :sem {:pred :keep}}])
@@ -433,6 +451,9 @@
                   :mental-state? true}}])
  "laze" [{:sem {:pred :laze}
           :intransitive? true}]
+ "lead" [{:sem {:pred :lead}
+          :exceptions [{:infl :past-simple :surface "led"}
+                       {:infl :past-participle :surface "led"}]}]
  "learn" [{:sem {:pred :learn}}] 
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
@@ -497,6 +518,7 @@
 
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]
+ "preserve" [{:sem {:pred :preserve}}]
  "prevent" [{ :sem {:pred :prevent}}]
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]

@@ -535,7 +535,8 @@
  {:rule :prepositional-complements
   :if {:cat :verb
        :modal :none
-       :subcat {:2 {:cat :prep}}}
+       :subcat {:2 {:cat :prep
+                    :phrasal? ::unspec}}}
   :then [{:subcat {:2 {:phrasal? true}}}]}
 
  {:rule :nested-obj-null

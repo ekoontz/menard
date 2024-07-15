@@ -6,6 +6,8 @@
         :cat :det :agr {:number :sing}}]
  "at" [{:cat :prep
         :sem {:pred :at}}]
+ "for" [{:cat :prep
+         :sem {:pred :for}}]
  "her" [{:cat :det
          :sem {:pred :she}}]
  "his" [{:cat :det
@@ -122,6 +124,8 @@
  "to" [;; "to the park"
        {:cat :prep
         :sem {:pred :to}}]
+ "up" [{:cat :prep
+        :sem {:pred :up}}]
  "your" [{:cat :det
           :sem {:pred :you}}]}
 

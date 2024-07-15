@@ -250,21 +250,6 @@
                           {:infl :past-participle :surface "felt"}]]
            [{:exceptions exceptions  :sem {:pred :feel}}])
 
- ;; TODO: rewrite with [have [:subcat :2] = lunch]
- "have lunch" (let [exceptions [{:infl :present :agr {:person :3rd :number :sing} :surface "has lunch"}
-                                {:infl :past-simple :surface "had lunch"}
-                                {:infl :present-simple :surface "having lunch"}
-                                {:infl :past-participle :surface "had lunch"}]]
-                [{:exceptions exceptions  :sem {:pred :have-lunch}}])
-
- ;; TODO: rewrite with [have [:subcat :2] = dinner]
- "have dinner" (let [exceptions [{:infl :present :agr {:person :3rd :number :sing} :surface "has dinner"}
-                                {:infl :past-simple :surface "had lunch"}
-                                {:infl :present-simple :surface "having lunch"}
-                                {:infl :past-participle :surface "had lunch"}]]
-                [{:exceptions exceptions  :sem {:pred :have-dinner}}])
-
-
  "find" (let [exceptions [{:infl :past-simple :surface "found"}
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
@@ -325,16 +310,16 @@
                                   {:infl :present :agr {:person :3rd :number :plur} :surface "have"}
                                   {:infl :past-simple :surface "had"}
                                   {:infl :past-participle :surface "had"}]]
-          [{
-            ;; {:aux? false} not needed because of rule: aux-default-is-false,
+          [{;; {:aux? false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
             :aux? false
-            :derivation {:sense 1}
+            :sense 1
             :sem {:pred :have}
             :exceptions non-aux-exceptions}
-           {
-            :aux? true
-            :derivation {:sense 2}
+
+           ;; <TODO: rewrite 'have' aux senses similar to how it's done with 'is'.>
+           {:aux? true
+            :sense 2
             :sem {:tense :past
                   :obj :anaphor
                   :aspect :perfect}
@@ -342,25 +327,57 @@
             :exceptions aux-exceptions}
            {
             :aux? true
-            :derivation {:sense 3}
+            :sense 3
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
-           {
-            :aux? true
-            :derivation {:sense 4}
+           {:aux? true
+            :sense 4
             :sem {:tense :past
                   :obj :anaphor
                   :aspect :pluperfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
            {:aux? true
-            :derivation {:sense 5}
+            :sense 5
             :sem {:tense :past
                   :aspect :pluperfect}
             :subcat {:2 {:infl :past-participle}}
-            :exceptions aux-exceptions}])
+            :exceptions aux-exceptions}
+           ;; </TODO: rewrite 'have' aux senses similar to how it's done with 'is'.>
+
+           (let [subj (atom :top)]
+             {:aux? false
+              :reflexive? false
+              :sense 6
+              :sem {:subj subj
+                    :pred :have-dinner
+                    :obj :none}
+              :subcat {:1 {:sem subj}
+                       :2 {:cat :noun
+                           :reflexive? false
+                           :agr {:number :sing}
+                           :sem {:pred :dinner
+                                 :existential? false}
+                           :subcat []}}
+              :exceptions non-aux-exceptions})
+           (let [subj (atom :top)]
+             {:aux? false
+              :reflexive? false
+              :sense 7
+              :sem {:subj subj
+                    :pred :have-lunch
+                    :obj :none}
+              :subcat {:1 {:sem subj}
+                       :2 {:cat :noun
+                           :reflexive? false
+                           :agr {:number :sing}
+                           :sem {:pred :lunch
+                                 :existential? false}
+                           :subcat []}}
+              :exceptions non-aux-exceptions})])
+           
  "heal" [{ :sem {:pred :heal}}]
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]

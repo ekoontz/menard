@@ -58,7 +58,8 @@
  "destination" [{:sem {:pred :destination}}]
  "destruction" [{:sem {:pred :destruction}}]
  "development" [{:sem {:pred :development}}]
- "dinner" [{:sem {:pred :dinner}
+ "dinner" [{:sem {:pred :dinner}}
+           {:sem {:pred :dinner}
             :subcat []}] ;; "eats dinner"
  "disturbance" [{:sem {:pred :disturbance}}]
  "dog" [{:sem {:pred :dog}}]
@@ -129,6 +130,9 @@
  "lizard" [{:sem {:pred :lizard}}]
  "loneliness" [{:sem {:pred :loneliness}}]
  "lot" [{:sem {:pred :lot}}]
+ "lunch" [{:sem {:pred :lunch}}
+          {:sem {:pred :lunch}
+           :subcat []}]
  "man" [{:sem {:pred :man
                :context :neutral} ;; i.e. :neutral meaning 'not polite'
          :agr {:gender :masc

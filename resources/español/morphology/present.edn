@@ -75,8 +75,8 @@
             :formal? true}}}
 
  ;;     3rd person
- {:g [#"^(.+)ar$"  "$1z"] 
-  :p [#"^(.+)z$"   "$1ar"] 
+ {:g [#"^(.+)ar$"  "$1a"] 
+  :p [#"^(.+)a$"   "$1ar"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :sing

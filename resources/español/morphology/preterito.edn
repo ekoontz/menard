@@ -153,7 +153,7 @@
             :person :2nd}}}
 
  {:g [#"^(.*)er$"    "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true

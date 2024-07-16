@@ -7,7 +7,17 @@
  "announce" [{ :sem {:pred :announce}}]
  "answer" [{:sem {:pred :answer}}]
  "approve" [{:sem {:pred :approve}}] 
- "ask" [{ :sem {:pred :ask}}]
+ "arrive" [{:intransitive? true
+            :sem {:pred :arrive}}] 
+ "ask" [{:sem {:pred :ask}}
+        {:reflexive? false
+         :sem {:pred :ask-for
+               :iobj :none                
+               :obj :none}
+         :subcat {:2 {:cat :prep
+                      :phrasal? false
+                      :canonical "for"}
+                  :3 []}}]
  "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
@@ -56,7 +66,21 @@
           :sem {:tense :past
                 :mental-state? false                
                 :aspect :progressive}
-          :exceptions exceptions}])
+          :exceptions exceptions}
+
+
+         {:sense 6
+          :aux? false
+          :sem {:pred :be-born
+                :obj :none
+                :iobj :none}
+          :subcat {:2 {:cat :adj
+                       :phrasal? false
+                       :pred :born
+                       :surface "born"}
+                   :3 []}}
+         ])
+         
 
  "become" (let [exceptions [{:infl :past-simple
                              :surface "became"}
@@ -90,6 +114,7 @@
                            :surface "blown"}]]
           [{:sem {:pred :blow}
             :exceptions exceptions}])
+ "boil" [{:sem {:pred :boil}}]
  "break" (let [exceptions [{:infl :past-simple
                            :surface "broke"}
                           {:infl :past-participle
@@ -105,9 +130,7 @@
  "bubble" [{:sem {:pred :bubble}}]
  "buy" [{:sem {:pred :buy}}] 
  "call" [{ :sem {:pred :call}}]
-
  "can" [{:modal :base
-         :infl :base
          :sem {:pred :be-able-to
                :shared? false}
          :exceptions [{:infl :present
@@ -138,6 +161,8 @@
  "cough" [{:sem {:pred :cough}}]
  "count" [{:sem {:pred :count}}] 
  "create" [{:sem {:pred :create}}]
+ "cry" [{:intransitive? true
+         :sem {:pred :cry}}] 
  "cut" [{:sem {:pred :cut}
          :exceptions [{:infl :past-simple
                        :surface "cut"}]}]
@@ -145,6 +170,7 @@
  "dance" [{:sem {:pred :dance}}]
  "decide" [{:sem {:pred :decide}}] 
  "defend" [{:sem {:pred :defend}}]
+ "deny" [{:sem {:pred :deny}}] 
  "depart" [{:sem {:pred :depart}}]
  "design" [{:sem {:pred :design}}]
  "desire" [{:sem {:pred :desire}}] 
@@ -283,7 +309,7 @@
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]
            [{:exceptions exceptions  :sem {:pred :feel}}])
-
+ "fill" [{:sem {:pred :fill}}]
  "find" (let [exceptions [{:infl :past-simple :surface "found"}
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
@@ -467,9 +493,11 @@
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
            [{:exceptions exceptions  :sem {:pred :leave}}])
+ "lend" [{:sem {:pred :lend}}]
  "let" (let [exceptions [{:infl :past-simple :surface "let"}
                          {:infl :past-participle :surface "let"}]]
           [{:exceptions exceptions  :sem {:pred :let}}])
+ "lie" [{:sem {:pred :lie}}]
  "like" [{:sem {:pred :like
                 :mental-state? true}}]
  "linger" [{:sem {:pred :linger
@@ -477,6 +505,14 @@
  "live" [{:sem {:pred :live}}]
  "look" [{:sem {:pred :look
                 :obj :none}}
+         {:reflexive? false
+          :sem {:pred :look-at
+                :iobj :none                
+                :obj :none}
+          :subcat {:2 {:cat :prep
+                       :phrasal? false
+                       :canonical "at"}
+                   :3 []}}
          {:reflexive? false
           :sem {:pred :look-for
                 :iobj :none                
@@ -493,7 +529,7 @@
                        :phrasal? false
                        :canonical "up"}
                    :3 []}}]
-          
+ "lose" [{:sem {:pred :lose}}]          
  "love" [{:sem {:pred :love
                 :mental-state? true}
           :modal :infinitive}]
@@ -501,6 +537,12 @@
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
                           {:infl :past-participle :surface "made"}]]
            [{:exceptions exceptions  :sem {:pred :make}}])
+ "may" [{:modal :base
+         :sem {:pred :may
+               :shared? false}}
+        {:modal :base
+         :sem {:pred :be-able-to
+               :shared? false}}]
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions  :sem {:pred :mean}}])
@@ -512,7 +554,8 @@
 ;;          :sem {:pred :must
 ;;                :shared? false}}]
 
- "offer" [{:sem {:pred :offer}}] 
+ "offer" [{:sem {:pred :offer}}]
+ "organize" [{:sem {:pred :organize}}]
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]
               [{:exceptions exceptions
@@ -526,14 +569,22 @@
          {:sense 2
           :sem {:pred :need}
           :modal :none}]
-
+ "paint" [{:sem {:pred :paint}}]
+ "pay" [{:sem {:pred :pay}}]
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]
  "preserve" [{:sem {:pred :preserve}}]
+
+ ;; TODO: add :obj as obligatory
+ ;; "I prevent it" but
+ ;; "*I prevent"
  "prevent" [{ :sem {:pred :prevent}}]
+
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
-         [{:exceptions exceptions
+         [{:intransitive? true
+           :sem {:pred :put}}
+          {:exceptions exceptions
            :subcat {:2 {:cat :prep
                         :sem {:pred :on}}
                     :3 {:cat :noun}}
@@ -618,11 +669,13 @@
  "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "stay" [{:sem {:pred :stay}}]
  "step" [{:sem {:pred :step}}]
+ "stop" [{:sem {:pred :stop}}] 
  "strike" [{:sem {:pred :strike}
          :exceptions [{:infl :past-simple :surface "struck"}
                       {:infl :past-participle :surface "struck"}]}]
  "study" [{:sem {:pred :study}}]
  "succeed" [{:sem {:pred :succeed}}]
+ "swim" [{ :sem {:pred :swim}}]
  "support" [{:sem {:pred :support}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
@@ -710,7 +763,10 @@
                        :sem {:pred :off}}}
           :sem {:pred :turn-off}}]
          
- "understand" [{:sem {:pred :understand}}]
+ "understand" [{:sem {:pred :understand}
+                :exceptions [{:infl :past-simple :surface "understood"}
+                             {:infl :past-participle :surface "understood"}]}]
+               
  "use" [{:sem {:pred :use}}]
 
  ;; e.g. "I used to eat there"
@@ -732,6 +788,9 @@
  "wash" [{:sem {:pred :wash}}]
  "wear" [{:sem {:pred :wear}
           :exceptions [{:infl :past-simple :surface "wore"}
+                       {:infl :past-participle :surface "wore"}]}
+         {:sem {:pred :wear-l}
+          :exceptions [{:infl :past-simple :surface "wore"}
                        {:infl :past-participle :surface "wore"}]}]
  "whisper" [{ :sem {:pred :whisper}}]
 
@@ -749,13 +808,16 @@
  "would" [{:sem {:tense :conditional}
            :modal :base
            :infl :base}]
-
+ "wound" [{ :sem {:pred :wound}}]
  "work" [{:sem {:pred :work
                 :subj {:human? true}}}
          {:sem {:pred :work-nonhuman
                 :subj {:human? false}}}]
- 
- "write" [{:sem {:pred :write}}]
+ "write" [{:sem {:pred :write}
+           :exception [{:infl :past-simple
+                        :surface "wrote"}
+                       {:infl :past-participle
+                        :surface "wrote"}]}]
  "yawn" [{:sem {:pred :yawn
                 :obj :none}}]}
 

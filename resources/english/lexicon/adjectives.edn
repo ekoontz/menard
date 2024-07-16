@@ -16,6 +16,7 @@
  "better" [{:sem {:pred :better}}]
  "big" [{:sem {:pred :big}}]
  "black" [{:sem {:pred :black}}]
+ "born" [{:sem {:pred :born}}] 
  "brave" [{:sem {:pred :brave}}]
  "broke" [{:sem {:pred :out-of-money}}]
  "bright" [{:sem {:pred :bright}}]

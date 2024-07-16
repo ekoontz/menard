@@ -294,7 +294,7 @@
           [{:exceptions exceptions  :sem {:pred :forget}}])
  "form" [{:sem {:pred :form}}]
  "function" [{:sem {:pred :work-nonhuman
-                    :subj {:pred :human? false}}}]
+                    :subj {:human? false}}}]
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
          [{:exceptions exceptions  :sem {:pred :get}}])

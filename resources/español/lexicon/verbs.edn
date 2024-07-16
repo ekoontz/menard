@@ -102,7 +102,7 @@
       :agr {:person :1st, :number :sing},
       :surface "conduzco"}],
     :stems {:preterito "conduj"}}
-   {:sem {:pred :drive-c},
+   {:sem {:pred :drive},
     :exceptions
     [{:infl :present,
       :agr {:person :1st, :number :sing},
@@ -147,11 +147,17 @@
       :agr {:person :3rd, :number :sing},
       :surface "dio"}]}]
  "dañar" [{:sem {:pred :damage}}]
- "deber" [{:sem {:pred :must}}]
+
+ ;; modal: requires a verb argument
+ ;; "deber" [{:sem {:pred :must}}]
  "decidir" [{:sem {:pred :decide}}]
  "defender" [{:sem {:pred :defend},
               :stems {:boot "defiend"}}]
- "dejar" [{:sem {:pred :leave-behind}}]
+
+ ;; need to think how to translate this
+ ;;  "dejar" [{:sem {:pred :leave-behind}}]
+
+
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
  "desear" [{:sem {:pred :desire}}]

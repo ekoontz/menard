@@ -103,6 +103,7 @@
            [{:sem {:pred :bring}
              :exceptions exceptions}])
  "bubble" [{:sem {:pred :bubble}}]
+ "buy" [{:sem {:pred :buy}}] 
  "call" [{ :sem {:pred :call}}]
 
  "can" [{:modal :base
@@ -253,10 +254,10 @@
  "drink" [{:sem {:pred :drink}
            :exceptions [{:infl :past-simple :surface "drank"}
                         {:infl :past-participle :surface "drunk"}]}]
- "drive" [{:sem {:pred :drive-c}
+ "drive" [{:sem {:pred :drive}
           :exceptions [{:infl :past-simple :surface "drove"}
                        {:infl :past-participle :surface "drove"}]}]
-  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
+ "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :sem {:pred :eat}}])
  "elaborate" [{:sem {:pred :elaborate}}]
@@ -496,11 +497,13 @@
                           {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions  :sem {:pred :mean}}])
  "move" [{:sem {:pred :move}}]
- "must" [{:modal :base
-          :infl :base
-          :inflected? true
-          :sem {:pred :must
-                :shared? false}}]
+
+;; "must" [{:modal :base
+;;          :infl :base
+;;          :inflected? true
+;;          :sem {:pred :must
+;;                :shared? false}}]
+
  "offer" [{:sem {:pred :offer}}] 
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]
@@ -568,6 +571,7 @@
          [{:exceptions exceptions
            :sem {:pred :see}}])
  "seem" [{ :sem {:pred :seem}}]
+ "share" [{ :sem {:pred :share}}]
  "show" [{ :sem {:pred :show}}]
  "sing" [{:sem {:pred :sing}
           :exceptions [{:infl :past-simple

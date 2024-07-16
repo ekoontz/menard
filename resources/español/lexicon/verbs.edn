@@ -185,7 +185,39 @@
 ;;     :obj [1]},
 ;;    :stems {:boot "duerm"}}]
 
- 
+;; "echar" [{:sem {:pred :throw-out}}]
+ "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
+;; "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
+ "encontrar" [{:sem {:pred :find}}
+              {:sem {:pred :drive}}]
+;; "enojarse"
+;;  [{:sem
+;;    {:pred :get-angry,
+;;     :reflexive true,
+;;     :subj [[1] {:human true}],
+;;     :obj [1]}}]
+ "enseñar" [{:sem {:pred :show}}
+            {:sem {:pred :teach}}]
+ "entender"
+ [{:sem {:pred :understand},
+   :stems {:boot "entiend"}}]
+ "entrar" [{:sem {:pred :enter}}]
+ "enviar" [{:sem {:pred :send}}]
+ "escapar" [{:sem {:pred :escape}}]
+ "escribir" [{:sem {:pred :write}}]
+;; "escuchar" [{:sem {:pred :listen-to}}]
+ "esperar" [;; {:sem {:pred :wait-for}}
+            {:sem {:pred :hope}}]
+ "estudiar" [{:sem {:pred :study}}]
+ "evitar" [{:sem {:pred :avoid}}]
+ "existir" [{:sem {:pred :exist}}]
+ "explicar"
+  [{:sem {:pred :explain},
+    :exceptions
+    [{:infl :preterito,
+      :agr {:person :1st, :number :sing},
+      :surface "expliqué"}]}]
+ "expresar" [{:sem {:pred :express}}]
  
  "hablar" [{:sem {:pred :speak
                   :subj {:human true}}}

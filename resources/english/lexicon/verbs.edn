@@ -264,8 +264,12 @@
  "embrace" [{:sem {:pred :embrace}}]
  "emigrate" [{:sem {:pred :emigrate}}]
  "enjoy" [{:sem {:pred :enjoy}}]
+ "enter" [{:sem {:pred :enter}}]
+ "escape" [{:sem {:pred :escape}}] 
+ "exist" [{:sem {:pred :exist}}]
  "experience" [{:sem {:pred :experience}}]
  "explain" [{:sem {:pred :explain}}]
+ "express" [{:sem {:pred :express}}] 
  "fall" (let [exceptions [{:infl :past-simple :surface "fell"}
                           {:infl :past-participle :surface "fallen"}]]
          [{:exceptions exceptions :sem {:pred :fall}}])
@@ -423,8 +427,8 @@
          :exceptions [{:infl :past-simple :surface "hit" :note ["past"]}
                       {:infl :past-participle :surface "hit" :note ["past"]}]}]
  "hope" [{:sense 1
-          :sem {:pred :hope
-                :obj :none}}
+          :intransitive? true
+          :sem {:pred :hope}}
          {:sense 2
           :sem {:pred :hope}
           :subcat {:2 {:cat :verb
@@ -571,6 +575,7 @@
          [{:exceptions exceptions
            :sem {:pred :see}}])
  "seem" [{ :sem {:pred :seem}}]
+ "send" [{ :sem {:pred :send}}] 
  "share" [{ :sem {:pred :share}}]
  "show" [{ :sem {:pred :show}}]
  "sing" [{:sem {:pred :sing}
@@ -608,6 +613,7 @@
  "strike" [{:sem {:pred :strike}
          :exceptions [{:infl :past-simple :surface "struck"}
                       {:infl :past-participle :surface "struck"}]}]
+ "study" [{:sem {:pred :study}}]
  "succeed" [{:sem {:pred :succeed}}]
  "support" [{:sem {:pred :support}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
@@ -736,6 +742,7 @@
            :infl :base}]
 
  "work" [{:sem {:pred :work}}]
+ "write" [{:sem {:pred :write}}]
  "yawn" [{:sem {:pred :yawn
                 :obj :none}}]}
 

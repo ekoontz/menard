@@ -218,6 +218,17 @@
       :agr {:person :1st, :number :sing},
       :surface "expliqué"}]}]
  "expresar" [{:sem {:pred :express}}]
+
+ "firmar" [{:sem {:pred :sign}}]
+ "formar" [{:sem {:pred :form}}]
+ "fregar" [{:sem {:pred :scrub},
+            :stems {:boot "frieg"}}]
+ "fumar" [{:sem {:pred :smoke}}]
+ "funcionar" [{:sem {:subj {:human? false},
+                     :pred :work-nonhuman}}]
+ "ganar" [{:sem {:pred :earn}}
+          {:sem {:pred :win}}]
+ "gastar" [{:sem {:pred :spend}}]
  
  "hablar" [{:sem {:pred :speak
                   :subj {:human true}}}

@@ -260,6 +260,7 @@
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :sem {:pred :eat}}])
+ "earn" [{ :sem {:pred :earn}}]
  "elaborate" [{:sem {:pred :elaborate}}]
  "embrace" [{:sem {:pred :embrace}}]
  "emigrate" [{:sem {:pred :emigrate}}]
@@ -291,6 +292,7 @@
  "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
                           {:infl :past-participle :surface "forgotten"}]]
           [{:exceptions exceptions  :sem {:pred :forget}}])
+ "form" [{:sem {:pred :form}}]
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
          [{:exceptions exceptions  :sem {:pred :get}}])
@@ -570,6 +572,7 @@
            :sem {:pred :say}
            :subcat {:2 {:cat :comp
                         :rule "comp2"}}}])
+ "scrub" [{ :sem {:pred :scrub}}]
  "see" (let [exceptions [{:infl :past-simple :surface "saw"}
                          {:infl :past-participle :surface "seen"}]]
          [{:exceptions exceptions
@@ -578,6 +581,7 @@
  "send" [{ :sem {:pred :send}}] 
  "share" [{ :sem {:pred :share}}]
  "show" [{ :sem {:pred :show}}]
+ "sign" [{ :sem {:pred :sign}}]
  "sing" [{:sem {:pred :sing}
           :exceptions [{:infl :past-simple
                         :surface "sang"}
@@ -594,6 +598,7 @@
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
+ "smoke" [{ :sem {:pred :smoke}}]
  "speak" (let [exceptions [{:infl :past-simple
                            :surface "spoke"}
                           {:infl :past-participle
@@ -601,6 +606,7 @@
            [{:sem {:pred :speak}
              :exceptions exceptions}])
  "spell" [{:sem {:pred :spell}}]
+ "spend" [{:sem {:pred :spend}}] 
  "sneeze" [{:sem {:pred :sneeze}}]
  "stand" (let [exceptions [{:infl :past-simple :surface "stood"}
                            {:infl :past-participle :surface "stood"}]]
@@ -734,6 +740,7 @@
           :modal :base
           :sem {:tense :future}}]
 
+  "win" [{ :sem {:pred :win}}]
  ;; TODO: be, can, do, may, should, will, would: all these
  ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
  ;; generalize with a lexical rule. See above related TODO about "will".
@@ -741,7 +748,11 @@
            :modal :base
            :infl :base}]
 
- "work" [{:sem {:pred :work}}]
+ "work" [{:sem {:pred :work
+                :subj {:human? true}}}
+         {:sem {:pred :work-nonhuman
+                :subj {:human? false}}}]
+ 
  "write" [{:sem {:pred :write}}]
  "yawn" [{:sem {:pred :yawn
                 :obj :none}}]}

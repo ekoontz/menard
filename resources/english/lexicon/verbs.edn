@@ -530,7 +530,10 @@
                        :phrasal? false
                        :canonical "up"}
                    :3 []}}]
- "lose" [{:sem {:pred :lose}}]          
+ "lose" (let [exceptions [{:infl :past-simple :surface "lost"}
+                          {:infl :past-participle :surface "lost"}]]
+          [{:exceptions exceptions  :sem {:pred :lose}}])
+ 
  "love" [{:sem {:pred :love
                 :mental-state? true}
           :modal :infinitive}]
@@ -632,15 +635,16 @@
          [{:exceptions exceptions
            :sem {:pred :see}}])
  "seem" [{ :sem {:pred :seem}}]
- "send" [{ :sem {:pred :send}}] 
+
+ "send" (let [exceptions [{:infl :past-simple :surface "sent"}
+                          {:infl :past-participle :surface "sent"}]]
+          [{:exceptions exceptions  :sem {:pred :send}}])
  "share" [{ :sem {:pred :share}}]
  "show" [{ :sem {:pred :show}}]
  "sign" [{ :sem {:pred :sign}}]
- "sing" [{:sem {:pred :sing}
-          :exceptions [{:infl :past-simple
-                        :surface "sang"}
-                       {:infl :past-participle
-                        :surface "sung"}]}]
+ "sing" (let [exceptions [{:infl :past-simple :surface "sang"}
+                          {:infl :past-participle :surface "sung"}]]
+          [{:exceptions exceptions  :sem {:pred :sing}}])
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]
          [{:exceptions exceptions
@@ -672,8 +676,8 @@
  "step" [{:sem {:pred :step}}]
  "stop" [{:sem {:pred :stop}}] 
  "strike" [{:sem {:pred :strike}
-         :exceptions [{:infl :past-simple :surface "struck"}
-                      {:infl :past-participle :surface "struck"}]}]
+            :exceptions [{:infl :past-simple :surface "struck"}
+                         {:infl :past-participle :surface "struck"}]}]
  "study" [{:sem {:pred :study}}]
  "succeed" [{:sem {:pred :succeed}}]
  "swim" [{ :sem {:pred :swim}}]
@@ -787,6 +791,7 @@
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}}]
  "wash" [{:sem {:pred :wash}}]
+ ;; TODO: in 'wear', factor out exceptions with (let [exceptions ..) as in above examples e.g. 'think'
  "wear" [{:sem {:pred :wear}
           :exceptions [{:infl :past-simple :surface "wore"}
                        {:infl :past-participle :surface "wore"}]}

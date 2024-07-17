@@ -448,7 +448,8 @@
  "heal" [{ :sem {:pred :heal}}]
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]
-          [{:exceptions exceptions  :sem {:pred :hear}}])
+          [{:exceptions exceptions
+            :sem {:pred :hear}}])
  "help" [{ :sem {:pred :help}}]
  "hide" [{:sem {:pred :hide}
           :exceptions [{:infl :past-simple :surface "hid"}

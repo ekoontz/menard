@@ -443,20 +443,48 @@
       :agr {:person :1st, :number :sing},
       :surface "oigo"}
      {:infl :present,
-      :agr {:person :2nd, :number :sing},
+      :agr {:person :2nd, :number :sing :formal false},
       :surface "oyes"}
      {:infl :present,
-      :agr {:person :3rd, :number :sing},
+      :agr {:person :2nd, :number :sing :formal true},
       :surface "oye"}
+
+     {:infl :present,
+      :agr {:person :3rd, :number :plur},
+      :surface "oye"}
+     {:infl :present,
+      :agr {:person :1st, :number :plur},
+      :surface "oímos"}
+
+     {:infl :present,
+      :agr {:person :2nd, :number :plur},
+      :surface "oiste"}
+     {:infl :present,
+      :agr {:person :3rd, :number :plur},
+      :surface "oyeron"}
+     
      {:infl :preterito,
       :agr {:person :1st, :number :sing},
       :surface "oí"}
      {:infl :preterito,
-      :agr {:person :2nd, :number :sing},
+      :agr {:person :2nd, :number :sing, :formal? false},
       :surface "oiste"}
      {:infl :preterito,
+      :agr {:person :2nd, :number :sing},
+      :surface "oyó"}
+     {:infl :preterito,
       :agr {:person :3rd, :number :sing},
-      :surface "oyó"}]}]
+      :surface "oyó"}
+     {:infl :preterito,
+      :agr {:person :1st, :number :plur},
+      :surface "oímos"}
+     {:infl :preterito,
+      :agr {:person :2nd, :number :plur},
+      :surface "oísteis"}
+     {:infl :preterito,
+      :agr {:person :3rd, :number :plur},
+      :surface "oyeron"}]}]
+
  "olvidar" [{:sem {:pred :forget}}]
  "organizar" [{:sem {:pred :organize}}]
  "pagar"

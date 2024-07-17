@@ -334,7 +334,6 @@
             :subcat {:2 {:cat :prep
                          :sem {:pred :to}}
                      :3 {:cat :noun}}
-            
             :sem {:pred :give}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}
@@ -791,13 +790,13 @@
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}}]
  "wash" [{:sem {:pred :wash}}]
- ;; TODO: in 'wear', factor out exceptions with (let [exceptions ..) as in above examples e.g. 'think'
- "wear" [{:sem {:pred :wear}
-          :exceptions [{:infl :past-simple :surface "wore"}
-                       {:infl :past-participle :surface "wore"}]}
-         {:sem {:pred :wear-l}
-          :exceptions [{:infl :past-simple :surface "wore"}
-                       {:infl :past-participle :surface "wore"}]}]
+ "wear" (let [exceptions [{:infl :past-simple :surface "wore"}
+                          {:infl :past-participle :surface "wore"}]]
+          [{:sem {:pred :wear}
+            :exceptions exceptions}
+           {:sem {:pred :wear-l}
+            :exceptions exceptions}])
+
  "whisper" [{ :sem {:pred :whisper}}]
 
  ;; TODO: using "will" as an example of using

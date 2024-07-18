@@ -708,6 +708,8 @@
                                   :2 []}}}
             :used-to? false}])}
 
+ ;; TODO: move this back into the lexicon since it's
+ ;; specific to a single lexical entry "used to"
  {:rule :modal-infinitive-used-to
   :if {:cat :verb
        :modal :infinitive

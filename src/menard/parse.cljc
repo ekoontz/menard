@@ -18,6 +18,7 @@
 (def enable-pmap? true)
 (def take-this-many 300)
 (def summary-filter? true)
+(def log-these-rules-as-parents #{})
 ;;(def log-these-rules-as-parents #{"s" "vp"})
 (def log-these-rules-as-head-children #{})
 (def log-these-rules-as-comp-children #{})

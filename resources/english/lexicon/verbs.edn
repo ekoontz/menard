@@ -780,7 +780,7 @@
                
  "use" [{:sem {:pred :use}}]
 
- ;; e.g. "I used to eat there"
+ ;; e.g. "I used to go there"
  "used" [{:aux? true
           :infl :past-simple
           :inflected? true

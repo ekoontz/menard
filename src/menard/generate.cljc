@@ -35,6 +35,7 @@
 ;;(def ^:dynamic log-these-rules #{"s"})
 (def ^:dynamic log-these-rules #{})
 ;;(def ^:dynamic log-these-paths #{[:head][:comp :head]})
+(def ^:dynamic log-these-paths #{})
 ;;(def ^:dynamic log-these-rules #{"s" "vp" "vp-inf"})
 ;;(def ^:dynamic log-these-paths #{[:head :head]})
 (def ^:dynamic log-all-rules? false)

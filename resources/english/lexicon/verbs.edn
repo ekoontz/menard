@@ -70,16 +70,24 @@
           :exceptions exceptions}
 
 
-         {:sense 6
-          :aux? false
-          :sem {:pred :be-born
-                :obj :none
-                :iobj :none}
-          :subcat {:2 {:cat :adj
+         (let [agr (atom :top)
+               subj (atom {:animate? true})]
+           {:sense 6
+            :aux? false
+            :agr agr
+            :sem {:pred :be-born
+                  :subj subj
+                  :obj :none
+                  :iobj :none}
+            :subcat {:1 {:sem subj
+                         :agr agr}
+                     :2 {:cat :adjective
                        :phrasal? false
                        :pred :born
+                       :canonical "born"
                        :surface "born"}
-                   :3 []}}
+                   :3 []}
+          :exceptions exceptions})
          ])
          
 

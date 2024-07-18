@@ -22,8 +22,9 @@
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
+                        {:infl :present :agr {:person :2nd} :surface "are"}                                                
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
-                        {:infl :present :surface "are"}
+                        {:infl :present :agr {:number :plur} :surface "are"}
                         {:infl :past-simple :agr {:number :plur} :surface "were"}
                         {:infl :past-simple :agr {:person :2nd} :surface "were"}
                         {:infl :past-simple :agr {:person :1st :number :sing} :surface "was"}

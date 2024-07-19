@@ -1,5 +1,17 @@
 {"_" [{:null? true :sem {:pred :_}}]
- "able" [{:sem {:pred :able}}]
+ "able" [{:sense 1
+          :sem {:pred :able}
+          :subcat []}
+         (let [subj (atom :top)
+               sem (atom {:subj subj})]
+           {:sense 2
+            :sem {:pred :be-able-to
+                  :subj subj
+                  :obj sem}
+            :subcat {:1 {:cat :verb
+                         :sem sem
+                         :infl :infinitive}
+                     :2 []}})]
  "accessible" [{:sem {:pred :accessible}}]
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "accurate" [{:sem {:pred :accurate}}]

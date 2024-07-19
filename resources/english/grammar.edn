@@ -139,6 +139,18 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash
           menard.subcat/c]}
+
+ {:rule "adj-p" ;; [adj-p +able .[to sleep]]
+  :cat :adjective
+  :head {:phrasal? false}
+  :comp {:cat :verb
+         :to? true}
+  :slash? false
+  :unify [menard.ug/head-first
+          menard.ug/head-is-root
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.subcat/d]}
  
  {:rule "pp:2" 
   :cat :prep

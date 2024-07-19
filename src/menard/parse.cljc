@@ -19,9 +19,11 @@
 (def take-this-many 300)
 (def summary-filter? true)
 (def log-these-rules-as-parents #{})
-;;(def log-these-rules-as-parents #{"s" "vp"})
 (def log-these-rules-as-head-children #{})
 (def log-these-rules-as-comp-children #{})
+;;(def log-these-rules-as-parents #{"adj-p" "vp-inf"})
+;;(def log-these-rules-as-head-children #{"vp-inf"})
+;;(def log-these-rules-as-comp-children #{"vp-inf"})
 (def over-compact? true)
 ;; </performance-optimized defaults>
 
@@ -232,47 +234,56 @@
       (dissoc :2)))
 
 (defn over [parents left-children right-children syntax-tree morph truncate?]
-  (->>
-   parents
+  (let [log-this? false]
+    (->>
+     parents
 
-   (pmap-if-available
-    (fn [parent]
-      (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
-                                            [left-children right-children]
-                                            [right-children left-children])
-            head-summary (u/get-in parent [:head])
-            comp-summary (u/get-in parent [:comp])]
-        (->>
-         head-children
+     (pmap-if-available
+      (fn [parent]
+        (let [[head-children comp-children] (if (= (:1 parent) (:head parent))
+                                              [left-children right-children]
+                                              [right-children left-children])
+              head-summary (u/get-in parent [:head])
+              comp-summary (u/get-in parent [:comp])]
+          (->>
+           head-children
 
-         (filter (fn [head-child]
-                   (or (false? summary-filter?)
-                       (not (= :fail
-                               (u/unify head-summary
-                                        (summary head-child)))))))
+           (filter (fn [head-child]
+                     (or (false? summary-filter?)
+                         (not (= :fail
+                                 (u/unify head-summary
+                                          (summary head-child)))))))
 
-         (map (fn [head-child]
-                (let [parent-with-head
-                      (overh parent head-child syntax-tree)]
-                  (->> comp-children
+           (map (fn [head-child]
+                  (let [parent-with-head
+                        (overh parent head-child syntax-tree)]
+                    (if (= parent-with-head :fail)
+                      []
+                      (->> comp-children
+                           (filter (fn [comp-child]
+                                     (when log-this? (log/info (str "over: parent-with-head: " (syntax-tree parent-with-head) " looking at candidate comp-child: " (syntax-tree comp-child))))
+                                     (let [check-unify (u/unify comp-summary (summary comp-child))]
+                                       (when log-this?
+                                         (log/info (str "   check-unify: " (l/pprint check-unify)))
+                                         (when (= :fail check-unify)
+                                           (let [fp (fail-path comp-summary (summary comp-child))]
+                                             (log/info (str "    fail-path: " fp))
+                                             (log/info (str "    parent wants: " (l/pprint (u/get-in comp-summary fp))))
+                                             (log/info (str "    child has: " (l/pprint (u/get-in (summary comp-child) fp)))))))
+                                       (not (= :fail check-unify)))))
+                           (map (fn [comp-child]
+                                  (when log-this? (log/info (str "over: summary check succeeded: calling overc: parent-with-head: " (syntax-tree parent-with-head) " <- comp: " (syntax-tree comp-child))))
+                                  (overc parent-with-head comp-child syntax-tree)))
+                           (remove #(= :fail %)))))))))))
 
-                       (filter (fn [comp-child]
-                                 (not (= :fail
-                                         (u/unify comp-summary
-                                                  (summary comp-child))))))
+     flatten
 
-                       (map (fn [comp-child]
-                              (overc parent-with-head comp-child syntax-tree)))
-                       (remove #(= :fail %))))))))))
+     (remove #(= :fail %))
 
-   flatten
-
-   (remove #(= :fail %))
-
-   (map (fn [tree]
-          (if truncate?
-            (truncate tree syntax-tree morph)
-            tree)))))
+     (map (fn [tree]
+            (if truncate?
+              (truncate tree syntax-tree morph)
+              tree))))))
 
 (defn span-pairs [i n]
   (cond (= i 0)

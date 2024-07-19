@@ -69,8 +69,7 @@
                 :aspect :progressive}
           :exceptions exceptions}
 
-         
-         (;; the 'was' in 'was born' or 'is' in 'is born'
+         (;; the 'is' or 'was' in 'is born' or 'was born'
           let [subj (atom {:animate? true})]
            {:sense 6
             :aux? false

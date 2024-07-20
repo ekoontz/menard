@@ -32,10 +32,11 @@
 
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
-;;(def ^:dynamic log-these-rules #{"s"})
 (def ^:dynamic log-these-rules #{})
-;;(def ^:dynamic log-these-paths #{[:head][:comp :head]})
 (def ^:dynamic log-these-paths #{})
+;;(def ^:dynamic log-these-paths #{[:comp]})
+;;(def ^:dynamic log-these-rules #{})
+;;(def ^:dynamic log-these-paths #{[:head][:comp :head]})
 ;;(def ^:dynamic log-these-rules #{"s" "vp" "vp-inf"})
 ;;(def ^:dynamic log-these-paths #{[:head :head]})
 (def ^:dynamic log-all-rules? false)
@@ -282,16 +283,22 @@
       (->> (let [lexemes (get-lexemes spec lexicon-index-fn at)
                  debug (log/debug (str "pre-inflected?-filtering: " (vec (map l/pprint lexemes))))
                  exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)]
-             (log/debug (str "exceptions: " (vec (map l/pprint exceptions))))
+             (when (or log-all-rules?
+                       (contains? log-these-paths (vec at))
+                       (contains? log-these-rules (u/get-in tree [:rule])))
+               (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes) " at: " (vec at)))
+               (log/info (str "add-lexeme: of those, there were " (count exceptions) " exception(s).")))
              (if (seq exceptions)
                exceptions
                lexemes))
            (#(do
-               (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
-                 (log/info (str "found this many lexemes: " (count %) " at: " at))
+               (when (or log-all-rules?
+                         (contains? log-these-rules (u/get-in tree [:rule]))
+                         (contains? log-these-paths at))
+                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))
                  (do
                    (vec (map (fn [lexeme]
-                               (log/info (str "found lexeme:" (l/pprint lexeme))))
+                               (log/info (str "found lexeme: " (syntax-tree lexeme))))
                              %))))
                %))
            
@@ -389,10 +396,10 @@
               (when (= :fail result)
                 (log/trace
                  (str "rule: " (:rule rule) " failed: "
-                      (diag/fail-path tree
-                                      (u/assoc-in {}
-                                                  at
-                                                  rule)))))
+                      (vec (diag/fail-path tree
+                                           (u/assoc-in {}
+                                                       at
+                                                       rule))))))
               result)))
 
      ;; some attempts to adjoin will have failed, so remove those:
@@ -434,24 +441,26 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn at]
-  (log/debug (str "get-lexemes with spec: " (l/pprint spec) " at: " at))
+  (if (or log-all-rules? (contains? log-these-paths (vec at)))
+    (log/info (str "get-lexemes with spec: " (l/pprint spec) " at: " at)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
   (->> (lexicon-index-fn spec)
 
        (#(do
-           (when profiling?
-             (log/debug (str "returned: " (count %) " lexeme(s) found.")))
+           (when (or log-all-rules? (contains? log-these-paths (vec at)))
+             (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
            %))
 
        (map (fn [lexeme]
               {:lexeme lexeme
                :unify (unify lexeme spec)}))
+
        (filter (fn [tuple]
                  (let [lexeme (:lexeme tuple)
                        unify (:unify tuple)]
-                   (when (contains? log-these-paths at)
-                     (log/debug (str "candidate lexeme: at: " (vec at) ": "
+                   (when (contains? log-these-paths (vec at))
+                     (log/info (str "candidate lexeme: at: " (vec at) ": "
                                      (or (u/get-in lexeme [:canonical]) (l/pprint lexeme)))))
                    (cond (not (= :fail unify))
                          true
@@ -467,11 +476,11 @@
                                                                (str ":" (u/get-in lexeme [:sense]))))
                                                         :true
                                                         (l/pprint lexeme))
-                                                  " failed: " fail-path "; "
+                                                  " failed: " (vec fail-path) "; "
                                                   " lexeme's value: "
                                                   (l/pprint (u/get-in lexeme fail-path)) "; "
                                                   " spec's value: "
-                                                  (u/get-in spec fail-path))))
+                                                  (l/pprint (u/get-in spec fail-path)))))
                                  (when counts? (swap! count-lexeme-fails inc))
                                  false)))))
        (map :unify)))
@@ -504,12 +513,12 @@
           (and (= (u/get-in tree [:phrasal?] true) true)
                (= (u/get-in tree [::started?] true) true)
                (not (u/get-in tree [:head ::done?])))
-          (cons :head (frontier (u/get-in tree [:head])))
+          (vec (cons :head (frontier (u/get-in tree [:head]))))
 
           (and (= (u/get-in tree [:phrasal?] true) true)
                (= (u/get-in tree [::started?] true) true)
                (not (u/get-in tree [:comp ::done?])))
-          (cons :comp (frontier (u/get-in tree [:comp])))
+          (vec (cons :comp (frontier (u/get-in tree [:comp]))))
 
           :else [])]
     retval))

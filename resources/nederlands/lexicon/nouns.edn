@@ -48,7 +48,7 @@
  "courgette" [{:sem {:pred :zucchini}}]
  "dag" [{:sem {:pred :day}}]
  "dame" [{:sem {:pred :woman
-                :context :polite
+                :context :formal
                 :ref {:human? true}}}]
  "dier" [{:agr {:gender :neuter}
           :sem {:pred :animal}}]
@@ -119,7 +119,7 @@
  "hand" [{:sem {:pred :hand}}]
  "heer" [{:sem {:pred :man
                 :ref {:human? true}
-                :context :polite}}]
+                :context :formal}}]
  "huwelijk" [{:agr {:gender :neuter}
               :sem {:pred :marriage}}]
  "hoogleraar" [{:sem {:pred :professor
@@ -285,7 +285,7 @@
  "vrouw" [{:curriculum :basic
            :agr {:gender :common}
            :sem {:pred :woman
-                 :context :neutral ;; i.e. :neutral meaning 'not polite'
+                 :context :neutral ;; i.e. :neutral meaning 'not formal', in contrast with 'dame'.
                  :ref {:human? true}}}]
  "werkgever" [{:sem {:pred :employer
                      :ref {:human? true}}}]

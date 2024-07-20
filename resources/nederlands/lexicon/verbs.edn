@@ -111,7 +111,7 @@
                           :surface "heeft"
                           :agr {:person :2nd
                                 :number :sing}
-                          :sem {:ref {:context :polite}}}
+                          :sem {:ref {:context :formal}}}
                          {:infl :present
                           :surface "heeft"
                           :agr {:person :3rd
@@ -191,7 +191,7 @@
                     :surface "kan"}
 
                    {:infl :present
-                    :subj {:ref {:context :polite}}
+                    :subj {:ref {:context :formal}}
                     :agr {:person :2nd :number :sing}
                     :surface "kunt"}
 

@@ -89,7 +89,7 @@
  "follower" [{:sem {:pred :follower}}] 
  "fool" [{:sem {:pred :fool}}]
  "gentleman" [{:sem {:pred :man
-                     :context :polite}
+                     :context :formal}
                :agr {:gender :man
                      :human? true}
                :exceptions [{:surface "gentlemen"
@@ -121,7 +121,7 @@
                :ref {:human? true}}}]
  "kitten" [{:sem {:pred :kitten}}]
  "lady" [{:sem {:pred :woman
-                :context :polite}
+                :context :formal}
           :agr {:gender :fem
                 :human? true}}]
  "leg" [{:sem {:pred :leg}}]

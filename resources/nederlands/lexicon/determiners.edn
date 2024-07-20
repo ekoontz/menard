@@ -94,7 +94,7 @@
  "uw" [{:cat :det
         :possessive? true
         :sem {:pred :you
-              :context :polite}}]
+              :context :formal}}]
  "wat" [;; "wat kattens"
         {:cat :det
          :definite? false

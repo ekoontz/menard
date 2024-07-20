@@ -198,6 +198,7 @@
          then :then} rule]
     (->> lexemes
          (mapcat (fn [lexeme]
+                   (log/debug (str "looking at lexeme: " (syntax-tree lexeme)))
                    (if (not (= :fail (unify if lexeme)))
                      (->> then
                           (map (fn [each-then]
@@ -216,7 +217,9 @@
     (post-lexical-retrieval
      (post-lexical-retrieval-rule lexemes (first rules))
      (rest rules))
-    lexemes))
+    (do
+      (log/debug (str "ok done with all rules; returning total results: " (count lexemes)))
+      lexemes)))
 
 (defn analyze [surface & [model]]
   (log/debug (str "analyze: " surface))

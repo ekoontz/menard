@@ -133,7 +133,7 @@
   :then [{:mod []
           :sem {:mod []}}]}
 
- {:rule :politeness-is-unspecified
+ {:rule :formality-is-unspecified
   :if {:cat :noun
        :null? false
        :sem {:context ::unspec}}

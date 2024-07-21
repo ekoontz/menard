@@ -691,6 +691,7 @@
  {:rule :modal-infinitive-non-used-to
   :if {:cat :verb
        :modal :infinitive
+       :subcat {:2 {:cat :verb}}
        :used-to? false}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
@@ -719,6 +720,7 @@
  {:rule :modal-infinitive-used-to
   :if {:cat :verb
        :modal :infinitive
+       :subcat {:2 {:cat :verb}}
        :used-to? true}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})

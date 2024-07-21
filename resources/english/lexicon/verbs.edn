@@ -57,7 +57,7 @@
                           :obj embedded-sem})]
            {:sense 4
             :sem sem
-            :modal :adjective
+            :modal :infinitive
             :subcat {:1 {:cat :noun
                          :sem subj}
                      :2 {:cat :adjective
@@ -744,7 +744,7 @@
 
             ;; TODO: "the cat they think that you will see"
  
- "to" ;; to (in "she is able to"), "to sleep", "to see him"
+ "to" ;; to (in "she is able to"), "to sleep", "to see them"
  [
   (let [subj (atom :top)
         sem (atom {:subj subj})

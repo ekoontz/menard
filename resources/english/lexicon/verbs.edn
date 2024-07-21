@@ -7,7 +7,7 @@
  "announce" [{ :sem {:pred :announce}}]
  "answer" [{:sem {:pred :answer}}]
  "approve" [{:sem {:pred :approve}}] 
- "arrive" [{:intransitive? true
+ "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
         {:reflexive? false
@@ -179,7 +179,7 @@
  "cough" [{:sem {:pred :cough}}]
  "count" [{:sem {:pred :count}}] 
  "create" [{:sem {:pred :create}}]
- "cry" [{:intransitive? true
+ "cry" [{:intransitive-only? true
          :sem {:pred :cry}}] 
  "cut" [{:sem {:pred :cut}
          :exceptions [{:infl :past-simple
@@ -475,7 +475,7 @@
          :exceptions [{:infl :past-simple :surface "hit" :note ["past"]}
                       {:infl :past-participle :surface "hit" :note ["past"]}]}]
  "hope" [{:sense 1
-          :intransitive? true
+          :intransitive-only? true
           :sem {:pred :hope}}
          {:sense 2
           :sem {:pred :hope}
@@ -503,7 +503,7 @@
             :sem {:pred :know-c
                   :mental-state? true}}])
  "laze" [{:sem {:pred :laze}
-          :intransitive? true}]
+          :intransitive-only? true}]
  "lead" [{:sem {:pred :lead}
           :exceptions [{:infl :past-simple :surface "led"}
                        {:infl :past-participle :surface "led"}]}]
@@ -603,7 +603,7 @@
 
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
-         [{:intransitive? true
+         [{:intransitive-only? true
            :sem {:pred :put}}
           {:exceptions exceptions
            :subcat {:2 {:cat :prep
@@ -669,7 +669,7 @@
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions
-             :intransitive? true
+             :intransitive-only? true
              :sem {:pred :sleep
                    :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
@@ -783,7 +783,7 @@
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
  "turn" [{:sem {:pred :turn}
-          :intransitive? true}
+          :intransitive-only? true}
          {:subcat {:2 {:cat :prep
                        :sem {:pred :off}}}
           :sem {:pred :turn-off}}]

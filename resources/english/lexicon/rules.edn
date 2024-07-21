@@ -68,14 +68,14 @@
        :modal ::unspec}
   :then [{:modal :none}]}
 
- {:rule :intransitive-default-false
+ {:rule :intransitive-only-default-false
   :if {:cat :verb
-       :intransitive? ::unspec}
-  :then [{:intransitive? false}]}
+       :intransitive-only? ::unspec}
+  :then [{:intransitive-only? false}]}
 
  {:rule :intransitive
   :if {:cat :verb
-       :intransitive? true}
+       :intransitive-only? true}
   :then (let [subj (atom :top)]
           [{:sem {:subj subj
                   :obj :none}
@@ -89,6 +89,7 @@
  ;; of the verb, where the second form has a noun second argument:
  {:rule :subcat-frames-nonmodal
   :if {:cat :verb
+       :intransitive-only? false
        :modal :none
        :aux? false
        :subcat {:2 ::unspec}

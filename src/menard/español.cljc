@@ -140,15 +140,6 @@
                                    (filter #(= :verb %)))))))
        (into {})))
 
-(defn print-out-conversion []
-  (let [foo (convert)]
-    (->> (map (fn [k]
-                [k (->> (get foo k)
-                        (map #(dissoc % :cat))
-                        (map l/pprint)
-                        vec)])
-                               (sort (keys foo))))))
-
 ;; </cleanup after importing and deleting menard/resources/español/lexicon.edn>
 
 ;; for parsing diagnostics:

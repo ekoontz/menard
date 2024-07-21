@@ -288,9 +288,15 @@
                        (contains? log-these-rules (u/get-in tree [:rule])))
                (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes) " at: " (vec at)))
                (log/info (str "add-lexeme: of those, there were " (count exceptions) " exception(s).")))
-             (if (seq exceptions)
-               exceptions
-               lexemes))
+             ;; (remove all lexemes that are covered by exceptions):
+             (let [exception-canonicals (->> exceptions (map #(u/get-in % [:canonical])) set)]
+               (concat exceptions
+                       (remove (fn [lexeme]
+                                 (log/debug (str "canonicals: " exception-canonicals))
+                                 (log/debug (str "canonical of lexeme: " (u/get-in lexeme [:canonical])))
+                                 (log/debug (str "contains? " (contains? exception-canonicals (u/get-in lexeme [:canonical]))))
+                                 (contains? exception-canonicals (u/get-in lexeme [:canonical])))
+                               lexemes))))
            (#(do
                (when (or log-all-rules?
                          (contains? log-these-rules (u/get-in tree [:rule]))

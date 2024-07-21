@@ -151,14 +151,12 @@
              :exceptions exceptions}])
  "bubble" [{:sem {:pred :bubble}}]
  "buy" [{:sem {:pred :buy}}] 
- "call" [{ :sem {:pred :call}}]
+ "call" [{:sem {:pred :call}}]
  "can" [{:modal :base
-         :sem {:pred :be-able-to
-               :shared? false}
-         :exceptions [{:infl :present
-                       :surface "can"}
-                      {:infl :past-simple
-                       :surface "could"}]}]
+         :sem {:pred :be-able-to}
+         :intransitive? true
+         :transitive? true         
+         :infl :present}]
  "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]
  "cause" [{:sem {:pred :cause}}]
@@ -181,6 +179,11 @@
  "convert" [{:sem {:pred :convert}}] 
  "correspond" [{:sem {:pred :correspond}}]
  "cough" [{:sem {:pred :cough}}]
+ "could" [{:modal :base
+           :sem {:pred :be-able-to}
+           :intransitive? true
+           :transitive? true         
+           :infl :past-simple}]
  "count" [{:sem {:pred :count}}] 
  "create" [{:sem {:pred :create}}]
  "cry" [{:intransitive-only? true

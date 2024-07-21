@@ -58,6 +58,7 @@
             :subcat {:1 {:cat :noun
                          :sem subj}
                      :2 {:cat :adjective
+                         :subcat {:1 {:sem subj}}
                          :sem sem}}
             :exceptions exceptions})
          
@@ -746,6 +747,7 @@
    [
     ;; used to sleep
     {:agr agr
+     :sense 1
      :reflexive? reflexive?
      :to? true
      :inflected? true
@@ -762,6 +764,7 @@
 
     ;; used to try to sleep
     {:agr agr
+     :sense 2     
      :reflexive? reflexive?
      :to? true
      :inflected? true
@@ -774,7 +777,11 @@
                   :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
                   :infl :base
                   :sem sem}
-              :2 []}}])
+              :2 []}}
+
+
+
+    ])
 
  "try" [{:sem {:pred :try}
          :modal :infinitive}]

@@ -529,8 +529,10 @@
                    {:infl :present,
                     :agr {:person :3rd, :number :sing}
                     :surface "puede"}]]
-   [{:sem {:pred :may}, :exceptions exceptions}
-    {:sem {:pred :be-able-to}, :exceptions exceptions}])
+   [{:sem {:pred :be-able-to}
+     :modal :infinitive
+     :intransitive? true
+     :exceptions exceptions}])
 
  "poner"
  [{:sem {:subj {:animate? true},

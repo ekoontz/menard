@@ -180,9 +180,15 @@
        :transitive? true}
   :then [{:intransitive? false}]}
  
+ {:rule :modal-default-none
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal :none}]}
+
  {:rule :subcat-intransitive
   :if {:cat :verb
-       :intransitive? true}
+       :intransitive? true
+       :modal ::unspec}
   :then (let [subj (atom :top)]
           [{:transitive? false
             :subcat {:1 {:cat :noun
@@ -191,6 +197,18 @@
             :sem {:subj subj
                   :obj :none}}])}
 
+ {:rule :subcat-intransitive-modal
+  :if {:cat :verb
+       :modal :infinitive
+       :intransitive? true}
+  :then (let [subj (atom :top)]
+          [{:transitive? false
+            :subcat {:1 {:cat :noun
+                         :sem subj}
+                     :2 []}
+            :sem {:subj subj
+                  :obj {:pred :anaphoric}}}])}
+ 
  {:rule :subcat-transitive
   :if {:cat :verb
        :transitive? true}

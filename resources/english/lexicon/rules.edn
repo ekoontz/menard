@@ -692,6 +692,7 @@
   :if {:cat :verb
        :modal :infinitive
        :subcat {:2 {:cat :verb}}
+       :to? false
        :used-to? false}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
@@ -721,7 +722,8 @@
   :if {:cat :verb
        :modal :infinitive
        :subcat {:2 {:cat :verb}}
-       :used-to? true}
+       :used-to? true
+       :to? false}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
               sem (atom {:subj subj})]

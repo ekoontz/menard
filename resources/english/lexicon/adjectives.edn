@@ -16,9 +16,10 @@
             :subcat {:1 {:cat :verb
                          :phrasal? false
                          :sem sem
-                         :infl :infinitive}
+                         :infl :infinitive
+                         :modal :infinitive}
                      :2 []}})
-           ;; "able to sleep
+           ;; "able to sleep"
          (let [subj (atom :top)
                sem (atom {:subj subj})]
            {:sense 3
@@ -28,7 +29,8 @@
             :subcat {:1 {:cat :verb
                          :phrasal? true
                          :sem sem
-                         :infl :infinitive}
+                         :infl :infinitive
+                         :modal :infinitive}
                      :2 []}})]
 
  "accessible" [{:sem {:pred :accessible}}]

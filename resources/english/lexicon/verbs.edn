@@ -413,9 +413,9 @@
                   :aspect :perfect}
             :subcat {:2 []}
             :exceptions aux-exceptions}
-           {
-            :aux? true
+           {:aux? true
             :sense 3
+            :modal :none
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:2 {:infl :past-participle}}
@@ -429,6 +429,7 @@
             :exceptions aux-exceptions}
            {:aux? true
             :sense 5
+            :modal :none            
             :sem {:tense :past
                   :aspect :pluperfect}
             :subcat {:2 {:infl :past-participle}}
@@ -753,7 +754,7 @@
     {:agr agr
      :sense "v1"
      :inflected? true
-     :modal :infinitve
+     :modal :infinitive
      :infl :infinitive
      :sem sem
      :subcat {:1 {:cat :noun
@@ -763,9 +764,12 @@
                   :agr agr
                   :sem sem
                   :infl :base
+                  :modal :none
+                  :aux? false
                   :subcat {:1 {:cat :noun
                                :sem subj}
-                           :2 []}}}})]
+                           :2 []}}}
+     :to? true})]
 
  "try" [{:sem {:pred :try}
          :modal :infinitive}]

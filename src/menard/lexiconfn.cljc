@@ -208,12 +208,12 @@
   (let [result 
         (into {}
               (for [[k lexemes-for-k] lexicon]
-                [k
-                 (do
-                   (log/debug (str "K: " k))
-                   (log/debug (str "V: " (vec lexemes-for-k)))
-                   (log/debug (str "RESULTS: " (vec (map map-fn lexemes-for-k))))
-                   (map map-fn lexemes-for-k))]))]
+                (let [lexemes-for-k (remove nil? lexemes-for-k)]
+                  [k
+                   (do
+                     (log/debug (str "K: " k))
+                     (log/debug (str "V: " (vec lexemes-for-k)))
+                     (map map-fn lexemes-for-k))])))]
     result))
     
 #?(:clj

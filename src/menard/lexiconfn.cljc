@@ -159,7 +159,9 @@
           antecedent (:if rule)
           consequents (:then rule)]
       (if (not (= :fail (unify antecedent lexeme)))
-        (->> (vec (zipmap (range 0 (count consequents)) consequents))
+        ;; offset with '1' (i.e. '1' is the first element in the
+        ;; derivation consequents
+        (->> (vec (zipmap (range 1 (+ 1 (count consequents))) consequents))
              (map (fn [[consequent-index consequent]]
                     (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i (if (> (count consequents) 1) consequent-index) include-derivation?)))
              (mapcat (fn [new-lexeme]

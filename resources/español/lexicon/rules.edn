@@ -188,7 +188,7 @@
  {:rule :subcat-intransitive
   :if {:cat :verb
        :intransitive? true
-       :modal ::unspec}
+       :modal :none}
   :then (let [subj (atom :top)]
           [{:transitive? false
             :subcat {:1 {:cat :noun

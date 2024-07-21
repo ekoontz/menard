@@ -52,9 +52,12 @@
 
          ;; "I am able to sleep"
          (let [subj (atom :top)
-               sem (atom {:subj subj})]
+               embedded-sem (atom {:subj subj})
+               sem (atom {:subj subj
+                          :obj embedded-sem})]
            {:sense 4
             :sem sem
+            :modal :adjective
             :subcat {:1 {:cat :noun
                          :sem subj}
                      :2 {:cat :adjective
@@ -71,6 +74,7 @@
                 :mental-state? false
                 :aspect :progressive}
           :exceptions exceptions}
+         
          { ;; the 'was' in 'was sleeping' (aux sense, participle complement)
           :sense 6
           :aux? true
@@ -347,7 +351,7 @@
                           {:infl :past-participle :surface "given"}]]
           [{:exceptions exceptions
             :sem {:pred :give}
-            :intransitive? true}
+            :intransitive-only? true}
            {:exceptions exceptions
             :subcat {:2 {:cat :prep
                          :sem {:pred :to}}
@@ -358,7 +362,7 @@
                    {:infl :past-participle :surface "gone"}]]
    [{:exceptions exceptions
      :sem {:pred :go
-           :intransitive? true}}
+           :intransitive-only? true}}
     {:exceptions exceptions
       :sem {:pred :go}
      :subcat {:2 {:cat :prep
@@ -740,45 +744,28 @@
 
             ;; TODO: "the cat they think that you will see"
  
- "to" ;; "to sleep"
- (let [sem (atom :top)
-       agr (atom :top)
-       reflexive? (atom :top)]
-   [
-    ;; used to sleep
+ "to" ;; to (in "she is able to"), "to sleep", "to see him"
+ [
+  (let [subj (atom :top)
+        sem (atom {:subj subj})
+        agr (atom :top)
+        reflexive? (atom :top)]
     {:agr agr
-     :sense 1
-     :reflexive? reflexive?
-     :to? true
+     :sense "v1"
      :inflected? true
+     :modal :infinitve
      :infl :infinitive
      :sem sem
-     :subcat {:1 {:cat :verb
-                  :modal :none
+     :subcat {:1 {:cat :noun
+                  :sem subj}
+              :2 {:cat :verb
+                  :to? false
                   :agr agr
-                  :reflexive? reflexive?
-                  :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
+                  :sem sem
                   :infl :base
-                  :sem sem}
-              :2 []}}
-
-    ;; used to try to sleep
-    {:agr agr
-     :sense 2     
-     :reflexive? reflexive?
-     :to? true
-     :inflected? true
-     :infl :infinitive
-     :sem sem
-     :subcat {:1 {:cat :verb
-                  :modal :infinitive
-                  :agr agr
-                  :reflexive? reflexive?
-                  :subcat {:1 {:cat :noun}} ;; prevent "[vp:inf to to]"
-                  :infl :base
-                  :sem sem}
-              :2 []}}
-    ])
+                  :subcat {:1 {:cat :noun
+                               :sem subj}
+                           :2 []}}}})]
 
  "try" [{:sem {:pred :try}
          :modal :infinitive}]

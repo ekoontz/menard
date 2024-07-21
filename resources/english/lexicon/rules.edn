@@ -117,11 +117,15 @@
                          :sem {:existential? true}}
                      :2 {:cat :noun
                          :subcat []
+                         ;; there walks a dog
+                         ;; *there walks he
+                         ;; *there walks her
+                         :pronoun? false
                          :agr agr
                          :sem semantic-subject}
                      :3 []}})
          
-         ;; transitive, nonreflexive:
+         ;; 3. transitive, nonreflexive:
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})]
            {:subcat {:1 {:cat :noun
@@ -136,6 +140,7 @@
             :sem {:subj subj
                   :obj obj}})
 
+         ;; 4. transitive, nonreflexive:
          ;; transitive, reflexive
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})

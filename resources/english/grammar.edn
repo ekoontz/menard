@@ -140,7 +140,7 @@
           menard.ug/slash-is-head-slash
           menard.subcat/c]}
 
- {:rule "adj-p" ;; [adj-p +able .[to sleep]]
+ {:rule "adj-p" ;; [adj-p +able .[to sleep]], [adj-p +able .to]
   :cat :adjective
   :head {:phrasal? false}
   :comp {:cat :verb
@@ -159,16 +159,4 @@
           menard.ug/head-rule
           menard.ug/head-sem
           menard.ug/head-first]}
- 
- {:rule "vp-inf" ;; [vp +to .sleep]
-  :cat :verb
-  :infl :infinitive
-  :head {:canonical "to"
-         :phrasal? false}
-  :unify [menard.ug/head-first
-          menard.ug/comp-is-root
-          menard.ug/head-reflexive
-          menard.ug/head-rule
-          menard.ug/head-sem
-          menard.ug/slash-is-head-slash
-          menard.subcat/d]}]
+]

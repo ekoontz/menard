@@ -1,7 +1,10 @@
 {"_" [{:null? true :sem {:pred :_}}]
- "able" [{:sense 1
-          :sem {:pred :able}
-          :subcat []}
+ "able" [(let [subj (atom :top)
+               sem (atom {:subj subj
+                          :pred :anaphoric})]
+           {:sense 1
+            :sem {:pred :able}
+            :subcat []})
          (let [subj (atom :top)
                sem (atom {:subj subj
                           :pred :anaphoric})]

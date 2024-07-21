@@ -615,12 +615,14 @@
           [;; "can"
            {:inflected? true
             :sem {:subj subj
-                  :obj :none}
+                  :obj {:subj subj
+                        :pred :anaphoric}}
             :subcat {:1 {:sem subj}
                      :2 []}}
 
            ;; "can study"
-           {:sem {:subj subj
+           {:inflected? true
+            :sem {:subj subj
                   :obj complement-sem}
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb

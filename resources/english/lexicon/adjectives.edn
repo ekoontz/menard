@@ -11,6 +11,7 @@
            ;; "able to"
            {:sense 2
             :sem {:pred :be-able-to
+                  :mental-state? true
                   :subj subj
                   :obj sem}
             :subcat {:1 {:cat :verb
@@ -24,6 +25,7 @@
                sem (atom {:subj subj})]
            {:sense 3
             :sem {:pred :be-able-to
+                  :mental-state? true                  
                   :subj subj
                   :obj sem}
             :subcat {:1 {:cat :verb

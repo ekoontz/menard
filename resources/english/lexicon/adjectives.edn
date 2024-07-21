@@ -5,6 +5,7 @@
          (let [subj (atom :top)
                sem (atom {:subj subj
                           :pred :anaphoric})]
+           ;; "able to"
            {:sense 2
             :sem {:pred :be-able-to
                   :subj subj
@@ -14,6 +15,7 @@
                          :sem sem
                          :infl :infinitive}
                      :2 []}})
+           ;; "able to sleep
          (let [subj (atom :top)
                sem (atom {:subj subj})]
            {:sense 3

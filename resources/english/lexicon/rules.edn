@@ -585,12 +585,25 @@
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}
             :modal-with-pred? false}
+
            ;; "would want to study"
            {:inflected? true
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
                          :modal :infinitive
+                         :infl :base
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}
+            :modal-with-pred? false}
+
+           ;; "will be able to study"
+           {:inflected? true
+            :sem sem
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :modal :adjective
                          :infl :base
                          :sem sem
                          :subcat {:1 subcat-1-is-shared

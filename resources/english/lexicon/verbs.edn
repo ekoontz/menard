@@ -57,7 +57,7 @@
                           :obj embedded-sem})]
            {:sense 4
             :sem sem
-            :modal :infinitive
+            :modal :adjective
             :subcat {:1 {:cat :noun
                          :sem subj}
                      :2 {:cat :adjective

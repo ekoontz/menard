@@ -141,7 +141,13 @@
 
 ;; <TODO> move into declarative grammar (i.e. the model).
 (def post-lexical-retrieval-rules
-  [{:rule :modal-none
+  [{:rule :modal-adjective
+    :if {:cat :verb
+         :aux? false
+         :modal :adjective}
+    :then [{:post-lex-rules-stop? true}]} ;; prevent the rest of the rules from applying.
+
+   {:rule :modal-none
     :if {:cat :verb
          :aux? false
          :modal :none

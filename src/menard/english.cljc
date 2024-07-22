@@ -145,7 +145,8 @@
     :if {:cat :verb
          :aux? false
          :modal :none
-         :infl ::unspec}
+         :infl ::unspec
+         :post-lex-rules-stop? ::unspec}
     :then [{:infl :base}
            {:infl :present}
            {:infl :present-participle}
@@ -155,17 +156,20 @@
     :if {:cat :verb
          :aux? false
          :modal :infinitive
-         :infl ::unspec}
+         :infl ::unspec
+         :post-lex-rules-stop? ::unspec}
     :then [{:infl :base}
            {:infl :present}
            {:infl :present-participle}
            {:infl :past-participle}
            {:infl :past-simple}]}
-    {:rule :present-infl-to-present-tense
+
+   {:rule :present-infl-to-present-tense
     :if {:cat :verb
          :aux? false
          :modal :none
-         :infl :present}
+         :infl :present
+         :post-lex-rules-stop? ::unspec}
     :then [{:infl :present
             :sem {:tense :present
                   :aspect :simple}}]}
@@ -173,14 +177,16 @@
     :if {:cat :verb
          :aux? false
          :modal :none
-         :infl :present}
+         :infl :present
+         :post-lex-rules-stop? ::unspec}
     :then [{:infl :present
             :sem {:tense :present
                   :aspect :simple}}]}
    {:rule :past-simple-non-aux
     :if {:cat :verb
          :aux? false
-         :infl :past-simple}
+         :infl :past-simple
+         :post-lex-rules-stop? ::unspec}
     :then [{:sem {:tense :past
                   :aspect :perfect}}]}])
 ;; </TODO>

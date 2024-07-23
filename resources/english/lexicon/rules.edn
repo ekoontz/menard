@@ -676,28 +676,26 @@
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}
 
- ;; e.g. "I was studying"
+ ;; e.g. "I have studied"
  {:rule :modal-past-participle
   :if {:cat :verb
        :modal :past-participle}
   :then (let [subj (atom {:existential? false})
               subcat-1-is-shared (atom {:sem subj})
               sem (atom {:subj subj})]
-          [;; "was"
-           {:inflected? true
-            :sem {:subj subj
+          [;; "have"
+           {:sem {:subj subj
                   :pred :anaphoric}
             :subcat {:1 {:sem subj}
                      :2 []}}
 
-           ;; 'was' in 'was studying'
-           {:inflected? true
-            :sem sem
+           ;; 'have' in 'have studied'
+           {:sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
                          :aux? false
                          :modal :none
-                         :infl :present-participle
+                         :infl :past-participle
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}])}

@@ -31,12 +31,10 @@
                         {:infl :past-simple :agr {:person :3rd :number :sing} :surface "was"}                        
                         {:infl :past-participle :surface "been"}]]
         [{:sense 1
-          :sem {:pred :be
-                :obj :none}
-          :exceptions exceptions}
-         {:sense 2
           :sem {:pred :be}
+          :intransitive? true
           :exceptions exceptions}
+
          ;; "I am sure"
          (let [obj (atom {:top :top})]
            {:sense 3
@@ -79,12 +77,15 @@
           :sense 6
           :aux? true
           :infl :past-simple
-          :modal :past-participle
+          :modal :present-participle
           :sem {:tense :past
                 :mental-state? false                
                 :aspect :progressive}
           :exceptions exceptions}
 
+         ;; TODO: add passive "was+{:modal :past-participle}" e.g. "the mouse was caught by the cat"
+
+         
          (;; the 'is' or 'was' in 'is born' or 'was born'
           let [subj (atom {:animate? true})]
            {:sense 7
@@ -179,11 +180,11 @@
  "convert" [{:sem {:pred :convert}}] 
  "correspond" [{:sem {:pred :correspond}}]
  "cough" [{:sem {:pred :cough}}]
- "could" [{:modal :base
-           :sem {:pred :be-able-to}
-           :intransitive? true
-           :transitive? true         
-           :infl :past-simple}]
+;; "could" [{:modal :base
+;;           :sem {:pred :be-able-to}
+;;           :infl :past-simple
+;;           :subcat {:2 {:canonical "have"
+;;                        :infl :base}}}]
  "count" [{:sem {:pred :count}}] 
  "create" [{:sem {:pred :create}}]
  "cry" [{:intransitive-only? true
@@ -380,27 +381,22 @@
                               {:agr {:person :2nd} :surface "have" :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
-                              {:agr {:person :3rd :number :sing} :surface "has"
-                               :infl :present
+                              {:agr {:person :3rd :number :sing} :surface "has" :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
-                              {:agr {:person :3rd :number :plur} :surface "have"
-                               :infl :present
+                              {:agr {:person :3rd :number :plur} :surface "have" :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
-                              {:surface "had"
-                               :infl :past-simple
+                              {:surface "had" :infl :past-simple
                                :sem {:tense :past
                                      :aspect :pluperfect}}
-                              {:surface "had"
-                               :infl :past-participle}]
-              non-aux-exceptions [{:infl :present :agr {:person :1st} :surface "have"}
-                                  {:infl :present :agr {:person :2nd} :surface "have"}
-                                  {:infl :present
-                                   :agr {:person :3rd :number :sing} :surface "has"}
-                                  {:infl :present :agr {:person :3rd :number :plur} :surface "have"}
-                                  {:infl :past-simple :surface "had"}
-                                  {:infl :past-participle :surface "had"}]]
+                              {:surface "had" :infl :past-participle}]
+              non-aux-exceptions [{:agr {:person :1st} :surface "have" :infl :present}
+                                  {:agr {:person :2nd} :surface "have" :infl :present}
+                                  {:agr {:person :3rd :number :sing} :surface "has" :infl :present}
+                                  {:agr {:person :3rd :number :plur} :surface "have" :infl :present}
+                                  {:surface "had" :infl :past-simple}
+                                  {:surface "had" :infl :past-participle}]]
           [{;; {:aux? false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
             :aux? false
@@ -408,41 +404,26 @@
             :sem {:pred :have}
             :exceptions non-aux-exceptions}
 
-           ;; <TODO: rewrite 'have' aux senses similar to how it's done with 'is'.>
-           {:aux? true
-            :sense 2
-            :sem {:tense :past
-                  :obj :anaphor
-                  :aspect :perfect}
-            :subcat {:2 []}
-            :exceptions aux-exceptions}
-           {:aux? true
-            :sense 3
-            :modal :none
+           {:sense 2
+            :aux? true
+            :infl :present
+            :modal :past-participle
             :sem {:tense :past
                   :aspect :perfect}
-            :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
-           {:aux? true
-            :sense 4
-            :sem {:tense :past
-                  :obj :anaphor
-                  :aspect :pluperfect}
-            :subcat {:2 []}
-            :exceptions aux-exceptions}
-           {:aux? true
-            :sense 5
-            :modal :none            
+                  
+           {:sense 3
+            :aux? true
+            :infl :past
+            :modal :past-participle
             :sem {:tense :past
                   :aspect :pluperfect}
-            :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
-           ;; </TODO: rewrite 'have' aux senses similar to how it's done with 'is'.>
 
            (let [subj (atom :top)]
              {:aux? false
               :reflexive? false
-              :sense 6
+              :sense 4
               :sem {:subj subj
                     :pred :have-dinner
                     :obj :none}
@@ -454,10 +435,11 @@
                                  :existential? false}
                            :subcat []}}
               :exceptions non-aux-exceptions})
+
            (let [subj (atom :top)]
              {:aux? false
               :reflexive? false
-              :sense 7
+              :sense 5
               :sem {:subj subj
                     :pred :have-lunch
                     :obj :none}
@@ -567,9 +549,11 @@
                           {:infl :past-participle :surface "made"}]]
            [{:exceptions exceptions  :sem {:pred :make}}])
  "may" [{:modal :base
+         :infl :present
          :sem {:pred :may
                :shared? false}}
         {:modal :base
+         :infl :present         
          :sem {:pred :be-able-to
                :shared? false}}]
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}

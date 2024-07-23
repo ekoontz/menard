@@ -223,7 +223,7 @@
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
 
          ((fn [lexicon]
-            (log/debug (str "  add-exceptions-to-lexicon: lexicon: " lexicon))
+            (log/debug (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
             (l/add-exceptions-to-lexicon lexicon)))
 
          ((fn [lexicon]

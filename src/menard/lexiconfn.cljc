@@ -250,8 +250,13 @@
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
   [surface lexicon morphology]
-  (log/debug (str "matching-lexemes for surface: '" surface "'"))
-  (let [;; Apply morphological rules against surface to find a set of hypotheses
+  (let [log-fn (if (contains? lexemes-to-trace surface)
+                 (fn [msg] (log/info msg))
+                 (fn [msg] (log/debug msg)))
+
+        debug (log-fn (str "matching-lexemes for surface: '" surface "'"))
+        
+        ;; Apply morphological rules against surface to find a set of hypotheses
         ;; about the surface form. Each morphological rule has a :p key,
         ;; which we used to turn the surface form in to the canonical form.
         ;; We then use the :u key, also in the rule, to find the agreement and infl
@@ -267,13 +272,13 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
-                        (log/debug (str "FOUND with from: " from))
+                        (log-fn (str "FOUND with from: " from))
                         {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
 
              ((fn [rules]
-                (log/debug (str "found: " (count rules) " matching rules."))
+                (log-fn (str "found: " (count rules) " matching rules."))
                 rules))
 
              ;; Now we have a set of tuples T, each member of which has form: {:u U, :canonical C},
@@ -306,9 +311,9 @@
                 lexemes))
 
              (map (fn [lexeme]
-                    (log/debug (str "  " surface " -> "
-                                    (select-keys (dag_unify.diagnostics/strip-refs lexeme)
-                                                 [:canonical :sense])))
+                    (log-fn (str "  " surface " -> "
+                                   (select-keys (dag_unify.diagnostics/strip-refs lexeme)
+                                                [:canonical :sense])))
                     lexeme))
 
              ;; Add {:surface surface} to the output:
@@ -332,16 +337,20 @@
                   (let [filter-with
                         {:infl (u/get-in analyze-hypothesis [:infl])
                          :agr (u/get-in analyze-hypothesis [:agr])}]
-                    (log/debug (str "filtering with: " filter-with))
+                    (log-fn (str "filtering with: " filter-with))
                     (when (seq (:exceptions analyze-hypothesis))
-                      (log/debug (str " count of exceptions found for this guess: " (count (:exceptions analyze-hypothesis)))))
+                      (log-fn (str " count of exceptions found for this guess: " (count (:exceptions analyze-hypothesis)))))
                     (empty? (filter #(not (= :fail (unify % filter-with)))
                                     (:exceptions analyze-hypothesis)))))
                 from-inflected)
 
-        debug (log/debug (str "this many inflected forms after filtering against exceptions: "
-                              (count filter-against-exceptions)))
+        debug (log-fn (str "this many inflected forms after filtering against exceptions: "
+                             (count filter-against-exceptions)))
 
+        debug (log-fn (str "  the senses (after filtering against exceptions):"
+                             (vec (map #(u/get-in % [:sense])
+                                       filter-against-exceptions))))
+        
         ]
     (let [from-regular-morphology
           (vec (set filter-against-exceptions))
@@ -361,12 +370,12 @@
                              (get lexicon surface))]
       (when (and (seq from-regular-morphology)
                  (seq exceptions))
-        (log/debug (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
-      (log/debug (str "found: " (count from-regular-morphology) " regular analyzed form"
+        (log-fn (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
+      (log-fn (str "found: " (count from-regular-morphology) " regular analyzed form"
                       (when (not (= (count from-regular-morphology) 1))
                         "s")
                       " for surface form: " surface "."))
-      (log/debug (str "found: " (count exceptions) " exception"
+      (log-fn (str "found: " (count exceptions) " exception"
                       (when (not (= count exceptions 1))
                         "s")
                       " for surface form: " surface "."))
@@ -374,7 +383,13 @@
             (concat
              from-regular-morphology
              exceptions)]
-        (log/debug (str "returning: " (count result) " analyses for: " surface "."))
+        (log-fn (str "from-regular-morphology: " (count from-regular-morphology) " analyses for: " surface "."))
+        (log-fn (str "   with senses: " (vec (map #(u/get-in % [:sense]) from-regular-morphology))))
+        (log-fn (str "exceptions: " (count exceptions) " analyses for: " surface "."))
+        (log-fn (str "   with senses: " (vec (map #(u/get-in % [:sense]) exceptions))))
+        (log-fn (str "returning: " (count result) " analyses for: " surface "."))
+        (log-fn (str "   with senses: " (vec (map #(u/get-in % [:sense]) result))))
+
         result))))
 
 (defn add-exceptions-to-lexicon

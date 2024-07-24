@@ -387,10 +387,8 @@
                               {:agr {:person :3rd :number :plur} :surface "have" :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
-                              {:surface "had" :infl :past-simple
-                               :sem {:tense :past
-                                     :aspect :pluperfect}}
-                              {:surface "had" :infl :past-participle}]
+                              {:sem {:tense :past
+                                     :aspect :pluperfect} :surface "had" :infl :past-simple}]
               non-aux-exceptions [{:agr {:person :1st} :surface "have" :infl :present}
                                   {:agr {:person :2nd} :surface "have" :infl :present}
                                   {:agr {:person :3rd :number :sing} :surface "has" :infl :present}
@@ -414,7 +412,9 @@
                   
            {:sense 3
             :aux? true
-            :infl :past
+            :infl :past-simple
+            :surface "had"
+            :inflected? true
             :modal :past-participle
             :sem {:tense :past
                   :aspect :pluperfect}

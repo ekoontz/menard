@@ -352,8 +352,10 @@
           ;;      determiners, prepositions, pronouns, etc; in general, closed-class lexemes.
           ;; 2.b. If there are inflected forms, return any forms from the lexicon where the canonical form
           ;;      of the verb is different from the input. This is for the rest of words, (i.e. open-class lexemes).
-          exceptions (filter #(or (= true (:exception %))
-                                  (= true (:inflected? %)))
+          exceptions (filter #(and (or (= true (:exception %))
+                                       (= true (:inflected? %)))
+                                   (or (= ::unspec (:surface % ::unspec))
+                                       (= surface (:surface % ::unspec))))
                              (get lexicon surface))]
       (when (and (seq from-regular-morphology)
                  (seq exceptions))

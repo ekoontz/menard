@@ -15,6 +15,8 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
+(def lexemes-to-trace #{"have"})
+
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))
        (filter (fn [[x y]]
@@ -388,25 +390,35 @@
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]
                            (->> lexemes
                                 (mapcat (fn [lexeme]
-                                          (log/debug (str "add-exceptions-to-lexicon: "
-                                                          "canonical: " canonical "; " 
-                                                          "lexeme: " (pprint lexeme)))
-                                          (if (not (map? lexeme))
-                                            (exception (str "the lexeme was unexpectedly not a map: " lexeme)))
-                                          (log/debug (str "exceptions-for: looking at lexeme: " lexeme))
-                                          (->> (:exceptions lexeme)
-                                               (map (fn [exception]
-                                                      (let [u-result
-                                                            (unify
-                                                             (d/dissoc-in lexeme [:exceptions])
-                                                             exception
-                                                             {:exception? true
-                                                              :inflected? true
-                                                              :canonical canonical})]
-                                                        (log/debug (str "new exception: " u-result))
-                                                        (when (not (= :fail u-result))
-                                                          {(:surface exception)
-                                                           [u-result]})))))))
+                                          (let [log-fn (if (contains? lexemes-to-trace canonical)
+                                                         (fn [msg] (log/info msg))
+                                                         (fn [msg] (log/debug msg)))]
+                                            (log-fn (str "add-exceptions-to-lexicon: "
+                                                           "canonical: " canonical "; " 
+                                                           "lexeme: " (pprint lexeme)))
+                                            (if (not (map? lexeme))
+                                              (exception (str "the lexeme was unexpectedly not a map: " lexeme)))
+                                            (->> (:exceptions lexeme)
+                                                 (map (fn [exception]
+                                                        (log-fn (str "looking at candidate exception: " (pprint exception)))
+                                                        (let [u-result
+                                                              (unify
+                                                               (d/dissoc-in lexeme [:exceptions])
+                                                               exception
+                                                               {:exception? true
+                                                                :inflected? true
+                                                                :canonical canonical})]
+                                                          (log-fn (str "new exception: " (pprint u-result)))
+                                                          (if (not (= :fail u-result))
+                                                            {(:surface exception)
+                                                             [u-result]}
+
+                                                            (let [fp
+                                                                  (diag/fail-path (d/dissoc-in lexeme [:exceptions]) exception)]
+                                                              (log-fn (str "FUCK, IT DID NOT UNIFY: FP: " fp))
+                                                              (log-fn (str "   FUCK1: lexeme value: " (u/get-in (d/dissoc-in lexeme [:exceptions]) fp)))
+                                                              (log-fn (str "   FUCK2: " (u/get-in exception fp))))
+                                                            ))))))))
                                 merge-all)))]
     (->>
      (cons lexicon

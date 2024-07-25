@@ -7,7 +7,14 @@
             [clojure.test :refer [deftest is]]))
 
 (deftest transfer-1
-  (-> "yo quiero" translate/es-to-en (or (= "I want")
-                                         (= "I like")
-                                         (= "I love")) is))
+  (is (or  (= "I want" (translate/es-to-en "yo quiero"))
+           (= "I like" (translate/es-to-en "yo quiero"))
+           (= "I love" (translate/es-to-en "yo quiero")))))
+  
+(deftest parse-english
+  (is
+   (= ["[s(:past-progressive) .he +[vp +used(2) .[vp +to(:v2) .[vp +be(4) .[adj-p +able(3) .[vp +to(:v1) .[vp +see .it]]]]]]]"]
+      (->> "he used to be able to see it" en/parse (map en/syntax-tree)))))
+
+
 

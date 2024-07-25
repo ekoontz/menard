@@ -16,5 +16,14 @@
    (= ["[s(:past-progressive) .he +[vp +used(2) .[vp +to(:v2) .[vp +be(4) .[adj-p +able(3) .[vp +to(:v1) .[vp +see .it]]]]]]]"]
       (->> "he used to be able to see it" en/parse (map en/syntax-tree)))))
 
-
+(deftest roundtrip-english
+  (let [input "he used to be able to sleep"]
+    (is (= input
+           (->> (en/parse input)
+                (map #(u/get-in % [:sem]))
+                (map (fn [sem] {:sem sem :cat :verb :subcat []}))
+                (map en/generate)
+                (map en/morph)
+                first)))))
+        
 

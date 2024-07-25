@@ -430,10 +430,9 @@
 
                                                             (let [fp
                                                                   (diag/fail-path (d/dissoc-in lexeme [:exceptions]) exception)]
-                                                              (log-fn (str "FUCK, IT DID NOT UNIFY: FP: " fp))
-                                                              (log-fn (str "   FUCK1: lexeme value: " (u/get-in (d/dissoc-in lexeme [:exceptions]) fp)))
-                                                              (log-fn (str "   FUCK2: " (u/get-in exception fp))))
-                                                            ))))))))
+                                                              (log-fn (str "(unify lexeme exception) failed at path: " fp))
+                                                              (log-fn (str "   lexeme value:    " (u/get-in (d/dissoc-in lexeme [:exceptions]) fp)))
+                                                              (log-fn (str "   exception value: " (u/get-in exception fp))))))))))))
                                 merge-all)))]
     (->>
      (cons lexicon

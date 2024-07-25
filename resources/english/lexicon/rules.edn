@@ -747,6 +747,7 @@
                   :pred :anaphoric}
             :subcat {:1 {:sem subj}
                      :2 {:canonical "to"
+                         :cat :verb
                          :phrasal? false}}}
            
            ;; "used to leave"

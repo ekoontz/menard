@@ -123,6 +123,7 @@
            :sem {:pred :that}}]
  "to" [;; "to the park"
        {:cat :prep
+        :sense :p1
         :sem {:pred :to}}]
  "up" [{:cat :prep
         :sem {:pred :up}}]

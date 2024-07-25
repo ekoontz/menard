@@ -739,7 +739,7 @@
         agr (atom :top)
         reflexive? (atom :top)]
     {:agr agr
-     :sense "v1"
+     :sense :v1
      :inflected? true
      :modal :infinitive
      :infl :infinitive
@@ -752,6 +752,29 @@
                   :sem sem
                   :infl :base
                   :modal :none
+                  :aux? false
+                  :subcat {:1 {:cat :noun
+                               :sem subj}
+                           :2 []}}}
+     :to? true})
+
+  (let [subj (atom :top)
+        sem (atom {:subj subj})
+        agr (atom :top)
+        reflexive? (atom :top)]
+    {:agr agr
+     :sense :v2
+     :inflected? true
+     :infl :infinitive
+     :sem sem
+     :subcat {:1 {:cat :noun
+                  :sem subj}
+              :2 {:cat :verb
+                  :to? false
+                  :agr agr
+                  :sem sem
+                  :infl :base
+                  :modal :adjective
                   :aux? false
                   :subcat {:1 {:cat :noun
                                :sem subj}

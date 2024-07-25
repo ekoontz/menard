@@ -15,7 +15,7 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
-(def lexemes-to-trace #{"have"})
+(def lexemes-to-trace #{})
 
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))

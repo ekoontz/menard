@@ -276,7 +276,7 @@
   (let [at (frontier tree)
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
-    (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+    (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])) (contains? log-these-paths at))
       (log/info (str "add-lexeme: " (syntax-tree tree) " at: " (vec at) " looking for lexeme matching spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))

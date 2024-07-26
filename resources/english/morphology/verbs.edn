@@ -163,6 +163,12 @@
   :u {:cat :verb
       :infl :past-participle}}
 
+ ;; develop/developed
+ {:g [#"^(.*op)$"   "$1ed"]
+  :p [#"^(.*op)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+ 
   ;; stop/stopped,step/stepped
  ;; (but not: probit/prohibited)
  {:g [#"^(.*[eiou])([gnpst])$"          "$1$2$2ed"]

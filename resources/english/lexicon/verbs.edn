@@ -741,9 +741,9 @@
 
  "throw" (let [exceptions [{:infl :past-simple :surface "threw"}
                            {:infl :past-participle :surface "thrown"}]]
-           [{:sem :throw
+           [{:sem {:pred :throw}
              :exceptions exceptions}
-            {:sem :throw-out
+            {:sem {:pred :throw-out}
              :exceptions exceptions
              :subcat {:2 {:cat :prep
                           :sem {:pred :out}}

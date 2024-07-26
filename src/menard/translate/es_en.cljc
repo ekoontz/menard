@@ -9,20 +9,21 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+(defn es-parse-to-en-spec [es-parse]
+  (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+  (unify {:sem {:mod []}}
+         {:agr (-> es-parse (u/get-in [:agr]))
+          :sem (-> es-parse (u/get-in [:sem]))
+          :cat (-> es-parse (u/get-in [:cat]))
+          :subcat (-> es-parse (u/get-in [:subcat]))}))
+
 (defn es-to-en [es-input]
   (log/info (str "es-to-en: es-input: " es-input))
   (let [es-parse (-> es-input es/parse first)
-        english-spec
-        (-> (unify {:sem {:mod []}}
-                   {:agr (-> es-parse (u/get-in [:agr]))
-                    :sem (-> es-parse (u/get-in [:sem]))
-                    :cat (-> es-parse (u/get-in [:cat]))
-                    :subcat (-> es-parse (u/get-in [:subcat]))}))]
+        english-spec (es-parse-to-en-spec es-parse)]
     (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
     (log/info (str "english spec: " (l/pprint english-spec)))
     (-> english-spec
         en/generate
         en/morph)))
-
-
 

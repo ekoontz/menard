@@ -516,8 +516,9 @@
  "pintar" [{:sem {:pred :paint}}]
 
  "poder"
- (let [stems {:preterito "pud"
-              :boot "pued"}]
+ (let [stems {:boot "pued"
+              :futuro "pod"
+              :preterito "pud"}]
    [{:sem {:pred :be-able-to}
      :modal :infinitive
      :intransitive? true

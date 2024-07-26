@@ -371,7 +371,13 @@
       :sem {:pred :go}
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
+              :3 []}}
+    {:exceptions exceptions
+     :sem {:pred :go-out}
+     :subcat {:2 {:cat :prep
+                  :sem {:pred :out}}
               :3 []}}])
+ 
  "guess" [{:sem {:pred :guess}}]
  "have" (let [;; TODO: factor out commonalities in agreement into a new variable called 'agr-exceptions' and then
               ;; multiply by aux-exceptions and non-aux-exceptions.
@@ -489,8 +495,12 @@
             :sem {:pred :know
                   :mental-state? true}}
            {:exceptions exceptions
-            :sense 1
+            :sense 2
             :sem {:pred :know-c
+                  :mental-state? true}}
+           {:exceptions exceptions
+            :sense 1
+            :sem {:pred :know-s
                   :mental-state? true}}])
  "laze" [{:sem {:pred :laze}
           :intransitive-only? true}]
@@ -608,6 +618,7 @@
                           {:infl :past-participle :surface "read" :note ["past"]}]]
           [{:exceptions exceptions  :sem {:pred :read}}])
  "realize" [{:sem {:pred :realize}}]
+ "remove" [{:sem {:pred :remove}}] 
  "ruin" [{:sem {:pred :ruin}}]
 
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
@@ -727,6 +738,16 @@
                           :rule "comp2"}}}])
 
             ;; TODO: "the cat they think that you will see"
+
+ "throw" (let [exceptions [{:infl :past-simple :surface "threw"}
+                           {:infl :past-participle :surface "thrown"}]]
+           [{:sem :throw
+             :exceptions exceptions}
+            {:sem :throw-out
+             :exceptions exceptions
+             :subcat {:2 {:cat :prep
+                          :sem {:pred :out}}
+                      :3 []}}])
  
  "to" ;; to (in "she is able to"), "to sleep", "to see them"
  [

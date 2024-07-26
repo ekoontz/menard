@@ -611,7 +611,6 @@
            :cat :verb
            :sem {:pred :go-out}}]
 
-
 ;;   "seguir" {}
 ;;   "sentarse" {}
 
@@ -620,7 +619,8 @@
 ;;   "soñar" {}
 
 
- "tener" [{:sem {:subj {:animate true}, :pred :have},
+ "tener" [{:sem {:subj {:animate true},
+                 :pred :have},
            :cat :verb,
            :exceptions
            [{:infl :present,

@@ -57,6 +57,8 @@
         :sem {:pred :on}}]
  "our" [{:cat :det
          :sem {:pred :we}}]
+ "out" [{:cat :prep
+        :sem {:pred :out}}]
  "some" [{:cat :det
           :sem {:pred :some
                 :countable? true}

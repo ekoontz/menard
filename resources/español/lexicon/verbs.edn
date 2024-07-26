@@ -55,8 +55,11 @@
      :agr {:person :1st, :number :sing},
      :surface "caì"}
     {:infl :preterito,
-     :agr {:person :2nd, :number :sing},
+     :agr {:person :2nd, :number :sing, :formal? false},
      :surface "caiste"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing, :formal? plur},
+     :surface "cayò"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
      :surface "cayò"}]}]
@@ -575,30 +578,36 @@
              {:stems stems
               :sem {:pred :love}}])
 
- "reparar" {:synsem {:cat :verb
-                     :sem {:pred :repair}}}
- "responder" {}
- "romper"  {:synsem {:cat :verb
-                     :sem {:pred :break}}}
+ "reparar" [{:cat :verb
+             :sem {:pred :repair}}]
 
- "saber" {:espanol {:futuro-stem "sabr"
-                    :present {:1sing "sé"}
-                    :preterito {:1sing "supe"
-                                :2sing "supiste"
-                                :3sing "supo"
-                                :1plur "supimos"
-                                :2plur "supsteis"
-                                :3plur "superon"}}
-          :synsem {:cat :verb
-                   :sem {:pred :know-s}}}
+ "responder" [{:cat :verb
+               :sem {:pred :respond}}]
 
- "sacar" {:espanol {:preterito {:1sing "saqué"}}
-          :synsem {:cat :verb
-                   :sem {:pred :remove}}}
+ "romper"  [{:cat :verb
+             :sem {:pred :break}}]
 
- "salir" {:espanol {:present {:1sing "salgo"}}
-          :synsem {:cat :verb
-                   :sem {:pred :go-out}}}
+ "saber" [{:stems {:futuro "sabr"
+                   :preterito "sup"}
+           :exceptions [{:infl :present
+                         :agr {:person :1st
+                               :number :sing}
+                         :surface "sé"}]
+           :cat :verb
+           :sem {:pred :know-s}}]
 
+ "sacar" [{:exceptions [{:infl :preterito
+                         :agr {:person :1st
+                               :number :sing}
+                         :surface "saqué"}]
+           :cat :verb
+           :sem {:pred :remove}}]
+ 
+ "salir" [{:exceptions [{:infl :present
+                         :agr {:person :1st
+                               :number :sing}
+                         :surface "salgo"}]
+           :cat :verb
+           :sem {:pred :go-out}}]
  }
 

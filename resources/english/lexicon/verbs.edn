@@ -372,11 +372,26 @@
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
               :3 []}}
-    {:exceptions exceptions
-     :sem {:pred :go-out}
-     :subcat {:2 {:cat :prep
-                  :sem {:pred :out}}
-              :3 []}}])
+
+    ;; TODO: most of the content for this
+    ;; lexeme should be done by lexical rules,
+    ;; and this is a regular kind of verb with V+prep,
+    ;; but we don't handle it well yet.
+    (let [subj (atom :top)
+          agr (atom :top)]
+      {:exceptions exceptions
+       :sem {:pred :go-out
+             :obj :none
+             :iobj :none
+             :subj subj}
+       :agr agr
+       :subcat {:1 {:sem subj
+                    :agr agr}
+                :2 {:cat :prep
+                    :phrasal? false
+                    :sem {:pred :out
+                          :obj :none}}
+                :3 []}})])
  
  "guess" [{:sem {:pred :guess}}]
  "have" (let [;; TODO: factor out commonalities in agreement into a new variable called 'agr-exceptions' and then

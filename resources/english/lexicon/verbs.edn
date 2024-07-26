@@ -550,11 +550,7 @@
            [{:exceptions exceptions  :sem {:pred :make}}])
  "may" [{:modal :base
          :infl :present
-         :sem {:pred :may
-               :shared? false}}
-        {:modal :base
-         :infl :present         
-         :sem {:pred :be-able-to
+         :sem {:pred :be-allowed-to
                :shared? false}}]
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]

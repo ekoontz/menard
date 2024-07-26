@@ -45,6 +45,7 @@
      :agr {:person :1st, :number :sing},
      :surface "quepo"}],
    :stems {:preterito "cup"}}]
+
  "caer"
  [{:sem {:pred :fall},
    :exceptions
@@ -58,7 +59,7 @@
      :agr {:person :2nd, :number :sing, :formal? false},
      :surface "caiste"}
     {:infl :preterito,
-     :agr {:person :2nd, :number :sing, :formal? plur},
+     :agr {:person :2nd, :number :sing, :formal? true},
      :surface "cayò"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},

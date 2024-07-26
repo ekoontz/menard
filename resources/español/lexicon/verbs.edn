@@ -610,5 +610,85 @@
                          :surface "salgo"}]
            :cat :verb
            :sem {:pred :go-out}}]
+
+
+;;   "seguir" {}
+;;   "sentarse" {}
+
+;;   "sentir" {}
+;;   "sentirse" {}
+;;   "soñar" {}
+
+
+ "tener" [{:sem {:subj {:animate true}, :pred :have},
+           :cat :verb,
+           :exceptions
+           [{:infl :present,
+             :agr {:person :1st, :number :sing},
+             :surface "tengo"}
+            {:infl :present,
+             :agr {:person :2nd, :number :sing},
+             :surface "tienes"}
+            {:infl :present,
+             :agr {:person :3rd, :number :sing},
+             :surface "tiene"}
+            {:infl :preterito,
+             :agr {:person :1st, :number :sing},
+             :surface "tuve"}
+            {:infl :preterito,
+             :agr {:person :2nd, :number :sing},
+             :surface "tuviste"}
+            {:infl :preterito,
+             :agr {:person :3rd, :number :sing},
+             :surface "tuvo"}],
+           :stems {:preterito "tuv"}}]
+
+ ;;    "terminar" {}
+ 
+ "tirar" [{:sem {:pred :throw-out}, :cat :verb}
+          {:sem {:pred :throw}, :cat :verb}]
+
+ ;;   "tocar" {}
+ ;;   "tomar" {}
+ ;;   "toser" {}
+ ;;   "trabajar" {}
+ ;;   "traducir" {}
+ ;;   "traer" {}
+ ;; "usar" {}
+;;    "valer" {}
+;;   "vender" {}
+
+ "venir" [{:sem {:subj {:animate true}, :pred :come},
+           :cat :verb,
+           :exceptions
+           [{:infl :present,
+             :agr {:person :1st, :number :sing},
+             :surface "vengo"}
+            {:infl :present,
+             :agr {:person :2nd, :number :sing},
+             :surface "vienes"}
+            {:infl :present,
+             :agr {:person :3rd, :number :sing},
+             :surface "viene"}],
+           :stems {:preterito "vin"}}]
+
+ "ver"
+ [{:sem {:pred :see},
+   :cat :verb,
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "veo"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "vi"}]}]
+
+;;   "vestirse" {}
+;;   "viajar" {}
+;;   "vivir" {}
+;;   "volar" {}
+;;   "volver" {}
+
+
  }
 

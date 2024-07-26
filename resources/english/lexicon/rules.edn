@@ -579,8 +579,6 @@
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
-                         ;; TODO: remove :modal here
-                         ;; and rely on :infl only
                          :modal :none
                          :infl :base
                          :sem sem
@@ -593,8 +591,6 @@
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
-                         ;; TODO: remove :modal here
-                         ;; and rely on :infl only
                          :modal :infinitive
                          :infl :base
                          :sem sem
@@ -607,8 +603,6 @@
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
-                         ;; TODO: remove :modal here
-                         ;; and rely on :infl only.
                          :modal :adjective
                          :infl :base
                          :sem sem
@@ -645,8 +639,6 @@
                   :obj complement-sem}
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
-                         ;; TODO: remove :modal here
-                         ;; and add :infl :base: (rely on :infl only)
                          :modal :none
                          :sem complement-sem
                          :subcat {:1 subcat-1-is-shared
@@ -678,8 +670,6 @@
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
                          :aux? false                         
-                         ;; TODO: remove :modal here
-                         ;; and rely on :infl only
                          :modal :none
                          :infl :present-participle
                          :sem sem
@@ -704,8 +694,6 @@
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
                          :aux? false
-                         ;; TODO: remove :modal here
-                         ;; and rely on :infl only
                          :modal :none
                          :infl :past-participle
                          :sem sem

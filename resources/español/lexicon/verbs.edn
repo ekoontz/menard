@@ -517,7 +517,7 @@
 
  "poder"
  (let [stems {:boot "pued"
-              :futuro "pod"
+              :futuro "podr"
               :preterito "pud"}]
    [{:sem {:pred :be-able-to}
      :modal :infinitive

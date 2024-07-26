@@ -39,27 +39,27 @@
  "buscar" [{:sem {:pred :look-for}}
            {:sem {:pred :look-up}}]
  "caber"
-  [{:sem {:pred :fit},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "quepo"}],
-    :stems {:preterito "cup"}}]
+ [{:sem {:pred :fit},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "quepo"}],
+   :stems {:preterito "cup"}}]
  "caer"
-  [{:sem {:pred :fall},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "caigo"}
-     {:infl :preterito,
-      :agr {:person :1st, :number :sing},
-      :surface "caì"}
-     {:infl :preterito,
-      :agr {:person :2nd, :number :sing},
-      :surface "caiste"}
-     {:infl :preterito,
-      :agr {:person :3rd, :number :sing},
-      :surface "cayò"}]}]
+ [{:sem {:pred :fall},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "caigo"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "caì"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing},
+     :surface "caiste"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "cayò"}]}]
 
  "cambiar" [{:sem {:pred :change}}]
  
@@ -96,26 +96,26 @@
    :sem {:pred :buy, :subj {:human true}, :obj {:buyable true}}}]
  "comprender" [{:sem {:pred :understand}}]
  "conducir"
-  [{:sem {:pred :lead},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "conduzco"}],
-    :stems {:preterito "conduj"}}
-   {:sem {:pred :drive},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "conduzco"}],
-    :stems {:preterito "conduj"}}]
+ [{:sem {:pred :lead},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "conduzco"}],
+   :stems {:preterito "conduj"}}
+  {:sem {:pred :drive},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "conduzco"}],
+   :stems {:preterito "conduj"}}]
  "confesar" [{:sem {:pred :confess},
               :stems {:boot "confies"}}]
  "conocer"
-  [{:sem {:pred :know-c},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "conozco"}]}]
+ [{:sem {:pred :know-c},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "conozco"}]}]
  "consentir" [{:sem {:pred :consent},
                :stems {:boot "consient"}}]
  "conservar" [{:sem {:pred :conserve}}
@@ -132,20 +132,20 @@
  "crear" [{:sem {:pred :create}}]
  "creer" [{:sem {:pred :believe}}]
  "dar"
-  [{:sem {:pred :give},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "doy"}
-     {:infl :preterito,
-      :agr {:person :1st, :number :sing},
-      :surface "di"}
-     {:infl :preterito,
-      :agr {:person :2nd, :number :sing},
-      :surface "diste"}
-     {:infl :preterito,
-      :agr {:person :3rd, :number :sing},
-      :surface "dio"}]}]
+ [{:sem {:pred :give},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "doy"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "di"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing},
+     :surface "diste"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "dio"}]}]
  "dañar" [{:sem {:pred :damage}}]
 
  ;; modal: requires a verb argument
@@ -161,41 +161,41 @@
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
  "desear" [{:sem {:pred :desire}}]
-;; "despertarse"
-;;  [{:sem
-;;    {:pred :wake-up,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]}}]
+ ;; "despertarse"
+ ;;  [{:sem
+ ;;    {:pred :wake-up,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]}}]
  "dibujar" [{:sem {:pred :draw}}]
-;; "divertirse"
-;;  [{:sem
-;;    {:pred :have-fun,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]},
-;;    :stems {:boot "diviert"}}]
+ ;; "divertirse"
+ ;;  [{:sem
+ ;;    {:pred :have-fun,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]},
+ ;;    :stems {:boot "diviert"}}]
  "dormir" [{:sem {:pred :sleep}, :stems {:boot "duerm"}}]
 
-;; "dormirse"
-;;  [{:sem
-;;    {:pred :fall-asleep,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]},
-;;    :stems {:boot "duerm"}}]
+ ;; "dormirse"
+ ;;  [{:sem
+ ;;    {:pred :fall-asleep,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]},
+ ;;    :stems {:boot "duerm"}}]
 
-;; "echar" [{:sem {:pred :throw-out}}]
+ ;; "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
-;; "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
+ ;; "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
  "encontrar" [{:sem {:pred :find}}
               {:sem {:pred :drive}}]
-;; "enojarse"
-;;  [{:sem
-;;    {:pred :get-angry,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]}}]
+ ;; "enojarse"
+ ;;  [{:sem
+ ;;    {:pred :get-angry,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]}}]
  "enseñar" [{:sem {:pred :show}}
             {:sem {:pred :teach}}]
  "entender"
@@ -205,18 +205,18 @@
  "enviar" [{:sem {:pred :send}}]
  "escapar" [{:sem {:pred :escape}}]
  "escribir" [{:sem {:pred :write}}]
-;; "escuchar" [{:sem {:pred :listen-to}}]
+ ;; "escuchar" [{:sem {:pred :listen-to}}]
  "esperar" [;; {:sem {:pred :wait-for}}
             {:sem {:pred :hope}}]
  "estudiar" [{:sem {:pred :study}}]
  "evitar" [{:sem {:pred :avoid}}]
  "existir" [{:sem {:pred :exist}}]
  "explicar"
-  [{:sem {:pred :explain},
-    :exceptions
-    [{:infl :preterito,
-      :agr {:person :1st, :number :sing},
-      :surface "expliqué"}]}]
+ [{:sem {:pred :explain},
+   :exceptions
+   [{:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "expliqué"}]}]
  "expresar" [{:sem {:pred :express}}]
 
  "firmar" [{:sem {:pred :sign}}]
@@ -282,12 +282,12 @@
                    {:infl :preterito
                     :agr {:person :3rd :number :plur}
                     :surface "hicieron"}]]
-       [{:stems stems
-         :exceptions exceptions
-         :sem {:pred :do}}
-        {:stems stems
-         :exceptions exceptions
-         :sem {:pred :make}}])
+   [{:stems stems
+     :exceptions exceptions
+     :sem {:pred :do}}
+    {:stems stems
+     :exceptions exceptions
+     :sem {:pred :make}}])
 
  "herir" [{:sem {:pred :wound}, :stems {:boot "hier"}}]
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]
@@ -371,52 +371,52 @@
                       :agr {:person :3rd, :number :plur}
                       :surface "fueron"}]}]
  
-;; "lastimarse"
-;;  [{:sem
-;;    {:pred :hurt-oneself,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]}}]
+ ;; "lastimarse"
+ ;;  [{:sem
+ ;;    {:pred :hurt-oneself,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]}}]
 
  "lavar" [{:sem {:pred :wash}}]
 
-;; "lavarse"
-;;  [{:sem
-;;    {:pred :wash-oneself,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]}}]
+ ;; "lavarse"
+ ;;  [{:sem
+ ;;    {:pred :wash-oneself,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]}}]
 
  "leer"
-  [{:sem {:pred :read},
-    :exceptions
-    [{:infl :preterito,
-      :agr {:person :1st, :number :sing},
-      :surface "leì"}
-     {:infl :preterito,
-      :agr {:person :2nd, :number :sing},
-      :surface "leiste"}
-     {:infl :preterito,
-      :agr {:person :3rd, :number :sing},
-      :surface "leyò"}]}]
+ [{:sem {:pred :read},
+   :exceptions
+   [{:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "leì"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing},
+     :surface "leiste"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "leyò"}]}]
 
-;; "levantarse"
-;;  [{:sem
-;;    {:pred :get-up,
-;;     :reflexive true,
-;;     :subj [[1] {:human true}],
-;;     :obj [1]}}]
+ ;; "levantarse"
+ ;;  [{:sem
+ ;;    {:pred :get-up,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:human true}],
+ ;;     :obj [1]}}]
 
  "limpiar" [{:sem {:pred :clean}}]
 
-;;"llamarse"
-;;  [{:sem
-;;{:aspect :simple,
-;;     :pred :be-called,
-;;     :reflexive true,
-;;     :tense :present,
-;;     :subj :top,
-;;     :obj :top}}]
+ ;;"llamarse"
+ ;;  [{:sem
+ ;;{:aspect :simple,
+ ;;     :pred :be-called,
+ ;;     :reflexive true,
+ ;;     :tense :present,
+ ;;     :subj :top,
+ ;;     :obj :top}}]
 
  "llegar" [{:sem {:pred :arrive}}]
  "llenar" [{:sem {:pred :fill}}]
@@ -428,88 +428,88 @@
  "mirar" [{:sem {:pred :look-at}}]
  "mostrar" [{:sem {:pred :show}, :stems {:boot "muestr"}}]
  "nacer"
-  [{:sem {:pred :be-born},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "nazco"}]}]
+ [{:sem {:pred :be-born},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "nazco"}]}]
  "nadar" [{:sem {:pred :swim}}]
  "necesitar" [{:sem {:pred :need}}]
  "negar" [{:sem {:pred :deny}, :stems {:boot "nieg"}}]
  "oir"
-  [{:sem {:pred :hear},
-    :exceptions
-    [{:infl :present,
-      :agr {:person :1st, :number :sing},
-      :surface "oigo"}
-     {:infl :present,
-      :agr {:person :2nd, :number :sing :formal false},
-      :surface "oyes"}
-     {:infl :present,
-      :agr {:person :2nd, :number :sing :formal true},
-      :surface "oye"}
+ [{:sem {:pred :hear},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "oigo"}
+    {:infl :present,
+     :agr {:person :2nd, :number :sing :formal false},
+     :surface "oyes"}
+    {:infl :present,
+     :agr {:person :2nd, :number :sing :formal true},
+     :surface "oye"}
 
-     {:infl :present,
-      :agr {:person :3rd, :number :plur},
-      :surface "oye"}
-     {:infl :present,
-      :agr {:person :1st, :number :plur},
-      :surface "oímos"}
+    {:infl :present,
+     :agr {:person :3rd, :number :plur},
+     :surface "oye"}
+    {:infl :present,
+     :agr {:person :1st, :number :plur},
+     :surface "oímos"}
 
-     {:infl :present,
-      :agr {:person :2nd, :number :plur},
-      :surface "oiste"}
-     {:infl :present,
-      :agr {:person :3rd, :number :plur},
-      :surface "oyeron"}
-     
-     {:infl :preterito,
-      :agr {:person :1st, :number :sing},
-      :surface "oí"}
-     {:infl :preterito,
-      :agr {:person :2nd, :number :sing, :formal? false},
-      :surface "oiste"}
-     {:infl :preterito,
-      :agr {:person :2nd, :number :sing},
-      :surface "oyó"}
-     {:infl :preterito,
-      :agr {:person :3rd, :number :sing},
-      :surface "oyó"}
-     {:infl :preterito,
-      :agr {:person :1st, :number :plur},
-      :surface "oímos"}
-     {:infl :preterito,
-      :agr {:person :2nd, :number :plur},
-      :surface "oísteis"}
-     {:infl :preterito,
-      :agr {:person :3rd, :number :plur},
-      :surface "oyeron"}]}]
+    {:infl :present,
+     :agr {:person :2nd, :number :plur},
+     :surface "oiste"}
+    {:infl :present,
+     :agr {:person :3rd, :number :plur},
+     :surface "oyeron"}
+    
+    {:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "oí"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing, :formal? false},
+     :surface "oiste"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing},
+     :surface "oyó"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "oyó"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :plur},
+     :surface "oímos"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur},
+     :surface "oísteis"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :plur},
+     :surface "oyeron"}]}]
 
  "olvidar" [{:sem {:pred :forget}}]
  "organizar" [{:sem {:pred :organize}}]
  "pagar"
-  [{:sem {:pred :pay},
-    :exceptions
-    [{:infl :preterito,
-      :agr {:person :1st, :number :sing},
-      :surface "pagué"}]}]
+ [{:sem {:pred :pay},
+   :exceptions
+   [{:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "pagué"}]}]
  
  "parar" [{:sem {:pred :stop}}]
-;; "pararse"
-;;  [{:sem
-;;    {:pred :stop-oneself,
-;;     :reflexive true,
-;;     :subj [[1] :top],
-;;     :obj [1]}}]
+ ;; "pararse"
+ ;;  [{:sem
+ ;;    {:pred :stop-oneself,
+ ;;     :reflexive true,
+ ;;     :subj [[1] :top],
+ ;;     :obj [1]}}]
 
  "pedir" [{:sem {:pred :ask-for}, :stems {:boot "pid"}}]
 
  ;; "peinarse"
-;;  [{:sem
-;;    {:pred :comb-oneself,
-;;     :reflexive true,
-;;     :subj [[1] :top],
-;;     :obj [1]}}]
+ ;;  [{:sem
+ ;;    {:pred :comb-oneself,
+ ;;     :reflexive true,
+ ;;     :subj [[1] :top],
+ ;;     :obj [1]}}]
 
  "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]
@@ -540,30 +540,30 @@
     {:infl :present,
      :agr {:person :3rd, :number :sing},
      :surface "pone"}],
-    :stems {:preterito "pus"}}]
+   :stems {:preterito "pus"}}]
  
  "preguntar" [{:sem {:pred :ask-for}}]
-;; "preocuparse"
-;;  [{:sem
-;;    {:pred :worry,
-;;     :reflexive true,
-;;     :subj [[1] {:animate? true}],
-;;     :obj [1]}}]
+ ;; "preocuparse"
+ ;;  [{:sem
+ ;;    {:pred :worry,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:animate? true}],
+ ;;     :obj [1]}}]
 
  "prestar" [{:sem {:pred :lend}}]
  
-;; "quedarse"
-;;  [{:sem
-;;    {:pred :remain,
-;;     :reflexive true,
-;;     :subj [[1] {:animate? true}],
-;;     :obj [1]}}]
-;; "quejarse"
-;;  [{:sem
-;;    {:pred :complain,
-;;     :reflexive true,
-;;     :subj [[1] {:animate? true}],
-;;     :obj [1]}}]
+ ;; "quedarse"
+ ;;  [{:sem
+ ;;    {:pred :remain,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:animate? true}],
+ ;;     :obj [1]}}]
+ ;; "quejarse"
+ ;;  [{:sem
+ ;;    {:pred :complain,
+ ;;     :reflexive true,
+ ;;     :subj [[1] {:animate? true}],
+ ;;     :obj [1]}}]
 
  "querer" (let [stems {:boot      "quier"
                        :preterito "quis"
@@ -574,7 +574,31 @@
               :sem {:pred :want}}
              {:stems stems
               :sem {:pred :love}}])
- "romper" [{:sem {:pred :break}}]
-                     
+
+ "reparar" {:synsem {:cat :verb
+                     :sem {:pred :repair}}}
+ "responder" {}
+ "romper"  {:synsem {:cat :verb
+                     :sem {:pred :break}}}
+
+ "saber" {:espanol {:futuro-stem "sabr"
+                    :present {:1sing "sé"}
+                    :preterito {:1sing "supe"
+                                :2sing "supiste"
+                                :3sing "supo"
+                                :1plur "supimos"
+                                :2plur "supsteis"
+                                :3plur "superon"}}
+          :synsem {:cat :verb
+                   :sem {:pred :know-s}}}
+
+ "sacar" {:espanol {:preterito {:1sing "saqué"}}
+          :synsem {:cat :verb
+                   :sem {:pred :remove}}}
+
+ "salir" {:espanol {:present {:1sing "salgo"}}
+          :synsem {:cat :verb
+                   :sem {:pred :go-out}}}
+
  }
 

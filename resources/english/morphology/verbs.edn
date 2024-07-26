@@ -109,8 +109,8 @@
       :infl :past-simple}}
  
  ;; prohibit/prohibited
- {:g [#"^(.*it)$"   "$1ed"]
-  :p [#"^(.*it)ed$" "$1"]
+ {:g [#"^(.*bit)$"   "$1ed"]
+  :p [#"^(.*bit)ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 

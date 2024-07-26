@@ -516,23 +516,12 @@
  "pintar" [{:sem {:pred :paint}}]
 
  "poder"
- (let [stems {:preterito "pud"}
-       exceptions [{:infl :present,
-                    :agr {:person :1st, :number :sing}
-                    :surface "puedo"}
-                   {:infl :present
-                    :agr {:person :2nd, :number :sing, :formal? false}
-                    :surface "puedes"}
-                   {:infl :present,
-                    :agr {:person :2nd, :number :sing, :formal? true}
-                    :surface "puede"}
-                   {:infl :present,
-                    :agr {:person :3rd, :number :sing}
-                    :surface "puede"}]]
+ (let [stems {:preterito "pud"
+              :boot "pued"}]
    [{:sem {:pred :be-able-to}
      :modal :infinitive
      :intransitive? true
-     :exceptions exceptions}])
+     :stems stems}])
 
  "poner"
  [{:sem {:subj {:animate? true},

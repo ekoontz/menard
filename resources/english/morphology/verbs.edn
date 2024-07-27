@@ -201,6 +201,12 @@
   :u {:cat :verb
       :infl :present-participle}}
 
+ ;; develop/developing
+ {:g [#"^(.*op)$"    "$1ing"]
+  :p [#"^(.*op)ing$" "$1"]
+  :u {:cat :verb
+      :infl :present-participle}}
+
  ;; stop/stopping,put/putting,run/running,let/letting
  {:g [#"^(.*[eiou])([gnpst])$"          "$1$2$2ing"]
   :p [#"^(.*[eiou][gnpst])([gnpst])ing$" "$1"]

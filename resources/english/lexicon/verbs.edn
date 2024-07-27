@@ -762,11 +762,26 @@
                             :surface "thrown"}]]
            [{:sem {:pred :throw}
              :exceptions exceptions}
-            {:sem {:pred :throw-out}
-             :exceptions exceptions
-             :subcat {:2 {:cat :prep
-                          :sem {:pred :out}}
-                      :3 []}}])
+
+            ;; TODO: most of the content for this
+            ;; lexeme should be done by lexical rules,
+            ;; and this is a regular kind of verb with V+prep,
+            ;; but we don't handle it well yet.
+            (let [subj (atom :top)
+                  agr (atom :top)]
+              {:exceptions exceptions
+               :sem {:pred :throw-out
+                     :obj :none
+                     :iobj :none
+                     :subj subj}
+               :agr agr
+               :subcat {:1 {:sem subj
+                            :agr agr}
+                        :2 {:cat :prep
+                            :phrasal? false
+                            :sem {:pred :out
+                                  :obj :none}}
+                        :3 []}})])
  
  "to" ;; to (in "she is able to"), "to sleep", "to see them"
  [

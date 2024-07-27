@@ -909,7 +909,9 @@
           :modal :base
           :sem {:tense :future}}]
 
-  "win" [{ :sem {:pred :win}}]
+ "win" [{:sem {:pred :win}
+          :exceptions [{:infl :past-simple :surface "won"}
+                       {:infl :past-participle :surface "won"}]}]
  ;; TODO: be, can, do, may, should, will, would: all these
  ;; can be the X in "[s-interog +X .[s-comp .noun +verb]]":
  ;; generalize with a lexical rule. See above related TODO about "will".

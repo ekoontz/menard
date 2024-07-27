@@ -869,6 +869,7 @@
  "turn" [{:sem {:pred :turn}
           :intransitive-only? true}
          {:subcat {:2 {:cat :prep
+                       :phrasal? false
                        :sem {:pred :off}}}
           :sem {:pred :turn-off}}]
          

@@ -760,7 +760,22 @@
                          :modal :infinitive
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
-                                  :2 []}}}}])}
+                                  :2 []}}}}
+
+           ;; "used to be able"
+           {:sense 3
+            :sem sem
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :aux? false
+                         :infl :infinitive
+                         :modal :none
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}
+
+
+           ])}
 
  
  ]

@@ -137,6 +137,14 @@
             :person :2nd
             :formal? false}}}
 
+ {:g [#"^(.+)ir$"   "$1ís"] 
+  :p [#"^(.+)lís$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:number :plur
+            :person :2nd
+            :formal? false}}}
+ 
  ;;     2nd person 
  ;;       formal
  {:g [#"^(.+)ar$"  "$1an"] 

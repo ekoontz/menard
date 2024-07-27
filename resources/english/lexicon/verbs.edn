@@ -713,7 +713,9 @@
                          {:infl :past-participle :surface "struck"}]}]
  "study" [{:sem {:pred :study}}]
  "succeed" [{:sem {:pred :succeed}}]
- "swim" [{ :sem {:pred :swim}}]
+ "swim" [{:sem {:pred :swim}
+          :exceptions [{:infl :past-simple :surface "swam"}
+                       {:infl :past-participle :surface "swum"}]}]
  "support" [{:sem {:pred :support}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]

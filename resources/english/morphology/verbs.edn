@@ -189,6 +189,12 @@
   :u {:cat :verb
       :infl :base}}
 
+ ;; tie/tying
+ {:g [#"^(.*)ie$"   "$1ying"]
+  :p [#"^(.*)ying$" "$1ie"]
+  :u {:cat :verb
+      :infl :present-participle}}
+
  ;; abandon/abandoning
  {:g [#"^(.*[o])([n])$"  "$1$2ing"]
   :p [#"^(.*[o][n])ing$" "$1"]

@@ -165,8 +165,8 @@
 
   ;; stop/stopped,step/stepped
  ;; (but not: prohibit/prohibited or develop/developed)
- {:g [#"^(.*[eiou])([bgmnpst])$"            "$1$2$2ed"]
-  :p [#"^(.*[eiou][bgmnpst])([bgmnpst])ed$" "$1"]
+ {:g [#"^(.*[eiou])([bglmnpst])$"            "$1$2$2ed"]
+  :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
@@ -202,8 +202,8 @@
       :infl :present-participle}}
 
  ;; stop/stopping,put/putting,run/running,let/letting
- {:g [#"^(.*[eiou])([bgmnpst])$"             "$1$2$2ing"]
-  :p [#"^(.*[eiou][bgmnpst])([bgmnpst])ing$" "$1"]
+ {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ing"]
+  :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
  

@@ -54,7 +54,7 @@
  "of" [{:cat :prep
         :sem {:pred :of}}]
  "off" [{:cat :prep
-        :sem {:pred :off}}]
+         :sem {:pred :off}}]
  "on" [{:cat :prep
         :sem {:pred :on}}]
  "our" [{:cat :det

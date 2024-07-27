@@ -138,7 +138,7 @@
             :formal? false}}}
 
  {:g [#"^(.+)ir$"   "$1ís"] 
-  :p [#"^(.+)lís$"  "$1ir"] 
+  :p [#"^(.+)ís$"  "$1ir"] 
   :u {:cat :verb
       :infl :present
       :agr {:number :plur

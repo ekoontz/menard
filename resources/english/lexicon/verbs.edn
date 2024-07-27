@@ -857,7 +857,6 @@
                            :2 []}}}
      :to? true})]
   
-
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
  "turn" [{:sem {:pred :turn}

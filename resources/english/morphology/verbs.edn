@@ -116,8 +116,8 @@
 
  ;; stop/stopped,step/stepped
  ;; (but not: probit/prohibited)
- {:g [#"^(.*[eiou])([gnpst])$"           "$1$2$2ed"]
-  :p [#"^(.*[eiou][gnpst])([gnpst])ed$"  "$1"]
+ {:g [#"^(.*[eiou])([bgnpst])$"           "$1$2$2ed"]
+  :p [#"^(.*[eiou][bgnpst])([bgnpst])ed$"  "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 

@@ -115,7 +115,6 @@
       :infl :past-simple}}
 
  ;; stop/stopped,step/stepped
- ;; (but not: probit/prohibited)
  {:g [#"^(.*[eiou])([bgnpst])$"           "$1$2$2ed"]
   :p [#"^(.*[eiou][bgnpst])([bgnpst])ed$"  "$1"]
   :u {:cat :verb
@@ -157,14 +156,13 @@
   :u {:cat :verb
       :infl :past-participle}}
 
- ;; prohibit/prohibited, develop/developed
- {:g [#"^(.*(ain|eep|bit|il|op))$"   "$1ed"]
-  :p [#"^(.*(ain|eep|bit|il|op))ed$" "$1"]
+ ;; prohibit/prohibited, develop/developed, etc
+ {:g [#"^(.*(ain|bit|eep|en|il|op))$"   "$1ed"]
+  :p [#"^(.*(ain|bit|eep|en|il|op))ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
   ;; stop/stopped,step/stepped
- ;; (but not: prohibit/prohibited or develop/developed)
  {:g [#"^(.*[eiou])([bglmnpst])$"            "$1$2$2ed"]
   :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
   :u {:cat :verb
@@ -196,8 +194,8 @@
       :infl :present-participle}}
 
  ;; develop/developing
- {:g [#"^(.*(ain|eep|bit|il|op))$"     "$1ing"]
-  :p [#"^(.*(ain|eep|bit||il|op))ing$" "$1"]
+ {:g [#"^(.*(ain|bit|eep|en|il|op))$"     "$1ing"]
+  :p [#"^(.*(ain|bit|eep|en|il|op))ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 

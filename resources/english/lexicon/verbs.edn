@@ -790,8 +790,7 @@
                         :3 []}})])
  
  "to" ;; to (in "she is able to"), "to sleep", "to see them"
- [
-  (let [subj (atom :top)
+ [(let [subj (atom :top)
         sem (atom {:subj subj})
         agr (atom :top)
         reflexive? (atom :top)]

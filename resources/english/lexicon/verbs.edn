@@ -871,7 +871,8 @@
          {:subcat {:2 {:cat :prep
                        :phrasal? false
                        :sem {:pred :off}}}
-          :sem {:pred :turn-off}}]
+          :sem {:pred :turn-off
+                :obj :none}}]
          
  "understand" [{:sem {:pred :understand}
                 :exceptions [{:infl :past-simple :surface "understood"}

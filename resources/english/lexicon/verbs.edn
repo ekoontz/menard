@@ -169,8 +169,8 @@
                            :surface "came"}
                           {:infl :past-participle
                            :surface "come"}]]
-          [{:sem {:pred :come
-                  :obj :none}
+          [{:intransitive-only? true
+            :sem {:pred :come}
             :exceptions exceptions}])
  "comment" [{:sem {:pred :comment}}]
  "confess" [{:sem {:pred :confess}}]

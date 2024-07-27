@@ -539,6 +539,10 @@
                 :mental-state? true}}]
  "linger" [{:sem {:pred :linger
                   :obj :none}}]
+ "listen" [{:sem {:pred :listen-to}
+            :subcat {:2 {:cat :prep
+                         :phrasal? false
+                         :sem {:pred :to}}}}]
  "live" [{:sem {:pred :live}}]
  "look" [{:sem {:pred :look
                 :obj :none}}

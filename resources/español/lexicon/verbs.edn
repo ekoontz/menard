@@ -203,7 +203,7 @@
  "enviar" [{:sem {:pred :send}}]
  "escapar" [{:sem {:pred :escape}}]
  "escribir" [{:sem {:pred :write}}]
- ;; "escuchar" [{:sem {:pred :listen-to}}]
+ "escuchar" [{:sem {:pred :listen-to}}]
  "esperar" [;; {:sem {:pred :wait-for}}
             {:sem {:pred :hope}}]
  "estudiar" [{:sem {:pred :study}}]

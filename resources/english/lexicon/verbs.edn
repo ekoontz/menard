@@ -151,7 +151,11 @@
            [{:sem {:pred :bring}
              :exceptions exceptions}])
  "bubble" [{:sem {:pred :bubble}}]
- "buy" [{:sem {:pred :buy}}] 
+ "buy" [{:sem {:pred :buy}
+         :exceptions [{:infl :past-simple
+                       :surface "bought"}
+                      {:infl :past-participle
+                       :surface "bought"}]}]
  "call" [{:sem {:pred :call}}]
  "can" [{:modal :base
          :sem {:pred :be-able-to}

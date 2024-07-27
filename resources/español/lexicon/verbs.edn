@@ -601,7 +601,7 @@
  "salir" [{:exceptions [{:infl :present
                          :agr {:person :1st
                                :number :sing}
-                         :surface "salgo"}x]
+                         :surface "salgo"}]
            :cat :verb
            :sem {:pred :go-out}}]
 

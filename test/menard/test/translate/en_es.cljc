@@ -26,7 +26,6 @@
                 (map en/morph)
                 first)))))
 
-
 (deftest roundtrip-english-future
   (let [input "he will be able to sleep"]
     (is (= input

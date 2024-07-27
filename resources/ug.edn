@@ -93,14 +93,17 @@
  (let [comp-derivation (atom :top)
        head-cat (atom :top)
        head-derivation (atom :top)
-       head-interogative (atom :top)]
+       head-interogative (atom :top)
+       head-to (atom :top)]
    {:def 'head-rule
     :unify '(head-agr head-infl head-reflexive)
     :cat head-cat
+    :to? head-to
     :interogative? head-interogative
     :comp-derivation comp-derivation
     :head-derivation head-derivation
     :head {:cat head-cat
+           :to? head-to
            :interogative? head-interogative
            :head-derivation head-derivation
            :menard.lexiconfn/derivation head-derivation}

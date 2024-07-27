@@ -608,7 +608,9 @@
           :sem {:pred :need}
           :modal :none}]
  "paint" [{:sem {:pred :paint}}]
- "pay" [{:sem {:pred :pay}}]
+ "pay" [{:sem {:pred :pay}
+         :exceptions [{:infl :past-simple :surface "paid"}
+                      {:infl :past-participle :surface "paid"}]}]
  "perform" [{ :sem {:pred :perform}}]
  "play" [{ :sem {:pred :play}}]
  "preserve" [{:sem {:pred :preserve}}]

@@ -158,8 +158,8 @@
       :infl :past-participle}}
 
  ;; prohibit/prohibited, develop/developed
- {:g [#"^(.*(ain|eep|bit|op))$"   "$1ed"]
-  :p [#"^(.*(ain|eep|bit|op))ed$" "$1"]
+ {:g [#"^(.*(ain|eep|bit|il|op))$"   "$1ed"]
+  :p [#"^(.*(ain|eep|bit|il|op))ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
@@ -196,8 +196,8 @@
       :infl :present-participle}}
 
  ;; develop/developing
- {:g [#"^(.*(ain|eep|bit|op))$"    "$1ing"]
-  :p [#"^(.*(ain|eep|bit|op))ing$" "$1"]
+ {:g [#"^(.*(ain|eep|bit|il|op))$"     "$1ing"]
+  :p [#"^(.*(ain|eep|bit||il|op))ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 

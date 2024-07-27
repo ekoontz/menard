@@ -789,6 +789,7 @@
         sem (atom {:subj subj})
         agr (atom :top)
         reflexive? (atom :top)]
+    ;; to sleep
     {:agr agr
      :sense :v1
      :inflected? true
@@ -809,6 +810,7 @@
                            :2 []}}}
      :to? true})
 
+  ;; to be able
   (let [subj (atom :top)
         sem (atom {:subj subj})
         agr (atom :top)
@@ -830,7 +832,31 @@
                   :subcat {:1 {:cat :noun
                                :sem subj}
                            :2 []}}}
+     :to? true})
+
+  ;; to want
+  (let [subj (atom :top)
+        sem (atom {:subj subj})
+        agr (atom :top)
+        reflexive? (atom :top)]
+    {:agr agr
+     :sense :v3
+     :inflected? true
+     :infl :infinitive
+     :sem sem
+     :subcat {:1 {:cat :noun
+                  :sem subj}
+              :2 {:cat :verb
+                  :to? false
+                  :agr agr
+                  :sem sem
+                  :modal :infinitive
+                  :aux? false
+                  :subcat {:1 {:cat :noun
+                               :sem subj}
+                           :2 []}}}
      :to? true})]
+  
 
  "try" [{:sem {:pred :try}
          :modal :infinitive}]

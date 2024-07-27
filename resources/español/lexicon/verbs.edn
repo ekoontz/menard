@@ -14,25 +14,20 @@
            :sem {:pred :walk}}]
  "anunciar" [{:sem {:pred :announce}}]
  "añadir" [{:sem {:pred :add}}]
-
- ;; commenting out until we have support for prepositional verbs in English e.g. "turn it off"
- ;; "apagar" [{:sem {:pred :turn-off}}]
+ "apagar" [{:sem {:pred :turn-off}}]
  "apoyar" [{:sem {:pred :support}}]
  "aprender" [{:sem {:pred :learn}}]
  "aprobar" [{:sem {:pred :approve}}]
-
  "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
                {:sem {:pred :enjoy}}]
  "asegurar" [{:sem {:pred :assure}}
              {:sem {:pred :insure}}]
-
  "aumentar" [{:sem {:pred :increase}}]
  "ayudar" [{:sem {:pred :help}
             :intransitive? true}
            {:sem {:pred :help,
                   :obj {:human true}}
             :transitive? true}]
-
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "beber" [{:sem {:pred :drink}}]
@@ -45,7 +40,6 @@
      :agr {:person :1st, :number :sing},
      :surface "quepo"}],
    :stems {:preterito "cup"}}]
-
  "caer"
  [{:sem {:pred :fall},
    :exceptions
@@ -607,7 +601,7 @@
  "salir" [{:exceptions [{:infl :present
                          :agr {:person :1st
                                :number :sing}
-                         :surface "salgo"}]
+                         :surface "salgo"}x]
            :cat :verb
            :sem {:pred :go-out}}]
 

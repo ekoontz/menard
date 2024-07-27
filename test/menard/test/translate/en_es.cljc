@@ -13,7 +13,7 @@
   
 (deftest parse-english
   (is
-   (= ["[s(:past-progressive) .he +[vp +used(2) .[vp +to(:v2) .[vp +be(4) .[adj-p +able(3) .[vp +to(:v1) .[vp +see .it]]]]]]]"]
+   (= ["[s(:past-progressive) .he +[vp +used(3) .[vp +to(:v2) .[vp +be(4) .[adj-p +able(3) .[vp +to(:v1) .[vp +see .it]]]]]]]"]
       (->> "he used to be able to see it" en/parse (map en/syntax-tree)))))
 
 (deftest roundtrip-english-past-progressive

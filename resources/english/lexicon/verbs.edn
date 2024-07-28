@@ -749,8 +749,9 @@
            [{:sem {:pred :throw}
              :exceptions exceptions}
 
-            {:prepositional-verb-with "out"
-             :sem {:pred :throw-out}}])
+            {:sem {:pred :throw-out}
+             :prepositional-verb-with "out"
+             :exceptions exceptions}])
  
  "to" ;; to (in "she is able to"), "to sleep", "to see them"
  [(let [subj (atom :top)

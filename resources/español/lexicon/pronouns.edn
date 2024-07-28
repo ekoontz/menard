@@ -53,6 +53,13 @@
                    :gender :masc
                    :pred :they}}])
 
+ "me" [{:case :nom
+        :agr {:number :sing
+              :person :1st}
+        :sem {:ref {:human? true}
+              :pred :i}
+        :reflexive? true}]
+
  "nosotras" [{:case :nom
               :agr {:number :plur
                     :gender :fem
@@ -115,11 +122,9 @@
                     :pred :you}
               :reflexive? false}]
 
- "yo" [{:case :nom
+"yo" [{:case :nom
         :agr {:number :sing
               :person :1st}
         :sem {:ref {:human? true}
               :pred :i}
         :reflexive? false}]}
-
-

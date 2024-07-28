@@ -280,6 +280,7 @@
 
  {:rule :propernoun-misc-defaults
   :if {:cat :noun
+       :pronoun? false
        :propernoun? true}
   :then [{:interogative? false
           :reflexive? false}]}

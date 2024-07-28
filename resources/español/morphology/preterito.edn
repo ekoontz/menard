@@ -55,8 +55,19 @@
       :infl :preterito
       :agr {:formal? true
             :number :sing
-            :person :2nd}}}
+            :person :2nd}
+      :reflexive? false}}
 
+ ;;     2nd person formal reflexive
+ {:g [#"^(.*)arse$"  "$1ó"] 
+  :p [#"^(.*)ó$"     "$1arse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? true
+            :number :sing
+            :person :2nd}
+      :reflexive? true}}
+ 
  {:g [#"^(.*)er$" "$1ió"] 
   :p [#"^(.*)ió$" "$1er"] 
   :u {:cat :verb

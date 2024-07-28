@@ -143,6 +143,19 @@
                 ;; processing:
                 (dissoc result :derivation))))))
 
+(defn process-antecedent [m canonical]
+   (if (= (type (:canonical m)) java.util.regex.Pattern)
+     (if (re-matches (:canonical m) canonical)
+       ;; the matches, so remove it from the map since
+       ;; we have determined that the rest of the
+       ;; antecedent may be checked:
+       (dissoc m :canonical)
+       ;; if it doesn't match, then don't bother
+       ;; checking the rest of the antecent, since
+       ;; it's failed the :canonical check:
+       :fail)
+     m))
+
 (defn apply-rules-to-lexeme
   "given a lexeme and a list of rules, return a list
    of all the possible lexemes following from the
@@ -161,31 +174,36 @@
     (let [rule (first rules)
           antecedent (:if rule)
           consequents (:then rule)
-          surface (u/get-in lexeme [:canonical])
-          log-fn (if (contains? lexemes-to-trace surface)
+          canonical (u/get-in lexeme [:canonical])
+          log-fn (if (contains? lexemes-to-trace canonical)
                    (fn [msg] (log/info msg))
                    (fn [msg] (log/debug msg)))
           log-rule-fn (if (contains? rules-to-trace (:rule rule))
                         log-fn
                         (fn [msg] (log/debug msg)))]
-      (log-fn (str "apply-rules-to-lexeme: applying rule: " (:rule rule) " to lexeme: '" surface "'."))
+      (log-fn (str "apply-rules-to-lexeme: applying rule: " (:rule rule) " to lexeme: '" canonical "'."))
       (log-rule-fn (str "apply-rules-to-lexeme: rule: " (:rule rule) "'s antecedent: " antecedent))
-      (if (not (= :fail (unify antecedent lexeme)))
-        ;; offset with '1' (i.e. '1' is the first element in the
-        ;; derivation consequents
-        (->> (vec (zipmap (range 1 (+ 1 (count consequents))) consequents))
-             (map (fn [[consequent-index consequent]]
-                    (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i (if (> (count consequents) 1) consequent-index) include-derivation?)))
-             (mapcat (fn [new-lexeme]
-                       (apply-rules-to-lexeme (rest rules) new-lexeme (+ i 1) include-derivation?))))
-        ;; else: failed to unify this lexeme antecedent of the rule,
-        ;; so the rule doesn't apply to the lexeme.
-        (apply-rules-to-lexeme (rest rules)
-                               (let [lexeme (if include-derivation? 
-                                              (unify lexeme (add-derivation (:rule rule) nil i nil))
-                                              lexeme)]
-                                 lexeme)
-                               (+ i 1) include-derivation?)))
+      (let [antecedent (process-antecedent antecedent canonical)]
+        (if (not (= :fail (unify antecedent lexeme)))
+          ;; offset with '1' (i.e. '1' is the first element in the
+          ;; derivation consequents
+          (do
+            (log-rule-fn (str "apply-rules-to-lexeme: antecedent matched."))
+            (->> (vec (zipmap (range 1 (+ 1 (count consequents))) consequents))
+                 (map (fn [[consequent-index consequent]]
+                        (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i (if (> (count consequents) 1) consequent-index) include-derivation?)))
+                 (mapcat (fn [new-lexeme]
+                           (apply-rules-to-lexeme (rest rules) new-lexeme (+ i 1) include-derivation?)))))
+          
+          ;; else: failed to unify this lexeme antecedent of the rule,
+          ;; so the rule doesn't apply to the lexeme.
+          (do (log-rule-fn (str "apply-rules-to-lexeme: antecedent: " antecedent " did not match lexeme: " (pprint lexeme)))
+              (apply-rules-to-lexeme (rest rules)
+                                     (let [lexeme (if include-derivation? 
+                                                    (unify lexeme (add-derivation (:rule rule) nil i nil))
+                                                    lexeme)]
+                                       lexeme)
+                                     (+ i 1) include-derivation?)))))
     :else
     [lexeme]))
 
@@ -229,8 +247,8 @@
                     (log-fn (str "apply-to-every-lexeme: '" surface "'"))
                     [k
                      (do
-                       (log-fn (str "K: " k))
-                       (log-fn (str "V: " (vec lexemes-for-k)))
+                       (log/debug (str "K: " k))
+                       (log/debug (str "V: " (vec lexemes-for-k)))
                        (map map-fn lexemes-for-k))]))))]
     result))
     

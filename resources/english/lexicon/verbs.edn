@@ -189,6 +189,8 @@
          :sem {:pred :cry}}] 
  "cut" [{:sem {:pred :cut}
          :exceptions [{:infl :past-simple
+                       :surface "cut"}
+                      {:infl :past-participle
                        :surface "cut"}]}]
  "damage" [{:sem {:pred :damage}}]
  "dance" [{:sem {:pred :dance}}]

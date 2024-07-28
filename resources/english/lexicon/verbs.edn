@@ -667,12 +667,16 @@
  "smoke" [{ :sem {:pred :smoke}}]
  "speak" (let [exceptions [{:infl :past-simple
                            :surface "spoke"}
-                          {:infl :past-participle
+                           {:infl :past-participle
                            :surface "spoken"}]]
            [{:sem {:pred :speak}
              :exceptions exceptions}])
  "spell" [{:sem {:pred :spell}}]
- "spend" [{:sem {:pred :spend}}] 
+ "spend" [{:sem {:pred :spend}
+           :exceptions [{:infl :past-simple
+                         :surface "spent"}
+                        {:infl :past-participle
+                         :surface "spent"}]}]
  "sneeze" [{:sem {:pred :sneeze}}]
  "stand" (let [exceptions [{:infl :past-simple :surface "stood"}
                            {:infl :past-participle :surface "stood"}]]

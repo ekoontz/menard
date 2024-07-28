@@ -1,88 +1,88 @@
 [{:g [#"^(.*[aie]r)$" "$1é"],
   :p [#"^(.*[aie]r)é$" "$1"],
-  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :1st}},
-  :reflexive? false}
+  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :1st},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1é"],
   :p [#"^(.*[aie]r)é$" "$1se"],
-  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :1st}},
-  :reflexive? true}
+  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :1st},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1ás"],
   :p [#"^(.*)ás$" "$1"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? false, :number :sing, :person :2nd}},
-  :reflexive? false}
+   :agr {:formal? false, :number :sing, :person :2nd},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1ás"],
   :p [#"^(.*)ás$" "$1se"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? false, :number :sing, :person :2nd}},
-  :reflexive? true}
+   :agr {:formal? false, :number :sing, :person :2nd},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1á"],
   :p [#"^(.*)á$" "$1"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? true, :number :sing, :person :2nd}},
-  :reflexive? false}
+   :agr {:formal? true, :number :sing, :person :2nd},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1á"],
   :p [#"^(.*)á$" "$1se"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? true, :number :sing, :person :2nd}},
-  :reflexive? true}
+   :agr {:formal? true, :number :sing, :person :2nd},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1á"],
   :p [#"^(.*[aie]r)á$" "$1"],
-  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :3rd}},
-  :reflexive? false}
+  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :3rd},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1á"],
   :p [#"^(.*[aie]r)á$" "$1se"],
-  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :3rd}},
-  :reflexive? true}
+  :u {:cat :verb, :infl :future, :agr {:number :sing, :person :3rd},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1emos"],
   :p [#"^(.*[aie]r)emos$" "$1"],
-  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :1st}},
-  :reflexive? false}
+  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :1st},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1emos"],
   :p [#"^(.*[aie]r)emos$" "$1se"],
-  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :1st}},
-  :reflexive? true}
+  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :1st},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1éis"],
   :p [#"^(.*[aie]r)éis$" "$1"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? false, :number :plur, :person :2nd}},
-  :reflexive? false}
+   :agr {:formal? false, :number :plur, :person :2nd},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1éis"],
   :p [#"^(.*[aie]r)éis$" "$1se"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? false, :number :plur, :person :2nd}},
-  :reflexive? true}
+   :agr {:formal? false, :number :plur, :person :2nd},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1án"],
   :p [#"^(.*[aie]r)án$" "$1"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? true, :number :plur, :person :2nd}},
-  :reflexive? false}
+   :agr {:formal? true, :number :plur, :person :2nd},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1án"],
   :p [#"^(.*[aie]r)án$" "$1se"],
   :u
   {:cat :verb,
    :infl :future,
-   :agr {:formal? true, :number :plur, :person :2nd}},
-  :reflexive? true}
+   :agr {:formal? true, :number :plur, :person :2nd},
+  :reflexive? true}}
  {:g [#"^(.*[aie]r)$" "$1án"],
   :p [#"^(.*[aie]r)án$" "$1"],
-  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :3rd}},
-  :reflexive? false}
+  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :3rd},
+  :reflexive? false}}
  {:g [#"^(.*[aie]r)se$" "$1án"],
   :p [#"^(.*[aie]r)án$" "$1se"],
-  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :3rd}},
-  :reflexive? true}]
+  :u {:cat :verb, :infl :future, :agr {:number :plur, :person :3rd},
+  :reflexive? true}}]

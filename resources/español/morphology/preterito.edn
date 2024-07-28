@@ -3,14 +3,14 @@
  ;;   singular
  ;;     1st person
  {:g [#"^(.*)ar$"  "$1é"] 
-  :p [#"^(.*)é$"   "$1ar"] 
+  :p [#"^(.*)é$"   "$1ar"]
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :1st}
       :reflexive? false}}
  {:g [#"^(.*)arse$" "$1é"] 
-  :p [#"^(.*)é$"    "$1arse"] 
+  :p [#"^(.*)é$"    "$1arse"]
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing

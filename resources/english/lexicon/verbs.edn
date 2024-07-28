@@ -343,7 +343,9 @@
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
  "finish" [{:sem {:pred :finish}}]
- "fit" [{:sem {:pred :fit}}] 
+ "fit" [{:sem {:pred :fit}
+         :exceptions [{:infl :past-simple :surface "fit"}
+                      {:infl :past-participle :surface "fit"}]}]
  "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
                           {:infl :past-participle :surface "forgotten"}]]
           [{:exceptions exceptions  :sem {:pred :forget}}])

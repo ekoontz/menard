@@ -256,12 +256,12 @@
    :infl :present,
    :agr {:number :plur, :person :2nd, :formal? true}},
   :reflexive? true}
- {:g [#"^(.+)ar$" "$1en"],
+ {:g [#"^(.+)ar$" "$1an"],
   :p [#"^(.+)en$" "$1ar"],
   :u
   {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd}},
   :reflexive? false}
- {:g [#"^(.+)arse$" "$1en"],
+ {:g [#"^(.+)arse$" "$1an"],
   :p [#"^(.+)en$" "$1arse"],
   :u
   {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd}},

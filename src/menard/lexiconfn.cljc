@@ -130,7 +130,7 @@
                                      (vec (display-derivation derivation)))
                                    "; fail-path was: " fail-path ";"
                                    " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
-                                   " consequent's value for path: " (u/get-in consequent fail-path))]
+                                   " consequent's value for path: " (u/get-in consequent fail-path) "; whole lexeme: " (pprint lexeme))]
             (log/error error-message)
             (exception error-message))
           :else

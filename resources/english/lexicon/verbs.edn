@@ -354,8 +354,11 @@
                     :subj {:human? false}}}]
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
-         [{:exceptions exceptions  :sem {:pred :get}}])
-
+         [{:exceptions exceptions
+           :sem {:pred :get}}
+          {:exceptions exceptions
+           :sem {:pred :get-up}
+           :prepositional-verb-with "up"}])
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
                           {:infl :past-participle :surface "given"}]]
           [{:exceptions exceptions

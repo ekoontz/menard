@@ -33,7 +33,14 @@
                          :sem sem}}})]}
  {:rule :preposition
   :if {:cat :prep}
-  :then [(let [obj (atom :top)
+  :then [;; no object (e.g. "she looks at")
+         {:cat :prep
+          :reflexive? true
+          :subcat []
+          :sem {:obj :none}}
+         
+         ;; object is reflexive (e.g. "she looks at herself")
+         (let [obj (atom {:top :top})
                agr (atom :top)
                interogative? (atom :top)]
            {:cat :prep
@@ -49,6 +56,8 @@
                          :sem obj}
                      :2 []}
             :sem {:obj obj}})
+
+         ;; object is not reflexive (e.g. "she looks at her")         
          (let [obj (atom :top)
                interogative? (atom :top)]
            {:cat :prep
@@ -68,6 +77,11 @@
        :modal ::unspec}
   :then [{:modal :none}]}
 
+ {:rule :prepositional-verb-with
+  :if {:cat :verb
+       :prepositional-verb-with ::unspec}
+  :then [{:prepositional-verb-with :none}]}
+ 
  {:rule :intransitive-only-default-false
   :if {:cat :verb
        :intransitive-only? ::unspec}
@@ -90,6 +104,7 @@
  {:rule :subcat-frames-nonmodal
   :if {:cat :verb
        :intransitive-only? false
+       :prepositional-verb-with :none
        :modal :none
        :aux? false
        :subcat {:2 ::unspec}
@@ -416,10 +431,29 @@
        :modal :none
        :subcat {:2 {:cat :prep}
                 :3 []}}
-  :then [(let [iobj (atom :top)]
-           {:sem {:iobj iobj}
-            :subcat {:2 {:cat :prep
-                         :sem {:obj iobj}}}})]}
+  :then (let [subj (atom :top)
+              with-preposition (atom :top)]
+          [{:prepositional-verb-with with-preposition
+            :reflexive? false
+            :sem {:obj :none
+                  :iobj :none
+                  :subj subj}
+            :subcat {:1 {:sem subj}
+                     :2 {:cat :prep
+                         :subcat []
+                         :phrasal? false
+                         :canonical with-preposition}
+                     :3 []}}
+           (let [iobj (atom :top)]
+             {:prepositional-verb-with with-preposition
+              :sem {:obj :none
+                    :subj subj
+                    :iobj iobj}
+              :subcat {:1 {:sem subj}
+                       :2 {:root with-preposition
+                           :cat :prep
+                         :subcat []                           
+                           :sem {:obj iobj}}}})])}
 
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb

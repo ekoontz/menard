@@ -10,14 +10,8 @@
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
-        {:reflexive? false
-         :sem {:pred :ask-for
-               :iobj :none                
-               :obj :none}
-         :subcat {:2 {:cat :prep
-                      :phrasal? false
-                      :canonical "for"}
-                  :3 []}}]
+        {:prepositional-verb-with "for"
+         :sem {:pred :ask-for}}]
  "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
@@ -539,37 +533,17 @@
                 :mental-state? true}}]
  "linger" [{:sem {:pred :linger
                   :obj :none}}]
- "listen" [{:sem {:pred :listen-to}
-            :subcat {:2 {:cat :prep
-                         :phrasal? false
-                         :sem {:pred :to}}}}]
+ "listen" [{:prepositional-verb-with "to"
+            :se {:pred :listen-to}}]
  "live" [{:sem {:pred :live}}]
- "look" [{:sem {:pred :look
-                :obj :none}}
-         {:reflexive? false
-          :sem {:pred :look-at
-                :iobj :none                
-                :obj :none}
-          :subcat {:2 {:cat :prep
-                       :phrasal? false
-                       :canonical "at"}
-                   :3 []}}
-         {:reflexive? false
-          :sem {:pred :look-for
-                :iobj :none                
-                :obj :none}
-          :subcat {:2 {:cat :prep
-                       :phrasal? false
-                       :canonical "for"}
-                   :3 []}}
-         {:reflexive? false
-          :sem {:pred :look-up
-                :iobj :none
-                :obj :none}
-          :subcat {:2 {:cat :prep
-                       :phrasal? false
-                       :canonical "up"}
-                   :3 []}}]
+ "look" [{:intransitive-only? true
+         :sem {:pred :look}}
+         {:prepositional-verb-with "at"
+          :sem {:pred :look-at}}
+         {:prepositional-verb-with "for"
+          :sem {:pred :look-for}}
+         {:prepositional-verb-with "up"
+          :sem {:pred :look-up}}]
  "lose" (let [exceptions [{:infl :past-simple :surface "lost"}
                           {:infl :past-participle :surface "lost"}]]
           [{:exceptions exceptions  :sem {:pred :lose}}])
@@ -624,6 +598,8 @@
  ;; "*I prevent"
  "prevent" [{ :sem {:pred :prevent}}]
 
+ ;; TODO: rewrite after better lexical support for ditransitive verbs (similar to what
+ ;; was done for {:prepositional-verb-with "X"}.
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
          [{:intransitive-only? true
@@ -775,25 +751,8 @@
            [{:sem {:pred :throw}
              :exceptions exceptions}
 
-            ;; TODO: most of the content for this
-            ;; lexeme should be done by lexical rules,
-            ;; and this is a regular kind of verb with V+prep,
-            ;; but we don't handle it well yet.
-            (let [subj (atom :top)
-                  agr (atom :top)]
-              {:exceptions exceptions
-               :sem {:pred :throw-out
-                     :obj :none
-                     :iobj :none
-                     :subj subj}
-               :agr agr
-               :subcat {:1 {:sem subj
-                            :agr agr}
-                        :2 {:cat :prep
-                            :phrasal? false
-                            :sem {:pred :out
-                                  :obj :none}}
-                        :3 []}})])
+            {:prepositional-verb-with "out"
+             :sem {:pred :throw-out}}])
  
  "to" ;; to (in "she is able to"), "to sleep", "to see them"
  [(let [subj (atom :top)
@@ -867,21 +826,15 @@
                                :sem subj}
                            :2 []}}}
      :to? true})]
-  
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
- "turn" [{:sem {:pred :turn}
-          :intransitive-only? true}
-         {:subcat {:2 {:cat :prep
-                       :phrasal? false
-                       :sem {:pred :off}}}
-          :sem {:pred :turn-off
-                :obj :none}}]
-         
+ "turn" [{:prepositional-verb-with "on"
+          :sem {:pred :turn-on}}
+         {:prepositional-verb-with "off"
+          :sem {:pred :turn-off}}]
  "understand" [{:sem {:pred :understand}
                 :exceptions [{:infl :past-simple :surface "understood"}
                              {:infl :past-participle :surface "understood"}]}]
-               
  "use" [{:sem {:pred :use}}]
 
  ;; e.g. "I used to go there"

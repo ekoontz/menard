@@ -15,7 +15,8 @@
          {:agr (-> es-parse (u/get-in [:agr]))
           :sem (-> es-parse (u/get-in [:sem]))
           :cat (-> es-parse (u/get-in [:cat]))
-          :subcat (-> es-parse (u/get-in [:subcat]))}))
+          :subcat (-> es-parse (u/get-in [:subcat]))}
+         {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}))
 
 (defn es-to-en [es-input]
   (log/debug (str "es-to-en: es-input: " es-input))
@@ -26,5 +27,3 @@
     (let [en-output (-> english-spec en/generate en/morph)]
       (log/info (str "es-to-en: " es-input " -> " en-output))
       en-output)))
-
-

@@ -220,6 +220,7 @@
   :then (let [subj (atom :top)]
           [{:transitive? false
             :subcat {:1 {:cat :noun
+                         :reflexive? false
                          :sem subj}
                      :2 []}
             :sem {:subj subj
@@ -232,6 +233,7 @@
   :then (let [subj (atom :top)]
           [{:transitive? false
             :subcat {:1 {:cat :noun
+                         :reflexive? false                         
                          :sem subj}
                      :2 []}
             :sem {:subj subj
@@ -246,6 +248,7 @@
             :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:cat :noun
+                         :reflexive? false                         
                          :sem subj}
                      :2 {:cat :noun
                          :sem obj}

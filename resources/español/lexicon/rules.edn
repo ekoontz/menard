@@ -169,7 +169,8 @@
             :transitive? false
             :sem {:subj subj}
             :subcat {:1 {:agr agr
-                         :sem subj}
+                         :sem subj
+                         :reflexive? false}
                      :2 {:pronoun? true
                          :agr agr
                          :reflexive? true}

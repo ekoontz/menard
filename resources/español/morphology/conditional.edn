@@ -1,62 +1,114 @@
-[
- {:g [#"^(.*[aie]r)$"      "$1ía"] 
-  :p [#"^(.*[aie]r)ía$"    "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :sing
-            :person :1st}}}
+[{:g [#"^(.*[aie]r)$" "$1ía"],
+  :p [#"^(.*[aie]r)ía$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :person :1st}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1ía"],
+  :p [#"^(.*[aie]r)ía$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :person :1st}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1ías"],
+  :p [#"^(.*)ías$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :formal? false, :person :2nd}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1ías"],
+  :p [#"^(.*)ías$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :formal? false, :person :2nd}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1ía"],
+  :p [#"^(.*[aie]r)ía$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :formal? true, :person :2nd}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1ía"],
+  :p [#"^(.*[aie]r)ía$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :formal? true, :person :2nd}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1ía"],
+  :p [#"^(.*[aie]r)ía$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :person :3rd}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1ía"],
+  :p [#"^(.*[aie]r)ía$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :sing, :person :3rd}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1íamos"],
+  :p [#"^(.*[aie]r)íamos$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :person :1st}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1íamos"],
+  :p [#"^(.*[aie]r)íamos$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :person :1st}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1íais"],
+  :p [#"^(.*[aie]r)íais$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :formal? false, :person :2nd}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1íais"],
+  :p [#"^(.*[aie]r)íais$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :formal? false, :person :2nd}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1ían"],
+  :p [#"^(.*[aie]r)ían$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :formal? true, :person :2nd}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1ían"],
+  :p [#"^(.*[aie]r)ían$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :formal? true, :person :2nd}},
+  :reflexive? true}
+ {:g [#"^(.*[aie]r)$" "$1ían"],
+  :p [#"^(.*[aie]r)ían$" "$1"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :person :3rd}},
+  :reflexive? false}
+ {:g [#"^(.*[aie]r)se$" "$1ían"],
+  :p [#"^(.*[aie]r)ían$" "$1se"],
+  :u
+  {:cat :verb,
+   :infl :conditional,
+   :agr {:number :plur, :person :3rd}},
+  :reflexive? true}]
 
- {:g [#"^(.*[aie]r)$"      "$1ías"] 
-  :p [#"^(.*)ías$"         "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :sing
-            :formal? false
-            :person :2nd}}}
 
- {:g [#"^(.*[aie]r)$"      "$1ía"] 
-  :p [#"^(.*[aie]r)ía$"    "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :sing
-            :formal? true
-            :person :2nd}}}
-
- {:g [#"^(.*[aie]r)$"      "$1ía"] 
-  :p [#"^(.*[aie]r)ía$"    "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :sing
-            :person :3rd}}}
-
- {:g [#"^(.*[aie]r)$"      "$1íamos"] 
-  :p [#"^(.*[aie]r)íamos$" "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :plur
-            :person :1st}}}
-
- {:g [#"^(.*[aie]r)$"      "$1íais"] 
-  :p [#"^(.*[aie]r)íais$"  "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :plur
-            :formal? false
-            :person :2nd}}}
-
- {:g [#"^(.*[aie]r)$"      "$1ían"] 
-  :p [#"^(.*[aie]r)ían$"    "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :plur
-            :formal? true
-            :person :2nd}}}
-
- {:g [#"^(.*[aie]r)$"      "$1ían"] 
-  :p [#"^(.*[aie]r)ían$"   "$1"] 
-  :u {:cat :verb
-      :infl :conditional
-      :agr {:number :plur
-            :person :3rd}}}
-
- ]

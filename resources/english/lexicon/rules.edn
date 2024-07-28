@@ -452,7 +452,7 @@
               :subcat {:1 {:sem subj}
                        :2 {:root with-preposition
                            :cat :prep
-                         :subcat []                           
+                           :subcat []                           
                            :sem {:obj iobj}}}})])}
 
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"

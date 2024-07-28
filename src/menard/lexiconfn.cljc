@@ -15,7 +15,8 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
-(def lexemes-to-trace #{})
+(def lexemes-to-trace #{"levantarse"})
+(def rules-to-trace #{:reflexive})
 
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))
@@ -159,7 +160,16 @@
     (seq rules)
     (let [rule (first rules)
           antecedent (:if rule)
-          consequents (:then rule)]
+          consequents (:then rule)
+          surface (u/get-in lexeme [:canonical])
+          log-fn (if (contains? lexemes-to-trace surface)
+                   (fn [msg] (log/info msg))
+                   (fn [msg] (log/debug msg)))
+          log-rule-fn (if (contains? rules-to-trace (:rule rule))
+                        log-fn
+                        (fn [msg] (log/debug msg)))]
+      (log-fn (str "apply-rules-to-lexeme: applying rule: " (:rule rule) " to lexeme: '" surface "'."))
+      (log-rule-fn (str "apply-rules-to-lexeme: rule: " (:rule rule) "'s antecedent: " antecedent))
       (if (not (= :fail (unify antecedent lexeme)))
         ;; offset with '1' (i.e. '1' is the first element in the
         ;; derivation consequents
@@ -206,18 +216,22 @@
           (apply-rules-to-lexicon rules include-derivation?)))))
 
 (defn apply-to-every-lexeme [lexicon map-fn]
-  (log/debug (str "apply-to-every-lexeme: map-fn: " map-fn))
   (if (not (map? lexicon))
     (exception (str "input lexeme is not a map; it is: " (vec lexicon))))
   (let [result 
         (into {}
               (for [[k lexemes-for-k] lexicon]
                 (let [lexemes-for-k (remove nil? lexemes-for-k)]
-                  [k
-                   (do
-                     (log/debug (str "K: " k))
-                     (log/debug (str "V: " (vec lexemes-for-k)))
-                     (map map-fn lexemes-for-k))])))]
+                  (let [surface k
+                        log-fn (if (contains? lexemes-to-trace surface)
+                                 (fn [msg] (log/info msg))
+                                 (fn [msg] (log/debug msg)))]
+                    (log-fn (str "apply-to-every-lexeme: '" surface "'"))
+                    [k
+                     (do
+                       (log-fn (str "K: " k))
+                       (log-fn (str "V: " (vec lexemes-for-k)))
+                       (map map-fn lexemes-for-k))]))))]
     result))
     
 #?(:clj
@@ -409,7 +423,7 @@
                                                          (fn [msg] (log/info msg))
                                                          (fn [msg] (log/debug msg)))]
                                             (log-fn (str "add-exceptions-to-lexicon: "
-                                                           "canonical: " canonical "; " 
+                                                           "canonical: '" canonical "'; " 
                                                            "lexeme: " (pprint lexeme)))
                                             (if (not (map? lexeme))
                                               (exception (str "the lexeme was unexpectedly not a map: " lexeme)))

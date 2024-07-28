@@ -96,32 +96,27 @@
   :u {:cat :verb
       :infl :past-simple}}
 
- ;; explain/explained,ruin/ruined, coin/coined/
+ ;; explain/explained,ruin/ruined, coin/coined
  {:g [#"^(.*[aou]in)$"   "$1ed"]
   :p [#"^(.*[aou]in)ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 
  ;; abandon/abandoned
- {:g [#"^(.*[o])([n])$"  "$1$2ed"]
+ {:g [#"^(.*[o])([n])$" "$1$2ed"]
   :p [#"^(.*[o][n])ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
+
+ ;; prohibit/prohibited, develop/developed, etc
+ {:g [#"^(.*(ain|bit|eep|en|il|op))$"   "$1ed"]
+  :p [#"^(.*(ain|bit|eep|en|il|op))ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
  
- ;; prohibit/prohibited
- {:g [#"^(.*bit)$"   "$1ed"]
-  :p [#"^(.*bit)ed$" "$1"]
-  :u {:cat :verb
-      :infl :past-simple}}
-
  ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([bgnpst])$"           "$1$2$2ed"]
-  :p [#"^(.*[eiou][bgnpst])([bgnpst])ed$"  "$1"]
-  :u {:cat :verb
-      :infl :past-simple}}
-
- {:g [#"^(.*op)$"     "$1ed"]
-  :p [#"^(.*op)ed$"   "$1"]
+ {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ed"]
+  :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -144,14 +139,14 @@
   :u {:cat :verb
       :infl :past-participle}}
 
-  ;; explain/explained
- {:g [#"^(.*ain)$"   "$1ed"]
-  :p [#"^(.*ain)ed$" "$1"]
+ ;; explain/explained,ruin/ruined, coin/coined
+ {:g [#"^(.*[aou]in)$"   "$1ed"]
+  :p [#"^(.*[aou]in)ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
  ;; abandon/abandoned
- {:g [#"^(.*[o])([n])$"  "$1$2ed"]
+ {:g [#"^(.*[o])([n])$" "$1$2ed"]
   :p [#"^(.*[o][n])ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
@@ -163,7 +158,7 @@
       :infl :past-participle}}
 
   ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([bglmnpst])$"            "$1$2$2ed"]
+ {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ed"]
   :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}

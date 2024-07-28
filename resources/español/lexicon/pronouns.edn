@@ -53,12 +53,24 @@
                    :gender :masc
                    :pred :they}}])
 
- "me" [{:case :nom
-        :agr {:number :sing
+ "me" [{:agr {:number :sing
               :person :1st}
         :sem {:ref {:human? true}
               :pred :i}
         :reflexive? true}]
+  
+ "nos" [{:agr {:number :plur
+               :person :1st}
+         :sem {:ref {:human? true}
+               :pred :we}
+         :reflexive? true}]
+
+ "vos" [{:agr {:number :plur
+               :person :2nd
+               :formal? false}
+         :sem {:ref {:human? true}
+               :pred :you}
+         :reflexive? true}]
 
  "nosotras" [{:case :nom
               :agr {:number :plur
@@ -75,6 +87,42 @@
               :sem {:ref {:human? true}
                     :pred :we}
               :reflexive? false}]
+
+ ;; we don't have [:agr :number]
+ ;; explicitly here for 'se': probably don't
+ ;; need it.
+ "se" [{:agr {:person :3rd}
+        :sem {:ref {:human? true}
+              :pred :it}
+        :reflexive? true}
+
+       {:agr {:person :3rd}
+        :sem {:ref {:human? true}
+              :pred :he}
+        :reflexive? true}
+
+       {:agr {:person :3rd}
+        :sem {:ref {:human? true}
+              :pred :she}
+        :reflexive? true}
+
+       {:agr {:person :3rd}
+        :sem {:ref {:human? true}
+              :pred :they}
+        :reflexive? true}
+
+       {:agr {:person :2nd
+              :formal? true}
+        :sem {:ref {:human? true}
+              :pred :they}
+        :reflexive? true}]
+
+ "te" [{:agr {:number :sing
+              :person :2nd
+              :formal? false}
+        :sem {:ref {:human? true}
+              :pred :you}
+        :reflexive? true}]
 
  "tu" [{:case :nom
         :agr {:number :sing

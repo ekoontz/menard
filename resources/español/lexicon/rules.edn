@@ -161,9 +161,31 @@
 
  {:rule :reflexive
   :if {:canonical #"(.*)se$"}
-  :then [{:reflexive? true
-          :foo 42}]}
- 
+  :then (let [agr (atom :top)
+              subj (atom :top)]
+          ;; variant with explicit subject e.g. "él se levantó"
+          [{:reflexive? true
+            :intransitive? false
+            :transitive? false
+            :sem {:subj subj}
+            :subcat {:1 {:agr agr
+                         :sem subj}
+                     :2 {:pronoun? true
+                         :agr agr
+                         :reflexive? true}
+                     :3 []}}
+
+           ;; variant without explicit subject e.g. "se levantó"
+           {:reflexive? true
+            :intransitive? false
+            :transitive? false
+            :sem {:subj subj}
+            :subcat {:1 {:pronoun? true
+                         :agr agr
+                         :sem subj
+                         :reflexive? true}
+                     :2 []}}])}
+         
  {:rule :transitivity-both
   :if {:cat :verb
        :intransitive? ::unspec

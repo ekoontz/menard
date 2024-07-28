@@ -536,7 +536,7 @@
  "linger" [{:sem {:pred :linger
                   :obj :none}}]
  "listen" [{:prepositional-verb-with "to"
-            :se {:pred :listen-to}}]
+            :sem {:pred :listen-to}}]
  "live" [{:sem {:pred :live}}]
  "look" [{:intransitive-only? true
          :sem {:pred :look}}

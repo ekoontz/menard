@@ -256,9 +256,9 @@
                            (compile-lexicon-source
                             (use-path (str path-suffix "/" filename))
                             lexical-rules
-                            include-derivation?             
-                             unify-with
-                             postprocess-fn))))))))
+                            include-derivation?
+                            unify-with
+                            postprocess-fn))))))))
 
 (def filter-for-fails? false)
 

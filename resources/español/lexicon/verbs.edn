@@ -143,7 +143,7 @@
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
  "desear" [{:sem {:pred :desire}}]
- "despertarse" {:sem {:pred :wake-up}}
+ "despertarse" [{:sem {:pred :wake-up}}]
  "dibujar" [{:sem {:pred :draw}}]
  "divertirse" [{:sem {:pred :have-fun}}]
  "dormir" [{:sem {:pred :sleep}, :stems {:boot "duerm"}}]

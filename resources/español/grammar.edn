@@ -1,7 +1,6 @@
 [
  {:rule "s"
   :cat :verb
-  :subcat []
   :head {:cat :verb}
   :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/a

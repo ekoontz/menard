@@ -91,30 +91,20 @@
  ;; we don't have [:agr :number]
  ;; explicitly here for 'se': probably don't
  ;; need it.
- "se" [{:agr {:person :3rd}
-        :sem {:ref {:human? true}
-              :pred :it}
+ "se" [{:sem {:pred :it}
         :reflexive? true}
 
-       {:agr {:person :3rd}
-        :sem {:ref {:human? true}
-              :pred :he}
+       {:sem {:pred :he}
         :reflexive? true}
 
-       {:agr {:person :3rd}
-        :sem {:ref {:human? true}
-              :pred :she}
+       {:sem {:pred :she}
         :reflexive? true}
 
-       {:agr {:person :3rd}
-        :sem {:ref {:human? true}
-              :pred :they}
+       {:sem {:pred :they}
         :reflexive? true}
 
-       {:agr {:person :2nd
-              :formal? true}
-        :sem {:ref {:human? true}
-              :pred :they}
+       {:agr {:formal? true}
+        :sem {:pred :you}
         :reflexive? true}]
 
  "te" [{:agr {:number :sing

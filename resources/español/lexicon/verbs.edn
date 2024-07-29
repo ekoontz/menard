@@ -58,28 +58,12 @@
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
      :surface "cayò"}]}]
-
  "cambiar" [{:sem {:pred :change}}]
- 
- ;; reflexive not supported yet
- ;; "cambiarse"
- ;;  [{:sem
- ;;    {:pred :change-clothes,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]}}]
-
+ "cambiarse" [{:sem {:pred :change-clothes}}]
  "caminar" [{:sem {:pred :walk-c}}]
  "cancelar" [{:sem {:pred :cancel}}]
  "cantar" [{:sem {:pred :sing}}]
-
- ;; reflexive not supported yet
- ;; "casarse"
- ;;[{:sem
- ;;    {:pred :get-married,
- ;;  :reflexive true,
- ;; :subj [[1] {:human true}],
- ;; :obj [1]}}]
+ "casarse"  [{:sem {:pred :get-married}}]
 
  "cenar" [{:sem {:pred :have-dinner}}]
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
@@ -159,46 +143,21 @@
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
  "desear" [{:sem {:pred :desire}}]
- ;; "despertarse"
- ;;  [{:sem
- ;;    {:pred :wake-up,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]}}]
+ "despertarse" {:sem {:pred :wake-up}}
  "dibujar" [{:sem {:pred :draw}}]
- ;; "divertirse"
- ;;  [{:sem
- ;;    {:pred :have-fun,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]},
- ;;    :stems {:boot "diviert"}}]
+ "divertirse" [{:sem {:pred :have-fun}}]
  "dormir" [{:sem {:pred :sleep}, :stems {:boot "duerm"}}]
-
- ;; "dormirse"
- ;;  [{:sem
- ;;    {:pred :fall-asleep,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]},
- ;;    :stems {:boot "duerm"}}]
-
- ;; "echar" [{:sem {:pred :throw-out}}]
+ "dormirse" [{:sem {:pred :fall-asleep}}]
+ "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
- ;; "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
+ "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
  "encontrar" [{:sem {:pred :find}}
               {:sem {:pred :drive}}]
- ;; "enojarse"
- ;;  [{:sem
- ;;    {:pred :get-angry,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]}}]
+ "enojarse" [{:sem {:pred :get-angry}}]
  "enseñar" [{:sem {:pred :show}}
             {:sem {:pred :teach}}]
- "entender"
- [{:sem {:pred :understand},
-   :stems {:boot "entiend"}}]
+ "entender" [{:sem {:pred :understand},
+              :stems {:boot "entiend"}}]
  "entrar" [{:sem {:pred :enter}}]
  "enviar" [{:sem {:pred :send}}]
  "escapar" [{:sem {:pred :escape}}]
@@ -369,21 +328,9 @@
                       :agr {:person :3rd, :number :plur}
                       :surface "fueron"}]}]
  
- ;; "lastimarse"
- ;;  [{:sem
- ;;    {:pred :hurt-oneself,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]}}]
-
+ "lastimarse" [{:sem {:pred :hurt-oneself}}]
  "lavar" [{:sem {:pred :wash}}]
-
- ;; "lavarse"
- ;;  [{:sem
- ;;    {:pred :wash-oneself,
- ;;     :reflexive true,
- ;;     :subj [[1] {:human true}],
- ;;     :obj [1]}}]
+ "lavarse" [{:sem {:pred :wash-oneself}}]
 
  "leer"
  [{:sem {:pred :read},
@@ -403,14 +350,7 @@
 
  "limpiar" [{:sem {:pred :clean}}]
 
- ;;"llamarse"
- ;;  [{:sem
- ;;{:aspect :simple,
- ;;     :pred :be-called,
- ;;     :reflexive true,
- ;;     :tense :present,
- ;;     :subj :top,
- ;;     :obj :top}}]
+ "llamarse" [{:sem {:pred :be-called}}]
 
  "llegar" [{:sem {:pred :arrive}}]
  "llenar" [{:sem {:pred :fill}}]
@@ -489,21 +429,10 @@
      :surface "pagué"}]}]
  
  "parar" [{:sem {:pred :stop}}]
- ;; "pararse"
- ;;  [{:sem
- ;;    {:pred :stop-oneself,
- ;;     :reflexive true,
- ;;     :subj [[1] :top],
- ;;     :obj [1]}}]
-
+ "pararse" [{:sem {:pred :stop-oneself}}]
  "pedir" [{:sem {:pred :ask-for}, :stems {:boot "pid"}}]
 
- ;; "peinarse"
- ;;  [{:sem
- ;;    {:pred :comb-oneself,
- ;;     :reflexive true,
- ;;     :subj [[1] :top],
- ;;     :obj [1]}}]
+ "peinarse" [{:sem {:pred :comb-oneself}}]
 
  "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]
@@ -537,27 +466,12 @@
    :stems {:preterito "pus"}}]
  
  "preguntar" [{:sem {:pred :ask-for}}]
- ;; "preocuparse"
- ;;  [{:sem
- ;;    {:pred :worry,
- ;;     :reflexive true,
- ;;     :subj [[1] {:animate? true}],
- ;;     :obj [1]}}]
+ "preocuparse" [{:sem {:pred :worry}}]
 
  "prestar" [{:sem {:pred :lend}}]
  
- ;; "quedarse"
- ;;  [{:sem
- ;;    {:pred :remain,
- ;;     :reflexive true,
- ;;     :subj [[1] {:animate? true}],
- ;;     :obj [1]}}]
- ;; "quejarse"
- ;;  [{:sem
- ;;    {:pred :complain,
- ;;     :reflexive true,
- ;;     :subj [[1] {:animate? true}],
- ;;     :obj [1]}}]
+ "quedarse" [{:sem {:pred :remain}}]
+ "quejarse" [{:sem {:pred :complain}}]
 
  "querer" (let [stems {:boot      "quier"
                        :preterito "quis"
@@ -607,7 +521,6 @@
 ;;   "sentir" {}
 ;;   "sentirse" {}
 ;;   "soñar" {}
-
 
  "tener" [{:sem {:subj {:animate true},
                  :pred :have},

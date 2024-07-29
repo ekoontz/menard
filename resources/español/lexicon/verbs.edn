@@ -399,7 +399,7 @@
      :surface "leyò"}]}]
 
  "levantarse" [{:sem {:pred :get-up,
-                      :subj {:human true}}}]
+                      :subj {:human? true}}}]
 
  "limpiar" [{:sem {:pred :clean}}]
 

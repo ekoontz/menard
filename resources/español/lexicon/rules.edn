@@ -160,7 +160,8 @@
                                   :suffix "ían"}}]}]}
 
  {:rule :reflexive
-  :if {:canonical #"(.*)se$"}
+  :if {:cat :verb
+       :canonical #"(.*)se$"}
   :then (let [agr (atom :top)
               subj (atom :top)]
           ;; variant with explicit subject e.g. "él se levantó"

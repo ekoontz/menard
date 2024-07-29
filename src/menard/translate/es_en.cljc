@@ -22,8 +22,8 @@
   (log/debug (str "es-to-en: es-input: " es-input))
   (let [es-parse (-> es-input es/parse first)
         english-spec (es-parse-to-en-spec es-parse)]
-    (log/debug (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
-    (log/debug (str "english spec: " (l/pprint english-spec)))
+    (log/info (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+    (log/info (str "es-to-en: english spec: " (l/pprint english-spec)))
     (let [en-output (-> english-spec en/generate en/morph)]
       (log/info (str "es-to-en: " es-input " -> " en-output))
       en-output)))

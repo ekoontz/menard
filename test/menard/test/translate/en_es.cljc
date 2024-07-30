@@ -1,5 +1,5 @@
 (ns menard.test.translate.en-es
-  (:require [dag_unify.core :as u]
+  (:require [dag_unify.core :as u :refer [unify]]
             [menard.english :as en]
             [menard.español :as es]
             [menard.lexiconfn :as l]

@@ -37,9 +37,16 @@
                 first)))))
 
 (def have-fun-spec {:comp {:agr {:gender :fem, :number :plur, :person :3rd}}
-                    :sem {:tense :present, :aspect :simple}
-                    :head {:canonical "divertirse"}
+                    :sem {:tense :present, :aspect :simple, :pred :have-fun}
                     :subcat []})
+
+(def sentence-specs
+  [{:rule "s" :head {:rule "vp"
+                     :head {:phrasal? false :canonical "divertirse"}
+                     :comp {:phrasal? false
+                            :sem {:pred :top}}}}
+                     
+   {:rule "s" :head {:phrasal? false :canonical "divertirse"}}])
 
 (deftest reflexive-roundtrip
   (let [input-sem (u/get-in have-fun-spec [:sem])]

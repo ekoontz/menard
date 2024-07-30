@@ -562,6 +562,7 @@
 ;;   "vender" {}
 
  "venir" [{:sem {:subj {:animate true}, :pred :come},
+           :intransitive? true
            :cat :verb,
            :exceptions
            [{:infl :present,

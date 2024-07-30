@@ -33,13 +33,23 @@
 
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
+
+
+;; log-these-rules: show more logging for a certain
+;; set of phrase-structure rules:
+;; examples:
+;;(def ^:dynamic log-these-rules #{"s" "vp"})
+
 (def ^:dynamic log-these-rules #{})
-(def ^:dynamic log-these-paths #{})
+
+;; log-these-rules: show more logging for a certain
+;; set of paths within a tree being generated.
+;; examples:
+;;(def ^:dynamic log-these-paths #{[:head :comp]})
 ;;(def ^:dynamic log-these-paths #{[:comp]})
-;;(def ^:dynamic log-these-rules #{})
-;;(def ^:dynamic log-these-paths #{[:head][:comp :head]})
-;;(def ^:dynamic log-these-rules #{"s" "vp" "vp-inf"})
-;;(def ^:dynamic log-these-paths #{[:head :head]})
+
+(def ^:dynamic log-these-paths #{})
+
 (def ^:dynamic log-all-rules? false)
 (def ^:dynamic exception-if-no-lexemes-found? false)
 

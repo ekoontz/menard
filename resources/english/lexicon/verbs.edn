@@ -449,6 +449,22 @@
                            :subcat []}}
               :exceptions non-aux-exceptions})
 
+(let [subj (atom :top)]
+             {:aux? false
+              :reflexive? false
+              :sense 4
+              :sem {:subj subj
+                    :pred :have-fun
+                    :obj :none}
+              :subcat {:1 {:sem subj}
+                       :2 {:cat :noun
+                           :reflexive? false
+                           :agr {:number :sing}
+                           :sem {:pred :fun
+                                 :existential? false}
+                           :subcat []}}
+              :exceptions non-aux-exceptions})
+
            (let [subj (atom :top)]
              {:aux? false
               :reflexive? false

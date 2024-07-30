@@ -455,10 +455,10 @@
                            :subcat []}}
               :exceptions non-aux-exceptions})
 
-(let [subj (atom :top)]
+           (let [subj (atom :top)]
              {:aux? false
               :reflexive? false
-              :sense 4
+              :sense 5
               :sem {:subj subj
                     :pred :have-fun
                     :obj :none}
@@ -474,7 +474,7 @@
            (let [subj (atom :top)]
              {:aux? false
               :reflexive? false
-              :sense 5
+              :sense 6
               :sem {:subj subj
                     :pred :have-lunch
                     :obj :none}

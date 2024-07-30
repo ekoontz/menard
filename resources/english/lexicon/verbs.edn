@@ -541,8 +541,8 @@
  "lie" [{:sem {:pred :lie}}]
  "like" [{:sem {:pred :like
                 :mental-state? true}}]
- "linger" [{:sem {:pred :linger
-                  :obj :none}}]
+ "linger" [{:sem {:pred :linger}
+            :intransitive-only? true}]
  "listen" [{:prepositional-verb-with "to"
             :sem {:pred :listen-to}}]
  "live" [{:sem {:pred :live}}]
@@ -904,6 +904,7 @@
                         :surface "wrote"}
                        {:infl :past-participle
                         :surface "wrote"}]}]
- "yawn" [{:sem {:pred :yawn
-                :obj :none}}]}
+ "yawn" [{:sem {:pred :yawn}
+          :intransitive-only? true}]}
+
 

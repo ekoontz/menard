@@ -20,6 +20,7 @@
  {:rule :common-nouns-are-inhuman-by-default
   :if {:cat :noun
        :pronoun? false
+       :propernoun? false
        :agr {:human? ::unspec}}
   :then [{:agr {:human? false}}]}
 
@@ -77,10 +78,16 @@
        :modal ::unspec}
   :then [{:modal :none}]}
 
- {:rule :prepositional-verb-with
+ {:rule :prepositional-verb-with-none
   :if {:cat :verb
        :prepositional-verb-with ::unspec}
-  :then [{:prepositional-verb-with :none}]}
+  :then [{:prepositional-verb-with :none
+          :prepositional-verb? false}]}
+
+ {:rule :prepositional-verb-true
+  :if {:cat :verb
+       :prepositional-verb? ::unspec}
+  :then [{:prepositional-verb? true}]}
  
  {:rule :intransitive-only-default-false
   :if {:cat :verb
@@ -429,6 +436,7 @@
  {:rule :prep-arg-verbs ;; "talks" in "she talks to him"
   :if {:cat :verb
        :modal :none
+       :prepositional-verb? true
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then (let [subj (atom :top)

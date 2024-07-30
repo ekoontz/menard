@@ -30,7 +30,7 @@
      (s/syntax-tree tree (-> model deref :morphology))))
 
 (defn generate [spec]
-  (log/info (str "generate: generating with: " spec))
+  (log/debug (str "generate: generating with: " spec))
   (let [model (deref model)
         retval
         (binding [g/max-depth (:max-depth spec g/max-depth)
@@ -40,7 +40,7 @@
               (g/generate (-> model :grammar)
                           (-> model :lexicon-index-fn)
                           syntax-tree)))]
-    (log/info (str "generate: generated: " (-> retval syntax-tree)))
+    (log/debug (str "generate: generated: " (-> retval syntax-tree)))
     retval))
 
 (defn morph [tree]

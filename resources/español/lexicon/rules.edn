@@ -159,6 +159,54 @@
                         :surface {:prefix [:stems :futuro]
                                   :suffix "ían"}}]}]}
 
+ {:rule :preterito-stem
+  :if {:cat :verb
+       :stems {:preterito? true}}
+  :then [{:exceptions [{:infl :preterito
+                        :agr {:person :1st
+                              :number :sing}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "e"}}
+                       {:infl :preterito
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? false}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "iste"}}
+                       {:infl :preterito
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? true}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "o"}}
+                       {:infl :preterito
+                        :agr {:person :3rd
+                              :number :sing}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "o"}}
+                       {:infl :preterito
+                        :agr {:person :1st
+                              :number :plur}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "imos"}}
+                       {:infl :preterito
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? false}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "isteis"}}
+                       {:infl :preterito
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? true}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "eron"}}
+                       {:infl :preterito
+                        :agr {:person :3rd
+                              :number :plur}
+                        :surface {:prefix [:stems :preterito]
+                                  :suffix "eron"}}]}]}
+                       
  {:rule :reflexive
   :if {:cat :verb
        :canonical #"(.*)se$"}

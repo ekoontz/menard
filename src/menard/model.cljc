@@ -288,8 +288,13 @@
                    
                    (= (u/get-in spec [:cat]) :det)
                    (-> model :indices :det-lexicon)
-                   
-                   :else (-> model :indices :misc-lexicon))
+
+                   (not (nil? (u/get-in spec [:cat])))
+                   (-> model :indices :misc-lexicon)
+
+                   :else (do
+                           (log/warn (str "lexicon-index-fn: no indexing keys (:pred, :cat) were found in input spec: " spec ". Will have to return entire lexicon."))
+                           (->> (-> model :lexicon vals) (reduce concat))))
              result (if (false? filter-for-fails?)
                       (->>
                        pre-result

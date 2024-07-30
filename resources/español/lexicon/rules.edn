@@ -217,6 +217,7 @@
             :intransitive? false
             :transitive? false
             :sem {:subj subj}
+            :agr agr
             :subcat {:1 {:agr agr
                          :sem subj
                          :reflexive? false}
@@ -230,6 +231,7 @@
             :intransitive? false
             :transitive? false
             :sem {:subj subj}
+            :agr agr
             :subcat {:1 {:pronoun? true
                          :agr agr
                          :sem subj

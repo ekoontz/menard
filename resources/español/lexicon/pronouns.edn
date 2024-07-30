@@ -5,12 +5,14 @@
           :agr agr
           :sem {:ref {:human? true}
                 :gender :masc
-                :pred :he}}
+                :pred :he}
+          :reflexive? false}
          {:case :nom
           :agr agr
           :sem {:ref {:human? false}
                 :gender :masc
-                :pred :it}}])
+                :pred :it}
+          :reflexive? false}])
 
  "ella" (let [agr {:person :3rd
                    :gender :fem
@@ -19,12 +21,14 @@
             :agr agr
             :sem {:ref {:human? true}
                   :gender :fem
-                  :pred :she}}
+                  :pred :she}
+            :reflexive? false}
            {:case :nom
             :agr agr
             :sem {:ref {:human? false}
                   :gender :fem
-                  :pred :it}}])
+                  :pred :it}
+            :reflexive? false}])
 
  "ellas" (let [agr {:person :3rd
                     :gender :fem
@@ -33,12 +37,15 @@
              :agr agr
              :sem {:ref {:human? true}
                    :gender :fem
-                   :pred :they}}
+                   :pred :they}
+             :reflexive? false}
             {:case :nom
              :agr agr
              :sem {:ref {:human? false}
                    :gender :fem
-                   :pred :they}}])
+                   :pred :they}
+             :reflexive? false}])
+ 
  "ellos" (let [agr {:person :3rd
                     :gender :masc
                     :number :plur}]
@@ -46,12 +53,14 @@
              :agr agr
              :sem {:ref {:human? true}
                    :gender :masc
-                   :pred :they}}
+                   :pred :they}
+             :reflexive? false}
             {:case :nom
              :agr agr
              :sem {:ref {:human? false}
                    :gender :masc
-                   :pred :they}}])
+                   :pred :they}
+             :reflexive? false}])
 
  "me" [{:agr {:number :sing
               :person :1st}
@@ -91,20 +100,32 @@
  ;; we don't have [:agr :number]
  ;; explicitly here for 'se': probably don't
  ;; need it.
- "se" [{:sem {:pred :it}
+ "se" [{:sem {:pred :it
+              :ref {:human? false}}
+        :agr {:person :3rd
+              :number :sing}
         :reflexive? true}
 
-       {:sem {:pred :he}
+       {:sem {:pred :he
+              :ref {:human? true}}
+        :agr {:person :3rd
+              :number :sing}
         :reflexive? true}
 
-       {:sem {:pred :she}
+       {:sem {:pred :she
+              :ref {:human? true}}
+        :agr {:person :3rd
+              :number :sing}
         :reflexive? true}
 
        {:sem {:pred :they}
+        :agr {:person :3rd
+              :number :plur}
         :reflexive? true}
-
-       {:agr {:formal? true}
-        :sem {:pred :you}
+       
+       {:sem {:pred :you}
+        :agr {:person :2nd
+              :formal? true}
         :reflexive? true}]
 
  "te" [{:agr {:number :sing

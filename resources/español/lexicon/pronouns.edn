@@ -123,7 +123,8 @@
               :number :plur}
         :reflexive? true}
        
-       {:sem {:pred :you}
+       {:sem {:pred :you
+              :ref {:formal? true}}
         :agr {:person :2nd
               :formal? true}
         :reflexive? true}]

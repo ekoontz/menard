@@ -88,6 +88,17 @@
   :if {:cat :verb
        :prepositional-verb? ::unspec}
   :then [{:prepositional-verb? true}]}
+
+ {:rule :adjectival-verb-with-none
+  :if {:cat :verb
+       :adjectival-verb-with ::unspec}
+  :then [{:adjectival-verb-with :none
+          :adjectival-verb? false}]}
+
+ {:rule :adjectival-verb-true
+  :if {:cat :verb
+       :adjectival-verb? ::unspec}
+  :then [{:adjectival-verb? true}]}
  
  {:rule :intransitive-only-default-false
   :if {:cat :verb
@@ -96,6 +107,7 @@
 
  {:rule :intransitive
   :if {:cat :verb
+       :adjectival-verb? false
        :intransitive-only? true}
   :then (let [subj (atom :top)]
           [{:sem {:subj subj
@@ -111,7 +123,8 @@
  {:rule :subcat-frames-nonmodal
   :if {:cat :verb
        :intransitive-only? false
-       :prepositional-verb-with :none
+       :prepositional-verb? false
+       :adjectival-verb? false
        :modal :none
        :aux? false
        :subcat {:2 ::unspec}
@@ -463,6 +476,23 @@
                            :subcat []                           
                            :sem {:obj iobj}}}})])}
 
+ {:rule :adjectival-arg-verbs ;; "fall asleep"
+  :if {:cat :verb
+       :adjectival-verb? true}
+  :then (let [subj (atom :top)
+              with-adjective (atom :top)]
+          [{:adjectival-verb-with with-adjective
+            :reflexive? false
+            :sem {:obj :none
+                  :iobj :none
+                  :subj subj}
+            :subcat {:1 {:sem subj}
+                     :2 {:cat :adjective
+                         :subcat []
+                         :phrasal? false
+                         :canonical with-adjective}
+                     :3 []}}])}
+ 
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb
        :modal :none

@@ -42,6 +42,7 @@
  "annoying" [{:sem {:pred :annoying}}]
  "anxious" [{:sem {:pred :anxious}}]
  "approachable" [{:sem {:pred :approachable}}]
+ "asleep" [{:sem {:pred :asleep}}] 
  "attractive" [{:sem {:pred :attractive}}]
  "awesome" [{:sem {:pred :awesome}}]
  "awkward" [{:sem {:pred :awkward}}]

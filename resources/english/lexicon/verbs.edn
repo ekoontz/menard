@@ -328,7 +328,13 @@
  "express" [{:sem {:pred :express}}] 
  "fall" (let [exceptions [{:infl :past-simple :surface "fell"}
                           {:infl :past-participle :surface "fallen"}]]
-         [{:exceptions exceptions :sem {:pred :fall}}])
+          [{:exceptions exceptions
+            :intransitive-only? true
+            :sem {:pred :fall}}
+           {:exceptions exceptions
+            :sem {:pred :fall-asleep}
+            :adjectival-verb-with "asleep"}])
+           
  "feed" [{:sem {:pred :feed}
           :exceptions [{:infl :past-simple
                         :surface "fed"}

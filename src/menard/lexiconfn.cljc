@@ -15,11 +15,11 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
-;; show more logging for a certain set of lexemes
+;; lexemes-to-trace: show more logging for a certain set of lexemes
 ;; during lexical compilation:
 (def lexemes-to-trace #{})
 
-;; show more logging for a certain set of rules
+;; rules-to-trace: show more logging for a certain set of rules
 ;; during processing of the lexemes in lexemes-to-trace.
 ;; the rules are by convention defined in
 ;; <language>/lexicon/rules.edn.

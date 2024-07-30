@@ -515,7 +515,8 @@
            :cat :verb
            :sem {:pred :go-out}}]
 
-;;   "seguir" {}
+ "seguir" [{:stems {:boot "sig"}
+            :sem {:pred :follow}}] 
 ;;   "sentarse" {}
 
 ;;   "sentir" {}

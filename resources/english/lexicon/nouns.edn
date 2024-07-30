@@ -88,7 +88,9 @@
                         :surface "fishes"}]}]
  "follower" [{:sem {:pred :follower}}] 
  "fool" [{:sem {:pred :fool}}]
- "fun" [{:sem {:pred :fun}}] 
+ "fun" [{:sem {:pred :fun}}
+        {:sem {:pred :fun}
+         :subcat []}] ;; "has fun"
  "gentleman" [{:sem {:pred :man
                      :context :formal}
                :agr {:gender :man

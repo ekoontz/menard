@@ -464,6 +464,7 @@
                     :obj :none}
               :subcat {:1 {:sem subj}
                        :2 {:cat :noun
+                           :phrasal? false
                            :reflexive? false
                            :agr {:number :sing}
                            :sem {:pred :fun

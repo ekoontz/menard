@@ -15,8 +15,19 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
-(def lexemes-to-trace #{"levantarse"})
-(def rules-to-trace #{:reflexive})
+;; show more logging for a certain set of lexemes
+;; during lexical compilation:
+(def lexemes-to-trace #{})
+
+;; show more logging for a certain set of rules
+;; during processing of the lexemes in lexemes-to-trace.
+;; the rules are by convention defined in
+;; <language>/lexicon/rules.edn.
+(def rules-to-trace #{})
+
+;; examples:
+;;(def lexemes-to-trace #{"levantarse"})
+;;(def rules-to-trace #{:reflexive})
 
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))

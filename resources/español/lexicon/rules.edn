@@ -222,6 +222,7 @@
                          :sem subj
                          :reflexive? false}
                      :2 {:pronoun? true
+                         :cat :noun
                          :agr agr
                          :reflexive? true}
                      :3 []}}
@@ -233,6 +234,7 @@
             :sem {:subj subj}
             :agr agr
             :subcat {:1 {:pronoun? true
+                         :cat :noun                         
                          :agr agr
                          :sem subj
                          :reflexive? true}

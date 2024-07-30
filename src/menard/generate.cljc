@@ -12,6 +12,7 @@
 
 ;; See:
 ;; - english.cljc/generate
+;; - español.cljc/generate
 ;; - nederlands.cljc/generate
 ;; for example usage.
 ;; Diagnostics:

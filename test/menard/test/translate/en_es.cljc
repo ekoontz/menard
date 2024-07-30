@@ -36,3 +36,16 @@
                 (map en/morph)
                 first)))))
 
+(def have-fun-spec {:comp {:agr {:gender :fem, :number :plur, :person :3rd}}
+                    :sem {:tense :present, :aspect :simple}
+                    :head {:canonical "divertirse"}
+                    :subcat []})
+
+(deftest reflexive-roundtrip
+  (let [input-sem (u/get-in have-fun-spec [:sem])]
+    (->> (-> have-fun-spec es/generate
+             es/morph es/parse)
+         (map #(is "s" (u/get-in % [:rule])))
+         vec)))
+
+

@@ -206,6 +206,13 @@
       :agr {:number :plur
             :person :1st}
       :reflexive? false}}
+ {:g [#"^(.*)arse$"   "$1amos"] 
+  :p [#"^(.*)amos$"   "$1arse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:number :plur
+            :person :1st}
+      :reflexive? true}}
 
  {:g [#"^(.*)er$"   "$1imos"] 
   :p [#"^(.*)imos$" "$1er"] 
@@ -214,6 +221,13 @@
       :agr {:number :plur
             :person :1st}
       :reflexive? false}}
+ {:g [#"^(.*)erse$"   "$1imos"] 
+  :p [#"^(.*)imos$"   "$1erse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:number :plur
+            :person :1st}
+      :reflexive? true}}
 
  {:g [#"^(.*)ir$"   "$1imos"] 
   :p [#"^(.*)imos$" "$1ir"] 
@@ -222,6 +236,13 @@
       :agr {:number :plur
             :person :1st}
       :reflexive? false}}
+ {:g [#"^(.*)irse$"   "$1imos"] 
+  :p [#"^(.*)imos$" "$1irse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:number :plur
+            :person :1st}
+      :reflexive? true}}
 
  ;;     2nd person informal
  {:g [#"^(.*)ar$"     "$1asteis"] 
@@ -232,6 +253,14 @@
             :number :plur
             :person :2nd}
       :reflexive? false}}
+ {:g [#"^(.*)arse$"   "$1asteis"] 
+  :p [#"^(.*)asteis$" "$1arse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}
+      :reflexive? true}}
 
  {:g [#"^(.*)er$"     "$1isteis"] 
   :p [#"^(.*)isteis$" "$1er"] 
@@ -241,6 +270,14 @@
             :number :plur
             :person :2nd}
       :reflexive? false}}
+ {:g [#"^(.*)erse$"   "$1isteis"] 
+  :p [#"^(.*)isteis$" "$1erse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}
+      :reflexive? true}}
 
  {:g [#"^(.*)ir$"     "$1isteis"] 
   :p [#"^(.*)isteis$" "$1ir"] 
@@ -250,6 +287,14 @@
             :number :plur
             :person :2nd}
       :reflexive? false}}
+ {:g [#"^(.*)irse$"   "$1isteis"] 
+  :p [#"^(.*)isteis$" "$1irse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? false
+            :number :plur
+            :person :2nd}
+      :reflexive? true}}
 
  ;;     2nd person formal
  {:g [#"^(.*)ar$"   "$1aron"] 
@@ -260,6 +305,14 @@
             :number :plur
             :person :2nd}
       :reflexive? false}}
+ {:g [#"^(.*)arse$" "$1aron"] 
+  :p [#"^(.*)aron$" "$1arse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}
+      :reflexive? true}}
 
  {:g [#"^(.*)er$"    "$1ieron"] 
   :p [#"^(.*)ieron$" "$1er"] 
@@ -269,6 +322,14 @@
             :number :plur
             :person :2nd}
       :reflexive? false}}
+ {:g [#"^(.*)erse$"  "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1erse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}
+      :reflexive? true}}
 
  {:g [#"^(.*)ir$"    "$1ieron"] 
   :p [#"^(.*)ieron$" "$1ir"] 
@@ -278,6 +339,14 @@
             :number :plur
             :person :2nd}
       :reflexive? false}}
+ {:g [#"^(.*)irse$"  "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1irse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:formal? true
+            :number :plur
+            :person :2nd}
+      :reflexive? true}}
  
  ;;     3rd person
  {:g [#"^(.*)ar$"    "$1aron"] 
@@ -287,6 +356,13 @@
       :agr {:number :plur
             :person :3rd}
       :reflexive? false}}
+ {:g [#"^(.*)arse$"  "$1aron"] 
+  :p [#"^(.*)aron$"  "$1arse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:number :plur
+            :person :3rd}
+      :reflexive? true}}
 
  {:g [#"^(.*)er$"    "$1ieron"] 
   :p [#"^(.*)ieron$" "$1er"] 
@@ -295,6 +371,13 @@
       :agr {:number :plur
             :person :3rd}
       :reflexive? false}}
+ {:g [#"^(.*)erse$"  "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1erse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:number :plur
+            :person :3rd}
+      :reflexive? true}}
 
  {:g [#"^(.*)ir$"    "$1ieron"] 
   :p [#"^(.*)ieron$" "$1ir"] 
@@ -303,5 +386,12 @@
       :agr {:number :plur
             :person :3rd}
       :reflexive? false}}
+ {:g [#"^(.*)irse$"  "$1ieron"] 
+  :p [#"^(.*)ieron$" "$1irse"] 
+  :u {:cat :verb
+      :infl :preterito
+      :agr {:number :plur
+            :person :3rd}
+      :reflexive? true}}
  ]
 

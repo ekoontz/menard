@@ -146,8 +146,11 @@
  "despertarse" [{:sem {:pred :wake-up}}]
  "dibujar" [{:sem {:pred :draw}}]
  "divertirse" [{:sem {:pred :have-fun}}]
- "dormir" [{:sem {:pred :sleep}, :stems {:boot "duerm"}}]
- "dormirse" [{:sem {:pred :fall-asleep}}]
+ "dormir" [{:intransitive? true
+            :sem {:pred :sleep}
+            :stems {:boot "duerm"}}]
+ "dormirse" [{:sem {:pred :fall-asleep}
+              :stems {:boot "duerm"}}]
  "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]

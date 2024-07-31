@@ -340,7 +340,7 @@
            (if (:include-derivation? option-map)
              (if (false? include-derivation?)
                (log/warn (str "You set :include-derivation? to be true but we are keeping it off - sorry. Maybe because: existing-model is not nil: " (not (nil? existing-model)) " or use-existing-lexicon? is not false: " (not (false? use-existing-lexicon?))))
-               (log/info (str "You set :include-derivation? to be true and we will respect that!"))))
+               (log/info (str "You set :include-derivation? to be true: please ensure you turn it off after you've completed development and are ready to deploy."))))
            model-spec-filename 
            (str path-to-model ".edn")]
        (log/info (str "creating model with "

@@ -96,14 +96,14 @@
    :infl :conditional,
    :agr {:number :plur, :formal? true, :person :2nd},
   :reflexive? true}}
- {:g [#"^(.*[aie]r)$" "$1ían"],
+ {:g [#"^(.*[aie]r)$"    "$1ían"],
   :p [#"^(.*[aie]r)ían$" "$1"],
   :u
   {:cat :verb,
    :infl :conditional,
    :agr {:number :plur, :person :3rd},
   :reflexive? false}}
- {:g [#"^(.*[aie]r)se$" "$1ían"],
+ {:g [#"^(.*[aie]r)se$"  "$1ían"],
   :p [#"^(.*[aie]r)ían$" "$1se"],
   :u
   {:cat :verb,

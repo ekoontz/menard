@@ -10,7 +10,7 @@
             #?(:cljs [menard.log :as log])))
 
 (defn es-parse-to-en-spec [es-parse]
-  (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+  (log/debug (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
   (unify {:sem {:mod []}}
          {:agr (-> es-parse (u/get-in [:agr]))
           :sem (-> es-parse (u/get-in [:sem]))
@@ -19,11 +19,22 @@
          {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}))
 
 (defn es-to-en [es-input]
-  (log/debug (str "es-to-en: es-input: " es-input))
+  (if es-input
+    (log/debug (str "es-to-en: es-input: " es-input))    
+    (log/error (str "es-to-en: es-input was null.")))
+
   (let [es-parse (-> es-input es/parse first)
         english-spec (es-parse-to-en-spec es-parse)]
-    (log/info (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
-    (log/info (str "es-to-en: english spec: " (l/pprint english-spec)))
-    (let [en-output (-> english-spec en/generate en/morph)]
-      (log/info (str "es-to-en: " es-input " -> " en-output))
-      en-output)))
+    (log/debug (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+    (log/debug (str "es-to-en: english spec: " (l/pprint english-spec)))
+    (let [en-expression (-> english-spec en/generate)]
+      (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
+      (if en-expression
+        (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))
+        (log/error (str "could not generate english expression for spec: " (l/pprint english-spec) "; es-input: " es-input)))
+      (let [en-output (-> en-expression en/morph)]
+        (log/info (str "es-to-en: " es-input " -> " en-output))
+        en-output))))
+
+
+

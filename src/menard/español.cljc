@@ -18,7 +18,6 @@
                (fn [lexicon _ _] lexicon)
                true
 
-
                {:include-derivation? false}
                ;; change to true to  ^^^^^
                ;;show derivation.

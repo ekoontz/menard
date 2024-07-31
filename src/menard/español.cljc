@@ -23,7 +23,6 @@
                ;;show derivation.
                )))
 
-
 #?(:clj
    (defn syntax-tree [tree]
      (s/syntax-tree tree (-> model deref :morphology))))

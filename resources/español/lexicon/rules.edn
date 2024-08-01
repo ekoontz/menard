@@ -239,7 +239,12 @@
                          :sem subj
                          :reflexive? true}
                      :2 []}}])}
-         
+
+ {:rule :reflexive-is-false-by-default
+  :if {:cat :verb
+       :reflexive? ::unspec}
+  :then [{:reflexive? false}]}
+ 
  {:rule :transitivity-both
   :if {:cat :verb
        :intransitive? ::unspec

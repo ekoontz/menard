@@ -67,8 +67,11 @@
                     {:head-derivation (menard.lexiconfn/display-derivation head-derivation)}
                     (and (not (keyword? comp-derivation)) (seq comp-derivation))
                     {:comp-derivation (menard.lexiconfn/display-derivation comp-derivation)})
-              (when (seq exceptions)
-                {:exceptions (vec exceptions)}))))
+              (cond (keyword? exceptions)
+                    {}
+                    (seq exceptions)
+                    {:exceptions (vec exceptions)}
+                    :else {}))))
           u/pprint)
       :else lexeme)))
 

@@ -400,14 +400,19 @@
                               {:agr {:person :2nd} :surface "have" :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
-                              {:agr {:person :3rd :number :sing} :surface "has" :infl :present
+                              {:agr {:person :3rd :number :sing}
+                               :surface "has" :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
-                              {:agr {:person :3rd :number :plur} :surface "have" :infl :present
+                              {:agr {:person :3rd :number :plur}
+                               :surface "have"
+                               :infl :present
                                :sem {:tense :past
                                      :aspect :perfect}}
                               {:sem {:tense :past
-                                     :aspect :pluperfect} :surface "had" :infl :past-simple}]
+                                     :aspect :pluperfect}
+                               :surface "had"
+                               :infl :past-simple}]
               non-aux-exceptions [{:agr {:person :1st} :surface "have" :infl :present}
                                   {:agr {:person :2nd} :surface "have" :infl :present}
                                   {:agr {:person :3rd :number :sing} :surface "has" :infl :present}

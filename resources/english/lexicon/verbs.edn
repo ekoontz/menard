@@ -853,7 +853,7 @@
           :used-to? true}]
 
  "wake" [{:prepositional-verb-with "up"
-          :sem {:pred :wake-up}}
+          :sem {:pred :wake-up}}]
 
  "walk" [{:sem {:pred :walk}}
          {:sem {:pred :walk-c}}]

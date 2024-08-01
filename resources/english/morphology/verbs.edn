@@ -189,13 +189,13 @@
       :infl :present-participle}}
 
  ;; develop/developing
- {:g [#"^(.*(ain|bit|eep|en|il|op))$"     "$1ing"]
-  :p [#"^(.*(ain|bit|eep|en|il|op))ing$" "$1"]
+ {:g [#"^(.*(ain|bit|eep|en|il|lop))$"    "$1ing"]
+  :p [#"^(.*(ain|bit|eep|en|il|lop))ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 
  ;; stop/stopping,put/putting,run/running,let/letting
- {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ing"]
+ {:g [#"^(.*[eiou])([bglmnpst])$"              "$1$2$2ing"]
   :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}

@@ -521,7 +521,7 @@
                          :agr {:number :sing}
                          :phrasal? false
                          :canonical with-noun
-                         :subcat []}                         
+                         :subcat []}
                      :3 []}}])}
  
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"

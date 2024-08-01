@@ -303,9 +303,9 @@
              (let [exception-canonicals (->> exceptions (map #(u/get-in % [:canonical])) set)]
                (concat exceptions
                        (remove (fn [lexeme]
-                                 (log/debug (str "canonicals: " exception-canonicals))
-                                 (log/debug (str "canonical of lexeme: " (u/get-in lexeme [:canonical])))
-                                 (log/debug (str "contains? " (contains? exception-canonicals (u/get-in lexeme [:canonical]))))
+                                 (log/info (str "canonicals: " exception-canonicals))
+                                 (log/info (str "canonical of lexeme: " (u/get-in lexeme [:canonical])))
+                                 (log/info (str "contains? " (contains? exception-canonicals (u/get-in lexeme [:canonical]))))
                                  (contains? exception-canonicals (u/get-in lexeme [:canonical])))
                                lexemes))))
            (#(do
@@ -480,7 +480,18 @@
                      (log/info (str "candidate lexeme: at: " (vec at) ": "
                                      (or (u/get-in lexeme [:canonical]) (l/pprint lexeme)))))
                    (cond (not (= :fail unify))
-                         true
+                         (do
+                           (when (contains? log-these-paths at)
+                             (log/info (str "lexeme candidate: "
+                                            (cond (u/get-in lexeme [:surface])
+                                                  (str "'" (u/get-in lexeme [:surface]) "'")
+                                                  (u/get-in lexeme [:canonical])
+                                                  (str "_" (u/get-in lexeme [:canonical]) "_"
+                                                       (if (u/get-in lexeme [:sense])
+                                                         (str ":" (u/get-in lexeme [:sense]))))
+                                                  :true
+                                                  (l/pprint lexeme)) " succeeded: " (strip-refs lexeme))))
+                           true)
                          :else (let [fail-path
                                      (dag_unify.diagnostics/fail-path spec lexeme)]
                                  (when (contains? log-these-paths at)

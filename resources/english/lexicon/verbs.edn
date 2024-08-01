@@ -443,6 +443,7 @@
              {:aux? false
               :reflexive? false
               :sense 4
+              :nominal-verb-with "dinner"
               :sem {:subj subj
                     :pred :have-dinner
                     :obj :none}
@@ -459,6 +460,7 @@
              {:aux? false
               :reflexive? false
               :sense 5
+              :nominal-verb-with "fun"           
               :sem {:subj subj
                     :pred :have-fun
                     :obj :none}
@@ -476,6 +478,7 @@
              {:aux? false
               :reflexive? false
               :sense 6
+              :nominal-verb-with "lunch"
               :sem {:subj subj
                     :pred :have-lunch
                     :obj :none}

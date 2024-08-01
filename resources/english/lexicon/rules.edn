@@ -99,6 +99,17 @@
   :if {:cat :verb
        :adjectival-verb? ::unspec}
   :then [{:adjectival-verb? true}]}
+
+ {:rule :nominal-verb-with-none
+  :if {:cat :verb
+       :nominal-verb-with ::unspec}
+  :then [{:nominal-verb-with :none
+          :nominal-verb? false}]}
+
+ {:rule :nominal-verb-true
+  :if {:cat :verb
+       :nominal-verb? ::unspec}
+  :then [{:nominal-verb? true}]}
  
  {:rule :intransitive-only-default-false
   :if {:cat :verb
@@ -491,6 +502,23 @@
                          :subcat []
                          :phrasal? false
                          :canonical with-adjective}
+                     :3 []}}])}
+
+ {:rule :nominal-arg-verbs ;; "have lunch"
+  :if {:cat :verb
+       :nominal-verb? true}
+  :then (let [subj (atom :top)
+              with-noun (atom :top)]
+          [{:nominal-verb-with with-noun
+            :reflexive? false
+            :sem {:obj :none
+                  :iobj :none
+                  :subj subj}
+            :subcat {:1 {:sem subj}
+                     :2 {:cat :noun
+                         :subcat []
+                         :phrasal? false
+                         :canonical with-noun}
                      :3 []}}])}
  
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"

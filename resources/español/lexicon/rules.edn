@@ -206,7 +206,12 @@
                               :number :plur}
                         :surface {:prefix [:stems :preterito]
                                   :suffix "eron"}}]}]}
-                       
+
+ {:rule :non-reflexive
+  :if {:cat :verb
+       :canonical #"(.*)r$"}
+  :then [{:reflexive? false}]}
+
  {:rule :reflexive
   :if {:cat :verb
        :canonical #"(.*)se$"}
@@ -239,11 +244,6 @@
                          :sem subj
                          :reflexive? true}
                      :2 []}}])}
-
- {:rule :reflexive-is-false-by-default
-  :if {:cat :verb
-       :reflexive? ::unspec}
-  :then [{:reflexive? false}]}
  
  {:rule :transitivity-both
   :if {:cat :verb

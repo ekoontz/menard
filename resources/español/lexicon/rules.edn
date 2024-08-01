@@ -53,7 +53,7 @@
                         ;; (1st and 2nd plur informal are conjugated according
                         ;; to the regular rules, so no :exception needed for them).
 
-                       ;; 2nd person formal (ustedes)
+                       ;; 2nd person plural formal (ustedes)
                        {:infl :present
                         :agr {:person :2nd
                               :number :plur

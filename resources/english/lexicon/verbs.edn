@@ -483,8 +483,8 @@
               :reflexive? false
               :sense 6
               :nominal-verb-with "lunch"
-              :sem {:pred :have-lunch
-              :exceptions non-aux-exceptions}}])
+              :sem {:pred :have-lunch}
+              :exceptions non-aux-exceptions}])
            
  "heal" [{ :sem {:pred :heal}}]
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}

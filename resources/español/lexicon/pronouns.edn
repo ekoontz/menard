@@ -131,8 +131,19 @@
         :sem {:pred :you
               :ref {:formal? true}}
         :agr {:person :2nd
+              :number :sing
               :formal? true}
-        :reflexive? true}]
+        :reflexive? true}
+
+       {:sense 6
+        :sem {:pred :you
+              :ref {:formal? true}}
+        :agr {:person :2nd
+              :number :plur              
+              :formal? true}
+        :reflexive? true}
+
+       ]
 
  "te" [{:agr {:number :sing
               :person :2nd

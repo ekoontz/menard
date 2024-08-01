@@ -244,15 +244,6 @@
                          :sem subj
                          :reflexive? true}
                      :2 []}}])}
- 
- {:rule :transitivity-both
-  :if {:cat :verb
-       :intransitive? ::unspec
-       :transitive? ::unspec}
-  :then [{:intransitive? true
-          :transitive? false}
-         {:intransitive? false
-          :transitive? true}]}
 
  {:rule :intrans-only
   :if {:cat :verb

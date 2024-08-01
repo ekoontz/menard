@@ -516,9 +516,11 @@
                   :subj subj}
             :subcat {:1 {:sem subj}
                      :2 {:cat :noun
-                         :subcat []
+                         :reflexive? false
+                         :agr {:number :sing}
                          :phrasal? false
-                         :canonical with-noun}
+                         :canonical with-noun
+                         :subcat []}                         
                      :3 []}}])}
  
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"

@@ -363,8 +363,12 @@
          [{:exceptions exceptions
            :sem {:pred :get}}
           {:exceptions exceptions
+           :sem {:pred :get-married}
+           :adjectival-verb-with "married"}
+          {:exceptions exceptions
            :sem {:pred :get-up}
            :prepositional-verb-with "up"}])
+          
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
                           {:infl :past-participle :surface "given"}]]
           [{:exceptions exceptions

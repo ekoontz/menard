@@ -474,22 +474,12 @@
                            :subcat []}}
               :exceptions non-aux-exceptions})
 
-           (let [subj (atom :top)]
              {:aux? false
               :reflexive? false
               :sense 6
               :nominal-verb-with "lunch"
-              :sem {:subj subj
-                    :pred :have-lunch
-                    :obj :none}
-              :subcat {:1 {:sem subj}
-                       :2 {:cat :noun
-                           :reflexive? false
-                           :agr {:number :sing}
-                           :sem {:pred :lunch
-                                 :existential? false}
-                           :subcat []}}
-              :exceptions non-aux-exceptions})])
+              :sem {:pred :have-lunch
+              :exceptions non-aux-exceptions}}])
            
  "heal" [{ :sem {:pred :heal}}]
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}

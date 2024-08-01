@@ -56,3 +56,15 @@
          vec)))
 
 
+(deftest ustedes-se-duermen
+  (is (= "[s(:present-simple){+} .ustedes +[vp(:present-simple){+} .se(6) +duermen]]"
+         (-> {:rule "s"
+              :comp {:agr {:number :plur,
+                           :person :2nd
+                           :formal? true}},
+              :sem {:tense :present,
+                    :aspect :simple},
+              :head {:rule "vp"
+                     :head {:canonical "dormirse"}}}
+             es/generate es/syntax-tree))))
+

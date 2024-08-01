@@ -134,6 +134,7 @@
  {:rule :subcat-frames-nonmodal
   :if {:cat :verb
        :intransitive-only? false
+       :nominal-verb? false
        :prepositional-verb? false
        :adjectival-verb? false
        :modal :none

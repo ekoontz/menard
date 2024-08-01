@@ -849,7 +849,10 @@
           :sem {:tense :past
                 :aspect :progressive}
           :used-to? true}]
- 
+
+ "wake" [{:prepositional-verb-with "up"
+          :sem {:pred :wake-up}}
+
  "walk" [{:sem {:pred :walk}}
          {:sem {:pred :walk-c}}]
  "want" [{:sem {:pred :want

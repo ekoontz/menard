@@ -9,7 +9,8 @@
  "advertir" [{:stems {:boot "adviert"}
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
-              :sem {:pred :have-lunch}}]
+              :sem {:pred :have-lunch}
+              :intransitive? true}]
  "andar" [{:stems {:preterito "anduv"}
            :sem {:pred :walk}}]
  "anunciar" [{:sem {:pred :announce}}]

@@ -16,7 +16,7 @@
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
 ;; lexemes-to-trace: show more logging for a certain set of lexemes
-;; during lexical compilation:
+;; during lexical compilation.
 (def lexemes-to-trace #{})
 
 ;; rules-to-trace: show more logging for a certain set of rules

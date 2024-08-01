@@ -50,13 +50,14 @@
 (defn pprint [lexeme]
   (let [derivation (u/get-in lexeme [:menard.lexiconfn/derivation])
         head-derivation (u/get-in lexeme [:head-derivation])
-        comp-derivation (u/get-in lexeme [:comp-derivation])]
+        comp-derivation (u/get-in lexeme [:comp-derivation])
+        exceptions (u/get-in lexeme [:exceptions])]
     (cond
       (map? lexeme)
       (-> lexeme
           (dissoc :menard.lexiconfn/derivation)
           (dissoc :head-derivation)
-          (dissoc :comp-derivation)        
+          (dissoc :comp-derivation)
           ((fn [lexeme]
              (merge
               lexeme
@@ -65,7 +66,9 @@
                     (and (not (keyword? head-derivation)) (seq head-derivation))
                     {:head-derivation (menard.lexiconfn/display-derivation head-derivation)}
                     (and (not (keyword? comp-derivation)) (seq comp-derivation))
-                    {:comp-derivation (menard.lexiconfn/display-derivation comp-derivation)}))))
+                    {:comp-derivation (menard.lexiconfn/display-derivation comp-derivation)})
+              (when (seq exceptions)
+                {:exceptions (vec exceptions)}))))
           u/pprint)
       :else lexeme)))
 

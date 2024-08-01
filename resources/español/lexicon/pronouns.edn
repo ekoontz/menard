@@ -100,30 +100,35 @@
  ;; we don't have [:agr :number]
  ;; explicitly here for 'se': probably don't
  ;; need it.
- "se" [{:sem {:pred :it
+ "se" [{:sense 1
+        :sem {:pred :it
               :ref {:human? false}}
         :agr {:person :3rd
               :number :sing}
         :reflexive? true}
 
-       {:sem {:pred :he
+       {:sense 2
+        :sem {:pred :he
               :ref {:human? true}}
         :agr {:person :3rd
               :number :sing}
         :reflexive? true}
 
-       {:sem {:pred :she
+       {:sense 3
+        :sem {:pred :she
               :ref {:human? true}}
         :agr {:person :3rd
               :number :sing}
         :reflexive? true}
 
-       {:sem {:pred :they}
+       {:sense 4
+        :sem {:pred :they}
         :agr {:person :3rd
               :number :plur}
         :reflexive? true}
        
-       {:sem {:pred :you
+       {:sense 5
+        :sem {:pred :you
               :ref {:formal? true}}
         :agr {:person :2nd
               :formal? true}

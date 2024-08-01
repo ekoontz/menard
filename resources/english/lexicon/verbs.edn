@@ -364,6 +364,9 @@
          [{:exceptions exceptions
            :sem {:pred :get}}
           {:exceptions exceptions
+           :sem {:pred :get-angry}
+           :adjectival-verb-with "angry"}
+          {:exceptions exceptions
            :sem {:pred :get-married}
            :adjectival-verb-with "married"}
           {:exceptions exceptions

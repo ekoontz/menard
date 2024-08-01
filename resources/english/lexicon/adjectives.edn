@@ -39,6 +39,7 @@
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "accurate" [{:sem {:pred :accurate}}]
  "amusing" [{:sem {:pred :amusing}}]
+ "angry" [{:sem {:pred :angry}}]
  "annoying" [{:sem {:pred :annoying}}]
  "anxious" [{:sem {:pred :anxious}}]
  "approachable" [{:sem {:pred :approachable}}]

@@ -192,7 +192,8 @@
  "vosotros" [{:case :nom
               :agr {:number :plur
                     :gender :masc
-                    :person :2nd}
+                    :person :2nd
+                    :formal? false}
               :sem {:ref {:human? true
                           :context :informal}
                     :pred :you}

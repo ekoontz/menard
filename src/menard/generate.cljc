@@ -34,7 +34,6 @@
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
 
-
 ;; log-these-rules: show more logging for a certain
 ;; set of phrase-structure rules:
 ;; examples:
@@ -285,6 +284,9 @@
   leaf (via (get-lexemes)) to _tree_."
   [tree lexicon-index-fn syntax-tree]
   (let [at (frontier tree)
+        more-logging? (or log-all-rules?
+                          (contains? log-these-paths (vec at))
+                          (contains? log-these-rules (u/get-in tree [:rule])))
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
     (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])) (contains? log-these-paths at))
@@ -294,29 +296,26 @@
       (->> (let [lexemes (get-lexemes spec lexicon-index-fn at)
                  debug (log/debug (str "pre-inflected?-filtering: " (vec (map l/pprint lexemes))))
                  exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)]
-             (when (or log-all-rules?
-                       (contains? log-these-paths (vec at))
-                       (contains? log-these-rules (u/get-in tree [:rule])))
+             (when more-logging?
                (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes) " at: " (vec at)))
                (log/info (str "add-lexeme: of those, there were " (count exceptions) " exception(s).")))
              ;; (remove all lexemes that are covered by exceptions):
-             (let [exception-canonicals (->> exceptions (map #(u/get-in % [:canonical])) set)]
+             (let [exception-canonicals (->> exceptions
+                                             (map #(u/get-in % [:canonical])) set)]
                (concat exceptions
                        (remove (fn [lexeme]
-                                 (log/info (str "canonicals: " exception-canonicals))
-                                 (log/info (str "canonical of lexeme: " (u/get-in lexeme [:canonical])))
-                                 (log/info (str "contains? " (contains? exception-canonicals (u/get-in lexeme [:canonical]))))
+                                (when more-logging? 
+                                  (log/info (str "canonicals: " exception-canonicals))
+                                  (log/info (str "canonical of lexeme: " (u/get-in lexeme [:canonical])))
+                                  (log/info (str "contains? " (contains? exception-canonicals (u/get-in lexeme [:canonical])))))
                                  (contains? exception-canonicals (u/get-in lexeme [:canonical])))
                                lexemes))))
            (#(do
-               (when (or log-all-rules?
-                         (contains? log-these-rules (u/get-in tree [:rule]))
-                         (contains? log-these-paths at))
+               (when more-logging?
                  (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))
-                 (do
-                   (vec (map (fn [lexeme]
+                 (doall (map (fn [lexeme]
                                (log/info (str "found lexeme: " (syntax-tree lexeme))))
-                             %))))
+                             %)))
                %))
            
            (#(if (and exception-if-no-lexemes-found? (empty? %))

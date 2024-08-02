@@ -10,7 +10,7 @@
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
-        {:prepositional-verb-with "for"
+        {:prepositional-verb {:with "for"}
          :sem {:pred :ask-for}}]
  "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
@@ -164,7 +164,7 @@
  "cause" [{:sem {:pred :cause}}]
  "change" [{:sem {:pred :change}}
            {:sem {:pred :change-clothes}
-            :nominal-verb-with "clothes"}]
+            :nominal-verb {:with "clothes"}}]
  "cheat" [{:sem {:pred :cheat}}]
  "clean" [{:sem {:pred :clean}}]
  "close" [{:sem {:pred :close}}]
@@ -338,7 +338,7 @@
             :sem {:pred :fall}}
            {:exceptions exceptions
             :sem {:pred :fall-asleep}
-            :adjectival-verb-with "asleep"}])
+            :adjectival-verb {:with "asleep"}}])
            
  "feed" [{:sem {:pred :feed}
           :exceptions [{:infl :past-simple
@@ -370,13 +370,13 @@
            :sem {:pred :get}}
           {:exceptions exceptions
            :sem {:pred :get-angry}
-           :adjectival-verb-with "angry"}
+           :adjectival-verb {:with "angry"}}
           {:exceptions exceptions
            :sem {:pred :get-married}
-           :adjectival-verb-with "married"}
+           :adjectival-verb {:with "married"}}
           {:exceptions exceptions
            :sem {:pred :get-up}
-           :prepositional-verb-with "up"}])
+           :prepositional-verb {:with "up"}}])
           
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
                           {:infl :past-participle :surface "given"}]]
@@ -401,7 +401,7 @@
               :3 []}}
 
     {:exceptions exceptions
-     :prepositional-verb-with "out"
+     :prepositional-verb {:with "out"}
      :sem {:pred :go-out}}])
  
  "guess" [{:sem {:pred :guess}}]
@@ -460,21 +460,21 @@
            {:sense 4
             :aux? false
             :reflexive? false
-            :nominal-verb-with "dinner"
+            :nominal-verb {:with "dinner"}
             :sem {:pred :have-dinner}
             :exceptions non-aux-exceptions}
 
            {:sense 5
             :aux? false
             :reflexive? false
-            :nominal-verb-with "fun"
+            :nominal-verb {:with "fun"}
             :sem {:pred :have-fun}
             :exceptions non-aux-exceptions}
 
            {:sense 6
             :aux? false
             :reflexive? false
-            :nominal-verb-with "lunch"
+            :nominal-verb {:with "lunch"}
             :sem {:pred :have-lunch}
             :exceptions non-aux-exceptions}])
 
@@ -542,16 +542,16 @@
                 :mental-state? true}}]
  "linger" [{:sem {:pred :linger}
             :intransitive-only? true}]
- "listen" [{:prepositional-verb-with "to"
+ "listen" [{:prepositional-verb {:with "to"}
             :sem {:pred :listen-to}}]
  "live" [{:sem {:pred :live}}]
  "look" [{:intransitive-only? true
          :sem {:pred :look}}
-         {:prepositional-verb-with "at"
+         {:prepositional-verb {:with "at"}
           :sem {:pred :look-at}}
-         {:prepositional-verb-with "for"
+         {:prepositional-verb {:with "for"}
           :sem {:pred :look-for}}
-         {:prepositional-verb-with "up"
+         {:prepositional-verb {:with "up"}
           :sem {:pred :look-up}}]
  "lose" (let [exceptions [{:infl :past-simple :surface "lost"}
                           {:infl :past-participle :surface "lost"}]]
@@ -608,7 +608,7 @@
  "prevent" [{ :sem {:pred :prevent}}]
 
  ;; TODO: rewrite after better lexical support for ditransitive verbs (similar to what
- ;; was done for {:prepositional-verb-with "X"}.
+ ;; was done for {:prepositional-verb {:with "X"}.
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
          [{:intransitive-only? true
@@ -768,7 +768,7 @@
              :exceptions exceptions}
 
             {:sem {:pred :throw-out}
-             :prepositional-verb-with "out"
+             :prepositional-verb {:with "out"}
              :exceptions exceptions}])
  
  "to" ;; to (in "she is able to"), "to sleep", "to see them"
@@ -845,9 +845,9 @@
      :to? true})]
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
- "turn" [{:prepositional-verb-with "on"
+ "turn" [{:prepositional-verb {:with "on"}
           :sem {:pred :turn-on}}
-         {:prepositional-verb-with "off"
+         {:prepositional-verb {:with "off"}
           :sem {:pred :turn-off}}]
  "understand" [{:sem {:pred :understand}
                 :exceptions [{:infl :past-simple :surface "understood"}
@@ -864,7 +864,7 @@
                 :aspect :progressive}
           :used-to? true}]
 
- "wake" [{:prepositional-verb-with "up"
+ "wake" [{:prepositional-verb {:with "up"}
           :sem {:pred :wake-up}}]
 
  "walk" [{:sem {:pred :walk}}

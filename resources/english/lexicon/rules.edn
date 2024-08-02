@@ -80,8 +80,8 @@
 
  {:rule :prepositional-verb-with-none
   :if {:cat :verb
-       :prepositional-verb-with ::unspec}
-  :then [{:prepositional-verb-with :none
+       :prepositional-verb ::unspec}
+  :then [{:prepositional-verb :none
           :prepositional-verb? false}]}
 
  {:rule :prepositional-verb-true
@@ -89,10 +89,10 @@
        :prepositional-verb? ::unspec}
   :then [{:prepositional-verb? true}]}
 
- {:rule :adjectival-verb-with-none
+ {:rule :adjectival-verb-none
   :if {:cat :verb
-       :adjectival-verb-with ::unspec}
-  :then [{:adjectival-verb-with :none
+       :adjectival-verb ::unspec}
+  :then [{:adjectival-verb :none
           :adjectival-verb? false}]}
 
  {:rule :adjectival-verb-true
@@ -102,8 +102,8 @@
 
  {:rule :nominal-verb-with-none
   :if {:cat :verb
-       :nominal-verb-with ::unspec}
-  :then [{:nominal-verb-with :none
+       :nominal-verb ::unspec}
+  :then [{:nominal-verb {:with :none}
           :nominal-verb? false}]}
 
  {:rule :nominal-verb-true
@@ -466,8 +466,8 @@
        :subcat {:2 {:cat :prep}
                 :3 []}}
   :then (let [subj (atom :top)
-              with-preposition (atom :top)]
-          [{:prepositional-verb-with with-preposition
+              preposition (atom :top)]
+          [{:prepositional-verb {:with preposition}
             :reflexive? false
             :sem {:obj :none
                   :iobj :none
@@ -476,15 +476,15 @@
                      :2 {:cat :prep
                          :subcat []
                          :phrasal? false
-                         :canonical with-preposition}
+                         :canonical {:with preposition}}
                      :3 []}}
            (let [iobj (atom :top)]
-             {:prepositional-verb-with with-preposition
+             {:prepositional-verb-with {:with preposition}
               :sem {:obj :none
                     :subj subj
                     :iobj iobj}
               :subcat {:1 {:sem subj}
-                       :2 {:root with-preposition
+                       :2 {:root {:with preposition}
                            :cat :prep
                            :subcat []                           
                            :sem {:obj iobj}}}})])}
@@ -493,8 +493,8 @@
   :if {:cat :verb
        :adjectival-verb? true}
   :then (let [subj (atom :top)
-              with-adjective (atom :top)]
-          [{:adjectival-verb-with with-adjective
+              adjective (atom :top)]
+          [{:adjectival-verb {:with adjective}
             :reflexive? false
             :sem {:obj :none
                   :iobj :none
@@ -503,13 +503,13 @@
                      :2 {:cat :adjective
                          :subcat []
                          :phrasal? false
-                         :canonical with-adjective}
+                         :canonical adjective}
                      :3 []}}])}
 
  {:rule :nominal-arg-verbs-number ;; "have lunch", not "have lunches"
   :if {:cat :verb
        :nominal-verb? true}
-  :then [{:nominal-argument-number :sing}]}
+  :then [{:nominal-verb {:number :sing}}]}
 
  {:rule :nominal-arg-verbs ;; "have lunch"
   :if {:cat :verb
@@ -517,8 +517,8 @@
   :then (let [subj (atom :top)
               with-noun (atom :top)
               nominal-argument-number (atom :top)]
-          [{:nominal-verb-with with-noun
-            :nominal-argument-number nominal-argument-number
+          [{:nominal-verb {:with with-noun
+                           :number nominal-argument-number}
             :reflexive? false
             :sem {:obj :none
                   :iobj :none

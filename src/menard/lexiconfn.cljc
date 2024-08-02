@@ -448,13 +448,13 @@
   (let [exceptions-for (fn [canonical lexemes]
                          ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
                          ;;  has _canonical_ as the canonical form for the exception."
-                         (log/info (str "canonical: " canonical))
+                         (log/debug (str "canonical: " canonical))
                          (let [merge-all (fn [args]
                                            (if (seq args)
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]
                            (->> lexemes
                                 (mapcat (fn [lexeme]
-                                          (let [log-fn (if (or true (contains? lexemes-to-trace canonical))
+                                          (let [log-fn (if (contains? lexemes-to-trace canonical)
                                                          (fn [msg] (log/info msg))
                                                          (fn [msg] (log/debug msg)))]
                                             (log-fn (str "add-exceptions-to-lexicon: "

@@ -35,6 +35,8 @@
  "circumstance" [{:sem {:pred :circumstance}}]
  "civilization" [{:sem {:pred :civilization}}]
  "civil servant" [{:sem {:pred :civil-servant}}]
+ "clothes" [{:sem {:pred :clothes}
+             :agr {:number :plur}}]
  "coat" [{:sem {:pred :coat}}]
  "community" [{:sem {:pred :community}}]
  "company" [{:sem {:pred :company}}]

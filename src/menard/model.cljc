@@ -187,6 +187,7 @@
                       preds)))})))
 
 #?(:clj
+   ;; TODO: check for duplicate rule names during compilation and throw error if found.
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
      (log/debug (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
      (-> source-filename

@@ -506,12 +506,19 @@
                          :canonical with-adjective}
                      :3 []}}])}
 
+ {:rule :nominal-arg-verbs-number ;; "have lunch", not "have lunches"
+  :if {:cat :verb
+       :nominal-verb? true}
+  :then [{:nominal-argument-number :sing}]}
+
  {:rule :nominal-arg-verbs ;; "have lunch"
   :if {:cat :verb
        :nominal-verb? true}
   :then (let [subj (atom :top)
-              with-noun (atom :top)]
+              with-noun (atom :top)
+              nominal-argument-number (atom :top)]
           [{:nominal-verb-with with-noun
+            :nominal-argument-number nominal-argument-number
             :reflexive? false
             :sem {:obj :none
                   :iobj :none
@@ -519,7 +526,7 @@
             :subcat {:1 {:sem subj}
                      :2 {:cat :noun
                          :reflexive? false
-                         :agr {:number :sing}
+                         :agr {:number nominal-argument-number}
                          :phrasal? false
                          :canonical with-noun
                          :subcat []}

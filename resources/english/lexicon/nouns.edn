@@ -92,6 +92,7 @@
  "fool" [{:sem {:pred :fool}}]
  "fun" [{:sem {:pred :fun}}
         {:sem {:pred :fun}
+         :agr {:number :sing}
          :subcat []}] ;; "has fun"
  "gentleman" [{:sem {:pred :man
                      :context :formal}

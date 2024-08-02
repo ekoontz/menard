@@ -448,20 +448,20 @@
   (let [exceptions-for (fn [canonical lexemes]
                          ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
                          ;;  has _canonical_ as the canonical form for the exception."
-                         (log/debug (str "canonical: " canonical))
+                         (log/info (str "canonical: " canonical))
                          (let [merge-all (fn [args]
                                            (if (seq args)
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]
                            (->> lexemes
                                 (mapcat (fn [lexeme]
-                                          (let [log-fn (if (contains? lexemes-to-trace canonical)
+                                          (let [log-fn (if (or true (contains? lexemes-to-trace canonical))
                                                          (fn [msg] (log/info msg))
                                                          (fn [msg] (log/debug msg)))]
                                             (log-fn (str "add-exceptions-to-lexicon: "
                                                            "canonical: '" canonical "'; " 
                                                            "lexeme: " (pprint lexeme)))
-                                            (if (not (map? lexeme))
-                                              (exception (str "the lexeme was unexpectedly not a map: " lexeme)))
+                                            (when (not (map? lexeme))
+                                              (exception (str "the lexeme was unexpectedly not a map: " lexeme "; canonical: " canonical)))
                                             (->> (:exceptions lexeme)
                                                  (map (fn [exception]
                                                         (log-fn (str "looking at candidate exception: " (pprint exception)))

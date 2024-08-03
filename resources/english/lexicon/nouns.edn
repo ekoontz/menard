@@ -36,6 +36,7 @@
  "civilization" [{:sem {:pred :civilization}}]
  "civil servant" [{:sem {:pred :civil-servant}}]
  "clothes" [{:sem {:pred :clothes}
+             :inherently-plural? true ;; as with pants, scissors, etc.
              :agr {:number :plur}}]
  "coat" [{:sem {:pred :coat}}]
  "community" [{:sem {:pred :community}}]

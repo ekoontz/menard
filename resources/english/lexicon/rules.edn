@@ -24,6 +24,12 @@
        :agr {:human? ::unspec}}
   :then [{:agr {:human? false}}]}
 
+ ;; e.g. "inherently plural" means nouns like "clothes","pants", and "scissors"
+ {:rule :nouns-are-not-inherently-plural-by-default
+  :if {:cat :noun
+       :inherently-plural? ::unspec}
+  :then [{:inherently-plural? false}]}
+ 
  {:rule :complementizer
   :if {:cat :comp}
   :then [(let [sem (atom :top)

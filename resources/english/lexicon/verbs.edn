@@ -165,7 +165,8 @@
  "cause" [{:sem {:pred :cause}}]
  "change" [{:sem {:pred :change}}
            {:sem {:pred :change-clothes}
-            :nominal-verb {:with "clothes"}}]
+            :nominal-verb {:with "clothes"
+                           :number :plur}}]
  "cheat" [{:sem {:pred :cheat}}]
  "clean" [{:sem {:pred :clean}}]
  "close" [{:sem {:pred :close}}]

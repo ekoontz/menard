@@ -484,15 +484,16 @@
                      :2 {:cat :prep
                          :subcat []
                          :phrasal? false
-                         :canonical {:with preposition}}
+                         :canonical preposition}
                      :3 []}}
            (let [iobj (atom :top)]
-             {:prepositional-verb-with {:with preposition}
+             {:prepositional-verb {:with preposition}
+              :foo 42
               :sem {:obj :none
                     :subj subj
                     :iobj iobj}
               :subcat {:1 {:sem subj}
-                       :2 {:root {:with preposition}
+                       :2 {:root {:canonical preposition}
                            :cat :prep
                            :subcat []                           
                            :sem {:obj iobj}}}})])}

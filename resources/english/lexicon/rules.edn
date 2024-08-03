@@ -522,7 +522,8 @@
 
  {:rule :nominal-arg-verbs-number ;; "have lunch", not "have lunches"
   :if {:cat :verb
-       :nominal-verb? true}
+       :nominal-verb? true
+       :nominal-verb {:number ::unspec}}
   :then [{:nominal-verb {:number :sing}}]}
 
  {:rule :nominal-arg-verbs ;; "have lunch"

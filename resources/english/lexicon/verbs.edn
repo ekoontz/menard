@@ -78,7 +78,6 @@
           :exceptions exceptions}
 
          ;; TODO: add passive "was+{:modal :past-participle}" e.g. "the mouse was caught by the cat"
-
          
          (;; the 'is' or 'was' in 'is born' or 'was born'
           let [subj (atom {:animate? true})]
@@ -95,6 +94,24 @@
                         :pred :born
                         :canonical "born"
                         :surface "born"}
+                    :3 []}
+           :exceptions exceptions})
+
+         (;; the 'is' or 'was' in 'is named' or 'was named'
+          let [subj (atom :top)]
+          {:sense 8
+           :reflexive? false
+           :aux? false
+           :sem {:pred :be-called
+                 :subj subj
+                 :obj :none
+                 :iobj :none}
+           :subcat {:1 {:sem subj}
+                    :2 {:cat :verb
+                        :infl :past-simple
+                        :phrasal? false
+                        :canonical "name"
+                        :subcat {:1 {:top :top} :2 []}}
                     :3 []}
            :exceptions exceptions})
          ])
@@ -589,6 +606,7 @@
               [{:exceptions exceptions
                 :sem {:pred :overcome}}])
  "overwhelm" [{:sem {:pred :overwhelm}}]
+ "name" [{:sem {:pred :name}}]
  "need" [;; need to leave
          {:sense 1
           :sem {:pred :need}

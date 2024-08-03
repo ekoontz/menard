@@ -488,7 +488,6 @@
                      :3 []}}
            (let [iobj (atom :top)]
              {:prepositional-verb {:with preposition}
-              :foo 42
               :sem {:obj :none
                     :subj subj
                     :iobj iobj}

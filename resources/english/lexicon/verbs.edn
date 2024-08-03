@@ -522,8 +522,11 @@
           :subcat {:2 {:cat :comp
                        :rule "comp2"}}}]
  "hug" [{:sem {:pred :hug}}]
- "hurt" [{:sem {:pred :hurt-oneself}
-          :reflexive? true}]
+ "hurt" (let [exceptions [{:infl :past-simple :surface "hurt"}
+                          {:infl :past-participle :surface "hurt"}]]
+          [{:sem {:pred :hurt-oneself}
+            :reflexive? true
+            :exceptions exceptions}])
  "increase" [{:sem {:pred :increase}}]
  "inhibit" [{ :sem {:pred :inhibit}}]
  "insure" [{ :sem {:pred :insure}}]

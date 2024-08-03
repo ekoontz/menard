@@ -186,11 +186,20 @@
                          :subcat []}}
             :reflexive? false
             :sem {:subj subj
-                  :obj obj}})
+                  :obj obj}})]}
 
-         ;; 4. transitive, nonreflexive:
-         ;; transitive, reflexive
-         (let [subj (atom {:existential? false})
+ {:rule :reflexive-defaults-to-false
+  :if {:cat :verb
+       :reflexive? ::unspec
+       :ditransitive? ::unspec}
+  :then [{:reflexive? false}]}
+ 
+ {:rule :reflexive-transitive-verb
+  :if {:cat :verb
+       :reflexive? true
+       :ditransitive? false
+       :intransitive? false}
+  :then [(let [subj (atom {:existential? false})
                obj (atom {:existential? false})
                agr (atom :top)]
            {:subcat {:1 {:cat :noun
@@ -204,7 +213,6 @@
                          :case :acc
                          :sem obj
                          :subcat []}}
-            :reflexive? true
             :sem {:subj subj
                   :obj obj}})]}
 

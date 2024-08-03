@@ -82,20 +82,21 @@
          
          (;; the 'is' or 'was' in 'is born' or 'was born'
           let [subj (atom {:animate? true})]
-           {:sense 7
-            :aux? false
-            :sem {:pred :be-born
-                  :subj subj
-                  :obj :none
-                  :iobj :none}
-            :subcat {:1 {:sem subj}
-                     :2 {:cat :adjective
-                       :phrasal? false
-                       :pred :born
-                       :canonical "born"
-                       :surface "born"}
-                   :3 []}
-          :exceptions exceptions})
+          {:sense 7
+           :reflexive? false
+           :aux? false
+           :sem {:pred :be-born
+                 :subj subj
+                 :obj :none
+                 :iobj :none}
+           :subcat {:1 {:sem subj}
+                    :2 {:cat :adjective
+                        :phrasal? false
+                        :pred :born
+                        :canonical "born"
+                        :surface "born"}
+                    :3 []}
+           :exceptions exceptions})
          ])
          
 
@@ -384,6 +385,7 @@
             :sem {:pred :give}
             :intransitive-only? true}
            {:exceptions exceptions
+            :ditransitive? true
             :subcat {:2 {:cat :prep
                          :sem {:pred :to}}
                      :3 {:cat :noun}}
@@ -614,11 +616,13 @@
          [{:intransitive-only? true
            :sem {:pred :put}}
           {:exceptions exceptions
+           :ditransitive? true           
            :subcat {:2 {:cat :prep
                         :sem {:pred :on}}
                     :3 {:cat :noun}}
            :sem {:pred :put-on}}
           {:exceptions exceptions
+           :ditransitive? true
            :subcat {:2 {:cat :prep
                         :sem {:pred :in}}
                     :3 {:cat :noun}}

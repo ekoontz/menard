@@ -135,11 +135,13 @@
              :sem {:pred :believe}}
 
             {:sense 2
+             :reflexive? false
              :sem {:pred :believe}
              :subcat {:2 {:cat :verb
                           :rule "s"}}}
 
             {:sense 3
+             :reflexive? false
              :sem {:pred :believe}
              :subcat {:2 {:cat :comp
                           :rule "comp2"}}}]

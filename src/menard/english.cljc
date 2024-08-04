@@ -169,17 +169,7 @@
            {:infl :present-participle}
            {:infl :past-participle}
            {:infl :past-simple}]}
-
    {:rule :present-infl-to-present-tense
-    :if {:cat :verb
-         :aux? false
-         :modal :none
-         :infl :present
-         :post-lex-rules-stop? ::unspec}
-    :then [{:infl :present
-            :sem {:tense :present
-                  :aspect :simple}}]}
-   {:rule :tense-non-aux-future
     :if {:cat :verb
          :aux? false
          :modal :none

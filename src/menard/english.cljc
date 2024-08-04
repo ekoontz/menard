@@ -211,7 +211,9 @@
     (->> lexemes
          (mapcat (fn [lexeme]
                    (log/debug (str "looking at lexeme: " (syntax-tree lexeme)))
-                   (if (not (= :fail (unify if lexeme)))
+                   (if (and (= :verb (u/get-in lexeme [:cat]))
+                            (= false (u/get-in lexeme [:aux?]))
+                            (not (= :fail (unify if lexeme))))
                      (->> then
                           (map (fn [each-then]
                                  (let [unify (unify each-then lexeme)]

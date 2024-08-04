@@ -492,23 +492,24 @@
                                                   :true
                                                   (l/pprint lexeme)) " succeeded: " (strip-refs lexeme))))
                            true)
-                         :else (let [fail-path
-                                     (dag_unify.diagnostics/fail-path spec lexeme)]
+                         :else (do
                                  (when (and developer-mode? (contains? log-these-paths at))
-                                   (log/info (str "lexeme candidate: "
-                                                  (cond (u/get-in lexeme [:surface])
-                                                        (str "'" (u/get-in lexeme [:surface]) "'")
-                                                        (u/get-in lexeme [:canonical])
-                                                        (str "_" (u/get-in lexeme [:canonical]) "_"
-                                                             (if (u/get-in lexeme [:sense])
-                                                               (str ":" (u/get-in lexeme [:sense]))))
+                                   (let [fail-path
+                                         (dag_unify.diagnostics/fail-path spec lexeme)]
+                                     (log/info (str "lexeme candidate: "
+                                                    (cond (u/get-in lexeme [:surface])
+                                                          (str "'" (u/get-in lexeme [:surface]) "'")
+                                                          (u/get-in lexeme [:canonical])
+                                                          (str "_" (u/get-in lexeme [:canonical]) "_"
+                                                               (if (u/get-in lexeme [:sense])
+                                                                 (str ":" (u/get-in lexeme [:sense]))))
                                                         :true
                                                         (l/pprint lexeme))
-                                                  " failed: " (vec fail-path) "; "
-                                                  " lexeme's value: "
-                                                  (l/pprint (u/get-in lexeme fail-path)) "; "
-                                                  " spec's value: "
-                                                  (l/pprint (u/get-in spec fail-path)))))
+                                                    " failed: " (vec fail-path) "; "
+                                                    " lexeme's value: "
+                                                    (l/pprint (u/get-in lexeme fail-path)) "; "
+                                                    " spec's value: "
+                                                    (l/pprint (u/get-in spec fail-path))))))
                                  (when counts? (swap! count-lexeme-fails inc))
                                  false)))))
        (map :unify)))

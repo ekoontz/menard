@@ -38,7 +38,7 @@
 ;; set of phrase-structure rules:
 ;; examples:
 ;;(def ^:dynamic log-these-rules #{"s" "vp"})
-
+(def developer-mode? false)
 (def ^:dynamic log-these-rules #{})
 
 ;; log-these-rules: show more logging for a certain
@@ -123,7 +123,7 @@
                  (> (+ @count-lexeme-fails @count-rule-fails)
                     max-fails))
             (do
-              (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+              (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
                 (log/info (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails
                                " rule fail(s); giving up on this tree: " (syntax-tree-fn tree) " at: " frontier "; looking for: "
                                (strip-refs (u/get-in tree frontier)))))
@@ -177,7 +177,7 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
-  (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+  (when (and developer-mode? (or log-all-rules? (and developer-mode? (contains? log-these-rules (u/get-in tree [:rule])))))
     (log/info (str "add with tree: " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
   
   (let [at (frontier tree)
@@ -207,7 +207,7 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+    (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
       (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
                      (str "; looking for: "
                           (strip-refs (select-keys (u/get-in tree at) show-keys))
@@ -249,12 +249,12 @@
        :else ;; (= gen-condition :both)
        (let [both (lazy-cat (add-lexeme tree lexicon-index-fn syntax-tree-fn)
                             (add-rule tree grammar syntax-tree-fn))]
-         (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+         (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
            (log/info (str "add: adding both lexemes and rules: allow-backtracking? " allow-backtracking? "; tree: "
                           (syntax-tree-fn tree))))
          (cond (and (empty? both)
                     allow-backtracking?)
-               (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+               (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
                  (log/info (str "backtracking: " (syntax-tree-fn tree) " at rule: "
                                 (u/get-in tree (concat (butlast at) [:rule])) " for child: "
                                 (last at))))
@@ -284,12 +284,13 @@
   leaf (via (get-lexemes)) to _tree_."
   [tree lexicon-index-fn syntax-tree]
   (let [at (frontier tree)
-        more-logging? (or log-all-rules?
-                          (contains? log-these-paths (vec at))
-                          (contains? log-these-rules (u/get-in tree [:rule])))
+        more-logging? (and developer-mode?
+                           (or log-all-rules?
+                               (contains? log-these-paths (vec at))
+                               (contains? log-these-rules (u/get-in tree [:rule]))))
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
-    (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])) (contains? log-these-paths at))
+    (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])) (contains? log-these-paths at)))
       (log/info (str "add-lexeme: " (syntax-tree tree) " at: " (vec at) " looking for lexeme matching spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
@@ -332,7 +333,7 @@
                %))
 
            (map (fn [candidate-lexeme]
-                  (when (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])))
+                  (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
                     (log/info (str "adding candidate lexeme at: " (vec at) ": "
                                    (or (u/get-in candidate-lexeme [:canonical]) (l/pprint candidate-lexeme)))))
                   (-> tree
@@ -457,7 +458,7 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn at]
-  (if (or log-all-rules? (contains? log-these-paths (vec at)))
+  (if (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
     (log/info (str "get-lexemes with spec: " (l/pprint spec) " at: " at)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
@@ -475,12 +476,12 @@
        (filter (fn [tuple]
                  (let [lexeme (:lexeme tuple)
                        unify (:unify tuple)]
-                   (when (contains? log-these-paths (vec at))
+                   (when (and developer-mode? (contains? log-these-paths (vec at)))
                      (log/info (str "candidate lexeme: at: " (vec at) ": "
                                      (or (u/get-in lexeme [:canonical]) (l/pprint lexeme)))))
                    (cond (not (= :fail unify))
                          (do
-                           (when (contains? log-these-paths at)
+                           (when (and developer-mode? (contains? log-these-paths at))
                              (log/info (str "lexeme candidate: "
                                             (cond (u/get-in lexeme [:surface])
                                                   (str "'" (u/get-in lexeme [:surface]) "'")
@@ -493,7 +494,7 @@
                            true)
                          :else (let [fail-path
                                      (dag_unify.diagnostics/fail-path spec lexeme)]
-                                 (when (contains? log-these-paths at)
+                                 (when (and developer-mode? (contains? log-these-paths at))
                                    (log/info (str "lexeme candidate: "
                                                   (cond (u/get-in lexeme [:surface])
                                                         (str "'" (u/get-in lexeme [:surface]) "'")

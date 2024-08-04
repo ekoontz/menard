@@ -9,25 +9,36 @@
 
 (def ^:dynamic show-notes? true)
 
-(def emoji
+(def emoji-set-1
   {:informal ["🤠"]
    :formal   ["🧐"]})
 
+(def emoji-set-2
+  {:informal ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"
+              "👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"
+              "👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
+   :formal   ["🧓" "🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"
+              "👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"
+              "👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]})
+
+(def emoji-set emoji-set-2)
+
 (defn decode-notes [notes]
+  (log/info (str "decode-notes with notes: " notes))
   (cond
     (= notes [:informal :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get emoji :informal)))))))
+                              (take 1 (repeatedly #(first (shuffle (get emoji-set :informal)))))))
     (= notes [:formal :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get emoji :formal)))))))
+                              (take 1 (repeatedly #(first (shuffle (get emoji-set :formal)))))))
     (= notes [:informal :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji :informal)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :informal)))))))
 
     (= notes [:formal :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji :formal)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :formal)))))))
 
 
     ;; no emoji or other cues for now.

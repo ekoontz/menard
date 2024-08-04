@@ -45,14 +45,17 @@
          ;; "I am able to sleep"
          (let [subj (atom :top)
                embedded-sem (atom {:subj subj})
+               reflexive? (atom :top)
                sem (atom {:subj subj
                           :obj embedded-sem})]
            {:sense 4
             :sem sem
             :modal :adjective
+            :reflexive? reflexive?
             :subcat {:1 {:cat :noun
                          :sem subj}
                      :2 {:cat :adjective
+                         :reflexive? reflexive?
                          :subcat {:1 {:sem subj}}
                          :sem sem}}
             :exceptions exceptions})
@@ -814,10 +817,12 @@
      :inflected? true
      :modal :infinitive
      :infl :infinitive
+     :reflexive? reflexive?
      :sem sem
      :subcat {:1 {:cat :noun
                   :sem subj}
               :2 {:cat :verb
+                  :reflexive? reflexive?
                   :to? false
                   :agr agr
                   :sem sem
@@ -838,6 +843,7 @@
      :sense :v2
      :inflected? true
      :infl :infinitive
+     :reflexive? reflexive?
      :sem sem
      :subcat {:1 {:cat :noun
                   :sem subj}
@@ -848,6 +854,7 @@
                   :infl :base
                   :modal :adjective
                   :aux? false
+                  :reflexive? reflexive?                  
                   :subcat {:1 {:cat :noun
                                :sem subj}
                            :2 []}}}
@@ -862,12 +869,14 @@
      :sense :v3
      :inflected? true
      :infl :infinitive
+     :reflexive? reflexive?
      :sem sem
      :subcat {:1 {:cat :noun
                   :sem subj}
               :2 {:cat :verb
                   :to? false
                   :agr agr
+                  :reflexive? reflexive?                  
                   :sem sem
                   :modal :infinitive
                   :aux? false

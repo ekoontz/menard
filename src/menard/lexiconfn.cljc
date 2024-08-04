@@ -142,12 +142,13 @@
                                    "'" (u/get-in lexeme [:canonical]) "'"
                                    (when (u/get-in lexeme [:sense])
                                      (str " sense: " (u/get-in lexeme [:sense])))
-                                   " with derivation: "
-                                   (let [derivation (u/get-in lexeme [::derivation])]
-                                     (vec (display-derivation derivation)))
                                    "; fail-path was: " fail-path ";"
-                                   " lexeme's value for path: " (u/get-in lexeme fail-path) ";"
-                                   " consequent's value for path: " (u/get-in consequent fail-path) "; whole lexeme: " (pprint lexeme))]
+                                   " lexeme's value for path: " (u/get-in lexeme fail-path)
+                                   " consequent's value for path: " (u/get-in consequent fail-path)
+                                   (if-let [derivation (u/get-in lexeme [::derivation])]
+                                     (str "; lexemes' derivation: "
+                                          (vec (display-derivation derivation))))
+                                   "; whole lexeme: " (pprint lexeme))]
             (log/error error-message)
             (exception error-message))
           :else

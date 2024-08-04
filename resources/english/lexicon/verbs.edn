@@ -180,8 +180,10 @@
  "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]
  "cause" [{:sem {:pred :cause}}]
- "change" [{:sem {:pred :change}}
-           {:sem {:pred :change-clothes}
+ "change" [{:sense 1
+            :sem {:pred :change}}
+           {:sense 2
+            :sem {:pred :change-clothes}
             :nominal-verb {:with "clothes"
                            :number :plur}}]
  "cheat" [{:sem {:pred :cheat}}]
@@ -238,8 +240,8 @@
             agr (atom :top)]
         [{;; "I do", "I did"
           :exceptions exceptions
-          :derivation {:sense 1}
-           :sem {:pred :do}}
+          :sense 1
+          :sem {:pred :do}}
          
          ;; "do you sleep?", "does he sleep?"
          {:agr agr
@@ -247,7 +249,8 @@
           
           :aux? true
           :infl :present
-          :derivation {:sense 2}
+          :sense 2
+          :reflexive? false
           :sem {:aspect :habitual
                 :tense :present
                 :mood :interrogative}
@@ -266,10 +269,10 @@
                           :mood :interrogative})]
            {:agr agr
             :exceptions exceptions
-            
+
             :aux? true
             :infl :past-simple
-            :derivation {:sense 3}
+            :sense 3
             :sem sem
             :subcat {:1 {:cat :verb
                          :aux? false
@@ -291,7 +294,7 @@
             :reflexive? false
             :aux? true
             :infl :past-simple
-            :derivation {:sense 4}
+            :sense 4
             :sem sem
             :subcat {:1 {:cat :verb
                          :slash? true
@@ -313,7 +316,7 @@
             :reflexive? false
             :aux? true
             :infl :present
-            :derivation {:sense 5}
+            :sense 5
             :sem sem
             :subcat {:1 {:cat :verb
                          :slash? true
@@ -354,11 +357,12 @@
                           {:infl :past-participle :surface "fallen"}]]
           [{:exceptions exceptions
             :intransitive-only? true
-            :sem {:pred :fall}}
+            :sem {:pred :fall}
+            :sense 1}
            {:exceptions exceptions
             :sem {:pred :fall-asleep}
-            :adjectival-verb {:with "asleep"}}])
-           
+            :adjectival-verb {:with "asleep"}
+            :sense 2}])
  "feed" [{:sem {:pred :feed}
           :exceptions [{:infl :past-simple
                         :surface "fed"}

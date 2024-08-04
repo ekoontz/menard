@@ -84,7 +84,7 @@
        :modal ::unspec}
   :then [{:modal :none}]}
 
- {:rule :prepositional-verb-with-none
+ {:rule :prepositional-verb-default-false
   :if {:cat :verb
        :prepositional-verb ::unspec}
   :then [{:prepositional-verb :none

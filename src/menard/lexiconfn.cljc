@@ -15,6 +15,10 @@
 
 ;; TODO: consider merging contents of this into morphology.cljc and remove this namespace.
 
+;; developer-mode? must be set to true for
+;; lexemes-to-trace and rules-to-trace to run.
+(def developer-mode? false)
+
 ;; lexemes-to-trace: show more logging for a certain set of lexemes
 ;; during lexical compilation.
 (def lexemes-to-trace #{})
@@ -182,7 +186,7 @@
   (cond
 
     ;; a null rule: commented out with (comment ..):
-    (and (seq rules)
+    (and (seq rules) 
          (nil? (first rules)))
     (apply-rules-to-lexeme (rest rules)
                            lexeme
@@ -193,20 +197,21 @@
           antecedent (:if rule)
           consequents (:then rule)
           canonical (u/get-in lexeme [:canonical])
-          log-fn (if (contains? lexemes-to-trace canonical)
-                   (fn [msg] (log/info msg))
-                   (fn [msg] (log/debug msg)))
-          log-rule-fn (if (contains? rules-to-trace (:rule rule))
-                        log-fn
-                        (fn [msg] (log/debug msg)))]
-      (log-fn (str "apply-rules-to-lexeme: applying rule: " (:rule rule) " to lexeme: '" canonical "'."))
-      (log-rule-fn (str "apply-rules-to-lexeme: rule: " (:rule rule) "'s antecedent: " antecedent))
+          log-fn (fn [msg]
+                   (if (contains? lexemes-to-trace canonical)
+                     (log/info msg)))
+          log-rule-fn (fn [msg]
+                        (if (and (contains? rules-to-trace (:rule rule))
+                                 (contains? lexemes-to-trace canonical))
+                          (log/info msg)))]
+      (when developer-mode? (log-fn (str "apply-rules-to-lexeme: applying rule: " (:rule rule) " to lexeme: '" canonical "'.")))
+      (when developer-mode? (log-rule-fn (str "apply-rules-to-lexeme: rule: " (:rule rule) "'s antecedent: " antecedent)))
       (let [antecedent (process-antecedent antecedent canonical)]
         (if (not (= :fail (unify antecedent lexeme)))
           ;; offset with '1' (i.e. '1' is the first element in the
           ;; derivation consequents
           (do
-            (log-rule-fn (str "apply-rules-to-lexeme: antecedent matched."))
+            (when developer-mode? (log-rule-fn (str "apply-rules-to-lexeme: antecedent matched.")))
             (->> (vec (zipmap (range 1 (+ 1 (count consequents))) consequents))
                  (map (fn [[consequent-index consequent]]
                         (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i (if (> (count consequents) 1) consequent-index) include-derivation?)))
@@ -215,7 +220,7 @@
           
           ;; else: failed to unify this lexeme antecedent of the rule,
           ;; so the rule doesn't apply to the lexeme.
-          (do (log-rule-fn (str "apply-rules-to-lexeme: antecedent: " antecedent " did not match lexeme: " (pprint lexeme)))
+          (do (when developer-mode? (log-rule-fn (str "apply-rules-to-lexeme: antecedent: " antecedent " did not match lexeme: " (pprint lexeme))))
               (apply-rules-to-lexeme (rest rules)
                                      (let [lexeme (if include-derivation? 
                                                     (unify lexeme (add-derivation (:rule rule) nil i nil))
@@ -260,9 +265,8 @@
                 (let [lexemes-for-k (remove nil? lexemes-for-k)]
                   (let [surface k
                         log-fn (if (contains? lexemes-to-trace surface)
-                                 (fn [msg] (log/info msg))
-                                 (fn [msg] (log/debug msg)))]
-                    (log-fn (str "apply-to-every-lexeme: '" surface "'"))
+                                 (fn [msg] (log/info msg)))]
+                    (if developer-mode? (log-fn (str "apply-to-every-lexeme: '" surface "'")))
                     [k
                      (do
                        (log/debug (str "K: " k))

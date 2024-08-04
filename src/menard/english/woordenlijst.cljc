@@ -13,8 +13,8 @@
 
 (when create-model?
   (def model
-    (ref (create "english/models/woordenlijst"
-                 "woordenlijst"
-                 compile-lexicon
-                 false))))
+    (delay (create "english/models/woordenlijst"
+                   "woordenlijst"
+                   compile-lexicon
+                   false))))
 

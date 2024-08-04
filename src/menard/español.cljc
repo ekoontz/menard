@@ -13,10 +13,10 @@
             #?(:cljs [cljslog.core :as log])))
 
 (def model
-  (ref (create "español/models/basic"
-               "basic"
-               (fn [lexicon _ _] lexicon)
-               true
+  (delay (create "español/models/basic"
+                 "basic"
+                 (fn [lexicon _ _] lexicon)
+                 true
 
                {:include-derivation? false}
                ;; change to true to  ^^^^^

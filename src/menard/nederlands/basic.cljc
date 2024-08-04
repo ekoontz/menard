@@ -45,7 +45,7 @@
    (into {})))
 
 (def model
-  (ref (create "nederlands/models/basic"
+  (delay (create "nederlands/models/basic"
                "basic"
                compile-lexicon
                true)))

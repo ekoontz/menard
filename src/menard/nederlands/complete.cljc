@@ -14,34 +14,34 @@
   (parse/parse expression model))
 
 (defn load-model []
-  (def model (ref (create "nederlands/models/complete"
+  (def model (delay (create "nederlands/models/complete"
                           "complete"
                           compile-lexicon true))))
 
 (defn reload-model-keep-existing-lexicon []
   (def model
-    (ref (create "nederlands/models/complete"
+    (delay (create "nederlands/models/complete"
                  "complete"
                  compile-lexicon true {:existing-model @model
                                        :use-existing-lexicon? true}))))
 
 (defn reload-model-refresh-lexicon-with-derivations []
   (def model
-    (ref (create "nederlands/models/complete"
+    (delay (create "nederlands/models/complete"
                  "complete"
                  compile-lexicon true {:use-existing-lexicon? false
                                        :include-derivation? true}))))
 
 (defn reload-model-refresh-lexicon-without-derivations []
   (def model
-    (ref (create "nederlands/models/complete"
+    (delay (create "nederlands/models/complete"
                  "complete"
                  compile-lexicon true {:use-existing-lexicon? false
                                        :include-derivation? false}))))
 
 (defn reload-model-refresh-lexicon []
   (def model
-    (ref (create "nederlands/models/complete"
+    (delay (create "nederlands/models/complete"
                  "complete"
                  compile-lexicon true {:use-existing-lexicon? false}))))
 

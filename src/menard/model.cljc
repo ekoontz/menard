@@ -332,7 +332,7 @@
            use-existing-lexicon? (if (and existing-model (:use-existing-lexicon? option-map false)) true false)
            use-existing-morphology? (if (and existing-model (:use-existing-morphology? option-map false)) true false)
 
-           ;; include-derivation? if and only if:
+           ;; include-derivation? if and only if:a
            ;; 1. existing-model exists
            ;; 2. use-existing-lexicon? is true
            ;; 3. include-derivation? is true in the option-map.

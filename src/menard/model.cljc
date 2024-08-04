@@ -210,7 +210,7 @@
             (if (nil? apply-fn)
               lexicon
               (do
-                (log/debug (str "  apply-to-every-lexeme (apply-fn: " apply-fn "): lexicon: " lexicon))
+                (log/info (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s)."))
                 (l/apply-to-every-lexeme lexicon
                                          (fn [lexeme]
                                            (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
@@ -220,15 +220,15 @@
                                                (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
                                              result)))))))
          ((fn [lexicon]
-            (when include-derivation? (log/debug (str "  apply-rules-in-order with derivations included.")))
+            (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
             (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
 
          ((fn [lexicon]
-            (log/debug (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
+            (log/info (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
             (l/add-exceptions-to-lexicon lexicon)))
 
          ((fn [lexicon]
-            (log/debug (str "compile-lexicon-source end: '" source-filename "'."))
+            (log/info (str "compile-lexicon-source end: '" source-filename "'."))
             lexicon)))))
 
 #?(:clj
@@ -243,6 +243,7 @@
                (merge-with concat a b))
              (->> (-> model-spec :lexicon :sources keys sort)
                   (map (fn [filename]
+                         (log/info (str "load-lexicon: compiling: " filename ".."))
                          (let [unify-with
                                (get
                                 (get (-> model-spec :lexicon :sources)

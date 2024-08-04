@@ -8,6 +8,7 @@
    [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
+   [menard.español :as es]
    [menard.nederlands :as nl]
    [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.complete :as nl-complete]
@@ -246,6 +247,8 @@
               (-> nl-complete/model deref :grammar)
               (= lang "en")
               (-> en-complete/model deref :grammar)
+              (= lang "es")
+              (-> es/model deref :grammar)
               true [])]
     (log/debug (str "grammar for lang: " lang " unserialized: " unserialized))
     (->> unserialized

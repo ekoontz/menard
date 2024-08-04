@@ -8,6 +8,7 @@
    [menard.handlers :as handlers]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
+   [menard.español :as es]
    [menard.lexiconfn :as l]
    [menard.model :refer [create-model-from-filesystem
                          current-ms get-info-of-files]]

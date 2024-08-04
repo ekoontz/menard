@@ -7,34 +7,39 @@
             :subcat []})
          (let [subj (atom :top)
                sem (atom {:subj subj
-                          :pred :anaphoric})]
+                          :pred :anaphoric})
+               reflexive? (atom :top)]
            ;; "able to"
            {:sense 2
+            :reflexive? reflexive?
             :sem {:pred :be-able-to
                   :mental-state? true
                   :subj subj
                   :obj sem}
             :subcat {:1 {:cat :verb
                          :phrasal? false
+                         :reflexive? reflexive?
                          :sem sem
                          :infl :infinitive
                          :modal :infinitive}
                      :2 []}})
            ;; "able to sleep"
          (let [subj (atom :top)
-               sem (atom {:subj subj})]
+               sem (atom {:subj subj})
+               reflexive? (atom :top)]
            {:sense 3
+            :reflexive? reflexive?
             :sem {:pred :be-able-to
                   :mental-state? true                  
                   :subj subj
                   :obj sem}
             :subcat {:1 {:cat :verb
                          :phrasal? true
+                         :reflexive? reflexive?
                          :sem sem
                          :infl :infinitive
                          :modal :infinitive}
                      :2 []}})]
-
  "accessible" [{:sem {:pred :accessible}}]
  "acclaimed" [{:sem {:pred :acclaimed}}]
  "accurate" [{:sem {:pred :accurate}}]

@@ -4,7 +4,7 @@
             [menard.model :refer [create]]))
 
 (def model
-  (delay (create "nederlands/models/woordenlijst"
+  (ref (create "nederlands/models/woordenlijst"
                "woordenlijst"
                compile-lexicon
                false)))

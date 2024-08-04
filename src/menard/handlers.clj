@@ -8,7 +8,6 @@
    [menard.english :as en]
    [menard.english.complete :as en-complete]
    [menard.english.woordenlijst :as en-woordenlijst]
-   [menard.español :as es]
    [menard.nederlands :as nl]
    [menard.nederlands.basic :as nl-basic]
    [menard.nederlands.complete :as nl-complete]
@@ -70,11 +69,12 @@
   translate to English with _source_model, and return this pair
    along with the semantics of the English specification also."
   [spec target-model source-model]
-  (log/info (str "***   GENERATE-NL-AND-EN *********"))
-  (log/info (str "***   GENERATE-NL-AND-EN *********"))
-  (log/info (str "***   GENERATE-NL-AND-EN *********"))
-  (let [target-model @target-model
-        source-model @source-model
+  (let [target-model (cond (= (type target-model) clojure.lang.Ref)
+                           @target-model
+                           :else target-model)
+        source-model (cond (= (type source-model) clojure.lang.Ref)
+                           @source-model
+                           :else source-model)
         debug (log/debug (str "generate-nl-and-en: generating a target expression with spec: " (serialize spec)))
 
         ;; 1. generate a target expression
@@ -241,14 +241,11 @@
    :sem {:pred (u/get-in nl-word [:sem :pred] :top)}})
 
 (defn grammar [lang]
-  (log/info (str "***** GRAMMAR WAS CALLED!!! "))
   (let [unserialized
         (cond (= lang "nl")
               (-> nl-complete/model deref :grammar)
               (= lang "en")
               (-> en-complete/model deref :grammar)
-              (= lang "es")
-              (-> es/model deref :grammar)
               true [])]
     (log/debug (str "grammar for lang: " lang " unserialized: " unserialized))
     (->> unserialized

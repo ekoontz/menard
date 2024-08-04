@@ -10,6 +10,6 @@
 #?(:clj
    (if create-model?
      (def model
-       (delay (create "english/models/complete"
-                      "complete"
-                      compile-lexicon false {:include-derivation? false})))))
+       (ref (create "english/models/complete"
+                    "complete"
+                    compile-lexicon false {:include-derivation? false})))))

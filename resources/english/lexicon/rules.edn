@@ -115,7 +115,8 @@
  {:rule :nominal-verb-true
   :if {:cat :verb
        :nominal-verb? ::unspec}
-  :then [{:nominal-verb? true}]}
+  :then [{:nominal-verb? true
+          :reflexive? false}]}
  
  {:rule :intransitive-only-default-false
   :if {:cat :verb
@@ -133,7 +134,17 @@
                      :2 []
                      :3 []}
             :reflexive? false}])}
- 
+
+ {:rule :reflexive-defaults-to-both
+  :if {:cat :verb
+       :modal :none
+       :reflexive? ::unspec
+       :ditransitive? ::unspec
+       :nominal-verb? false
+       :adjectival-verb? false}
+  :then [{:reflexive? true}
+         {:reflexive? false}]}
+
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb, where the second form has a noun second argument:
@@ -193,18 +204,16 @@
             :reflexive? false
             :sem {:subj subj
                   :obj obj}})]}
-
- {:rule :reflexive-defaults-to-false
-  :if {:cat :verb
-       :reflexive? ::unspec
-       :ditransitive? ::unspec}
-  :then [{:reflexive? false}]}
- 
+  
  {:rule :reflexive-transitive-verb
   :if {:cat :verb
        :reflexive? true
        :ditransitive? false
-       :intransitive? false}
+       :intransitive? false
+       :modal :none
+       :adjectival-verb? false       
+       :nominal-verb? false
+       :subcat {:2 {:cat ::unspec}}}
   :then [(let [subj (atom {:existential? false})
                obj (atom {:existential? false})
                agr (atom :top)]

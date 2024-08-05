@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.7.0] - 2024-08-05
+
+- Add first Spanish support
+- Improve diagnostics and `developer-mode` support in generation, parsing and lexicon compilation
+- New emoji icons to distinguish formal and informal second person pronouns.
+
 ## [1.6.4] - 2022-11-19
 
 - Improve word-grouping algorithm and move to new namespace: 'menard.parse.word'.

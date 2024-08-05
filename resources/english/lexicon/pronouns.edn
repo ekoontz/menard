@@ -141,11 +141,21 @@
                :ref {:context :informal}}}
         
         {:agr {:person :2nd
+               :gender :masc               
                :number :plur}
          :case :nom
          :note [:informal :plural]
          :sem {:pred :you
                :ref {:context :informal}}}
+
+        {:agr {:person :2nd
+               :gender :fem
+               :number :plur}
+         :case :nom
+         :note [:informal :feminine :plural]
+         :sem {:pred :you
+               :ref {:context :informal}
+               :person-not :1st}}
 
         {:agr {:person :2nd
                :number :sing}

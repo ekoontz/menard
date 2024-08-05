@@ -185,6 +185,7 @@
                     :person :2nd
                     :formal? false}
               :sem {:ref {:human? true
+                          :gender :fem
                           :context :informal}
                     :pred :you}
               :reflexive? false}]
@@ -195,6 +196,7 @@
                     :person :2nd
                     :formal? false}
               :sem {:ref {:human? true
+                          :gender :masc
                           :context :informal}
                     :pred :you}
               :reflexive? false}]

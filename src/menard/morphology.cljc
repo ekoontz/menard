@@ -17,6 +17,10 @@
   {:informal ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"
               "👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"
               "👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
+
+   ;; vosotras
+   :informal-feminine-plural ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
+
    :formal   ["🧓" "🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"
               "👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"
               "👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]})
@@ -24,8 +28,11 @@
 (def emoji-set emoji-set-2)
 
 (defn decode-notes [notes]
-  (log/info (str "decode-notes with notes: " notes))
+  (log/debug (str "decode-notes with notes: " notes))
   (cond
+    (= notes [:informal :feminine :plural])
+    (str (clojure.string/join ""
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :informal-feminine-plural)))))))
     (= notes [:informal :singular])
     (str (clojure.string/join ""
                               (take 1 (repeatedly #(first (shuffle (get emoji-set :informal)))))))

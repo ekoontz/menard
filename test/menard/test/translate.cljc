@@ -35,12 +35,26 @@
   (is (= (nl-to-en-str "ze hebben het geld nodig")
          "they need the money")))
 
+(def informal-alternatives
+  (set
+   (map (fn [emoji]
+          (str "you " emoji " need them"))
+        (-> menard.morphology/emoji-set-2 :informal))))
+
+(def formal-alternatives
+  (set
+   (map (fn [emoji]
+          (str "you " emoji " need yourself"))
+        (-> menard.morphology/emoji-set-2 :formal))))
+
 (deftest pronoun-nodig
   (log/info (str "nodig+pronoun tests.."))
-  (is (= (nl-to-en-str "jij hebt hun nodig") "you 🤠 need them"))
+  (is (contains? informal-alternatives
+                 (nl-to-en-str "jij hebt hun nodig")))
   (is (= (nl-to-en-str "zij heeft zich nodig") "she needs herself"))
   (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))
-  (is (= (nl-to-en-str "u hebt u nodig") "you 🧐 need yourself")))
+  (is (contains? formal-alternatives
+                 (nl-to-en-str "u hebt u nodig"))))
 
 ;; If true, generates Dutch, then parses it, so we test
 ;; parsing as well as generation.

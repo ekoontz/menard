@@ -644,7 +644,8 @@
  ;; was done for {:prepositional-verb {:with "X"}.
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
-         [{:intransitive-only? true
+         [{:exceptions exceptions
+           :intransitive-only? true
            :sem {:pred :put}}
           {:exceptions exceptions
            :ditransitive? true           

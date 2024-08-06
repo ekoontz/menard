@@ -151,8 +151,9 @@
         :sem {:ref {:human? true}
               :pred :you}
         :reflexive? true}]
+      
 
- "tu" [{:case :nom
+ "tú" [{:case :nom
         :agr {:number :sing
               :person :2nd
               :formal? false}

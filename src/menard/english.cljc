@@ -142,50 +142,7 @@
 ;; <TODO> move into declarative grammar (i.e. the model).
 (def post-lexical-retrieval-rules
   (list
-   {:rule :modal-adjective
-     :if {:cat :verb
-         :aux? false
-         :modal :adjective}
-    :then [{:post-lex-rules-stop? true}]} ;; prevent the rest of the rules from applying.
-
-   {:rule :modal-none
-    :if {:cat :verb
-         :aux? false
-         :modal :none
-         :infl ::unspec
-         :post-lex-rules-stop? ::unspec}
-    :then [{:infl :base}
-           {:infl :present}
-           {:infl :present-participle}
-           {:infl :past-participle}
-           {:infl :past-simple}]}
-   {:rule :modal-infinitive
-    :if {:cat :verb
-         :aux? false
-         :modal :infinitive
-         :infl ::unspec
-         :post-lex-rules-stop? ::unspec}
-    :then [{:infl :base}
-           {:infl :present}
-           {:infl :present-participle}
-           {:infl :past-participle}
-           {:infl :past-simple}]}
-   {:rule :present-infl-to-present-tense
-    :if {:cat :verb
-         :aux? false
-         :modal :none
-         :infl :present
-         :post-lex-rules-stop? ::unspec}
-    :then [{:infl :present
-            :sem {:tense :present
-                  :aspect :simple}}]}
-   {:rule :past-simple-non-aux
-    :if {:cat :verb
-         :aux? false
-         :infl :past-simple
-         :post-lex-rules-stop? ::unspec}
-    :then [{:sem {:tense :past
-                  :aspect :perfect}}]}))
+))
 ;; </TODO>
 
 (defn post-lexical-retrieval-rule

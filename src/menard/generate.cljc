@@ -498,7 +498,7 @@
                                    (-> spec simplify l/pprint)))
                     (log/warn (str "  fail-path: " fail-path))
                     (log/warn (str ""))))
-                (if (= result :early-fail) :fail result))))
+                (if (= result :early-fail) :fail lexeme))))
        
        (filter #(not (= % :fail)))))
 

@@ -141,8 +141,9 @@
 
 ;; <TODO> move into declarative grammar (i.e. the model).
 (def post-lexical-retrieval-rules
-  [{:rule :modal-adjective
-    :if {:cat :verb
+  (list
+   {:rule :modal-adjective
+     :if {:cat :verb
          :aux? false
          :modal :adjective}
     :then [{:post-lex-rules-stop? true}]} ;; prevent the rest of the rules from applying.
@@ -184,7 +185,7 @@
          :infl :past-simple
          :post-lex-rules-stop? ::unspec}
     :then [{:sem {:tense :past
-                  :aspect :perfect}}]}])
+                  :aspect :perfect}}]}))
 ;; </TODO>
 
 (defn post-lexical-retrieval-rule

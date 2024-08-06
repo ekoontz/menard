@@ -407,16 +407,12 @@
      ;;
      (map (fn [rule]
             (log/debug (str "trying rule: " (:rule rule)))
-            (let [result
-                  (u/assoc-in tree
-                              at rule)]
+            (let [result (u/assoc-in tree at rule)]
               (when (= :fail result)
                 (log/trace
                  (str "rule: " (:rule rule) " failed: "
                       (vec (diag/fail-path tree
-                                           (u/assoc-in {}
-                                                       at
-                                                       rule))))))
+                                           (u/assoc-in {} at rule))))))
               result)))
 
      ;; some attempts to adjoin will have failed, so remove those:

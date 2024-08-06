@@ -475,15 +475,17 @@
            %))
 
        (map (fn [lexeme]              
-              (let [result
-                    (cond (or (= :fail (unify {:infl (u/get-in lexeme [:infl] :top)
-                                               :cat (u/get-in lexeme [:cat] :top)}
-                                              {:infl (u/get-in spec [:infl] :top)
-                                               :cat (u/get-in spec [:cat] :top)}))
-                              (= :fail (unify {:sem (u/get-in lexeme [:sem] :top)
-                                              :subcat (u/get-in lexeme [:subcat] :top)}
-                                              {:sem (u/get-in lexeme [:sem] :top)
-                                               :subcat (u/get-in spec [:subcat] :top)})))
+              (let [do-early-unify? false
+                    result
+                    (cond (and do-early-unify?
+                               (or (= :fail (unify {:infl (u/get-in lexeme [:infl] :top)
+                                                    :cat (u/get-in lexeme [:cat] :top)}
+                                                   {:infl (u/get-in spec [:infl] :top)
+                                                    :cat (u/get-in spec [:cat] :top)}))
+                                   (= :fail (unify {:sem (u/get-in lexeme [:sem] :top)
+                                                    :subcat (u/get-in lexeme [:subcat] :top)}
+                                                   {:sem (u/get-in lexeme [:sem] :top)
+                                                    :subcat (u/get-in spec [:subcat] :top)}))))
                           :early-fail
                           :else
                           (unify lexeme spec))]

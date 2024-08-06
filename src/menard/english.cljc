@@ -107,8 +107,6 @@
          "?"
          ".")))
 
-(declare wrapped-lexicon-index-fn)
-
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec & [model]]
@@ -132,56 +130,13 @@
                       " with max-depth: " g/max-depth))
       (g/generate spec
                   (-> model :grammar)
-                  (wrapped-lexicon-index-fn (-> model :lexicon-index-fn)) syntax-tree))))
+                  (-> model :lexicon-index-fn)
+                  syntax-tree))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]
   (take n (repeatedly #(generate spec))))
-
-;; <TODO> move into declarative grammar (i.e. the model).
-(def post-lexical-retrieval-rules
-  (list
-))
-;; </TODO>
-
-(defn post-lexical-retrieval-rule
-  "takes: a list of lexemes and a rule
-   return: a list of lexemes.
-  
-   For each lexeme, if the rule is applicable (unifying the antecedent :if),
-   then concatenate the result of applying the rule to the input
-   lexeme. If the :if of the rule does not unify with the lexeme, then simply return
-   a list containing only that lexeme."
-  [lexemes rule]
-  (let [{if :if
-         then :then} rule]
-    (->> lexemes
-         (mapcat (fn [lexeme]
-                   (log/debug (str "looking at lexeme: " (syntax-tree lexeme)))
-                   (if (and (= :verb (u/get-in lexeme [:cat]))
-                            (= false (u/get-in lexeme [:aux?]))
-                            (not (= :fail (unify if lexeme))))
-                     (->> then
-                          (map (fn [each-then]
-                                 (let [unify (unify each-then lexeme)]
-                                   (log/debug (str "post-lexical-retrieval-rule matched: " each-then))
-                                   (log/debug (str " lexeme: " (l/pprint lexeme)))
-                                   (log/debug (str " unified: " (l/pprint unify)))                                   
-                                   (if (= :fail unify)
-                                     (exception (str "lexeme matched post-lexical-retrieval-rule's :if but not its :then. Lexeme: " (l/pprint lexeme)
-                                                     " rule: " rule ": fail-path: " (diag/fail-path lexeme each-then)))
-                                     unify)))))
-                     [lexeme]))))))
-
-(defn post-lexical-retrieval [lexemes rules]
-  (if (seq rules)
-    (post-lexical-retrieval
-     (post-lexical-retrieval-rule lexemes (first rules))
-     (rest rules))
-    (do
-      (log/debug (str "ok done with all rules; returning total results: " (count lexemes)))
-      lexemes)))
 
 (defn analyze [surface & [model]]
   (log/debug (str "analyze: " surface))
@@ -193,17 +148,7 @@
                             (clojure.string/capitalize surface)
                             surface]))]
     (->> variants
-         (mapcat #(l/matching-lexemes % lexicon morphology))
-         (mapcat (fn [lexeme]
-                   (post-lexical-retrieval [lexeme] post-lexical-retrieval-rules))))))
-
-(defn wrapped-lexicon-index-fn [lexical-index-fn]
-  (fn [spec]
-    (log/debug (str "wrapped-lexicon-index-fn: input spec: " (l/pprint spec)))
-    (let [result (lexical-index-fn spec)]
-      (log/debug (str "wrapped-lexicon-index-fn found: " (count result) " lexemes matching spec: " (l/pprint spec)))
-      (-> result
-          (post-lexical-retrieval post-lexical-retrieval-rules)))))
+         (mapcat #(l/matching-lexemes % lexicon morphology)))))
 
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model

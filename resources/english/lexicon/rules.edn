@@ -93,7 +93,8 @@
  {:rule :prepositional-verb-true
   :if {:cat :verb
        :prepositional-verb? ::unspec}
-  :then [{:prepositional-verb? true}]}
+  :then [{:prepositional-verb? true
+          :reflexive? false}]}
 
  {:rule :adjectival-verb-none
   :if {:cat :verb

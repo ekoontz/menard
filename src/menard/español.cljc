@@ -140,6 +140,3 @@
 
 (defn get-indices []
   (-> model deref :indices))
-
-
-

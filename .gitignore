@@ -36,3 +36,4 @@ lambda/history.txt
 server/target/stale/leiningen.core.classpath.extract-native-dependencies
 server/target/repl-port
 server/.nrepl-port
+profile*

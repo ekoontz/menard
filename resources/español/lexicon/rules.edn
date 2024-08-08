@@ -216,7 +216,8 @@
   :if {:cat :verb
        :canonical #"(.*)se$"}
   :then (let [agr (atom :top)
-              subj (atom :top)]
+              ref (atom :top)
+              subj (atom {:ref ref})]
           ;; variant with explicit subject e.g. "él se levantó"
           [{:reflexive? true
             :intransitive? false
@@ -229,6 +230,7 @@
                      :2 {:pronoun? true
                          :cat :noun
                          :agr agr
+                         :sem {:ref ref}
                          :reflexive? true}
                      :3 []}}
 

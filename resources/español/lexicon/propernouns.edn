@@ -3,45 +3,41 @@
           :agr {:gender :masc
                 :person :3rd
                 :number :sing}
-          :sem {:human? true
+          :sem {:ref {:human? true}
                 :pred :Juan}}]
  "Juana" [{:case :nom
            :agr {:gender :fem
                  :person :3rd
                  :number :sing}
-           :sem {:human? true
+           :sem {:ref {:human? true}
                  :pred :Juana}}]
  "Juan y yo" [{:case :nom
                :agr {:gender :masc
                      :person :1st
                      :number :plur}
-                 :sem {:human? true
-                       :pred :Juan-and-i}}]
+                 :sem {:pred :Juan-and-i}}]
  "Juana y yo" [{:case :nom
                 :agr {:gender :masc
                       :person :1st
                       :number :plur}
-                :sem {:human? true
-                      :pred :Juana-and-i}}]
+                :sem {:pred :Juana-and-i}}]
  "Juana y Pedro" [{:case :nom
                    :agr {:gender :masc
                          :person :3rd
                          :number :plur}
-                   :sem {:human? true
-                         :pred :Juana-and-Pedro}}]
+                   :sem {:pred :Juana-and-Pedro}}]
  "Pedro" [{:case :nom
            :agr {:gender :masc
                  :person :3rd
                  :number :sing}
-           :sem {:human? true
+           :sem {:ref {:human? true}
                  :pred :Pedro}}]
  "Pedro y tú" [{:case :nom
                 :agr {:gender :masc
                       :person :2nd
                       :number :plur
                       :formal? false}
-                :sem {:human? true
-                      :pred :Pedro-and-you}}]
+                :sem {:pred :Pedro-and-you}}]
  
 
  }

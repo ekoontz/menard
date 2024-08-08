@@ -436,7 +436,8 @@
  "pararse" [{:sem {:pred :stop-oneself}}]
  "pedir" [{:sem {:pred :ask-for}, :stems {:boot "pid"}}]
 
- "peinarse" [{:sem {:pred :comb-oneself}}]
+ "peinarse" [{:sem {:pred :comb-oneself
+                    :subj {:ref {:human? true}}}}]
 
  "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]

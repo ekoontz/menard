@@ -212,11 +212,14 @@
        :ditransitive? false
        :intransitive? false
        :modal :none
-       :adjectival-verb? false       
+       :adjectival-verb? false
        :nominal-verb? false
        :subcat {:2 {:cat ::unspec}}}
-  :then [(let [subj (atom {:existential? false})
-               obj (atom {:existential? false})
+  :then [(let [ref (atom :top)
+               subj (atom {:existential? false
+                           :ref ref})
+               obj (atom {:existential? false
+                          :ref ref})
                agr (atom :top)]
            {:subcat {:1 {:cat :noun
                          :agr agr

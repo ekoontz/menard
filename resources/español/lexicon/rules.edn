@@ -1,4 +1,9 @@
-[
+[{:rule :canonical-equals-root
+  :if :top
+  :then [(let [canonical (atom :top)]
+           {:canonical canonical
+            :root canonical})]}
+  
  {:rule :stems?
   :if {:cat :verb
        :stems ::unspec}

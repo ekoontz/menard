@@ -1,4 +1,9 @@
-[{:rule :noun-semantics
+[{:rule :canonical-equals-root
+  :if :top
+  :then [(let [canonical (atom :top)]
+           {:canonical canonical
+            :root canonical})]}
+ {:rule :noun-semantics
   :if {:cat :noun}
   :then [(let [number (atom :top)]
            {:agr {:number number}

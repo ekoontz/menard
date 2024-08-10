@@ -59,7 +59,8 @@
 (deftest ustedes-se-duermen
   (is (= "[s(:present-simple){+} .ustedes +[vp(:present-simple){+} .se(6) +duermen]]"
          (-> {:rule "s"
-              :comp {:agr {:number :plur,
+              :comp {:root "ustedes"
+                     :agr {:number :plur,
                            :person :2nd
                            :formal? true}},
               :sem {:tense :present,

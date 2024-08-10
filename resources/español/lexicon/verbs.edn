@@ -27,7 +27,7 @@
  "ayudar" [{:sem {:pred :help}
             :intransitive? true}
            {:sem {:pred :help,
-                  :obj {:human true}}
+                  :obj {:ref {:human? true}}}
             :transitive? true}]
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
@@ -74,9 +74,12 @@
  "compartir" [{:sem {:pred :share}}]
  "comprar"
  [{:intransitive? true
-   :sem {:pred :buy, :subj {:human true}}}
+   :sem {:pred :buy,
+         :subj {:ref {:human? true}}}}
   {:transitive? true
-   :sem {:pred :buy, :subj {:human true}, :obj {:buyable true}}}]
+   :sem {:pred :buy
+         :subj {:ref {:human? true}}
+         :obj {:ref {:buyable? true}}}}]
  "comprender" [{:sem {:pred :understand}}]
  "conducir"
  [{:sem {:pred :lead},
@@ -185,16 +188,16 @@
  "fregar" [{:sem {:pred :scrub},
             :stems {:boot "frieg"}}]
  "fumar" [{:sem {:pred :smoke}}]
- "funcionar" [{:sem {:subj {:human? false},
+ "funcionar" [{:sem {:subj {:ref {:human? false}}
                      :pred :work-nonhuman}}]
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]
  "gastar" [{:sem {:pred :spend}}]
  
  "hablar" [{:sem {:pred :speak
-                  :subj {:human true}}}
+                  :subj {:ref {:human? true}}}}
            {:sem {:pred :talk
-                  :subj {:human true}}}]
+                  :subj {:ref {:human? true}}}}]
  "hacer"
  (let [stems {:futuro "har"}
        exceptions [{:infl :present
@@ -350,7 +353,7 @@
      :surface "leyò"}]}]
 
  "levantarse" [{:sem {:pred :get-up,
-                      :subj {:human? true}}}]
+                      :subj {:ref {:human? true}}}}]
 
  "limpiar" [{:sem {:pred :clean}}]
 

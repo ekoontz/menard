@@ -4,6 +4,7 @@
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:morphology-noun-sing true}}
       :pronoun? false
+      :propernoun? false
       :regular? true
       :agr {:number :sing}}}
 

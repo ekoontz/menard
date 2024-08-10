@@ -7,7 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [1.7.5] - 2024-08-10
 
 - Add missing annotation :masculine to "you" (sense 2)
-- Add missing :sense to all "you" senses.
+- Add missing :sense to all "you" senses
+- Add "Pedro y tú/usted" variants
+- Add gender and notes for "they" to distinguish ellas/ellos
+- Support :note-on-first-word to add emojis after the first word to indicate gender or formality
 
 ## [1.7.4] - 2024-08-10
 

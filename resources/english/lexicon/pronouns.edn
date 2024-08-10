@@ -115,9 +115,9 @@
          {:pronoun? true
           :reflexive? false
           :case :nom
-          :note [:feminine :plural]          
+          :note [:feminine :plural]
           :agr {:person :3rd
-                :gender :fem                
+                :gender :fem
                 :number :plur}
           :sem {:pred :they
                 :gender :fem}}]
@@ -129,7 +129,7 @@
         :case :acc
         :agr {:person :1st
               :number :plur}}]
- 
+
  "we" [{:sem {:pred :we
               :ref {:human? true
                     :gender :fem}}
@@ -139,7 +139,7 @@
         :agr {:person :1st
               :gender :fem
               :number :plur}
-         :note [:feminine :plural]}        
+         :note [:feminine :plural]}
        {:sem {:pred :we
               :ref {:human? true
                     :gender :masc}}
@@ -147,9 +147,9 @@
         :reflexive? false
         :case :nom
         :agr {:person :1st
-              :gender :masc              
+              :gender :masc
               :number :plur}
-         :note [:masculine :plural]}]        
+         :note [:masculine :plural]}]
 
  "what" [{:interogative? true
           :pronoun? true
@@ -168,9 +168,9 @@
          :note [:informal :singular]
          :sem {:pred :you
                :ref {:context :informal}}}
-        
+
         {:agr {:person :2nd
-               :gender :masc               
+               :gender :masc
                :number :plur}
          :sense 2
          :case :nom
@@ -212,7 +212,7 @@
          :sem {:pred :you
                :ref {:context :informal}
                :person-not :1st}}
-        
+
         {:agr {:person :2nd
                :number :plur}
          :case :acc
@@ -239,7 +239,7 @@
          :sem {:pred :you
                :ref {:context :formal}
                :person-not :1st}}]
- 
+
  "yourself" [{:case :acc
               :agr {:number :sing
                     :person :2nd}

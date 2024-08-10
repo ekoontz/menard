@@ -105,8 +105,22 @@
  "they" [{:pronoun? true
           :reflexive? false
           :case :nom
-          :agr {:person :3rd :number :plur}
-          :sem {:pred :they}}]
+          :agr {:person :3rd
+                :gender :masc
+                :number :plur}
+          :note [:masculine :plural]
+          :sem {:pred :they
+                :gender :masc}}
+
+         {:pronoun? true
+          :reflexive? false
+          :case :nom
+          :note [:feminine :plural]
+          :agr {:person :3rd
+                :gender :fem
+                :number :plur}
+          :sem {:pred :they
+                :gender :fem}}]
 
  "us" [{:sem {:pred :we
               :ref {:human? true}}

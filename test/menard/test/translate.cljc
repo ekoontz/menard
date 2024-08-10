@@ -47,12 +47,29 @@
           (str "you " emoji " need yourself"))
         (-> menard.morphology/emoji-set-2 :formal))))
 
+;; "we need ourselves"))
+(def plural-first-person-alternatives
+  (let [all-emojis
+        (concat (:masculine-plural menard.morphology/emoji-set-2)
+                (:feminine-plural  menard.morphology/emoji-set-2))
+        all-emoji-pairs
+        (->> all-emojis
+             (mapcat (fn [emo1]
+                       (map (fn [emo2]
+                              (str emo1 emo2))
+                            all-emojis))))]
+    (set
+     (map (fn [emoji-pair]
+            (str "we " emoji-pair " need ourselves"))
+          all-emoji-pairs))))
+
 (deftest pronoun-nodig
   (log/info (str "nodig+pronoun tests.."))
   (is (contains? informal-alternatives
                  (nl-to-en-str "jij hebt hun nodig")))
   (is (= (nl-to-en-str "zij heeft zich nodig") "she needs herself"))
-  (is (= (nl-to-en-str "wij hebben ons nodig") "we need ourselves"))
+  (is (contains? plural-first-person-alternatives
+                 (nl-to-en-str "wij hebben ons nodig")))
   (is (contains? formal-alternatives
                  (nl-to-en-str "u hebt u nodig"))))
 

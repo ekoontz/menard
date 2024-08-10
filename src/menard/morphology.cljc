@@ -13,24 +13,46 @@
   {:informal ["🤠"]
    :formal   ["🧐"]})
 
+;; TODO: more factoring-out variables is possible beyond these two
+;; ones for informal:
 (def emoji-set-2
-  {:informal ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"
-              "👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"
-              "👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
+  (let [informal-masculine ["👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"]
+        informal-feminine  ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
+        informal-neuter    ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"]
+        formal-neuter      ["🧓" "🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"]
+        formal-masculine   ["👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"]
+        formal-feminine    ["👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]
+        informal (concat informal-masculine
+                         informal-feminine
+                         informal-neuter)
+        formal   (concat formal-masculine
+                         formal-feminine
+                         formal-neuter)]
+    {
+     ;; vosotras
+     :informal-feminine informal-feminine
+     ;; vosotros
+     :informal-masculine informal-masculine
 
-   ;; vosotras
-   :informal-feminine-plural ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
+     ;; tú
+     :informal (concat informal-masculine
+                       informal-feminine
+                       informal-neuter)
+     ;; usted
+     :formal   (concat formal-masculine
+                       formal-feminine
+                       formal-neuter)
 
-   ;; nosotros
-   :masculine-plural ["👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"
-                      "👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"]
-   ;; nosotras
-   :feminine-plural ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"
-                     "👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]
-   
-   :formal   ["🧓" "🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"
-              "👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"
-              "👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]})
+     
+     :all      (concat informal formal)
+     
+     ;; nosotros
+     :masculine (concat informal-masculine
+                        formal-masculine)
+     
+     ;; nosotras
+     :feminine (concat informal-feminine
+                       formal-feminine)}))
 
 (def emoji-set emoji-set-2)
 
@@ -39,7 +61,18 @@
   (cond
     (= notes [:informal :feminine :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :informal-feminine-plural)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :informal-feminine)))))))
+
+
+    ;; this case is a little more complicated because "nosotros/vosotros" is
+    ;; *at least* one male is in the group, but there may also be female in that
+    ;; same group. So we want to have the option to show a case of the latter
+    ;; (i.e. mixed male and female):
+    (= notes [:informal :masculine :plural])
+    (str (clojure.string/join ""
+                              [(first (shuffle (get emoji-set :informal-masculine)))
+                               (first (shuffle (get emoji-set :informal)))]))
+
     (= notes [:informal :singular])
     (str (clojure.string/join ""
                               (take 1 (repeatedly #(first (shuffle (get emoji-set :informal)))))))
@@ -54,10 +87,13 @@
                               (take 2 (repeatedly #(first (shuffle (get emoji-set :formal)))))))
     (= notes [:feminine :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :feminine-plural)))))))
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :feminine)))))))
+
+    ;; same applies here as above with "nosotros/vosotros"
     (= notes [:masculine :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :masculine-plural)))))))
+                              [(first (shuffle (get emoji-set :masculine)))
+                               (first (shuffle (get emoji-set :all)))]))
 
 
     ;; no emoji or other cues for now.

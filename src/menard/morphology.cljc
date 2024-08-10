@@ -75,19 +75,19 @@
 
     (= notes [:informal :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get emoji-set :informal)))))))
+                              (first (shuffle (get emoji-set :informal)))))
     (= notes [:formal :singular])
     (str (clojure.string/join ""
-                              (take 1 (repeatedly #(first (shuffle (get emoji-set :formal)))))))
+                              (first (shuffle (get emoji-set :formal)))))
     (= notes [:informal :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :informal)))))))
+                              (take 2 (shuffle (get emoji-set :informal)))))
     (= notes [:formal :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :formal)))))))
+                              (take 2 (shuffle (get emoji-set :formal)))))
     (= notes [:feminine :plural])
     (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :feminine)))))))
+                              (take 2 (shuffle (get emoji-set :feminine)))))
 
     ;; same applies here as above with "nosotros/vosotros"
     (= notes [:masculine :plural])
@@ -95,6 +95,11 @@
                               [(first (shuffle (get emoji-set :masculine)))
                                (first (shuffle (get emoji-set :all)))]))
 
+    (= notes [:formal])
+    (str (first (shuffle (get emoji-set :formal))))
+
+    (= notes [:informal])
+    (str (first (shuffle (get emoji-set :informal))))
 
     ;; no emoji or other cues for now.
     (= notes [:human?])

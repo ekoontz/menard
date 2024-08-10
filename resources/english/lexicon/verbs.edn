@@ -391,7 +391,7 @@
           [{:exceptions exceptions  :sem {:pred :forget}}])
  "form" [{:sem {:pred :form}}]
  "function" [{:sem {:pred :work-nonhuman
-                    :subj {:human? false}}}]
+                    :subj {:ref {:human? false}}}}]
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
                          {:infl :past-participle :surface "got"}]]
          [{:exceptions exceptions
@@ -947,9 +947,9 @@
            :infl :base}]
  "wound" [{ :sem {:pred :wound}}]
  "work" [{:sem {:pred :work
-                :subj {:human? true}}}
+                :subj {:ref {:human? true}}}}
          {:sem {:pred :work-nonhuman
-                :subj {:human? false}}}]
+                :subj {:ref {:human? false}}}}]
  "write" [{:sem {:pred :write}
            :exception [{:infl :past-simple
                         :surface "wrote"}

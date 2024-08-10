@@ -21,6 +21,13 @@
    ;; vosotras
    :informal-feminine-plural ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"]
 
+   ;; nosotros
+   :masculine-plural ["👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"
+                      "👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"]
+   ;; nosotras
+   :feminine-plural ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"
+                     "👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]
+   
    :formal   ["🧓" "🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"
               "👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"
               "👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"]})
@@ -42,10 +49,15 @@
     (= notes [:informal :plural])
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji-set :informal)))))))
-
     (= notes [:formal :plural])
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji-set :formal)))))))
+    (= notes [:feminine :plural])
+    (str (clojure.string/join ""
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :feminine-plural)))))))
+    (= notes [:masculine :plural])
+    (str (clojure.string/join ""
+                              (take 2 (repeatedly #(first (shuffle (get emoji-set :masculine-plural)))))))
 
 
     ;; no emoji or other cues for now.

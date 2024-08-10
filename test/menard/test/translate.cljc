@@ -28,12 +28,26 @@
 (defn nl-to-en-str [nl-str]
   (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))
 
+;; "they need"
+(def plural-third-person-alternatives
+  (let [all-emojis (:all menard.morphology/emoji-set-2)
+        all-emoji-pairs
+        (->> all-emojis
+             (mapcat (fn [emo1]
+                       (map (fn [emo2]
+                              (str emo1 emo2))
+                            all-emojis))))]
+    (set
+     (map (fn [emoji-pair]
+            (str "they " emoji-pair " need the money"))
+          all-emoji-pairs))))
+
 (deftest nodig
   (log/info (str "nodig tests.."))
   (is (= (nl-to-en-str "ik heb het geld nodig")
          "I need the money"))
-  (is (= (nl-to-en-str "ze hebben het geld nodig")
-         "they need the money")))
+  (is (contains? plural-third-person-alternatives
+                 (nl-to-en-str "ze hebben het geld nodig"))))
 
 (def informal-alternatives
   (set

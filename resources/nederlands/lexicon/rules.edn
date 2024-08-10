@@ -1,4 +1,9 @@
-[{:rule :curriculum-is-none-default
+[{:rule :canonical-equals-root
+  :if :top
+  :then [(let [canonical (atom :top)]
+           {:canonical canonical
+            :root canonical})]}
+ {:rule :curriculum-is-none-default
   :if {:curriculum ::none}
   :then [{:curriculum ::none}]}
 

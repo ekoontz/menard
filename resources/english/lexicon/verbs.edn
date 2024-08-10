@@ -393,7 +393,7 @@
  "function" [{:sem {:pred :work-nonhuman
                     :subj {:ref {:human? false}}}}]
  "get" (let [exceptions [{:infl :past-simple :surface "got"}
-                         {:infl :past-participle :surface "got"}]]
+                         {:infl :past-participle :surface "gotten"}]]
          [{:exceptions exceptions
            :sem {:pred :get}}
           {:exceptions exceptions

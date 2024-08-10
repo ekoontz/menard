@@ -15,7 +15,7 @@
                               :exception false
                               :agr {:number :plur}}])
                  :m (re-find (-> rule :g first)
-                             (:canonical lexeme))}))
+                             (u/get-in lexeme [:canonical]))}))
          (filter (fn [x] (and (not (= :fail (:u x)))
                                  (not (nil? (:m x))))))
          (map (fn [result]

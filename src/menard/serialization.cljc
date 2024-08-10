@@ -10,12 +10,8 @@
   (cond
     (nil? tree) "_"
     (string? tree) tree    
-
-    (and (string? (u/get-in tree [:surface]))
-         (= :top (u/get-in tree [:note] :top))
-         (= :top (u/get-in tree [:note-on-first-word] :top)))
+    (string? (u/get-in tree [:surface]))
     (u/get-in tree [:surface])
-
     (u/get-in tree [:1])
     (str (morph (u/get-in tree [:1]) morphology) " "
          (morph (u/get-in tree [:2]) morphology))

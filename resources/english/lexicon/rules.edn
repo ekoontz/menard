@@ -345,15 +345,21 @@
                          :case :nom
                          :subcat []}}})]}
  
- {:rule :dont-inflect-pronouns
+ {:rule :surface-is-canonical-for-pronouns
   :if {:cat :noun
        :pronoun? true}
-  :then [{:inflected? true}]}
+  :then (let [surface (atom :top)]
+          [{:surface surface
+            :inflected? true
+            :canonical surface}])}
 
- {:rule :dont-inflect-propernouns
+ {:rule :surface-is-canonical-for-propernouns
   :if {:cat :noun
        :propernoun? true}
-  :then [{:inflected? true}]}
+  :then (let [surface (atom :top)]
+          [{:surface surface
+            :inflected? true            
+            :canonical surface}])}
  
  {:rule :ditransitive-false
   :if {:cat :verb

@@ -110,7 +110,8 @@
                 :number :plur}
           :note [:masculine :plural]
           :sem {:pred :they
-                :gender :masc}}
+                :gender :masc
+                :ref {:human? true}}}
 
          {:pronoun? true
           :reflexive? false
@@ -120,8 +121,17 @@
                 :gender :fem
                 :number :plur}
           :sem {:pred :they
-                :gender :fem}}]
+                :gender :fem
+                :ref {:human? true}}}
 
+         {:pronoun? true
+          :reflexive? false
+          :case :nom
+           :agr {:person :3rd
+                :number :plur}
+          :sem {:pred :they
+                :ref {:human? false}}}]
+ 
  "us" [{:sem {:pred :we
               :ref {:human? true}}
         :pronoun? true

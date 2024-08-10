@@ -326,7 +326,7 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
-                        (log-fn (str "matched surface: " surface " with regexp from: " from " and to: " to "; so finally: " (string/replace surface from to)))
+                        (log-fn (str "matched surface: " surface " with regexp from: " from " and to: " to "; so finally: " (string/replace surface from to) " with derivation: " (-> u :derivation)))
                         {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
@@ -362,7 +362,7 @@
              ;; and where the unification with that rule was successful.
              ;; where the _surface_ has been
              ((fn [lexemes]
-                (log/debug (str "found: " (count lexemes) " inflections for surface: " surface  "."))
+                (log-fn (str "found: " (count lexemes) " inflections for surface: " surface  "."))
                 lexemes))
 
              (map (fn [lexeme]

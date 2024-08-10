@@ -74,13 +74,6 @@
                :pred :we}
          :reflexive? true}]
 
- "vos" [{:agr {:number :plur
-               :person :2nd
-               :formal? false}
-         :sem {:ref {:human? true}
-               :pred :you}
-         :reflexive? true}]
-
  "nosotras" [{:case :nom
               :agr {:number :plur
                     :gender :fem
@@ -96,6 +89,13 @@
               :sem {:ref {:human? true}
                     :pred :we}
               :reflexive? false}]
+
+ "vos" [{:agr {:number :plur
+               :person :2nd
+               :formal? false}
+         :sem {:ref {:human? true}
+               :pred :you}
+         :reflexive? true}]
 
  ;; we don't have [:agr :number]
  ;; explicitly here for 'se': probably don't

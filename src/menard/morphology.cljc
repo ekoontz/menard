@@ -231,7 +231,7 @@
 
          (= true (u/get-in structure [:inflected?] false))
          (do
-           (log/warn (str "leaf's :inflected? is true but there was no surface form, but found canonical: '" canonical "', so using that instead."))
+           (log/debug (str "leaf's :inflected? is true but there was no surface form, but found canonical: '" canonical "', so using that instead."))
            (concat-with-notes structure (u/get-in structure [:canonical])))
          
          (and (false? inflected?) (empty? matching-rules)

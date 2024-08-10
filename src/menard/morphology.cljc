@@ -121,7 +121,6 @@
 
 
 (defn concat-with-notes [structure surface]
-  (log/info (str "CONCAT WITH NOTES: surface: " surface "; structure: " (l/pprint structure)))
   (cond
     (and (u/get-in structure [:note])
          (not (= :top (u/get-in structure [:note]))))                  

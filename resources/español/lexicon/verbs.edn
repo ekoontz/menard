@@ -185,16 +185,16 @@
  "fregar" [{:sem {:pred :scrub},
             :stems {:boot "frieg"}}]
  "fumar" [{:sem {:pred :smoke}}]
- "funcionar" [{:sem {:subj {:human? false},
+ "funcionar" [{:sem {:subj {:ref {:human? false}}
                      :pred :work-nonhuman}}]
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]
  "gastar" [{:sem {:pred :spend}}]
  
  "hablar" [{:sem {:pred :speak
-                  :subj {:human true}}}
+                  :subj {:ref {:human? true}}}}
            {:sem {:pred :talk
-                  :subj {:human true}}}]
+                  :subj {:ref {:human? true}}}}]
  "hacer"
  (let [stems {:futuro "har"}
        exceptions [{:infl :present

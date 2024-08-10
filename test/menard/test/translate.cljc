@@ -30,9 +30,7 @@
 
 ;; "they need"
 (def plural-third-person-alternatives
-  (let [all-emojis
-        (concat (:masculine menard.morphology/emoji-set-2)
-                (:feminine  menard.morphology/emoji-set-2))
+  (let [all-emojis (:all menard.morphology/emoji-set-2)
         all-emoji-pairs
         (->> all-emojis
              (mapcat (fn [emo1]
@@ -48,7 +46,8 @@
   (log/info (str "nodig tests.."))
   (is (= (nl-to-en-str "ik heb het geld nodig")
          "I need the money"))
-  (is (contains? plural-third-person-alternatives (nl-to-en-str "ze hebben het geld nodig"))))
+  (is (contains? plural-third-person-alternatives
+                 (nl-to-en-str "ze hebben het geld nodig"))))
 
 (def informal-alternatives
   (set
@@ -64,9 +63,7 @@
 
 ;; "we need ourselves"))
 (def plural-first-person-alternatives
-  (let [all-emojis
-        (concat (:masculine menard.morphology/emoji-set-2)
-                (:feminine  menard.morphology/emoji-set-2))
+  (let [all-emojis (:all menard.morphology/emoji-set-2)
         all-emoji-pairs
         (->> all-emojis
              (mapcat (fn [emo1]

@@ -121,7 +121,6 @@
 
 
 (defn concat-with-notes [structure surface]
-  (log/info (str "CONCAT WITH NOTES: surface: " surface "; structure: " (l/pprint structure)))
   (cond
     (and (u/get-in structure [:note])
          (not (= :top (u/get-in structure [:note]))))                  
@@ -222,7 +221,7 @@
          (and (u/get-in structure [:surface])
               (not (= (u/get-in structure [:surface]) :top)))
          (do
-           (log/info (str "found surface; using that: " (u/get-in structure [:surface])))
+           (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
            (concat-with-notes structure (u/get-in structure [:surface])))
          
          (seq matching-rules)

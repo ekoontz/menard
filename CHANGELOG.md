@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.7.5] - 2024-08-10
+
+- Add missing annotation :masculine to "you" (sense 2)
+- Add missing :sense to all "you" senses.
+
 ## [1.7.4] - 2024-08-10
 
 - Add annotations to distinguish "nosotras" and "nosotras"

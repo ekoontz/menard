@@ -158,7 +158,7 @@
                :gender :masc               
                :number :plur}
          :case :nom
-         :note [:informal :plural]
+         :note [:informal :masculine :plural]
          :sem {:pred :you
                :ref {:context :informal}}}
 

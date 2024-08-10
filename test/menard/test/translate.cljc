@@ -50,8 +50,8 @@
 ;; "we need ourselves"))
 (def plural-first-person-alternatives
   (let [all-emojis
-        (concat (:masculine-plural menard.morphology/emoji-set-2)
-                (:feminine-plural  menard.morphology/emoji-set-2))
+        (concat (:masculine menard.morphology/emoji-set-2)
+                (:feminine  menard.morphology/emoji-set-2))
         all-emoji-pairs
         (->> all-emojis
              (mapcat (fn [emo1]

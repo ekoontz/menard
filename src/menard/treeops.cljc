@@ -97,6 +97,7 @@
    :infl (atom :top)
    :inflected? (atom :top)
    :note (atom :top)
+   :note-on-first-word (atom :top)   
    :null? (atom :top)
    :reflexive? (atom :top)
    :root (atom :top)

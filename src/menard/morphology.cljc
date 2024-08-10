@@ -119,6 +119,34 @@
     :else
     (str "(unprintable note)")))
 
+
+(defn concat-with-notes [structure surface]
+  (log/info (str "CONCAT WITH NOTES: surface: " surface "; structure: " (l/pprint structure)))
+  (cond
+    (and (u/get-in structure [:note])
+         (not (= :top (u/get-in structure [:note]))))                  
+    (str
+     surface
+     (if (and show-notes?
+              (u/get-in structure [:note])
+              (not (= :top (u/get-in structure [:note])))
+              (seq (u/get-in structure [:note])))
+       (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
+         (str " " decode-notes))))
+    
+    (and (u/get-in structure [:note-on-first-word])
+         (not (= :top (u/get-in structure [:note-on-first-word]))))
+    (str
+     (first (clojure.string/split surface #" "))
+     (if (and show-notes?
+              (u/get-in structure [:note-on-first-word])
+              (not (= :top (u/get-in structure [:note-on-first-word])))
+              (seq (u/get-in structure [:note-on-first-word])))
+       (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
+         (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
+
+    :else surface))
+
 (defn morph-leaf
   "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a
    an inflected string. The morphology is a set of rules, each of which has a :u and a :g. The :u is
@@ -194,16 +222,9 @@
          (and (u/get-in structure [:surface])
               (not (= (u/get-in structure [:surface]) :top)))
          (do
-           (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
-           (str
-            (u/get-in structure [:surface])
-            (if (and show-notes?
-                     (u/get-in structure [:note])
-                     (not (= :top (u/get-in structure [:note])))
-                     (seq (u/get-in structure [:note])))
-              (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
-                (str " " decode-notes)))))
-
+           (log/info (str "found surface; using that: " (u/get-in structure [:surface])))
+           (concat-with-notes structure (u/get-in structure [:surface])))
+         
          (seq matching-rules)
          (let [{[from to] :g} (first matching-rules)]
            (log/debug (str "using matching rule:" (first matching-rules)))
@@ -212,14 +233,8 @@
          (= true (u/get-in structure [:inflected?] false))
          (do
            (log/warn (str "leaf's :inflected? is true but there was no surface form, but found canonical: '" canonical "', so using that instead."))
-           (str canonical
-                (if (and show-notes?
-                         (u/get-in structure [:note])
-                         (not (= :top (u/get-in structure [:note])))
-                         (seq (u/get-in structure [:note])))
-                  (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
-                    (str " " decode-notes)))))
-
+           (concat-with-notes structure (u/get-in structure [:canonical])))
+         
          (and (false? inflected?) (empty? matching-rules)
               (not (= structure {:head? false}))
               (not (= structure {:head? true}))
@@ -227,7 +242,7 @@
          (do
            (log/debug (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
            canonical)
-
+         
          :else
          "_")
        (let [sense (if show-sense?

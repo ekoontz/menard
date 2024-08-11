@@ -70,7 +70,11 @@
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
  "comentar" [{:sem {:pred :comment}}]
  "comenzar" [{:sem {:pred :begin}, :stems {:boot "comienz"}}]
- "comer" [{:sem {:pred :eat}}]
+ "comer" [{:sem {:pred :eat
+                 ;; of course animals {:animate? true} can eat too, but we
+                 ;; don't have a good way to indicate the gender distinction of
+                 ;; them for the article ("él/ella/ellos/ellas) with the emoji.
+                 :subj {:ref {:human? true}}}}]
  "compartir" [{:sem {:pred :share}}]
  "comprar"
  [{:intransitive? true

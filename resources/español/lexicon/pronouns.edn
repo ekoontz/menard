@@ -90,12 +90,12 @@
                     :pred :we}
               :reflexive? false}]
 
- "vos" [{:agr {:number :plur
-               :person :2nd
-               :formal? false}
-         :sem {:ref {:human? true}
-               :pred :you}
-         :reflexive? true}]
+ "os" [{:agr {:number :plur
+              :person :2nd
+              :formal? false}
+        :sem {:ref {:human? true}
+              :pred :you}
+        :reflexive? true}]
 
  ;; we don't have [:agr :number]
  ;; explicitly here for 'se': probably don't

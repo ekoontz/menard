@@ -4,40 +4,40 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(def spec-map
-  (->>
-   [{:k :1st
-     :a {:person :1st}}
-    {:k :2nd-informal
-     :a {:person :2nd
-         :formal? false}}
-    {:k :2nd-formal
-     :a {:person :2nd
-         :formal? true}}
-    {:k :3rd
-     :a {:person :3rd}}]
-
-    (map (fn [{k :k a :a}]
-           [k (unify
-               {:agr {:number :sing}}
-               {:agr a})]))
-
-    (into {})))
+(def person-map
+  {:1st {:agr {:person :1st}},
+   :2nd-informal {:agr {:person :2nd, :formal? false}},
+   :2nd-formal {:agr {:person :2nd, :formal? true}},
+   :3rd {:agr {:person :3rd}}})
 
 (defn verb [canonical inflection]
-  (let [singular-map [:1st :2nd-informal :2nd-formal :3rd]]
+  (let [persons [:1st :2nd-informal :2nd-formal :3rd]]
     {:canonical canonical
      :inflection inflection
-     :singular (->> singular-map
+     :singular (->> persons
                     (map (fn [person]
-                           {person (-> (person spec-map)
-                                       (merge {:root canonical
+                           {person (-> (person person-map)
+                                       (unify {:root canonical
                                                :infl inflection
                                                :subcat []
                                                :phrasal? true
+                                               :agr {:number :sing}
                                                :comp {:phrasal? false}})
                                        generate
-                                       morph)})))}))
+                                       morph)})))
+     :plural (->> persons
+                  (map (fn [person]
+                         {person (-> (person person-map)
+                                     (unify {:root canonical
+                                             :infl inflection
+                                             :subcat []
+                                             :phrasal? true
+                                             :agr {:number :plur}
+                                             :comp {:phrasal? false}})
+                                     generate
+                                     morph)})))}))
+
+
 
 
               

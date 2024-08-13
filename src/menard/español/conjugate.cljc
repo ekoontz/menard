@@ -43,9 +43,3 @@
    :conditional (verb canonical :conditional)
    :imperfect (verb canonical :imperfect)
    :preterito (verb canonical :preterito)})
-
-
-              
-
-   
-

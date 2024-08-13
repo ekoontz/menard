@@ -1,46 +1,43 @@
 (ns menard.español.conjugate
-  (:require [menard.español :refer [generate morph]]))
+  (:require [menard.español :refer [generate morph]]
+            [dag_unify.core :as u :refer [unify]]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [cljslog.core :as log])))
+
+(def spec-map
+  (->>
+   [{:k :1st
+     :a {:person :1st}}
+    {:k :2nd-informal
+     :a {:person :2nd
+         :formal? false}}
+    {:k :2nd-formal
+     :a {:person :2nd
+         :formal? true}}
+    {:k :3rd
+     :a {:person :3rd}}]
+
+    (map (fn [{k :k a :a}]
+           [k (unify
+               {:agr {:number :sing}}
+               {:agr a})]))
+
+    (into {})))
 
 (defn verb [canonical inflection]
-  {:canonical canonical
-   :inflection inflection
-   :singular {:1st (-> {:root canonical
-                        :phrasal? true
-                        :infl inflection
-                        :agr {:person :1st :number :sing}
-                        :subcat []
-                        :comp {:phrasal? false}}
-                       generate
-                       morph)
-              :2nd-informal (-> {:root canonical
-                                 :phrasal? true
-                                 :infl inflection
-                                 :agr {:person :2nd
-                                       :formal? false
-                                       :number :sing}
-                                 :subcat []
-                        :comp {:phrasal? false}}
-                                generate
-                                morph)
-              :2nd-formal (-> {:root canonical
-                               :phrasal? true
-                               :infl inflection
-                               :agr {:person :2nd
-                                     :formal? true
-                              :number :sing}
-                               :subcat []
-                               :comp {:phrasal? false}}
-                              generate
-                              morph)
-              :3rd (-> {:root canonical
-                        :phrasal? true
-                        :infl inflection
-                        :agr {:person :3rd
-                              :number :sing}
-                        :subcat []
-                        :comp {:phrasal? false}}
-                       generate
-                       morph)}})
+  (let [singular-map [:1st :2nd-informal :2nd-formal :3rd]]
+    {:canonical canonical
+     :inflection inflection
+     :singular (->> singular-map
+                    (map (fn [person]
+                           {person (-> (person spec-map)
+                                       (merge {:root canonical
+                                               :infl inflection
+                                               :subcat []
+                                               :phrasal? true
+                                               :comp {:phrasal? false}})
+                                       generate
+                                       morph)})))}))
 
 
               

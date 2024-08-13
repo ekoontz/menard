@@ -37,7 +37,12 @@
                                      generate
                                      morph)})))}))
 
-
+(defn generate-chart [canonical]
+  {:present (verb canonical :present)
+   :future (verb canonical :conditional)
+   :conditional (verb canonical :conditional)
+   :imperfect (verb canonical :imperfect)
+   :preterito (verb canonical :preterito)})
 
 
               

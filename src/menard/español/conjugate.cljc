@@ -1,7 +1,5 @@
 (ns menard.español.conjugate
   (:require [menard.español :as es]
-;;            [menard.italiano :as it]
-            [menard.nederlands :as nl]
             [dag_unify.core :as u :refer [unify]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))

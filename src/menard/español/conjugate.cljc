@@ -10,36 +10,46 @@
    :2nd-formal {:agr {:person :2nd, :formal? true}},
    :3rd {:agr {:person :3rd}}})
 
+(defn log-and-generate [spec]
+  (log/debug (str "generating with spec: " spec))
+  (generate spec))
+
 (defn verb [canonical inflection]
   (let [persons [:1st :2nd-informal :2nd-formal :3rd]]
-    {:canonical canonical
-     :inflection inflection
-     :singular (->> persons
+    {:singular (->> persons
                     (map (fn [person]
-                           {person (-> (person person-map)
+                           [person (-> (person person-map)
                                        (unify {:root canonical
                                                :infl inflection
                                                :subcat []
                                                :phrasal? true
                                                :agr {:number :sing}
                                                :comp {:phrasal? false}})
+                                       log-and-generate
+                                       morph)]))
+                    (into {}))
+     :plural   (->> persons
+                    (map (fn [person]
+                           [person (-> (person person-map)
+                                       (unify {:root canonical
+                                               :infl inflection
+                                               :subcat []
+                                               :phrasal? true
+                                               :agr {:number :plur}
+                                               :comp {:phrasal? false}})
                                        generate
-                                       morph)})))
-     :plural (->> persons
-                  (map (fn [person]
-                         {person (-> (person person-map)
-                                     (unify {:root canonical
-                                             :infl inflection
-                                             :subcat []
-                                             :phrasal? true
-                                             :agr {:number :plur}
-                                             :comp {:phrasal? false}})
-                                     generate
-                                     morph)})))}))
+                                       morph)]))
+                    (into {}))}))
 
 (defn generate-chart [canonical]
-  {:present (verb canonical :present)
-   :future (verb canonical :conditional)
-   :conditional (verb canonical :conditional)
-   :imperfect (verb canonical :imperfect)
-   :preterito (verb canonical :preterito)})
+  {:canonical canonical
+   :inflections [(merge {:name "Present"}
+                        (verb canonical :present))
+                 (merge {:name "Conditional"}
+                        (verb canonical :conditional))
+                 (merge {:name "Future"}
+                        (verb canonical :future))
+                 (merge {:name "Imperfect"}
+                        (verb canonical :imperfect))
+                 (merge {:name "Preterito"}
+                        (verb canonical :preterito))]})

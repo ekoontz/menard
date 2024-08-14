@@ -27,8 +27,8 @@
                                                :phrasal? true
                                                :agr {:number :sing}
                                                :comp {:phrasal? false}})
-                                       log-and-generate
-                                       morph)]))
+                                       es/generate
+                                       es/morph)]))
                     (into {}))
      :plural   (->> persons
                     (map (fn [person]
@@ -39,8 +39,8 @@
                                                :phrasal? true
                                                :agr {:number :plur}
                                                :comp {:phrasal? false}})
-                                       generate
-                                       morph)]))
+                                       es/generate
+                                       es/morph)]))
                     (into {}))}))
 
 (defn generate-chart [canonical]

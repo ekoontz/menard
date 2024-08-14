@@ -1,5 +1,7 @@
 (ns menard.español.conjugate
-  (:require [menard.español :refer [generate morph]]
+  (:require [menard.español :as es]
+            [menard.italiano :as it]
+            [menard.nederlands :as nl]
             [dag_unify.core :as u :refer [unify]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
@@ -12,7 +14,7 @@
 
 (defn log-and-generate [spec]
   (log/debug (str "generating with spec: " spec))
-  (generate spec))
+  (es/generate spec))
 
 (defn verb [canonical inflection]
   (let [persons [:1st :2nd-informal :2nd-formal :3rd]]

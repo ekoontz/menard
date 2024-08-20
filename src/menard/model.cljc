@@ -348,12 +348,22 @@
        (log/info (str "creating model with "
                       "filename: " model-spec-filename " .."))
        (log/info (str "(create): include-derivation? " include-derivation?))
-       (log/info (str "(create): use-existing-lexicon? " use-existing-lexicon?))       
+       (log/info (str "(create): use-existing-lexicon? " use-existing-lexicon?))
        (let [model-spec (read-model-spec model-spec-filename)
-             lexical-rules-path (str
-                                 (-> model-spec :lexicon :path) "/"
-                                 (-> model-spec :lexicon :rules))
-             lexical-rules (when (false? use-existing-lexicon?) (l/read-and-eval (use-path lexical-rules-path)))
+             rules-files
+             (if (string? (-> model-spec :lexicon :rules))
+               [(-> model-spec :lexicon :rules))
+               (-> model-spec :lexicon :rules))
+             lexical-rules-paths (map (fn [rule-file]
+                                        (str
+                                         (-> model-spec :lexicon :path) "/"
+                                         rule-file))
+                                      rules-files)
+             lexical-rules (when (false? use-existing-lexicon?)
+                             (->> lexical-rules-paths
+                                  (map (fn [lexical-rules-path]
+                                         (l/read-and-eval (use-path lexical-rules-path))))
+                                  (reduce concat)))
              morphology (if (false? use-existing-morphology?)
                           (load-morphology (-> model-spec :morphology :path)
                                            (-> model-spec :morphology :sources))

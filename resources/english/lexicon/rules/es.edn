@@ -1,0 +1,3 @@
+[{:rule :pronouns-2p
+  :if :top
+  :then [{}]}]

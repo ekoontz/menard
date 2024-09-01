@@ -3,6 +3,7 @@
             [dag_unify.serialization :refer [serialize]]
             [menard.english.nl :as en]
             [menard.nederlands :as nl]
+            [menard.nederlands.basic :as basic]
             [menard.nederlands.complete :as complete]            
             [menard.lexiconfn :as l]
             [menard.translate.spec :refer [nl-to-en-spec]]

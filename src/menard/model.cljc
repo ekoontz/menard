@@ -352,9 +352,11 @@
        (let [model-spec (read-model-spec model-spec-filename)
              rules-files
              (if (string? (-> model-spec :lexicon :rules))
-               [(-> model-spec :lexicon :rules))
+               [(-> model-spec :lexicon :rules)]
                (-> model-spec :lexicon :rules))
              lexical-rules-paths (map (fn [rule-file]
+                                        (log/info (str "OK!! READING RULE FILE: "
+                                                       rule-file))
                                         (str
                                          (-> model-spec :lexicon :path) "/"
                                          rule-file))

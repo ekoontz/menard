@@ -36,24 +36,19 @@
   (complete/reload))
 
 (defn morph
-  ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (-> (u/get-in tree [:syntax-tree])
-         (s/morph (:morphology @complete/model))
-         an)
+  [tree & [model sentence-punctuation?]]
+  (let [model (or model @complete/model)
+        sentence-punctuation (if sentence-punctuation? sentence-punctuation (fn [s] s))]
+     (cond
+       (map? (u/get-in tree [:syntax-tree]))
+       (-> (u/get-in tree [:syntax-tree])
+           (s/morph (:morphology model))
+           an)
 
-     :else
-     (-> tree
-         (s/morph (:morphology @complete/model))
-         an)))
-
-  ([tree & {:keys [sentence-punctuation?]}]
-   (when sentence-punctuation?
-     (-> tree
-         morph
-         an
-         (sentence-punctuation (u/get-in tree [:sem :mood] :decl))))))
+       :else
+       (-> tree
+           (s/morph (:morphology model))
+           an))))
 
 #?(:clj
    (defn write-compiled-lexicon []
@@ -83,8 +78,9 @@
              (log/warn (str "no entry from cat: " (u/get-in spec [:cat] ::none) " in lexeme-map: returning all lexemes."))
              lexicon)))))
 
-(defn syntax-tree [tree]
-  (s/syntax-tree tree (:morphology @complete/model)))
+(defn syntax-tree [tree & [model]]
+  (let [model (or model @complete/model)]
+    (s/syntax-tree tree (:morphology model))))
 
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel; 

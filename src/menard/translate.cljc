@@ -1,5 +1,6 @@
 (ns menard.translate
-  (:require [menard.nederlands :as nl]
+  (:require [menard.english.complete :as en-complete]
+            [menard.nederlands :as nl]
             [menard.nederlands.complete :as nl-complete]
             [menard.english :as en]
             [menard.generate :as g]
@@ -22,9 +23,12 @@
 ;; expression without first parsing it.
 (def intermediate-parse? false)
 
+(def en-model
+  (
+
 (defn en-generate [spec allow-backtracking?]
   (binding [g/allow-backtracking? allow-backtracking?]
-    (en/generate spec)))
+    (en/generate spec model)))
 
 (defn translate [source-expression]
   (when (:note source-expression)

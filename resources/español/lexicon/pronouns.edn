@@ -147,13 +147,23 @@
 
        ]
 
- "te" [{:agr {:number :sing
-              :person :2nd
-              :formal? false}
-        :sem {:ref {:human? true}
-              :pred :you}
-        :reflexive? true}]
-      
+ "te" (let [agr (atom {:number :sing
+                       :person :2nd
+                       :formal? false})
+            ref (atom {:human? true
+                       :context :informal})]
+        [{:agr agr
+          :case :acc
+          :sem {:agr agr
+                :ref ref
+                :pred :you}
+          :reflexive? true}
+         {:case :acc
+          :agr agr
+          :sem {:agr agr
+                :ref ref
+                :pred :you}
+          :reflexive? false}])
 
  "tú" [{:case :nom
         :agr {:number :sing

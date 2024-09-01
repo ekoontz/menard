@@ -61,7 +61,7 @@
      (s/morph tree (:morphology @model))))
 
 ;; for parsing diagnostics:
-(def truncate? true)
+(def truncate? false)
 
 ;; how to split up a string into tokens that can be analyzed:
 (def split-on #"[ ]+")

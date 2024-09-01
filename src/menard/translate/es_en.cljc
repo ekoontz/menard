@@ -2,7 +2,7 @@
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.serialization :refer [serialize]]
             [dag_unify.diagnostics :as diag]
-            [menard.english :as en]
+            [menard.english.es :as en]
             [menard.español :as es]
             [menard.generate :as g]
             [menard.lexiconfn :as l]            
@@ -10,14 +10,31 @@
             #?(:cljs [menard.log :as log])))
 
 (defn es-parse-to-en-spec [es-parse]
-  (log/debug (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+  (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
   (unify {:sem {:mod []}}
          {:agr (-> es-parse (u/get-in [:agr]))
+          :reflexive? (-> es-parse (u/get-in [:reflexive?]))
           :sem (-> es-parse (u/get-in [:sem]))
           :cat (-> es-parse (u/get-in [:cat]))
           :subcat (-> es-parse (u/get-in [:subcat]))}
          {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}))
 
+(def es-generation-specs
+  [ 
+   {:cat :verb
+    :rule "s"
+    :head {:rule "vp"
+           :head {:transitive? true}}}
+   {:cat :verb
+    :rule "s"
+    :subcat []
+    :head {:rule "vp"
+           :head {:intransitive? true}}}
+   {:cat :verb
+    :rule "s"
+    :head {:intransitive? true}
+             :subcat []}])
+   
 (defn es-to-en [es-input]
   (if es-input
     (log/debug (str "es-to-en: es-input: " es-input))    

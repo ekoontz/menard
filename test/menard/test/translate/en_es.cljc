@@ -1,6 +1,6 @@
 (ns menard.test.translate.en-es
   (:require [dag_unify.core :as u :refer [unify]]
-            [menard.english :as en]
+            [menard.english.es :as en]
             [menard.español :as es]
             [menard.lexiconfn :as l]
             [menard.translate.es-en :as translate]

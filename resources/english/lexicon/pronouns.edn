@@ -171,84 +171,8 @@
          :sem {:pred :what
                :ref {:human? true}}
          :wh-word true}]
- "you" [{:agr {:person :2nd
-               :number :sing}
-         :case :nom
-         :sense 1
-         :note [:informal :singular]
-         :sem {:pred :you
-               :ref {:context :informal}}}
-
-        {:agr {:person :2nd
-               :gender :masc
-               :number :plur}
-         :sense 2
-         :case :nom
-         :note [:informal :masculine :plural]
-         :sem {:pred :you
-               :ref {:context :informal}}}
-
-        {:agr {:person :2nd
-               :gender :fem
-               :number :plur}
-         :case :nom
-         :sense 3
-         :note [:informal :feminine :plural]
-         :sem {:pred :you
-               :ref {:context :informal}
-               :person-not :1st}}
-
-        {:agr {:person :2nd
-               :number :sing}
-         :case :nom
-         :sense 4
-         :note [:formal :singular]
-         :sem {:pred :you
-               :ref {:context :formal}}}
-
-        {:agr {:person :2nd
-               :number :plur}
-         :case :nom
-         :sense 5
-         :note [:formal :plural]
-         :sem {:pred :you
-               :ref {:context :formal}}}
-
-        {:agr {:person :2nd
-               :number :sing}
-         :case :acc
-         :sense 6
-         :note [:informal :singular]
-         :sem {:pred :you
-               :ref {:context :informal}
-               :person-not :1st}}
-
-        {:agr {:person :2nd
-               :number :plur}
-         :case :acc
-         :sense 7
-         :note [:informal :plural]
-         :sem {:pred :you
-               :ref {:context :informal}
-               :person-not :1st}}
-
-        {:agr {:person :2nd
-               :number :sing}
-         :sense 8
-         :case :acc
-         :note [:formal :singular]
-         :sem {:pred :you
-               :ref {:context :formal}
-               :person-not :1st}}
-
-        {:agr {:person :2nd
-               :number :plur}
-         :sense 9
-         :case :acc
-         :note [:formal :plural]
-         :sem {:pred :you
-               :ref {:context :formal}
-               :person-not :1st}}]
+ "you" [{:agr {:person :2nd}
+         :sem {:pred :you}}]
 
  "yourself" [{:case :acc
               :agr {:number :sing

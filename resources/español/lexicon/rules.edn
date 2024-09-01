@@ -252,12 +252,24 @@
                          :reflexive? true}
                      :2 []}}])}
 
+ {:rule :ver-rule
+  :if {:canonical "ver"}
+  :then [{:intransitive? true
+          :transitive? false}
+         (let [obj (atom :top)]
+           {:intransitive? false
+            :transitive? true
+            :sem {:obj obj}
+            :subcat {:2 {:reflexive? false
+                         :sem obj}}})]}
+
  {:rule :intrans-only
   :if {:cat :verb
        :intransitive? true
        :transitive? ::unspec}
   :then [{:transitive? false}]}
 
+ ;; move :ver-rule content into :trans-only:
  {:rule :trans-only
   :if {:cat :verb
        :intransitive? ::unspec
@@ -307,6 +319,7 @@
                          :reflexive? false                         
                          :sem subj}
                      :2 {:cat :noun
+                         :case :acc
                          :sem obj}
                      :3 []}}])}
 

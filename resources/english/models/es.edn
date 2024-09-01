@@ -6,7 +6,7 @@
                         "verbs.edn"]}
  :grammar "english/grammar.edn"
  :lexicon {:path "english/lexicon"
-           :rules ["rules.edn" "es.edn"]
+           :rules ["rules.edn" "rules/es.edn"]
            :sources {"adjectives.edn" {:u {:cat :adjective}}
                      "adverbs.edn" {:u {:cat :adverb}}
                      "exclamations.edn" {:u {:cat :exclamation}}

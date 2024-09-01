@@ -145,6 +145,16 @@
 (defn nl-to-en-str [nl-str]
   (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))
 
+(deftest transfer-basic
+  (->>
+   (range 0 (count nl/expressions))
+   (map (fn [i]
+          (println (str "transfering with nl/expression number: " i))
+          (doall
+           (take 10
+                 (repeatedly #(transfer-fn i @basic/model))))))
+   doall))
+
 (deftest nodig
   (log/info (str "nodig tests.."))
   (is (= (nl-to-en-str "ik heb het geld nodig")

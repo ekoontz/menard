@@ -1,0 +1,24 @@
+{:name "complete"
+ :language "en"
+ :morphology {:path "english/morphology"
+              :sources ["misc.edn"
+                        "nouns.edn"
+                        "verbs.edn"]}
+ :grammar "english/grammar.edn"
+ :lexicon {:path "english/lexicon"
+           :rules ["rules.edn" "rules/nl.edn"]
+           :sources {"adjectives.edn" {:u {:cat :adjective}}
+                     "adverbs.edn" {:u {:cat :adverb}}
+                     "exclamations.edn" {:u {:cat :exclamation}}
+                     "intensifiers.edn" {:u {:cat :intensifier}}
+                     "misc.edn" {:u {}}
+                     "nouns.edn" {:u {:cat :noun}}
+                     "numbers.edn" {:u {:cat :adjective
+                                        :sem {:number? true}}}
+                     "pronouns.edn" {:u {:cat :noun
+                                         :pronoun? true
+                                         :propernoun? false}}
+                     "propernouns.edn" {:u {:cat :noun
+                                            :propernoun? true
+                                            :pronoun? false}}
+                     "verbs.edn" {:u {:cat :verb}}}}}

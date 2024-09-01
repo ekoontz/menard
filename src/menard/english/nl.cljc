@@ -1,4 +1,4 @@
-(ns menard.english.es
+(ns menard.english.nl
   (:require [dag_unify.core :as u]
             [clojure.tools.logging :as log]
             [menard.english :as en]
@@ -6,7 +6,7 @@
             [menard.model :refer [create]]))
 
 (def model
-  (delay (create "english/models/es"
+  (delay (create "english/models/nl"
                  "complete"
                  compile-lexicon false {:include-derivation? false})))
 
@@ -24,5 +24,3 @@
 
 (defn syntax-tree [tree]
   (en/syntax-tree tree @model))
-
-

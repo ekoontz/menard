@@ -475,8 +475,8 @@
                    :fail-path (diag/fail-path lexeme spec)
                    :unify (unify lexeme spec)
                    :l-value (u/get-in lexeme fail-path)
-                   :s-value (u/get-in spec fail-path lexeme spec)}
-                  {:unify (unify lexeme spec)}))))
+                   :s-value (u/get-in spec fail-path lexeme spec)})
+                {:unify (unify lexeme spec)})))
 
        (filter (fn [{lexeme :lexeme
                      unify :unify

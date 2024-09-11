@@ -52,4 +52,3 @@
                     (log/info (str "generated: " (morph generated-expression)))
                     generated-expression)))
                ((fn [x] (str (morph x) ":" (dag_unify.diagnostics/strip-refs (u/get-in x [:sem :pred])))))))))))
-

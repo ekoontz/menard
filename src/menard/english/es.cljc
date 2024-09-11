@@ -3,6 +3,7 @@
             [clojure.tools.logging :as log]
             [menard.english :as en]
             [menard.english.compile :refer [compile-lexicon]]
+            [menard.lexiconfn :as l]
             [menard.model :refer [create]]))
 
 (def model
@@ -24,5 +25,3 @@
 
 (defn syntax-tree [tree]
   (en/syntax-tree tree @model))
-
-

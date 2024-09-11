@@ -34,11 +34,14 @@
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
 
+;; this must be set to true for log-these-rules or log-these-paths to have
+;; an effect:
+(def developer-mode? false)
+
 ;; log-these-rules: show more logging for a certain
 ;; set of phrase-structure rules:
 ;; examples:
 ;;(def ^:dynamic log-these-rules #{"s" "vp"})
-(def developer-mode? false)
 (def ^:dynamic log-these-rules #{})
 
 ;; log-these-rules: show more logging for a certain
@@ -46,8 +49,7 @@
 ;; examples:
 ;;(def ^:dynamic log-these-paths #{[:head :comp]})
 ;;(def ^:dynamic log-these-paths #{[:comp]})
-
-(def ^:dynamic log-these-paths #{})
+(def ^:dynamic log-these-paths #{[:head :head]})
 
 (def ^:dynamic log-all-rules? false)
 (def ^:dynamic exception-if-no-lexemes-found? false)
@@ -298,7 +300,8 @@
                  debug (log/debug (str "pre-inflected?-filtering: " (vec (map l/pprint lexemes))))
                  exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)]
              (when more-logging?
-               (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes) " at: " (vec at)))
+               (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes)
+                              " at: " (vec at) ":" (clojure.string/join "," (map #(str "'" (u/get-in % [:canonical]) "'") lexemes))))
                (log/info (str "add-lexeme: of those, there were " (count exceptions) " exception(s).")))
              ;; (remove all lexemes that are covered by exceptions):
              (let [exception-canonicals (->> exceptions
@@ -461,18 +464,31 @@
   (->> (lexicon-index-fn spec)
 
        (#(do
-           (when (or log-all-rules? (contains? log-these-paths (vec at)))
-             (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
+           (when (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
+             (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found: " (vec (->> % (map (fn [lex] (u/get-in lex [:canonical]))))))))
            %))
 
        (map (fn [lexeme]
               (if (and developer-mode? (contains? log-these-paths (vec at)))
-                {:lexeme lexeme
-                 :unify (unify lexeme spec)}
-                {:unify (unify lexeme spec)})))
+                (let [fail-path (diag/fail-path lexeme spec)]
+                  {:lexeme lexeme
+                   :fail-path (diag/fail-path lexeme spec)
+                   :unify (unify lexeme spec)
+                   :l-value (u/get-in lexeme fail-path)
+                   :s-value (u/get-in spec fail-path lexeme spec)}
+                  {:unify (unify lexeme spec)}))))
 
        (filter (fn [{lexeme :lexeme
-                     unify :unify}]
+                     unify :unify
+                     fail-path :fail-path
+                     l-value :l-value
+                     s-value :s-value}]
+                 (when (and developer-mode? (contains? log-these-paths (vec at))
+                            (= unify :fail))
+                   (log/info (str "lexeme canonical: " (u/get-in lexeme [:canonical]) " failed to unify: "))
+                   (log/info (str "  fail-path:    " fail-path))
+                   (log/info (str "  lexeme value: " (l/pprint l-value)))
+                   (log/info (str "  spec value:   " (l/pprint s-value))))
                  (cond
                    (= unify :fail)
                    (do

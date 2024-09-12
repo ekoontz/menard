@@ -104,6 +104,7 @@
 
  "they" [{:reflexive? false
           :case :nom
+          :sem {:pred :they}
           :agr {:person :3rd
                 :number :plur}}]
  

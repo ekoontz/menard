@@ -74,6 +74,13 @@
           :sem {:gender :fem
                 :ref {:human? true}}}
 
-         {:sem {:ref {:human? false}}}]}]
+         {:sem {:ref {:human? false}}}]}
 
-
+ {:rule :pronouns-1p
+  :if {:canonical "we"}
+  :then [{:sem {:ref {:gender :fem}}
+          :agr {:gender :fem}
+          :note [:feminine :plural]}
+         {:sem {:ref {:gender :masc}}
+          :agr {:gender :masc}
+          :note [:masculine :plural]}]}]

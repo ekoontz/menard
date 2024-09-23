@@ -117,25 +117,11 @@
               :number :plur}}]
 
  "we" [{:sem {:pred :we
-              :ref {:human? true
-                    :gender :fem}}
-        :pronoun? true
+              :ref {:human? true}}
         :reflexive? false
         :case :nom
         :agr {:person :1st
-              :gender :fem
-              :number :plur}
-         :note [:feminine :plural]}
-       {:sem {:pred :we
-              :ref {:human? true
-                    :gender :masc}}
-        :pronoun? true
-        :reflexive? false
-        :case :nom
-        :agr {:person :1st
-              :gender :masc
-              :number :plur}
-         :note [:masculine :plural]}]
+              :number :plur}}]
 
  "what" [{:interogative? true
           :pronoun? true

@@ -505,6 +505,26 @@
             :reflexive? false
             :nominal-verb {:with "lunch"}
             :sem {:pred :have-lunch}
+            :exceptions non-aux-exceptions}
+
+           {:sense 7
+            :aux? false
+            :reflexive? false
+            :sem {:pred :be-required-to}
+
+            ;; TODO:
+            ;; :prepositional-verb {:with "to"} isn't right here.
+            ;; It should be: {:modal :infinitive}
+            ;; as with "need" in "need to leave".
+            ;; But using :prepositional-verb is a way to get
+            ;; it working with no complement, since the lexical rule
+            ;; for :prepositional-verb generates such a subcategorization
+            ;; with just a single word (in this case "to").
+            ;; In order to do the right thing, we need to modify
+            ;; the lexical rule for {:modal :infinitive} to
+            ;; allow "I need to", "I have to", etc.
+
+            :prepositional-verb {:with "to"}
             :exceptions non-aux-exceptions}])
 
  "heal" [{ :sem {:pred :heal}}]
@@ -608,11 +628,10 @@
           [{:exceptions exceptions  :sem {:pred :mean}}])
  "move" [{:sem {:pred :move}}]
 
-;; "must" [{:modal :base
-;;          :infl :base
-;;          :inflected? true
-;;          :sem {:pred :must
-;;                :shared? false}}]
+ "must" [{:infl :present
+          :inflected? true
+          :sem {:pred :be-required-to
+                :shared? false}}]
 
  "offer" [{:sem {:pred :offer}}]
  "organize" [{:sem {:pred :organize}}]

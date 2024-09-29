@@ -138,8 +138,8 @@
      :surface "dio"}]}]
  "dañar" [{:sem {:pred :damage}}]
 
- ;; modal: requires a verb argument
- ;; "deber" [{:sem {:pred :must}}]
+ ;; modal: TODO: requires a verb argument
+ "deber" [{:sem {:pred :be-required-to}}]
  "decidir" [{:sem {:pred :decide}}]
  "defender" [{:sem {:pred :defend},
               :stems {:boot "defiend"}}]

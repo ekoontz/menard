@@ -564,7 +564,10 @@
  "learn" [{:sem {:pred :learn}}] 
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
-           [{:exceptions exceptions  :sem {:pred :leave}}])
+           [{:exceptions exceptions :sem {:pred :leave}}
+            {:exceptions exceptions :sem {:pred :leave-behind}
+             :prepositional-verb {:with "behind"}}])
+
  "lend" [{:sem {:pred :lend}}]
  "let" (let [exceptions [{:infl :past-simple :surface "let"}
                          {:infl :past-participle :surface "let"}]]

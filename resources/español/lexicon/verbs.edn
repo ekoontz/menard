@@ -145,9 +145,7 @@
               :stems {:boot "defiend"}}]
 
  ;; need to think how to translate this
- ;;  "dejar" [{:sem {:pred :leave-behind}}]
-
-
+ "dejar" [{:sem {:pred :leave-behind}}]
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
  "desear" [{:sem {:pred :desire}}]

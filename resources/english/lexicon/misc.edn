@@ -6,6 +6,8 @@
         :cat :det :agr {:number :sing}}]
  "at" [{:cat :prep
         :sem {:pred :at}}]
+ "behind" [{:cat :prep
+            :sem {:pred :behind}}]
  "for" [{:cat :prep
          :sem {:pred :for}}]
  "her" [{:cat :det

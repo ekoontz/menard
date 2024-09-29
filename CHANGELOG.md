@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.7.8] - 2024-09-29
+
+- Add two Spanish verbs and English translations
+- add (reload) convenience functions for Spanish and English
+
 ## [1.7.7] - 2024-08-15
 
 - Add support for showing conjugations for all tenses in Spanish

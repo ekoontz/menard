@@ -7,9 +7,16 @@
 
 (def create-model? true)
 
+(defn model-fn []
+  (create "english/models/complete"
+          "complete"
+          compile-lexicon false {:include-derivation? false}))
+
 #?(:clj
    (if create-model?
      (def model
-       (ref (create "english/models/complete"
-                    "complete"
-                    compile-lexicon false {:include-derivation? false})))))
+       (ref (model-fn)))))
+
+(defn reload []
+  (dosync (ref-set model (model-fn)))
+  (type @model))

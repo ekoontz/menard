@@ -12,16 +12,24 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(def model
-  (ref (create "español/models/basic"
-               "basic"
-               (fn [lexicon _ _] lexicon)
-               true
-
-               {:include-derivation? false}
-               ;; change to true to  ^^^^^
+(defn model-fn []
+  (create "español/models/basic"
+          "basic"
+          (fn [lexicon _ _] lexicon)
+          true
+          
+          {:include-derivation? false}
+          ;; change to true to  ^^^^^
                ;;show derivation.
-               )))
+          ))
+
+(def model
+  (ref (model-fn)))
+
+(defn reload []
+  (dosync (ref-set model
+                   (model-fn)))
+  (type @model))
 
 #?(:clj
    (defn syntax-tree [tree]

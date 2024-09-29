@@ -32,6 +32,9 @@
 (declare an)
 (declare sentence-punctuation)
 
+(defn reload []
+  (complete/reload))
+
 (defn morph
   ([tree]
    (cond

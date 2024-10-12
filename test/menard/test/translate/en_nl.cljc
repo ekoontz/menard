@@ -11,20 +11,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-;; "they need"
-(def plural-third-person-alternatives
-  (let [all-emojis (:all menard.morphology/emoji-set-2)
-        all-emoji-pairs
-        (->> all-emojis
-             (mapcat (fn [emo1]
-                       (map (fn [emo2]
-                              (str emo1 emo2))
-                            all-emojis))))]
-    (set
-     (map (fn [emoji-pair]
-            (str "they " emoji-pair " need the money"))
-          all-emoji-pairs))))
-
 ;; "we need ourselves"))
 (def plural-first-person-alternatives
   (let [all-emojis (:all menard.morphology/emoji-set-2)
@@ -38,7 +24,6 @@
      (map (fn [emoji-pair]
             (str "we " emoji-pair " need ourselves"))
           all-emoji-pairs))))
-
 
 (def informal-alternatives
   (set
@@ -160,7 +145,7 @@
   (log/info (str "nodig tests.."))
   (is (= (nl-to-en-str "ik heb het geld nodig")
          "I need the money"))
-  (is (contains? plural-third-person-alternatives
+  (is (contains? (set ["they need the money"])
                  (nl-to-en-str "ze hebben het geld nodig"))))
 
 (deftest pronoun-nodig

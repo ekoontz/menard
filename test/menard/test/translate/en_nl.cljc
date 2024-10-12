@@ -11,19 +11,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-;; "we need ourselves"))
-(def plural-first-person-alternatives
-  (let [all-emojis (:all menard.morphology/emoji-set-2)
-        all-emoji-pairs
-        (->> all-emojis
-             (mapcat (fn [emo1]
-                       (map (fn [emo2]
-                              (str emo1 emo2))
-                            all-emojis))))]
-    (set
-     (map (fn [emoji-pair]
-            (str "we " emoji-pair " need ourselves"))
-          all-emoji-pairs))))
 
 (def informal-alternatives
   (set
@@ -153,7 +140,7 @@
   (is (contains? informal-alternatives
                  (nl-to-en-str "jij hebt hun nodig")))
   (is (= (nl-to-en-str "zij heeft zich nodig") "she needs herself"))
-  (is (contains? plural-first-person-alternatives
+  (is (contains? (set ["we need ourselves"])
                  (nl-to-en-str "wij hebben ons nodig")))
   (is (contains? formal-alternatives
                  (nl-to-en-str "u hebt u nodig"))))

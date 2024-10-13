@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.8.0] - 2024-10-13
+
+- Add specialized rewriting rules for English to Dutch or Spanish.
+
 ## [1.7.8] - 2024-09-29
 
 - Add two Spanish verbs and English translations

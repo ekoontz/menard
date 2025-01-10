@@ -113,16 +113,19 @@
    :infl :imperfect,
    :agr {:formal? true, :number :sing, :person :2nd},
   :reflexive? true}}
- {:g [#"^(.*)ar$" "$1ía"],
-  :p [#"^(.*)ía$" "$1ar"],
+
+ {:g [#"^(.*)ar$" "$1aba"],
+  :p [#"^(.*)aba$" "$1ar"],
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :sing, :person :3rd},
-  :reflexive? false}}
- {:g [#"^(.*)arse$" "$1ía"],
-  :p [#"^(.*)ía$" "$1arse"],
+   :reflexive? false}}
+
+ {:g [#"^(.*)arse$" "$1aba"],
+  :p [#"^(.*)aba$" "$1arse"],
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :sing, :person :3rd},
-  :reflexive? true}}
+   :reflexive? true}}
+
  {:g [#"^(.*)er$" "$1ía"],
   :p [#"^(.*)ía$" "$1er"],
   :u

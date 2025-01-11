@@ -109,7 +109,7 @@
                                    (map? surface)
                                    (merge exception
                                           {:surface (str (u/get-in lexeme (:prefix surface))
-                                                               (:suffix surface))})
+                                                         (:suffix surface))})
                                    (string? surface)
                                    exception
                                    :else

@@ -413,5 +413,10 @@
        :propernoun? true
        :agr {:number ::unspec}}
   :then [{:agr {:number :sing}}]}
+
+ {:rule :verb-subject-defaults-to-human
+  :if {:cat :verb
+       :sem {:subj {:ref {:human? ::unspec}}}}
+  :then [{:sem {:subj {:ref {:human? true}}}}]}
  
  ]

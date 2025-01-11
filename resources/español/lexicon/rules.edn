@@ -351,6 +351,7 @@
                          :reflexive? false                         
                          :sem subj}
                      :2 {:cat :noun
+                         :case :acc
                          :sem obj}
                      :3 []}}])}
 

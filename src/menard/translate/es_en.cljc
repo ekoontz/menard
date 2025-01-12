@@ -16,8 +16,7 @@
           :sem (-> es-parse (u/get-in [:sem]))
           :cat (-> es-parse (u/get-in [:cat]))
           :subcat (-> es-parse (u/get-in [:subcat]))}
-         {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))
-                :obj (-> es-parse (u/get-in [:sem :obj] :none))}}))
+         {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}))
 
 (defn es-to-en [es-input]
   (if es-input

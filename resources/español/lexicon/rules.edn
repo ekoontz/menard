@@ -32,7 +32,7 @@
  {:rule :boot-stem-er-or-ir
   :if {:cat :verb
        :stems {:boot? true}
-       :canonical #"(.*)[ei]r$"}
+       :canonical #"(.*)[ei]r(se)?$"}
   :then [{:exceptions [;; 1st, 2nd and 3rd plural:
                        {:infl :present
                         :agr {:person :1st
@@ -75,7 +75,7 @@
   {:rule :boot-stem-ar
   :if {:cat :verb
        :stems {:boot? true}
-       :canonical #"(.*)ar$"}
+       :canonical #"(.*)ar(se)?$"}
   :then [{:exceptions [;; 1st, 2nd and 3rd plural:
                        {:infl :present
                         :agr {:person :1st

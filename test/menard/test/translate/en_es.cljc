@@ -69,3 +69,15 @@
                      :head {:canonical "dormirse"}}}
              es/generate es/syntax-tree))))
 
+(deftest ellos-cierran
+  (is (= "[s(:present-simple) .ellos +cierran]"
+         (-> {:rule "s"
+              :comp {:root "ellos"
+                     :agr {:number :plur
+                           :person :3rd}}
+              :sem {:tense :present
+                    :aspect :simple}
+              :head {:canonical "cerrar"}}
+             es/generate es/syntax-tree))))
+
+

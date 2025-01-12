@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [1.7.10] - 2025-01-12
+
+- Revert change made in 1.7.9 that set default [:sem :obj] to :none in Spanish to English translation
+
 ## [1.7.9] - 2025-01-12
 
 - Fixes for Spanish verb conjugations

@@ -16,6 +16,14 @@
           :sem (-> es-parse (u/get-in [:sem]))
           :cat (-> es-parse (u/get-in [:cat]))
           :subcat (-> es-parse (u/get-in [:subcat]))}
+         ;; Below we set [:sem :iobj] to :none by default,
+         ;; but we cannot do the same with [:sem :obj] because
+         ;; reflexive verbs in Spanish do not have an [:sem :obj],
+         ;; but the translation in English, depending on the verb,
+         ;; might have a [:sem :obj].
+         ;; For example, 'levantarse' (get up) has no [:sem :obj]
+         ;; in English, but 'pettinarse' (comb oneself) *does*
+         ;; have a [:sem :obj].
          {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}))
 
 (defn es-to-en [es-input]

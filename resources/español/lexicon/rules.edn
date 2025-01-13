@@ -87,18 +87,18 @@
                               :number :sing
                               :formal? false}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "es"}}
+                                  :suffix "as"}}
                        {:infl :present
                         :agr {:person :2nd
                               :number :sing
                               :formal? true}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "e"}}
+                                  :suffix "a"}}
                        {:infl :present
                         :agr {:person :3rd
                               :number :sing}
                         :surface {:prefix [:stems :boot]
-                                  :suffix "e"}}
+                                  :suffix "a"}}
                         ;; (1st and 2nd plur informal are conjugated according
                         ;; to the regular rules, so no :exception needed for them).
 

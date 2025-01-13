@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [1.7.11] - 2025-01-13
+
+- Fix boot stem for -ar verbs in 2nd and 3rd person singular.
+
 ## [1.7.10] - 2025-01-12
 
 - Revert change made in 1.7.9 that set default [:sem :obj] to :none in Spanish to English translation

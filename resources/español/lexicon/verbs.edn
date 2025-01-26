@@ -42,7 +42,27 @@
      :surface "quepo"}],
    :stems {:preterito "cup"}}]
  "caer"
- [{:sem {:pred :fall},
+ [{:sem {:pred :fall
+         :subj {:ref {:human? false}}}
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "caigo"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "caì"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing, :formal? false},
+     :surface "caiste"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing, :formal? true},
+     :surface "cayò"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "cayò"}]}]
+ "caerse"
+ [{:sem {:pred :fall
+         :subj {:ref {:human? true}}}
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},
@@ -65,7 +85,6 @@
  "cancelar" [{:sem {:pred :cancel}}]
  "cantar" [{:sem {:pred :sing}}]
  "casarse"  [{:sem {:pred :get-married}}]
-
  "cenar" [{:sem {:pred :have-dinner}}]
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
  "comentar" [{:sem {:pred :comment}}]

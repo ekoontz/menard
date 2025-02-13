@@ -18,6 +18,11 @@
         :aspect :progressive}}
 
   {:variant :preterito
+   :infl :preterito
+   :sem {:tense :past
+         :aspect :simple}}
+
+ {:variant :preterito-perfecto
   :infl :preterito
   :sem {:tense :past
         :aspect :perfect}}

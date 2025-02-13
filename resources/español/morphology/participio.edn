@@ -1,0 +1,22 @@
+[
+`
+ ;; participio inflection
+
+ ;; -ar verbs
+ {:g [#"^(.*)ar$"   "$1ado"] 
+  :p [#"^(.*)ado$"  "$1ar"] 
+  :u {:cat :verb
+      :infl :participio}}
+
+ ;; -er verbs
+ {:g [#"^(.*)er$"   "$1ido"] 
+  :p [#"^(.*)ido$"  "$1er"] 
+  :u {:cat :verb
+      :infl :participio}}
+
+ {:g [#"^(.*)ir$"   "$1ido"] 
+  :p [#"^(.*)ido$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :participio}}
+ ]  
+

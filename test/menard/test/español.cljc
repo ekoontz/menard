@@ -20,17 +20,29 @@
             :subcat []
             :sem {:pred :want}})
 
+(def spec3 {:cat :verb
+            :rule "s"
+            :subcat []
+            :root "querer"
+            :sem {:pred :want
+                  :tense :present
+                  :subj {:pred :i}}})
+
+(def spec4 {:cat :verb
+            :rule "s"
+            :subcat []
+            :root "querer"
+            :agr {:number :plur
+                  :gender :fem}
+            :sem {:pred :want
+                  :tense :present
+                  :subj {:pred :they}}})
+
 (deftest subject-agreement
   (count
    (take 10
          (repeatedly #(is (= "yo quiero"
-                             (-> {:cat :verb
-                                  :rule "s"
-                                  :subcat []
-                                  :root "querer"
-                                  :sem {:pred :want
-                                        :tense :present
-                                        :subj {:pred :i}}}
+                             (-> spec3
                                  generate
                                  ((fn [x]
                                     (log/info (str "syntax-tree: " (syntax-tree x)))
@@ -42,15 +54,7 @@
   (count
    (take 10
          (repeatedly #(is (= "ellas quieren"
-                             (-> {:cat :verb
-                                  :rule "s"
-                                  :subcat []
-                                  :root "querer"
-                                  :agr {:number :plur
-                                        :gender :fem}
-                                  :sem {:pred :want
-                                        :tense :present
-                                        :subj {:pred :they}}}
+                             (-> spec4
                                  generate
                                  morph)))))))
 
@@ -74,7 +78,8 @@
 (deftest analyze-present-tense
   ;; irregular
   (let [quiero (->> "quiero" analyze first)]
-    (is (= (u/get-in quiero [:agr]) {:person :1st :number :sing}))
+    (is (= (u/get-in quiero [:agr]) {:person :1st
+                                     :number :sing}))
     (is (or (= (u/get-in quiero [:sem :pred]) :want)
             (= (u/get-in quiero [:sem :pred]) :like)
             (= (u/get-in quiero [:sem :pred]) :love)))

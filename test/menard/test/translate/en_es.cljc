@@ -36,8 +36,12 @@
                 (map en/morph)
                 first)))))
 
-(def have-fun-spec {:comp {:agr {:gender :fem, :number :plur, :person :3rd}}
-                    :sem {:tense :present, :aspect :simple, :pred :have-fun}
+(def have-fun-spec {:comp {:agr {:gender :fem
+                                 :number :plur
+                                 :person :3rd}}
+                    :sem {:tense :present
+                          :aspect :simple
+                          :pred :have-fun}
                     :subcat []})
 
 (def sentence-specs
@@ -79,5 +83,31 @@
                     :aspect :simple}
               :head {:canonical "cerrar"}}
              es/generate es/syntax-tree))))
+
+(def have-fun-spec {:comp {:agr {:gender :fem
+                                 :number :plur
+                                 :person :3rd}}
+                    :sem {:tense :present
+                          :aspect :simple
+                          :pred :have-fun}
+                    :subcat []})
+
+(def preguntar-present-spec {:comp {:agr {:gender :fem
+                                          :number :plur
+                                          :person :3rd}}
+                             :sem {:tense :present
+                                   :aspect :simple
+                                   :pred :ask-for}
+                             :root "preguntar"
+                             :subcat []})
+
+(def preguntar-preterito-spec {:comp {:agr {:gender :fem
+                                          :number :plur
+                                          :person :3rd}}
+                             :sem {:tense :past
+                                   :aspect :perfect
+                                   :pred :ask-for}
+                             :root "preguntar"
+                             :subcat []})
 
 

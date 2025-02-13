@@ -19,8 +19,13 @@
 
 ;; https://es.wiktionary.org/wiki/comer#Conjugaci%C3%B3n
 
-(deftest analyze-preterito-perfecto-tense
+(deftest analyze-test
   (let [analysis (analyze "comido")]
-    (is (seq analysis))))
+    (is (seq analysis))
+    (is (= 1 (count analysis)))
+    (is (map? (-> analysis first)))
+    (is (= :participio (-> analysis first (u/get-in [:infl]))))))
+
+    
 
 

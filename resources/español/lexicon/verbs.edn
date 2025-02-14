@@ -215,7 +215,35 @@
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]
  "gastar" [{:sem {:pred :spend}}]
- 
+
+ "haber"
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "he"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing :formal? false}
+                    :surface "has"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing :formal? true}
+                    :surface "ha"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "ha"}
+                   {:infl :present
+                    :agr {:person :1st :number :plur}
+                    :surface "hemos"}
+                   {:infl :present
+                    :agr {:person :2nd :number :plur}
+                    :surface "habéis"}
+                   {:infl :present
+                    :agr {:person :2nd :number :plural :formal? true}
+                    :surface "han"}
+                   {:infl :present
+                    :agr {:person :3rd :number :plural}
+                    :surface "han"}]]
+   [{:exceptions exceptions
+     :sem {:pred :have}}])
+
  "hablar" [{:sem {:pred :speak
                   :subj {:ref {:human? true}}}}
            {:sem {:pred :talk
@@ -242,6 +270,9 @@
                     :surface "hacéis"}
                    {:infl :present
                     :agr {:person :2nd :number :plural :formal? true}
+                    :surface "hacen"}
+                   {:infl :present
+                    :agr {:person :3rd :number :plural}
                     :surface "hacen"}
 
                    {:infl :preterito

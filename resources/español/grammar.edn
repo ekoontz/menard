@@ -11,17 +11,17 @@
           menard.ug/head-sem]
   }
 
-
  {:rule "vp"
   :cat :verb
   :head {:cat :verb}
   :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/c
           menard.ug/head-is-root
-          menard.ug/head-last
+          menard.ug/head-first
           menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem]
   }
 
+ 
  ]

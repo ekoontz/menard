@@ -241,9 +241,21 @@
                    {:infl :present
                     :agr {:person :3rd :number :plural}
                     :surface "han"}]]
-   [{:exceptions exceptions
+   [;; aux sense
+    (let [sem (atom {:tense :past
+                     :aspect :perfect})]
+      {:exceptions exceptions
+       :aux? true
+       :subcat {:2 {:cat :verb
+                    :infl :participio
+                    :sem sem}}
+       :sem sem})
+
+    ;; non-aux sense
+    {:exceptions exceptions
      :sem {:pred :have}}])
 
+    
  "hablar" [{:sem {:pred :speak
                   :subj {:ref {:human? true}}}}
            {:sem {:pred :talk

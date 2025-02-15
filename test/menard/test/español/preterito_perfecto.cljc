@@ -3,7 +3,7 @@
              :refer [analyze generate morph parse syntax-tree]]
             [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
-            [dag_unify.core :as u]
+            [dag_unify.core :as u :refer [unify]]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))

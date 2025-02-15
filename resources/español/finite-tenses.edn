@@ -23,7 +23,12 @@
          :aspect :simple}}
 
  {:variant :preterito-perfecto
-  :infl :participio
+  ;; note that :infl is :present because it's
+  ;; the :infl of the auxiliary verb "haber",
+  ;; not the :infl of the participle (e.g. "comido")
+  :infl :present 
+
   :sem {:tense :past
         :aspect :perfect}}
  ]
+

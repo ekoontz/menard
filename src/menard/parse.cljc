@@ -22,6 +22,7 @@
 
 ;; Put names of rules you want to debug in these sets:
 ;; To debug rules, you must also set developer-mode? to true (above).
+(def log-these-rules-as-parents #{})
 (def log-these-rules-as-head-children #{})
 (def log-these-rules-as-comp-children #{})
 

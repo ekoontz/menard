@@ -19,8 +19,14 @@
 (def take-this-many 300)
 (def summary-filter? true)
 (def log-these-rules-as-parents #{})
+
+;; Put names of rules you want to debug in these sets:
+;; To debug rules, you must also set developer-mode? to true (above).
 (def log-these-rules-as-head-children #{})
 (def log-these-rules-as-comp-children #{})
+
+;; examples:
+;;
 ;;(def log-these-rules-as-parents #{"adj-p" "vp-inf"})
 ;;(def log-these-rules-as-head-children #{"vp-inf"})
 ;;(def log-these-rules-as-comp-children #{"vp-inf"})

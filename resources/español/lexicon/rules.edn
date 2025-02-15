@@ -304,6 +304,7 @@
 
  {:rule :trans-only
   :if {:cat :verb
+       :aux? false
        :intransitive? ::unspec
        :transitive? true}
   :then [{:intransitive? false}]}
@@ -315,6 +316,7 @@
 
  {:rule :subcat-intransitive
   :if {:cat :verb
+       :aux? false
        :intransitive? true
        :modal :none}
   :then (let [subj (atom :top)]

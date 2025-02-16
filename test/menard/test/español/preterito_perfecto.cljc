@@ -28,7 +28,7 @@
 
 (deftest parse-test
   (let [yo-he-comido (-> "yo he comido" parse first)]
-    (is (= (-> yo-he-comido syntax-tree) "[s(:preterito-perfecto) .yo +[vp(:preterito-perfecto) +he .comido]]"))
+    (is (= (-> yo-he-comido syntax-tree) "[s(:preterito-perfecto) .yo +[vp-aux(:preterito-perfecto) +he .comido]]"))
     (is (= (-> yo-he-comido (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> yo-he-comido (u/get-in [:sem :tense])) :past))))
 

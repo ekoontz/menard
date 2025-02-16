@@ -1,3 +1,4 @@
+(->>
 [{:g [#"^(.+)ar$" "$1o"],
   :p [#"^(.+)o$" "$1ar"],
   :u
@@ -333,3 +334,8 @@
   :u
   {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
    :reflexive? true}}]
+
+(map (fn [rule]
+       (dag_unify.core/unify rule {:u {:sem {:aspect :simple
+                                             :tense :present}}})))
+)

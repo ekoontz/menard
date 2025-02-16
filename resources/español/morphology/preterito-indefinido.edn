@@ -398,5 +398,5 @@
 
 (map (fn [rule]
        (dag_unify.core/unify rule {:u {:sem {:tense :past
-                                             :aspect :perfect}}}))))
+                                             :aspect :simple}}}))))
 

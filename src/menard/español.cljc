@@ -1,4 +1,4 @@
-(ns menard.español 
+(ns menard.español
   (:require [menard.español.tenses :refer [tenses]]            
             [menard.generate :as g]
             [menard.lexiconfn :as l]
@@ -15,7 +15,11 @@
 (defn model-fn []
   (create "español/models/basic"
           "basic"
+
+          ;; compile-lexicon-fn
           (fn [lexicon _ _] lexicon)
+
+          ;; filter-out-nils?
           true
           
           {:include-derivation? false}

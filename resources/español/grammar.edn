@@ -13,10 +13,24 @@
 
  {:rule "vp"
   :cat :verb
-  :head {:cat :verb}
+  :head {:cat :verb
+         :aux? false}
   :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/c
           menard.ug/head-is-root
+          menard.ug/head-first
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+
+ {:rule "vp-aux"
+  :cat :verb
+  :head {:cat :verb
+         :aux? true}
+  :options menard.español.tenses/finite-tenses
+  :unify [menard.subcat/c
+          menard.ug/comp-is-root
           menard.ug/head-first
           menard.ug/head-reflexive
           menard.ug/head-rule

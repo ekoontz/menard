@@ -243,12 +243,15 @@
                     :surface "han"}]]
    [;; aux sense
     (let [sem (atom {:tense :past
-                     :aspect :perfect})]
+                     :aspect :perfect})
+          subj (atom :top)]
       {:exceptions exceptions
        :aux? true
-       :subcat {:2 {:cat :verb
+       :subcat {:1 subj
+                :2 {:cat :verb
                     :aux? false
                     :infl :participio
+                    :subcat {:1 subj}
                     :sem sem}}
        :sem sem})
 

@@ -10,9 +10,6 @@
 
 (def spec
   {:cat :verb
-   :rule "s"
-   :head {:rule "vp-aux"}
-   :comp {:root "yo"}
    :subcat []
    :sem {:pred :eat
          :subj {:pred :i}

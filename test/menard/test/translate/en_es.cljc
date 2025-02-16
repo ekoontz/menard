@@ -61,7 +61,7 @@
 
 
 (deftest ustedes-se-duermen
-  (is (= "[s(:present-simple){+} .ustedes +[vp(:present-simple){+} .se(6) +duermen]]"
+  (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen]]"
          (-> {:rule "s"
               :comp {:root "ustedes"
                      :agr {:number :plur,
@@ -69,7 +69,7 @@
                            :formal? true}},
               :sem {:tense :present,
                     :aspect :simple},
-              :head {:rule "vp"
+              :head {:rule "vp-pronoun"
                      :head {:canonical "dormirse"}}}
              es/generate es/syntax-tree))))
 

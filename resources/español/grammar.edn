@@ -1,8 +1,22 @@
 [
  {:rule "s"
   :cat :verb
-  :head {:cat :verb}
-  :options menard.español.tenses/finite-tenses
+  :head {:cat :verb
+         :aux? false}
+  :options menard.español.tenses/finite-nonaux-tenses
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+
+ {:rule "s-aux"
+  :cat :verb
+  :head {:cat :verb
+         :aux? true}
+  :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/a
           menard.ug/head-is-root
           menard.ug/head-last
@@ -43,7 +57,7 @@
   :cat :verb
   :head {:cat :verb
          :aux? true}
-  :options menard.español.tenses/finite-tenses
+  :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/c
           menard.ug/comp-is-root
           menard.ug/head-first

@@ -1,34 +1,30 @@
 [{:variant :future
   :infl :future
+  :aux? false  
   :sem {:tense :future}}
 
  {:variant :conditional
   :infl :conditional
+  :aux? false  
   :sem {:tense :conditional}}
  
  {:variant :present-simple
   :abbreviation :simple-present
   :infl :present
+  :aux? false  
   :sem {:tense :present
         :aspect :simple}}
 
  {:variant :imperfect
   :infl :imperfect
+   :aux? false  
   :sem {:tense :past
         :aspect :progressive}}
 
   {:variant :preterito
    :infl :preterito
+   :aux? false
    :sem {:tense :past
          :aspect :simple}}
-
- {:variant :preterito-perfecto
-  ;; note that :infl is :present because it's
-  ;; the :infl of the auxiliary verb "haber",
-  ;; not the :infl of the participle (e.g. "comido")
-  :infl :present 
-
-  :sem {:tense :past
-        :aspect :perfect}}
  ]
 

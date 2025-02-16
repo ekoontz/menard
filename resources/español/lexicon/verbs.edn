@@ -247,6 +247,7 @@
       {:exceptions exceptions
        :aux? true
        :subcat {:2 {:cat :verb
+                    :aux? false
                     :infl :participio
                     :sem sem}}
        :sem sem})

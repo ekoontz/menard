@@ -15,36 +15,39 @@
   (es/generate spec))
 
 (defn verb [canonical inflection]
-  (let [persons [:1st :2nd-informal :2nd-formal :3rd]]
-    {:singular (->> persons
-                    (map (fn [person]
-                           [person (-> (person person-map)
-                                       (unify {:root canonical
-                                               :infl inflection
-                                               :subcat []
-                                               :phrasal? true
-                                               :agr {:number :sing}
-                                               :comp {:phrasal? false}})
-                                       es/generate
-                                       es/morph)]))
-                    (into {}))
-     :plural   (->> persons
-                    (map (fn [person]
-                           [person (-> (person person-map)
-                                       (unify {:root canonical
-                                               :infl inflection
-                                               :subcat []
-                                               :phrasal? true
-                                               :agr {:number :plur}
-                                               :comp {:phrasal? false}})
-                                       es/generate
-                                       es/morph)]))
-                    (into {}))}))
+  (let [basic-spec {:cat :verb
+                    :root canonical
+                    :subcat []}
+        inflection-spec (->> menard.español.tenses/finite-tenses
+                             (filter #(= inflection (u/get-in % [:variant])))
+                             first)
+        spec (unify basic-spec inflection-spec)]
+    (log/debug (str "generating with basic-spec: " basic-spec))
+    (log/debug (str "generating with inflection-spec: " inflection-spec))
+    (log/info (str "generating with spec: " spec))
+    (let [persons [:1st :2nd-informal :2nd-formal :3rd]]
+      {:singular (->> persons
+                      (map (fn [person]
+                             [person (-> (person person-map)
+                                         (unify spec)
+                                         (unify {:agr {:number :sing}})
+                                         es/generate
+                                         es/morph)]))
+                      (into {}))
+       :plural   (->> persons
+                      (map (fn [person]
+                             [person (-> (person person-map)
+                                         (unify basic-spec)
+                                         (unify inflection-spec)
+                                         (unify {:agr {:number :plur}})
+                                         es/generate
+                                         es/morph)]))
+                      (into {}))})))
 
 (defn generate-chart [canonical]
   {:canonical canonical
    :inflections [(merge {:name "Present"}
-                        (verb canonical :present))
+                        (verb canonical :present-simple))
                  (merge {:name "Conditional"}
                         (verb canonical :conditional))
                  (merge {:name "Future"}
@@ -52,4 +55,7 @@
                  (merge {:name "Imperfect"}
                         (verb canonical :imperfect))
                  (merge {:name "Preterito"}
-                        (verb canonical :preterito))]})
+                        (verb canonical :preterito))
+                 (merge {:name "Preterito Perfecto"}
+                        (verb canonical :preterito-perfecto))
+                 ]})

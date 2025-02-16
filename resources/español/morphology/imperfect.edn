@@ -1,4 +1,5 @@
 ;; https://en.wikipedia.org/wiki/Spanish_grammar?useskin=vector#Imperfect_or_%22copret%C3%A9rito%22
+(->>
 [{:g [#"^(.*)ar$" "$1aba"],
   :p [#"^(.*)aba$" "$1ar"],
   :u
@@ -290,3 +291,8 @@
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :plur, :person :3rd},
   :reflexive? true}}]
+
+(map (fn [rule]
+       (dag_unify.core/unify rule {:u {:sem {:tense :past
+                                             :aspect :progressive}}}))))
+

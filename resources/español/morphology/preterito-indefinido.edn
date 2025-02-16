@@ -1,3 +1,4 @@
+(->>
 [
  ;; https://en.wikipedia.org/wiki/Spanish_grammar?useskin=vector#Preterite
  ;;   singular
@@ -394,4 +395,8 @@
             :person :3rd}
       :reflexive? true}}
  ]
+
+(map (fn [rule]
+       (dag_unify.core/unify rule {:u {:sem {:tense :past
+                                             :aspect :perfect}}}))))
 

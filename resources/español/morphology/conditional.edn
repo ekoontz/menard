@@ -1,3 +1,4 @@
+(->>
 [{:g [#"^(.*[aie]r)$" "$1ía"],
   :p [#"^(.*[aie]r)ía$" "$1"],
   :u
@@ -110,5 +111,8 @@
    :infl :conditional,
    :agr {:number :plur, :person :3rd},
   :reflexive? true}}]
+
+(map (fn [rule]
+       (dag_unify.core/unify rule {:u {:sem {:tense :conditional}}}))))
 
 

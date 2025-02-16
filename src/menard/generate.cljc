@@ -473,10 +473,30 @@
 
        (filter (fn [{lexeme :lexeme
                      unify :unify}]
+                 (log/debug (str "candidate lexeme surface:   " (u/get-in lexeme [:surface])))
+                 (log/debug (str "candidate lexeme canonical: " (u/get-in lexeme [:canonical])))                 
+                 (log/debug (str "candidate lexeme: " (l/pprint lexeme)))                 
+                 (log/debug (str "candidate unify : " (l/pprint unify)))
                  (cond
                    (= unify :fail)
                    (do
                      (when counts? (swap! count-lexeme-fails inc))
+                     (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
+                       (when (and developer-mode? (contains? log-these-paths (vec at)))
+                         (log/info (str "lexeme candidate: "
+                                        (cond (u/get-in lexeme [:surface])
+                                              (str "'" (u/get-in lexeme [:surface]) "'")
+                                              (u/get-in lexeme [:canonical])
+                                              (str "_" (u/get-in lexeme [:canonical]) "_"
+                                                   (if (u/get-in lexeme [:sense])
+                                                     (str ":" (u/get-in lexeme [:sense]))))
+                                              :true
+                                              (l/pprint lexeme))
+                                        " failed: " (vec fail-path) "; "
+                                        " lexeme's value: "
+                                        (serialize (u/get-in lexeme fail-path)) "; "
+                                        " spec's value: "
+                                        (serialize (u/get-in spec fail-path))))))
                      false)
 
                    :else
@@ -492,22 +512,7 @@
                                                  (if (u/get-in lexeme [:sense])
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
-                                            (l/pprint lexeme)) " succeeded: " (strip-refs lexeme)))
-                       (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
-                         (log/info (str "lexeme candidate: "
-                                        (cond (u/get-in lexeme [:surface])
-                                              (str "'" (u/get-in lexeme [:surface]) "'")
-                                              (u/get-in lexeme [:canonical])
-                                              (str "_" (u/get-in lexeme [:canonical]) "_"
-                                                   (if (u/get-in lexeme [:sense])
-                                                     (str ":" (u/get-in lexeme [:sense]))))
-                                              :true
-                                              (l/pprint lexeme))
-                                        " failed: " (vec fail-path) "; "
-                                        " lexeme's value: "
-                                        (l/pprint (u/get-in lexeme fail-path)) "; "
-                                        " spec's value: "
-                                        (l/pprint (u/get-in spec fail-path))))))
+                                            (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
                      true))))
        (map :unify)))
 

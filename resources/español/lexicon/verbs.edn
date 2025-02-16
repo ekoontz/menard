@@ -233,13 +233,13 @@
                     :agr {:person :1st :number :plur}
                     :surface "hemos"}
                    {:infl :present
-                    :agr {:person :2nd :number :plur}
+                    :agr {:person :2nd :number :plur :formal? false}
                     :surface "habéis"}
                    {:infl :present
-                    :agr {:person :2nd :number :plural :formal? true}
+                    :agr {:person :2nd :number :plur :formal? true}
                     :surface "han"}
                    {:infl :present
-                    :agr {:person :3rd :number :plural}
+                    :agr {:person :3rd :number :plur}
                     :surface "han"}]]
    [;; aux sense
     (let [sem (atom {:tense :past

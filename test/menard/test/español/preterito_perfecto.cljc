@@ -10,9 +10,12 @@
 
 (def spec {:cat :verb
            :rule "s"
+           :aux? true
+           :head {:rule "vp-aux"}
+           :comp {:root "yo"}
            :subcat []
            :root "comer"
-           :sem {:pred :want
+           :sem {:pred :eat
                  :subj {:pred :i}
                  :tense :past
                  :aspect :perfect}})
@@ -32,5 +35,5 @@
     (is (= (-> yo-he-comido (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> yo-he-comido (u/get-in [:sem :tense])) :past))))
 
-
-
+(deftest generate-test
+  (is (= (-> spec generate syntax-tree) "[s(:preterito-perfecto) .yo +[vp-aux(:preterito-perfecto) +he .comido]]")))

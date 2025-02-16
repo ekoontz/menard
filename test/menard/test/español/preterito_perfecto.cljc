@@ -8,17 +8,16 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(def spec {:cat :verb
-           :rule "s"
-           :aux? true
-           :head {:rule "vp-aux"}
-           :comp {:root "yo"}
-           :subcat []
-           :root "comer"
-           :sem {:pred :eat
-                 :subj {:pred :i}
-                 :tense :past
-                 :aspect :perfect}})
+(def spec
+  {:cat :verb
+   :rule "s"
+   :head {:rule "vp-aux"}
+   :comp {:root "yo"}
+   :subcat []
+   :sem {:pred :eat
+         :subj {:pred :i}
+         :tense :past
+         :aspect :perfect}})
 
 ;; https://es.wiktionary.org/wiki/comer#Conjugaci%C3%B3n
 

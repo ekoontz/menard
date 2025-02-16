@@ -302,6 +302,11 @@
        :transitive? ::unspec}
   :then [{:transitive? false}]}
 
+ {:rule :aux-default
+  :if {:cat :verb
+       :aux? ::unspec}
+  :then [{:aux? false}]}
+ 
  {:rule :trans-only
   :if {:cat :verb
        :aux? false

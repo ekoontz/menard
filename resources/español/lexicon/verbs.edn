@@ -241,21 +241,24 @@
                    {:infl :present
                     :agr {:person :3rd :number :plur}
                     :surface "han"}]]
-   [;; aux sense
+   [;; aux sense:
     (let [sem (atom {:tense :past
                      :aspect :perfect})
+          reflexivity (atom :top)
           subj (atom :top)]
       {:exceptions exceptions
        :aux? true
+       :reflexive? reflexivity
        :subcat {:1 subj
                 :2 {:cat :verb
                     :aux? false
+                    :reflexive? reflexivity
                     :infl :participio
                     :subcat {:1 subj}
                     :sem sem}}
        :sem sem})
 
-    ;; non-aux sense
+    ;; non-aux sense:
     {:exceptions exceptions
      :sem {:pred :have}}])
 

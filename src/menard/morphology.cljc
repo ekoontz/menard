@@ -188,8 +188,10 @@
                            (re-find from canonical)
                            (let [result (unify u structure)]
                              (if (not (= :fail result))
-                               (log/debug (str "success: u: " u " and structure: " (strip-refs structure) " and debug: " debug))
-                               (log/debug (str "fail:     u: " u "; and structure: " (strip-refs structure) " : " (fail-path u structure) " and debug: " debug " and canonical: " canonical)))
+                               (log/debug (str "success: g: " from))
+                               (log/debug (str "fail:    g: " from "; fail-path: " (fail-path u structure) "; structure value: " (u/get-in structure (fail-path u structure))
+                                               "; rule value: " (u/get-in u (fail-path u structure))
+                                               (if debug (str "; debug: " debug)))))
                              (not (= :fail result))))))
                   morphology))
         exceptions (u/get-in structure [:exceptions])

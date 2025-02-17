@@ -258,6 +258,7 @@
 
  {:rule :non-reflexive
   :if {:cat :verb
+       :aux? false
        :canonical #"(.*)r$"}
   :then [{:reflexive? false}]}
 

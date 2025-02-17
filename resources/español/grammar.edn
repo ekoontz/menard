@@ -61,7 +61,7 @@
   :head {:cat :verb
          :aux? false}
   :comp {:pronoun? true}
-  :options menard.español.tenses/finite-tenses
+  :options menard.español.tenses/finite-nonaux-tenses
   :unify [menard.subcat/c
           menard.ug/head-is-root
           menard.ug/head-last

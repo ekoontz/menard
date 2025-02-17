@@ -40,7 +40,6 @@
      (s/syntax-tree tree (-> model deref :morphology))))
 
 (defn generate [spec]
-  (log/debug (str "generate: generating with: " spec))
   (let [model (deref model)
         retval
         (binding [g/max-depth (:max-depth spec g/max-depth)

@@ -24,14 +24,14 @@
         spec (unify basic-spec inflection-spec)]
     (log/debug (str "generating with basic-spec: " basic-spec))
     (log/debug (str "generating with inflection-spec: " inflection-spec))
-    (log/info (str "generating with spec: " spec))
+    (log/debug (str "generating with spec: " spec))
     (let [persons [:1st :2nd-informal :2nd-formal :3rd]]
       {:singular (->> persons
                       (map (fn [person]
                              [person (-> (person person-map)
                                          (unify spec)
                                          (unify {:agr {:number :sing}})
-                                         es/generate
+                                         log-and-generate
                                          es/morph)]))
                       (into {}))
        :plural   (->> persons

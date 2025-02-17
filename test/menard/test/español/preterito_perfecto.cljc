@@ -26,11 +26,16 @@
     (is (= :participio (-> analysis first (u/get-in [:infl]))))))
 
 (deftest parse-test
-  (let [yo-he-comido (-> "yo he comido" parse first)]
-    (is (= (-> yo-he-comido syntax-tree)
+  (let [non-reflexive (-> "yo he comido" parse first)]
+    (is (= (-> non-reflexive syntax-tree)
            "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he .comido]]"))
-    (is (= (-> yo-he-comido (u/get-in [:sem :aspect])) :perfect))
-    (is (= (-> yo-he-comido (u/get-in [:sem :tense])) :past))))
+    (is (= (-> non-reflexive (u/get-in [:sem :aspect])) :perfect))
+    (is (= (-> non-reflexive (u/get-in [:sem :tense])) :past)))
+  (let [reflexive (-> "me he lastimado" parse first)]
+    (is (= (-> reflexive syntax-tree)
+           "[s-aux(:preterito-perfecto){+} .me +[vp-aux-reflexive(:preterito-perfecto){+} +he .lastimado]]"))
+    (is (= (-> reflexive (u/get-in [:sem :aspect])) :perfect))
+    (is (= (-> reflexive (u/get-in [:sem :tense])) :past))))
 
 (deftest generate-test
   (is (= (-> spec generate syntax-tree)

@@ -370,8 +370,13 @@
            {:agr agr
             :subcat {:1 {:agr agr
                          :cat :noun
-                         :case :nom
                          :subcat []}}})]}
+
+ {:rule :subcat-1-is-nom-if-not-reflexive
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun
+                    :reflexive? false}}}
+  :then [{:subcat {:1 {:case :nom}}}]}
 
  {:rule :existential-false-pronouns
   :if {:cat :noun

@@ -270,6 +270,7 @@
               subj (atom {:ref ref})]
           ;; variant with explicit subject e.g. "él se levantó"
           [{:reflexive? true
+            :sense 1
             :intransitive? false
             :transitive? false
             :sem {:subj subj}
@@ -286,6 +287,7 @@
 
            ;; variant without explicit subject e.g. "se levantó"
            {:reflexive? true
+            :sense 2            
             :intransitive? false
             :transitive? false
             :sem {:subj subj}

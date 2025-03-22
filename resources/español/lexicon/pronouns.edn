@@ -66,6 +66,7 @@
               :person :1st}
         :sem {:ref {:human? true}
               :pred :i}
+        :case :acc
         :reflexive? true}]
   
  "nos" [{:agr {:number :plur

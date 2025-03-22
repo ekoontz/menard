@@ -25,19 +25,36 @@
     (is (map? (-> analysis first)))
     (is (= :participio (-> analysis first (u/get-in [:infl]))))))
 
-(deftest parse-test
+(deftest parse-test-explicit-subject
   (let [non-reflexive (-> "yo he comido" parse first)]
     (is (= (-> non-reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he .comido]]"))
+           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]"))
     (is (= (-> non-reflexive (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> non-reflexive (u/get-in [:sem :tense])) :past)))
+  (let [reflexive (-> "yo me he lastimado" parse first)]
+    (is (= (-> reflexive syntax-tree)
+           "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-2(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:explicit-subj) .lastimado(:explicit-subj)]]]"))))
+
+(deftest parse-test-null-subject
+
+  ;; Does not yet work: requires verbs to have a null-subject lexical rule
+  ;; that produces all 4 of the following subcat frames:
+  ;; 1. <> (intransitive and implicit subject)
+  ;; 2. <noun(subj)> (intransitive and explicit subject)
+  ;; 3. <noun(obj)> (transitive and implicit subject)
+  ;; 4. <noun(subj), noun(obj)> (transitive and explicit subject)
+  ;; Adding this lexical rule will likely simplify many of the rules in grammar.edn.
+  ;;  {:rule "s-aux-nonreflexive-subj-implicit" ;; "he comido"
+  ;;  (let [non-reflexive (-> "he comido" parse first)]
+  ;;    (is (= (-> non-reflexive syntax-tree)
+  ;;           "[s-aux(:preterito-perfecto) +he .comido]")))
+
   (let [reflexive (-> "me he lastimado" parse first)]
     (is (= (-> reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto){+} .me +[vp-aux-reflexive(:preterito-perfecto){+} +he .lastimado]]"))
+           "[s-aux(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:implicit-subj-reflexive) .lastimado(:implicit-subj)]]"))
     (is (= (-> reflexive (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> reflexive (u/get-in [:sem :tense])) :past))))
 
 (deftest generate-test
   (is (= (-> spec generate syntax-tree)
          "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he .comido]]")))
-

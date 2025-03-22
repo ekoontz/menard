@@ -12,23 +12,6 @@
           menard.ug/head-sem]
   }
 
- {:rule "s-reflexive-explicit-subject"
-  :cat :verb
-  :reflexive? true
-  :comp {:cat :noun
-         :reflexive? false
-         :case :nom}
-  :head {:cat :verb
-         :aux? false}
-  :options menard.español.tenses/finite-nonaux-tenses
-  :unify [menard.subcat/a
-          menard.ug/head-is-root
-          menard.ug/head-last
-          menard.ug/head-reflexive
-          menard.ug/head-rule
-          menard.ug/head-sem]
-  }
-
  {:rule "s-aux"
   :cat :verb
   :head {:cat :verb
@@ -84,7 +67,7 @@
           menard.ug/head-sem]
   }
 
-  {:rule "vp-aux-reflexive"
+ {:rule "vp-aux-reflexive-1" ;; "he lastimado"
   :cat :verb
   :reflexive? true
   :head {:cat :verb
@@ -95,8 +78,40 @@
           menard.ug/head-first
           menard.ug/head-reflexive
           menard.ug/head-rule
-          menard.ug/head-sem]
-  }
+          menard.ug/head-sem]}
+
+ ;; "[vp-aux-reflexive-2 .me +[vp-aux-reflexive-1 +he .lastimado]]"
+ {:rule "vp-aux-reflexive-2"
+  :cat :verb
+  :reflexive? true
+  :comp {:cat :noun}
+  :head {:cat :verb
+         :aux? true
+         :comp {:sense :explicit-subj
+                :subcat {:1 {:cat :noun
+                             :case :nom}}}}
+  :options menard.español.tenses/finite-aux-tenses
+  :unify [menard.subcat/c
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]}
+
+ ;; Does not yet work: requires verbs to have a null-subject lexical rule. Adding
+ ;; this lexical rule will likely simplify many of the rules here in grammar.edn.
+;;  {:rule "s-aux-nonreflexive-subj-implicit" ;; "he comido"
+;;   :cat :verb
+;;   :reflexive? false
+;;   :head {:cat :verb
+;;          :aux? true}
+;;   :options menard.español.tenses/finite-aux-tenses
+;;   :unify [menard.subcat/a
+;;           menard.ug/comp-is-root
+;;           menard.ug/head-first
+;;           menard.ug/head-reflexive
+;;           menard.ug/head-rule
+;;           menard.ug/head-sem]}
 
  
  ]

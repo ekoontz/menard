@@ -10,6 +10,11 @@
 
 ;; https://es.wiktionary.org/wiki/quedarse#Conjugaci%C3%B3n
 
+;; to reload after fixing something, do:
+;; uncomment these:
+(load "../../../../src/menard/subcat")
+(load "../../../../src/menard/español")
+
 (deftest analyze-test
   (let [analysis (analyze "quedarse")]
     (is (seq analysis)))
@@ -17,6 +22,12 @@
     (is (seq analysis))))
 
 (deftest parse-test
-  (let [one-parse (-> "Juan se queda" parse first)]
-    (is (= (-> one-parse syntax-tree)
-           "[s(:present-simple){+} .Juan +[vp-pronoun(:present-simple){+} .se(2) +queda]]"))))
+  (let [present (-> "Juan se queda" parse first)]
+    (is (= (-> present syntax-tree)
+           "[s(:present-simple){+} .Juan +[vp-pronoun(:present-simple){+} .se(2) +queda(:explicit-subj)]]")))
+  (let [preterito (-> "yo me he lastimado" parse first)]
+    "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-2(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:explicit-subj) .lastimado(:explicit-subj)]]]"))
+
+
+
+

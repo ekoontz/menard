@@ -241,13 +241,16 @@
                    {:infl :present
                     :agr {:person :3rd :number :plur}
                     :surface "han"}]]
-   [;; aux sense:
+   [
+    ;; aux sense with non-reflexive complement verb:
+    ;; e.g. "yo he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
-          reflexivity (atom :top)
-          subj (atom :top)]
+          reflexivity (atom false)
+          subj (atom {:case :nom})]
       {:exceptions exceptions
        :aux? true
+       :sense :explicit-subj-non-reflexive
        :reflexive? reflexivity
        :subcat {:1 subj
                 :2 {:cat :verb
@@ -258,6 +261,69 @@
                     :sem sem}}
        :sem sem})
 
+    ;; e.g. "he comido":    
+    (let [sem (atom {:tense :past
+                     :aspect :perfect})
+          reflexivity (atom false)
+          subj (atom :top)]
+      {:exceptions exceptions
+       :aux? true
+       :sense :implicit-subj-non-reflexive
+       :reflexive? reflexivity
+       :subcat {:1 {:cat :verb
+                    :aux? false
+                    :reflexive? reflexivity
+                    :infl :participio
+                    :subcat {:1 subj}
+                    :sem sem}}
+       :sem sem})
+    
+    ;; aux sense, reflexive without explicit subject:
+    ;; e.g. "me he lastimado"
+    (let [sem (atom {:tense :past
+                     :aspect :perfect})
+          reflexivity (atom true)
+          subj (atom {:case :acc
+                      :reflexive? true})]
+      {:exceptions exceptions
+       :aux? true
+       :sense :implicit-subj-reflexive
+       :reflexive? reflexivity
+       :subcat {:1 subj
+                :2 {:cat :verb
+                    :aux? false
+                    :reflexive? reflexivity
+                    :infl :participio
+                    :subcat {:1 subj
+                             :2 []}
+                    :sem sem}}
+       :sem sem})
+
+    ;; aux sense, reflexive with explicit subject:
+    ;; e.g. "yo me he lastimado"
+    (let [sem (atom {:tense :past
+                     :aspect :perfect})
+          reflexivity (atom true)
+          subj {:case :nom
+                :cat :noun
+                :reflexive? false}
+          reflexive-pronoun {:pronoun? true
+                             :reflexive? true}]
+      {:exceptions exceptions
+       :aux? true
+       :sense :explicit-subj
+       :reflexive? reflexivity
+       :subcat {:1 subj
+                :2 reflexive-pronoun
+                :3 {:cat :verb
+                    :aux? false
+                    :reflexive? reflexivity
+                    :infl :participio
+                    :subcat {:1 subj
+                             :2 reflexive-pronoun}
+                    :sem sem}}
+       :sem sem})
+    
     ;; non-aux sense:
     {:exceptions exceptions
      :sem {:pred :have}}])

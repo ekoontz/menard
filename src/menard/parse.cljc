@@ -130,7 +130,7 @@
                         (contains? log-these-rules-as-head-children (u/get-in head [:rule]))
                         (false? (u/get-in head [:phrasal?]))))]
     (when log-this?
-      (log/info (str "overh attempt: " (syntax-tree parent) " <- " (syntax-tree head))))
+      (log/debug (str "overh attempt: " (syntax-tree parent) " <- " (syntax-tree head))))
     (let [pre-check? true
           result (cond pre-check?
                        (u/unify parent
@@ -146,7 +146,7 @@
         (do
           (def succeed-counter (+ 1 succeed-counter))
           (when log-this?
-            (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
+            (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result) "(\"" (syntax-tree result :morph) "\")"))))
 
         ;; :fail:
         (do
@@ -197,7 +197,7 @@
                         (contains? log-these-rules-as-comp-children (u/get-in comp [:rule]))
                         (false? (u/get-in comp [:phrasal?]))))]
     (when log-this?
-      (log/info (str "overc attempting: " (syntax-tree parent) " <- " (syntax-tree comp))))
+      (log/debug (str "overc attempt: " (syntax-tree parent) " <- " (syntax-tree comp))))
     (let [pre-check? true
           result
           (cond pre-check?
@@ -208,14 +208,14 @@
         (do
           (def succeed-counter (+ 1 succeed-counter))
           (when log-this?
-            (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))))
+            (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result) "(\"" (syntax-tree result :morph) "\")"))))
         (do
           (when pre-check?
             (def fail-counter (+ 1 fail-counter))
             (when log-this?
               (let [fp (fail-path parent {:comp comp})]
                 (log/info
-                 (str "overc fail: " (syntax-tree parent)
+                 (str "overc fail: " (syntax-tree parent) "(\"" (syntax-tree parent :morph) "\")"
                       " <- " (syntax-tree comp)
                       " fail path: " (vec fp)
                       ". parent wants: " (l/pprint (u/get-in parent fp))
@@ -231,7 +231,7 @@
     (overc-full parent comp syntax-tree)))
 
 (defn truncate [tree syntax-tree morph]
-  (log/debug (str "truncating tree: " (syntax-tree tree)))
+  (log/info (str "truncating tree: " (syntax-tree tree)))
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))

@@ -8,6 +8,11 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+;; to reload after fixing something, do:
+;; uncomment these:
+(load "../../../../src/menard/subcat")
+(load "../../../../src/menard/español")
+
 (def spec
   {:cat :verb
    :subcat []

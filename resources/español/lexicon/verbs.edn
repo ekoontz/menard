@@ -311,7 +311,7 @@
                              :reflexive? true}]
       {:exceptions exceptions
        :aux? true
-       :sense :explicit-subj
+       :sense :explicit-subj-reflexive
        :reflexive? reflexivity
        :subcat {:1 subj
                 :2 reflexive-pronoun

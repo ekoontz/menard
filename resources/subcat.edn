@@ -53,7 +53,7 @@
     :subcat one
     :head {:subcat one}})
 
- ;; In this rule, the head is the second
+ ;; In this rule, the complement is the second
  ;; argument of the head, and the parent's
  ;; subcat is the remaining, first argument
  ;; of the head:

@@ -231,7 +231,7 @@
     (overc-full parent comp syntax-tree)))
 
 (defn truncate [tree syntax-tree morph]
-  (log/info (str "truncating tree: " (syntax-tree tree)))
+  (log/debug (str "truncating tree: " (syntax-tree tree)))
   (-> tree
       (assoc :syntax-tree (syntax-tree tree))
       (assoc :surface (morph tree))

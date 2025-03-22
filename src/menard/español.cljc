@@ -35,9 +35,22 @@
                    (model-fn)))
   (type @model))
 
+(defn morph [tree]
+   (cond
+     ;; inflection doesn't work right, so disabling
+     (and false
+
+          (map? (u/get-in tree [:syntax-tree])))
+     (morph (u/get-in tree [:syntax-tree]))
+
+     :else
+     (s/morph tree (:morphology @model))))
+
 #?(:clj
-   (defn syntax-tree [tree]
-     (s/syntax-tree tree (-> model deref :morphology))))
+   (defn syntax-tree [tree & [options]]
+     (if (= options :morph)
+       (morph tree)
+       (s/syntax-tree tree (-> model deref :morphology)))))
 
 (defn generate [spec]
   (let [model (deref model)
@@ -52,18 +65,7 @@
     (log/debug (str "generate: generated: " (-> retval syntax-tree)))
     retval))
 
-(defn morph [tree]
-   (cond
-     ;; inflection doesn't work right, so disabling
-     (and false
-
-          (map? (u/get-in tree [:syntax-tree])))
-     (morph (u/get-in tree [:syntax-tree]))
-
-     :else
-     (s/morph tree (:morphology @model))))
-
-;; for parsing diagnostics:
+;; for parsing diagnostics: set to false to prevent space optimization (truncating trees):
 (def truncate? true)
 
 ;; how to split up a string into tokens that can be analyzed:

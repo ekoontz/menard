@@ -967,7 +967,7 @@
          :infl :past-simple
          :post-lex-rules-stop? ::unspec}
     :then [{:sem {:tense :past
-                  :aspect :perfect}}]}
+                  :aspect :simple}}]}
 
  
  ]

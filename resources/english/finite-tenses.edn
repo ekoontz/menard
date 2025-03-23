@@ -23,7 +23,7 @@
  {:variant :past
   :infl :past-simple
   :sem {:tense :past
-        :aspect :perfect}}
+        :aspect :simple}}
  
  ;; "is seeing"
  {:variant :present-progressive

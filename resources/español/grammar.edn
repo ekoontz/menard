@@ -67,7 +67,7 @@
           menard.ug/head-sem]
   }
 
- {:rule "vp-aux-reflexive-1" ;; "he lastimado"
+ {:rule "vp-aux-reflexive-1" ;; "he lastimado" (implicit subject)
   :cat :verb
   :reflexive? true
   :head {:cat :verb
@@ -80,16 +80,29 @@
           menard.ug/head-rule
           menard.ug/head-sem]}
 
- ;; "[vp-aux-reflexive-2 .me +[vp-aux-reflexive-1 +he .lastimado]]"
- {:rule "vp-aux-reflexive-2"
+ {:rule "vp-aux-reflexive-2" ;; "he lastimado" (explicit subject)
   :cat :verb
   :reflexive? true
-  :comp {:cat :noun}
+  :head {:cat :verb
+         :aux? true}
+  :options menard.español.tenses/finite-aux-tenses
+  :unify [menard.subcat/k
+          menard.ug/comp-is-root
+          menard.ug/head-first
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]}
+
+ ;;            <1>
+ ;;       /            \
+ ;; 2:me       [he lastimado]<1,2>
+ ;; "[vp-aux-reflexive-3 .me +[vp-aux-reflexive-2 +he .lastimado]]" (explicit subject)
+ {:rule "vp-aux-reflexive-3"
+  :cat :verb
+  :reflexive? true
   :head {:cat :verb
          :aux? true
-         :comp {:sense :explicit-subj
-                :subcat {:1 {:cat :noun
-                             :case :nom}}}}
+         :subcat {:1 {:reflexive? false}}}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/c
           menard.ug/head-is-root

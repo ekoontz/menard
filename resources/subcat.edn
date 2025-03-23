@@ -136,6 +136,9 @@
            :sem {:obj comp-sem}}
     :comp comp})
 
+ ;;       <1,3>
+ ;;      /   \
+ ;;   h<1,2>  2:<1,3>
  (let [one   (atom :top)
        three (atom :top)
        two   (atom {:subcat {:1 one
@@ -156,7 +159,8 @@
    {:def 'j
     :subcat {:1 one}
     :head {:subcat {:1 one
-                    :2 two}}
+                    :2 two
+                    :3 []}}
     :comp two})
 
  ]

@@ -137,9 +137,10 @@
                                 {:head head})
                        :else
                        (do
-                         (log/debug (str "failed precheck: parent: " (syntax-tree
-                                                                      parent) "; head: " (syntax-tree head) "; "
-                                         "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat])))
+                         (when log-this?
+                           (log/info (str "failed precheck: parent: " (syntax-tree
+                                                                       parent) "; head: " (syntax-tree head) "; "
+                                          "parent [:head :cat]=" (u/get-in parent [:head :cat]) "; head [:cat]=" (u/get-in head [:cat]))))
                          :fail))]
       (if (not (= :fail result))
         ;; not :fail:
@@ -197,7 +198,7 @@
                         (contains? log-these-rules-as-comp-children (u/get-in comp [:rule]))
                         (false? (u/get-in comp [:phrasal?]))))]
     (when log-this?
-      (log/debug (str "overc attempt: " (syntax-tree parent) " <- " (syntax-tree comp))))
+      (log/info (str "overc attempt: " (syntax-tree parent) " <- " (syntax-tree comp))))
     (let [pre-check? true
           result
           (cond pre-check?
@@ -263,7 +264,11 @@
 
            (map (fn [head-child]
                   (let [parent-with-head
-                        (overh parent head-child syntax-tree)]
+                        (overh parent head-child syntax-tree)
+                        log-this? (and (contains? log-these-rules-as-parents (u/get-in parent [:rule]))
+                                       (or
+                                        (contains? log-these-rules-as-head-children (u/get-in head-child [:rule]))
+                                        (false? (u/get-in head-child [:phrasal?]))))]
                     (if (= parent-with-head :fail)
                       []
                       (->> comp-children

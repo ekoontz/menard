@@ -13,7 +13,7 @@
 (load "../../../../src/menard/subcat")
 (load "../../../../src/menard/español")
 
-(def spec
+(def non-reflexive-spec
   {:cat :verb
    :subcat []
    ;; TODO: this {:reflexive? false} is required for now,
@@ -23,6 +23,15 @@
          :subj {:pred :i}
          :tense :past
          :aspect :perfect}})
+
+(def use-head-canonical-spec
+  {:comp {:agr {:number :sing, :person :3rd}
+          :canonical "ella"}
+   :sem {:tense :past, :aspect :perfect}
+   ;; TODO: this {:reflexive? false} is required for now,
+   ;; otherwise generation gets stuck.
+   :reflexive? false
+   :head {:canonical "mirar"}})
 
 ;; https://es.wiktionary.org/wiki/comer#Conjugaci%C3%B3n
 
@@ -44,8 +53,7 @@
            "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-3(:preterito-perfecto){+} .me +[vp-aux-reflexive-2(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado(:explicit-subj)]]]"))))
 
 (deftest parse-test-null-subject
-
-  ;; Does not yet work: requires verbs to have a null-subject lexical rule
+  ;; TODO: add lexical rule
   ;; that produces all 4 of the following subcat frames:
   ;; 1. <> (intransitive and implicit subject)
   ;; 2. <noun(subj)> (intransitive and explicit subject)
@@ -53,6 +61,8 @@
   ;; 4. <noun(subj), noun(obj)> (transitive and explicit subject)
   ;; Adding this lexical rule will likely simplify many of the rules in grammar.edn.
   ;;  {:rule "s-aux-nonreflexive-subj-implicit" ;; "he comido"
+
+  ;; Until then, this test is commented out:
   ;;  (let [non-reflexive (-> "he comido" parse first)]
   ;;    (is (= (-> non-reflexive syntax-tree)
   ;;           "[s-aux(:preterito-perfecto) +he .comido]")))
@@ -64,5 +74,7 @@
     (is (= (-> reflexive (u/get-in [:sem :tense])) :past))))
 
 (deftest generate-test
-  (is (= (-> spec generate syntax-tree)
-         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]")))
+  (is (= (-> non-reflexive-spec generate syntax-tree)
+         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]"))
+  (is (= (-> use-head-canonical-spec generate syntax-tree)
+         "[s-aux(:preterito-perfecto) .ella +[vp-aux-non-reflexive(:preterito-perfecto) +ha(:explicit-subj-non-reflexive) .mirado]]")))

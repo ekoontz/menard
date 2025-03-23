@@ -11,8 +11,41 @@
    :3rd {:agr {:person :3rd}}})
 
 (defn log-and-generate [spec]
-  (log/debug (str "generating with spec: " spec))
+  (log/info (str "generating with spec: " spec))
   (es/generate spec))
+
+(defn add-reflexive [spec canonical]
+  (log/info (str "preprocess-spec: spec: " spec "; canonical: " canonical))
+  (cond
+    (re-find #"[aei]rse$" canonical)
+    (let [with-reflexive-true (unify spec {:reflexive? true})]
+      (if (not (= :fail with-reflexive-true))
+        with-reflexive-true
+        spec))
+    (re-find #"[aei]r$" canonical)
+    (let [with-reflexive-false (unify spec {:reflexive? false})]
+      (if (not (= :fail with-reflexive-false))
+        with-reflexive-false
+        spec))
+    :else spec))
+
+(defn add-rules [spec inflection-variant canonical]
+  (let [retval
+        (cond
+          (and
+           (= inflection-variant :preterito-perfecto)
+           (re-find #"[aei]rse$" canonical))
+          (unify spec
+                 {:rule "s-aux"
+             :head {:rule "vp-aux-reflexive-3"}})
+          (= inflection-variant :preterito-perfecto)
+          (unify spec
+                 {:rule "s-aux"
+                  :head {:rule "vp-aux-non-reflexive"}})
+          :else
+          spec)]
+    (log/debug (str "add-rules returning spec: " retval))
+    retval))
 
 (defn verb [canonical inflection]
   (let [basic-spec {:cat :verb
@@ -21,7 +54,9 @@
         inflection-spec (->> menard.español.tenses/finite-tenses
                              (filter #(= inflection (u/get-in % [:variant])))
                              first)
-        spec (unify basic-spec inflection-spec)]
+        spec (-> (unify basic-spec inflection-spec)
+                 (add-reflexive canonical)
+                 (add-rules inflection canonical))]
     (log/debug (str "generating with basic-spec: " basic-spec))
     (log/debug (str "generating with inflection-spec: " inflection-spec))
     (log/debug (str "generating with spec: " spec))
@@ -31,14 +66,13 @@
                              [person (-> (person person-map)
                                          (unify spec)
                                          (unify {:agr {:number :sing}})
-                                         log-and-generate
+                                         es/generate
                                          es/morph)]))
                       (into {}))
        :plural   (->> persons
                       (map (fn [person]
                              [person (-> (person person-map)
-                                         (unify basic-spec)
-                                         (unify inflection-spec)
+                                         (unify spec)
                                          (unify {:agr {:number :plur}})
                                          es/generate
                                          es/morph)]))
@@ -46,7 +80,8 @@
 
 (defn generate-chart [canonical]
   {:canonical canonical
-   :inflections [(merge {:name "Present"}
+   :inflections [
+                 (merge {:name "Present"}
                         (verb canonical :present-simple))
                  (merge {:name "Conditional"}
                         (verb canonical :conditional))

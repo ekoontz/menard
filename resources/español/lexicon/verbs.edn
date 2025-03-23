@@ -210,8 +210,13 @@
  "fregar" [{:sem {:pred :scrub},
             :stems {:boot "frieg"}}]
  "fumar" [{:sem {:pred :smoke}}]
- "funcionar" [{:sem {:subj {:ref {:human? false}}
-                     :pred :work-nonhuman}}]
+
+ ;; commenting out temporarily to prevent generation failures
+ ;; when trying to generate with 1st or 2nd person:
+ ;; "funcionar" [{:sem {:subj {:ref {:human? false}}
+ ;;                     :pred :work-nonhuman}
+ ;;               :subcat {:person :3rd}}]
+
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]
  "gastar" [{:sem {:pred :spend}}]

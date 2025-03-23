@@ -16,6 +16,8 @@
 (def spec
   {:cat :verb
    :subcat []
+   ;; TODO: this {:reflexive? false} is required for now,
+   ;; otherwise generation gets stuck.
    :reflexive? false
    :sem {:pred :eat
          :subj {:pred :i}

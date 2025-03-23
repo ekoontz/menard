@@ -853,7 +853,22 @@
                          :infl :past-participle
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
-                                  :2 []}}}}])}
+                                  :2 []}}}}
+
+           ;; 'have' in 'have been able to'
+           {:sem sem
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :aux? false
+                         :modal :adjective
+                         :infl :past-participle
+                         :sem sem
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}
+           
+           ]
+          )
+  }
 
   ;; e.g. "I need to study"
  {:rule :modal-infinitive-non-used-to

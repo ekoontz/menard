@@ -6,6 +6,9 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+
+(load "../../../../src/menard/english/complete")
+
 (deftest tense-parsing
   (let [parses (parse "she saw him")]
     (is (seq parses))

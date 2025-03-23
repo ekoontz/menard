@@ -163,4 +163,20 @@
                     :3 []}}
     :comp two})
 
+ ;;       <1,2>
+ ;;      /   \
+ ;;   h<1,2,3>  3:<1,2>
+ (let [one (atom :top)
+       two (atom :top)
+       three (atom {:subcat {:1 one
+                             :2 two
+                             :3 []}})]
+   {:def 'k
+    :subcat {:1 one
+             :2 two}
+    :head {:subcat {:1 one
+                    :2 two
+                    :3 three}}
+    :comp three})
+ 
  ]

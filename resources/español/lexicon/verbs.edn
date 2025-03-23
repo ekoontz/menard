@@ -41,25 +41,28 @@
      :agr {:person :1st, :number :sing},
      :surface "quepo"}],
    :stems {:preterito "cup"}}]
- "caer"
- [{:sem {:pred :fall
-         :subj {:ref {:human? false}}}
-   :exceptions
-   [{:infl :present,
-     :agr {:person :1st, :number :sing},
-     :surface "caigo"}
-    {:infl :preterito,
-     :agr {:person :1st, :number :sing},
-     :surface "caì"}
-    {:infl :preterito,
-     :agr {:person :2nd, :number :sing, :formal? false},
-     :surface "caiste"}
-    {:infl :preterito,
-     :agr {:person :2nd, :number :sing, :formal? true},
-     :surface "cayò"}
-    {:infl :preterito,
-     :agr {:person :3rd, :number :sing},
-     :surface "cayò"}]}]
+
+;; commenting this out (see comment below for "functionar")
+;; "caer"
+;; [{:sem {:pred :fall
+;;         :subj {:ref {:human? false}}}
+;;   :exceptions
+;;   [{:infl :present,
+;;     :agr {:person :1st, :number :sing},
+;;     :surface "caigo"}
+;;    {:infl :preterito,
+;;     :agr {:person :1st, :number :sing},
+;;     :surface "caì"}
+;;    {:infl :preterito,
+;;     :agr {:person :2nd, :number :sing, :formal? false},
+;;     :surface "caiste"}
+;;    {:infl :preterito,
+;;     :agr {:person :2nd, :number :sing, :formal? true},
+;;     :surface "cayò"}
+;;    {:infl :preterito,
+;;     :agr {:person :3rd, :number :sing},
+;;     :surface "cayò"}]}]
+
  "caerse"
  [{:sem {:pred :fall
          :subj {:ref {:human? true}}}
@@ -79,6 +82,7 @@
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
      :surface "cayò"}]}]
+
  "cambiar" [{:sem {:pred :change}}]
  "cambiarse" [{:sem {:pred :change-clothes}}]
  "caminar" [{:sem {:pred :walk-c}}]

@@ -16,6 +16,7 @@
 (def spec
   {:cat :verb
    :subcat []
+   :reflexive? false
    :sem {:pred :eat
          :subj {:pred :i}
          :tense :past

@@ -15,6 +15,16 @@
     (is (not (contains? (set (->> parses
                                   (map #(unify %
                                                {:sem {:pred :see
+                                                      :aspect :simple
+                                                      :tense :past
+                                                      :subj {:pred :she}
+                                                      :obj {:pred :he}}}))))
+                        :fail))))
+  (let [parses (parse "she has seen him")]
+    (is (seq parses))
+    (is (not (contains? (set (->> parses
+                                  (map #(unify %
+                                               {:sem {:pred :see
                                                       :aspect :perfect
                                                       :tense :past
                                                       :subj {:pred :she}

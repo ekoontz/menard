@@ -38,7 +38,7 @@
     (is (= (-> non-reflexive (u/get-in [:sem :tense])) :past)))
   (let [reflexive (-> "yo me he lastimado" parse first)]
     (is (= (-> reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-2(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:explicit-subj) .lastimado(:explicit-subj)]]]"))))
+           "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-3(:preterito-perfecto){+} .me +[vp-aux-reflexive-2(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado(:explicit-subj)]]]"))))
 
 (deftest parse-test-null-subject
 
@@ -62,4 +62,4 @@
 
 (deftest generate-test
   (is (= (-> spec generate syntax-tree)
-         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he .comido]]")))
+         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]")))

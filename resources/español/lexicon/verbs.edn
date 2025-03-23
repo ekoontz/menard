@@ -247,7 +247,8 @@
     (let [sem (atom {:tense :past
                      :aspect :perfect})
           reflexivity (atom false)
-          subj (atom {:case :nom})]
+          subj (atom {:case :nom
+                      :reflexive? reflexivity})]
       {:exceptions exceptions
        :aux? true
        :sense :explicit-subj-non-reflexive
@@ -265,7 +266,7 @@
     (let [sem (atom {:tense :past
                      :aspect :perfect})
           reflexivity (atom false)
-          subj (atom :top)]
+          subj (atom {:reflexive? reflexivity})]
       {:exceptions exceptions
        :aux? true
        :sense :implicit-subj-non-reflexive
@@ -275,7 +276,8 @@
                     :reflexive? reflexivity
                     :infl :participio
                     :subcat {:1 subj}
-                    :sem sem}}
+                    :sem sem}
+                :2 []}
        :sem sem})
     
     ;; aux sense, reflexive without explicit subject:
@@ -284,7 +286,7 @@
                      :aspect :perfect})
           reflexivity (atom true)
           subj (atom {:case :acc
-                      :reflexive? true})]
+                      :reflexive? reflexivity})]
       {:exceptions exceptions
        :aux? true
        :sense :implicit-subj-reflexive
@@ -308,7 +310,7 @@
                 :cat :noun
                 :reflexive? false}
           reflexive-pronoun {:pronoun? true
-                             :reflexive? true}]
+                             :reflexive? reflexivity}]
       {:exceptions exceptions
        :aux? true
        :sense :explicit-subj-reflexive
@@ -326,6 +328,7 @@
     
     ;; non-aux sense:
     {:exceptions exceptions
+     :sense :have
      :sem {:pred :have}}])
 
     

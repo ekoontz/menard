@@ -101,6 +101,8 @@
   :cat :verb
   :reflexive? true
   :head {:cat :verb
+         ;; this :rule not needed, but might help performance:
+         :rule "vp-aux-reflexive-2"
          :aux? true
          :subcat {:1 {:reflexive? false}}}
   :options menard.español.tenses/finite-aux-tenses

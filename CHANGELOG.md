@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [1.8.0] - 2025-03-24
+
+- Support Preterito Perfecto in Spanish.
+
+## [1.7.12] - 2025-01-22
+
 ## [1.7.11] - 2025-01-13
 
 - Fix boot stem for -ar verbs in 2nd and 3rd person singular.

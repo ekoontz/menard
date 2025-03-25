@@ -1,6 +1,7 @@
 {
  "abandonar" [{:sem {:pred :abandon}}]
  "abrazar" [{:sem {:pred :hug}}]
+ "abrir" [{:sem {:pred :hug}}]
  "acabar" [{:sem {:pred :finish}}]
  "aceptar" [{:sem {:pred :accept}}]
  "acertar" [{:stems {:boot "aciert"}

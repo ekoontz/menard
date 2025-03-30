@@ -692,6 +692,9 @@
             {:infl :present,
              :agr {:person :3rd, :number :sing},
              :surface "tiene"}
+             {:infl :present,
+             :agr {:person :3rd, :number :plur},
+             :surface "tienen"}
             {:infl :preterito,
              :agr {:person :1st, :number :sing},
              :surface "tuve"}

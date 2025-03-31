@@ -9,6 +9,6 @@
 
  "mesa"
  [{:agr {:gender :fem}
-   :sem {:pred :cat}}]
+   :sem {:pred :table}}]
 
  }

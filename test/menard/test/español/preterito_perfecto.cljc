@@ -8,8 +8,10 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-;; to reload after fixing something, do:
-;; uncomment these:
+;; These are for convenience so you don't
+;; have to reload these language-model files every time you make a change:
+;; you can just reload this (i.e. menard.test.español.preterito-perfecto)
+;; file and it will reload the changed language-model files.
 (load "../../../../src/menard/subcat")
 (load "../../../../src/menard/español")
 

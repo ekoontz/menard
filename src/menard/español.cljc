@@ -66,7 +66,7 @@
     retval))
 
 ;; for parsing diagnostics: set to false to prevent space optimization (truncating trees):
-(def truncate? true)
+(def truncate? false)
 
 ;; how to split up a string into tokens that can be analyzed:
 (def split-on #"[ ]+")

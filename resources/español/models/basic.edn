@@ -1,11 +1,12 @@
 {:name "basic"
  :language "es"
  :morphology {:path "español/morphology"
-              :sources ["nouns.edn"
+              :sources ["articles.edn"
                         "conditional.edn"
                         "future.edn"
                         "imperfect.edn"
                         "misc-verbs.edn"
+                        "nouns.edn"
                         "participio.edn"                        
                         "present.edn"
                         "preterito-indefinido.edn"]}
@@ -16,7 +17,9 @@
            :sources {"articles.edn"
                      {:u {:cat :det}}
                      "nouns.edn"
-                     {:u {:cat :noun}}
+                     {:u {:cat :noun
+                          :propernoun? false
+                          :pronoun? false}}
                      "verbs.edn"
                      {:u {:cat :verb}}
                      "pronouns.edn"

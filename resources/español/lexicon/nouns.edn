@@ -5,4 +5,10 @@
 
  "gato"
  [{:agr {:gender :masc}
-   :sem {:pred :cat}}]}
+   :sem {:pred :cat}}]
+
+ "mesa"
+ [{:agr {:gender :fem}
+   :sem {:pred :cat}}]
+
+ }

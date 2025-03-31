@@ -19,11 +19,20 @@
     (is (= :noun (u/get-in analysis [:cat])))))
 
 (deftest parse-tests
-  (is (= "[np .el +aqua]" (->> "el aqua" parse (map syntax-tree) first)))
-  (is (= "[np .el +gato]" (->> "el gato" parse (map syntax-tree) first)))
-  (is (= "[np .el +[nbar +gato .negro]]" (->> "el gato negro" parse (map syntax-tree) first)))
-  (is (= "[np .la +mesa]" (->> "la mesa" parse (map syntax-tree) first)))
+  (is (= (->> "el aqua" parse (map syntax-tree) first)
+         "[np .el +aqua]"))
+  (is (= (->> "el gato" parse (map syntax-tree) first)
+         "[np .el +gato]"))
+  (is (= (->> "el gato negro" parse (map syntax-tree) first)
+         "[np .el +[nbar +gato .negro]]"))
+  (is (= (->> "la mesa" parse (map syntax-tree) first)
+         "[np .la +mesa]"))
+  (is (= (->> "la mesa blanca" parse (map syntax-tree) first)
+         "[np .la +[nbar +mesa .blanca]]"))
+
   (is (empty? (->> "la gato" parse)))
   (is (empty? (->> "la aqua" parse)))
-  (is (empty? (->> "el mesa" parse))))
-  
+  (is (empty? (->> "el mesa" parse)))
+  (is (empty? (->> "el gato negra" parse)))
+  (is (empty? (->> "la mesa blanco" parse))))
+

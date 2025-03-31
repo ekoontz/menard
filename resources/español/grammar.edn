@@ -7,6 +7,23 @@
           menard.ug/head-last
           menard.ug/head-rule
           menard.ug/head-sem]}          
+
+ {:rule "nbar" ;; '[nbar +gato .negro]'
+  :cat :noun
+  :sem {:mod []}
+  :head {:pronoun? false
+         :propernoun? false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash? false
+  :comp {:cat :adjective}
+  :unify [menard.nesting/cons-only
+          menard.ug/head-is-root
+          menard.ug/head-first
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.subcat/b]}
  
  {:rule "s"
   :cat :verb

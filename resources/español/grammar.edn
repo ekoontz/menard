@@ -1,4 +1,13 @@
 [
+
+ {:rule "np"
+  :cat :noun
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-is-last
+          menard.ug/head-rule
+          menard.ug/head-sem]}          
+ 
  {:rule "s"
   :cat :verb
   :head {:aux? false}

@@ -1,7 +1,8 @@
 {:name "basic"
  :language "es"
  :morphology {:path "español/morphology"
-              :sources ["articles.edn"
+              :sources ["adjectives.edn"
+                        "articles.edn"
                         "conditional.edn"
                         "future.edn"
                         "imperfect.edn"
@@ -14,7 +15,9 @@
  :grammar-rules "español/grammar-rules.edn"
  :lexicon {:path "español/lexicon"
            :rules "rules.edn"
-           :sources {"articles.edn"
+           :sources {"adjectives.edn"
+                     {:u {:cat :adjective}}
+                     "articles.edn"
                      {:u {:cat :det}}
                      "nouns.edn"
                      {:u {:cat :noun

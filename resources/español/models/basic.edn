@@ -13,7 +13,11 @@
  :grammar-rules "español/grammar-rules.edn"
  :lexicon {:path "español/lexicon"
            :rules "rules.edn"
-           :sources {"verbs.edn"
+           :sources {"articles.edn"
+                     {:u {:cat :det}}
+                     "nouns.edn"
+                     {:u {:cat :noun}}
+                     "verbs.edn"
                      {:u {:cat :verb}}
                      "pronouns.edn"
                      {:u {:cat :noun

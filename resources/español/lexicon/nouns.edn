@@ -1,7 +1,8 @@
-{"acta"
- [{:subcat {:1 {:is-el-noun? true}}}]}
+{"aqua"
+ [{:agr {:gender :fem}
+   :sem {:pred :water}
+   :subcat {:1 {:is-el-noun? true}}}]
 
-
-
-
-  
+ "gato"
+ [{:agr {:gender :masc}
+   :sem {:pred :cat}}]}

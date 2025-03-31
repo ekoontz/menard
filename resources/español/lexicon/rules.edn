@@ -434,5 +434,10 @@
   :if {:cat :verb
        :sem {:subj {:ref {:human? ::unspec}}}}
   :then [{:sem {:subj {:ref {:human? true}}}}]}
+
+ {:rule :is-el-noun
+  :if {:cat :det
+       :is-el-noun? ::unspec}
+  :then [{:is-el-noun? false}]}
  
  ]

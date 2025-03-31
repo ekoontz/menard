@@ -322,7 +322,7 @@
         ;; find C, by running string/replace with _surface_, _from_, and _to_:
         (->> morphology
 
-             ;; find all the rules where the "from" rule
+             ;; find all the rules where the "from" rule matches:
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
@@ -332,7 +332,7 @@
              (filter #(not (nil? %)))
 
              ((fn [rules]
-                (log-fn (str "found: " (count rules) " matching rules."))
+                (log-fn (str "found: " (count rules) " matching rules: " (vec rules)))
                 rules))
 
              ;; Now we have a set of tuples T, each member of which has form: {:u U, :canonical C},

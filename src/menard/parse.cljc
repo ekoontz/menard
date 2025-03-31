@@ -12,7 +12,7 @@
    [menard.parse.word :as word]
    [menard.serialization :as s]))
 
-(def developer-mode? false)
+(def developer-mode? true)
 
 ;; <performance-optimized defaults>
 (def enable-pmap? true)

@@ -440,4 +440,21 @@
        :is-el-noun? ::unspec}
   :then [{:is-el-noun? false}]}
  
+ {:rule :common-noun-1
+  :if {:cat :noun
+       :pronoun? false
+       :propernoun? false}
+  :then (let [agr (atom :top)]
+          [{:agr agr
+            :subcat {:1 {:cat :det
+                         :agr agr}
+                     :2 []}}])}
+
+ {:rule :common-noun-fem-defaults-to-la
+  :if {:cat :noun
+       :pronoun? false
+       :propernoun? false
+       :subcat {:1 {:is-el-noun? ::unspec}}}
+  :then [{:subcat {:1 {:is-el-noun? false}}}]}
+ 
  ]

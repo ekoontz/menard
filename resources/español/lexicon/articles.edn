@@ -4,16 +4,17 @@
          :number :sing}
    :sem {:pred :the}}   
 
-  ;; this is for exceptional feminine nouns
-  ;; e.g. "el acta","el agua":
   {:agr {:gender :fem
          :number :sing}
+   ;; this is for exceptional feminine nouns
+   ;; e.g. "el acta","el agua":
    :is-el-noun? true
    :sem {:pred :the}}]
 
  "la"
   [{:agr {:gender :fem
           :number :sing}
+    :is-el-noun? false
     :sem {:pred :the}}]
 
  "las"

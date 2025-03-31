@@ -1,4 +1,14 @@
-[{:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
-  :u {:cat :adjective}}]
+[
+ ;; canonical form is identical to the masculine singular form:
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"(.*)$"   "$1"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :sing}}}
 
+ ;; feminine singular: negra -> negro
+ {:g [#"^(.*)o$" "$1a"] 
+  :p [#"(.*)a$"  "$1o"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}]

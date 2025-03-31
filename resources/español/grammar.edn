@@ -1,8 +1,7 @@
 [
  {:rule "s"
   :cat :verb
-  :head {:cat :verb
-         :aux? false}
+  :head {:aux? false}
   :options menard.español.tenses/finite-nonaux-tenses
   :unify [menard.subcat/a
           menard.ug/head-is-root
@@ -14,8 +13,7 @@
 
  {:rule "s-aux"
   :cat :verb
-  :head {:cat :verb
-         :aux? true}
+  :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/a
           menard.ug/head-is-root
@@ -27,8 +25,7 @@
 
  {:rule "vp-non-pronoun"
   :cat :verb
-  :head {:cat :verb
-         :aux? false}
+  :head {:aux? false}
   :comp {:pronoun? false}
   :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/c
@@ -41,8 +38,7 @@
  
   {:rule "vp-pronoun"
   :cat :verb
-  :head {:cat :verb
-         :aux? false}
+  :head {:aux? false}
   :comp {:pronoun? true}
   :options menard.español.tenses/finite-nonaux-tenses
   :unify [menard.subcat/c
@@ -56,8 +52,7 @@
  {:rule "vp-aux-non-reflexive"
   :cat :verb
   :reflexive? false
-  :head {:cat :verb
-         :aux? true}
+  :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/c
           menard.ug/comp-is-root
@@ -70,8 +65,7 @@
  {:rule "vp-aux-reflexive-1" ;; "he lastimado" (implicit subject)
   :cat :verb
   :reflexive? true
-  :head {:cat :verb
-         :aux? true}
+  :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/j
           menard.ug/comp-is-root
@@ -83,8 +77,7 @@
  {:rule "vp-aux-reflexive-2" ;; "he lastimado" (explicit subject)
   :cat :verb
   :reflexive? true
-  :head {:cat :verb
-         :aux? true}
+  :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/k
           menard.ug/comp-is-root
@@ -100,8 +93,7 @@
  {:rule "vp-aux-reflexive-3"
   :cat :verb
   :reflexive? true
-  :head {:cat :verb
-         ;; this :rule not needed, but might help performance:
+  :head {;; this :rule not needed, but might help performance:
          :rule "vp-aux-reflexive-2"
          :aux? true
          :subcat {:1 {:reflexive? false}}}
@@ -118,8 +110,7 @@
 ;;  {:rule "s-aux-nonreflexive-subj-implicit" ;; "he comido"
 ;;   :cat :verb
 ;;   :reflexive? false
-;;   :head {:cat :verb
-;;          :aux? true}
+;;   :head {:aux? true}
 ;;   :options menard.español.tenses/finite-aux-tenses
 ;;   :unify [menard.subcat/a
 ;;           menard.ug/comp-is-root

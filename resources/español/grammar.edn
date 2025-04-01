@@ -13,10 +13,12 @@
   :cat :noun
   :head {:pronoun? false
          :propernoun? false
+         :phrasal? false
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash? false
   :comp {:cat :adjective}
+  :mod {:rest []}
   :unify [menard.nesting/cons-only
           menard.ug/head-is-root
           menard.ug/head-first
@@ -24,7 +26,7 @@
           menard.ug/nominal-phrase
           menard.ug/shared-agr
           menard.subcat/b]}
- 
+
  {:rule "s"
   :cat :verb
   :head {:aux? false}

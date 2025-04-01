@@ -456,5 +456,10 @@
        :propernoun? false
        :subcat {:1 {:is-el-noun? ::unspec}}}
   :then [{:subcat {:1 {:is-el-noun? false}}}]}
+
+ {:rule :adjectives-default-to-post-noun
+  :if {:cat :adjective
+       :modifies-noun ::unspec}
+  :then [{:modifies-noun :post}]}
  
  ]

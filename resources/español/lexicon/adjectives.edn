@@ -1,6 +1,9 @@
 {"blanco"
  [{:sem {:pred :white}}]
  "negro"
- [{:sem {:pred :black}}]}
+ [{:sem {:pred :black}}]
+ "primero"
+ [{:sem {:pred :first}
+   :modifies-noun :pre}]}
 
  

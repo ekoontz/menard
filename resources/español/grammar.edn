@@ -17,11 +17,31 @@
          :subcat {:1 {:top :top}
                   :2 []}}
   :slash? false
-  :comp {:cat :adjective}
+  :comp {:cat :adjective
+         :modifies-noun :post}
   :mod {:rest []}
   :unify [menard.nesting/cons-only
           menard.ug/head-is-root
           menard.ug/head-first
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.subcat/b]}
+
+ {:rule "nbar" ;; '[nbar .primero +gato]'
+  :cat :noun
+  :head {:pronoun? false
+         :propernoun? false
+         :phrasal? false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash? false
+  :comp {:cat :adjective
+         :modifies-noun :pre}
+  :mod {:rest []}
+  :unify [menard.nesting/cons-only
+          menard.ug/head-is-root
+          menard.ug/head-last
           menard.ug/head-rule
           menard.ug/nominal-phrase
           menard.ug/shared-agr

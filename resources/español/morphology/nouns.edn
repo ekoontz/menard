@@ -1,6 +1,12 @@
 [
  {:g [#"^(.*)$"   "$1"] 
   :p [#"^(.*)$"   "$1"] 
-  :u {:cat :noun}}
+  :u {:cat :noun
+      :agr {:number :sing}}}
+
+ {:g [#"^(.*)$"   "$1s"] 
+  :p [#"^(.*)s$"  "$1"] 
+  :u {:cat :noun
+      :agr {:number :plur}}}
 ]  
 

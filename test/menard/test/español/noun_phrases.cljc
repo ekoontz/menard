@@ -23,8 +23,12 @@
          "[np .el +aqua]"))
   (is (= (->> "el gato" parse (map syntax-tree) first)
          "[np .el +gato]"))
+  (is (= (->> "los gatos" parse (map syntax-tree) first)
+         "[np .los +gatos]"))
   (is (= (->> "el gato negro" parse (map syntax-tree) first)
          "[np .el +[nbar +gato .negro]]"))
+  (is (= (->> "los gatos negros" parse (map syntax-tree) first)
+         "[np .los +[nbar +gatos .negros]]"))
   (is (= (->> "la mesa" parse (map syntax-tree) first)
          "[np .la +mesa]"))
   (is (= (->> "la mesa blanca" parse (map syntax-tree) first)
@@ -39,9 +43,14 @@
          [{:pred :cat
            :mod {:first {:pred :first}
                  :rest []}}]))
+
+
+  ;; negative tests: things that shouldn't parse:
   (is (empty? (->> "la gato" parse)))
   (is (empty? (->> "la aqua" parse)))
   (is (empty? (->> "el mesa" parse)))
   (is (empty? (->> "el gato negra" parse)))
-  (is (empty? (->> "la mesa blanco" parse))))
+  (is (empty? (->> "la mesa blanco" parse)))
+  (is (empty? (->> "la blanca mesa" parse)))
+  (is (empty? (->> "la mesa primera" parse))))
 

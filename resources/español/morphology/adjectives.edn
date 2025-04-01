@@ -11,4 +11,22 @@
   :p [#"(.*)a$"  "$1o"]
   :u {:cat :adjective
       :agr {:gender :fem
-            :number :sing}}}]
+            :number :sing}}}
+
+
+ ;; masculine plural
+ {:g [#"^(.*)o$" "$1os"] 
+  :p [#"(.*)os$" "$1o"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
+  ;; feminine plural
+ {:g [#"^(.*)o$" "$1as"] 
+  :p [#"(.*)as$" "$1o"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+ ]
+
+ 

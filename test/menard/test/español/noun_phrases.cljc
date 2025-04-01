@@ -29,9 +29,15 @@
          "[np .la +mesa]"))
   (is (= (->> "la mesa blanca" parse (map syntax-tree) first)
          "[np .la +[nbar +mesa .blanca]]"))
+  (is (= (->> "el primero gato" parse (map syntax-tree) first)
+         "[np .el +[nbar .primero +gato]]"))
   (is (= (->> "la mesa blanca" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :table
            :mod {:first {:pred :white}
+                 :rest []}}]))
+  (is (= (->> "el primero gato" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
+         [{:pred :cat
+           :mod {:first {:pred :first}
                  :rest []}}]))
   (is (empty? (->> "la gato" parse)))
   (is (empty? (->> "la aqua" parse)))

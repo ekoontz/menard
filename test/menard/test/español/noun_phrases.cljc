@@ -29,7 +29,9 @@
          "[np .la +mesa]"))
   (is (= (->> "la mesa blanca" parse (map syntax-tree) first)
          "[np .la +[nbar +mesa .blanca]]"))
-
+  (is (= (->> "la mesa blanca" parse (map #(u/get-in % [:sem])) (map l/pprint))
+         '({:pred :table
+            :mod {:first {:pred :white}, :rest :top}})))
   (is (empty? (->> "la gato" parse)))
   (is (empty? (->> "la aqua" parse)))
   (is (empty? (->> "el mesa" parse)))

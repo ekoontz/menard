@@ -7,11 +7,14 @@
  "acertar" [{:stems {:boot "aciert"}
              :sem {:pred :guess}}]
  "acompañar" [{:sem {:pred :accompany}}]
+ "acostarse" [{:stems {:boot "acuest"}
+              :sem {:pred :go to bed}}]
  "advertir" [{:stems {:boot "adviert"}
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
               :sem {:pred :have-lunch}
               :intransitive? true}]
+ "amar"    [{:sem {:pred :love}}]
  "andar" [{:stems {:preterito "anduv"}
            :sem {:pred :walk}}]
  "anunciar" [{:sem {:pred :announce}}]
@@ -64,6 +67,13 @@
 ;;     :agr {:person :3rd, :number :sing},
 ;;     :surface "cayò"}]}]
 
+ "caber" [{:sem {:subj {:animate true},
+                 :pred :fit},
+           :cat :verb,
+           :exceptions
+           [{:infl :present,
+             :agr {:person :1st, :number :sing},
+             :surface "quepo"}}]
  "caerse"
  [{:sem {:pred :fall
          :subj {:ref {:human? true}}}

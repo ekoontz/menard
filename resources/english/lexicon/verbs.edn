@@ -431,7 +431,11 @@
 
     {:exceptions exceptions
      :prepositional-verb {:with "out"}
-     :sem {:pred :go-out}}])
+     :sem {:pred :go-out}}
+
+    {:exceptions exceptions
+     :prepositional-verb {:with "to bed"}
+     :sem {:pred :go-to-bed}}])
  
  "guess" [{:sem {:pred :guess}}]
  "have" (let [;; TODO: factor out commonalities in agreement into a new variable called 'agr-exceptions' and then

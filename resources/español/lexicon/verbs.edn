@@ -8,7 +8,7 @@
              :sem {:pred :guess}}]
  "acompañar" [{:sem {:pred :accompany}}]
  "acostarse" [{:stems {:boot "acuest"}
-              :sem {:pred :go to bed}}]
+               :sem {:pred :go-to-bed}}]
  "advertir" [{:stems {:boot "adviert"}
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
@@ -38,13 +38,6 @@
  "beber" [{:sem {:pred :drink}}]
  "buscar" [{:sem {:pred :look-for}}
            {:sem {:pred :look-up}}]
- "caber"
- [{:sem {:pred :fit},
-   :exceptions
-   [{:infl :present,
-     :agr {:person :1st, :number :sing},
-     :surface "quepo"}],
-   :stems {:preterito "cup"}}]
 
 ;; commenting this out (see comment below for "functionar")
 ;; "caer"
@@ -73,7 +66,8 @@
            :exceptions
            [{:infl :present,
              :agr {:person :1st, :number :sing},
-             :surface "quepo"}}]
+             :surface "quepo"}]
+           :stems {:preterito "cup"}}]
  "caerse"
  [{:sem {:pred :fall
          :subj {:ref {:human? true}}}

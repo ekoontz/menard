@@ -61,6 +61,7 @@
   (is (= (-> {:cat :noun :phrasal? true
               :sem {:pred :cat
                     :quant :the
+                    :number :sing
                     :mod {:first {:pred :black}}}
               :subcat []}
              generate
@@ -69,6 +70,7 @@
   (is (= (-> {:cat :noun :phrasal? true
               :sem {:pred :cat
                     :quant :the
+                    :number :plur                    
                     :mod {:first {:pred :black}}}
               :subcat []}
              generate

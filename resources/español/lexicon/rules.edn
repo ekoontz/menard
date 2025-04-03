@@ -439,11 +439,61 @@
   :if {:cat :det
        :is-el-noun? ::unspec}
   :then [{:is-el-noun? false}]}
+
+ {:rule :common-noun
+  :if {:cat :noun
+       :propernoun? false
+       :pronoun? false
+       :subcat ::unspec
+       :agr {:number ::unspec}}
+  :then [(let [agr (atom {:number :sing
+                          :person :3rd})]
+           ;; "a/the dog sleeps"
+           {:cat :noun
+            :reflexive? false
+            :propernoun? false
+            :pronoun? false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         ;; "the/some dogs sleep"
+         (let [agr (atom {:number :plur
+                          :person :3rd})]
+           {:cat :noun
+            :reflexive? false
+            :propernoun? false
+            :pronoun? false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         ;; "dogs sleep"
+         {:cat :noun
+          :reflexive? false
+          :propernoun? false
+          :pronoun? false
+          :sem {:quant :some}
+          :agr {:number :plur
+                :person :3rd}
+          :subcat []}]}
+
+ {:rule :quantified-noun
+  :if {:cat :noun
+       :subcat {:1 {:cat :det}}}
+  :then [(let [quant (atom :top)]
+           {:sem {:quant quant}
+            :subcat {:1 {:sem {:pred quant}}}})]}
+
+ {:rule :noun-number-semantics
+  :if {:cat :noun}
+  :then [(let [number (atom :top)]
+           {:sem {:number number}
+            :agr {:number number}})]}
  
  {:rule :common-noun-1
   :if {:cat :noun
        :pronoun? false
-       :propernoun? false}
+       :propernoun? false
+       :subcat {:1 {:top :top}}}
   :then (let [agr (atom :top)]
           [{:agr agr
             :subcat {:1 {:cat :det

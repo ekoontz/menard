@@ -37,13 +37,14 @@
          "[np .el +[nbar .primero +gato]]"))
   (is (= (->> "la mesa blanca" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :table
+           :quant :the
            :mod {:first {:pred :white}
                  :rest []}}]))
   (is (= (->> "el primero gato" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :cat
+           :quant :the
            :mod {:first {:pred :first}
                  :rest []}}]))
-
 
   ;; negative tests: things that shouldn't parse:
   (is (empty? (->> "la gato" parse)))
@@ -53,4 +54,22 @@
   (is (empty? (->> "la mesa blanco" parse)))
   (is (empty? (->> "la blanca mesa" parse)))
   (is (empty? (->> "la mesa primera" parse))))
+
+(deftest generate-test
+  (is (= (-> {:cat :noun :phrasal? true
+              :sem {:pred :cat
+                    :quant :the
+                    :mod {:first {:pred :black}}}
+              :subcat []}
+             generate
+             morph)
+         "el gato negro"))
+  (is (= (-> {:cat :noun :phrasal? true
+              :sem {:pred :cat
+                    :quant :the
+                    :mod {:first {:pred :black}}}
+              :subcat []}
+             generate
+             morph)
+         "los gatos negros")))
 

@@ -2,6 +2,8 @@
 
  {:rule "np"
   :cat :noun
+  :head {:phrasal? true}
+  
   :unify [menard.nesting/nest-only
           menard.subcat/a
           menard.ug/head-is-root
@@ -9,6 +11,18 @@
           menard.ug/head-rule
           menard.ug/head-sem]}          
 
+ {:rule "np"
+  :cat :noun
+  :head {:phrasal? false}
+  :sem {:mod []}
+  :unify [menard.nesting/nest-only
+          menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/head-sem]}          
+
+ 
  {:rule "nbar" ;; '[nbar +gato .negro]'
   :cat :noun
   :head {:pronoun? false

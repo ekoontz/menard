@@ -37,16 +37,9 @@
 
 (defn morph
   ([tree]
-   (cond
-     (map? (u/get-in tree [:syntax-tree]))
-     (-> (u/get-in tree [:syntax-tree])
-         (s/morph (:morphology @complete/model))
-         an)
-
-     :else
-     (-> tree
-         (s/morph (:morphology @complete/model))
-         an)))
+   (-> tree
+       (s/morph (:morphology @complete/model))
+       an))
 
   ([tree & {:keys [sentence-punctuation?]}]
    (when sentence-punctuation?
@@ -128,7 +121,8 @@
                       (exception error-message)))]
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 5 (get-in spec [:max-depth]))
-                            (get-in spec [:max-depth] g/max-depth))]
+                            (get-in spec [:max-depth] g/max-depth))
+              g/truncate? false]
       (log/debug (str "english generate: " (diag/strip-refs spec)
                       " with max-depth: " g/max-depth))
       (g/generate spec

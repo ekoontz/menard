@@ -102,12 +102,11 @@
                              :subcat []})
 
 (def preguntar-preterito-spec {:comp {:agr {:gender :fem
-                                          :number :plur
-                                          :person :3rd}}
-                             :sem {:tense :past
-                                   :aspect :perfect
-                                   :pred :ask-for}
-                             :root "preguntar"
-                             :subcat []})
-
+                                            :number :plur
+                                            :person :3rd}}
+                               :sem {:tense :past
+                                     :aspect :perfect
+                                     :pred :ask-for}
+                               :root "preguntar"
+                               :subcat []})
 

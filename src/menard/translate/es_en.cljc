@@ -13,8 +13,12 @@
   (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
   (let [sem-mod (if (not (= (u/get-in es-parse [:sem :mod]) []))
                   (u/get-in es-parse [:sem :mod])
-                  [])]
-    (unify {:sem {:mod sem-mod}}
+                  [])
+        pronoun? (if (= (u/get-in es-parse [:pronoun?] ::none) ::none)
+                   (u/get-in es-parse [:pronoun?])
+                   false)]
+    (unify {:pronoun? pronoun?
+            :sem {:mod sem-mod}}
            {:agr (-> es-parse (u/get-in [:agr]))
             :sem (-> es-parse (u/get-in [:sem]))
             :cat (-> es-parse (u/get-in [:cat]))

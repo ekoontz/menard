@@ -437,6 +437,7 @@
 
  {:rule :is-el-noun
   :if {:cat :det
+       :agr {:number :sing}
        :is-el-noun? ::unspec}
   :then [{:is-el-noun? false}]}
 

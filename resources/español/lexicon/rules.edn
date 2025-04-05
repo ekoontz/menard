@@ -504,6 +504,7 @@
   :if {:cat :noun
        :pronoun? false
        :propernoun? false
+       :agr {:gender :fem}
        :subcat {:1 {:is-el-noun? ::unspec}}}
   :then [{:subcat {:1 {:is-el-noun? false}}}]}
 

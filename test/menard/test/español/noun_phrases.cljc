@@ -38,13 +38,13 @@
   (is (= (->> "la mesa blanca" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :table
            :quant :the
-           :number :sing
+           :ref {:number :sing}
            :mod {:first {:pred :white}
                  :rest []}}]))
   (is (= (->> "el primero gato" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :cat
            :quant :the
-           :number :sing           
+           :ref {:number :sing}
            :mod {:first {:pred :first}
                  :rest []}}]))
 
@@ -61,7 +61,7 @@
   (is (= (-> {:cat :noun :phrasal? true
               :sem {:pred :cat
                     :quant :the
-                    :number :sing
+                    :ref {:number :sing}
                     :mod {:first {:pred :black}}}
               :subcat []}
              generate
@@ -70,10 +70,9 @@
   (is (= (-> {:cat :noun :phrasal? true
               :sem {:pred :cat
                     :quant :the
-                    :number :plur                    
+                    :ref {:number :plur}                    
                     :mod {:first {:pred :black}}}
               :subcat []}
              generate
              morph)
          "los gatos negros")))
-

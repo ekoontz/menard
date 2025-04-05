@@ -483,11 +483,11 @@
            {:sem {:quant quant}
             :subcat {:1 {:sem {:pred quant}}}})]}
 
- {:rule :noun-number-semantics
+ {:rule :noun-semantics
   :if {:cat :noun}
   :then [(let [number (atom :top)]
-           {:sem {:number number}
-            :agr {:number number}})]}
+           {:agr {:number number}
+            :sem {:ref {:number number}}})]}
  
  {:rule :common-noun-1
   :if {:cat :noun

@@ -10,31 +10,32 @@
             #?(:cljs [menard.log :as log])))
 
 (defn es-parse-to-en-spec [es-parse]
-  (log/debug (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
-  (unify {:sem {:mod []}}
-         {:agr (-> es-parse (u/get-in [:agr]))
-          :sem (-> es-parse (u/get-in [:sem]))
-          :cat (-> es-parse (u/get-in [:cat]))
-          :subcat (-> es-parse (u/get-in [:subcat]))}
-         ;; Below we set [:sem :iobj] to :none by default,
-         ;; but we cannot do the same with [:sem :obj] because
-         ;; reflexive verbs in Spanish do not have an [:sem :obj],
-         ;; but the translation in English, depending on the verb,
-         ;; might have a [:sem :obj].
-         ;; For example, 'levantarse' (get up) has no [:sem :obj]
-         ;; in English, but 'pettinarse' (comb oneself) *does*
-         ;; have a [:sem :obj].
-         {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}))
+  (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+  (let [sem-mod (if (not (= (u/get-in es-parse [:sem :mod]) []))
+                  (u/get-in es-parse [:sem :mod])
+                  [])]
+    (unify {:sem {:mod sem-mod}}
+           {:agr (-> es-parse (u/get-in [:agr]))
+            :sem (-> es-parse (u/get-in [:sem]))
+            :cat (-> es-parse (u/get-in [:cat]))
+            :subcat (-> es-parse (u/get-in [:subcat]))}
+           ;; Below we set [:sem :iobj] to :none by default,
+           ;; but we cannot do the same with [:sem :obj] because
+           ;; reflexive verbs in Spanish do not have an [:sem :obj],
+           ;; but the translation in English, depending on the verb,
+           ;; might have a [:sem :obj].
+           ;; For example, 'levantarse' (get up) has no [:sem :obj]
+           ;; in English, but 'pettinarse' (comb oneself) *does*
+           ;; have a [:sem :obj].
+           {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}})))
 
 (defn es-to-en [es-input]
   (if es-input
     (log/debug (str "es-to-en: es-input: " es-input))    
     (log/error (str "es-to-en: es-input was null.")))
-
   (let [es-parse (-> es-input es/parse first)
         english-spec (es-parse-to-en-spec es-parse)]
     (log/debug (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
-    (log/debug (str "es-to-en: english spec: " (l/pprint english-spec)))
     (let [en-expression (-> english-spec en/generate)]
       (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
       (if en-expression
@@ -43,6 +44,3 @@
       (let [en-output (-> en-expression en/morph)]
         (log/info (str "es-to-en: " es-input " -> " en-output))
         en-output))))
-
-
-

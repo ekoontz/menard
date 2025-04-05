@@ -114,6 +114,7 @@
  "federal" [{:sem {:pred :federal}}]
  "filthy" [{:sem {:pred :filthy}}]
  "firm" [{:sem {:pred :firm}}]
+ "first" [{:sem {:pred :first}}] 
  "free" [{:sem {:pred :free}}]
  "friendly" [{:sem {:pred :friendly}}]
  "frugal" [{:sem {:pred :frugal}}]

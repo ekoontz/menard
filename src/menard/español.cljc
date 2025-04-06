@@ -52,8 +52,8 @@
        (morph tree)
        (s/syntax-tree tree (-> model deref :morphology)))))
 
-(defn generate [spec]
-  (let [model (deref model)
+(defn generate [spec & [input-model]]
+  (let [model (or input-model (deref model))
         retval
         (binding [g/max-depth (:max-depth spec g/max-depth)
                   g/max-fails (:max-fails spec g/max-fails)

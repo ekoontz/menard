@@ -407,6 +407,7 @@
                       (fn [] grammar)
                       model-spec)
                 (merge {:name name :spec model-spec})
+                (merge {:lexical-rules lexical-rules})
                 (add-functions filter-out-nils?))]
            (log/debug (str "returning model with keys: " (keys retval)))
            retval)))))

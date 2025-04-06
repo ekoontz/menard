@@ -186,47 +186,50 @@
                              (filter #(= pred (u/get-in % [:sem :pred] :top)))))
                       preds)))})))
 
+(defn compile-lexicon [lexicon source-filename lexical-rules include-derivation? unify-with apply-fn]
+  (-> lexicon
+      ((fn [lexicon]
+         (if (nil? unify-with)
+           (do
+             (log/debug (str "compile-lexicon-source: unify-with is nil."))
+             lexicon)
+           (do
+             (log/debug (str "  compile-lexicon-source: apply-to-every-lexeme..(unify-with: " unify-with ") to lexicon: " lexicon))
+             (l/apply-to-every-lexeme lexicon
+                                      (fn [lexeme]
+                                        (let [result (unify lexeme unify-with)]
+                                          (log/debug (str "compile-lexicon-source: lexeme: " lexeme))
+                                          (if (= :fail result)
+                                            (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
+                                          result)))))))
+      ((fn [lexicon]
+         (if (nil? apply-fn)
+           lexicon
+           (do
+             (log/info (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s)."))
+             (l/apply-to-every-lexeme lexicon
+                                      (fn [lexeme]
+                                        (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
+                                        (let [result ((eval apply-fn) lexeme)]
+                                          (log/debug (str "compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme "; result: " result))
+                                          (when (nil? result)
+                                            (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
+                                          result)))))))
+      ((fn [lexicon]
+         (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
+         (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
+      
+      ((fn [lexicon]
+         (log/info (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
+         (l/add-exceptions-to-lexicon lexicon)))))
+
 #?(:clj
    ;; TODO: check for duplicate rule names during compilation and throw error if found.
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
      (log/debug (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
      (-> source-filename
          l/read-and-eval
-         ((fn [lexicon]
-            (if (nil? unify-with)
-              (do
-                (log/debug (str "compile-lexicon-source: unify-with is nil."))
-                lexicon)
-              (do
-                (log/debug (str "  compile-lexicon-source: apply-to-every-lexeme..(unify-with: " unify-with ") to lexicon: " lexicon))
-                (l/apply-to-every-lexeme lexicon
-                                         (fn [lexeme]
-                                           (let [result (unify lexeme unify-with)]
-                                             (log/debug (str "compile-lexicon-source: lexeme: " lexeme))
-                                             (if (= :fail result)
-                                               (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
-                                             result)))))))
-         ((fn [lexicon]
-            (if (nil? apply-fn)
-              lexicon
-              (do
-                (log/info (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s)."))
-                (l/apply-to-every-lexeme lexicon
-                                         (fn [lexeme]
-                                           (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
-                                           (let [result ((eval apply-fn) lexeme)]
-                                             (log/debug (str "compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme "; result: " result))
-                                             (when (nil? result)
-                                               (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
-                                             result)))))))
-         ((fn [lexicon]
-            (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))
-            (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
-
-         ((fn [lexicon]
-            (log/info (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
-            (l/add-exceptions-to-lexicon lexicon)))
-
+         ((fn [lexicon] (compile-lexicon lexicon source-filename lexical-rules include-derivation? unify-with apply-fn)))
          ((fn [lexicon]
             (log/info (str "compile-lexicon-source end: '" source-filename "'."))
             lexicon)))))

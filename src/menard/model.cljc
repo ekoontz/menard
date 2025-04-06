@@ -206,7 +206,7 @@
          (if (nil? apply-fn)
            lexicon
            (do
-             (log/info (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s): " (vec (sort (keys lexicon)))))
+             (log/debug (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s): " (vec (sort (keys lexicon)))))
              (l/apply-to-every-lexeme lexicon
                                       (fn [lexeme]
                                         (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))

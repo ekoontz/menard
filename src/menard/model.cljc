@@ -206,7 +206,7 @@
          (if (nil? apply-fn)
            lexicon
            (do
-             (log/info (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s)."))
+             (log/info (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s): " (vec (sort (keys lexicon)))))
              (l/apply-to-every-lexeme lexicon
                                       (fn [lexeme]
                                         (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
@@ -226,7 +226,7 @@
 #?(:clj
    ;; TODO: check for duplicate rule names during compilation and throw error if found.
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
-     (log/debug (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
+     (log/info (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
      (-> source-filename
          l/read-and-eval
          ((fn [lexicon] (compile-lexicon lexicon source-filename lexical-rules include-derivation? unify-with apply-fn)))

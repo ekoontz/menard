@@ -3,6 +3,7 @@
             [dag_unify.serialization :refer [serialize]]
             [dag_unify.diagnostics :as diag]
             [menard.english :as en]
+            [menard.english.complete :as en-complete]
             [menard.español :as es]
             [menard.generate :as g]
             [menard.lexiconfn :as l]            
@@ -33,14 +34,17 @@
            ;; have a [:sem :obj].
            {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}})))
 
-(defn es-to-en [es-input]
+(defn es-to-en [es-input & [es-model en-model]]
   (if es-input
     (log/debug (str "es-to-en: es-input: " es-input))    
     (log/error (str "es-to-en: es-input was null.")))
-  (let [es-parse (-> es-input es/parse first)
-        english-spec (es-parse-to-en-spec es-parse)]
-    (log/debug (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
-    (let [en-expression (-> english-spec en/generate)]
+  (let [es-model (or es-model @es/model)
+        es-parse (-> es-input (es/parse (ref es-model)) first)
+        english-spec (es-parse-to-en-spec es-parse)
+        en-model (or en-model @en-complete/model)]
+    (log/info (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+    (log/info (str "          english-spec: " (l/pprint english-spec)))
+    (let [en-expression (-> english-spec (en/generate en-model))]
       (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
       (if en-expression
         (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))

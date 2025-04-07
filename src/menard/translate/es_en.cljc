@@ -42,13 +42,13 @@
         es-parse (-> es-input (es/parse (ref es-model)) first)
         english-spec (es-parse-to-en-spec es-parse)
         en-model (or en-model @en-complete/model)]
-    (log/info (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
-    (log/info (str "          english-spec: " (l/pprint english-spec)))
+    (log/debug (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+    (log/debug (str "          english-spec: " (l/pprint english-spec)))
     (let [en-expression (-> english-spec (en/generate en-model))]
       (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
       (if en-expression
         (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))
         (log/error (str "could not generate english expression for spec: " (l/pprint english-spec) "; es-input: " es-input)))
       (let [en-output (-> en-expression en/morph)]
-        (log/info (str "es-to-en: " es-input " -> " en-output))
+        (log/debug (str "es-to-en: " es-input " -> " en-output))
         en-output))))

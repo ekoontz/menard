@@ -4,6 +4,13 @@
   :u {:cat :noun
       :agr {:number :sing}}}
 
+ {:g [#"^(.*r)$"   "$1es"] 
+  :p [#"^(.*)es$"  "$1"] 
+  :u {:cat :noun
+      :pronoun? false
+      :propernoun? false
+      :agr {:number :plur}}}
+
  {:g [#"^(.*)$"   "$1s"] 
   :p [#"^(.*)s$"  "$1"] 
   :u {:cat :noun

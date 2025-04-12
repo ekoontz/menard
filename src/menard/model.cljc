@@ -220,7 +220,7 @@
          (l/apply-rules-in-order lexicon lexical-rules include-derivation?)))
       
       ((fn [lexicon]
-         (log/info (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
+         (log/debug (str "  add-exceptions-to-lexicon: lexicon has: " (-> lexicon keys count) " key(s)."))
          (l/add-exceptions-to-lexicon lexicon)))))
 
 #?(:clj

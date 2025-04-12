@@ -1,0 +1,22 @@
+{:name "closed-class"
+ :language "es"
+ :morphology {:path "español/morphology"
+              :sources ["adjectives.edn"
+                        "articles.edn"
+                        "conditional.edn"
+                        "future.edn"
+                        "imperfect.edn"
+                        "misc-verbs.edn"
+                        "nouns.edn"
+                        "participio.edn"                        
+                        "present.edn"
+                        "preterito-indefinido.edn"]}
+ :grammar "español/grammar.edn"
+ :grammar-rules "español/grammar-rules.edn"
+ :lexicon {:path "español/lexicon"
+           :rules "rules.edn"
+           :sources {"articles.edn"
+                     {:u {:cat :det}}
+                     "pronouns.edn"
+                     {:u {:cat :noun
+                          :pronoun? true}}}}}

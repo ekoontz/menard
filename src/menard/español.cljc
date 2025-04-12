@@ -27,6 +27,21 @@
                ;;show derivation.
           ))
 
+(def closed-class
+  (ref (create "español/models/closed-class"
+               "closed-class"
+               
+          ;; compile-lexicon-fn
+               (fn [lexicon _ _] lexicon)
+               
+               ;; filter-out-nils?
+               true
+               
+               {:include-derivation? false}
+               ;; change to true to  ^^^^^
+               ;;show derivation.
+               )))
+
 (def model
   (ref (model-fn)))
 

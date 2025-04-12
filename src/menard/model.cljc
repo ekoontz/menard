@@ -226,12 +226,12 @@
 #?(:clj
    ;; TODO: check for duplicate rule names during compilation and throw error if found.
    (defn compile-lexicon-source [source-filename lexical-rules include-derivation? & [unify-with apply-fn]]
-     (log/info (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
+     (log/debug (str "compile-lexicon-source start: '" source-filename "'; include-derivation?: " include-derivation? "; unify-with: " unify-with "; apply-fn: " apply-fn))
      (-> source-filename
          l/read-and-eval
          ((fn [lexicon] (compile-lexicon lexicon source-filename lexical-rules include-derivation? unify-with apply-fn)))
          ((fn [lexicon]
-            (log/info (str "compile-lexicon-source end: '" source-filename "'."))
+            (log/debug (str "compile-lexicon-source end: '" source-filename "'."))
             lexicon)))))
 
 #?(:clj
@@ -246,7 +246,7 @@
                (merge-with concat a b))
              (->> (-> model-spec :lexicon :sources keys sort)
                   (map (fn [filename]
-                         (log/info (str "load-lexicon: compiling: " filename ".."))
+                         (log/debug (str "load-lexicon: compiling: " filename ".."))
                          (let [unify-with
                                (get
                                 (get (-> model-spec :lexicon :sources)

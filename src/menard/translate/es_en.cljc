@@ -64,5 +64,6 @@
         (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))
         (log/error (str "could not generate english expression for spec: " (l/pprint english-spec) "; es-input: " es-input)))
       (let [en-output (-> en-expression en/morph)]
-        (log/info (str "es-to-en: " es-input " -> " en-output))
+        (log/info (str "es-to-en: " es-input " -> " en-output
+                       "; target model: " (-> es-model :name)))
         en-output))))

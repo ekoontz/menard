@@ -2,6 +2,20 @@
  {:g [#"^(.*)$"   "$1"] 
   :p [#"^(.*)$"   "$1"] 
   :u {:cat :noun
+      :pronoun? true
+      :propernoun? false}}
+
+ {:g [#"^(.*)$"   "$1"] 
+  :p [#"^(.*)$"   "$1"] 
+  :u {:cat :noun
+      :pronoun? false
+      :propernoun? true}}
+
+ {:g [#"^(.*)$"   "$1"] 
+  :p [#"^(.*)$"   "$1"] 
+  :u {:cat :noun
+      :pronoun? false
+      :propernoun? false
       :agr {:number :sing}}}
 
  {:g [#"^(.*r)$"   "$1es"] 

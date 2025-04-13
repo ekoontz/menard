@@ -121,30 +121,35 @@
 
 
 (defn concat-with-notes [structure surface]
-  (cond
-    (and (u/get-in structure [:note])
-         (not (= :top (u/get-in structure [:note]))))                  
-    (str
-     surface
-     (if (and show-notes?
-              (u/get-in structure [:note])
-              (not (= :top (u/get-in structure [:note])))
-              (seq (u/get-in structure [:note])))
-       (if-let [decode-notes (decode-notes (u/get-in structure [:note]))]
-         (str " " decode-notes))))
-    
-    (and (u/get-in structure [:note-on-first-word])
-         (not (= :top (u/get-in structure [:note-on-first-word]))))
-    (str
-     (first (clojure.string/split surface #" "))
-     (if (and show-notes?
-              (u/get-in structure [:note-on-first-word])
-              (not (= :top (u/get-in structure [:note-on-first-word])))
-              (seq (u/get-in structure [:note-on-first-word])))
-       (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
-         (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
+  (let [note (u/get-in structure [:note])]
+    (cond
+      (= :top note)
+      ""
 
-    :else surface))
+      (not (seqable? note))
+      (throw (Exception. (str "the :notes value of type: " (type note) " and value: " note " is not seqable in the structure: " structure)))
+      
+      note
+      (str surface
+           (if (and show-notes?
+                    note
+                    (not (= :top note))
+                    (seq note))
+             (if-let [decode-notes (decode-notes note)]
+               (str " " decode-notes))))
+      
+      (and (u/get-in structure [:note-on-first-word])
+           (not (= :top (u/get-in structure [:note-on-first-word]))))
+      (str
+       (first (clojure.string/split surface #" "))
+       (if (and show-notes?
+                (u/get-in structure [:note-on-first-word])
+                (not (= :top (u/get-in structure [:note-on-first-word])))
+                (seq (u/get-in structure [:note-on-first-word])))
+         (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
+           (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
+
+      :else surface)))
 
 (defn morph-leaf
   "Apply morphology to a leaf node of a tree: transform the leaf's canonical string into a

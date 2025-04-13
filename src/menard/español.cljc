@@ -42,6 +42,21 @@
                ;;show derivation.
                )))
 
+(def curated-verbs
+  (ref (create "español/models/curated-verbs"
+               "curated-verbs"
+               
+          ;; compile-lexicon-fn
+               (fn [lexicon _ _] lexicon)
+               
+               ;; filter-out-nils?
+               true
+               
+               {:include-derivation? false}
+               ;; change to true to  ^^^^^
+               ;;show derivation.
+               )))
+
 (def model
   (ref (model-fn)))
 

@@ -123,8 +123,11 @@
 (defn concat-with-notes [structure surface]
   (let [note (u/get-in structure [:note])]
     (cond
+      (nil? note)
+      (str surface)
+
       (= :top note)
-      ""
+      (str surface)
 
       (not (seqable? note))
       (throw (Exception. (str "the :notes value of type: " (type note) " and value: " note " is not seqable in the structure: " structure)))
@@ -132,8 +135,6 @@
       note
       (str surface
            (if (and show-notes?
-                    note
-                    (not (= :top note))
                     (seq note))
              (if-let [decode-notes (decode-notes note)]
                (str " " decode-notes))))

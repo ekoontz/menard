@@ -11,7 +11,8 @@
             #?(:cljs [menard.log :as log])))
 
 (defn es-parse-to-en-spec [es-parse]
-  (log/info (str "es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+  (log/debug (str "es-parse-to-en-spec parse: " (es/syntax-tree es-parse)))
+  (log/debug (str "es-parse-to-en-spec sem: " (l/pprint (u/get-in es-parse [:sem]))))
   (let [sem-mod (if (not (= (u/get-in es-parse [:sem :mod]) []))
                   (u/get-in es-parse [:sem :mod])
                   [])
@@ -23,6 +24,7 @@
            {:agr (-> es-parse (u/get-in [:agr]))
             :sem (-> es-parse (u/get-in [:sem]))
             :cat (-> es-parse (u/get-in [:cat]))
+            :phrasal? (-> es-parse (u/get-in [:phrasal?] :top))
             :subcat (-> es-parse (u/get-in [:subcat]))}
            ;; Below we set [:sem :iobj] to :none by default,
            ;; but we cannot do the same with [:sem :obj] because
@@ -46,7 +48,10 @@
                      first)
         english-spec (es-parse-to-en-spec es-parse)
         en-model (or en-model @en-complete/model)]
-    (log/debug (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
+    (if (nil? es-parse)
+      (log/error (str "could not parse es-input: '" es-input "'")))
+    (log/debug (str "es-to-en: es's phrasal?: "
+                   (u/get-in es-parse [:phrasal?])))
     (log/debug (str "          english-spec: " (l/pprint english-spec)))
     (let [en-expression (try (-> english-spec (en/generate en-model))
                              (catch Exception e
@@ -59,5 +64,5 @@
         (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))
         (log/error (str "could not generate english expression for spec: " (l/pprint english-spec) "; es-input: " es-input)))
       (let [en-output (-> en-expression en/morph)]
-        (log/debug (str "es-to-en: " es-input " -> " en-output))
+        (log/info (str "es-to-en: " es-input " -> " en-output))
         en-output))))

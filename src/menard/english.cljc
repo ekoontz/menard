@@ -8,6 +8,7 @@
 
             ;; models
             [menard.english.complete :as complete]
+            [menard.english.closed-class :as closed-class]
             
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]

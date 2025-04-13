@@ -1,0 +1,15 @@
+{:name "closed-class"
+ :language "en"
+ :morphology {:path "english/morphology"
+              :sources ["misc.edn"
+                        "nouns.edn"
+                        "verbs.edn"]}
+ :grammar "english/grammar.edn"
+ :lexicon {:path "english/lexicon"
+           :rules "rules.edn"
+           :sources {"intensifiers.edn" {:u {:cat :intensifier}}
+                     "misc.edn" {:u {}}
+                     "pronouns.edn"
+                     {:u {:cat :noun
+                          :pronoun? true}}}}}
+

@@ -326,7 +326,9 @@
              (map (fn [rule]
                     (let [{u :u [from to] :p} rule]
                       (when (re-find from surface)
-                        (log-fn (str "matched surface: " surface " with regexp from: " from " and to: " to "; so finally: " (string/replace surface from to) " with derivation: " (-> u :derivation)))
+                        (log-fn (str "matched surface: " surface " with regexp from: " from " and to: " to "; so finally: " (string/replace surface from to)
+                                     (if (-> u :derivation)
+                                       (str " with derivation: " (-> u :derivation)))))
                         {:canonical (string/replace surface from to)
                          :u u}))))
              (filter #(not (nil? %)))
@@ -345,6 +347,7 @@
              ;; First we get this set L:
              (mapcat (fn [tuple]
                        (log/debug (str "looking at tuple: " tuple))
+                       (log-fn (str "looking at tuple: " tuple))
                        (->>
                         (get lexicon (:canonical tuple))
 

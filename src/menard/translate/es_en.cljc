@@ -38,13 +38,22 @@
   (if es-input
     (log/debug (str "es-to-en: es-input: " es-input))    
     (log/error (str "es-to-en: es-input was null.")))
+  (log/debug (str "es-to-en: starting with es-input: " es-input))
   (let [es-model (or es-model @es/model)
-        es-parse (-> es-input (es/parse (ref es-model)) first)
+        es-parse (-> es-input
+                     ((fn [es-input]
+                        (es/parse es-input (ref es-model))))
+                     first)
         english-spec (es-parse-to-en-spec es-parse)
         en-model (or en-model @en-complete/model)]
     (log/debug (str "es-to-en: es-parse sem: " (l/pprint (u/get-in es-parse [:sem]))))
     (log/debug (str "          english-spec: " (l/pprint english-spec)))
-    (let [en-expression (-> english-spec (en/generate en-model))]
+    (let [en-expression (try (-> english-spec (en/generate en-model))
+                             (catch Exception e
+                               (log/error (str "es-to-en: failed to generate an English expression "
+                                               "from spec: (serialized) "
+                                               (dag_unify.serialization/serialize english-spec)))
+                               {}))]
       (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
       (if en-expression
         (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))

@@ -125,10 +125,14 @@
               g/truncate? false]
       (log/debug (str "english generate: " (diag/strip-refs spec)
                       " with max-depth: " g/max-depth))
-      (g/generate spec
-                  (-> model :grammar)
-                  (-> model :lexicon-index-fn)
-                  syntax-tree))))
+      (try (g/generate spec
+                       (-> model :grammar)
+                       (-> model :lexicon-index-fn)
+                       syntax-tree)
+           (catch Exception e
+             (do (log/error (str "failed to generate an English expression: " + e))
+                 (log/error (str "re-throwing exception."))
+                 (exception e)))))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

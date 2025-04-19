@@ -120,7 +120,7 @@
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent antecedent-index
                             consequent-index include-derivation?]
   (log/debug (str "rule-name: " rule-name))
-  (log/debug (str "consequent: " consequent))
+  (log/debug (str "consequent: " (pprint consequent)))
   (log/debug (str "lexeme: " (pprint lexeme)))
   (let [consequent (eval-surface-fns consequent lexeme)
         existing-exceptions (:exceptions lexeme)
@@ -132,29 +132,34 @@
                         {:exceptions (concat existing-exceptions
                                              new-exceptions)}
                         :top))]
-    (log/debug (str "apply-rule-to-lexeme: "
-                    ;;"lexeme: " (u/pprint lexeme)
-                    "; consequent: " (u/pprint consequent)
-                    "; antecedent:" (u/pprint antecedent)
-                    "; consequent-index:" consequent-index
-                    "; include-derivation? " include-derivation?
-                    ;;"; result: " (u/pprint result)
-                    ))
+    (when (= result :fail)
+      (log/warn (str "apply-rule-to-lexeme failed: "
+                     "lexeme: " (pprint lexeme)
+                     "; consequent: " (pprint consequent)
+                     "; antecedent:" (pprint antecedent)
+                     "; consequent-index:" consequent-index
+                     "; include-derivation? " include-derivation?
+                     ;;"; result: " (u/pprint result)
+                     )))
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
                 error-message (str "rule: " rule-name " failed to unify lexeme: "
-                                   "'" (u/get-in lexeme [:canonical]) "'"
+                                   "[--" (pprint lexeme) "--] "
+                                   "'"
+                                   (or (u/get-in lexeme [:canonical])
+                                       (u/get-in lexeme [:surface]))
+                                       "'"
                                    (when (u/get-in lexeme [:sense])
                                      (str " sense: " (u/get-in lexeme [:sense])))
                                    "; fail-path was: " fail-path ";"
-                                   " lexeme's value for path: " (u/get-in lexeme fail-path)
-                                   " consequent's value for path: " (u/get-in consequent fail-path)
+                                   " lexeme's value for path: " (pprint (u/get-in lexeme fail-path))
+                                   " consequent's value for path: " (pprint (u/get-in consequent fail-path))
                                    (if-let [derivation (u/get-in lexeme [::derivation])]
                                      (str "; lexemes' derivation: "
                                           (vec (display-derivation derivation))))
                                    "; whole lexeme: " (pprint lexeme))]
             (log/error error-message)
-            (exception error-message))
+            (throw (Exception. (str "apply-rule-to-lexeme: problem with lexeme: " (pprint lexeme)))))
           :else
           (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " (pprint result)))
               (if include-derivation?
@@ -215,6 +220,7 @@
             (->> (vec (zipmap (range 1 (+ 1 (count consequents))) consequents))
                  (map (fn [[consequent-index consequent]]
                         (apply-rule-to-lexeme (:rule rule) lexeme consequent antecedent i (if (> (count consequents) 1) consequent-index) include-derivation?)))
+                 (filter #(not (empty? %)))
                  (mapcat (fn [new-lexeme]
                            (apply-rules-to-lexeme (rest rules) new-lexeme (+ i 1) include-derivation?)))))
           

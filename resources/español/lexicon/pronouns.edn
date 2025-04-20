@@ -30,6 +30,70 @@
                   :pred :it}
             :reflexive? false}])
 
+ "la" (let [agr {:person :3rd
+                 :gender :fem
+                 :number :sing}]
+        [{:case :acc
+          :agr agr
+          :sem {:ref {:human? true}
+                :gender :fem
+                :pred :she}
+          :reflexive? false}
+         {:case :acc
+          :agr agr
+          :sem {:ref {:human? false}
+                :gender :fem
+                :pred :it}
+          :reflexive? false}])
+
+ "lo" (let [agr {:person :3rd
+                 :gender :masc
+                 :number :sing}]
+        [{:case :acc
+          :agr agr
+          :sem {:ref {:human? true}
+                :gender :masc
+                :pred :he}
+          :reflexive? false}
+         {:case :acc
+          :agr agr
+          :sem {:ref {:human? false}
+                :gender :masc
+                :pred :it}
+          :reflexive? false}])
+
+ "las" (let [agr {:person :3rd
+                  :gender :fem
+                  :number :sing}]
+         [{:case :acc
+           :agr agr
+           :sem {:ref {:human? true}
+                 :gender :fem
+                 :pred :they}
+           :reflexive? false}
+          {:case :acc
+           :agr agr
+           :sem {:ref {:human? false}
+                 :gender :masc
+                 :pred :they}
+           :reflexive? false}])
+
+ "los" (let [agr {:person :3rd
+                  :gender :masc
+                  :number :sing}]
+         [{:case :acc
+           :agr agr
+           :sem {:ref {:human? true}
+                 :gender :masc
+                 :pred :they}
+           :reflexive? false}
+          {:case :acc
+           :agr agr
+           :sem {:ref {:human? false}
+                 :gender :masc
+                 :pred :they}
+           :reflexive? false}])
+ 
  "ellas" (let [agr {:person :3rd
                     :gender :fem
                     :number :plur}]

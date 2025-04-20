@@ -638,6 +638,7 @@
                        :preterito "quis"
                        :futuro    "querr"}]
             [{:stems stems
+              :subcat-frames :both
               :sem {:pred :want}}])
 
  "reparar" [{:cat :verb

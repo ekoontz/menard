@@ -10,7 +10,7 @@
 
 ;; These are for convenience so you don't
 ;; have to reload these language-model files every time you make a change:
-;; you can just reload this (i.e. menard.test.español.preterito-perfecto)
+;; you can just reload this file (menard.test.español.preterito-perfecto.clj)
 ;; file and it will reload the changed language-model files.
 (load "../../../../src/menard/subcat")
 (load "../../../../src/menard/español")

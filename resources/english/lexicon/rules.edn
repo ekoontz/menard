@@ -1,7 +1,8 @@
 [ {:rule :unset-cat
   :if {:cat ::unspec}
   :then [{:cat :unset}]}
-{:rule :canonical-equals-root
+
+ {:rule :canonical-equals-root
   :if :top
   :then [(let [canonical (atom :top)]
            {:canonical canonical
@@ -13,6 +14,16 @@
            {:agr {:number number}
             :sem {:ref {:number number}}})]}
 
+ {:rule :noun-locative-default-false
+  :if {:cat :noun
+       :sem {:locative? ::unspec}}
+  :then [{:sem {:locative? false}}]}
+
+ {:rule :noun-locative
+  :if {:cat :noun
+       :sem {:locative? true}}
+  :then [{:subcat []}]}
+ 
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
        :sem {:mod ::unspec}}
@@ -49,7 +60,8 @@
             :subcat {:1 {:agr agr
                          :sem sem}}})]}
  {:rule :preposition
-  :if {:cat :prep}
+  :if {:cat :prep
+       :subcat ::unspec}
   :then [;; no object (e.g. "she looks at")
          {:cat :prep
           :reflexive? true
@@ -137,7 +149,8 @@
  {:rule :intransitive
   :if {:cat :verb
        :adjectival-verb? false
-       :intransitive-only? true}
+       :intransitive-only? true
+       :subcat {:2 ::unspec}}
   :then (let [subj (atom :top)]
           [{:sem {:subj subj
                   :obj :none}
@@ -146,6 +159,18 @@
                      :3 []}
             :reflexive? false}])}
 
+ ;; e.g. "go to bed/college/jail/school/war/etc."
+ {:rule :intransitive-with-grammatical-object
+  :if {:cat :verb
+       :intransitive-only? true
+       :subcat {:2 {:top :top}}}
+  :then (let [subj (atom :top)]
+          [{:sem {:subj subj
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :3 []}
+            :reflexive? false}])}
+ 
  {:rule :reflexive-defaults-to-both
   :if {:cat :verb
        :modal :none

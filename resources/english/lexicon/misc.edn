@@ -130,7 +130,21 @@
  "to" [;; "to the park"
        {:cat :prep
         :sense :p1
-        :sem {:pred :to}}]
+        :subcat {:1 {:sem {:locative? false}}}
+        :sem {:pred :to}}
+
+       ;; "[go] to bed"
+       ;; TODO: add others like "to college/jail/school/war/work"
+       {:cat :prep
+        :canonical "to"
+        :root "to"        
+        :sense :p2
+        :sem {:pred :to-bed}
+        :subcat {:1 {:cat :noun
+                     :sem {:locative? true}
+                     :canonical "bed"}
+                 :2 []}}]
+       
  "up" [{:cat :prep
         :sem {:pred :up}}]
  "your" [{:cat :det

@@ -9,6 +9,21 @@
  "attempt" [{:sem {:pred :attempt}}]
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]
+ "bed" [{:sem {:pred :bed}}
+
+        ;; I will call these:
+        ;; "[:sem :locative?]=true nouns"
+        ;; These are nouns like "bed" in the
+        ;; sense of "go to bed".
+        ;; (TODO: add other examples like:
+        ;; to school
+        ;; to work
+        ;; to college
+        ;; to jail
+        ;; ..etc
+        {:sem {:pred :bed
+               :locative? true}}]
+        
  "bush" [{:sem {:pred :bush}}] 
  "butterfly" [{:sem {:pred :butterfly}}]
  "bike" [{:sem {:pred :bike}}]

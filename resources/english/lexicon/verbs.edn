@@ -434,7 +434,10 @@
      :sem {:pred :go-out}}
 
     {:exceptions exceptions
-     :prepositional-verb {:with "to bed"}
+     :intransitive-only? true
+     :subcat {:2 {:cat :prep
+                  :subcat []
+                  :sem {:pred :to-bed}}}
      :sem {:pred :go-to-bed}}])
  
  "guess" [{:sem {:pred :guess}}]

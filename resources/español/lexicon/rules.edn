@@ -335,7 +335,7 @@
  {:rule :subcat-intransitive
   :if {:cat :verb
        :aux? false
-       :subcat-frames ::unspec       
+       :subcat-frames :intrans-only
        :intransitive? true
        :modal :none}
   :then (let [subj (atom :top)]

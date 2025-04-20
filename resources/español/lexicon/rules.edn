@@ -392,7 +392,7 @@
                          :sem subj}
                      :2 []}
             :sem {:subj subj
-                  :obj {:pred :anaphoric}}}
+                  :obj :none}}
 
            ;; transitive
            {:intransitive? false

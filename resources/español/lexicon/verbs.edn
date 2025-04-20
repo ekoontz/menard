@@ -39,26 +39,25 @@
  "buscar" [{:sem {:pred :look-for}}
            {:sem {:pred :look-up}}]
 
-;; commenting this out (see comment below for "functionar")
-;; "caer"
-;; [{:sem {:pred :fall
-;;         :subj {:ref {:human? false}}}
-;;   :exceptions
-;;   [{:infl :present,
-;;     :agr {:person :1st, :number :sing},
-;;     :surface "caigo"}
-;;    {:infl :preterito,
-;;     :agr {:person :1st, :number :sing},
-;;     :surface "caì"}
-;;    {:infl :preterito,
-;;     :agr {:person :2nd, :number :sing, :formal? false},
-;;     :surface "caiste"}
-;;    {:infl :preterito,
-;;     :agr {:person :2nd, :number :sing, :formal? true},
-;;     :surface "cayò"}
-;;    {:infl :preterito,
-;;     :agr {:person :3rd, :number :sing},
-;;     :surface "cayò"}]}]
+ "caer"
+ [{:sem {:pred :fall
+         :subj {:ref {:human? false}}}
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "caigo"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :sing},
+     :surface "caì"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing, :formal? false},
+     :surface "caiste"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing, :formal? true},
+     :surface "cayò"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "cayò"}]}]
 
  "caber" [{:sem {:subj {:animate true},
                  :pred :fit},
@@ -221,11 +220,9 @@
             :stems {:boot "frieg"}}]
  "fumar" [{:sem {:pred :smoke}}]
 
- ;; commenting out temporarily to prevent generation failures
- ;; when trying to generate with 1st or 2nd person:
- ;; "funcionar" [{:sem {:subj {:ref {:human? false}}
- ;;                     :pred :work-nonhuman}
- ;;               :subcat {:person :3rd}}]
+ "funcionar" [{:sem {:subj {:ref {:human? false}}
+                     :pred :work-nonhuman}
+               :subcat {:person :3rd}}]
 
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]

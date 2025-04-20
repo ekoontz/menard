@@ -980,10 +980,10 @@
          {:sem {:pred :work-nonhuman
                 :subj {:ref {:human? false}}}}]
  "write" [{:sem {:pred :write}
-           :exception [{:infl :past-simple
-                        :surface "wrote"}
-                       {:infl :past-participle
-                        :surface "wrote"}]}]
+           :exceptions [{:infl :past-simple
+                         :surface "wrote"}
+                        {:infl :past-participle
+                         :surface "written"}]}]
  "yawn" [{:sem {:pred :yawn}
           :intransitive-only? true}]}
 

@@ -816,6 +816,7 @@
                   :obj complement-sem}
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :infl :base
                          :modal :none
                          :sem complement-sem
                          :subcat {:1 subcat-1-is-shared

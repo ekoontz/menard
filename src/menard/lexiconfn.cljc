@@ -159,7 +159,7 @@
                                           (vec (display-derivation derivation))))
                                    "; whole lexeme: " (pprint lexeme))]
             (log/error error-message)
-            (throw (Exception. (str "apply-rule-to-lexeme: problem with lexeme: " (pprint lexeme)))))
+            (throw (Exception. (str "apply-rule-to-lexeme: " error-message))))
           :else
           (do (log/debug (str "apply-rule-to-lexeme: lexeme: " lexeme " with conseq: " consequent "= " (pprint result)))
               (if include-derivation?

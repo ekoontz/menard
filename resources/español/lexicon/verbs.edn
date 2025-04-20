@@ -689,11 +689,17 @@
              :agr {:person :1st, :number :sing},
              :surface "tengo"}
             {:infl :present,
-             :agr {:person :2nd, :number :sing},
+             :agr {:person :2nd, :number :sing :formal? false},
+             :surface "tienes"}
+            {:infl :present,
+             :agr {:person :2nd, :number :sing :formal? true},
              :surface "tienes"}
             {:infl :present,
              :agr {:person :3rd, :number :sing},
              :surface "tiene"}
+            {:infl :present,
+             :agr {:person :2nd, :number :plur :formal? true},
+             :surface "tienen"}
             {:infl :present,
              :agr {:person :3rd, :number :plur},
              :surface "tienen"}

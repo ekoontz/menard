@@ -435,10 +435,10 @@
 
     {:exceptions exceptions
      :intransitive-only? true
+     :sem {:pred :go-to-bed}
      :subcat {:2 {:cat :prep
                   :subcat []
-                  :sem {:pred :to-bed}}}
-     :sem {:pred :go-to-bed}}])
+                  :sem {:pred :to-bed}}}}])
  
  "guess" [{:sem {:pred :guess}}]
  "have" (let [;; TODO: factor out commonalities in agreement into a new variable called 'agr-exceptions' and then

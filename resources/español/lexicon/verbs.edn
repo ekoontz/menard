@@ -683,6 +683,7 @@
  "tener" [{:sem {:subj {:animate true},
                  :pred :have},
            :cat :verb,
+           :subcat-frames :both
            :exceptions
            [{:infl :present,
              :agr {:person :1st, :number :sing},

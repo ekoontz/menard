@@ -305,23 +305,27 @@
                          :reflexive? true}
                      :2 []}}])}
 
- {:rule :intrans-only
-  :if {:cat :verb
-       :intransitive? true
-       :transitive? ::unspec}
-  :then [{:transitive? false}]}
-
  {:rule :aux-default
   :if {:cat :verb
        :aux? ::unspec}
   :then [{:aux? false}]}
  
+ {:rule :intrans-only
+  :if {:cat :verb
+       :intransitive? true
+       :subcat-frames ::unspec
+       :transitive? ::unspec}
+  :then [{:transitive? false
+          :subcat-frames :intrans-only}]}
+ 
  {:rule :trans-only
   :if {:cat :verb
        :aux? false
+       :subcat-frames ::unspec
        :intransitive? ::unspec
        :transitive? true}
-  :then [{:intransitive? false}]}
+  :then [{:intransitive? false
+          :subcat-frames :trans-only}]}
  
  {:rule :modal-default-none
   :if {:cat :verb
@@ -331,6 +335,7 @@
  {:rule :subcat-intransitive
   :if {:cat :verb
        :aux? false
+       :subcat-frames ::unspec       
        :intransitive? true
        :modal :none}
   :then (let [subj (atom :top)]
@@ -345,6 +350,7 @@
  {:rule :subcat-intransitive-modal
   :if {:cat :verb
        :modal :infinitive
+       :subcat-frames ::unspec
        :intransitive? true}
   :then (let [subj (atom :top)]
           [{:transitive? false
@@ -357,7 +363,8 @@
  
  {:rule :subcat-transitive
   :if {:cat :verb
-       :transitive? true}
+       :transitive? true
+       :subcat-frames ::unspec}
   :then (let [subj (atom :top)
               obj (atom :top)]
           [{:intransitive? false
@@ -371,6 +378,35 @@
                          :sem obj}
                      :3 []}}])}
 
+ {:rule :subcat-both
+  :if {:cat :verb
+       :reflexive? false
+       :subcat-frames :both}
+  :then (let [subj (atom :top)
+              obj (atom :top)]
+          ;; intransitive
+          [{:transitive? false
+            :intransitive? true
+            :subcat {:1 {:cat :noun
+                         :reflexive? false                         
+                         :sem subj}
+                     :2 []}
+            :sem {:subj subj
+                  :obj {:pred :anaphoric}}}
+
+           ;; transitive
+           {:intransitive? false
+            :transitive? true            
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false                         
+                         :sem subj}
+                     :2 {:cat :noun
+                         :case :acc
+                         :sem obj}
+                     :3 []}}])}
+          
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}

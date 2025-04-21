@@ -60,16 +60,16 @@
       :agr {:gender :fem
             :number :sing}}}
 
- ;; masculine plural: -n final does not change
- {:g [#"^(.*n)$" "$1"] 
-  :p [#"(.*)$"   "$1n"]
+ ;; masculine plural: -n -z final does not change
+ {:g [#"^(.*[nz])$" "$1"] 
+  :p [#"(.*[nz])$"  "$1"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}
 
  ;; otherwise: add -s for masculine plural
- {:g [#"^(.*[^n])$" "$1s"] 
-  :p [#"(.*[^n])s$" "$1"]
+ {:g [#"^(.*[^nz])$" "$1s"] 
+  :p [#"(.*[^nz])s$" "$1"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}

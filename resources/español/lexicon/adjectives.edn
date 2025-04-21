@@ -10,6 +10,6 @@
  [{:sem {:pred :black}}]
  "primero"
  [{:sem {:pred :first}
-   :modifies-noun :pre}]}
-
- 
+   :modifies-noun :pre}]
+ "triste"
+ [{:sem {:pred :sad}}]}

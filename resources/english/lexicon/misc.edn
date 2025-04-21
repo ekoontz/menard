@@ -147,7 +147,6 @@
         :sense :p3
         :subcat []}]
        
-       
  "up" [{:cat :prep
         :sem {:pred :up}}]
  "your" [{:cat :det

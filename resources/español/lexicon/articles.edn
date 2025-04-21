@@ -27,6 +27,79 @@
          :number :plur}
    :sem {:pred :the}}]
 
+ "mi"
+ [{:agr {:number :sing}
+   :sem {:pred :i}}]
+
+ "mis"
+ [{:agr {:number :plur}
+   :sem {:pred :i}}]
+
+ "nuestro" [{:agr {:number :sing
+                   :gender :masc}
+             :sem {:pred :we}}]
+ "nuestra" [{:agr {:number :sing
+                   :gender :fem}
+             :sem {:pred :we}}]
+ "nuestros" [{:agr {:number :plur
+                    :gender :fem}
+              :sem {:pred :we}}]
+ "nuestras" [{:agr {:number :plur
+                    :gender :fem}
+              :sem {:pred :we}}]
+ 
+ "vostro" [{:agr {:number :sing
+                  :gender :masc}
+            :sem {:pred :you}}]
+ "vostra" [{:agr {:number :sing
+                  :gender :fem}
+            :sem {:pred :you}}]
+ "vostros" [{:agr {:number :plur
+                    :gender :fem}
+             :sem {:pred :you}}]
+ "vostras" [{:agr {:number :plur
+                   :gender :fem}
+             :sem {:pred :you}}]
+ "su"
+ [{:agr {:number :sing}
+   :sem {:pred :he}}
+  {:agr {:number :sing}
+   :sem {:pred :she}}
+  {:agr {:number :sing}
+   :sem {:pred :it}}
+  {:agr {:number :sing
+         :formal? true}
+   :sem {:pred :you}}
+  {:agr {:number :sing}
+   :sem {:pred :they}}]
+
+ "sus"
+ [{:agr {:number :plur}
+   :sem {:pred :he}}
+  {:agr {:number :plur}
+   :sem {:pred :she}}
+  {:agr {:number :plur}
+   :sem {:pred :it}}
+  {:agr {:number :plur
+         :formal? true}
+   :sem {:pred :you}}
+  {:agr {:number :plur}
+   :sem {:pred :they}}]
+
+ "tu"
+ [{:agr {:number :sing
+         :formal? false}
+   :sem {:pred :you
+         :ref {:human? true
+               :context :informal}}}]
+
+ "tus"
+ [{:agr {:number :plur
+         :formal? false}
+   :sem {:pred :you
+         :ref {:human? true
+               :context :informal}}}]
+
  "un"
  [{:agr {:gender :masc
          :number :sing}

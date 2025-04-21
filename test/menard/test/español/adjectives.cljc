@@ -28,4 +28,5 @@
   (is (= "[np .las +[nbar +mesas .holgazanes]]"
          (->> "las mesas holgazanes" parse (map syntax-tree) first)))
   (is (= "[np .los +[nbar +gatos .malos]]"
-         (->> "los gatos malos" parse (map syntax-tree)))))
+         (->> "los gatos malos" parse (map syntax-tree) first))))
+

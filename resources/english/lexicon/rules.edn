@@ -398,14 +398,20 @@
   :then [{:agr {:number :sing}}
          {:agr {:number :plur}}]}
 
- {:rule :common-noun
+ {:rule :common-noun-person
+  :if {:cat :noun
+       :propernoun? false
+       :pronoun? false
+       :agr {:person ::unspec}}
+  :then [{:agr {:person :3rd}}]}
+ 
+ {:rule :common-noun-number
   :if {:cat :noun
        :propernoun? false
        :pronoun? false
        :subcat ::unspec
        :agr {:number ::unspec}}
-  :then [(let [agr (atom {:number :sing
-                          :person :3rd})]
+  :then [(let [agr (atom {:number :sing})]
            ;; "a/the dog sleeps"
            {:cat :noun
             :reflexive? false
@@ -415,8 +421,7 @@
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
          ;; "the/some dogs sleep"
-         (let [agr (atom {:number :plur
-                          :person :3rd})]
+         (let [agr (atom {:number :plur})]
            {:cat :noun
             :reflexive? false
             :propernoun? false
@@ -430,8 +435,7 @@
           :propernoun? false
           :pronoun? false
           :sem {:quant :some}
-          :agr {:number :plur
-                :person :3rd}
+          :agr {:number :plur}
           :subcat []}]}
 
  {:rule :irregular-plural-common-noun

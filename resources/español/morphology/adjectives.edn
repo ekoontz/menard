@@ -62,14 +62,14 @@
 
  ;; masculine plural: -n final does not change
  {:g [#"^(.*n)$" "$1"] 
-  :p [#"(.*)$"   "$1"]
+  :p [#"(.*)$"   "$1n"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}
 
  ;; otherwise: add -s for masculine plural
  {:g [#"^(.*[^n])$" "$1s"] 
-  :p [#"(.*]^n])s$" "$1"]
+  :p [#"(.*[^n])s$" "$1"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}

@@ -8,7 +8,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(deftest transfer-1
+(deftest subj-pred
   (is (or  (= "I want" (translate/es-to-en "yo quiero"))
            (= "I like" (translate/es-to-en "yo quiero"))
            (= "I love" (translate/es-to-en "yo quiero")))))

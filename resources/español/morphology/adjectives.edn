@@ -21,9 +21,9 @@
       :agr {:gender :fem
             :number :sing}}}
 
- ;; adjectives ending in [e,l] do not change when becoming feminine: 
- {:g [#"^(.*)([el])$" "$1$2"] 
-  :p [#"(.*)([el])$"  "$1$2"]
+ ;; adjectives ending in [e,l,z] do not change when becoming feminine: 
+ {:g [#"^(.*)([elz])$" "$1$2"] 
+  :p [#"(.*)([elz])$"  "$1$2"]
   :u {:cat :adjective
       :agr {:gender :fem
             :number :sing}}}
@@ -58,6 +58,13 @@
       :agr {:gender :fem
             :number :plur}}}
 
+  ;; feminine plural: -z, adjectives:
+ {:g [#"^(.*)(z)$" "$1$2ces"] 
+  :p [#"(.*)ces$"  "$1z"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+ 
  ]
 
  

@@ -9,7 +9,7 @@
 
  "madre"
  [{:agr {:gender :fem}
-   :sem {:pred :cat}}]
+   :sem {:pred :mother}}]
 
  "mesa"
  [{:agr {:gender :fem}

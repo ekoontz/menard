@@ -7,6 +7,10 @@
  [{:agr {:gender :masc}
    :sem {:pred :cat}}]
 
+ "madre"
+ [{:agr {:gender :fem}
+   :sem {:pred :cat}}]
+
  "mesa"
  [{:agr {:gender :fem}
    :sem {:pred :table}}]

@@ -4,6 +4,8 @@
  [{:sem {:pred :happy}}]
  "holgazán"
  [{:sem {:pred :lazy}}]
+ "malo"
+ [{:sem {:pred :bad}}]
  "negro"
  [{:sem {:pred :black}}]
  "primero"

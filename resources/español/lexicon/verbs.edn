@@ -746,8 +746,9 @@
            :stems {:preterito "vin"}}]
 
  "ver"
- [{:sem {:pred :see},
-   :cat :verb,
+ [{:sem {:pred :see}
+   :cat :verb
+   :subcat-frames :both
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},

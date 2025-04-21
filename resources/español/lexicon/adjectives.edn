@@ -1,5 +1,9 @@
 {"blanco"
  [{:sem {:pred :white}}]
+ "feliz"
+ [{:sem {:pred :happy}}]
+ "holgazán"
+ [{:sem {:pred :lazy}}]
  "negro"
  [{:sem {:pred :black}}]
  "primero"

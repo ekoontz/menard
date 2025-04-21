@@ -13,24 +13,63 @@
       :agr {:gender :fem
             :number :sing}}}
 
- ;; for adjectives ending in -án -és -ín -ón -or, add 'a' suffix
+ ;; for adjectives ending in -án: add 'a' suffix and remove accent
  ;; to make it feminine:
- {:g [#"^(.*)(án|és|ín|ón|or)$" "$1$2a"] 
-  :p [#"(.*)a$"                 "$1"]
+ {:g [#"^(.*)(án)$" "$1ana"] 
+  :p [#"(.*)ana$"   "$1án"]
   :u {:cat :adjective
       :agr {:gender :fem
             :number :sing}}}
 
- ;; adjectives ending in [e,l,z] do not change when becoming feminine: 
- {:g [#"^(.*)([elz])$" "$1$2"] 
-  :p [#"(.*)([elz])$"  "$1$2"]
+ ;; for adjectives ending in -és: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(és)$" "$1esa"] 
+  :p [#"(.*)esa$"   "$1és"]
   :u {:cat :adjective
       :agr {:gender :fem
             :number :sing}}}
 
- ;; masculine plural:
- {:g [#"^(.*)$" "$1s"] 
-  :p [#"(.*)s$" "$1"]
+  ;; for adjectives ending in -ín: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ín)$" "$1ina"] 
+  :p [#"(.*)ina$"   "$1ín"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+  ;; for adjectives ending in -ón: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ón)$" "$1ona"] 
+  :p [#"(.*)ona$"   "$1ón"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+  ;; for adjectives ending in -or: add 'a' suffix
+ ;; to make it feminine:
+ {:g [#"^(.*)(or)$" "$1$2a"] 
+  :p [#"(.*)ora$"   "$1or"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+ 
+ ;; other endings don't change when becoming feminine singular:
+ {:g [#"^(.*)$" "$1"] 
+  :p [#"(.*)$"  "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+ ;; masculine plural: -n final does not change
+ {:g [#"^(.*n)$" "$1"] 
+  :p [#"(.*)$"   "$1"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
+ ;; otherwise: add -s for masculine plural
+ {:g [#"^(.*[^n])$" "$1s"] 
+  :p [#"(.*]^n])s$" "$1"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}
@@ -42,14 +81,45 @@
       :agr {:gender :fem
             :number :plur}}}
 
- ;; for adjectives ending in -án -és -ín -ón -or, add 'as' suffix
+ ;; for adjectives ending in -án: add 'es' suffix and remove accent
  ;; to make it feminine:
- {:g [#"^(.*)(án|és|ín|ón|or)$" "$1$2as"] 
-  :p [#"(.*)as$"                "$1"]
+ {:g [#"^(.*)(án)$" "$1anes"] 
+  :p [#"(.*)anes$"  "$1án"]
   :u {:cat :adjective
       :agr {:gender :fem
-            :number :sing}}}
+            :number :plur}}}
 
+ ;; for adjectives ending in -és: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(és)$" "$1esas"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; for adjectives ending in -ín: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ín)$" "$1inas"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; for adjectives ending in -ón: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ón)$" "$1onas"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; for adjectives ending in -or: add 'es' suffix
+ ;; to make it feminine:
+ {:g [#"^(.*)(or)$" "$1$2es"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
  
   ;; feminine plural: -e,-l adjectives:
  {:g [#"^(.*)([el])$" "$1$2s"] 
@@ -64,7 +134,14 @@
   :u {:cat :adjective
       :agr {:gender :fem
             :number :plur}}}
- 
+
+  ;; other endings don't change when becoming feminine plural
+ {:g [#"^(.*)$" "$1"] 
+  :p [#"(.*)$"  "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
  ]
 
  

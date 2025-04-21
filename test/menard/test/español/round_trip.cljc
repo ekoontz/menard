@@ -16,17 +16,34 @@
 (load "../../../../src/menard/español")
 
 (deftest reflexive-roundtrip
-  (let [have-fun-spec {:comp {:agr {:gender :fem
-                                 :number :plur
-                                 :person :3rd}}
-                       :sem {:tense :present
-                             :aspect :simple
-                             :pred :have-fun}
-                       :subcat []}]
-    (->> (-> have-fun-spec es/generate
-             es/morph es/parse)
-         (map #(is "s" (u/get-in % [:rule])))
-         vec)))
+  (let [base-spec {:comp {:agr {:gender :fem
+                                :number :plur
+                                :person :3rd}}
+                   :sem {:tense :present
+                         :aspect :simple
+                         :pred :have-fun}
+                   :subcat []}
+        have-fun-implicit-subject
+        (unify base-spec
+               {:comp {:reflexive? true}})
+        have-fun-explicit-subject
+        (unify base-spec
+               {:comp {:reflexive? false}
+                :sem {:subj {:pred :they}}})]
+    (is (= "se divierten"
+           (-> have-fun-implicit-subject
+               es/generate
+               es/morph
+               es/parse
+               first
+               morph)))
+    (is (= "ellas se divierten"
+           (-> have-fun-explicit-subject
+               es/generate
+               es/morph
+               es/parse
+               first
+               morph)))))
 
 (deftest ustedes-se-duermen
   (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen(:explicit-subj)]]"

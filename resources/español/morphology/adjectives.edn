@@ -1,4 +1,7 @@
 [
+ ;; singular
+ ;; singular masculine
+
  ;; canonical form is identical to the masculine singular form:
  {:g [#"^(.*)$"  "$1"] 
   :p [#"(.*)$"   "$1"]
@@ -6,6 +9,7 @@
       :agr {:gender :masc
             :number :sing}}}
 
+ ;; singular feminine
  ;; feminine singular: negra -> negro
  {:g [#"^(.*)o$" "$1a"] 
   :p [#"(.*)a$"  "$1o"]
@@ -53,13 +57,19 @@
       :agr {:gender :fem
             :number :sing}}}
  
+ ;; TODO: this should check every possible ending above for the :p section,
+ ;; since parsing tries every rule, not just the first matching rule:
  ;; other endings don't change when becoming feminine singular:
- {:g [#"^(.*)$" "$1"] 
-  :p [#"(.*)$"  "$1"]
+ {:g [#"^(.*)([^o])$" "$1$2"] 
+  :p [#"(.*)([^o])$"  "$1$2"]
   :u {:cat :adjective
       :agr {:gender :fem
             :number :sing}}}
 
+
+ ;; plural
+ ;; plural masculine
+ 
  ;; masculine plural: -n -z final does not change
  {:g [#"^(.*[nz])$" "$1"] 
   :p [#"(.*[nz])$"  "$1"]
@@ -74,7 +84,8 @@
       :agr {:gender :masc
             :number :plur}}}
 
-  ;; feminine plural: -o adjectives:
+ ;; plural feminine
+ ;; feminine plural: -o adjectives:
  {:g [#"^(.*)o$" "$1as"] 
   :p [#"(.*)as$" "$1o"]
   :u {:cat :adjective
@@ -135,7 +146,9 @@
       :agr {:gender :fem
             :number :plur}}}
 
-  ;; other endings don't change when becoming feminine plural
+ ;; TODO: this should check every possible ending above for the :p section,
+ ;; since parsing tries every rule, not just the first matching rule:
+ ;; other endings don't change when becoming feminine plural:
  {:g [#"^(.*)$" "$1"] 
   :p [#"(.*)$"  "$1"]
   :u {:cat :adjective

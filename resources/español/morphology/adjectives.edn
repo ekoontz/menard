@@ -129,7 +129,7 @@
             :number :plur}}}
 
   ;; feminine plural: -z, adjectives:
- {:g [#"^(.*)(z)$" "$1$2ces"] 
+ {:g [#"^(.*)(z)$" "$1ces"] 
   :p [#"(.*)ces$"  "$1z"]
   :u {:cat :adjective
       :agr {:gender :fem

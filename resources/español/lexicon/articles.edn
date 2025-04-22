@@ -56,11 +56,13 @@
             :sem {:pred :you}}]
  "vostros" [{:agr {:number :plur
                     :gender :fem}
-             :sem {:pred :you}}]
+             :sem {:pred :you
+                   :context :informal}}]
  "vostras" [{:agr {:number :plur
                    :gender :fem}
-             :sem {:pred :you}}]
- "su"
+             :sem {:pred :you
+                   :context :informal}}]
+ "su"                   
  [{:agr {:number :sing}
    :sem {:pred :he}}
   {:agr {:number :sing}
@@ -69,7 +71,8 @@
    :sem {:pred :it}}
   {:agr {:number :sing
          :formal? true}
-   :sem {:pred :you}}
+   :sem {:pred :you
+         :context :formal}}
   {:agr {:number :sing}
    :sem {:pred :they}}]
 
@@ -82,7 +85,8 @@
    :sem {:pred :it}}
   {:agr {:number :plur
          :formal? true}
-   :sem {:pred :you}}
+   :sem {:pred :you
+         :context :formal}}
   {:agr {:number :plur}
    :sem {:pred :they}}]
 
@@ -90,15 +94,13 @@
  [{:agr {:number :sing
          :formal? false}
    :sem {:pred :you
-         :ref {:human? true
-               :context :informal}}}]
+         :context :informal}}]
 
  "tus"
  [{:agr {:number :plur
          :formal? false}
    :sem {:pred :you
-         :ref {:human? true
-               :context :informal}}}]
+         :context :informal}}]
 
  "un"
  [{:agr {:gender :masc

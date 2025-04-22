@@ -150,6 +150,17 @@
  "up" [{:cat :prep
         :sem {:pred :up}}]
  "your" [{:cat :det
-          :sem {:pred :you}}]}
-
-
+          :sense 1
+          :note [:informal]
+          :sem {:pred :you
+                :context :informal}}
+         {:cat :det
+          :sense 2
+          :note [:formal]
+          :sem {:pred :you
+                :context :formal}}
+         {:cat :det
+          :sense 3
+          :note [:formal :plural]
+          :sem {:pred :you
+                :context :formal}}]}

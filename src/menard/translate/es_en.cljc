@@ -39,9 +39,9 @@
 (defn es-structure-to-en-structure [es-parse & [es-model en-model]]
   (let [english-spec (es-parse-to-en-spec es-parse)
         en-model (or en-model @en-complete/model)]
-    (log/debug (str "es-to-en: es's phrasal?: "
-                   (u/get-in es-parse [:phrasal?])))
-    (log/info (str "          english-spec: " (l/pprint english-spec)))
+    (log/info (str "es-structure-to-en-structure: "
+                   (es/syntax-tree es-parse)))
+    (log/info (str "es-structure-to-en-structure: english input spec for generation: " (l/pprint english-spec)))
     (let [en-expression (try (-> english-spec (en/generate en-model))
                              (catch Exception e
                                (log/error (str "es-to-en: failed to generate an English expression "
@@ -52,6 +52,8 @@
       (when (nil? en-expression)
         (log/error (str "could not generate english expression for target: "
                         (es/syntax-tree es-parse) ";spec: " (l/pprint english-spec))))
+      (log/debug (str "en-expression: " (l/pprint en-expression)))
+      (log/info (str "morph(en-expression): " (en/morph en-expression)))
       en-expression)))
   
 (defn es-string-to-en-structure
@@ -62,7 +64,6 @@
     (log/error (str "es-string-to-en-structure: es-input was null.")))
   (log/info (str "es-string-to-en-structure: starting with es-input: " es-input))
   (let [es-model (or es-model es/model)
-        debug (log/info (str "calling es/parse with the model of type: " (type es-model)))
         parses (es/parse es-input es-model)]
     (if (seq parses)
       (do
@@ -86,7 +87,6 @@
 
 (defn es-structure-to-en-string
   [es-parse & [es-model en-model]]
-  (log/info (str "DOING THE FAST ROUTE!!!"))
   (-> es-parse
       (es-structure-to-en-structure es-model en-model)
       en/morph))

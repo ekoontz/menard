@@ -618,11 +618,14 @@
   :then [{:interogative? false}]}
 
   {:rule :quantified-noun
-  :if {:cat :noun
-       :subcat {:1 {:cat :det}}}
-  :then [(let [quant (atom :top)]
-           {:sem {:quant quant}
-            :subcat {:1 {:sem {:pred quant}}}})]}
+   :if {:cat :noun
+        :subcat {:1 {:cat :det}}}
+   :then [(let [quant (atom :top)
+                context (atom :top)]
+            {:sem {:quant quant
+                   :context context}
+             :subcat {:1 {:sem {:pred quant
+                                :context context}}}})]}
  
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity

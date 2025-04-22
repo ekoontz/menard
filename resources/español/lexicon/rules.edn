@@ -485,9 +485,12 @@
  {:rule :quantified-noun
   :if {:cat :noun
        :subcat {:1 {:cat :det}}}
-  :then [(let [quant (atom :top)]
-           {:sem {:quant quant}
-            :subcat {:1 {:sem {:pred quant}}}})]}
+  :then [(let [quant (atom :top)
+               context (atom :top)]
+           {:sem {:quant quant
+                  :context context}
+            :subcat {:1 {:sem {:context context
+                               :pred quant}}}})]}
 
  {:rule :noun-semantics
   :if {:cat :noun}

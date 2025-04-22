@@ -53,6 +53,22 @@
         (log/error (str "could not generate english expression for target: "
                         (es/syntax-tree es-parse) ";spec: " (l/pprint english-spec))))
       en-expression)))
+  
+(defn es-string-to-en-structure
+  "return one English structure translation for the given Spanish input."  
+  [es-input & [es-model en-model]]
+  (if es-input
+    (log/debug (str "es-string-to-en-structure: es-input: " es-input))    
+    (log/error (str "es-string-to-en-structure: es-input was null.")))
+  (log/info (str "es-string-to-en-structure: starting with es-input: " es-input))
+  (let [es-model (or es-model es/model)
+        debug (log/info (str "calling es/parse with the model of type: " (type es-model)))
+        parses (es/parse es-input es-model)]
+    (if (seq parses)
+      (do
+        (log/info (str "translating es parse: " (es/syntax-tree (first parses))))
+        (-> parses first (es-structure-to-en-structure es-model en-model)))
+      (log/error (str "could not parse es-input: '" es-input "'")))))
 
 (defn es-to-en-structure-alternatives
   "return several English structure translations for the given Spanish input."  
@@ -67,27 +83,18 @@
     (->> es-parses
          (map #(es-structure-to-en-structure % es-model en-model))
          (remove nil?))))
-  
-(defn es-to-en-structure
-  "return one English structure translation for the given Spanish input."  
-  [es-input & [es-model en-model]]
-  (if es-input
-    (log/debug (str "es-to-en: es-input: " es-input))    
-    (log/error (str "es-to-en: es-input was null.")))
-  (log/info (str "es-to-en-structure: starting with es-input: " es-input))
-  (let [es-model (or es-model es/model)
-        debug (log/info (str "calling es/parse with the model of type: " (type es-model)))
-        parses (es/parse es-input es-model)]
-    (if (seq parses)
-      (do
-        (log/info (str "got a ES parse: " (es/syntax-tree (first parses))))
-        (-> parses first (es-structure-to-en-structure es-model en-model)))
-      (log/error (str "could not parse es-input: '" es-input "'")))))
 
+(defn es-structure-to-en-string
+  [es-parse & [es-model en-model]]
+  (log/info (str "DOING THE FAST ROUTE!!!"))
+  (-> es-parse
+      (es-structure-to-en-structure es-model en-model)
+      en/morph))
+   
 (defn es-to-en
   "return one English string translation for the given Spanish input."
   [es-input & [es-model en-model]]
-  (-> es-input (es-to-en-structure es-model en-model)
+  (-> es-input (es-string-to-en-structure es-model en-model)
       en/morph))
 
 (defn translate [es]

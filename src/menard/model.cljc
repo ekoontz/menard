@@ -298,7 +298,8 @@
                    (-> model :indices :misc-lexicon)
 
                    :else (do
-                           (log/warn (str "lexicon-index-fn: no indexing keys (:pred, :cat) were found in input spec with keys: " (keys spec) ". Will have to return entire lexicon."))
+                           (log/warn (str "model/lexicon-index-fn: no indexing keys (:pred, :cat) were found in input spec: "
+                                          (l/pprint spec) "; will have to return entire lexicon."))
                            (->> (-> model :lexicon vals) (reduce concat))))
              result (if (false? filter-for-fails?)
                       (->>

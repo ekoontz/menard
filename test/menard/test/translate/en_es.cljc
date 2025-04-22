@@ -113,8 +113,3 @@
 (deftest noun-phrases
   (is (= "the black cats"
          (translate/es-to-en "los gatos negros"))))
-
-
-
-
-

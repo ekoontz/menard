@@ -36,10 +36,23 @@
            ;; have a [:sem :obj].
            {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}})))
 
-(defn intersperse [seq1 seq2]
-  (if (seq seq1)
-    (cons [(first seq1) (first seq2)]
-          (intersperse (rest seq1) (rest seq2)))))
+(defn es-structure-to-en-structure [es-parse & [es-model en-model]]
+  (let [english-spec (es-parse-to-en-spec es-parse)
+        en-model (or en-model @en-complete/model)]
+    (log/debug (str "es-to-en: es's phrasal?: "
+                   (u/get-in es-parse [:phrasal?])))
+    (log/info (str "          english-spec: " (l/pprint english-spec)))
+    (let [en-expression (try (-> english-spec (en/generate en-model))
+                             (catch Exception e
+                               (log/error (str "es-to-en: failed to generate an English expression "
+                                               "from spec: (serialized) "
+                                               (dag_unify.serialization/serialize english-spec)))
+                               {}))]
+      (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
+      (when (nil? en-expression)
+        (log/error (str "could not generate english expression for target: "
+                        (es/syntax-tree es-parse) ";spec: " (l/pprint english-spec))))
+      en-expression)))
 
 (defn es-to-en-structure-alternatives
   "return several English structure translations for the given Spanish input."  
@@ -48,33 +61,13 @@
     (log/debug (str "es-to-en: es-input: " es-input))    
     (log/error (str "es-to-en: es-input was null.")))
   (log/debug (str "es-to-en: starting with es-input: " es-input))
-  (let [es-model (or es-model @es/model)
+  (let [es-model (or es-model es/model)
         es-parses (-> es-input
-                      (es/parse (ref es-model)))
-        en-specs (->> es-parses
-                      (map (fn [es-parse]
-                             (es-parse-to-en-spec es-parse))))
-        en-model (or en-model @en-complete/model)]
-    (->> (intersperse es-parses en-specs)
-         (map (fn [[es-parse en-spec]]
-                (if (nil? es-parse)
-                  (log/error (str "could not parse es-input: '" es-input "'")))
-                (log/debug (str "es-to-en: es's phrasal?: "
-                                (u/get-in es-parse [:phrasal?])))
-                (log/debug (str "          english-spec: " (l/pprint en-spec)))
-                (let [en-expression (try (-> en-spec (en/generate en-model))
-                                         (catch Exception e
-                                           (log/error (str "es-to-en: failed to generate an English expression "
-                                                           "from spec: (serialized) "
-                                                           (dag_unify.serialization/serialize en-spec)))
-                                           {}))]
-                  (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
-                  (if en-expression
-                    (log/debug (str "successfully generated expression with spec: " (l/pprint en-spec) "; es-input: " es-input))
-                    (log/error (str "could not generate english expression for spec: " (l/pprint en-spec) "; es-input: " es-input)))
-                  en-expression)))
+                      (es/parse (ref es-model)))]
+    (->> es-parses
+         (map #(es-structure-to-en-structure % es-model en-model))
          (remove nil?))))
-
+  
 (defn es-to-en-structure
   "return one English structure translation for the given Spanish input."  
   [es-input & [es-model en-model]]
@@ -82,29 +75,14 @@
     (log/debug (str "es-to-en: es-input: " es-input))    
     (log/error (str "es-to-en: es-input was null.")))
   (log/info (str "es-to-en-structure: starting with es-input: " es-input))
-  (let [es-model (or es-model @es/model)
-        es-parse (-> es-input
-                     ((fn [es-input]
-                        (es/parse es-input (ref es-model))))
-                     first)
-        english-spec (es-parse-to-en-spec es-parse)
-        en-model (or en-model @en-complete/model)]
-    (if (nil? es-parse)
-      (log/error (str "could not parse es-input: '" es-input "'")))
-    (log/debug (str "es-to-en: es's phrasal?: "
-                   (u/get-in es-parse [:phrasal?])))
-    (log/debug (str "          english-spec: " (l/pprint english-spec)))
-    (let [en-expression (try (-> english-spec (en/generate en-model))
-                             (catch Exception e
-                               (log/error (str "es-to-en: failed to generate an English expression "
-                                               "from spec: (serialized) "
-                                               (dag_unify.serialization/serialize english-spec)))
-                               {}))]
-      (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
-      (if en-expression
-        (log/debug (str "successfully generated expression with spec: " (l/pprint english-spec) "; es-input: " es-input))
-        (log/error (str "could not generate english expression for spec: " (l/pprint english-spec) "; es-input: " es-input)))
-      en-expression)))
+  (let [es-model (or es-model es/model)
+        debug (log/info (str "calling es/parse with the model of type: " (type es-model)))
+        parses (es/parse es-input es-model)]
+    (if (seq parses)
+      (do
+        (log/info (str "got a ES parse: " (es/syntax-tree (first parses))))
+        (-> parses first (es-structure-to-en-structure es-model en-model)))
+      (log/error (str "could not parse es-input: '" es-input "'")))))
 
 (defn es-to-en
   "return one English string translation for the given Spanish input."

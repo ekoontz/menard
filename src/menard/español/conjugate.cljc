@@ -50,6 +50,7 @@
 (defn verb [canonical inflection]
   (let [basic-spec {:cat :verb
                     :root canonical
+                    :comp {:pronoun? true}
                     :subcat []}
         inflection-spec (->> menard.español.tenses/finite-tenses
                              (filter #(= inflection (u/get-in % [:variant])))

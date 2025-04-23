@@ -50,12 +50,14 @@
  
  "vostro" [{:agr {:number :sing
                   :gender :masc}
-            :sem {:pred :you}}]
+            :sem {:pred :you
+                  :context :informal}}]
  "vostra" [{:agr {:number :sing
                   :gender :fem}
-            :sem {:pred :you}}]
+            :sem {:pred :you
+                  :context :informal}}]
  "vostros" [{:agr {:number :plur
-                    :gender :fem}
+                   :gender :fem}
              :sem {:pred :you
                    :context :informal}}]
  "vostras" [{:agr {:number :plur

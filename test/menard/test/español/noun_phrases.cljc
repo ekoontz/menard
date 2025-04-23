@@ -37,12 +37,14 @@
          "[np .el +[nbar .primero +gato]]"))
   (is (= (->> "la mesa blanca" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :table
+           :context :top
            :quant :the
            :ref {:number :sing}
            :mod {:first {:pred :white}
                  :rest []}}]))
   (is (= (->> "el primero gato" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
          [{:pred :cat
+           :context :top
            :quant :the
            :ref {:number :sing}
            :mod {:first {:pred :first}

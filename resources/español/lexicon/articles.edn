@@ -47,23 +47,27 @@
  "nuestras" [{:agr {:number :plur
                     :gender :fem}
               :sem {:pred :we}}]
- 
- "vostro" [{:agr {:number :sing
-                  :gender :masc}
-            :sem {:pred :you
-                  :context :informal}}]
- "vostra" [{:agr {:number :sing
-                  :gender :fem}
-            :sem {:pred :you
-                  :context :informal}}]
- "vostros" [{:agr {:number :plur
-                   :gender :fem}
-             :sem {:pred :you
-                   :context :informal}}]
- "vostras" [{:agr {:number :plur
-                   :gender :fem}
-             :sem {:pred :you
-                   :context :informal}}]
+
+ ;; commenting out "vostrX" possessive pronouns
+ ;; because as far as I know, most common dialects
+ ;; of Spanish do not use it:
+ ;;  "vostro" [{:agr {:number :sing
+ ;;                   :gender :masc}
+ ;;             :sem {:pred :you
+ ;;                   :context :informal}}]
+ ;;  "vostra" [{:agr {:number :sing
+ ;;                   :gender :fem}
+ ;;             :sem {:pred :you
+ ;;                   :context :informal}}]
+ ;;  "vostros" [{:agr {:number :plur
+ ;;                    :gender :fem}
+ ;;              :sem {:pred :you
+ ;;                    :context :informal}}]
+ ;;  "vostras" [{:agr {:number :plur
+ ;;                    :gender :fem}
+ ;;              :sem {:pred :you
+ ;;                    :context :informal}}]
+
  "su"                   
  [{:agr {:number :sing}
    :sem {:pred :he}}

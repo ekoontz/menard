@@ -31,6 +31,8 @@
 (declare generate-all)
 (declare get-lexemes)
 
+;; TODO: neither of these optimization work correctly
+;; when =true: keep them =false until bugs with it are fixed.
 #?(:clj (def ^:dynamic fold? false))
 #?(:clj (def ^:dynamic truncate? false))
 

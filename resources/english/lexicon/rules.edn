@@ -23,7 +23,7 @@
   :if {:cat :noun
        :sem {:locative? true}}
   :then [{:subcat []}]}
- 
+
  {:rule :adjectives-have-empty-modifiers
   :if {:cat :adjective
        :sem {:mod ::unspec}}
@@ -50,7 +50,7 @@
   :if {:cat :noun
        :inherently-plural? ::unspec}
   :then [{:inherently-plural? false}]}
- 
+
  {:rule :complementizer
   :if {:cat :comp}
   :then [(let [sem (atom :top)
@@ -67,7 +67,7 @@
           :reflexive? true
           :subcat []
           :sem {:obj :none}}
-         
+
          ;; object is reflexive (e.g. "she looks at herself")
          (let [obj (atom {:top :top})
                agr (atom :top)
@@ -86,11 +86,11 @@
                      :2 []}
             :sem {:obj obj}})
 
-         ;; object is not reflexive (e.g. "she looks at her")         
+         ;; object is not reflexive (e.g. "she looks at her")
          (let [obj (atom :top)
                interogative? (atom :top)]
            {:cat :prep
-            :interogative? interogative?            
+            :interogative? interogative?
             :reflexive? false
             :subcat {:1 {:case :acc
                          :interogative? interogative?
@@ -225,7 +225,7 @@
                          :agr agr
                          :sem semantic-subject}
                      :3 []}})
-         
+
          ;; 3. transitive, nonreflexive:
          (let [subj (atom {:existential? false})
                obj (atom {:existential? false})]
@@ -240,7 +240,7 @@
             :reflexive? false
             :sem {:subj subj
                   :obj obj}})]}
-  
+
  {:rule :reflexive-transitive-verb
   :if {:cat :verb
        :reflexive? true
@@ -292,11 +292,11 @@
  {:rule :dont-inflect-intensifiers
   :if {:cat :intensifier}
   :then [{:inflected? true}]}
- 
+
  {:rule :dont-inflect-neg
   :if {:cat :neg}
   :then [{:inflected? true}]}
- 
+
  {:rule :dont-inflect-prepositions
   :if {:cat :prep}
   :then [{:inflected? true}]}
@@ -304,7 +304,7 @@
  {:rule :dont-inflect-determiners
   :if {:cat :det}
   :then [{:inflected? true}]}
- 
+
  ;; </non-inflecting rules>
 
  {:rule :intensifier-semantics
@@ -374,7 +374,7 @@
                          :cat :noun
                          :case :nom
                          :subcat []}}})]}
- 
+
  {:rule :dont-inflect-pronouns
   :if {:cat :noun
        :pronoun? true}
@@ -384,7 +384,7 @@
   :if {:cat :noun
        :propernoun? true}
   :then [{:inflected? true}]}
- 
+
  {:rule :ditransitive-false
   :if {:cat :verb
        :modal :none
@@ -404,7 +404,7 @@
        :pronoun? false
        :agr {:person ::unspec}}
   :then [{:agr {:person :3rd}}]}
- 
+
  {:rule :common-noun-number
   :if {:cat :noun
        :propernoun? false
@@ -552,7 +552,7 @@
               :subcat {:1 {:sem subj}
                        :2 {:root {:canonical preposition}
                            :cat :prep
-                           :subcat []                           
+                           :subcat []
                            :sem {:obj iobj}}}})])}
 
  {:rule :adjectival-arg-verbs ;; "fall asleep"
@@ -598,7 +598,7 @@
                          :canonical with-noun
                          :subcat []}
                      :3 []}}])}
- 
+
  {:rule :ditransitive-verbs ;; "gives" in "she gives it to her"
   :if {:cat :verb
        :modal :none
@@ -630,7 +630,7 @@
                    :context context}
              :subcat {:1 {:sem {:pred quant
                                 :context context}}}})]}
- 
+
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity
   :if {:cat :verb
@@ -641,7 +641,7 @@
   :then (let [iobj (atom :top)
               agr (atom :top)]
           ;; "talks to her"
-          [{:derivation {:prep-arg-reflexivity {:sense 1}} 
+          [{:derivation {:prep-arg-reflexivity {:sense 1}}
             :reflexive? false
             :subcat {:2 {:reflexive? false}}}
 
@@ -750,7 +750,7 @@
            {:inflected? true
             :sem {:subj subj
                   :pred :anaphoric}
-            
+
             :subcat {:1 {:sem subj}
                      :2 []}
             :modal-with-pred? false}
@@ -842,7 +842,7 @@
            {:inflected? true
             :sem {:subj subj
                   :pred :anaphoric}
-            
+
             :subcat {:1 {:sem subj}
                      :2 []}}
 
@@ -851,7 +851,7 @@
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
-                         :aux? false                         
+                         :aux? false
                          :modal :none
                          :infl :present-participle
                          :sem sem
@@ -903,7 +903,6 @@
                          :sem sem
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}
-           
            ]
           )
   }
@@ -957,7 +956,7 @@
                      :2 {:canonical "to"
                          :cat :verb
                          :phrasal? false}}}
-           
+
            ;; "used to leave"
            {:sense 2
             :sem sem
@@ -1032,7 +1031,5 @@
          :post-lex-rules-stop? ::unspec}
     :then [{:sem {:tense :past
                   :aspect :simple}}]}
-
- 
  ]
 

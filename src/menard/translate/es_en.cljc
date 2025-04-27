@@ -39,9 +39,9 @@
 (defn es-structure-to-en-structure [es-parse & [es-model en-model]]
   (let [english-spec (es-parse-to-en-spec es-parse)
         en-model (or en-model @en-complete/model)]
-    (log/info (str "es-structure-to-en-structure: "
+    (log/debug (str "es-structure-to-en-structure: "
                    (es/syntax-tree es-parse)))
-    (log/info (str "es-structure-to-en-structure: english input spec for generation: " (l/pprint english-spec)))
+    (log/debug (str "es-structure-to-en-structure: english input spec for generation: " (l/pprint english-spec)))
     (let [en-expression (try (-> english-spec (en/generate en-model))
                              (catch Exception e
                                (log/error (str "es-to-en: failed to generate an English expression "
@@ -53,7 +53,7 @@
         (log/error (str "could not generate english expression for target: "
                         (es/syntax-tree es-parse) ";spec: " (l/pprint english-spec))))
       (log/debug (str "en-expression: " (l/pprint en-expression)))
-      (log/info (str "morph(en-expression): " (en/morph en-expression)))
+      (log/debug (str "morph(en-expression): " (en/morph en-expression)))
       en-expression)))
   
 (defn es-string-to-en-structure

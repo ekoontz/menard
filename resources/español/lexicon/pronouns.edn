@@ -93,7 +93,7 @@
                  :gender :masc
                  :pred :they}
            :reflexive? false}])
- 
+
  "ellas" (let [agr {:person :3rd
                     :gender :fem
                     :number :plur}]
@@ -109,7 +109,7 @@
                    :gender :fem
                    :pred :they}
              :reflexive? false}])
- 
+
  "ellos" (let [agr {:person :3rd
                     :gender :masc
                     :number :plur}]
@@ -132,7 +132,7 @@
               :pred :i}
         :case :acc
         :reflexive? true}]
-  
+
  "nos" [{:agr {:number :plur
                :person :1st}
          :sem {:ref {:human? true}
@@ -193,7 +193,7 @@
         :agr {:person :3rd
               :number :plur}
         :reflexive? true}
-       
+
        {:sense 5
         :sem {:pred :you
               :ref {:formal? true}}
@@ -206,7 +206,7 @@
         :sem {:pred :you
               :ref {:formal? true}}
         :agr {:person :2nd
-              :number :plur              
+              :number :plur
               :formal? true}
         :reflexive? true}
 
@@ -218,7 +218,7 @@
         :sem {:ref {:human? true}
               :pred :you}
         :reflexive? true}]
-      
+
 
  "tú" [{:case :nom
         :agr {:number :sing
@@ -241,7 +241,7 @@
  "ustedes" [{:case :nom
              :agr {:number :plur
                    :person :2nd
-                   :formal? true}            
+                   :formal? true}
              :sem {:ref {:human? true
                          :context :formal}
                    :pred :you}

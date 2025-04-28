@@ -10,6 +10,12 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+(defn object-pronoun-reflexivity [es-parse]
+  (let [reflexive? (u/get-in es-parse [:obj :reflexive?] ::none)]
+    (if (= reflexive? ::none)
+      {:obj {:reflexive? reflexive?}}
+      :top)))
+
 (defn es-parse-to-en-spec [es-parse]
   (log/debug (str "es-parse-to-en-spec parse: " (es/syntax-tree es-parse)))
   (log/debug (str "es-parse-to-en-spec sem: " (l/pprint (u/get-in es-parse [:sem]))))
@@ -25,7 +31,6 @@
             :sem (-> es-parse (u/get-in [:sem]))
             :cat (-> es-parse (u/get-in [:cat]))
             :phrasal? (-> es-parse (u/get-in [:phrasal?] :top))
-            :reflexive? (-> es-parse (u/get-in [:reflexive?] :top))
             :subcat (-> es-parse (u/get-in [:subcat]))}
            ;; Below we set [:sem :iobj] to :none by default,
            ;; but we cannot do the same with [:sem :obj] because
@@ -35,7 +40,10 @@
            ;; For example, 'levantarse' (get up) has no [:sem :obj]
            ;; in English, but 'pettinarse' (comb oneself) *does*
            ;; have a [:sem :obj].
-           {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}})))
+           {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}
+
+           ;; if there's an object pronoun, and it's reflexive, then set this in english too:
+           (object-pronoun-reflexivity es-parse))))
 
 (defn es-structure-to-en-structure [es-parse & [es-model en-model]]
   (let [english-spec (es-parse-to-en-spec es-parse)

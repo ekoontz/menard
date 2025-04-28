@@ -201,7 +201,8 @@
                             {:root "ver"
                              :subcat []
                              :reflexive? false
-                             :head {:comp {:reflexive? false}}
+                             :head {:comp {:reflexive? false
+                                           :pronoun? true}}
                              :sem {:subj {:pred :i}
                                    :tense :present
                                    :aspect :simple}

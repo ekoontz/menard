@@ -8,8 +8,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-;; https://es.wiktionary.org/wiki/quedarse#Conjugaci%C3%B3n
-
 ;; if you made changes to these, you can uncomment them to reload them
 ;; so that in turn the below model will be reloaded with these changes:
 ;;(load "../../../../src/menard/subcat")

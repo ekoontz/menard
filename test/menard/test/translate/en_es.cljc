@@ -173,3 +173,44 @@
 
 (defn do-timing []
   (take 10 (repeatedly #(time (println (timings))))))
+
+(deftest direct-object-pronouns
+  (let [es-spec
+        {:root "ver"
+         :subcat []
+         :reflexive? false
+         :head {:comp {:reflexive? false}}
+         :sem {:subj {:pred :i}
+               :tense :present
+               :aspect :simple
+               :obj {:pred :they
+                     :gender :masc}}
+         :rule "s"}]
+    (is (= "[s(:present-simple) .yo +[vp-pronoun(:present-simple) .los +veo]]"
+           (-> es-spec
+               es/generate
+               es/syntax-tree)))
+    (is (= "[s(:present-simple) .I +[vp +see .them]]"
+           (-> es-spec
+               es/generate
+               translate/es-structure-to-en-structure
+               en/syntax-tree))))
+  (doall
+   (take 10
+         (repeatedly #(let [es-spec
+                            {:root "ver"
+                             :subcat []
+                             :reflexive? false
+                             :head {:comp {:reflexive? false}}
+                             :sem {:subj {:pred :i}
+                                   :tense :present
+                                   :aspect :simple}
+                             :rule "s"}]
+                        (let [es-generated (-> es-spec es/generate)
+                              en-generated (-> es-generated translate/es-structure-to-en-structure)]
+                          (log/info (str "es: " (-> es-generated es/syntax-tree)))
+                          (log/info (str "en: " (-> en-generated en/syntax-tree)))
+                          (is (not (nil? es-generated)))
+                          (is (not (nil? en-generated)))))))))
+
+

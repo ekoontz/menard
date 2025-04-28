@@ -80,7 +80,7 @@
 
  "los" (let [agr {:person :3rd
                   :gender :masc
-                  :number :sing}]
+                  :number :plur}]
          [{:case :acc
            :agr agr
            :sem {:ref {:human? true}

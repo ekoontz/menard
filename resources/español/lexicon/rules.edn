@@ -422,6 +422,21 @@
                     :reflexive? false}}}
   :then [{:subcat {:1 {:case :nom}}}]}
 
+ {:rule :subcat-1-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [{:subcat {:1 {:subcat []}}}]}
+
+ {:rule :subcat-2-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [{:subcat {:2 {:subcat []}}}]}
+
+ {:rule :subcat-3-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:3 {:cat :noun}}}
+  :then [{:subcat {:3 {:subcat []}}}]}
+ 
  {:rule :existential-false-pronouns
   :if {:cat :noun
        :pronoun? true

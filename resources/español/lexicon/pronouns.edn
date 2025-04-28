@@ -64,7 +64,7 @@
 
  "las" (let [agr {:person :3rd
                   :gender :fem
-                  :number :sing}]
+                  :number :plur}]
          [{:case :acc
            :agr agr
            :sem {:ref {:human? true}

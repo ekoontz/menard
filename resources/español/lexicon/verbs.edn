@@ -271,7 +271,8 @@
                     :reflexive? reflexivity
                     :infl :participio
                     :subcat {:1 subj}
-                    :sem sem}}
+                    :sem sem}
+                :3 []}
        :sem sem})
 
     ;; e.g. "he comido":    
@@ -289,7 +290,9 @@
                     :infl :participio
                     :subcat {:1 subj}
                     :sem sem}
-                :2 []}
+                ;; TODO: should move the two lines below to lexical rules:
+                :2 []
+                :3 []}
        :sem sem})
     
     ;; aux sense, reflexive without explicit subject:
@@ -309,8 +312,12 @@
                     :reflexive? reflexivity
                     :infl :participio
                     :subcat {:1 subj
-                             :2 []}
-                    :sem sem}}
+                             ;; TODO: should move the two lines below to lexical rules:
+                             :2 []
+                             :3 []}
+                    :sem sem}
+                ;; TODO: should move line below to lexical rules:
+                :3 []}
        :sem sem})
 
     ;; aux sense, reflexive with explicit subject:
@@ -334,7 +341,9 @@
                     :reflexive? reflexivity
                     :infl :participio
                     :subcat {:1 subj
-                             :2 reflexive-pronoun}
+                             :2 reflexive-pronoun
+                             ;; TODO: should move line below to lexical rules:
+                             :3 []}
                     :sem sem}}
        :sem sem})
     

@@ -271,7 +271,8 @@
                     :reflexive? reflexivity
                     :infl :participio
                     :subcat {:1 subj}
-                    :sem sem}}
+                    :sem sem}
+                :3 []}
        :sem sem})
 
     ;; e.g. "he comido":    

@@ -69,7 +69,10 @@
   ;;    (is (= (-> non-reflexive syntax-tree)
   ;;           "[s-aux(:preterito-perfecto) +he .comido]")))
 
-  (let [reflexive (-> "me he lastimado" parse first)]
+  (let [reflexive (->> "me he lastimado"
+                       parse
+                       (filter #(= [] (u/get-in % [:subcat]))) ;; filter out partial parses
+                       first)]
     (is (= (-> reflexive syntax-tree)
            "[s-aux(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:implicit-subj-reflexive) .lastimado(:implicit-subj)]]"))
     (is (= (-> reflexive (u/get-in [:sem :aspect])) :perfect))

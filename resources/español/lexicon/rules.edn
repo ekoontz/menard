@@ -305,23 +305,27 @@
                          :reflexive? true}
                      :2 []}}])}
 
- {:rule :intrans-only
-  :if {:cat :verb
-       :intransitive? true
-       :transitive? ::unspec}
-  :then [{:transitive? false}]}
-
  {:rule :aux-default
   :if {:cat :verb
        :aux? ::unspec}
   :then [{:aux? false}]}
-
+ 
+ {:rule :intrans-only
+  :if {:cat :verb
+       :intransitive? true
+       :subcat-frames ::unspec
+       :transitive? ::unspec}
+  :then [{:transitive? false
+          :subcat-frames :intrans-only}]}
+ 
  {:rule :trans-only
   :if {:cat :verb
        :aux? false
+       :subcat-frames ::unspec
        :intransitive? ::unspec
        :transitive? true}
-  :then [{:intransitive? false}]}
+  :then [{:intransitive? false
+          :subcat-frames :trans-only}]}
 
  {:rule :modal-default-none
   :if {:cat :verb
@@ -331,6 +335,7 @@
  {:rule :subcat-intransitive
   :if {:cat :verb
        :aux? false
+       :subcat-frames :intrans-only
        :intransitive? true
        :modal :none}
   :then (let [subj (atom :top)]
@@ -345,6 +350,7 @@
  {:rule :subcat-intransitive-modal
   :if {:cat :verb
        :modal :infinitive
+       :subcat-frames ::unspec
        :intransitive? true}
   :then (let [subj (atom :top)]
           [{:transitive? false
@@ -357,10 +363,40 @@
 
  {:rule :subcat-transitive
   :if {:cat :verb
-       :transitive? true}
+       :transitive? true
+       :subcat-frames ::unspec}
   :then (let [subj (atom :top)
               obj (atom :top)]
           [{:intransitive? false
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj}
+                     :2 {:cat :noun
+                         :case :acc
+                         :sem obj}
+                     :3 []}}])}
+
+ {:rule :subcat-both
+  :if {:cat :verb
+       :reflexive? false
+       :subcat-frames :both}
+  :then (let [subj (atom :top)
+              obj (atom :top)]
+          ;; intransitive
+          [{:transitive? false
+            :intransitive? true
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj}
+                     :2 []}
+            :sem {:subj subj
+                  :obj :none}}
+
+           ;; transitive
+           {:intransitive? false
+            :transitive? true
             :sem {:subj subj
                   :obj obj}
             :subcat {:1 {:cat :noun
@@ -386,6 +422,21 @@
                     :reflexive? false}}}
   :then [{:subcat {:1 {:case :nom}}}]}
 
+ {:rule :subcat-1-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [{:subcat {:1 {:subcat []}}}]}
+
+ {:rule :subcat-2-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [{:subcat {:2 {:subcat []}}}]}
+
+ {:rule :subcat-3-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:3 {:cat :noun}}}
+  :then [{:subcat {:3 {:subcat []}}}]}
+ 
  {:rule :existential-false-pronouns
   :if {:cat :noun
        :pronoun? true
@@ -422,7 +473,7 @@
        :propernoun? true
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}
-
+ 
  {:rule :propernoun-person-default
   :if {:cat :noun
        :propernoun? true
@@ -497,7 +548,7 @@
   :then [(let [number (atom :top)]
            {:agr {:number number}
             :sem {:ref {:number number}}})]}
-
+ 
  {:rule :common-noun-1
   :if {:cat :noun
        :pronoun? false
@@ -521,5 +572,5 @@
   :if {:cat :adjective
        :modifies-noun ::unspec}
   :then [{:modifies-noun :post}]}
-
+ 
  ]

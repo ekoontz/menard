@@ -71,12 +71,21 @@
 
   (let [reflexive (->> "me he lastimado"
                        parse
-                       (filter #(= [] (u/get-in % [:subcat]))) ;; filter out partial parses
+                       ;; filter out partial parses:
+                       (filter #(= [] (u/get-in % [:subcat])))
                        first)]
     (is (= (-> reflexive syntax-tree)
            "[s-aux(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:implicit-subj-reflexive) .lastimado(:implicit-subj)]]"))
     (is (= (-> reflexive (u/get-in [:sem :aspect])) :perfect))
-    (is (= (-> reflexive (u/get-in [:sem :tense])) :past))))
+    (is (= (-> reflexive (u/get-in [:sem :tense])) :past)))
+
+
+  (let [non-reflexive (->> "yo he comido"
+                           parse
+                           (filter #(= [] (u/get-in % [:subcat])))
+                           first)]
+    (is (= (-> non-reflexive syntax-tree)
+           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]"))))
 
 (deftest generate-test
   (is (= (-> non-reflexive-spec generate syntax-tree)

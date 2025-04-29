@@ -275,7 +275,7 @@
                 :3 []}
        :sem sem})
 
-    ;; e.g. "he comido":    
+    ;; e.g. "he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
           reflexivity (atom false)
@@ -294,7 +294,7 @@
                 :2 []
                 :3 []}
        :sem sem})
-    
+
     ;; aux sense, reflexive without explicit subject:
     ;; e.g. "me he lastimado"
     (let [sem (atom {:tense :past

@@ -303,7 +303,8 @@
                          :agr agr
                          :sem subj
                          :reflexive? true}
-                     :2 []}}])}
+                     :2 []
+                     :3 []}}])}
 
  {:rule :aux-default
   :if {:cat :verb
@@ -448,7 +449,6 @@
        :propernoun? true
        :sem {:existential? ::unspec}}
    :then [{:sem {:existential? false}}]}
-
 
  {:rule :verbs-have-empty-sem-modifiers
   :if {:cat :verb

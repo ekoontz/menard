@@ -906,6 +906,7 @@
               :2 {:cat :verb
                   :to? false
                   :agr agr
+                  :infl :base
                   :reflexive? reflexive?                  
                   :sem sem
                   :modal :infinitive

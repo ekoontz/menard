@@ -309,22 +309,20 @@
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (let [lexemes (get-lexemes spec lexicon-index-fn at)
-                 debug (log/debug (str "pre-inflected?-filtering: " (vec (map l/pprint lexemes))))
-                 exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)]
+                 exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)
+                 non-exceptions (filter #(= false (u/get-in % [:exception?] false)) lexemes)]
              (when more-logging?
                (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes) " at: " (vec at)))
-               (log/info (str "add-lexeme: of those, there were " (count exceptions) " exception(s).")))
-             ;; (remove all lexemes that are covered by exceptions):
-             (let [exception-canonicals (->> exceptions
-                                             (map #(u/get-in % [:canonical])) set)]
-               (concat exceptions
-                       (remove (fn [lexeme]
-                                (when more-logging? 
-                                  (log/info (str "canonicals: " exception-canonicals))
-                                  (log/info (str "canonical of lexeme: " (u/get-in lexeme [:canonical])))
-                                  (log/info (str "contains? " (contains? exception-canonicals (u/get-in lexeme [:canonical])))))
-                                 (contains? exception-canonicals (u/get-in lexeme [:canonical])))
-                               lexemes))))
+               (log/info (str "            of those: " (count exceptions) " "
+                              (pluralize "exception" (count exceptions)) "."))
+               (log/info (str "            of those: " (count non-exceptions) " "
+                              (pluralize "non-exception" (count non-exceptions)) "."))
+               (doall (map (fn [lexeme]
+                             (str "     exceptional lexeme: " (syntax-tree lexeme)))
+                           exceptions)))
+             ;; TODO: should not have to return exceptions - only non-exceptions:
+             (concat non-exceptions exceptions))
+
            (#(do
                (when more-logging?
                  (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))

@@ -222,7 +222,7 @@
       first-matching-exception
       (do
         (log/debug (str "found an exception: using that: " first-matching-exception))
-        (morph-leaf first-matching-exception morphology))
+        (morph-leaf first-matching-exception morphology option-map))
       :else
       (str
        (cond

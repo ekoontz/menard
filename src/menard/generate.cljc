@@ -241,6 +241,10 @@
                             "; fail-paths:"
                             (when (seq fail-paths)
                               (vec fail-paths))))))
+         (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
+           (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
+                          (str "; first result: "
+                               (strip-refs (select-keys (first result) show-keys))))))
          result)
 
        ;; condition 3: add only lexemes at location _at_:
@@ -280,6 +284,14 @@
            %)))))
 
 (declare get-lexemes)
+
+(defn pluralize [input count]
+  (cond
+    (== count 1)
+    (str input)
+
+    ;; TODO add noun ending morphology e.g. try => tries, match => matches
+    :else (str input "s")))
 
 (defn add-lexeme
   "Return a lazy sequence of all trees made by adding every possible
@@ -337,7 +349,7 @@
            (map (fn [candidate-lexeme]
                   (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
                     (log/info (str "adding candidate lexeme at: " (vec at) ": "
-                                   (or (u/get-in candidate-lexeme [:canonical]) (l/pprint candidate-lexeme)))))
+                                   (syntax-tree candidate-lexeme))))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -386,6 +398,7 @@
         at-num (tr/numeric-frontier (:syntax-tree tree {}))]
     (log/debug (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
                     (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs)))
+                                     (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs))))
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)

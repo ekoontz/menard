@@ -1,6 +1,6 @@
 (ns menard.test.español.direct-objects
   (:require [menard.español.curated-verbs :as es
-             :refer [generate morph parse syntax-tree]]
+             :refer [analyze generate morph parse syntax-tree]]
             [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u :refer [unify]]
@@ -10,11 +10,11 @@
 
 ;; if you made changes to these, you can uncomment them to reload them
 ;; so that in turn the below model will be reloaded with these changes:
-;;(load "../../../../src/menard/subcat")
-;;(load "../../../../src/menard/español/tenses")
+(load "../../../../src/menard/subcat")
+(load "../../../../src/menard/español/tenses")
 
 ;; reload the model every time to help with debugging the model:
-;;(load "../../../../src/menard/español/curated_verbs")
+(load "../../../../src/menard/español/curated_verbs")
 
 (def model es/model)
 
@@ -34,6 +34,3 @@
                                  :rule "s"}
                                  es/generate
                                  es/morph)))))))
-
-  
-

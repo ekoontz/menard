@@ -24,6 +24,9 @@
   (dosync (ref-set model (model-fn)))
   (type @model))
 
+(defn analyze [spec]
+  (es/analyze spec false @model))
+
 (defn generate [spec]
   (es/generate spec @model))
 

@@ -308,21 +308,7 @@
       (log/info (str "add-lexeme: " (syntax-tree tree) " at: " (vec at) " looking for lexeme matching spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
-      (->> (let [lexemes (get-lexemes spec lexicon-index-fn at)
-                 exceptions (filter #(= true (u/get-in % [:exception?])) lexemes)
-                 non-exceptions (filter #(= false (u/get-in % [:exception?] false)) lexemes)]
-             (when more-logging?
-               (log/info (str "add-lexeme: (get-lexemes) lexemes: " (count lexemes) " at: " (vec at)))
-               (log/info (str "            of those: " (count exceptions) " "
-                              (pluralize "exception" (count exceptions)) "."))
-               (log/info (str "            of those: " (count non-exceptions) " "
-                              (pluralize "non-exception" (count non-exceptions)) "."))
-               (doall (map (fn [lexeme]
-                             (str "     exceptional lexeme: " (syntax-tree lexeme)))
-                           exceptions)))
-             ;; TODO: should not have to return exceptions - only non-exceptions:
-             (concat non-exceptions exceptions))
-
+      (->> (get-lexemes spec lexicon-index-fn at)
            (#(do
                (when more-logging?
                  (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))

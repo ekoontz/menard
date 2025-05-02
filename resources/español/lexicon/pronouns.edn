@@ -130,8 +130,7 @@
               :person :1st}
         :sem {:ref {:human? true}
               :pred :i}
-        :case :acc
-        :reflexive? true}]
+        :case :acc}]
 
  "nos" [{:agr {:number :plur
                :person :1st}
@@ -217,8 +216,7 @@
               :formal? false}
         :sem {:ref {:human? true}
               :pred :you}
-        :reflexive? true}]
-
+        :case :acc}]
 
  "tú" [{:case :nom
         :agr {:number :sing
@@ -226,8 +224,7 @@
               :formal? false}
         :sem {:ref {:human? true
                     :context :informal}
-              :pred :you}
-        :reflexive? false}]
+              :pred :you}}]
 
  "usted" [{:case :nom
            :agr {:number :sing

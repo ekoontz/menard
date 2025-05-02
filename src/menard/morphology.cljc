@@ -253,7 +253,8 @@
          :else
          "_")
        (let [sense (if show-sense?
-                     (str (u/get-in structure [:sense])
+                     (str (if (not (= :top (u/get-in structure [:sense] :top)))
+                            (u/get-in structure [:sense]))
                           (if (u/get-in structure [:rule-sense])
                             (str "/" (u/get-in structure [:rule-sense])))))]
          (when (seq sense) (str "(" sense ")")))))))

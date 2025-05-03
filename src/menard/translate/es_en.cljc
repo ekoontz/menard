@@ -11,8 +11,8 @@
             #?(:cljs [menard.log :as log])))
 
 (defn object-pronoun-reflexivity [es-parse]
-  (let [reflexive? (u/get-in es-parse [:obj :reflexive?] ::none)]
-    (if (= reflexive? ::none)
+  (let [reflexive? (u/get-in es-parse [:obj :reflexive?] :none)]
+    (if (= reflexive? :none)
       {:obj {:reflexive? reflexive?}}
       :top)))
 
@@ -61,8 +61,8 @@
       (when (nil? en-expression)
         (log/error (str "could not generate english expression for target: "
                         (es/syntax-tree es-parse) ";spec: " (l/pprint english-spec))))
-      (log/debug (str "en-expression: " (l/pprint en-expression)))
-      (log/debug (str "morph(en-expression): " (en/morph en-expression)))
+      (log/info (str "en-expression: " (l/pprint en-expression)))
+      (log/info (str "morph(en-expression): " (en/morph en-expression)))
       en-expression)))
   
 (defn es-string-to-en-structure

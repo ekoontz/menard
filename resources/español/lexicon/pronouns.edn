@@ -224,7 +224,8 @@
               :formal? false}
         :sem {:ref {:human? true
                     :context :informal}
-              :pred :you}}]
+              :pred :you}
+        :reflexive? false}]
 
  "usted" [{:case :nom
            :agr {:number :sing

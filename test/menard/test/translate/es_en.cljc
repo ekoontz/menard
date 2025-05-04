@@ -1,6 +1,10 @@
-(ns menard.test.translate.en-es
+(ns menard.test.translate.es-en
   (:require [dag_unify.core :as u :refer [unify]]
+
+            ;; TODO: load a subset of the default "complete" model
+            ;; rather than the whole thing:
             [menard.english :as en]
+
             [menard.español :as es]
             [menard.lexiconfn :as l]
             [menard.translate.es-en :as translate]
@@ -11,10 +15,15 @@
 ;; if you made changes to these, you can uncomment them to reload them
 ;; so that in turn the below model will be reloaded with these changes:
 (load "../../../../src/menard/subcat")
+(load "../../../../src/menard/español")
 (load "../../../../src/menard/español/tenses")
 
-;; reload the model every time to help with debugging the model:
+
+;; reload the models every time to help with debugging the model:
 (load "../../../../src/menard/español/curated_verbs")
+;; TODO: load a subset of the default "complete" model
+;; rather than the whole thing:
+(load "../../../../src/menard/english/complete")
 
 (deftest subj-pred
   (is (or  (= "I want" (translate/es-to-en "yo quiero"))
@@ -141,7 +150,106 @@
            "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive) .llenado]]"))
     (is (= (binding [menard.morphology/show-notes? false]
              (en/syntax-tree en-generated))
-           "[s(:perfect) .they +[vp +have(2) .filled]]")))
+           "[s(:perfect) .they +[vp +have(2) .filled]]"))))
+
+(deftest translate-reflexives
+  (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s" (:rule %))))
+        significant-parts-1 (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)
+        i-wash-myself (->> "I wash myself" en/parse (filter #(= "s" (:rule %))))
+        significant-parts-2 (->> i-wash-myself (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+    (is
+     (= significant-parts-1
+        [{:sem
+          {:subj
+           {:existential? false,
+            :mod (),
+            :ref {:human? true, :number :sing},
+            :pred :i},
+           :mod (),
+           :pred :wash-oneself,
+           :aspect :simple,
+           :tense :present},
+          :reflexive? true}]))
+    (is
+     (= significant-parts-2
+        [{:sem
+          {:obj
+           {:obj :none,
+            :existential? false,
+            :mod (),
+            :locative? false,
+            :ref {:human? true, :number :sing}},
+           :subj
+           {:existential? false,
+            :mod (),
+            :locative? false,
+            :ref {:human? true, :number :sing},
+            :pred :i},
+           :mod (),
+           :pred :wash-oneself,
+           :aspect :simple,
+           :tense :present},
+          :reflexive? true}]))
+
+    (is (= ["[s(:present-simple){+} .I +[vp{+} +wash .myself]]"]
+           (->> yo-me-lavo (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree)))))
+
+  (let [i-get-up (->> "I get up" en/parse (filter #(= "s" (:rule %))))
+            significant-parts-3 (->> i-get-up (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+        (is
+         (= significant-parts-3
+            [{:sem
+              {:obj :none,
+               :iobj :none,
+               :subj
+               {:existential? false,
+                :mod (),
+                :locative? false,
+                :ref {:human? true, :number :sing},
+                :pred :i},
+               :mod (),
+               :pred :get-up,
+               :aspect :simple,
+               :tense :present},
+              :reflexive? false}])))
+  
+    (let [yo-me-despierto (->> "yo me despierto" es/parse (filter #(= "s" (:rule %))))
+          significant-parts-4 (->> yo-me-despierto (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+      (is
+       (= significant-parts-4
+          [{:sem
+            {:subj
+             {:existential? false,
+              :mod (),
+              :ref {:human? true, :number :sing},
+              :pred :i},
+             :mod (),
+             :pred :wake-up,
+             :aspect :simple,
+             :tense :present},
+            :reflexive? true}]))
+      (is (= ["[s(:present-simple) .I +[vp +wake .up]]"]
+             (->> yo-me-despierto (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree)))))
+
+      (let [yo-me-levanto (->> "yo me levanto" es/parse (filter #(= "s" (:rule %))))
+          significant-parts-5 (->> yo-me-levanto (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+        (is
+         (= significant-parts-5
+            [{:sem
+              {:subj
+               {:existential? false,
+                :mod (),
+                :ref {:human? true, :number :sing},
+                :pred :i},
+               :mod (),
+               :pred :get-up,
+               :aspect :simple,
+               :tense :present},
+              :reflexive? true}]))
+        (is (= ["[s(:present-simple) .I +[vp +get .up]]"]
+               (->> yo-me-levanto (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree))))))
+
+(deftest translation-from-target-language-spec
   (let [es-spec {:rule "s"
                  :sem {:subj
                        {:existential? false
@@ -222,4 +330,66 @@
                           (is (not (nil? es-generated)))
                           (is (not (nil? en-generated)))))))))
 
+(deftest reflexivity-tranfer
+  (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s" (:rule %))))
+        significant-parts (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+    (is
+     (= significant-parts
+        [{:sem
+          {:subj
+           {:existential? false,
+            :mod (),
+            :ref {:human? true, :number :sing},
+            :pred :i},
+           :mod (),
+           :pred :wash-oneself,
+           :aspect :simple,
+           :tense :present},
+          :reflexive? true}])))
 
+  (let [i-wash-myself (->> "I wash myself" en/parse (filter #(= "s" (:rule %))))
+        significant-parts (->> i-wash-myself (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+    (is
+     (= significant-parts
+        [{:sem
+          {:obj
+           {:obj :none,
+            :existential? false,
+            :mod (),
+            :locative? false,
+            :ref {:human? true, :number :sing}},
+           :subj
+           {:existential? false,
+            :mod (),
+            :locative? false,
+            :ref {:human? true, :number :sing},
+            :pred :i},
+           :mod (),
+           :pred :wash-oneself,
+           :aspect :simple,
+           :tense :present},
+          :reflexive? true}]))
+
+  (let [i-get-up (->> "I get up" en/parse (filter #(= "s" (:rule %))))
+        significant-parts (->> i-get-up (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+    (is
+     (= significant-parts
+        [{:sem
+          {:obj :none,
+           :iobj :none,
+           :subj
+           {:existential? false,
+            :mod (),
+    :locative? false,
+            :ref {:human? true, :number :sing},
+            :pred :i},
+           :mod (),
+           :pred :get-up,
+           :aspect :simple,
+           :tense :present},
+          :reflexive? false}])))))
+
+
+
+
+    

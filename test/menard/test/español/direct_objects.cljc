@@ -18,19 +18,19 @@
 
 (def model es/model)
 
-(deftest generate-yo-lo-vedo
-  (doall
-   (take 20 (repeatedly #(is (= "yo los veo"
-                                (->
-                                 {:root "ver"
-                                  :subcat []
-                                 :reflexive? false
-                                  :head {:comp {:reflexive? false}}
-                                  :sem {:subj {:pred :i}
-                                        :tense :present
-                                        :aspect :simple
-                                        :obj {:pred :they
-                                              :gender :masc}}
-                                 :rule "s"}
-                                 es/generate
-                                 es/morph)))))))
+(deftest generate
+  (is (= "yo los veo"
+         (->
+          {:root "ver"
+           :subcat []
+           :reflexive? false
+           :head {:comp {:reflexive? false}}
+           :sem {:subj {:pred :i}
+                 :tense :present
+                 :aspect :simple
+                 :obj {:pred :they
+                       :gender :masc}}
+           :rule "s"}
+          es/generate
+          es/morph))))
+

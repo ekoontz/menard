@@ -139,7 +139,8 @@
  {:rule "vp-aux-reflexive-2" ;; "he lastimado" (explicit subject)
   :cat :verb
   :reflexive? true
-  :head {:aux? true}
+  :head {:aux? true
+         :phrasal? false}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/k
           menard.ug/comp-is-root

@@ -18,7 +18,7 @@
 
 (def model es/model)
 
-(deftest generate
+(deftest generation
   (is (= "yo los veo"
          (->
           {:root "ver"

@@ -936,8 +936,13 @@
                 :aspect :progressive}
           :used-to? true}]
 
- "wake" [{:prepositional-verb {:with "up"}
-          :sem {:pred :wake-up}}]
+ "wake" (let [exceptions [{:infl :past-simple
+                           :surface "woke"}
+                          {:infl :past-participle
+                           :surface "woken"}]]
+          [{:prepositional-verb {:with "up"}
+            :sem {:pred :wake-up}
+            :exceptions exceptions}])
 
  "walk" [{:sem {:pred :walk}}
          {:sem {:pred :walk-c}}]

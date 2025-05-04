@@ -10,40 +10,23 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
-(defn object-pronoun-reflexivity [es-parse]
-  (let [reflexive? (u/get-in es-parse [:obj :reflexive?] :none)]
-    (if (= reflexive? :none)
-      {:obj {:reflexive? reflexive?}}
-      :top)))
-
-(defn es-parse-to-en-spec [es-parse]
-  (log/debug (str "es-parse-to-en-spec parse: " (es/syntax-tree es-parse)))
-  (log/debug (str "es-parse-to-en-spec sem: " (l/pprint (u/get-in es-parse [:sem]))))
-  (let [sem-mod (if (not (= (u/get-in es-parse [:sem :mod]) []))
-                  (u/get-in es-parse [:sem :mod])
+(defn es-structure-to-en-spec [es-structure]
+  (log/info (str "es-structure-to-en-spec tree: " (es/syntax-tree es-structure)))
+  (let [sem-mod (if (not (= (u/get-in es-structure [:sem :mod]) []))
+                  (u/get-in es-structure [:sem :mod])
                   [])
-        pronoun? (if (= (u/get-in es-parse [:pronoun?] ::none) ::none)
-                   (u/get-in es-parse [:pronoun?])
+
+        ;; TODO: what is going on here?
+        pronoun? (if (= (u/get-in es-structure [:pronoun?] ::none) ::none)
+                   (u/get-in es-structure [:pronoun?])
                    false)]
     (unify {:pronoun? pronoun?
             :sem {:mod sem-mod}}
-           {:agr (-> es-parse (u/get-in [:agr]))
-            :sem (-> es-parse (u/get-in [:sem]))
-            :cat (-> es-parse (u/get-in [:cat]))
-            :phrasal? (-> es-parse (u/get-in [:phrasal?] :top))
-            :subcat (-> es-parse (u/get-in [:subcat]))}
-           ;; Below we set [:sem :iobj] to :none by default,
-           ;; but we cannot do the same with [:sem :obj] because
-           ;; reflexive verbs in Spanish do not have an [:sem :obj],
-           ;; but the translation in English, depending on the verb,
-           ;; might have a [:sem :obj].
-           ;; For example, 'levantarse' (get up) has no [:sem :obj]
-           ;; in English, but 'pettinarse' (comb oneself) *does*
-           ;; have a [:sem :obj].
-           {:sem {:iobj (-> es-parse (u/get-in [:sem :iobj] :none))}}
-
-           ;; if there's an object pronoun, and it's reflexive, then set this in english too:
-           (object-pronoun-reflexivity es-parse))))
+           {:agr (-> es-structure (u/get-in [:agr]))
+            :sem (-> es-structure (u/get-in [:sem]))
+            :cat (-> es-structure (u/get-in [:cat]))
+            :phrasal? (-> es-structure (u/get-in [:phrasal?] :top))
+            :subcat (-> es-structure (u/get-in [:subcat]))})))
 
 (defn es-structure-to-en-structure [es-parse & [es-model en-model]]
   (let [english-spec (es-parse-to-en-spec es-parse)

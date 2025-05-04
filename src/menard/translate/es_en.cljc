@@ -28,10 +28,10 @@
             :phrasal? (-> es-structure (u/get-in [:phrasal?] :top))
             :subcat (-> es-structure (u/get-in [:subcat]))})))
 
-(defn es-structure-to-en-structure [es-parse & [es-model en-model]]
-  (let [english-spec (es-parse-to-en-spec es-parse)
+(defn es-structure-to-en-structure [es-structure & [es-model en-model]]
+  (let [english-spec (es-structure-to-en-spec es-structure)
         en-model (or en-model @en-complete/model)]
-    (log/debug (str "es-structure-to-en-structure: " (es/syntax-tree es-parse)))
+    (log/debug (str "es-structure-to-en-structure: " (es/syntax-tree es-structure)))
     (log/debug (str "es-structure-to-en-structure: english input spec for generation: " (l/pprint english-spec)))
     (log/debug (str "es-structure-to-en-structure: english input spec for generation (serialized): " (dag_unify.serialization/serialize english-spec)))
     (let [en-expression (try (-> english-spec (en/generate en-model))
@@ -43,9 +43,9 @@
       (log/debug (str "es-to-en: en-expression: " (en/syntax-tree en-expression)))
       (when (nil? en-expression)
         (log/error (str "could not generate english expression for target: "
-                        (es/syntax-tree es-parse) ";spec: " (l/pprint english-spec))))
-      (log/info (str "en-expression: " (l/pprint en-expression)))
-      (log/info (str "morph(en-expression): " (en/morph en-expression)))
+                        (es/syntax-tree es-structure) ";spec: " (l/pprint english-spec))))
+      (log/debug (str "en-expression: " (l/pprint en-expression)))
+      (log/debug (str "morph(en-expression): " (en/morph en-expression)))
       en-expression)))
   
 (defn es-string-to-en-structure
@@ -54,12 +54,12 @@
   (if es-input
     (log/debug (str "es-string-to-en-structure: es-input: " es-input))    
     (log/error (str "es-string-to-en-structure: es-input was null.")))
-  (log/info (str "es-string-to-en-structure: starting with es-input: " es-input))
+  (log/debug (str "es-string-to-en-structure: starting with es-input: " es-input))
   (let [es-model (or es-model es/model)
         parses (es/parse es-input es-model)]
     (if (seq parses)
       (do
-        (log/info (str "translating es parse: " (es/syntax-tree (first parses))))
+        (log/debug (str "translating es parse: " (es/syntax-tree (first parses))))
         (-> parses first (es-structure-to-en-structure es-model en-model)))
       (log/error (str "could not parse es-input: '" es-input "'")))))
 

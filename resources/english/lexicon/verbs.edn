@@ -195,7 +195,9 @@
  "clean" [{:sem {:pred :clean}}]
  "close" [{:sem {:pred :close}}]
  "comb" [{:sem {:pred :comb-oneself}
-          :reflexive? true}]
+          :reflexive? true}
+         {:sem {:pred :comb}
+          :reflexive? false}]
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle
@@ -562,6 +564,9 @@
                           {:infl :past-participle :surface "hurt"}]]
           [{:sem {:pred :hurt-oneself}
             :reflexive? true
+            :exceptions exceptions}
+           {:sem {:pred :hurt}
+            :reflexive? false
             :exceptions exceptions}])
  "increase" [{:sem {:pred :increase}}]
  "inhibit" [{ :sem {:pred :inhibit}}]
@@ -772,7 +777,8 @@
  "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "stay" [{:sem {:pred :stay}}]
  "step" [{:sem {:pred :step}}]
- "stop" [{:sem {:pred :stop}}
+ "stop" [{:sem {:pred :stop}
+          :reflexive? false}
          {:sem {:pred :stop-oneself}
           :reflexive? true}]
  "strike" [{:sem {:pred :strike}
@@ -950,10 +956,10 @@
                 :mental-state? true}
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}}]
- "wash" [{:sem {:pred :wash}}
+ "wash" [{:sem {:pred :wash}
+          :reflexive? false}
          {:sem {:pred :wash-oneself}
           :reflexive? true}]
-         
  "wear" (let [exceptions [{:infl :past-simple :surface "wore"}
                           {:infl :past-participle :surface "worn"}]]
           [{:sem {:pred :wear}

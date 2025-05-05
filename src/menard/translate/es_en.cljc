@@ -77,6 +77,16 @@
          (map #(es-structure-to-en-structure % es-model en-model))
          (remove nil?))))
 
+(defn es-to-en-surface-alternatives
+  "return several English surface translations for the given Spanish input."  
+  [es-input & [es-model en-model]]
+  (if es-input
+    (log/debug (str "es-to-en: es-input: " es-input))    
+    (log/error (str "es-to-en: es-input was null.")))
+  (log/debug (str "es-to-en: starting with es-input: " es-input))
+  (->> (es-to-en-structure-alternatives es-input es-model en-model)
+       (map en/morph)))
+
 (defn es-structure-to-en-string
   [es-parse & [es-model en-model]]
   (-> es-parse

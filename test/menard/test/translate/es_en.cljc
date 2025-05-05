@@ -380,7 +380,7 @@
            :subj
            {:existential? false,
             :mod (),
-    :locative? false,
+            :locative? false,
             :ref {:human? true, :number :sing},
             :pred :i},
            :mod (),

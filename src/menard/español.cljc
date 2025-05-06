@@ -24,7 +24,7 @@
           
           {:include-derivation? false}
           ;; change to true to  ^^^^^
-               ;;show derivation.
+          ;;show derivation.
           ))
 
 (def closed-class

@@ -690,10 +690,12 @@
 ;;   "sentirse" {}
 ;;   "soñar" {}
 
- "tener" [{:sem {:subj {:animate true},
-                 :pred :have},
-           :cat :verb,
+ "tener" [{:sem {:subj {:ref {:human? true}}
+                 :pred :have}
+           :cat :verb
+           :reflexive? false
            :subcat-frames :both
+           :object-constraints {:human? false}
            :exceptions
            [{:infl :present,
              :agr {:person :1st, :number :sing},

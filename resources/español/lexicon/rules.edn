@@ -383,31 +383,50 @@
   :if {:cat :verb
        :reflexive? false
        :subcat-frames :both}
-  :then (let [subj (atom :top)
-              obj (atom :top)]
+  :then (let [subj (atom :top)]
           ;; intransitive
-          [{:transitive? false
-            :intransitive? true
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :sem subj}
-                     :2 []}
-            :sem {:subj subj
-                  :obj :none}}
+          [(let [subj (atom :top)]
+             {:transitive? false
+              :intransitive? true
+              :subcat {:1 {:cat :noun
+                           :reflexive? false
+                           :sem subj}
+                       :2 []}
+              :sem {:subj subj
+                    :obj :none}})
 
-           ;; transitive
-           {:intransitive? false
-            :transitive? true
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :sem subj}
-                     :2 {:cat :noun
-                         :case :acc
-                         :sem obj}
-                     :3 []}}])}
+           ;; transitive, non-reflexive
+           ;; force the subj and obj to be distinct,
+           ;; so that semantic transfer to reflexive
+           ;; cannot happen:
+           (let [subj (atom {:ref {:a 1}})
+                 obj (atom {:ref {:a 2}})]
+             {:intransitive? false
+              :transitive? true
+              :sem {:subj subj
+                    :obj obj}
+              :subcat {:1 {:cat :noun
+                           :reflexive? false
+                           :sem subj}
+                       :2 {:cat :noun
+                           :reflexive? false
+                           :case :acc
+                           :sem obj}
+                       :3 []}})])}
 
+ {:rule :object-constraints-default
+  :if {:cat :verb
+       :object-constraints ::unspec}
+  :then [{:object-constraints :none}]}
+ 
+ {:rule :object-constraints
+  :if {:cat :verb
+       :object-constraints {:top :top}
+       :sem {:obj {:top :top}}}
+  :then [(let [ref (atom :top)]
+           {:sem {:obj {:ref ref}}
+            :object-constraints ref})]}
+ 
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :subcat {:1 {:cat :noun}}}

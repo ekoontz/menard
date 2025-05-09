@@ -21,7 +21,7 @@
   :sem {:tense :past
         :aspect :progressive}}
 
-  {:variant :preterito
+  {:variant :preterito ;; in wiktionary, this is the "Pretérito perfecto"
    :infl :preterito
    :aux? false
    :sem {:tense :past

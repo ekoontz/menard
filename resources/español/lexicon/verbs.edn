@@ -1,7 +1,9 @@
 {
  "abandonar" [{:sem {:pred :abandon}}]
  "abrazar" [{:sem {:pred :hug}}]
- "abrir" [{:sem {:pred :hug}}]
+ "abrir" [{:sem {:pred :open}
+           :exceptions [{:infl :participio
+                         :surface "abierto"}]}]
  "acabar" [{:sem {:pred :finish}}]
  "aceptar" [{:sem {:pred :accept}}]
  "acertar" [{:stems {:boot "aciert"}
@@ -383,7 +385,8 @@
                    {:infl :present
                     :agr {:person :3rd :number :plural}
                     :surface "hacen"}
-
+                   {:infl :participio
+                    :surface "hecho"}
                    {:infl :preterito
                     :agr {:person :1st :number :sing}
                     :surface "hize"}
@@ -632,7 +635,9 @@
      :surface "pones"}
     {:infl :present,
      :agr {:person :3rd, :number :sing},
-     :surface "pone"}],
+     :surface "pone"}
+    {:infl :participio
+     :surface "puesto"}],
    :stems {:preterito "pus"}}]
  
  "preguntar" [{:sem {:pred :ask-for}}]
@@ -766,14 +771,17 @@
      :surface "veo"}
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
-     :surface "vi"}]}]
+     :surface "vi"}
+    {:infl :participio
+     :surface "visto"}]}]
 
 ;;   "vestirse" {}
 ;;   "viajar" {}
 ;;   "vivir" {}
 ;;   "volar" {}
-;;   "volver" {}
-
+ "volver" {:sem {:pred :return}
+           :exceptions [{:infl :participo
+                         :surface "vuelto"}]}
 
  }
 

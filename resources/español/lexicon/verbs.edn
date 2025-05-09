@@ -779,9 +779,9 @@
 ;;   "viajar" {}
 ;;   "vivir" {}
 ;;   "volar" {}
- "volver" {:sem {:pred :return}
-           :exceptions [{:infl :participo
-                         :surface "vuelto"}]}
+ "volver" [{:sem {:pred :return}
+            :exceptions [{:infl :participo
+                          :surface "vuelto"}]}]
 
  }
 

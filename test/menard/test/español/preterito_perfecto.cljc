@@ -47,7 +47,7 @@
 (deftest parse-test-explicit-subject
   (let [non-reflexive (-> "yo he comido" parse first)]
     (is (= (-> non-reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]"))
+           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))
     (is (= (-> non-reflexive (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> non-reflexive (u/get-in [:sem :tense])) :past)))
   (let [reflexive (-> "yo me he lastimado" parse first)]

@@ -147,7 +147,7 @@
         en-generated (-> en-spec en/generate)]
     (log/debug (str "translate-test-1: " (es/syntax-tree es-generated)))
     (is (= (es/syntax-tree es-generated)
-           "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive) .llenado]]"))
+           "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive-intransitive) .llenado]]"))
     (is (= (binding [menard.morphology/show-notes? false]
              (en/syntax-tree en-generated))
            "[s(:perfect) .they +[vp +have(2) .filled]]"))))

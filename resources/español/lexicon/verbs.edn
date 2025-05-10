@@ -265,14 +265,16 @@
                       :reflexive? reflexivity})]
       {:exceptions exceptions
        :aux? true
-       :sense :explicit-subj-non-reflexive
+       :sense :explicit-subj-non-reflexive-intransitive
        :reflexive? reflexivity
        :subcat {:1 subj
                 :2 {:cat :verb
                     :aux? false
                     :reflexive? reflexivity
                     :infl :participio
-                    :subcat {:1 subj}
+                    :subcat {:1 subj
+                             ;; make complement verb intransitive (TODO: add transitive alternatives too)
+                             :2 []}
                     :sem sem}
                 :3 []}
        :sem sem})
@@ -284,13 +286,15 @@
           subj (atom {:reflexive? reflexivity})]
       {:exceptions exceptions
        :aux? true
-       :sense :implicit-subj-non-reflexive
+       :sense :implicit-subj-non-reflexive-intransitive
        :reflexive? reflexivity
        :subcat {:1 {:cat :verb
                     :aux? false
                     :reflexive? reflexivity
                     :infl :participio
-                    :subcat {:1 subj}
+                    :subcat {:1 subj
+                             ;; make complement verb intransitive (TODO: add transitive alternatives too)
+                             :2 []}
                     :sem sem}
                 ;; TODO: should move the two lines below to lexical rules:
                 :2 []

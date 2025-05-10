@@ -85,10 +85,10 @@
                            (filter #(= [] (u/get-in % [:subcat])))
                            first)]
     (is (= (-> non-reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]"))))
+           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))))
 
 (deftest generate-test
   (is (= (-> non-reflexive-spec generate syntax-tree)
-         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive) .comido]]"))
+         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))
   (is (= (-> use-head-canonical-spec generate syntax-tree)
-         "[s-aux(:preterito-perfecto) .ella +[vp-aux-non-reflexive(:preterito-perfecto) +ha(:explicit-subj-non-reflexive) .mirado]]")))
+         "[s-aux(:preterito-perfecto) .ella +[vp-aux-non-reflexive(:preterito-perfecto) +ha(:explicit-subj-non-reflexive-intransitive) .mirado]]")))

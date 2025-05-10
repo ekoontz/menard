@@ -388,3 +388,7 @@
            :aspect :simple,
            :tense :present},
           :reflexive? false}])))))
+
+(deftest yo-he-visto
+  (is (= (->> "yo he visto" es/parse (map translate/es-structure-to-en-structure) (map en/syntax-tree))
+         '("[s(:perfect) .I +[vp +have(2) .seen]]"))))

@@ -256,7 +256,7 @@
                     :agr {:person :3rd :number :plur}
                     :surface "han"}]]
    [
-    ;; aux sense with explicit subject and non-reflexive complement intransitive verb:
+    ;; aux sense with non-reflexive complement verb:
     ;; e.g. "yo he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
@@ -278,33 +278,7 @@
                     :sem sem}
                 :3 []}
        :sem sem})
-    
-    ;; aux sense with explicit subject and non-reflexive complement transitive verb:
-    ;; e.g. "yo lo he comido":
-    (let [sem (atom {:tense :past
-                     :aspect :perfect})
-          reflexivity (atom false)
-          obj (atom :top)
-          subj (atom {:case :nom
-                      :reflexive? reflexivity})]
-      {:exceptions exceptions
-       :aux? true
-       :sense :explicit-subj-non-reflexive-transitive
-       :reflexive? reflexivity
-       :subcat {:1 subj
-                :2 {:cat :verb
-                    :aux? false
-                    :reflexive? reflexivity
-                    :infl :participio
-                    :subcat {:1 subj
-                             ;; make complement verb intransitive (TODO: add transitive alternatives too)
-                             :2 {:sem obj}}
-                    :sem sem}
-                :3 []}
-       :sem sem})
 
-
-    
     ;; e.g. "he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
@@ -327,12 +301,6 @@
                 :3 []}
        :sem sem})
 
-
-    ;; aux sense with explicit subject and non-reflexive complement transitive verb:
-    ;; TODO: add aux sense with implicit subject and non-reflexive complement transitive verb
-
-    ;; .. 
-   
     ;; aux sense, reflexive without explicit subject:
     ;; e.g. "me he lastimado"
     (let [sem (atom {:tense :past

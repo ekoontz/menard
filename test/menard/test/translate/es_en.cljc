@@ -78,7 +78,6 @@
          (map #(is "s" (u/get-in % [:rule])))
          vec)))
 
-
 (deftest ustedes-se-duermen
   (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen(:explicit-subj)]]"
          (-> {:rule "s"

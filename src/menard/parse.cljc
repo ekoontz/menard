@@ -147,7 +147,7 @@
         (do
           (def succeed-counter (+ 1 succeed-counter))
           (when log-this?
-            (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result) "(\"" (syntax-tree result :morph) "\")"))))
+            (log/info (str "overh success: " (syntax-tree parent) " -> " (syntax-tree result)))))
 
         ;; :fail:
         (do
@@ -209,14 +209,14 @@
         (do
           (def succeed-counter (+ 1 succeed-counter))
           (when log-this?
-            (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result) "(\"" (syntax-tree result :morph) "\")"))))
+            (log/info (str "overc success: " (syntax-tree parent) " -> " (syntax-tree result)))))
         (do
           (when pre-check?
             (def fail-counter (+ 1 fail-counter))
             (when log-this?
               (let [fp (fail-path parent {:comp comp})]
                 (log/info
-                 (str "overc fail: " (syntax-tree parent) "(\"" (syntax-tree parent :morph) "\")"
+                 (str "overc fail: " (syntax-tree parent)
                       " <- " (syntax-tree comp)
                       " fail path: " (vec fp)
                       ". parent wants: " (l/pprint (u/get-in parent fp))

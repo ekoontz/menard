@@ -6,7 +6,10 @@
 
   (:require [clojure.string :as string]
 
+            [menard.morphology.emojis :as em]
+            
             ;; models
+            [menard.english.constants :as constants]
             [menard.english.complete :as complete]
             [menard.english.closed-class :as closed-class]
             
@@ -29,7 +32,6 @@
 ;;
 ;; For generation and parsing of English.
 ;;
-
 (declare an)
 (declare sentence-punctuation)
 
@@ -127,7 +129,10 @@
       (log/debug (str "english generate: " (diag/strip-refs spec)
                       " with max-depth: " g/max-depth))
       (try (g/generate spec
-                       (-> model :grammar)
+                       (->> (-> model :grammar)
+                            ;; exclude this rule that's only for parsing
+                            ;; english sentences with emojis:
+                            (remove #(= (u/get-in % [:rule]) "pronoun+emoji")))
                        (-> model :lexicon-index-fn)
                        syntax-tree)
            (catch Exception e
@@ -141,16 +146,24 @@
   (take n (repeatedly #(generate spec))))
 
 (defn analyze [surface & [model]]
-  (log/debug (str "analyze: " surface))
-  (let [model (or model @complete/model)
-        lexicon (-> model :lexicon)
-        morphology (-> model :morphology)
-        variants (vec (set [(clojure.string/lower-case surface)
-                            (clojure.string/upper-case surface)
-                            (clojure.string/capitalize surface)
-                            surface]))]
-    (->> variants
-         (mapcat #(l/matching-lexemes % lexicon morphology)))))
+  (log/debug (str "analyze input: " surface))
+  (let [emoji-info (em/string-to-maps surface)]
+    (if (seq emoji-info)
+      (->> emoji-info
+           (map (fn [info]
+                  (merge {:surface surface
+                          :cat :emoji}
+                         info))))
+      (let [model (or model @complete/model)
+            lexicon (-> model :lexicon)
+            morphology (-> model :morphology)
+            variants (vec (set [(clojure.string/lower-case surface)
+                                (clojure.string/upper-case surface)
+                                (clojure.string/capitalize surface)
+                                surface]))]
+        (log/debug (str "analyze emoji-info: " emoji-info))
+        (->> variants
+             (mapcat #(l/matching-lexemes % lexicon morphology)))))))
 
 (defn resolve-model [model]
   (cond (= (type model) clojure.lang.Ref) @model

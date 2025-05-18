@@ -1,6 +1,10 @@
-[ {:rule :unset-cat
+[{:rule :unset-cat
   :if {:cat ::unspec}
   :then [{:cat :unset}]}
+
+ {:rule :emoji-default
+  :if {:emoji? ::unspec}
+  :then [{:emoji? false}]}
 
  {:rule :canonical-equals-root
   :if :top

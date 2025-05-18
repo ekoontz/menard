@@ -95,6 +95,16 @@
           menard.ug/shared-number
           menard.subcat/a]}
 
+ {:rule "pronoun+emoji"
+  :cat :noun
+  :head {:pronoun? true}
+  :comp {:emoji? true
+         :phrasal? false}
+  :unify [menard.ug/head-first
+          menard.ug/head-rule
+          menard.ug/head-is-root
+          menard.english.constants/emoji-identities]}
+
  {:rule "adverb" ;; '[adverb +[vp +overcome .Corona] .together]'
   :adverb? true ;; a. first part of rathole prevention, see .b. below.
   :options menard.english.tenses/tenses

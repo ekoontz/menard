@@ -7,6 +7,7 @@
 
             [menard.español :as es]
             [menard.lexiconfn :as l]
+            [menard.morphology.emojis :as em]
             [menard.translate.es-en :as translate]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])

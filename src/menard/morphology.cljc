@@ -9,6 +9,8 @@
 
 (def ^:dynamic show-notes? true)
 
+;; TODO move all emoji stuff to menard.morphology.emojis.
+
 (def emoji-set-1
   {:informal ["🤠"]
    :formal   ["🧐"]})
@@ -150,6 +152,7 @@
       note
       (str surface
            (if (and show-notes?
+                    (= true (u/get-in structure [:show-notes?] true))
                     (seq note))
              (if-let [decode-notes (decode-notes note)]
                (str " " decode-notes))))

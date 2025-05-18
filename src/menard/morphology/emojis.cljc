@@ -111,10 +111,14 @@
      {:sem {:ref {:context (first keywords)}}}
      (into-maps (rest keywords)))
 
-    (or (= (first keywords) :feminine)
-        (= (first keywords) :masculine))
+    (= (first keywords) :feminine)
     (cons
-     {:agr {:gender (first keywords)}}
+     {:agr {:gender :fem}}
+     (into-maps (rest keywords)))
+
+    (= (first keywords) :masculine)
+    (cons
+     {:agr {:gender :masc}}
      (into-maps (rest keywords)))
 
     (= (first keywords) :plural)

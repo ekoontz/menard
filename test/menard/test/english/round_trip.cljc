@@ -57,5 +57,3 @@
               (map generate)
               (map morph)
               vec))))
-
-

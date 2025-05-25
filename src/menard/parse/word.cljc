@@ -5,7 +5,8 @@
    #?(:cljs [menard.log :as log])
    [dag_unify.core :as u]))
 
-(defn get-possible-words [token-vector lookup-fn max-word-length-in-tokens] 
+(defn get-possible-words [token-vector lookup-fn max-word-length-in-tokens]
+  (log/debug (str "get-possible-words token-vector: " token-vector))
   (->> (range 0 (+ 1 (count token-vector)))
        (mapcat (fn [left]
                  (->> (range (+ 1 left) (min (+ (+ 1 max-word-length-in-tokens) left) (+ 1 (count token-vector))))
@@ -67,13 +68,13 @@
         retval (if (seq (rest graphs))
                  (reduce u/unify! graphs)
                  input)]
-      (log/debug (str "add-subgraph: input: " (u/pprint input) "; "
-                      "i: " i "; "
-                      "paths: " (vec paths) "; "
-                      (if (seq (rest graphs))
-                        (str "graphs: " (->> graphs (map u/pprint) vec) "; "))
-                      "return value: " (u/pprint retval)))
-      retval))
+    (log/debug (str "add-subgraph: input: " (u/pprint input) "; "
+                   "i: " i "; "
+                   "paths: " (vec paths) "; "
+                   (if (seq (rest graphs))
+                     (str "graphs: " (->> graphs (map u/pprint) vec) "; "))
+                   "return value: " (u/pprint retval)))
+    retval))
 
 (defn graph- [input wm i token-vector-count]
   (if (< i (+ 1 token-vector-count))

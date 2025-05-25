@@ -420,11 +420,15 @@
              vals
              flatten)))))
 
+(defn grouping-covers-input? [grouping expression]
+  (= (clojure.string/join " " grouping) expression))
+
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
   [expression grammar lookup-fn syntax-tree morph split-on truncate?]
   (->>
    (word/groupings expression split-on lookup-fn max-token-length-in-words)
+   (filter #(grouping-covers-input? % expression))
    (mapcat-lazy-seq #(parse-tokenization % grammar lookup-fn syntax-tree morph truncate?))))
 
 (defn parse-all [expression grammar syntax-tree-fn split-on analyze-fn morph-fn truncate?]

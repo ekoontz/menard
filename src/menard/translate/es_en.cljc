@@ -28,6 +28,24 @@
             :phrasal? (-> es-structure (u/get-in [:phrasal?] :top))
             :subcat (-> es-structure (u/get-in [:subcat]))})))
 
+(defn en-structure-to-es-spec [en-structure]
+  (log/debug (str "en-structure-to-ee-spec tree: " (en/syntax-tree en-structure)))
+  (let [sem-mod (if (not (= (u/get-in en-structure [:sem :mod]) []))
+                  (u/get-in en-structure [:sem :mod])
+                  [])
+
+        ;; TODO: what is going on here?
+        pronoun? (if (= (u/get-in en-structure [:pronoun?] ::none) ::none)
+                   (u/get-in en-structure [:pronoun?])
+                   false)]
+    (unify {:pronoun? pronoun?
+            :sem {:mod sem-mod}}
+           {:agr (-> en-structure (u/get-in [:agr]))
+            :sem (-> en-structure (u/get-in [:sem]))
+            :cat (-> en-structure (u/get-in [:cat]))
+            :phrasal? (-> en-structure (u/get-in [:phrasal?] :top))
+            :subcat (-> en-structure (u/get-in [:subcat]))})))
+
 (defn es-structure-to-en-structure [es-structure & [es-model en-model]]
   (let [english-spec (es-structure-to-en-spec es-structure)
         en-model (or en-model @en-complete/model)]

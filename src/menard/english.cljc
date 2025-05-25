@@ -38,6 +38,7 @@
 (defn reload []
   (complete/reload))
 
+;; TODO: support passing a model to (s/morph) besides @complete/model
 (defn morph
   ([tree]
    (-> tree

@@ -95,6 +95,18 @@
     (log/debug (str "generate: generated: " (-> retval syntax-tree)))
     retval))
 
+(defn generate-all [spec & [input-model]]
+  (let [model (or input-model (deref model))
+        retval
+        (binding [g/max-depth (:max-depth spec g/max-depth)
+                  g/max-fails (:max-fails spec g/max-fails)
+                  g/allow-backtracking? true]
+          (g/generate-all [spec]
+                          (-> model :grammar)
+                          (-> model :lexicon-index-fn)
+                          syntax-tree))]
+    retval))
+
 ;; for parsing diagnostics: set to false to prevent space optimization (truncating trees):
 (def truncate? false)
 

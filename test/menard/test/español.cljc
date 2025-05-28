@@ -8,7 +8,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-
 ;; These are for convenience so you don't
 ;; have to reload these language-model files every time you make a change:
 ;; you can just reload this file (menard.test.español.clj)

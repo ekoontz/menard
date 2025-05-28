@@ -1,5 +1,5 @@
 (ns menard.español
-  (:require [menard.español.tenses :refer [tenses]]            
+  (:require [menard.español.tenses :refer [tenses]]
             [menard.generate :as g]
             [menard.lexiconfn :as l]
             [menard.model :refer [create load-model]]
@@ -21,7 +21,7 @@
 
           ;; filter-out-nils?
           true
-          
+
           {:include-derivation? false}
           ;; change to true to  ^^^^^
           ;;show derivation.
@@ -30,13 +30,12 @@
 (def closed-class
   (ref (create "español/models/closed-class"
                "closed-class"
-               
-          ;; compile-lexicon-fn
+
+               ;; compile-lexicon-fn
                (fn [lexicon _ _] lexicon)
-               
+
                ;; filter-out-nils?
                true
-               
                {:include-derivation? false}
                ;; change to true to  ^^^^^
                ;;show derivation.
@@ -45,13 +44,13 @@
 (def curated-verbs
   (ref (create "español/models/curated-verbs"
                "curated-verbs"
-               
+
           ;; compile-lexicon-fn
                (fn [lexicon _ _] lexicon)
-               
+
                ;; filter-out-nils?
                true
-               
+
                {:include-derivation? false}
                ;; change to true to  ^^^^^
                ;;show derivation.
@@ -83,7 +82,8 @@
        (s/syntax-tree tree (-> model deref :morphology)))))
 
 (defn generate [spec & [input-model]]
-  (let [model (or input-model (deref model))
+  (let [model (or input-model model)
+        model @model
         retval
         (binding [g/max-depth (:max-depth spec g/max-depth)
                   g/max-fails (:max-fails spec g/max-fails)
@@ -96,7 +96,8 @@
     retval))
 
 (defn generate-all [spec & [input-model]]
-  (let [model (or input-model (deref model))
+  (let [model (or input-model model)
+        model @model
         retval
         (binding [g/max-depth (:max-depth spec g/max-depth)
                   g/max-fails (:max-fails spec g/max-fails)
@@ -117,13 +118,14 @@
   ([surface]
    (analyze surface false))
   ([surface use-null-lexemes?]
-   (analyze surface false @model))
+   (analyze surface false model))
   ([surface use-null-lexemes? model]
    (log/debug (str "analyze with model named: " (-> model :name) "; morphology size: " (count (vec (:morphology model)))))
    (let [variants (vec (set [(clojure.string/lower-case surface)
                              (clojure.string/upper-case surface)
                              (clojure.string/capitalize surface)
                              surface]))
+         model @model
          lexicon (-> model :lexicon)
          morphology (:morphology model)
          found (mapcat (fn [variant]
@@ -142,8 +144,7 @@
 
 (defn parse
   ([expression model]
-   (let [model @model
-         ;; remove trailing '.' if any:
+   (let [;; remove trailing '.' if any:
          expression (clojure.string/replace expression #"[.]*$" "")
 
          ;; meaning of 1st arg passed to (analyze):
@@ -151,6 +152,8 @@
          analyze-fn-with-nulls #(analyze % true model)
          ;; false: DON'T allow use of null lexemes
          analyze-fn-without-nulls #(analyze % false model)
+
+         model @model
 
          ;; ^ TODO: should handle '.' and other punctuation like '?' '!' and
          ;; use it as part of the meaning

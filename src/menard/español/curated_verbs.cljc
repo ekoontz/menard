@@ -25,10 +25,10 @@
   (type @model))
 
 (defn analyze [spec]
-  (es/analyze spec false @model))
+  (es/analyze spec false model))
 
 (defn generate [spec]
-  (es/generate spec @model))
+  (es/generate spec model))
 
 (defn parse [expression]
   (es/parse expression model))

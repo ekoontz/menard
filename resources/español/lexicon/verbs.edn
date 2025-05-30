@@ -131,6 +131,7 @@
               :stems {:boot "confies"}}]
  "conocer"
  [{:sem {:pred :know-c},
+   :subcat-frames :both
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},

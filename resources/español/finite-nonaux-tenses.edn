@@ -11,13 +11,13 @@
  {:variant :present-simple
   :abbreviation :simple-present
   :infl :present
-  :aux? false  
+  :aux? false
   :sem {:tense :present
         :aspect :simple}}
 
  {:variant :imperfect
   :infl :imperfect
-   :aux? false  
+  :aux? false
   :sem {:tense :past
         :aspect :progressive}}
 

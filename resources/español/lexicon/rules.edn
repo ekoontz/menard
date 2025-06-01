@@ -9,6 +9,7 @@
            {:canonical canonical
             :root canonical})]}
 
+ ;; <verb rules>
  {:rule :stems?
   :if {:cat :verb
        :stems ::unspec}
@@ -77,7 +78,7 @@
                         :surface {:prefix [:stems :boot]
                                   :suffix "en"}}]}]}
 
-  {:rule :boot-stem-ar
+ {:rule :boot-stem-ar
   :if {:cat :verb
        :stems {:boot? true}
        :canonical #"(.*)ar(se)?$"}
@@ -491,6 +492,13 @@
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}
 
+ {:rule :verb-subject-defaults-to-human
+  :if {:cat :verb
+       :sem {:subj {:ref {:human? ::unspec}}}}
+  :then [{:sem {:subj {:ref {:human? true}}}}]}
+ ;; </verb rules>
+ 
+ ;; <noun rules>
  {:rule :propernoun-misc-defaults
   :if {:cat :noun
        :pronoun? false
@@ -521,11 +529,6 @@
        :propernoun? true
        :agr {:number ::unspec}}
   :then [{:agr {:number :sing}}]}
-
- {:rule :verb-subject-defaults-to-human
-  :if {:cat :verb
-       :sem {:subj {:ref {:human? ::unspec}}}}
-  :then [{:sem {:subj {:ref {:human? true}}}}]}
 
  {:rule :is-el-noun
   :if {:cat :det
@@ -608,5 +611,7 @@
   :if {:cat :adjective
        :modifies-noun ::unspec}
   :then [{:modifies-noun :post}]}
+
+ ;; </noun rules>
  
  ]

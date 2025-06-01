@@ -346,7 +346,72 @@
                      :2 []
                      :3 []}
             :sem {:subj subj
-                  :obj :none}}])}
+                  :obj :none}}
+
+           ;; implicit subject
+           {:transitive? false
+            :implicit-subject? true
+            :subcat []
+            :sem {:obj :none}}])}
+
+ {:rule :implicit-subject-default
+  :if {:cat :verb
+       :implicit-subject? ::unspec}
+  :then [{:implicit-subject? false}]}
+
+ {:rule :implicit-subject-true
+  :if {:cat :verb
+       :implicit-subject? true
+       :agr ::unspec
+       :sem {:subj ::unspec}}
+  :then [{:agr {:person :1st
+                :number :sing}
+          :sem {:subj {:pred :i}}}
+         {:agr {:person :2nd
+                :number :sing
+                :formal? false}
+          :sem {:subj {:pred :you
+                       :ref {:human? true
+                             :context :informal}}}}
+         {:agr {:person :2nd
+                :number :sing
+                :formal? true}
+          :sem {:subj {:pred :you
+                       :ref {:human? true
+                             :context :formal}}}}
+         {:agr {:person :3rd
+                :number :sing
+                :gender :masc}
+          :sem {:subj {:pred :he
+                       :ref {:human? true}}}}
+         {:agr {:person :3rd
+                :number :sing
+                :gender :fem}
+          :sem {:subj {:pred :she
+                       :ref {:human? true}}}}
+         {:agr {:person :3rd
+                :number :sing}
+          :sem {:subj {:pred :it
+                       :ref {:human? false}}}}
+
+         {:agr {:person :1st
+                :number :plur}
+          :sem {:subj {:pred :we}}}
+         {:agr {:person :2nd
+                :number :plur
+                :formal? false}
+          :sem {:subj {:pred :you
+                       :ref {:human? true
+                             :context :informal}}}}
+         {:agr {:person :2nd
+                :number :plur
+                :formal? true}
+          :sem {:subj {:pred :you
+                       :ref {:human? true
+                             :context :formal}}}}
+         {:agr {:person :3rd
+                :number :plur}
+          :sem {:subj {:pred :they}}}]}
 
  {:rule :subcat-intransitive-modal
   :if {:cat :verb

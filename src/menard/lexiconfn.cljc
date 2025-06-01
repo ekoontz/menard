@@ -134,7 +134,7 @@
                         :top))]
     (when (= result :fail)
       (log/warn (str "apply-rule-to-lexeme failed: "
-                     "lexeme: " (pprint lexeme)
+                     "lexeme: " (u/get-in lexeme [:canonical] "(no :canonical)")
                      "; consequent: " (pprint consequent)
                      "; antecedent:" (pprint antecedent)
                      "; consequent-index:" consequent-index
@@ -143,15 +143,11 @@
                      )))
     (cond (= :fail result)
           (let [fail-path (diag/fail-path lexeme consequent)
-                error-message (str "rule: " rule-name " failed to unify lexeme: "
-                                   "[--" (pprint lexeme) "--] "
-                                   "'"
-                                   (or (u/get-in lexeme [:canonical])
-                                       (u/get-in lexeme [:surface]))
-                                       "'"
+                error-message (str "rule: '" rule-name "' failed: "
+                                   "path was: " fail-path "; "
+                                   " lexeme: '" (u/get-in lexeme [:canonical] "' (no :canonical)") "'; "
                                    (when (u/get-in lexeme [:sense])
-                                     (str " sense: " (u/get-in lexeme [:sense])))
-                                   "; fail-path was: " fail-path ";"
+                                     (str "{:sense " (u/get-in lexeme [:sense]) "}"))
                                    " lexeme's value for path: " (pprint (u/get-in lexeme fail-path))
                                    " consequent's value for path: " (pprint (u/get-in consequent fail-path))
                                    (if-let [derivation (u/get-in lexeme [::derivation])]

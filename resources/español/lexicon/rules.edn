@@ -261,6 +261,16 @@
                         :surface {:prefix [:stems :preterito]
                                   :suffix "eron"}}]}]}
 
+ {:rule :reflexive-true
+  :if {:cat :verb
+       :canonical #"(.*)se$"}
+  :then [{:reflexive? true}]}
+
+ {:rule :reflexive-false
+  :if {:cat :verb
+       :reflexive? ::unspec}
+  :then [{:reflexive? false}]}
+ 
  {:rule :non-reflexive
   :if {:cat :verb
        :aux? false
@@ -269,15 +279,14 @@
 
  {:rule :reflexive
   :if {:cat :verb
-       :canonical #"(.*)se$"}
+       :aux? false
+       :reflexive? true}
   :then (let [agr (atom :top)
               ref (atom :top)
               subj (atom {:ref ref})]
           ;; variant with explicit subject e.g. "él se levantó"
           [{:reflexive? true
             :sense :explicit-subj
-            :intransitive? false
-            :transitive? false
             :sem {:subj subj}
             :agr agr
             :subcat {:1 {:agr agr
@@ -293,8 +302,6 @@
            ;; variant without explicit subject e.g. "se levantó"
            {:reflexive? true
             :sense :implicit-subj
-            :intransitive? false
-            :transitive? false
             :sem {:subj subj}
             :agr agr
             :subcat {:1 {:pronoun? true
@@ -310,23 +317,15 @@
   :if {:cat :verb
        :aux? ::unspec}
   :then [{:aux? false}]}
- 
- {:rule :intrans-only
-  :if {:cat :verb
-       :intransitive? true
-       :subcat-frames ::unspec
-       :transitive? ::unspec}
-  :then [{:transitive? false
-          :subcat-frames :intrans-only}]}
- 
- {:rule :trans-only
+
+ {:rule :subcat-frames-both
   :if {:cat :verb
        :aux? false
-       :subcat-frames ::unspec
-       :intransitive? ::unspec
-       :transitive? true}
-  :then [{:intransitive? false
-          :subcat-frames :trans-only}]}
+       :reflexive? false
+       :transitivity ::unspec
+       :subcat-frames :both}
+  :then [{:transitivity :intransitive}
+         {:transitivity :transitive}]}
 
  {:rule :modal-default-none
   :if {:cat :verb
@@ -336,12 +335,11 @@
  {:rule :subcat-intransitive
   :if {:cat :verb
        :aux? false
-       :subcat-frames :intrans-only
-       :intransitive? true
+       :reflexive? false
+       :transitivity :intransitive
        :modal :none}
   :then (let [subj (atom :top)]
-          [{:transitive? false
-            :subcat {:1 {:cat :noun
+          [{:subcat {:1 {:cat :noun
                          :reflexive? false
                          :sem subj}
                      :2 []
@@ -352,11 +350,9 @@
  {:rule :subcat-intransitive-modal
   :if {:cat :verb
        :modal :infinitive
-       :subcat-frames ::unspec
-       :intransitive? true}
+       :transitivity :intransitive}
   :then (let [subj (atom :top)]
-          [{:transitive? false
-            :subcat {:1 {:cat :noun
+          [{:subcat {:1 {:cat :noun
                          :reflexive? false
                          :sem subj}
                      :2 []}
@@ -365,55 +361,25 @@
 
  {:rule :subcat-transitive
   :if {:cat :verb
-       :transitive? true
-       :subcat-frames ::unspec}
-  :then (let [subj (atom :top)
-              obj (atom :top)]
-          [{:intransitive? false
-            :sem {:subj subj
+       :aux? false
+       :reflexive? false
+       :transitivity :transitive}
+  :then [;; transitive, non-reflexive
+         ;; force the subj and obj to be distinct,
+         ;; so that semantic transfer to reflexive
+         ;; cannot happen:
+         (let [subj (atom {:ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:sem {:subj subj
                   :obj obj}
             :subcat {:1 {:cat :noun
                          :reflexive? false
                          :sem subj}
                      :2 {:cat :noun
+                         :reflexive? false
                          :case :acc
                          :sem obj}
-                     :3 []}}])}
-
- {:rule :subcat-both
-  :if {:cat :verb
-       :reflexive? false
-       :subcat-frames :both}
-  :then (let [subj (atom :top)]
-          ;; intransitive
-          [(let [subj (atom :top)]
-             {:transitive? false
-              :intransitive? true
-              :subcat {:1 {:cat :noun
-                           :reflexive? false
-                           :sem subj}
-                       :2 []}
-              :sem {:subj subj
-                    :obj :none}})
-
-           ;; transitive, non-reflexive
-           ;; force the subj and obj to be distinct,
-           ;; so that semantic transfer to reflexive
-           ;; cannot happen:
-           (let [subj (atom {:ref {:a 1}})
-                 obj (atom {:ref {:a 2}})]
-             {:intransitive? false
-              :transitive? true
-              :sem {:subj subj
-                    :obj obj}
-              :subcat {:1 {:cat :noun
-                           :reflexive? false
-                           :sem subj}
-                       :2 {:cat :noun
-                           :reflexive? false
-                           :case :acc
-                           :sem obj}
-                       :3 []}})])}
+                     :3 []}})]}
 
  {:rule :object-constraints-default
   :if {:cat :verb

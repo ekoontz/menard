@@ -321,6 +321,7 @@
                              :reflexive? false
                              :head {:comp {:reflexive? false
                                            :pronoun? true}}
+                             :agr {:person :1st}
                              :sem {:subj {:pred :i}
                                    :tense :present
                                    :aspect :simple}

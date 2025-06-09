@@ -359,27 +359,77 @@
             :sem {:subj subj
                   :obj {:pred :anaphoric}}}])}
 
+ ;; transitive, non-reflexive
+ ;; force the subj and obj to be distinct,
+ ;; so that semantic transfer to reflexive
+ ;; cannot happen:
  {:rule :subcat-transitive
   :if {:cat :verb
        :aux? false
        :reflexive? false
        :transitivity :transitive}
-  :then [;; transitive, non-reflexive
-         ;; force the subj and obj to be distinct,
-         ;; so that semantic transfer to reflexive
-         ;; cannot happen:
-         (let [subj (atom {:ref {:a 1}})
-               obj (atom {:ref {:a 2}})]
+  :then (let [subj (atom {:ref {:a 1}})
+              obj (atom {:ref {:a 2}})]
+          [{:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :1st}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :2nd}}
+                     :3 []}}
            {:sem {:subj subj
                   :obj obj}
             :subcat {:1 {:cat :noun
                          :reflexive? false
-                         :sem subj}
+                         :sem subj
+                         :agr {:person :1st}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :3rd}}
+                     :3 []}}
+
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :1st}}
+                     :3 []}}
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :3rd}}
+                     :3 []}}
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :3rd}}
                      :2 {:cat :noun
                          :reflexive? false
                          :case :acc
                          :sem obj}
-                     :3 []}})]}
+                     :3 []}}])}
 
  {:rule :object-constraints-default
   :if {:cat :verb

@@ -22,7 +22,7 @@
           ;; filter-out-nils?
           true
 
-          {:include-derivation? true}
+          {:include-derivation? false}
           ;; change to true to  ^^^^^
           ;;show derivation.
           ))

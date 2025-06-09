@@ -133,21 +133,25 @@
   (is (= "the black cats"
          (translate/es-to-en "los gatos negros"))))
 
-(deftest translate-test
-  (let [es-spec {:reflexive? false
-                 :root  "llenar"
-                 :cat :verb
-                 :sem {:subj {:pred :they
-                              :gender :fem}}
-                 :subcat []
-                 :rule "s-aux"
-                 :phrasal? true}
-        es-generated (-> es-spec es/generate)
+(def translate-es-spec
+  {:reflexive? false
+   :root  "llenar"
+   :cat :verb
+   :sem {:subj {:pred :they
+                :gender :fem}}
+   :subcat []
+   :rule "s-aux"
+   :phrasal? true})
+
+(deftest translate-test-1
+  (let [es-generated (-> translate-es-spec es/generate)]
+    (is (= (es/syntax-tree es-generated)
+           "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive-intransitive) .llenado]]"))))
+
+(deftest translate-test-2
+  (let [es-generated (-> translate-es-spec es/generate)
         en-spec (-> es-generated translate/es-structure-to-en-structure)
         en-generated (-> en-spec en/generate)]
-    (log/debug (str "translate-test-1: " (es/syntax-tree es-generated)))
-    (is (= (es/syntax-tree es-generated)
-           "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive-intransitive) .llenado]]"))
     (is (= (binding [menard.morphology/show-notes? false]
              (en/syntax-tree en-generated))
            "[s(:perfect) .they +[vp +have(2) .filled]]"))))

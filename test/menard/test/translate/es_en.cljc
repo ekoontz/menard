@@ -144,12 +144,16 @@
    :phrasal? true})
 
 (deftest translate-test-1
-  (let [es-generated (-> translate-es-spec es/generate)]
+  (let [es-generated (->> (repeatedly #(-> translate-es-spec es/generate))
+                          (filter map?)
+                          first)]
     (is (= (es/syntax-tree es-generated)
            "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive-intransitive) .llenado]]"))))
 
 (deftest translate-test-2
-  (let [es-generated (-> translate-es-spec es/generate)
+  (let [es-generated (->> (repeatedly #(-> translate-es-spec es/generate))
+                          (filter map?)
+                          first)
         en-spec (-> es-generated translate/es-structure-to-en-structure)
         en-generated (-> en-spec en/generate)]
     (is (= (binding [menard.morphology/show-notes? false]

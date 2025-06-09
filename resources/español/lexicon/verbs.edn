@@ -15,7 +15,7 @@
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
               :sem {:pred :have-lunch}
-              :intransitive? true}]
+              :transitivity :intransitive}]
  "amar"    [{:sem {:pred :love}}]
  "andar" [{:stems {:preterito "anduv"}
            :sem {:pred :walk}}]
@@ -31,10 +31,10 @@
              {:sem {:pred :insure}}]
  "aumentar" [{:sem {:pred :increase}}]
  "ayudar" [{:sem {:pred :help}
-            :intransitive? true}
+            :transitivity :intransitive}
            {:sem {:pred :help,
                   :obj {:ref {:human? true}}}
-            :transitive? true}]
+            :transitivity :transitive}]
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "beber" [{:sem {:pred :drink}}]
@@ -106,10 +106,10 @@
                  :subj {:ref {:human? true}}}}]
  "compartir" [{:sem {:pred :share}}]
  "comprar"
- [{:intransitive? true
+ [{:transitivity :intransitive
    :sem {:pred :buy,
          :subj {:ref {:human? true}}}}
-  {:transitive? true
+  {:transitivity :transitive
    :sem {:pred :buy
          :subj {:ref {:human? true}}
          :obj {:ref {:buyable? true}}}}]
@@ -184,7 +184,7 @@
  "dibujar" [{:sem {:pred :draw}}]
  "divertirse" [{:sem {:pred :have-fun}
                 :stems {:boot "diviert"}}]
- "dormir" [{:intransitive? true
+ "dormir" [{:transitivity :intransitive
             :sem {:pred :sleep}
             :stems {:boot "duerm"}}]
  "dormirse" [{:sem {:pred :fall-asleep}
@@ -427,7 +427,7 @@
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]
  "intentar" [{:sem {:pred :try}}]
 
- "ir" [{:intransitive? true
+ "ir" [{:transitivity :intransitive
         :sem {:pred :go}
         ;; https://es.wiktionary.org/wiki/ir
         :exceptions [{:infl :present,
@@ -622,7 +622,7 @@
               :preterito "pud"}]
    [{:sem {:pred :be-able-to}
      :modal :infinitive
-     :intransitive? true
+     :transitivity :intransitive
      :stems stems}])
 
  "poner"
@@ -752,7 +752,7 @@
 ;;   "vender" {}
 
  "venir" [{:sem {:subj {:animate true}, :pred :come},
-           :intransitive? true
+           :transitivity :intransitive
            :cat :verb,
            :exceptions
            [{:infl :present,

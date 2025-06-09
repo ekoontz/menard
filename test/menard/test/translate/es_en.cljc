@@ -152,11 +152,9 @@
              (en/syntax-tree en-generated))
            "[s(:perfect) .they +[vp +have(2) .filled]]"))))
 
-(deftest translate-reflexives
+(deftest translate-reflexives-1
   (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s" (:rule %))))
-        significant-parts-1 (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)
-        i-wash-myself (->> "I wash myself" en/parse (filter #(= "s" (:rule %))))
-        significant-parts-2 (->> i-wash-myself (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
+        significant-parts-1 (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
     (is
      (= significant-parts-1
         [{:sem
@@ -170,6 +168,12 @@
            :aspect :simple,
            :tense :present},
           :reflexive? true}]))
+    (is (= ["[s(:present-simple){+} .I +[vp{+} +wash .myself]]"]
+           (->> yo-me-lavo (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree))))))
+
+(deftest translate-reflexives-2
+  (let [i-wash-myself (->> "I wash myself" en/parse (filter #(= "s" (:rule %))))
+        significant-parts-2 (->> i-wash-myself (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
     (is
      (= significant-parts-2
         [{:sem
@@ -189,11 +193,9 @@
            :pred :wash-oneself,
            :aspect :simple,
            :tense :present},
-          :reflexive? true}]))
+          :reflexive? true}]))))
 
-    (is (= ["[s(:present-simple){+} .I +[vp{+} +wash .myself]]"]
-           (->> yo-me-lavo (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree)))))
-
+(deftest translate-reflexives-3
   (let [i-get-up (->> "I get up" en/parse (filter #(= "s" (:rule %))))
             significant-parts-3 (->> i-get-up (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
         (is
@@ -319,6 +321,7 @@
                              :reflexive? false
                              :head {:comp {:reflexive? false
                                            :pronoun? true}}
+                             :agr {:person :1st}
                              :sem {:subj {:pred :i}
                                    :tense :present
                                    :aspect :simple}

@@ -89,7 +89,7 @@
   :cat :verb
   :head {:aux? false}
   :comp {:pronoun? false}
-  :options menard.español.tenses/finite-tenses
+  :options menard.español.tenses/finite-nonaux-tenses
   :unify [menard.subcat/c
           menard.ug/head-is-root
           menard.ug/head-first

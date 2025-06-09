@@ -333,7 +333,13 @@
   :p [#"^(.+)en$" "$1irse"],
   :u
   {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
-   :reflexive? true}}]
+   :reflexive? true}}
+
+;; {:g [#"^(.*)$"   "($1)"],
+;;  :p [#"^(.*)$"   "($1)"],
+;;  :u :fail}
+
+ ])
 
 (map (fn [rule]
        (dag_unify.core/unify rule {:u {:sem {:aspect :simple

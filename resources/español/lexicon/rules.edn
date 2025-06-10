@@ -287,7 +287,6 @@
               subj (atom {:ref ref})]
           ;; variant with explicit subject e.g. "él se levantó"
           [{:reflexive? true
-            :sense :explicit-subj
             :sem {:subj subj}
             :agr agr
             :subcat {:1 {:agr agr
@@ -302,7 +301,6 @@
 
            ;; variant without explicit subject e.g. "se levantó"
            {:reflexive? true
-            :sense :implicit-subj
             :sem {:subj subj}
             :agr agr
             :subcat {:1 {:pronoun? true

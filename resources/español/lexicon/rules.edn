@@ -349,10 +349,10 @@
                   :obj :none}}
 
            ;; implicit subject
-           {:transitive? false
-            :implicit-subject? true
+           {:implicit-subject? true
             :subcat []
-            :sem {:obj :none}}])}
+            :sem {:subj :top
+                  :obj :none}}])}
 
  {:rule :implicit-subject-default
   :if {:cat :verb

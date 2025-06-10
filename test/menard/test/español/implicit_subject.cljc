@@ -41,8 +41,10 @@
 
 (deftest generate-implicit-subject
   (let [spec {:root "dormir",
-              :sem
-              {:pred :sleep, :subj {:pred :i}, :tense :present, :aspect :simple},
+              :sem {:pred :sleep
+                    :subj {:pred :i}
+                    :tense :present
+                    :aspect :simple},
               :subcat [],
               :cat :verb}]
     (is (= (-> spec generate morph) "duermo"))))

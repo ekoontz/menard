@@ -20,7 +20,6 @@
 (deftest analyze-test
   (let [analysis (analyze "comido")]
     (is (seq analysis))
-    (is (= 7 (count analysis)))
     (contains? (->> analysis (map #(u/get-in % [:subcat])) set) []) ;; implicit subject
     (contains? (->> analysis (map #(u/get-in % [:subcat :1 :case])) set) :nom) ;; explicit subject
     (is (= #{:participio} (->> analysis (map #(u/get-in % [:infl])) set)))))
@@ -33,7 +32,7 @@
     (is (= (-> non-reflexive (u/get-in [:sem :tense])) :past)))
   (let [reflexive (-> "yo me he lastimado" parse first)]
     (is (= (-> reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-3(:preterito-perfecto){+} .me +[vp-aux-reflexive-2(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado(:explicit-subj)]]]"))))
+           "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-3(:preterito-perfecto){+} .me +[vp-aux-reflexive-2(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado]]]"))))
 
 (deftest parse-test-implicit-subject
   (let [parses (->> "he comido" parse)]

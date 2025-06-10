@@ -20,7 +20,7 @@
 (deftest analyze-test
   (let [analysis (analyze "comido")]
     (is (seq analysis))
-    (is (= 2 (count analysis)))
+    (is (= 7 (count analysis)))
     (contains? (->> analysis (map #(u/get-in % [:subcat])) set) []) ;; implicit subject
     (contains? (->> analysis (map #(u/get-in % [:subcat :1 :case])) set) :nom) ;; explicit subject
     (is (= #{:participio} (->> analysis (map #(u/get-in % [:infl])) set)))))

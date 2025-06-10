@@ -314,8 +314,7 @@
  "fumar" [{:sem {:pred :smoke}}]
 
  "funcionar" [{:sem {:subj {:ref {:human? false}}
-                     :pred :work-nonhuman}
-               :subcat {:person :3rd}}]
+                     :pred :work-nonhuman}}]
 
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]

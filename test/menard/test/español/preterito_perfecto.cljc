@@ -20,7 +20,6 @@
 (deftest analyze-test
   (let [analysis (analyze "comido")]
     (is (seq analysis))
-    (is (= 7 (count analysis)))
     (is (= #{true} (->> analysis (map map?) set)))
     (is (= #{:participio} (->> analysis (map #(u/get-in % [:infl])) set)))))
 

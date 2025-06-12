@@ -24,9 +24,9 @@
 (deftest parse-test
   (let [present (-> "Juan se queda" parse first)]
     (is (= (-> present syntax-tree)
-           "[s(:present-simple){+} .Juan +[vp-pronoun(:present-simple){+} .se(2) +queda(:explicit-subj)]]")))
+           "[s(:present-simple){+} .Juan +[vp-pronoun(:present-simple){+} .se(2) +queda]]")))
   (let [preterito (-> "yo me he lastimado" parse first)]
-    "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-2(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:explicit-subj) .lastimado(:explicit-subj)]]]"))
+    "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-2(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:explicit-subj) .lastimado]]]"))
 
 
 

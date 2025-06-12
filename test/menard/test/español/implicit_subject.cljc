@@ -47,3 +47,16 @@
               :subcat [],
               :cat :verb}]
     (is (= (-> spec generate morph) "duermo"))))
+
+(deftest generate-implicit-subject
+  (let [spec {:root "ver",
+              :rule "s"
+              :comp {:surface "lo"}
+              :sem {:pred :see
+                    :subj {:pred :i}
+                    :obj {:pred :it}
+                    :tense :present
+                    :aspect :simple},
+              :subcat [],
+              :cat :verb}]
+    (is (= (-> spec generate morph) "lo veo"))))

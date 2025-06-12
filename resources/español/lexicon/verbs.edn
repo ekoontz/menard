@@ -223,7 +223,8 @@
             :stems {:boot "frieg"}}]
  "fumar" [{:sem {:pred :smoke}}]
 
- "funcionar" [{:sem {:subj {:ref {:human? false}}
+ "funcionar" [{:transitivity :intransitive
+               :sem {:subj {:ref {:human? false}}
                      :pred :work-nonhuman}}]
 
  "ganar" [{:sem {:pred :earn}}

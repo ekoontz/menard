@@ -186,6 +186,16 @@
                              (filter #(= pred (u/get-in % [:sem :pred] :top)))))
                       preds)))})))
 
+;; TODO: check for duplicate rules in lexical-rules, e.g.
+;;
+;; {:rule "rule1"
+;;    ... }
+;; {:rule "rule2"
+;;    ... }
+;; {:rule "rule2" <-- duplicate here
+;;    ... }
+;; {:rule "rule3"
+;;    ... }
 (defn compile-lexicon [lexicon source-filename lexical-rules include-derivation? unify-with apply-fn]
   (-> lexicon
       ((fn [lexicon]

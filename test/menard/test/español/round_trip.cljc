@@ -46,7 +46,7 @@
                morph)))))
 
 (deftest ustedes-se-duermen
-  (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen(:explicit-subj)]]"
+  (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen]]"
          (-> {:rule "s"
               :comp {:root "ustedes"
                      :agr {:number :plur,

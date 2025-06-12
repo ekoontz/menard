@@ -352,65 +352,75 @@
             :sem {:subj :top
                   :obj :none}}])}
 
+  {:rule :subcat-transitive
+  :if {:cat :verb
+       :aux? false
+       :reflexive? false
+       :transitivity :transitive
+       :implicit-subject? ::unspec}
+  :then [{:implicit-subject? true}
+         {:implicit-subject? false}]}
+
  {:rule :implicit-subject-default
   :if {:cat :verb
        :implicit-subject? ::unspec}
   :then [{:implicit-subject? false}]}
 
- {:rule :implicit-subject-true
+ {:rule :implicit-subject-intransitive
   :if {:cat :verb
        :implicit-subject? true
-       :agr ::unspec
-       :sem {:subj ::unspec}}
-  :then [{:agr {:person :1st
-                :number :sing}
-          :sem {:subj {:pred :i}}}
-         {:agr {:person :2nd
-                :number :sing
-                :formal? false}
-          :sem {:subj {:pred :you
-                       :ref {:human? true
-                             :context :informal}}}}
-         {:agr {:person :2nd
-                :number :sing
-                :formal? true}
-          :sem {:subj {:pred :you
-                       :ref {:human? true
-                             :context :formal}}}}
-         {:agr {:person :3rd
-                :number :sing
-                :gender :masc}
-          :sem {:subj {:pred :he
-                       :ref {:human? true}}}}
-         {:agr {:person :3rd
-                :number :sing
-                :gender :fem}
-          :sem {:subj {:pred :she
-                       :ref {:human? true}}}}
-         {:agr {:person :3rd
-                :number :sing}
-          :sem {:subj {:pred :it
-                       :ref {:human? false}}}}
-
+       :transitivity :intransitive}
+  :then [
+         ;; enumerate all the possible agreement-subject possibilities:
+         ;; singular:
+         ;;   implicit 1st person subject:
          {:agr {:person :1st
-                :number :plur}
-          :sem {:subj {:pred :we}}}
-         {:agr {:person :2nd
-                :number :plur
-                :formal? false}
-          :sem {:subj {:pred :you
-                       :ref {:human? true
-                             :context :informal}}}}
-         {:agr {:person :2nd
-                :number :plur
-                :formal? true}
-          :sem {:subj {:pred :you
-                       :ref {:human? true
-                             :context :formal}}}}
-         {:agr {:person :3rd
-                :number :plur}
-          :sem {:subj {:pred :they}}}]}
+                :number :sing}
+          :sem {:subj {:pred :i}}
+          :subcat []}
 
+         ;; TODO: all the other possibilities
+                ]}
+
+  {:rule :implicit-subject-transitive
+  :if {:cat :verb
+       :implicit-subject? true
+       :transitivity :transitive}
+  :then [
+         ;; enumerate all the possible agreement-subject possibilities:
+         ;; singular:
+         ;;   implicit 1st person subject, 2nd person object:
+         (let [obj (atom :top)]
+           {:agr {:person :1st
+                  :number :sing}
+            :sem {:subj {:pred :i}
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :2nd}}
+                     :2 []
+                     :3 []}})
+         ;;   implicit 1st person subject, 3rd person object:
+         (let [obj (atom :top)]
+           {:agr {:person :1st
+                  :number :sing}
+            :sem {:subj {:pred :i}
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :3rd}}
+                     :2 []
+                     :3 []}})
+
+         ;; TODO: all the other subject-object possibilities
+         ]}
+
+ ;; TODO: do implicit subject for :modal :infinitive: (take into account implicit-subject? true/false)
+ ;; or incorporate it in the already-existing implicit subject-handling in the above rules.
  {:rule :subcat-intransitive-modal
   :if {:cat :verb
        :modal :infinitive
@@ -419,19 +429,21 @@
           [{:subcat {:1 {:cat :noun
                          :reflexive? false
                          :sem subj}
-                     :2 []}
+                     :2 []
+                     :3 []}
             :sem {:subj subj
                   :obj {:pred :anaphoric}}}])}
-
- ;; transitive, non-reflexive
+ 
+ ;; transitive, non-reflexive, explicit subject:
  ;; force the subj and obj to be distinct,
  ;; so that semantic transfer to reflexive
  ;; cannot happen:
- {:rule :subcat-transitive
+ {:rule :transitive-explicit-subject
   :if {:cat :verb
        :aux? false
        :reflexive? false
-       :transitivity :transitive}
+       :transitivity :transitive
+       :implicit-subject? false}
   :then (let [subj (atom {:ref {:a 1}})
               obj (atom {:ref {:a 2}})]
           [{:sem {:subj subj
@@ -510,6 +522,7 @@
  
  {:rule :subject-verb-agreement
   :if {:cat :verb
+       :implicit-subject? false
        :subcat {:1 {:cat :noun}}}
   :then [(let [agr (atom :top)]
            {:agr agr
@@ -519,6 +532,7 @@
 
  {:rule :subcat-1-is-nom-if-not-reflexive
   :if {:cat :verb
+       :implicit-subject? false
        :subcat {:1 {:cat :noun
                     :reflexive? false}}}
   :then [{:subcat {:1 {:case :nom}}}]}

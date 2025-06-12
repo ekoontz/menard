@@ -223,6 +223,9 @@
           ;; else: failed to unify this lexeme antecedent of the rule,
           ;; so the rule doesn't apply to the lexeme.
           (do (when developer-mode? (log-rule-fn (str "apply-rules-to-lexeme: antecedent: " antecedent " did not match lexeme: " (pprint lexeme))))
+              (when developer-mode? (log-rule-fn (str "       add-derivation: " (add-derivation (:rule rule) nil i nil))))
+              (when developer-mode? (log-rule-fn (str "       lexeme: " (pprint lexeme))))
+              (when developer-mode? (log-rule-fn (str "       unif: " (unify lexeme (add-derivation (:rule rule) nil i nil)))))
               (apply-rules-to-lexeme (rest rules)
                                      (let [lexeme (if include-derivation? 
                                                     (unify lexeme (add-derivation (:rule rule) nil i nil))
@@ -249,7 +252,11 @@
                                      :canonical (u/get-in lexeme [:canonical] k)})))
                       (mapcat (fn [lexeme]
                                 (log/debug (str "apply-rules-to-lexicon: 2nd step: for lexeme: " lexeme))
-                                (apply-rules-to-lexeme rules lexeme 0 include-derivation?))))])))))
+                                (let [result 
+                                      (apply-rules-to-lexeme rules lexeme 0 include-derivation?)]
+                                  (when (contains? (set result) :fail)
+                                    (exception (str "failed to apply rules to: " lexeme)))
+                                  result))))])))))
 
 (defn apply-rules-in-order [lexicon rules include-derivation?]
   (let [include-derivation? include-derivation?]
@@ -267,13 +274,18 @@
                 (let [lexemes-for-k (remove nil? lexemes-for-k)]
                   (let [surface k
                         log-fn (if (contains? lexemes-to-trace surface)
-                                 (fn [msg] (log/info msg)))]
+                                 (fn [msg] (log/info msg))
+                                 (fn [msg]))]
                     (if developer-mode? (log-fn (str "apply-to-every-lexeme: '" surface "'")))
                     [k
                      (do
                        (log/debug (str "K: " k))
                        (log/debug (str "V: " (vec lexemes-for-k)))
-                       (map map-fn lexemes-for-k))]))))]
+                       (let [result (map map-fn lexemes-for-k)]
+                         (log/debug (str "R: " (vec result)))
+                         (when (contains? (set result) :fail)
+                           (exception (str "result of applying rules to canonical '" k "' failed.")))
+                         result))]))))]
     result))
     
 #?(:clj
@@ -459,7 +471,7 @@
   (let [exceptions-for (fn [canonical lexemes]
                          ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
                          ;;  has _canonical_ as the canonical form for the exception."
-                         (log/debug (str "canonical: " canonical))
+                         (log/debug (str "canonical: " canonical "; lexemes: " (vec lexemes)))
                          (let [merge-all (fn [args]
                                            (if (seq args)
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]

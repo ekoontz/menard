@@ -151,7 +151,7 @@
                                    " lexeme's value for path: " (pprint (u/get-in lexeme fail-path))
                                    " consequent's value for path: " (pprint (u/get-in consequent fail-path))
                                    (if-let [derivation (u/get-in lexeme [::derivation])]
-                                     (str "; lexemes' derivation: "
+                                     (str "; lexeme's derivation: "
                                           (vec (display-derivation derivation))))
                                    "; whole lexeme: " (pprint lexeme))]
             (log/error error-message)

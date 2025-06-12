@@ -33,7 +33,8 @@
             :root "querer"
             :sem {:pred :want
                   :tense :present
-                  :subj {:pred :i}}})
+                  :subj {:pred :i}
+                  :obj :none}})
 
 (def spec4 {:cat :verb
             :rule "s"

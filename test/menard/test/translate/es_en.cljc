@@ -80,7 +80,7 @@
          vec)))
 
 (deftest ustedes-se-duermen
-  (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen(:explicit-subj)]]"
+  (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen]]"
          (-> {:rule "s"
               :comp {:root "ustedes"
                      :agr {:number :plur,
@@ -278,7 +278,7 @@
         en-spec (translate/es-structure-to-en-structure es-generated)
         en-generated (-> en-spec en/generate)]
     (is (= (es/syntax-tree es-generated)
-           "[s(:present-simple){+} .Juana +[vp-pronoun(:present-simple){+} .se(3) +despierta(:explicit-subj)]]"))
+           "[s(:present-simple){+} .Juana +[vp-pronoun(:present-simple){+} .se(3) +despierta]]"))
     (is (= (en/syntax-tree en-generated)
            "[s(:present-simple) .Juana +[vp +wakes .up]]"))))
 

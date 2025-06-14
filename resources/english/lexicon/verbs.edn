@@ -11,9 +11,11 @@
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
-        {:prepositional-verb {:with "for"}
-         :sem {:pred :ask-for}}]
- "assist" [{ :sem {:pred :assist}}]
+        {:sem {:pred :ask-for}
+         :subcat {:1 :top
+                  :2 {:cat :prep
+                      :sem {:pred :for}}
+                  :3 []}}]
  "assure" [{ :sem {:pred :assure}}]
  "attend" [{:sem {:pred :attend}}]  
  "avoid" [{ :sem {:pred :avoid}}]

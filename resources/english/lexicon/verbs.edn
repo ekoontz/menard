@@ -10,8 +10,11 @@
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
-        {:prepositional-verb {:with "for"}
-         :sem {:pred :ask-for}}]
+        {:sem {:pred :ask-for}
+         :subcat {:1 :top
+                  :2 {:cat :prep
+                      :sem {:pred :for}}
+                  :3 []}}]
  "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]

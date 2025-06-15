@@ -166,11 +166,16 @@
     (is
      (= significant-parts-1
         [{:sem
-          {:subj
+          {:obj
            {:existential? false,
             :mod (),
             :ref {:human? true, :number :sing},
             :pred :i},
+           :subj {:existential? false,
+                  :mod (),
+                  :ref {:human? true,
+                        :number :sing},
+                  :pred :i},
            :mod (),
            :pred :wash-oneself,
            :aspect :simple,
@@ -185,18 +190,16 @@
     (is
      (= significant-parts-2
         [{:sem
-          {:obj
-           {:obj :none,
-            :existential? false,
-            :mod (),
-            :locative? false,
-            :ref {:human? true, :number :sing}},
-           :subj
-           {:existential? false,
-            :mod (),
-            :locative? false,
-            :ref {:human? true, :number :sing},
-            :pred :i},
+          {:obj {:obj :none,
+                 :existential? false,
+                 :mod (),
+                 :locative? false,
+                 :ref {:human? true, :number :sing}},
+           :subj {:existential? false,
+                  :mod (),
+                  :locative? false,
+                  :ref {:human? true, :number :sing},
+                  :pred :i},
            :mod (),
            :pred :wash-oneself,
            :aspect :simple,
@@ -208,36 +211,34 @@
             significant-parts-3 (->> i-get-up (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
         (is
          (= significant-parts-3
-            [{:sem
-              {:obj :none,
-               :iobj :none,
-               :subj
-               {:existential? false,
-                :mod (),
-                :locative? false,
-                :ref {:human? true, :number :sing},
-                :pred :i},
-               :mod (),
-               :pred :get-up,
-               :aspect :simple,
-               :tense :present},
+            [{:sem {:obj :none,
+                    :iobj :none,
+                    :subj {:existential? false,
+                           :mod (),
+                           :locative? false,
+                           :ref {:human? true,
+                                 :number :sing},
+                      :pred :i},
+                    :mod (),
+                    :pred :get-up,
+                    :aspect :simple,
+                    :tense :present},
               :reflexive? false}])))
   
     (let [yo-me-despierto (->> "yo me despierto" es/parse (filter #(= "s" (:rule %))))
           significant-parts-4 (->> yo-me-despierto (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
-      (is
-       (= significant-parts-4
-          [{:sem
-            {:subj
-             {:existential? false,
-              :mod (),
-              :ref {:human? true, :number :sing},
-              :pred :i},
-             :mod (),
-             :pred :wake-up,
-             :aspect :simple,
-             :tense :present},
-            :reflexive? true}]))
+      (is (= significant-parts-4
+             [{:sem {:obj :none,
+                     :subj {:existential? false,
+                            :mod (),
+                            :ref {:human? true,
+                                  :number :sing},
+                            :pred :i},
+                     :mod (),
+                     :pred :wake-up,
+                     :aspect :simple,
+                     :tense :present},
+               :reflexive? true}]))
       (is (= ["[s(:present-simple) .I +[vp +wake .up]]"]
              (->> yo-me-despierto (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree)))))
 
@@ -245,26 +246,25 @@
           significant-parts-5 (->> yo-me-levanto (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
         (is
          (= significant-parts-5
-            [{:sem
-              {:subj
-               {:existential? false,
-                :mod (),
-                :ref {:human? true, :number :sing},
-                :pred :i},
-               :mod (),
-               :pred :get-up,
-               :aspect :simple,
-               :tense :present},
+            [{:sem {:obj :none,
+                    :subj {:existential? false,
+                           :mod (),
+                           :ref {:human? true,
+                                 :number :sing},
+                           :pred :i},
+                    :mod (),
+                    :pred :get-up,
+                    :aspect :simple,
+                    :tense :present},
               :reflexive? true}]))
         (is (= ["[s(:present-simple) .I +[vp +get .up]]"]
                (->> yo-me-levanto (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree))))))
 
 (deftest translation-from-target-language-spec
   (let [es-spec {:rule "s"
-                 :sem {:subj
-                       {:existential? false
-                        :mod []
-                        :pred :Juana}
+                 :sem {:subj {:existential? false
+                              :mod []
+                              :pred :Juana}
                        :mod []
                        :pred :wake-up
                        :aspect :simple
@@ -346,18 +346,21 @@
         significant-parts (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
     (is
      (= significant-parts
-        [{:sem
-          {:subj
-           {:existential? false,
-            :mod (),
-            :ref {:human? true, :number :sing},
-            :pred :i},
-           :mod (),
-           :pred :wash-oneself,
-           :aspect :simple,
-           :tense :present},
+        [{:sem {:obj {:existential? false,
+                      :mod (),
+                      :ref {:human? true,
+                            :number :sing},
+                      :pred :i},
+                :subj {:existential? false,
+                       :mod (),
+                       :ref {:human? true,
+                             :number :sing},
+                       :pred :i},
+                :mod (),
+                :pred :wash-oneself,
+                :aspect :simple,
+                :tense :present},
           :reflexive? true}])))
-
   (let [i-wash-myself (->> "I wash myself" en/parse (filter #(= "s" (:rule %))))
         significant-parts (->> i-wash-myself (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
     (is

@@ -157,18 +157,21 @@
 
 
 (defn concat-with-notes [structure surface]
-  (let [note (u/get-in structure [:note])]
+  (let [note-on-first-word (u/get-in structure [:note-on-first-word])
+        note (u/get-in structure [:note])
+        use-note (cond (or (= note :top)
+                           (nil? note))
+                       note-on-first-word
+                       :else note)]
     (cond
-      (nil? note)
-      (str surface)
+      (or (nil? use-note) (= :top use-note))
+      surface
 
-      (= :top note)
-      (str surface)
-
-      (not (seqable? note))
-      (throw (Exception. (str "the :notes value of type: " (type note) " and value: " note " is not seqable in the structure: " structure)))
+      (not (seqable? use-note))
+      (throw (Exception. (str "the :notes or :note-on-first-word value of type: "
+                              (type use-note) " and value: " use-note " is not seqable in the structure: " structure)))
       
-      note
+      (= use-note note)
       (str surface
            (when (and show-notes?
                       (= true (u/get-in structure [:show-notes?] true))
@@ -176,9 +179,8 @@
              (if-let [decode-notes (decode-notes note)]
                (str " " decode-notes))))
       
-      (and (u/get-in structure [:note-on-first-word])
-           (not (= :top (u/get-in structure [:note-on-first-word]))))
-      (str
+      (= use-note note-on-first-word)
+      (str 
        (first (clojure.string/split surface #" "))
        (if (and show-notes?
                 (u/get-in structure [:note-on-first-word])

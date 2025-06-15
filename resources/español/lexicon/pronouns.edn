@@ -157,7 +157,8 @@
  "os" [{:agr {:number :plur
               :person :2nd
               :formal? false}
-        :sem {:ref {:human? true}
+        :sem {:ref {:human? true
+                    :context :informal}
               :pred :you}
         :reflexive? true}]
 

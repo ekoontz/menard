@@ -278,16 +278,26 @@
        :canonical #"(.*)r$"}
   :then [{:reflexive? false}]}
 
- {:rule :reflexive
+ {:rule :reflexive-transtivity-default
   :if {:cat :verb
        :aux? false
-       :reflexive? true}
+       :reflexive? true
+       :transitivity ::unspec}
+  :then [{:transitivity :intransitive}]}
+ 
+ {:rule :reflexive-intransitive
+  :if {:cat :verb
+       :aux? false
+       :reflexive? true
+       :transitivity :intransitive}
   :then (let [agr (atom :top)
               ref (atom :top)
-              subj (atom {:ref ref})]
-          ;; variant with explicit subject e.g. "él se levantó"
+              subj (atom {:ref ref})
+              obj (atom {:ref ref})]
+          ;; variant with explicit subject e.g. "él se levantó" and no object
           [{:reflexive? true
-            :sem {:subj subj}
+            :sem {:subj subj
+                  :obj :none}
             :agr agr
             :subcat {:1 {:agr agr
                          :sem subj
@@ -299,9 +309,10 @@
                          :reflexive? true}
                      :3 []}}
 
-           ;; variant without explicit subject e.g. "se levantó"
+           ;; variant without explicit subject e.g. "se levantó" and no object
            {:reflexive? true
-            :sem {:subj subj}
+            :sem {:subj subj
+                  :obj :none}
             :agr agr
             :subcat {:1 {:pronoun? true
                          :cat :noun
@@ -312,6 +323,44 @@
                      :2 []
                      :3 []}}])}
 
+ {:rule :reflexive-transitive
+  :if {:cat :verb
+       :aux? false
+       :reflexive? true
+       :transitivity :transitive}
+  :then (let [agr (atom :top)
+              ref (atom :top)
+              subj (atom {:ref ref})
+              obj (atom {:ref ref})]
+          [;; variant with explicit subject e.g. "él se levantó" and object
+           {:reflexive? true
+            :sem {:subj subj
+                  :obj obj}
+            :agr agr
+            :subcat {:1 {:agr agr
+                         :sem subj
+                         :reflexive? false}
+                     :2 {:pronoun? true
+                         :cat :noun
+                         :agr agr
+                         :sem obj
+                         :reflexive? true}
+                     :3 []}}
+
+           ;; variant without explicit subject e.g. "se levantó" and object
+           {:reflexive? true
+            :sem {:subj subj
+                  :obj subj}
+            :agr agr
+            :subcat {:1 {:pronoun? true
+                         :cat :noun
+                         :case :acc
+                         :agr agr
+                         :sem subj
+                         :reflexive? true}
+                     :2 []
+                     :3 []}}])}
+ 
  {:rule :aux-default
   :if {:cat :verb
        :aux? ::unspec}

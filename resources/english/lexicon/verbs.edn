@@ -11,10 +11,27 @@
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
         {:sem {:pred :ask-for}
-         :subcat {:1 :top
-                  :2 {:cat :prep
-                      :sem {:pred :for}}
-                  :3 []}}]
+         :prepositional-verb {:with "for"}}
+
+
+        ;; TODO: should not need all of this information
+        ;; in an individual lexeme like this, but
+        ;; we do for now.
+        (let [subj (atom {:existential? false
+                          :ref {:human? true}})
+              obj (atom :top)]
+          {:sem {:pred :ask-for
+                 :subj subj
+                 :obj obj}
+           :reflexive? false
+           :subcat {:1 {:sem subj
+                        :interrogative? false}
+                    :2 {:cat :prep
+                        :reflexive? false
+                        :subcat []
+                        :sem {:pred :for
+                              :obj obj}}
+                    :3 []}})]
  "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]

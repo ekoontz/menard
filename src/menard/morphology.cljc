@@ -167,6 +167,9 @@
       (or (nil? use-note) (= :top use-note))
       surface
 
+      (false? show-notes?)
+      surface
+      
       (not (seqable? use-note))
       (throw (Exception. (str "the :notes or :note-on-first-word value of type: "
                               (type use-note) " and value: " use-note " is not seqable in the structure: " structure)))
@@ -182,12 +185,8 @@
       (= use-note note-on-first-word)
       (str 
        (first (clojure.string/split surface #" "))
-       (if (and show-notes?
-                (u/get-in structure [:note-on-first-word])
-                (not (= :top (u/get-in structure [:note-on-first-word])))
-                (seq (u/get-in structure [:note-on-first-word])))
-         (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
-           (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
+       (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
+         (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" "))))))
 
       :else surface)))
 

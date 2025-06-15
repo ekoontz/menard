@@ -425,6 +425,14 @@
 
 (defn parse
   "Return a list of all possible parse trees given all possible tokenizations."
+  ;; TODO: add type checks for all input params as follows:
+  ;; expression:  map
+  ;; grammar:     seq
+  ;; lookup-fn:   fn
+  ;; syntax-tree: fn
+  ;; morph:       fn
+  ;; split-on     regexp
+  ;; truncate?    boolean
   [expression grammar lookup-fn syntax-tree morph split-on truncate?]
   (->>
    (word/groupings expression split-on lookup-fn max-token-length-in-words)

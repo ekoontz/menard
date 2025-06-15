@@ -100,7 +100,11 @@
  "cambiarse" [{:sem {:pred :change-clothes}}]
  "caminar" [{:sem {:pred :walk-c}}]
  "cancelar" [{:sem {:pred :cancel}}]
- "cantar" [{:sem {:pred :sing}}]
+ "cantar" [{:sem {:pred :sing}
+            :transitivity :intransitive}
+           {:sem {:pred :sing
+                  :obj {:ref {:human? false}}}
+            :transitivity :transitive}]
  "casarse"  [{:sem {:pred :get-married}}]
  "cenar" [{:sem {:pred :have-dinner}}]
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
@@ -111,7 +115,11 @@
                  ;; don't have a good way to indicate the gender distinction of
                  ;; them for the article ("él/ella/ellos/ellas) with the emoji.
                  :subj {:ref {:human? true}}}}]
- "compartir" [{:sem {:pred :share}}]
+ "compartir" [{:sem {:pred :share}
+               :transitivity :intransitive}
+              {:sem {:pred :share
+                     :obj {:ref {:human? false}}}
+               :transitivity :transitive}]
  "comprar"
  [{:transitivity :intransitive
    :sem {:pred :buy,
@@ -157,7 +165,8 @@
  "contestar" [{:sem {:pred :answer}}]
  "convertir" [{:sem {:pred :convert},
                :stems {:boot "conviert"}}]
- "correr" [{:sem {:pred :run}}]
+ "correr" [{:sem {:pred :run}
+            :transitivity :intransitive}]
  "corresponder" [{:sem {:pred :correspond}}]
  "cortar" [{:sem {:pred :cut}}]
  "crear" [{:sem {:pred :create}}]

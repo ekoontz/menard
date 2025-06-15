@@ -708,11 +708,11 @@
                       :agr {:person :3rd, :number :plur}
                       :surface "fueron"}]}]
 
-
- "lastimarse" [{:sem {:pred :hurt-oneself}}]
+ "lastimarse" [{:sem {:pred :hurt-oneself}
+                :transitivity :transitive}]
  "lavar" [{:sem {:pred :wash}}]
- "lavarse" [{:sem {:pred :wash-oneself}}]
-
+ "lavarse" [{:sem {:pred :wash-oneself}
+             :transitivity :transitive}]
  "leer"
  [{:sem {:pred :read},
    :exceptions

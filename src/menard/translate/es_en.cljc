@@ -11,7 +11,9 @@
             #?(:cljs [menard.log :as log])))
 
 (defn es-structure-to-en-spec [es-structure]
-  (log/debug (str "es-structure-to-en-spec tree: " (es/syntax-tree es-structure)))
+  (log/debug (str "es-structure-to-en-spec:               tree: " (es/syntax-tree es-structure)))
+  (log/debug (str "es-structure-to-en-spec:              morph: " (es/morph es-structure)))
+  (log/debug (str "es-structure-to-en-spec: es-structure's sem: " (l/pprint (u/get-in es-structure [:sem]))))
   (let [sem-mod (if (not (= (u/get-in es-structure [:sem :mod]) []))
                   (u/get-in es-structure [:sem :mod])
                   [])

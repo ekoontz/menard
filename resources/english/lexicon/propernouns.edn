@@ -79,25 +79,20 @@
                  :number :sing}
            :sem {:human? true
                  :pred :Pedro}}]
-
- "You and Pedro" [{:case :nom
-                   :agr {:gender :masc
-                         :person :2nd
-                         :number :plur}
-                   :sem {:human? true
-                         :ref {:context :informal}
-                         :pred :Pedro-and-you}
-                   :note-on-first-word [:informal]}
-
-                  {:case :nom
-                   :agr {:gender :masc
-                         :person :2nd
-                         :number :plur}
-                   :sem {:human? true
-                         :ref {:context :formal}               
-                         :pred :Pedro-and-you}
-                   :note-on-first-word [:formal]}]
-                   
+ "You and Pedro 🧒" [{:case :nom
+                      :agr {:gender :masc
+                            :person :2nd
+                            :number :plur}
+                      :sem {:human? true
+                            :ref {:context :informal}
+                            :pred :Pedro-and-you}}]
+ "You and Pedro 🧓🏻" [{:case :nom
+                        :agr {:gender :masc
+                              :person :2nd
+                              :number :plur}
+                        :sem {:human? true
+                              :ref {:context :formal}
+                              :pred :Pedro-and-you}}]
  "Saskia" [{:cat :noun
             :agr {:gender :fem
                   :human? true}

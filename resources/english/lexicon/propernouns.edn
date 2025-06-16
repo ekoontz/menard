@@ -79,14 +79,14 @@
                  :number :sing}
            :sem {:human? true
                  :pred :Pedro}}]
- "You and Pedro 🧒" [{:case :nom
+ "You 🧒 and Pedro" [{:case :nom
                       :agr {:gender :masc
                             :person :2nd
                             :number :plur}
                       :sem {:human? true
                             :ref {:context :informal}
                             :pred :Pedro-and-you}}]
- "You and Pedro 🧓🏻" [{:case :nom
+ "You 🧓🏻 and Pedro" [{:case :nom
                         :agr {:gender :masc
                               :person :2nd
                               :number :plur}

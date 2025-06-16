@@ -231,16 +231,122 @@
                      :3 []}})
 
          ;; 3. transitive, nonreflexive:
-         (let [subj (atom {:existential? false})
-               obj (atom {:existential? false})]
+         ;; 3.a. subj: 1st person; obj: 2nd person
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
            {:subcat {:1 {:cat :noun
                          :sem subj
-                         :subcat []}
+                         :subcat []
+                         :agr {:person :1st}}
                      :2 {:cat :noun
                          :reflexive? false
                          :case :acc
                          :sem obj
-                         :subcat []}}
+                         :subcat []
+                         :agr {:person :2nd}}}
+            :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})
+
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []
+                         :agr {:person :1st}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []
+                         :agr {:person :3rd}}}
+            :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})
+
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []
+                         :agr {:person :1st}}}
+            :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})
+
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []
+                         :agr {:person :3rd}}}
+            :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})
+
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []
+                         :agr {:person :3rd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []
+                         :agr {:person :1st}}}
+            :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})
+
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []
+                         :agr {:person :2nd}}}
+            :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})
+
+         (let [subj (atom {:existential? false
+                           :ref {:a 1}})
+               obj (atom {:ref {:a 2}})]
+           {:subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []
+                         :agr {:person :3rd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []
+                         :agr {:person :3rd}}}
             :reflexive? false
             :sem {:subj subj
                   :obj obj}})]}

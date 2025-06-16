@@ -179,7 +179,8 @@
 
  ;; modal: TODO: requires a verb argument
  "deber" [{:sem {:pred :be-required-to}}]
- "decidir" [{:sem {:pred :decide}}]
+ "decidir" [{:sem {:pred :decide}
+             :transitivity :intransitive}]
  "defender" [{:sem {:pred :defend},
               :stems {:boot "defiend"}}]
 

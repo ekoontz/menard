@@ -159,6 +159,12 @@
       (str surface
            (if-let [decode-notes (decode-notes note)]
              (str " " decode-notes)))
+      
+      (= use-note note-on-first-word)
+      (str 
+       (first (clojure.string/split surface #" "))
+       (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
+         (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" "))))))
 
       :else surface)))
 

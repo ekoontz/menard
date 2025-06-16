@@ -10,6 +10,16 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+
+(defn es-reflexivity-to-en [es-structure]
+  (and (u/get-in es-structure [:reflexive?] false)
+       (not (= :none (u/get-in es-structure [:sem :obj])))))
+
+(defn en-reflexivity-to-es [en-structure]
+  (if (= true (u/get-in en-structure [:reflexive?] false))
+    true
+    :top))
+
 (defn es-structure-to-en-spec [es-structure]
   (log/debug (str "es-structure-to-en-spec:               tree: " (es/syntax-tree es-structure)))
   (log/debug (str "es-structure-to-en-spec:              morph: " (es/morph es-structure)))
@@ -27,7 +37,7 @@
            {:agr (-> es-structure (u/get-in [:agr]))
             :sem (-> es-structure (u/get-in [:sem]))
             :cat (-> es-structure (u/get-in [:cat]))
-            :reflexive? (-> es-structure (u/get-in [:reflexive?] false))
+            :reflexive? (-> es-structure es-reflexivity-to-en)
             :phrasal? (-> es-structure (u/get-in [:phrasal?] :top))
             :subcat (-> es-structure (u/get-in [:subcat]))})))
 
@@ -46,7 +56,7 @@
            {:agr (-> en-structure (u/get-in [:agr]))
             :sem (-> en-structure (u/get-in [:sem]))
             :cat (-> en-structure (u/get-in [:cat]))
-            :reflexive? (-> en-structure (u/get-in [:reflexive?] false))
+            :reflexive? (-> en-structure en-reflexivity-to-es)
             :phrasal? (-> en-structure (u/get-in [:phrasal?] :top))
             :subcat (-> en-structure (u/get-in [:subcat]))})))
 

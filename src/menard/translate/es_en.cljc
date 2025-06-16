@@ -27,6 +27,7 @@
            {:agr (-> es-structure (u/get-in [:agr]))
             :sem (-> es-structure (u/get-in [:sem]))
             :cat (-> es-structure (u/get-in [:cat]))
+            :reflexive? (-> es-structure (u/get-in [:reflexive?] false))
             :phrasal? (-> es-structure (u/get-in [:phrasal?] :top))
             :subcat (-> es-structure (u/get-in [:subcat]))})))
 
@@ -45,6 +46,7 @@
            {:agr (-> en-structure (u/get-in [:agr]))
             :sem (-> en-structure (u/get-in [:sem]))
             :cat (-> en-structure (u/get-in [:cat]))
+            :reflexive? (-> en-structure (u/get-in [:reflexive?] false))
             :phrasal? (-> en-structure (u/get-in [:phrasal?] :top))
             :subcat (-> en-structure (u/get-in [:subcat]))})))
 

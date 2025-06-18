@@ -12,8 +12,19 @@
 
 
 (defn es-reflexivity-to-en [es-structure]
+  ;; English reflexivity is more constrained than Spanish:
+  ;; only a subset of reflexive Spanish expressions are also 
+  ;; reflexive in English, so we put up a number of conditions here
+  ;; to test if the expression should really be reflexive in English:
+  ;; An English expression 'en' that is equivalent to a Spanish expression 'es' iff:
+  ;; 1. 'es' is reflexive
+  ;; 2. 'es' has a non-empty object
+  ;; 3. The subject and object of 'es' are referentially identical.
   (and (u/get-in es-structure [:reflexive?] false)
-       (not (= :none (u/get-in es-structure [:sem :obj])))))
+       (not (= :none (u/get-in es-structure [:sem :obj])))
+       ;; here we are testing for referential equality:
+       (= (get (u/get-in es-structure [:sem :subj]) :ref)
+          (get (u/get-in es-structure [:sem :obj]) :ref))))
 
 (defn en-reflexivity-to-es [en-structure]
   (if (= true (u/get-in en-structure [:reflexive?] false))

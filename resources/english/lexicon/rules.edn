@@ -858,7 +858,8 @@
        :sem {:pred ::unspec}}
   :then (let [subj (atom :top)
               subcat-1-is-shared (atom {:sem subj})
-              sem (atom {:subj subj})]
+              sem (atom {:subj subj})
+              reflexive? (atom :top)]
           [;; "would"
            {:inflected? true
             :sem {:subj subj
@@ -871,8 +872,10 @@
            ;; "would study"
            {:inflected? true
             :sem sem
+            :reflexive? reflexive?
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :reflexive? reflexive?
                          :modal :none
                          :infl :base
                          :sem sem
@@ -883,8 +886,10 @@
            ;; "would want to study"
            {:inflected? true
             :sem sem
+            :reflexive? reflexive?
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :reflexive? reflexive?
                          :modal :infinitive
                          :infl :base
                          :sem sem
@@ -894,9 +899,11 @@
 
            ;; "will be able to study"
            {:inflected? true
+            :reflexive? reflexive?
             :sem sem
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :reflexive? reflexive?                         
                          :modal :adjective
                          :infl :base
                          :sem sem

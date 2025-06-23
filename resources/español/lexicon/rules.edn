@@ -278,6 +278,19 @@
        :canonical #"(.*)r$"}
   :then [{:reflexive? false}]}
 
+ {:rule :transitivity-frame-default
+  :if {:cat :verb
+       :transitivity-frame ::unspec}
+  :then [{:transitivity-frame :none}]}
+
+ {:rule :transitivity-frame-1
+  :if {:cat :verb
+       :transitivity-frame :human-subj-nonhuman-obj}
+  :then [{:transitivity :intransitive}
+         {:transitivity :transitive
+          :sem {:subj {:ref {:human? true}}
+                :obj {:ref {:human? false}}}}]}
+ 
  {:rule :reflexive-transtivity-default
   :if {:cat :verb
        :aux? false

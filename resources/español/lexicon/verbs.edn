@@ -31,7 +31,8 @@
  "añadir" [{:sem {:pred :add}}]
  "apagar" [{:sem {:pred :turn-off}}]
  "apoyar" [{:sem {:pred :support}}]
- "aprender" [{:sem {:pred :learn}}]
+ "aprender" [{:sem {:pred :learn}
+              :transitivity-frame :human-subj-nonhuman-obj}]
  "aprobar" [{:sem {:pred :approve}}]
  "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
                {:sem {:pred :enjoy}}]
@@ -46,10 +47,13 @@
            {:sem {:pred :help,
                   :obj {:ref {:human? true}}}
             :transitivity :transitive}]
- "bailar" [{:sem {:pred :dance}}]
- "bajar" [{:sem {:pred :lower}}]
+ "bailar" [{:sem {:pred :dance}
+            :transitivity :intransitive}]
+ "bajar" [{:sem {:pred :lower}
+           :transitivity-frame :human-subj-nonhuman-obj}]
  "bañarse" [{:sem {:pred :take-a-bath}}]
- "beber" [{:sem {:pred :drink}}]
+ "beber" [{:sem {:pred :drink}
+           :transitivity-frame :human-subj-nonhuman-obj}]
  "borrar" [{:sem {:pred :erase}}]
  "buscar" [{:sem {:pred :look-for}}
            {:sem {:pred :look-up}}]
@@ -297,7 +301,8 @@
             {:sem {:pred :teach}}]
  "entender" [{:sem {:pred :understand},
               :stems {:boot "entiend"}}]
- "entrar" [{:sem {:pred :enter}}]
+ "entrar" [{:sem {:pred :enter}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "enviar" [{:sem {:pred :send}}]
  "escapar" [{:sem {:pred :escape}}]
  "escribir" [{:sem {:pred :write}}]

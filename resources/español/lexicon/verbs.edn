@@ -5,6 +5,7 @@
                            :agr {:person :1st, :number :sing},
                            :surface "abracé"}]}]
  "abrir" [{:sem {:pred :open}
+           :transitivity-frame :human-subj-nonhuman-obj
            :exceptions [{:infl :participio
                          :surface "abierto"}]}]
  "acabar" [{:sem {:pred :finish}}]

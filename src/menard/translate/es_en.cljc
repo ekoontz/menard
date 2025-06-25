@@ -43,13 +43,15 @@
         pronoun? (if (= (u/get-in es-structure [:pronoun?] ::none) ::none)
                    (u/get-in es-structure [:pronoun?])
                    false)]
+    ;; Note that the Spanish :phrasal? cannot be copied over to English
+    ;; because Spanish allows non-phrasal expressions like "duermo"
+    ;; which must be translated with an explicit subject in English ("I sleep")
     (unify {:pronoun? pronoun?
             :sem {:mod sem-mod}}
            {:agr (-> es-structure (u/get-in [:agr]))
             :sem (-> es-structure (u/get-in [:sem]))
             :cat (-> es-structure (u/get-in [:cat]))
             :reflexive? (-> es-structure es-reflexivity-to-en)
-            :phrasal? (-> es-structure (u/get-in [:phrasal?] :top))
             :subcat (-> es-structure (u/get-in [:subcat]))})))
 
 (defn en-structure-to-es-spec [en-structure]
@@ -62,13 +64,15 @@
         pronoun? (if (= (u/get-in en-structure [:pronoun?] ::none) ::none)
                    (u/get-in en-structure [:pronoun?])
                    false)]
+    ;; Note that the English :phrasal? cannot be copied over to Spanish
+    ;; because Spanish allows non-phrasal expressions like "duermo"
+    ;; which must be translated with an explicit subject in English ("I sleep")
     (unify {:pronoun? pronoun?
             :sem {:mod sem-mod}}
            {:agr (-> en-structure (u/get-in [:agr]))
             :sem (-> en-structure (u/get-in [:sem]))
             :cat (-> en-structure (u/get-in [:cat]))
             :reflexive? (-> en-structure en-reflexivity-to-es)
-            :phrasal? (-> en-structure (u/get-in [:phrasal?] :top))
             :subcat (-> en-structure (u/get-in [:subcat]))})))
 
 (defn es-structure-to-en-structure [es-structure & [es-model en-model]]

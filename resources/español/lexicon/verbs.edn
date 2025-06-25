@@ -2,6 +2,7 @@
  "abandonar" [{:sem {:pred :abandon}}]
  "abrazar" [{:sem {:pred :hug}}]
  "abrir" [{:sem {:pred :open}
+           :transitivity-frame :human-subj-nonhuman-obj
            :exceptions [{:infl :participio
                          :surface "abierto"}]}]
  "acabar" [{:sem {:pred :finish}}]

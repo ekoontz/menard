@@ -779,8 +779,10 @@
 
  ;;    "terminar" {}
 
- "tirar" [{:sem {:pred :throw-out}, :cat :verb}
-          {:sem {:pred :throw}, :cat :verb}]
+ "tirar" [{:sem {:pred :throw-out}, :cat :verb
+           :transitivity-frame :human-subj-nonhuman-obj}
+          {:sem {:pred :throw}, :cat :verb
+           :transitivity-frame :human-subj-nonhuman-obj}]           
 
  ;;   "tocar" {}
  ;;   "tomar" {}

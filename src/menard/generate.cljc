@@ -328,9 +328,7 @@
       (->> (get-lexemes spec lexicon-index-fn at)
            (#(do
                (when more-logging?
-                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))
-                 (doall (map (fn [lexeme]
-                             %)))
+                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at)))
                %))
            
            (#(if (and exception-if-no-lexemes-found? (empty? %))
@@ -532,7 +530,7 @@
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
                                             (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                     true))))
+                     true))
        (map :unify)))
 
 (defn frontier

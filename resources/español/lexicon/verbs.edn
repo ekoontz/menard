@@ -557,12 +557,15 @@
  "levantarse" [{:sem {:pred :get-up,
                       :subj {:ref {:human? true}}}}]
 
- "limpiar" [{:sem {:pred :clean}}]
+ "limpiar" [{:sem {:pred :clean}
+            :transitivity-frame :human-subj-nonhuman-obj}]             
 
  "llamarse" [{:sem {:pred :be-called}}]
 
- "llegar" [{:sem {:pred :arrive}}]
- "llenar" [{:sem {:pred :fill}}]
+ "llegar" [{:sem {:pred :arrive}
+            :transitivity :intransitive}]
+ "llenar" [{:sem {:pred :fill}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "llevar" [{:sem {:pred :carry}}
            {:sem {:pred :wear-l}
             :transitivity-frame :human-subj-nonhuman-obj}]

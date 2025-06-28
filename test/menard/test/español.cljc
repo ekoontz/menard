@@ -112,3 +112,27 @@
     (is (or (= (u/get-in hablaréis [:sem :pred]) :speak)
             (= (u/get-in hablaréis [:sem :pred]) :talk)))))
 
+(deftest non-phrasal-expressions-with-infl
+  (is (= (-> {:canonical "comer"
+              :infl :preterito
+              :sem {:tense :past, :aspect :simple},
+              :agr {:number :sing, :person :1st},
+              :subcat [],
+              :phrasal? false,
+              :cat :verb}
+             es/generate
+             es/morph)
+         "comí")))
+
+(deftest non-phrasal-expressions-without-infl
+  ;; in this case, the input has no :infl, so (generate) must
+  ;; use the model's non-phrasal grammar rule(s) to determine the :infl:
+  (is (= (-> {:canonical "comer"
+              :sem {:tense :past, :aspect :simple},
+              :agr {:number :sing, :person :1st},
+              :subcat [],
+              :phrasal? false,
+              :cat :verb}
+             es/generate
+             es/morph)
+         "comí")))

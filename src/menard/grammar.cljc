@@ -118,7 +118,7 @@
                %))
        
        (remove #(= :fail %))
-       (map #(u/assoc-in % [:phrasal?] true))
+       (map #(u/assoc-in % [:phrasal?] (u/get-in % [:phrasal?] true)))
        (map #(u/assoc-in % [:menard.generate/started?] true))))
 
 #?(:clj

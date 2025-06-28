@@ -150,13 +150,6 @@
           menard.ug/head-rule
           menard.ug/head-sem]}
 
-
-
- {:rule "nonphrasal" ;; e.g. "duermo" where subject is implied
-  :cat :verb
-  :subcat []
-  :phrasal? false
-  :options menard.español.tenses/finite-nonaux-tenses}
  ;;            <1>
  ;;       /            \
  ;; 2:me       [he lastimado]<1,2>

@@ -102,7 +102,7 @@
  "cambiar" [{:sem {:pred :change}}]
  "cambiarse" [{:sem {:pred :change-clothes}}]
  "caminar" [{:sem {:pred :walk-c}
-             :transivity :intransitive}]
+             :transitivity :intransitive}]
  "cancelar" [{:sem {:pred :cancel}
               :transitivity-frame :human-subj-nonhuman-obj}]
  "cantar" [{:sem {:pred :sing}

@@ -136,6 +136,23 @@
               (log/debug (str "too deep: giving up on this tree: " (syntax-tree-fn tree) "."))
               (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))
             
+
+            (and (u/get-in tree [::done?])
+                 (false? (u/get-in tree [:phrasal?]))
+                 (seq (->> grammar
+                           (filter #(false? (u/get-in % [:phrasal?] true))))))
+            ;; Because the grammar has one or more non-phrasal rules,
+            ;; unify with all non-phrasal rules in the grammar, in
+            ;; order to get any necessary tense-and-infl constraints:
+            (lazy-cat
+             (->> grammar
+                  (filter #(false? (u/get-in % [:phrasal?] true)))
+                  (map (fn [rule]
+                         (log/info (str "trying to unify with rule: " rule))
+                         (unify rule tree)))
+                  (remove #(= :fail %)))
+             (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))
+
             (or (u/get-in tree [::done?])
                 (and (seq frontier) (= frontier stop-generation-at)))
             (do

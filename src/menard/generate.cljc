@@ -148,7 +148,7 @@
              (->> grammar
                   (filter #(false? (u/get-in % [:phrasal?] true)))
                   (map (fn [rule]
-                         (log/info (str "trying to unify with rule: " rule))
+                         (log/debug (str "trying to unify with rule: " rule))
                          (unify rule tree)))
                   (remove #(= :fail %)))
              (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))

@@ -398,8 +398,11 @@
     (if more-logging? (log/info (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
                                      (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs))))
     (->>
-     ;; start with the whole grammar, shuffled:
-     (shuffle grammar)
+
+     grammar
+
+     ;; phrasal-only rules:
+     (filter #(u/get-in % [:phrasal?] true))     
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name)
@@ -409,6 +412,8 @@
      
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
+
+     shuffle
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      ;;

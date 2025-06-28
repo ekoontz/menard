@@ -325,7 +325,8 @@
                (->> (span-pairs (- input-length span-length) span-length)
                     (pmap-if-available
                      (fn [[[left middle][middle right]]]
-                       (let [all-results (over grammar
+                       (let [grammar (->> grammar (remove #(false? (u/get-in % [:phrasal?]))))
+                             all-results (over grammar
                                                (get input-map [left middle])
                                                (get input-map [middle right])
                                                syntax-tree

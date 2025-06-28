@@ -523,10 +523,10 @@
 
                    :else
                    (do
-                     (when (and developer-mode? (contains? log-these-paths (vec at)))
+                     (when (and developer-mode? log-all-rules? (contains? log-these-paths (vec at)))
+                       (log/info (str "lexeme candidate: succeeded: lexeme: " (l/pprint lexeme)))
                        (log/info (str "candidate lexeme: at: " (vec at) ": "
                                       (or (u/get-in lexeme [:canonical]) (l/pprint lexeme))))
-                       (log/info (str "lexeme candidate: "
                                       (cond (u/get-in lexeme [:surface])
                                             (str "'" (u/get-in lexeme [:surface]) "'")
                                             (u/get-in lexeme [:canonical])

@@ -592,10 +592,11 @@
                          :cat :noun
                          :subcat []}}})]}
 
- {:rule :subcat-1-is-nom-if-not-reflexive
+ {:rule :subcat-1-defaults-to-nom-if-not-reflexive
   :if {:cat :verb
        :implicit-subject? false
        :subcat {:1 {:cat :noun
+                    :case ::unspecified
                     :reflexive? false}}}
   :then [{:subcat {:1 {:case :nom}}}]}
 

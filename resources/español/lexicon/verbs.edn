@@ -420,6 +420,7 @@
                 :3 []}
        :sem sem})
 
+    ;; aux sense with non-reflexive intransitive complement verb and implicit subject:
     ;; e.g. "he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
@@ -1027,8 +1028,8 @@
              :agr {:person :3rd, :number :sing},
              :surface "tuvo"}],
            :stems {:preterito "tuv"}}]
-<"terminar" [{:sem {:pred :end}, :cat :verb}
-             {:sem {:pred :finish}, :cat :verb}] 
+ "terminar" [{:sem {:pred :end}, :cat :verb}
+             {:sem {:pred :finish}, :cat :verb}]
  "tirar" [{:sem {:pred :throw-out}, :cat :verb}
           {:sem {:pred :throw}, :cat :verb}]
  "tomar" [{:sem {:pred :take}, :cat :verb}

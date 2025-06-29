@@ -465,7 +465,7 @@
            %))
 
        (map (fn [lexeme]
-              (if (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
+              (if (and developer-mode? (contains? log-these-paths (vec at)))
                 {:lexeme lexeme
                  :unify (unify lexeme spec)}
                 {:unify (unify lexeme spec)})))

@@ -534,8 +534,8 @@
                                                  (if (u/get-in lexeme [:sense])
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
-                                            (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                     true))
+                                            (l/pprint lexeme)) " succeeded: " (strip-refs unify))
+                     true))))
        (map :unify)))
 
 (defn frontier

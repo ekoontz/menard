@@ -381,11 +381,8 @@
     (if more-logging? (log/info (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
                                      (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs))))
     (->>
-
-     grammar
-
-     ;; phrasal-only rules:
-     (filter #(u/get-in % [:phrasal?] true))     
+     ;; start with the whole grammar, shuffled:
+     (shuffle grammar)
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name)
@@ -395,8 +392,6 @@
      
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
-
-     shuffle
      
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      ;;
@@ -474,12 +469,10 @@
 
        (filter (fn [{lexeme :lexeme
                      unify :unify}]
-                 (when (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
-                   (log/info (str "lexeme returned from lexicon-index-fn: " (u/get-in lexeme [:canonical]))))
-                 true))
-       
-       (filter (fn [{lexeme :lexeme
-                     unify :unify}]
+                 (log/debug (str "candidate lexeme surface:   " (u/get-in lexeme [:surface])))
+                 (log/debug (str "candidate lexeme canonical: " (u/get-in lexeme [:canonical])))                 
+                 (log/debug (str "candidate lexeme: " (l/pprint lexeme)))                 
+                 (log/debug (str "candidate unify : " (l/pprint unify)))
                  (cond
                    (= unify :fail)
                    (do
@@ -516,7 +509,7 @@
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
                                             (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                     true))
+                     true))))
        (map :unify)))
 
 (defn frontier

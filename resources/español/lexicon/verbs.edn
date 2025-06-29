@@ -285,7 +285,7 @@
                     :agr {:person :3rd :number :plur}
                     :surface "han"}]]
    [
-    ;; aux sense with non-reflexive complement verb:
+    ;; aux sense with non-reflexive intransitive complement verb:
     ;; e.g. "yo he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})

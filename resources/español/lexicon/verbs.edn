@@ -313,7 +313,8 @@
     (let [sem (atom {:tense :past
                      :aspect :perfect})
           reflexivity (atom false)
-          subj (atom {:reflexive? reflexivity})]
+          subj (atom {:reflexive? reflexivity
+                      :case :acc})]
       {:exceptions exceptions
        :aux? true
        :sense :implicit-subj-non-reflexive-intransitive
@@ -331,6 +332,32 @@
                 :3 []}
        :sem sem})
 
+    ;; aux sense, nonreflexive transitive without explicit subject:
+    ;; e.g. "lo he visto"
+    (let [sem (atom {:tense :past
+                     :aspect :perfect})
+          reflexivity (atom false)
+          obj (atom {:case :acc
+                     :reflexive? reflexivity})]
+      {:exceptions exceptions
+       :aux? true
+       :sense :implicit-subj-non-reflexive-transitive
+       :reflexive? reflexivity
+       :implicit-subject? false
+       :subcat-frames :both
+       :subcat {:1 obj
+                :2 {:cat :verb
+                    :aux? false
+                    :reflexive? reflexivity
+                    :infl :participio
+                    :subcat {:1 obj
+                             :2 []
+                             :3 []}
+                    :sem sem}
+                ;; TODO: should move line below to lexical rules:
+                :3 []}
+       :sem sem})
+    
     ;; aux sense, reflexive without explicit subject:
     ;; e.g. "me he lastimado"
     (let [sem (atom {:tense :past

@@ -111,9 +111,8 @@
           menard.ug/head-sem]
   }
 
- {:rule "vp-aux-non-reflexive"
+ {:rule "vp-aux-explicit-subject-c"
   :cat :verb
-  :reflexive? false
   :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/c
@@ -124,9 +123,8 @@
           menard.ug/head-sem]
   }
 
- {:rule "vp-aux-reflexive-1" ;; "he lastimado" (implicit subject)
+ {:rule "vp-aux-implicit-subject-intransitive" ;; "he lastimado", he visto" (implicit subject)
   :cat :verb
-  :reflexive? true
   :head {:aux? true
          :phrasal? false}
   :options menard.español.tenses/finite-aux-tenses
@@ -137,9 +135,8 @@
           menard.ug/head-rule
           menard.ug/head-sem]}
 
- {:rule "vp-aux-reflexive-2" ;; "he lastimado" (explicit subject)
+ {:rule "vp-aux-explicit-subject-transitive" ;; "he lastimado", "he visto" (explicit subject)
   :cat :verb
-  :reflexive? true
   :head {:aux? true
          :phrasal? false}
   :options menard.español.tenses/finite-aux-tenses
@@ -149,8 +146,6 @@
           menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem]}
-
-
 
  {:rule "nonphrasal" ;; e.g. "duermo" where subject is implied
   :cat :verb

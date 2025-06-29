@@ -41,7 +41,7 @@
 ;; examples:
 ;;(def ^:dynamic log-these-rules #{"s" "vp"})
 (def developer-mode? false)
-(def ^:dynamic log-these-rules #{})
+(def ^:dynamic log-these-rules #{"s-aux" "vp-aux-non-reflexive"})
 
 ;; log-these-rules: show more logging for a certain
 ;; set of paths within a tree being generated.
@@ -51,7 +51,11 @@
 
 (def ^:dynamic log-these-paths #{})
 
+(def ^:dynamic log-these-lexemes #{})
+;;(def ^:dynamic log-these-lexemes #{"yo" "he" "visto"})
+
 (def ^:dynamic log-all-rules? false)
+(def ^:dynamic log-all-lexemes? false)
 (def ^:dynamic exception-if-no-lexemes-found? false)
 
 ;; clojurescript is much slower without these settings:
@@ -65,7 +69,7 @@
 
 (def ^:dynamic allow-lexeme-backtracking? true)
 (def ^:dynamic max-depth 15)
-(def ^:dynamic max-fails 10000)
+(def ^:dynamic max-fails 100000)
 (def ^:dynamic profiling? false)
 (def ^:dynamic counts? (or profiling? (not (nil? max-fails))))
 (def ^:dynamic stop-generation-at
@@ -179,9 +183,6 @@
   sub-tree (add-rule)."
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
-  (when (and developer-mode? (or log-all-rules? (and developer-mode? (contains? log-these-rules (u/get-in tree [:rule])))))
-    (log/info (str "add with tree: " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
-  
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
@@ -209,7 +210,7 @@
           
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
-    (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
+    (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree (concat (butlast at) [:rule])))))
       (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
                      (str "; looking for: "
                           (strip-refs (select-keys (u/get-in tree at) show-keys))
@@ -304,14 +305,16 @@
                                (contains? log-these-rules (u/get-in tree [:rule]))))
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
-    (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])) (contains? log-these-paths at)))
+    (when more-logging?
       (log/info (str "add-lexeme: " (syntax-tree tree) " at: " (vec at) " looking for lexeme matching spec: " (l/pprint spec))))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn at)
            (#(do
                (when more-logging?
-                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at)))
+                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))
+                 (when (= (count %) 0)
+                   (log/info (str "add-lexeme: post-exception-checking: found no lexemes matching this spec: " (dag_unify.serialization/serialize spec)))))
                %))
            
            (#(if (and exception-if-no-lexemes-found? (empty? %))
@@ -328,9 +331,11 @@
                %))
 
            (map (fn [candidate-lexeme]
+                  (when (= :fail candidate-lexeme)
+                    (exception (str "lexeme was fail!")))
                   (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
                     (log/info (str "adding candidate lexeme at: " (vec at) ": "
-                                   (syntax-tree candidate-lexeme))))
+                                   (l/pprint candidate-lexeme))))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -377,20 +382,23 @@
               :else nil)
         cat (u/get-in tree (concat at [:cat]))
         at-num (tr/numeric-frontier (:syntax-tree tree {}))
-        more-logging? false]
-    (if more-logging? (log/info (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
-                                     (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs))))
+        more-logging? (and developer-mode?
+                           (or log-all-rules?
+                               (contains? log-these-rules rule-name)))]
+    (when more-logging? (log/info (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
+                                       (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs))))
     (->>
 
      grammar
 
-     ;; phrasal-only rules:
+     ;; only phrasal-only rules should be considered, since we are
+     ;; trying to add a parent tree node that will have children:
      (filter #(u/get-in % [:phrasal?] true))     
      
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name)
                   (do
-                    (log/debug (str "add-rule: looking for rule named: " (u/get-in % [:rule])))
+                    (log/debug (str "add-rule: looking at rule named: " (u/get-in % [:rule])))
                     (= (u/get-in % [:rule]) rule-name))))
      
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
@@ -407,10 +415,10 @@
      ;; _at_ points here -> [] <- add candidate grammar rule here
      ;;
      (map (fn [rule]
-            (log/debug (str "trying rule: " (:rule rule)))
+            (when more-logging? (log/debug (str "trying rule: " (:rule rule))))
             (let [result (u/assoc-in tree at rule)]
               (when (= :fail result)
-                (log/trace
+                (log/debug
                  (str "rule: " (:rule rule) " failed: "
                       (vec (diag/fail-path tree
                                            (u/assoc-in {} at rule))))))

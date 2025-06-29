@@ -311,7 +311,10 @@
       (->> (get-lexemes spec lexicon-index-fn at)
            (#(do
                (when more-logging?
-                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at)))
+                 (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))
+                 (doall (map (fn [lexeme]
+                               (log/info (str "found lexeme: " (syntax-tree lexeme))))
+                             %)))
                %))
            
            (#(if (and exception-if-no-lexemes-found? (empty? %))

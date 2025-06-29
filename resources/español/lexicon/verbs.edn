@@ -285,7 +285,7 @@
                     :agr {:person :3rd :number :plur}
                     :surface "han"}]]
    [
-    ;; aux sense with non-reflexive intransitive complement verb:
+    ;; aux sense with non-reflexive intransitive complement verb and explicit subject:
     ;; e.g. "yo he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
@@ -308,6 +308,7 @@
                 :3 []}
        :sem sem})
 
+    ;; aux sense with non-reflexive intransitive complement verb and implicit subject:
     ;; e.g. "he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})

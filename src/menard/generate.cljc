@@ -500,10 +500,10 @@
 
                    :else
                    (do
-                     (when (and developer-mode? log-all-rules? (contains? log-these-paths (vec at)))
-                       (log/info (str "lexeme candidate: succeeded: lexeme: " (l/pprint lexeme)))
+                     (when (and developer-mode? (contains? log-these-paths (vec at)))
                        (log/info (str "candidate lexeme: at: " (vec at) ": "
                                       (or (u/get-in lexeme [:canonical]) (l/pprint lexeme))))
+                       (log/info (str "lexeme candidate: "
                                       (cond (u/get-in lexeme [:surface])
                                             (str "'" (u/get-in lexeme [:surface]) "'")
                                             (u/get-in lexeme [:canonical])
@@ -512,7 +512,7 @@
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
                                             (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                     true))
+                     true))))
        (map :unify)))
 
 (defn frontier

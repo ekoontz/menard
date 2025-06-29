@@ -160,7 +160,7 @@
                       " <- " (syntax-tree head)
                       " fail-path: " (vec fp)
                       ". Parent wants: " (l/pprint (u/get-in parent fp))
-                      ", but head has: (" (vec (rest fp)) ")" (l/pprint (u/get-in head (rest fp)))
+                      ", but head has: " (l/pprint (u/get-in head (rest fp)))
                       (let [derivation (cond
                                          (seq (u/get-in head [:menard.lexiconfn/derivation]))
                                          (u/get-in head [:menard.lexiconfn/derivation])

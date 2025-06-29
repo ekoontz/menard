@@ -485,23 +485,21 @@
                    (do
                      (when counts? (swap! count-lexeme-fails inc))
                      (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
-                       (when (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
-                         (log/debug (str "lexeme candidate: failed: lexeme: " (l/pprint lexeme))))
-                       (when (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
-                         (log/debug (str "lexeme candidate failed: "
-                                         (cond (u/get-in lexeme [:surface])
-                                               (str "'" (u/get-in lexeme [:surface]) "'")
-                                               (u/get-in lexeme [:canonical])
-                                               (str "_" (u/get-in lexeme [:canonical]) "_"
-                                                    (if (u/get-in lexeme [:sense])
-                                                      (str ":" (u/get-in lexeme [:sense]))))
-                                               :true
-                                               (l/pprint lexeme))
-                                         " failed: " (vec fail-path) "; "
-                                         " lexeme's value: "
-                                         (serialize (u/get-in lexeme fail-path)) "; "
-                                         " spec's value: "
-                                         (serialize (u/get-in spec fail-path))))))
+                       (when (and developer-mode? (contains? log-these-paths (vec at)))
+                         (log/info (str "lexeme candidate: "
+                                        (cond (u/get-in lexeme [:surface])
+                                              (str "'" (u/get-in lexeme [:surface]) "'")
+                                              (u/get-in lexeme [:canonical])
+                                              (str "_" (u/get-in lexeme [:canonical]) "_"
+                                                   (if (u/get-in lexeme [:sense])
+                                                     (str ":" (u/get-in lexeme [:sense]))))
+                                              :true
+                                              (l/pprint lexeme))
+                                        " failed: " (vec fail-path) "; "
+                                        " lexeme's value: "
+                                        (serialize (u/get-in lexeme fail-path)) "; "
+                                        " spec's value: "
+                                        (serialize (u/get-in spec fail-path))))))
                      false)
 
                    :else
@@ -518,7 +516,7 @@
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
                                             (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                     true))
+                     true))))
        (map :unify)))
 
 (defn frontier

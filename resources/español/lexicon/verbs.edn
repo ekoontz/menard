@@ -27,7 +27,8 @@
               :transitivity :intransitive}]
  "amar"    [{:sem {:pred :love}}]
  "andar" [{:stems {:preterito "anduv"}
-           :sem {:pred :walk}}]
+           :sem {:pred :walk}
+           :transitivity :intransitive}]
  "anunciar" [{:sem {:pred :announce}}]
  "añadir" [{:sem {:pred :add}}]
  "apagar" [{:sem {:pred :turn-off}}]
@@ -42,7 +43,8 @@
              {:sem {:pred :insure}}]
  
  "asistir" [{:sem {:pred :attend}}]
- "aumentar" [{:sem {:pred :increase}}]
+ "aumentar" [{:sem {:pred :increase}
+              :transitivity-frame :human-subj-nonhuman-obj}]
  "ayudar" [{:sem {:pred :help}
             :transitivity :intransitive}
            {:sem {:pred :help,
@@ -81,6 +83,7 @@
 
  "caber" [{:sem {:subj {:animate true},
                  :pred :fit},
+           :transitivity-frame :human-subj-nonhuman-obj
            :cat :verb,
            :exceptions
            [{:infl :present,
@@ -90,6 +93,7 @@
  "caerse"
  [{:sem {:pred :fall
          :subj {:ref {:human? true}}}
+   :transitivity :intransitive
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},
@@ -109,8 +113,10 @@
 
  "cambiar" [{:sem {:pred :change}}]
  "cambiarse" [{:sem {:pred :change-clothes}}]
- "caminar" [{:sem {:pred :walk-c}}]
- "cancelar" [{:sem {:pred :cancel}}]
+ "caminar" [{:sem {:pred :walk-c}
+             :transitivity :intransitive}]
+ "cancelar" [{:sem {:pred :cancel}
+              :transitivity-frame :human-subj-nonhuman-obj}]
  "cantar" [{:sem {:pred :sing}
             :transitivity :intransitive}
            {:sem {:pred :sing
@@ -124,7 +130,8 @@
  "cobrar" [{:sem {:pred :charge-money}}
            {:sem {:pred :cash-checks}}]
 
- "comentar" [{:sem {:pred :comment}}]
+ "comentar" [{:sem {:pred :comment}
+              :transitivity :intransitive}]
  "comenzar" [{:sem {:pred :begin}, :stems {:boot "comienz"}}]
  "comer" [{:sem {:pred :eat
                  ;; of course animals {:animate? true} can eat too, but we
@@ -172,9 +179,12 @@
             :sem {:pred :obtain-c}}]
 
  "consentir" [{:sem {:pred :consent},
-               :stems {:boot "consient"}}]
- "conservar" [{:sem {:pred :conserve}}
-              {:sem {:pred :preserve}}]
+               :stems {:boot "consient"}
+               :transitivity-frame :human-subj-nonhuman-obj}]
+ "conservar" [{:sem {:pred :conserve}
+               :transitivity-frame :human-subj-nonhuman-obj}
+              {:sem {:pred :preserve}
+               :transitivity-frame :human-subj-nonhuman-obj}]
  "considerar" [{:sem {:pred :consider}}]
  "contar" [{:sem {:pred :count},
             :stems {:boot "cuent"}}]
@@ -320,22 +330,23 @@
    [{:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "expliqué"}]}]
- "expresar" [{:sem {:pred :express}}]
-
- "firmar" [{:sem {:pred :sign}}]
- "formar" [{:sem {:pred :form}}]
+ "expresar" [{:sem {:pred :express}
+              :transitivity-frame :human-subj-nonhuman-obj}]
+ "firmar" [{:sem {:pred :sign}
+            :transitivity-frame :human-subj-nonhuman-obj}]
+ "formar" [{:sem {:pred :form}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "fregar" [{:sem {:pred :scrub},
             :stems {:boot "frieg"}}]
- "fumar" [{:sem {:pred :smoke}}]
-
+ "fumar" [{:sem {:pred :smoke}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "funcionar" [{:transitivity :intransitive
                :sem {:subj {:ref {:human? false}}
                      :pred :work-nonhuman}}]
-
  "ganar" [{:sem {:pred :earn}}
           {:sem {:pred :win}}]
- "gastar" [{:sem {:pred :spend}}]
-
+ "gastar" [{:sem {:pred :spend}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "haber"
  (let [exceptions [{:infl :present
                     :agr {:person :1st :number :sing}
@@ -483,11 +494,11 @@
                     :sem sem}}
        :sem sem})
     
-      ;; non-aux sense:
-      {:exceptions exceptions
-       :sense :have
-       :sem {:pred :have}}])
-
+    ;; non-aux sense:
+    {:exceptions exceptions
+     :sense :have
+     :sem {:pred :have}
+     :transitivity-frame :human-subj-nonhuman-obj}])
     
  "hablar" [{:sem {:pred :speak
                   :subj {:ref {:human? true}}}}
@@ -528,8 +539,8 @@
                     :agr {:person :2nd :number :sing :formal? false}
                     :surface "hiciste"}
                    {:infl :preterito
-                    :agr {:person :2nd :number :sing :formal? true}   
-                    :surface "hizo"}
+                    :agr {:person :2nd :number :sing :formal? true}
+                    :surface "hize"}
                    {:infl :preterito
                     :agr {:person :3rd :number :sing}
                     :surface "hizo"}
@@ -547,11 +558,12 @@
                     :surface "hicieron"}]]
    [{:stems stems
      :exceptions exceptions
-     :sem {:pred :do}}
+     :sem {:pred :do}
+     :transitivity-frame :human-subj-nonhuman-obj}     
     {:stems stems
      :exceptions exceptions
-     :sem {:pred :make}}])
-
+     :sem {:pred :make}
+     :transitivity-frame :human-subj-nonhuman-obj}])
  "herir" [{:sem {:pred :wound}, :stems {:boot "hier"}}]
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]
 
@@ -734,24 +746,29 @@
 
  "levantarse" [{:sem {:pred :get-up,
                       :subj {:ref {:human? true}}}}]
+ "limpiar" [{:sem {:pred :clean}
+            :transitivity-frame :human-subj-nonhuman-obj}]             
+ "llamar" [{:sem {:pred :call}}] "llamarse" [{:sem {:pred :be-called}}]
 
- "limpiar" [{:sem {:pred :clean}}]
- "llamar" [{:sem {:pred :call}}]
- "llamarse" [{:sem {:pred :be-called}}]
-
- "llegar" [{:sem {:pred :arrive}}]
- "llenar" [{:sem {:pred :fill}}]
+ "llegar" [{:sem {:pred :arrive}
+            :transitivity :intransitive}]
+ "llenar" [{:sem {:pred :fill}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "llevar" [{:sem {:pred :carry}}
-           {:sem {:pred :wear-l}}]
- "llorar" [{:sem {:pred :cry}}]
- "manejar" [{:sem {:pred :drive}}]
+           {:sem {:pred :wear-l}
+            :transitivity-frame :human-subj-nonhuman-obj}]
+ "llorar" [{:sem {:pred :cry}
+            :transitivity :intransitive}]
+ "manejar" [{:sem {:pred :drive}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "maquillarse" [{:sem {:pred :put-on-makeup}}]
-
- "mentir" [{:sem {:pred :lie}, :stems {:boot "mient"}}]
+ "mentir" [{:sem {:pred :lie}, :stems {:boot "mient"}
+            :transitivity :intransitive}]
  "mirar" [{:sem {:pred :look-at}}]
  "mostrar" [{:sem {:pred :show}, :stems {:boot "muestr"}}]
  "nacer"
  [{:sem {:pred :be-born},
+   :transitivity :intransitivity
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},
@@ -794,8 +811,7 @@
      :surface "oyen"}
     {:infl :present,
      :agr {:person :3rd, :number :plur},
-     :surface "oyen"}
-    
+     :surface "oyeron"}
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "oí"}
@@ -829,7 +845,7 @@
    [{:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "pagué"}]}]
- 
+
  "parar" [{:sem {:pred :stop}}]
  "pararse" [{:sem {:pred :stop-oneself}}]
 
@@ -845,7 +861,8 @@
  "peinarse" [{:sem {:pred :comb-oneself
                     :subj {:ref {:human? true}}}}]
 
- "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}}]
+ "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}
+            :transitivity-frame :human-subj-nonhuman-obj}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]
  "pintar" [{:sem {:pred :paint}}]
  "platicar" [{:sem {:pred :chat}}]
@@ -877,7 +894,6 @@
     {:infl :participio
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
- 
  "ponerse"
  [{:sem {:subj {:animate? true},
          :pred :put-on},
@@ -926,17 +942,20 @@
  "recordar" [{:sem {:pred :remember}, :stems {:boot "recuerd"}}]
 
  "reparar" [{:cat :verb
-             :sem {:pred :repair}}]
+             :sem {:pred :repair}
+             :transitivity-frame :human-subj-nonhuman-obj}]
 
  "repetir" [{:sem {:pred :repeat}, :stems {:boot "repit"}}]
 
  "responder" [{:cat :verb
-               :sem {:pred :respond}}]
+               :sem {:pred :respond}
+               :transitivity :intransitive}]
 
  "revisar" [{:sem {:pred :review}}]
  
  "romper"  [{:cat :verb
-             :sem {:pred :break}}]
+             :sem {:pred :break}
+             :transitivity-frame :human-subj-nonhuman-obj}]             
 
  "saber" [{:stems {:futuro "sabr"
                    :preterito "sup"}
@@ -953,7 +972,7 @@
                          :surface "saqué"}]
            :cat :verb
            :sem {:pred :remove}}]
- 
+
  "salir" [{:exceptions [{:infl :present
                          :agr {:person :1st
                                :number :sing}
@@ -1008,7 +1027,7 @@
              :agr {:person :3rd, :number :sing},
              :surface "tuvo"}],
            :stems {:preterito "tuv"}}]
- "terminar" [{:sem {:pred :end}, :cat :verb}
+<"terminar" [{:sem {:pred :end}, :cat :verb}
              {:sem {:pred :finish}, :cat :verb}] 
  "tirar" [{:sem {:pred :throw-out}, :cat :verb}
           {:sem {:pred :throw}, :cat :verb}]
@@ -1079,4 +1098,4 @@
  "volver" [{:sem {:pred :return}
             :exceptions [{:infl :participo
                           :surface "vuelto"}]}]
- }
+}

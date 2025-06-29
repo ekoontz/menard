@@ -406,6 +406,7 @@
                 :3 []}
        :sem sem})
 
+    ;; aux sense with non-reflexive intransitive complement verb and implicit subject:
     ;; e.g. "he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
@@ -480,19 +481,11 @@
                     :sem sem}}
        :sem sem})
     
-<<<<<<< HEAD
-      ;; non-aux sense:
-      {:exceptions exceptions
-       :sense :have
-       :sem {:pred :have}}])
-=======
     ;; non-aux sense:
     {:exceptions exceptions
      :sense :have
      :sem {:pred :have}
      :transitivity-frame :human-subj-nonhuman-obj}])
->>>>>>> 47d0ff3e7 (copy verb fixes from null-subject-for-non-reflexives)
-
     
  "hablar" [{:sem {:pred :speak
                   :subj {:ref {:human? true}}}}
@@ -533,13 +526,8 @@
                     :agr {:person :2nd :number :sing :formal? false}
                     :surface "hiciste"}
                    {:infl :preterito
-<<<<<<< HEAD
-                    :agr {:person :2nd :number :sing :formal? true}   
-                    :surface "hizo"}
-=======
                     :agr {:person :2nd :number :sing :formal? true}
                     :surface "hize"}
->>>>>>> 47d0ff3e7 (copy verb fixes from null-subject-for-non-reflexives)
                    {:infl :preterito
                     :agr {:person :3rd :number :sing}
                     :surface "hizo"}
@@ -564,15 +552,10 @@
      :sem {:pred :make}
      :transitivity-frame :human-subj-nonhuman-obj}])
  "herir" [{:sem {:pred :wound}, :stems {:boot "hier"}}]
-<<<<<<< HEAD
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]
 
  "jugar" [{:sem {:pred :play-games}, :stems {:boot "jueg"}}]
 
-=======
- "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}
-           :transitivity-frame :human-subj-nonhuman-obj}]
->>>>>>> 47d0ff3e7 (copy verb fixes from null-subject-for-non-reflexives)
  "intentar" [{:sem {:pred :try}}]
 
  "ir" [{:transitivity :intransitive
@@ -729,13 +712,7 @@
      :surface "oyen"}
     {:infl :present,
      :agr {:person :3rd, :number :plur},
-<<<<<<< HEAD
      :surface "oyen"}
-    
-=======
-     :surface "oyeron"}
-
->>>>>>> 400c941f0 (copy verb fixes from null-subject-for-non-reflexives)
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "oí"}
@@ -810,18 +787,7 @@
     {:infl :participio
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
-<<<<<<< HEAD
- 
-<<<<<<< HEAD
  "practicar" [{:sem {:pred :practice}}]
-=======
- "praticar" [{:sem {:pred :practice}}]
-=======
-
->>>>>>> 400c941f0 (copy verb fixes from null-subject-for-non-reflexives)
- "preguntar" [{:sem {:pred :ask-for}}]
- "preocuparse" [{:sem {:pred :worry}}]
->>>>>>> 47d0ff3e7 (copy verb fixes from null-subject-for-non-reflexives)
 
  "preferir" [{:sem {:pred :prefer}, :stems {:boot "prefier"}}]
 
@@ -929,24 +895,12 @@
              :agr {:person :3rd, :number :sing},
              :surface "tuvo"}],
            :stems {:preterito "tuv"}}]
-<<<<<<< HEAD
  "terminar" [{:sem {:pred :end}, :cat :verb}
              {:sem {:pred :finish}, :cat :verb}] 
  "tirar" [{:sem {:pred :throw-out}, :cat :verb}
           {:sem {:pred :throw}, :cat :verb}]
  "tomar" [{:sem {:pred :take}, :cat :verb}
           {:sem {:pred :drink-t}, :cat :verb}]
-=======
-
- ;;    "terminar" {}
-
- "tirar" [{:sem {:pred :throw-out}, :cat :verb
-           :transitivity-frame :human-subj-nonhuman-obj}
-          {:sem {:pred :throw}, :cat :verb
-           :transitivity-frame :human-subj-nonhuman-obj}]           
-
- ;;   "tomar" {}
->>>>>>> 47d0ff3e7 (copy verb fixes from null-subject-for-non-reflexives)
  ;;   "toser" {}
  
  "trabajar" [{:sem {:pred :work}}]

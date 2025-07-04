@@ -24,10 +24,7 @@
 (deftest parse-test
   (let [present (-> "Juan se queda" parse first)]
     (is (= (-> present syntax-tree)
-           "[s(:present-simple){+} .Juan +[vp-pronoun(:present-simple){+} .se(2) +queda]]")))
+           "[s-head-last(:present-simple){+} .Juan +[vp-pronoun-c(:present-simple){+} .se(2) +queda]]")))
   (let [preterito (-> "yo me he lastimado" parse first)]
-    "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-2(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:explicit-subj) .lastimado]]]"))
-
-
-
-
+    (is (= (-> preterito syntax-tree)
+           "[s-head-last(:preterito-perfecto){+} .yo +[vp-pronoun-c(:preterito-perfecto){+} .me +[vp-aux-k(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado]]]"))))

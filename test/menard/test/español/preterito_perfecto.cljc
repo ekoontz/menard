@@ -54,7 +54,7 @@
                        (filter #(= [] (u/get-in % [:subcat])))
                        first)]
     (is (= (-> reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto){+} .me +[vp-aux-reflexive-1(:preterito-perfecto){+} +he(:implicit-subj-reflexive) .lastimado]]"))
+           "[s-head-last(:preterito-perfecto){+} .me +[vp-aux-i(:preterito-perfecto){+} +he(:implicit-subj-reflexive) .lastimado]]"))
     (is (= (-> reflexive (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> reflexive (u/get-in [:sem :tense])) :past)))
 
@@ -64,7 +64,7 @@
                            (filter #(= [] (u/get-in % [:subcat])))
                            first)]
     (is (= (-> non-reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))))
+           "[s-head-last(:preterito-perfecto) .yo +[vp-aux-i(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))))
 
 (def non-reflexive-spec
   {:cat :verb
@@ -75,9 +75,10 @@
 
    ;; TODO: this is required for now also to avoid generating
    ;; incorrrectly present tense sentences:
-   :head {:rule "vp-aux-non-reflexive"},
+   :head {:rule "vp-aux-i"},
 
    :sem {:pred :eat
+         :obj :none
          :subj {:pred :i}
          :tense :past
          :aspect :perfect}})
@@ -94,8 +95,9 @@
 
 (deftest generate-test
   (is (= (-> non-reflexive-spec generate syntax-tree)
-         "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))
+         "[s-head-last(:preterito-perfecto) .yo +[vp-aux-i(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))
 ;;  (is (= (-> use-head-canonical-spec generate syntax-tree)
 ;;         "[s-aux(:preterito-perfecto) .ella +[vp-aux-non-reflexive(:preterito-perfecto) +ha(:explicit-subj-non-reflexive-intransitive) .mirado]]")))
   )
+
 

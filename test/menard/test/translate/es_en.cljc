@@ -275,7 +275,7 @@
     (is (= (es/syntax-tree es-generated)
            "[s-head-last(:present-simple){+} .Juana +[vp-pronoun(:present-simple){+} .se(3) +despierta]]"))
     (is (= (en/syntax-tree en-generated)
-           "[s-head-last(:present-simple) .Juana +[vp +wakes .up]]"))))
+           "[s(:present-simple) .Juana +[vp +wakes .up]]"))))
 
 (defn timings []
   (let [es-spec {:head {:reflexive? false
@@ -400,4 +400,4 @@
 
 (deftest yo-he-visto
   (is (= (->> "yo he visto" es/parse (map translate/es-structure-to-en-structure) (map en/syntax-tree))
-         '("[s(:perfect) .I +[vp +have(2) .seen]]"))))
+         '("[s(:perfect) .I +[vp-aux +have(2) .seen]]"))))

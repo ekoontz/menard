@@ -50,7 +50,6 @@
 
 (deftest generate-implicit-subject
   (let [spec {:root "ver",
-              :rule "s"
               :comp {:surface "lo"}
               :sem {:pred :see
                     :subj {:pred :i}

@@ -29,8 +29,7 @@
                  :tense :present
                  :aspect :simple
                  :obj {:pred :they
-                       :gender :masc}}
-           :rule "s"}
+                       :gender :masc}}}
           es/generate
           es/morph))))
 

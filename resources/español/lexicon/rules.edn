@@ -434,15 +434,61 @@
        :transitivity :intransitive}
   :then [
          ;; enumerate all the possible agreement-subject possibilities:
-         ;; singular:
-         ;;   implicit 1st person subject:
          {:agr {:person :1st
                 :number :sing}
           :sem {:subj {:pred :i}}
           :subcat []}
 
-         ;; TODO: all the other possibilities
-                ]}
+         {:agr {:person :2nd
+                :number :sing}
+          :sem {:subj {:pred :you}}
+          :subcat []}
+
+         {:agr {:person :3rd
+                :gender :masc                
+                :number :sing}
+          :sem {:subj {:pred :he}}
+          :subcat []}
+
+         {:agr {:person :3rd
+                :gender :fem
+                :number :sing}
+          :sem {:subj {:pred :she}}
+          :subcat []}
+
+         {:agr {:person :3rd
+                :gender :masc                
+                :number :sing}
+          :sem {:subj {:pred :it}}
+          :subcat []}
+
+         {:agr {:person :3rd
+                :gender :fem
+                :number :sing}
+          :sem {:subj {:pred :it}}
+          :subcat []}
+
+         {:agr {:person :1st
+                :number :plur}
+          :sem {:subj {:pred :we}}
+          :subcat []}
+
+         {:agr {:person :2nd
+                :number :plur}
+          :sem {:subj {:pred :you}}
+          :subcat []}
+
+         {:agr {:person :3rd
+                :gender :masc                
+                :number :plur}
+          :sem {:subj {:pred :they}}
+          :subcat []}
+
+         {:agr {:person :3rd
+                :gender :fem
+                :number :sing}
+          :sem {:subj {:pred :they}}
+          :subcat []}]}
 
   {:rule :implicit-subject-transitive
   :if {:cat :verb

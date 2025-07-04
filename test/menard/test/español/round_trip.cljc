@@ -46,21 +46,21 @@
                morph)))))
 
 (deftest ustedes-se-duermen
-  (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen]]"
-         (-> {:rule "s"
+  (is (= "[s-head-last(:present-simple){+} .ustedes +[vp-pronoun-c(:present-simple){+} .se(6) +duermen]]"
+         (-> {:rule "s-head-last"
               :comp {:root "ustedes"
                      :agr {:number :plur,
                            :person :2nd
                            :formal? true}},
               :sem {:tense :present,
                     :aspect :simple},
-              :head {:rule "vp-pronoun"
+              :head {:rule "vp-pronoun-c"
                      :head {:canonical "dormirse"}}}
              es/generate es/syntax-tree))))
 
 (deftest ellos-cierran
-  (is (= "[s(:present-simple) .ellos +cierran]"
-         (-> {:rule "s"
+  (is (= "[s-head-last(:present-simple) .ellos +cierran]"
+         (-> {:rule "s-head-last"
               :comp {:root "ellos"
                      :agr {:number :plur
                            :person :3rd}}

@@ -60,23 +60,23 @@
                     :subcat []})
 
 (def sentence-specs
-  [{:rule "s" :head {:rule "vp"
+  [{:rule "s-head-last" :head {:rule "vp"
                      :head {:phrasal? false :canonical "divertirse"}
                      :comp {:phrasal? false
                             :sem {:pred :top}}}}
                      
-   {:rule "s" :head {:phrasal? false :canonical "divertirse"}}])
+   {:rule "s-head-last" :head {:phrasal? false :canonical "divertirse"}}])
 
 (deftest reflexive-roundtrip
   (let [input-sem (u/get-in have-fun-spec [:sem])]
     (->> (-> have-fun-spec es/generate
              es/morph es/parse)
-         (map #(is "s" (u/get-in % [:rule])))
+         (map #(is "s-head-last" (u/get-in % [:rule])))
          vec)))
 
 (deftest ustedes-se-duermen
   (is (= "[s(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen]]"
-         (-> {:rule "s"
+         (-> {:rule "s-head-last"
               :comp {:root "ustedes"
                      :agr {:number :plur,
                            :person :2nd
@@ -89,7 +89,7 @@
 
 (deftest ellos-cierran
   (is (= "[s(:present-simple) .ellos +cierran]"
-         (-> {:rule "s"
+         (-> {:rule "s-head-last"
               :comp {:root "ellos"
                      :agr {:number :plur
                            :person :3rd}}
@@ -135,7 +135,7 @@
    :sem {:subj {:pred :they
                 :gender :fem}}
    :subcat []
-   :rule "s-aux"
+   :rule "s-head-last"
    :phrasal? true})
 
 (deftest translate-test-1
@@ -237,7 +237,7 @@
       (is (= ["[s(:present-simple) .I +[vp +wake .up]]"]
              (->> yo-me-despierto (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree)))))
 
-      (let [yo-me-levanto (->> "yo me levanto" es/parse (filter #(= "s" (:rule %))))
+      (let [yo-me-levanto (->> "yo me levanto" es/parse (filter #(= "s-head-last" (:rule %))))
           significant-parts-5 (->> yo-me-levanto (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
         (is
          (= significant-parts-5
@@ -256,7 +256,7 @@
                (->> yo-me-levanto (map translate/es-structure-to-en-spec) (map en/generate) (map en/syntax-tree))))))
 
 (deftest translation-from-target-language-spec
-  (let [es-spec {:rule "s"
+  (let [es-spec {:rule "s-head-last"
                  :sem {:subj {:existential? false
                               :mod []
                               :pred :Juana}
@@ -273,9 +273,9 @@
         en-spec (translate/es-structure-to-en-structure es-generated)
         en-generated (-> en-spec en/generate)]
     (is (= (es/syntax-tree es-generated)
-           "[s(:present-simple){+} .Juana +[vp-pronoun(:present-simple){+} .se(3) +despierta]]"))
+           "[s-head-last(:present-simple){+} .Juana +[vp-pronoun(:present-simple){+} .se(3) +despierta]]"))
     (is (= (en/syntax-tree en-generated)
-           "[s(:present-simple) .Juana +[vp +wakes .up]]"))))
+           "[s-head-last(:present-simple) .Juana +[vp +wakes .up]]"))))
 
 (defn timings []
   (let [es-spec {:head {:reflexive? false
@@ -283,7 +283,7 @@
                         :rule "vp-aux-non-reflexive"
                         :cat :verb}
                  :subcat []
-                 :rule "s-aux"
+                 :rule "s-head-last"
                  :phrasal? true
                  :cat :verb}
         es-generated (-> es-spec es/generate)
@@ -306,12 +306,12 @@
                :aspect :simple
                :obj {:pred :they
                      :gender :masc}}
-         :rule "s"}]
-    (is (= "[s(:present-simple) .yo +[vp-pronoun(:present-simple) .los +veo]]"
+         :rule "s-head-last"}]
+    (is (= "[s-head-last(:present-simple) .yo +[vp-pronoun(:present-simple) .los +veo]]"
            (-> es-spec
                es/generate
                es/syntax-tree)))
-    (is (= "[s(:present-simple) .I +[vp +see .them]]"
+    (is (= "[s-head-last(:present-simple) .I +[vp +see .them]]"
            (-> es-spec
                es/generate
                translate/es-structure-to-en-structure
@@ -328,7 +328,7 @@
                              :sem {:subj {:pred :i}
                                    :tense :present
                                    :aspect :simple}
-                             :rule "s"}]
+                             :rule "s-head-last"}]
                         (let [es-generated (-> es-spec es/generate)
                               en-generated (-> es-generated translate/es-structure-to-en-structure)]
                           (log/info (str "es: " (-> es-generated es/syntax-tree)))

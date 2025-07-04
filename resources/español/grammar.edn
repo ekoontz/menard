@@ -63,6 +63,7 @@
 
  {:rule "s-head-first" ;; "he visto"
   :cat :verb
+  :head {:phrasal? false} ;; prevent e.g. "[s-head-first(:preterito-perfecto) +[vp-aux-i(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido] .yo]"
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/a
           menard.ug/head-aux          

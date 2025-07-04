@@ -63,7 +63,7 @@
 
  {:rule "s-head-first" ;; "he visto"
   :cat :verb
-  :options menard.español.tenses/finite-tenses
+  :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/a
           menard.ug/head-aux          
           menard.ug/head-is-root

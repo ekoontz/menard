@@ -16,19 +16,19 @@
 (load "../../../src/menard/español")
 
 (def spec {:cat :verb
-           :rule "s"
+           :rule "s-head-last"
            :subcat []
            :root "querer"
            :sem {:pred :want
                  :subj {:pred :i}}})
 
 (def spec2 {:cat :verb
-            :rule "s"
+            :rule "s-head-last"
             :subcat []
             :sem {:pred :want}})
 
 (def spec3 {:cat :verb
-            :rule "s"
+            :rule "s-head-last"
             :subcat []
             :root "querer"
             :sem {:pred :want
@@ -37,7 +37,7 @@
                   :obj :none}})
 
 (def spec4 {:cat :verb
-            :rule "s"
+            :rule "s-head-last"
             :subcat []
             :root "querer"
             :agr {:number :plur
@@ -81,7 +81,7 @@
 
 (deftest parse-1
   (let [parses (parse "yo quiero")]
-    (is (= "[s(:present-simple) .yo +quiero]" (-> parses first syntax-tree)))))
+    (is (= "[s-head-last(:present-simple) .yo +quiero]" (-> parses first syntax-tree)))))
 
 (deftest analyze-present-tense
   ;; irregular

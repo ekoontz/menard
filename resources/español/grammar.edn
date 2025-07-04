@@ -61,23 +61,23 @@
           menard.ug/shared-agr
           menard.subcat/b]}
 
- {:rule "s"
+ {:rule "s-head-first" ;; "he visto"
   :cat :verb
-  :head {:aux? false}
-  :options menard.español.tenses/finite-nonaux-tenses
+  :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/a
+          menard.ug/head-aux          
           menard.ug/head-is-root
-          menard.ug/head-last
+          menard.ug/head-first
           menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem]
   }
 
- {:rule "s-aux"
+ {:rule "s-head-last" ;; "yo veo"
   :cat :verb
-  :head {:aux? true}
-  :options menard.español.tenses/finite-aux-tenses
+  :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/a
+          menard.ug/head-aux          
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-reflexive
@@ -97,12 +97,11 @@
           menard.ug/head-rule
           menard.ug/head-sem]
   }
- 
-  {:rule "vp-pronoun"
+
+ {:rule "vp-pronoun-c"
   :cat :verb
-  :head {:aux? false}
   :comp {:pronoun? true}
-  :options menard.español.tenses/finite-nonaux-tenses
+  :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/c
           menard.ug/head-is-root
           menard.ug/head-last
@@ -111,7 +110,7 @@
           menard.ug/head-sem]
   }
 
- {:rule "vp-aux-explicit-subject-c"
+ {:rule "vp-aux-c"
   :cat :verb
   :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
@@ -123,19 +122,19 @@
           menard.ug/head-sem]
   }
 
- {:rule "vp-aux-implicit-subject-intransitive" ;; "he lastimado", he visto" (implicit subject)
+ {:rule "vp-aux-i"
   :cat :verb
-  :head {:aux? true
-         :phrasal? false}
+  :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
-  :unify [menard.subcat/j
+  :unify [menard.subcat/i
           menard.ug/comp-is-root
           menard.ug/head-first
           menard.ug/head-reflexive
           menard.ug/head-rule
-          menard.ug/head-sem]}
-
- {:rule "vp-aux-explicit-subject-transitive" ;; "he lastimado", "he visto" (explicit subject)
+          menard.ug/head-sem]
+  }
+ 
+ {:rule "vp-aux-k"
   :cat :verb
   :head {:aux? true
          :phrasal? false}
@@ -152,38 +151,4 @@
   :subcat []
   :phrasal? false
   :options menard.español.tenses/finite-nonaux-tenses}
- ;;            <1>
- ;;       /            \
- ;; 2:me       [he lastimado]<1,2>
- ;; "[vp-aux-reflexive-3 .me +[vp-aux-reflexive-2 +he .lastimado]]" (explicit subject)
- {:rule "vp-aux-reflexive-3"
-  :cat :verb
-  :reflexive? true
-  :head {;; this :rule not needed, but might help performance:
-         :rule "vp-aux-reflexive-2"
-         :aux? true
-         :subcat {:1 {:reflexive? false}}}
-  :options menard.español.tenses/finite-aux-tenses
-  :unify [menard.subcat/c
-          menard.ug/head-is-root
-          menard.ug/head-last
-          menard.ug/head-reflexive
-          menard.ug/head-rule
-          menard.ug/head-sem]}
-
- ;; Does not yet work: requires verbs to have a null-subject lexical rule. Adding
- ;; this lexical rule will likely simplify many of the rules here in grammar.edn.
-;;  {:rule "s-aux-nonreflexive-subj-implicit" ;; "he comido"
-;;   :cat :verb
-;;   :reflexive? false
-;;   :head {:aux? true}
-;;   :options menard.español.tenses/finite-aux-tenses
-;;   :unify [menard.subcat/a
-;;           menard.ug/comp-is-root
-;;           menard.ug/head-first
-;;           menard.ug/head-reflexive
-;;           menard.ug/head-rule
-;;           menard.ug/head-sem]}
-
- 
  ]

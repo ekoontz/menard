@@ -27,12 +27,12 @@
 (deftest parse-test-explicit-subject
   (let [non-reflexive (-> "yo he comido" parse first)]
     (is (= (-> non-reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto) .yo +[vp-aux-non-reflexive(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))
+           "[s-head-last(:preterito-perfecto) .yo +[vp-aux-i(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido]]"))
     (is (= (-> non-reflexive (u/get-in [:sem :aspect])) :perfect))
     (is (= (-> non-reflexive (u/get-in [:sem :tense])) :past)))
   (let [reflexive (-> "yo me he lastimado" parse first)]
     (is (= (-> reflexive syntax-tree)
-           "[s-aux(:preterito-perfecto){+} .yo +[vp-aux-reflexive-3(:preterito-perfecto){+} .me +[vp-aux-reflexive-2(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado]]]"))))
+           "[s-head-last(:preterito-perfecto){+} .yo +[vp-pronoun-c(:preterito-perfecto){+} .me +[vp-aux-k(:preterito-perfecto){+} +he(:explicit-subj-reflexive) .lastimado]]]"))))
 
 (deftest parse-test-implicit-subject
   (let [parses (->> "he comido" parse)]

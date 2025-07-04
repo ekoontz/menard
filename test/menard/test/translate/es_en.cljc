@@ -59,14 +59,6 @@
                           :pred :have-fun}
                     :subcat []})
 
-(def sentence-specs
-  [{:rule "s-head-last" :head {:rule "vp"
-                     :head {:phrasal? false :canonical "divertirse"}
-                     :comp {:phrasal? false
-                            :sem {:pred :top}}}}
-                     
-   {:rule "s-head-last" :head {:phrasal? false :canonical "divertirse"}}])
-
 (deftest reflexive-roundtrip
   (let [input-sem (u/get-in have-fun-spec [:sem])]
     (->> (-> have-fun-spec es/generate
@@ -75,7 +67,7 @@
          vec)))
 
 (deftest ustedes-se-duermen
-  (is (= "[s-head-last(:present-simple){+} .ustedes +[vp-pronoun(:present-simple){+} .se(6) +duermen]]"
+  (is (= "[s-head-last(:present-simple){+} .ustedes +[vp-pronoun-c(:present-simple){+} .se(6) +duermen]]"
          (-> {:rule "s-head-last"
               :comp {:root "ustedes"
                      :agr {:number :plur,
@@ -131,9 +123,12 @@
 (def translate-es-spec
   {:reflexive? false
    :root  "llenar"
+   :head {:rule "vp-aux-i"}
    :cat :verb
    :sem {:subj {:pred :they
-                :gender :fem}}
+                :gender :fem}
+         :tense :past
+         :aspect :perfect}
    :subcat []
    :rule "s-head-last"
    :phrasal? true})
@@ -143,7 +138,7 @@
                           (filter map?)
                           first)]
     (is (= (es/syntax-tree es-generated)
-           "[s-aux(:preterito-perfecto) .ellas +[vp-aux-non-reflexive(:preterito-perfecto) +han(:explicit-subj-non-reflexive-intransitive) .llenado]]"))))
+           "[s-head-last(:preterito-perfecto) .ellas +[vp-aux-i(:preterito-perfecto) +han(:explicit-subj-non-reflexive-intransitive) .llenado]]"))))
 
 (deftest translate-test-2
   (let [es-generated (->> (repeatedly #(-> translate-es-spec es/generate))
@@ -153,10 +148,10 @@
         en-generated (-> en-spec en/generate)]
     (is (= (binding [menard.morphology/show-notes? false]
              (en/syntax-tree en-generated))
-           "[s(:perfect) .they +[vp +have(2) .filled]]"))))
+           "[s(:perfect) .they +[vp-aux +have(2) .filled]]"))))
 
 (deftest translate-reflexives-1
-  (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s" (:rule %))))
+  (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s-head-last" (:rule %))))
         significant-parts-1 (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
     (is
      (= significant-parts-1
@@ -220,7 +215,7 @@
                     :tense :present},
               :reflexive? false}])))
   
-    (let [yo-me-despierto (->> "yo me despierto" es/parse (filter #(= "s" (:rule %))))
+    (let [yo-me-despierto (->> "yo me despierto" es/parse (filter #(= "s-head-last" (:rule %))))
           significant-parts-4 (->> yo-me-despierto (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
       (is (= significant-parts-4
              [{:sem {:obj :none,
@@ -273,7 +268,7 @@
         en-spec (translate/es-structure-to-en-structure es-generated)
         en-generated (-> en-spec en/generate)]
     (is (= (es/syntax-tree es-generated)
-           "[s-head-last(:present-simple){+} .Juana +[vp-pronoun(:present-simple){+} .se(3) +despierta]]"))
+           "[s-head-last(:present-simple){+} .Juana +[vp-pronoun-c(:present-simple){+} .se(3) +despierta]]"))
     (is (= (en/syntax-tree en-generated)
            "[s(:present-simple) .Juana +[vp +wakes .up]]"))))
 
@@ -337,7 +332,7 @@
                           (is (not (nil? en-generated)))))))))
 
 (deftest reflexivity-tranfer
-  (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s" (:rule %))))
+  (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s-head-last" (:rule %))))
         significant-parts (->> yo-me-lavo (map #(select-keys % [:sem :reflexive?])) (map dag_unify.diagnostics/strip-refs) vec)]
     (is
      (= significant-parts

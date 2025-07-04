@@ -132,15 +132,25 @@
                          (l/matching-lexemes variant lexicon morphology))
                        variants)]
      (log/debug (str "found: " (count found) " for: [" surface "]"))
-     (if (seq found)
-       found
-       (if (and use-null-lexemes?
-                (not (clojure.string/includes? surface " ")))
-         (let [found (l/matching-lexemes "_" lexicon morphology)]
-           (log/debug (str "no lexemes found for: [" surface "]"
-                           (when (seq found)
-                             (str "; will use null lexemes instead."))))
-           found))))))
+     (->>
+      (if (seq found)
+        found
+        (if (and use-null-lexemes?
+                 (not (clojure.string/includes? surface " ")))
+          (let [found (l/matching-lexemes "_" lexicon morphology)]
+            (log/debug (str "no lexemes found for: [" surface "]"
+                            (when (seq found)
+                              (str "; will use null lexemes instead."))))
+            found)))
+      (mapcat (fn [lexeme]
+                (let [tense-matches
+                      (->> tenses
+                           (map (fn [tense]
+                                  (unify lexeme tense)))
+                           (remove #(= :fail %)))]
+                  (if (not (empty? tense-matches))
+                    tense-matches
+                    [lexeme]))))))))
 
 (defn parse
   ([expression model]

@@ -151,18 +151,6 @@
                     :2 two}}
     :comp two})
 
- ;;       <1>
- ;;      /   \
- ;;   h<1,2>  2:<1>
- (let [one (atom :top)
-       two (atom {:subcat {:1 one}})]
-   {:def 'j
-    :subcat {:1 one}
-    :head {:subcat {:1 one
-                    :2 two
-                    :3 []}}
-    :comp two})
-
  ;;       <1,2>
  ;;      /   \
  ;;   h<1,2,3>  3:<1,2>

@@ -307,11 +307,11 @@
                :obj {:pred :they
                      :gender :masc}}
          :rule "s-head-last"}]
-    (is (= "[s-head-last(:present-simple) .yo +[vp-pronoun(:present-simple) .los +veo]]"
+    (is (= "[s-head-last(:present-simple) .yo +[vp-pronoun-c(:present-simple) .los +veo]]"
            (-> es-spec
                es/generate
                es/syntax-tree)))
-    (is (= "[s-head-last(:present-simple) .I +[vp +see .them]]"
+    (is (= "[s(:present-simple) .I +[vp +see .them]]"
            (-> es-spec
                es/generate
                translate/es-structure-to-en-structure

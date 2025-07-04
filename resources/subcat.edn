@@ -68,7 +68,7 @@
  ;;   :subcat {:1 [1]
  ;;            :2 []}})
  (let [complement-1 (atom {:top :top})
-       complement-2 (atom {:top :top})]
+       complement-2 (atom {:subcat []})]
    {:def 'c
     :head {:subcat {:1 complement-1
                     :2 complement-2
@@ -146,9 +146,11 @@
    {:def 'i
     :sem {:mod []}
     :subcat {:1 one
-             :2 three}
+             :2 three
+             :3 []}
     :head {:subcat {:1 one
-                    :2 two}}
+                    :2 two
+                    :3 []}}
     :comp two})
 
  ;;       <1,2>

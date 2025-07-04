@@ -8,10 +8,10 @@
  (let [complement (atom {:subcat []})]
    {:def 'a
     :head {:slash? false
-           :subcat {:1 complement :2 []}}
+           :subcat {:1 complement
+                    :2 []}}
     :subcat []
     :comp complement})
-
 
  ;;      <>
  ;;     /  \

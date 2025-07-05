@@ -64,8 +64,8 @@
 (def ^:dynamic allow-backtracking? true)
 
 (def ^:dynamic allow-lexeme-backtracking? true)
-(def ^:dynamic max-depth 15)
-(def ^:dynamic max-fails 100000)
+(def ^:dynamic max-depth 10)
+(def ^:dynamic max-fails 10000)
 (def ^:dynamic profiling? false)
 (def ^:dynamic counts? (or profiling? (not (nil? max-fails))))
 (def ^:dynamic stop-generation-at

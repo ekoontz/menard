@@ -89,9 +89,10 @@
  {:rule "vp-non-pronoun"
   :cat :verb
   :head {:aux? false}
-  :comp {:pronoun? false}
+  :comp {:pronoun? false
+         :subcat []}
   :options menard.español.tenses/finite-nonaux-tenses
-  :unify [menard.subcat/c-with-empty-comp-2-subcat
+  :unify [menard.subcat/c
           menard.ug/head-is-root
           menard.ug/head-first
           menard.ug/head-reflexive
@@ -101,9 +102,10 @@
 
  {:rule "vp-pronoun-c"
   :cat :verb
-  :comp {:pronoun? true}
+  :comp {:pronoun? true
+         :subcat []}
   :options menard.español.tenses/finite-tenses
-  :unify [menard.subcat/c-with-empty-comp-2-subcat
+  :unify [menard.subcat/c
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-reflexive
@@ -114,8 +116,9 @@
  {:rule "vp-aux-c"
   :cat :verb
   :head {:aux? true}
+  :comp {:subcat []}
   :options menard.español.tenses/finite-aux-tenses
-  :unify [menard.subcat/c-with-empty-comp-2-subcat
+  :unify [menard.subcat/c
           menard.ug/comp-is-root
           menard.ug/head-first
           menard.ug/head-reflexive

@@ -5,6 +5,7 @@
                      parse syntax-tree]]
             [menard.nederlands.complete :as complete]
             [menard.nederlands.woordenlijst :as woordenlijst]
+            [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]

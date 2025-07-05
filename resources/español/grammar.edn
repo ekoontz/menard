@@ -91,7 +91,7 @@
   :head {:aux? false}
   :comp {:pronoun? false}
   :options menard.español.tenses/finite-nonaux-tenses
-  :unify [menard.subcat/c
+  :unify [menard.subcat/c-with-empty-comp-2-subcat
           menard.ug/head-is-root
           menard.ug/head-first
           menard.ug/head-reflexive
@@ -103,7 +103,7 @@
   :cat :verb
   :comp {:pronoun? true}
   :options menard.español.tenses/finite-tenses
-  :unify [menard.subcat/c
+  :unify [menard.subcat/c-with-empty-comp-2-subcat
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-reflexive
@@ -115,7 +115,7 @@
   :cat :verb
   :head {:aux? true}
   :options menard.español.tenses/finite-aux-tenses
-  :unify [menard.subcat/c
+  :unify [menard.subcat/c-with-empty-comp-2-subcat
           menard.ug/comp-is-root
           menard.ug/head-first
           menard.ug/head-reflexive

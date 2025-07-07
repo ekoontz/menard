@@ -148,7 +148,7 @@
         en-generated (-> en-spec en/generate)]
     (is (= (binding [menard.morphology/show-notes? false]
              (en/syntax-tree en-generated))
-           "[s(:perfect) .they +[vp-aux +have(2) .filled]]"))))
+           "[s(:perfect) .they +[vp +have(2) .filled]]"))))
 
 (deftest translate-reflexives-1
   (let [yo-me-lavo (->> "yo me lavo" es/parse (filter #(= "s-head-last" (:rule %))))

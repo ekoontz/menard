@@ -398,6 +398,7 @@
  "wassen" [{:sem {:pred :wash}}]
  "werken" [{:curriculum :basic
             :sem {:pred :work
+                  :subj {:ref {:human? true}}
                   :obj :none}}]
  "weten" (let [exceptions
                [{:infl :present

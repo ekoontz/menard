@@ -20,6 +20,7 @@
   :max-depth 1
   :note "det noun"
   :phrasal? true
+  :sem {:polarity :plus}
   :subcat []}
 
  ;; 2

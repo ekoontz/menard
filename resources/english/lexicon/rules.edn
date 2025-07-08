@@ -839,6 +839,11 @@
                     :phrasal? ::unspec}}}
   :then [{:subcat {:2 {:phrasal? true}}}]}
 
+ {:rule :verb-to?-defaults-to-false
+  :if {:cat :verb
+       :to? ::unspecified}
+  :then [{:to? false}]}
+ 
  {:rule :nested-obj-null
   :if {:cat :verb
        :modal :none

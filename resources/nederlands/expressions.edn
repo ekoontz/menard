@@ -388,7 +388,7 @@
   :phrasal? true,
   :reflexive? false
   :sem {:mood :declarative
-        :pred :must
+        :pred :be-required-to
         :subj {:pred :we
                :existential? false}
         :obj {:obj {:pred :corona
@@ -419,7 +419,7 @@
   :phrasal? true,
   :reflexive? false
   :sem {:mood :declarative
-        :pred :must
+        :pred :be-required-to
         :subj {:pred :top
                :existential? false}
         :obj {:obj {:pred :top}

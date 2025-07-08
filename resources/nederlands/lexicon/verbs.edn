@@ -248,7 +248,7 @@
                     :surface "moesten"}]]
    [{:curriculum :basic
      :modal :infinitive
-     :sem {:pred :must}
+     :sem {:pred :be-required-to}
      :exceptions exceptions}])
 
  "niezen" [{:sem {:pred :sneeze

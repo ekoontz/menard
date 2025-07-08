@@ -125,7 +125,11 @@
     nil
     (= notes [:nonhuman])
     nil
-
+    (= notes [:none])
+    nil
+    (= notes [:neuter])
+    nil
+    
     (or (vector? notes) (seq? notes))
     (str "(" (clojure.string/join "," notes) ")")
 
@@ -135,7 +139,6 @@
     ;;
     :else
     (str "(unprintable note)")))
-
 
 (defn concat-with-notes [structure surface]
   (let [note (u/get-in structure [:note])]

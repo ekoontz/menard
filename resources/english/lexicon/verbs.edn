@@ -1137,7 +1137,7 @@
             :exceptions exceptions}])
 
  "worry" [{:sem {:pred :worry}}]
- "whisper" [{ :sem {:pred :whisper}}]
+ "whisper" [{:sem {:pred :whisper}}]
 
  ;; TODO: using "will" as an example of using
  ;; a single lexeme and deriving all 4 aux-senses:

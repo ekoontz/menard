@@ -43,6 +43,12 @@
                  :person :3rd}
            :sem {:ref {:human? true}
                  :pred :femke}}]
+ "Ina" [{:agr {:gender :fem
+               :human? true
+               :number :sing
+               :person :3rd}
+         :sem {:ref {:human? true}
+               :pred :ina}}]
  "Juan" [{:case :nom
           :agr {:gender :masc
                 :person :3rd

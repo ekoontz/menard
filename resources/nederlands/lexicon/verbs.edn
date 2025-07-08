@@ -23,7 +23,7 @@
             :strong? :ie-oo-o}]
  "blaffen" [{:sem {:pred :bark
                    :obj :none
-                   :ref {:canine? true}}}]
+                   :subj {:ref {:canine? true}}}}]
  "blazen" [{:sem {:pred :blow
                   :obj :none}
             :strong? :a-ie-a}]

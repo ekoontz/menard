@@ -167,4 +167,18 @@
           :sense 3
           :note [:formal :plural]
           :sem {:pred :you
-                :context :formal}}]}
+                :context :formal}}
+         {:cat :det
+          :sense 4
+          :note [:none]
+          :sem {:pred :you
+                :context :none}}
+         {:cat :det
+          :sense 4
+          :note [:none]
+          :sem {:pred :you
+                :context :neutral}}]}
+
+
+
+         

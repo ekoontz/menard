@@ -140,6 +140,7 @@
   :cat :verb
   :slash? false
   :head {:phrasal? false}
+  :aux? false
   :unify [menard.ug/head-aux
           menard.ug/head-first
           menard.ug/head-modal          
@@ -154,6 +155,7 @@
   :cat :verb
   :slash? false
   :head {:phrasal? false}
+  :aux? true
   :unify [menard.ug/head-aux
           menard.ug/head-first
           menard.ug/head-modal          

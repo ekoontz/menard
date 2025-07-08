@@ -119,10 +119,16 @@
                   (do
                     (log/debug (str "calling nl/parse on:'" surface "'"))
                     (-> (->> (nl/parse surface)
+
                              ;; remove partial parses, if any:
                              (filter #(not (= true (:menard.parse/partial? %))))
+
                              ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
                              (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
+
+                             ;; sort by more semantic information (where the sem value is larger in string terms):
+                             (sort (fn [x y] (> (-> x (u/get-in [:sem]) str count) (-> y (u/get-in [:sem]) str count))))
+                             
                              ;; and take only one parse to test against:
                              (take 1))
                         first

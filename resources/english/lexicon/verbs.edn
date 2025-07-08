@@ -720,6 +720,7 @@
  "move" [{:sem {:pred :move}}]
 
  "must" [{:infl :present
+          :modal :base
           :inflected? true
           :sem {:pred :be-required-to
                 :shared? false}}]

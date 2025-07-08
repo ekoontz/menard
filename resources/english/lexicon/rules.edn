@@ -323,7 +323,7 @@
            {:subcat {:1 {:cat :noun
                          :sem subj
                          :subcat []
-                         :agr {:person :2nd}}
+                         :agr {:person :3rd}}
                      :2 {:cat :noun
                          :reflexive? false
                          :case :acc

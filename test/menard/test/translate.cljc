@@ -8,18 +8,16 @@
             [menard.nederlands.complete :as complete]            
             [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
-            [dag_unify.serialization :refer [serialize]]
+            [dag_unify.serialization :refer [deserialize serialize]]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
 (deftest parse-yo-quiero
-  (is (or true (seq (es/parse "yo quiero")))))
+  (is (seq (es/parse "yo quiero"))))
 
 (defn es-to-en-str [es-str]
-  (if false
-    (-> es-str es/parse first es-to-en-spec en/generate en/morph)
-    "I want"))
+  (-> es-str es/parse first es-to-en-spec en/generate en/morph))
 
 (deftest yo-quiero
   (is (= (es-to-en-str "yo quiero")
@@ -92,6 +90,18 @@
 ;; for additional debugging
 (def show-english-spec? false)
 
+(defn sort-parses [parses]
+  (->> parses
+       ;; prefer parses where:
+       ;; 1. subcat is empty (e.g. noun phrases rather than nbars)
+       ;; 2. without a top-level :mod feature (e.g. prefer intensifier-phrase rather than intensifier-bar)
+       (sort (fn [x y] (or (and (vector? (u/get-in x [:subcat]))
+                                (empty? (u/get-in x [:subcat]))
+                                (vector? (u/get-in y [:subcat]))
+                                (not (empty? (u/get-in y [:subcat] []))))
+                           (and (= ::none (u/get-in x [:mod] ::none))
+                                (not (= ::none (u/get-in y [:mod] ::none)))))))))
+
 (defn transfer-fn [i model]
   (let [model-name (:name model "untitled")
         generate (fn [spec]
@@ -123,11 +133,10 @@
                              ;; remove partial parses, if any:
                              (filter #(not (= true (:menard.parse/partial? %))))
 
-                             ;; prefer parses where subcat is empty e.g. noun phrases rather than nbars:
-                             (sort (fn [x y] (and (vector? (u/get-in x [:subcat])) (empty? (u/get-in x [:subcat])))))
-
-                             ;; sort by more semantic information (where the sem value is larger in string terms):
-                             (sort (fn [x y] (> (-> x (u/get-in [:sem]) str count) (-> y (u/get-in [:sem]) str count))))
+                             ;; prefer parses where:
+                             ;; 1. subcat is empty (e.g. noun phrases rather than nbars)
+                             ;; 2. more semantic information (where the sem value is larger in string length terms)
+                             sort-parses
                              
                              ;; and take only one parse to test against:
                              (take 1))
@@ -149,18 +158,27 @@
                     syntax-tree :syntax-tree}]
                 (log/debug (str "checking result of nl/parse: " (nl/syntax-tree structure)))
                 (if (nil? structure)
-                  (log/warn (str "couldn't parse: '" surface "' input tree was: " syntax-tree)))
+                  (log/warn (str "couldn't nl/parse: '" surface "' input tree was: " syntax-tree)))
                 (is (not (nil? structure)))
                 [structure])))
          (map (fn [tree] {:nl-st (nl/syntax-tree tree) :sem (u/get-in tree [:sem]) :nl (nl/morph tree) :en-spec (nl-to-en-spec tree)}))
          (map (fn [{nl :nl nl-st :nl-st en-spec :en-spec sem :sem}]
                 (log/debug (str "nl-st: " nl-st))
+                (log/debug (str "en-spec: " (l/pprint en-spec)))
                 {:nl-st nl-st
                  :sem sem
                  :nl nl
                  :en-spec en-spec
-                 :en (-> en-spec en/generate)
-                 }))
+                 :en (do
+                       (log/debug (str "trying to generate with en-spec: " (serialize en-spec)))
+                       (let [expression (-> en-spec en/generate)]
+                         (when (nil? expression)
+                           (log/error (str "couldn't en/generate: " (serialize en-spec)))
+                           (log/error (str "nl was: " nl-st)))
+                         (when (not (nil? expression))
+                           (log/debug (str "successfully generated " (en/syntax-tree expression) " from en-spec: " (serialize en-spec) " and source NL: " nl-st)))
+                         (is (not (nil? expression)))
+                         expression))}))
          (filter (fn [{en :en}] (not (nil? en))))
          (take 1)
          (map (fn [{nl :nl en :en en-spec :en-spec nl-st :nl-st sem :sem}]
@@ -185,8 +203,7 @@
 (deftest transfer
   (let [start 0
         end (count nl/expressions)
-        do-this-many 20
-        ]
+        do-this-many 20]
 
     (binding [menard.generate/log-all-rules? false]
       (->>

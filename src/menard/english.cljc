@@ -123,9 +123,7 @@
                     (let [error-message (str "menard.english/generate: invalid model: " model)]
                       (log/error error-message)
                       (exception error-message)))]
-    (binding [g/max-depth (if (get-in spec [:max-depth])
-                            (+ 5 (get-in spec [:max-depth]))
-                            (get-in spec [:max-depth] g/max-depth))
+    (binding [g/max-depth (get-in spec [:max-depth] g/max-depth)
               g/truncate? false]
       (log/debug (str "english generate: " (diag/strip-refs spec)
                       " with max-depth: " g/max-depth))

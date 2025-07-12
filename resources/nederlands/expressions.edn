@@ -42,6 +42,7 @@
   :phrasal? true
   :definite? true
   :sem {:subj {:top :top}
+        :mood :declarative
         :obj :none}
   :max-depth 2
   :max-fails 100000}
@@ -67,6 +68,7 @@
   :phrasal? true
   :agr {:number :sing}
   :sem {:mod []
+        :polarity :plus
         :quant :some
         :pred :house}
   :max-depth 2}
@@ -82,6 +84,7 @@
                       :mod []}
               :rest []}
         :quant :the
+        :polarity :plus
         :pred :book}
   :phrasal? true
   :max-depth 2}
@@ -92,7 +95,10 @@
   :cat :noun
   :agr {:number :sing}
   :definite? false
+  :training-wheels {:comp {:cat :det
+                           :phrasal? false}}  
   :sem {:pred :grape
+        :polarity :plus
         :quant :some
         :mod {:first {:pred :small
                       :number? false
@@ -106,13 +112,21 @@
  ;; modifying adjective has no '-e' suffix,
  ;; e.g. 'een heel lief oud thuis'
  {:note "[det [[intensifier adj] noun]]"
-  :example "een heel lief oud thuis"
+  :example "een heel lief oud huis"
   :cat :noun
   :agr {:number :sing
         :gender :neuter}
   :definite? false
   :is-conj? false
+
+  :training-wheels {:comp {:phrasal? false}
+                    :head {:rule "nbar"
+                           :comp {:rule "intensifier-phrase"}
+                           :head {:rule "nbar"
+                                  :comp {:phrasal? false}}}}
+  
   :sem {:polarity :plus
+        :quant :some
         :mod {:first {:number? false
                       :pred :top
                       :mod {:first {:pred :top}}}
@@ -129,13 +143,19 @@
   :example "een behoorlijk vies grote tafel"
   :agr {:number :plur}
   :cat :noun
-  :sem {:mod {:first {:pred :top
+  :sem {:polarity :plus
+        :quant :some
+        :mod {:first {:pred :top
                       :mod {:first {:pred :top}}}
               :rest {:first {:pred :top}}}
         :pred :top}
   :subcat []
-  :training-wheels {:head {:rule "nbar"
+  :training-wheels {:rule "np:2"
+                    :comp {:phrasal? false
+                           :cat :det}
+                    :head {:rule "nbar"
                            :comp {:rule "intensifier-phrase"
+                                  :head {:phrasal? false}                                  
                                   :sem {:number? false}}
                            :head {:rule "nbar"
                                   :head {:phrasal? false
@@ -299,7 +319,7 @@
          :comp {:cat :noun
                 :subcat []}}
   :sem {:mood :declarative
-        :obj {:top :top
+        :obj {:polarity :plus
               :obj :none}}
   :max-depth 3
   :training-wheels {:head {:comp {:head {:agr {:person :3rd}}}}}}
@@ -320,6 +340,7 @@
               :obj :none}}
   :training-wheels {:head {:rule "vp-modal-te"
                            :comp {:rule "vp-te"
+                                  :reflexive? false
                                   :comp {:phrasal? false}}}}}
  ;; 20
  ;; ARGD, p. 37
@@ -416,29 +437,29 @@
   :cat :verb
   :subcat []
   :prod? true
+  :comment "Corona en eenzaamheid moeten we samen bestrijden"
   :phrasal? true,
   :reflexive? false
   :sem {:mood :declarative
         :pred :be-required-to
         :subj {:pred :top
                :existential? false}
-        :obj {:obj {:pred :top}
-              :mod {:first {:pred :top}}
-              :pred :top}}
-  :head {:rule "vp-sans-object"
-         :head {:rule "modal+subject"
-                :head {:phrasal? false
-                       :agr {:person :top}
-                       :sem {:subj {:person :top}}}
-                :comp {:phrasal? false}}
-         :comp {:rule "adverb-vp"
+        :obj {:obj {:pred :top
+                    :polarity :plus} ;; prevent "niet Corona"
+              :mod {:first {:pred :together}}
+              :pred :overcome}}
+  :head {:rule "vp-sans-object"                     ;; "moeten we samen bestrijden"
+         :head {:rule "modal+subject"                ;; "moeten we"
+                :head {:phrasal? false}               ;; "moeten"
+                :comp {:phrasal? false}}             ;; "we"
+         :comp {:rule "adverb-vp"                    ;; "samen bestrijden"
                 :head {:phrasal? false
                        :subcat {:1 {:top :top}
                                 :2 {:top :top}
                                 :3 []}
                        :sem {:obj {:obj :none}}}
                 :comp {:phrasal? false}}}}
- 
+
  ;; 24
  {:note "e.g. 'de vier en twintig kleine vogels slapen'"
   :example "de vier en twintig kleine vogels slapen"

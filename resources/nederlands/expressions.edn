@@ -3,6 +3,19 @@
  ;; than having to list these specifications in pairs:
  ;;    (e.g. specific np, then general np, specific np with adjective, general np with adjective, etc.
 
+ ;; TODO: remove all :training-wheels in all of the below expressions
+ ;; e.g.
+ ;; {:comp {:phrasal? false}
+ ;;  :head {:rule "nbar"
+ ;;         :comp {:rule "intensifier-phrase"}
+ ;;                :head {:rule "nbar"
+ ;;                       :comp {:phrasal? false}}}}
+ ;; 
+ ;; The :training-wheels are necessary to guide the generation of the source language,
+ ;; but should be moved to the source language's lexicon and/or grammar.
+ ;; Best to start with being in the grammar and move it incrementally to the
+ ;; lexicon (because the grammar should be as minimal as possible).
+ ;;
  ;; 0
  {:cat :adjective
   :example "ongewoon slim"

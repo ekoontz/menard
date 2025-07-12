@@ -275,7 +275,7 @@
                             unify-with
                             postprocess-fn))))))))
 
-(def filter-for-fails? false)
+(def filter-for-fails? true)
 
 #?(:clj
    (defn lexicon-index-fn [model filter-out-nils?]

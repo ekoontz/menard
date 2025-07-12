@@ -32,6 +32,7 @@
   ;; but  "ik maar niet jij" is {:agr :sing}
   :agr {:number :plur}
   :is-conj? true
+  :is-conj-inner? false
   :head {:phrasal? true
          :rule "conj-inner"}
   :comp {:conjunction? false}}
@@ -81,11 +82,13 @@
  {:rule "nbar"
   :cat :noun
   :head {:pronoun? false
+         :is-conj-inner? false         
          :propernoun? false
          :subcat {:1 {:top :top}
                   :2 []}}
   :subcat {:1 :top :2 []}
   :comp {:cat :adjective
+         :is-conj-inner? false
          :modifies-noun? true}
   :options [;; vier kleine (but: *kleine vier)
             {:head {:null? false}

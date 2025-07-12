@@ -59,7 +59,7 @@
         final-check))))
 
 (defn es-to-en-spec [es-expression]
-  (log/info (str "es-to-en-spec: es-expression: " (serialize es-expression)))
+  (log/debug (str "es-to-en-spec: es-expression: " (serialize es-expression)))
   {:agr {:number
          (or
           (u/get-in es-expression [:sem :subj :ref :number])

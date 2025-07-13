@@ -68,9 +68,13 @@
 
 (deftest find-root-verb
   (is (= "querer"
-         (-> spec generate (u/get-in [:root]))))
+         (let [expression (-> spec generate)]
+           (log/info (str "find-root-verb: " (syntax-tree expression)))
+           (-> expression (u/get-in [:root])))))
   (is (= "querer"
-         (-> spec2 generate (u/get-in [:root])))))
+         (let [expression (-> spec generate)]
+           (log/info (str "find-root-verb: " (syntax-tree expression)))
+           (-> expression (u/get-in [:root]))))))
 
 (deftest analyze-1
   (let [analysis (analyze "quiero")]

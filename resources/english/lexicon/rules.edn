@@ -951,9 +951,19 @@
                          :subcat {:1 subcat-1-is-shared
                                   :2 []}}}}
 
-           ;; TODO add support for {:modal :infinitive}
-           ;; e.g. "can want to study"
-           ;; as we have above in :modal-base-no-pred
+           ;; "can try"
+           {:inflected? true
+            :sem {:subj subj
+                  :obj complement-sem}
+            :subcat {:1 subcat-1-is-shared
+                     :2 {:cat :verb
+                         :infl :base
+                         :modal :infinitive
+                         :sem complement-sem
+                         :subcat {:1 subcat-1-is-shared
+                                  :2 []}}}}
+
+
            ])}
 
  ;; e.g. "I am studying"

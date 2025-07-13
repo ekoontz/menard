@@ -24,6 +24,9 @@
          "I want")))
 
 (defn nl-to-en-str [nl-str]
+  (log/info (str "nl-to-en-str input: " nl-str "; parse: " (->> nl-str nl/parse first nl/syntax-tree)))
+  (log/info (str "nl-to-en-str input: " nl-str "; en-spec: " (->> nl-str nl/parse first nl-to-en-spec serialize)))
+  (log/info (str "nl-to-en-str input: " nl-str "; en-generated: " (->> nl-str nl/parse first nl-to-en-spec en/generate en/syntax-tree)))
   (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))
 
 ;; "they need"
@@ -99,7 +102,9 @@
                                 (empty? (u/get-in x [:subcat]))
                                 (vector? (u/get-in y [:subcat]))
                                 (not (empty? (u/get-in y [:subcat] []))))
-                           (and (= ::none (u/get-in x [:mod] ::none))
+                           (and (= :verb (u/get-in x [:cat]))
+                                (= :verb (u/get-in y [:cat]))
+                                (= ::none (u/get-in x [:mod] ::none))
                                 (not (= ::none (u/get-in y [:mod] ::none)))))))))
 
 (defn transfer-fn [i model]

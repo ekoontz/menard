@@ -33,6 +33,9 @@
 ;;(def lexemes-to-trace #{"levantarse"})
 ;;(def rules-to-trace #{:reflexive})
 
+;; TODO: handle {:derivation {:sense X}}
+;; created by lexical rules e.g. resources/nederlands/lexicon/rules.edn's
+;; {:rule :subcat-unspecified-nonaux}.
 (defn display-derivation [deriv]
   (->> (seq (zipmap (vals deriv) (keys deriv)))
        (filter (fn [[x y]]
@@ -198,12 +201,13 @@
           antecedent (:if rule)
           consequents (:then rule)
           canonical (u/get-in lexeme [:canonical])
+          log-lexeme? (contains? lexemes-to-trace canonical)
           log-fn (fn [msg]
-                   (if (contains? lexemes-to-trace canonical)
+                   (when log-lexeme?
                      (log/info msg)))
           log-rule-fn (fn [msg]
                         (if (and (contains? rules-to-trace (:rule rule))
-                                 (contains? lexemes-to-trace canonical))
+                                 log-lexeme?)
                           (log/info msg)))]
       (when developer-mode? (log-fn (str "apply-rules-to-lexeme: applying rule: " (:rule rule) " to lexeme: '" canonical "'.")))
       (when developer-mode? (log-rule-fn (str "apply-rules-to-lexeme: rule: " (:rule rule) "'s antecedent: " antecedent)))

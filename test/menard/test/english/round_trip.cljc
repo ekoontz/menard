@@ -12,7 +12,7 @@
 
 (deftest parse-english
   (is
-   (= ["[s(:past-progressive) .he +[vp-aux +used(3) .[vp-aux +to(:v2) .[vp-aux +be(4) .[adj-p +able(3) .[vp-aux +to(:v1) .[vp +see .it]]]]]]]"]
+   (= ["[s(:past-progressive) .he +[vp-aux +used(3) .[vp +to(:v2) .[vp +be(4) .[adj-p +able(3) .[vp +to(:v1) .[vp +see .it]]]]]]]"]
       (->> "he used to be able to see it" en/parse (map en/syntax-tree) set vec))))
 
 (defn get-spec-for-generation [parsed-expression]

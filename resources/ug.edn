@@ -116,6 +116,11 @@
     :sem sem
     :head {:sem sem}})
 
+ (let [tense (atom :top)]
+   {:def 'head-sem-tense
+    :sem {:tense tense}
+    :head {:sem {:tense tense}}})
+ 
  (let [modal (atom :top)]
    {:def 'head-modal
     :modal modal

@@ -125,15 +125,6 @@
           menard.ug/head-first
           menard.ug/head-sem]}
 
- {:rule "negp"
-  :unify [menard.ug/head-first
-          menard.ug/head-sem
-          menard.ug/comp-cat
-          menard.ug/comp-reflexive
-          menard.subcat/a]
-  :sem {:polarity :minus}
-  :head {:cat :neg}}
-
  ;; np with no determiner, e.g.:
  ;; 'grote katten' in 'grote katten slapen'.
  {:rule "np:1"

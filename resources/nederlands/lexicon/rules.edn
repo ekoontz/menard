@@ -568,52 +568,22 @@
        :reflexive? ::unspec
        :sem {:obj {:top :top}}
        :subcat {:2 {:cat :noun}}}
-  :then [;; 1. reflexive: subject and object are the same semantically and by agreement.
-
-         ;; 1.a. reflexive 1st person
+  :then [
+         ;; 1. reflexive: subject and object are the same semantically and by agreement.
          (let [ref (atom :top)
                subj (atom {:ref ref
                            :existential? false})
-               obj (atom {:ref ref})]
+               obj (atom {:ref ref})
+               agr (atom :top)]
            {:reflexive? true
             :sem {:subj subj
                   :obj obj}
-            :subcat {:1 {:agr {:person :1st}
+            :subcat {:1 {:agr agr
                          :sem subj}
                      :2 {:case :acc
-                         :agr {:person :1st}
-                         :reflexive? true
-                         :sem obj
-                         :subcat []}}})
-
-         ;; 1.b. reflexive 2nd person
-         (let [ref (atom :top)
-               subj (atom {:ref ref
-                           :existential? false})
-               obj (atom {:ref ref})]
-           {:reflexive? true
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:1{:agr {:person :2nd}
-                        :sem subj
-                     :2 {:case :acc
-                         :agr {:person :2nd}
-                         :reflexive? true
-                         :sem obj
-                         :subcat []}}}})
-
-         ;; 1.c. reflexive 3rd person
-         (let [ref (atom :top)
-               subj (atom {:ref ref
-                           :existential? false})
-               obj (atom {:ref ref})]
-           {:reflexive? true
-            :sem {:subj subj
-                  :obj obj}
-            :subcat {:1 {:agr {:person :3rd}
-                         :sem subj}
-                     :2 {:case :acc
-                         :agr {:person :3rd}                         
+                         :agr agr
+                         :pronoun? true
+                         :phrasal? false
                          :reflexive? true
                          :sem obj
                          :subcat []}}})

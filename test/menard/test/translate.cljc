@@ -98,14 +98,24 @@
        ;; prefer parses where:
        ;; 1. subcat is empty (e.g. noun phrases rather than nbars)
        ;; 2. without a top-level :mod feature (e.g. prefer intensifier-phrase rather than intensifier-bar)
-       (sort (fn [x y] (or (and (vector? (u/get-in x [:subcat]))
-                                (empty? (u/get-in x [:subcat]))
-                                (vector? (u/get-in y [:subcat]))
-                                (not (empty? (u/get-in y [:subcat] []))))
-                           (and (= :verb (u/get-in x [:cat]))
-                                (= :verb (u/get-in y [:cat]))
-                                (= ::none (u/get-in x [:mod] ::none))
-                                (not (= ::none (u/get-in y [:mod] ::none)))))))))
+       (sort (fn [x y] (cond
+                         (and (vector? (u/get-in x [:subcat]))
+                              (empty? (u/get-in x [:subcat]))
+                              (vector? (u/get-in y [:subcat]))
+                              (not (empty? (u/get-in y [:subcat] []))))
+                         true
+
+                         (and (true? (u/get-in x [:mods-nested?]))
+                              (false? (u/get-in y [:mods-nested?])))
+                         true
+                         
+                         (and (= :verb (u/get-in x [:cat]))
+                              (= :verb (u/get-in y [:cat]))
+                              (= ::none (u/get-in x [:mod] ::none))
+                              (not (= ::none (u/get-in y [:mod] ::none))))
+                         true
+
+                         :else false)))))
 
 (defn transfer-fn [i model]
   (let [model-name (:name model "untitled")

@@ -172,7 +172,7 @@
                         :number :sing},
                   :pred :i},
            :mod (),
-           :pred :wash-oneself,
+           :pred :wash,
            :aspect :simple,
            :tense :present},
           :reflexive? true}]))
@@ -196,7 +196,7 @@
                   :ref {:human? true, :number :sing},
                   :pred :i},
            :mod (),
-           :pred :wash-oneself,
+           :pred :wash,
            :aspect :simple,
            :tense :present},
           :reflexive? true}]))))
@@ -352,7 +352,7 @@
                              :number :sing},
                        :pred :i},
                 :mod (),
-                :pred :wash-oneself,
+                :pred :wash,
                 :aspect :simple,
                 :tense :present},
           :reflexive? true}])))
@@ -374,7 +374,7 @@
             :ref {:human? true, :number :sing},
             :pred :i},
            :mod (),
-           :pred :wash-oneself,
+           :pred :wash,
            :aspect :simple,
            :tense :present},
           :reflexive? true}]))

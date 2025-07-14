@@ -13,19 +13,24 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+
+(def developer-mode? false)
+
 ;; if you made changes to these, you can uncomment them to reload them
 ;; so that in turn the below model will be reloaded with these changes:
-(load "../../../../src/menard/subcat")
-(load "../../../../src/menard/español")
-(load "../../../../src/menard/español/tenses")
 
-
-;; reload the models every time to help with debugging the model:
-(load "../../../../src/menard/español/curated_verbs")
-;; TODO: load a subset of the default "complete" model
-;; rather than the whole thing:
-(load "../../../../src/menard/english/complete")
-
+(when developer-mode?
+  (load "../../../../src/menard/subcat")
+  (load "../../../../src/menard/español")
+  (load "../../../../src/menard/español/tenses")
+  
+  
+  ;; reload the models every time to help with debugging the model:
+  (load "../../../../src/menard/español/curated_verbs")
+  ;; TODO: load a subset of the default "complete" model
+  ;; rather than the whole thing:
+  (load "../../../../src/menard/english/complete"))
+  
 (deftest subj-pred
   (is (or  (= "I want" (translate/es-to-en "yo quiero"))
            (= "I like" (translate/es-to-en "yo quiero"))

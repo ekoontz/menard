@@ -11,10 +11,13 @@
 ;; have to reload these language-model files every time you make a change:
 ;; you can just reload this file (i.e. menard.test.english)
 
-;; file and it will reload the changed language-model files.
-(load "../../../src/menard/subcat")
-(load "../../../src/menard/english/complete")
-(load "../../../src/menard/english")
+(def developer-mode? false)
+
+(when developer-mode?
+  ;; file and it will reload the changed language-model files.
+  (load "../../../src/menard/subcat")
+  (load "../../../src/menard/english/complete")
+  (load "../../../src/menard/english"))
 
 (deftest all-specifications-work
   "generate an expression for every specification in _specifications_,

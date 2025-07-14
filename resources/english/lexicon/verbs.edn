@@ -46,9 +46,9 @@
                         {:infl :past-simple :agr {:person :1st :number :sing} :surface "was"}
                         {:infl :past-simple :agr {:person :3rd :number :sing} :surface "was"}
                         {:infl :past-participle :surface "been"}]]
-        [{:sense 1
+        [;; "I am"
+         {:sense 1
           :sem {:pred :be}
-          :intransitive? true
           :exceptions exceptions}
 
          ;; "I am sure"
@@ -219,8 +219,6 @@
  "call" [{:sem {:pred :call}}]
  "can" [{:modal :base
          :sem {:pred :be-able-to}
-         :intransitive? true
-         :transitive? true         
          :infl :present}]
  "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]

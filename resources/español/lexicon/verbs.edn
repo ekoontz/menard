@@ -778,7 +778,7 @@
  "lastimarse" [{:sem {:pred :hurt-oneself}
                 :transitivity :transitive}]
  "lavar" [{:sem {:pred :wash}}]
- "lavarse" [{:sem {:pred :wash-oneself}
+ "lavarse" [{:sem {:pred :wash}
              :transitivity :transitive}]
  "leer"
  [{:sem {:pred :read},

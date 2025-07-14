@@ -1124,10 +1124,7 @@
                 :mental-state? true}
           :modal :infinitive}]
  "warn" [{:sem {:pred :warn}}]
- "wash" [{:sem {:pred :wash}
-          :reflexive? false}
-         {:sem {:pred :wash-oneself}
-          :reflexive? true}]
+ "wash" [{:sem {:pred :wash}}]
  "wear" (let [exceptions [{:infl :past-simple :surface "wore"}
                           {:infl :past-participle :surface "worn"}]]
           [{:sem {:pred :wear}

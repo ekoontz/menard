@@ -74,7 +74,7 @@
           menard.ug/head-sem]
   }
 
- {:rule "s-head-last" ;; "yo veo"
+ {:rule "s-head-last" ;; "yo veo", "me lavo"
   :cat :verb
   :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/a

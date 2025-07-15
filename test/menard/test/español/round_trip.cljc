@@ -10,10 +10,11 @@
 
 ;; https://es.wiktionary.org/wiki/quedarse#Conjugaci%C3%B3n
 
-;; to reload after fixing something, do:
-;; uncomment these:
-(load "../../../../src/menard/subcat")
-(load "../../../../src/menard/español")
+(def developer-mode? false)
+(when developer-mode? 
+  ;; to reload after fixing something, enable developer-mode?
+  (load "../../../../src/menard/subcat")
+  (load "../../../../src/menard/español"))
 
 (deftest reflexive-roundtrip
   (let [base-spec {:comp {:agr {:gender :fem

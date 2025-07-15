@@ -6,9 +6,9 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-
-(load "../../../../src/menard/english/complete")
-
+(def developer-mode? false)
+(when developer-mode? 
+  (load "../../../../src/menard/english/complete"))
 
 (deftest parse-english
   (is

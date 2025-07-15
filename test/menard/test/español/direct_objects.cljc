@@ -8,13 +8,15 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-;; if you made changes to these, you can uncomment them to reload them
-;; so that in turn the below model will be reloaded with these changes:
-(load "../../../../src/menard/subcat")
-(load "../../../../src/menard/español/tenses")
-
-;; reload the model every time to help with debugging the model:
-(load "../../../../src/menard/español/curated_verbs")
+(def developer-mode? false)
+(when developer-mode? 
+  ;; if you made changes to these, you can uncomment them to reload them
+  ;; so that in turn the below model will be reloaded with these changes:
+  (load "../../../../src/menard/subcat")
+  (load "../../../../src/menard/español/tenses")
+  
+  ;; reload the model every time to help with debugging the model:
+  (load "../../../../src/menard/español/curated_verbs"))
 
 (def model es/model)
 

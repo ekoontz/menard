@@ -8,11 +8,13 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-;; These are for convenience so you don't
-;; have to reload the language-model files every time you make a change:
-;; you can just reload this (i.e. menard.test.español.nouns)
-;; file and it will reload the changed language-model files.
-(load "../../../../src/menard/español")
+(def developer-mode? false)
+(when developer-mode? 
+  ;; These are for convenience so you don't
+  ;; have to reload the language-model files every time you make a change:
+  ;; you can just reload this (i.e. menard.test.español.nouns)
+  ;; file and it will reload the changed language-model files.
+  (load "../../../../src/menard/español"))
 
 (deftest analyze-test
   (let [analysis (-> "gato" analyze first)]

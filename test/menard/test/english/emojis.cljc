@@ -6,8 +6,10 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
+(def developer-mode? false)
 
-(load "../../../../src/menard/english/complete")
+(when developer-mode? 
+  (load "../../../../src/menard/english/complete"))
 
 (deftest emoji-parsing
   (is (= '("[s(:present-simple) .[pronoun+emoji +we .👴🏿👵🏼] +[vp +get .up]]")

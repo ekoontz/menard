@@ -44,6 +44,16 @@
           :sem {:ref {:human? false}
                 :gender :fem
                 :pred :it}
+          :reflexive? false}
+         {:case :acc
+          :agr {:person :2nd
+                :gender :fem
+                :number :sing
+                :formal? true}
+          :sem {:ref {:human? true
+                      :context :formal}
+                :gender :fem
+                :pred :you}
           :reflexive? false}])
 
  "lo" (let [agr {:person :3rd
@@ -60,6 +70,16 @@
           :sem {:ref {:human? false}
                 :gender :masc
                 :pred :it}
+          :reflexive? false}
+         {:case :acc
+          :agr {:person :2nd
+                :gender :masc
+                :number :sing
+                :formal? true}
+          :sem {:ref {:human? true
+                      :context :formal}
+                :gender :masc
+                :pred :you}
           :reflexive? false}])
 
  "las" (let [agr {:person :3rd
@@ -76,7 +96,17 @@
            :sem {:ref {:human? false}
                  :gender :fem
                  :pred :they}
-           :reflexive? false}])
+           :reflexive? false}
+         {:case :acc
+          :agr {:person :2nd
+                :gender :fem
+                :number :plur
+                :formal? true}
+          :sem {:ref {:human? true
+                      :context :formal}
+                :gender :fem
+                :pred :you}
+          :reflexive? false}])
 
  "los" (let [agr {:person :3rd
                   :gender :masc
@@ -92,6 +122,16 @@
            :sem {:ref {:human? false}
                  :gender :masc
                  :pred :they}
+           :reflexive? false}
+         {:case :acc
+          :agr {:person :2nd
+                :gender :masc
+                :number :plur
+                :formal? true}
+          :sem {:ref {:human? true
+                      :context :formal}
+                :gender :masc
+                :pred :you}
            :reflexive? false}])
 
  "ellas" (let [agr {:person :3rd

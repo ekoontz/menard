@@ -7,7 +7,9 @@
             #?(:cljs [cljslog.core :as log])))
 
 
-(load "../../../../src/menard/english/complete")
+(def developer-mode? false)
+(when developer-mode? 
+  (load "../../../../src/menard/english/complete"))
 
 (deftest tense-parsing
   (let [parses (parse "she saw him")]

@@ -498,7 +498,7 @@
          ;; enumerate all the possible agreement-subject possibilities:
          ;; singular:
          ;;   implicit 1st person subject, 2nd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :1st
                   :number :sing}
             :sem {:subj {:pred :i}
@@ -511,7 +511,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 1st person subject, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :1st
                   :number :sing}
             :sem {:subj {:pred :i}
@@ -525,7 +525,7 @@
                      :3 []}})
 
          ;;   implicit 2nd person subject, 1st person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :2nd
                   :number :sing}
             :sem {:subj {:pred :you}
@@ -538,7 +538,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 2nd person subject, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :2nd
                   :number :sing}
             :sem {:subj {:pred :you}
@@ -552,7 +552,7 @@
                      :3 []}})
 
          ;;   implicit 3rd person subject masc, 1st person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :sing}
             :sem {:subj {:pred :he}
@@ -566,7 +566,7 @@
                      :3 []}})
 
          ;;   implicit 3rd person subject masc, 2nd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :sing}
             :sem {:subj {:pred :he}
@@ -579,7 +579,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 3rd person subject masc, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :sing}
             :sem {:subj {:pred :he}
@@ -593,7 +593,7 @@
                      :3 []}})
 
          ;;   implicit 3rd person subject fem, 1st person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :sing}
             :sem {:subj {:pred :she}
@@ -607,7 +607,7 @@
                      :3 []}})
 
          ;;   implicit 3rd person subject fem, 2nd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :sing}
             :sem {:subj {:pred :she}
@@ -620,7 +620,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 3rd person subject fem, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :sing}
             :sem {:subj {:pred :she}
@@ -635,7 +635,7 @@
 
          ;; plural:
          ;;   implicit 1st person subject, 2nd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :1st
                   :number :plur}
             :sem {:subj {:pred :we}
@@ -648,7 +648,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 1st person subject, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :1st
                   :number :plur}
             :sem {:subj {:pred :we}
@@ -662,7 +662,7 @@
                      :3 []}})
 
          ;;   implicit 2nd person subject, 1st person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :2nd
                   :number :plur}
             :sem {:subj {:pred :you}
@@ -675,7 +675,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 2nd person subject, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :2nd
                   :number :plur}
             :sem {:subj {:pred :you}
@@ -689,7 +689,7 @@
                      :3 []}})
 
          ;;   implicit 3rd person subject, 1st person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :plur}
             :sem {:subj {:pred :they}
@@ -703,7 +703,7 @@
                      :3 []}})
 
          ;;   implicit 3rd person subject, 2nd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :plur}
             :sem {:subj {:pred :they}
@@ -716,7 +716,7 @@
                      :2 []
                      :3 []}})
          ;;   implicit 3rd person subject, 3rd person object:
-         (let [obj (atom :top)]
+         (let [obj (atom {:top :top})]
            {:agr {:person :3rd
                   :number :plur}
             :sem {:subj {:pred :he}

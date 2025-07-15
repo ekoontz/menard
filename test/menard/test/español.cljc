@@ -47,6 +47,7 @@
                   :gender :fem}
             :sem {:pred :want
                   :tense :present
+                  :obj :none
                   :subj {:pred :they}}})
 
 (deftest subject-agreement

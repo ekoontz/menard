@@ -491,244 +491,99 @@
           :subcat []}]}
 
   {:rule :implicit-subject-transitive
-  :if {:cat :verb
+   :if {:cat :verb
        :implicit-subject? true
        :transitivity :transitive}
-  :then [
-         ;; enumerate all the possible agreement-subject possibilities:
-         ;; singular:
-         ;;   implicit 1st person subject, 2nd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :1st
-                  :number :sing}
-            :sem {:subj {:pred :i}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :2nd}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 1st person subject, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :1st
-                  :number :sing}
-            :sem {:subj {:pred :i}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 2nd person subject, 1st person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :2nd
-                  :number :sing}
-            :sem {:subj {:pred :you}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :1st}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 2nd person subject, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :2nd
-                  :number :sing}
-            :sem {:subj {:pred :you}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 3rd person subject masc, 1st person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :sing}
-            :sem {:subj {:pred :he}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :1st}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 3rd person subject masc, 2nd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :sing}
-            :sem {:subj {:pred :he}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :2nd}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 3rd person subject masc, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :sing}
-            :sem {:subj {:pred :he}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 3rd person subject fem, 1st person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :sing}
-            :sem {:subj {:pred :she}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :1st}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 3rd person subject fem, 2nd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :sing}
-            :sem {:subj {:pred :she}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :2nd}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 3rd person subject fem, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :sing}
-            :sem {:subj {:pred :she}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-
-         ;; plural:
-         ;;   implicit 1st person subject, 2nd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :1st
-                  :number :plur}
-            :sem {:subj {:pred :we}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :2nd}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 1st person subject, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :1st
-                  :number :plur}
-            :sem {:subj {:pred :we}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 2nd person subject, 1st person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :2nd
-                  :number :plur}
-            :sem {:subj {:pred :you}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :1st}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 2nd person subject, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :2nd
-                  :number :plur}
-            :sem {:subj {:pred :you}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 3rd person subject, 1st person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :plur}
-            :sem {:subj {:pred :they}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :1st}}
-                     :2 []
-                     :3 []}})
-
-         ;;   implicit 3rd person subject, 2nd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :plur}
-            :sem {:subj {:pred :they}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :2nd}}
-                     :2 []
-                     :3 []}})
-         ;;   implicit 3rd person subject, 3rd person object:
-         (let [obj (atom {:top :top})]
-           {:agr {:person :3rd
-                  :number :plur}
-            :sem {:subj {:pred :he}
-                  :obj obj}
-            :subcat {:1 {:cat :noun
-                         :reflexive? false
-                         :case :acc
-                         :sem obj
-                         :agr {:person :3rd}}
-                     :2 []
-                     :3 []}})
-         ]}
+   :then (let [i {:pred :i}
+               we {:pred :we}
+               you {:pred :you}
+               obj (atom {:pred :top})
+               he  {:pred :he}
+               she {:pred :she}
+               it {:pred :it}
+               they {:pred :they}]
+           ;; enumerate all the possible agreement-subject possibilities:
+           [{:agr {:person :1st
+                   :number :sing}
+             :sem {:subj i
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}
+            {:agr {:person :1st
+                   :number :plur}
+             :sem {:subj we
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}
+            ;; subj: you
+            {:agr {:person :2nd}
+             :sem {:subj you
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}
+            ;; subj: he
+            {:agr {:number :sing
+                   :person :3rd}
+             :sem {:subj he
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}
+            ;; subj: she
+            {:agr {:number :sing
+                   :person :3rd}
+             :sem {:subj she
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}
+            ;; subj: it
+            {:agr {:number :sing
+                   :person :3rd}
+             :sem {:subj it
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}
+            ;; subj: they
+            {:agr {:number :plur
+                   :person :3rd}
+             :sem {:subj they
+                   :obj obj}
+             :subcat {:1 {:cat :noun
+                          :reflexive? false
+                          :case :acc
+                          :sem obj
+                          :pronoun? true}
+                      :2 []
+                      :3 []}}])}
 
  ;; TODO: do implicit subject for :modal :infinitive: (take into account implicit-subject? true/false)
  ;; or incorporate it in the already-existing implicit subject-handling in the above rules.

@@ -132,6 +132,7 @@
    :cat :verb
    :sem {:subj {:pred :they
                 :gender :fem}
+         :obj :none
          :tense :past
          :aspect :perfect}
    :subcat []

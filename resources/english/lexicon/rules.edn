@@ -999,7 +999,8 @@
        :modal :past-participle}
   :then (let [subj (atom {:existential? false})
               subcat-1-is-shared (atom {:sem subj})
-              sem (atom {:subj subj})]
+              sem (atom {:subj subj})
+              reflexive? (atom :top)]
           [;; "have"
            {:sem {:subj subj
                   :pred :anaphoric}
@@ -1008,8 +1009,10 @@
 
            ;; 'have' in 'have studied'
            {:sem sem
+            :reflexive? reflexive?
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :reflexive? reflexive?                         
                          :aux? false
                          :modal :none
                          :infl :past-participle
@@ -1019,8 +1022,10 @@
 
            ;; 'have' in 'have wanted'
            {:sem sem
+            :reflexive? reflexive?            
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :reflexive? reflexive?                         
                          :aux? false
                          :modal :infinitive
                          :infl :past-participle
@@ -1030,8 +1035,10 @@
 
            ;; 'have' in 'have been able to'
            {:sem sem
+            :reflexive? reflexive?            
             :subcat {:1 subcat-1-is-shared
                      :2 {:cat :verb
+                         :reflexive? reflexive?                         
                          :aux? false
                          :modal :adjective
                          :infl :past-participle

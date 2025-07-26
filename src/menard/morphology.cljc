@@ -76,16 +76,68 @@
 
 (def emoji-set emoji-set-2)
 
-<<<<<<< HEAD
 (def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
 (def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
+(def informal-feminine  ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"])
+(def informal-neuter    ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"])
+(def formal-neuter      ["🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"])
+(def formal-masculine   ["👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"])
+(def formal-feminine    ["👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"])
+(def informal   (concat informal-masculine
+                        informal-feminine
+                        informal-neuter))
+(def formal     (concat formal-masculine
+                      formal-feminine
+                      formal-neuter))
 
-(defn decode-notes [notes]
-  (log/debug (str "decode-notes with notes: " notes))
-=======
-(defn encode-notes [notes]
-  (log/debug (str "encode-notes with notes: " notes))
->>>>>>> 378d8b992 (s/decode-notes/encode-notes/)
+(def emoji-to-informal (->> informal-masculine
+                            (concat informal-feminine)
+                            (concat informal-neuter)
+                            (map (fn [emoji]
+                                   [emoji [{:notes [:informal]}]]))
+                            (into {})))
+
+(def emoji-to-formal (->> formal-masculine
+                          (concat formal-feminine)
+                          (concat formal-neuter)
+                          (map (fn [emoji]
+                                 [emoji [{:notes [:formal]}]]))
+                          (into {})))
+
+;; TODO: more factoring-out variables is possible beyond these two
+;; ones for informal:
+(def emoji-set-2
+  {
+   ;; vosotras
+   :informal-feminine informal-feminine
+   ;; vosotros
+   :informal-masculine informal-masculine
+
+   ;; tú
+   :informal (concat informal-masculine
+                     informal-feminine
+                     informal-neuter)
+   ;; usted
+   :formal   (concat formal-masculine
+                     formal-feminine
+                     formal-neuter)
+
+   
+   :all      (concat informal formal)
+   
+   ;; nosotros
+   :masculine (concat informal-masculine
+                      formal-masculine)
+   
+   ;; nosotras
+   :feminine (concat informal-feminine
+                     formal-feminine)})
+
+(def emoji-set emoji-set-2)
+
+(defn encode-notes
+  "transform notes e.g. [:informal :masculine] into one or more emojis (e.g. 👦)"
+  [notes]
   (cond
     (= notes "games")
     (-> game-emojis shuffle first)

@@ -308,8 +308,7 @@
               subj (atom {:ref ref})
               obj (atom {:ref ref})]
           ;; variant with explicit subject e.g. "él se levantó" and no object
-          [{:reflexive? true
-            :sem {:subj subj
+          [{:sem {:subj subj
                   :obj :none}
             :agr agr
             :subcat {:1 {:agr agr
@@ -323,8 +322,7 @@
                      :3 []}}
 
            ;; variant without explicit subject e.g. "se levantó" and no object
-           {:reflexive? true
-            :sem {:subj subj
+           {:sem {:subj subj
                   :obj :none}
             :agr agr
             :subcat {:1 {:pronoun? true
@@ -346,8 +344,7 @@
               subj (atom {:ref ref})
               obj (atom {:ref ref})]
           [;; variant with explicit subject e.g. "él se levantó" and object
-           {:reflexive? true
-            :sem {:subj subj
+           {:sem {:subj subj
                   :obj obj}
             :agr agr
             :subcat {:1 {:agr agr
@@ -361,8 +358,7 @@
                      :3 []}}
 
            ;; variant without explicit subject e.g. "se levantó" and object
-           {:reflexive? true
-            :sem {:subj subj
+           {:sem {:subj subj
                   :obj subj}
             :agr agr
             :subcat {:1 {:pronoun? true
@@ -490,101 +486,193 @@
           :sem {:subj {:pred :they}}
           :subcat []}]}
 
-  {:rule :implicit-subject-transitive
+ ;; TODO: also add: {:rule :implicit-subject-transitive-nonpronoun}
+ {:rule :implicit-subject-transitive-pronoun
    :if {:cat :verb
        :implicit-subject? true
        :transitivity :transitive}
    :then (let [i {:pred :i}
                we {:pred :we}
                you {:pred :you}
-               obj (atom {:pred :top})
+               you-informal {:pred :you
+                             :ref {:context :informal}}
+               you-formal {:pred :you
+                           :ref {:context :formal}}
+               any {:pred :top}
                he  {:pred :he}
                she {:pred :she}
                it {:pred :it}
                they {:pred :they}]
            ;; enumerate all the possible agreement-subject possibilities:
-           [{:agr {:person :1st
+           ;; 1.  i    -> you
+           ;; 2.  i    -> he
+           ;; 3.  i    -> she
+           ;; 4.  i    -> it
+           ;; 5.  i    -> they
+           ;; 6.  you  -> i
+           ;; 7.  you  -> he
+           ;; 8.  you  -> she
+           ;; 9.  you  -> it
+           ;; 10. you  -> they
+           ;; 11. he   -> any
+           ;; 12. she  -> any
+           ;; 13. we   -> you
+           ;; 14. we   -> he
+           ;; 15. we   -> she
+           ;; 16. we   -> it
+           ;; 17. we   -> they
+           ;; 18. it   -> any
+           ;; 19. they -> any
+           [;; te veo         -> I see you (informal)
+            ;; lo veo, la veo -> I see you (formal)
+            {:istp? true
+             :istp 1
+             :agr {:person :1st
                    :number :sing}
              :sem {:subj i
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}
-            {:agr {:person :1st
-                   :number :plur}
-             :sem {:subj we
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}
-            ;; subj: you
-            {:agr {:person :2nd}
-             :sem {:subj you
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}
-            ;; subj: he
-            {:agr {:number :sing
-                   :person :3rd}
-             :sem {:subj he
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}
-            ;; subj: she
-            {:agr {:number :sing
-                   :person :3rd}
-             :sem {:subj she
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}
-            ;; subj: it
-            {:agr {:number :sing
-                   :person :3rd}
-             :sem {:subj it
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}
-            ;; subj: they
-            {:agr {:number :plur
-                   :person :3rd}
-             :sem {:subj they
-                   :obj obj}
-             :subcat {:1 {:cat :noun
-                          :reflexive? false
-                          :case :acc
-                          :sem obj
-                          :pronoun? true}
-                      :2 []
-                      :3 []}}])}
+                   :obj you}
+             :subcat {:1 {:agr {:person :2nd}}}}
 
+            {:istp? true
+             :istp 2
+             :agr {:person :1st
+                   :number :sing}
+             :sem {:subj i
+                   :obj he}
+             :subcat {:1 {:agr {:person :3rd
+                                :number :sing}}}}
+
+            {:istp? true
+             :istp 3
+             :agr {:person :1st
+                   :number :sing}
+             :sem {:subj i
+                   :obj she}
+             :subcat {:1 {:agr {:person :3rd
+                                :number :sing}}}}
+
+            {:istp? true
+             :istp 4
+             :agr {:person :1st
+                   :number :sing}
+             :sem {:subj i
+                   :obj it}
+             :subcat {:1 {:agr {:person :3rd
+                                :number :sing}}}}
+
+            {:istp? true
+             :istp 5
+             :agr {:person :1st
+                   :number :sing}
+             :sem {:subj i
+                   :obj they}
+             :subcat {:1 {:agr {:person :3rd
+                                :number :plur}}}}
+
+            {:istp? true
+             :istp 6
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-informal
+                   :obj i}
+             :subcat {:1 {:agr {:person :1st}}}}
+
+            {:istp? true
+             :istp 7
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-informal
+                   :obj he}
+             :subcat {:1 {:agr {:person :3rd
+                                :gender :masc}}}}
+
+            {:istp? true
+             :istp 8
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-informal
+                   :obj she}
+             :subcat {:1 {:agr {:person :3rd
+                                :gender :fem}}}}
+
+            {:istp? true
+             :istp 9
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-informal
+                   :obj it}
+             :subcat {:1 {:agr {:person :3rd}}}}
+
+            {:istp? true
+             :istp 10
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-informal
+                   :obj they}
+             :subcat {:1 {:agr {:person :3rd}}}}
+
+            {:istp? true
+             :istp 11
+             :agr {:person :2nd
+                   :formal? true}
+             :sem {:subj you-formal
+                   :obj i}
+             :subcat {:1 {:agr {:person :1st}}}}
+
+            {:istp? true
+             :istp 12
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-informal
+                   :obj he}
+             :subcat {:1 {:agr {:person :3rd
+                                :gender :masc}}}}
+
+            {:istp? true
+             :istp 13
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-formal
+                   :obj she}
+             :subcat {:1 {:agr {:person :3rd
+                                :gender :fem}}}}
+
+            {:istp? true
+             :istp 14
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-formal
+                   :obj it}
+             :subcat {:1 {:agr {:person :3rd}}}}
+
+            {:istp? true
+             :istp 15
+             :agr {:person :2nd
+                   :formal? false}
+             :sem {:subj you-formal
+                   :obj they}
+             :subcat {:1 {:agr {:person :3rd}}}}
+
+            
+            ])}
+
+ {:rule :istp-default
+  :if {:istp? ::unspecified}
+  :then [{:istp? false}]}
+
+ {:rule :istp-true
+  :if {:istp? true}
+  :then [(let [gender (atom :top)
+               obj (atom {:gender gender})]
+           {:subcat {:1 {:reflexive? false
+                         :case :acc
+                         :agr {:gender gender}
+                         :pronoun? true
+                         :sem obj}
+                     :2 []
+                     :3 []}
+            :sem {:obj obj}})]}
+ 
  ;; TODO: do implicit subject for :modal :infinitive: (take into account implicit-subject? true/false)
  ;; or incorporate it in the already-existing implicit subject-handling in the above rules.
  {:rule :subcat-intransitive-modal

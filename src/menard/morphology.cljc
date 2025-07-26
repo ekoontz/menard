@@ -76,11 +76,16 @@
 
 (def emoji-set emoji-set-2)
 
+<<<<<<< HEAD
 (def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
 (def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
 
 (defn decode-notes [notes]
   (log/debug (str "decode-notes with notes: " notes))
+=======
+(defn encode-notes [notes]
+  (log/debug (str "encode-notes with notes: " notes))
+>>>>>>> 378d8b992 (s/decode-notes/encode-notes/)
   (cond
     (= notes "games")
     (-> game-emojis shuffle first)
@@ -187,8 +192,8 @@
                 (u/get-in structure [:note-on-first-word])
                 (not (= :top (u/get-in structure [:note-on-first-word])))
                 (seq (u/get-in structure [:note-on-first-word])))
-         (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
-           (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
+         (if-let [encode-notes (encode-notes (u/get-in structure [:note-on-first-word]))]
+           (str " " encode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
 
       :else surface)))
 

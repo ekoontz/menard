@@ -51,9 +51,12 @@
    ;; vosotros
    :informal-masculine informal-masculine
 
-   :formal-feminine formal-feminine
-   :formal-masculine formal-masculine   
+   ;; lo (singular formal masculine accusative)
+   :formal-masculine formal-masculine
    
+   ;; la (singular formal feminine accusative)
+   :formal-feminine formal-feminine
+
    ;; tú
    :informal (concat informal-masculine
                      informal-feminine
@@ -167,6 +170,12 @@
     (= notes [:formal :singular])
     (str (clojure.string/join ""
                               (first (shuffle (get emoji-set :formal)))))
+    (= notes [:formal :singular :masculine])
+    (str (clojure.string/join ""
+                              (first (shuffle (get emoji-set :formal-masculine)))))
+    (= notes [:formal :singular :feminine])
+    (str (clojure.string/join ""
+                              (first (shuffle (get emoji-set :formal-feminine)))))
     (= notes [:informal :plural])
     (str (clojure.string/join ""
                               (take 2 (shuffle (get emoji-set :informal)))))

@@ -113,19 +113,6 @@
           menard.ug/head-sem]
   }
 
- {:rule "vp-aux-c"
-  :cat :verb
-  :head {:aux? true}
-  :comp {:subcat []}
-  :options menard.español.tenses/finite-aux-tenses
-  :unify [menard.subcat/c
-          menard.ug/comp-is-root
-          menard.ug/head-first
-          menard.ug/head-reflexive
-          menard.ug/head-rule
-          menard.ug/head-sem]
-  }
-
  {:rule "vp-aux-i"
   :cat :verb
   :head {:aux? true}

@@ -136,7 +136,10 @@
 (def emoji-set emoji-set-2)
 
 (defn encode-notes
-  "transform notes e.g. [:informal :masculine] into one or more emojis (e.g. 👦)"
+  "transform notes
+      (e.g. [:informal :masculine])
+      into one or more emojis
+      (e.g. 👦)"
   [notes]
   (cond
     (= notes "games")

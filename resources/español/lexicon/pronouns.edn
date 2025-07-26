@@ -280,36 +280,48 @@
                  :pred :you}
            :reflexive? false}]
 
+ ;; Spanish in Latin America:
  "ustedes" [{:case :nom
              :agr {:number :plur
-                   :person :2nd
-                   :formal? true}
-             :sem {:ref {:human? true
-                         :context :formal}
+                   :person :2nd}
+             :sem {:ref {:human? true}
                    :pred :you}
              :reflexive? false}]
-
- "vosotras" [{:case :nom
-              :agr {:number :plur
-                    :gender :fem
-                    :person :2nd
-                    :formal? false}
-              :sem {:ref {:human? true
-                          :gender :fem
-                          :context :informal}
-                    :pred :you}
-              :reflexive? false}]
-
- "vosotros" [{:case :nom
-              :agr {:number :plur
-                    :gender :masc
-                    :person :2nd
-                    :formal? false}
-              :sem {:ref {:human? true
-                          :gender :masc
-                          :context :informal}
-                    :pred :you}
-              :reflexive? false}]
+ 
+ ;; TODO: this is commented out for now because we want to
+ ;; focus on Latin American Spanish, but eventually also support
+ ;; Spanish in Spain by moving this to a separate file and loading in a separate model:
+ ;; Spanish in Spain:
+ ;;     "ustedes" [{:case :nom
+ ;;                 :agr {:number :plur
+ ;;                       :person :2nd
+ ;;                       :formal? true}
+ ;;                 :sem {:ref {:human? true
+ ;;                             :context :formal}
+ ;;                       :pred :you}
+ ;;                 :reflexive? false}]
+ ;;     
+ ;;     "vosotras" [{:case :nom
+ ;;                  :agr {:number :plur
+ ;;                        :gender :fem
+ ;;                        :person :2nd
+ ;;                        :formal? false}
+ ;;                  :sem {:ref {:human? true
+ ;;                              :gender :fem
+ ;;                              :context :informal}
+ ;;                        :pred :you}
+ ;;                  :reflexive? false}]
+ ;;     
+ ;;     "vosotros" [{:case :nom
+ ;;                  :agr {:number :plur
+ ;;                        :gender :masc
+ ;;                        :person :2nd
+ ;;                        :formal? false}
+ ;;                  :sem {:ref {:human? true
+ ;;                              :gender :masc
+ ;;                              :context :informal}
+ ;;                        :pred :you}
+ ;;                  :reflexive? false}]})}
 
 "yo" [{:case :nom
         :agr {:number :sing

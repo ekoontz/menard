@@ -229,6 +229,10 @@
     (str "(unprintable note)")))
 
 (defn concat-with-notes [structure surface]
+  (log/debug (str "concat-with-notes:"))
+  (log/debug (str "concat-with-notes: structure: " (l/pprint structure)))
+  (log/debug (str "concat-with-notes: surface: " surface))
+  (log/debug (str "concat-with-notes: note: " (u/get-in structure [:note])))
   (let [note (u/get-in structure [:note])]
     (cond
       (nil? note)

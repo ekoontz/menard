@@ -402,3 +402,48 @@
 (deftest yo-he-visto
   (is (= (->> "yo he visto" es/parse (map translate/es-structure-to-en-structure) (map en/syntax-tree))
          '("[s(:perfect) .I +[vp-aux +have(2) .seen]]"))))
+
+(deftest te-veo
+  (let [te-veo (->> "te veo" es/parse (filter #(= [] (u/get-in % [:subcat]))))]
+    (is (= (->> te-veo
+                (map translate/es-structure-to-en-structure)
+                (filter #(= :you (u/get-in % [:sem :obj :pred])))
+                (map #(u/get-in % [:sem :obj]))
+                (map dag_unify.diagnostics/strip-refs)
+                vec)
+           [{:obj :none,
+             :gender :top
+             :existential? false,
+             :mod [],
+             :locative? false,
+             :ref {:a 2, :context :informal, :human? true, :number :sing}
+             :pred :you}]))))
+
+(deftest lo-veo-as-i-see-you-formal-masculine
+  (let [lo-veo (->> "lo veo"
+                    es/parse
+                    (filter #(= [] (u/get-in % [:subcat])))
+                    (map translate/es-structure-to-en-structure)
+                    (filter #(= :you (u/get-in % [:sem :obj :pred]))))]
+    (is (= #{true}
+           (->> lo-veo
+                (map en/morph)
+                (map #(clojure.string/replace % #"[A-Za-z ]+" ""))
+                (map #(contains? (set menard.morphology/formal-masculine) %))
+                set)))))
+
+(deftest la-veo-as-i-see-you-formal-feminine
+  (let [la-veo (->> "la veo"
+                    es/parse
+                    (filter #(= [] (u/get-in % [:subcat])))
+                    (map translate/es-structure-to-en-structure)
+                    (filter #(= :you (u/get-in % [:sem :obj :pred]))))]
+    (is (= #{true}
+           (->> la-veo
+                (map en/morph)
+                (map #(clojure.string/replace % #"[A-Za-z ]+" ""))
+                (map #(contains? (set menard.morphology/formal-feminine) %))
+                set)))))
+
+
+

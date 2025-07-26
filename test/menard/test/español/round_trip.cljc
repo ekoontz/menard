@@ -63,6 +63,7 @@
   (is (= "[s-head-last(:present-simple) .ellos +cierran]"
          (-> {:rule "s-head-last"
               :comp {:root "ellos"
+                     :phrasal? false ;; TODO: for now this is needed to prevent rat-holing, but hopefully it can be removed.
                      :agr {:number :plur
                            :person :3rd}}
               :sem {:tense :present

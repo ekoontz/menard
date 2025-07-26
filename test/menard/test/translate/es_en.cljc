@@ -422,28 +422,59 @@
 (deftest lo-veo-as-i-see-you-formal-masculine
   (let [lo-veo (->> "lo veo"
                     es/parse
-                    (filter #(= [] (u/get-in % [:subcat])))
-                    (map translate/es-structure-to-en-structure)
-                    (filter #(= :you (u/get-in % [:sem :obj :pred]))))]
+                    (filter #(= [] (u/get-in % [:subcat]))))
+        i-see-you (->> lo-veo
+                       (map translate/es-structure-to-en-structure)
+                       (filter #(= :you (u/get-in % [:sem :obj :pred]))))
+        i-see-it (->> lo-veo
+                      (map translate/es-structure-to-en-structure)
+                      (filter #(= :it (u/get-in % [:sem :obj :pred]))))]
     (is (= #{true}
-           (->> lo-veo
+           (->> i-see-you
                 (map en/morph)
                 (map #(clojure.string/replace % #"[A-Za-z ]+" ""))
                 (map #(contains? (set menard.morphology/formal-masculine) %))
+                set)))
+    (is (= #{"I see you"}
+           (->> i-see-you
+                (map en/morph)
+                (map #(clojure.string/replace % #" [^A-Za-z ]+$" ""))
+                set)))
+    (is (= #{"I see it"}
+           (->> i-see-it
+                (map en/morph)
                 set)))))
 
 (deftest la-veo-as-i-see-you-formal-feminine
   (let [la-veo (->> "la veo"
                     es/parse
-                    (filter #(= [] (u/get-in % [:subcat])))
-                    (map translate/es-structure-to-en-structure)
-                    (filter #(= :you (u/get-in % [:sem :obj :pred]))))]
+                    (filter #(= [] (u/get-in % [:subcat]))))
+        i-see-you (->> la-veo
+                       (map translate/es-structure-to-en-structure)
+                       (filter #(= :you (u/get-in % [:sem :obj :pred]))))
+        i-see-it (->> la-veo
+                      (map translate/es-structure-to-en-structure)
+                      (filter #(= :it (u/get-in % [:sem :obj :pred]))))]
     (is (= #{true}
-           (->> la-veo
+           (->> i-see-you
                 (map en/morph)
                 (map #(clojure.string/replace % #"[A-Za-z ]+" ""))
                 (map #(contains? (set menard.morphology/formal-feminine) %))
+                set)))
+    (is (= #{"I see you"}
+           (->> i-see-you
+                (map en/morph)
+                (map #(clojure.string/replace % #" [^A-Za-z ]+$" ""))
+                set)))
+    (is (= #{"I see it"}
+           (->> i-see-it
+                (map en/morph)
                 set)))))
+
+
+    
+
+
 
 
 

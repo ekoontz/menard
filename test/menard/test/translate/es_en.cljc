@@ -88,6 +88,7 @@
   (is (= "[s-head-last(:present-simple) .ellos +cierran]"
          (-> {:rule "s-head-last"
               :comp {:root "ellos"
+                     :phrasal? false ;; TODO: for now this is needed to prevent rat-holing, but hopefully it can be removed.
                      :agr {:number :plur
                            :person :3rd}}
               :sem {:tense :present
@@ -428,7 +429,10 @@
                        (filter #(= :you (u/get-in % [:sem :obj :pred]))))
         i-see-it (->> lo-veo
                       (map translate/es-structure-to-en-structure)
-                      (filter #(= :it (u/get-in % [:sem :obj :pred]))))]
+                      (filter #(= :it (u/get-in % [:sem :obj :pred]))))
+        i-see-him (->> lo-veo
+                       (map translate/es-structure-to-en-structure)
+                       (filter #(= :he (u/get-in % [:sem :obj :pred]))))]
     (is (= #{true}
            (->> i-see-you
                 (map en/morph)
@@ -443,6 +447,10 @@
     (is (= #{"I see it"}
            (->> i-see-it
                 (map en/morph)
+                set)))
+    (is (= #{"I see him"}
+           (->> i-see-him
+                (map en/morph)
                 set)))))
 
 (deftest la-veo-as-i-see-you-formal-feminine
@@ -454,7 +462,10 @@
                        (filter #(= :you (u/get-in % [:sem :obj :pred]))))
         i-see-it (->> la-veo
                       (map translate/es-structure-to-en-structure)
-                      (filter #(= :it (u/get-in % [:sem :obj :pred]))))]
+                      (filter #(= :it (u/get-in % [:sem :obj :pred]))))
+        i-see-her (->> la-veo
+                       (map translate/es-structure-to-en-structure)
+                       (filter #(= :she (u/get-in % [:sem :obj :pred]))))]
     (is (= #{true}
            (->> i-see-you
                 (map en/morph)
@@ -469,12 +480,8 @@
     (is (= #{"I see it"}
            (->> i-see-it
                 (map en/morph)
+                set)))
+    (is (= #{"I see her"}
+           (->> i-see-her
+                (map en/morph)
                 set)))))
-
-
-    
-
-
-
-
-

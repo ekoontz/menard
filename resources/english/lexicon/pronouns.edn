@@ -58,8 +58,7 @@
         :agr {:number :sing
               :person :1st}
         :sem {:ref {:human? true}
-              :pred :i
-              :person-not :2nd}
+              :pred :i}
         :pronoun? true
         :reflexive? false}]
  "myself" [{:case :acc
@@ -195,8 +194,7 @@
          :sense 3
          :note [:informal :feminine :plural]
          :sem {:pred :you
-               :ref {:context :informal}
-               :person-not :1st}}
+               :ref {:context :informal}}}
 
         {:agr {:person :2nd
                :number :sing}
@@ -220,8 +218,7 @@
          :sense 6
          :note [:informal :singular]
          :sem {:pred :you
-               :ref {:context :informal}
-               :person-not :1st}}
+               :ref {:context :informal}}}
 
         {:agr {:person :2nd
                :number :plur}
@@ -229,26 +226,33 @@
          :sense 7
          :note [:informal :plural]
          :sem {:pred :you
-               :ref {:context :informal}
-               :person-not :1st}}
+               :ref {:context :informal}}}
 
         {:agr {:person :2nd
                :number :sing}
          :sense 8
          :case :acc
-         :note [:formal :singular]
+         :note [:formal :singular :masculine]
          :sem {:pred :you
-               :ref {:context :formal}
-               :person-not :1st}}
+               :gender :masc
+               :ref {:context :formal}}}
+
+        {:agr {:person :2nd
+               :number :sing}
+         :sense 9
+         :case :acc
+         :note [:formal :singular :feminine]
+         :sem {:pred :you
+               :gender :fem
+               :ref {:context :formal}}}
 
         {:agr {:person :2nd
                :number :plur}
-         :sense 9
+         :sense 10
          :case :acc
          :note [:formal :plural]
          :sem {:pred :you
-               :ref {:context :formal}
-               :person-not :1st}}]
+               :ref {:context :formal}}}]
 
  "yourself" [{:case :acc
               :agr {:number :sing

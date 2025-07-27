@@ -533,6 +533,7 @@
                    :obj you}
              :subcat {:1 {:agr {:person :2nd}}}}
 
+            ;; lo veo         -> I see him
             {:istp? true
              :istp 2
              :agr {:person :1st
@@ -542,6 +543,7 @@
              :subcat {:1 {:agr {:person :3rd
                                 :number :sing}}}}
 
+            ;; la veo         -> I see her
             {:istp? true
              :istp 3
              :agr {:person :1st
@@ -551,6 +553,8 @@
              :subcat {:1 {:agr {:person :3rd
                                 :number :sing}}}}
 
+            ;; lo veo         -> I see it (masc)
+            ;; la veo         -> I see it (fem)
             {:istp? true
              :istp 4
              :agr {:person :1st
@@ -560,6 +564,8 @@
              :subcat {:1 {:agr {:person :3rd
                                 :number :sing}}}}
 
+            ;; los veo        -> I see them (masc)
+            ;; las veo        -> I see them (fem)            
             {:istp? true
              :istp 5
              :agr {:person :1st
@@ -569,6 +575,7 @@
              :subcat {:1 {:agr {:person :3rd
                                 :number :plur}}}}
 
+            ;; me ves         -> You (informal) see me
             {:istp? true
              :istp 6
              :agr {:person :2nd
@@ -577,6 +584,7 @@
                    :obj i}
              :subcat {:1 {:agr {:person :1st}}}}
 
+            ;; lo ves         -> You see him
             {:istp? true
              :istp 7
              :agr {:person :2nd
@@ -586,6 +594,7 @@
              :subcat {:1 {:agr {:person :3rd
                                 :gender :masc}}}}
 
+            ;; lo ves         -> You see her
             {:istp? true
              :istp 8
              :agr {:person :2nd
@@ -595,6 +604,8 @@
              :subcat {:1 {:agr {:person :3rd
                                 :gender :fem}}}}
 
+            ;; lo ves         -> You see it (masc)
+            ;; la ves         -> You see it (fem)
             {:istp? true
              :istp 9
              :agr {:person :2nd
@@ -603,6 +614,8 @@
                    :obj it}
              :subcat {:1 {:agr {:person :3rd}}}}
 
+            ;; los ves        -> You see them (masc)
+            ;; las ves        -> You see them (fem)
             {:istp? true
              :istp 10
              :agr {:person :2nd
@@ -611,6 +624,7 @@
                    :obj they}
              :subcat {:1 {:agr {:person :3rd}}}}
 
+            ;; me ve          -> You (informal) see me
             {:istp? true
              :istp 11
              :agr {:person :2nd
@@ -619,6 +633,7 @@
                    :obj i}
              :subcat {:1 {:agr {:person :1st}}}}
 
+            ;; lo ve -> you sees him
             {:istp? true
              :istp 12
              :agr {:person :2nd

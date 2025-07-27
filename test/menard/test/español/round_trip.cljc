@@ -70,5 +70,3 @@
                     :aspect :simple}
               :head {:canonical "cerrar"}}
              es/generate es/syntax-tree))))
-
-

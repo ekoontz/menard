@@ -666,6 +666,7 @@
                obj (atom {:gender gender})]
            {:subcat {:1 {:reflexive? false
                          :case :acc
+                         :cat :noun
                          :agr {:gender gender}
                          :pronoun? true
                          :sem obj}

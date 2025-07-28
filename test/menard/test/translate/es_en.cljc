@@ -420,7 +420,7 @@
              :ref {:a 2, :context :informal, :human? true, :number :sing}
              :pred :you}]))))
 
-(deftest lo-veo-as-i-see-you-formal-masculine
+(deftest lo-veo-parsing
   (let [lo-veo (->> "lo veo"
                     es/parse
                     (filter #(= [] (u/get-in % [:subcat]))))
@@ -453,7 +453,22 @@
                 (map en/morph)
                 set)))))
 
-(deftest la-veo-as-i-see-you-formal-feminine
+(deftest generation-with-veo
+  (is (= "te veo"
+         (-> {:agr {:person :1st
+                    :number :sing}
+              :sem {:obj {:pred :you
+                          :ref {:number :sing
+                                :context :informal}}
+                    :pred :see
+                    :tense :present
+                    :aspect :simple}
+              :cat :verb
+              :subcat []}
+             es/generate
+             es/morph))))
+
+(deftest la-veo-parsing
   (let [la-veo (->> "la veo"
                     es/parse
                     (filter #(= [] (u/get-in % [:subcat]))))

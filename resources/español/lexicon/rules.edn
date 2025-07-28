@@ -633,37 +633,42 @@
                    :obj i}
              :subcat {:1 {:agr {:person :1st}}}}
 
-            ;; lo ve -> you sees him
+            ;; lo ve          -> You (formal) see him
             {:istp? true
              :istp 12
              :agr {:person :2nd
-                   :formal? false}
+                   :formal? true}
              :sem {:subj you-informal
                    :obj he}
              :subcat {:1 {:agr {:person :3rd
                                 :gender :masc}}}}
 
+            ;; la ve          -> You (formal) see her
             {:istp? true
              :istp 13
              :agr {:person :2nd
-                   :formal? false}
+                   :formal? true}
              :sem {:subj you-formal
                    :obj she}
              :subcat {:1 {:agr {:person :3rd
                                 :gender :fem}}}}
 
+            ;; lo ve           -> You (formal) see it (masc)
+            ;; la ve           -> You (formal) see it (fem)     
             {:istp? true
              :istp 14
              :agr {:person :2nd
-                   :formal? false}
+                   :formal? true}
              :sem {:subj you-formal
                    :obj it}
              :subcat {:1 {:agr {:person :3rd}}}}
 
+            ;; los ve          -> You (formal) see them (masc)
+            ;; las ve          -> You (formal) see them (fem)
             {:istp? true
              :istp 15
              :agr {:person :2nd
-                   :formal? false}
+                   :formal? true}
              :sem {:subj you-formal
                    :obj they}
              :subcat {:1 {:agr {:person :3rd}}}}

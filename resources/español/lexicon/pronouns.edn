@@ -284,7 +284,19 @@
  "ustedes" [{:case :nom
              :agr {:number :plur
                    :person :2nd}
-             :sem {:ref {:human? true}
+             :sem {:ref {:human? true
+                         :context :formal}
+                   :pred :you}
+             :reflexive? false}
+
+            ;; in Latin America,
+            ;; "ustedes" can be informal as
+            ;; well as formal:
+            {:case :nom
+             :agr {:number :plur
+                   :person :2nd}
+             :sem {:ref {:human? true
+                         :context :informal}
                    :pred :you}
              :reflexive? false}]
  

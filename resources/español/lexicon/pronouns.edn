@@ -283,6 +283,7 @@
  ;; Spanish in Latin America:
  "ustedes" [{:case :nom
              :agr {:number :plur
+                   :formal? true
                    :person :2nd}
              :sem {:ref {:human? true
                          :context :formal}
@@ -294,6 +295,7 @@
             ;; well as formal:
             {:case :nom
              :agr {:number :plur
+                   :formal? false                   
                    :person :2nd}
              :sem {:ref {:human? true
                          :context :informal}

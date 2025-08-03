@@ -166,11 +166,14 @@
           {:obj
            {:existential? false,
             :mod (),
-            :ref {:human? true, :number :sing},
+            :ref {:human? true,
+                  :context :informal
+                  :number :sing},
             :pred :i},
            :subj {:existential? false,
                   :mod (),
                   :ref {:human? true,
+                        :context :informal,
                         :number :sing},
                   :pred :i},
            :mod (),
@@ -229,6 +232,7 @@
                      :subj {:existential? false,
                             :mod (),
                             :ref {:human? true,
+                                  :context :informal
                                   :number :sing},
                             :pred :i},
                      :mod (),
@@ -247,6 +251,7 @@
                     :subj {:existential? false,
                            :mod (),
                            :ref {:human? true,
+                                 :context :informal
                                  :number :sing},
                            :pred :i},
                     :mod (),
@@ -346,11 +351,13 @@
         [{:sem {:obj {:existential? false,
                       :mod (),
                       :ref {:human? true,
+                            :context :informal
                             :number :sing},
                       :pred :i},
                 :subj {:existential? false,
                        :mod (),
                        :ref {:human? true,
+                             :context :informal                             
                              :number :sing},
                        :pred :i},
                 :mod (),
@@ -490,7 +497,7 @@
     (is (= #{"I see you"}
            (->> i-see-you
                 (map en/morph)
-                (map #(clojure.string/replace % #" [^A-Za-z ]+$" ""))
+                (map #(clojure.string/replace % #" [^A-Za-z ]+$" "")) ;; remove emojis used to encode formality
                 set)))
     (is (= #{"I see it"}
            (->> i-see-it

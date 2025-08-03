@@ -677,17 +677,22 @@
             ])}
 
  {:rule :istp-default
-  :if {:istp? ::unspecified}
+  :if {:istp? ::unspecified
+       :cat :verb}
   :then [{:istp? false}]}
 
  {:rule :istp-true
-  :if {:istp? true}
+  :if {:istp? true
+       :cat :verb}
   :then [(let [gender (atom :top)
-               obj (atom {:gender gender})]
+               formality (atom :top)
+               obj (atom {:gender gender
+                          :ref {:context formality}})]
            {:subcat {:1 {:reflexive? false
                          :case :acc
                          :cat :noun
-                         :agr {:gender gender}
+                         :agr {:gender gender
+                               :formality formality}
                          :pronoun? true
                          :sem obj}
                      :2 []
@@ -840,6 +845,34 @@
        :sem {:existential? ::unspec}}
    :then [{:sem {:existential? false}}]}
 
+ {:rule :pronoun-formality
+  :if {:cat :noun
+       :pronoun? true}
+  :then [(let [formality (atom :top)]
+           {:agr {:formality formality}
+            :sem {:ref {:context formality}}})]}
+
+ {:rule :pronoun-formality-default-false
+  :if {:cat :noun
+       :agr {:formal? ::unspec}}
+  :then [{:agr {:formal? false}}]}
+ 
+ ;; moving from: {:formal? true}
+ ;;          to: {:formality :formal}
+ {:rule :pronoun-formality-migration-of-true
+  :if {:cat :noun
+       :pronoun? true
+       :agr {:formal? true}}
+  :then [{:agr {:formality :formal}}]}
+
+ ;; moving from: {:formal? false}
+ ;;          to: {:formality :informal}
+ {:rule :pronoun-formality-migration-of-false
+  :if {:cat :noun
+       :pronoun? true
+       :agr {:formal? false}}
+  :then [{:agr {:formality :informal}}]}
+ 
  {:rule :verbs-have-empty-sem-modifiers
   :if {:cat :verb
        :sem {:mod ::unspec}}

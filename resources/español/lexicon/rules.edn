@@ -638,7 +638,7 @@
              :istp 12
              :agr {:person :2nd
                    :formal? true}
-             :sem {:subj you-informal
+             :sem {:subj you-formal
                    :obj he}
              :subcat {:1 {:agr {:person :3rd
                                 :gender :masc}}}}

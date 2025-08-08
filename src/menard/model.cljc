@@ -107,6 +107,7 @@
 
 #?(:clj
    (defn read-model-spec [model-spec-filename]
+     (log/info (str "model/read-model-spec with model-spec-filename: " model-spec-filename))
      (-> model-spec-filename
          ((fn [filename]
             (if (re-find #"^file:///" filename)

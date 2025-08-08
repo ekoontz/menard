@@ -319,7 +319,8 @@
  "escribir" [{:sem {:pred :write}}]
  "escuchar" [{:sem {:pred :listen-to}}]
  "esperar" [;; {:sem {:pred :wait-for}}
-            {:sem {:pred :hope}}]
+            {:transitivity :intransitive
+             :sem {:pred :hope}}]
  "estudiar" [{:sem {:pred :study}}]
  "esquiar" [{:sem {:pred :ski}}]
  "evitar" [{:sem {:pred :avoid}}]

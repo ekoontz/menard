@@ -7,6 +7,7 @@
 
             [menard.español :as es]
             [menard.español.curated-verbs :as curated]
+            [menard.español.model :use create-target-model-from-verbs]
             [menard.lexiconfn :as l]
             [menard.model :as model]
             [menard.morphology.emojis :as em]
@@ -16,7 +17,7 @@
             #?(:cljs [cljslog.core :as log])))
 
 
-(def developer-mode? true)
+(def developer-mode? false)
 
 ;; if you made changes to these, you can uncomment them to reload them
 ;; so that in turn the below model will be reloaded with these changes:
@@ -429,6 +430,12 @@
              :ref {:a 2, :context :informal, :human? true, :number :sing}
              :pred :you}]))))
 
+(defn emoji-component [input]
+  (clojure.string/replace input #"[A-Za-z ]+" ""))
+
+(defn non-emoji-component [input]
+  (clojure.string/replace input #" [^A-Za-z ]+$" ""))
+  
 (deftest lo-veo-parsing
   (let [lo-veo (->> "lo veo"
                     es/parse
@@ -445,12 +452,13 @@
     (is (= #{true}
            (->> i-see-you
                 (map en/morph)
-                (map #(clojure.string/replace % #"[A-Za-z ]+" ""))
+                (map emoji-component)
                 (map #(contains? (set menard.morphology/formal-masculine) %))
                 set)))
     (is (= #{"I see you"}
            (->> i-see-you
                 (map en/morph)
+                (map non-emoji-component)
                 (map #(clojure.string/replace % #" [^A-Za-z ]+$" ""))
                 set)))
     (is (= #{"I see it"}
@@ -510,77 +518,52 @@
                 (map en/morph)
                 set)))))
 
-(defn filter-lexicon [curated-lex verbs-from-set]
-  (->> (keys curated-lex) 
-       (map (fn [k] (let [filtered-values (->>
-                                           (get curated-lex k)
-                                           (filter #(or
-                                                     (contains? verbs-from-set k)
-                                                     (= true (u/get-in % [:aux?]))
-                                                     (not (= :verb (u/get-in % [:cat]))))))]
-                      (if (seq filtered-values)
-                        [k filtered-values]))))
-       (filter #(not (nil? %)))))
-
-(defn create-target-model-from-verbs [verbs]
-  (let [verbs [{:canonical "ver"}]]
-      (-> (merge @curated/model
-             {:indices (model/fill-lexicon-indexes
-                        (into {} (filter-lexicon (:lexicon @curated/model) (->> verbs (map :canonical) set))))
-              :name (str (:name @curated/model) " filtered with some verbs.")})
-      (model/add-functions true)
-      ref)))
-
-(deftest lo-veo
+(deftest lo-veo-translation
   (let [model (create-target-model-from-verbs [{:canonical "veo"}])]
-    (let [target-spec {:sem {:tense :present, :aspect :simple},
-                       :agr {:number :sing, :person :1st},
+
+    ;; lo-veo where 'lo' means 'he'
+    (let [target-spec-he {:sem {:tense :present
+                             :aspect :simple
+                             :obj {:pred :he}}
+                       :agr {:number :sing
+                             :person :1st}
                        :cat :verb
-                       :subcat [],
+                       :subcat []
                        :phrasal? true
-                       :root "ver"
-                       :comp {:phrasal? false
-                              :canonical "lo"}}
-          target-expression (-> target-spec (es/generate model))]
-          (log/info (str "target-expression: " (-> target-expression es/syntax-tree)))
-          (is (map? target-expression))
-          (let [english-spec (-> target-expression translate/es-structure-to-en-spec)]
-            (is (map? english-spec))
+                       :root "ver"}
+          target-expression-he (-> target-spec-he (es/generate model))]
+          (is (= "lo veo" (-> target-expression-he es/morph)))
+          (let [english-spec (-> target-expression-he translate/es-structure-to-en-spec)]
             (is (= "[s(:present-simple) .I +[vp +see .him]]" (-> english-spec en/generate en/syntax-tree)))))
-    (let [target-spec {:sem {:tense :present, :aspect :simple},
-                       :agr {:number :sing, :person :2nd},
-                       :cat :verb
-                       :subcat [],
-                       :phrasal? true
-                       :root "ver"
-                       :comp {:phrasal? false
-                              :canonical "lo"}}
-          target-expression (-> target-spec (es/generate model))]
-          (log/info (str "target-expression: " (-> target-expression es/syntax-tree)))
-          (is (map? target-expression))
-          (let [english-spec (-> target-expression translate/es-structure-to-en-spec)]
-            (is (map? english-spec))
-            (is (= "[s(:present-simple) .you +[vp +see .him]]" (-> english-spec en/generate en/syntax-tree)))))))
 
-(deftest footest
-  (let [target-spec {:sem {:tense :present,
-                           :aspect :simple,
-                           :subj {:ref {:context :formal}}},
-                     :agr {:number :sing,
-                           :person :2nd},
-                     :cat :verb,
-                     :subcat [],
-                     :phrasal? true,
-                     :root "ver",
-                     :comp {:phrasal? false, :canonical "lo"}}
-        es-expression (-> target-spec (es/generate model))
-        en-spec (-> es-expression translate/es-structure-to-en-spec)]
-    (println (str "es: " (-> es-expression es/syntax-tree)))
-    (println (str "es-subj: " (-> es-expression (u/get-in [:sem :subj]) menard.lexiconfn/pprint)))
-    (println (str "es head agr: " (-> es-expression (u/get-in [:head :agr]) menard.lexiconfn/pprint)))
-    (println (str "es head istp: " (-> es-expression (u/get-in [:head :istp]) menard.lexiconfn/pprint)))
-    (println (str "en-spec: " (-> en-spec menard.lexiconfn/pprint)))
-    (println (str "en: " (-> en-spec en/generate en/syntax-tree)))
-    (is (= 0 1))))
+    ;; lo-veo where 'lo' means 'you (singular, formal, masculine)'
+    (let [target-spec-you-masc {:sem {:tense :present
+                                      :aspect :simple
+                                      :obj {:pred :you
+                                            :gender :masc
+                                            :ref {:context :formal
+                                                  :number :sing}}}
+                                :agr {:number :sing
+                                      :person :1st}
+                                :cat :verb
+                                :subcat []
+                                :phrasal? true
+                                :root "ver"}
+          target-expression-you (-> target-spec-you-masc (es/generate model))]
+      (is (= "lo veo" (-> target-expression-you es/morph)))
+      (let [english-spec (-> target-expression-you translate/es-structure-to-en-spec)]
+        (is (= (-> english-spec
+                   en/generate
+                   en/morph
+                   non-emoji-component)
+               "I see you"))
+        (is (contains? (set menard.morphology/formal-masculine)
+                       (-> english-spec
+                           en/generate
+                           en/morph
+                           emoji-component)))))))
 
+
+
+                       
 

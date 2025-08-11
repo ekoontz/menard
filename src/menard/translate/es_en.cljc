@@ -78,9 +78,9 @@
 (defn es-structure-to-en-structure [es-structure & [es-model en-model]]
   (let [english-spec (es-structure-to-en-spec es-structure)
         en-model (or en-model @en-complete/model)]
-    (log/info (str "es-structure-to-en-structure: " (es/syntax-tree es-structure)))
-    (log/info (str "es-structure-to-en-structure: english input spec for generation: " (l/pprint english-spec)))
-    (log/info (str "es-structure-to-en-structure: english input spec for generation (serialized): " (dag_unify.serialization/serialize english-spec)))
+    (log/debug (str "es-structure-to-en-structure: " (es/syntax-tree es-structure)))
+    (log/debug (str "es-structure-to-en-structure: english input spec for generation: " (l/pprint english-spec)))
+    (log/debug (str "es-structure-to-en-structure: english input spec for generation (serialized): " (dag_unify.serialization/serialize english-spec)))
     (let [en-expression (try (-> english-spec (en/generate en-model))
                              (catch Exception e
                                (log/error (str "es-to-en: failed to generate an English expression "

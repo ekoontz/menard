@@ -341,8 +341,8 @@
                              :rule "s-head-last"}]
                         (let [es-generated (-> es-spec es/generate)
                               en-generated (-> es-generated translate/es-structure-to-en-structure)]
-                          (log/info (str "es: " (-> es-generated es/syntax-tree)))
-                          (log/info (str "en: " (-> en-generated en/syntax-tree)))
+                          (log/debug (str "es: " (-> es-generated es/syntax-tree)))
+                          (log/debug (str "en: " (-> en-generated en/syntax-tree)))
                           (is (not (nil? es-generated)))
                           (is (not (nil? en-generated)))))))))
 

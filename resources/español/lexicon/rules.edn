@@ -14,6 +14,7 @@
   :if {:cat :verb
        :stems ::unspec}
   :then [{:stems {:boot? false
+                  :imperfect? false
                   :futuro? false
                   :preterito? false}}]}
 
@@ -28,6 +29,12 @@
        :stems? true
        :stems {:futuro ::unspec}}
   :then [{:stems {:futuro? false}}]}
+
+ {:rule :imperfect-stem?
+  :if {:cat :verb
+       :stems? true
+       :stems {:imperfect ::unspec}}
+  :then [{:stems {:imperfect? false}}]}
 
  {:rule :preterito-stem?
   :if {:cat :verb
@@ -120,7 +127,58 @@
                         :agr {:person :3rd :number :plur}
                         :surface {:prefix [:stems :boot]
                                   :suffix "an"}}]}]}
-
+ 
+ ;; TODO: add support for imperfect stems with -ar and -ir verbs,
+ ;; similar to this rule's support for -er verbs.
+ {:rule :imperfect-stem-er
+  :if {:cat :verb
+       :stems {:imperfect? true}
+       :canonical #"(.*)er(se)?$"}
+  :then [{:exceptions [{:infl :imperfect
+                        :agr {:person :1st
+                              :number :sing}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ía"}}
+                       {:infl :imperfect
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? false}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ías"}}
+                       {:infl :imperfect
+                        :agr {:person :2nd
+                              :number :sing
+                              :formal? true}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ía"}}
+                       {:infl :imperfect
+                        :agr {:person :3rd
+                              :number :sing}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ía"}}
+                       {:infl :imperfect
+                        :agr {:person :1st
+                              :number :plur}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "íamos"}}
+                       {:infl :imperfect
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? false}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ías"}}
+                       {:infl :imperfect
+                        :agr {:person :2nd
+                              :number :plur
+                              :formal? true}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ían"}}
+                       {:infl :imperfect
+                        :agr {:person :3rd
+                              :number :plur}
+                        :surface {:prefix [:stems :imperfect]
+                                  :suffix "ían"}}]}]}
+  
  {:rule :future-and-conditional-stem
   :if {:cat :verb
        :stems {:futuro? true}}

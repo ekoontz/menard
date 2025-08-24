@@ -991,6 +991,7 @@
  [{:sem {:pred :see}
    :cat :verb
    :subcat-frames :both
+   :stems {:imperfect "ve"}
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},

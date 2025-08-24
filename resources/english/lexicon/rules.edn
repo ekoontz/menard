@@ -1156,7 +1156,6 @@
          {:infl :past-participle}
          {:infl :past-simple}]}
 
-
    {:rule :present-infl-to-present-tense
     :if {:cat :verb
          :aux? false

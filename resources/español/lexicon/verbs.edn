@@ -892,6 +892,7 @@
  [{:sem {:pred :see}
    :cat :verb
    :subcat-frames :both
+   :stems {:imperfect "ve"}
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},
@@ -900,32 +901,7 @@
      :agr {:person :1st, :number :sing},
      :surface "vi"}
     {:infl :participio
-     :surface "visto"}
-
-    {:infl :imperfect
-     :agr {:person :1st, :number :sing}
-     :surface "veía"}
-    {:infl :imperfect
-     :agr {:person :2nd, :number :sing, :formal? false}
-     :surface "veías"}
-    {:infl :imperfect
-     :agr {:person :2nd, :number :sing, :formal? true}
-     :surface "veía"}
-    {:infl :imperfect
-     :agr {:person :3rd, :number :sing}
-     :surface "veía"}
-    {:infl :imperfect
-     :agr {:person :1st, :number :plur}
-     :surface "veíamos"}
-    {:infl :imperfect
-     :agr {:person :2nd, :number :plur, :formal? false}
-     :surface "veíais"}
-    {:infl :imperfect
-     :agr {:person :2nd, :number :plur, :formal? true}
-     :surface "veían"}
-    {:infl :imperfect
-     :agr {:person :3rd, :number :plur}
-     :surface "veían"}]}]
+     :surface "visto"}]}]
 
 ;;   "vestirse" {}
 ;;   "viajar" {}

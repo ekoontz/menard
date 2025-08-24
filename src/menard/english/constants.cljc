@@ -5,7 +5,8 @@
         number (atom :top)
         context (atom :top)
         case (atom :top)
-        sem (atom {:ref {:context context}})]
+        sem (atom {:gender gender
+                   :ref {:context context}})]
     {:case case
      :sem sem
      :head {:agr {:gender gender

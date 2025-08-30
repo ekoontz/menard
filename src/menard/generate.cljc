@@ -87,7 +87,7 @@
 (defn generate
   "Generate a single expression that satisfies _spec_ given the
   _grammar_, and the lexicon indexed by _lexicon-index-fn_, and an
-  optionaly function to print out a tree _syntax-tree-fn_. See 
+  optionaly function to print out a tree _syntax-tree-fn_. See
   nederlands/generate and english/generate for sample syntax-tree functions."
   ([spec grammar lexicon-index-fn syntax-tree-fn]
    (log/debug (str "menard.generate: start."))
@@ -136,7 +136,7 @@
             (do
               (log/debug (str "too deep: giving up on this tree: " (syntax-tree-fn tree) "."))
               (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))
-            
+
 
             (and (u/get-in tree [::done?])
                  (false? (u/get-in tree [:phrasal?]))
@@ -189,7 +189,7 @@
                      (empty? x))
                 :top
                 :else x)))))
-             
+
 (defn add
   "Return a lazy sequence of all trees made by adding every possible
   leaf and tree to _tree_. This sequence is the union of all trees
@@ -205,7 +205,7 @@
         (cond
           ;; condition 0: tree is :fail.
           (= tree :fail) :tree-is-fail
-          
+
           ;; condition 1: tree is done: return a list with one member: the tree.
           (u/get-in tree [::done?]) :done
 
@@ -218,10 +218,10 @@
            (= true (u/get-in tree (concat at [:phrasal?])))
            (u/get-in tree (concat at [:head]))
            (u/get-in tree (concat at [:comp]))) :rules-only
-          
+
           ;; condition 3: add only lexemes at location _at_:
           (= false (u/get-in tree (concat at [:phrasal?]))) :lexemes-only
-          
+
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
     (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree (concat (butlast at) [:rule])))))
@@ -291,7 +291,7 @@
          (do
            (log/debug (str "taking only: " (u/get-in spec [::max]) " trees."))
            (take (u/get-in spec [::max]) %))
-             
+
          %))
 
      (#(do (when (and (empty? %)
@@ -332,12 +332,12 @@
                                (log/debug (str "found lexeme: " (syntax-tree lexeme))))
                              %)))
                %))
-           
+
            (#(if (and exception-if-no-lexemes-found? (empty? %))
                (do
                  (exception (str "no lexemes found at all for spec: " (l/pprint spec))))
                %))
-           
+
            (#(if (and (empty? %)
                       (= false allow-lexeme-backtracking?)
                       (= false (u/get-in spec [:phrasal?] ::none)))
@@ -409,19 +409,19 @@
 
      ;; only phrasal-only rules should be considered, since we are
      ;; trying to add a parent tree node that will have children:
-     (filter #(u/get-in % [:phrasal?] true))     
-     
+     (filter #(u/get-in % [:phrasal?] true))
+
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name)
                   (do
                     (log/debug (str "add-rule: looking at rule named: " (u/get-in % [:rule])))
                     (= (u/get-in % [:rule]) rule-name))))
-     
+
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
 
      shuffle
-     
+
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      ;;
      ;;            tree->     /\
@@ -501,7 +501,7 @@
                  (when (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
                    (log/info (str "lexeme returned from lexicon-index-fn: " (u/get-in lexeme [:canonical]))))
                  true))
-       
+
        (filter (fn [{lexeme :lexeme
                      unify :unify}]
                  (cond
@@ -548,15 +548,15 @@
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
-  
+
   (let [retval
         (cond
           (= :fail tree)
           []
-          
+
           (= (u/get-in tree [::done?]) true)
           []
-          
+
           (= (u/get-in tree [:phrasal?]) false)
           []
 
@@ -565,7 +565,7 @@
 
           (= ::none (u/get-in tree [::started?] ::none))
           []
-          
+
           (and (u/get-in tree [:head ::done?])
                (u/get-in tree [:comp ::done?]))
           []

@@ -26,14 +26,14 @@
   (load "../../../../src/menard/subcat")
   (load "../../../../src/menard/español")
   (load "../../../../src/menard/español/tenses")
-  
-  
+
+
   ;; reload the models every time to help with debugging the model:
   (load "../../../../src/menard/español/curated_verbs")
   ;; TODO: load a subset of the default "complete" model
   ;; rather than the whole thing:
   (load "../../../../src/menard/english/complete"))
-  
+
 (deftest subj-pred
   (is (or  (= "I want" (translate/es-to-en "yo quiero"))
            (= "I like" (translate/es-to-en "yo quiero"))
@@ -124,7 +124,7 @@
                                      :pred :ask-for}
                                :root "preguntar"
                                :subcat []})
-  
+
 (deftest noun-phrases
   (is (= "the black cats"
          (translate/es-to-en "los gatos negros"))))
@@ -360,7 +360,7 @@
                 :subj {:existential? false,
                        :mod (),
                        :ref {:human? true,
-                             :context :informal                             
+                             :context :informal
                              :number :sing},
                        :pred :i},
                 :mod (),
@@ -435,7 +435,7 @@
 
 (defn non-emoji-component [input]
   (clojure.string/replace input #" [^A-Za-z ]+$" ""))
-  
+
 (deftest lo-veo-parsing
   (let [lo-veo (->> "lo veo"
                     es/parse

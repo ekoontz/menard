@@ -17,19 +17,21 @@
   (is (= '("[s(:present-simple) .[pronoun+emoji +you(2) .👦🧒🏼] +sleep]")
          (->> "you 👦🧒🏼 sleep" en/parse (map en/syntax-tree))))
   (is (= 
-       '({:obj :none,
-          :subj
-          {:prop {:animate true},
-           :existential? false,
-           :mod [],
-           :locative? false,
-           :ref {:context :informal, :number :plur},
-           :pred :you},
+       [{:obj :none,
+         :subj
+         {:prop {:animate true},
+          :gender :masc
+          :existential? false,
           :mod [],
-          :pred :sleep,
-          :aspect :simple,
-          :tense :present})
-       (->> "you 👦🧒🏼 sleep" en/parse (map #(u/get-in % [:sem])) (map l/pprint)))))
+          :locative? false,
+          :ref {:context :informal, :number :plur},
+          :pred :you},
+         :mod [],
+         :pred :sleep,
+         :aspect :simple,
+         :tense :present}]
+       (->> "you 👦🧒🏼 sleep" en/parse (map #(u/get-in % [:sem])) (map l/pprint) vec))))
+
 
 
 

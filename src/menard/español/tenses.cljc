@@ -8,7 +8,7 @@
 
 (def finite-aux-tenses
   (->> (-> "español/finite-aux-tenses.edn" resource slurp read-string)
-       (map #(unify % {:cat :verb}))))       
+       (map #(unify % {:cat :verb}))))
 
 (def finite-tenses
   (concat finite-nonaux-tenses finite-aux-tenses))

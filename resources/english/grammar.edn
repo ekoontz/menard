@@ -133,7 +133,8 @@
   :unify [menard.ug/head-aux
           menard.ug/head-is-root
           menard.ug/head-last
-          menard.ug/head-modal          
+          menard.ug/head-modal
+          menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem
           menard.subcat/a]}

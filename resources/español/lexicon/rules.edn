@@ -127,7 +127,7 @@
                         :agr {:person :3rd :number :plur}
                         :surface {:prefix [:stems :boot]
                                   :suffix "an"}}]}]}
- 
+
  ;; TODO: add support for imperfect stems with -ar and -ir verbs,
  ;; similar to this rule's support for -er verbs.
  {:rule :imperfect-stem-er
@@ -178,7 +178,7 @@
                               :number :plur}
                         :surface {:prefix [:stems :imperfect]
                                   :suffix "ían"}}]}]}
-  
+
  {:rule :future-and-conditional-stem
   :if {:cat :verb
        :stems {:futuro? true}}
@@ -329,7 +329,7 @@
   :if {:cat :verb
        :reflexive? ::unspec}
   :then [{:reflexive? false}]}
- 
+
  {:rule :non-reflexive
   :if {:cat :verb
        :aux? false
@@ -348,14 +348,14 @@
          {:transitivity :transitive
           :sem {:subj {:ref {:human? true}}
                 :obj {:ref {:human? false}}}}]}
- 
+
  {:rule :reflexive-transtivity-default
   :if {:cat :verb
        :aux? false
        :reflexive? true
        :transitivity ::unspec}
   :then [{:transitivity :intransitive}]}
- 
+
  {:rule :reflexive-intransitive
   :if {:cat :verb
        :aux? false
@@ -427,7 +427,7 @@
                          :reflexive? true}
                      :2 []
                      :3 []}}])}
- 
+
  {:rule :aux-default
   :if {:cat :verb
        :aux? ::unspec}
@@ -499,7 +499,7 @@
           :subcat []}
 
          {:agr {:person :3rd
-                :gender :masc                
+                :gender :masc
                 :number :sing}
           :sem {:subj {:pred :he}}
           :subcat []}
@@ -511,7 +511,7 @@
           :subcat []}
 
          {:agr {:person :3rd
-                :gender :masc                
+                :gender :masc
                 :number :sing}
           :sem {:subj {:pred :it}}
           :subcat []}
@@ -533,7 +533,7 @@
           :subcat []}
 
          {:agr {:person :3rd
-                :gender :masc                
+                :gender :masc
                 :number :plur}
           :sem {:subj {:pred :they}}
           :subcat []}
@@ -623,7 +623,7 @@
                                 :number :sing}}}}
 
             ;; los veo        -> I see them (masc)
-            ;; las veo        -> I see them (fem)            
+            ;; las veo        -> I see them (fem)
             {:istp? true
              :istp 5
              :agr {:person :1st
@@ -712,7 +712,7 @@
                                 :gender :fem}}}}
 
             ;; lo ve           -> You (formal) see it (masc)
-            ;; la ve           -> You (formal) see it (fem)     
+            ;; la ve           -> You (formal) see it (fem)
             {:istp? true
              :istp 14
              :agr {:person :2nd
@@ -731,7 +731,6 @@
                    :obj they}
              :subcat {:1 {:agr {:person :3rd}}}}
 
-            
             ])}
 
  {:rule :istp-default
@@ -756,7 +755,7 @@
                      :2 []
                      :3 []}
             :sem {:obj obj}})]}
- 
+
  ;; TODO: do implicit subject for :modal :infinitive: (take into account implicit-subject? true/false)
  ;; or incorporate it in the already-existing implicit subject-handling in the above rules.
  {:rule :subcat-intransitive-modal
@@ -771,7 +770,7 @@
                      :3 []}
             :sem {:subj subj
                   :obj {:pred :anaphoric}}}])}
- 
+
  ;; transitive, non-reflexive, explicit subject:
  ;; force the subj and obj to be distinct,
  ;; so that semantic transfer to reflexive
@@ -849,7 +848,7 @@
   :if {:cat :verb
        :object-constraints ::unspec}
   :then [{:object-constraints :none}]}
- 
+
  {:rule :object-constraints
   :if {:cat :verb
        :object-constraints {:top :top}
@@ -857,7 +856,7 @@
   :then [(let [ref (atom :top)]
            {:sem {:obj {:ref ref}}
             :object-constraints ref})]}
- 
+
  {:rule :subject-verb-agreement
   :if {:cat :verb
        :implicit-subject? false
@@ -890,7 +889,7 @@
   :if {:cat :verb
        :subcat {:3 {:cat :noun}}}
   :then [{:subcat {:3 {:subcat []}}}]}
- 
+
  {:rule :existential-false-pronouns
   :if {:cat :noun
        :pronoun? true
@@ -914,7 +913,7 @@
   :if {:cat :noun
        :agr {:formal? ::unspec}}
   :then [{:agr {:formal? false}}]}
- 
+
  ;; moving from: {:formal? true}
  ;;          to: {:formality :formal}
  {:rule :pronoun-formality-migration-of-true
@@ -930,7 +929,7 @@
        :pronoun? true
        :agr {:formal? false}}
   :then [{:agr {:formality :informal}}]}
- 
+
  {:rule :verbs-have-empty-sem-modifiers
   :if {:cat :verb
        :sem {:mod ::unspec}}
@@ -941,7 +940,7 @@
        :sem {:subj {:ref {:human? ::unspec}}}}
   :then [{:sem {:subj {:ref {:human? true}}}}]}
  ;; </verb rules>
- 
+
  ;; <noun rules>
  {:rule :propernoun-misc-defaults
   :if {:cat :noun
@@ -961,7 +960,7 @@
        :propernoun? true
        :sem {:mod ::unspec}}
   :then [{:sem {:mod []}}]}
- 
+
  {:rule :propernoun-person-default
   :if {:cat :noun
        :propernoun? true
@@ -1031,7 +1030,7 @@
   :then [(let [number (atom :top)]
            {:agr {:number number}
             :sem {:ref {:number number}}})]}
- 
+
  {:rule :common-noun-1
   :if {:cat :noun
        :pronoun? false
@@ -1057,5 +1056,5 @@
   :then [{:modifies-noun :post}]}
 
  ;; </noun rules>
- 
+
  ]

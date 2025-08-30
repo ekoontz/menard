@@ -1172,5 +1172,13 @@
          :post-lex-rules-stop? ::unspec}
     :then [{:sem {:tense :past
                   :aspect :simple}}]}
+
+ {:rule :aux-reflexive
+  :if {:cat :verb
+       :aux? true
+       :subcat {:2 {:top :top}}}
+  :then [(let [reflexive? (atom :top)]
+           {:reflexive? reflexive?
+            :subcat {:2 {:reflexive? reflexive?}}})]}
  ]
 

@@ -3,13 +3,13 @@
  {:rule "np"
   :cat :noun
   :head {:phrasal? true}
-  
+
   :unify [menard.nesting/nest-only
           menard.subcat/a
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-rule
-          menard.ug/head-sem]}          
+          menard.ug/head-sem]}
 
  {:rule "np"
   :cat :noun
@@ -20,9 +20,9 @@
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-rule
-          menard.ug/head-sem]}          
+          menard.ug/head-sem]}
 
- 
+
  {:rule "nbar" ;; '[nbar +gato .negro]'
   :cat :noun
   :head {:pronoun? false
@@ -66,7 +66,7 @@
   :head {:phrasal? false} ;; prevent e.g. "[s-head-first(:preterito-perfecto) +[vp-aux-i(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido] .yo]"
   :options menard.español.tenses/finite-aux-tenses
   :unify [menard.subcat/a
-          menard.ug/head-aux          
+          menard.ug/head-aux
           menard.ug/head-is-root
           menard.ug/head-first
           menard.ug/head-reflexive
@@ -78,7 +78,7 @@
   :cat :verb
   :options menard.español.tenses/finite-tenses
   :unify [menard.subcat/a
-          menard.ug/head-aux          
+          menard.ug/head-aux
           menard.ug/head-is-root
           menard.ug/head-last
           menard.ug/head-reflexive

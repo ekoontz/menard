@@ -295,13 +295,13 @@
             ;; well as formal:
             {:case :nom
              :agr {:number :plur
-                   :formal? false                   
+                   :formal? false
                    :person :2nd}
              :sem {:ref {:human? true
                          :context :informal}
                    :pred :you}
              :reflexive? false}]
- 
+
  ;; TODO: this is commented out for now because we want to
  ;; focus on Latin American Spanish, but eventually also support
  ;; Spanish in Spain by moving this to a separate file and loading in a separate model:
@@ -314,7 +314,7 @@
  ;;                             :context :formal}
  ;;                       :pred :you}
  ;;                 :reflexive? false}]
- ;;     
+ ;;
  ;;     "vosotras" [{:case :nom
  ;;                  :agr {:number :plur
  ;;                        :gender :fem
@@ -325,7 +325,7 @@
  ;;                              :context :informal}
  ;;                        :pred :you}
  ;;                  :reflexive? false}]
- ;;     
+ ;;
  ;;     "vosotros" [{:case :nom
  ;;                  :agr {:number :plur
  ;;                        :gender :masc

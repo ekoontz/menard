@@ -17,7 +17,7 @@
   :sem {:number? true}
   :unify [menard.ug/head-first
           menard.ug/times]}
- 
+
  {:rule "intensifier" ;; 'very small'
   :cat :adjective
   :sem {:number? false}
@@ -27,7 +27,7 @@
           menard.ug/head-first
           menard.ug/parent-sem-head
           menard.subcat/a]}
- 
+
  {:rule "nbar" ;; '[nbar .black +cat]'
   :cat :noun
   :sem {:mod []}
@@ -54,10 +54,10 @@
           menard.ug/head-cat
           menard.ug/head-first
           menard.ug/head-sem]}
- 
+
  ;; np with no determiner, e.g.:
  ;; 'big cats' in 'big cats sleep'.
- {:rule "np:1" 
+ {:rule "np:1"
   :np? true
   :cat :noun
   :subcat []
@@ -120,12 +120,12 @@
   :unify [menard.nesting/verb
           menard.ug/head-is-root
           menard.ug/head-first
-          menard.ug/head-modal          
+          menard.ug/head-modal
           menard.ug/head-rule
           menard.ug/head-sem-tense
           menard.ug/sem-mod-first-is-comp-sem
           menard.subcat/b]}
- 
+
  {:rule "s"
   :cat :verb
   :subcat []
@@ -144,7 +144,7 @@
   :slash? false
   :unify [menard.ug/head-aux
           menard.ug/head-first
-          menard.ug/head-modal          
+          menard.ug/head-modal
           menard.ug/head-is-root
           menard.ug/head-reflexive
           menard.ug/head-rule
@@ -177,14 +177,14 @@
   :aux? true
   :unify [menard.ug/head-aux
           menard.ug/head-first
-          menard.ug/head-modal          
+          menard.ug/head-modal
           menard.ug/head-is-root
           menard.ug/head-reflexive
           menard.ug/head-rule
           menard.ug/head-sem
           menard.ug/slash-is-head-slash
           menard.subcat/i]}
- 
+
  {:rule "adj-p" ;; [adj-p +able .[to sleep]], [adj-p +able .to]
   :cat :adjective
   :head {:phrasal? false}
@@ -197,8 +197,8 @@
           menard.ug/head-rule
           menard.ug/head-sem
           menard.subcat/d]}
- 
- {:rule "pp:2" 
+
+ {:rule "pp:2"
   :cat :prep
   :unify [menard.subcat/a
           menard.ug/head-is-root

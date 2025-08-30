@@ -5,7 +5,7 @@
             [menard.lexiconfn :as l]
             [menard.translate.spec :refer [es-to-en-spec]]
             [menard.nederlands :as nl]
-            [menard.nederlands.complete :as complete]            
+            [menard.nederlands.complete :as complete]
             [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
             [dag_unify.serialization :refer [deserialize serialize]]
@@ -108,7 +108,7 @@
                          (and (true? (u/get-in x [:mods-nested?]))
                               (false? (u/get-in y [:mods-nested?])))
                          true
-                         
+
                          (and (= :verb (u/get-in x [:cat]))
                               (= :verb (u/get-in y [:cat]))
                               (= ::none (u/get-in x [:mod] ::none))
@@ -152,7 +152,7 @@
                              ;; 1. subcat is empty (e.g. noun phrases rather than nbars)
                              ;; 2. more semantic information (where the sem value is larger in string length terms)
                              sort-parses
-                             
+
                              ;; and take only one parse to test against:
                              (take 1))
                         first

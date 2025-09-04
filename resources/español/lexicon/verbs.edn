@@ -27,6 +27,9 @@
  "aprobar" [{:sem {:pred :approve}}]
  "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
                {:sem {:pred :enjoy}}]
+ 
+  "arreglar" [{:sem {:pred :fix}}]
+ 
  "asegurar" [{:sem {:pred :assure}}
              {:sem {:pred :insure}}]
  "aumentar" [{:sem {:pred :increase}}]

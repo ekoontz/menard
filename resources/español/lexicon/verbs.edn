@@ -41,6 +41,7 @@
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "beber" [{:sem {:pred :drink}}]
+ "borrar" [{:sem {:pred :erase}}]
  "buscar" [{:sem {:pred :look-for}}
            {:sem {:pred :look-up}}]
 
@@ -210,6 +211,7 @@
  "esperar" [;; {:sem {:pred :wait-for}}
             {:sem {:pred :hope}}]
  "estudiar" [{:sem {:pred :study}}]
+ "esquiar" [{:sem {:pred :ski}}]
  "evitar" [{:sem {:pred :avoid}}]
  "existir" [{:sem {:pred :exist}}]
  "explicar"
@@ -529,7 +531,7 @@
                       :subj {:ref {:human? true}}}}]
 
  "limpiar" [{:sem {:pred :clean}}]
-
+ "llamar" [{:sem {:pred :call}}]
  "llamarse" [{:sem {:pred :be-called}}]
 
  "llegar" [{:sem {:pred :arrive}}]
@@ -618,7 +620,7 @@
  "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]
  "pintar" [{:sem {:pred :paint}}]
-
+ "platicar" [{:sem {:pred :chat}}]
  "poder"
  (let [stems {:boot "pued"
               :futuro "podr"
@@ -648,6 +650,7 @@
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
  
+ "praticar" [{:sem {:pred :practice}}]
  "preguntar" [{:sem {:pred :ask-for}}]
  "preocuparse" [{:sem {:pred :worry}}]
 
@@ -663,12 +666,16 @@
               :subcat-frames :both
               :sem {:pred :want}}])
 
+ "recibir" [{:sem {:pred :receive}}]
+
  "reparar" [{:cat :verb
              :sem {:pred :repair}}]
 
  "responder" [{:cat :verb
                :sem {:pred :respond}}]
 
+ "revisar" [{:sem {:pred :review}}]
+ 
  "romper"  [{:cat :verb
              :sem {:pred :break}}]
 
@@ -754,6 +761,11 @@
 ;;    "valer" {}
 ;;   "vender" {}
 
+ 
+ "tocar" [{:sem {:pred :play-music}}]
+ 
+ "tomar" [{:sem {:pred :drink-t...}}]
+ 
  "venir" [{:sem {:subj {:animate true}, :pred :come},
            :transitivity :intransitive
            :cat :verb,

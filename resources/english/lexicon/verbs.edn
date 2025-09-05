@@ -185,6 +185,7 @@
  "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]
  "cause" [{:sem {:pred :cause}}]
+ "chat" [{:sem {:pred :chat}}]
  "change" [{:sense 1
             :sem {:pred :change}}
            {:sense 2
@@ -340,9 +341,12 @@
  "draw" [{:sem {:pred :draw}
           :exceptions [{:infl :past-simple :surface "drew"}
                        {:infl :past-participle :surface "drawn"}]}]
- "drink" [{:sem {:pred :drink}
-           :exceptions [{:infl :past-simple :surface "drank"}
-                        {:infl :past-participle :surface "drunk"}]}]
+ "drink" (let [exceptions [{:infl :past-simple :surface "drank"}
+                           {:infl :past-participle :surface "drunk"}]]
+           [{:sem {:pred :drink}
+             :exceptions exceptions}
+            {:sem {:pred :drink-t}
+             :exceptions exceptions}])
  "drive" [{:sem {:pred :drive}
           :exceptions [{:infl :past-simple :surface "drove"}
                        {:infl :past-participle :surface "driven"}]}]
@@ -355,6 +359,7 @@
  "emigrate" [{:sem {:pred :emigrate}}]
  "enjoy" [{:sem {:pred :enjoy}}]
  "enter" [{:sem {:pred :enter}}]
+ "erase" [{:sem {:pred :erase}}] 
  "escape" [{:sem {:pred :escape}}] 
  "exist" [{:sem {:pred :exist}}]
  "experience" [{:sem {:pred :experience}}]
@@ -387,6 +392,7 @@
  "fit" [{:sem {:pred :fit}
          :exceptions [{:infl :past-simple :surface "fit"}
                       {:infl :past-participle :surface "fit"}]}]
+ "fix" [{:sem {:pred :fix}}]
  "follow" [{:sem {:pred :follow}}]
  "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
                           {:infl :past-participle :surface "forgotten"}]]
@@ -667,7 +673,9 @@
          :exceptions [{:infl :past-simple :surface "paid"}
                       {:infl :past-participle :surface "paid"}]}]
  "perform" [{ :sem {:pred :perform}}]
- "play" [{ :sem {:pred :play}}]
+ "play" [{:sem {:pred :play-music}
+          :note "music"}]
+ "practice" [{:sem {:pred :practice}}]
  "preserve" [{:sem {:pred :preserve}}]
 
  ;; TODO: add :obj as obligatory
@@ -699,10 +707,13 @@
                           {:infl :past-participle :surface "read" :note ["past"]}]]
           [{:exceptions exceptions  :sem {:pred :read}}])
  "realize" [{:sem {:pred :realize}}]
+ "receive" [{:sem {:pred :receive}}]
  "remain" [{:sem {:pred :remain}}]
- "remove" [{:sem {:pred :remove}}]
+ "remove" [{:sem {:pred :remove}}] 
  "repair" [{:sem {:pred :repair}}] 
- "respond" [{:sem {:pred :respond}}]  
+ "respond" [{:sem {:pred :respond}}]
+ "return" [{:sem {:pred :return}}] 
+ "review" [{:sem {:pred :review}}]   
  "ruin" [{:sem {:pred :ruin}}]
 
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
@@ -749,6 +760,10 @@
                          {:infl :past-participle :surface "sat"}]]
          [{:exceptions exceptions
            :sem {:pred :sit}}])
+ "ski" (let [exceptions [{:infl :past-simple :surface "skied"}
+                         {:infl :past-participle :surface "skied"}]]
+         [{:exceptions exceptions
+           :sem {:pred :ski}}])
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
            [{:exceptions exceptions

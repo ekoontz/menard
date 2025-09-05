@@ -27,9 +27,7 @@
  "aprobar" [{:sem {:pred :approve}}]
  "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
                {:sem {:pred :enjoy}}]
- 
-  "arreglar" [{:sem {:pred :fix}}]
- 
+ "arreglar" [{:sem {:pred :fix}}]
  "asegurar" [{:sem {:pred :assure}}
              {:sem {:pred :insure}}]
  "aumentar" [{:sem {:pred :increase}}]
@@ -751,7 +749,6 @@
  "tirar" [{:sem {:pred :throw-out}, :cat :verb}
           {:sem {:pred :throw}, :cat :verb}]
 
- ;;   "tocar" {}
  ;;   "tomar" {}
  ;;   "toser" {}
  ;;   "trabajar" {}
@@ -761,10 +758,9 @@
 ;;    "valer" {}
 ;;   "vender" {}
 
- 
  "tocar" [{:sem {:pred :play-music}}]
  
- "tomar" [{:sem {:pred :drink-t...}}]
+ "tomar" [{:sem {:pred :drink-t}}]
  
  "venir" [{:sem {:subj {:animate true}, :pred :come},
            :transitivity :intransitive

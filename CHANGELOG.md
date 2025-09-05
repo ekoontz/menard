@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.4] - 2025-09-05
+
+- Improve how reflexivity and transitivity are handled
+- Add more Spanish and English verbs
+
 ## [1.9.3] - 2025-05-29
 
 - Add ability to parse emojis into meanings (e.g. "you 🧓🏼👴🏽" means "formal 2nd person plural pronoun"

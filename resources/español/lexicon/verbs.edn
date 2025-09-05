@@ -1,9 +1,9 @@
 {
  "abandonar" [{:sem {:pred :abandon}}]
- "abrazar" [{:sem {:pred :hug}}]
-            :exceptions [{:infl :preterito,
-                          :agr {:person :1st, :number :sing},
-                          :surface "abracé"}]
+ "abrazar" [{:sem {:pred :hug}
+             :exceptions [{:infl :preterito,
+                           :agr {:person :1st, :number :sing},
+                           :surface "abracé"}]}]
  "abrir" [{:sem {:pred :open}
            :exceptions [{:infl :participio
                          :surface "abierto"}]}]

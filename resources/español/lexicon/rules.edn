@@ -254,12 +254,12 @@
                               :number :plur
                               :formal? true}
                         :surface {:prefix [:stems :preterito]
-                                  :suffix "eron"}}
+                                  :suffix "ieron"}}
                        {:infl :preterito
                         :agr {:person :3rd
                               :number :plur}
                         :surface {:prefix [:stems :preterito]
-                                  :suffix "eron"}}]}]}
+                                  :suffix "ieron"}}]}]}
 
  {:rule :reflexive-true
   :if {:cat :verb

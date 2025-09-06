@@ -570,7 +570,7 @@
 
     {:infl :present,
      :agr {:person :3rd, :number :plur},
-     :surface "oye"}
+     :surface "oyen"}
     {:infl :present,
      :agr {:person :1st, :number :plur},
      :surface "oímos"}

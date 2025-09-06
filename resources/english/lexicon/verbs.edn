@@ -706,7 +706,9 @@
          :exceptions [{:infl :past-simple :surface "paid"}
                       {:infl :past-participle :surface "paid"}]}]
  "perform" [{ :sem {:pred :perform}}]
- "play" [{:sem {:pred :play-music}
+ "play" [{:sem {:pred :play-games}
+          :note "games"}
+         {:sem {:pred :play-music}
           :note "music"}]
  "practice" [{:sem {:pred :practice}}]
  "prepare" [{:sem {:pred :prepare}}]

@@ -573,6 +573,9 @@
      :agr {:person :1st, :number :plur},
      :surface "oímos"}
     {:infl :present,
+     :agr {:person :2nd, :number :plur, :formal? false},
+     :surface "oís"}
+    {:infl :present,
      :agr {:person :2nd, :number :plur, :formal? true},
      :surface "oyen"}
     {:infl :present,
@@ -599,7 +602,10 @@
      :surface "oísteis"}
     {:infl :preterito,
      :agr {:person :3rd, :number :plur},
-     :surface "oyeron"}]}]
+     :surface "oyeron"}
+
+    {:infl :participio
+     :surface "oído"}]}]
 
  "olvidar" [{:sem {:pred :forget}}]
  "organizar" [{:sem {:pred :organize}}]

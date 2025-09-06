@@ -25,6 +25,11 @@
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :sing, :person :1st},
   :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1ía"],
+  :p [#"^(.*)ía$" "$1ír"],
+  :u
+  {:cat :verb, :infl :imperfect, :agr {:number :sing, :person :1st},
+  :reflexive? false}}
  {:g [#"^(.*)irse$" "$1ía"],
   :p [#"^(.*)ía$" "$1irse"],
   :u
@@ -60,6 +65,13 @@
   :reflexive? true}}
  {:g [#"^(.*)ir$" "$1ías"],
   :p [#"^(.*)ías$" "$1ir"],
+  :u
+  {:cat :verb,
+   :infl :imperfect,
+   :agr {:formal? false, :number :sing, :person :2nd},
+  :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1ías"],
+  :p [#"^(.*)ías$" "$1ír"],
   :u
   {:cat :verb,
    :infl :imperfect,
@@ -107,6 +119,13 @@
    :infl :imperfect,
    :agr {:formal? true, :number :sing, :person :2nd},
   :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1ía"],
+  :p [#"^(.*)ía$" "$1ír"],
+  :u
+  {:cat :verb,
+   :infl :imperfect,
+   :agr {:formal? true, :number :sing, :person :2nd},
+  :reflexive? false}}
  {:g [#"^(.*)irse$" "$1ía"],
   :p [#"^(.*)ía$" "$1irse"],
   :u
@@ -114,7 +133,6 @@
    :infl :imperfect,
    :agr {:formal? true, :number :sing, :person :2nd},
   :reflexive? true}}
-
  {:g [#"^(.*)ar$" "$1aba"],
   :p [#"^(.*)aba$" "$1ar"],
   :u
@@ -139,6 +157,11 @@
   :reflexive? true}}
  {:g [#"^(.*)ir$" "$1ía"],
   :p [#"^(.*)ía$" "$1ir"],
+  :u
+  {:cat :verb, :infl :imperfect, :agr {:number :sing, :person :3rd},
+  :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1ía"],
+  :p [#"^(.*)ía$" "$1ír"],
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :sing, :person :3rd},
   :reflexive? false}}
@@ -169,6 +192,11 @@
   :reflexive? true}}
  {:g [#"^(.*)ir$" "$1íamos"],
   :p [#"^(.*)íamos$" "$1ir"],
+  :u
+  {:cat :verb, :infl :imperfect, :agr {:number :plur, :person :1st},
+  :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1íamos"],
+  :p [#"^(.*)íamos$" "$1ír"],
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :plur, :person :1st},
   :reflexive? false}}
@@ -207,6 +235,13 @@
   :reflexive? true}}
  {:g [#"^(.*)ir$" "$1íais"],
   :p [#"^(.*)íais$" "$1ir"],
+  :u
+  {:cat :verb,
+   :infl :imperfect,
+   :agr {:formal? false, :number :plur, :person :2nd},
+  :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1íais"],
+  :p [#"^(.*)íais$" "$1ír"],
   :u
   {:cat :verb,
    :infl :imperfect,
@@ -254,6 +289,13 @@
    :infl :imperfect,
    :agr {:formal? true, :number :plur, :person :2nd},
   :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1ían"],
+  :p [#"^(.*)ían$" "$1ír"],
+  :u
+  {:cat :verb,
+   :infl :imperfect,
+   :agr {:formal? true, :number :plur, :person :2nd},
+  :reflexive? false}}
  {:g [#"^(.*)irse$" "$1ían"],
   :p [#"^(.*)ían$" "$1irse"],
   :u
@@ -283,6 +325,11 @@
   :reflexive? true}}
  {:g [#"^(.*)ir$" "$1ían"],
   :p [#"^(.*)ían$" "$1ir"],
+  :u
+  {:cat :verb, :infl :imperfect, :agr {:number :plur, :person :3rd},
+  :reflexive? false}}
+ {:g [#"^(.*)ír$" "$1ían"],
+  :p [#"^(.*)ían$" "$1ír"],
   :u
   {:cat :verb, :infl :imperfect, :agr {:number :plur, :person :3rd},
   :reflexive? false}}

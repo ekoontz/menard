@@ -183,6 +183,10 @@
  "dejar" [{:sem {:pred :leave-behind}}]
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
+ 
+  "desayunar" [{:sem {:pred :have breakfast}}
+              {:sem {:pred :have breakfast}}]
+ 
  "desear" [{:sem {:pred :desire}}]
  "despertarse" [{:sem {:pred :wake-up}
                  :stems {:boot "despiert"}}]

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.6] - 2025-09-05
+
+- Fix conjugation of verb "oír"
+
 ## [1.9.5] - 2025-09-05
 
 - Fix preterito stem: "saber" -> "superion"

@@ -525,6 +525,13 @@
            {:sense 7
             :aux? false
             :reflexive? false
+            :nominal-verb {:with "breakfast"}
+            :sem {:pred :have-breakfast}
+            :exceptions non-aux-exceptions}
+
+           {:sense 8
+            :aux? false
+            :reflexive? false
             :sem {:pred :be-required-to}
 
             ;; TODO:

@@ -668,13 +668,7 @@
      :surface "oyen"}
     {:infl :present,
      :agr {:person :3rd, :number :plur},
-<<<<<<< HEAD
      :surface "oyen"}
-    
-=======
-     :surface "oyeron"}
-
->>>>>>> 400c941f0 (copy verb fixes from null-subject-for-non-reflexives)
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "oí"}
@@ -749,12 +743,8 @@
     {:infl :participio
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
-<<<<<<< HEAD
  
  "praticar" [{:sem {:pred :practice}}]
-=======
-
->>>>>>> 400c941f0 (copy verb fixes from null-subject-for-non-reflexives)
  "preguntar" [{:sem {:pred :ask-for}}]
  "preocuparse" [{:sem {:pred :worry}}]
 
@@ -910,6 +900,5 @@
  "volver" [{:sem {:pred :return}
             :exceptions [{:infl :participo
                           :surface "vuelto"}]}]
-
  }
 

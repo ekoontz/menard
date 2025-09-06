@@ -555,30 +555,29 @@
  "negar" [{:sem {:pred :deny}, :stems {:boot "nieg"}}]
  "oír"
  [{:sem {:pred :hear},
+   :stems {:futuro "oir"}
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},
      :surface "oigo"}
     {:infl :present,
-     :agr {:person :2nd, :number :sing :formal false},
+     :agr {:person :2nd, :number :sing :formal? false},
      :surface "oyes"}
     {:infl :present,
-     :agr {:person :2nd, :number :sing :formal true},
+     :agr {:person :2nd, :number :sing :formal? true},
      :surface "oye"}
-
     {:infl :present,
      :agr {:person :3rd, :number :sing},
      :surface "oye"}
     {:infl :present,
      :agr {:person :1st, :number :plur},
      :surface "oímos"}
-
     {:infl :present,
-     :agr {:person :2nd, :number :plur},
-     :surface "oiste"}
+     :agr {:person :2nd, :number :plur, :formal? true},
+     :surface "oyen"}
     {:infl :present,
      :agr {:person :3rd, :number :plur},
-     :surface "oyeron"}
+     :surface "oyen"}
     
     {:infl :preterito,
      :agr {:person :1st, :number :sing},

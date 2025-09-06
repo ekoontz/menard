@@ -339,8 +339,13 @@
                     :agr {:person :3rd :number :sing}
                     :surface "speelt"}]]
    [{:exceptions exceptions
-     :sem {:pred :play
+     :sem {:pred :play-games
+           :subj {:prop {:animate true}}}} ;; TODO: move to encyclopedia.
+    {:exceptions exceptions
+     :sem {:pred :play-music
            :subj {:prop {:animate true}}}}]) ;; TODO: move to encyclopedia.
+
+
  
  "staan" (let [exceptions [{:infl :present
                             :agr {:number :sing

@@ -553,7 +553,7 @@
  "nadar" [{:sem {:pred :swim}}]
  "necesitar" [{:sem {:pred :need}}]
  "negar" [{:sem {:pred :deny}, :stems {:boot "nieg"}}]
- "oir"
+ "oír"
  [{:sem {:pred :hear},
    :exceptions
    [{:infl :present,

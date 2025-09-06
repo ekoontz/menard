@@ -567,7 +567,7 @@
      :surface "oye"}
 
     {:infl :present,
-     :agr {:person :3rd, :number :plur},
+     :agr {:person :3rd, :number :sing},
      :surface "oye"}
     {:infl :present,
      :agr {:person :1st, :number :plur},

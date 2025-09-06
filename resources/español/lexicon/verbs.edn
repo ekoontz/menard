@@ -565,12 +565,10 @@
     {:infl :present,
      :agr {:person :2nd, :number :sing :formal true},
      :surface "oye"}
-     :agr {:person :3rd, :number :sing},
-     :surface "oye"}
 
     {:infl :present,
      :agr {:person :3rd, :number :plur},
-     :surface "oyen"}
+     :surface "oye"}
     {:infl :present,
      :agr {:person :1st, :number :plur},
      :surface "oímos"}

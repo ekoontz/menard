@@ -157,9 +157,9 @@
   :u {:cat :verb
       :infl :past-participle}}
 
-  ;; stop/stopped,step/stepped
- {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ed"]
-  :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
+  ;; stop/stopped,step/stepped,chat/chatted
+ {:g [#"^(.*[aeiou])([bglmnpst])$"             "$1$2$2ed"]
+  :p [#"^(.*[aeiou][bglmnpst])([bglmnpst])ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
@@ -195,8 +195,8 @@
       :infl :present-participle}}
 
  ;; stop/stopping,put/putting,run/running,let/letting
- {:g [#"^(.*[eiou])([bglmnpst])$"              "$1$2$2ing"]
-  :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ing$" "$1"]
+ {:g [#"^(.*[aeiou])([bglmnpst])$"              "$1$2$2ing"]
+  :p [#"^(.*[aeiou][bglmnpst])([bglmnpst])ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
  

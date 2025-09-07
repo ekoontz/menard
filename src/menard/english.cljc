@@ -171,8 +171,6 @@
         (map? model)                      model
         :else                             (exception (str "invalid model: " model))))
 
-;; TODO: consider setting p/truncate? false here in (defn parse)
-;; to improve performance:
 (defn parse [expression & [model]]
   (let [model (resolve-model (or model complete/model))]
     (log/debug (str "menard.english/parse with model name: "

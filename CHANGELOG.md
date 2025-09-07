@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.7] - 2025-09-07
+
+- add "desayunar"/"have breakfast"
+- add morphological rule fo English participles for "chat"->"chatting/chatted"
+- Enable truncation for parsing Spanish to improve performance
+
 ## [1.9.6] - 2025-09-05
 
 - Fix conjugation of verb "oír"

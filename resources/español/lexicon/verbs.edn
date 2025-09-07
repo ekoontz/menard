@@ -33,6 +33,8 @@
  "arreglar" [{:sem {:pred :fix}}]
  "asegurar" [{:sem {:pred :assure}}
              {:sem {:pred :insure}}]
+ 
+ "asistir" [{:sem {:pred :assist}}]
  "aumentar" [{:sem {:pred :increase}}]
  "ayudar" [{:sem {:pred :help}
             :transitivity :intransitive}
@@ -184,8 +186,9 @@
  "deletrear" [{:sem {:pred :spell}}]
  "desarrollar" [{:sem {:pred :develop}}]
  
- "desayunar" [{:sem {:pred :have-breakfast}}]
- 
+  "desayunar" [{:sem {:pred :have-breakfast}}]
+  "descansar" [{:sem {:pred :rest}}]
+
  "desear" [{:sem {:pred :desire}}]
  "despertarse" [{:sem {:pred :wake-up}
                  :stems {:boot "despiert"}}]
@@ -659,10 +662,10 @@
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
  
- "praticar" [{:sem {:pred :practice}}]
+ "practicar" [{:sem {:pred :practice}}]
  "preguntar" [{:sem {:pred :ask-for}}]
  "preocuparse" [{:sem {:pred :worry}}]
-
+ "preparar" [{:sem {:pred :prepare}}]
  "prestar" [{:sem {:pred :lend}}]
  
  "quedarse" [{:sem {:pred :remain}}]
@@ -713,6 +716,11 @@
 
  "seguir" [{:stems {:boot "sig"}
             :sem {:pred :follow}}] 
+
+"recibir" [{:sem {:pred :receive}}]
+ "regresar" [{:sem {:pred :return-somewhere}}]
+
+
 ;;   "sentarse" {}
 
 ;;   "sentir" {}
@@ -755,13 +763,19 @@
              :surface "tuvo"}],
            :stems {:preterito "tuv"}}]
 
+ "terminar" [{:sem {:pred :end}, :cat :verb}
+          {:sem {:pred :finish}, :cat :verb}] 
  ;;    "terminar" {}
  
  "tirar" [{:sem {:pred :throw-out}, :cat :verb}
           {:sem {:pred :throw}, :cat :verb}]
 
+ "tomar" [{:sem {:pred :take}, :cat :verb}
+          {:sem {:pred :drink-t}, :cat :verb}]
  ;;   "tomar" {}
  ;;   "toser" {}
+ 
+ "trabajar" [{:sem {:pred :work}}]
  ;;   "trabajar" {}
  ;;   "traducir" {}
  ;;   "traer" {}
@@ -803,7 +817,11 @@
      :surface "visto"}]}]
 
 ;;   "vestirse" {}
+
+"viajar" [{:sem {:pred :travel}}]
 ;;   "viajar" {}
+
+"vivir" [{:sem {:pred :live-v}}]
 ;;   "vivir" {}
 ;;   "volar" {}
  "volver" [{:sem {:pred :return}

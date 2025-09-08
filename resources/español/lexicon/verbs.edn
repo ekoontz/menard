@@ -687,7 +687,7 @@
    :stems {:preterito "pus"}}]
  
  "practicar" [{:sem {:pred :practice}}]
- "preguntar" [{:sem {:pred :ask-for}}]
+ "preguntar" [{:sem {:pred :ask}}]
  "preocuparse" [{:sem {:pred :worry}}]
  "preparar" [{:sem {:pred :prepare}}]
  "prestar" [{:sem {:pred :lend}}]

@@ -200,7 +200,7 @@
                                         (let [result (unify lexeme unify-with)]
                                           (log/debug (str "compile-lexicon-source: lexeme: " lexeme))
                                           (if (= :fail result)
-                                            (exception (str "hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
+                                            (exception (str "menard.model/compile-lexicon: hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
                                           result)))))))
       ((fn [lexicon]
          (if (nil? apply-fn)

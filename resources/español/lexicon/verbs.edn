@@ -269,6 +269,32 @@
                     :agr {:person :3rd :number :plur}
                     :surface "han"}]]
    [
+
+                   {:infl :preterito
+                    :agr {:person :1st :number :sing}
+                    :surface "hube"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :sing :formal? false}
+                    :surface "hubiste"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :sing :formal? true}   
+                    :surface "hubo"}
+                   {:infl :preterito
+                    :agr {:person :3rd :number :sing}
+                    :surface "hubo"}
+                   {:infl :preterito
+                    :agr {:person :1nd :number :plur}
+                    :surface "hubimos"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :plur :formal? false}
+                    :surface "hubisteis"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :plur :formal? true}
+                    :surface "hubieron"}
+                   {:infl :preterito
+                    :agr {:person :3rd :number :plur}
+                    :surface "hubieron"}]]
+
     ;; aux sense with non-reflexive complement verb:
     ;; e.g. "yo he comido":
     (let [sem (atom {:tense :past
@@ -412,10 +438,10 @@
                     :surface "hiciste"}
                    {:infl :preterito
                     :agr {:person :2nd :number :sing :formal? true}   
-                    :surface "hize"}
+                    :surface "hizo"}
                    {:infl :preterito
                     :agr {:person :3rd :number :sing}
-                    :surface "hize"}
+                    :surface "hizo"}
                    {:infl :preterito
                     :agr {:person :1nd :number :plur}
                     :surface "hicimos"}
@@ -742,7 +768,7 @@
              :surface "tienes"}
             {:infl :present,
              :agr {:person :2nd, :number :sing :formal? true},
-             :surface "tienes"}
+             :surface "tiene"}
             {:infl :present,
              :agr {:person :3rd, :number :sing},
              :surface "tiene"}

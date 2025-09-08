@@ -442,7 +442,7 @@
                     :agr {:person :3rd :number :sing}
                     :surface "hizo"}
                    {:infl :preterito
-                    :agr {:person :1nd :number :plur}
+                    :agr {:person :1st :number :plur}
                     :surface "hicimos"}
                    {:infl :preterito
                     :agr {:person :2nd :number :plur :formal? false}

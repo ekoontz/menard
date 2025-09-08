@@ -267,8 +267,7 @@
                     :surface "han"}
                    {:infl :present
                     :agr {:person :3rd :number :plur}
-                    :surface "han"}]]
-   [
+                    :surface "han"}
 
                    {:infl :preterito
                     :agr {:person :1st :number :sing}
@@ -392,10 +391,10 @@
                     :sem sem}}
        :sem sem})
     
-    ;; non-aux sense:
-    {:exceptions exceptions
-     :sense :have
-     :sem {:pred :have}}])
+      ;; non-aux sense:
+      {:exceptions exceptions
+       :sense :have
+       :sem {:pred :have}})
 
     
  "hablar" [{:sem {:pred :speak
@@ -743,7 +742,6 @@
  "seguir" [{:stems {:boot "sig"}
             :sem {:pred :follow}}] 
 
-"recibir" [{:sem {:pred :receive}}]
  "regresar" [{:sem {:pred :return-somewhere}}]
 
 
@@ -798,7 +796,6 @@
 
  "tomar" [{:sem {:pred :take}, :cat :verb}
           {:sem {:pred :drink-t}, :cat :verb}]
- ;;   "tomar" {}
  ;;   "toser" {}
  
  "trabajar" [{:sem {:pred :work}}]
@@ -810,8 +807,6 @@
 ;;   "vender" {}
 
  "tocar" [{:sem {:pred :play-music}}]
- 
- "tomar" [{:sem {:pred :drink-t}}]
  
  "venir" [{:sem {:subj {:animate true}, :pred :come},
            :transitivity :intransitive
@@ -853,6 +848,4 @@
  "volver" [{:sem {:pred :return}
             :exceptions [{:infl :participo
                           :surface "vuelto"}]}]
-
  }
-

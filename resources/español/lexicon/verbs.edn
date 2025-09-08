@@ -293,8 +293,7 @@
                    {:infl :preterito
                     :agr {:person :3rd :number :plur}
                     :surface "hubieron"}]]
-
-    ;; aux sense with non-reflexive complement verb:
+   [;; aux sense with non-reflexive complement verb:
     ;; e.g. "yo he comido":
     (let [sem (atom {:tense :past
                      :aspect :perfect})
@@ -394,7 +393,7 @@
       ;; non-aux sense:
       {:exceptions exceptions
        :sense :have
-       :sem {:pred :have}})
+       :sem {:pred :have}}])
 
     
  "hablar" [{:sem {:pred :speak

@@ -799,7 +799,6 @@
  ;;   "toser" {}
  
  "trabajar" [{:sem {:pred :work}}]
- ;;   "trabajar" {}
  ;;   "traducir" {}
  ;;   "traer" {}
  ;; "usar" {}

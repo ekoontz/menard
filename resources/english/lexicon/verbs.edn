@@ -12,6 +12,7 @@
  "ask" [{:sem {:pred :ask}}
         {:prepositional-verb {:with "for"}
          :sem {:pred :ask-for}}]
+ "assist" [{ :sem {:pred :assist}}]
  "assure" [{ :sem {:pred :assure}}]
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
@@ -357,6 +358,7 @@
  "elaborate" [{:sem {:pred :elaborate}}]
  "embrace" [{:sem {:pred :embrace}}]
  "emigrate" [{:sem {:pred :emigrate}}]
+ "end" [{:sem {:pred :end}}]
  "enjoy" [{:sem {:pred :enjoy}}]
  "enter" [{:sem {:pred :enter}}]
  "erase" [{:sem {:pred :erase}}] 
@@ -683,6 +685,7 @@
  "play" [{:sem {:pred :play-music}
           :note "music"}]
  "practice" [{:sem {:pred :practice}}]
+ "prepare" [{:sem {:pred :prepare}}]
  "preserve" [{:sem {:pred :preserve}}]
 
  ;; TODO: add :obj as obligatory
@@ -719,7 +722,8 @@
  "remove" [{:sem {:pred :remove}}] 
  "repair" [{:sem {:pred :repair}}] 
  "respond" [{:sem {:pred :respond}}]
- "return" [{:sem {:pred :return}}] 
+ "rest" [{:sem {:pred :rest}}] 
+ "return" [{:sem {:pred :return}}]
  "review" [{:sem {:pred :review}}]   
  "ruin" [{:sem {:pred :ruin}}]
 
@@ -944,6 +948,7 @@
                                :sem subj}
                            :2 []}}}
      :to? true})]
+ "travel" [{:sem {:pred :travel}}]
  "try" [{:sem {:pred :try}
          :modal :infinitive}]
  "turn" [{:prepositional-verb {:with "on"}

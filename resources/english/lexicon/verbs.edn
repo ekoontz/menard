@@ -337,11 +337,12 @@
                                   :2 []}
                          :infl :base}
                      :2 []}})])
-
- "dream" [{:sem {:pred :dream}}]
  "draw" [{:sem {:pred :draw}
           :exceptions [{:infl :past-simple :surface "drew"}
                        {:infl :past-participle :surface "drawn"}]}]
+ "dream" [{:sem {:pred :dream}}]
+ "dress" [{:reflexive? true
+           :sem {:pred :dress-oneself}}] 
  "drink" (let [exceptions [{:infl :past-simple :surface "drank"}
                            {:infl :past-participle :surface "drunk"}]]
            [{:sem {:pred :drink}
@@ -409,6 +410,9 @@
           {:exceptions exceptions
            :sem {:pred :get-angry}
            :adjectival-verb {:with "angry"}}
+          {:exceptions exceptions
+           :sem {:pred :dress-oneself}
+           :adjectival-verb {:with "dressed"}}
           {:exceptions exceptions
            :sem {:pred :get-married}
            :adjectival-verb {:with "married"}}

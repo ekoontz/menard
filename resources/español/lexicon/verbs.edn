@@ -829,9 +829,9 @@
      :surface "vi"}
     {:infl :participio
      :surface "visto"}]}]
-;;   "vestirse" {}
-"viajar" [{:sem {:pred :travel}}]
-"vivir" [{:sem {:pred :live-v}}]
+ "vestirse" [{:sem {:pred :dress-oneself}}]
+ "viajar" [{:sem {:pred :travel}}]
+ "vivir" [{:sem {:pred :live-v}}]
 ;;   "volar" {}
  "volver" [{:sem {:pred :return}
             :exceptions [{:infl :participo

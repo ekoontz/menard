@@ -34,7 +34,7 @@
  "asegurar" [{:sem {:pred :assure}}
              {:sem {:pred :insure}}]
  
- "asistir" [{:sem {:pred :assist}}]
+ "asistir" [{:sem {:pred :attend}}]
  "aumentar" [{:sem {:pred :increase}}]
  "ayudar" [{:sem {:pred :help}
             :transitivity :intransitive}
@@ -143,6 +143,10 @@
    [{:infl :present,
      :agr {:person :1st, :number :sing},
      :surface "conozco"}]}]
+
+ "conseguir" [{:stems {:boot "consig"}
+            :sem {:pred :obtain-c}}] 
+
  "consentir" [{:sem {:pred :consent},
                :stems {:boot "consient"}}]
  "conservar" [{:sem {:pred :conserve}}
@@ -178,6 +182,66 @@
  ;; modal: TODO: requires a verb argument
  "deber" [{:sem {:pred :be-required-to}}]
  "decidir" [{:sem {:pred :decide}}]
+
+ "decir"
+ (let [stems {:futuro "dir"}
+       exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "digo"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing :formal? false}
+                    :surface "dices"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing :formal? true}
+                    :surface "dice"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "dice"}
+                   {:infl :present
+                    :agr {:person :1st :number :plur}
+                    :surface "decimos"}
+                   {:infl :present
+                    :agr {:person :2nd :number :plur}
+                    :surface "decís"}
+                   {:infl :present
+                    :agr {:person :2nd :number :plural :formal? true}
+                    :surface "dicen"}
+                   {:infl :present
+                    :agr {:person :3rd :number :plural}
+                    :surface "dicen"}
+                   {:infl :participio
+                    :surface "dicho"}
+                   {:infl :preterito
+                    :agr {:person :1st :number :sing}
+                    :surface "dije"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :sing :formal? false}
+                    :surface "dijiste"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :sing :formal? true}   
+                    :surface "dijo"}
+                   {:infl :preterito
+                    :agr {:person :3rd :number :sing}
+                    :surface "dijo"}
+                   {:infl :preterito
+                    :agr {:person :1st :number :plur}
+                    :surface "dijimos"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :plur :formal? false}
+                    :surface "dijisteis"}
+                   {:infl :preterito
+                    :agr {:person :2nd :number :plur :formal? true}
+                    :surface "dijeron"}
+                   {:infl :preterito
+                    :agr {:person :3rd :number :plur}
+                    :surface "dijeron"}]]
+   [{:stems stems
+     :exceptions exceptions
+     :sem {:pred :do}}
+    {:stems stems
+     :exceptions exceptions
+     :sem {:pred :make}}])
+
  "defender" [{:sem {:pred :defend},
               :stems {:boot "defiend"}}]
 

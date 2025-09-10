@@ -525,6 +525,9 @@
 
  "herir" [{:sem {:pred :wound}, :stems {:boot "hier"}}]
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]
+
+ "jugar" [{:sem {:pred :play-games}, :stems {:boot "jueg"}}]
+
  "intentar" [{:sem {:pred :try}}]
 
  "ir" [{:transitivity :intransitive
@@ -751,6 +754,9 @@
    :stems {:preterito "pus"}}]
  
  "practicar" [{:sem {:pred :practice}}]
+
+ "preferir" [{:sem {:pred :prefer}, :stems {:boot "prefier"}}]
+
  "preguntar" [{:sem {:pred :ask}}]
  "preocuparse" [{:sem {:pred :worry}}]
  "preparar" [{:sem {:pred :prepare}}]
@@ -768,8 +774,12 @@
 
  "recibir" [{:sem {:pred :receive}}]
 
+ "recordar" [{:sem {:pred :remember}, :stems {:boot "recuerd"}}]
+
  "reparar" [{:cat :verb
              :sem {:pred :repair}}]
+
+ "repetir" [{:sem {:pred :repeat}, :stems {:boot "repit"}}]
 
  "responder" [{:cat :verb
                :sem {:pred :respond}}]
@@ -858,6 +868,17 @@
  
  "trabajar" [{:sem {:pred :work}}]
  ;;   "traducir" {}
+
+ "traer" [{:sem {:subj {:animate true}, :pred :come},
+           :transitivity :intransitive
+           :cat :verb,
+           :exceptions
+           [{:infl :present,
+             :agr {:person :1st, :number :sing},
+             :surface "traigo"},
+           :stems {:preterito "traj"}}
+           {:infl :participio
+     :surface "visto"}]
  ;;   "traer" {}
  ;; "usar" {}
 ;;    "valer" {}

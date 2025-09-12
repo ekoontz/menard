@@ -962,9 +962,8 @@
            [{:infl :present,
              :agr {:person :1st, :number :sing},
              :surface "traigo"},
-           :stems {:preterito "traj"}}
-           {:infl :participio
-     :surface "visto"}]
+            :stems {:preterito "traj"}]}]
+
  ;;   "traer" {}
  ;; "usar" {}
 ;;    "valer" {}
@@ -1033,3 +1032,4 @@
             :exceptions [{:infl :participo
                           :surface "vuelto"}]}]
  }
+

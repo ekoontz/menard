@@ -8,7 +8,8 @@
                         "imperfect.edn"
                         "misc-verbs.edn"
                         "nouns.edn"
-                        "participio.edn"                        
+                        "participio.edn"
+                        "prepositions.edn"
                         "present.edn"
                         "preterito-indefinido.edn"]}
  :grammar "español/grammar.edn"
@@ -25,6 +26,8 @@
                           :pronoun? false}}
                      "verbs.edn"
                      {:u {:cat :verb}}
+                     "prepositions.edn"
+                     {:u {:cat :prep}}
                      "pronouns.edn"
                      {:u {:cat :noun
                           :pronoun? true}}

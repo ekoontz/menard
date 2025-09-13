@@ -9,13 +9,16 @@
                         "misc-verbs.edn"
                         "nouns.edn"
                         "participio.edn"                        
+                        "prepositions.edn"
                         "present.edn"
                         "preterito-indefinido.edn"]}
  :grammar "español/grammar.edn"
  :grammar-rules "español/grammar-rules.edn"
  :lexicon {:path "español/lexicon"
            :rules "rules.edn"
-           :sources {"pronouns.edn"
+           :sources {"prepositions.edn"
+                     {:u {:cat :prep}}
+                     "pronouns.edn"
                      {:u {:cat :noun
                           :pronoun? true}}
                      "propernouns.edn"

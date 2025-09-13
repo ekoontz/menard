@@ -9,6 +9,7 @@
                         "misc-verbs.edn"
                         "nouns.edn"
                         "participio.edn"                        
+                        "prepositions.edn"
                         "present.edn"
                         "preterito-indefinido.edn"]}
  :grammar "español/grammar.edn"
@@ -17,6 +18,8 @@
            :rules "rules.edn"
            :sources {"articles.edn"
                      {:u {:cat :det}}
+                     "prepositions.edn"
+                     {:u {:cat :prep}}
                      "pronouns.edn"
                      {:u {:cat :noun
                           :pronoun? true}}}}}

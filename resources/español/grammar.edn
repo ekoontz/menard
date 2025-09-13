@@ -61,6 +61,14 @@
           menard.ug/shared-agr
           menard.subcat/b]}
 
+ {:rule "pp"
+  :cat :prep
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/head-first]}
+ 
  {:rule "s-head-first" ;; "he visto"
   :cat :verb
   :head {:phrasal? false} ;; prevent e.g. "[s-head-first(:preterito-perfecto) +[vp-aux-i(:preterito-perfecto) +he(:explicit-subj-non-reflexive-intransitive) .comido] .yo]"

@@ -198,7 +198,7 @@
           menard.ug/head-sem
           menard.subcat/d]}
 
- {:rule "pp:2"
+ {:rule "pp"
   :cat :prep
   :unify [menard.subcat/a
           menard.ug/head-is-root

@@ -317,7 +317,15 @@
  "enviar" [{:sem {:pred :send}}]
  "escapar" [{:sem {:pred :escape}}]
  "escribir" [{:sem {:pred :write}}]
- "escuchar" [{:sem {:pred :listen-to}}]
+
+
+ ;; escuchar has the following subcat values:
+ ;; intransitive
+ ;; transitive+pronoun     "te escucho"
+ ;; transitive+noun phrase "escucho al hombre"
+ ;; transitive+noun phrase "escucho a la mujer" 
+ "escuchar" [{:sem {:pred :listen}}]
+
  "esperar" [;; {:sem {:pred :wait-for}}
             {:transitivity :intransitive
              :sem {:pred :hope}}]

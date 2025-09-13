@@ -489,7 +489,7 @@
      :sem {:pred :go
            :intransitive-only? true}}
     {:exceptions exceptions
-      :sem {:pred :go}
+     :sem {:pred :go}
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
               :3 []}}
@@ -685,10 +685,32 @@
                 :mental-state? true}}]
  "linger" [{:sem {:pred :linger}
             :intransitive-only? true}]
- "listen" [{:prepositional-verb {:with "to"}
-            :sem {:pred :listen-to}}]
+ "listen" [{:sem {:pred :listen}
+            :intransitive-only? true}
+           
+           ;; TODO: should not need all of this information
+           ;; in an individual lexeme like this, but
+           ;; we do for now.
+           (let [subj (atom {:existential? false
+                             :ref {:human? true}})
+                 obj (atom :top)]
+             {:sem {:pred :listen
+                    :foo :bar
+                    :subj subj
+                    :obj obj}
+              :reflexive? false
+              :subcat {:1 {:sem subj
+                           :interrogative? false}
+                       :2 {:cat :prep
+                           :reflexive? false
+                           :subcat []
+                           :sem {:pred :to
+                                 :obj obj}}
+                       :3 []}})]
+
  "live" [{:sem {:pred :live}}
          {:sem {:pred :live-v}}]
+
  "look" [{:intransitive-only? true
          :sem {:pred :look}}
          {:prepositional-verb {:with "at"}

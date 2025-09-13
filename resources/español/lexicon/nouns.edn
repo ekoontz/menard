@@ -15,4 +15,8 @@
  [{:agr {:gender :fem}
    :sem {:pred :table}}]
 
+ "mujer"
+ [{:agr {:gender :fem}
+   :sem {:pred :woman}}]
+
  }

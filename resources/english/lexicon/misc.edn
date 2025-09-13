@@ -131,20 +131,24 @@
  "those" [{:cat :det
            :agr {:number :plur}
            :sem {:pred :that}}]
- "to" [;; "to the park"
-       {:cat :prep
-        :sense :p1
-        :subcat {:1 {:sem {:locative? false}}}
-        :sem {:pred :to}}
+ "to" [;; "go to the park", "listen to the music"
+       (let [obj (atom :top)]
+         {:cat :prep
+          :sense :p1
+          :subcat {:1 {:sem obj
+                       :phrasal? true}
+                   :2 []}
+          :sem {:pred :to
+                :obj obj}})
 
        ;; "[go] to bed"
-       ;; TODO: add others like "to college/jail/school/war/work"
+       ;; TODO: add others like "to college/jail/school/war/work/...etc"
        {:cat :prep
         :sense :p2
         :sem {:pred :to-bed}
         :subcat {:1 {:cat :noun
-                     :sem {:locative? true}
-                     :canonical "bed"}
+                     :phrasal? false
+                     :root "bed"}
                  :2 []}}
 
        {:cat :prep

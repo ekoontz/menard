@@ -185,6 +185,7 @@
    are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology & [option-map]]
   (log/debug (str "morph-leaf: structure: " (l/pprint structure)))
+  (log/info (str "morph-leaf: note: " (l/pprint (u/get-in structure [:note]))))
   (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)
@@ -192,6 +193,7 @@
                      inflected?)
         show-sense? (or (:show-sense? option-map false) false)
         surface (u/get-in structure [:surface])
+        debug (log/info (str "morph-leaf: surface: " surface))
         matching-rules
         (when (and
                (or (not surface)
@@ -215,7 +217,7 @@
                     (let [{u :u
                            [from _] :g
                            debug :debug} rule]
-                      (log/debug (str "morph-leaf: from: " from "; canonical: " canonical))
+                      (log/info (str "morph-leaf: from: " from "; canonical: " canonical))
                       (and (string? canonical)
                            (re-find from canonical)
                            (let [result (unify u structure)]
@@ -244,6 +246,7 @@
                            (map (fn [i]
                                   (str "#" (+ 1 i) ": " (:u (nth matching-rules i)))))
                            (clojure.string/join ", ")))))
+    (when first-matching-exception (log/info (str "morph-leaf: first-matching-exception: " first-matching-exception)))
     (cond
       first-matching-exception
       (do
@@ -255,7 +258,7 @@
          (and (u/get-in structure [:surface])
               (not (= (u/get-in structure [:surface]) :top)))
          (do
-           (log/debug (str "found surface; using that: " (u/get-in structure [:surface])))
+           (log/debug (str "morph-leaf: found surface; using that: " (u/get-in structure [:surface])))
            (concat-with-notes structure (u/get-in structure [:surface])))
          
          (seq matching-rules)
@@ -265,7 +268,7 @@
 
          (= true (u/get-in structure [:inflected?] false))
          (do
-           (log/debug (str "leaf's :inflected? is true but there was no surface form, but found canonical: '" canonical "', so using that instead."))
+           (log/debug (str "morph-leaf: leaf's :inflected? is true but there was no surface form, but found canonical: '" canonical "', so using that instead."))
            (concat-with-notes structure (u/get-in structure [:canonical])))
          
          (and (false? inflected?) (empty? matching-rules)
@@ -273,7 +276,7 @@
               (not (= structure {:head? true}))
               canonical)
          (do
-           (log/debug (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
+           (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
            canonical)
          
          :else

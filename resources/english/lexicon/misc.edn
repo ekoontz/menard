@@ -141,10 +141,23 @@
           :sem {:pred :to
                 :obj obj}})
 
+       (let [obj (atom :top)]
+         {:cat :prep
+          :sense :p2
+          :subcat {:1 {:sem obj
+                       :cat :noun
+                       :case :acc
+                       :reflexive? false ;; TODO: add reflexive also (e.g. "listen to yourself")
+                       :pronoun? true
+                       :phrasal? false}
+                   :2 []}
+          :sem {:pred :to
+                :obj obj}})
+
        ;; "[go] to bed"
        ;; TODO: add others like "to college/jail/school/war/work/...etc"
        {:cat :prep
-        :sense :p2
+        :sense :p3
         :sem {:pred :to-bed}
         :subcat {:1 {:cat :noun
                      :phrasal? false
@@ -152,7 +165,7 @@
                  :2 []}}
 
        {:cat :prep
-        :sense :p3
+        :sense :p4
         :subcat []}]
 
  "up" [{:cat :prep

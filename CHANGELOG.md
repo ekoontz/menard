@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.9] - 2025-09-14
+
+- add more Spanish verbs and English equivalents
+- add game and music emoji sets to distinguish English "play" translations to Spanish (tocar vs jugar)
+
 ## [1.9.8] - 2025-09-08
 
 - Add more Spanish verbs and fix conjugations of existing Spanish verbs

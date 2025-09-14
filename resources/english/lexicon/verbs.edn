@@ -695,7 +695,6 @@
                              :ref {:human? true}})
                  obj (atom :top)]
              {:sem {:pred :listen
-                    :foo :bar
                     :subj subj
                     :obj obj}
               :reflexive? false

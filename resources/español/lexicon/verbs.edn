@@ -325,16 +325,20 @@
               :sense 1
               :transitivity :intransitive}
 
-             ;; transitive+noun phrase "escucho al hombre/a la mujer"
+             ;; transitive+noun phrase "yo escucho al hombre/a la mujer"
              (let [subj (atom :top)
-                   obj (atom :top)]
+                   obj (atom :top)
+                   agr (atom :top)]
                {:transitivity :transitive
                 :sense 2
                 :implicit-subject? false
                 :sem {:pred :listen
                       :sem subj
                       :obj obj}
-                :subcat {:1 {:sem subj}
+                :agr agr
+                :subcat {:1 {:cat :noun
+                             :agr agr
+                             :sem subj}
                          :2 {:cat :prep
                              :subcat []
                              :head {:canonical "a"}
@@ -342,13 +346,21 @@
                              :sem {:obj obj}}
                          :3 []}})
              
-             ;; pronoun+verb "te escucho" 
-             (let [obj (atom :top)]
+             ;; pronoun+verb "yo te escucho" 
+             (let [obj (atom :top)
+                   subj (atom :top)
+                   agr (atom :top)]
                {:transitivity :transitive
+                :implicit-subject? false
                 :sense 3
                 :sem {:pred :listen
+                      :subj subj
                       :obj obj}
-                :subcat {:2 {:cat :noun
+                :agr agr
+                :subcat {:1 {:cat :noun
+                             :sem subj
+                             :agr agr}
+                         :2 {:cat :noun
                              :pronoun? true
                              :phrasal? false
                              :sem obj}

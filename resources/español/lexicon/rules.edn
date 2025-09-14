@@ -741,6 +741,7 @@
 
  {:rule :istp-true
   :if {:istp? true
+       :subcat {:2 {:cat ::unspec}}
        :cat :verb}
   :then [(let [gender (atom :top)
                formality (atom :top)
@@ -781,6 +782,7 @@
        :aux? false
        :reflexive? false
        :transitivity :transitive
+       :subcat {:2 {:cat :noun}}
        :implicit-subject? false}
   :then (let [subj (atom {:ref {:a 1}})
               obj (atom {:ref {:a 2}})]

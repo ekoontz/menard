@@ -19,11 +19,11 @@
        (filter #(not (nil? %)))))
 
 (defn create-target-model-from-verbs [verbs]
-  (let [verbs [{:canonical "ver"}]]
-      (-> (merge @curated/model
+  (-> (merge @curated/model
              {:indices (model/fill-lexicon-indexes
                         (into {} (filter-lexicon (:lexicon @curated/model) (->> verbs (map :canonical) set))))
-              :name (str (:name @curated/model) " filtered with some verbs.")})
+              :name (str (:name @curated/model) " filtered with " (count verbs) " verb" (when (not (= (count verbs) 1)) "s"))})
       (model/add-functions true)
-      ref)))
+      ref))
+
 

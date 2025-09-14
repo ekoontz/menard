@@ -252,8 +252,8 @@
          
          (seq matching-rules)
          (let [{[from to] :g} (first matching-rules)]
-           (log/debug (str "using matching rule:" (first matching-rules)))
-           (clojure.string/replace canonical from to))
+           (log/debug (str "morph-leaf: using matching rule:" (first matching-rules)))
+           (concat-with-notes structure (clojure.string/replace canonical from to)))
 
          (= true (u/get-in structure [:inflected?] false))
          (do

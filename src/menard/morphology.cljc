@@ -73,9 +73,17 @@
 
 (def emoji-set emoji-set-2)
 
+(def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
+(def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
+
 (defn decode-notes [notes]
   (log/debug (str "decode-notes with notes: " notes))
   (cond
+    (= notes "games")
+    (-> game-emojis shuffle first)
+    (= notes "music")
+    (-> music-emojis shuffle first)
+
     (= notes [:informal :feminine :plural])
     (str (clojure.string/join ""
                               (take 2 (repeatedly #(first (shuffle (get emoji-set :informal-feminine)))))))

@@ -185,7 +185,7 @@
    are regular expressions used to transform the canonical form into the inflected form."
   [structure morphology & [option-map]]
   (log/debug (str "morph-leaf: structure: " (l/pprint structure)))
-  (log/info (str "morph-leaf: note: " (l/pprint (u/get-in structure [:note]))))
+  (log/debug (str "morph-leaf: note: " (l/pprint (u/get-in structure [:note]))))
   (let [canonical (u/get-in structure [:canonical])
         inflected? (u/get-in structure [:inflected?] false)
         inflected? (if (= inflected? :top)
@@ -193,7 +193,6 @@
                      inflected?)
         show-sense? (or (:show-sense? option-map false) false)
         surface (u/get-in structure [:surface])
-        debug (log/info (str "morph-leaf: surface: " surface))
         matching-rules
         (when (and
                (or (not surface)
@@ -217,7 +216,7 @@
                     (let [{u :u
                            [from _] :g
                            debug :debug} rule]
-                      (log/info (str "morph-leaf: from: " from "; canonical: " canonical))
+                      (log/debug (str "morph-leaf: from: " from "; canonical: " canonical))
                       (and (string? canonical)
                            (re-find from canonical)
                            (let [result (unify u structure)]
@@ -246,7 +245,7 @@
                            (map (fn [i]
                                   (str "#" (+ 1 i) ": " (:u (nth matching-rules i)))))
                            (clojure.string/join ", ")))))
-    (when first-matching-exception (log/info (str "morph-leaf: first-matching-exception: " first-matching-exception)))
+    (when first-matching-exception (log/debug (str "morph-leaf: first-matching-exception: " first-matching-exception)))
     (cond
       first-matching-exception
       (do

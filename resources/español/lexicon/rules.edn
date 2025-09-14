@@ -546,7 +546,7 @@
 
  ;; TODO: also add: {:rule :implicit-subject-transitive-nonpronoun}
  {:rule :implicit-subject-transitive-pronoun
-   :if {:cat :verb
+  :if {:cat :verb
        :implicit-subject? true
        :transitivity :transitive
        :subcat {:1 {:cat :noun

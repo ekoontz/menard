@@ -486,7 +486,7 @@
        :sense :implicit-subj-non-reflexive-transitive
        :reflexive? reflexivity
        :implicit-subject? true
-       :transitivity :transitivity
+       :transitivity :transitive
        :subcat {:1 obj
                 :2 {:cat :verb
                     :aux? false

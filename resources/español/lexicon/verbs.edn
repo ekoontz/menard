@@ -145,7 +145,7 @@
      :surface "conozco"}]}]
 
  "conseguir" [{:stems {:boot "consig"}
-            :sem {:pred :obtain-c}}] 
+            :sem {:pred :obtain-c}}]
 
  "consentir" [{:sem {:pred :consent},
                :stems {:boot "consient"}}]
@@ -872,13 +872,13 @@
  "traer" [{:sem {:subj {:animate true}, :pred :come},
            :transitivity :intransitive
            :cat :verb,
+           :stems {:preterito "traj"}
            :exceptions
            [{:infl :present,
              :agr {:person :1st, :number :sing},
              :surface "traigo"},
-           :stems {:preterito "traj"}}
-           {:infl :participio
-     :surface "visto"}]
+            {:infl :participio
+             :surface "visto"}]}]
  ;;   "traer" {}
  ;; "usar" {}
 ;;    "valer" {}

@@ -319,12 +319,40 @@
  "escribir" [{:sem {:pred :write}}]
 
 
- ;; escuchar has the following subcat values:
- ;; intransitive
- ;; transitive+pronoun     "te escucho"
- ;; transitive+noun phrase "escucho al hombre"
- ;; transitive+noun phrase "escucho a la mujer" 
- "escuchar" [{:sem {:pred :listen}}]
+ "escuchar" [
+             ;; intransitive
+             {:sem {:pred :listen}
+              :sense 1
+              :transitivity :intransitive}
+
+             ;; transitive+noun phrase "escucho al hombre/a la mujer"
+             (let [subj (atom :top)
+                   obj (atom :top)]
+               {:transitivity :transitive
+                :sense 2
+                :implicit-subject? false
+                :sem {:pred :listen
+                      :sem subj
+                      :obj obj}
+                :subcat {:1 {:sem subj}
+                         :2 {:cat :prep
+                             :subcat []
+                             :head {:canonical "a"}
+                             :comp {:pronoun? false}
+                             :sem {:obj obj}}
+                         :3 []}})
+             
+             ;; pronoun+verb "te escucho" 
+             (let [obj (atom :top)]
+               {:transitivity :transitive
+                :sense 3
+                :sem {:pred :listen
+                      :obj obj}
+                :subcat {:2 {:cat :noun
+                             :pronoun? true
+                             :phrasal? false
+                             :sem obj}
+                         :3 []}})]
 
  "esperar" [;; {:sem {:pred :wait-for}}
             {:transitivity :intransitive

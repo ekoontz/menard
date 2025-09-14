@@ -874,12 +874,14 @@
            :cat :verb,
            :stems {:preterito "traj"}
            :exceptions
+           ;; TODO: this seems to have many exceptions besides
+           ;; these two
+           ;; https://es.wiktionary.org/wiki/traer#Conjugaci%C3%B3n
            [{:infl :present,
              :agr {:person :1st, :number :sing},
              :surface "traigo"},
             {:infl :participio
-             :surface "visto"}]}]
- ;;   "traer" {}
+             :surface "traído"}]}]
  ;; "usar" {}
 ;;    "valer" {}
 ;;   "vender" {}

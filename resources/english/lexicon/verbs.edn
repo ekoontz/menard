@@ -6,7 +6,7 @@
  "add" [{:sem {:pred :add}}]
  "announce" [{ :sem {:pred :announce}}]
  "answer" [{:sem {:pred :answer}}]
- "approve" [{:sem {:pred :approve}}] 
+ "approve" [{:sem {:pred :approve}}]
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
  "ask" [{:sem {:pred :ask}}
@@ -14,16 +14,17 @@
          :sem {:pred :ask-for}}]
  "assist" [{ :sem {:pred :assist}}]
  "assure" [{ :sem {:pred :assure}}]
+ "attend" [{:sem {:pred :attend}}]  
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
-                        {:infl :present :agr {:person :2nd} :surface "are"}                                                
+                        {:infl :present :agr {:person :2nd} :surface "are"}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
                         {:infl :present :agr {:number :plur} :surface "are"}
                         {:infl :past-simple :agr {:number :plur} :surface "were"}
                         {:infl :past-simple :agr {:person :2nd} :surface "were"}
                         {:infl :past-simple :agr {:person :1st :number :sing} :surface "was"}
-                        {:infl :past-simple :agr {:person :3rd :number :sing} :surface "was"}                        
+                        {:infl :past-simple :agr {:person :3rd :number :sing} :surface "was"}
                         {:infl :past-participle :surface "been"}]]
         [{:sense 1
           :sem {:pred :be}
@@ -663,7 +664,7 @@
           :inflected? true
           :sem {:pred :be-required-to
                 :shared? false}}]
-
+ "obtain" [{:sem {:pred :obtain-c}}]
  "offer" [{:sem {:pred :offer}}]
  "open" [{:sem {:pred :open}}] 
  "organize" [{:sem {:pred :organize}}]
@@ -687,8 +688,11 @@
                       {:infl :past-participle :surface "paid"}]}]
  "perform" [{ :sem {:pred :perform}}]
  "play" [{:sem {:pred :play-music}
-          :note "music"}]
+          :note "music"}
+         {:sem {:pred :play-games}
+          :note "games"}]
  "practice" [{:sem {:pred :practice}}]
+ "prefer" [{:sem {:pred :prefer}}]
  "prepare" [{:sem {:pred :prepare}}]
  "preserve" [{:sem {:pred :preserve}}]
 
@@ -723,8 +727,10 @@
  "realize" [{:sem {:pred :realize}}]
  "receive" [{:sem {:pred :receive}}]
  "remain" [{:sem {:pred :remain}}]
+ "remember" [{:sem {:pred :remember}}]
  "remove" [{:sem {:pred :remove}}] 
- "repair" [{:sem {:pred :repair}}] 
+ "repair" [{:sem {:pred :repair}}]
+ "repeat" [{:sem {:pred :repeat}}]  
  "respond" [{:sem {:pred :respond}}]
  "rest" [{:sem {:pred :rest}}] 
  "return" [{:sem {:pred :return}}]

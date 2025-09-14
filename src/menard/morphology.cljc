@@ -159,9 +159,9 @@
       
       note
       (str surface
-           (if (and show-notes?
-                    (= true (u/get-in structure [:show-notes?] true))
-                    (seq note))
+           (when (and show-notes?
+                      (= true (u/get-in structure [:show-notes?] true))
+                      (seq note))
              (if-let [decode-notes (decode-notes note)]
                (str " " decode-notes))))
       

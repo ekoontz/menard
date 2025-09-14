@@ -7,7 +7,7 @@
 
             [menard.español :as es]
             [menard.español.curated-verbs :as curated]
-            [menard.español.model :use create-target-model-from-verbs]
+            [menard.español.model :refer [create-target-model-from-verbs]]
             [menard.lexiconfn :as l]
             [menard.model :as model]
             [menard.morphology.emojis :as em]
@@ -523,14 +523,14 @@
 
     ;; lo-veo where 'lo' means 'he'
     (let [target-spec-he {:sem {:tense :present
-                             :aspect :simple
-                             :obj {:pred :he}}
-                       :agr {:number :sing
-                             :person :1st}
-                       :cat :verb
-                       :subcat []
-                       :phrasal? true
-                       :root "ver"}
+                                :aspect :simple
+                                :obj {:pred :he}}
+                          :agr {:number :sing
+                                :person :1st}
+                          :cat :verb
+                          :subcat []
+                          :phrasal? true
+                          :root "ver"}
           target-expression-he (-> target-spec-he (es/generate model))]
           (is (= "lo veo" (-> target-expression-he es/morph)))
           (let [english-spec (-> target-expression-he translate/es-structure-to-en-spec)]
@@ -562,3 +562,22 @@
                            en/generate
                            en/morph
                            emoji-component)))))))
+
+(deftest yo-las-escucho
+  (let [model (create-target-model-from-verbs [{:canonical "escuchar"}])]
+    (let [target-spec {:sem {:tense :present
+                             :aspect :simple
+                             :obj {:pred :they
+                                   :gender :fem}}
+                       :agr {:number :sing
+                             :person :1st}
+                       :cat :verb
+                       :subcat []
+                       :phrasal? true
+                       :root "escuchar"}
+          target-expression (-> target-spec (es/generate model))]
+      (is (not (nil? target-expression)))
+      (is (= "yo las escucho" (-> target-expression es/morph)))
+      (is (= "I listen to them" (-> target-expression translate/es-structure-to-en-spec en/generate en/morph))))))
+
+

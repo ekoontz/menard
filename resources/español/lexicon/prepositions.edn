@@ -1,10 +1,14 @@
 {"a"
  [;; "a" as in "a la casa"
-  {:sem {:pred :a
-         :obj {:place? true}}
-   :subcat {:1 {:cat :noun
-                :case :acc
-                :reflexive false
-                :subcat []}
-            :2 []}}]}
+  (let [obj (atom :top)]
+    {:sem {:pred :a
+           :obj obj}
+     :subcat {:1 {:cat :noun
+                  :case :acc
+                  :sem obj
+                  :reflexive false
+                  :subcat []}
+              :2 []}})]}
+
+
 

@@ -25,8 +25,8 @@
                         informal-feminine
                         informal-neuter))
 (def formal     (concat formal-masculine
-                      formal-feminine
-                      formal-neuter))
+                        formal-feminine
+                        formal-neuter))
 
 (def emoji-to-informal (->> informal-masculine
                             (concat informal-feminine)
@@ -51,6 +51,9 @@
    ;; vosotros
    :informal-masculine informal-masculine
 
+   :formal-feminine formal-feminine
+   :formal-masculine formal-masculine   
+   
    ;; tú
    :informal (concat informal-masculine
                      informal-feminine
@@ -117,6 +120,10 @@
     (= notes [:formal :singular :feminine])
     (str (clojure.string/join ""
                               (first (shuffle (get emoji-set :formal-feminine)))))
+
+    (= notes [:formal :singular :masculine])
+    (str (clojure.string/join ""
+                              (first (shuffle (get emoji-set :formal-masculine)))))
 
     ;; same applies here as above with "nosotros/vosotros"
     (= notes [:masculine :plural])

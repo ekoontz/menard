@@ -51,12 +51,6 @@
    ;; vosotros
    :informal-masculine informal-masculine
 
-   ;; lo (singular formal masculine accusative)
-   :formal-masculine formal-masculine
-   
-   ;; la (singular formal feminine accusative)
-   :formal-feminine formal-feminine
-
    ;; tú
    :informal (concat informal-masculine
                      informal-feminine
@@ -81,69 +75,9 @@
 
 (def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
 (def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
-(def informal-feminine  ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"])
-(def informal-neuter    ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"])
-(def formal-neuter      ["🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"])
-(def formal-masculine   ["👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"])
-(def formal-feminine    ["👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"])
-(def informal   (concat informal-masculine
-                        informal-feminine
-                        informal-neuter))
-(def formal     (concat formal-masculine
-                      formal-feminine
-                      formal-neuter))
 
-(def emoji-to-informal (->> informal-masculine
-                            (concat informal-feminine)
-                            (concat informal-neuter)
-                            (map (fn [emoji]
-                                   [emoji [{:notes [:informal]}]]))
-                            (into {})))
-
-(def emoji-to-formal (->> formal-masculine
-                          (concat formal-feminine)
-                          (concat formal-neuter)
-                          (map (fn [emoji]
-                                 [emoji [{:notes [:formal]}]]))
-                          (into {})))
-
-;; TODO: more factoring-out variables is possible beyond these two
-;; ones for informal:
-(def emoji-set-2
-  {
-   ;; vosotras
-   :informal-feminine informal-feminine
-   ;; vosotros
-   :informal-masculine informal-masculine
-
-   ;; tú
-   :informal (concat informal-masculine
-                     informal-feminine
-                     informal-neuter)
-   ;; usted
-   :formal   (concat formal-masculine
-                     formal-feminine
-                     formal-neuter)
-
-   
-   :all      (concat informal formal)
-   
-   ;; nosotros
-   :masculine (concat informal-masculine
-                      formal-masculine)
-   
-   ;; nosotras
-   :feminine (concat informal-feminine
-                     formal-feminine)})
-
-(def emoji-set emoji-set-2)
-
-(defn encode-notes
-  "transform notes
-      (e.g. [:informal :masculine])
-      into one or more emojis
-      (e.g. 👦)"
-  [notes]
+(defn decode-notes [notes]
+  (log/debug (str "decode-notes with notes: " notes))
   (cond
     (= notes "games")
     (-> game-emojis shuffle first)
@@ -170,12 +104,6 @@
     (= notes [:formal :singular])
     (str (clojure.string/join ""
                               (first (shuffle (get emoji-set :formal)))))
-    (= notes [:formal :singular :masculine])
-    (str (clojure.string/join ""
-                              (first (shuffle (get emoji-set :formal-masculine)))))
-    (= notes [:formal :singular :feminine])
-    (str (clojure.string/join ""
-                              (first (shuffle (get emoji-set :formal-feminine)))))
     (= notes [:informal :plural])
     (str (clojure.string/join ""
                               (take 2 (shuffle (get emoji-set :informal)))))
@@ -205,11 +133,7 @@
     nil
     (= notes [:nonhuman])
     nil
-    (= notes [:none])
-    nil
-    (= notes [:neuter])
-    nil
-    
+
     (or (vector? notes) (seq? notes))
     (str "(" (clojure.string/join "," notes) ")")
 
@@ -220,11 +144,8 @@
     :else
     (str "(unprintable note)")))
 
+
 (defn concat-with-notes [structure surface]
-  (log/debug (str "concat-with-notes:"))
-  (log/debug (str "concat-with-notes: structure: " (l/pprint structure)))
-  (log/debug (str "concat-with-notes: surface: " surface))
-  (log/debug (str "concat-with-notes: note: " (u/get-in structure [:note])))
   (let [note (u/get-in structure [:note])]
     (cond
       (nil? note)
@@ -252,8 +173,8 @@
                 (u/get-in structure [:note-on-first-word])
                 (not (= :top (u/get-in structure [:note-on-first-word])))
                 (seq (u/get-in structure [:note-on-first-word])))
-         (if-let [encode-notes (encode-notes (u/get-in structure [:note-on-first-word]))]
-           (str " " encode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
+         (if-let [decode-notes (decode-notes (u/get-in structure [:note-on-first-word]))]
+           (str " " decode-notes " " (clojure.string/join " " (rest (clojure.string/split surface #" ")))))))
 
       :else surface)))
 

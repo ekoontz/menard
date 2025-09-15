@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.10] - 2025-09-15
+
+- Encode [:formal :singular :masculine] and [:formal :singular :feminine] as emojis
+
 ## [1.9.9] - 2025-09-14
 
 - add more Spanish verbs and English equivalents

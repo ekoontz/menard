@@ -114,6 +114,10 @@
     (str (clojure.string/join ""
                               (take 2 (shuffle (get emoji-set :feminine)))))
 
+    (= notes [:formal :singular :feminine])
+    (str (clojure.string/join ""
+                              (first (shuffle (get emoji-set :formal-feminine)))))
+
     ;; same applies here as above with "nosotros/vosotros"
     (= notes [:masculine :plural])
     (str (clojure.string/join ""

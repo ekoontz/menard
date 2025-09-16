@@ -136,6 +136,7 @@
          {:cat :prep
           :sense :p1
           :subcat {:1 {:sem obj
+                       :cat :noun
                        :phrasal? true}
                    :2 []}
           :sem {:pred :to

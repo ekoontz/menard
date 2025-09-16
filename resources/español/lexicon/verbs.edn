@@ -14,6 +14,8 @@
  "acompañar" [{:sem {:pred :accompany}}]
  "acostarse" [{:stems {:boot "acuest"}
                :sem {:pred :go-to-bed}}]
+ "ahorrar" [{:sem {:pred :save-money}}]
+
  "advertir" [{:stems {:boot "adviert"}
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
@@ -104,6 +106,14 @@
  "casarse"  [{:sem {:pred :get-married}}]
  "cenar" [{:sem {:pred :have-dinner}}]
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
+ "cobrar" 
+ (let [{:stems stems
+     :exceptions exceptions
+     :sem {:pred :charge-money}}
+    {:stems stems
+     :exceptions exceptions
+     :sem {:pred :cash-check}}])
+
  "comentar" [{:sem {:pred :comment}}]
  "comenzar" [{:sem {:pred :begin}, :stems {:boot "comienz"}}]
  "comer" [{:sem {:pred :eat
@@ -237,10 +247,10 @@
                     :surface "dijeron"}]]
    [{:stems stems
      :exceptions exceptions
-     :sem {:pred :do}}
+     :sem {:pred :say}}
     {:stems stems
      :exceptions exceptions
-     :sem {:pred :make}}])
+     :sem {:pred :tell}}])
 
  "defender" [{:sem {:pred :defend},
               :stems {:boot "defiend"}}]

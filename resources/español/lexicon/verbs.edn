@@ -650,6 +650,14 @@
  "nadar" [{:sem {:pred :swim}}]
  "necesitar" [{:sem {:pred :need}}]
  "negar" [{:sem {:pred :deny}, :stems {:boot "nieg"}}]
+
+ "ofrecer"
+ [{:sem {:pred :offer},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "ofrezco"}]}]
+
  "oír"
  [{:sem {:pred :hear},
    :stems {:futuro "oir"}
@@ -715,6 +723,14 @@
  
  "parar" [{:sem {:pred :stop}}]
  "pararse" [{:sem {:pred :stop-oneself}}]
+
+ "parecer"
+ [{:sem {:pred :appear},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "parezco"}]}]
+
  "pedir" [{:sem {:pred :ask-for}, :stems {:boot "pid"}}]
 
  "peinarse" [{:sem {:pred :comb-oneself
@@ -868,6 +884,14 @@
  
  "trabajar" [{:sem {:pred :work}}]
  ;;   "traducir" {}
+
+
+ "traducir"
+ [{:sem {:pred :translate},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "traduzco"}]}]
 
  "traer" [{:sem {:subj {:animate true}, :pred :come},
            :transitivity :intransitive

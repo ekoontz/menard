@@ -258,6 +258,8 @@
  ;; need to think how to translate this
  "dejar" [{:sem {:pred :leave-behind}}]
  "deletrear" [{:sem {:pred :spell}}]
+ "depositar" [{:sem {:pred :deposit}}]
+
  "desarrollar" [{:sem {:pred :develop}}]
  
   "desayunar" [{:sem {:pred :have-breakfast}}]

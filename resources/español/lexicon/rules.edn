@@ -365,7 +365,8 @@
               ref (atom :top)
               subj (atom {:ref ref})
               obj (atom {:ref ref})]
-          ;; variant with explicit subject e.g. "él se levantó" and no object
+          ;; variant with explicit subject
+          ;; e.g. "él se levantó" and no object
           [{:sem {:subj subj
                   :obj :none}
             :agr agr
@@ -379,7 +380,8 @@
                          :reflexive? true}
                      :3 []}}
 
-           ;; variant without explicit subject e.g. "se levantó" and no object
+           ;; variant without explicit subject
+           ;; e.g. "se levantó" and no object
            {:sem {:subj subj
                   :obj :none}
             :agr agr

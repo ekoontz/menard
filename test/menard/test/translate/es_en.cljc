@@ -16,7 +16,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-
 (def developer-mode? false)
 
 ;; if you made changes to these, you can uncomment them to reload them

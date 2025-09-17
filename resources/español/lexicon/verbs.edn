@@ -957,7 +957,8 @@
  "pedir" [{:sem {:pred :ask-for}, :stems {:boot "pid"}}]
 
  "peinarse" [{:sem {:pred :comb-oneself
-                    :subj {:ref {:human? true}}}}]
+                    :subj {:ref {:human? true}}}
+              :transitivity :transitive}]
 
  "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}
             :transitivity-frame :human-subj-nonhuman-obj}]

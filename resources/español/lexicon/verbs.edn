@@ -12,10 +12,13 @@
  "acertar" [{:stems {:boot "aciert"}
              :sem {:pred :guess}}]
  "acompañar" [{:sem {:pred :accompany}}]
+ "acordarse" [{:stems {:boot "acuerd"}
+               :sem {:pred :remember}}]
+
  "acostarse" [{:stems {:boot "acuest"}
                :sem {:pred :go-to-bed}}]
  "ahorrar" [{:sem {:pred :save-money}}]
-
+ "afeitarse" [{:sem {:pred :shave}}]
  "advertir" [{:stems {:boot "adviert"}
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
@@ -45,6 +48,8 @@
             :transitivity :transitive}]
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
+ "bañarse" [{:sem {:pred :take-a-bath}}]
+
  "beber" [{:sem {:pred :drink}}]
  "borrar" [{:sem {:pred :erase}}]
  "buscar" [{:sem {:pred :look-for}}
@@ -105,6 +110,8 @@
  "cantar" [{:sem {:pred :sing}}]
  "casarse"  [{:sem {:pred :get-married}}]
  "cenar" [{:sem {:pred :have-dinner}}]
+ "cepillarse" [{:sem {:pred :brush}}]
+
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
  "cobrar" 
  (let [{:stems stems
@@ -276,6 +283,8 @@
             :stems {:boot "duerm"}}]
  "dormirse" [{:sem {:pred :fall-asleep}
               :stems {:boot "duerm"}}]
+ "ducharse" [{:sem {:pred :take-a-shower}}]
+
  "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
@@ -620,6 +629,84 @@
                       :agr {:person :3rd, :number :plur}
                       :surface "fueron"}]}]
  
+ "irse" [{:sem {:pred :go-away}
+        ;; https://es.wiktionary.org/wiki/ir
+        :exceptions [{:infl :present,
+                      :agr {:person :1st, :number :sing},
+                      :surface "voy"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :sing, :formal? false},
+                      :surface "vas"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :sing, :formal? true},
+                      :surface "va"}
+                     {:infl :present,
+                      :agr {:person :3rd, :number :sing},
+                      :surface "va"}
+                     {:infl :present,
+                      :agr {:person :1st, :number :plur},
+                      :surface "vamos"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :plur, :informal? true},
+                      :surface "vais"}
+                     {:infl :present,
+                      :agr {:person :2nd, :number :plur, :formal? true},
+                      :surface "van"}
+                     {:infl :present,
+                      :agr {:person :3rd, :number :plur},
+                      :surface "van"}
+
+                     {:infl :imperfect
+                      :agr {:person :1st, :number :sing}
+                      :surface "iba"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :sing, :formal? false}
+                      :surface "ibas"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :sing, :formal? true}
+                      :surface "iba"}
+                     {:infl :imperfect
+                      :agr {:person :3rd, :number :sing}
+                      :surface "iba"}
+                     {:infl :imperfect
+                      :agr {:person :1st, :number :plur}
+                      :surface "ibamos"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :plur, :formal? false}
+                      :surface "ibais"}
+                     {:infl :imperfect
+                      :agr {:person :2nd, :number :plur, :formal? true}
+                      :surface "iban"}
+                     {:infl :imperfect
+                      :agr {:person :3rd, :number :plur}
+                      :surface "iban"}
+
+                     {:infl :preterito
+                      :agr {:person :1st, :number :sing}
+                      :surface "fui"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :sing, :formal? false}
+                      :surface "fuiste"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :sing, :formal? true}
+                      :surface "fue"}
+                     {:infl :preterito
+                      :agr {:person :3rd, :number :sing}
+                      :surface "fue"}
+                     {:infl :preterito
+                      :agr {:person :1st, :number :plur}
+                      :surface "fuimos"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :plur, :formal? false}
+                      :surface "fuisteis"}
+                     {:infl :preterito
+                      :agr {:person :2nd, :number :plur, :formal? true}
+                      :surface "fueron"}
+                     {:infl :preterito
+                      :agr {:person :3rd, :number :plur}
+                      :surface "fueron"}]}]
+
+
  "lastimarse" [{:sem {:pred :hurt-oneself}}]
  "lavar" [{:sem {:pred :wash}}]
  "lavarse" [{:sem {:pred :wash-oneself}}]
@@ -650,6 +737,8 @@
            {:sem {:pred :wear-l}}]
  "llorar" [{:sem {:pred :cry}}]
  "manejar" [{:sem {:pred :drive}}]
+ "maquillarse" [{:sem {:pred :put-on-makeup}}]
+
  "mentir" [{:sem {:pred :lie}, :stems {:boot "mient"}}]
  "mirar" [{:sem {:pred :look-at}}]
  "mostrar" [{:sem {:pred :show}, :stems {:boot "muestr"}}]
@@ -781,6 +870,26 @@
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
  
+ "ponerse"
+ [{:sem {:subj {:animate? true},
+         :pred :put-on},
+   :exceptions
+   [{:infl :present,
+     :agr {:person :1st, :number :sing},
+     :surface "pongo"}
+    {:infl :present,
+     :agr {:person :2nd, :number :sing, :formal? false},
+     :surface "pones"}
+    {:infl :present,
+     :agr {:person :2nd, :number :sing, :formal? true},
+     :surface "pones"}
+    {:infl :present,
+     :agr {:person :3rd, :number :sing},
+     :surface "pone"}
+    {:infl :participio
+     :surface "puesto"}],
+   :stems {:preterito "pus"}}]
+
  "practicar" [{:sem {:pred :practice}}]
 
  "preferir" [{:sem {:pred :prefer}, :stems {:boot "prefier"}}]
@@ -789,7 +898,9 @@
  "preocuparse" [{:sem {:pred :worry}}]
  "preparar" [{:sem {:pred :prepare}}]
  "prestar" [{:sem {:pred :lend}}]
- 
+
+ "probarse" [{:sem {:pred :try-on}}]
+
  "quedarse" [{:sem {:pred :remain}}]
  "quejarse" [{:sem {:pred :complain}}]
 
@@ -799,6 +910,8 @@
             [{:stems stems
               :subcat-frames :both
               :sem {:pred :want}}])
+
+ "quitarse" [{:sem {:pred :take-off}}]
 
  "recibir" [{:sem {:pred :receive}}]
 
@@ -842,6 +955,10 @@
 
  "seguir" [{:stems {:boot "sig"}
             :sem {:pred :follow}}] 
+
+ "sentarse" [{:sem {:pred :sit-down}}]
+
+ "sentirse" [{:sem {:pred :feel}}]
 
  "regresar" [{:sem {:pred :return}}]
 

@@ -25,11 +25,11 @@
         {:sem {:pred :bed
                :locative? true}}]
         
+ "box" [{:sem {:pred :box}}] 
  "bush" [{:sem {:pred :bush}}] 
  "butterfly" [{:sem {:pred :butterfly}}]
  "bike" [{:sem {:pred :bike}}]
- "bird" [{:agr {:gender :neuter}
-          :sem {:pred :bird}}]
+ "bird" [{:sem {:pred :bird}}]
  "book" [{:sem {:pred :book}}]
  "boss" [{:sem {:pred :boss}}]
  "boulder" [{:sem {:pred :boulder}}] 

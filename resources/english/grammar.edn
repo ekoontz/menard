@@ -170,6 +170,20 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash]}
 
+ {:rule "vp32" ;; [vp +[vp32 +put .the box] .[pp on the table]]
+  :cat :verb
+  :slash? false
+  :head {:phrasal? false}
+  :aux? false
+  :unify [menard.subcat/k
+          menard.ug/head-first
+          menard.ug/head-modal
+          menard.ug/head-is-root
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/slash-is-head-slash]}
+
  {:rule "vp-aux" ;; [vp +have .slept]
   :cat :verb
   :slash? false
@@ -184,7 +198,7 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash
           menard.subcat/i]}
-
+ 
  {:rule "adj-p" ;; [adj-p +able .[to sleep]], [adj-p +able .to]
   :cat :adjective
   :head {:phrasal? false}

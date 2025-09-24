@@ -186,6 +186,8 @@
          :infl :present}]
  "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]
+ "cash" [{:sem {:pred :cash-check}
+          :nominal-verb {:with "checks"}}]
  "cause" [{:sem {:pred :cause}}]
  "chat" [{:sem {:pred :chat}}]
  "change" [{:sense 1
@@ -194,6 +196,8 @@
             :sem {:pred :change-clothes}
             :nominal-verb {:with "clothes"
                            :number :plur}}]
+ "charge" [{:sem {:pred :charge-money}
+            :nominal-verb {:with "money"}}]
  "cheat" [{:sem {:pred :cheat}}]
  "clean" [{:sem {:pred :clean}}]
  "close" [{:sem {:pred :close}}]
@@ -959,9 +963,12 @@
                                :sem subj}
                            :2 []}}}
      :to? true})]
+ "translate" [{:sem {:pred :translate}}]
  "travel" [{:sem {:pred :travel}}]
  "try" [{:sem {:pred :try}
-         :modal :infinitive}]
+         :modal :infinitive}
+        {:sem {:pred :try-on}
+         :prepositional-verb {:with "on"}}]
  "turn" [{:prepositional-verb {:with "on"}
           :sem {:pred :turn-on}}
          {:prepositional-verb {:with "off"}

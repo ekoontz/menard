@@ -47,6 +47,8 @@
  "cauliflower" [{:sem {:pred :cauliflower}}]
  "chair" [{:sem {:pred :chair}}]
  "challenge" [{:sem {:pred :challenge}}]
+ "checks" [{:sem {:pred :checks}
+            :inherently-plural? true}]
  "child" [{:sem {:pred :child}
            :exceptions [{:agr {:number :plur}
                          :surface "children"}]}]

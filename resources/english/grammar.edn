@@ -170,6 +170,7 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash]}
 
+ ;; menard.test.translate.es-en> (->> "he puts the box on the table" en/parse (map en/syntax-tree))
  {:rule "vp32" ;; [vp +[vp32 +put .the box] .[pp on the table]]
   :cat :verb
   :slash? false

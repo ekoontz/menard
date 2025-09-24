@@ -113,13 +113,8 @@
  "cepillarse" [{:sem {:pred :brush}}]
 
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
- "cobrar" 
- (let [{:stems stems
-     :exceptions exceptions
-     :sem {:pred :charge-money}}
-    {:stems stems
-     :exceptions exceptions
-     :sem {:pred :cash-check}}])
+ "cobrar" [{:sem {:pred :charge-money}}
+           {:sem {:pred :cash-check}}]
 
  "comentar" [{:sem {:pred :comment}}]
  "comenzar" [{:sem {:pred :begin}, :stems {:boot "comienz"}}]

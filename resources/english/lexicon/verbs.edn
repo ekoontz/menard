@@ -724,7 +724,10 @@
            :subcat {:2 {:cat :prep
                         :sem {:pred :in}}
                     :3 {:cat :noun}}
-           :sem {:pred :put-in}}])
+           :sem {:pred :put-in}}
+          {:exceptions exceptions
+           :sem {:pred :put-on}
+           :prepositional-verb {:with "on"}}])
 
  "read" (let [exceptions [{:infl :past-simple :surface "read" :note ["past"]}
                           {:infl :past-participle :surface "read" :note ["past"]}]]
@@ -834,7 +837,11 @@
  "support" [{:sem {:pred :support}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
-          [{ :sem {:pred :take}
+          [{:sem {:pred :take}
+            :exceptions exceptions}
+           {:sem {:pred :take-a-shower}
+            :nominal-verb {:with "shower"
+                           :definite? false} ;; TODO: add support for this in rules.edn
             :exceptions exceptions}])
  "talk" [{:sem {:pred :talk}}
          {:sem {:pred :talk}

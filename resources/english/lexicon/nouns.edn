@@ -249,6 +249,7 @@
                         {:agr {:number :plur}
                          :note ["plural"]
                          :surface "sheep"}]}]
+ "shower" [{:sem {:pred :shower}}]
  "situation" [{:sem {:pred :situation}}]
  "society" [{:sem {:pred :society}}]
  "solution" [{:sem {:pred :solution}}]

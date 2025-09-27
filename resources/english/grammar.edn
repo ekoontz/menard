@@ -149,6 +149,21 @@
           menard.ug/head-sem
           menard.ug/slash-is-head-slash
           menard.subcat/c]}
+ 
+ ;; menard.test.translate.es-en> (->> "puts makeup on" en/parse (map en/syntax-tree))
+ {:rule "vp32" ;; [vp +[vp32 +puts .makeup] .on]
+  :cat :verb
+  :slash? false
+  :head {:phrasal? false}
+  :aux? false
+  :unify [menard.subcat/f
+          menard.ug/head-first
+          menard.ug/head-modal
+          menard.ug/head-is-root
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/slash-is-head-slash]}
 
  {:rule "adj-p" ;; [adj-p +able .[to sleep]], [adj-p +able .to]
   :cat :adjective

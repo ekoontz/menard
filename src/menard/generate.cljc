@@ -123,7 +123,8 @@
 
             (and counts?
                  (> (+ @count-lexeme-fails @count-rule-fails)
-                    max-fails))
+                    max-fails)
+                 (not (= frontier [])))
             (do
               (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
                 (log/info (str "too many fails: " @count-lexeme-fails " lexeme fail(s) and " @count-rule-fails

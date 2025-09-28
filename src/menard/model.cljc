@@ -297,9 +297,7 @@
                    (not (nil? (u/get-in spec [:cat])))
                    (-> model :indices :misc-lexicon)
 
-                   :else (do
-                           (log/warn (str "lexicon-index-fn: no indexing keys (:pred, :cat) were found in input spec with keys: " (keys spec) " and canonical: " (u/get-in spec [:canonical] "(empty)")  ". Will have to return entire lexicon."))
-                           (->> (-> model :lexicon vals) (reduce concat))))
+                   :else [])
              result (if (false? filter-for-fails?)
                       (->>
                        pre-result

@@ -12,6 +12,8 @@
                  [org.clojure/core.async "1.5.648"]
                  [babashka/fs "0.1.2"]
                  [yogthos/config "1.1.6"]]
-  :resource-paths ["resources"])
+  :resource-paths ["resources"]
+  :jvm-opts ["-Djdk.attach.allowAttachSelf"])
+
 
 

@@ -286,7 +286,7 @@
               (not (= structure {:head? true}))
               canonical)
          (do
-           (log/warn (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
+           (log/debug (str "Cannot determine surface from structure: " (strip-refs structure)` ". No rules matched canonical: '" canonical "' . Returning canonical."))
            canonical)
          
          :else

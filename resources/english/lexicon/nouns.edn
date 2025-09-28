@@ -173,7 +173,9 @@
  "message" [{:sem {:pred :message}}]
  "mistake" [{:sem {:pred :mistake}}]
  "mistress" [{:sem {:pred :mistress}}] 
- "money" [{:sem {:pred :money}
+ "money" [{:sem {:pred :money}}
+          {:sem {:pred :money
+                 :quant :some}
            :subcat []}]
  "monster" [{:sem {:pred :monster}}] 
  "month" [{:sem {:pred :month}}]

@@ -108,13 +108,14 @@
   :u {:cat :verb
       :infl :past-simple}}
 
- ;; prohibit/prohibited, develop/developed, etc
- {:g [#"^(.*(ain|bit|eep|en|il|lop))$"   "$1ed"]
-  :p [#"^(.*(ain|bit|eep|en|il|lop))ed$" "$1"]
+ ;; prohibit/prohibited, develop/developed, deposit/deposited, etc
+ {:g [#"^(.*(ain|at|it|eep|en|il|lop))$"   "$1ed"]
+  :p [#"^(.*(ain|at|it|eep|en|il|lop))ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
- ;; stop/stopped,step/stepped
+ ;; stop/stopped,step/stepped,fit/fitted:
+ ;; in the set of consonants:
  {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ed"]
   :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
   :u {:cat :verb
@@ -152,8 +153,8 @@
       :infl :past-participle}}
 
  ;; prohibit/prohibited, develop/developed, etc
- {:g [#"^(.*(ain|bit|eep|en|il|lop))$"   "$1ed"]
-  :p [#"^(.*(ain|bit|eep|en|il|lop))ed$" "$1"]
+ {:g [#"^(.*(ain|at|it|eep|en|il|lop))$"   "$1ed"]
+  :p [#"^(.*(ain|at|it|eep|en|il|lop))ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
@@ -189,8 +190,8 @@
       :infl :present-participle}}
 
  ;; develop/developing
- {:g [#"^(.*(ain|bit|eep|en|il|lop))$"    "$1ing"]
-  :p [#"^(.*(ain|bit|eep|en|il|lop))ing$" "$1"]
+ {:g [#"^(.*(ain|at|it|eep|en|il|lop))$"    "$1ing"]
+  :p [#"^(.*(ain|at|it|eep|en|il|lop))ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 

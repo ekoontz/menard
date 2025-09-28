@@ -6,6 +6,7 @@
  "add" [{:sem {:pred :add}}]
  "announce" [{ :sem {:pred :announce}}]
  "answer" [{:sem {:pred :answer}}]
+ "appear" [{:sem {:pred :appear}}]
  "approve" [{:sem {:pred :approve}}]
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
@@ -52,6 +53,7 @@
                           :obj embedded-sem})]
            {:sense 4
             :sem sem
+            :aux? false
             :modal :adjective
             :reflexive? reflexive?
             :subcat {:1 {:cat :noun
@@ -169,6 +171,23 @@
                            :surface "brought"}]]
            [{:sem {:pred :bring}
              :exceptions exceptions}])
+ "brush" [{:sem {:pred :brush}}
+          (let [subj-pred (atom :top)
+                subj (atom {:pred subj-pred})]
+            {:sem {:pred :brush-teeth
+                   :subj subj
+                   :obj :none}
+             :reflexive? false
+             :subcat {:1 {:sem subj}
+                      :2 {:cat :noun
+                          :phrasal? true
+                          :agr {:number :plur}
+                          :comp {:cat :det
+                                 :sem {:pred subj-pred}}
+                          :sem {:mod []
+                                :quant subj-pred
+                                :pred :tooth}
+                          :root "tooth"}}})]
  "bubble" [{:sem {:pred :bubble}}]
  "buy" [{:sem {:pred :buy}
          :exceptions [{:infl :present
@@ -186,8 +205,16 @@
          :infl :present}]
  "cancel" [{:sem {:pred :cancel}}]
  "carry" [{ :sem {:pred :carry}}]
- "cash" [{:sem {:pred :cash-check}
-          :nominal-verb {:with "checks"}}]
+ "cash" (let [subj (atom :top)]
+          [{:reflexive? false
+            :sem {:subj subj
+                  :pred :cash-checks
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :2 {:cat :noun
+                         :phrasal? false
+                         :root "checks"}
+                     :3 []}}])
  "cause" [{:sem {:pred :cause}}]
  "chat" [{:sem {:pred :chat}}]
  "change" [{:sense 1
@@ -241,6 +268,7 @@
  "defend" [{:sem {:pred :defend}}]
  "deny" [{:sem {:pred :deny}}] 
  "depart" [{:sem {:pred :depart}}]
+ "deposit" [{:sem {:pred :deposit}}] 
  "design" [{:sem {:pred :design}}]
  "desire" [{:sem {:pred :desire}}] 
  "develop" [{:sem {:pred :develop}}]
@@ -457,7 +485,10 @@
      :sem {:pred :go-to-bed}
      :subcat {:2 {:cat :prep
                   :subcat []
-                  :sem {:pred :to-bed}}}}])
+                  :sem {:pred :to-bed}}}}
+    {:exceptions exceptions
+     :prepositional-verb {:with "away"}
+     :sem {:pred :go-away}}])
  
  "guess" [{:sem {:pred :guess}}]
  "have" (let [;; TODO: factor out commonalities in agreement into a new variable called 'agr-exceptions' and then
@@ -624,7 +655,9 @@
             {:exceptions exceptions :sem {:pred :leave-behind}
              :prepositional-verb {:with "behind"}}])
 
- "lend" [{:sem {:pred :lend}}]
+ "lend" [{:exceptions [{:infl :past-simple :surface "lent"}
+                       {:infl :past-participle :surface "lent"}]
+          :sem {:pred :lend}}]
  "let" (let [exceptions [{:infl :past-simple :surface "let"}
                          {:infl :past-participle :surface "let"}]]
           [{:exceptions exceptions  :sem {:pred :let}}])
@@ -727,7 +760,27 @@
            :sem {:pred :put-in}}
           {:exceptions exceptions
            :sem {:pred :put-on}
-           :prepositional-verb {:with "on"}}])
+           :prepositional-verb {:with "on"}}
+
+          ;; "put makeup on"
+          (let [subj-sem (atom :top)
+                subj (atom {:sem subj-sem})]
+            {:reflexive? false
+             :exceptions exceptions
+             :sem {:subj subj-sem
+                   :obj :none
+                   :iobj :none
+                   :pred :put-on-makeup}
+             :subcat {:1 subj
+                      :2 {:cat :prep
+                          :subcat []
+                          :phrasal? false
+                          :canonical "on"}
+                      :3 {:cat :noun
+                          :subcat []
+                          :agr {:number :sing}
+                          :phrasal? false
+                          :canonical "makeup"}}})])
 
  "read" (let [exceptions [{:infl :past-simple :surface "read" :note ["past"]}
                           {:infl :past-participle :surface "read" :note ["past"]}]]
@@ -748,8 +801,10 @@
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]
           [{:exceptions exceptions  :sem {:pred :run}}])
- "sail" [{ :sem {:pred :sail}}]
- "save" [{ :sem {:pred :save}}]
+ "sail" [{:sem {:pred :sail}}]
+ "save" [{:sem {:pred :save}}
+         {:sem {:pred :save-money}
+          :nominal-verb {:with "money"}}]
  "say" (let [exceptions [{:infl :past-simple :surface "said"}
                          {:infl :past-participle :surface "said"}]]
          [{:exceptions exceptions
@@ -775,11 +830,14 @@
          [{:exceptions exceptions
            :sem {:pred :see}}])
  "seem" [{ :sem {:pred :seem}}]
-
  "send" (let [exceptions [{:infl :past-simple :surface "sent"}
                           {:infl :past-participle :surface "sent"}]]
           [{:exceptions exceptions  :sem {:pred :send}}])
- "share" [{ :sem {:pred :share}}]
+ "share" [{:sem {:pred :share}}]
+ "shave" [{:sem {:pred :shave}
+           :reflexive? false}
+         {:sem {:pred :shave-oneself}
+          :reflexive? true}]
  "show" [{ :sem {:pred :show}}]
  "sign" [{ :sem {:pred :sign}}]
  "sing" (let [exceptions [{:infl :past-simple :surface "sang"}
@@ -788,7 +846,10 @@
  "sit" (let [exceptions [{:infl :past-simple :surface "sat"}
                          {:infl :past-participle :surface "sat"}]]
          [{:exceptions exceptions
-           :sem {:pred :sit}}])
+           :sem {:pred :sit}}
+          {:exceptions exceptions
+           :sem {:pred :sit-down}
+           :prepositional-verb {:with "down"}}])
  "ski" (let [exceptions [{:infl :past-simple :surface "skied"}
                          {:infl :past-participle :surface "skied"}]]
          [{:exceptions exceptions
@@ -836,12 +897,46 @@
                        {:infl :past-participle :surface "swum"}]}]
  "support" [{:sem {:pred :support}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
-                          {:infl :past-participle :surface "taken"}]]
+                          {:infl :past-participle :surface "taken"}]
+              subj (atom :top)]
           [{:sem {:pred :take}
             :exceptions exceptions}
-           {:sem {:pred :take-a-shower}
-            :nominal-verb {:with "shower"
-                           :definite? false} ;; TODO: add support for this in rules.edn
+           {:reflexive? false
+            :sem {:pred :take-a-bath
+                  :subj subj
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :2 {:cat :noun
+                         :phrasal? true
+                         :comp {:root "a"
+                                :cat :det
+                                :phrasal? false}
+                         :sem {:quant :some
+                               :mod []
+                               :pred :bath}
+                         :root "bath"
+                         :agr {:number :sing}}
+                     :3 []}
+            :exceptions exceptions}
+           {:reflexive? false
+            :sem {:pred :take-a-shower
+                  :subj subj
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :2 {:cat :noun
+                         :phrasal? true
+                         :comp {:root "a"
+                                :cat :det
+                                :phrasal? false}
+                         :sem {:quant :some
+                               :mod []
+                               :pred :shower}
+                         :root "shower"
+                         :agr {:number :sing}}
+                     :3 []}
+            :exceptions exceptions}
+           {:sem {:pred :take-off}
+            :prepositional-verb {:with "off"}
             :exceptions exceptions}])
  "talk" [{:sem {:pred :talk}}
          {:sem {:pred :talk}

@@ -9,6 +9,7 @@
  "attempt" [{:sem {:pred :attempt}}]
  "attention" [{:sem {:pred :attention}}]
  "baby" [{:sem {:pred :baby}}]
+ "bath" [{:sem {:pred :bath}}]
  "bed" [{:sem {:pred :bed}}
 
         ;; I will call these:
@@ -159,6 +160,9 @@
  "lunch" [{:sem {:pred :lunch}}
           {:sem {:pred :lunch}
            :subcat []}]
+ "makeup" [{:sem {:pred :makeup}}
+           {:sem {:pred :makeup}
+            :subcat []}]
  "man" [{:sem {:pred :man
                :context :neutral} ;; i.e. :neutral meaning 'not polite'
          :agr {:gender :masc
@@ -169,7 +173,8 @@
  "message" [{:sem {:pred :message}}]
  "mistake" [{:sem {:pred :mistake}}]
  "mistress" [{:sem {:pred :mistress}}] 
- "money" [{:sem {:pred :money}}]
+ "money" [{:sem {:pred :money}
+           :subcat []}]
  "monster" [{:sem {:pred :monster}}] 
  "month" [{:sem {:pred :month}}]
  "mother" [{:sem {:pred :mother}}]
@@ -266,6 +271,9 @@
  "system" [{:sem {:pred :system}}]
  "table" [{:sem {:pred :table}}]
  "teacher" [{:sem {:pred :teacher}}]
+ "tooth" [{:sem {:pred :tooth}
+           :exceptions [{:surface "teeth"
+                         :agr {:number :plur}}]}]
  "thing" [{:sem {:pred :thing}}]
  "time" [{:sem {:pred :time}}]
  "toddler" [{:sem {:pred :toddler}}]

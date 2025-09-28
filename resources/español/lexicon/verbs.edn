@@ -18,7 +18,7 @@
  "acostarse" [{:stems {:boot "acuest"}
                :sem {:pred :go-to-bed}}]
  "ahorrar" [{:sem {:pred :save-money}}]
- "afeitarse" [{:sem {:pred :shave}}]
+ "afeitarse" [{:sem {:pred :shave-oneself}}]
  "advertir" [{:stems {:boot "adviert"}
               :sem {:pred :warn}}]
  "almorzar" [{:stems {:boot "almuerz"}
@@ -49,7 +49,6 @@
  "bailar" [{:sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "bañarse" [{:sem {:pred :take-a-bath}}]
-
  "beber" [{:sem {:pred :drink}}]
  "borrar" [{:sem {:pred :erase}}]
  "buscar" [{:sem {:pred :look-for}}
@@ -110,11 +109,11 @@
  "cantar" [{:sem {:pred :sing}}]
  "casarse"  [{:sem {:pred :get-married}}]
  "cenar" [{:sem {:pred :have-dinner}}]
- "cepillarse" [{:sem {:pred :brush}}]
+ "cepillarse" [{:sem {:pred :brush-teeth}}]
 
  "cerrar" [{:sem {:pred :close}, :stems {:boot "cierr"}}]
  "cobrar" [{:sem {:pred :charge-money}}
-           {:sem {:pred :cash-check}}]
+           {:sem {:pred :cash-checks}}]
 
  "comentar" [{:sem {:pred :comment}}]
  "comenzar" [{:sem {:pred :begin}, :stems {:boot "comienz"}}]
@@ -279,7 +278,6 @@
  "dormirse" [{:sem {:pred :fall-asleep}
               :stems {:boot "duerm"}}]
  "ducharse" [{:sem {:pred :take-a-shower}}]
-
  "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
@@ -953,15 +951,12 @@
 
  "sentarse" [{:sem {:pred :sit-down}}]
 
- "sentirse" [{:sem {:pred :feel}}]
+;;   "sentir" {}
+ "sentirse" [{:stems {:boot "sient"}
+              :sem {:pred :feel}}]
 
  "regresar" [{:sem {:pred :return}}]
 
-
-;;   "sentarse" {}
-
-;;   "sentir" {}
-;;   "sentirse" {}
 ;;   "soñar" {}
  "tener" [{:sem {:subj {:ref {:human? true}}
                  :pred :have}

@@ -6,8 +6,12 @@
         :cat :det :agr {:number :sing}}]
  "at" [{:cat :prep
         :sem {:pred :at}}]
+ "away" [{:cat :prep
+          :sem {:pred :away}}]
  "behind" [{:cat :prep
             :sem {:pred :behind}}]
+ "down" [{:cat :prep
+          :sem {:pred :down}}]
  "for" [{:cat :prep
          :sem {:pred :for}}]
  "her" [{:cat :det

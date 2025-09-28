@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.11] - 2025-09-29
+
+- Add more Spanish verbs and English equivalents
+- Reduce generation max-depth from 15 to 6
+- When looking up lexemes during generation with lexicon-index-fn, if none of the
+  expected keys are supplied, return no lexemes rather than entire lexicon.
+
 ## [1.9.10] - 2025-09-15
 
 - Encode [:formal :singular :masculine] and [:formal :singular :feminine] as emojis

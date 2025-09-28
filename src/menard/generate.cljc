@@ -315,7 +315,7 @@
                (when more-logging?
                  (log/info (str "add-lexeme: post-exception-checking: found this many lexemes: " (count %) " at: " at))
                  (doall (map (fn [lexeme]
-                               (log/info (str "found lexeme: " (syntax-tree lexeme))))
+                               (log/debug (str "found lexeme: " (syntax-tree lexeme))))
                              %)))
                %))
            

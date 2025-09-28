@@ -153,7 +153,10 @@
  {:rule "vp32" ;; [vp +[vp32 +puts .makeup] .on]
   :cat :verb
   :slash? false
-  :head {:phrasal? false}
+  :head {:phrasal? false
+         :to? false
+         :modal :none
+         :aux? false}
   :aux? false
   :unify [menard.subcat/f
           menard.ug/head-first

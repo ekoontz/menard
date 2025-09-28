@@ -213,7 +213,8 @@
     (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
       (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
                      (str "; looking for: "
-                          (strip-refs (select-keys (u/get-in tree at) show-keys))
+                          (when (map? (u/get-in tree at))
+                            (strip-refs (select-keys (u/get-in tree at) show-keys)))
                           "; gen-condition: " gen-condition))))
     (->>
      (cond

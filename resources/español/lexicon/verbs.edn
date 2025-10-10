@@ -72,7 +72,20 @@
      :surface "cayò"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "cayò"}]}]
+     :surface "cayò"}
+     {:infl :present,
+     :agr {:person :1st, :number :plur},
+     :surface "caìmos"}
+     {:infl :preterito,
+     :agr {:person :2nd, :number :plur, :formal? false},
+     :surface "caisteis"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur, :formal? true},
+     :surface "cayeron"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :plur},
+     :surface "cayeron"}]}
+
 
  "caber" [{:sem {:subj {:animate true},
                  :pred :fit},
@@ -100,7 +113,19 @@
      :surface "cayò"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "cayò"}]}]
+     :surface "cayò"}
+     {:infl :present,
+     :agr {:person :1st, :number :plur},
+     :surface "caìmos"}
+     {:infl :preterito,
+     :agr {:person :2nd, :number :plur, :formal? false},
+     :surface "caisteis"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur, :formal? true},
+     :surface "cayeron"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :plur},
+     :surface "cayeron"}]}
 
  "cambiar" [{:sem {:pred :change}}]
  "cambiarse" [{:sem {:pred :change-clothes}}]
@@ -1057,7 +1082,7 @@
      :surface "vi"}
     {:infl :participio
      :surface "visto"}]}]
- "vestirse" [{:sem {:pred :dress-oneself}}]
+ "vestirse" [{:sem {:pred :get-dressed}}]
  "viajar" [{:sem {:pred :travel}}]
  "vivir" [{:sem {:pred :live-v}}]
 ;;   "volar" {}

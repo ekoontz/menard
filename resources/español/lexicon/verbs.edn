@@ -84,8 +84,7 @@
      :surface "cayeron"}
     {:infl :preterito,
      :agr {:person :3rd, :number :plur},
-     :surface "cayeron"}]}
-
+     :surface "cayeron"}]}]
 
  "caber" [{:sem {:subj {:animate true},
                  :pred :fit},
@@ -125,7 +124,7 @@
      :surface "cayeron"}
     {:infl :preterito,
      :agr {:person :3rd, :number :plur},
-     :surface "cayeron"}]}
+     :surface "cayeron"}]}]
 
  "cambiar" [{:sem {:pred :change}}]
  "cambiarse" [{:sem {:pred :change-clothes}}]

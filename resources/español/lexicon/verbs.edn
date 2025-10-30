@@ -51,9 +51,14 @@
  "bañarse" [{:sem {:pred :take-a-bath}}]
  "beber" [{:sem {:pred :drink}}]
  "borrar" [{:sem {:pred :erase}}]
- "buscar" [{:sem {:pred :look-for}}
-           {:sem {:pred :look-up}}]
-
+ "buscar" (let [exceptions [{:infl :preterito
+                             :agr {:person :1st
+                                   :number :sing}
+                             :surface "busqué"}]]
+            [{:exceptions exceptions
+              :sem {:pred :look-for}}
+             {:exceptions exceptions
+              :sem {:pred :look-up}}])
  "caer"
  [{:sem {:pred :fall
          :subj {:ref {:human? false}}}

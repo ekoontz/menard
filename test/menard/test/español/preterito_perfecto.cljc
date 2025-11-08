@@ -4,6 +4,7 @@
             [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u :refer [unify]]
+            [dag_unify.serialization :refer [serialize]]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
@@ -102,24 +103,16 @@
 
 (defn inner-function [[firstm & restms]]
   (when firstm
-    (->>
-     restms
-     
-     (map (fn [m]
-            (let [u (unify firstm m)]
-              {:1 firstm
-               :2 m
-               :u u})))
-     
-     (lazy-cat
-      (inner-function restms)))))
+    (lazy-cat
+     (map #(unify firstm %) restms)
+     (inner-function restms))))
 
 (defn cleanup [[firstm & restms]]
   (when firstm
     (let [overs (->> restms
                      (map (fn [m]
-                            (= (dag_unify.serialization/serialize m)
-                               (dag_unify.serialization/serialize (unify firstm m)))))
+                            (= (serialize m)
+                               (serialize (unify firstm m)))))
                      (filter true?))]
       (if (seq overs)
         (cleanup restms)
@@ -129,8 +122,7 @@
   (->
    maps
    (->> inner-function
-        (remove #(= (:u %) :fail))
-        (map :u))
+        (remove #(= % :fail)))
    set
    ((fn [s]
       (if (empty? s)
@@ -138,7 +130,7 @@
         (cross-product-1 s))))))
 
 (defn cross-product [maps]
-  (-> maps cleanup cross-product-1))
+  (-> maps set cleanup cross-product-1))
 
 (deftest cp-1
   ;; can unify the whole thing into one map:

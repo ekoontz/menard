@@ -102,10 +102,9 @@
 
 (defn inner-function [[firstm & restms]]
   (when firstm
-    (lazy-cat (map (fn [m]
-                     (unify firstm m))
-                   restms)
-              (inner-function restms))))
+    (->> restms
+         (map #(unify firstm %))
+         (lazy-cat (inner-function restms)))))
 
 (defn cross-product [maps]
   (-> 

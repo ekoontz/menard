@@ -1,7 +1,6 @@
 (ns menard.crossproduct
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.serialization :refer [serialize]]
-            [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 

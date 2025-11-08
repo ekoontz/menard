@@ -100,3 +100,43 @@
 ;;         "[s-aux(:preterito-perfecto) .ella +[vp-aux-non-reflexive(:preterito-perfecto) +ha(:explicit-subj-non-reflexive-intransitive) .mirado]]")))
   )
 
+(defn inner-function [[firstm & restms]]
+  (when firstm
+    (lazy-cat (map (fn [m]
+                     (unify firstm m))
+                   restms)
+              (inner-function restms))))
+
+(defn cross-product [maps]
+  (-> 
+   (->> maps
+        inner-function
+       (remove #(= :fail %))
+       set)
+   ((fn [s]
+      (if (empty? s)
+        (set maps)
+        (cross-product s))))))
+     
+(deftest cp-1
+  ;; can unify the whole thing into one map:
+  (is (= (cross-product [{:a 4}{:b 5}{:c 6}{:d 7}{:e 8}])
+         #{{:a 4, :d 7, :b 5, :c 6, :e 8}}))
+
+  ;; can't unify anything, so keep as the same maps:
+  (is (= (cross-product [{:a 4}{:a 5}{:a 6}{:a 7}{:a 8}])
+         #{{:a 4} {:a 5} {:a 6} {:a 7} {:a 8}}))
+
+  ;; some maps can unify, some can't; the result is 2 sets:
+  (is (= (->> [{:a 42}{:b 43}{:c 44}{:a 45}]
+              shuffle
+              cross-product)
+         (->> [{:a 42 :b 43 :c 44}
+               {:a 45 :b 43 :c 44}]
+              set))))
+
+
+
+
+
+

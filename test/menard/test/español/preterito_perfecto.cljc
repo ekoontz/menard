@@ -102,34 +102,44 @@
 
 (defn inner-function [[firstm & restms]]
   (when firstm
-
     (->>
-
      restms
-
-     ;; TODO: need to check if _firstm_ unifies with anything: if not, keep firstm by itself.
+     
      (map (fn [m]
-            {:1 firstm
-                 :2 m
-             :u (if (= :fail (unify firstm m))
-                  [firstm m]
-                  [(unify firstm m)])
-             :u-old [(unify firstm m)]}))
+            (let [u (unify firstm m)]
+              {:1 firstm
+               :2 m
+               :u u})))
+     
+     (lazy-cat
+      (inner-function restms)))))
 
-     (lazy-cat (inner-function restms)))))
+(defn cleanup [[firstm & restms]]
+  (when firstm
+    (let [overs (->> restms
+                     (map (fn [m]
+                            (= (dag_unify.serialization/serialize m)
+                               (dag_unify.serialization/serialize (unify firstm m)))))
+                     (filter true?))]
+      (if (seq overs)
+        (cleanup restms)
+        (cons firstm (cleanup restms))))))
 
-(defn cross-product [maps]
-  (-> 
-   (->> maps
-        inner-function
-        (mapcat :u)
-        (remove #(= :fail %))
-        set)
+(defn cross-product-1 [maps]
+  (->
+   maps
+   (->> inner-function
+        (remove #(= (:u %) :fail))
+        (map :u))
+   set
    ((fn [s]
       (if (empty? s)
         (set maps)
-        (cross-product s))))))
-     
+        (cross-product-1 s))))))
+
+(defn cross-product [maps]
+  (-> maps cleanup cross-product-1))
+
 (deftest cp-1
   ;; can unify the whole thing into one map:
   (is (= (cross-product [{:a 4}{:b 5}{:c 6}{:d 7}{:e 8}])
@@ -140,9 +150,17 @@
          #{{:a 4} {:a 5} {:a 6} {:a 7} {:a 8}}))
 
   ;; some maps can unify, some can't; the result is 2 sets:
-  (is (= (->> [{:a 42}{:b 43}{:c 44}{:a 45}]
+  (is (= (-> [{:a 42}{:b 43}{:c 44}{:a 45}]
               shuffle
               cross-product)
-         (->> [{:a 42 :b 43 :c 44}
-               {:a 45 :b 43 :c 44}]
-              set))))
+         #{{:a 42 :b 43 :c 44}
+           {:a 45 :b 43 :c 44}}))
+
+  (is (= (-> [{:a 1}{:a 2}{:a 3}{:a 4}{:a 1 :b 43}] shuffle cross-product)
+         #{{:a 1
+            :b 43}
+           {:a 2}
+           {:a 3}
+           {:a 4}})))
+
+

@@ -5,13 +5,13 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(defn inner-function [[firstm & restms]]
+(defn- inner-function [[firstm & restms]]
   (when firstm
     (lazy-cat
      (map #(unify firstm %) restms)
      (inner-function restms))))
 
-(defn cleanup [[firstm & restms]]
+(defn- cleanup [[firstm & restms]]
   (when firstm
     (let [overs (->> restms
                      (map (fn [m]
@@ -22,7 +22,7 @@
         (cleanup restms)
         (cons firstm (cleanup restms))))))
 
-(defn cross-product-1 [maps]
+(defn- cross-product-1 [maps]
   (->
    maps
    (->> inner-function

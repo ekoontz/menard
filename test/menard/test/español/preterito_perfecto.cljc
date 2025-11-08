@@ -1,6 +1,7 @@
 (ns menard.test.español.preterito-perfecto
   (:require [menard.español :as es
              :refer [analyze generate morph parse syntax-tree]]
+            [menard.crossproduct :refer [cross-product]]
             [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u :refer [unify]]
@@ -101,37 +102,6 @@
 ;;         "[s-aux(:preterito-perfecto) .ella +[vp-aux-non-reflexive(:preterito-perfecto) +ha(:explicit-subj-non-reflexive-intransitive) .mirado]]")))
   )
 
-(defn inner-function [[firstm & restms]]
-  (when firstm
-    (lazy-cat
-     (map #(unify firstm %) restms)
-     (inner-function restms))))
-
-(defn cleanup [[firstm & restms]]
-  (when firstm
-    (let [overs (->> restms
-                     (map (fn [m]
-                            (= (serialize m)
-                               (serialize (unify firstm m)))))
-                     (filter true?))]
-      (if (seq overs)
-        (cleanup restms)
-        (cons firstm (cleanup restms))))))
-
-(defn cross-product-1 [maps]
-  (->
-   maps
-   (->> inner-function
-        (remove #(= % :fail)))
-   set
-   ((fn [s]
-      (if (empty? s)
-        (set maps)
-        (cross-product-1 s))))))
-
-(defn cross-product [maps]
-  (-> maps set cleanup cross-product-1))
-
 (deftest cp-1
   ;; can unify the whole thing into one map:
   (is (= (cross-product [{:a 4}{:b 5}{:c 6}{:d 7}{:e 8}])
@@ -148,6 +118,7 @@
          #{{:a 42 :b 43 :c 44}
            {:a 45 :b 43 :c 44}}))
 
+  ;; some maps (that is, {:a 1}) need to be cleaned up:
   (is (= (-> [{:a 1}{:a 2}{:a 3}{:a 4}{:a 1 :b 43}] shuffle cross-product)
          #{{:a 1
             :b 43}

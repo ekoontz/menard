@@ -102,16 +102,29 @@
 
 (defn inner-function [[firstm & restms]]
   (when firstm
-    (->> restms
-         (map #(unify firstm %))
-         (lazy-cat (inner-function restms)))))
+
+    (->>
+
+     restms
+
+     ;; TODO: need to check if _firstm_ unifies with anything: if not, keep firstm by itself.
+     (map (fn [m]
+            {:1 firstm
+                 :2 m
+             :u (if (= :fail (unify firstm m))
+                  [firstm m]
+                  [(unify firstm m)])
+             :u-old [(unify firstm m)]}))
+
+     (lazy-cat (inner-function restms)))))
 
 (defn cross-product [maps]
   (-> 
    (->> maps
         inner-function
-       (remove #(= :fail %))
-       set)
+        (mapcat :u)
+        (remove #(= :fail %))
+        set)
    ((fn [s]
       (if (empty? s)
         (set maps)
@@ -133,9 +146,3 @@
          (->> [{:a 42 :b 43 :c 44}
                {:a 45 :b 43 :c 44}]
               set))))
-
-
-
-
-
-

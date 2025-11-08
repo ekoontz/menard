@@ -60,8 +60,8 @@
              {:exceptions exceptions
               :sem {:pred :look-up}}])
  "caer"
- [{:sem {:pred :fall
-         :subj {:ref {:human? false}}}
+ [{:sem {:pred :fall}
+;;         :subj {:ref {:human? false}}}
    :exceptions
    [{:infl :present,
      :agr {:person :1st, :number :sing},

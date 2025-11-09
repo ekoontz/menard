@@ -536,7 +536,9 @@
  {:rule :common-noun
   :if {:cat :noun
        :propernoun? false
-       :pronoun? false}
+       :pronoun? false
+       :subcat ::unspec
+       :agr {:number ::unspec}}
   :then [(let [agr (atom {:number :sing
                           :person :3rd})]
            ;; "a/the dog sleeps"
@@ -547,14 +549,13 @@
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
-
          ;; "the/some dogs sleep"
          (let [agr (atom {:number :plur
                           :person :3rd})]
            {:cat :noun
             :reflexive? false
             :propernoun? false
-             :pronoun? false
+            :pronoun? false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
@@ -568,22 +569,6 @@
                 :person :3rd}
           :subcat []}]}
 
- {:rule :is-el-noun-default
-  :if {:cat :noun
-       :propernoun? false
-       :pronoun? false
-       :is-el-noun? ::unspec}
-  :then [{:is-el-noun? false}]}
-
- {:rule :is-el-noun
-  :if {:cat :noun
-       :propernoun? false
-       :pronoun? false
-       :is-el-noun? true
-       :subcat {:1 {:cat :det}}
-       :agr {:number :sing}}
-  :then [{:subcat {:1 {:is-el-noun? true}}}]}
- 
  {:rule :quantified-noun
   :if {:cat :noun
        :subcat {:1 {:cat :det}}}

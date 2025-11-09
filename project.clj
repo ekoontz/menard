@@ -1,4 +1,4 @@
-(defproject menard "1.9.13"
+(defproject menard "1.9.14-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/menard"
   :license {:name "Eclipse Public License"
@@ -10,6 +10,7 @@
                  [org.clojure/tools.logging "1.3.0"]
                  [clojure.java-time "0.3.3"]
                  [org.clojure/core.async "1.5.648"]
+                 [org.clojure/math.combinatorics "0.3.0"]
                  [babashka/fs "0.1.2"]
                  [yogthos/config "1.1.6"]]
   :resource-paths ["resources"]

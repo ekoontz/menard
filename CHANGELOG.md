@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.14] - 2025-11-10
+
+- English verb morphological fixes
+- Partially rewrite Español commonnoun vs pronoun rules to better handle 'el' nouns like 'aqua'
+- Add new menard.crossproduct namespace to reduce a sets of maps into a possibly smaller set where
+  each member of the new set is the largest-possible non-fail unification of subsets of the members of the
+  original set.
+
 ## [1.9.13] - 2025-10-30
 
 -  Add 'busqué' (1st person singular preterito for buscar)

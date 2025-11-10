@@ -15,6 +15,3 @@
                  [yogthos/config "1.1.6"]]
   :resource-paths ["resources"]
   :jvm-opts ["-Djdk.attach.allowAttachSelf"])
-
-
-

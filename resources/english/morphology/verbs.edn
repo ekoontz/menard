@@ -109,8 +109,8 @@
       :infl :past-simple}}
 
  ;; prohibit/prohibited, develop/developed, deposit/deposited, etc
- {:g [#"^(.*(ain|at|it|eep|en|il|lop))$"   "$1ed"]
-  :p [#"^(.*(ain|at|it|eep|en|il|lop))ed$" "$1"]
+ {:g [#"^(.*(ain|at|bit|eep|en|il|lop))$"   "$1ed"]
+  :p [#"^(.*(ain|at|bit|eep|en|il|lop))ed$" "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -153,8 +153,8 @@
       :infl :past-participle}}
 
  ;; prohibit/prohibited, develop/developed, etc
- {:g [#"^(.*(ain|at|it|eep|en|il|lop))$"   "$1ed"]
-  :p [#"^(.*(ain|at|it|eep|en|il|lop))ed$" "$1"]
+ {:g [#"^(.*(ain|at|bit|eep|en|il|lop))$"   "$1ed"]
+  :p [#"^(.*(ain|at|bit|eep|en|il|lop))ed$" "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
@@ -190,8 +190,8 @@
       :infl :present-participle}}
 
  ;; develop/developing
- {:g [#"^(.*(ain|at|it|eep|en|il|lop))$"    "$1ing"]
-  :p [#"^(.*(ain|at|it|eep|en|il|lop))ing$" "$1"]
+ {:g [#"^(.*(ain|at|bit|eep|en|il|lop))$"    "$1ing"]
+  :p [#"^(.*(ain|at|bit|eep|en|il|lop))ing$" "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 

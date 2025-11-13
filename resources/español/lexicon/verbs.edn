@@ -80,7 +80,7 @@
      :surface "cayò"}
      {:infl :present,
      :agr {:person :1st, :number :plur},
-     :surface "caìmos"}
+     :surface "caemos"}
      {:infl :preterito,
      :agr {:person :2nd, :number :plur, :formal? false},
      :surface "caisteis"}
@@ -120,7 +120,7 @@
      :surface "cayò"}
      {:infl :present,
      :agr {:person :1st, :number :plur},
-     :surface "caìmos"}
+     :surface "caemos"}
      {:infl :preterito,
      :agr {:person :2nd, :number :plur, :formal? false},
      :surface "caisteis"}

@@ -66,6 +66,7 @@
    [{:infl :present,
      :agr {:person :1st, :number :sing},
      :surface "caigo"}
+    
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "caì"}
@@ -74,14 +75,14 @@
      :surface "caiste"}
     {:infl :preterito,
      :agr {:person :2nd, :number :sing, :formal? true},
-     :surface "cayò"}
+     :surface "cayó"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "cayò"}
-     {:infl :present,
+     :surface "cayó"}
+    {:infl :present,
      :agr {:person :1st, :number :plur},
-     :surface "caemos"}
-     {:infl :preterito,
+     :surface "caemos"}    
+    {:infl :preterito,
       :agr {:person :1st, :number :plur}
       :surface "caímos"}
     {:infl :preterito,
@@ -101,6 +102,7 @@
    [{:infl :present,
      :agr {:person :1st, :number :sing},
      :surface "caigo"}
+    
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "caì"}
@@ -109,14 +111,14 @@
      :surface "caiste"}
     {:infl :preterito,
      :agr {:person :2nd, :number :sing, :formal? true},
-     :surface "cayò"}
+     :surface "cayó"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "cayò"}
-     {:infl :present,
+     :surface "cayó"}
+    {:infl :present,
      :agr {:person :1st, :number :plur},
-     :surface "caemos"}
-     {:infl :preterito,
+     :surface "caemos"}    
+    {:infl :preterito,
       :agr {:person :1st, :number :plur}
       :surface "caímos"}
     {:infl :preterito,

@@ -82,8 +82,11 @@
      :agr {:person :1st, :number :plur},
      :surface "caemos"}
      {:infl :preterito,
+      :agr {:person :1st, :number :plur}
+      :surface "caímos"}
+    {:infl :preterito,
      :agr {:person :2nd, :number :plur, :formal? false},
-     :surface "caisteis"}
+     :surface "caísteis"}
     {:infl :preterito,
      :agr {:person :2nd, :number :plur, :formal? true},
      :surface "cayeron"}
@@ -91,14 +94,6 @@
      :agr {:person :3rd, :number :plur},
      :surface "cayeron"}]}]
 
- "caber" [{:sem {:subj {:animate true},
-                 :pred :fit},
-           :cat :verb,
-           :exceptions
-           [{:infl :present,
-             :agr {:person :1st, :number :sing},
-             :surface "quepo"}]
-           :stems {:preterito "cup"}}]
  "caerse"
  [{:sem {:pred :fall
          :subj {:ref {:human? true}}}
@@ -122,14 +117,26 @@
      :agr {:person :1st, :number :plur},
      :surface "caemos"}
      {:infl :preterito,
+      :agr {:person :1st, :number :plur}
+      :surface "caímos"}
+    {:infl :preterito,
      :agr {:person :2nd, :number :plur, :formal? false},
-     :surface "caisteis"}
+     :surface "caísteis"}
     {:infl :preterito,
      :agr {:person :2nd, :number :plur, :formal? true},
      :surface "cayeron"}
     {:infl :preterito,
      :agr {:person :3rd, :number :plur},
      :surface "cayeron"}]}]
+
+ "caber" [{:sem {:subj {:animate true},
+                 :pred :fit},
+           :cat :verb,
+           :exceptions
+           [{:infl :present,
+             :agr {:person :1st, :number :sing},
+             :surface "quepo"}]
+           :stems {:preterito "cup"}}]
 
  "cambiar" [{:sem {:pred :change}}]
  "cambiarse" [{:sem {:pred :change-clothes}}]

@@ -69,7 +69,7 @@
     
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
-     :surface "caì"}
+     :surface "caí"}
     {:infl :preterito,
      :agr {:person :2nd, :number :sing, :formal? false},
      :surface "caiste"}
@@ -319,8 +319,7 @@
  "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
- "encontrar" [{:sem {:pred :find}}
-              {:sem {:pred :drive}}]
+ "encontrar" [{:sem {:pred :find}}]
  "enojarse" [{:sem {:pred :get-angry}}]
  "enseñar" [{:sem {:pred :show}}
             {:sem {:pred :teach}}]

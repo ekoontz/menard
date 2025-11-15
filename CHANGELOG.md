@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.15] - 2015-11-15
+
+- English verb morphology fixes
+- Spanish verb fixes
+
 ## [1.9.14] - 2025-11-10
 
 - English verb morphological fixes

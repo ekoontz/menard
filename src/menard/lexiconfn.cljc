@@ -51,6 +51,7 @@
 (defn derivation-of [lexeme]
   (display-derivation (u/get-in lexeme [:menard.lexiconfn/derivation])))
 
+;; TODO: add support to menard.lexiconfn/pprint to take a _writer_
 (defn pprint [lexeme]
   (let [derivation (u/get-in lexeme [:menard.lexiconfn/derivation])
         head-derivation (u/get-in lexeme [:head-derivation])

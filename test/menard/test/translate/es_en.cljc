@@ -7,6 +7,9 @@
 
             [menard.español :as es]
             [menard.lexiconfn :as l]
+            ;; these are sets of emojis that can represent formal and informal persons,
+            ;; respectively.
+            [menard.morphology :as m :refer [formal informal]]
             [menard.morphology.emojis :as em]
             [menard.translate.es-en :as translate]
             [clojure.test :refer [deftest is]]
@@ -403,3 +406,38 @@
 (deftest yo-he-visto
   (is (= (->> "yo he visto" es/parse (map translate/es-structure-to-en-structure) (map en/syntax-tree))
          '("[s(:perfect) .I +[vp +have(2) .seen]]"))))
+
+(deftest translate-politeness
+  (is
+   (empty?
+    (->> "Pedro y tú os levantáis"
+         es/parse
+         (map translate/es-structure-to-en-structure)
+         (map en/generate)
+         (map en/morph)
+         (map (fn [english-expression]
+                (log/info (str "testing if '" english-expression "' is informal.."))
+                (let [prefix "You"
+                      suffix "and Pedro get up"]
+                  (contains? (->> informal
+                                  (map #(str prefix " " % " " suffix))
+                                  set)
+                             english-expression))))
+         (remove true?))))
+   (is
+    (empty?
+     (->> "Pedro y usted se levantan"
+          es/parse
+          (map translate/es-structure-to-en-structure)
+          (map en/generate)
+          (map en/morph)
+          (map (fn [english-expression]
+                 (log/info (str "testing if '" english-expression "' is formal.."))
+                 (let [prefix "You"
+                       suffix "and Pedro get up"]
+                   (contains? (->> formal
+                                   (map #(str prefix " " % " " suffix))
+                                   set)
+                              english-expression))))
+          (remove true?)))))
+

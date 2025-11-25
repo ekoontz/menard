@@ -159,18 +159,10 @@
 
 
 (defn concat-with-notes [structure surface]
-  (let [note (u/get-in structure [:note])]
+  (let [note (u/get-in structure [:note])
+        note-on-first-word (u/get-in structure [:note-on-first-word])]
     (cond
-      (nil? note)
-      (str surface)
-
-      (= :top note)
-      (str surface)
-
-      (not (seqable? note))
-      (throw (Exception. (str "the :notes value of type: " (type note) " and value: " note " is not seqable in the structure: " structure)))
-      
-      note
+      (and note (not (= :top note)))
       (str surface
            (when (and show-notes?
                       (= true (u/get-in structure [:show-notes?] true))

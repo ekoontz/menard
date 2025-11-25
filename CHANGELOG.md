@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.16] - 2015-11-26
+
+- Fix bugs with handling :note-on-first-word so that e.g. Pedro y usted is translated as "You 👴🏻 and Pedro"
+- Add tests for this fix
+
 ## [1.9.15] - 2015-11-15
 
 - English verb morphology fixes

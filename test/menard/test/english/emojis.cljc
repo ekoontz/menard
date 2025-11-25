@@ -6,7 +6,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-
 (load "../../../../src/menard/english/complete")
 
 (deftest emoji-parsing

@@ -84,8 +84,8 @@
                    :agr {:gender :masc
                          :person :2nd
                          :number :plur}
-                   :sem {:human? true
-                         :ref {:context :informal}
+                   :sem {:ref {:context :informal
+                               :human? true}
                          :pred :Pedro-and-you}
                    :note-on-first-word [:informal]}
 
@@ -93,8 +93,8 @@
                    :agr {:gender :masc
                          :person :2nd
                          :number :plur}
-                   :sem {:human? true
-                         :ref {:context :formal}               
+                   :sem {:ref {:context :formal
+                               :human? true}
                          :pred :Pedro-and-you}
                    :note-on-first-word [:formal]}]
                    

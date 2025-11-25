@@ -87,7 +87,7 @@
                    :sem {:ref {:context :informal
                                :human? true}
                          :pred :Pedro-and-you}
-                   :note-on-first-word [:informal]}
+                   :note-on-first-word [:informal :singular]}
 
                   {:case :nom
                    :agr {:gender :masc
@@ -96,7 +96,7 @@
                    :sem {:ref {:context :formal
                                :human? true}
                          :pred :Pedro-and-you}
-                   :note-on-first-word [:formal]}]
+                   :note-on-first-word [:formal :singular]}]
                    
  "Saskia" [{:cat :noun
             :agr {:gender :fem

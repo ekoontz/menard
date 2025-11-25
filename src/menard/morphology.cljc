@@ -79,7 +79,9 @@
 (def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
 (def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
 
-(defn decode-notes [notes]
+(defn decode-notes
+  "turn a notes value e.g. [:formal :singular :feminine] into an emoji (if :singular) or two emojis (if :plural)"
+  [notes]
   (log/debug (str "decode-notes with notes: " notes))
   (cond
     (= notes "games")

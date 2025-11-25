@@ -20,8 +20,9 @@
          (morph (u/get-in tree [:2]) morphology))
     :else
     (do
-      (log/debug (str "calling m/morph-leaf with tree: " (l/pprint tree)))
-      (m/morph-leaf tree morphology))))
+      (let [retval (m/morph-leaf tree morphology)]
+        (log/debug (str "called m/morph-leaf with tree: " (l/pprint tree) "; retval: " retval))
+        retval))))
 
 (defn syntax-tree [tree morphology]
   (cond

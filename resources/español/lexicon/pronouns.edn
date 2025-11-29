@@ -134,7 +134,14 @@
 
  "nos" [{:agr {:number :plur
                :person :1st}
-         :sem {:ref {:human? true}
+         :sem {:ref {:human? true
+                     :gender :masc}
+               :pred :we}
+         :reflexive? true}
+        {:agr {:number :plur
+               :person :1st}
+         :sem {:ref {:human? true
+                     :gender :fem}
                :pred :we}
          :reflexive? true}]
 
@@ -142,7 +149,8 @@
               :agr {:number :plur
                     :gender :fem
                     :person :1st}
-              :sem {:ref {:human? true}
+              :sem {:ref {:human? true
+                          :gender :fem}
                     :pred :we}
               :reflexive? false}]
 
@@ -150,7 +158,8 @@
               :agr {:number :plur
                     :gender :masc
                     :person :1st}
-              :sem {:ref {:human? true}
+              :sem {:ref {:human? true
+                          :gender :masc}
                     :pred :we}
               :reflexive? false}]
 

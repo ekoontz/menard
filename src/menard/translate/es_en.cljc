@@ -114,7 +114,8 @@
 (defn es-to-en
   "return one English string translation for the given Spanish input."
   [es-input & [es-model en-model]]
-  (-> es-input (es-string-to-en-structure es-model en-model)
+  (-> es-input
+      (es-string-to-en-structure es-model en-model)
       en/morph))
 
 (defn translate [es]

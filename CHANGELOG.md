@@ -4,16 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.9.17] - 2015-11-29
+## [1.9.18] - 2025-12-06
+
+- Add correct exceptional conjugations for dormir and dormirse
+- Modify conjugation table output to more closely resemble Wiktionary's output
+
+## [1.9.17] - 2025-11-29
 
 - Add [:sem :ref :human?] and [:sem :ref :gender] to Spanish pronouns
 
-## [1.9.16] - 2015-11-26
+## [1.9.16] - 2025-11-26
 
 - Fix bugs with handling :note-on-first-word so that e.g. Pedro y usted is translated as "You 👴🏻 and Pedro"
 - Add tests for this fix
 
-## [1.9.15] - 2015-11-15
+## [1.9.15] - 2025-11-15
 
 - English verb morphology fixes
 - Spanish verb fixes

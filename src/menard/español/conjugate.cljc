@@ -84,11 +84,11 @@
    :moods [{:name "Modo indicativo" :css-class "indicativo"
             :inflections [(merge {:name "Presente"}
                                  (verb canonical :present-simple))
-                          (merge {:name "Preterito imperfecto"}
+                          (merge {:name "Pretérito imperfecto"}
                                  (verb canonical :imperfect))
-                          (merge {:name "Preterito perfecto"}
+                          (merge {:name "Pretérito perfecto"}
                                  (verb canonical :preterito))
-                          (merge {:name "Preterito perfecto compuesto"}
+                          (merge {:name "Pretérito perfecto compuesto"}
                                  (verb canonical :preterito-perfecto))
                           (merge {:name "Futuro"}
                                  (verb canonical :future))]}

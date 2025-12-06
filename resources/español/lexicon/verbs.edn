@@ -14,7 +14,6 @@
  "acompañar" [{:sem {:pred :accompany}}]
  "acordarse" [{:stems {:boot "acuerd"}
                :sem {:pred :remember}}]
-
  "acostarse" [{:stems {:boot "acuest"}
                :sem {:pred :go-to-bed}}]
  "ahorrar" [{:sem {:pred :save-money}}]
@@ -310,11 +309,37 @@
  "dibujar" [{:sem {:pred :draw}}]
  "divertirse" [{:sem {:pred :have-fun}
                 :stems {:boot "diviert"}}]
- "dormir" [{:transitivity :intransitive
-            :sem {:pred :sleep}
-            :stems {:boot "duerm"}}]
- "dormirse" [{:sem {:pred :fall-asleep}
-              :stems {:boot "duerm"}}]
+ "dormir" (let [exceptions [{:infl :preterito
+                             :agr {:person :3rd :number :sing}
+                             :surface "durmió"}
+                            {:infl :preterito
+                             :agr {:person :2nd :number :sing :formal? true}
+                             :surface "durmió"}
+                            {:infl :preterito
+                             :agr {:person :3rd :number :plur}
+                             :surface "durmieron"}
+                            {:infl :preterito
+                             :agr {:person :2nd :number :plur :formal? true}
+                             :surface "durmieron"}]]
+            [{:transitivity :intransitive
+              :sem {:pred :sleep}
+              :stems {:boot "duerm"}
+              :exceptions exceptions}])
+ "dormirse" (let [exceptions [{:infl :preterito
+                             :agr {:person :3rd :number :sing}
+                             :surface "durmió"}
+                            {:infl :preterito
+                             :agr {:person :2nd :number :sing :formal? true}
+                             :surface "durmió"}
+                            {:infl :preterito
+                             :agr {:person :3rd :number :plur}
+                             :surface "durmieron"}
+                            {:infl :preterito
+                             :agr {:person :2nd :number :plur :formal? true}
+                             :surface "durmieron"}]]
+              [{:sem {:pred :fall-asleep}
+                :stems {:boot "duerm"}
+                :exceptions exceptions}])
  "ducharse" [{:sem {:pred :take-a-shower}}]
  "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]

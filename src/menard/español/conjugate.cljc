@@ -81,17 +81,19 @@
 
 (defn generate-chart [canonical]
   {:canonical canonical
-   :inflections [
-                 (merge {:name "Present"}
-                        (verb canonical :present-simple))
-                 (merge {:name "Conditional"}
-                        (verb canonical :conditional))
-                 (merge {:name "Future"}
-                        (verb canonical :future))
-                 (merge {:name "Imperfect"}
-                        (verb canonical :imperfect))
-                 (merge {:name "Preterito"}
-                        (verb canonical :preterito))
-                 (merge {:name "Preterito Perfecto"}
-                        (verb canonical :preterito-perfecto))
-                 ]})
+   :moods [{:name "Modo indicativo" :css-class "indicativo"
+            :inflections [(merge {:name "Presente"}
+                                 (verb canonical :present-simple))
+                          (merge {:name "Preterito imperfecto"}
+                                 (verb canonical :imperfect))
+                          (merge {:name "Preterito perfecto"}
+                                 (verb canonical :preterito))
+                          (merge {:name "Preterito perfecto compuesto"}
+                                 (verb canonical :preterito-perfecto))
+                          (merge {:name "Futuro"}
+                                 (verb canonical :future))]}
+           {:name "Modo condicional" :css-class "condicional"
+            :inflections [(merge {:name "Condicional simple"}
+                                 (verb canonical :conditional))]}]})
+
+          

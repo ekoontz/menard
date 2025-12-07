@@ -459,67 +459,32 @@
     (log/info (str "get-lexemes with spec: " (l/pprint spec) " at: " at)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
-  (let [canonical-spec (u/get-in spec [:canonical] :top)
-        root-spec (u/get-in spec [:root] :top)]
-    (->> (lexicon-index-fn spec)
+  (->> (lexicon-index-fn spec)
 
-         (#(do
-             (when (or log-all-rules? (contains? log-these-paths (vec at)))
-               (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
-             %))
+       (#(do
+           (when (or log-all-rules? (contains? log-these-paths (vec at)))
+             (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
+           %))
 
-         (filter (fn [lexeme]
-                   (or (= :top canonical-spec)
-                       (let [canonical-lexical (u/get-in lexeme [:canonical] :top)]
-                         (or (= :top canonical-lexical)
-                             (= canonical-spec canonical-lexical))))))
+       (map (fn [lexeme]
+              (log/debug (str "looking at lexeme: " (l/pprint lexeme) " with spec: " (l/pprint spec)))
+              (if (and developer-mode? (contains? log-these-paths (vec at)))
+                {:lexeme lexeme
+                 :unify (unify lexeme spec)}
+                {:unify (unify lexeme spec)})))
 
-         (filter (fn [lexeme]
-                   (or (= :top root-spec)
-                       (let [root-lexical (u/get-in lexeme [:root] :top)]
-                         (or (= :top root-lexical)
-                             (= root-spec root-lexical))))))
-         
-         (map (fn [lexeme]
-                (log/debug (str "looking at lexeme: " (l/pprint lexeme) " with spec: " (l/pprint spec)))
-                (if (and developer-mode? (contains? log-these-paths (vec at)))
-                  {:lexeme lexeme
-                   :unify (unify lexeme spec)}
-                  {:unify (unify lexeme spec)})))
-
-         (filter (fn [{lexeme :lexeme
-                       unify :unify}]
-                   (log/debug (str "candidate lexeme surface:   " (u/get-in lexeme [:surface])))
-                   (log/debug (str "candidate lexeme canonical: " (u/get-in lexeme [:canonical])))                 
-                   (log/debug (str "candidate lexeme: " (l/pprint lexeme)))                 
-                   (log/debug (str "candidate unify : " (l/pprint unify)))
-                   (cond
-                     (= unify :fail)
-                     (do
-                       (when counts? (swap! count-lexeme-fails inc))
-                       (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
-                         (when (and developer-mode? (contains? log-these-paths (vec at)))
-                           (log/info (str "lexeme candidate: "
-                                          (cond (u/get-in lexeme [:surface])
-                                                (str "'" (u/get-in lexeme [:surface]) "'")
-                                                (u/get-in lexeme [:canonical])
-                                                (str "_" (u/get-in lexeme [:canonical]) "_"
-                                                     (if (u/get-in lexeme [:sense])
-                                                       (str ":" (u/get-in lexeme [:sense]))))
-                                                :true
-                                                (l/pprint lexeme))
-                                          " failed: " (vec fail-path) "; "
-                                          " lexeme's value: "
-                                          (serialize (u/get-in lexeme fail-path)) "; "
-                                          " spec's value: "
-                                          (serialize (u/get-in spec fail-path))))))
-                       false)
-
-                     :else
-                     (do
+       (filter (fn [{lexeme :lexeme
+                     unify :unify}]
+                 (log/debug (str "candidate lexeme surface:   " (u/get-in lexeme [:surface])))
+                 (log/debug (str "candidate lexeme canonical: " (u/get-in lexeme [:canonical])))                 
+                 (log/debug (str "candidate lexeme: " (l/pprint lexeme)))                 
+                 (log/debug (str "candidate unify : " (l/pprint unify)))
+                 (cond
+                   (= unify :fail)
+                   (do
+                     (when counts? (swap! count-lexeme-fails inc))
+                     (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
                        (when (and developer-mode? (contains? log-these-paths (vec at)))
-                         (log/info (str "candidate lexeme: at: " (vec at) ": "
-                                        (or (u/get-in lexeme [:canonical]) (l/pprint lexeme))))
                          (log/info (str "lexeme candidate: "
                                         (cond (u/get-in lexeme [:surface])
                                               (str "'" (u/get-in lexeme [:surface]) "'")
@@ -528,9 +493,30 @@
                                                    (if (u/get-in lexeme [:sense])
                                                      (str ":" (u/get-in lexeme [:sense]))))
                                               :true
-                                              (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                       true))))
-         (map :unify))))
+                                              (l/pprint lexeme))
+                                        " failed: " (vec fail-path) "; "
+                                        " lexeme's value: "
+                                        (serialize (u/get-in lexeme fail-path)) "; "
+                                        " spec's value: "
+                                        (serialize (u/get-in spec fail-path))))))
+                     false)
+
+                   :else
+                   (do
+                     (when (and developer-mode? (contains? log-these-paths (vec at)))
+                       (log/info (str "candidate lexeme: at: " (vec at) ": "
+                                      (or (u/get-in lexeme [:canonical]) (l/pprint lexeme))))
+                       (log/info (str "lexeme candidate: "
+                                      (cond (u/get-in lexeme [:surface])
+                                            (str "'" (u/get-in lexeme [:surface]) "'")
+                                            (u/get-in lexeme [:canonical])
+                                            (str "_" (u/get-in lexeme [:canonical]) "_"
+                                                 (if (u/get-in lexeme [:sense])
+                                                   (str ":" (u/get-in lexeme [:sense]))))
+                                            :true
+                                            (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
+                     true))))
+       (map :unify)))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

@@ -51,7 +51,8 @@
 (defn verb [canonical inflection]
   (let [basic-spec {:cat :verb
                     :root canonical
-                    :comp {:pronoun? true}
+                    :comp {:pronoun? true
+                           :phrasal? false}
                     :subcat []}
         inflection-spec (->> menard.español.tenses/finite-tenses
                              (filter #(= inflection (u/get-in % [:variant])))
@@ -68,7 +69,7 @@
                              [person (-> (person person-map)
                                          (unify spec)
                                          (unify {:agr {:number :sing}})
-                                         es/generate
+                                         (es/generate es/curated-verbs)
                                          es/morph)]))
                       (into {}))
        :plural   (->> persons
@@ -76,7 +77,7 @@
                              [person (-> (person person-map)
                                          (unify spec)
                                          (unify {:agr {:number :plur}})
-                                         es/generate
+                                         (es/generate es/curated-verbs)
                                          es/morph)]))
                       (into {}))})))
 

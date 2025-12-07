@@ -136,7 +136,7 @@
             (do
               (log/debug (str "too deep: giving up on this tree: " (syntax-tree-fn tree) "."))
               (generate-all (rest trees) grammar lexicon-index-fn syntax-tree-fn))
-            
+
             (or (u/get-in tree [::done?])
                 (and (seq frontier) (= frontier stop-generation-at)))
             (do
@@ -172,7 +172,7 @@
                      (empty? x))
                 :top
                 :else x)))))
-             
+
 (defn add
   "Return a lazy sequence of all trees made by adding every possible
   leaf and tree to _tree_. This sequence is the union of all trees
@@ -182,7 +182,7 @@
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
   (when (and developer-mode? (or log-all-rules? (and developer-mode? (contains? log-these-rules (u/get-in tree [:rule])))))
     (log/info (str "add with tree: " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
-  
+
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
         phrase-at? (u/get-in tree (concat at [:phrase]) false)
@@ -191,7 +191,7 @@
         (cond
           ;; condition 0: tree is :fail.
           (= tree :fail) :tree-is-fail
-          
+
           ;; condition 1: tree is done: return a list with one member: the tree.
           (u/get-in tree [::done?]) :done
 
@@ -204,10 +204,10 @@
            (= true (u/get-in tree (concat at [:phrasal?])))
            (u/get-in tree (concat at [:head]))
            (u/get-in tree (concat at [:comp]))) :rules-only
-          
+
           ;; condition 3: add only lexemes at location _at_:
           (= false (u/get-in tree (concat at [:phrasal?]))) :lexemes-only
-          
+
           ;; condition 4: add both lexemes and rules at location _at_:
           :else :both)]
     (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
@@ -277,7 +277,7 @@
          (do
            (log/debug (str "taking only: " (u/get-in spec [::max]) " trees."))
            (take (u/get-in spec [::max]) %))
-             
+
          %))
 
      (#(do (when (and (empty? %)
@@ -318,12 +318,12 @@
                                (log/debug (str "found lexeme: " (syntax-tree lexeme))))
                              %)))
                %))
-           
+
            (#(if (and exception-if-no-lexemes-found? (empty? %))
                (do
                  (exception (str "no lexemes found at all for spec: " (l/pprint spec))))
                %))
-           
+
            (#(if (and (empty? %)
                       (= false allow-lexeme-backtracking?)
                       (= false (u/get-in spec [:phrasal?] ::none)))
@@ -388,16 +388,16 @@
     (->>
      ;; start with the whole grammar, shuffled:
      (shuffle grammar)
-     
+
      ;; if a :rule is supplied, then filter out all rules that don't have this name:
      (filter #(or (nil? rule-name)
                   (do
                     (log/debug (str "add-rule: looking for rule named: " (u/get-in % [:rule])))
                     (= (u/get-in % [:rule]) rule-name))))
-     
+
      ;; if a :cat is supplied, then filter out all rules that specify a different :cat :
      (filter #(or (nil? cat) (= cat :top) (= :top (u/get-in % [:cat] :top)) (= (u/get-in % [:cat]) cat)))
-     
+
      ;; do the actual adjoining of the child within the _tree_'s path _at_:
      ;;
      ;;            tree->     /\
@@ -459,31 +459,57 @@
     (log/info (str "get-lexemes with spec: " (l/pprint spec) " at: " at)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
-  (->> (lexicon-index-fn spec)
+  (let [canonical-spec (u/get-in spec [:canonical] :top)]
+    (->> (lexicon-index-fn spec)
 
-       (#(do
-           (when (or log-all-rules? (contains? log-these-paths (vec at)))
-             (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
-           %))
+         (#(do
+             (when (or log-all-rules? (contains? log-these-paths (vec at)))
+               (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
+             %))
 
-       (map (fn [lexeme]
-              (if (and developer-mode? (contains? log-these-paths (vec at)))
-                {:lexeme lexeme
-                 :unify (unify lexeme spec)}
-                {:unify (unify lexeme spec)})))
+         (filter (fn [lexeme]
+                   (not (= :fail (unify canonical-spec (u/get-in lexeme [:canonical] :top))))))
 
-       (filter (fn [{lexeme :lexeme
-                     unify :unify}]
-                 (log/debug (str "candidate lexeme surface:   " (u/get-in lexeme [:surface])))
-                 (log/debug (str "candidate lexeme canonical: " (u/get-in lexeme [:canonical])))                 
-                 (log/debug (str "candidate lexeme: " (l/pprint lexeme)))                 
-                 (log/debug (str "candidate unify : " (l/pprint unify)))
-                 (cond
-                   (= unify :fail)
-                   (do
-                     (when counts? (swap! count-lexeme-fails inc))
-                     (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
+         (map (fn [lexeme]
+                (log/debug (str "looking at lexeme: " (l/pprint lexeme) " with spec: " (l/pprint spec)))
+                (if (and developer-mode? (contains? log-these-paths (vec at)))
+                  {:lexeme lexeme
+                   :unify (unify lexeme spec)}
+                  {:unify (unify lexeme spec)})))
+
+         (filter (fn [{lexeme :lexeme
+                       unify :unify}]
+                   (log/debug (str "candidate lexeme surface:   " (u/get-in lexeme [:surface])))
+                   (log/debug (str "candidate lexeme canonical: " (u/get-in lexeme [:canonical])))                 
+                   (log/debug (str "candidate lexeme: " (l/pprint lexeme)))                 
+                   (log/debug (str "candidate unify : " (l/pprint unify)))
+                   (cond
+                     (= unify :fail)
+                     (do
+                       (when counts? (swap! count-lexeme-fails inc))
+                       (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
+                         (when (and developer-mode? (contains? log-these-paths (vec at)))
+                           (log/info (str "lexeme candidate: "
+                                          (cond (u/get-in lexeme [:surface])
+                                                (str "'" (u/get-in lexeme [:surface]) "'")
+                                                (u/get-in lexeme [:canonical])
+                                                (str "_" (u/get-in lexeme [:canonical]) "_"
+                                                     (if (u/get-in lexeme [:sense])
+                                                       (str ":" (u/get-in lexeme [:sense]))))
+                                                :true
+                                                (l/pprint lexeme))
+                                          " failed: " (vec fail-path) "; "
+                                          " lexeme's value: "
+                                          (serialize (u/get-in lexeme fail-path)) "; "
+                                          " spec's value: "
+                                          (serialize (u/get-in spec fail-path))))))
+                       false)
+
+                     :else
+                     (do
                        (when (and developer-mode? (contains? log-these-paths (vec at)))
+                         (log/info (str "candidate lexeme: at: " (vec at) ": "
+                                        (or (u/get-in lexeme [:canonical]) (l/pprint lexeme))))
                          (log/info (str "lexeme candidate: "
                                         (cond (u/get-in lexeme [:surface])
                                               (str "'" (u/get-in lexeme [:surface]) "'")
@@ -492,43 +518,22 @@
                                                    (if (u/get-in lexeme [:sense])
                                                      (str ":" (u/get-in lexeme [:sense]))))
                                               :true
-                                              (l/pprint lexeme))
-                                        " failed: " (vec fail-path) "; "
-                                        " lexeme's value: "
-                                        (serialize (u/get-in lexeme fail-path)) "; "
-                                        " spec's value: "
-                                        (serialize (u/get-in spec fail-path))))))
-                     false)
-
-                   :else
-                   (do
-                     (when (and developer-mode? (contains? log-these-paths (vec at)))
-                       (log/info (str "candidate lexeme: at: " (vec at) ": "
-                                      (or (u/get-in lexeme [:canonical]) (l/pprint lexeme))))
-                       (log/info (str "lexeme candidate: "
-                                      (cond (u/get-in lexeme [:surface])
-                                            (str "'" (u/get-in lexeme [:surface]) "'")
-                                            (u/get-in lexeme [:canonical])
-                                            (str "_" (u/get-in lexeme [:canonical]) "_"
-                                                 (if (u/get-in lexeme [:sense])
-                                                   (str ":" (u/get-in lexeme [:sense]))))
-                                            :true
-                                            (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
-                     true))))
-       (map :unify)))
+                                              (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
+                       true))))
+         (map :unify))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
-  
+
   (let [retval
         (cond
           (= :fail tree)
           []
-          
+
           (= (u/get-in tree [::done?]) true)
           []
-          
+
           (= (u/get-in tree [:phrasal?]) false)
           []
 
@@ -537,7 +542,7 @@
 
           (= ::none (u/get-in tree [::started?] ::none))
           []
-          
+
           (and (u/get-in tree [:head ::done?])
                (u/get-in tree [:comp ::done?]))
           []

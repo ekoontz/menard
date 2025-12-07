@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.20] - 2025-12-07
+
+- Factor out common code related to async conjugation
+
 ## [1.9.19] - 2025-12-07
 
 - Support async rendering of conjugation table to improve responsiveness

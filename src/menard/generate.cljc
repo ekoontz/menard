@@ -468,7 +468,10 @@
              %))
 
          (filter (fn [lexeme]
-                   (not (= :fail (unify canonical-spec (u/get-in lexeme [:canonical] :top))))))
+                   (or (= :top canonical-spec)
+                       (let [canonical-lexical (u/get-in lexeme [:canonical] :top)]
+                         (or (= :top canonical-lexical)
+                             (= canonical-spec canonical-lexical))))))
 
          (map (fn [lexeme]
                 (log/debug (str "looking at lexeme: " (l/pprint lexeme) " with spec: " (l/pprint spec)))

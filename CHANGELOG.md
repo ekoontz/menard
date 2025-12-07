@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.21] - 2025-12-07
+
+- Improve lexical lookup when `:canonical` is provided as lookup's input.
+- Add SECURITY.md
+
 ## [1.9.20] - 2025-12-07
 
 - Factor out common code related to async conjugation

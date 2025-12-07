@@ -273,7 +273,10 @@
        (log/debug (str "lexicon-index-fn called with spec: " (l/pprint spec)))
        (let [pred (u/get-in spec [:sem :pred])
              pre-result
-             (cond (and pred
+             (cond (string? (u/get-in spec [:canonical]))
+                   (do (log/debug (str "found a canonical form so simply returning lexical entry for: '" (u/get-in spec [:canonical]) "'"))
+                       (-> model :lexicon (get (u/get-in spec [:canonical]))))
+                   (and pred
                         (not (= pred :top)))
                    (concat (-> model :indices :pred-lexicon (get pred))
                            (-> model :indices :pred-lexicon :top))

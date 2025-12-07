@@ -459,7 +459,8 @@
     (log/info (str "get-lexemes with spec: " (l/pprint spec) " at: " at)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
-  (let [canonical-spec (u/get-in spec [:canonical] :top)]
+  (let [canonical-spec (u/get-in spec [:canonical] :top)
+        root-spec (u/get-in spec [:root] :top)]
     (->> (lexicon-index-fn spec)
 
          (#(do
@@ -473,6 +474,12 @@
                          (or (= :top canonical-lexical)
                              (= canonical-spec canonical-lexical))))))
 
+         (filter (fn [lexeme]
+                   (or (= :top root-spec)
+                       (let [root-lexical (u/get-in lexeme [:root] :top)]
+                         (or (= :top root-lexical)
+                             (= root-spec root-lexical))))))
+         
          (map (fn [lexeme]
                 (log/debug (str "looking at lexeme: " (l/pprint lexeme) " with spec: " (l/pprint spec)))
                 (if (and developer-mode? (contains? log-these-paths (vec at)))

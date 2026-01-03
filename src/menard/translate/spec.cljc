@@ -1,6 +1,7 @@
 (ns menard.translate.spec
   (:require #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])
+            [menard.lexiconfn :as l]
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.serialization :refer [serialize]]
             [dag_unify.diagnostics :as diag]))
@@ -46,7 +47,8 @@
                                          {:obj {:obj (u/get-in nl-expression [:sem :obj :obj])}})
                                   true :top))
                 :subcat []})]
-    (log/debug (str "English spec to generate: " (serialize retval)))
+    (log/info (str "English spec to generate: " (menard.log/log-large-map
+                                                 (l/pprint retval))))
     (let [final-check
           (unify
            retval

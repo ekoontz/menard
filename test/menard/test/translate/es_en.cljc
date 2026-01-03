@@ -325,7 +325,7 @@
                translate/es-structure-to-en-structure
                en/syntax-tree))))
   (doall
-   (take 1000
+   (take 10000
          (repeatedly #(let [es-spec
                             {:root "ver"
                              :subcat []

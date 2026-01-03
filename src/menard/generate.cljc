@@ -463,7 +463,7 @@
 
        (#(do
            (when (or log-all-rules? (contains? log-these-paths (vec at)))
-             (log/info (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
+             (log/debug (str "get-lexemes: lexicon-index-fn returned: " (count %) " lexeme(s) found.")))
            %))
 
        (map (fn [lexeme]
@@ -485,6 +485,7 @@
                      (when counts? (swap! count-lexeme-fails inc))
                      (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
                        (when (and developer-mode? (contains? log-these-paths (vec at)))
+                         (log/info (str "lexeme candidate: " lexeme))
                          (log/info (str "lexeme candidate: "
                                         (cond (u/get-in lexeme [:surface])
                                               (str "'" (u/get-in lexeme [:surface]) "'")

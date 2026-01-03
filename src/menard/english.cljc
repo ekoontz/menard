@@ -126,7 +126,7 @@
     (binding [g/max-depth (if (get-in spec [:max-depth])
                             (+ 5 (get-in spec [:max-depth]))
                             (get-in spec [:max-depth] g/max-depth))
-              g/truncate? false]
+              g/truncate? true]
       (log/debug (str "english generate: " (diag/strip-refs spec)
                       " with max-depth: " g/max-depth))
       (try (g/generate spec

@@ -191,3 +191,18 @@
                      (repeatedly #(transfer-fn i @complete/model))))))
        doall))))
 
+(def spec-that-generates-i-sleep
+  {:infl :present,
+   :comp {:phrasal? false, :pronoun? true},
+   :sem
+   {:cat :verb,
+    :tense :present,
+    :aspect :simple,
+    :pred :sleep,
+    :mod [],
+    :subcat [],
+    :head {:phrasal? false},
+    :subj {:pred :i, :existential? false},
+    :obj :none}})
+
+  

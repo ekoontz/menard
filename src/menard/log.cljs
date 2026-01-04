@@ -18,3 +18,8 @@
 (defn warn [& s]
   (let [msg (fmt s)]
     (js/console.warn msg)))
+
+(defn log-large-map [m & [log-fn label]]
+  ;; TODO: improve support as available with .clj
+  (js/console.info m))
+

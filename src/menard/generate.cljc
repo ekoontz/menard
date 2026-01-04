@@ -2,6 +2,7 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [cljslog.core :as log])
+   [menard.log :refer [log-large-map]]
    [menard.exception :refer [exception]]
    [menard.lexiconfn :as l]
    [menard.serialization :as ser]
@@ -41,7 +42,7 @@
 ;; examples:
 ;;(def ^:dynamic log-these-rules #{"s" "vp"})
 (def developer-mode? false)
-(def ^:dynamic log-these-rules #{})
+(def ^:dynamic log-these-rules #{"s"})
 
 ;; log-these-rules: show more logging for a certain
 ;; set of paths within a tree being generated.
@@ -49,7 +50,7 @@
 ;;(def ^:dynamic log-these-paths #{[:head :comp]})
 ;;(def ^:dynamic log-these-paths #{[:comp]})
 
-(def ^:dynamic log-these-paths #{})
+(def ^:dynamic log-these-paths #{[:head :comp :head]})
 
 (def ^:dynamic log-all-rules? false)
 (def ^:dynamic exception-if-no-lexemes-found? false)
@@ -181,7 +182,7 @@
   [tree grammar lexicon-index-fn syntax-tree-fn]
   (when counts? (swap! count-adds (fn [_] (+ 1 @count-adds))))
   (when (and developer-mode? (or log-all-rules? (and developer-mode? (contains? log-these-rules (u/get-in tree [:rule])))))
-    (log/info (str "add with tree: " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
+    (log/info (str "add with tree (start): " (syntax-tree-fn tree) "; depth: " (count (frontier tree)))))
 
   (let [at (frontier tree)
         rule-at? (u/get-in tree (concat at [:rule]) false)
@@ -212,10 +213,10 @@
           :else :both)]
     (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
       (log/info (str "add: start: " (syntax-tree-fn tree) " at: " at
-                     (str "; looking for: "
-                          (when (map? (u/get-in tree at))
-                            (strip-refs (select-keys (u/get-in tree at) show-keys)))
-                          "; gen-condition: " gen-condition))))
+                      (str "; looking for: "
+                           (when (map? (u/get-in tree at))
+                             (strip-refs (select-keys (u/get-in tree at) show-keys)))
+                           "; gen-condition: " gen-condition))))
     (->>
      (cond
        ;; condition 0: tree is :fail.
@@ -295,6 +296,7 @@
     ;; TODO add noun ending morphology e.g. try => tries, match => matches
     :else (str input "s")))
 
+;; TODO: rename: add-lexeme to: add-all-lexemes.
 (defn add-lexeme
   "Return a lazy sequence of all trees made by adding every possible
   leaf (via (get-lexemes)) to _tree_."
@@ -307,7 +309,8 @@
         done-at (concat (tr/remove-trailing-comps at) [:menard.generate/done?])
         spec (u/get-in tree at)]
     (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule])) (contains? log-these-paths at)))
-      (log/info (str "add-lexeme: " (syntax-tree tree) " at: " (vec at) " looking for lexeme matching spec: " (select-keys (l/pprint spec) show-keys))))
+      (log/info (str "add-lexeme: " (syntax-tree tree) " rule: " (u/get-in tree [:rule]) "; at: " (vec at) " looking for lexeme matching spec: "))
+      (log-large-map (l/pprint spec)))
     (if (= true (u/get-in spec [:phrasal?]))
       (exception (str "don't call add-lexeme with phrasal=true! fix your grammar and/or lexicon."))
       (->> (get-lexemes spec lexicon-index-fn at)
@@ -334,8 +337,8 @@
 
            (map (fn [candidate-lexeme]
                   (when (and developer-mode? (or log-all-rules? (contains? log-these-rules (u/get-in tree [:rule]))))
-                    (log/info (str "adding candidate lexeme at: " (vec at) ": "
-                                   (syntax-tree candidate-lexeme))))
+                    (log/info (str "adding candidate lexeme: " (syntax-tree candidate-lexeme) " at: " (vec at) ": "
+                                   (syntax-tree tree))))
                   (-> tree
                       u/copy
                       (u/assoc-in! done-at true)
@@ -455,8 +458,10 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec lexicon-index-fn at]
-  (if (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
-    (log/info (str "get-lexemes with spec: " (l/pprint spec) " at: " at)))
+  (when (and developer-mode? (or log-all-rules? (contains? log-these-paths (vec at))))
+    (log/info (str "get-lexemes with spec: "))
+    (log-large-map (l/pprint spec))
+    (log/info (str "   at: " at)))
   (if (nil? lexicon-index-fn)
     (exception (str "lexical-index-fn was null.")))
   (->> (lexicon-index-fn spec)
@@ -485,8 +490,8 @@
                      (when counts? (swap! count-lexeme-fails inc))
                      (let [fail-path (dag_unify.diagnostics/fail-path spec lexeme)]
                        (when (and developer-mode? (contains? log-these-paths (vec at)))
-                         (log/info (str "lexeme candidate: " lexeme))
-                         (log/info (str "lexeme candidate: "
+                         (log/debug (str "lexeme candidate: " lexeme))
+                         (log/debug (str "lexeme candidate: "
                                         (cond (u/get-in lexeme [:surface])
                                               (str "'" (u/get-in lexeme [:surface]) "'")
                                               (u/get-in lexeme [:canonical])
@@ -515,7 +520,8 @@
                                                  (if (u/get-in lexeme [:sense])
                                                    (str ":" (u/get-in lexeme [:sense]))))
                                             :true
-                                            (l/pprint lexeme)) " succeeded: " (strip-refs unify))))
+                                            (l/pprint lexeme)) " succeeded: "))
+                       (log-large-map (l/pprint unify)))
                      true))))
        (map :unify)))
 
@@ -523,6 +529,11 @@
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
 
+  (when false
+    (log/info (str "<frontier tree>"))
+    (log-large-map (l/pprint tree))
+    (log/info (str "</frontier>")))
+  
   (let [retval
         (cond
           (= :fail tree)
@@ -534,6 +545,9 @@
           (= (u/get-in tree [:phrasal?]) false)
           []
 
+          (boolean? tree)
+          []
+          
           (empty? tree)
           []
 

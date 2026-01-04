@@ -47,8 +47,8 @@
                                          {:obj {:obj (u/get-in nl-expression [:sem :obj :obj])}})
                                   true :top))
                 :subcat []})]
-    (log/info (str "English spec to generate: " (menard.log/log-large-map
-                                                 (l/pprint retval))))
+    (if false (menard.log/log-large-map
+               (l/pprint retval) (fn [x] (log/info x)) "english-spec-to-generate"))
     (let [final-check
           (unify
            retval

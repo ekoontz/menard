@@ -97,7 +97,7 @@
    :infl (atom :top)
    :inflected? (atom :top)
    :note (atom :top)
-   :note-on-first-word (atom :top)   
+   :note-on-first-word (atom :top)
    :null? (atom :top)
    :reflexive? (atom :top)
    :root (atom :top)
@@ -125,7 +125,7 @@
          (= :done (numeric-frontier (-> syntax-tree :2)))
          (not (= :done (numeric-frontier (-> syntax-tree :1)))))
     (cons :1 (numeric-frontier (-> syntax-tree :1)))
-    
+
     (and (map? syntax-tree)
          (= :done (numeric-frontier (-> syntax-tree :1)))
          (not (= :done (numeric-frontier (-> syntax-tree :2)))))
@@ -145,7 +145,7 @@
     (and (map? syntax-tree)
          (-> syntax-tree :2 :head?))
     (cons :2 (numeric-frontier (-> syntax-tree :2)))
-    
+
     :else (exception (str "unhandled: " (diag/strip-refs syntax-tree)))))
 
 (defn update-syntax-tree [tree at syntax-tree]
@@ -199,7 +199,7 @@
     (do
       (log/debug (str "ks: " ks))
       (log/debug (str "HEAD: " head))
-      (log/debug (str "TAIL: " tail))      
+      (log/debug (str "TAIL: " tail))
       (cond
         tail
         (let [v (dissoc-in (u/get-in m [head]) tail)]
@@ -237,7 +237,7 @@
                           ;; in this case, we have just added the final :comp at the
                           ;; root of the tree, so simply truncate that:
                           [:comp]
-                          
+
                           ;; otherwise, ascend the tree as high as there are :comps
                           ;; trailing _at_.
                           (remove-trailing-comps at))]
@@ -245,17 +245,21 @@
         (log/debug (str "truncate@: " (numeric-path tree compless-at) " (Numeric-path at) " (syntax-tree tree)))
         (-> tree
             (dissoc-in compless-at)
+
             (dissoc-in (numeric-path tree compless-at))
+
             (u/assoc-in! (concat compless-at [:menard.generate/done?]) true)
             (dissoc-in (concat (butlast compless-at) [:head :subcat]))
             (dissoc-in (concat (butlast compless-at) [:head :derivation]))
             (dissoc-in (concat (butlast compless-at) [:head :sem]))
             (dissoc-in (concat (butlast compless-at) [:head :exceptions]))
+
             (dissoc-in (concat (butlast compless-at) [:1]))
             (dissoc-in (concat (butlast compless-at) [:2]))
+
             ((fn [tree]
                (log/debug (str "afterwards: " (syntax-tree tree) "; keys of path: " (vec (concat (butlast compless-at) [:head])) ": "
                                (keys (u/get-in tree (concat (butlast compless-at) [:head])))))
-               true))))
+               tree))))
       tree)))
 

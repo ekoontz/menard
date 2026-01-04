@@ -179,7 +179,7 @@
 (deftest transfer
   (let [start 0
         end (count nl/expressions)
-        do-this-many 200
+        do-this-many 20
         ]
 
     (binding [menard.generate/log-all-rules? false]

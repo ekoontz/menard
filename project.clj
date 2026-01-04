@@ -3,7 +3,7 @@
   :url "http://github.com/ekoontz/menard"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[dag_unify "1.12.0-SNAPSHOT"]
+  :dependencies [[dag_unify "1.11.2"]
                  [log4j/log4j "1.2.17"]
                  [org.clojure/clojure "1.12.3"]
                  [org.clojure/data.json "1.0.0"]

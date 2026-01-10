@@ -7,8 +7,7 @@
    #?(:cljs [menard.log :as log])
    [dag_unify.serialization :as s :refer [serialize]]
    [dag_unify.core :as u :refer [fail? unify]]
-   [dag_unify.diagnostics :as diag]
-   [dag_unify.dissoc :as d]))
+   [dag_unify.diagnostics :as diag]))
 
 ;; This is used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
@@ -483,7 +482,7 @@
                                                         (log-fn (str "looking at candidate exception: " (pprint exception)))
                                                         (let [u-result
                                                               (unify
-                                                               (d/dissoc-in lexeme [:exceptions])
+                                                               (dissoc lexeme :exceptions)
                                                                exception
                                                                {:exception? true
                                                                 :inflected? true
@@ -494,9 +493,9 @@
                                                              [u-result]}
 
                                                             (let [fp
-                                                                  (diag/fail-path (d/dissoc-in lexeme [:exceptions]) exception)]
+                                                                  (diag/fail-path (dissoc lexeme :exceptions) exception)]
                                                               (log-fn (str "(unify lexeme exception) failed at path: " fp))
-                                                              (log-fn (str "   lexeme value:    " (u/get-in (d/dissoc-in lexeme [:exceptions]) fp)))
+                                                              (log-fn (str "   lexeme value:    " (u/get-in (dissoc lexeme :exceptions) fp)))
                                                               (log-fn (str "   exception value: " (u/get-in exception fp))))))))))))
                                 merge-all)))]
     (->>

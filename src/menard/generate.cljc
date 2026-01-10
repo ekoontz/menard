@@ -352,7 +352,6 @@
                       (#(do (when (not (= :fail %))
                               (log/debug (str "successfully added lexeme: " (strip-refs candidate-lexeme))))
                             %))
-                      (tr/update-syntax-tree at syntax-tree)
                       (#(if truncate?
                           (tr/truncate-at % at syntax-tree)
                           %))
@@ -421,19 +420,6 @@
                   (do
                     (when counts? (swap! count-rule-fails inc))
                     false)))
-     (map
-      #(u/unify! %
-                 (assoc-in {} (concat [:syntax-tree] at-num)
-                           (let [one-is-head? (tr/headness? % (concat at [:1]))]
-                             {:head? (= :head (last at))
-                              :reflexive? (u/get-in % (concat at [:reflexive?])
-                                                    :top)
-                              :1 {:head? one-is-head?}
-                              :2 {:head? (not one-is-head?)}
-                              :variant (u/get-in % [:variant])
-                              :rule
-                              (or rule-name
-                                  (u/get-in % (concat at [:rule])))}))))
 
      (remove #(= % :fail))
 

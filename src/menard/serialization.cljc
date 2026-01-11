@@ -28,7 +28,10 @@
   (cond
     (nil? tree) "_"
     (string? tree) tree    
-    (string? (u/get-in tree [:syntax-tree])) (u/get-in tree [:syntax-tree])
+    (string? (u/get-in tree [:syntax-tree]))
+    (do
+      (log/info (str "syntax-tree from string: " (u/get-in tree [:syntax-tree])))
+      (u/get-in tree [:syntax-tree]))
     (u/get-in tree [:1])
     (str "["
          (:rule tree "?")
@@ -112,5 +115,19 @@
              (assoc structure :comp-derivation encoded-cd)
              structure)))
         u/pprint)))
+
+(defn determined? [tree path syntax-tree-fn]
+  (log/info (str "determined? for tree: " (syntax-tree-fn tree) " and path: " (vec path)))
+  (log/info (str "agr for tree: " (syntax-tree-fn tree) " and path: " (vec path) ": "
+                 (u/get-in tree (concat path [:agr]))))
+  (let [phrasal? (u/get-in tree [:phrasal?])
+        head-phrasal? (u/get-in tree [:head :phrasal?])
+        comp-phrasal? (u/get-in tree [:comp :phrasal?])]
+    (log/info (str "phrasal? " phrasal?))
+    (log/info (str "  head-phrasal? " head-phrasal?))
+    (log/info (str "  comp-phrasal? " comp-phrasal?))    
+    false))
+
+
 
 

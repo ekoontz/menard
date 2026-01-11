@@ -295,6 +295,12 @@
     ;; TODO add noun ending morphology e.g. try => tries, match => matches
     :else (str input "s")))
 
+(defn dissoc-in [input path]
+  (if (empty? (rest path))
+    (-> input transient (dissoc! (first path)) persistent!)
+    (assoc input (first path)
+           (dissoc-in (dag_unify.core/get-in input [(first path)]) (rest path)))))
+
 (defn add-lexeme
   "Return a lazy sequence of all trees made by adding every possible
   leaf (via (get-lexemes)) to _tree_."
@@ -365,6 +371,23 @@
                (take (u/get-in spec [::max]) %)
                %))
 
+
+           (map #(assoc % :lexeme-added-at at))
+
+           (map #(if (= (last at) :comp)
+                   (let [path (butlast at)
+                         st-path (concat path [:syntax-tree])
+                         st-value (syntax-tree %)
+                         determined? (ser/determined? % path syntax-tree)]
+                     (log/debug (str "(syntax-tree): " (syntax-tree %)))
+                     (log/info (str "(determined?): " determined?))
+                     (if determined?
+                       (do
+                         (log/info (str "truncating tree at path: " (vec path)))
+                         (dissoc-in % path))
+                        %))
+                   %))
+                    
            (#(do (when (and (empty? %)
                             (u/get-in spec [::max]))
                    (exception (str "add-lexeme: empty results: spec: " (-> spec strip-refs))))
@@ -380,7 +403,6 @@
               (not (nil? (u/get-in tree (concat at [:rule])))) (u/get-in tree (concat at [:rule]))
               :else nil)
         cat (u/get-in tree (concat at [:cat]))
-        at-num (tr/numeric-frontier (:syntax-tree tree {}))
         more-logging? false]
     (if more-logging? (log/info (str "add-rule: @" at ": " (when rule-name (str "'" rule-name "'")) ": "
                                      (syntax-tree tree) " at: " at " with spec: " (-> tree (u/get-in at) strip-refs))))

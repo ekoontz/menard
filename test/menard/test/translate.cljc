@@ -190,4 +190,4 @@
                (take do-this-many
                      (repeatedly #(transfer-fn i @complete/model))))))
        doall))))
-
+  

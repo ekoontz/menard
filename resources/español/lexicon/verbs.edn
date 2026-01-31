@@ -104,7 +104,7 @@
     
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
-     :surface "caì"}
+     :surface "caí"}
     {:infl :preterito,
      :agr {:person :2nd, :number :sing, :formal? false},
      :surface "caiste"}
@@ -771,13 +771,13 @@
    :exceptions
    [{:infl :preterito,
      :agr {:person :1st, :number :sing},
-     :surface "leì"}
+     :surface "leí"}
     {:infl :preterito,
      :agr {:person :2nd, :number :sing},
      :surface "leiste"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "leyò"}]}]
+     :surface "leyó"}]}]
 
  "levantarse" [{:sem {:pred :get-up,
                       :subj {:ref {:human? true}}}}]

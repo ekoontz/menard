@@ -344,7 +344,7 @@
  "echar" [{:sem {:pred :throw-out}}]
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
- "encontrar" [{:sem {:pred :find}}]
+ "encontrar" [{:sem {:pred :find}, :stems {:boot "encuentr"}}]
  "enojarse" [{:sem {:pred :get-angry}}]
  "enseñar" [{:sem {:pred :show}}
             {:sem {:pred :teach}}]

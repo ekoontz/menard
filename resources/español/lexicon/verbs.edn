@@ -1008,7 +1008,11 @@
            :cat :verb
            :sem {:pred :go-out}}]
 
- "seguir" [{:stems {:boot "sig"}
+ "seguir" [{:stems {:boot "sigu"}
+            :exceptions [{:infl :present
+                          :agr {:person :1st
+                                :number :sing}
+                          :surface "sigo"}] 
             :sem {:pred :follow}}] 
 
  "sentarse" [{:sem {:pred :sit-down}}]

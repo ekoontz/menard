@@ -1,0 +1,10 @@
+[{:variant :preterito-perfecto ;; in wiktionary this is the "Pretérito perfecto compuesto"
+  ;; note that :infl is :present because it's
+  ;; the :infl of the auxiliary verb "haber",
+  ;; not the :infl of the participle (e.g. "comido")
+  :infl :present 
+  :aux? true
+  :sem {:tense :past
+        :aspect :perfect}}
+ ]
+

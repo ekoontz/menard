@@ -1,0 +1,160 @@
+[
+ ;; singular
+ ;; singular masculine
+
+ ;; canonical form is identical to the masculine singular form:
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"(.*)$"   "$1"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :sing}}}
+
+ ;; singular feminine
+ ;; feminine singular: negra -> negro
+ {:g [#"^(.*)o$" "$1a"] 
+  :p [#"(.*)a$"  "$1o"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+ ;; for adjectives ending in -án: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(án)$" "$1ana"] 
+  :p [#"(.*)ana$"   "$1án"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+ ;; for adjectives ending in -és: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(és)$" "$1esa"] 
+  :p [#"(.*)esa$"   "$1és"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+  ;; for adjectives ending in -ín: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ín)$" "$1ina"] 
+  :p [#"(.*)ina$"   "$1ín"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+  ;; for adjectives ending in -ón: add 'a' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ón)$" "$1ona"] 
+  :p [#"(.*)ona$"   "$1ón"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+  ;; for adjectives ending in -or: add 'a' suffix
+ ;; to make it feminine:
+ {:g [#"^(.*)(or)$" "$1$2a"] 
+  :p [#"(.*)ora$"   "$1or"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+ 
+ ;; TODO: this should check every possible ending above for the :p section,
+ ;; since parsing tries every rule, not just the first matching rule:
+ ;; other endings don't change when becoming feminine singular:
+ {:g [#"^(.*)([^o])$" "$1$2"] 
+  :p [#"(.*)([^o])$"  "$1$2"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :sing}}}
+
+
+ ;; plural
+ ;; plural masculine
+ 
+ ;; masculine plural: -n -z final does not change
+ {:g [#"^(.*[nz])$" "$1"] 
+  :p [#"(.*[nz])$"  "$1"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
+ ;; otherwise: add -s for masculine plural
+ {:g [#"^(.*[^nz])$" "$1s"] 
+  :p [#"(.*[^nz])s$" "$1"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
+ ;; plural feminine
+ ;; feminine plural: -o adjectives:
+ {:g [#"^(.*)o$" "$1as"] 
+  :p [#"(.*)as$" "$1o"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+ ;; for adjectives ending in -án: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(án)$" "$1anes"] 
+  :p [#"(.*)anes$"  "$1án"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+ ;; for adjectives ending in -és: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(és)$" "$1esas"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; for adjectives ending in -ín: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ín)$" "$1inas"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; for adjectives ending in -ón: add 'es' suffix and remove accent
+ ;; to make it feminine:
+ {:g [#"^(.*)(ón)$" "$1onas"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; for adjectives ending in -or: add 'es' suffix
+ ;; to make it feminine:
+ {:g [#"^(.*)(or)$" "$1$2es"] 
+  :p [#"(.*)a$"     "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+ 
+  ;; feminine plural: -e,-l adjectives:
+ {:g [#"^(.*)([el])$" "$1$2s"] 
+  :p [#"(.*)([el])s$" "$1$2"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+  ;; feminine plural: -z, adjectives:
+ {:g [#"^(.*)(z)$" "$1ces"] 
+  :p [#"(.*)ces$"  "$1z"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+ ;; TODO: this should check every possible ending above for the :p section,
+ ;; since parsing tries every rule, not just the first matching rule:
+ ;; other endings don't change when becoming feminine plural:
+ {:g [#"^(.*)$" "$1"] 
+  :p [#"(.*)$"  "$1"]
+  :u {:cat :adjective
+      :agr {:gender :fem
+            :number :plur}}}
+
+ ]
+
+ 

@@ -1,6 +1,6 @@
 (->>
-[{:g [#"^(.+)ar$" "$1o"],
-  :p [#"^(.+)o$" "$1ar"],
+[{:g [#"^(.+)are$" "$1o"],
+  :p [#"^(.+)o$"  "$1are"],
   :u
   {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
    :reflexive? false}}

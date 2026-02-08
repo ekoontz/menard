@@ -230,7 +230,7 @@
               :pred :you}
         :case :acc}]
 
- "tú" [{:case :nom
+ "tu" [{:case :nom
         :agr {:number :sing
               :person :2nd
               :formal? false}

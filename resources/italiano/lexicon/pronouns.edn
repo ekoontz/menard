@@ -1,234 +1,9 @@
-{"él" (let [agr {:person :3rd
-                 :gender :masc
-                 :number :sing}]
-        [{:case :nom
-          :agr agr
-          :sem {:ref {:human? true}
-                :gender :masc
-                :pred :he}
-          :reflexive? false}
-         {:case :nom
-          :agr agr
-          :sem {:ref {:human? false}
-                :gender :masc
-                :pred :it}
-          :reflexive? false}])
-
- "ella" (let [agr {:person :3rd
-                   :gender :fem
-                   :number :sing}]
-          [{:case :nom
-            :agr agr
-            :sem {:ref {:human? true}
-                  :gender :fem
-                  :pred :she}
-            :reflexive? false}
-           {:case :nom
-            :agr agr
-            :sem {:ref {:human? false}
-                  :gender :fem
-                  :pred :it}
-            :reflexive? false}])
-
- "la" (let [agr {:person :3rd
-                 :gender :fem
-                 :number :sing}]
-        [{:case :acc
-          :agr agr
-          :sem {:ref {:human? true}
-                :gender :fem
-                :pred :she}
-          :reflexive? false}
-         {:case :acc
-          :agr agr
-          :sem {:ref {:human? false}
-                :gender :fem
-                :pred :it}
-          :reflexive? false}])
-
- "lo" (let [agr {:person :3rd
-                 :gender :masc
-                 :number :sing}]
-        [{:case :acc
-          :agr agr
-          :sem {:ref {:human? true}
-                :gender :masc
-                :pred :he}
-          :reflexive? false}
-         {:case :acc
-          :agr agr
-          :sem {:ref {:human? false}
-                :gender :masc
-                :pred :it}
-          :reflexive? false}])
-
- "las" (let [agr {:person :3rd
-                  :gender :fem
-                  :number :plur}]
-         [{:case :acc
-           :agr agr
-           :sem {:ref {:human? true}
-                 :gender :fem
-                 :pred :they}
-           :reflexive? false}
-          {:case :acc
-           :agr agr
-           :sem {:ref {:human? false}
-                 :gender :fem
-                 :pred :they}
-           :reflexive? false}])
-
- "los" (let [agr {:person :3rd
-                  :gender :masc
-                  :number :plur}]
-         [{:case :acc
-           :agr agr
-           :sem {:ref {:human? true}
-                 :gender :masc
-                 :pred :they}
-           :reflexive? false}
-          {:case :acc
-           :agr agr
-           :sem {:ref {:human? false}
-                 :gender :masc
-                 :pred :they}
-           :reflexive? false}])
-
- "ellas" (let [agr {:person :3rd
-                    :gender :fem
-                    :number :plur}]
-           [{:case :nom
-             :agr agr
-             :sem {:ref {:human? true}
-                   :gender :fem
-                   :pred :they}
-             :reflexive? false}
-            {:case :nom
-             :agr agr
-             :sem {:ref {:human? false}
-                   :gender :fem
-                   :pred :they}
-             :reflexive? false}])
-
- "ellos" (let [agr {:person :3rd
-                    :gender :masc
-                    :number :plur}]
-           [{:case :nom
-             :agr agr
-             :sem {:ref {:human? true}
-                   :gender :masc
-                   :pred :they}
-             :reflexive? false}
-            {:case :nom
-             :agr agr
-             :sem {:ref {:human? false}
-                   :gender :masc
-                   :pred :they}
-             :reflexive? false}])
-
- "me" [{:agr {:number :sing
-              :person :1st}
-        :sem {:ref {:human? true}
-              :pred :i}
-        :case :acc}]
-
- "nos" [{:agr {:number :plur
+{"noi" [{:case :nom
+         :agr {:number :plur
                :person :1st}
-         :sem {:ref {:human? true
-                     :gender :masc}
+         :sem {:ref {:human? true}
                :pred :we}
-         :reflexive? true}
-        {:agr {:number :plur
-               :person :1st}
-         :sem {:ref {:human? true
-                     :gender :fem}
-               :pred :we}
-         :reflexive? true}]
-
- "nosotras" [{:case :nom
-              :agr {:number :plur
-                    :gender :fem
-                    :person :1st}
-              :sem {:ref {:human? true
-                          :gender :fem}
-                    :pred :we}
-              :reflexive? false}]
-
- "nosotros" [{:case :nom
-              :agr {:number :plur
-                    :gender :masc
-                    :person :1st}
-              :sem {:ref {:human? true
-                          :gender :masc}
-                    :pred :we}
-              :reflexive? false}]
-
- "os" [{:agr {:number :plur
-              :person :2nd
-              :formal? false}
-        :sem {:ref {:human? true}
-              :pred :you}
-        :reflexive? true}]
-
- ;; we don't have [:agr :number]
- ;; explicitly here for 'se': probably don't
- ;; need it.
- "se" [{:sense 1
-        :sem {:pred :it
-              :ref {:human? false}}
-        :agr {:person :3rd
-              :number :sing}
-        :reflexive? true}
-
-       {:sense 2
-        :sem {:pred :he
-              :ref {:human? true}}
-        :agr {:person :3rd
-              :number :sing
-              :gender :masc}
-        :reflexive? true}
-
-       {:sense 3
-        :sem {:pred :she
-              :ref {:human? true}}
-        :agr {:person :3rd
-              :number :sing
-              :gender :fem}
-        :reflexive? true}
-
-       {:sense 4
-        :sem {:pred :they}
-        :agr {:person :3rd
-              :number :plur}
-        :reflexive? true}
-
-       {:sense 5
-        :sem {:pred :you
-              :ref {:formal? true
-                    :context :formal}}
-        :agr {:person :2nd
-              :number :sing
-              :formal? true}
-        :reflexive? true}
-
-       {:sense 6
-        :sem {:pred :you
-              :ref {:formal? true
-                    :context :formal}}
-        :agr {:person :2nd
-              :number :plur
-              :formal? true}
-        :reflexive? true}
-
-       ]
-
- "te" [{:agr {:number :sing
-              :person :2nd
-              :formal? false}
-        :sem {:ref {:human? true
-                    :context :informal}
-              :pred :you}
-        :case :acc}]
+         :reflexive? false}]
 
  "tu" [{:case :nom
         :agr {:number :sing
@@ -239,7 +14,7 @@
               :pred :you}
         :reflexive? false}]
 
- "usted" [{:case :nom
+ "lei" [{:case :nom
            :agr {:number :sing
                  :person :2nd
                  :formal? true}
@@ -248,36 +23,14 @@
                  :pred :you}
            :reflexive? false}]
 
- "ustedes" [{:case :nom
+ "loro" [{:case :nom
              :agr {:number :plur
-                   :person :2nd
+                   :person :3rd
                    :formal? true}
              :sem {:ref {:human? true
                          :context :formal}
-                   :pred :you}
+                   :pred :they}
              :reflexive? false}]
-
- "vosotras" [{:case :nom
-              :agr {:number :plur
-                    :gender :fem
-                    :person :2nd
-                    :formal? false}
-              :sem {:ref {:human? true
-                          :gender :fem
-                          :context :informal}
-                    :pred :you}
-              :reflexive? false}]
-
- "vosotros" [{:case :nom
-              :agr {:number :plur
-                    :gender :masc
-                    :person :2nd
-                    :formal? false}
-              :sem {:ref {:human? true
-                          :gender :masc
-                          :context :informal}
-                    :pred :you}
-              :reflexive? false}]
 
 "io" [{:case :nom
         :agr {:number :sing

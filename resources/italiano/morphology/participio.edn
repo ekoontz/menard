@@ -1,0 +1,44 @@
+[
+`
+ ;; participio inflection
+
+ ;; -ar verbs
+ {:g [#"^(.*)ar$"   "$1ado"] 
+  :p [#"^(.*)ado$"  "$1ar"] 
+  :u {:cat :verb
+      :infl :participio
+      :reflexive? false}}
+
+ {:g [#"^(.*)arse$" "$1ado"] 
+  :p [#"^(.*)ado$"  "$1arse"] 
+  :u {:cat :verb
+      :infl :participio
+      :reflexive? true}}
+
+ 
+ ;; -er verbs
+ {:g [#"^(.*)er$"   "$1ido"] 
+  :p [#"^(.*)ido$"  "$1er"] 
+  :u {:cat :verb
+      :infl :participio
+      :reflexive? false}}
+ {:g [#"^(.*)erse$" "$1ido"] 
+  :p [#"^(.*)ido$"  "$1erse"] 
+  :u {:cat :verb
+      :infl :participio
+      :reflexive? true}}
+
+ ;; -ir verbs
+ {:g [#"^(.*)ir$"   "$1ido"] 
+  :p [#"^(.*)ido$"  "$1ir"] 
+  :u {:cat :verb
+      :infl :participio
+      :reflexive? false}}
+ {:g [#"^(.*)irse$" "$1ido"] 
+  :p [#"^(.*)ido$"  "$1irse"] 
+  :u {:cat :verb
+      :infl :participio
+      :reflexive? true}}
+ ]
+
+

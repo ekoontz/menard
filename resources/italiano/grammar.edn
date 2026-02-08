@@ -1,1 +1,187 @@
-[]
+[
+
+ {:rule "np"
+  :cat :noun
+  :head {:phrasal? true}
+  
+  :unify [menard.nesting/nest-only
+          menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/head-sem]}          
+
+ {:rule "np"
+  :cat :noun
+  :head {:phrasal? false}
+  :sem {:mod []}
+  :unify [menard.nesting/nest-only
+          menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/head-sem]}          
+
+ 
+ {:rule "nbar" ;; '[nbar +gato .negro]'
+  :cat :noun
+  :head {:pronoun? false
+         :propernoun? false
+         :phrasal? false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash? false
+  :comp {:cat :adjective
+         :modifies-noun :post}
+  :mod {:rest []}
+  :unify [menard.nesting/cons-only
+          menard.ug/head-is-root
+          menard.ug/head-first
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.subcat/b]}
+
+ {:rule "nbar" ;; '[nbar .primero +gato]'
+  :cat :noun
+  :head {:pronoun? false
+         :propernoun? false
+         :phrasal? false
+         :subcat {:1 {:top :top}
+                  :2 []}}
+  :slash? false
+  :comp {:cat :adjective
+         :modifies-noun :pre}
+  :mod {:rest []}
+  :unify [menard.nesting/cons-only
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-rule
+          menard.ug/nominal-phrase
+          menard.ug/shared-agr
+          menard.subcat/b]}
+
+ {:rule "s"
+  :cat :verb
+  :head {:aux? false}
+  :options menard.italiano.tenses/finite-nonaux-tenses
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+
+ {:rule "s-aux"
+  :cat :verb
+  :head {:aux? true}
+  :options menard.italiano.tenses/finite-aux-tenses
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+
+ {:rule "vp-non-pronoun"
+  :cat :verb
+  :head {:aux? false}
+  :comp {:pronoun? false}
+  :options menard.italiano.tenses/finite-nonaux-tenses
+  :unify [menard.subcat/c
+          menard.ug/head-is-root
+          menard.ug/head-first
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+ 
+  {:rule "vp-pronoun"
+  :cat :verb
+  :head {:aux? false}
+  :comp {:pronoun? true}
+  :options menard.italiano.tenses/finite-nonaux-tenses
+  :unify [menard.subcat/c
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+
+ {:rule "vp-aux-non-reflexive"
+  :cat :verb
+  :reflexive? false
+  :head {:aux? true}
+  :options menard.italiano.tenses/finite-aux-tenses
+  :unify [menard.subcat/c
+          menard.ug/comp-is-root
+          menard.ug/head-first
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]
+  }
+
+ {:rule "vp-aux-reflexive-1" ;; "he lastimado" (implicit subject)
+  :cat :verb
+  :reflexive? true
+  :head {:aux? true
+         :phrasal? false}
+  :options menard.italiano.tenses/finite-aux-tenses
+  :unify [menard.subcat/j
+          menard.ug/comp-is-root
+          menard.ug/head-first
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]}
+
+ {:rule "vp-aux-reflexive-2" ;; "he lastimado" (explicit subject)
+  :cat :verb
+  :reflexive? true
+  :head {:aux? true
+         :phrasal? false}
+  :options menard.italiano.tenses/finite-aux-tenses
+  :unify [menard.subcat/k
+          menard.ug/comp-is-root
+          menard.ug/head-first
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]}
+
+ ;;            <1>
+ ;;       /            \
+ ;; 2:me       [he lastimado]<1,2>
+ ;; "[vp-aux-reflexive-3 .me +[vp-aux-reflexive-2 +he .lastimado]]" (explicit subject)
+ {:rule "vp-aux-reflexive-3"
+  :cat :verb
+  :reflexive? true
+  :head {;; this :rule not needed, but might help performance:
+         :rule "vp-aux-reflexive-2"
+         :aux? true
+         :subcat {:1 {:reflexive? false}}}
+  :options menard.italiano.tenses/finite-aux-tenses
+  :unify [menard.subcat/c
+          menard.ug/head-is-root
+          menard.ug/head-last
+          menard.ug/head-reflexive
+          menard.ug/head-rule
+          menard.ug/head-sem]}
+
+ ;; Does not yet work: requires verbs to have a null-subject lexical rule. Adding
+ ;; this lexical rule will likely simplify many of the rules here in grammar.edn.
+;;  {:rule "s-aux-nonreflexive-subj-implicit" ;; "he comido"
+;;   :cat :verb
+;;   :reflexive? false
+;;   :head {:aux? true}
+;;   :options menard.italiano.tenses/finite-aux-tenses
+;;   :unify [menard.subcat/a
+;;           menard.ug/comp-is-root
+;;           menard.ug/head-first
+;;           menard.ug/head-reflexive
+;;           menard.ug/head-rule
+;;           menard.ug/head-sem]}
+
+ 
+ ]

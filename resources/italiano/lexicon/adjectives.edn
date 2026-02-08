@@ -1,0 +1,15 @@
+{"blanco"
+ [{:sem {:pred :white}}]
+ "feliz"
+ [{:sem {:pred :happy}}]
+ "holgazán"
+ [{:sem {:pred :lazy}}]
+ "malo"
+ [{:sem {:pred :bad}}]
+ "negro"
+ [{:sem {:pred :black}}]
+ "primero"
+ [{:sem {:pred :first}
+   :modifies-noun :pre}]
+ "triste"
+ [{:sem {:pred :sad}}]}

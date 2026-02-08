@@ -1,0 +1,347 @@
+(->>
+[{:g [#"^(.+)ar$" "$1o"],
+  :p [#"^(.+)o$" "$1ar"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
+   :reflexive? false}}
+ 
+ {:g [#"^(.+)arse$" "$1o"],
+  :p [#"^(.+)o$" "$1arse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$" "$1o"],
+  :p [#"^(.+)o$" "$1er"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1o"],
+  :p [#"^(.+)o$"    "$1erse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1o"],
+  :p [#"^(.+)o$"  "$1ir"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1o"],
+  :p [#"^(.+)o$"    "$1irse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ar$" "$1as"],
+  :p [#"^(.+)as$" "$1ar"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? false}
+   :reflexive? false}}
+
+ {:g [#"^(.+)arse$" "$1as"],
+  :p [#"^(.+)as$"   "$1arse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? false}
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$" "$1es"],
+  :p [#"^(.+)es$" "$1er"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? false}
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1es"],
+  :p [#"^(.+)es$" "$1erse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? false}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1es"],
+  :p [#"^(.+)es$" "$1ir"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? false}
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1es"],
+  :p [#"^(.+)es$" "$1irse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? false}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ar$" "$1a"],
+  :p [#"^(.+)a$" "$1ar"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? true}
+   :reflexive? false}}
+
+ {:g [#"^(.+)arse$" "$1a"],
+  :p [#"^(.+)a$" "$1arse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? true}
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$" "$1e"],
+  :p [#"^(.+)e$" "$1er"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? true}
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1e"],
+  :p [#"^(.+)e$"    "$1erse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? true}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1e"],
+  :p [#"^(.+)e$"  "$1ir"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? true}
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1e"],
+  :p [#"^(.+)e$"    "$1irse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :sing, :person :2nd, :formal? true}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ar$" "$1a"],
+  :p [#"^(.+)a$"  "$1ar"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :3rd}
+   :reflexive? false}}
+
+ {:g [#"^(.+)arse$" "$1a"],
+  :p [#"^(.+)a$"    "$1arse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :3rd}
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$" "$1e"],
+  :p [#"^(.+)e$"  "$1er"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :3rd},
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1e"],
+  :p [#"^(.+)e$"    "$1erse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :3rd},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1e"],
+  :p [#"^(.+)e$"  "$1ir"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :3rd},
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1e"],
+  :p [#"^(.+)e$"    "$1irse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :sing, :person :3rd},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ar$" "$1amos"],
+  :p [#"^(.+)amos$" "$1ar"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :1st},
+   :reflexive? false}}
+
+ {:g [#"^(.+)arse$" "$1amos"],
+  :p [#"^(.+)amos$" "$1arse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :1st},
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$"   "$1emos"],
+  :p [#"^(.+)emos$" "$1er"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :1st},
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1emos"],
+  :p [#"^(.+)emos$" "$1erse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :1st}
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1imos"],
+  :p [#"^(.+)imos$" "$1ir"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :1st},
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1imos"],
+  :p [#"^(.+)imos$" "$1irse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :1st},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ar$"  "$1áis"],
+  :p [#"^(.+)áis$" "$1ar"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? false},
+   :reflexive? false}}
+
+ {:g [#"^(.+)arse$" "$1áis"],
+  :p [#"^(.+)áis$"  "$1arse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? false},
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$"  "$1éis"],
+  :p [#"^(.+)éis$" "$1er"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? false},
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1éis"],
+  :p [#"^(.+)éis$" "$1erse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? false},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1ís"],
+  :p [#"^(.+)ís$" "$1ir"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? false},
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1ís"],
+  :p [#"^(.+)ís$"   "$1irse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? false},
+   :reflexive? true}}
+ 
+ {:g [#"^(.+)ar$" "$1an"],
+  :p [#"^(.+)an$" "$1ar"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? true},
+   :reflexive? false}}
+
+ {:g [#"^(.+)arse$" "$1an"],
+  :p [#"^(.+)an$"   "$1arse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? true}
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$" "$1en"],
+  :p [#"^(.+)en$" "$1er"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? true},
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1en"],
+  :p [#"^(.+)en$"   "$1erse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? true},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1en"],
+  :p [#"^(.+)en$" "$1ir"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? true},
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1en"],
+  :p [#"^(.+)en$"   "$1irse"],
+  :u
+  {:cat :verb,
+   :infl :present,
+   :agr {:number :plur, :person :2nd, :formal? true},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ar$" "$1an"],
+  :p [#"^(.+)an$" "$1ar"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
+   :reflexive? false}}
+ 
+ {:g [#"^(.+)arse$" "$1an"],
+  :p [#"^(.+)an$" "$1arse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
+   :reflexive? true}}
+
+ {:g [#"^(.+)er$" "$1en"],
+  :p [#"^(.+)en$" "$1er"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
+   :reflexive? false}}
+
+ {:g [#"^(.+)erse$" "$1en"],
+  :p [#"^(.+)en$" "$1erse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
+   :reflexive? true}}
+
+ {:g [#"^(.+)ir$" "$1en"],
+  :p [#"^(.+)en$" "$1ir"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
+   :reflexive? false}}
+
+ {:g [#"^(.+)irse$" "$1en"],
+  :p [#"^(.+)en$" "$1irse"],
+  :u
+  {:cat :verb, :infl :present, :agr {:number :plur, :person :3rd},
+   :reflexive? true}}
+
+;; {:g [#"^(.*)$"   "($1)"],
+;;  :p [#"^(.*)$"   "($1)"],
+;;  :u :fail}
+
+ ])
+
+(map (fn [rule]
+       (dag_unify.core/unify rule {:u {:sem {:aspect :simple
+                                             :tense :present}}})))
+)

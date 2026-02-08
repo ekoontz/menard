@@ -1,4 +1,4 @@
-{:name "basic"
+{:name "closed-class"
  :language "it"
  :morphology {:path "italiano/morphology"
               :sources ["adjectives.edn"
@@ -15,20 +15,8 @@
  :grammar-rules "italiano/grammar-rules.edn"
  :lexicon {:path "italiano/lexicon"
            :rules "rules.edn"
-           :sources {"adjectives.edn"
-                     {:u {:cat :adjective}}
-                     "articles.edn"
+           :sources {"articles.edn"
                      {:u {:cat :det}}
-                     "nouns.edn"
-                     {:u {:cat :noun
-                          :propernoun? false
-                          :pronoun? false}}
-                     "verbs.edn"
-                     {:u {:cat :verb}}
                      "pronouns.edn"
                      {:u {:cat :noun
-                          :pronoun? true}}
-                     "propernouns.edn"
-                     {:u {:cat :noun
-                          :propernoun? true
-                          :pronoun? false}}}}}
+                          :pronoun? true}}}}}

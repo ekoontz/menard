@@ -192,7 +192,11 @@
      :agr {:person :1st, :number :sing},
      :surface "conozco"}]}]
 
- "conseguir" [{:stems {:boot "consig"}
+ "conseguir" [{:stems {:boot "consigu"}
+               :exceptions [{:infl :present
+                             :agr {:person :1st
+                                   :number :sing}
+                             :surface "sigo"}]
             :sem {:pred :obtain-c}}]
 
  "consentir" [{:sem {:pred :consent},

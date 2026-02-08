@@ -1,9 +1,27 @@
 (->>
- [{:g [#"^(.+)are$" "$1o"],
+ [
+
+  {:g [#"^(.+)are$" "$1o"],
    :p [#"^(.+)o$"   "$1are"],
    :u
    {:cat :verb, :infl :present, :agr {:number :sing, :person :1st}
-    :reflexive? false}}])
+    :reflexive? false}}
+
+  {:g [#"^(.+)care$" "$1chi"],
+   :p [#"^(.+)chi$"  "$1care"],
+   :u
+   {:cat :verb, :infl :present, :agr {:number :sing, :person :2nd}
+    :reflexive? false}}
+
+  {:g [#"^(.+)are$" "$1i"],
+   :p [#"^(.+)i$"   "$1are"],
+   :u
+   {:cat :verb, :infl :present, :agr {:number :sing, :person :2nd}
+    :reflexive? false}}
+
+
+  
+  ])
 
 (map (fn [rule]
        (dag_unify.core/unify rule {:u {:sem {:aspect :simple

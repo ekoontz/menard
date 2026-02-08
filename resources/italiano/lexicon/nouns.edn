@@ -1,0 +1,18 @@
+{"aqua"
+ [{:agr {:gender :fem}
+   :sem {:pred :water}
+   :is-el-noun? true}]
+
+ "gato"
+ [{:agr {:gender :masc}
+   :sem {:pred :cat}}]
+
+ "madre"
+ [{:agr {:gender :fem}
+   :sem {:pred :mother}}]
+
+ "mesa"
+ [{:agr {:gender :fem}
+   :sem {:pred :table}}]
+
+ }

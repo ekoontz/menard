@@ -1000,7 +1000,7 @@
                          :surface "saqué"}]
            :cat :verb
            :sem {:pred :remove}}]
- 
+
  "salir" [{:exceptions [{:infl :present
                          :agr {:person :1st
                                :number :sing}
@@ -1012,8 +1012,8 @@
             :exceptions [{:infl :present
                           :agr {:person :1st
                                 :number :sing}
-                          :surface "sigo"}] 
-            :sem {:pred :follow}}] 
+                          :surface "sigo"}]
+            :sem {:pred :follow}}]
 
  "sentarse" [{:sem {:pred :sit-down}}]
 

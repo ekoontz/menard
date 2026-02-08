@@ -1,0 +1,121 @@
+{
+ "el"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :the}}   
+
+  {:agr {:gender :fem
+         :number :sing}
+   ;; this is for exceptional feminine nouns
+   ;; e.g. "el acta","el agua":
+   :is-el-noun? true
+   :sem {:pred :the}}]
+
+ "la"
+  [{:agr {:gender :fem
+          :number :sing}
+    :is-el-noun? false
+    :sem {:pred :the}}]
+
+ "las"
+ [{:agr {:gender :fem
+         :number :plur}
+   :sem {:pred :the}}]
+   
+ "los"
+ [{:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :the}}]
+
+ "mi"
+ [{:agr {:number :sing}
+   :sem {:pred :i}}]
+
+ "mis"
+ [{:agr {:number :plur}
+   :sem {:pred :i}}]
+
+ "nuestro" [{:agr {:number :sing
+                   :gender :masc}
+             :sem {:pred :we}}]
+ "nuestra" [{:agr {:number :sing
+                   :gender :fem}
+             :sem {:pred :we}}]
+ "nuestros" [{:agr {:number :plur
+                    :gender :fem}
+              :sem {:pred :we}}]
+ "nuestras" [{:agr {:number :plur
+                    :gender :fem}
+              :sem {:pred :we}}]
+
+ ;; commenting out "vostrX" possessive pronouns
+ ;; because as far as I know, most common dialects
+ ;; of Spanish do not use it:
+ ;;  "vostro" [{:agr {:number :sing
+ ;;                   :gender :masc}
+ ;;             :sem {:pred :you
+ ;;                   :context :informal}}]
+ ;;  "vostra" [{:agr {:number :sing
+ ;;                   :gender :fem}
+ ;;             :sem {:pred :you
+ ;;                   :context :informal}}]
+ ;;  "vostros" [{:agr {:number :plur
+ ;;                    :gender :fem}
+ ;;              :sem {:pred :you
+ ;;                    :context :informal}}]
+ ;;  "vostras" [{:agr {:number :plur
+ ;;                    :gender :fem}
+ ;;              :sem {:pred :you
+ ;;                    :context :informal}}]
+
+ "su"                   
+ [{:agr {:number :sing}
+   :sem {:pred :he}}
+  {:agr {:number :sing}
+   :sem {:pred :she}}
+  {:agr {:number :sing}
+   :sem {:pred :it}}
+  {:agr {:number :sing
+         :formal? true}
+   :sem {:pred :you
+         :context :formal}}
+  {:agr {:number :sing}
+   :sem {:pred :they}}]
+
+ "sus"
+ [{:agr {:number :plur}
+   :sem {:pred :he}}
+  {:agr {:number :plur}
+   :sem {:pred :she}}
+  {:agr {:number :plur}
+   :sem {:pred :it}}
+  {:agr {:number :plur
+         :formal? true}
+   :sem {:pred :you
+         :context :formal}}
+  {:agr {:number :plur}
+   :sem {:pred :they}}]
+
+ "tu"
+ [{:agr {:number :sing
+         :formal? false}
+   :sem {:pred :you
+         :context :informal}}]
+
+ "tus"
+ [{:agr {:number :plur
+         :formal? false}
+   :sem {:pred :you
+         :context :informal}}]
+
+ "un"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :some}}]
+ 
+ "una"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :some}}]
+ 
+ }

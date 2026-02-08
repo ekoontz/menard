@@ -1,0 +1,9 @@
+[
+
+ ;; base (i.e. infinitive) inflection
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"  "$1"] 
+  :u {:cat :verb
+      :infl :base}}
+ ]  
+

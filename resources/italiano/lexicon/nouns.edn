@@ -1,18 +1,9 @@
-{"aqua"
+{
+ "cipolla"
  [{:agr {:gender :fem}
-   :sem {:pred :water}
-   :is-el-noun? true}]
-
- "gato"
+   :sem {:pred :onion}}]
+ "gatto"
  [{:agr {:gender :masc}
    :sem {:pred :cat}}]
-
- "madre"
- [{:agr {:gender :fem}
-   :sem {:pred :mother}}]
-
- "mesa"
- [{:agr {:gender :fem}
-   :sem {:pred :table}}]
-
  }
+

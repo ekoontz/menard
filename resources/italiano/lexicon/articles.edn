@@ -2,6 +2,7 @@
  "gli"
  [{:agr {:gender :masc
          :number :plur}
+   :lo? true
    :sem {:pred :the}}]
  "i"
  [{:agr {:gender :masc
@@ -63,6 +64,7 @@
  "lo"
   [{:agr {:gender :masc
           :number :sing}
+    :lo? true
     :sem {:pred :the}}]
  "un"
  [{:agr {:gender :masc

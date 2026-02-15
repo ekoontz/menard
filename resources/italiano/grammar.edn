@@ -99,17 +99,17 @@
   }
  
   {:rule "vp-pronoun"
-  :cat :verb
-  :head {:aux? false}
-  :comp {:pronoun? true}
-  :options menard.italiano.tenses/finite-nonaux-tenses
-  :unify [menard.subcat/c
-          menard.ug/head-is-root
-          menard.ug/head-last
-          menard.ug/head-reflexive
-          menard.ug/head-rule
-          menard.ug/head-sem]
-  }
+   :cat :verb
+   :head {:aux? false}
+   :comp {:pronoun? true}
+   :options menard.italiano.tenses/finite-nonaux-tenses
+   :unify [menard.subcat/c
+           menard.ug/head-is-root
+           menard.ug/head-last
+           menard.ug/head-reflexive
+           menard.ug/head-rule
+           menard.ug/head-sem]
+   }
 
  {:rule "vp-aux-non-reflexive"
   :cat :verb

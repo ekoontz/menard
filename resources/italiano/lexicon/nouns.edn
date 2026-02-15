@@ -5,5 +5,8 @@
  "gatto"
  [{:agr {:gender :masc}
    :sem {:pred :cat}}]
+ "stivalo"
+ [{:agr {:gender :masc}
+   :sem {:pred :boot}}]
  }
 

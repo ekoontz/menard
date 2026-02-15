@@ -39,18 +39,6 @@
        :lo? ::unspec}
   :then [{:lo? false}]}
  
- {:rule :lo-noun
-  :if {:cat :noun
-       :canonical #"^st.*$"}
-  :then [{:subcat {:1 {:lo? true}}}]}
-
- {:rule :lo-noun-default-false
-  :if {:cat :noun
-       :pronoun? false
-       :propernoun? false       
-       :subcat {:1 {:lo? ::unset}}}
-  :then [{:subcat {:1 {:lo? false}}}]}
-
  {:rule :reflexive-false
   :if {:cat :verb
        :reflexive? ::unspec}
@@ -306,4 +294,84 @@
        :sem {:subj {:ref {:human? ::unspec}}}}
   :then [{:sem {:subj {:ref {:human? true}}}}]}
 
+ {:rule :common-noun
+  :if {:cat :noun
+       :propernoun? false
+       :pronoun? false}
+  :then [(let [agr (atom {:number :sing
+                          :person :3rd})]
+           ;; "a/the dog sleeps"
+           {:cat :noun
+            :reflexive? false
+            :propernoun? false
+            :pronoun? false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+
+         ;; "the/some dogs sleep"
+         (let [agr (atom {:number :plur
+                          :person :3rd})]
+           {:cat :noun
+            :reflexive? false
+            :propernoun? false
+             :pronoun? false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         ;; "dogs sleep"
+         {:cat :noun
+          :reflexive? false
+          :propernoun? false
+          :pronoun? false
+          :sem {:quant :some}
+          :agr {:number :plur
+                :person :3rd}
+          :subcat []}]}
+
+  {:rule :quantified-noun
+  :if {:cat :noun
+       :subcat {:1 {:cat :det}}}
+  :then [(let [quant (atom :top)
+               context (atom :top)]
+           {:sem {:quant quant
+                  :context context}
+            :subcat {:1 {:sem {:context context
+                               :pred quant}}}})]}
+
+ {:rule :noun-semantics
+  :if {:cat :noun}
+  :then [(let [number (atom :top)]
+           {:agr {:number number}
+            :sem {:ref {:number number}}})]}
+ 
+ {:rule :common-noun-1
+  :if {:cat :noun
+       :pronoun? false
+       :propernoun? false
+       :subcat {:1 {:top :top}}}
+  :then (let [agr (atom :top)]
+          [{:agr agr
+            :subcat {:1 {:cat :det
+                         :agr agr}
+                     :2 []}}])}
+
+ {:rule :lo-noun
+  :if {:cat :noun
+       :canonical #"^st.*$"
+       :subcat {:1 {:top :top}}}
+  :then [{:subcat {:1 {:lo? true}}}]}
+
+ {:rule :lo-noun-default-false
+  :if {:cat :noun
+       :pronoun? false
+       :propernoun? false       
+       :subcat {:1 {:lo? ::unset}}}
+  :then [{:subcat {:1 {:lo? false}}}]}
+ 
+ {:rule :adjectives-default-to-post-noun
+  :if {:cat :adjective
+       :modifies-noun ::unspec}
+  :then [{:modifies-noun :post}]}
+ 
  ]

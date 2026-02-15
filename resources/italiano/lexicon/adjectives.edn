@@ -1,14 +1,14 @@
-{"blanco"
+{"bianco"
  [{:sem {:pred :white}}]
- "feliz"
+ "contento"
  [{:sem {:pred :happy}}]
- "holgazán"
+ "pigro"
  [{:sem {:pred :lazy}}]
- "malo"
+ "cattivo"
  [{:sem {:pred :bad}}]
- "negro"
+ "nero"
  [{:sem {:pred :black}}]
- "primero"
+ "primo"
  [{:sem {:pred :first}
    :modifies-noun :pre}]
  "triste"

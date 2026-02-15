@@ -12,6 +12,10 @@
  [{:agr {:gender :masc
          :number :plur}
    :sem {:pred :they}}]
+ "i vostri"
+ [{:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :they}}]
  "il"
  [{:agr {:gender :masc
          :number :sing}
@@ -20,6 +24,10 @@
  [{:agr {:gender :masc
          :number :sing}
    :sem {:pred :they}}]
+ "il nostro"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :we}}]
  "il suo"
  [{:agr {:gender :masc
          :number :sing}
@@ -27,6 +35,18 @@
   {:agr {:gender :masc
          :number :sing}
    :sem {:pred :she}}]
+ "il tuo"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :you
+         :ref {:number :sing
+               :context :informal}}}]
+ "il vostro"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :you
+         :ref {:number :plur
+               :context :informal}}}]
  "l'"
   [{:agr {:gender :fem
           :number :sing}
@@ -45,18 +65,39 @@
    :sem {:pred :he}}
   {:agr {:gender :fem
          :number :sing}
-   :sem {:pred :she}}]
+   :sem {:pred :she}}
+  {:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :you
+         :ref {:number :sing
+               :context :formal}}}]
+ "la tua"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :you
+         :ref {:number :sing
+               :context :informal}}}]
  "le loro"
  [{:agr {:gender :fem
          :number :plur}
    :sem {:pred :they}}]
+ "la vostra"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :you
+         :ref {:number :plur
+               :context :informal}}}]
  "le sua"
  [{:agr {:gender :fem
          :number :plur}
    :sem {:pred :he}}
   {:agr {:gender :fem
          :number :plur}
-   :sem {:pred :she}}]
+   :sem {:pred :she}}
+  {:agr {:gender :fem
+         :number :plur}
+   :sem {:pred :you
+         :ref {:context :formal}}}]
  "le"
   [{:agr {:gender :fem
           :number :sing}

@@ -46,7 +46,264 @@
 
  {:rule :lo-noun-default-false
   :if {:cat :noun
+       :pronoun? false
+       :propernoun? false       
        :subcat {:1 {:lo? ::unset}}}
   :then [{:subcat {:1 {:lo? false}}}]}
+
+ {:rule :reflexive-false
+  :if {:cat :verb
+       :reflexive? ::unspec}
+  :then [{:reflexive? false}]}
+
+  {:rule :reflexive
+  :if {:cat :verb
+       :aux? false
+       :reflexive? true}
+  :then (let [agr (atom :top)
+              ref (atom :top)
+              subj (atom {:ref ref})]
+          ;; variant with explicit subject e.g. "él se levantó"
+          [{:reflexive? true
+            :sense :explicit-subj
+            :sem {:subj subj}
+            :agr agr
+            :subcat {:1 {:agr agr
+                         :sem subj
+                         :reflexive? false}
+                     :2 {:pronoun? true
+                         :cat :noun
+                         :agr agr
+                         :sem {:ref ref}
+                         :reflexive? true}
+                     :3 []}}
+
+           ;; variant without explicit subject e.g. "se levantó"
+           {:reflexive? true
+            :sense :implicit-subj
+            :sem {:subj subj}
+            :agr agr
+            :subcat {:1 {:pronoun? true
+                         :cat :noun
+                         :case :acc
+                         :agr agr
+                         :sem subj
+                         :reflexive? true}
+                     :2 []
+                     :3 []}}])}
+
+ {:rule :aux-default
+  :if {:cat :verb
+       :aux? ::unspec}
+  :then [{:aux? false}]}
+
+ {:rule :subcat-frames-both
+  :if {:cat :verb
+       :aux? false
+       :reflexive? false
+       :transitivity ::unspec
+       :subcat-frames :both}
+  :then [{:transitivity :intransitive}
+         {:transitivity :transitive}]}
+
+ {:rule :modal-default-none
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal :none}]}
+
+ {:rule :subcat-intransitive
+  :if {:cat :verb
+       :aux? false
+       :reflexive? false
+       :transitivity :intransitive
+       :modal :none}
+  :then (let [subj (atom :top)]
+          [{:subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj}
+                     :2 []
+                     :3 []}
+            :sem {:subj subj
+                  :obj :none}}])}
+
+ {:rule :subcat-intransitive-modal
+  :if {:cat :verb
+       :modal :infinitive
+       :transitivity :intransitive}
+  :then (let [subj (atom :top)]
+          [{:subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj}
+                     :2 []}
+            :sem {:subj subj
+                  :obj {:pred :anaphoric}}}])}
+
+ ;; transitive, non-reflexive
+ ;; force the subj and obj to be distinct,
+ ;; so that semantic transfer to reflexive
+ ;; cannot happen:
+ {:rule :subcat-transitive
+  :if {:cat :verb
+       :aux? false
+       :reflexive? false
+       :transitivity :transitive}
+  :then (let [subj (atom {:ref {:a 1}})
+              obj (atom {:ref {:a 2}})]
+          [{:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :1st}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :2nd}}
+                     :3 []}}
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :1st}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :3rd}}
+                     :3 []}}
+
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :1st}}
+                     :3 []}}
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :2nd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :agr {:person :3rd}}
+                     :3 []}}
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:cat :noun
+                         :reflexive? false
+                         :sem subj
+                         :agr {:person :3rd}}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj}
+                     :3 []}}])}
+
+ {:rule :object-constraints-default
+  :if {:cat :verb
+       :object-constraints ::unspec}
+  :then [{:object-constraints :none}]}
  
+ {:rule :object-constraints
+  :if {:cat :verb
+       :object-constraints {:top :top}
+       :sem {:obj {:top :top}}}
+  :then [(let [ref (atom :top)]
+           {:sem {:obj {:ref ref}}
+            :object-constraints ref})]}
+ 
+ {:rule :subject-verb-agreement
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :subcat []}}})]}
+
+ {:rule :subcat-1-is-nom-if-not-reflexive
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun
+                    :reflexive? false}}}
+  :then [{:subcat {:1 {:case :nom}}}]}
+
+ {:rule :subcat-1-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [{:subcat {:1 {:subcat []}}}]}
+
+ {:rule :subcat-2-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:2 {:cat :noun}}}
+  :then [{:subcat {:2 {:subcat []}}}]}
+
+ {:rule :subcat-3-nouns-have-an-empty-subcat
+  :if {:cat :verb
+       :subcat {:3 {:cat :noun}}}
+  :then [{:subcat {:3 {:subcat []}}}]}
+ 
+ {:rule :existential-false-pronouns
+  :if {:cat :noun
+       :pronoun? true
+       :sem {:existential? ::unspec}}
+   :then [{:sem {:existential? false}}]}
+
+ {:rule :existential-false-propernouns
+  :if {:cat :noun
+       :propernoun? true
+       :sem {:existential? ::unspec}}
+   :then [{:sem {:existential? false}}]}
+
+ {:rule :verbs-have-empty-sem-modifiers
+  :if {:cat :verb
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+
+ {:rule :propernoun-misc-defaults
+  :if {:cat :noun
+       :pronoun? false
+       :propernoun? true}
+  :then [{:interogative? false
+          :reflexive? false}]}
+
+ {:rule :propernoun-subcat-default
+  :if {:cat :noun
+       :propernoun? true
+       :subcat ::unspec}
+  :then [{:subcat []}]}
+
+ {:rule :propernoun-sem-mod-default
+  :if {:cat :noun
+       :propernoun? true
+       :sem {:mod ::unspec}}
+  :then [{:sem {:mod []}}]}
+ 
+ {:rule :propernoun-person-default
+  :if {:cat :noun
+       :propernoun? true
+       :agr {:person ::unspec}}
+  :then [{:agr {:person :3rd}}]}
+
+  {:rule :propernoun-number-default
+  :if {:cat :noun
+       :propernoun? true
+       :agr {:number ::unspec}}
+  :then [{:agr {:number :sing}}]}
+
+ {:rule :verb-subject-defaults-to-human
+  :if {:cat :verb
+       :sem {:subj {:ref {:human? ::unspec}}}}
+  :then [{:sem {:subj {:ref {:human? true}}}}]}
+
  ]

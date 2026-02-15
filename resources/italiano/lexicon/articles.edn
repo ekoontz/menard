@@ -12,6 +12,17 @@
  [{:agr {:gender :masc
          :number :plur}
    :sem {:pred :they}}]
+ "i suo"
+ [{:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :he}}
+  {:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :she}}
+  {:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :you
+         :ref {:context :formal}}}]
  "i vostri"
  [{:agr {:gender :masc
          :number :plur}
@@ -34,7 +45,11 @@
    :sem {:pred :he}}
   {:agr {:gender :masc
          :number :sing}
-   :sem {:pred :she}}]
+   :sem {:pred :she}}
+  {:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :you
+         :ref {:context :formal}}}]
  "il tuo"
  [{:agr {:gender :masc
          :number :sing}
@@ -69,8 +84,7 @@
   {:agr {:gender :fem
          :number :sing}
    :sem {:pred :you
-         :ref {:number :sing
-               :context :formal}}}]
+         :ref {:context :formal}}}]
  "la tua"
  [{:agr {:gender :fem
          :number :sing}

@@ -1,22 +1,83 @@
 {
+ "gli"
+ [{:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :the}}]
  "i"
  [{:agr {:gender :masc
          :number :plur}
    :sem {:pred :the}}]
-
+ "i loro"
+ [{:agr {:gender :masc
+         :number :plur}
+   :sem {:pred :they}}]
  "il"
  [{:agr {:gender :masc
          :number :sing}
    :sem {:pred :the}}]
-
+ "il loro"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :they}}]
+ "il suo"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :he}}
+  {:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :she}}]
+ "l'"
+  [{:agr {:gender :fem
+          :number :sing}
+    :sem {:pred :the}}]
  "la"
   [{:agr {:gender :fem
           :number :sing}
     :sem {:pred :the}}]
-
+ "la loro"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :they}}]
+ "la sua"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :he}}
+  {:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :she}}]
+ "le loro"
+ [{:agr {:gender :fem
+         :number :plur}
+   :sem {:pred :they}}]
+ "le sua"
+ [{:agr {:gender :fem
+         :number :plur}
+   :sem {:pred :he}}
+  {:agr {:gender :fem
+         :number :plur}
+   :sem {:pred :she}}]
  "le"
   [{:agr {:gender :fem
           :number :sing}
     :sem {:pred :the}}]
+ "lo"
+  [{:agr {:gender :masc
+          :number :sing}
+    :sem {:pred :the}}]
+ "un"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :some}}]
+ "un'"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :some}}]
+ "uno"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :some}}]
+ "una"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :some}}]
  }
-

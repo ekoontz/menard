@@ -114,7 +114,7 @@
          :ref {:context :formal}}}]
  "le"
   [{:agr {:gender :fem
-          :number :sing}
+          :number :plur}
     :sem {:pred :the}}]
  "lo"
   [{:agr {:gender :masc

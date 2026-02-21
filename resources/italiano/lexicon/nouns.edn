@@ -1,4 +1,7 @@
 {
+ "apertura"
+ [{:agr {:gender :fem}
+   :sem {:pred :opening}}]
  "cipolla"
  [{:agr {:gender :fem}
    :sem {:pred :onion}}]

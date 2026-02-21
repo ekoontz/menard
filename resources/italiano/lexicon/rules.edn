@@ -307,7 +307,7 @@
            :reflexive? false
            :propernoun? false
            :pronoun? false}]}           
-
+ 
  {:rule :common-noun-singular
   :if {:cat :noun
        :propernoun? false
@@ -337,14 +337,24 @@
                 :person :3rd}
           :subcat []}]}
 
-  {:rule :quantified-noun
+ {:rule :common-noun-agreement
   :if {:cat :noun
        :subcat {:1 {:cat :det}}}
-  :then [(let [quant (atom :top)
-               ref (atom :top)]
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr}}})]}
+ 
+  {:rule :quantified-noun
+   :if {:cat :noun
+        :subcat {:1 {:cat :det}}}
+   :then [(let [quant (atom :top)
+                number (atom :top)
+                reference (atom :top)]
            {:sem {:quant quant
-                  :possessed-by ref}
-            :subcat {:1 {:sem {:ref ref
+                  :number number
+                  :possessed-by reference}
+            :subcat {:1 {:agr {:number number}
+                         :sem {:ref reference
                                :pred quant}}}})]}
 
  {:rule :noun-semantics

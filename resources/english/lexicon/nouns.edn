@@ -186,6 +186,7 @@
  "night" [{:sem {:pred :night}}]
  "notice" [{:sem {:pred :notice}}]
  "number" [{:sem {:pred :number}}]
+ "opening" [{:sem {:pred :opening}}] 
  "opportunity" [{:sem {:pred :opportunity}}]
  "part" [{:sem {:pred :part}}]
  "peanut" [{:sem {:pred :peanut}}]

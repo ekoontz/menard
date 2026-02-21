@@ -35,6 +35,10 @@
  [{:agr {:gender :masc
          :number :sing}
    :sem {:pred :they}}]
+ "il mio"
+ [{:agr {:gender :masc
+         :number :sing}
+   :sem {:pred :i}}]
  "il nostro"
  [{:agr {:gender :masc
          :number :sing}
@@ -70,6 +74,14 @@
   [{:agr {:gender :fem
           :number :sing}
     :sem {:pred :the}}]
+ "la mia"
+ [{:agr {:gender :fem
+         :number :sing}
+   :sem {:pred :i}}]
+ "le mie"
+ [{:agr {:gender :fem
+         :number :plur}
+   :sem {:pred :i}}]
  "la loro"
  [{:agr {:gender :fem
          :number :sing}
@@ -101,7 +113,11 @@
    :sem {:pred :you
          :ref {:number :plur
                :context :informal}}}]
- "le sua"
+ "le"
+  [{:agr {:gender :fem
+          :number :plur}
+    :sem {:pred :the}}]
+ "le sue"
  [{:agr {:gender :fem
          :number :plur}
    :sem {:pred :he}}
@@ -112,10 +128,6 @@
          :number :plur}
    :sem {:pred :you
          :ref {:context :formal}}}]
- "le"
-  [{:agr {:gender :fem
-          :number :plur}
-    :sem {:pred :the}}]
  "lo"
   [{:agr {:gender :masc
           :number :sing}

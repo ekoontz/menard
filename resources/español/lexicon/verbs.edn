@@ -160,6 +160,7 @@
                  ;; them for the article ("él/ella/ellos/ellas) with the emoji.
                  :subj {:ref {:human? true}}}}]
  "compartir" [{:sem {:pred :share}}]
+ "competir" [{:sem {:pred :compete}, :stems {:boot "compit"}}]
  "comprar"
  [{:transitivity :intransitive
    :sem {:pred :buy,
@@ -209,6 +210,14 @@
  "contestar" [{:sem {:pred :answer}}]
  "convertir" [{:sem {:pred :convert},
                :stems {:boot "conviert"}}]
+ 
+ "corregir" [{:stems {:boot "corrig"}
+            :exceptions [{:infl :present
+                          :agr {:person :1st
+                                :number :sing}
+                          :surface "corrijo"}] 
+            :sem {:pred :correct}}] 
+ 
  "correr" [{:sem {:pred :run}}]
  "corresponder" [{:sem {:pred :correspond}}]
  "cortar" [{:sem {:pred :cut}}]
@@ -308,6 +317,9 @@
   "descansar" [{:sem {:pred :rest}}]
 
  "desear" [{:sem {:pred :desire}}]
+ 
+ "despedir" [{:sem {:pred :fire}, :stems {:boot "despid"}}]
+ 
  "despertarse" [{:sem {:pred :wake-up}
                  :stems {:boot "despiert"}}]
  "dibujar" [{:sem {:pred :draw}}]
@@ -346,6 +358,14 @@
                 :exceptions exceptions}])
  "ducharse" [{:sem {:pred :take-a-shower}}]
  "echar" [{:sem {:pred :throw-out}}]
+ 
+ "elegir" [{:stems {:boot "eliig"}
+            :exceptions [{:infl :present
+                          :agr {:person :1st
+                                :number :sing}
+                          :surface "elijo"}] 
+            :sem {:pred :correct}}] 
+ 
  "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
  "encontrar" [{:sem {:pred :find}, :stems {:boot "encuentr"}}]
@@ -608,6 +628,9 @@
 
  "jugar" [{:sem {:pred :play-games}, :stems {:boot "jueg"}}]
 
+ 
+ "impedir" [{:sem {:pred :prevent}, :stems {:boot "impid"}}]
+ 
  "intentar" [{:sem {:pred :try}}]
 
  "ir" [{:transitivity :intransitive
@@ -798,6 +821,9 @@
  "manejar" [{:sem {:pred :drive}}]
  "maquillarse" [{:sem {:pred :put-on-makeup}}]
 
+ "medir" [{:sem {:pred :measure}, :stems {:boot "mid"}}]
+ 
+ 
  "mentir" [{:sem {:pred :lie}, :stems {:boot "mient"}}]
  "mirar" [{:sem {:pred :look-at}}]
  "mostrar" [{:sem {:pred :show}, :stems {:boot "muestr"}}]
@@ -1025,6 +1051,9 @@
  "sentirse" [{:stems {:boot "sient"}
               :sem {:pred :feel}}]
 
+ "servir" [{:sem {:pred :serve}, :stems {:boot "sirv"}}]
+ 
+ 
  "regresar" [{:sem {:pred :return}}]
 
 ;;   "soñar" {}

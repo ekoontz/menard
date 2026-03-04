@@ -170,6 +170,9 @@
          :subj {:ref {:human? true}}
          :obj {:ref {:buyable? true}}}}]
  "comprender" [{:sem {:pred :understand}}]
+ 
+ "concebir" [{:sem {:pred :conceive}, :stems {:boot "conciv"}}]
+ 
  "conducir"
  [{:sem {:pred :lead},
    :exceptions

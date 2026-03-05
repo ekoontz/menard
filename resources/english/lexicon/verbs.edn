@@ -240,12 +240,15 @@
             :sem {:pred :come}
             :exceptions exceptions}])
  "comment" [{:sem {:pred :comment}}]
+ "compete" [{:sem {:pred :compete}}] 
  "complain" [{:sem {:pred :complain}}]
+ "conceive" [{:sem {:pred :conceive}}]
  "confess" [{:sem {:pred :confess}}]
  "consent" [{:sem {:pred :consent}}]
  "conserve" [{:sem {:pred :conserve}}]
  "consider" [{:sem {:pred :consider}}]
- "convert" [{:sem {:pred :convert}}] 
+ "convert" [{:sem {:pred :convert}}]
+ "correct" [{:sem {:pred :correct}}]
  "correspond" [{:sem {:pred :correspond}}]
  "cough" [{:sem {:pred :cough}}]
 ;; "could" [{:modal :base
@@ -425,6 +428,7 @@
                           {:infl :past-participle :surface "found"}]]
           [{:exceptions exceptions  :sem {:pred :find}}])
  "finish" [{:sem {:pred :finish}}]
+ "fire" [{:sem {:pred :fire}}] 
  "fit" [{:sem {:pred :fit}
          :exceptions [{:infl :past-simple :surface "fit"}
                       {:infl :past-participle :surface "fit"}]}]
@@ -696,6 +700,7 @@
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions  :sem {:pred :mean}}])
+ "measure" [{:sem {:pred :measure}}]
  "move" [{:sem {:pred :move}}]
 
  "must" [{:infl :present
@@ -833,6 +838,7 @@
  "send" (let [exceptions [{:infl :past-simple :surface "sent"}
                           {:infl :past-participle :surface "sent"}]]
           [{:exceptions exceptions  :sem {:pred :send}}])
+ "serve" [{:sem {:pred :serve}}]
  "share" [{:sem {:pred :share}}]
  "shave" [{:sem {:pred :shave}
            :reflexive? false}

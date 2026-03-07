@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.9.25] - 2026-03-07
+
+- Add some more Spanish and English verbs
+
 ## [1.9.24] - 2026-02-08
 
 - Fix conjugation of "seguir" and "conseguir"

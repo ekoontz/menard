@@ -200,7 +200,7 @@
                :exceptions [{:infl :present
                              :agr {:person :1st
                                    :number :sing}
-                             :surface "sigo"}]
+                             :surface "consigo"}]
             :sem {:pred :obtain-c}}]
 
  "consentir" [{:sem {:pred :consent},

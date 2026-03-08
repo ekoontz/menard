@@ -9,10 +9,12 @@
             #?(:cljs [cljslog.core :as log])))
 
 ;; These are for convenience so you don't
-;; have to reload these language-model files every time you make a change:
+;; have to reload these language model files every time you make a change:
 ;; you can just reload this file (menard.test.italiano.clj)
 ;; file and it will reload the changed language-model files.
-(load "../../../src/menard/subcat")
+;; If you're not changing the language model files, you can comment these out
+;; to speed up loading time for this file (menard.test.italiano)
+;;(load "../../../src/menard/subcat")
 (load "../../../src/menard/italiano")
 
 (def spec3 {:cat :verb
@@ -36,3 +38,20 @@
                                  ((fn [x]
                                     (log/info (str "morph: " x))
                                     x)))))))))
+
+(def np-spec {:root "gatto", :sem {:quant :she}, :subcat [], :phrasal? true, :cat :noun})
+(def np-spec-sing {:root "gatto",
+                   :sem {:quant :she
+                         :number :sing}
+                   :subcat [],
+                   :phrasal? true,
+                   :cat :noun})
+
+(def np-spec-plur {:root "gatto",
+                   :sem {:quant :she
+                         :number :plur}
+                   :subcat [],
+                   :phrasal? true,
+                   :cat :noun})
+
+;; (->> #(-> np-spec-plur generate morph println) repeatedly (take 100) count)

@@ -10,6 +10,8 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+;; TODO: factor out commonalities with menard.translate.it-en
+
 (defn es-structure-to-en-spec [es-structure]
   (log/debug (str "es-structure-to-en-spec tree: " (es/syntax-tree es-structure)))
   (let [sem-mod (if (not (= (u/get-in es-structure [:sem :mod]) []))

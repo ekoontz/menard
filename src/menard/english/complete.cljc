@@ -1,7 +1,8 @@
 (ns menard.english.complete
   (:require [dag_unify.core :as u]
             [clojure.tools.logging :as log]
-            [menard.english.compile :refer [compile-lexicon]]
+            [menard.english.compile :refer [compile-lexicon]]            
+            [menard.english.constants :as constants]
             [menard.english.tenses :refer [tenses]]
             [menard.model :refer [create]]))
 

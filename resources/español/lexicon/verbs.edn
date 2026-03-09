@@ -1164,7 +1164,7 @@
  "vivir" [{:sem {:pred :live-v}}]
 ;;   "volar" {}
  "volver" [{:stems {:boot "vuelv"}
-             :sem {:pred :return}}]
+             :sem {:pred :return}
             :exceptions [{:infl :participo
                           :surface "vuelto"}]}]
  }

@@ -116,7 +116,21 @@
                                    (exception "Cannot find surface form given intermediate surface value: " surface))))
                              (:exceptions consequent))})
     consequent))
-  
+
+(defn already-existing-exception? [rule-generated-exception existing-exceptions]
+  (when (seq existing-exceptions)
+    (log/debug (str "already-existing-exception?: rule-generated-exception: " rule-generated-exception "; existing-exceptions: " (vec existing-exceptions)))
+    (let [rule-generated-exception (-> rule-generated-exception (dissoc :surface))
+          retval
+          (->> existing-exceptions
+               (map #(dissoc % :surface))
+               (filter #(do
+                          (log/debug (str "comparing existing: " % " with rule-generated: " rule-generated-exception))
+                          (= % rule-generated-exception)))
+               seq)]
+      (log/debug (str "retval: " retval))
+      retval)))
+
 (defn apply-rule-to-lexeme [rule-name lexeme consequent antecedent antecedent-index
                             consequent-index include-derivation?]
   (log/debug (str "rule-name: " rule-name))
@@ -124,7 +138,11 @@
   (log/debug (str "lexeme: " (pprint lexeme)))
   (let [consequent (eval-surface-fns consequent lexeme)
         existing-exceptions (:exceptions lexeme)
-        new-exceptions (:exceptions consequent)
+        new-exceptions (->> (:exceptions consequent)
+                            (remove (fn [exception]
+                                      (already-existing-exception? exception existing-exceptions))))
+        debug (when (seq new-exceptions)
+                (log/debug (str "new-exceptions: " (vec new-exceptions))))
         result (unify (dissoc lexeme :exceptions)
                       (dissoc consequent :exceptions)
                       (if (or (seq existing-exceptions)

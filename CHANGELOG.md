@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.10.0] - 2026-03-10
+
+Ensure that specific exceptions (e.g. 1st person singular present) to override more general stem-based exceptions e.g. seguir, conseguir.
+
 ## [1.9.25] - 2026-03-07
 
 - Add some more Spanish and English verbs

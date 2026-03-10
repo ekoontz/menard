@@ -45,7 +45,7 @@
   (ref (create "español/models/curated-verbs"
                "curated-verbs"
 
-          ;; compile-lexicon-fn
+               ;; compile-lexicon-fn
                (fn [lexicon _ _] lexicon)
 
                ;; filter-out-nils?

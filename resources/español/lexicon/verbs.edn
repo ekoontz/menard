@@ -1141,9 +1141,10 @@
             {:infl :present,
              :agr {:person :2nd, :number :sing},
              :surface "vienes"}
+            
             {:infl :present,
-             :agr {:person :3rd, :number :sing},
-             :surface "viene"}],
+             :agr {:person :3rd, :number :plur},
+             :surface "vienen"}],
            :stems {:preterito "vin"}}]
 
  "ver"

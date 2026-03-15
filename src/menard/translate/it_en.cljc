@@ -107,6 +107,7 @@
   (->> (to-en-structure-alternatives input model en-model)
        (map en/morph)))
 
+(defn structure-to-string
   [parse & [model en-model]]
   (-> parse
       (structure-to-en-structure model en-model)

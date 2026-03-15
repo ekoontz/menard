@@ -191,10 +191,10 @@
       ((fn [lexicon]
          (if (nil? unify-with)
            (do
-             (log/debug (str "compile-lexicon-source: unify-with is nil."))
+             (log/debug (str "compile-lexicon: unify-with is nil."))
              lexicon)
            (do
-             (log/debug (str "  compile-lexicon-source: apply-to-every-lexeme..(unify-with: " unify-with ") to lexicon: " lexicon))
+             (log/debug (str "  compile-lexicon: apply-to-every-lexeme..(unify-with: " unify-with ") to lexicon: " lexicon))
              (l/apply-to-every-lexeme lexicon
                                       (fn [lexeme]
                                         (let [result (unify lexeme unify-with)]
@@ -209,11 +209,11 @@
              (log/debug (str "  apply-to-every-lexeme: lexicon with " (count (keys lexicon)) " key(s): " (vec (sort (keys lexicon)))))
              (l/apply-to-every-lexeme lexicon
                                       (fn [lexeme]
-                                        (log/debug (str "compile-lexicon-source: lexeme: " lexeme "; apply-fn: " apply-fn))
+                                        (log/debug (str "compile-lexicon: lexeme: " lexeme "; apply-fn: " apply-fn))
                                         (let [result ((eval apply-fn) lexeme)]
-                                          (log/debug (str "compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme "; result: " result))
+                                          (log/debug (str "compile-lexicon: applying apply-fn: " apply-fn " to lexeme: " lexeme "; result: " result))
                                           (when (nil? result)
-                                            (exception (str "oops, compile-lexicon-source: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
+                                            (exception (str "oops, compile-lexicon: applying apply-fn: " apply-fn " to lexeme: " lexeme " was nil.")))
                                           result)))))))
       ((fn [lexicon]
          (when include-derivation? (log/info (str "  apply-rules-in-order with derivations included.")))

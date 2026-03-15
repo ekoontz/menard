@@ -198,7 +198,7 @@
              (l/apply-to-every-lexeme lexicon
                                       (fn [lexeme]
                                         (let [result (unify lexeme unify-with)]
-                                          (log/debug (str "compile-lexicon-source: lexeme: " lexeme))
+                                          (log/debug (str "compile-lexicon: lexeme: " lexeme))
                                           (if (= :fail result)
                                             (exception (str "menard.model/compile-lexicon: hit a fail while processing source filename: " source-filename "; lexeme: " lexeme "; unify-with: " unify-with)))
                                           result)))))))

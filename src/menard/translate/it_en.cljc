@@ -107,13 +107,12 @@
   (->> (to-en-structure-alternatives input model en-model)
        (map en/morph)))
 
-(defn structure-to-en-string
   [parse & [model en-model]]
   (-> parse
       (structure-to-en-structure model en-model)
       en/morph))
    
-(defn to-en
+(defn string-to-string
   "return one English string translation for the given Spanish input."
   [input & [model en-model]]
   (-> input
@@ -121,4 +120,4 @@
       en/morph))
 
 (defn translate [it]
-  (-> it to-en))
+  (-> it string-to-string))

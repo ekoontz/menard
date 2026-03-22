@@ -48,7 +48,7 @@
             :phrasal? (-> en-structure (u/get-in [:phrasal?] :top))
             :subcat (-> en-structure (u/get-in [:subcat]))})))
 
-(defn structure-to-en-structure [structure & [model en-model]]
+(defn structure-to-en-structure [structure & [it-model en-model]]
   (let [english-spec (structure-to-en-spec structure)
         en-model (or en-model @en-complete/model)]
     (log/debug (str "structure-to-en-structure: " (it/syntax-tree structure)))
@@ -70,54 +70,56 @@
   
 (defn string-to-en-structure
   "return one English structure translation for the given Spanish input."  
-  [input & [model en-model]]
+  [input & [it-model en-model]]
   (if input
     (log/debug (str "string-to-en-structure: input: " input))    
     (log/error (str "string-to-en-structure: input was null.")))
   (log/debug (str "string-to-en-structure: starting with input: " input))
-  (let [model (or model it/model)
-        parses (it/parse input model)]
+  (let [it-model (or it-model it/model)
+        en-model (or en-model @en-complete/model)
+        parses (it/parse input it-model)]
     (if (seq parses)
       (do
         (log/debug (str "translating es parse: " (it/syntax-tree (first parses))))
-        (-> parses first (structure-to-en-structure model en-model)))
+        (-> parses first (structure-to-en-structure it-model en-model)))
       (log/error (str "could not parse input: '" input "'")))))
 
 (defn to-en-structure-alternatives
   "return several English structure translations for the given Spanish input."  
-  [input & [model en-model]]
+  [input & [it-model en-model]]
   (if input
     (log/debug (str "to-en: input: " input))    
     (log/error (str "to-en: input was null.")))
   (log/debug (str "to-en: starting with input: " input))
-  (let [model (or model it/model)
+  (let [it-model (or it-model it/model)
+        en-model (or en-model @en-complete/model)
         parses (-> input
-                      (it/parse (ref model)))]
+                      (it/parse (ref it-model)))]
     (->> parses
-         (map #(structure-to-en-structure % model en-model))
+         (map #(structure-to-en-structure % it-model en-model))
          (remove nil?))))
 
 (defn to-en-surface-alternatives
   "return several English surface translations for the given Spanish input."  
-  [input & [model en-model]]
+  [input & [it-model en-model]]
   (if input
     (log/debug (str "to-en: input: " input))    
     (log/error (str "to-en: input was null.")))
   (log/debug (str "to-en: starting with input: " input))
-  (->> (to-en-structure-alternatives input model en-model)
+  (->> (to-en-structure-alternatives input it-model en-model)
        (map en/morph)))
 
 (defn structure-to-string
-  [parse & [model en-model]]
+  [parse & [it-model en-model]]
   (-> parse
-      (structure-to-en-structure model en-model)
+      (structure-to-en-structure it-model en-model)
       en/morph))
    
 (defn string-to-string
   "return one English string translation for the given Spanish input."
-  [input & [model en-model]]
+  [input & [it-model en-model]]
   (-> input
-      (string-to-en-structure model en-model)
+      (string-to-en-structure it-model en-model)
       en/morph))
 
 (defn translate [it]

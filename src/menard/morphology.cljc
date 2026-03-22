@@ -2,82 +2,25 @@
   (:require [clojure.string]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
+            [menard.morphology.emojis :as emojis :refer [informal-masculine
+                                                         informal-feminine
+                                                         informal-neuter
+                                                         formal-neuter
+                                                         formal-masculine
+                                                         formal-feminine
+                                                         informal
+                                                         formal
+                                                         emoji-to-informal
+                                                         emoji-to-formal
+                                                         emoji-set emoji-set-1 emoji-set-2
+                                                         music-emojis
+                                                         game-emojis]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.diagnostics :as diag :refer [fail-path strip-refs]]))
 
 (def ^:dynamic show-notes? true)
-
-;; TODO move all emoji stuff to menard.morphology.emojis.
-
-(def emoji-set-1
-  {:informal ["🤠"]
-   :formal   ["🧐"]})
-
-(def informal-masculine ["👦" "👦🏻" "👦🏼" "👦🏼" "👦🏾" "👦🏾"])
-(def informal-feminine  ["👧" "👧🏻" "👧🏼" "👧🏽" "👧🏾" "👧🏿"])
-(def informal-neuter    ["🧒" "🧒🏻" "🧒🏼" "🧒🏽" "🧒🏾" "🧒🏿"])
-(def formal-neuter      ["🧓🏻" "🧓🏼" "🧓🏽" "🧓🏾" "🧓🏾"])
-(def formal-masculine   ["👴" "👴🏻" "👴🏼" "👴🏽" "👴🏾" "👴🏿"])
-(def formal-feminine    ["👵" "👵🏻" "👵🏼" "👵🏽" "👵🏾" "👵🏿"])
-(def informal   (concat informal-masculine
-                        informal-feminine
-                        informal-neuter))
-(def formal     (concat formal-masculine
-                        formal-feminine
-                        formal-neuter))
-
-(def emoji-to-informal (->> informal-masculine
-                            (concat informal-feminine)
-                            (concat informal-neuter)
-                            (map (fn [emoji]
-                                   [emoji [{:notes [:informal]}]]))
-                            (into {})))
-
-(def emoji-to-formal (->> formal-masculine
-                          (concat formal-feminine)
-                          (concat formal-neuter)
-                          (map (fn [emoji]
-                                 [emoji [{:notes [:formal]}]]))
-                          (into {})))
-
-;; TODO: more factoring-out variables is possible beyond these two
-;; ones for informal:
-(def emoji-set-2
-  {
-   ;; vosotras
-   :informal-feminine informal-feminine
-   ;; vosotros
-   :informal-masculine informal-masculine
-
-   :formal-feminine formal-feminine
-   :formal-masculine formal-masculine   
-   
-   ;; tú
-   :informal (concat informal-masculine
-                     informal-feminine
-                     informal-neuter)
-   ;; usted
-   :formal   (concat formal-masculine
-                     formal-feminine
-                     formal-neuter)
-
-   
-   :all      (concat informal formal)
-   
-   ;; nosotros
-   :masculine (concat informal-masculine
-                      formal-masculine)
-   
-   ;; nosotras
-   :feminine (concat informal-feminine
-                     formal-feminine)})
-
-(def emoji-set emoji-set-2)
-
-(def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
-(def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
 
 (defn decode-notes
   "turn a notes value e.g. [:formal :singular :feminine] into an emoji (if :singular) or two emojis (if :plural)"

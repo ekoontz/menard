@@ -4,13 +4,12 @@
             ;; TODO: load a subset of the default "complete" model
             ;; rather than the whole thing:
             [menard.english :as en]
-
             [menard.español :as es]
             [menard.lexiconfn :as l]
-            ;; these are sets of emojis that can represent formal and informal persons,
+            [menard.morphology :as m]
+            ;; _formal_ and _informal_ are sets of emojis that can represent formal and informal persons,
             ;; respectively.
-            [menard.morphology :as m :refer [formal informal]]
-            [menard.morphology.emojis :as em]
+            [menard.morphology.emojis :as em :refer [formal informal]]
             [menard.translate.es-en :as translate]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])

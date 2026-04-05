@@ -4,6 +4,7 @@
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.translate.spec :refer [es-to-en-spec]]
+            [menard.morphology.emojis :refer [emoji-set-2]]
             [menard.nederlands :as nl]
             [menard.nederlands.complete :as complete]            
             [menard.translate.spec :refer [nl-to-en-spec]]
@@ -30,7 +31,7 @@
 
 ;; "they need"
 (def plural-third-person-alternatives
-  (let [all-emojis (:all menard.morphology/emoji-set-2)
+  (let [all-emojis (:all emoji-set-2)
         all-emoji-pairs
         (->> all-emojis
              (mapcat (fn [emo1]
@@ -53,17 +54,17 @@
   (set
    (map (fn [emoji]
           (str "you " emoji " need them"))
-        (-> menard.morphology/emoji-set-2 :informal))))
+        (-> emoji-set-2 :informal))))
 
 (def formal-alternatives
   (set
    (map (fn [emoji]
           (str "you " emoji " need yourself"))
-        (-> menard.morphology/emoji-set-2 :formal))))
+        (-> emoji-set-2 :formal))))
 
 ;; "we need ourselves"))
 (def plural-first-person-alternatives
-  (let [all-emojis (:all menard.morphology/emoji-set-2)
+  (let [all-emojis (:all emoji-set-2)
         all-emoji-pairs
         (->> all-emojis
              (mapcat (fn [emo1]

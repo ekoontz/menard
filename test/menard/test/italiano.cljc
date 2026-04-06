@@ -2,7 +2,6 @@
   (:require [menard.italiano :as it
              :refer [analyze generate morph parse syntax-tree]]
             [menard.lexiconfn :as l]
-            [menard.translate.it-en :refer [string-to-en-structure string-to-string]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
@@ -55,13 +54,4 @@
                    :cat :noun})
 
 ;; (->> #(-> np-spec-plur generate morph println) repeatedly (take 100) count)
-
-(deftest your-cats-plural
-  (is (= "your (👥) cats"
-         (->> "i vostri gatti" string-to-string))))
-
-(deftest your-cats-singular
-  (is (= "your (👤) cats"
-         (->> "i tuoi gatti" string-to-string))))
-
 

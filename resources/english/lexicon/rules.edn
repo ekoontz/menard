@@ -631,11 +631,14 @@
    :if {:cat :noun
         :subcat {:1 {:cat :det}}}
    :then [(let [quant (atom :top)
-                context (atom :top)]
-            {:sem {:quant quant
-                   :context context}
-             :subcat {:1 {:sem {:pred quant
-                                :context context}}}})]}
+                number (atom :top)
+                reference (atom :top)]
+           {:sem {:quant quant
+                  :number number
+                  :possessed-by reference}
+            :subcat {:1 {:agr {:number number}
+                         :sem {:ref reference
+                               :pred quant}}}})]}
 
  ;; verbs with prepositions as the object (e.g. "talks to her", "goes with him", etc.
  {:rule :prep-arg-reflexivity

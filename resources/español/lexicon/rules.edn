@@ -599,14 +599,17 @@
        :agr {:number :sing}}
   :then [{:subcat {:1 {:is-el-noun? true}}}]}
  
- {:rule :quantified-noun
-  :if {:cat :noun
-       :subcat {:1 {:cat :det}}}
-  :then [(let [quant (atom :top)
-               context (atom :top)]
+  {:rule :quantified-noun
+   :if {:cat :noun
+        :subcat {:1 {:cat :det}}}
+   :then [(let [quant (atom :top)
+                number (atom :top)
+                reference (atom :top)]
            {:sem {:quant quant
-                  :context context}
-            :subcat {:1 {:sem {:context context
+                  :number number
+                  :possessed-by reference}
+            :subcat {:1 {:agr {:number number}
+                         :sem {:ref reference
                                :pred quant}}}})]}
 
  {:rule :noun-semantics

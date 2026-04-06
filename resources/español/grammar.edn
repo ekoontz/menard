@@ -3,7 +3,6 @@
  {:rule "np"
   :cat :noun
   :head {:phrasal? true}
-  
   :unify [menard.nesting/nest-only
           menard.subcat/a
           menard.ug/head-is-root

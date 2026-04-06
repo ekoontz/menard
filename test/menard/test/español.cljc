@@ -110,4 +110,3 @@
     (is (= (u/get-in hablaréis [:infl]) :future))
     (is (or (= (u/get-in hablaréis [:sem :pred]) :speak)
             (= (u/get-in hablaréis [:sem :pred]) :talk)))))
-

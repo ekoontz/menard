@@ -36,19 +36,19 @@
   (is (= (->> "el primero gato" parse (map syntax-tree) first)
          "[np .el +[nbar .primero +gato]]"))
   (is (= (->> "la mesa blanca" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
-         [{:pred :table
-           :context :top
-           :quant :the
-           :ref {:number :sing}
-           :mod {:first {:pred :white}
-                 :rest []}}]))
+         [{:quant :the,
+           :mod {:rest [], :first {:pred :white}},
+           :ref {:number [[1] :sing]},
+           :number [1],
+           :pred :table,
+           :possessed-by :top}]))
   (is (= (->> "el primero gato" parse (map #(u/get-in % [:sem])) (map l/pprint) vec)
-         [{:pred :cat
-           :context :top
-           :quant :the
-           :ref {:number :sing}
-           :mod {:first {:pred :first}
-                 :rest []}}]))
+         [{:quant :the,
+           :mod {:rest [], :first {:pred :first}},
+           :ref {:number [[1] :sing]},
+           :number [1],
+           :pred :cat,
+           :possessed-by :top}]))
 
   ;; negative tests: things that shouldn't parse:
   (is (empty? (->> "la gato" parse)))

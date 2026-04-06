@@ -6,7 +6,7 @@
             [menard.translate.spec :refer [es-to-en-spec]]
             [menard.morphology.emojis :refer [emoji-set-2]]
             [menard.nederlands :as nl]
-            [menard.nederlands.complete :as complete]            
+            [menard.nederlands.complete :as complete]
             [menard.translate.spec :refer [nl-to-en-spec]]
             [dag_unify.core :as u]
             [dag_unify.serialization :refer [serialize]]

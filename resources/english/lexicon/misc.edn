@@ -155,16 +155,25 @@
         :sem {:pred :up}}]
  "your" [{:cat :det
           :sense 1
-          :note [:informal]
+          :note [:informal :singular]
           :sem {:pred :you
-                :context :informal}}
+                :ref {:context :informal
+                      :number :sing}}}
          {:cat :det
           :sense 2
-          :note [:formal]
+          :note [:informal :plural]
           :sem {:pred :you
-                :context :formal}}
+                :ref {:context :informal
+                      :number :plur}}}
          {:cat :det
           :sense 3
+          :note [:formal :singular]
+          :sem {:pred :you
+                :ref {:context :formal
+                      :number :sing}}}
+         {:cat :det
+          :sense 4
           :note [:formal :plural]
           :sem {:pred :you
-                :context :formal}}]}
+                :ref {:context :formal
+                      :number :plur}}}]}

@@ -171,7 +171,8 @@
        four (atom :top)
        five (atom :top)
        six (atom :top)
-       seven (atom :top)]
+       seven (atom :top)
+       eight (atom :top)]
    {:def 'noun
     :cat :noun
     :sem {:pred one
@@ -180,14 +181,16 @@
           :context four
           :existential? five
           :number? six
-          :obj seven}
+          :obj seven
+          :possessed-by eight}
     :head {:sem {:pred one
                  :quant two
                  :ref three
                  :context four
                  :existential? five
                  :number? six
-                 :obj seven}}})
+                 :obj seven
+                 :possessed-by eight}}})
 
  ;; 2.c.: verb-headed phrases
  (let [one (atom :top)

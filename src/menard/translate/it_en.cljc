@@ -6,7 +6,9 @@
             [menard.english.complete :as en-complete]
             [menard.italiano :as it]
             [menard.generate :as g]
-            [menard.lexiconfn :as l]            
+            [menard.lexiconfn :as l]
+            [menard.morphology :as m]
+            [menard.morphology.emojis :refer [emoji-set-fn-3]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
@@ -60,13 +62,14 @@
                                                "from spec: (serialized) "
                                                (dag_unify.serialization/serialize english-spec)))
                                {}))]
-      (log/debug (str "it-to-en: en-expression: " (en/syntax-tree en-expression)))
-      (when (nil? en-expression)
-        (log/error (str "could not generate english expression for target: "
-                        (it/syntax-tree structure) ";spec: " (l/pprint english-spec))))
-      (log/debug (str "en-expression: " (l/pprint en-expression)))
-      (log/debug (str "morph(en-expression): " (en/morph en-expression)))
-      en-expression)))
+      (binding [m/emoji-set-fn emoji-set-fn-3]
+        (log/debug (str "it-to-en: en-expression: " (en/syntax-tree en-expression)))
+        (when (nil? en-expression)
+          (log/error (str "could not generate english expression for target: "
+                          (it/syntax-tree structure) ";spec: " (l/pprint english-spec))))
+        (log/debug (str "en-expression: " (l/pprint en-expression)))
+        (log/debug (str "morph(en-expression): " (en/morph en-expression)))
+        en-expression))))
   
 (defn string-to-en-structure
   "return one English structure translation for the given Spanish input."  
@@ -106,21 +109,24 @@
     (log/debug (str "to-en: input: " input))    
     (log/error (str "to-en: input was null.")))
   (log/debug (str "to-en: starting with input: " input))
-  (->> (to-en-structure-alternatives input it-model en-model)
-       (map en/morph)))
+  (binding [m/emoji-set-fn emoji-set-fn-3]
+    (->> (to-en-structure-alternatives input it-model en-model)
+         (map en/morph))))
 
 (defn structure-to-string
   [parse & [it-model en-model]]
-  (-> parse
-      (structure-to-en-structure it-model en-model)
-      en/morph))
-   
+  (binding [m/emoji-set-fn emoji-set-fn-3]
+    (-> parse
+        (structure-to-en-structure it-model en-model)
+        en/morph)))
+  
 (defn string-to-string
   "return one English string translation for the given Spanish input."
   [input & [it-model en-model]]
-  (-> input
-      (string-to-en-structure it-model en-model)
-      en/morph))
+  (binding [m/emoji-set-fn emoji-set-fn-3]
+    (-> input
+        (string-to-en-structure it-model en-model)
+        en/morph)))
 
 (defn translate [it]
   (-> it string-to-string))

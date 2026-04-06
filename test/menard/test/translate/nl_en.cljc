@@ -1,6 +1,7 @@
-(ns menard.test.translate
+(ns menard.test.translate.nl-en
   (:require [menard.english :as en]
             [menard.español :as es]
+            [menard.italiano :as it]
             [menard.exception :refer [exception]]
             [menard.lexiconfn :as l]
             [menard.translate.spec :refer [es-to-en-spec]]
@@ -14,17 +15,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
-(deftest parse-yo-quiero
-  (is (or true (seq (es/parse "yo quiero")))))
-
-(defn es-to-en-str [es-str]
-  (if false
-    (-> es-str es/parse first es-to-en-spec en/generate en/morph)
-    "I want"))
-
-(deftest yo-quiero
-  (is (= (es-to-en-str "yo quiero")
-         "I want")))
+(load "../../../../src/menard/english/complete")
 
 (defn nl-to-en-str [nl-str]
   (-> nl-str nl/parse first nl-to-en-spec en/generate en/morph))

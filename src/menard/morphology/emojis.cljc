@@ -37,6 +37,18 @@
                           (map (fn [emoji]
                                  [emoji [{:notes [:formal]}]]))
                           (into {})))
+(def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
+(def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
+
+(defn emoji-set-fn-1 [notes]
+  (let [emoji-set emoji-set-1
+        notes (set notes)]
+    (log/debug (str "emoji-set-fn-1 with notes: " notes " and emoji-set: " emoji-set))
+    (cond (contains? notes :formal)
+          (str "(" (:formal emoji-set) ")")
+          (contains? notes :plural)
+          (str "(" (:informal emoji-set) ")")
+          :else "")))
 
 ;; TODO: more factoring-out variables is possible beyond these two
 ;; ones for informal:
@@ -59,7 +71,6 @@
                      formal-feminine
                      formal-neuter)
 
-   
    :all      (concat informal formal)
    
    ;; nosotros
@@ -70,10 +81,95 @@
    :feminine (concat informal-feminine
                      formal-feminine)})
 
-(def emoji-set emoji-set-2)
+(defn emoji-set-fn-2 [notes]
+  (let [emoji-set emoji-set-2]
+    (log/debug (str "emoji-set-fn-2 with notes: " notes " and emoji-set: " emoji-set))
+    (cond
+      (= notes "games")
+      (-> game-emojis shuffle first)
+      (= notes "music")
+      (-> music-emojis shuffle first)
 
-(def music-emojis ["🎶" "🎵" "️🎺" "🎻" "🪕" "🎷" "🎸" "🥁" "🪗" "🎼" "🪉" "🎹"])
-(def game-emojis ["⚽️" "🏉" "🏐"  "🏈" "🏑" "🏒" "🏸" "🏓" "🎲" "🎱" "🎮"])
+      (= notes [:informal :feminine :plural])
+      (str (clojure.string/join ""
+                                (take 2 (repeatedly #(first (shuffle (get emoji-set :informal-feminine)))))))
+
+
+      ;; this case is a little more complicated because "nosotros/vosotros" is
+      ;; *at least* one male is in the group, but there may also be female in that
+      ;; same group. So we want to have the option to show a case of the latter
+      ;; (i.e. mixed male and female):
+      (= notes [:informal :masculine :plural])
+      (str (clojure.string/join ""
+                                [(first (shuffle (get emoji-set :informal-masculine)))
+                                 (first (shuffle (get emoji-set :informal)))]))
+
+      (= notes [:informal :singular])
+      (str (clojure.string/join ""
+                                (first (shuffle (get emoji-set :informal)))))
+      (= notes [:formal :singular])
+      (str (clojure.string/join ""
+                                (first (shuffle (get emoji-set :formal)))))
+      (= notes [:informal :plural])
+      (str (clojure.string/join ""
+                                (take 2 (shuffle (get emoji-set :informal)))))
+      (= notes [:formal :plural])
+      (str (clojure.string/join ""
+                                (take 2 (shuffle (get emoji-set :formal)))))
+      (= notes [:feminine :plural])
+      (str (clojure.string/join ""
+                                (take 2 (shuffle (get emoji-set :feminine)))))
+
+      (= notes [:formal :singular :feminine])
+      (str (clojure.string/join ""
+                                (first (shuffle (get emoji-set :formal-feminine)))))
+
+      (= notes [:formal :singular :masculine])
+      (str (clojure.string/join ""
+                                (first (shuffle (get emoji-set :formal-masculine)))))
+
+      ;; same applies here as above with "nosotros/vosotros"
+      (= notes [:masculine :plural])
+      (str (clojure.string/join ""
+                                [(first (shuffle (get emoji-set :masculine)))
+                                 (first (shuffle (get emoji-set :all)))]))
+
+      (= notes [:formal])
+      (str (first (shuffle (get emoji-set :formal))))
+
+      (= notes [:informal])
+      (str (first (shuffle (get emoji-set :informal))))
+
+      ;; no emoji or other cues for now.
+      (= notes [:human?])
+      nil
+      (= notes [:human])
+      nil
+      (= notes [:nonhuman])
+      nil
+
+      (or (vector? notes) (seq? notes))
+      (str "(" (clojure.string/join "," notes) ")")
+
+      (string? notes)
+      (str "(" notes ")")
+
+      ;;
+      :else
+      (str "(unprintable note)"))))
+
+(def emoji-set-3
+  {:singular "👤"
+   :plural   "👥"})
+
+(defn emoji-set-fn-3 [notes]
+  (let [notes (set notes)
+        emoji-set emoji-set-3]
+    (cond (contains? notes :singular)
+          (str "(" (:singular emoji-set-3) ")")
+          (contains? notes :plural)
+          (str "(" (:plural emoji-set-3) ")")
+          :else "")))
 
 (defn character-within-emoji? [character-name]
   (or (re-matches #"^LOW SURROGATES.*" character-name)

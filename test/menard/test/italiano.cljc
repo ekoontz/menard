@@ -2,8 +2,7 @@
   (:require [menard.italiano :as it
              :refer [analyze generate morph parse syntax-tree]]
             [menard.lexiconfn :as l]
-            [menard.morphology :refer [morph-leaf]]
-            [menard.translate.it-en :refer [string-to-string]]
+            [menard.translate.it-en :refer [string-to-en-structure string-to-string]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is]]
             #?(:clj [clojure.tools.logging :as log])
@@ -16,7 +15,7 @@
 ;; If you're not changing the language model files, you can comment these out
 ;; to speed up loading time for this file (menard.test.italiano)
 ;;(load "../../../src/menard/subcat")
-(load "../../../src/menard/italiano")
+;;(load "../../../src/menard/italiano")
 
 (def spec3 {:cat :verb
             :rule "s"
@@ -57,11 +56,12 @@
 
 ;; (->> #(-> np-spec-plur generate morph println) repeatedly (take 100) count)
 
-(deftest your-cats
+(deftest your-cats-plural
   (is (= "your (👥) cats"
-         (->> "i vostri gatti" string-to-string)))
+         (->> "i vostri gatti" string-to-string))))
+
+(deftest your-cats-singular
   (is (= "your (👤) cats"
          (->> "i tuoi gatti" string-to-string))))
-
 
 

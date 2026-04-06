@@ -12,7 +12,9 @@
                                                          formal
                                                          emoji-to-informal
                                                          emoji-to-formal
-                                                         emoji-set emoji-set-1 emoji-set-2
+                                                         emoji-set-fn-1
+                                                         emoji-set-fn-2
+                                                         emoji-set-fn-3
                                                          music-emojis
                                                          game-emojis]]
             #?(:clj [clojure.tools.logging :as log])
@@ -21,85 +23,13 @@
             [dag_unify.diagnostics :as diag :refer [fail-path strip-refs]]))
 
 (def ^:dynamic show-notes? true)
+(def ^:dynamic emoji-set-fn emoji-set-fn-2)
 
 (defn decode-notes
   "turn a notes value e.g. [:formal :singular :feminine] into an emoji (if :singular) or two emojis (if :plural)"
   [notes]
-  (log/debug (str "decode-notes with notes: " notes))
-  (cond
-    (= notes "games")
-    (-> game-emojis shuffle first)
-    (= notes "music")
-    (-> music-emojis shuffle first)
-
-    (= notes [:informal :feminine :plural])
-    (str (clojure.string/join ""
-                              (take 2 (repeatedly #(first (shuffle (get emoji-set :informal-feminine)))))))
-
-
-    ;; this case is a little more complicated because "nosotros/vosotros" is
-    ;; *at least* one male is in the group, but there may also be female in that
-    ;; same group. So we want to have the option to show a case of the latter
-    ;; (i.e. mixed male and female):
-    (= notes [:informal :masculine :plural])
-    (str (clojure.string/join ""
-                              [(first (shuffle (get emoji-set :informal-masculine)))
-                               (first (shuffle (get emoji-set :informal)))]))
-
-    (= notes [:informal :singular])
-    (str (clojure.string/join ""
-                              (first (shuffle (get emoji-set :informal)))))
-    (= notes [:formal :singular])
-    (str (clojure.string/join ""
-                              (first (shuffle (get emoji-set :formal)))))
-    (= notes [:informal :plural])
-    (str (clojure.string/join ""
-                              (take 2 (shuffle (get emoji-set :informal)))))
-    (= notes [:formal :plural])
-    (str (clojure.string/join ""
-                              (take 2 (shuffle (get emoji-set :formal)))))
-    (= notes [:feminine :plural])
-    (str (clojure.string/join ""
-                              (take 2 (shuffle (get emoji-set :feminine)))))
-
-    (= notes [:formal :singular :feminine])
-    (str (clojure.string/join ""
-                              (first (shuffle (get emoji-set :formal-feminine)))))
-
-    (= notes [:formal :singular :masculine])
-    (str (clojure.string/join ""
-                              (first (shuffle (get emoji-set :formal-masculine)))))
-
-    ;; same applies here as above with "nosotros/vosotros"
-    (= notes [:masculine :plural])
-    (str (clojure.string/join ""
-                              [(first (shuffle (get emoji-set :masculine)))
-                               (first (shuffle (get emoji-set :all)))]))
-
-    (= notes [:formal])
-    (str (first (shuffle (get emoji-set :formal))))
-
-    (= notes [:informal])
-    (str (first (shuffle (get emoji-set :informal))))
-
-    ;; no emoji or other cues for now.
-    (= notes [:human?])
-    nil
-    (= notes [:human])
-    nil
-    (= notes [:nonhuman])
-    nil
-
-    (or (vector? notes) (seq? notes))
-    (str "(" (clojure.string/join "," notes) ")")
-
-    (string? notes)
-    (str "(" notes ")")
-
-    ;;
-    :else
-    (str "(unprintable note)")))
-
+  (log/debug (str "decode-notes with notes: " notes " and emoji-set-fn: " emoji-set-fn))
+  (emoji-set-fn notes))
 
 (defn concat-with-notes [structure surface]
   (let [note (u/get-in structure [:note])

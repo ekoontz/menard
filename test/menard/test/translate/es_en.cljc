@@ -272,6 +272,7 @@
                        :aspect :simple
                        :tense :present}
                  :subcat [],
+                 :comp {:phrasal? false}
                  :phrasal? true,
                  :cat :verb,
                  :pronoun? nil}
@@ -290,6 +291,7 @@
                         :rule "vp-aux-non-reflexive"
                         :cat :verb}
                  :subcat []
+                 :comp {:phrasal? false}
                  :rule "s-aux"
                  :phrasal? true
                  :cat :verb}

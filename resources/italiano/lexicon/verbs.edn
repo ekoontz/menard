@@ -1,1 +1,26 @@
-{"abbandonare" [{:sem {:pred :abandon}}]}
+{"abbandonare" [{:sem {:pred :abandon}}]
+ "abbassare" [{:sem {:pred :lower}}]
+ "abbracciare" [{:sem {:pred :hug}}
+                {:sem {:pred :embrace}}]
+ "abitare" [{:sem {:pred :live-a}}]
+ "abituarsi" [{:sem {:pred :get-used-to}
+               :reflexive? true}]
+ "accettare" [{:sem {:pred :accept}}]
+ "accompagnare" [{:sem {:pred :accompany}}]
+ "addormentarsi" [{:sem {:pred :fall-asleep
+                         :subj {:animate? true}}
+                   :reflexive? true}]
+ "aggiungere" [{:passato "aggiunto"
+                :sem {:pred :add}}]
+ "aiutare" [{:sem {:pred :help}}]
+ "alzarsi" [{:sem {:pred :get-up}
+             :reflexive? true}]
+ "amare" [{:sem {:pred :amare}}]
+ "cambiare" [{:sem {:pred :change}}]
+ "cambiarsi" [{:sem {:pred :change-clothes}
+               :reflexive? true}]
+ "cancellare" [{:sem {:pred :erase}}]
+ "cantare" [{:sem {:pred :sing}}]}
+
+
+

@@ -16,11 +16,167 @@
  "alzarsi" [{:sem {:pred :get-up}
              :reflexive? true}]
  "amare" [{:sem {:pred :amare}}]
- "cambiare" [{:sem {:pred :change}}]
- "cambiarsi" [{:sem {:pred :change-clothes}
+ "ammirare" [{:sem {:pred :admire}}]
+ "andare" [{:drop-e? true
+            :future-stem "andr"
+            :present {:1sing "vado"
+                      :2sing "vai"
+                      :3sing "va"
+                      :1plur "andiamo"
+                      :2plur "andate"
+                      :3plur "vanno"}
+            :essere? true
+            :intransitive? true
+            :sem {:subj {:animate true}
+                  :pred :go}}]
+ "annoiarsi" [{:sem {:pred :get-bored}
                :reflexive? true}]
+ "annunciare" [{:sem {:pred :announce}}]
+ "appoggiare" [{:sem {:pred :support}}]
+ "apprendere" [{:sem {:pred :learn-a}
+                :passato "appreso"}]
+
+ "approfittare" [{:sem {:pred :take-advantage-of}}]
+
+ "approvare" [{:sem {:pred :approve}}]
+
+ "aprire"  [{:sem {:pred :open}
+             :passato "aperto"}]
+
+ "arrabbiarsi" [{:sem {:pred :get-angry
+                       :subj {:animate true}}}]
+
+ "arrampicarsi" [{:sem {:pred :climb
+                        :subj {:animate true}}}]
+ 
+ "arrivare" [{:essere? true
+              :intransitive? true
+              :sem {:pred :arrive}}]
+
+ "ascoltare"  [{:sem {:pred :listen-to}}]
+
+ "aspettare"  [{:sem {:pred :wait-for}}]
+
+ "assicurare" [{:sem {:pred :assure}}
+               {:sem {:pred :insure}}]
+
+ "aumentare"  [{:sem {:pred :increase}}]
+
+ "avere"
+ (let [exceptions {:future-stem "avr"
+                   :drop-e true
+                   :present {:1sing "ho"
+                             :2sing "hai"
+                             :3sing "ha"
+                             :1plur "abbiamo"
+                             :2plur "avete"
+                             :3plur "hanno"}}]
+   ;; 1. "avere": to possess something buyable
+   [{:exceptions exceptions
+     :note "avere (possess)"
+     :synsem {:sem {:pred :have}}}
+
+    ;; 2. "avere": to be in a familial or social relation with:
+    ;; e.g. "ho due bambini (I have two children)"
+    {:exceptions exceptions
+     :note "avere (relation)"
+     :synsem {:sem {:pred :have}}}
+
+    ;; 3. avere: unspecified object
+    ;; TODO: remove: should be generated automatically via
+    ;; intransitivization
+    ;;
+    {:exceptions exceptions
+     :note "avere (possess): unspecified object"
+     :sem {:pred :have}}
+
+    ;; 4. passato transitive
+    (let [agr (atom :top)]
+      {:exceptions exceptions
+       :note "passato prossimo transitive"
+       :aux? true
+       :transitive? true
+       :sem {:tense :present
+             :aspect :perfect}
+       :subcat {:2 {:agr agr
+                    :cat :verb
+                    :reflexive? false
+                    :transitive? true
+                    :subcat {:2 {:agr agr
+                                 :pronoun true}}
+                    :essere? false}}})
+
+    ;; 5. passato prossimo intransitive
+    {:exceptions exceptions
+     :note "passato prossimo intransitive"
+     :aux? true
+     :infl :present
+     :sem {:tense :present
+           :aspect :perfect}
+     :subcat {:2 {:reflexive? false
+                  :essere? false
+                  :infl :passato
+                  :cat :verb
+                  ;; in Italian, reflexive verbs are always essere=true.
+                  ;; this additional qualification here (:reflexive false) is not necessary
+                  ;; but is expected to speed up generation.
+                  :subcat {:2 []}}}}
+
+    ;; 6. trapassato intransitive
+    {:exceptions exceptions
+     :note "trapassato intransitive"
+     :aux? true
+     :infl :imperfetto
+     :sem {:tense :past
+           :aspect :pluperfect}
+     :subcat {:2 {:reflexive? false
+                  :infl :passato
+                  :cat :verb
+                  :essere false
+                  ;; in Italian, reflexive verbs are always essere=true.
+                  ;; this additional qualification here (:reflexive false) is not necessary
+                  ;; but is expected to speed up generation
+                  :subcat {:2 []}}}}
+
+    ;; TODO: add trapassato transitive
+    ;; TODO: add avere bisogno di X => need X
+    ])
+
+ "ballare" [{:sem {:pred :dance}}]
+ "bere" [{:exceptions {:passato "bevuto"
+                       :future-stem "berr"
+                       :imperfetto {:1sing "bevevo"
+                                    :2sing "bevevi"
+                                    :3sing "beveva"
+                                    :1plur "bevevamo"
+                                    :2plur "bevevate"
+                                    :3plur "bevevano"}
+                       :present {:1sing "bevo"
+                                 :2sing "bevi"
+                                 :3sing "beve"
+                         :1plur "beviamo"
+                                 :2plur "bevete"
+                                 :3plur "bevono"}
+                       :gerund "bevendo"}
+          :transitivity :transitive
+          :sem {:pred :drink
+                :subj {:animate true}
+                :obj {:drinkable true}}}]
+ "cadere" [{:essere? true
+            :sem {:pred :fall}
+            :exceptions {:future-stem "cadr"}}]
+ "cambiare" [{:sem {:pred :change}}]
+ "cambiarsi" [{:sem {:pred :change-clothes}}]
  "cancellare" [{:sem {:pred :erase}}]
- "cantare" [{:sem {:pred :sing}}]}
+ "cantare" [{:sem {:pred :sing}}]
+ "camminare" [{:sem {:pred :walk}}]
+ "capire" [{:exceptions {:boot-verb? true}
+            :sem {:pred :understand}}]
+ "caricare" [{:exceptions {:future-stem "caricher"}
+              :sem {:pred :charge}}]
+
+ }
+
 
 
 

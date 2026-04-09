@@ -39,15 +39,22 @@
        :lo? ::unspec}
   :then [{:lo? false}]}
  
+ {:rule :reflexive-true
+  :if {:cat :verb
+       :canonical #"(.*)si$"}
+  :then [{:reflexive? true}]}
+
  {:rule :reflexive-false
   :if {:cat :verb
        :reflexive? ::unspec}
   :then [{:reflexive? false}]}
 
-  {:rule :reflexive
+ {:rule :reflexive-intransitive
   :if {:cat :verb
        :aux? false
-       :reflexive? true}
+       :reflexive? true
+       :subcat {:2 ::unspec
+                :3 ::unspec}}
   :then (let [agr (atom :top)
               ref (atom :top)
               subj (atom {:ref ref})]
@@ -63,8 +70,7 @@
                          :cat :noun
                          :agr agr
                          :sem {:ref ref}
-                         :reflexive? true}
-                     :3 []}}
+                         :reflexive? true}}}
 
            ;; variant without explicit subject e.g. "se levantó"
            {:reflexive? true
@@ -77,8 +83,7 @@
                          :agr agr
                          :sem subj
                          :reflexive? true}
-                     :2 []
-                     :3 []}}])}
+                     :2 []}}])}
 
  {:rule :aux-default
   :if {:cat :verb

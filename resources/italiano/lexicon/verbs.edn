@@ -266,6 +266,70 @@
                    :pred :believe}}]
 
  "controllare" [{:sem {:pred :check}}]
+
+ ;; TODO: account for "dare" being ditransitive.
+ "dare"  [{:sem {:pred :give}
+           :exceptions {:present {:2sing "dai"
+                                  :3plur "danno"}
+                        :future-stem "dar"}}]
+
+ "decidere" [{:sem {:pred :decide}
+              :exceptions {:passato "deciso"}}]
+
+ "deludere" [{:exceptions {:passato "deluso"}
+              :sem {:pred :disappoint}}]
+
+ "desiderare" [{:sem {:pred :desire}}]
+
+ "dettare" [{:sem {:pred :dictate}}]
+
+ "dimenticare" [{:sem {:pred :forget}}]
+
+ "dipingere" [{:sem {:pred :paint}
+               :exceptions {:passato "dipinto"}}]
+
+ "dire" (let [exceptions {:drop-e false
+                          :present {:1sing "dico"
+                                    :2sing "dici"
+                                    :3sing "dice"
+                                    :1plur "diciamo"
+                                    :2plur "dite"
+                                    :3plur "dicono"}
+                          :imperfetto {:1sing "dicevo"
+                                       :2sing "dicevi"
+                                       :3sing "diceva"
+                                       :1plur "dicevamo"
+                                       :2plur "dicevate"
+                                       :3plur "dicevano"}
+                          :passato "detto"
+                          :future-stem "dir"
+                          :gerund "dicendo"}]
+          [{:exceptions exceptions
+            :sem {:pred :say}}
+           {:exceptions exceptions
+            :sem {:pred :tell}}])
+
+ "disegnare" [{:sem {:pred :draw}}]
+
+ "diventare" [{:essere? true
+               :sem {:pred :become}}]
+
+ "divertirsi" [{:synsem {:cat :verb
+                         :sem {:pred :have-fun
+                               :reflexive true}}}]
+               
+ "dormire" [{:sem {:pred :sleep}
+             :transitivity :intransitve}]
+
+ "dovere" [{:sem {:pred :have-to}
+            :exceptions {:future-stem "dovr"
+                         :drop-e true
+                         :present {:1sing "devo"
+                                   :2sing "devi"
+                                   :3sing "deve"
+                                   :1plur "dobbiamo"
+                                   :2plur "dovete"
+                                   :3plur "devono"}}}]
  
  }
 

@@ -175,6 +175,98 @@
  "caricare" [{:exceptions {:future-stem "caricher"}
               :sem {:pred :charge}}]
 
+ "cenare" [{:synsem {:cat :verb
+                     :sem {:pred :have-dinner}}}]
+
+ "cercare"  (let [exceptions {:future-stem "cercher"}]
+              [{:exceptions exceptions
+                :sem {:pred :look-for}}
+               {:exceptions exceptions
+                :sem {:pred :look-up}}])
+
+ "chiacchierare" [{:sem {:pred :chat}}]
+
+ "chiamarsi" (let [gender (atom :top)
+                   human (atom :top)
+                   number (atom :top)
+                   name-semantics {:human human}]
+               [
+                ;; Lei si chiama Luisa.
+                {:sem {:pred :be-called
+                       :iobj name-semantics}
+                 :subcat {:1 {:agr {:gender gender
+                                    :number number}
+                              :sem {:human human}
+                              :propernoun? false} ;; avoid e.g. "Luisa si chiama Luisa".
+                          :3 {:agr {:gender gender
+                                    :number number}
+                              :cat :noun
+                              :sem name-semantics
+                              :propernoun? true}}}
+
+                ;; Si chiama Luisa.
+                {:sem {:pred :be-called
+                       :iobj name-semantics}
+                 :subcat {:1 {:pronoun? true
+                              :cat :noun
+                              :case :acc
+                              :reflexive? true}
+                          :2 {:agr {:gender gender
+                                    :number number}
+                              :cat :noun
+                              :sem name-semantics
+                              :propernoun? true}}}])
+
+ "chiedere" [{:sem {:subj {:human true}
+                    :pred :ask-for}
+              :exceptions {:passato "chiesto"}}]
+
+ "chiudere" [{:sem {:pred :close}
+              :exceptions {:passato "chiuso"}}]
+
+ "colpire" (let [exceptions {:boot-verb? true}]
+             [{:exceptions exceptions
+               :sem {:pred :hit}}
+              {:exceptions exceptions
+               :sem {:pred :strike}}])
+
+ "cominciare" [{:sem {:pred :begin}}
+               {:sem {:pred :start}}]
+
+ "commentare" [{:sem {:pred :comment}}]
+ 
+ "comprare" [{:sem {:pred :buy}}]
+ 
+ "condividere" [{:sem {:pred :share}
+                 :exceptions {:passato "condiviso"}}]
+ 
+ "conoscere" [{:sem {:pred :know-c}
+               :exceptions {:passato "conosciuto"}}]
+
+ "conservare" [{:sem {:pred :conserve}}
+               {:sem {:pred :preserve}}]
+
+ "considerare" [{:sem {:pred :consider}}]
+
+ "contare" [{:sem {:pred :count}}]
+
+ "continuare" [{:sem {:pred :continue}}]
+
+ "contraccambiare" [{:sem {:pred :reciprocate}}]
+
+ "correre"  [{:exceptions {:passato "corso"}
+              :sem {:pred :run}}]
+
+ "corrispondere" [{:exceptions {:passato "corrisposto"}
+                   :sem {:pred :correspond}}]
+
+ "creare" [{:sem {:pred :create}}]
+
+ "credere" [{:sem {:subj {:human true}
+                   :pred :believe}}]
+
+ "controllare" [{:sem {:pred :check}}]
+ 
  }
 
 

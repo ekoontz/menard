@@ -330,8 +330,123 @@
                                    :1plur "dobbiamo"
                                    :2plur "dovete"
                                    :3plur "devono"}}}]
- 
+
+ "essere"
+ (let [exceptions {:future-stem "sar"
+                   :infinitive "essere"
+                   :present {:1sing "sono"
+                             :2sing "sei"
+                             :3sing "è"
+                             :1plur "siamo"
+                             :2plur "siete"
+                             :3plur "sono"}
+                   :passato "stato"
+                   :imperfetto {:1sing "ero"
+                                :2sing "eri"
+                                :3sing "era"
+                                :1plur "eravamo"
+                                :2plur "eravate"
+                                :3plur "erano"}
+                   :future {:1sing "sarò"
+                            :2sing "sarai"
+                            :3sing "sarà"
+                            :1plur "saremo"
+                            :2plur "sarete"
+                            :3plur "saranno"}
+                   :conditional {:1sing "sarei"
+                                 :2sing "saresti"
+                                 :3sing "sarebbe"
+                                 :1plur "saremmo"
+                                 :2plur "sareste"
+                                 :3plur "sarebbero"}}]
+   [{:exceptions exceptions
+     :notes "to-be"
+     :essere? true
+     :sem {:pred :be}}
+
+    {:exceptions exceptions
+     :notes "essere-aux-passato"
+     :essere? true
+     :aux? true
+     :infl :present
+     :sem {:tense :present
+           :aspect :perfect}
+     :subcat {:2 {:essere? true
+                  :cat :verb
+                  :infl :passato}}}
+
+    {:exceptions exceptions
+     :notes "essere-aux-trapassato"
+     :essere? true
+     :aux? true
+     :infl :imperfetto
+     :sem {:tense :past
+           :aspect :pluperfect}
+     :subcat {:2 {:essere? true
+                  :cat :verb
+                  :infl :passato}}}])
+
+ "evitare"  [{:sem {:pred :avoid}}]
+ "fare"
+ (let [exceptions {:drop-e? false
+                   :passato "fatto"
+                   :future-stem "far"
+                   :gerund "facendo"
+                   :imperfetto {:1sing "facevo"
+                                :2sing "facevi"
+                                :3sing "faceva"
+                                :1plur "facevamo"
+                                :2plur "facevate"
+                                :3plur "facevano"}
+                   :present {:1sing "faccio"
+                             :2sing "fai"
+                             :3sing "fa"
+                             :1plur "facciamo"
+                             :2plur "fate"
+                             :3plur "fanno"}}]
+   [{:exceptions exceptions
+     :sem {:pred :do}}
+    {:exceptions exceptions
+     :sem {:pred :make}}])
+
+ "ferire" [{:exceptions {:boot-verb? true}
+            :sem {:pred :wound}}]
+
+ "finire" [{:exceptions {:boot-verb? true}
+            :sem {:pred :finish}}]
+
+ "fermare" [{:sem {:pred :stop}}]
+
+ "fermarsi" [{:sem {:pred :stop-oneself}}]
+
+ "formare"  [{:sem {:pred :form}}]
+
+ "fornire"  [{:sem {:pred :furnish}
+              :exceptions {:boot-verb? true}}]
+
+ "frequentare" [{:sem {:pred :attend}}]
+
+ "fumare"  [{:sem {:pred :smoke}}]
+
+ "funzionare" [{:sem {:pred :work-nonhuman}}]
+
+ "gestire" [{:exceptions {:boot-verb? true}
+             :sem {:pred :manage}}]
+
+ "giocare"  [{:sem {:pred :play-games}
+             :exceptions {:future-stem "giocher"}}]
+
+ "gridare" [{:sem {:pred :yell}}]
+
+ "guadagnare" [{:sem {:pred :earn}}]
+
+ "guardare"  [{:sem {:pred :look-at}}]
+
+ "guidare"  [{:sem {:pred :drive}}]
+
+
  }
+ 
 
 
 

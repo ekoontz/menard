@@ -444,6 +444,95 @@
 
  "guidare"  [{:sem {:pred :drive}}]
 
+ "imparare" [{:sem {:pred :learn-i}}]
+
+ "impegnare" [{:sem {:pred :engage}}]
+
+ "incontrare" [{:sem {:pred :meet}}]
+
+ "indossare" [{:sem {:pred :wear-i}}]
+
+ "informare" [{:sem {:pred :inform}}]
+
+ "innamorarsi" [{:sem {:pred :fall-in-love}}]
+
+ "insegnare" [{:sem {:pred :teach}}]
+
+ "interrompere"
+ [{:exceptions {:passato "interrotto"} :sem {:pred :interrupt}}]
+
+ "lamentarsi" [{:sem {:pred :complain}}]
+
+ "lasciare" [{:sem {:pred :leave-behind}}]
+
+ "lavare" [{:sem {:pred :wash}}]
+
+ "lavarsi" [{:sem {:pred :wash-oneself}}]
+
+ "lavorare" [{:sem {:pred :work-human}}]
+
+ "leggere"
+ [{:exceptions {:passato "letto"}
+   :sem {:discrete false :pred :read}}]
+
+ "macchiare" [{:sem {:pred :stain}}]
+
+ "mancare"
+ [{:exceptions {:future-stem "mancher"} :sem {:pred :mancare}}]
+
+ "mandare" [{:sem {:pred :send}}]
+
+ "mangiare"
+ [{:transitivity :transitive
+   :sem {:pred :eat :subj {:animate true} :obj {:edible? true}}}
+  {:transitivity? :intransitive
+   :sem {:pred :eat :subj {:animate true}}}]
+
+ "mentire" [{:sem {:pred :lie}}]
+
+ "mettere" [{:exceptions {:passato "messo"} :sem {:pred :put}}]
+
+ "mettersi"
+ [{:exceptions {:passato "messo"} :sem {:pred :put-oneself}}]
+
+ "migliorare" [{:sem {:pred :improve}}]
+
+ "misurare" [{:sem {:pred :measure}}]
+
+ "moltiplicare" [{:sem {:pred :multiply}}]
+
+ "morire"
+ [{:exceptions
+   {:passato "morto"
+    :present
+    {:1sing "muoio"
+     :2sing "muori"
+     :3sing "muore"
+     :1plur "moriamo"
+     :2plur "morite"
+     :3plur "muoiono"}}
+   :sem {:pred :die}}]
+
+ "mostrare" [{:sem {:pred :show}}]
+
+ "muovere" [{:exceptions {:passato "mosso"} :sem {:pred :move}}]
+
+ "nascere" [{:exceptions {:passato "nato"} :sem {:pred :be-born}}]
+
+ "nuotare" [{:sem {:pred :swim}}]
+
+ "osservare" [{:sem {:pred :observe}}]
+
+ "ottenere"
+ [{:exceptions
+   {:passato "ottenuto"
+    :present
+    {:1sing "ottengo"
+     :2sing "ottieni"
+     :3sing "ottiene"
+     :3plur "ottengono"}
+    :future-stem "otterr"}
+   :sem {:pred :obtain}}]
 
  }
  

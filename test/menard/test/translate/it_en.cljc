@@ -15,3 +15,13 @@
 (deftest your-cats-singular
   (is (= "your (👤) cats"
          (->> "i tuoi gatti" string-to-string))))
+
+(deftest generate-verb-sentence
+  (let [spec {:root "trovare",
+              :sem {:tense :present,
+                    :aspect :simple
+                    :subj {:pred :i}}
+              :cat :verb
+              :phrasal? true
+              :subcat []}]
+    (is (= "io trovo" (-> spec it/generate it/morph)))))

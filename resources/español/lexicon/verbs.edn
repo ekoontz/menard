@@ -827,7 +827,11 @@
  "medir" [{:sem {:pred :measure}, :stems {:boot "mid"}}]
  
  
- "mentir" [{:sem {:pred :lie}, :stems {:boot "mient"}}]
+ "mentir" [{:sem {:pred :lie}, :stems {:boot "mient"}
+            :exceptions
+            {:infl :preterito,
+             :agr {:person :3rd, :number :sing},
+             :surface "mintiò"}}]
  "mirar" [{:sem {:pred :look-at}}]
  "mostrar" [{:sem {:pred :show}, :stems {:boot "muestr"}}]
  "nacer"

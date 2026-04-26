@@ -24,4 +24,25 @@
               :cat :verb
               :phrasal? true
               :subcat []}]
-    (is (= "io trovo" (-> spec it/generate it/morph)))))
+    (is (= "io trovo" (-> spec it/generate it/morph))))
+  (let [spec {:root "cambiare",
+              :sem {:tense :present,
+                    :aspect :simple
+                    :subj {:pred :i}}
+              :cat :verb
+              :phrasal? true
+              :subcat []}]
+    (is (= "io cambio" (-> spec it/generate it/morph))))
+  (let [spec {:root "cambiare",
+              :sem {:tense :present, :aspect :perfect},
+              :head {:cat :verb},
+              :phrasal? true,
+              :cat :verb}
+        expr (-> spec it/generate it/morph)]
+    (is (string? (-> expr it/morph)))
+    (is (not (= "_" (-> expr it/morph))))))
+
+
+
+
+   

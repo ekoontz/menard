@@ -4,7 +4,7 @@
   ;; not the :infl of the participle (e.g. "comido")
   :infl :present 
   :aux? true
-  :sem {:tense :past
+  :sem {:tense :present
         :aspect :perfect}}
  ]
 

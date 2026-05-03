@@ -20,7 +20,8 @@
 
 ;; lexemes-to-trace: show more logging for a certain set of lexemes
 ;; during lexical compilation.
-(def lexemes-to-trace #{})
+(def lexemes-to-trace #{"haber" "avere"})
+;;(def lexemes-to-trace #{})
 
 ;; rules-to-trace: show more logging for a certain set of rules
 ;; during processing of the lexemes in lexemes-to-trace.
@@ -474,6 +475,30 @@
 
         result))))
 
+(defn compile-exceptions-from-source
+  "Transform :exception-source to :exceptions. Must be called before add-exceptions-to-lexicon, because the latter expects :exceptions to be present."
+  [lexicon]
+  (log/debug (str "compile-exceptions-from-source..."))
+  (->> (keys lexicon)
+       (map (fn [k]
+              (when (contains? lexemes-to-trace k)
+                (log/info (str "compile-exceptions-for-source lexeme: " k)))
+              [k (->> (get lexicon k)
+                      (map (fn [lexeme]
+                             (log/debug (str "k: " (keys lexeme)))
+                             (if-let [source (:exceptions-source lexeme)]
+                               (do
+                                 (log/info (str "source: " source))
+                                 (let [passato (when (:passato source)
+                                                 [{:infl :passato
+                                                   :surface (:passato source)}])]
+                                   (-> lexeme
+                                       (dissoc :exceptions-source)
+                                       (merge {:exceptions
+                                               (concat passato)}))))
+                               lexeme))))]))
+       (into {})))
+
 (defn add-exceptions-to-lexicon
   "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
@@ -488,7 +513,7 @@
                            (->> lexemes
                                 (mapcat (fn [lexeme]
                                           (let [log-fn (if (contains? lexemes-to-trace canonical)
-                                                         (fn [msg] (log/info msg))
+                                                         (fn [msg] (log/debug msg))
                                                          (fn [msg] (log/debug msg)))]
                                             (log-fn (str "add-exceptions-to-lexicon: "
                                                            "canonical: '" canonical "'; " 

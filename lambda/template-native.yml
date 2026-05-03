@@ -4,7 +4,7 @@ Description: "Menard lambda functions using using the `holy-lambda` micro librar
 Parameters:
   Runtime:
     Type: String
-    Default: provided
+    Default: provided.al2
   Timeout:
     Type: Number
     Default: 40

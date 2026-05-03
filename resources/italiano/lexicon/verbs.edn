@@ -64,7 +64,7 @@
 
  "avere"
  (let [exceptions {:future-stem "avr"
-                   :drop-e true
+                   :drop-e? true
                    :present {:1sing "ho"
                              :2sing "hai"
                              :3sing "ha"
@@ -72,13 +72,13 @@
                              :2plur "avete"
                              :3plur "hanno"}}]
    ;; 1. "avere": to possess something buyable
-   [{:exceptions exceptions
+   [{:exceptions-source exceptions
      :note "avere (possess)"
      :synsem {:sem {:pred :have}}}
 
     ;; 2. "avere": to be in a familial or social relation with:
     ;; e.g. "ho due bambini (I have two children)"
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :note "avere (relation)"
      :synsem {:sem {:pred :have}}}
 
@@ -86,13 +86,13 @@
     ;; TODO: remove: should be generated automatically via
     ;; intransitivization
     ;;
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :note "avere (possess): unspecified object"
      :sem {:pred :have}}
 
     ;; 4. passato transitive
     (let [agr (atom :top)]
-      {:exceptions exceptions
+      {:exceptions-source exceptions
        :note "passato prossimo transitive"
        :aux? true
        :transitive? true
@@ -107,7 +107,7 @@
                     :essere? false}}})
 
     ;; 5. passato prossimo intransitive
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :note "passato prossimo intransitive"
      :aux? true
      :infl :present
@@ -123,7 +123,7 @@
                   :subcat {:2 []}}}}
 
     ;; 6. trapassato intransitive
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :note "trapassato intransitive"
      :aux? true
      :infl :imperfetto
@@ -143,7 +143,7 @@
     ])
 
  "ballare" [{:sem {:pred :dance}}]
- "bere" [{:exceptions {:passato "bevuto"
+ "bere" [{:exceptions-source {:passato "bevuto"
                        :future-stem "berr"
                        :imperfetto {:1sing "bevevo"
                                     :2sing "bevevi"
@@ -154,7 +154,7 @@
                        :present {:1sing "bevo"
                                  :2sing "bevi"
                                  :3sing "beve"
-                         :1plur "beviamo"
+                                 :1plur "beviamo"
                                  :2plur "bevete"
                                  :3plur "bevono"}
                        :gerund "bevendo"}
@@ -164,24 +164,24 @@
                 :obj {:drinkable true}}}]
  "cadere" [{:essere? true
             :sem {:pred :fall}
-            :exceptions {:future-stem "cadr"}}]
+            :exceptions-source {:future-stem "cadr"}}]
  "cambiare" [{:sem {:pred :change}}]
  "cambiarsi" [{:sem {:pred :change-clothes}}]
  "cancellare" [{:sem {:pred :erase}}]
  "cantare" [{:sem {:pred :sing}}]
  "camminare" [{:sem {:pred :walk}}]
- "capire" [{:exceptions {:boot-verb? true}
+ "capire" [{:exceptions-source {:boot-verb? true}
             :sem {:pred :understand}}]
- "caricare" [{:exceptions {:future-stem "caricher"}
+ "caricare" [{:exceptions-source {:future-stem "caricher"}
               :sem {:pred :charge}}]
 
  "cenare" [{:synsem {:cat :verb
                      :sem {:pred :have-dinner}}}]
 
  "cercare"  (let [exceptions {:future-stem "cercher"}]
-              [{:exceptions exceptions
+              [{:exceptions-source exceptions
                 :sem {:pred :look-for}}
-               {:exceptions exceptions
+               {:exceptions-source exceptions
                 :sem {:pred :look-up}}])
 
  "chiacchierare" [{:sem {:pred :chat}}]
@@ -219,15 +219,15 @@
 
  "chiedere" [{:sem {:subj {:human true}
                     :pred :ask-for}
-              :exceptions {:passato "chiesto"}}]
+              :exceptions-source {:passato "chiesto"}}]
 
  "chiudere" [{:sem {:pred :close}
-              :exceptions {:passato "chiuso"}}]
+              :exceptions-source {:passato "chiuso"}}]
 
  "colpire" (let [exceptions {:boot-verb? true}]
-             [{:exceptions exceptions
+             [{:exceptions-source exceptions
                :sem {:pred :hit}}
-              {:exceptions exceptions
+              {:exceptions-source exceptions
                :sem {:pred :strike}}])
 
  "cominciare" [{:sem {:pred :begin}}
@@ -238,10 +238,10 @@
  "comprare" [{:sem {:pred :buy}}]
  
  "condividere" [{:sem {:pred :share}
-                 :exceptions {:passato "condiviso"}}]
+                 :exceptions-source {:passato "condiviso"}}]
  
  "conoscere" [{:sem {:pred :know-c}
-               :exceptions {:passato "conosciuto"}}]
+               :exceptions-source {:passato "conosciuto"}}]
 
  "conservare" [{:sem {:pred :conserve}}
                {:sem {:pred :preserve}}]
@@ -254,10 +254,10 @@
 
  "contraccambiare" [{:sem {:pred :reciprocate}}]
 
- "correre"  [{:exceptions {:passato "corso"}
+ "correre"  [{:exceptions-source {:passato "corso"}
               :sem {:pred :run}}]
 
- "corrispondere" [{:exceptions {:passato "corrisposto"}
+ "corrispondere" [{:exceptions-source {:passato "corrisposto"}
                    :sem {:pred :correspond}}]
 
  "creare" [{:sem {:pred :create}}]
@@ -269,14 +269,14 @@
 
  ;; TODO: account for "dare" being ditransitive.
  "dare"  [{:sem {:pred :give}
-           :exceptions {:present {:2sing "dai"
+           :exceptions-source {:present {:2sing "dai"
                                   :3plur "danno"}
                         :future-stem "dar"}}]
 
  "decidere" [{:sem {:pred :decide}
-              :exceptions {:passato "deciso"}}]
+              :exceptions-source {:passato "deciso"}}]
 
- "deludere" [{:exceptions {:passato "deluso"}
+ "deludere" [{:exceptions-source {:passato "deluso"}
               :sem {:pred :disappoint}}]
 
  "desiderare" [{:sem {:pred :desire}}]
@@ -286,7 +286,7 @@
  "dimenticare" [{:sem {:pred :forget}}]
 
  "dipingere" [{:sem {:pred :paint}
-               :exceptions {:passato "dipinto"}}]
+               :exceptions-source {:passato "dipinto"}}]
 
  "dire" (let [exceptions {:drop-e false
                           :present {:1sing "dico"
@@ -304,9 +304,9 @@
                           :passato "detto"
                           :future-stem "dir"
                           :gerund "dicendo"}]
-          [{:exceptions exceptions
+          [{:exceptions-source exceptions
             :sem {:pred :say}}
-           {:exceptions exceptions
+           {:exceptions-source exceptions
             :sem {:pred :tell}}])
 
  "disegnare" [{:sem {:pred :draw}}]
@@ -322,7 +322,7 @@
              :transitivity :intransitve}]
 
  "dovere" [{:sem {:pred :have-to}
-            :exceptions {:future-stem "dovr"
+            :exceptions-source {:future-stem "dovr"
                          :drop-e true
                          :present {:1sing "devo"
                                    :2sing "devi"
@@ -359,12 +359,12 @@
                                  :1plur "saremmo"
                                  :2plur "sareste"
                                  :3plur "sarebbero"}}]
-   [{:exceptions exceptions
+   [{:exceptions-source exceptions
      :notes "to-be"
      :essere? true
      :sem {:pred :be}}
 
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :notes "essere-aux-passato"
      :essere? true
      :aux? true
@@ -375,7 +375,7 @@
                   :cat :verb
                   :infl :passato}}}
 
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :notes "essere-aux-trapassato"
      :essere? true
      :aux? true
@@ -404,15 +404,15 @@
                              :1plur "facciamo"
                              :2plur "fate"
                              :3plur "fanno"}}]
-   [{:exceptions exceptions
+   [{:exceptions-source exceptions
      :sem {:pred :do}}
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :sem {:pred :make}}])
 
- "ferire" [{:exceptions {:boot-verb? true}
+ "ferire" [{:exceptions-source {:boot-verb? true}
             :sem {:pred :wound}}]
 
- "finire" [{:exceptions {:boot-verb? true}
+ "finire" [{:exceptions-source {:boot-verb? true}
             :sem {:pred :finish}}]
 
  "fermare" [{:sem {:pred :stop}}]
@@ -422,7 +422,7 @@
  "formare"  [{:sem {:pred :form}}]
 
  "fornire"  [{:sem {:pred :furnish}
-              :exceptions {:boot-verb? true}}]
+              :exceptions-source {:boot-verb? true}}]
 
  "frequentare" [{:sem {:pred :attend}}]
 
@@ -430,11 +430,11 @@
 
  "funzionare" [{:sem {:pred :work-nonhuman}}]
 
- "gestire" [{:exceptions {:boot-verb? true}
+ "gestire" [{:exceptions-source {:boot-verb? true}
              :sem {:pred :manage}}]
 
  "giocare"  [{:sem {:pred :play-games}
-             :exceptions {:future-stem "giocher"}}]
+             :exceptions-source {:future-stem "giocher"}}]
 
  "gridare" [{:sem {:pred :yell}}]
 
@@ -459,7 +459,7 @@
  "insegnare" [{:sem {:pred :teach}}]
 
  "interrompere"
- [{:exceptions {:passato "interrotto"} :sem {:pred :interrupt}}]
+ [{:exceptions-source {:passato "interrotto"} :sem {:pred :interrupt}}]
 
  "lamentarsi" [{:sem {:pred :complain}}]
 
@@ -472,13 +472,13 @@
  "lavorare" [{:sem {:pred :work-human}}]
 
  "leggere"
- [{:exceptions {:passato "letto"}
+ [{:exceptions-source {:passato "letto"}
    :sem {:discrete false :pred :read}}]
 
  "macchiare" [{:sem {:pred :stain}}]
 
  "mancare"
- [{:exceptions {:future-stem "mancher"} :sem {:pred :mancare}}]
+ [{:exceptions-source {:future-stem "mancher"} :sem {:pred :mancare}}]
 
  "mandare" [{:sem {:pred :send}}]
 
@@ -490,10 +490,10 @@
 
  "mentire" [{:sem {:pred :lie}}]
 
- "mettere" [{:exceptions {:passato "messo"} :sem {:pred :put}}]
+ "mettere" [{:exceptions-source {:passato "messo"} :sem {:pred :put}}]
 
  "mettersi"
- [{:exceptions {:passato "messo"} :sem {:pred :put-oneself}}]
+ [{:exceptions-source {:passato "messo"} :sem {:pred :put-oneself}}]
 
  "migliorare" [{:sem {:pred :improve}}]
 
@@ -502,7 +502,7 @@
  "moltiplicare" [{:sem {:pred :multiply}}]
 
  "morire"
- [{:exceptions
+ [{:exceptions-source
    {:passato "morto"
     :present
     {:1sing "muoio"
@@ -515,16 +515,16 @@
 
  "mostrare" [{:sem {:pred :show}}]
 
- "muovere" [{:exceptions {:passato "mosso"} :sem {:pred :move}}]
+ "muovere" [{:exceptions-source {:passato "mosso"} :sem {:pred :move}}]
 
- "nascere" [{:exceptions {:passato "nato"} :sem {:pred :be-born}}]
+ "nascere" [{:exceptions-source {:passato "nato"} :sem {:pred :be-born}}]
 
  "nuotare" [{:sem {:pred :swim}}]
 
  "osservare" [{:sem {:pred :observe}}]
 
  "ottenere"
- [{:exceptions
+ [{:exceptions-source
    {:passato "ottenuto"
     :present
     {:1sing "ottengo"
@@ -539,15 +539,15 @@
  "partire" [{:sem {:pred :leave-trip}}],
  "passare" [{:sem {:pred :pass}}],
  "pensare" [{:sem {:pred :think}}],
- "perdere" [{:exceptions {:passato "perso"}, :sem {:pred :lose}}],
+ "perdere" [{:exceptions-source {:passato "perso"}, :sem {:pred :lose}}],
  "pettinarsi" [{:sem {:pred :comb-oneself}}],
  "piacere"
- [{:exceptions
+ [{:exceptions-source
    {:passato "piaciuto",
     :present
     {:1sing "piaccio", :1plur "piacciamo", :3plur "piacciono"}},
    :sem {:pred :be-pleasant}}],
- "piangere" [{:exceptions {:passato "pianto"}, :sem {:pred :cry}}],
+ "piangere" [{:exceptions-source {:passato "pianto"}, :sem {:pred :cry}}],
  "piegare" [{:sem {:pred :fold}}],
  "portare" [{:sem {:pred :carry}} {:sem {:pred :wear-p}}],
  "potere"
@@ -560,12 +560,12 @@
                     :1plur "possiamo",
                     :2plur "potete",
                     :3plur "possono"}}]
-   [{:exceptions exceptions
+   [{:exceptions-source exceptions
      :sem {:pred :may}}
-    {:exceptions exceptions
+    {:exceptions-source exceptions
      :sem {:pred :be-able-to}}])
- "preferire" [{:exceptions {:boot-verb true}, :sem {:pred :prefer}}],
- "prendere" [{:exceptions {:passato "preso"}, :sem {:pred :grab}}],
+ "preferire" [{:exceptions-source {:boot-verb true}, :sem {:pred :prefer}}],
+ "prendere" [{:exceptions-source {:passato "preso"}, :sem {:pred :grab}}],
  "prenotare" [{:sem {:pred :reserve}}],
  "preoccuparsi" [{:sem {:pred :worry}}],
  "preparare" [{:sem {:pred :prepare}}],
@@ -573,10 +573,10 @@
  "presentare" [{:sem {:pred :present}}
                {:sem {:pred :introduce-p}}]
  "prestare" [{:sem {:pred :lend}}],
- "pulire" [{:exceptions {:boot-verb true}, :sem {:pred :clean}}],
- "punire" [{:exceptions {:boot-verb true}, :sem {:pred :punish}}],
+ "pulire" [{:exceptions-source {:boot-verb true}, :sem {:pred :clean}}],
+ "punire" [{:exceptions-source {:boot-verb true}, :sem {:pred :punish}}],
  "raccontare" [{:sem {:pred :recount}}],
- "radersi" [{:exceptions {:passato "raso"}, :sem {:pred :shave}}],
+ "radersi" [{:exceptions-source {:passato "raso"}, :sem {:pred :shave}}],
  "recuperare" [{:sem {:pred :recover}}],
  "rendere"
  (let [exceptions {:passato "reso"}]
@@ -584,19 +584,19 @@
     {:sem {:pred :give-back-return-ren}}])
  "restare" [{:sem {:pred :remain-re}}],
  "restituire"
- [{:exceptions {:boot-verb true},
+ [{:exceptions-source {:boot-verb true},
    :sem {:pred :give-back-return-res}}],
  "ricevere" [{:sem {:pred :receive}}],
  "riconoscere"
- [{:exceptions {:passato "riconosciuto"}, :sem {:pred :recognize}}],
+ [{:exceptions-source {:passato "riconosciuto"}, :sem {:pred :recognize}}],
  "ricordare" [{:sem {:pred :remember}}],
  "riempire"
- [{:exceptions
+ [{:exceptions-source
    {:present
     {:1sing "riempio", :3sing "riempie", :3plur "riempiono"}},
    :sem {:pred :fill}}],
  "rimanere"
- [{:exceptions
+ [{:exceptions-source
    {:passato "rimasto",
     :present {:1sing "rimango", :3plur "rimangono"},
     :future-stem "rimarr"},
@@ -607,10 +607,10 @@
  "riposarsi" [{:sem {:pred :rest-oneself, :subj {:animate true}}}],
  "riscaldare" [{:sem {:pred :warm-up}}],
  "rispondere"
- [{:exceptions {:passato "risposto"}, :sem {:pred :answer}}],
+ [{:exceptions-source {:passato "risposto"}, :sem {:pred :answer}}],
  "ritornare" [{:sem {:pred :return-r}}],
  "riuscire" [{:sem {:pred :succeed}}],
- "rompere" [{:exceptions {:passato "rotto"}, :sem {:pred :break}}],
+ "rompere" [{:exceptions-source {:passato "rotto"}, :sem {:pred :break}}],
  "rovinare" [{:sem {:pred :ruin}}],
  "rubare" [{:sem {:pred :steal}}],
  "salire"
@@ -618,7 +618,7 @@
    [{:sem {:pred :get-on}}
     {:sem {:pred :go-upstairs}}])
  "sapere"
- [{:exceptions
+ [{:exceptions-source
    {:present
     {:1sing "so",
      :2sing "sai",
@@ -631,11 +631,11 @@
  "scaricare" [{:sem {:pred :download}}],
  "scattare" [{:sem {:pred :snap-pictures}}],
  "scendere"
- [{:exceptions {:passato "sceso"}, :sem {:pred :get-off}}
-  {:exceptions {:passato "sceso"}, :sem {:pred :go-downstairs}}],
+ [{:exceptions-source {:passato "sceso"}, :sem {:pred :get-off}}
+  {:exceptions-source {:passato "sceso"}, :sem {:pred :go-downstairs}}],
  "scrivere"
- [{:exceptions {:passato "scritto"}, :sem {:pred :write}}],
- "sedersi" [{:exceptions
+ [{:exceptions-source {:passato "scritto"}, :sem {:pred :write}}],
+ "sedersi" [{:exceptions-source
              {:present
               {:1sing "siedo",
                :2sing "siedi",
@@ -653,25 +653,25 @@
  "sopportare" [{:sem {:pred :endure}}],
  "sospirare" [{:sem {:pred :sigh}}],
  "spalmare" [{:sem {:pred :spread-food}}],
- "sparire" [{:exceptions {:boot-verb true}, :sem {:pred :disappear-sp}}],
- "spedire" [{:exceptions {:boot-verb true}, :sem {:pred :send-s}}],
- "spegnere"  [{:exceptions
+ "sparire" [{:exceptions-source {:boot-verb true}, :sem {:pred :disappear-sp}}],
+ "spedire" [{:exceptions-source {:boot-verb true}, :sem {:pred :send-s}}],
+ "spegnere"  [{:exceptions-source
                {:passato "spento",
                 :present {:1sing "spengo", :3plur "spengono"}},
                :sem {:pred :turn-off}}],
- "spendere" [{:exceptions {:passato "speso"}, :sem {:pred :spend}}],
+ "spendere" [{:exceptions-source {:passato "speso"}, :sem {:pred :spend}}],
  "spiegare" [{:sem {:pred :explain}}],
  "spostare" [{:sem {:pred :displace}}],
  "sprecare" [{:sem {:pred :waste}}],
  "stampare" [{:sem {:pred :print}}],
- "stare" [{:exceptions {:future-stem "star",
+ "stare" [{:exceptions-source {:future-stem "star",
                         :present {:2sing "stai", :3plur "stanno"}}
            :essere? true
            :sem {:pred :stay}}]
  "studiare" [{:sem {:pred :study}}],
  "suonare" [{:sem {:subj {:human true}, :pred :play-music}}],
  "svegliarsi" [{:sem {:pred :wake-up}}],
- "svenire" [{:exceptions
+ "svenire" [{:exceptions-source
              {:passato "svenuto",
               :present
               {:1sing "svengo",
@@ -690,13 +690,13 @@
                              :3sing "tiene",
                              :3plur "tengono"},
                             :future-stem "terr"}]
-            [{:exceptions exceptions
+            [{:exceptions-source exceptions
               :sem {:pred :hold}}
-             {:exceptions exceptions             
+             {:exceptions-source exceptions             
               :sem {:pred :keep}}])
  "tirare" [{:sem {:pred :throw-t}}],
  "tornare" [{:sem {:pred :return-t}}],
- "trasferire" [{:exceptions {:boot-verb true}, :sem {:pred :transfer}}],
+ "trasferire" [{:exceptions-source {:boot-verb true}, :sem {:pred :transfer}}],
  "trattare" [{:sem {:pred :treat}}],
  "trovare" [{:sem {:pred :find}}],
  "usare" [{:sem {:pred :use}}],
@@ -710,11 +710,11 @@
              {:essere? true
               :sem {:pred :exit}}])
  "vedere"
- [{:exceptions {:passato "visto", :future-stem "vedr"},
+ [{:exceptions-source {:passato "visto", :future-stem "vedr"},
    :sem {:pred :see}}],
  "vendere" [{:sem {:pred :sell}}],
  "venire"
- [{:exceptions
+ [{:exceptions-source
    {:passato "venuto",
     :present
     {:1sing "vengo",
@@ -724,12 +724,12 @@
     :future-stem "verr"},
    :sem {:pred :come}}],
  "vestirsi" [{:sem {:pred :get-dressed}}],
- "vincere" [{:exceptions {:passato "vinto"}, :sem {:pred :win}}],
+ "vincere" [{:exceptions-source {:passato "vinto"}, :sem {:pred :win}}],
  "vivere"
- [{:exceptions {:passato "vissuto", :future-stem "vivr"},
+ [{:exceptions-source {:passato "vissuto", :future-stem "vivr"},
    :sem {:subj {:living true}, :pred :live-v}}],
  "volere"
- [{:exceptions
+ [{:exceptions-source
    {:future-stem "vorr",
     :drop-e true,
     :present

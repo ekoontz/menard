@@ -14,7 +14,7 @@
 ;; If you're not changing the language model files, you can comment these out
 ;; to speed up loading time for this file (menard.test.italiano)
 ;;(load "../../../src/menard/subcat")
-;;(load "../../../src/menard/italiano")
+(load "../../../src/menard/italiano")
 
 (def spec3 {:cat :verb
             :rule "s"

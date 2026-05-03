@@ -16,9 +16,6 @@ deploy-native: packaged-native.yml menard-lambda
 packaged-native.yml: make-bucket
 	sam package --template-file template-native.yml --output-template-file packaged-native.yml --s3-bucket $(BUCKET_NAME)
 
-latest.zip: output
-	zip $@ bootstrap output
-
 menard-lambda: target/menard-lambda.jar
 	${native_image_cmd}
 
@@ -36,7 +33,6 @@ tag:
 push:
 	docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/menard-lambda-deployer:latest
 
-
 leiningen-2.9.10-standalone.jar:
 	curl https://github.com/technomancy/leiningen/releases/download/2.9.10/leiningen-2.9.10-standalone.jar -L > $@
 
@@ -44,7 +40,7 @@ check-service:
 	@(nc -z localhost 3000) || echo "AWS API service is not running: run 'make dry-api-native &'."
 
 clean:
-	-rm -rf server target/ packaged.yml packaged-native.yml output latest.zip
+	-rm -rf server target/ packaged.yml packaged-native.yml
 
 deploy: packaged.yml
 	sam deploy --template-file packaged.yml --stack-name $(STACK_NAME) --capabilities CAPABILITY_IAM --region $(APP_REGION)

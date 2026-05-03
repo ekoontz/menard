@@ -76,3 +76,11 @@ native-image -jar target/menard-lambda.jar menard_lambda \
 	--initialize-at-build-time=org.apache.log4j.CategoryKey \
 	--trace-object-instantiation=java.lang.Thread
 ```
+
+# AWS
+
+These links are only visible to me at least for now.
+
+- [CodePipeline](https://eu-central-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/menard/view?region=eu-central-1)
+
+The [buildspec.yml](https://github.com/ekoontz/menard/blob/main/lambda/buildspec.yml) is used to configure this CodePipeline.

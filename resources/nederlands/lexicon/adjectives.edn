@@ -110,6 +110,7 @@
  "schattig" [{:sem {:pred :cute}}]
  "schitterend" [{:sem {:pred :splendid}}]
  "schrijnend" [{:sem {:pred :poignant}}]
+ "schrikrachtig" [{:sem {:pred :shocking}}]
  "schuchter" [{:sem {:pred :shy}}]
  "slecht" [{:sem {:pred :bad}}]
  "slim" [{:sem {:pred :smart}

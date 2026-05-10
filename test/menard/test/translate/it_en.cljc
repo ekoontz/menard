@@ -34,6 +34,12 @@
               :subcat []}]
     (is (= "io cambio" (-> spec it/generate it/morph)))))
 
+(deftest analyze-irregular-perfect
+  (is (seq (->> "letto" it/analyze (filter #(= (u/get-in % [:infl]) :passato))))))
+
+(deftest analyze-regular-perfect
+  (is (seq (->> "cambiato" it/analyze (filter #(= (u/get-in % [:infl]) :passato))))))
+
 (deftest generate-present-perfect
   (let [spec {:root "cambiare",
               :sem {:tense :present, :aspect :perfect},
@@ -43,9 +49,3 @@
         expr (-> spec it/generate it/morph)]
     (is (string? (-> expr it/morph)))
     (is (not (= "_" (-> expr it/morph))))))
-
-
-
-
-
-   

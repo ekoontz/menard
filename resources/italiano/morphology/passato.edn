@@ -1,0 +1,25 @@
+[
+ 
+ ;; passato inflection
+ {:u {:essere? false
+      :infl :passato} 
+  :g [#"are$"  "ato"
+      #"arsi$" "ato"
+      #"ere$"  "uto" 
+      #"ersi$" "uto"
+      #"ire$"  "ito"
+      #"irsi$" "ito"]
+  :p [
+      #"(.*)ato" "$1are"
+      #"(.*)ato" "$1arsi"
+      #"(.*)ito" "$1ire"
+      #"(.*)ito" "$1irsi"
+      #"(.*)uto" "$1ere"
+      #"(.*)uto" "$1ersi"
+      ]}
+
+
+
+ ]
+
+

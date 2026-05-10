@@ -8,7 +8,7 @@
                         "imperfect.edn"
                         "misc-verbs.edn"
                         "nouns.edn"
-                        "participio.edn"                        
+                        "passato.edn"                        
                         "present.edn"
                         "preterito-indefinido.edn"]}
  :grammar "italiano/grammar.edn"

@@ -485,10 +485,8 @@
                 (log/info (str "compile-exceptions-for-source lexeme: " k)))
               [k (->> (get lexicon k)
                       (map (fn [lexeme]
-                             (log/debug (str "k: " (keys lexeme)))
                              (if-let [source (:exceptions-source lexeme)]
                                (do
-                                 (log/info (str "source: " source))
                                  (let [passato (when (:passato source)
                                                  [{:infl :passato
                                                    :surface (:passato source)}])]
@@ -502,11 +500,11 @@
 (defn add-exceptions-to-lexicon
   "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
-  (log/debug (str "generating exceptions.."))
+  (log/info (str "generating exceptions.."))
   (let [exceptions-for (fn [canonical lexemes]
                          ;; "generate all the exceptions possible for the sequence _lexemes_, each of which 
                          ;;  has _canonical_ as the canonical form for the exception."
-                         (log/debug (str "canonical: " canonical))
+                         (log/info (str "canonical: " canonical))
                          (let [merge-all (fn [args]
                                            (if (seq args)
                                              (reduce (fn [a b] (merge-with concat a b)) args)))]

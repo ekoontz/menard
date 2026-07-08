@@ -13,7 +13,7 @@
              :sem {:pred :guess}}]
  "acompañar" [{:sem {:pred :accompany}}]
  "acordarse" [{:stems {:boot "acuerd"}
-               :sem {:pred :remember}}]
+               :sem {:pred :remember-a}}]
  "acostarse" [{:stems {:boot "acuest"}
                :sem {:pred :go-to-bed}}]
  "ahorrar" [{:sem {:pred :save-money}}]
@@ -24,6 +24,10 @@
               :sem {:pred :have-lunch}
               :transitivity :intransitive}]
  "amar"    [{:sem {:pred :love}}]
+ "amenazar" [{:sem {:pred :threaten}
+             :exceptions [{:infl :preterito,
+                           :agr {:person :1st, :number :sing},
+                           :surface "amenacé"}]}]
  "andar" [{:stems {:preterito "anduv"}
            :sem {:pred :walk}}]
  "anunciar" [{:sem {:pred :announce}}]

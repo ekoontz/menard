@@ -958,7 +958,7 @@
      :surface "pones"}
     {:infl :present,
      :agr {:person :2nd, :number :sing, :formal? true},
-     :surface "pones"}
+     :surface "pone"}
     {:infl :present,
      :agr {:person :3rd, :number :sing},
      :surface "pone"}

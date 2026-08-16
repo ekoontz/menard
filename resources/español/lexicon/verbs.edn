@@ -229,7 +229,14 @@
  "corresponder" [{:sem {:pred :correspond}}]
  "cortar" [{:sem {:pred :cut}}]
  "crear" [{:sem {:pred :create}}]
- "creer" [{:sem {:pred :believe}}]
+ "creer" [{:sem {:pred :believe},
+  :exceptions
+  [{:infl :preterito,
+  :agr {:person :3rd, :number :sing},
+  :surface "creyó"}
+  {:infl :preterito,
+  :agr {:person :3rd, :number :plur},
+  :surface "creyeron"}]}]
  "dar"
  [{:sem {:pred :give},
    :exceptions

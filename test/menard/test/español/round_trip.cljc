@@ -69,4 +69,23 @@
               :head {:canonical "cerrar"}}
              es/generate es/syntax-tree))))
 
+(deftest pedro-y-usted-hacen
+  (doall
+   (take 1000
+         (repeatedly
+          #(do ;;(log/info "running..")
+             (is (= "[s(:present-simple) .Pedro y usted +hacen]"
+                    (-> {:rule "s"
+                         :comp {:sem {:pred :Pedro-and-you}
+                                :agr {:number :plur
+                                      :formal? true
+                                      :person :2nd}}
+                         :sem {:tense :present
+                               :aspect :simple}
+                         :head {:canonical "hacer"}}
+                        es/generate es/syntax-tree)))
+             true)))))
+
+
+
 

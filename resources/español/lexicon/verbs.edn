@@ -601,7 +601,7 @@
                     :surface "hecho"}
                    {:infl :preterito
                     :agr {:person :1st :number :sing}
-                    :surface "hize"}
+                    :surface "hice"}
                    {:infl :preterito
                     :agr {:person :2nd :number :sing :formal? false}
                     :surface "hiciste"}

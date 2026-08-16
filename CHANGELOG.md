@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.10.4] - 2026-08-16
+
+- Fix Spanish verb: hacer
+- Replace all occurrances of {:informal? true} with {:formal? false}
+- Agg irregulars for "venir"
+
 ## [1.10.3] - 2026-08-03
 
 Fix Spanish verb: poner

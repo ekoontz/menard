@@ -928,7 +928,21 @@
      :agr {:person :1st, :number :sing},
      :surface "parezco"}]}]
 
- "pedir" [{:sem {:pred :ask-for}, :stems {:boot "pid"}}]
+ "pedir" [{:sem {:pred :ask-for},
+  :exceptions
+  [{:infl :preterito,
+             :agr {:person :2nd, :number :sing :formal? true},
+             :surface "pido"}
+    {:infl :preterito,
+             :agr {:person :3rd, :number :sing},
+             :surface "pido"}
+     {:infl :preterito,
+             :agr {:person :2nd, :number :plur :formal? true},
+             :surface "pidieron"}
+    {:infl :preterito,
+             :agr {:person :3rd, :number :plur},
+             :surface "pidieron"}        ]
+   :stems {:boot "pid"}}]
 
  "peinarse" [{:sem {:pred :comb-oneself
                     :subj {:ref {:human? true}}}}]

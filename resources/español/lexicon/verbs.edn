@@ -1131,6 +1131,12 @@
            [{:infl :present,
              :agr {:person :1st, :number :sing},
              :surface "traigo"},
+            {:infl :preterito,
+             :agr {:person :2nd, :number :plur :formal? true},
+             :surface "trajeron"}
+            {:infl :preterito,
+             :agr {:person :3rd, :number :plur},
+             :surface "trajeron"}
             {:infl :participio
              :surface "traído"}]}]
  ;; "usar" {}
@@ -1165,8 +1171,11 @@
              :agr {:person :1st, :number :sing},
              :surface "vine"}
             {:infl :preterito,
-             :agr {:person :2nd, :number :sing},
+             :agr {:person :2nd, :number :sing :formal? false},
              :surface "viniste"}
+            {:infl :preterito,
+             :agr {:person :2nd, :number :sing :formal? true},
+             :surface "vino"}
             {:infl :preterito,
              :agr {:person :3rd, :number :sing},
              :surface "vino"}

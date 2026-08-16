@@ -1120,7 +1120,7 @@
      :agr {:person :1st, :number :sing},
      :surface "traduzco"}]}]
 
- "traer" [{:sem {:subj {:animate true}, :pred :come},
+ "traer" [{:sem {:subj {:animate true}, :pred :bring},
            :transitivity :intransitive
            :cat :verb,
            :stems {:preterito "traj"}
@@ -1147,12 +1147,32 @@
              :agr {:person :1st, :number :sing},
              :surface "vengo"}
             {:infl :present,
-             :agr {:person :2nd, :number :sing},
+             :agr {:person :2nd, :number :sing :formal? false},
              :surface "vienes"}
-            
+            {:infl :present,
+             :agr {:person :2nd, :number :sing :formal? true},
+             :surface "viene"}
+            {:infl :present,
+             :agr {:person :3rd, :number :sing},
+             :surface "viene"}
+            {:infl :present,
+             :agr {:person :2nd, :number :plur :formal? true},
+             :surface "vienen"}
             {:infl :present,
              :agr {:person :3rd, :number :plur},
-             :surface "vienen"}],
+             :surface "vienen"}
+            {:infl :preterito,
+             :agr {:person :1st, :number :sing},
+             :surface "vine"}
+            {:infl :preterito,
+             :agr {:person :2nd, :number :sing},
+             :surface "viniste"}
+            {:infl :preterito,
+             :agr {:person :3rd, :number :sing},
+             :surface "vino"}
+             {:infl :preterito,
+             :agr {:person :1st, :number :plur},
+             :surface "vinimos"}],
            :stems {:preterito "vin"}}]
 
  "ver"

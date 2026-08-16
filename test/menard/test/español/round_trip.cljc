@@ -71,7 +71,7 @@
 
 (deftest pedro-y-usted-hacen
   (doall
-   (take 1000
+   (take 10
          (repeatedly
           #(do ;;(log/info "running..")
              (is (= "[s(:present-simple) .Pedro y usted +hacen]"

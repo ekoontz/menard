@@ -659,7 +659,7 @@
                       :agr {:person :1st, :number :plur},
                       :surface "vamos"}
                      {:infl :present,
-                      :agr {:person :2nd, :number :plur, :informal? true},
+                      :agr {:person :2nd, :number :plur, :formal? false},
                       :surface "vais"}
                      {:infl :present,
                       :agr {:person :2nd, :number :plur, :formal? true},
@@ -736,7 +736,7 @@
                       :agr {:person :1st, :number :plur},
                       :surface "vamos"}
                      {:infl :present,
-                      :agr {:person :2nd, :number :plur, :informal? true},
+                      :agr {:person :2nd, :number :plur, :formal? false},
                       :surface "vais"}
                      {:infl :present,
                       :agr {:person :2nd, :number :plur, :formal? true},

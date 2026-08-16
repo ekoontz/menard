@@ -589,7 +589,7 @@
                     :agr {:person :1st :number :plur}
                     :surface "hacemos"}
                    {:infl :present
-                    :agr {:person :2nd :number :plur}
+                    :agr {:person :2nd :number :plur :formal? false}
                     :surface "hacéis"}
                    {:infl :present
                     :agr {:person :2nd :number :plural :formal? true}

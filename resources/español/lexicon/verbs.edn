@@ -814,11 +814,23 @@
      :agr {:person :1st, :number :sing},
      :surface "leí"}
     {:infl :preterito,
-     :agr {:person :2nd, :number :sing},
+     :agr {:person :2nd, :number :sing :formal? :false},
      :surface "leiste"}
+     {:infl :preterito,
+     :agr {:person :2nd, :number :sing :formal? :true},
+     :surface "leyó"}
     {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "leyó"}]}]
+     :surface "leyó"}
+     {:infl :preterito,
+     :agr {:person :1st, :number :plur},
+     :surface "leímos"}
+     {:infl :preterito,
+     :agr {:person :2nd, :number :plur :formal? :true},
+     :surface "leyeron"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :plur},
+     :surface "leyeron"}]}]
 
  "levantarse" [{:sem {:pred :get-up,
                       :subj {:ref {:human? true}}}}]

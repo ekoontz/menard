@@ -236,13 +236,13 @@
  "cortar" [{:sem {:pred :cut}}]
  "crear" [{:sem {:pred :create}}]
  "creer" [{:sem {:pred :believe},
-  :exceptions
-  [{:infl :preterito,
-  :agr {:person :3rd, :number :sing},
-  :surface "creyó"}
-  {:infl :preterito,
-  :agr {:person :3rd, :number :plur},
-  :surface "creyeron"}]}]
+           :exceptions
+           [{:infl :preterito,
+             :agr {:person :3rd, :number :sing},
+             :surface "creyó"}
+            {:infl :preterito,
+             :agr {:person :3rd, :number :plur},
+             :surface "creyeron"}]}]
  "dar"
  [{:sem {:pred :give},
    :exceptions
@@ -402,11 +402,11 @@
             :sem {:pred :correct}}] 
  
  "empezar" [{:sem {:pred :begin},
-           :exceptions
-           [{:infl :preterito
-                    :agr {:person :1st :number :sing}
-                    :surface "empecé"}]
-            :stems {:boot "empiez"}}]
+             :exceptions
+             [{:infl :preterito
+               :agr {:person :1st :number :sing}
+               :surface "empecé"}]
+             :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
  "encontrar" [{:sem {:pred :find}, :stems {:boot "encuentr"}}]
  "enojarse" [{:sem {:pred :get-angry}}]

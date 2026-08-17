@@ -380,8 +380,8 @@
                           :surface "elijo"}] 
             :sem {:pred :correct}}] 
  
- "empezar" [{:sem {:pred :begin}
-           exceptions
+ "empezar" [{:sem {:pred :begin},
+           :exceptions
            [{:infl :preterito
                     :agr {:person :1st :number :sing}
                     :surface "empecé"}]

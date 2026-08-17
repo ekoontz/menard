@@ -380,7 +380,12 @@
                           :surface "elijo"}] 
             :sem {:pred :correct}}] 
  
- "empezar" [{:sem {:pred :begin}, :stems {:boot "empiez"}}]
+ "empezar" [{:sem {:pred :begin}
+           exceptions
+           [{:infl :preterito
+                    :agr {:person :1st :number :sing}
+                    :surface "empecé"}]
+            :stems {:boot "empiez"}}]
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
  "encontrar" [{:sem {:pred :find}, :stems {:boot "encuentr"}}]
  "enojarse" [{:sem {:pred :get-angry}}]

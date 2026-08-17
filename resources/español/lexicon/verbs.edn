@@ -865,11 +865,11 @@
  "llamar" [{:sem {:pred :call}}]
  "llamarse" [{:sem {:pred :be-called}}]
 
- "llegar" [{:sem {:pred :arrive}}
-          :exceptions
-          {:infl :preterito,
-     :agr {:person :1st, :number :sing},
-     :surface "llegué"}]
+ "llegar" [{:sem {:pred :arrive}
+            :exceptions
+            [{:infl :preterito,
+              :agr {:person :1st, :number :sing},
+              :surface "llegué"}]}]
  "llenar" [{:sem {:pred :fill}}]
  "llevar" [{:sem {:pred :carry}}
            {:sem {:pred :wear-l}}]

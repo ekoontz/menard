@@ -252,11 +252,26 @@
      :agr {:person :1st, :number :sing},
      :surface "di"}
     {:infl :preterito,
-     :agr {:person :2nd, :number :sing},
+     :agr {:person :2nd, :number :sing :formal? false},
      :surface "diste"}
     {:infl :preterito,
+     :agr {:person :2nd, :number :sing :formal? true},
+     :surface "dio"}
+    {:infl :preterito,
      :agr {:person :3rd, :number :sing},
-     :surface "dio"}]}]
+     :surface "dio"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :plur},
+     :surface "dimos"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur :formal? false},
+     :surface "disteis"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur :formal? true},
+     :surface "dieron"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :plur},
+     :surface "dieron"}]}]
  "dañar" [{:sem {:pred :damage}}]
 
  ;; modal: TODO: requires a verb argument

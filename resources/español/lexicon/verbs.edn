@@ -1253,6 +1253,27 @@
     {:infl :preterito,
      :agr {:person :1st, :number :sing},
      :surface "vi"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing :formal? false},
+     :surface "viste"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :sing :formal? true},
+     :surface "vio"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :sing},
+     :surface "vio"}
+    {:infl :preterito,
+     :agr {:person :1st, :number :plur},
+     :surface "vimos"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur :formal? false},
+     :surface "visteis"}
+    {:infl :preterito,
+     :agr {:person :2nd, :number :plur :formal? true},
+     :surface "vieron"}
+    {:infl :preterito,
+     :agr {:person :3rd, :number :plur},
+     :surface "vieron"}
     {:infl :participio
      :surface "visto"}]}]
  "vestirse" [{:sem {:pred :get-dressed}}]

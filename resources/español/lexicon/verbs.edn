@@ -1281,6 +1281,12 @@
     {:infl :preterito,
      :agr {:person :3rd, :number :plur},
      :surface "vieron"}
+    {:infl :imperfect
+     :agr {:person :1st, :number :plur}
+     :surface "veíamos"}
+    {:infl :imperfect
+     :agr {:person :2nd, :number :plur, :formal? false}
+     :surface "veíais"}
     {:infl :participio
      :surface "visto"}]}]
  "vestirse" [{:sem {:pred :get-dressed}}]

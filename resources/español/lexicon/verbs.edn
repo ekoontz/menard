@@ -183,21 +183,19 @@
  "concebir" [{:sem {:pred :conceive}, :stems {:boot "conciv"}}]
  
  "conducir"
- [{:sem {:pred :lead},
-   :exceptions
-   [{:infl :present,
-     :agr {:person :1st, :number :sing},
-     :surface "conduzco"}],
-   :stems {:preterito "conduj"}}
-  {:sem {:pred :drive},
-   :exceptions
-   [{:infl :present,
-     :agr {:person :1st, :number :sing},
-     :surface "conduzco"}
-     {:infl :preterito,
-     :agr {:person :3rd, :number :plur},
-     :surface "condujeron"}],
-   :stems {:preterito "conduj"}}]
+ (let [exceptions [{:infl :present,
+                    :agr {:person :1st, :number :sing},
+                    :surface "conduzco"}
+                   {:infl :preterito,
+                    :agr {:person :3rd, :number :plur},
+                    :surface "condujeron"}]
+       stems {:preterito "conduj"}]
+  [{:sem {:pred :lead},
+    :exceptions exceptions
+    :stems stems}
+   {:sem {:pred :drive}
+    :exceptions exceptions
+    :stems stems}])
  "confesar" [{:sem {:pred :confess},
               :stems {:boot "confies"}}]
  "conocer"

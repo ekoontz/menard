@@ -18,8 +18,8 @@
       :propernoun? false
       :agr {:number :sing}}}
 
- {:g [#"^(.*r)$"   "$1es"] 
-  :p [#"^(.*)es$"  "$1"] 
+ {:g [#"^(.*[dlnr])$"   "$1es"]
+  :p [#"^(.*)es$"       "$1"]
   :u {:cat :noun
       :pronoun? false
       :propernoun? false

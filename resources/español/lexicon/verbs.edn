@@ -884,7 +884,7 @@
             :exceptions
             [{:infl :preterito,
               :agr {:person :3rd, :number :sing},
-              :surface "mintiò"}]}]
+              :surface "mintió"}]}]
  "mirar" [{:sem {:pred :look-at}}]
  "mostrar" [{:sem {:pred :show}, :stems {:boot "muestr"}}]
  "nacer"

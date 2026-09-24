@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.10.7] - 2026-09-24
+
+Fix accent for one Spanish verb: mentir
+
 ## [1.10.6] - 2026-09-10
 
 Fix noun morphology for verbs ending in d,l,n and r.

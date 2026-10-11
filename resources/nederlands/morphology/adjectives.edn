@@ -13,20 +13,20 @@
        :agr {:gender :common
              :number :sing}
        :modifies-noun? true}]
-  [{:g [#"" ""]
-    :p [#"" ""]
+  [{:g [(re-pattern "") ""]
+    :p [(re-pattern "") ""]
     :u {:cat :adjective
         :null? false
         :sem {:number? true}}}
-   {:g [#"" ""]
-    :p [#"" ""]
+   {:g [(re-pattern "") ""]
+    :p [(re-pattern "") ""]
     :u {:cat :adjective
         :null? true}}
 
    ;; F. p 4 "Adjectives have no ending if they precede a singular neuter noun in an indefinite context: i.e.
    ;;         after een 'a', geen 'no/not a', elk 'each'.."
-   {:g [#"$" ""]
-    :p [#"([^e])" "$1"]
+   {:g [(re-pattern "$") ""]
+    :p [(re-pattern "([^e])") "$1"]
     :u {:cat :adjective
         :agr {:gender :neuter
               :number :sing}
@@ -38,8 +38,8 @@
 
    ;; generation: hedendaag   -> hedendaagse
    ;; parsing:    hedendaagse -> hedendaag
-   (let [g [#"(daag)$"   "$1se"]
-         p [#"(daag)se$" "$1"]]
+   (let [g [(re-pattern "(daag)$")   "$1se"]
+         p [(re-pattern "(daag)se$") "$1"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -56,8 +56,8 @@
    ;; stom->stomme and dik->dikke
    ;; TODO: merge this with eenzaam -> eenzame
    ;; rule below.
-   (let [g [#"ot$" "te"]
-         p [#"te$" "ot"]]
+   (let [g [(re-pattern "ot$") "te"]
+         p [(re-pattern "te$") "ot"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -73,8 +73,8 @@
    ;; parsing:    lage -> laag
    ;; TODO: merge this with eenzaam -> eenzame
    ;; rule below.
-   (let [g [#"aag$" "age"]
-         p [#"age$" "aag"]]
+   (let [g [(re-pattern "aag$") "age"]
+         p [(re-pattern "age$") "aag"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -87,8 +87,8 @@
 
    ;; generation: vies -> vieze
    ;; parsing:    vieze -> vies
-   (let [g [#"s$"   "ze"]
-         p [#"ze$"  "s"]]
+   (let [g [(re-pattern "s$")   "ze"]
+         p [(re-pattern "ze$")  "s"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -101,8 +101,8 @@
 
    ;; generation: stom   -> stomme
    ;; parsing:    stomme -> stom
-   (let [g [#"([lt])([aeiou])([m])$" "$1$2$3$3e"]
-         p [#"([lt])([aeiou])mme$"   "$1$2m"]]
+   (let [g [(re-pattern "([lt])([aeiou])([m])$") "$1$2$3$3e"]
+         p [(re-pattern "([lt])([aeiou])mme$")   "$1$2m"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -117,8 +117,8 @@
    ;;             gek   -> gekke
    ;; parsing:    dikke -> dik
    ;;             gekke -> gek
-   (let [g [#"([dg])([ei])([k])$" "$1$2$3$3e"]
-         p [#"([dg])([ei])kke$"   "$1$2k"]]
+   (let [g [(re-pattern "([dg])([ei])([k])$") "$1$2$3$3e"]
+         p [(re-pattern "([dg])([ei])kke$")   "$1$2k"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -131,8 +131,8 @@
 
    ;; generation: openbaar -> openbare;eenzaam -> eenzame
    ;; parsing:    openbare -> openbaar;eenzame -> eenzaam
-   (let [g [#"(a)(a)([mrv])$"   "$1$3e"]
-         p [#"a([mrv])e$"       "aa$1"]]
+   (let [g [(re-pattern "(a)(a)([mrv])$")   "$1$3e"]
+         p [(re-pattern "a([mrv])e$")       "aa$1"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -145,8 +145,8 @@
 
    ;; generation: breed -> brede
    ;; parsing:    brede -> breed
-   (let [g [#"(e)(e)([d])$"   "$1$3e"]
-         p [#"e([d])e$"       "ee$1"]]
+   (let [g [(re-pattern "(e)(e)([d])$")   "$1$3e"]
+         p [(re-pattern "e([d])e$")       "ee$1"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -159,8 +159,8 @@
    
    ;; generation: gaaf -> gave
    ;; parsing:    gave -> gaaf
-   (let [g [#"aaf$" "ave"]
-         p [#"ave$" "aaf"]]
+   (let [g [(re-pattern "aaf$") "ave"]
+         p [(re-pattern "ave$") "aaf"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -173,8 +173,8 @@
 
    ;; generation: radeloos -> radeloze
    ;; parsing:    radeloze -> radeloos
-   (let [g [#"oos$" "oze"]
-         p [#"oze$" "oos"]]
+   (let [g [(re-pattern "oos$") "oze"]
+         p [(re-pattern "oze$") "oos"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -187,8 +187,8 @@
 
    ;; generation: heet -> hete
    ;; parsing:    hete -> heet
-   (let [g [#"eet$" "ete"]
-         p [#"ete$" "eets"]]
+   (let [g [(re-pattern "eet$") "ete"]
+         p [(re-pattern "ete$") "eets"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -202,8 +202,8 @@
    
    ;; generation: lief  -> lieve
    ;; parsing:    lieve -> lief
-   (let [g [#"f$"   "ve"]
-         p [#"ve$"  "f"]]
+   (let [g [(re-pattern "f$")   "ve"]
+         p [(re-pattern "ve$")  "f"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -215,8 +215,8 @@
        :u indefinite-singular-common-modifier}])
    
    ;; buitengewoon -> buitengewone
-   (let [g [#"(o)(o)([n])$"   "$1$3e"]
-         p [#"o([n])e$"       "oo$1"]]
+   (let [g [(re-pattern "(o)(o)([n])$")   "$1$3e"]
+         p [(re-pattern "o([n])e$")       "oo$1"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -233,8 +233,8 @@
    ;;              groot -> *groote
    ;; instead, groot -> grote is handled above with the
    ;; rule above with the comment "groot -> grote".
-   (let [g [#"([aieou][aeiou][^t])$"  "$1e"]
-         p [#"([aieou][aeiou][^t])e$" "$1"]]
+   (let [g [(re-pattern "([aieou][aeiou][^t])$")  "$1e"]
+         p [(re-pattern "([aieou][aeiou][^t])e$") "$1"]]
      [{:g g
        :p p
        :u plur-modifier}
@@ -245,8 +245,8 @@
        :p p
        :u indefinite-singular-common-modifier}])
 
-   (let [g [#"([^aeiou])$"  "$1e"]
-         p [#"([^aeiou])e$" "$1"]]
+   (let [g [(re-pattern "([^aeiou])$")  "$1e"]
+         p [(re-pattern "([^aeiou])e$") "$1"]]
      [{:g g
        :p p
        :u plur-modifier}

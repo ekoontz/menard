@@ -2,8 +2,8 @@
  ;; F 47.1
  ;; <some doubled consonants get reduced to a single consonant>
  {;; wassen -> waste
-  :g [#"^(.*)([fks])\2en$"      "$1$2te"]  
-  :p [#"^(.*)([fks])te$"        "$1$2$2en"]
+  :g [(re-pattern "^(.*)([fks])\\2en$")      "$1$2te"]  
+  :p [(re-pattern "^(.*)([fks])te$")        "$1$2$2en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -11,8 +11,8 @@
       :infl :past-simple}}
 
  {;; wassen -> wasten
-  :g [#"^(.*)([fks])\2en$"      "$1$2ten"]
-  :p [#"^(.*)([fks])ten$"       "$1$2$2en"]
+  :g [(re-pattern "^(.*)([fks])\\2en$")      "$1$2ten"]
+  :p [(re-pattern "^(.*)([fks])ten$")       "$1$2$2en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -22,9 +22,9 @@
  {;; bellen      -> belde
   ;; uitgeleggen -> uitgelegde
   ;; kennen      -> kenden
-  :g [#"^(.*)([^aeiou])\2en$" "$1$2de"]
+  :g [(re-pattern "^(.*)([^aeiou])\\2en$") "$1$2de"]
   ;; belde -> bellen, etc
-  :p [#"^(.*)([gln])de$"      "$1$2$2en"]
+  :p [(re-pattern "^(.*)([gln])de$")      "$1$2$2en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -34,9 +34,9 @@
  {;; bellen      -> belden
   ;; uitgeleggen -> uitgelegden
   ;; kennen      -> kenden, etc
-  :g [#"^(.*)([^aeiou])\2en$" "$1$2den"]
+  :g [(re-pattern "^(.*)([^aeiou])\\2en$") "$1$2den"]
   ;; belden      -> bellen, etc
-  :p [#"^(.*)([gln])den$"     "$1$2$2en"]
+  :p [(re-pattern "^(.*)([gln])den$")     "$1$2$2en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -46,8 +46,8 @@
 
  ;; <'t kofship vowel lengthening>
  ;; hopen -> hoopte
- {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3te"]
-  :p [#"^(.*)([aieou])\2([tksp])te$" "$1$2$3en"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])([tksp])en$") "$1$2$2$3te"]
+  :p [(re-pattern "^(.*)([aieou])\\2([tksp])te$") "$1$2$3en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -55,24 +55,24 @@
       :infl :past-simple}}
 
   ;; hopen -> hoopten
- {:g [#"^(.*[^aeiou])([aieou])([tksp])en$" "$1$2$2$3ten"]
-  :p [#"^(.*)([aieou])\2([tksp])ten$" "$1$2$3en"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])([tksp])en$") "$1$2$2$3ten"]
+  :p [(re-pattern "^(.*)([aieou])\\2([tksp])ten$") "$1$2$3en"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :plur}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3te"]
-  :p [#"^(.*)([aieou])\2(ch)te$" "$1$2$3en"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])(ch)en$") "$1$2$2$3te"]
+  :p [(re-pattern "^(.*)([aieou])\\2(ch)te$") "$1$2$3en"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])(ch)en$" "$1$2$2$3ten"]
-  :p [#"^(.*)([aieou])\2(ch)ten$" "$1$2$3en"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])(ch)en$") "$1$2$2$3ten"]
+  :p [(re-pattern "^(.*)([aieou])\\2(ch)ten$") "$1$2$3en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -81,16 +81,16 @@
  ;; </'t kofship vowel lengthening>
 
  ;; <vowel lengthening: voiced to voiceless vrezen -> vreesen >
- {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2sde"]
-  :p [#"^(.*[^aeiou])[s]de$" "$1zen"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])([z])en$") "$1$2$2sde"]
+  :p [(re-pattern "^(.*[^aeiou])[s]de$") "$1zen"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])([z])en$" "$1$2$2$3den"]
-  :p [#"^(.*[^aieou])[s]den$" "$1zen"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])([z])en$") "$1$2$2$3den"]
+  :p [(re-pattern "^(.*[^aieou])[s]den$") "$1zen"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -99,16 +99,16 @@
  ;; </vowel lengthening: voiced to voiceless vrezen -> vreesen >
 
  ;; <vowel lengthening>
- {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"   "$1$2$2$3de"]
-  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])de$" "$1$2$3en"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])([^aieou])en$")   "$1$2$2$3de"]
+  :p [(re-pattern "^(.*[^aeiou])([aieou])\\2([^aeiou])de$") "$1$2$3en"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^aeiou])([aieou])([^aieou])en$"    "$1$2$2$3den"]
-  :p [#"^(.*[^aeiou])([aieou])\2([^aeiou])den$" "$1$2$3en"]
+ {:g [(re-pattern "^(.*[^aeiou])([aieou])([^aieou])en$")    "$1$2$2$3den"]
+  :p [(re-pattern "^(.*[^aeiou])([aieou])\\2([^aeiou])den$") "$1$2$3en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -117,16 +117,16 @@
  ;; </vowel lengthening>
 
  ;; <'t kofship>
- {:g [#"^(.*[tksp])en$" "$1te"]
-  :p [#"^(.*[tksp])te$" "$1en"]
+ {:g [(re-pattern "^(.*[tksp])en$") "$1te"]
+  :p [(re-pattern "^(.*[tksp])te$") "$1en"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[tksp])en$" "$1ten"]
-  :p [#"^(.*[tksp])ten$" "$1en"]
+ {:g [(re-pattern "^(.*[tksp])en$") "$1ten"]
+  :p [(re-pattern "^(.*[tksp])ten$") "$1en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -135,16 +135,16 @@
  ;; </'t kofship>
 
  ;; voiced -> voiceless v->f
- {:g [#"^(.*)ven$" "$1fde"]
-  :p [#"^(.*)fde$" "$1ven"]
+ {:g [(re-pattern "^(.*)ven$") "$1fde"]
+  :p [(re-pattern "^(.*)fde$") "$1ven"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*)ven$"  "$1fden"]
-  :p [#"^(.*)fden$" "$1ven"]
+ {:g [(re-pattern "^(.*)ven$")  "$1fden"]
+  :p [(re-pattern "^(.*)fden$") "$1ven"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -153,16 +153,16 @@
 
  ;; voiced -> voiceless z->s
  ;; reizen -> reisde
- {:g [#"^(.*)zen$" "$1sde"]
-  :p [#"^(.*)sde$" "$1zen"]
+ {:g [(re-pattern "^(.*)zen$") "$1sde"]
+  :p [(re-pattern "^(.*)sde$") "$1zen"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*)zen$"  "$1sden"]
-  :p [#"^(.*)sden$" "$1zen"]
+ {:g [(re-pattern "^(.*)zen$")  "$1sden"]
+  :p [(re-pattern "^(.*)sden$") "$1zen"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -170,16 +170,16 @@
       :infl :past-simple}}
   
  ;; <default weak>
- {:g [#"^(.*[^tksp])en$" "$1de"]
-  :p [#"^(.*[^tksp])de$" "$1en"]
+ {:g [(re-pattern "^(.*[^tksp])en$") "$1de"]
+  :p [(re-pattern "^(.*[^tksp])de$") "$1en"]
   :u {:cat :verb
       :finite? true
       :strong? false
       :agr {:number :sing}
       :infl :past-simple}}
 
- {:g [#"^(.*[^tksp])en$"  "$1den"]
-  :p [#"^(.*[^tksp])den$" "$1en"]
+ {:g [(re-pattern "^(.*[^tksp])en$")  "$1den"]
+  :p [(re-pattern "^(.*[^tksp])den$") "$1en"]
   :u {:cat :verb
       :finite? true
       :strong? false
@@ -190,16 +190,16 @@
  ;; <strong>
  ;; a -> oe -> a
  ;; dragen <-> droeg
- {:g [#"^(.*)a(.)en$" "$1oe$2"]
-  :p [#"^(.*)oe(.)$"  "$1a$2en"]
+ {:g [(re-pattern "^(.*)a(.)en$") "$1oe$2"]
+  :p [(re-pattern "^(.*)oe(.)$")  "$1a$2en"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :a-oe-a
       :agr {:number :sing}}}
  ;; dragen <-> droegen
- {:g [#"^(.*)a(.)en$" "$1oe$2en"]
-  :p [#"^(.*)oe(.)en$"  "$1a$2en"]
+ {:g [(re-pattern "^(.*)a(.)en$") "$1oe$2en"]
+  :p [(re-pattern "^(.*)oe(.)en$")  "$1a$2en"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
@@ -208,16 +208,16 @@
  
  ;; <a – ie – a>
  ;; blazen <-> blies
- {:g [#"^(.*)azen$" "$1ies"]
-  :p [#"^(.*)ies$"  "$1azen"]
+ {:g [(re-pattern "^(.*)azen$") "$1ies"]
+  :p [(re-pattern "^(.*)ies$")  "$1azen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :sing}}}
  ;; blazen <-> bliezen
- {:g [#"^(.*)azen$"  "$1iezen"]
-  :p [#"^(.*)iezen$" "$1azen"]
+ {:g [(re-pattern "^(.*)azen$")  "$1iezen"]
+  :p [(re-pattern "^(.*)iezen$") "$1azen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
@@ -225,16 +225,16 @@
       :agr {:number :plur}}}
 
  ;; laten <-> liet; slapen <-> sliep
- {:g [#"^(.*)a([pt])en$" "$1ie$2"]
-  :p [#"^(.*)ie([pt])$"  "$1a$2en"]
+ {:g [(re-pattern "^(.*)a([pt])en$") "$1ie$2"]
+  :p [(re-pattern "^(.*)ie([pt])$")  "$1a$2en"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :sing}}}
  ;; laten <-> lieten; slapen <-> sliep
- {:g [#"^(.*)a([pt])en$"  "$1ie$2en"]
-  :p [#"^(.*)ie([pt])en$" "$1a$2en"]
+ {:g [(re-pattern "^(.*)a([pt])en$")  "$1ie$2en"]
+  :p [(re-pattern "^(.*)ie([pt])en$") "$1a$2en"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
@@ -242,16 +242,16 @@
       :agr {:number :plur}}}
 
  ;; vallen <-> viel
- {:g [#"^(.*)a(l)len$" "$1ie$2"]
-  :p [#"^(.*)ie(l)$"   "$1a$2$2en"]
+ {:g [(re-pattern "^(.*)a(l)len$") "$1ie$2"]
+  :p [(re-pattern "^(.*)ie(l)$")   "$1a$2$2en"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :a-ie-a
       :agr {:number :sing}}}
  ;; vallen <-> vielen
- {:g [#"^(.*)a(l)len$" "$1ie$2en"]
-  :p [#"^(.*)ie(l)en$" "$1a$2$2en"]
+ {:g [(re-pattern "^(.*)a(l)len$") "$1ie$2en"]
+  :p [(re-pattern "^(.*)ie(l)en$") "$1a$2$2en"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
@@ -263,8 +263,8 @@
  ;; TODO: add separable/non-separable for all verbs.
  ;; So far, only have it for e-a-e below.
  ;; e-a-e,singular,non-separable
- {:g [#"^(.*)e([dt])en$" "$1a$2"]
-  :p [#"^(.*)a([dt])$"   "$1e$2en"]
+ {:g [(re-pattern "^(.*)e([dt])en$") "$1a$2"]
+  :p [(re-pattern "^(.*)a([dt])$")   "$1e$2en"]
   :u {:cat :verb
       :finite? true
       :separable? false
@@ -273,8 +273,8 @@
       :agr {:number :sing}}}
 
  ;; e-a-e,singular,separable
- {:g [#"^op(.*)e([dt])en$" "$1a$2"]
-  :p [#"^(.*)a([dt])$"     "op$1e$2en"]
+ {:g [(re-pattern "^op(.*)e([dt])en$") "$1a$2"]
+  :p [(re-pattern "^(.*)a([dt])$")     "op$1e$2en"]
   :u {:cat :verb
       :finite? true
       :separable? true
@@ -283,8 +283,8 @@
       :agr {:number :sing}}}
 
  ;; e-a-e,plural,non-separable
- {:g [#"^(.*)e([dt])en$" "$1a$2en"]
-  :p [#"^(.*)a([dt])en$" "$1e$2en"]
+ {:g [(re-pattern "^(.*)e([dt])en$") "$1a$2en"]
+  :p [(re-pattern "^(.*)a([dt])en$") "$1e$2en"]
   :u {:cat :verb
       :finite? true
       :separable? false
@@ -292,8 +292,8 @@
       :strong? :e-a-e
       :agr {:number :plur}}}
  ;; e-a-e,plural,separable
- {:g [#"^op(.*)e([dt])en$" "$1a$2en"]
-  :p [#"^(.*)a([dt])en$"   "op$1e$2en"]
+ {:g [(re-pattern "^op(.*)e([dt])en$") "$1a$2en"]
+  :p [(re-pattern "^(.*)a([dt])en$")   "op$1e$2en"]
   :u {:cat :verb
       :finite? true
       :separable? true
@@ -301,30 +301,30 @@
       :strong? :e-a-e
       :agr {:number :plur}}}
 
- {:g [#"^(.*)ezen$" "$1as"]
-  :p [#"^(.*)as$"   "$1ezen"]
+ {:g [(re-pattern "^(.*)ezen$") "$1as"]
+  :p [(re-pattern "^(.*)as$")   "$1ezen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :sing}}}
- {:g [#"^(.*)ezen$" "$1azen"]
-  :p [#"^(.*)azen$" "$1ezen"]
+ {:g [(re-pattern "^(.*)ezen$") "$1azen"]
+  :p [(re-pattern "^(.*)azen$") "$1ezen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :plur}}}
 
- {:g [#"^(.*)even$" "$1af"]
-  :p [#"^(.*)af$"   "$1even"]
+ {:g [(re-pattern "^(.*)even$") "$1af"]
+  :p [(re-pattern "^(.*)af$")   "$1even"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-a-e
       :agr {:number :sing}}}
- {:g [#"^(.*)even$" "$1aven"]
-  :p [#"^(.*)aven$" "$1even"]
+ {:g [(re-pattern "^(.*)even$") "$1aven"]
+  :p [(re-pattern "^(.*)aven$") "$1even"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
@@ -333,60 +333,60 @@
  ;; </e-a-e>
 
  ;; <e-o-o>
- {:g [#"^(.*)elven$" "$1olf"]
-  :p [#"^(.*)olf$"   "$1elven"]
+ {:g [(re-pattern "^(.*)elven$") "$1olf"]
+  :p [(re-pattern "^(.*)olf$")   "$1elven"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^(.*)elven$" "$1olven"]
-  :p [#"^(.*)olven$" "$1elven"]
+ {:g [(re-pattern "^(.*)elven$") "$1olven"]
+  :p [(re-pattern "^(.*)olven$") "$1elven"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
 
- {:g [#"^(.*)ergen$" "$1org"]
-  :p [#"^(.*)org$"   "$1ergen"]
+ {:g [(re-pattern "^(.*)ergen$") "$1org"]
+  :p [(re-pattern "^(.*)org$")   "$1ergen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^(.*)ergen$" "$1orgen"]
-  :p [#"^(.*)orgen$" "$1ergen"]
+ {:g [(re-pattern "^(.*)ergen$") "$1orgen"]
+  :p [(re-pattern "^(.*)orgen$") "$1ergen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
 
- {:g [#"^(.*w)egen$" "$1oog"]
-  :p [#"^(.*w)oog$"  "$1egen"]
+ {:g [(re-pattern "^(.*w)egen$") "$1oog"]
+  :p [(re-pattern "^(.*w)oog$")  "$1egen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^(.*w)egen$" "$1ogen"]
-  :p [#"^(.*w)ogen$" "$1egen"]
+ {:g [(re-pattern "^(.*w)egen$") "$1ogen"]
+  :p [(re-pattern "^(.*w)ogen$") "$1egen"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :plur}}}
 
- {:g [#"^(.*)ekken$" "$1ok"]
-  :p [#"^(.*)ok$"    "$1ekken"]
+ {:g [(re-pattern "^(.*)ekken$") "$1ok"]
+  :p [(re-pattern "^(.*)ok$")    "$1ekken"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
       :strong? :e-o-o
       :agr {:number :sing}}}
- {:g [#"^(.*)ekken$" "$1okken"]
-  :p [#"^(.*)okken$" "$1ekken"]
+ {:g [(re-pattern "^(.*)ekken$") "$1okken"]
+  :p [(re-pattern "^(.*)okken$") "$1ekken"]
   :u {:cat :verb
       :finite? true
       :infl :past-simple
@@ -396,8 +396,8 @@
  
  ;; <i-o-o>
  ;; e.g. vinden -> vond
- {:g [#"^(.*)inden$" "$1ond"]
-  :p [#"^(.*)ond$"   "$1inden"]
+ {:g [(re-pattern "^(.*)inden$") "$1ond"]
+  :p [(re-pattern "^(.*)ond$")   "$1inden"]
   :u {:cat :verb
       :finite? true
       :strong? true
@@ -405,8 +405,8 @@
       :infl :past-simple}}
 
   ;; e.g. vinden -> vonden
- {:g [#"^(.*)inden$" "$1onden"]
-  :p [#"^(.*)onden$" "$1inden"]
+ {:g [(re-pattern "^(.*)inden$") "$1onden"]
+  :p [(re-pattern "^(.*)onden$") "$1inden"]
   :u {:cat :verb
       :finite? true
       :strong? true
@@ -416,16 +416,16 @@
 
  ;; <ie-oo-o>
  ;; e.g. bedriegen->bedroog
- {:g [#"^(.*)ie([dg])en$" "$1oo$2"]
-  :p [#"^(.*)oo([dg])$"   "$1ie$2en"]
+ {:g [(re-pattern "^(.*)ie([dg])en$") "$1oo$2"]
+  :p [(re-pattern "^(.*)oo([dg])$")   "$1ie$2en"]
   :u {:cat :verb
       :finite? true
       :strong? :ie-oo-o
       :agr {:number :sing}
       :infl :past-simple}}
  ;; e.g. bedriegen->bedrogen
- {:g [#"^(.*)ie([dg])en$" "$1o$2en"]
-  :p [#"^(.*)o([dg])en$"  "$1ie$2en"]
+ {:g [(re-pattern "^(.*)ie([dg])en$") "$1o$2en"]
+  :p [(re-pattern "^(.*)o([dg])en$")  "$1ie$2en"]
   :u {:cat :verb
       :finite? true
       :strong? :ie-oo-o
@@ -435,16 +435,16 @@
  
  ;; <ij-ee-e>
  ;; e.g. blijven -> bleef
- {:g [#"^(.*)ijven$" "$1eef"]
-  :p [#"^(.*)eef$"   "$1ijven"]
+ {:g [(re-pattern "^(.*)ijven$") "$1eef"]
+  :p [(re-pattern "^(.*)eef$")   "$1ijven"]
   :u {:cat :verb
       :finite? true
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
   ;; e.g. blijven -> bleven
- {:g [#"^(.*)ijven$" "$1even"]
-  :p [#"^(.*)even$" "$1ijven"]
+ {:g [(re-pattern "^(.*)ijven$") "$1even"]
+  :p [(re-pattern "^(.*)even$") "$1ijven"]
   :u {:cat :verb
       :finite? true
       :strong? true
@@ -452,16 +452,16 @@
       :infl :past-simple}}
 
  ;; e.g. kijken -> keek
- {:g [#"^(.*)ij([^v])en$" "$1ee$2"]
-  :p [#"^(.*)ee([^v])$"   "$1ij$2en"]
+ {:g [(re-pattern "^(.*)ij([^v])en$") "$1ee$2"]
+  :p [(re-pattern "^(.*)ee([^v])$")   "$1ij$2en"]
   :u {:cat :verb
       :finite? true
       :strong? true
       :agr {:number :sing}
       :infl :past-simple}}
  ;; e.g. kijken -> keken 
- {:g [#"^(.*)ij([^v])en$" "$1e$2en"]
-  :p [#"^(.*)e([^v])en$"  "$1ij$2en"]
+ {:g [(re-pattern "^(.*)ij([^v])en$") "$1e$2en"]
+  :p [(re-pattern "^(.*)e([^v])en$")  "$1ij$2en"]
   :u {:cat :verb
       :finite? true
       :strong? true

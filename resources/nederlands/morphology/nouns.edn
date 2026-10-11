@@ -1,10 +1,10 @@
-[{:g [#"^(.*)$"       "$1"]
-  :p [#"^(.*)$"       "$1"]
+[{:g [(re-pattern "^(.*)$")       "$1"]
+  :p [(re-pattern "^(.*)$")       "$1"]
   :u {:cat :noun
       :inflection :null
       :null? true}}
- {:g [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
-  :p [#"^(.*)$"       "$1"]          ;; no change in inflection for singular form.
+ {:g [(re-pattern "^(.*)$")       "$1"]          ;; no change in inflection for singular form.
+  :p [(re-pattern "^(.*)$")       "$1"]          ;; no change in inflection for singular form.
   :u {:cat :noun
       :null? false
       :pronoun? false
@@ -13,8 +13,8 @@
 
  ;; if a singular noun ends in a consonant+vowel (except 'e' but including 'y'), then noun pluralization ends in -'s (apostrophe + s).
  ;; for parsing, we include both: ' and ’ as apostrophe-variants
- {:g [#"([^aeiou])([aiouy])$"      "$1$2's"]       ;; baby  -> baby's
-  :p [#"([^aeiou])([aiouy])['’]s$" "$1$2"]        ;; baby's -> baby
+ {:g [(re-pattern "([^aeiou])([aiouy])$")      "$1$2's"]       ;; baby  -> baby's
+  :p [(re-pattern "([^aeiou])([aiouy])['’]s$") "$1$2"]        ;; baby's -> baby
   :u {:cat :noun
       :null? false
       :inflection :apostrophe-s
@@ -23,8 +23,8 @@
       :regular true}}
  
  ;; if a singular noun ends in -heid, then noun pluralization ends in -heden:
- {:g [#"heid$"  "heden"]           ;; mogelijkheid -> mogelijkheden
-  :p [#"heden$" "heid"]
+ {:g [(re-pattern "heid$")  "heden"]           ;; mogelijkheid -> mogelijkheden
+  :p [(re-pattern "heden$") "heid"]
   :u {:cat :noun
       :null? false
       :inflection :heid
@@ -34,8 +34,8 @@
 
  ;; if a singular noun ends in -ooX, then noun pluralization ends in -oXen:
  ;; echtgenoot -> echtgenoten, bloemkool -> bloemkolen, boom -> bomen
- {:g [#"oo([lmnt])$"  "o$1en"]
-  :p [#"o([lmnt])en$" "oo$1"]
+ {:g [(re-pattern "oo([lmnt])$")  "o$1en"]
+  :p [(re-pattern "o([lmnt])en$") "oo$1"]
   :u {:cat :noun
       :null? false
       :inflection :oot
@@ -44,8 +44,8 @@
       :regular true}}
 
  ;; noun pluralization ending in -s:
- {:g [#"([^aeiouy])(e|el|em|en|er|ie|oer|um)$"  "$1$2s" ]
-  :p [#"([^aeiouy])(e|el|em|en|er|ie|oer|um)s$" "$1$2"  ]
+ {:g [(re-pattern "([^aeiouy])(e|el|em|en|er|ie|oer|um)$")  "$1$2s" ]
+  :p [(re-pattern "([^aeiouy])(e|el|em|en|er|ie|oer|um)s$") "$1$2"  ]
   ;;                                    tafels -> tafel 
   :u {:cat :noun
       :null? false
@@ -58,8 +58,8 @@
  ;; vowel shortens (aa->a) and the consonant lengthens (k->kk):
  ;; For now, only matching 'a' for the vowel and 'k' for the consonant,
  ;; but may generalize later if needed.
- {:g [#"^(.*)([a])\2([k])$"   "$1$2$3$3en"]    ;; zaak    -> zakken
-  :p [#"^(.*)([a])([k])\3en$" "$1$2$2$3"]      ;; zakken  -> zaak
+ {:g [(re-pattern "^(.*)([a])\\2([k])$")   "$1$2$3$3en"]    ;; zaak    -> zakken
+  :p [(re-pattern "^(.*)([a])([k])\\3en$") "$1$2$2$3"]      ;; zakken  -> zaak
   :u {:cat :noun
       :null? false
       :inflection :repeat-consonant-shorten-vowel
@@ -67,8 +67,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*a)as$"    "$1zen"]       ;; baas   -> bazen
-  :p [#"^(.*)azen$"   "$1aas"] 
+ {:g [(re-pattern "^(.*a)as$")    "$1zen"]       ;; baas   -> bazen
+  :p [(re-pattern "^(.*)azen$")   "$1aas"] 
   :u {:cat :noun
       :null? false
       :inflection :s2z
@@ -78,8 +78,8 @@
  
  ;; TODO: nouns end in 's' if they end in
  ;; "aar(d), -erd,-ier when referring to people" (F. p 55).
- {:g [#"^(.*)aa(.)$"     "$1a$2en"]  ;; haar   -> haren
-  :p [#"^(.*)a(.)en$"    "$1aa$2"]   ;; haren -> haar
+ {:g [(re-pattern "^(.*)aa(.)$")     "$1a$2en"]  ;; haar   -> haren
+  :p [(re-pattern "^(.*)a(.)en$")    "$1aa$2"]   ;; haren -> haar
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel
@@ -87,8 +87,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*)ee(.)$"     "$1e$2en"]  ;; been   -> benen
-  :p [#"^(.*)e([nr])en$" "$1ee$2"]   ;; benen -> been
+ {:g [(re-pattern "^(.*)ee(.)$")     "$1e$2en"]  ;; been   -> benen
+  :p [(re-pattern "^(.*)e([nr])en$") "$1ee$2"]   ;; benen -> been
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel
@@ -97,8 +97,8 @@
       :regular true}}
 
  ;; TODO: see what other consonants to add besides 'g' and 'p':
- {:g [#"^(.*)oo([gp])$"  "$1o$2en"]  ;; oog -> ogen
-  :p [#"^(.*)o([gp])en$" "$1oo$2"]    ;; ogen -> oog
+ {:g [(re-pattern "^(.*)oo([gp])$")  "$1o$2en"]  ;; oog -> ogen
+  :p [(re-pattern "^(.*)o([gp])en$") "$1oo$2"]    ;; ogen -> oog
   :u {:cat :noun
       :null? false
       :inflection :repeated-vowel
@@ -106,8 +106,8 @@
       :agr {:number :plur}
       :regular true}}
  
- {:g [#"^(.*ui)s$"    "$1zen"]       ;; huis   -> huizen
-  :p [#"^(.*ui)zen$"  "$1s"] 
+ {:g [(re-pattern "^(.*ui)s$")    "$1zen"]       ;; huis   -> huizen
+  :p [(re-pattern "^(.*ui)zen$")  "$1s"] 
   :u {:cat :noun
       :null? false
       :inflection :s2z
@@ -115,8 +115,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*o)ns$"    "$1zen"]       ;; ons   -> onzen
-  :p [#"^(.*on)zen$"   "$1s"] 
+ {:g [(re-pattern "^(.*o)ns$")    "$1zen"]       ;; ons   -> onzen
+  :p [(re-pattern "^(.*on)zen$")   "$1s"] 
   :u {:cat :noun
       :null? false
       :inflection :s2z
@@ -124,8 +124,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*ts)$"       "$1en"]      ;; fiets    -> fietsen
-  :p [#"^(.*ts)en$"     "$1"]
+ {:g [(re-pattern "^(.*ts)$")       "$1en"]      ;; fiets    -> fietsen
+  :p [(re-pattern "^(.*ts)en$")     "$1"]
   :u {:cat :noun
       :null? false
       :inflection :tsen
@@ -135,8 +135,8 @@
 
  ;; <bril,jas,kat,boodschap,man -> brillen, jassen,katten,boodschappen,mannen>
  ;; but         : tonijn        -> tonijnen, not *tonijnnen.
- {:g [#"^(.*[^aeiou][aeiou])(n)$"    "$1$2$2en"] 
-  :p [#"^(.*[^aeiou][aeiou])(n)nen$" "$1$2"] 
+ {:g [(re-pattern "^(.*[^aeiou][aeiou])(n)$")    "$1$2$2en"] 
+  :p [(re-pattern "^(.*[^aeiou][aeiou])(n)nen$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -144,8 +144,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*[^aeiou][aeiou])(m)$"    "$1$2$2en"] 
-  :p [#"^(.*[^aeiou][aeiou])(m)men$" "$1$2"] 
+ {:g [(re-pattern "^(.*[^aeiou][aeiou])(m)$")    "$1$2$2en"] 
+  :p [(re-pattern "^(.*[^aeiou][aeiou])(m)men$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -154,8 +154,8 @@
       :regular true}}
 
  ;; plek,gesprek -> plekken,gesprekken
- {:g [#"([lrst])([eou])k$"        "$1$2kken"]
-  :p [#"(.*)([lrst])([eou])kken$" "$1$2$3k"]
+ {:g [(re-pattern "([lrst])([eou])k$")        "$1$2kken"]
+  :p [(re-pattern "(.*)([lrst])([eou])kken$") "$1$2$3k"]
   :u {:cat :noun
       :null? false
       :inflection :repeated-k
@@ -168,16 +168,16 @@
  ;; TODO: generalize not with (.*a) but with
  ;; (consonant)(vowel) as we do with repeated 't'
  ;; in the next rule:
- {:g [#"^(.*[aio])(p)$"    "$1$2$2en"] 
-  :p [#"^(.*[aio])(p)pen$" "$1$2"] 
+ {:g [(re-pattern "^(.*[aio])(p)$")    "$1$2$2en"] 
+  :p [(re-pattern "^(.*[aio])(p)pen$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection ::repeated-consonant
       :pronoun? false
       :agr {:number :plur}
       :regular true}}
- {:g [#"^(.*)(s)$"    "$1$2$2en"] 
-  :p [#"^(.*)(s)sen$" "$1$2"] 
+ {:g [(re-pattern "^(.*)(s)$")    "$1$2$2en"] 
+  :p [(re-pattern "^(.*)(s)sen$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -187,9 +187,9 @@
 
  ;; bril -> brillen
  {;;      consonant  vowel   l    ->  double-l
-  :g [#"^(.*[^aeiou][aieou])(l)$"    "$1$2$2en"]
+  :g [(re-pattern "^(.*[^aeiou][aieou])(l)$")    "$1$2$2en"]
   ;;      consonant  vowel   tt   ->  single-t
-  :p [#"^(.*[^aeiou][aeiou])(l)len$" "$1$2"] 
+  :p [(re-pattern "^(.*[^aeiou][aeiou])(l)len$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -197,10 +197,10 @@
       :agr {:number :plur}
       :regular true}}
  {;; bed -> bedden
-  :g [#"^(.*[^aeiou][aieou])(d)$"    "$1$2$2en"] 
+  :g [(re-pattern "^(.*[^aeiou][aieou])(d)$")    "$1$2$2en"] 
   
   ;;      consonant  vowel   dd   ->  single-d
-  :p [#"^(.*[^aeiou][aeiou])(d)den$" "$1$2"] 
+  :p [(re-pattern "^(.*[^aeiou][aeiou])(d)den$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -209,10 +209,10 @@
       :regular true}}
 
  {;;      consonant  vowel   t   ->   double-t
-  :g [#"^(.*[^aeiou][aieou])(t)$"    "$1$2$2en"] 
+  :g [(re-pattern "^(.*[^aeiou][aieou])(t)$")    "$1$2$2en"] 
   
   ;;      consonant  vowel   tt   ->  single-t
-  :p [#"^(.*[^aeiou][aeiou])(t)ten$" "$1$2"] 
+  :p [(re-pattern "^(.*[^aeiou][aeiou])(t)ten$") "$1$2"] 
   :u {:cat :noun
       :null? false
       :inflection :repeated-consonant
@@ -222,8 +222,8 @@
  
  ;; </jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
 
- {:g [#"^(.*)f$"    "$1ven"]         ;; druif   -> druiven
-  :p [#"^(.*)ven$"  "$1f"] 
+ {:g [(re-pattern "^(.*)f$")    "$1ven"]         ;; druif   -> druiven
+  :p [(re-pattern "^(.*)ven$")  "$1f"] 
   :u {:cat :noun
       :null? false
       :inflection :f2v
@@ -231,8 +231,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*)t$"    "$1ten"]         ;; opdracht    -> opdrachten
-  :p [#"^(.*)ten$"  "$1t"]
+ {:g [(re-pattern "^(.*)t$")    "$1ten"]         ;; opdracht    -> opdrachten
+  :p [(re-pattern "^(.*)ten$")  "$1t"]
   :u {:cat :noun
       :null? false
       :inflection :ends-in-t
@@ -240,8 +240,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*ee)$"    "$1ën"]    ;; zee    -> zeeën
-  :p [#"^(.*)ën$"    "$1"]      ;; zeeën  -> zee
+ {:g [(re-pattern "^(.*ee)$")    "$1ën"]    ;; zee    -> zeeën
+  :p [(re-pattern "^(.*)ën$")    "$1"]      ;; zeeën  -> zee
   :u {:cat :noun
       :null? false
       :inflection :umlaut-e
@@ -249,8 +249,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"^(.*[^st])$"    "$1en"]     ;; hond   -> honden
-  :p [#"^(.*[^st])en$"  "$1"]        ;; honden -> dog
+ {:g [(re-pattern "^(.*[^st])$")    "$1en"]     ;; hond   -> honden
+  :p [(re-pattern "^(.*[^st])en$")  "$1"]        ;; honden -> dog
   :u {:cat :noun
       :abbreviation? false
       :null? false
@@ -259,8 +259,8 @@
       :agr {:number :plur}
       :regular true}}
 
- {:g [#"(.*)$"      "$1's" ]
-  :p [#"(.*)[']s$"  "$1"  ]
+ {:g [(re-pattern "(.*)$")      "$1's" ]
+  :p [(re-pattern "(.*)[']s$")  "$1"  ]
   :u {:cat :noun
       :abbreviation? true
       :null? false

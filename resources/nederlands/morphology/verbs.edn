@@ -1,6 +1,6 @@
 [
- {:g [#"^(.*)$"   "$1"] ;; werken -> werken
-  :p [#"^(.*)$"   "$1"] ;; werken -> werken
+ {:g [(re-pattern "^(.*)$")   "$1"] ;; werken -> werken
+  :p [(re-pattern "^(.*)$")   "$1"] ;; werken -> werken
   :u {:cat :verb
       :finite? false
       :infl :infinitive}}
@@ -9,30 +9,30 @@
 ;; inflection: present
 
  ;; 1st
- {:g [#"^(.*g)gen$" "$1"]       ;; uitgeleggen -> uitgeleg
-  :p [#"^(.*)(.)$"  "$1$2$2en"] 
+ {:g [(re-pattern "^(.*g)gen$") "$1"]       ;; uitgeleggen -> uitgeleg
+  :p [(re-pattern "^(.*)(.)$")  "$1$2$2en"] 
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :1st
             :number :sing}}}
- {:g [#"^(.*)en$" "$1"]        ;; werken -> werk
-  :p [#"^(.*)$"   "$1en"]      ;; werk -> werken 
+ {:g [(re-pattern "^(.*)en$") "$1"]        ;; werken -> werk
+  :p [(re-pattern "^(.*)$")   "$1en"]      ;; werk -> werken 
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :1st
             :number :sing}}}
- {:g [#"^optr([e])den$" "optr$1$1d"]   ;; optreden -> treed
-  :p [#"^tr([e])\1d$"   "optr$1den"]   ;; treed    -> optreden
+ {:g [(re-pattern "^optr([e])den$") "optr$1$1d"]   ;; optreden -> treed
+  :p [(re-pattern "^tr([e])\\1d$")   "optr$1den"]   ;; treed    -> optreden
   :u {:cat :verb
       :finite? true
       :separable? true
       :infl :present
       :agr {:person :1st
             :number :sing}}}
- {:g [#"^(ver)g(e)t(en)$" "$1g$2$2t"]  ;; vergeten -> vergeet
-  :p [#"^(ver)g([e])\2t$" "$1g$2ten"]  ;; vergeet  -> vergeten
+ {:g [(re-pattern "^(ver)g(e)t(en)$") "$1g$2$2t"]  ;; vergeten -> vergeet
+  :p [(re-pattern "^(ver)g([e])\\2t$") "$1g$2ten"]  ;; vergeet  -> vergeten
   :u {:cat :verb
       :finite? true
       :infl :present
@@ -40,38 +40,38 @@
             :number :sing}}}
  
  ;; 2nd
- {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
-  :p [#"^(.*)d$"    "$1gen"] 
+ {:g [(re-pattern "^(.*g)gen$") "$1d"]      ;; uitgeleggen -> uitgelegd
+  :p [(re-pattern "^(.*)d$")    "$1gen"] 
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
- {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
-  :p [#"^(.*)t$"  "$1en"] 
+ {:g [(re-pattern "^(.*)en$") "$1t"]   ;; werken -> werkt
+  :p [(re-pattern "^(.*)t$")  "$1en"] 
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
- {:g [#"^(.*)an$" "$1at"]   ;; slaan -> slaat
-  :p [#"^(.*)at$" "$1an"]   ;; slaat -> slaan
+ {:g [(re-pattern "^(.*)an$") "$1at"]   ;; slaan -> slaat
+  :p [(re-pattern "^(.*)at$") "$1an"]   ;; slaat -> slaan
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
 
- {:g [#"^optr([e])den$" "optr$1$1dt"]    ;; optreden -> treedt
-  :p [#"^tr([e])\1dt$"  "optr$1den"]     ;; treedt   -> optreden
+ {:g [(re-pattern "^optr([e])den$") "optr$1$1dt"]    ;; optreden -> treedt
+  :p [(re-pattern "^tr([e])\\1dt$")  "optr$1den"]     ;; treedt   -> optreden
   :u {:cat :verb
       :finite? true
       :separable? true
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
- {:g [#"^(ver)g(e)t(en)$" "$1g$2$2t"]  ;; vergeten -> vergeet
-  :p [#"^(ver)g([e])\2t$" "$1g$2ten"]  ;; vergeet  -> vergeten
+ {:g [(re-pattern "^(ver)g(e)t(en)$") "$1g$2$2t"]  ;; vergeten -> vergeet
+  :p [(re-pattern "^(ver)g([e])\\2t$") "$1g$2ten"]  ;; vergeet  -> vergeten
   :u {:cat :verb
       :finite? true
       :infl :present
@@ -79,29 +79,29 @@
             :number :sing}}}
 
  ;; 3rd
- {:g [#"^(.*g)gen$" "$1d"]      ;; uitgeleggen -> uitgelegd
-  :p [#"^(.*)d$"    "$1gen"] 
+ {:g [(re-pattern "^(.*g)gen$") "$1d"]      ;; uitgeleggen -> uitgelegd
+  :p [(re-pattern "^(.*)d$")    "$1gen"] 
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
- {:g [#"^(.*)en$" "$1t"]   ;; werken -> werkt
-  :p [#"^(.*)t$"  "$1en"]  ;; werkt  -> werken
+ {:g [(re-pattern "^(.*)en$") "$1t"]   ;; werken -> werkt
+  :p [(re-pattern "^(.*)t$")  "$1en"]  ;; werkt  -> werken
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
- {:g [#"^(.*)an$" "$1at"]   ;; slaan -> slaat
-  :p [#"^(.*)at$" "$1an"]   ;; slaat -> slaan
+ {:g [(re-pattern "^(.*)an$") "$1at"]   ;; slaan -> slaat
+  :p [(re-pattern "^(.*)at$") "$1an"]   ;; slaat -> slaan
   :u {:cat :verb
       :finite? true
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
- {:g [#"^optr([e])den$" "optr$1$1dt"]    ;; optreden -> treedt
-  :p [#"^tr([e])\1dt$"  "optr$1den"]     ;; treedt   -> optreden
+ {:g [(re-pattern "^optr([e])den$") "optr$1$1dt"]    ;; optreden -> treedt
+  :p [(re-pattern "^tr([e])\\1dt$")  "optr$1den"]     ;; treedt   -> optreden
   :u {:cat :verb
       :finite? true
       :separable? true
@@ -109,22 +109,22 @@
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*)$" "$1"]        ;; werken -> werken
-  :p [#"^(.*)$" "$1"] 
+ {:g [(re-pattern "^(.*)$") "$1"]        ;; werken -> werken
+  :p [(re-pattern "^(.*)$") "$1"] 
   :u {:cat :verb
       :finite? true
       :separable? false
       :infl :present
       :agr {:number :plur}}}
- {:g [#"^op(.*)$" "$1"]        ;; optreden -> treden
-  :p [#"^(.*)$"   "op$1"]      ;; treden   -> optreden
+ {:g [(re-pattern "^op(.*)$") "$1"]        ;; optreden -> treden
+  :p [(re-pattern "^(.*)$")   "op$1"]      ;; treden   -> optreden
   :u {:cat :verb
       :finite? true
       :separable? true
       :infl :present
       :agr {:number :plur}}}
- {:g [#"^(ver)g(e)t(en)$" "$1g$2$2t"]  ;; vergeten -> vergeet
-  :p [#"^(ver)g([e])\2t$" "$1g$2ten"]  ;; vergeet  -> vergeten
+ {:g [(re-pattern "^(ver)g(e)t(en)$") "$1g$2$2t"]  ;; vergeten -> vergeet
+  :p [(re-pattern "^(ver)g([e])\\2t$") "$1g$2ten"]  ;; vergeet  -> vergeten
   :u {:cat :verb
       :finite? true
       :infl :present

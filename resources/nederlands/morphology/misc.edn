@@ -1,11 +1,11 @@
-[{:g [#"^(.*)$"       "$1"] ;; adverbs don't inflect in Dutch
-  :p [#"^(.*)$"       "$1"] ;; .. to the best of my knowledge.
+[{:g [(re-pattern "^(.*)$")       "$1"] ;; adverbs don't inflect in Dutch
+  :p [(re-pattern "^(.*)$")       "$1"] ;; .. to the best of my knowledge.
   :u {:cat :adverb}}
- {:g [#"^(.*)$"       "$1"] ;; conjugations don't inflect in Dutch
-  :p [#"^(.*)$"       "$1"] ;; .. to the best of my knowledge.
+ {:g [(re-pattern "^(.*)$")       "$1"] ;; conjugations don't inflect in Dutch
+  :p [(re-pattern "^(.*)$")       "$1"] ;; .. to the best of my knowledge.
   :u {:cat :conjunction}}
- {:g [#"^(.*)$"       "$1"] ;; prepositions don't inflect in Dutch
-  :p [#"^(.*)$"       "$1"] ;; .. to the best of my knowledge.
+ {:g [(re-pattern "^(.*)$")       "$1"] ;; prepositions don't inflect in Dutch
+  :p [(re-pattern "^(.*)$")       "$1"] ;; .. to the best of my knowledge.
   :u {:cat :preposition}}]
 
 

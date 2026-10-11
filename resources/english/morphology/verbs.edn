@@ -1,83 +1,83 @@
 [;; inflection: present
- {:g [#"^(.*ay)$"   "$1s"] ;; play  -> plays
-  :p [#"^(.*ay)s$"  "$1y"] 
+ {:g [(re-pattern "^(.*ay)$")   "$1s"] ;; play  -> plays
+  :p [(re-pattern "^(.*ay)s$")  "$1y"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
-  :p [#"^(.*)ies$" "$1y"] 
+ {:g [(re-pattern "^(.*)y$")   "$1ies"] ;; try  -> tries
+  :p [(re-pattern "^(.*)ies$") "$1y"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
  
- {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
-  :p [#"^(.*)oes$" "$1o"] 
+ {:g [(re-pattern "^(.*)o$")   "$1oes"] ;; go  -> goes
+  :p [(re-pattern "^(.*)oes$") "$1o"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*e)$"  "$1s"] ;; give -> gives
-  :p [#"^(.*e)s$" "$1"] 
+ {:g [(re-pattern "^(.*e)$")  "$1s"] ;; give -> gives
+  :p [(re-pattern "^(.*e)s$") "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*[cs]h)$"   "$1es"] ;; teach -> teaches, finish -> finishes
-  :p [#"^(.*[cs]h)es$" "$1"] 
+ {:g [(re-pattern "^(.*[cs]h)$")   "$1es"] ;; teach -> teaches, finish -> finishes
+  :p [(re-pattern "^(.*[cs]h)es$") "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*ss)$"   "$1es"] ;; guess -> guesses
-  :p [#"^(.*ss)es$" "$1"] 
+ {:g [(re-pattern "^(.*ss)$")   "$1es"] ;; guess -> guesses
+  :p [(re-pattern "^(.*ss)es$") "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
-  :p [#"^(.*[^e])s$" "$1"] 
+ {:g [(re-pattern "^(.*[^y])$")  "$1s"] ;; sleep -> sleeps
+  :p [(re-pattern "^(.*[^e])s$") "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
 
- {:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")  "$1"] 
+  :p [(re-pattern "^(.*)$")  "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :1st
             :number :sing}}}
 
- {:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")  "$1"] 
+  :p [(re-pattern "^(.*)$")  "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :2nd
             :number :sing}}}
 
- {:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")  "$1"] 
+  :p [(re-pattern "^(.*)$")  "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :1st
             :number :plur}}}
 
- {:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")  "$1"] 
+  :p [(re-pattern "^(.*)$")  "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :2nd
             :number :plur}}}
 
- {:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")  "$1"] 
+  :p [(re-pattern "^(.*)$")  "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
@@ -85,139 +85,139 @@
 
  ;; inflection: past-simple
  ;; bake/baked
- {:g [#"^(.*)e$" "$1ed"]
-  :p [#"^(.*e)d$" "$1"]
+ {:g [(re-pattern "^(.*)e$") "$1ed"]
+  :p [(re-pattern "^(.*e)d$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 
  ;; try/tried (but not play/played)
- {:g [#"^(.*[^aeiou])y$" "$1ied"]
-  :p [#"^(.*[^aeiou])ied$" "$1y"]
+ {:g [(re-pattern "^(.*[^aeiou])y$") "$1ied"]
+  :p [(re-pattern "^(.*[^aeiou])ied$") "$1y"]
   :u {:cat :verb
       :infl :past-simple}}
 
  ;; explain/explained,ruin/ruined, coin/coined
- {:g [#"^(.*[aou]in)$"   "$1ed"]
-  :p [#"^(.*[aou]in)ed$" "$1"]
+ {:g [(re-pattern "^(.*[aou]in)$")   "$1ed"]
+  :p [(re-pattern "^(.*[aou]in)ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 
  ;; abandon/abandoned
- {:g [#"^(.*[o])([n])$" "$1$2ed"]
-  :p [#"^(.*[o][n])ed$" "$1"]
+ {:g [(re-pattern "^(.*[o])([n])$") "$1$2ed"]
+  :p [(re-pattern "^(.*[o][n])ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 
  ;; prohibit/prohibited, develop/developed, deposit/deposited, etc
- {:g [#"^(.*(ain|at|bit|eep|en|il|lop))$"   "$1ed"]
-  :p [#"^(.*(ain|at|bit|eep|en|il|lop))ed$" "$1"]
+ {:g [(re-pattern "^(.*(ain|at|bit|eep|en|il|lop))$")   "$1ed"]
+  :p [(re-pattern "^(.*(ain|at|bit|eep|en|il|lop))ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
  ;; stop/stopped,step/stepped,fit/fitted:
  ;; in the set of consonants:
- {:g [#"^(.*[eiou])([bglmnpst])$"             "$1$2$2ed"]
-  :p [#"^(.*[eiou][bglmnpst])([bglmnpst])ed$" "$1"]
+ {:g [(re-pattern "^(.*[eiou])([bglmnpst])$")             "$1$2$2ed"]
+  :p [(re-pattern "^(.*[eiou][bglmnpst])([bglmnpst])ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
  ;; walk/walked
- {:g [#"^(.*)$" "$1ed"]
-  :p [#"^(.*)ed$" "$1"]
+ {:g [(re-pattern "^(.*)$") "$1ed"]
+  :p [(re-pattern "^(.*)ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
 
  ;; inflection: past-participle
  ;; bake/baked
- {:g [#"^(.*)e$" "$1ed"]
-  :p [#"^(.*e)d$" "$1"]
+ {:g [(re-pattern "^(.*)e$") "$1ed"]
+  :p [(re-pattern "^(.*e)d$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
  ;; try/tried (but not play/played)
- {:g [#"^(.*[^aeiou])y$" "$1ied"]
-  :p [#"^(.*[^aeiou])ied$" "$1y"]
+ {:g [(re-pattern "^(.*[^aeiou])y$") "$1ied"]
+  :p [(re-pattern "^(.*[^aeiou])ied$") "$1y"]
   :u {:cat :verb
       :infl :past-participle}}
 
  ;; explain/explained,ruin/ruined, coin/coined
- {:g [#"^(.*[aou]in)$"   "$1ed"]
-  :p [#"^(.*[aou]in)ed$" "$1"]
+ {:g [(re-pattern "^(.*[aou]in)$")   "$1ed"]
+  :p [(re-pattern "^(.*[aou]in)ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
  ;; abandon/abandoned
- {:g [#"^(.*[o])([n])$" "$1$2ed"]
-  :p [#"^(.*[o][n])ed$" "$1"]
+ {:g [(re-pattern "^(.*[o])([n])$") "$1$2ed"]
+  :p [(re-pattern "^(.*[o][n])ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
  ;; prohibit/prohibited, develop/developed, etc
- {:g [#"^(.*(ain|at|bit|ean|eep|en|il|lop))$"   "$1ed"]
-  :p [#"^(.*(ain|at|bit|ean|eep|en|il|lop))ed$" "$1"]
+ {:g [(re-pattern "^(.*(ain|at|bit|ean|eep|en|il|lop))$")   "$1ed"]
+  :p [(re-pattern "^(.*(ain|at|bit|ean|eep|en|il|lop))ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
   ;; stop/stopped,step/stepped,chat/chatted
- {:g [#"^(.*[aeiou])([bglmnpst])$"             "$1$2$2ed"]
-  :p [#"^(.*[aeiou][bglmnpst])([bglmnpst])ed$" "$1"]
+ {:g [(re-pattern "^(.*[aeiou])([bglmnpst])$")             "$1$2$2ed"]
+  :p [(re-pattern "^(.*[aeiou][bglmnpst])([bglmnpst])ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 
  ;; walk/walked
- {:g [#"^(.*)$" "$1ed"]
-  :p [#"^(.*)ed$" "$1"]
+ {:g [(re-pattern "^(.*)$") "$1ed"]
+  :p [(re-pattern "^(.*)ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
  
  ;; base inflection: used as a complement for auxiliaries like "will" and "would".
  ;; e.g. "will sleep"
- {:g [#"^(.*)$"  "$1"] 
-  :p [#"^(.*)$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")  "$1"] 
+  :p [(re-pattern "^(.*)$")  "$1"] 
   :u {:cat :verb
       :infl :base}}
 
  ;; tie/tying
- {:g [#"^(.*)ie$"   "$1ying"]
-  :p [#"^(.*)ying$" "$1ie"]
+ {:g [(re-pattern "^(.*)ie$")   "$1ying"]
+  :p [(re-pattern "^(.*)ying$") "$1ie"]
   :u {:cat :verb
       :infl :present-participle}}
 
  ;; abandon/abandoning
- {:g [#"^(.*[o])([n])$"  "$1$2ing"]
-  :p [#"^(.*[o][n])ing$" "$1"]
+ {:g [(re-pattern "^(.*[o])([n])$")  "$1$2ing"]
+  :p [(re-pattern "^(.*[o][n])ing$") "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 
  ;; develop/developing
- {:g [#"^(.*(ain|at|bit|ean|eep|en|il|lop))$"    "$1ing"]
-  :p [#"^(.*(ain|at|bit|ean|eep|en|il|lop))ing$" "$1"]
+ {:g [(re-pattern "^(.*(ain|at|bit|ean|eep|en|il|lop))$")    "$1ing"]
+  :p [(re-pattern "^(.*(ain|at|bit|ean|eep|en|il|lop))ing$") "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 
  ;; stop/stopping,put/putting,run/running,let/letting
- {:g [#"^(.*[aeiou])([bglmnpst])$"              "$1$2$2ing"]
-  :p [#"^(.*[aeiou][bglmnpst])([bglmnpst])ing$" "$1"]
+ {:g [(re-pattern "^(.*[aeiou])([bglmnpst])$")              "$1$2$2ing"]
+  :p [(re-pattern "^(.*[aeiou][bglmnpst])([bglmnpst])ing$") "$1"]
   :u {:cat :verb
       :infl :present-participle}}
  
  ;; smoke/smoking
  ;; the double-dots prevent 'e'-removal for "be" or "see"
  ;;    be->being, not bing; see -> seeing, not seing
- {:g [#"^(..*[^e])e$" "$1ing"]
-  :p [#"^(..*)ing$"   "$1e"]
+ {:g [(re-pattern "^(..*[^e])e$") "$1ing"]
+  :p [(re-pattern "^(..*)ing$")   "$1e"]
   :u {:cat :verb
       :infl :present-participle}}
 
  ;; walk/walking
- {:g [#"^(.*)$"    "$1ing"]
-  :p [#"^(.*)ing$" "$1"]
+ {:g [(re-pattern "^(.*)$")    "$1ing"]
+  :p [(re-pattern "^(.*)ing$") "$1"]
   :u {:cat :verb
       :infl :present-participle}}
 
  ;; smoke/smoking
- {:g [#"^(.*)e$"    "$1ing"]
-  :p [#"^(.*)ing$"  "$1e"]
+ {:g [(re-pattern "^(.*)e$")    "$1ing"]
+  :p [(re-pattern "^(.*)ing$")  "$1e"]
   :u {:cat :verb
       :infl :present-participle}}]
 

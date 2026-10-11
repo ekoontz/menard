@@ -3,45 +3,45 @@
  ;; https://en.wikipedia.org/wiki/Spanish_grammar?useskin=vector#Preterite
  ;;   singular
  ;;     1st person
- {:g [#"^(.*)ar$"  "$1é"] 
-  :p [#"^(.*)é$"   "$1ar"]
+ {:g [(re-pattern "^(.*)ar$")  "$1é"] 
+  :p [(re-pattern "^(.*)é$")   "$1ar"]
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :1st}
       :reflexive? false}}
- {:g [#"^(.*)arse$" "$1é"] 
-  :p [#"^(.*)é$"    "$1arse"]
+ {:g [(re-pattern "^(.*)arse$") "$1é"] 
+  :p [(re-pattern "^(.*)é$")    "$1arse"]
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :1st}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"  "$1í"]
-  :p [#"^(.*)í$"   "$1er"] 
+ {:g [(re-pattern "^(.*)er$")  "$1í"]
+  :p [(re-pattern "^(.*)í$")   "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :1st}
       :reflexive? false}}
- {:g [#"^(.*)erse$"  "$1í"]
-  :p [#"^(.*)í$"     "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$")  "$1í"]
+  :p [(re-pattern "^(.*)í$")     "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :1st}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"  "$1í"] 
-  :p [#"^(.*)í$"   "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")  "$1í"] 
+  :p [(re-pattern "^(.*)í$")   "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :1st}
       :reflexive? false}}
- {:g [#"^(.*)irse$"  "$1í"] 
-  :p [#"^(.*)í$"     "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$")  "$1í"] 
+  :p [(re-pattern "^(.*)í$")     "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
@@ -49,16 +49,16 @@
       :reflexive? true}}
  
  ;;     2nd person. informal
- {:g [#"^(.*)ar$"   "$1aste"] 
-  :p [#"^(.*)aste$" "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")   "$1aste"] 
+  :p [(re-pattern "^(.*)aste$") "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
             :number :sing
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)arse$" "$1aste"] 
-  :p [#"^(.*)aste$" "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$") "$1aste"] 
+  :p [(re-pattern "^(.*)aste$") "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
@@ -66,16 +66,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"   "$1iste"] 
-  :p [#"^(.*)iste$" "$1er"] 
+ {:g [(re-pattern "^(.*)er$")   "$1iste"] 
+  :p [(re-pattern "^(.*)iste$") "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
             :number :sing
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)erse$" "$1iste"] 
-  :p [#"^(.*)iste$" "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$") "$1iste"] 
+  :p [(re-pattern "^(.*)iste$") "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
@@ -83,16 +83,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"   "$1iste"] 
-  :p [#"^(.*)iste$" "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")   "$1iste"] 
+  :p [(re-pattern "^(.*)iste$") "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
             :number :sing
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)irse$" "$1iste"] 
-  :p [#"^(.*)iste$" "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$") "$1iste"] 
+  :p [(re-pattern "^(.*)iste$") "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
@@ -101,16 +101,16 @@
       :reflexive? true}}
 
  ;;     2nd person formal
- {:g [#"^(.*)ar$"  "$1ó"] 
-  :p [#"^(.*)ó$"   "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")  "$1ó"] 
+  :p [(re-pattern "^(.*)ó$")   "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
             :number :sing
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)arse$" "$1ó"] 
-  :p [#"^(.*)ó$"    "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$") "$1ó"] 
+  :p [(re-pattern "^(.*)ó$")    "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
@@ -118,16 +118,16 @@
             :person :2nd}
       :reflexive? true}}
  
- {:g [#"^(.*)er$" "$1ió"] 
-  :p [#"^(.*)ió$" "$1er"] 
+ {:g [(re-pattern "^(.*)er$") "$1ió"] 
+  :p [(re-pattern "^(.*)ió$") "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
             :number :sing
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)erse$" "$1ió"] 
-  :p [#"^(.*)ió$"   "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$") "$1ió"] 
+  :p [(re-pattern "^(.*)ió$")   "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
@@ -135,16 +135,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$" "$1ió"] 
-  :p [#"^(.*)ió$" "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$") "$1ió"] 
+  :p [(re-pattern "^(.*)ió$") "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
             :number :sing
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)irse$" "$1ió"] 
-  :p [#"^(.*)ió$"   "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$") "$1ió"] 
+  :p [(re-pattern "^(.*)ió$")   "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
@@ -153,45 +153,45 @@
       :reflexive? true}}
  
  ;;     3rd person
- {:g [#"^(.*)ar$"  "$1ó"] 
-  :p [#"^(.*)ó$"   "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")  "$1ó"] 
+  :p [(re-pattern "^(.*)ó$")   "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :3rd}
       :reflexive? false}}
- {:g [#"^(.*)arse$"  "$1ó"] 
-  :p [#"^(.*)ó$"     "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$")  "$1ó"] 
+  :p [(re-pattern "^(.*)ó$")     "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :3rd}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"  "$1ió"] 
-  :p [#"^(.*)ió$"  "$1er"] 
+ {:g [(re-pattern "^(.*)er$")  "$1ió"] 
+  :p [(re-pattern "^(.*)ió$")  "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :3rd}
       :reflexive? false}}
- {:g [#"^(.*)erse$" "$1ió"] 
-  :p [#"^(.*)ió$"   "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$") "$1ió"] 
+  :p [(re-pattern "^(.*)ió$")   "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :3rd}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"  "$1ió"] 
-  :p [#"^(.*)ió$"  "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")  "$1ió"] 
+  :p [(re-pattern "^(.*)ió$")  "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
             :person :3rd}
       :reflexive? false}}
- {:g [#"^(.*)irse$" "$1ió"] 
-  :p [#"^(.*)ió$"   "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$") "$1ió"] 
+  :p [(re-pattern "^(.*)ió$")   "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :sing
@@ -200,45 +200,45 @@
 
  ;;   plural
  ;;     1st person
- {:g [#"^(.*)ar$"   "$1amos"] 
-  :p [#"^(.*)amos$" "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")   "$1amos"] 
+  :p [(re-pattern "^(.*)amos$") "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :1st}
       :reflexive? false}}
- {:g [#"^(.*)arse$"   "$1amos"] 
-  :p [#"^(.*)amos$"   "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$")   "$1amos"] 
+  :p [(re-pattern "^(.*)amos$")   "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :1st}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"   "$1imos"] 
-  :p [#"^(.*)imos$" "$1er"] 
+ {:g [(re-pattern "^(.*)er$")   "$1imos"] 
+  :p [(re-pattern "^(.*)imos$") "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :1st}
       :reflexive? false}}
- {:g [#"^(.*)erse$"   "$1imos"] 
-  :p [#"^(.*)imos$"   "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$")   "$1imos"] 
+  :p [(re-pattern "^(.*)imos$")   "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :1st}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"   "$1imos"] 
-  :p [#"^(.*)imos$" "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")   "$1imos"] 
+  :p [(re-pattern "^(.*)imos$") "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :1st}
       :reflexive? false}}
- {:g [#"^(.*)irse$"   "$1imos"] 
-  :p [#"^(.*)imos$" "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$")   "$1imos"] 
+  :p [(re-pattern "^(.*)imos$") "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
@@ -246,16 +246,16 @@
       :reflexive? true}}
 
  ;;     2nd person informal
- {:g [#"^(.*)ar$"     "$1asteis"] 
-  :p [#"^(.*)asteis$" "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")     "$1asteis"] 
+  :p [(re-pattern "^(.*)asteis$") "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
             :number :plur
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)arse$"   "$1asteis"] 
-  :p [#"^(.*)asteis$" "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$")   "$1asteis"] 
+  :p [(re-pattern "^(.*)asteis$") "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
@@ -263,16 +263,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"     "$1isteis"] 
-  :p [#"^(.*)isteis$" "$1er"] 
+ {:g [(re-pattern "^(.*)er$")     "$1isteis"] 
+  :p [(re-pattern "^(.*)isteis$") "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
             :number :plur
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)erse$"   "$1isteis"] 
-  :p [#"^(.*)isteis$" "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$")   "$1isteis"] 
+  :p [(re-pattern "^(.*)isteis$") "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
@@ -280,16 +280,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"     "$1isteis"] 
-  :p [#"^(.*)isteis$" "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")     "$1isteis"] 
+  :p [(re-pattern "^(.*)isteis$") "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
             :number :plur
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)irse$"   "$1isteis"] 
-  :p [#"^(.*)isteis$" "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$")   "$1isteis"] 
+  :p [(re-pattern "^(.*)isteis$") "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? false
@@ -298,16 +298,16 @@
       :reflexive? true}}
 
  ;;     2nd person formal
- {:g [#"^(.*)ar$"   "$1aron"] 
-  :p [#"^(.*)aron$" "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")   "$1aron"] 
+  :p [(re-pattern "^(.*)aron$") "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
             :number :plur
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)arse$" "$1aron"] 
-  :p [#"^(.*)aron$" "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$") "$1aron"] 
+  :p [(re-pattern "^(.*)aron$") "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
@@ -315,16 +315,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"    "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1er"] 
+ {:g [(re-pattern "^(.*)er$")    "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
             :number :plur
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)erse$"  "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$")  "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
@@ -332,16 +332,16 @@
             :person :2nd}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"    "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")    "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
             :number :plur
             :person :2nd}
       :reflexive? false}}
- {:g [#"^(.*)irse$"  "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$")  "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:formal? true
@@ -350,45 +350,45 @@
       :reflexive? true}}
  
  ;;     3rd person
- {:g [#"^(.*)ar$"    "$1aron"] 
-  :p [#"^(.*)aron$"  "$1ar"] 
+ {:g [(re-pattern "^(.*)ar$")    "$1aron"] 
+  :p [(re-pattern "^(.*)aron$")  "$1ar"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :3rd}
       :reflexive? false}}
- {:g [#"^(.*)arse$"  "$1aron"] 
-  :p [#"^(.*)aron$"  "$1arse"] 
+ {:g [(re-pattern "^(.*)arse$")  "$1aron"] 
+  :p [(re-pattern "^(.*)aron$")  "$1arse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :3rd}
       :reflexive? true}}
 
- {:g [#"^(.*)er$"    "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1er"] 
+ {:g [(re-pattern "^(.*)er$")    "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1er"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :3rd}
       :reflexive? false}}
- {:g [#"^(.*)erse$"  "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1erse"] 
+ {:g [(re-pattern "^(.*)erse$")  "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1erse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :3rd}
       :reflexive? true}}
 
- {:g [#"^(.*)ir$"    "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1ir"] 
+ {:g [(re-pattern "^(.*)ir$")    "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1ir"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur
             :person :3rd}
       :reflexive? false}}
- {:g [#"^(.*)irse$"  "$1ieron"] 
-  :p [#"^(.*)ieron$" "$1irse"] 
+ {:g [(re-pattern "^(.*)irse$")  "$1ieron"] 
+  :p [(re-pattern "^(.*)ieron$") "$1irse"] 
   :u {:cat :verb
       :infl :preterito
       :agr {:number :plur

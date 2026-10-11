@@ -1,14 +1,14 @@
 ;; 
-[{:g [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
-  :p [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
+[{:g [(re-pattern "^(.*)$")       "$1"] ;; no change in inflection for singular form.
+  :p [(re-pattern "^(.*)$")       "$1"] ;; no change in inflection for singular form.
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:morphology-noun-sing true}}
       :pronoun? false
       :regular? true
       :agr {:number :sing}}}
 
- {:g [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
-  :p [#"^(.*)$"       "$1"] ;; no change in inflection for singular form.
+ {:g [(re-pattern "^(.*)$")       "$1"] ;; no change in inflection for singular form.
+  :p [(re-pattern "^(.*)$")       "$1"] ;; no change in inflection for singular form.
   :u {:cat :noun
       :derivation {:runtime-noun-analysis {:morphology-noun-inherently-plural true}}
       :inherently-plural? true
@@ -16,8 +16,8 @@
       :regular? true
       :agr {:number :plur}}}
  
- {:g [#"^(.*[^aeiou])[y]$"  "$1ies"] ;; puppy     -> puppies
-  :p [#"^(.*)ies$"     "$1y"] 
+ {:g [(re-pattern "^(.*[^aeiou])[y]$")  "$1ies"] ;; puppy     -> puppies
+  :p [(re-pattern "^(.*)ies$")     "$1y"] 
   :u {:cat :noun
       :null? false
       :pronoun? false
@@ -25,8 +25,8 @@
       :agr {:number :plur}
       :regular? true}}
       
- {:g [#"^(.*)fe$"   "$1ves"] ;; life -> lives
-  :p [#"^(.*)ves$"  "$1fe"] 
+ {:g [(re-pattern "^(.*)fe$")   "$1ves"] ;; life -> lives
+  :p [(re-pattern "^(.*)ves$")  "$1fe"] 
   :u {:cat :noun
       :null? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-2 true}}
@@ -34,8 +34,8 @@
       :agr {:number :plur}
       :regular? true}}
  
- {:g [#"^(.*[cs]h)$"  "$1es"] ;;   ash   -> ashes
-  :p [#"^(.*[cs]h)es$"  "$1"]  
+ {:g [(re-pattern "^(.*[cs]h)$")  "$1es"] ;;   ash   -> ashes
+  :p [(re-pattern "^(.*[cs]h)es$")  "$1"]  
   :u {:cat :noun
       :null? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-3 true}}
@@ -43,8 +43,8 @@
       :agr {:number :plur}
       :regular? true}}
       
- {:g [#"^(.*[sx])$"  "$1es"] ;; class   -> classes
-  :p [#"^(.*)es$"    "$1"]   ;;
+ {:g [(re-pattern "^(.*[sx])$")  "$1es"] ;; class   -> classes
+  :p [(re-pattern "^(.*)es$")    "$1"]   ;;
   :u {:cat :noun
       :null? false
       :pronoun? false
@@ -52,8 +52,8 @@
       :agr {:number :plur}
       :regular? true}}
  
- {:g [#"^(.*)$"       "$1s"] ;; dog     -> dogs
-  :p [#"^(.*)s$"      "$1"]  ;; dogs    -> dog
+ {:g [(re-pattern "^(.*)$")       "$1s"] ;; dog     -> dogs
+  :p [(re-pattern "^(.*)s$")      "$1"]  ;; dogs    -> dog
   :u {:cat :noun
       :null? false
       :derivation {:runtime-noun-analysis {:morphology-noun-plur-5 true}}

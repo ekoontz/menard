@@ -1,32 +1,32 @@
 [
- {:g [#"^(.*)$"   "$1"] 
-  :p [#"^(.*)$"   "$1"] 
+ {:g [(re-pattern "^(.*)$")   "$1"] 
+  :p [(re-pattern "^(.*)$")   "$1"] 
   :u {:cat :noun
       :pronoun? true
       :propernoun? false}}
 
- {:g [#"^(.*)$"   "$1"] 
-  :p [#"^(.*)$"   "$1"] 
+ {:g [(re-pattern "^(.*)$")   "$1"] 
+  :p [(re-pattern "^(.*)$")   "$1"] 
   :u {:cat :noun
       :pronoun? false
       :propernoun? true}}
 
- {:g [#"^(.*)$"   "$1"] 
-  :p [#"^(.*)$"   "$1"] 
+ {:g [(re-pattern "^(.*)$")   "$1"] 
+  :p [(re-pattern "^(.*)$")   "$1"] 
   :u {:cat :noun
       :pronoun? false
       :propernoun? false
       :agr {:number :sing}}}
 
- {:g [#"^(.*[dlnr])$"   "$1es"]
-  :p [#"^(.*)es$"       "$1"]
+ {:g [(re-pattern "^(.*[dlnr])$")   "$1es"]
+  :p [(re-pattern "^(.*)es$")       "$1"]
   :u {:cat :noun
       :pronoun? false
       :propernoun? false
       :agr {:number :plur}}}
 
- {:g [#"^(.*)$"   "$1s"] 
-  :p [#"^(.*)s$"  "$1"] 
+ {:g [(re-pattern "^(.*)$")   "$1s"] 
+  :p [(re-pattern "^(.*)s$")  "$1"] 
   :u {:cat :noun
       :pronoun? false
       :propernoun? false

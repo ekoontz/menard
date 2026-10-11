@@ -1,0 +1,165 @@
+{"acqua"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:artifact false, :animate false, :pred :water}}],
+ "aereo"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:physical-object true, :pred :airplane, :place true}}],
+ "amica"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:pred :amico, :human true, :child false}}],
+ "amico"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:pred :amico, :human true, :child false}}],
+ "anno"
+ [{:agr {:gender :masc}, :cat :noun, :sem {:pred :year, :time true}}],
+ "attore" [{:agr {:gender :masc}, :cat :noun, :sem {:pred :actor}}],
+ "aula" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :classroom}}],
+ "birra"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:pred :birra, :artifact true, :drinkable true}}],
+ "bisogno"
+ (let
+  [the-object (atom :top)]
+  [{:cat :noun,
+    :agr {:gender :masc},
+    :sem {:pred :bisogno-di, :obj the-object},
+    :subcat {:1 {:cat :prep, :sem {:pred :di, :obj the-object}}}}]),
+ "braccio"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:pred :braccio, :part-of-human-body true},
+   :italiano {:plur "bracci"}}],
+ "bucato"
+ [{:cat :noun,
+   :agr {:gender :masc, :number :sing},
+   :sem
+   {:animate false,
+    :drinkable false,
+    :edible false,
+    :legible false,
+    :mass false,
+    :pred :laundry,
+    :speakable false},
+   :subcat {:1 {:def :def}}}],
+ "caffè"
+ [{:agr {:gender :masc, :number :sing},
+   :cat :noun,
+   :sem {:pred :coffee}}
+  {:agr {:gender :masc, :number :plur},
+   :cat :noun,
+   :sem {:pred :coffee}}],
+ "calzoni"
+ [{:cat :noun,
+   :agr {:gender :masc, :number :plur},
+   :sem {:pred :calzoni, :clothing true}}],
+ "camicia"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:pred :camicia, :legible false, :clothing true}}],
+ "cane"
+ [{:agr {:gender :masc}, :cat :noun, :sem {:pet true, :pred :dog}}],
+ "casa"
+ [{:agr {:gender :fem}, :cat :noun, :sem {:pred :house}}
+  {:case :acc,
+   :cat :noun,
+   :propernoun false,
+   :agr {:gender :fem},
+   :sem {:pred :house, :spec {:def :none}},
+   :subcat []}],
+ "cellulare"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem
+   {:pred :cellulare,
+    :artifact true,
+    :consumable false,
+    :writable false,
+    :place false,
+    :speakable false}}],
+ "chiave"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:physical-object true, :pred :key, :place false}}],
+ "cipolla"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem
+   {:pred :cipolla, :edible true, :animate false, :artifact false}}],
+ "città"
+ [{:agr {:gender :fem},
+   :sem {:city true, :pred :city},
+   :subcat {:1 {:cat :det, :def :def}},
+   :vcat :noun-invariable-feminine}],
+ "compito"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem
+   {:pred :compito,
+    :legible true,
+    :speakable false,
+    :buyable false,
+    :artifact true}}],
+ "dentista"
+ [{:cat :noun, :sem {:pred :dentist}, :agr {:gender :masc}}],
+ "domanda" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :question}}],
+ "donna"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:human true, :pred :donna, :child false}}],
+ "ensalata" [{:sem {:pred :salad}, :cat :noun, :agr {:gender :fem}}],
+ "espresso"
+ [{:agr {:gender :masc}, :cat :noun, :sem {:pred :espresso}}],
+ "finestra" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :window}}],
+ "gatto"
+ [{:agr {:gender :masc}, :cat :noun, :sem {:pred :cat, :pet true}}],
+ "idea" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :idea}}],
+ "isola" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :island}}],
+ "lezione" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :lesson}}],
+ "libro" [{:agr {:gender :masc}, :cat :noun, :sem {:pred :book}}],
+ "madre"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:human true, :pred :madre, :child false}}],
+ "mezzogiorno"
+ [{:agr {:gender :masc}, :cat :noun, :sem {:pred :noon, :time true}}],
+ "neonato"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:pred :newborn, :human true, :adult false}}],
+ "pane"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:pred :bread},
+   :subcat {:1 {:cat :det, :number :sing, :def :def}}}],
+ "pizza" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :pizza}}],
+ "poltrona"
+ [{:cat :noun, :sem {:pred :easy-chair}, :agr {:gender :fem}}],
+ "ragazza"
+ [{:cat :noun, :agr {:gender :fem}, :sem {:pred :girl, :human true}}],
+ "ragazzo"
+ [{:cat :noun, :agr {:gender :masc}, :sem {:pred :boy, :human true}}],
+ "ristorante"
+ [{:agr {:gender :fem},
+   :cat :noun,
+   :sem {:pred :restaurant, :city false, :place true}}],
+ "scarpa" [{:agr {:gender :fem}, :cat :noun, :sem {:pred :shoe}}],
+ "sedia" [{:cat :noun, :agr {:gender :fem}, :sem {:pred :chair}}],
+ "studente"
+ [{:agr {:gender :masc}, :cat :noun, :sem {:pred :student}}],
+ "tavolino"
+ [{:cat :noun, :agr {:gender :masc}, :sem {:pred :small-table}}],
+ "tavolo" [{:agr {:gender :masc}, :cat :noun, :sem {:pred :table}}],
+ "uccello" [{:agr {:gender :masc}, :cat :noun, :sem {:pred :bird}}],
+ "uomo"
+ [{:agr {:gender :masc},
+   :cat :noun,
+   :sem {:human true, :pred :man, :child false},
+   :italiano {:plur "uomini"}}],
+ "vino"
+ [{:agr {:gender :masc}, :cat :noun, :pred :vino, :sem {:pred :vino}}],
+ "zaino" [{:agr {:gender :masc}, :cat :noun, :sem {:pred :backpack}}]}

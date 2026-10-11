@@ -1,0 +1,1104 @@
+{"abbandonare" [{:cat :verb, :sem {:pred :abandon}}],
+ "abbassare" [{:cat :verb, :sem {:pred :lower}}],
+ "abbracciare"
+ (let
+  [shared-part-of-abbracciare {:synsem {:cat :verb}}]
+  [(let
+    [r281
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :hug}}}
+      shared-part-of-abbracciare)]
+    (clojure.core/merge
+     (:synsem r281)
+     (clojure.core/dissoc r281 :synsem)))
+   (let
+    [r282
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :embrace}}}
+      shared-part-of-abbracciare)]
+    (clojure.core/merge
+     (:synsem r282)
+     (clojure.core/dissoc r282 :synsem)))]),
+ "abitare" [{:cat :verb, :sem {:pred :live-a}}],
+ "abituarsi"
+ [{:cat :verb, :sem {:pred :get-used-to, :reflexive true}}],
+ "accettare" [{:cat :verb, :sem {:pred :accept}}],
+ "accompagnare" [{:cat :verb, :sem {:pred :accompany}}],
+ "addormentarsi"
+ [{:cat :verb,
+   :sem {:pred :fall-asleep, :reflexive true, :subj {:animate true}}}],
+ "aggiungere"
+ [{:cat :verb, :sem {:pred :add}, :italiano {:passato "aggiunto"}}],
+ "aiutare" [{:cat :verb, :sem {:pred :help}}],
+ "alzarsi" [{:cat :verb, :sem {:pred :get-up, :reflexive true}}],
+ "amare" [{:cat :verb, :sem {:pred :amare}}],
+ "ammirare" [{:cat :verb, :sem {:pred :admire}}],
+ "andare"
+ [{:cat :verb,
+   :essere true,
+   :subcat {:2 []},
+   :sem {:subj {:animate true}, :pred :go},
+   :italiano
+   {:italiano "andare",
+    :essere true,
+    :drop-e true,
+    :future-stem "andr",
+    :present
+    {:1sing "vado",
+     :2sing "vai",
+     :3sing "va",
+     :1plur "andiamo",
+     :2plur "andate",
+     :3plur "vanno"}}}],
+ "annoiarsi" [{:cat :verb, :sem {:pred :get-bored, :reflexive true}}],
+ "annunciare" [{:cat :verb, :sem {:pred :announce}}],
+ "appoggiare" [{:cat :verb, :sem {:pred :support}}],
+ "apprendere"
+ [{:cat :verb, :sem {:pred :learn-a}, :italiano {:passato "appreso"}}],
+ "approfittare" [{:cat :verb, :sem {:pred :take-advantage-of}}],
+ "approvare" [{:cat :verb, :sem {:pred :approve}}],
+ "aprire"
+ [{:cat :verb, :sem {:pred :open}, :italiano {:passato "aperto"}}],
+ "arrabbiarsi"
+ [{:cat :verb,
+   :sem {:pred :get-angry, :reflexive true, :subj {:animate true}}}],
+ "arrampicarsi"
+ [{:cat :verb,
+   :sem {:pred :climb, :reflexive true, :subj {:animate true}}}],
+ "arrivare"
+ [{:essere true, :cat :verb, :sem {:pred :arrive}, :subcat {:2 []}}],
+ "ascoltare" [{:cat :verb, :sem {:pred :listen-to}}],
+ "aspettare" [{:cat :verb, :sem {:pred :wait-for}}],
+ "assicurare"
+ [{:cat :verb, :sem {:pred :assure}}
+  {:cat :verb, :sem {:pred :insure}}],
+ "aumentare" [{:cat :verb, :sem {:pred :increase}}],
+ "avere"
+ (let
+  [avere-common
+   {:synsem {:cat :verb, :sem {:reflexive false}},
+    :italiano
+    {:italiano "avere",
+     :future-stem "avr",
+     :drop-e true,
+     :present
+     {:1sing "ho",
+      :2sing "hai",
+      :3sing "ha",
+      :1plur "abbiamo",
+      :2plur "avete",
+      :3plur "hanno"}}}
+   avere-aux
+   (let
+    [infl (atom :top)]
+    {:italiano {:infl infl}, :synsem {:infl infl}})]
+  [(let
+    [r251
+     (dag_unify.core/unify
+      {:note "avere (possess)", :synsem {:sem {:pred :have}}}
+      avere-common)]
+    (clojure.core/merge
+     (:synsem r251)
+     (clojure.core/dissoc r251 :synsem)))
+   (let
+    [r252
+     (dag_unify.core/unify
+      {:note "avere (relation)", :synsem {:sem {:pred :have}}}
+      avere-common)]
+    (clojure.core/merge
+     (:synsem r252)
+     (clojure.core/dissoc r252 :synsem)))
+   (let
+    [r253
+     (dag_unify.core/unify
+      {:note "avere (possess): unspecified object",
+       :synsem {:sem {:pred :have}}}
+      avere-common)]
+    (clojure.core/merge
+     (:synsem r253)
+     (clojure.core/dissoc r253 :synsem)))
+   (let
+    [agr (atom :top)]
+    (let
+     [r254
+      (dag_unify.core/unify
+       (dag_unify.core/unify
+        {:note "passato prossimo transitive",
+         :synsem
+         {:aux true,
+          :sem {:tense :present, :aspect :perfect},
+          :subcat
+          {:2
+           {:agr agr,
+            :sem {:reflexive false},
+            :subcat {:2 {:agr agr, :pronoun true}},
+            :essere false}}}}
+        avere-common)
+       avere-aux)]
+     (clojure.core/merge
+      (:synsem r254)
+      (clojure.core/dissoc r254 :synsem))))
+   (let
+    [r255
+     (dag_unify.core/unify
+      (dag_unify.core/unify
+       {:note "passato prossimo intransitive",
+        :synsem
+        {:aux true,
+         :infl :present,
+         :sem {:tense :present, :aspect :perfect},
+         :subcat
+         {:2
+          {:sem {:reflexive false},
+           :essere false,
+           :infl :passato,
+           :reflexive false,
+           :subcat {:2 []}}}}}
+       avere-common)
+      avere-aux)]
+    (clojure.core/merge
+     (:synsem r255)
+     (clojure.core/dissoc r255 :synsem)))
+   (let
+    [r256
+     (dag_unify.core/unify
+      (dag_unify.core/unify
+       {:note "trapassato intransitive",
+        :synsem
+        {:aux true,
+         :infl :imperfetto,
+         :sem {:tense :past, :aspect :pluperfect},
+         :subcat
+         {:2
+          {:sem {:reflexive false},
+           :infl :passato,
+           :essere false,
+           :reflexive false,
+           :subcat {:2 []}}}}}
+       avere-common)
+      avere-aux)]
+    (clojure.core/merge
+     (:synsem r256)
+     (clojure.core/dissoc r256 :synsem)))
+   (let
+    [need-obj (atom :top)]
+    (let
+     [r257
+      (dag_unify.core/unify
+       {:allow-intransitivize false,
+        :synsem
+        {:sem {:pred :need, :obj need-obj},
+         :subcat
+         {:1 {:sem {:living true}},
+          :2
+          {:cat :noun,
+           :subcat [],
+           :sem {:pred :bisogno-di, :obj need-obj}}}}}
+       avere-common)]
+     (clojure.core/merge
+      (:synsem r257)
+      (clojure.core/dissoc r257 :synsem))))]),
+ "ballare" [{:cat :verb, :sem {:pred :dance}}],
+ "bere"
+ [{:cat :verb,
+   :sem {:pred :drink, :subj {:animate true}, :obj {:drinkable true}},
+   :italiano
+   {:passato "bevuto",
+    :future-stem "berr",
+    :imperfetto
+    {:1sing "bevevo",
+     :2sing "bevevi",
+     :3sing "beveva",
+     :1plur "bevevamo",
+     :2plur "bevevate",
+     :3plur "bevevano"},
+    :present
+    {:1sing "bevo",
+     :2sing "bevi",
+     :3sing "beve",
+     :1plur "beviamo",
+     :2plur "bevete",
+     :3plur "bevono"},
+    :gerund "bevendo"}}],
+ "cadere"
+ [{:essere true,
+   :cat :verb,
+   :sem {:pred :fall},
+   :italiano {:future-stem "cadr"}}],
+ "cambiare" [{:cat :verb, :sem {:pred :change}}],
+ "cambiarsi"
+ [{:cat :verb, :sem {:pred :change-clothes, :reflexive true}}],
+ "camminare" [{:sem {:pred :walk}, :cat :verb}],
+ "cancellare" [{:cat :verb, :sem {:pred :erase}}],
+ "cantare" [{:cat :verb, :sem {:pred :sing}}],
+ "capire"
+ [{:cat :verb, :sem {:pred :understand}, :italiano {:boot-verb true}}],
+ "caricare"
+ [{:cat :verb,
+   :sem {:pred :charge},
+   :italiano {:future-stem "caricher"}}],
+ "cenare" [{:cat :verb, :sem {:pred :have-dinner}}],
+ "cercare"
+ (let
+  [common {:italiano {:future-stem "cercher"}, :synsem {:cat :verb}}]
+  [(let
+    [r260
+     (dag_unify.core/unify {:synsem {:sem {:pred :look-for}}} common)]
+    (clojure.core/merge
+     (:synsem r260)
+     (clojure.core/dissoc r260 :synsem)))
+   (let
+    [r261
+     (dag_unify.core/unify {:synsem {:sem {:pred :look-up}}} common)]
+    (clojure.core/merge
+     (:synsem r261)
+     (clojure.core/dissoc r261 :synsem)))]),
+ "chiacchierare" [{:cat :verb, :sem {:pred :chat}}],
+ "chiamarsi"
+ (let
+  [gender
+   (atom :top)
+   human
+   (atom :top)
+   number
+   (atom :top)
+   name-semantics
+   {:human human}]
+  [{:cat :verb,
+    :sem {:pred :be-called, :reflexive true, :iobj name-semantics},
+    :subcat
+    {:1
+     {:agr {:gender gender, :number number},
+      :sem {:human human},
+      :propernoun false},
+     :3
+     {:agr {:gender gender, :number number},
+      :cat :noun,
+      :sem name-semantics,
+      :propernoun true}}}]),
+ "chiedere"
+ [{:cat :verb,
+   :sem {:subj {:human true}, :pred :ask-for},
+   :italiano {:passato "chiesto"}}],
+ "chiudere"
+ [{:cat :verb, :sem {:pred :close}, :italiano {:passato "chiuso"}}],
+ "colpire"
+ (let
+  [common {:italiano {:boot-verb true}}]
+  [(let
+    [r249
+     (dag_unify.core/unify
+      {:synsem {:cat :verb, :sem {:pred :hit}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r249)
+     (clojure.core/dissoc r249 :synsem)))
+   (let
+    [r250
+     (dag_unify.core/unify
+      {:synsem {:cat :verb, :sem {:pred :strike}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r250)
+     (clojure.core/dissoc r250 :synsem)))]),
+ "cominciare"
+ [{:cat :verb, :sem {:pred :begin}} {:cat :verb, :sem {:pred :start}}],
+ "commentare" [{:cat :verb, :sem {:pred :comment}}],
+ "comprare" [{:cat :verb, :sem {:pred :buy}}],
+ "condividere"
+ [{:cat :verb, :sem {:pred :share}, :italiano {:passato "condiviso"}}],
+ "conoscere"
+ [{:cat :verb,
+   :sem {:pred :know-c},
+   :italiano {:passato "conosciuto"}}],
+ "conservare"
+ [{:cat :verb, :sem {:pred :conserve}}
+  {:cat :verb, :sem {:pred :preserve}}],
+ "considerare" [{:cat :verb, :sem {:pred :consider}}],
+ "contare" [{:sem {:pred :count}, :cat :verb}],
+ "continuare" [{:cat :verb, :sem {:pred :continue}}],
+ "contraccambiare" [{:sem {:pred :reciprocate}, :cat :verb}],
+ "controllare" [{:sem {:pred :check}, :cat :verb}],
+ "correre"
+ [{:cat :verb, :sem {:pred :run}, :italiano {:passato "corso"}}],
+ "corrispondere"
+ [{:cat :verb,
+   :sem {:pred :correspond},
+   :italiano {:passato "corrisposto"}}],
+ "creare" [{:cat :verb, :sem {:pred :create}}],
+ "credere" [{:cat :verb, :sem {:subj {:human true}, :pred :believe}}],
+ "dare"
+ [{:cat :verb,
+   :sem {:pred :give},
+   :italiano
+   {:present {:2sing "dai", :3plur "danno"}, :future-stem "dar"}}],
+ "decidere"
+ [{:cat :verb, :sem {:pred :decide}, :italiano {:passato "deciso"}}],
+ "deludere"
+ [{:cat :verb,
+   :sem {:pred :disappoint},
+   :italiano {:passato "deluso"}}],
+ "desiderare" [{:cat :verb, :sem {:pred :desire}}],
+ "dettare" [{:cat :verb, :sem {:pred :dictate}}],
+ "dimenticare" [{:cat :verb, :sem {:pred :forget}}],
+ "dipingere"
+ [{:cat :verb, :sem {:pred :paint}, :italiano {:passato "dipinto"}}],
+ "dire"
+ (let
+  [shared-part-of-dire
+   {:synsem {:cat :verb},
+    :italiano
+    {:drop-e false,
+     :present
+     {:1sing "dico",
+      :2sing "dici",
+      :3sing "dice",
+      :1plur "diciamo",
+      :2plur "dite",
+      :3plur "dicono"},
+     :imperfetto
+     {:1sing "dicevo",
+      :2sing "dicevi",
+      :3sing "diceva",
+      :1plur "dicevamo",
+      :2plur "dicevate",
+      :3plur "dicevano"},
+     :passato "detto",
+     :future-stem "dir",
+     :gerund "dicendo"}}]
+  [(let
+    [r277
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :say}}}
+      shared-part-of-dire)]
+    (clojure.core/merge
+     (:synsem r277)
+     (clojure.core/dissoc r277 :synsem)))
+   (let
+    [r278
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :tell}}}
+      shared-part-of-dire)]
+    (clojure.core/merge
+     (:synsem r278)
+     (clojure.core/dissoc r278 :synsem)))]),
+ "disegnare" [{:cat :verb, :sem {:pred :draw}}],
+ "diventare" [{:essere true, :cat :verb, :sem {:pred :become}}],
+ "divertirsi" [{:cat :verb, :sem {:pred :have-fun, :reflexive true}}],
+ "dormire" [{:cat :verb, :sem {:pred :sleep}, :subcat {:2 []}}],
+ "dovere"
+ [{:cat :verb,
+   :sem {:pred :have-to},
+   :italiano
+   {:future-stem "dovr",
+    :drop-e true,
+    :present
+    {:1sing "devo",
+     :2sing "devi",
+     :3sing "deve",
+     :1plur "dobbiamo",
+     :2plur "dovete",
+     :3plur "devono"}}}],
+ "entrare" [{:cat :verb, :essere true, :sem {:pred :enter}}],
+ "esistere"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :exist},
+   :italiano {:passato "esistito"}}],
+ "esprimere"
+ [{:cat :verb,
+   :sem {:pred :express},
+   :italiano {:passato "espresso"}}],
+ "essere"
+ (let
+  [essere-common
+   {:synsem {:cat :verb, :essere true},
+    :italiano
+    {:future-stem "sar",
+     :infinitive "essere",
+     :present
+     {:1sing "sono",
+      :2sing "sei",
+      :3sing "è",
+      :1plur "siamo",
+      :2plur "siete",
+      :3plur "sono"},
+     :passato "stato",
+     :imperfetto
+     {:1sing "ero",
+      :2sing "eri",
+      :3sing "era",
+      :1plur "eravamo",
+      :2plur "eravate",
+      :3plur "erano"},
+     :future
+     {:1sing "sarò",
+      :2sing "sarai",
+      :3sing "sarà",
+      :1plur "saremo",
+      :2plur "sarete",
+      :3plur "saranno"},
+     :conditional
+     {:1sing "sarei",
+      :2sing "saresti",
+      :3sing "sarebbe",
+      :1plur "saremmo",
+      :2plur "sareste",
+      :3plur "sarebbero"}}}
+   essere-aux-subject-agreement
+   (let
+    [subject-agreement (atom :top) infl (atom :top)]
+    {:italiano {:infl infl},
+     :synsem
+     {:infl infl,
+      :subcat
+      {:1 {:agr subject-agreement},
+       :2 {:subcat {:1 {:agr subject-agreement}}}}}})
+   gender-and-number-agreement
+   (let
+    [gender (atom :top) number (atom :top)]
+    {:synsem
+     {:subcat
+      {:1 {:agr {:gender gender, :number number}},
+       :2 {:agr {:gender gender, :number number}}}}})
+   subj-obj-humanness
+   (let
+    [human (atom :top)]
+    {:synsem {:sem {:subj {:human human}, :obj {:human human}}}})]
+  [(let
+    [r262
+     (dag_unify.core/unify
+      (dag_unify.core/unify
+       {:notes "essere-adjective",
+        :synsem
+        {:cat :verb,
+         :sem {:pred :be, :subj :top, :obj :top},
+         :subcat
+         {:1 {:cat :noun},
+          :2
+          {:cat :adjective,
+           :sem {:comparative false},
+           :subcat {:1 :top, :2 []}}}}}
+       essere-common)
+      gender-and-number-agreement)]
+    (clojure.core/merge
+     (:synsem r262)
+     (clojure.core/dissoc r262 :synsem)))
+   (let
+    [pred (atom :top) obj (atom :top)]
+    (let
+     [r263
+      (dag_unify.core/unify
+       {:notes "essere-prepositional-phrase",
+        :synsem
+        {:cat :verb,
+         :aux false,
+         :sem
+         {:pred pred,
+          :obj obj,
+          :reflexive false,
+          :shared-with-obj true},
+         :subcat
+         {:1 {:cat :noun},
+          :2
+          {:cat :prep,
+           :reflexive false,
+           :sem {:obj obj, :pred pred},
+           :subcat []},
+          :3 []}}}
+       essere-common)]
+     (clojure.core/merge
+      (:synsem r263)
+      (clojure.core/dissoc r263 :synsem))))
+   (let
+    [r264
+     (dag_unify.core/unify
+      {:notes "existential",
+       :synsem
+       {:sem {:pred :be, :reflexive false},
+        :subcat
+        {:1
+         {:cat :noun,
+          :agr {:person :3rd},
+          :pronoun true,
+          :sem {:null true}}}}}
+      essere-common)]
+    (clojure.core/merge
+     (:synsem r264)
+     (clojure.core/dissoc r264 :synsem)))
+   (let
+    [r265
+     (dag_unify.core/unify
+      (dag_unify.core/unify
+       (dag_unify.core/unify
+        {:notes "copula",
+         :synsem
+         {:cat :verb,
+          :subcat
+          {:1 {:cat :noun},
+           :2
+           {:cat :noun,
+            :pronoun {:not true},
+            :def {:not :demonstrativo}}},
+          :sem {:pred :be, :activity false, :discrete false}}}
+        essere-common)
+       gender-and-number-agreement)
+      subj-obj-humanness)]
+    (clojure.core/merge
+     (:synsem r265)
+     (clojure.core/dissoc r265 :synsem)))
+   (let
+    [r266
+     (dag_unify.core/unify
+      (dag_unify.core/unify
+       {:notes "essere-aux-passato",
+        :synsem
+        {:aux true,
+         :infl :present,
+         :sem {:tense :present, :aspect :perfect},
+         :subcat {:2 {:essere true, :cat :verb, :infl :passato}}}}
+       essere-common)
+      essere-aux-subject-agreement)]
+    (clojure.core/merge
+     (:synsem r266)
+     (clojure.core/dissoc r266 :synsem)))
+   (let
+    [r267
+     (dag_unify.core/unify
+      (dag_unify.core/unify
+       {:notes "essere-aux-trapassato",
+        :synsem
+        {:aux true,
+         :infl :imperfetto,
+         :sem {:tense :past, :aspect :pluperfect},
+         :subcat {:2 {:essere true, :cat :verb, :infl :passato}}}}
+       essere-common)
+      essere-aux-subject-agreement)]
+    (clojure.core/merge
+     (:synsem r267)
+     (clojure.core/dissoc r267 :synsem)))]),
+ "evitare" [{:cat :verb, :sem {:pred :avoid}}],
+ "fare"
+ (let
+  [shared-part-of-fare
+   {:synsem {:cat :verb},
+    :italiano
+    {:italiano "fare",
+     :drop-e false,
+     :passato "fatto",
+     :future-stem "far",
+     :gerund "facendo",
+     :imperfetto
+     {:1sing "facevo",
+      :2sing "facevi",
+      :3sing "faceva",
+      :1plur "facevamo",
+      :2plur "facevate",
+      :3plur "facevano"},
+     :present
+     {:1sing "faccio",
+      :2sing "fai",
+      :3sing "fa",
+      :1plur "facciamo",
+      :2plur "fate",
+      :3plur "fanno"}}}]
+  [(let
+    [r268
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :do}}}
+      shared-part-of-fare)]
+    (clojure.core/merge
+     (:synsem r268)
+     (clojure.core/dissoc r268 :synsem)))
+   (let
+    [r269
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :make}}}
+      shared-part-of-fare)]
+    (clojure.core/merge
+     (:synsem r269)
+     (clojure.core/dissoc r269 :synsem)))]),
+ "ferire"
+ [{:cat :verb, :sem {:pred :wound}, :italiano {:boot-verb true}}],
+ "fermare" [{:cat :verb, :sem {:pred :stop}}],
+ "fermarsi"
+ [{:cat :verb, :sem {:pred :stop-oneself, :reflexive true}}],
+ "finire"
+ [{:cat :verb, :sem {:pred :finish}, :italiano {:boot-verb true}}],
+ "formare" [{:cat :verb, :sem {:pred :form}}],
+ "fornire"
+ [{:cat :verb, :sem {:pred :furnish}, :italiano {:boot-verb true}}],
+ "frequentare" [{:cat :verb, :sem {:pred :attend}}],
+ "fumare" [{:cat :verb, :sem {:pred :smoke}}],
+ "funzionare" [{:cat :verb, :sem {:pred :work-nonhuman}}],
+ "gestire"
+ [{:sem {:pred :manage}, :cat :verb, :italiano {:boot-verb true}}],
+ "giocare"
+ [{:cat :verb,
+   :sem {:pred :play-games},
+   :italiano {:future-stem "giocher"}}],
+ "gridare" [{:cat :verb, :sem {:pred :yell}}],
+ "guadagnare" [{:cat :verb, :sem {:pred :earn}}],
+ "guardare" [{:cat :verb, :sem {:pred :look-at}}],
+ "guidare" [{:cat :verb, :sem {:pred :drive}}],
+ "imparare" [{:cat :verb, :sem {:pred :learn-i}}],
+ "impegnare" [{:cat :verb, :sem {:pred :engage}}],
+ "incontrare" [{:cat :verb, :sem {:pred :meet}}],
+ "indossare" [{:cat :verb, :sem {:pred :wear-i}}],
+ "informare" [{:cat :verb, :sem {:pred :inform}}],
+ "innamorarsi"
+ [{:cat :verb, :sem {:pred :fall-in-love, :reflexive true}}],
+ "insegnare" [{:cat :verb, :sem {:pred :teach}}],
+ "interrompere"
+ [{:cat :verb,
+   :sem {:pred :interrupt},
+   :italiano {:passato "interrotto"}}],
+ "lamentarsi" [{:cat :verb, :sem {:pred :complain, :reflexive true}}],
+ "lasciare" [{:cat :verb, :sem {:pred :leave-behind}}],
+ "lavare" [{:cat :verb, :sem {:pred :wash}}],
+ "lavarsi" [{:cat :verb, :sem {:pred :wash-oneself, :reflexive true}}],
+ "lavorare" [{:cat :verb, :sem {:pred :work-human}}],
+ "leggere"
+ [{:cat :verb,
+   :sem {:discrete false, :pred :read},
+   :italiano {:passato "letto"}}],
+ "macchiare" [{:cat :verb, :sem {:pred :stain}}],
+ "mancare"
+ [{:cat :verb,
+   :sem {:pred :mancare},
+   :italiano {:future-stem "mancher"}}],
+ "mandare" [{:cat :verb, :sem {:pred :send}}],
+ "mangiare"
+ [{:cat :verb,
+   :sem {:pred :eat, :subj {:animate true}, :obj {:edible true}}}],
+ "mentire" [{:cat :verb, :sem {:pred :lie}}],
+ "mettere"
+ [{:cat :verb, :sem {:pred :put}, :italiano {:passato "messo"}}],
+ "mettersi"
+ [{:cat :verb,
+   :sem {:pred :put-oneself, :reflexive true},
+   :italiano {:passato "messo"}}],
+ "migliorare" [{:cat :verb, :sem {:pred :improve}}],
+ "misurare" [{:cat :verb, :sem {:pred :measure}}],
+ "moltiplicare" [{:cat :verb, :sem {:pred :multiply}}],
+ "morire"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :die},
+   :subcat {:2 []},
+   :italiano
+   {:passato "morto",
+    :present
+    {:1sing "muoio",
+     :2sing "muori",
+     :3sing "muore",
+     :1plur "moriamo",
+     :2plur "morite",
+     :3plur "muoiono"}}}],
+ "mostrare" [{:cat :verb, :sem {:pred :show}}],
+ "muovere"
+ [{:cat :verb, :sem {:pred :move}, :italiano {:passato "mosso"}}],
+ "nascere"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :be-born},
+   :italiano {:passato "nato"}}],
+ "nuotare" [{:cat :verb, :sem {:pred :swim}}],
+ "osservare" [{:cat :verb, :sem {:pred :observe}}],
+ "ottenere"
+ [{:cat :verb,
+   :sem {:pred :obtain},
+   :italiano
+   {:passato "ottenuto",
+    :present
+    {:1sing "ottengo",
+     :2sing "ottieni",
+     :3sing "ottiene",
+     :3plur "ottengono"},
+    :future-stem "otterr"}}],
+ "pagare" [{:cat :verb, :sem {:pred :pay}}],
+ "parlare"
+ [{:cat :verb, :sem {:pred :speak}} {:cat :verb, :sem {:pred :talk}}],
+ "partire" [{:essere true, :cat :verb, :sem {:pred :leave-trip}}],
+ "passare" [{:cat :verb, :sem {:pred :pass}}],
+ "pensare" [{:cat :verb, :sem {:pred :think}}],
+ "perdere"
+ [{:cat :verb, :sem {:pred :lose}, :italiano {:passato "perso"}}],
+ "pettinarsi"
+ [{:cat :verb, :sem {:pred :comb-oneself, :reflexive true}}],
+ "piacere"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :be-pleasant},
+   :italiano
+   {:passato "piaciuto",
+    :present
+    {:1sing "piaccio", :1plur "piacciamo", :3plur "piacciono"}}}],
+ "piangere"
+ [{:cat :verb, :sem {:pred :cry}, :italiano {:passato "pianto"}}],
+ "piegare" [{:cat :verb, :sem {:pred :fold}}],
+ "portare"
+ [{:cat :verb, :sem {:pred :carry}}
+  {:cat :verb, :sem {:pred :wear-p}}],
+ "potere"
+ (let
+  [shared-part-of-potere
+   {:synsem {:cat :verb},
+    :italiano
+    {:future-stem "potr",
+     :drop-e true,
+     :present
+     {:1sing "posso",
+      :2sing "puoi",
+      :3sing "può",
+      :1plur "possiamo",
+      :2plur "potete",
+      :3plur "possono"}}}]
+  [(let
+    [r275
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :may}}}
+      shared-part-of-potere)]
+    (clojure.core/merge
+     (:synsem r275)
+     (clojure.core/dissoc r275 :synsem)))
+   (let
+    [r276
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :be-able-to}}}
+      shared-part-of-potere)]
+    (clojure.core/merge
+     (:synsem r276)
+     (clojure.core/dissoc r276 :synsem)))]),
+ "preferire"
+ [{:cat :verb, :sem {:pred :prefer}, :italiano {:boot-verb true}}],
+ "prendere"
+ [{:cat :verb, :sem {:pred :grab}, :italiano {:passato "preso"}}],
+ "prenotare" [{:cat :verb, :sem {:pred :reserve}}],
+ "preoccuparsi" [{:cat :verb, :sem {:pred :worry, :reflexive true}}],
+ "preparare" [{:cat :verb, :sem {:pred :prepare}}],
+ "prepararsi" [{:cat :verb, :sem {:pred :get-ready, :reflexive true}}],
+ "presentare"
+ (let
+  [common {:synsem {:cat :verb}}]
+  [(let
+    [r283
+     (dag_unify.core/unify {:synsem {:sem {:pred :present}}} common)]
+    (clojure.core/merge
+     (:synsem r283)
+     (clojure.core/dissoc r283 :synsem)))
+   (let
+    [r284
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :introduce-p}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r284)
+     (clojure.core/dissoc r284 :synsem)))]),
+ "prestare" [{:cat :verb, :sem {:pred :lend}}],
+ "pulire"
+ [{:cat :verb, :sem {:pred :clean}, :italiano {:boot-verb true}}],
+ "punire"
+ [{:cat :verb, :sem {:pred :punish}, :italiano {:boot-verb true}}],
+ "raccontare" [{:cat :verb, :sem {:pred :recount}}],
+ "radersi"
+ [{:cat :verb,
+   :sem {:pred :shave, :reflexive true},
+   :subcat {:1 {:agr {:gender :masc}}},
+   :italiano {:passato "raso"}}],
+ "recuperare" [{:cat :verb, :sem {:pred :recover}}],
+ "rendere"
+ (let
+  [common
+   {:synsem {:cat :verb},
+    :italiano {:italiano "rendere", :passato "reso"}}]
+  [(let
+    [r279
+     (dag_unify.core/unify {:synsem {:sem {:pred :render}}} common)]
+    (clojure.core/merge
+     (:synsem r279)
+     (clojure.core/dissoc r279 :synsem)))
+   (let
+    [r280
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :give-back-return-ren}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r280)
+     (clojure.core/dissoc r280 :synsem)))]),
+ "restare"
+ [{:essere true,
+   :cat :verb,
+   :sem {:pred :remain-re},
+   :subcat {:2 []}}],
+ "restituire"
+ [{:cat :verb,
+   :sem {:pred :give-back-return-res},
+   :italiano {:boot-verb true}}],
+ "ricevere" [{:cat :verb, :sem {:pred :receive}}],
+ "riconoscere"
+ [{:cat :verb,
+   :sem {:pred :recognize},
+   :italiano {:passato "riconosciuto"}}],
+ "ricordare" [{:cat :verb, :sem {:pred :remember}}],
+ "riempire"
+ [{:cat :verb,
+   :sem {:pred :fill},
+   :italiano
+   {:present
+    {:1sing "riempio", :3sing "riempie", :3plur "riempiono"}}}],
+ "rimanere"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :remain-ri},
+   :italiano
+   {:passato "rimasto",
+    :present {:1sing "rimango", :3plur "rimangono"},
+    :future-stem "rimarr"}}],
+ "riparare" [{:cat :verb, :sem {:pred :repair}}],
+ "ripetere" [{:cat :verb, :sem {:pred :repeat}}],
+ "riposare" [{:cat :verb, :sem {:pred :rest}}],
+ "riposarsi"
+ [{:cat :verb,
+   :sem
+   {:pred :rest-oneself, :reflexive true, :subj {:animate true}}}],
+ "riscaldare" [{:cat :verb, :sem {:pred :warm-up}}],
+ "rispondere"
+ [{:cat :verb, :sem {:pred :answer}, :italiano {:passato "risposto"}}],
+ "ritornare" [{:cat :verb, :sem {:pred :return-r}, :essere true}],
+ "riuscire" [{:cat :verb, :essere true, :sem {:pred :succeed}}],
+ "rompere"
+ [{:cat :verb, :sem {:pred :break}, :italiano {:passato "rotto"}}],
+ "rovinare" [{:cat :verb, :sem {:pred :ruin}}],
+ "rubare" [{:cat :verb, :sem {:pred :steal}}],
+ "salire"
+ (let
+  [common
+   {:synsem {:cat :verb, :essere true},
+    :italiano
+    {:italiano "salire", :present {:1sing "salgo", :3plur "salgono"}}}]
+  [(let
+    [r270
+     (dag_unify.core/unify {:synsem {:sem {:pred :get-on}}} common)]
+    (clojure.core/merge
+     (:synsem r270)
+     (clojure.core/dissoc r270 :synsem)))
+   (let
+    [r271
+     (dag_unify.core/unify
+      {:synsem {:sem {:pred :go-upstairs}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r271)
+     (clojure.core/dissoc r271 :synsem)))]),
+ "sapere"
+ [{:cat :verb,
+   :sem {:pred :know-s},
+   :italiano
+   {:present
+    {:1sing "so",
+     :2sing "sai",
+     :3sing "sa",
+     :1plur "sappiamo",
+     :3plur "sanno"},
+    :future-stem "sapr"}}],
+ "scappare" [{:cat :verb, :essere true, :sem {:pred :escape}}],
+ "scaricare" [{:cat :verb, :sem {:pred :download}}],
+ "scattare" [{:cat :verb, :sem {:pred :snap-pictures}}],
+ "scendere"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :get-off},
+   :italiano {:passato "sceso"}}
+  {:cat :verb,
+   :essere true,
+   :sem {:pred :go-downstairs},
+   :italiano {:passato "sceso"}}],
+ "scrivere"
+ [{:cat :verb, :sem {:pred :write}, :italiano {:passato "scritto"}}],
+ "sedersi"
+ [{:cat :verb,
+   :sem {:pred :sit-down, :reflexive true, :subj {:human true}},
+   :italiano
+   {:present
+    {:1sing "siedo",
+     :2sing "siedi",
+     :3sing "siede",
+     :1plur "sediamo",
+     :2plur "sedete",
+     :3plur "siedono"}}}],
+ "seguire" [{:cat :verb, :sem {:pred :follow}}],
+ "sembrare" [{:cat :verb, :essere true, :sem {:pred :seem}}],
+ "sentire" [{:cat :verb, :sem {:pred :hear}}],
+ "servire"
+ [{:essere true, :cat :verb, :sem {:pred :be-necessary-s...}}],
+ "sgridare" [{:cat :verb, :sem {:pred :scold}}],
+ "sistemare" [{:cat :verb, :sem {:pred :organize-systematically}}],
+ "sopportare" [{:cat :verb, :sem {:pred :endure}}],
+ "sospirare" [{:cat :verb, :sem {:pred :sigh}}],
+ "spalmare" [{:cat :verb, :sem {:pred :spread-food}}],
+ "sparire"
+ [{:cat :verb,
+   :sem {:pred :disappear-sp},
+   :italiano {:boot-verb true}}],
+ "spedire"
+ [{:cat :verb, :sem {:pred :send-s}, :italiano {:boot-verb true}}],
+ "spegnere"
+ [{:cat :verb,
+   :sem {:pred :turn-off},
+   :italiano
+   {:passato "spento",
+    :present {:1sing "spengo", :3plur "spengono"}}}],
+ "spendere"
+ [{:cat :verb, :sem {:pred :spend}, :italiano {:passato "speso"}}],
+ "spiegare" [{:cat :verb, :sem {:pred :explain}}],
+ "spostare" [{:cat :verb, :sem {:pred :displace}}],
+ "sprecare" [{:cat :verb, :sem {:pred :waste}}],
+ "stampare" [{:cat :verb, :sem {:pred :print}}],
+ "stare"
+ (let
+  [common
+   {:synsem {:cat :verb, :essere true},
+    :italiano
+    {:future-stem "star", :present {:2sing "stai", :3plur "stanno"}}}]
+  [(let
+    [r272 (dag_unify.core/unify {:synsem {:sem {:pred :stay}}} common)]
+    (clojure.core/merge
+     (:synsem r272)
+     (clojure.core/dissoc r272 :synsem)))
+   (let
+    [r273
+     (dag_unify.core/unify
+      {:synsem
+       {:aux true,
+        :infl :present,
+        :sem {:tense :present, :aspect :progressive},
+        :subcat
+        {:2
+         {:cat :verb,
+          :infl :participle,
+          :sem {:reflexive true},
+          :subcat {:1 :top, :2 {:reflexive true}}}}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r273)
+     (clojure.core/dissoc r273 :synsem)))
+   (let
+    [r274
+     (dag_unify.core/unify
+      {:synsem
+       {:aux true,
+        :infl :present,
+        :sem {:tense :present, :aspect :progressive},
+        :subcat
+        {:2
+         {:cat :verb,
+          :infl :participle,
+          :sem {:reflexive false},
+          :subcat {:1 {:reflexive false}, :2 []}}}}}
+      common)]
+    (clojure.core/merge
+     (:synsem r274)
+     (clojure.core/dissoc r274 :synsem)))]),
+ "studiare" [{:cat :verb, :sem {:pred :study}}],
+ "suonare"
+ [{:cat :verb, :sem {:subj {:human true}, :pred :play-music}}],
+ "svegliarsi" [{:cat :verb, :sem {:pred :wake-up, :reflexive true}}],
+ "svenire"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :faint},
+   :subcat {:2 []},
+   :italiano
+   {:passato "svenuto",
+    :present
+    {:1sing "svengo",
+     :2sing "svieni",
+     :3sing "sviene",
+     :3plur "svengono"},
+    :future-stem "sverr"}}],
+ "sviluppare" [{:cat :verb, :sem {:pred :develop}}],
+ "tagliare" [{:cat :verb, :sem {:pred :cut}}],
+ "telefonare" [{:cat :verb, :sem {:pred :telephone}}],
+ "tenere"
+ (let
+  [common
+   {:italiano
+    {:passato "tenuto",
+     :present
+     {:1sing "tengo",
+      :2sing "tieni",
+      :3sing "tiene",
+      :3plur "tengono"},
+     :future-stem "terr"},
+    :synsem {:cat :verb}}]
+  [(let
+    [r258 (dag_unify.core/unify {:synsem {:sem {:pred :hold}}} common)]
+    (clojure.core/merge
+     (:synsem r258)
+     (clojure.core/dissoc r258 :synsem)))
+   (let
+    [r259 (dag_unify.core/unify {:synsem {:sem {:pred :keep}}} common)]
+    (clojure.core/merge
+     (:synsem r259)
+     (clojure.core/dissoc r259 :synsem)))]),
+ "tirare" [{:cat :verb, :sem {:pred :throw-t}}],
+ "tornare" [{:cat :verb, :sem {:pred :return-t}, :essere true}],
+ "trasferire"
+ [{:cat :verb, :sem {:pred :transfer}, :italiano {:boot-verb true}}],
+ "trattare" [{:cat :verb, :sem {:pred :treat}}],
+ "trovare" [{:cat :verb, :sem {:pred :find}}],
+ "usare" [{:cat :verb, :sem {:pred :use}}],
+ "uscire"
+ (let
+  [common
+   {:synsem {:cat :verb, :essere true},
+    :italiano
+    {:present
+     {:1sing "esco", :2sing "esci", :3sing "esce", :3plur "escono"}}}]
+  [(let
+    [r285
+     (dag_unify.core/unify {:synsem {:sem {:pred :go-out}}} common)]
+    (clojure.core/merge
+     (:synsem r285)
+     (clojure.core/dissoc r285 :synsem)))
+   (let
+    [r286 (dag_unify.core/unify {:synsem {:sem {:pred :exit}}} common)]
+    (clojure.core/merge
+     (:synsem r286)
+     (clojure.core/dissoc r286 :synsem)))]),
+ "vedere"
+ [{:cat :verb,
+   :sem {:pred :see},
+   :italiano {:passato "visto", :future-stem "vedr"}}],
+ "vendere" [{:cat :verb, :sem {:pred :sell}}],
+ "venire"
+ [{:cat :verb,
+   :essere true,
+   :sem {:pred :come},
+   :italiano
+   {:passato "venuto",
+    :present
+    {:1sing "vengo", :2sing "vieni", :3sing "viene", :3plur "vengono"},
+    :future-stem "verr"}}],
+ "vestirsi" [{:cat :verb, :sem {:pred :get-dressed, :reflexive true}}],
+ "vincere"
+ [{:cat :verb, :sem {:pred :win}, :italiano {:passato "vinto"}}],
+ "vivere"
+ [{:cat :verb,
+   :sem {:subj {:living true}, :pred :live-v},
+   :essere true,
+   :italiano {:passato "vissuto", :future-stem "vivr"}}],
+ "volere"
+ [{:cat :verb,
+   :sem {:pred :want},
+   :italiano
+   {:future-stem "vorr",
+    :drop-e true,
+    :present
+    {:1sing "voglio",
+     :2sing "vuoi",
+     :3sing "vuole",
+     :1plur "vogliamo",
+     :2plur "volete",
+     :3plur "vogliono"}}}]}

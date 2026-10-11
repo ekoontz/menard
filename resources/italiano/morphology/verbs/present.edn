@@ -1,0 +1,296 @@
+[{:g [(re-pattern "[aei]re$") "o"],
+  :p [(re-pattern "(.*)o$") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "[aei]rsi$") "o"],
+  :p [(re-pattern "(.*)o$") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "[aei]re$") "o"],
+  :p [(re-pattern "(.*)o$") "$1ere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "[aei]re$") "o"],
+  :p [(re-pattern "(.*)o$") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "[aei]re$") "o"],
+  :p [(re-pattern "(.*)o$") "$1arsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "[aei]re$") "o"],
+  :p [(re-pattern "(.*)o$") "$1irsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "[aei]re$") "o"],
+  :p [(re-pattern "(.*)ico$") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :present},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.*i)re$") "$1sco"],
+  :p [(re-pattern "(.*i)sco$") "$1re"],
+  :u
+  {:agr {:number :sing, :person :1st},
+   :boot-verb true,
+   :infl :present}}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "carsi$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "gare$") "ghi"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "garsi$") "ghi"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "(i)[aei]re$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "(i)[aei]rsi$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "[aei]re$") "i"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "[aei]rsi$") "i"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1iare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1arsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)cci$") "$1cciare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1ere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1ire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*c)hi$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1iarsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)sci$") "$1re"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)i$") "$1irsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)ici$") "$1ire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "care$") "chi"],
+  :p [(re-pattern "(.*)hi$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :present},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "^(.*i)re$") "$1sci"],
+  :p [(re-pattern "(.*i)sci$") "$1re"],
+  :u
+  {:agr {:number :sing, :person :2nd},
+   :boot-verb true,
+   :infl :present}}
+ {:g [(re-pattern "are$") "a"],
+  :p [(re-pattern "(.*)a$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "arsi$") "a"],
+  :p [(re-pattern "(.*)a$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "[ei]re$") "e"],
+  :p [(re-pattern "(.*)a$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "[ei]rsi$") "e"],
+  :p [(re-pattern "(.*)a$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "a"],
+  :p [(re-pattern "(.*)e$") "$1ere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "are$") "a"],
+  :p [(re-pattern "(.*)e$") "$1ire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "are$") "a"],
+  :p [(re-pattern "(.*)a$") "$1arsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "are$") "a"],
+  :p [(re-pattern "(.*)te$") "$1tirsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "are$") "a"],
+  :p [(re-pattern "(.*)ice$") "$1ire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :present},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.*i)re$") "$1sce"],
+  :p [(re-pattern "(.*i)sce$") "$1re"],
+  :u
+  {:agr {:number :sing, :person :3rd},
+   :boot-verb true,
+   :infl :present}}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "carsi$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "gare$") "ghiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "garsi$") "ghiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "iare$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "are$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ere$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "ire$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "iarsi$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "arsi$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "ersi$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "irsi$") "iamo"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:g 12]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1iare"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1ere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1ire"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*c)hiamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1iarsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1arsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)iamo$") "$1irsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)ciamo$") "$1re"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "care$") "chiamo"],
+  :p [(re-pattern "(.*)hiamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :present},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "([aei])re$") "$1te"],
+  :p [(re-pattern "(.*)([aei])te$") "$1$2re"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :present},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1te"],
+  :p [(re-pattern "(.*)([aei])te$") "$1$2re"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :present},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1te"],
+  :p [(re-pattern "(.*)([aei])te$") "$1$2rsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :present},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "are$") "ano"],
+  :p [(re-pattern "(.*)ano$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "[ei]re$") "ono"],
+  :p [(re-pattern "(.*)ano$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "arsi$") "ano"],
+  :p [(re-pattern "(.*)ano$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "[ei]rsi$") "ono"],
+  :p [(re-pattern "(.*)ano$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "ano"],
+  :p [(re-pattern "(.*)ono$") "$1ere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "are$") "ano"],
+  :p [(re-pattern "(.*)ono$") "$1ire"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "are$") "ano"],
+  :p [(re-pattern "(.*)ano$") "$1arsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "are$") "ano"],
+  :p [(re-pattern "(.*)ono$") "$1irsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "are$") "ano"],
+  :p [(re-pattern "(.*)cono$") "$1re"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :present},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.*i)re$") "$1scono"],
+  :p [(re-pattern "(.*)scono$") "$1re"],
+  :u
+  {:agr {:number :plur, :person :3rd},
+   :boot-verb true,
+   :infl :present}}]

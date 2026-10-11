@@ -1,0 +1,196 @@
+[{:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1ere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)isca$") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1arsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1irsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ica$") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1iare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1arsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)cci$") "$1cciare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1ere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1ire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*c)hi$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1iarsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)sca$") "$1re"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1irsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ica$") "$1ire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)hi$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1ere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1ire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1arsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)sca$") "$1re"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ta$") "$1tirsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ica$") "$1ire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1iare"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1ere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1ire"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*c)hiamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1iarsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1arsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iamo$") "$1irsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ciamo$") "$1re"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)hiamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :subjunctive},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iate$") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iate$") "$1ere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iate$") "$1ire"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iate$") "$1arsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iate$") "$1ersi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)iate$") "$1irsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :subjunctive},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ino$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ano$") "$1ere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ano$") "$1ire"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ino$") "$1arsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)scano$") "$1re"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)ano$") "$1irsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)cano$") "$1re"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :subjunctive},
+  :italiano/pair [:p 7]}]

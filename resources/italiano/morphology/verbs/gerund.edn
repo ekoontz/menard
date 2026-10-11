@@ -1,0 +1,20 @@
+[{:g [(re-pattern "([ae])r(e|si)$") "$1ndo"],
+  :p [(re-pattern "(.*)ando$") "$1are"],
+  :u {:agr {:top :top}, :infl :gerund},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "ir(e|si)$") "endo"],
+  :p [(re-pattern "(.*)ando$") "$1are"],
+  :u {:agr {:top :top}, :infl :gerund},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([ae])r(e|si)$") "$1ndo"],
+  :p [(re-pattern "(.*)endo$") "$1ere"],
+  :u {:agr {:top :top}, :infl :gerund},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([ae])r(e|si)$") "$1ndo"],
+  :p [(re-pattern "(.*)endo$") "$1ire"],
+  :u {:agr {:top :top}, :infl :gerund},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([ae])r(e|si)$") "$1ndo"],
+  :p [(re-pattern "(.*)ando$") "$1arsi"],
+  :u {:agr {:top :top}, :infl :gerund},
+  :italiano/pair [:p 4]}]

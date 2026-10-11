@@ -1,0 +1,226 @@
+{"Giovanni e io"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :masc, :person :1st, :number :plur},
+   :sem {:human true, :pred :giovanni-and-i},
+   :subcat []}],
+ "Luisa e io"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :fem, :person :1st, :number :plur},
+   :sem {:human true, :pred :luisa-and-i},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :masc, :person :1st, :number :plur},
+   :sem {:human true, :pred :luisa-and-i},
+   :subcat []}],
+ "ci"
+ [{:cat :noun,
+   :pronoun true,
+   :agr {:person :1st, :number :plur},
+   :reflexive true,
+   :sem {:human true, :pred :we}}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :sem {:null true, :pred :existential},
+   :agr {:person :3rd, :number :sing}}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :sem {:null true, :pred :existential},
+   :agr {:person :3rd, :number :plur}}],
+ "io"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :fem, :person :1st, :number :sing},
+   :sem {:pred :I, :human true},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :masc, :person :1st, :number :sing},
+   :sem {:pred :I, :human true},
+   :subcat []}],
+ "la"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :fem, :person :3rd, :number :sing},
+   :sem {:human true, :pred :she},
+   :subcat [],
+   :italiano {:initial true}}
+  {:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :fem, :person :3rd, :number :sing},
+   :sem {:human false, :place false, :pred :she},
+   :subcat [],
+   :italiano {:initial true}}],
+ "lei"
+ (let
+  [common
+   {:synsem
+    {:cat :noun,
+     :pronoun true,
+     :case :nom,
+     :agr {:person :3rd, :gender :fem, :number :sing},
+     :sem {:pred :she},
+     :subcat []}}]
+  [(let
+    [r245
+     (dag_unify.core/unify {:synsem {:sem {:human false}}} common)]
+    (clojure.core/merge
+     (:synsem r245)
+     (clojure.core/dissoc r245 :synsem)))
+   (let
+    [r246 (dag_unify.core/unify {:synsem {:sem {:human true}}} common)]
+    (clojure.core/merge
+     (:synsem r246)
+     (clojure.core/dissoc r246 :synsem)))]),
+ "lo"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :masc, :person :3rd, :number :sing},
+   :sem {:human true, :pred :he},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :masc, :person :3rd, :number :sing},
+   :sem {:human false, :place false, :pred :he},
+   :subcat [],
+   :italiano {:initial true}}],
+ "loro"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :3rd, :gender :fem, :number :plur},
+   :sem {:human true, :pred :they},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :3rd, :gender :masc, :number :plur},
+   :sem {:human true, :pred :they},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :3rd, :gender :fem, :number :plur},
+   :sem {:human false, :pred :they},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :3rd, :gender :masc, :number :plur},
+   :sem {:human false, :pred :they},
+   :subcat []}],
+ "lui"
+ (let
+  [common
+   {:synsem
+    {:cat :noun,
+     :pronoun true,
+     :case :nom,
+     :agr {:person :3rd, :gender :masc, :number :sing},
+     :sem {:pred :he},
+     :subcat []}}]
+  [(let
+    [r247
+     (dag_unify.core/unify {:synsem {:sem {:human false}}} common)]
+    (clojure.core/merge
+     (:synsem r247)
+     (clojure.core/dissoc r247 :synsem)))
+   (let
+    [r248 (dag_unify.core/unify {:synsem {:sem {:human true}}} common)]
+    (clojure.core/merge
+     (:synsem r248)
+     (clojure.core/dissoc r248 :synsem)))]),
+ "mi"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :agr {:person :1st, :number :sing},
+   :reflexive true,
+   :sem {:human true},
+   :subcat []}],
+ "noi"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :fem, :person :1st, :number :plur},
+   :sem {:pred :we, :human true},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:gender :masc, :person :1st, :number :plur},
+   :sem {:pred :we, :human true},
+   :subcat []}],
+ "si"
+ [{:agr {:person :3rd, :gender :fem, :number :sing},
+   :cat :noun,
+   :pronoun true,
+   :reflexive true}
+  {:agr {:person :3rd, :gender :masc, :number :sing},
+   :cat :noun,
+   :pronoun true,
+   :reflexive true}
+  {:agr {:person :3rd, :number :plur},
+   :cat :noun,
+   :pronoun true,
+   :reflexive true}],
+ "ti"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :agr {:person :2nd, :number :sing},
+   :reflexive true,
+   :sem {:human true},
+   :subcat [],
+   :italiano {:initial true}}],
+ "tu"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :2nd, :gender :fem, :number :sing},
+   :sem {:pred :you, :human true},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :2nd, :gender :masc, :number :sing},
+   :sem {:pred :you, :human true},
+   :subcat []}],
+ "vi"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :agr {:person :2nd, :number :plur},
+   :sem {:human true, :pred :you-all},
+   :subcat [],
+   :italiano {:initial true}}],
+ "voi"
+ [{:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :2nd, :gender :fem, :number :plur},
+   :sem {:pred :you-all, :human true},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :nom,
+   :agr {:person :2nd, :gender :masc, :number :plur},
+   :sem {:pred :you-all, :human true},
+   :subcat []}]}

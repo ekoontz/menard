@@ -1,0 +1,30 @@
+{:name "basic"
+ :language "it"
+ :morphology {:path "italiano/morphology"
+              :sources ["adjectives.edn"
+                        "determiners.edn"
+                        "nouns.edn"
+                        "verbs/present.edn"
+                        "verbs/future.edn"
+                        "verbs/conditional.edn"
+                        "verbs/imperfetto.edn"
+                        "verbs/passato.edn"
+                        "verbs/gerund.edn"
+                        "verbs/subjunctive.edn"]}
+ :grammar "italiano/grammar.edn"
+ :grammar-rules "italiano/grammar-rules.edn"
+ ;; No per-source :u (unify-with): the converted lexicon entries already carry
+ ;; their babel :cat and other features. babel applied its lexical defaults in
+ ;; code; those are preserved in lexicon/babel-extras.edn.
+ :lexicon {:path "italiano/lexicon"
+           :rules "rules.edn"
+           :sources {"adjectives.edn" {}
+                     "adverbs.edn" {}
+                     "determiners.edn" {}
+                     "exclamations.edn" {}
+                     "modifiers.edn" {}
+                     "nouns.edn" {}
+                     "prepositions.edn" {}
+                     "pronouns.edn" {}
+                     "propernames.edn" {}
+                     "verbs.edn" {}}}}

@@ -1,0 +1,37 @@
+;; Tense variants for italiano, in the menard :options style
+;; (cf. resources/español/finite-nonaux-tenses.edn), derived from
+;; babel.italiano.grammar/tenses (preserved verbatim in resources/italiano/tenses.edn).
+;; Each entry is unified into a grammar rule that names
+;; :options menard.italiano.tenses/finite-tenses.
+[{:variant :present-simple
+  :infl :present
+  :sem {:tense :present
+        :aspect :simple}}
+
+ {:variant :present-progressive
+  :infl :present
+  :sem {:tense :present
+        :aspect :progressive}}
+
+ {:variant :future
+  :infl :future
+  :sem {:tense :future}}
+
+ {:variant :conditional
+  :infl :conditional
+  :sem {:tense :conditional}}
+
+ {:variant :imperfetto
+  :infl :imperfetto
+  :sem {:tense :past
+        :aspect :progressive}}
+
+ {:variant :passato
+  :infl :passato
+  :sem {:tense :present
+        :aspect :perfect}}
+
+ {:variant :trapassato
+  :infl :passato
+  :sem {:tense :past
+        :aspect :pluperfect}}]

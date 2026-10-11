@@ -1,0 +1,381 @@
+;; Babel-only morphology data that has no menard rule equivalent (NOT listed in any model spec).
+;; Preserved verbatim (regex literals rewritten as (re-pattern ...)) so nothing is lost;
+;; keys are namespaced by the babel def they came from.
+{:italiano.nouns/plural-to-singular-noun-fem-1
+ {(re-pattern "e$")
+  {:replace-with "a",
+   :unify-with
+   {:synsem {:cat :noun, :agr {:gender :fem, :number :plur}}}}},
+ :italiano.verbs/exceptions-rules
+ [{:path [:italiano :passato],
+   :label "passato exception",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :passato,
+      :italiano (get-in val [:italiano :passato] :nothing)}})}
+  {:path [:italiano :imperfetto :1sing],
+   :label "imperfetto 1sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :imperfetto,
+      :italiano (get-in val [:italiano :imperfetto :1sing] :nothing),
+      :agr {:number :sing, :person :1st}}})}
+  {:path [:italiano :imperfetto :2sing],
+   :label "imperfetto 2sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :imperfetto,
+      :italiano (get-in val [:italiano :imperfetto :2sing] :nothing),
+      :agr {:number :sing, :person :2nd}}})}
+  {:path [:italiano :imperfetto :3sing],
+   :label "imperfetto 3sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :imperfetto,
+      :italiano (get-in val [:italiano :imperfetto :3sing] :nothing),
+      :agr {:number :sing, :person :3rd}}})}
+  {:path [:italiano :imperfetto :1plur],
+   :label "imperfetto 1plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :imperfetto,
+      :italiano (get-in val [:italiano :imperfetto :1plur] :nothing),
+      :agr {:number :plur, :person :1st}}})}
+  {:path [:italiano :imperfetto :2plur],
+   :label "imperfetto 2plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :imperfetto,
+      :italiano (get-in val [:italiano :imperfetto :2plur] :nothing),
+      :agr {:number :plur, :person :2nd}}})}
+  {:path [:italiano :imperfetto :3plur],
+   :label "imperfetto 3plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :imperfetto,
+      :italiano (get-in val [:italiano :imperfetto :3plur] :nothing),
+      :agr {:number :plur, :person :3rd}}})}
+  {:path [:italiano :present :1sing],
+   :label "present 1sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :present,
+      :italiano (get-in val [:italiano :present :1sing] :nothing),
+      :agr {:number :sing, :person :1st}}}),
+   :u {:infl :present, :agr {:number :sing, :person :1st}}}
+  {:path [:italiano :present :2sing],
+   :label "present 2sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :present,
+      :italiano (get-in val [:italiano :present :2sing] :nothing),
+      :agr {:number :sing, :person :2nd}}})}
+  {:path [:italiano :present :3sing],
+   :label "present 3sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :present,
+      :italiano (get-in val [:italiano :present :3sing] :nothing),
+      :agr {:number :sing, :person :3rd}}})}
+  {:path [:italiano :present :1plur],
+   :label "present 1plur",
+   :u {:infl :present, :agr {:number :plur, :person :1st}},
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :present,
+      :italiano (get-in val [:italiano :present :1plur] :nothing),
+      :agr {:number :plur, :person :1st}}})}
+  {:path [:italiano :present :2plur],
+   :label "present 2plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :present,
+      :italiano (get-in val [:italiano :present :2plur] :nothing),
+      :agr {:number :plur, :person :2nd}}})}
+  {:path [:italiano :present :3plur],
+   :label "present 3plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :present,
+      :italiano (get-in val [:italiano :present :3plur] :nothing),
+      :agr {:number :plur, :person :3rd}}})}
+  {:path [:italiano :future :1sing],
+   :label "future 1sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :future,
+      :italiano (get-in val [:italiano :future :1sing] :nothing),
+      :agr {:number :sing, :person :1st}}})}
+  {:path [:italiano :future :2sing],
+   :label "future 2sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :future,
+      :italiano (get-in val [:italiano :future :2sing] :nothing),
+      :agr {:number :sing, :person :2nd}}})}
+  {:path [:italiano :future :3sing],
+   :label "future 3sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :future,
+      :italiano (get-in val [:italiano :future :3sing] :nothing),
+      :agr {:number :sing, :person :3rd}}})}
+  {:path [:italiano :future :1plur],
+   :label "future 1plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :future,
+      :italiano (get-in val [:italiano :future :1plur] :nothing),
+      :agr {:number :plur, :person :1st}}})}
+  {:path [:italiano :future :2plur],
+   :label "future 2plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :future,
+      :italiano (get-in val [:italiano :future :2plur] :nothing),
+      :agr {:number :plur, :person :2nd}}})}
+  {:path [:italiano :future :3plur],
+   :label "future 3plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :future,
+      :italiano (get-in val [:italiano :future :3plur] :nothing),
+      :agr {:number :plur, :person :3rd}}})}
+  {:path [:italiano :conditional :1sing],
+   :label "conditional 1sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :conditional,
+      :italiano (get-in val [:italiano :conditional :1sing] :nothing),
+      :agr {:number :sing, :person :1st}}})}
+  {:path [:italiano :conditional :2sing],
+   :label "conditional 2sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :conditional,
+      :italiano (get-in val [:italiano :conditional :2sing] :nothing),
+      :agr {:number :sing, :person :2nd}}})}
+  {:path [:italiano :conditional :3sing],
+   :label "conditional 3sing",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :conditional,
+      :italiano (get-in val [:italiano :conditional :3sing] :nothing),
+      :agr {:number :sing, :person :3rd}}})}
+  {:path [:italiano :conditional :1plur],
+   :label "conditional 1plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :conditional,
+      :italiano (get-in val [:italiano :conditional :1plur] :nothing),
+      :agr {:number :plur, :person :1st}}})}
+  {:path [:italiano :conditional :2plur],
+   :label "conditional 2plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :conditional,
+      :italiano (get-in val [:italiano :conditional :2plur] :nothing),
+      :agr {:number :plur, :person :2nd}}})}
+  {:path [:italiano :conditional :3plur],
+   :label "conditional 3plur",
+   :merge-fn
+   (fn
+    [val]
+    {:italiano
+     {:infl :conditional,
+      :italiano (get-in val [:italiano :conditional :3plur] :nothing),
+      :agr {:number :plur, :person :3rd}}})}],
+ :italiano.adjectives/plural-to-singular-adj-fem-sing
+ {(re-pattern "a$")
+  {:replace-with "e",
+   :unify-with
+   {:italiano {:fem {:sing :not-string}},
+    :synsem {:cat :adjective, :agr {:gender :fem, :number :sing}}}}},
+ :italiano.morphology/preposition-plus-article
+ [["a il" "al"]
+  ["a lo" "allo"]
+  ["a la" "alla"]
+  ["a l'" "all'"]
+  ["a i" "ai"]
+  ["a gli" "agli"]
+  ["a le" "alle"]
+  ["da il" "dal"]
+  ["da lo" "dallo"]
+  ["da la" "dalla"]
+  ["da l'" "dall'"]
+  ["da i" "dai"]
+  ["da gli" "dagli"]
+  ["da le" "dalle"]
+  ["di il" "del"]
+  ["di lo" "dello"]
+  ["di la" "della"]
+  ["di l'" "dell'"]
+  ["di i" "dei"]
+  ["di gli" "degli"]
+  ["di le" "delle"]
+  ["in il" "nel"]
+  ["in lo" "nello"]
+  ["in la" "nella"]
+  ["in l'" "nell'"]
+  ["in i" "nei"]
+  ["in gli" "negli"]
+  ["in le" "nelle"]
+  ["su il" "sul"]
+  ["su lo" "sullo"]
+  ["su la" "sulla"]
+  ["su l'" "sull'"]
+  ["su i" "sui"]
+  ["su gli" "sugli"]
+  ["su le" "sulle"]],
+ :italiano.morphology/ppa-surface-to-tokens
+ (map
+  (fn
+   [pair]
+   [(re-pattern (str "\\b" (second pair) "\\b")) (first pair)])
+  preposition-plus-article),
+ :italiano.adjectives/exceptions-rules
+ [{:path [:italiano :masc :plur],
+   :merge-fn
+   (fn [val] {:italiano {:agr {:gender :masc, :number :plur}}})}
+  {:path [:italiano :fem :plur],
+   :merge-fn
+   (fn [val] {:italiano {:agr {:gender :fem, :number :plur}}})}
+  {:path [:italiano :fem :sing],
+   :merge-fn
+   (fn [val] {:italiano {:agr {:gender :fem, :number :sing}}})}],
+ :italiano.adjectives/plural-to-singular-adj-masc
+ {(re-pattern "i$")
+  {:replace-with "e",
+   :unify-with
+   {:italiano {:masc {:plur :not-string}},
+    :synsem {:cat :adjective, :agr {:gender :masc, :number :plur}}}}},
+ :italiano.prepositions/pairs
+ [["a il" "al"]
+  ["a lo" "allo"]
+  ["a la" "alla"]
+  ["a l'" "all'"]
+  ["a i" "ai"]
+  ["a gli" "agli"]
+  ["a le" "alle"]
+  ["da il" "dal"]
+  ["da lo" "dallo"]
+  ["da la" "dalla"]
+  ["da l'" "dall'"]
+  ["da i" "dai"]
+  ["da gli" "dagli"]
+  ["da le" "dalle"]
+  ["de il" "del"]
+  ["de lo" "dello"]
+  ["de la" "della"]
+  ["de l'" "dell'"]
+  ["de i" "dei"]
+  ["de gli" "degli"]
+  ["de le" "delle"]
+  ["di il" "del"]
+  ["di lo" "dello"]
+  ["di la" "della"]
+  ["di l'" "dell'"]
+  ["di i" "dei"]
+  ["di gli" "degli"]
+  ["di le" "delle"]
+  ["in il" "nel"]
+  ["in lo" "nello"]
+  ["in la" "nella"]
+  ["in l'" "nell'"]
+  ["in i" "nei"]
+  ["in gli" "negli"]
+  ["in le" "nelle"]
+  ["su il" "sul"]
+  ["su lo" "sullo"]
+  ["su la" "sulla"]
+  ["su l'" "sull'"]
+  ["su i" "sui"]
+  ["su gli" "sugli"]
+  ["su le" "sulle"]],
+ :italiano.morphology/ppa-tokens-to-surface
+ (map
+  (fn
+   [pair]
+   [(re-pattern (str "\\b" (first pair) "\\b")) (second pair)])
+  preposition-plus-article),
+ :italiano.nouns/plural-to-singular-noun-masc-2
+ {(re-pattern "i$")
+  {:replace-with "e",
+   :unify-with {:synsem {:cat :noun, :agr {:number :plur}}}}},
+ :italiano.adjectives/plural-to-singular-adj-fem-plur
+ {(re-pattern "e$")
+  {:replace-with "o",
+   :unify-with
+   {:italiano {:fem {:plur :not-string}},
+    :synsem {:cat :adjective, :agr {:gender :fem, :number :plur}}}},
+  (re-pattern "i$")
+  {:replace-with "e",
+   :unify-with
+   {:italiano {:fem {:plur :not-string}},
+    :synsem {:cat :adjective, :agr {:gender :fem, :number :plur}}}}},
+ :italiano.nouns/exceptions-rules
+ [{:path [:italiano :plur],
+   :merge-fn
+   (fn
+    [val]
+    {:synsem {:cat :noun}, :italiano {:agr {:number :plur}}})}],
+ :italiano.nouns/plural-to-singular-noun-masc-1
+ {(re-pattern "ii$")
+  {:replace-with "a",
+   :unify-with {:synsem {:cat :noun, :agr {:number :plur}}}},
+  (re-pattern "([^i])i$")
+  {:replace-with "$1o",
+   :unify-with {:synsem {:cat :noun, :agr {:number :plur}}}}},
+ :italiano.morphology/exceptions-rules
+ (concat
+  verbs/exceptions-rules
+  adjectives/exceptions-rules
+  nouns/exceptions-rules)}

@@ -1,0 +1,192 @@
+[{:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)avo$") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1vo"],
+  :p [(re-pattern "(.*)avo$") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)avo$") "$1arsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)cevo$") "$1re"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)evo$") "$1ere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)evo$") "$1ersi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)ivo$") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "([aei])re$") "$1vo"],
+  :p [(re-pattern "(.*)ivo$") "$1irsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)avi$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1vi"],
+  :p [(re-pattern "(.*)avi$") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)avi$") "$1arsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)cevi$") "$1re"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)evi$") "$1ere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)evi$") "$1ersi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)ivi$") "$1ire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "([aei])re$") "$1vi"],
+  :p [(re-pattern "(.*)ivi$") "$1irsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)ava$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1va"],
+  :p [(re-pattern "(.*)ava$") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)ava$") "$1arsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)ceva$") "$1re"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)eva$") "$1ere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)eva$") "$1ersi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)iva$") "$1ire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "([aei])re$") "$1va"],
+  :p [(re-pattern "(.*)iva$") "$1irsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)avamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1vamo"],
+  :p [(re-pattern "(.*)avamo$") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)avamo$") "$1arsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)cevamo$") "$1re"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)evamo$") "$1ere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)evamo$") "$1ersi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)ivamo$") "$1ire"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "([aei])re$") "$1vamo"],
+  :p [(re-pattern "(.*)ivamo$") "$1irsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :imperfetto},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)avate$") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1vate"],
+  :p [(re-pattern "(.*)avate$") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)avate$") "$1arsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)cevate$") "$1re"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)evate$") "$1ere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)evate$") "$1ersi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)ivate$") "$1ire"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "([aei])re$") "$1vate"],
+  :p [(re-pattern "(.*)ivate$") "$1irsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :imperfetto},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)avano$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "([aei])rsi$") "$1vano"],
+  :p [(re-pattern "(.*)avano$") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)avano$") "$1arsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)cevano$") "$1re"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)evano$") "$1ere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)evano$") "$1ersi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)ivano$") "$1ire"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "([aei])re$") "$1vano"],
+  :p [(re-pattern "(.*)ivano$") "$1irsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :imperfetto},
+  :italiano/pair [:p 7]}]

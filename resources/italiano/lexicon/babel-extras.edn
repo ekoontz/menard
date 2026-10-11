@@ -1,0 +1,30 @@
+;; babel-only lexicon data that has no menard equivalent (NOT wired into any model spec).
+;; `defaults` is babel.italiano.lexicon/defaults verbatim (dag atoms -> :top, regex -> (re-pattern ...)).
+;; The rest of babel's compile pipeline (edn2lexicon, exception-generator,
+;; vocab-entry-to-lexeme) is code in resources/italiano-babel/italiano/lexicon.cljc and is not ported here.
+#:italiano.lexicon{:defaults
+                   {:adjective
+                    {:non-comparative
+                     (let
+                      [subject (atom :top)]
+                      {:synsem
+                       {:cat :adjective,
+                        :sem {:arg1 subject, :comparative false},
+                        :subcat {:1 {:sem subject}, :2 '()}}})},
+                    :agreement
+                    (let
+                     [agr
+                      (atom :top)
+                      cat
+                      (atom :verb)
+                      essere
+                      (atom :top)
+                      infl
+                      (atom :top)]
+                     {:italiano
+                      {:agr agr, :cat cat, :essere essere, :infl infl},
+                      :synsem
+                      {:agr agr,
+                       :cat cat,
+                       :essere essere,
+                       :infl infl}})}}

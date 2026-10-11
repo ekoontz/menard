@@ -1,0 +1,704 @@
+[{:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "giare$") "gerei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "care$") "cherei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "gare$") "gherei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "erei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "ere$") "erei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ire$") "irei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "arsi$") "erei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "ersi$") "erei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "irsi$") "irei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "r$") "rei"],
+  :p [(re-pattern "(.*)erei") "$1are"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)cherei") "$1care"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)chei") "$1care"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)erei") "$1arsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)er[r]?ei") "$1ere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)erei") "$1ersi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)erei") "$1iare"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)errei") "$1ere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)errei") "$1enere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)irei") "$1ire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)irei") "$1irsi"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)drei") "$1dare"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)drei") "$1dere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 13]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)rei") "$1re"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 14]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)rei") "$1ere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 15]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)trei") "$1tere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 16]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)vrei") "$1vere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 17]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)rrei") "$1lere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 18]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)rrei") "$1nire"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 19]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)gherei") "$1gare"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 20]}
+ {:g [(re-pattern "ciare$") "cerei"],
+  :p [(re-pattern "(.*)rrei") "$1nere"],
+  :u {:agr {:number :sing, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 21]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "giare$") "geresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "care$") "cheresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "gare$") "gheresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "eresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "ere$") "eresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ire$") "iresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "arsi$") "eresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "ersi$") "eresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "irsi$") "iresti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "r$") "resti"],
+  :p [(re-pattern "(.*)esti") "$1e"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)eresti") "$1are"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)eresti") "$1arsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)cheresti") "$1care"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)dresti") "$1dare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)eresti") "$1ersi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)erresti") "$1enere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)er[r]?esti") "$1ere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)eresti") "$1iare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)erresti") "$1edere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)gheresti") "$1gare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)ichesti") "$1icare"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)iresti") "$1ire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 13]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)iresti") "$1irsi"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 14]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)erresti") "$1enire"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 15]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)resti") "$1ere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 16]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)vresti") "$1vere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 17]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)rresti") "$1lere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 18]}
+ {:g [(re-pattern "ciare$") "ceresti"],
+  :p [(re-pattern "(.*)rresti") "$1nere"],
+  :u {:agr {:number :sing, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 19]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "giare$") "gerebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "care$") "cherebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "gare$") "gherebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "erebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "ere$") "erebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ire$") "irebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "arsi$") "erebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "ersi$") "erebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "irsi$") "irebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "r$") "rebbe"],
+  :p [(re-pattern "(.*)chebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)cherebbe") "$1care"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)drebbe") "$1dare"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)vrebbe") "$1vere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)erebbe") "$1are"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)erebbe") "$1arsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)er[r]?ebbe") "$1ere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)erebbe") "$1ersi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)erebbe") "$1iare"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)errebbe") "$1edere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)errebbe") "$1enere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)gherebbe") "$1gare"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)irebbe") "$1ire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 13]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)irebbe") "$1irsi"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 14]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)rebbe") "$1re"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 15]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)errebbe") "$1enire"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 16]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)rebbe") "$1ere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 17]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)rrebbe") "$1lere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 18]}
+ {:g [(re-pattern "ciare$") "cerebbe"],
+  :p [(re-pattern "(.*)rrebbe") "$1nere"],
+  :u {:agr {:number :sing, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 19]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "giare$") "geremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "care$") "cheremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "gare$") "gheremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "eremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "ere$") "eremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ire$") "iremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "arsi$") "eremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "ersi$") "eremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "irsi$") "iremmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "r$") "remmo"],
+  :p [(re-pattern "(.*)cheremmo") "$1care"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)eramo") "$1ere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)eremmo") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)erremmo") "$1enere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)ichemmo") "$1icare"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)remmo") "$1are"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)remmo") "$1ere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)rremmo") "$1nere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)emmo") "$1e"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)gheremmo") "$1gare"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)iremmo") "$1ire"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)iremmo") "$1irsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)erremmo") "$1edere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 13]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)erremmo") "$1enire"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 14]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)eremmo") "$1arsi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 15]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)eremmo") "$1ersi"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 16]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)er[r]?emmo") "$1ere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 17]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)rremmo") "$1lere"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 18]}
+ {:g [(re-pattern "ciare$") "ceremmo"],
+  :p [(re-pattern "(.*)eremmo") "$1iare"],
+  :u {:agr {:number :plur, :person :1st}, :infl :conditional},
+  :italiano/pair [:p 19]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "giare$") "gereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "care$") "chereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "gare$") "ghereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "ereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "ere$") "ereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ire$") "ireste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "arsi$") "ereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "ersi$") "ereste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "irsi$") "ireste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "r$") "reste"],
+  :p [(re-pattern "(.*)areste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)cheste") "$1care"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)chereste") "$1care"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)dreste") "$1dare"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ereste") "$1are"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ereste") "$1arsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ereste") "$1ersi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ereste") "$1irsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ghereste") "$1gare"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)er[r]?este") "$1ere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ereste") "$1iare"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)erreste") "$1enere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ireste") "$1ire"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 13]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)ireste") "$1irsi"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 14]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)vreste") "$1vere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 15]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)reste") "$1ere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 16]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)rreste") "$1lere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 17]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)rreste") "$1nere"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 18]}
+ {:g [(re-pattern "ciare$") "cereste"],
+  :p [(re-pattern "(.*)rreste") "$1nire"],
+  :u {:agr {:number :plur, :person :2nd}, :infl :conditional},
+  :italiano/pair [:p 19]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 1]}
+ {:g [(re-pattern "giare$") "gerebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 2]}
+ {:g [(re-pattern "care$") "cherebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 3]}
+ {:g [(re-pattern "gare$") "gherebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 4]}
+ {:g [(re-pattern "are$") "erebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 5]}
+ {:g [(re-pattern "ere$") "erebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 6]}
+ {:g [(re-pattern "ire$") "irebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 7]}
+ {:g [(re-pattern "arsi$") "erebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 8]}
+ {:g [(re-pattern "ersi$") "erebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 9]}
+ {:g [(re-pattern "irsi$") "irebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 10]}
+ {:g [(re-pattern "r$") "rebbero"],
+  :p [(re-pattern "(.*)chebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:g 11]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)cherebbero") "$1care"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 2]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)drebbero") "$1dare"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 3]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)drebbero") "$1edere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 4]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)erebbero") "$1are"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 5]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)erebbero") "$1iare"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 6]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)erebbero") "$1arsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 7]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)erebbero") "$1ersi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 8]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)errebbero") "$1enire"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 9]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)errebbero") "$1enere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 10]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)er[r]?ebbero") "$1ere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 11]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)gherebbero") "$1gare"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 12]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)irebbero") "$1ire"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 13]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)irebbero") "$1irsi"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 14]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)rebbero") "$1re"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 15]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)rebbero") "$1ere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 16]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)vrebbero") "$1vere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 17]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)rrebbero") "$1nere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 18]}
+ {:g [(re-pattern "ciare$") "cerebbero"],
+  :p [(re-pattern "(.*)rrebbero") "$1lere"],
+  :u {:agr {:number :plur, :person :3rd}, :infl :conditional},
+  :italiano/pair [:p 19]}]

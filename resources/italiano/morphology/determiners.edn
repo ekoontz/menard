@@ -1,0 +1,40 @@
+[{:g
+  [(re-pattern "\\\\bil ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))")
+   "lo $1"],
+  :p [(re-pattern "^(.+)$") "$1"],
+  :u {}}
+ {:g [(re-pattern "\\\\bil ([aeiou])") "l'$1"],
+  :p [(re-pattern "^(.+)$") "$1"],
+  :u {}}
+ {:g
+  [(re-pattern
+    "\\\\bi (([aeiou])|(gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))")
+   "gli $1"],
+  :p [(re-pattern "^(.+)$") "$1"],
+  :u {}}
+ {:g [(re-pattern "\\\\bla ([aeiou])") "l'$1"],
+  :p [(re-pattern "^(.+)$") "$1"],
+  :u {}}
+ {:g
+  [(re-pattern "\\\\bun ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))")
+   "uno $1"],
+  :p [(re-pattern "^(.+)$") "$1"],
+  :u {}}
+ {:g [(re-pattern "\\\\bun ([aeiou])") "un'$1"],
+  :p [(re-pattern "^(.+)$") "$1"],
+  :u {}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "^dell$") "del"],
+  :u {:cat :det, :agr {:number :sing, :gender :masc}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "^dell$") "della"],
+  :u {:cat :det, :agr {:number :sing, :gender :fem}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "^gli$") "i"],
+  :u {:cat :det, :agr {:number :plur, :gender :masc}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "^l$") "la"],
+  :u {:cat :det, :agr {:number :sing, :gender :fem}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "^l$") "il"],
+  :u {:cat :det, :agr {:number :sing, :gender :masc}}}]

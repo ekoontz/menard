@@ -1,0 +1,31 @@
+;; Lexical rules for italiano, ported from babel.italiano.lexicon/edn2lexicon's
+;; defaults (the parts that survive menard's flat feature layout).
+;;
+;; babel's fuller compile pipeline (the `defaults` templates and
+;; `exception-generator`, both of which build on babel's nested :synsem layout)
+;; is preserved verbatim in lexicon/babel-extras.edn rather than wired in here.
+[
+ {:rule :italiano-noun-not-pronoun
+  :if {:cat :noun
+       :pronoun ::unspec}
+  :then [{:pronoun false}]}
+
+ {:rule :italiano-noun-not-propernoun
+  :if {:cat :noun
+       :propernoun ::unspec}
+  :then [{:propernoun false}]}
+
+ {:rule :italiano-verb-essere-default
+  :if {:cat :verb
+       :essere ::unspec}
+  :then [{:essere false}]}
+
+ {:rule :italiano-verb-not-reflexive
+  :if {:cat :verb
+       :reflexive ::unspec}
+  :then [{:reflexive false}]}
+
+ {:rule :italiano-adjective-comparative-default
+  :if {:cat :adjective
+       :comparative ::unspec}
+  :then [{:comparative false}]}]

@@ -1,0 +1,3 @@
+{"bene" [{:cat :adverb, :sem {:pred :bene}}],
+ "male" [{:cat :adverb, :sem {:pred :bad}}],
+ "non" [{:cat :adverb, :sem {:mod {:polarity :-}}}]}

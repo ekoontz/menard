@@ -1,0 +1,15 @@
+[{:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)e$") "$1o"],
+  :u {:cat :adjective, :agr {:gender :fem, :number :plur}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)e$") "$1e"],
+  :u {:cat :adjective, :agr {:gender :fem, :number :plur}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)a$") "$1o"],
+  :u {:cat :adjective, :agr {:gender :fem, :number :sing}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1e"],
+  :u {:cat :adjective, :agr {:number :plur}}}
+ {:g [(re-pattern "^(.+)$") "$1"],
+  :p [(re-pattern "(.*)i$") "$1o"],
+  :u {:cat :adjective, :agr {:gender :masc, :number :plur}}}]

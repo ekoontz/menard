@@ -10,6 +10,29 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+(defn- it-det->en-quant
+  "italiano keeps its determiner as a modifier (:mod :first, :pred :definite /
+   :indefinite); english wants it as :sem :quant, so move it."
+  [sem]
+  (let [quant (case (get-in sem [:mod :first :pred])
+                :definite :the
+                :indefinite :some
+                nil)]
+    (if quant
+      (-> sem
+          (assoc :quant quant)
+          (assoc :mod (or (get-in sem [:mod :rest]) [])))
+      sem)))
+
+(defn- it-number->en-ref
+  "carry the number across as english's :ref."
+  [sem agr]
+  (let [n (let [x (:number sem)] (if (or (nil? x) (= :top x)) (:number agr) x))
+        ;; singular forms are unmarked in the italian structures, so default
+        ;; to :sing when nothing says otherwise.
+        n (if (or (nil? n) (= :top n)) :sing n)]
+    (assoc sem :ref {:number n})))
+
 (defn- resolve-dag
   "resolve dag atoms (menard represents unbound feature values as clojure atoms)
    so the conversion below sees plain values."
@@ -64,6 +87,7 @@
                          (let [s (:subj sem0)]
                            (or (not (map? s)) (nil? (:pred s)) (= :top (:pred s)))))
                  (it-agr->en-subject agr))
+        sem0 (-> sem0 it-det->en-quant (it-number->en-ref agr))
         sem (cond-> (merge sem0 {:mod (or (:mod sem0) [])} (it-tense->en-sem infl))
               subj (assoc :subj {:pred subj
                                  :ref {:number (:number agr) :human? true}

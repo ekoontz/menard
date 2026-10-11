@@ -83,6 +83,21 @@
       (is (= :dog (u/get-in np [:sem :pred])))
       (is (= true (u/get-in np [:sem :pet]))))))
 
+(deftest it-to-en-noun-phrases
+  (testing "definite italian noun phrases translate"
+    ;; the italian determiner (:mod :first :pred :definite) is moved onto
+    ;; english's :sem :quant, the number is carried over as :ref, and singular
+    ;; (unmarked in italian) defaults to :sing.
+    (is (= "the dog" (translate/it-to-en "il cane")))
+    (is (= "the dogs" (translate/it-to-en "i cani")))
+    (is (= "the cat" (translate/it-to-en "il gatto"))))
+  (testing "the translated spec has english's shape"
+    (let [spec (translate/it-structure-to-en-spec (first (it/parse "il cane")))]
+      (is (= :the (get-in spec [:sem :quant])))
+      (is (= :dog (get-in spec [:sem :pred])))
+      (is (= :sing (get-in spec [:sem :ref :number])))
+      (is (= [] (get-in spec [:sem :mod]))))))
+
 (deftest it-to-en-spec-alignment
   (testing "the italian structure is aligned with what the english lexicon expects"
     ;; italiano is pro-drop and flatter than español, so the conversion builds
@@ -110,8 +125,7 @@
     ;;     when they are not pinned by the spec. The conversion does synthesize
     ;;     a subject from :agr, but the parsed :agr can arrive as a dag atom, so
     ;;     even that is not yet stable.
-    ;;   * noun phrases are worse: the ported italian grammar does not wire the
-    ;;     head noun's :pred into the NP's :sem, so "il cane" -> "_".
+    ;;   * noun phrases now work (see it-to-en-noun-phrases above).
     ;; The italian predicates themselves are already english-aligned for these
     ;; words (cane -> :dog, dormire -> :sleep, parlare -> :talk/:speak); the
     ;; remaining work is in the italian semantics/structure, not the names.

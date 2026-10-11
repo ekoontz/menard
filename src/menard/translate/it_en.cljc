@@ -10,6 +10,15 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+(defn- resolve-dag
+  "resolve dag atoms (menard represents unbound feature values as clojure atoms)
+   so the conversion below sees plain values."
+  [x]
+  (cond #?(:clj (instance? clojure.lang.IDeref x) :cljs false) (resolve-dag @x)
+        (map? x) (into {} (map (fn [[k v]] [k (resolve-dag v)])) x)
+        (vector? x) (mapv resolve-dag x)
+        :else x))
+
 (defn- it-tense->en-sem
   "map the italiano :infl onto the :sem :tense/:aspect features english uses
    (cf. what menard.translate.es-en gets for free from the español structures)."
@@ -48,9 +57,9 @@
      * nil/:top placeholders are dropped"
   [it-structure]
   (log/debug (str "it-structure-to-en-spec tree: " (it/syntax-tree it-structure)))
-  (let [agr (let [a (u/get-in it-structure [:agr])] (if (map? a) a {}))
-        infl (u/get-in it-structure [:infl])
-        sem0 (let [s (u/get-in it-structure [:sem])] (if (map? s) s {}))
+  (let [agr (let [a (resolve-dag (u/get-in it-structure [:agr]))] (if (map? a) a {}))
+        infl (resolve-dag (u/get-in it-structure [:infl]))
+        sem0 (let [s (resolve-dag (u/get-in it-structure [:sem]))] (if (map? s) s {}))
         subj (when (and (seq agr)
                          (let [s (:subj sem0)]
                            (or (not (map? s)) (nil? (:pred s)) (= :top (:pred s)))))
@@ -60,7 +69,7 @@
                                  :ref {:number (:number agr) :human? true}
                                  :existential? false
                                  :mod []}))
-        subcat (let [sc (u/get-in it-structure [:subcat])] (if (or (nil? sc) (= :top sc)) [] sc))
+        subcat (let [sc (resolve-dag (u/get-in it-structure [:subcat]))] (if (or (nil? sc) (= :top sc)) [] sc))
         clean (fn [m] (->> m (remove (fn [[_ v]] (or (nil? v) (= :top v)))) (into {})))]
     (clean (cond-> {:cat (u/get-in it-structure [:cat])
                     :sem (clean sem)

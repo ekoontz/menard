@@ -75,6 +75,14 @@
 ;; it -> en
 ;; ---------------------------------------------------------------------------
 
+(deftest italian-np-carries-the-head-noun-semantics
+  (testing "head-sem copies the head noun's :sem (incl. :pred) into the NP"
+    ;; before menard.ug/head-sem was added to the italian np rules, "il cane"
+    ;; parsed to a :sem with the determiner's :mod but no :pred at all.
+    (let [np (first (it/parse "il cane"))]
+      (is (= :dog (u/get-in np [:sem :pred])))
+      (is (= true (u/get-in np [:sem :pet]))))))
+
 (deftest it-to-en-spec-alignment
   (testing "the italian structure is aligned with what the english lexicon expects"
     ;; italiano is pro-drop and flatter than español, so the conversion builds

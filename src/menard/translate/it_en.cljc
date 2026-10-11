@@ -58,7 +58,8 @@
   "italiano is pro-drop: the subject is only marked by :agr, so synthesize the
    english subject pronoun english needs to generate deterministically."
   [agr]
-  (let [person (:person agr) number (:number agr)]
+  (let [person (case (:person agr) :1st 1 :2nd 2 :3rd 3 (:person agr))
+        number (:number agr)]
     (cond (= [1 :sing] [person number]) :i
           (= [2 :sing] [person number]) :you
           (= [3 :sing] [person number]) :he
@@ -87,15 +88,17 @@
                          (let [s (:subj sem0)]
                            (or (not (map? s)) (nil? (:pred s)) (= :top (:pred s)))))
                  (it-agr->en-subject agr))
-        sem0 (-> sem0 it-det->en-quant (it-number->en-ref agr))
+        cat (resolve-dag (u/get-in it-structure [:cat]))
+        sem0 (cond-> (it-det->en-quant sem0)
+               (= :noun cat) (it-number->en-ref agr))
         sem (cond-> (merge sem0 {:mod (or (:mod sem0) [])} (it-tense->en-sem infl))
               subj (assoc :subj {:pred subj
                                  :ref {:number (:number agr) :human? true}
                                  :existential? false
                                  :mod []}))
-        subcat (let [sc (resolve-dag (u/get-in it-structure [:subcat]))] (if (or (nil? sc) (= :top sc)) [] sc))
+        subcat (let [sc (resolve-dag (u/get-in it-structure [:subcat]))] (if (or (nil? sc) (= :top sc) (map? sc)) [] sc))
         clean (fn [m] (->> m (remove (fn [[_ v]] (or (nil? v) (= :top v)))) (into {})))]
-    (clean (cond-> {:cat (u/get-in it-structure [:cat])
+    (clean (cond-> {:cat cat
                     :sem (clean sem)
                     :subcat subcat
                     :phrasal? true}

@@ -83,6 +83,15 @@
       (is (= :dog (u/get-in np [:sem :pred])))
       (is (= true (u/get-in np [:sem :pet]))))))
 
+(deftest it-to-en-verbs
+  (testing "a verb sentence gets its subject from :agr (italiano is pro-drop)"
+    ;; the second-person/third-person forms come out pluralised with an emoji
+    ;; marker and whole sentences still mis-select the verb, so only the
+    ;; singular cases are asserted.
+    (is (= "I talk" (translate/it-to-en "parlo")))
+    (is (= "I sleep" (translate/it-to-en "dormo")))
+    (is (= "he sleeps" (translate/it-to-en "dorme")))))
+
 (deftest it-to-en-noun-phrases
   (testing "definite italian noun phrases translate"
     ;; the italian determiner (:mod :first :pred :definite) is moved onto
@@ -119,10 +128,10 @@
 (deftest it-to-en-remaining-work
   (testing "documented gaps in the it->en alignment"
     ;; Recorded here rather than asserted, so the gaps stay visible:
-    ;;   * generating a full english sentence from the aligned spec is
-    ;;     order-sensitive: "parlo" yields "I talk" or "what talk" depending on
-    ;;     the run, because english still has freedom over the subject/object
-    ;;     when they are not pinned by the spec. The conversion does synthesize
+    ;;   * third-person-plural subjects come out with menard's formality emoji
+    ;;     markers ("parlano" -> "they \ud83d\udc67\ud83c\udffb\ud83d\udc75\ud83c\udfff talk");
+    ;;   * whole sentences still mis-select the verb ("il cane dorme" -> "he
+    ;;     cheats"). The conversion does synthesize
     ;;     a subject from :agr, but the parsed :agr can arrive as a dag atom, so
     ;;     even that is not yet stable.
     ;;   * noun phrases now work (see it-to-en-noun-phrases above).

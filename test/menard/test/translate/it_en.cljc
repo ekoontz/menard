@@ -84,16 +84,35 @@
       (is (= true (u/get-in np [:sem :pet]))))))
 
 (deftest it-to-en-verbs
-  (testing "a verb sentence gets its subject from :agr (italiano is pro-drop)"
-    ;; the second-person/third-person forms come out pluralised with an emoji
-    ;; marker and whole sentences still mis-select the verb, so only the
-    ;; singular cases are asserted.
+  (testing "a pro-drop subject is realized from :agr"
+    ;; third-person-plural subjects come out with menard's own person-emoji
+    ;; markers, so only the forms without them are asserted here.
     (is (= "I talk" (translate/it-to-en "parlo")))
     (is (= "I sleep" (translate/it-to-en "dormo")))
     (is (= "he sleeps" (translate/it-to-en "dorme"))))
+  (testing "an explicit pronoun subject is realized the same way"
+    ;; english spells its pronouns itself, so italiano's own pronoun
+    ;; predicates (:I, :we, ...) are not carried across.
+    (is (= "I talk" (translate/it-to-en "io parlo")))
+    (is (= "I sleep" (translate/it-to-en "io dormo"))))
   (testing "the verb reaches the sentence (menard.ug/head-sem on the s rules)"
-    (is (= :sleep (u/get-in (first (it/parse "il cane dorme")) [:sem :pred])))
-    (is (= "he sleeps" (translate/it-to-en "il cane dorme")))))
+    (is (= :sleep (u/get-in (first (it/parse "il cane dorme")) [:sem :pred])))))
+
+(deftest it-to-en-sentences
+  (testing "an explicit subject noun reaches the verb
+            (menard.ug/subject-is-comp), rather than being defaulted to a
+            pronoun from :agr"
+    (is (= :dog (u/get-in (first (it/parse "il cane dorme")) [:sem :subj :pred])))
+    (is (= "the dog sleeps" (translate/it-to-en "il cane dorme")))
+    (is (= "the cat sleeps" (translate/it-to-en "il gatto dorme")))
+    (is (= "the dogs sleep" (translate/it-to-en "i cani dormono"))))
+  (testing "the subject is a noun phrase for english (cf. it-to-en-noun-phrases)"
+    (let [spec (translate/it-structure-to-en-spec (first (it/parse "il cane dorme")))]
+      (is (= :the (get-in spec [:sem :subj :quant])))
+      (is (= :dog (get-in spec [:sem :subj :pred])))
+      (is (= :sing (get-in spec [:sem :subj :ref :number])))
+      ;; without this english generates the existential "there sleeps".
+      (is (= false (get-in spec [:sem :subj :existential?]))))))
 
 (deftest it-to-en-noun-phrases
   (testing "definite italian noun phrases translate"
@@ -131,14 +150,15 @@
 (deftest it-to-en-remaining-work
   (testing "documented gaps in the it->en alignment"
     ;; Recorded here rather than asserted, so the gaps stay visible:
-    ;;   * third-person-plural subjects come out with menard's formality emoji
-    ;;     markers ("parlano" -> "they \ud83d\udc67\ud83c\udffb\ud83d\udc75\ud83c\udfff talk");
-    ;;   * whole sentences still mis-select the verb ("il cane dorme" -> "he
-    ;;     cheats"). The conversion does synthesize
-    ;;     a subject from :agr, but the parsed :agr can arrive as a dag atom, so
-    ;;     even that is not yet stable.
-    ;;   * noun phrases now work (see it-to-en-noun-phrases above).
-    ;; The italian predicates themselves are already english-aligned for these
-    ;; words (cane -> :dog, dormire -> :sleep, parlare -> :talk/:speak); the
-    ;; remaining work is in the italian semantics/structure, not the names.
+    ;;   * a third-person-plural *pro-drop* subject comes out with menard's
+    ;;     person-emoji markers ("parlano" -> "they <emojis> talk"), the same
+    ;;     convention the español->english tests assert for 2nd person; an
+    ;;     explicit subject noun does not ("i cani dormono" -> "the dogs
+    ;;     sleep");
+    ;;   * italian pronoun predicates are not english-aligned ("io" is
+    ;;     :pred :I where english has :i), which is why a pronoun subject is
+    ;;     realized from :agr instead.
+    ;; The italian predicates for common nouns and verbs are already
+    ;; english-aligned (cane -> :dog, dormire -> :sleep, parlare ->
+    ;; :talk/:speak).
     (is (string? (translate/it-to-en "parlo")))))

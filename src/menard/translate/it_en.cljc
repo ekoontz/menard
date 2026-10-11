@@ -68,6 +68,35 @@
           (= [3 :plur] [person number]) :they
           :else nil)))
 
+(def ^:private it-pronoun-preds
+  "italiano's pronoun predicates (cf. resources/italiano/lexicon/pronouns.edn).
+   english spells its pronouns itself, so a pronoun subject is realized from
+   :agr (it-agr->en-subject) rather than from its italiano predicate."
+  #{:i :I :we :you :you-all :he :she :they :it})
+
+(defn- it-subject->en-subject
+  "The clause's subject as english wants it.
+
+   A sentence with an explicit subject noun gets its subject semantics from the
+   grammar (menard.ug/subject-is-comp), so an italian noun phrase has to be
+   converted the same way a noun phrase is: determiner to :quant, number to
+   :ref. It is then marked non-existential, without which english generates the
+   existential 'there sleeps' instead of 'the dog sleeps'.
+
+   An italian pronoun subject, or no subject at all (italiano is pro-drop), is
+   synthesized from :agr: english has no italian pronoun predicates."
+  [it-subj agr]
+  (if (and it-subj (not (contains? it-pronoun-preds (:pred it-subj))))
+    (-> it-subj
+        (it-det->en-quant)
+        (it-number->en-ref agr)
+        (assoc :existential? false))
+    (when-let [pronoun (it-agr->en-subject agr)]
+      {:pred pronoun
+       :ref {:number (:number agr) :human? true}
+       :existential? false
+       :mod []})))
+
 (defn it-structure-to-en-spec
   "Turn a parsed italiano structure into a spec menard.english can generate from.
 
@@ -76,7 +105,8 @@
    as a list, :phrasal?). The ported italiano structures are flatter, so this
    aligns them with the english lexicon's expectations:
      * :infl becomes :sem :tense/:aspect
-     * a pro-drop subject is synthesized from :agr into :sem :subj
+     * :sem :subj is an explicit subject noun if the sentence had one, or
+       synthesized from :agr (italiano is pro-drop) otherwise
      * :sem :mod and :subcat default to []
      * nil/:top placeholders are dropped"
   [it-structure]
@@ -84,18 +114,15 @@
   (let [agr (let [a (resolve-dag (u/get-in it-structure [:agr]))] (if (map? a) a {}))
         infl (resolve-dag (u/get-in it-structure [:infl]))
         sem0 (let [s (resolve-dag (u/get-in it-structure [:sem]))] (if (map? s) s {}))
-        subj (when (and (seq agr)
-                         (let [s (:subj sem0)]
-                           (or (not (map? s)) (nil? (:pred s)) (= :top (:pred s)))))
-                 (it-agr->en-subject agr))
+        it-subj (let [s (:subj sem0)]
+                  (when (and (map? s) (some? (:pred s)) (not= :top (:pred s))) s))
+        subj (it-subject->en-subject it-subj agr)
         cat (resolve-dag (u/get-in it-structure [:cat]))
         sem0 (cond-> (it-det->en-quant sem0)
                (= :noun cat) (it-number->en-ref agr))
-        sem (cond-> (merge sem0 {:mod (or (:mod sem0) [])} (it-tense->en-sem infl))
-              subj (assoc :subj {:pred subj
-                                 :ref {:number (:number agr) :human? true}
-                                 :existential? false
-                                 :mod []}))
+        sem (cond-> (-> (merge sem0 {:mod (or (:mod sem0) [])} (it-tense->en-sem infl))
+                        (dissoc :subj))
+              subj (assoc :subj subj))
         subcat (let [sc (resolve-dag (u/get-in it-structure [:subcat]))] (if (or (nil? sc) (= :top sc) (map? sc)) [] sc))
         clean (fn [m] (->> m (remove (fn [[_ v]] (or (nil? v) (= :top v)))) (into {})))]
     (clean (cond-> {:cat cat

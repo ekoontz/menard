@@ -24,6 +24,13 @@
     :head {:sem {:subj {:ref subj-ref}}}
     :comp {:sem {:subj subj-ref}}})
 
+ ;; in a clause rule whose comp is the subject, the subject's semantics
+ ;; land in the head verb's :sem|subj slot.
+ (let [subj (atom :top)]
+   {:def 'subject-is-comp
+    :head {:sem {:subj subj}}
+    :comp {:sem subj}})
+
  (let [aux (atom :top)]
    {:def 'head-aux
     :aux? aux

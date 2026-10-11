@@ -344,4 +344,3 @@
 (map (fn [rule]
        (dag_unify.core/unify rule {:u {:sem {:aspect :simple
                                              :tense :present}}})))
-)

@@ -168,7 +168,8 @@
   [menard.ug/head-last
    menard.subcat/a
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem],
   :italiano/babel-spec
   {:head {:phrasal true, :synsem {:aux true}},
    :rule "s-aux",
@@ -457,7 +458,8 @@
   [menard.ug/head-last
    menard.subcat/a
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem],
   :cat :verb,
   :rule "s",
   :italiano/merged-from

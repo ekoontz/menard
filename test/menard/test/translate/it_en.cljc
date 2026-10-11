@@ -90,7 +90,10 @@
     ;; singular cases are asserted.
     (is (= "I talk" (translate/it-to-en "parlo")))
     (is (= "I sleep" (translate/it-to-en "dormo")))
-    (is (= "he sleeps" (translate/it-to-en "dorme")))))
+    (is (= "he sleeps" (translate/it-to-en "dorme"))))
+  (testing "the verb reaches the sentence (menard.ug/head-sem on the s rules)"
+    (is (= :sleep (u/get-in (first (it/parse "il cane dorme")) [:sem :pred])))
+    (is (= "he sleeps" (translate/it-to-en "il cane dorme")))))
 
 (deftest it-to-en-noun-phrases
   (testing "definite italian noun phrases translate"

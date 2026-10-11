@@ -71,8 +71,11 @@
 (def ^:private it-pronoun-preds
   "italiano's pronoun predicates (cf. resources/italiano/lexicon/pronouns.edn).
    english spells its pronouns itself, so a pronoun subject is realized from
-   :agr (it-agr->en-subject) rather than from its italiano predicate."
-  #{:i :I :we :you :you-all :he :she :they :it})
+   :agr (it-agr->en-subject) rather than from its italiano predicate. The two
+   conjoined ones ('Giovanni e io', 'Luisa e io') have no english counterpart at
+   all, so they fall back to the agreement pronoun as well."
+  #{:i :we :you :he :she :they :it
+    :giovanni-and-i :luisa-and-i})
 
 (defn- it-subject->en-subject
   "The clause's subject as english wants it.

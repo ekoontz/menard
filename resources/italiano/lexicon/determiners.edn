@@ -26,7 +26,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :masc, :number :plur},
-   :sem {:number :sing, :of {:pred :I}, :person :1st}}],
+   :sem {:number :sing, :of {:pred :i}, :person :1st}}],
  "i nostri"
  [{:cat :det,
    :def :possessive,
@@ -50,7 +50,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :masc, :number :plur},
-   :sem {:number :plur, :of {:pred :you-all}, :person :2nd}}],
+   :sem {:number :plur, :of {:pred :you}, :person :2nd}}],
  "il"
  [{:cat :det,
    :def :def,
@@ -65,7 +65,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :masc, :number :sing},
-   :sem {:number :sing, :of {:pred :I}, :person :1st}}],
+   :sem {:number :sing, :of {:pred :i}, :person :1st}}],
  "il nostro"
  [{:cat :det,
    :def :possessive,
@@ -89,7 +89,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :masc, :number :sing},
-   :sem {:number :plur, :of {:pred :you-all}, :person :2nd}}],
+   :sem {:number :plur, :of {:pred :you}, :person :2nd}}],
  "l'"
  [{:cat :det,
    :def :def,
@@ -110,7 +110,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :fem, :number :sing},
-   :sem {:number :sing, :of {:pred :I}, :person :1st}}],
+   :sem {:number :sing, :of {:pred :i}, :person :1st}}],
  "la nostra"
  [{:cat :det,
    :def :possessive,
@@ -134,7 +134,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :fem, :number :sing},
-   :sem {:number :plur, :of {:pred :you-all}, :person :2nd}}],
+   :sem {:number :plur, :of {:pred :you}, :person :2nd}}],
  "le"
  [{:cat :det,
    :def :def,
@@ -149,7 +149,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :fem, :number :plur},
-   :sem {:number :sing, :of {:pred :I}, :person :1st}}],
+   :sem {:number :sing, :of {:pred :i}, :person :1st}}],
  "le nostre"
  [{:cat :det,
    :def :possessive,
@@ -173,7 +173,7 @@
  [{:cat :det,
    :def :possessive,
    :agr {:gender :fem, :number :plur},
-   :sem {:number :plur, :of {:pred :you-all}, :person :2nd}}],
+   :sem {:number :plur, :of {:pred :you}, :person :2nd}}],
  "lo"
  [{:cat :det,
    :def :def,

@@ -145,7 +145,15 @@
 
   (testing "the aligned predicates are the english ones"
     (is (contains? #{:talk :speak} (get-in (translate/it-structure-to-en-spec (first (it/parse "parlo"))) [:sem :pred])))
-    (is (= :sleep (get-in (translate/it-structure-to-en-spec (first (it/parse "dormo"))) [:sem :pred])))))
+    (is (= :sleep (get-in (translate/it-structure-to-en-spec (first (it/parse "dormo"))) [:sem :pred]))))
+
+  (testing "pronouns and possessives use english's predicate spellings"
+    ;; the port kept babel's :I and :you-all, which english spells :i and :you;
+    ;; english tells plural 'you' by :agr, not by the predicate.
+    (is (= :i (u/get-in (first (it/parse "io parlo")) [:sem :subj :pred])))
+    (is (= :you (u/get-in (first (it/parse "voi parlate")) [:sem :subj :pred])))
+    (is (= :i (u/get-in (first (it/analyze "il mio" false)) [:sem :of :pred])))
+    (is (= :you (u/get-in (first (it/analyze "il vostro" false)) [:sem :of :pred])))))
 
 (deftest it-to-en-remaining-work
   (testing "documented gaps in the it->en alignment"
@@ -155,9 +163,15 @@
     ;;     convention the español->english tests assert for 2nd person; an
     ;;     explicit subject noun does not ("i cani dormono" -> "the dogs
     ;;     sleep");
-    ;;   * italian pronoun predicates are not english-aligned ("io" is
-    ;;     :pred :I where english has :i), which is why a pronoun subject is
-    ;;     realized from :agr instead.
+    ;;   * italian pronoun predicates are english-aligned now ("io" is :pred
+    ;;     :i), but english cannot spell a pronoun subject from a bare :sem,
+    ;;     so a pronoun subject is still realized from :agr;
+    ;;   * a possessive determiner is not converted at all, so "il mio cane"
+    ;;     generates nonsense ("that amusing dog"); the conversion maps
+    ;;     :definite/:indefinite to :quant and has no :def/:possessive case;
+    ;;   * the conjoined pronoun subjects ("Giovanni e io", "Luisa e io") have
+    ;;     no english predicate, so they fall back to the agreement pronoun
+    ;;     ("we"), which loses the conjunction.
     ;; The italian predicates for common nouns and verbs are already
     ;; english-aligned (cane -> :dog, dormire -> :sleep, parlare ->
     ;; :talk/:speak).

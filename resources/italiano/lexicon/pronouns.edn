@@ -39,13 +39,13 @@
    :pronoun true,
    :case :nom,
    :agr {:gender :fem, :person :1st, :number :sing},
-   :sem {:pred :I, :human true},
+   :sem {:pred :i, :human true},
    :subcat []}
   {:cat :noun,
    :pronoun true,
    :case :nom,
    :agr {:gender :masc, :person :1st, :number :sing},
-   :sem {:pred :I, :human true},
+   :sem {:pred :i, :human true},
    :subcat []}],
  "la"
  [{:cat :noun,
@@ -208,7 +208,7 @@
    :pronoun true,
    :case :acc,
    :agr {:person :2nd, :number :plur},
-   :sem {:human true, :pred :you-all},
+   :sem {:human true, :pred :you},
    :subcat [],
    :italiano {:initial true}}],
  "voi"
@@ -216,11 +216,11 @@
    :pronoun true,
    :case :nom,
    :agr {:person :2nd, :gender :fem, :number :plur},
-   :sem {:pred :you-all, :human true},
+   :sem {:pred :you, :human true},
    :subcat []}
   {:cat :noun,
    :pronoun true,
    :case :nom,
    :agr {:person :2nd, :gender :masc, :number :plur},
-   :sem {:pred :you-all, :human true},
+   :sem {:pred :you, :human true},
    :subcat []}]}

@@ -10,23 +10,63 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
-(defn it-structure-to-en-spec [it-structure]
-  (log/debug (str "it-structure-to-en-spec tree: " (it/syntax-tree it-structure)))
-  (let [sem-mod (if (not (= (u/get-in it-structure [:sem :mod]) []))
-                  (u/get-in it-structure [:sem :mod])
-                  [])
+(defn- it-tense->en-sem
+  "map the italiano :infl onto the :sem :tense/:aspect features english uses
+   (cf. what menard.translate.es-en gets for free from the español structures)."
+  [infl]
+  (case infl
+    :present     {:tense :present :aspect :simple}
+    :future      {:tense :future}
+    :conditional {:tense :conditional}
+    :imperfetto  {:tense :past :aspect :progressive}
+    :passato     {:tense :present :aspect :perfect}
+    {}))
 
-        ;; TODO: what is going on here?
-        pronoun? (if (= (u/get-in it-structure [:pronoun?] ::none) ::none)
-                   (u/get-in it-structure [:pronoun?])
-                   false)]
-    (unify {:pronoun? pronoun?
-            :sem {:mod sem-mod}}
-           {:agr (-> it-structure (u/get-in [:agr]))
-            :sem (-> it-structure (u/get-in [:sem]))
-            :cat (-> it-structure (u/get-in [:cat]))
-            :phrasal? (-> it-structure (u/get-in [:phrasal?] :top))
-            :subcat (-> it-structure (u/get-in [:subcat]))})))
+(defn- it-agr->en-subject
+  "italiano is pro-drop: the subject is only marked by :agr, so synthesize the
+   english subject pronoun english needs to generate deterministically."
+  [agr]
+  (let [person (:person agr) number (:number agr)]
+    (cond (= [1 :sing] [person number]) :i
+          (= [2 :sing] [person number]) :you
+          (= [3 :sing] [person number]) :he
+          (= [1 :plur] [person number]) :we
+          (= [2 :plur] [person number]) :you
+          (= [3 :plur] [person number]) :they
+          :else nil)))
+
+(defn it-structure-to-en-spec
+  "Turn a parsed italiano structure into a spec menard.english can generate from.
+
+   The conversion in menard.translate.es-en works because the español structures
+   already have english's shape (tense/aspect inside :sem, a :sem :subj, :subcat
+   as a list, :phrasal?). The ported italiano structures are flatter, so this
+   aligns them with the english lexicon's expectations:
+     * :infl becomes :sem :tense/:aspect
+     * a pro-drop subject is synthesized from :agr into :sem :subj
+     * :sem :mod and :subcat default to []
+     * nil/:top placeholders are dropped"
+  [it-structure]
+  (log/debug (str "it-structure-to-en-spec tree: " (it/syntax-tree it-structure)))
+  (let [agr (let [a (u/get-in it-structure [:agr])] (if (map? a) a {}))
+        infl (u/get-in it-structure [:infl])
+        sem0 (let [s (u/get-in it-structure [:sem])] (if (map? s) s {}))
+        subj (when (and (seq agr)
+                         (let [s (:subj sem0)]
+                           (or (not (map? s)) (nil? (:pred s)) (= :top (:pred s)))))
+                 (it-agr->en-subject agr))
+        sem (cond-> (merge sem0 {:mod (or (:mod sem0) [])} (it-tense->en-sem infl))
+              subj (assoc :subj {:pred subj
+                                 :ref {:number (:number agr) :human? true}
+                                 :existential? false
+                                 :mod []}))
+        subcat (let [sc (u/get-in it-structure [:subcat])] (if (or (nil? sc) (= :top sc)) [] sc))
+        clean (fn [m] (->> m (remove (fn [[_ v]] (or (nil? v) (= :top v)))) (into {})))]
+    (clean (cond-> {:cat (u/get-in it-structure [:cat])
+                    :sem (clean sem)
+                    :subcat subcat
+                    :phrasal? true}
+             (seq agr) (assoc :agr agr)))))
 
 (defn en-structure-to-it-spec [en-structure]
   (log/debug (str "en-structure-to-ee-spec tree: " (en/syntax-tree en-structure)))

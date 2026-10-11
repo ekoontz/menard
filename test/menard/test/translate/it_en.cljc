@@ -75,26 +75,36 @@
 ;; it -> en
 ;; ---------------------------------------------------------------------------
 
-;; TODO: it->en translation is not asserted yet, because the spec conversion
-;; (menard.translate.it-en/it-structure-to-en-spec, copied from the español
-;; module) does not fit the italiano structures produced by the ported
-;; grammar/lexicon yet:
-;;
-;;   * it-structure-to-en-spec unifies {:pronoun? ...} with {:sem {:mod ...}}
-;;     and returns :fail for structures whose :sem has no :mod (e.g. a verb),
-;;     so it-to-en falls through to the "_" placeholder.
-;;   * where the spec *is* produced (e.g. "il cane"), english generation
-;;     rejects it, because the italian noun's :sem (:pred nil, determiner
-;;     semantics under :mod) does not line up with what menard's english
-;;     lexicon/grammar expect.
-;;
-;; Until the italian semantics are aligned with the english ones, these are
-;; kept here as documentation:
-(comment
-  (deftest it-to-en
-    (is (or (= "I want" (translate/it-to-en "voglio"))
-            (= "I like" (translate/it-to-en "voglio"))
-            (= "I love" (translate/it-to-en "voglio")))))
+(deftest it-to-en-spec-alignment
+  (testing "the italian structure is aligned with what the english lexicon expects"
+    ;; italiano is pro-drop and flatter than español, so the conversion builds
+    ;; the shape english generation needs: :pred kept, :infl turned into
+    ;; :sem :tense/:aspect, a subject synthesized from :agr, and :mod/:subcat
+    ;; as lists.
+    (let [spec (translate/it-structure-to-en-spec (first (it/parse "parlo")))]
+      (is (= :talk (get-in spec [:sem :pred])))
+      (is (= :present (get-in spec [:sem :tense])))
+      (is (= :simple (get-in spec [:sem :aspect])))
+      (is (= [] (get-in spec [:sem :mod])))
+      (is (= [] (:subcat spec)))
+      (is (= :verb (:cat spec)))))
 
-  (deftest it-to-en-noun-phrase
-    (is (string? (translate/it-to-en "il cane")))))
+  (testing "the aligned predicates are the english ones"
+    (is (contains? #{:talk :speak} (get-in (translate/it-structure-to-en-spec (first (it/parse "parlo"))) [:sem :pred])))
+    (is (= :sleep (get-in (translate/it-structure-to-en-spec (first (it/parse "dormo"))) [:sem :pred])))))
+
+(deftest it-to-en-remaining-work
+  (testing "documented gaps in the it->en alignment"
+    ;; Recorded here rather than asserted, so the gaps stay visible:
+    ;;   * generating a full english sentence from the aligned spec is
+    ;;     order-sensitive: "parlo" yields "I talk" or "what talk" depending on
+    ;;     the run, because english still has freedom over the subject/object
+    ;;     when they are not pinned by the spec. The conversion does synthesize
+    ;;     a subject from :agr, but the parsed :agr can arrive as a dag atom, so
+    ;;     even that is not yet stable.
+    ;;   * noun phrases are worse: the ported italian grammar does not wire the
+    ;;     head noun's :pred into the NP's :sem, so "il cane" -> "_".
+    ;; The italian predicates themselves are already english-aligned for these
+    ;; words (cane -> :dog, dormire -> :sleep, parlare -> :talk/:speak); the
+    ;; remaining work is in the italian semantics/structure, not the names.
+    (is (string? (translate/it-to-en "parlo")))))

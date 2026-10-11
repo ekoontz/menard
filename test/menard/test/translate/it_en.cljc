@@ -129,6 +129,31 @@
       (is (= :sing (get-in spec [:sem :ref :number])))
       (is (= [] (get-in spec [:sem :mod]))))))
 
+(deftest it-to-en-possessives
+  (testing "a possessive determiner becomes english's :quant"
+    ;; italiano's possessive carries the possessor in :of (il mio cane is
+    ;; :of {:pred :i}); english uses the possessor itself as the quantifier,
+    ;; cf. english "my" = {:pred :i} and "my dog" :quant :i
+    (is (= "my dog" (translate/it-to-en "il mio cane")))
+    (is (= "my dogs" (translate/it-to-en "i miei cani")))
+    (is (= "my house" (translate/it-to-en "la mia casa")))
+    (is (= "his dog" (translate/it-to-en "il suo cane")))
+    (is (= "our dog" (translate/it-to-en "il nostro cane")))
+    (is (= "their dog" (translate/it-to-en "il loro cane")))
+    (let [spec (translate/it-structure-to-en-spec (first (it/parse "il mio cane")))]
+      (is (= :i (get-in spec [:sem :quant])))
+      (is (= [] (get-in spec [:sem :mod])))))
+  (testing "a possessive subject reaches the verb too"
+    (is (= "my dog sleeps" (translate/it-to-en "il mio cane dorme"))))
+  (testing "second person keeps menard's person-emoji convention"
+    ;; english keeps formality in :context/:note on its "your" entries, and
+    ;; menard marks 2nd person with emoji whatever :context is set to (and
+    ;; which emoji is picked varies), so match around them rather than pinning
+    ;; an emoji.
+    (let [en (translate/it-to-en "il tuo cane")]
+      (is (re-find #"^your " en))
+      (is (re-find #"dog$" en)))))
+
 (deftest it-to-en-spec-alignment
   (testing "the italian structure is aligned with what the english lexicon expects"
     ;; italiano is pro-drop and flatter than español, so the conversion builds
@@ -166,12 +191,16 @@
     ;;   * italian pronoun predicates are english-aligned now ("io" is :pred
     ;;     :i), but english cannot spell a pronoun subject from a bare :sem,
     ;;     so a pronoun subject is still realized from :agr;
-    ;;   * a possessive determiner is not converted at all, so "il mio cane"
-    ;;     generates nonsense ("that amusing dog"); the conversion maps
-    ;;     :definite/:indefinite to :quant and has no :def/:possessive case;
+    ;;   * menard renders 2nd person with person-emoji markers, so 2nd-person
+    ;;     subjects and possessives ("il tuo cane" -> "your <emoji> dog")
+    ;;     carry them; that is menard's convention, not a conversion gap;
     ;;   * the conjoined pronoun subjects ("Giovanni e io", "Luisa e io") have
     ;;     no english predicate, so they fall back to the agreement pronoun
-    ;;     ("we"), which loses the conjunction.
+    ;;     ("we"), which loses the conjunction;
+    ;;   * 155 italian predicates have no english counterpart at all
+    ;;     ("donna" is :pred :donna where english has :woman, "madre" :madre
+    ;;     vs :mother, "birra"/"vino" vs :beer/:wine), so those nouns cannot
+    ;;     translate; some are simply unaligned and some are real gaps.
     ;; The italian predicates for common nouns and verbs are already
     ;; english-aligned (cane -> :dog, dormire -> :sleep, parlare ->
     ;; :talk/:speak).

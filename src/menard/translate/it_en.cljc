@@ -11,13 +11,21 @@
             #?(:cljs [menard.log :as log])))
 
 (defn- it-det->en-quant
-  "italiano keeps its determiner as a modifier (:mod :first, :pred :definite /
-   :indefinite); english wants it as :sem :quant, so move it."
+  "italiano keeps its determiner as a modifier (:mod :first); english wants it
+   as :sem :quant, so move it: a determiner's :pred is english's :quant for
+   :definite (:the) and :indefinite (:some), and a possessive carries its
+   possessor in :of, which is english's :quant too (english determines \"my\"
+   from {:pred :i}, and \"my dog\" has :quant :i)."
   [sem]
-  (let [quant (case (get-in sem [:mod :first :pred])
-                :definite :the
-                :indefinite :some
-                nil)]
+  (let [det (get-in sem [:mod :first])
+        quant (or (case (:pred det)
+                    :definite :the
+                    :indefinite :some
+                    nil)
+                  (let [possessor (:pred (:of det))]
+                    (when (and (keyword? possessor)
+                               (not= :top possessor))
+                      possessor)))]
     (if quant
       (-> sem
           (assoc :quant quant)

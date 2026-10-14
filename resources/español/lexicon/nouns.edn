@@ -7,6 +7,10 @@
  [{:agr {:gender :masc}
    :sem {:pred :cat}}]
 
+ "lápiz"
+ [{:agr {:gender :masc}
+   :sem {:pred :pencil}}]
+
  "madre"
  [{:agr {:gender :fem}
    :sem {:pred :mother}}]
@@ -14,5 +18,17 @@
  "mesa"
  [{:agr {:gender :fem}
    :sem {:pred :table}}]
+
+ "rubí"
+ [{:agr {:gender :masc}
+   :sem {:pred :ruby}}]
+
+ "tabú"
+ [{:agr {:gender :masc}
+   :sem {:pred :taboo}}]
+
+ "vez"
+ [{:agr {:gender :fem}
+   :sem {:pred :time}}]
 
  }

@@ -18,7 +18,16 @@
       :propernoun? false
       :agr {:number :sing}}}
 
- {:g [(re-pattern "^(.*[dlnr])$")   "$1es"]
+ {:g [(re-pattern "^(.*)z$")      "$1ces"]
+  :p [(re-pattern "^(.*)ces$")    "$1z"]
+  :u {:cat :noun
+      :pronoun? false
+      :propernoun? false
+      :agr {:number :plur}}}
+
+ ;; endings in d, l, n or r (as in "ciudad" -> "ciudades"), or in a stressed
+ ;; í or ú (as in "rubí" -> "rubíes"), add -es instead of -s:
+ {:g [(re-pattern "^(.*[dlnríú])$") "$1es"]
   :p [(re-pattern "^(.*)es$")       "$1"]
   :u {:cat :noun
       :pronoun? false

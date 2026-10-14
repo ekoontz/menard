@@ -39,3 +39,4 @@ server/.nrepl-port
 profile*
 .clj-kondo/
 .lsp/
+.vscode/

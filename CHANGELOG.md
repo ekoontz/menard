@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.11.0] - 2026-10-14
+
+Italian: port babel's Italian to menard, and translate Italian to English.
+
+- Add resources/italiano and menard.italiano: grammar, morphology (nouns,
+  determiners, adjectives and verbs) and lexicon, ported from babel.
+- Add menard.translate.it_en: translate Italian sentences to English,
+  including the subject as well as the verb, definite noun phrases,
+  pronouns and possessive determiners.
+- Add tests: menard.test.italiano, menard.test.italiano.morphology and
+  menard.test.translate.it_en.
+- Read .edn morphology files as EDN: replace regex literals with
+  (re-pattern ...).
+- Spanish: add plural rules for nouns ending in -z (lápiz -> lápices) and
+  in a stressed -í or -ú (rubí -> rubíes, tabú -> tabúes), and add lápiz,
+  vez, rubí and tabú to the lexicon.
+- Fix a stray closing paren at the end of español/morphology/present.edn.
+- Add .vscode/ to .gitignore.
+
 ## [1.10.7] - 2026-09-24
 
 Fix accent for one Spanish verb: mentir

@@ -25,6 +25,23 @@
       :propernoun? false
       :agr {:number :plur}}}
 
+ ;; endings in -ón lose the accent in the plural
+ {:g [(re-pattern "^(.*)ón$")   "$1ones"]
+  :p [(re-pattern "^(.*)ones$") "$1ón"]
+  :u {:cat :noun
+      :pronoun? false
+      :propernoun? false
+      :agr {:number :plur}}}
+
+ ;; endings in -án lose the accent in the plural
+ {:g [(re-pattern "^(.*)án$")   "$1anes"]
+  :p [(re-pattern "^(.*)anes$") "$1án"]
+  :u {:cat :noun
+      :pronoun? false
+      :propernoun? false
+      :agr {:number :plur}}}
+
+
  ;; endings in d, l, n or r (as in "ciudad" -> "ciudades"), or in a stressed
  ;; í or ú (as in "rubí" -> "rubíes"), add -es instead of -s:
  {:g [(re-pattern "^(.*[dlnríúy])$") "$1es"]

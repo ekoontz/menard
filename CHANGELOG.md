@@ -22,6 +22,7 @@ Italian: port babel's Italian to menard, and translate Italian to English.
   vez, rubí and tabú to the lexicon.
 - Fix a stray closing paren at the end of español/morphology/present.edn.
 - Add .vscode/ to .gitignore.
+- Upgrade to latest dag_unify release
 
 ## [1.10.7] - 2026-09-24
 

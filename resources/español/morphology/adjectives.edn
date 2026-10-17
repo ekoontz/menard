@@ -69,16 +69,30 @@
 
  ;; plural
  ;; plural masculine
- 
+
+ ;; for adjectives ending in -ón: remove accent and add -es
+ {:g [(re-pattern "^(.*)(ón)$") "$1ones"]
+  :p [(re-pattern "(.*)ones$")  "$1ón"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
+ ;; for adjectives ending in -án: remove accent and add -es
+ {:g [(re-pattern "^(.*)(án)$") "$1anes"]
+  :p [(re-pattern "(.*)anes$")  "$1án"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
  ;; masculine plural: -n -z final does not change
- {:g [(re-pattern "^(.*[nz])$") "$1"] 
+ {:g [(re-pattern "^(.*[nz])$") "$1"]
   :p [(re-pattern "(.*[nz])$")  "$1"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}
 
  ;; otherwise: add -s for masculine plural
- {:g [(re-pattern "^(.*[^nz])$") "$1s"] 
+ {:g [(re-pattern "^(.*[^nz])$") "$1s"]
   :p [(re-pattern "(.*[^nz])s$") "$1"]
   :u {:cat :adjective
       :agr {:gender :masc
@@ -86,7 +100,7 @@
 
  ;; plural feminine
  ;; feminine plural: -o adjectives:
- {:g [(re-pattern "^(.*)o$") "$1as"] 
+ {:g [(re-pattern "^(.*)o$") "$1as"]
   :p [(re-pattern "(.*)as$") "$1o"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -94,7 +108,7 @@
 
  ;; for adjectives ending in -án: add 'es' suffix and remove accent
  ;; to make it feminine:
- {:g [(re-pattern "^(.*)(án)$") "$1anes"] 
+ {:g [(re-pattern "^(.*)(án)$") "$1anes"]
   :p [(re-pattern "(.*)anes$")  "$1án"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -102,7 +116,7 @@
 
  ;; for adjectives ending in -és: add 'es' suffix and remove accent
  ;; to make it feminine:
- {:g [(re-pattern "^(.*)(és)$") "$1esas"] 
+ {:g [(re-pattern "^(.*)(és)$") "$1esas"]
   :p [(re-pattern "(.*)a$")     "$1"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -110,7 +124,7 @@
 
   ;; for adjectives ending in -ín: add 'es' suffix and remove accent
  ;; to make it feminine:
- {:g [(re-pattern "^(.*)(ín)$") "$1inas"] 
+ {:g [(re-pattern "^(.*)(ín)$") "$1inas"]
   :p [(re-pattern "(.*)a$")     "$1"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -118,7 +132,7 @@
 
   ;; for adjectives ending in -ón: add 'es' suffix and remove accent
  ;; to make it feminine:
- {:g [(re-pattern "^(.*)(ón)$") "$1onas"] 
+ {:g [(re-pattern "^(.*)(ón)$") "$1onas"]
   :p [(re-pattern "(.*)a$")     "$1"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -126,21 +140,21 @@
 
   ;; for adjectives ending in -or: add 'es' suffix
  ;; to make it feminine:
- {:g [(re-pattern "^(.*)(or)$") "$1$2es"] 
+ {:g [(re-pattern "^(.*)(or)$") "$1$2es"]
   :p [(re-pattern "(.*)a$")     "$1"]
   :u {:cat :adjective
       :agr {:gender :fem
             :number :plur}}}
- 
+
   ;; feminine plural: -e,-l adjectives:
- {:g [(re-pattern "^(.*)([el])$") "$1$2s"] 
+ {:g [(re-pattern "^(.*)([el])$") "$1$2s"]
   :p [(re-pattern "(.*)([el])s$") "$1$2"]
   :u {:cat :adjective
       :agr {:gender :fem
             :number :plur}}}
 
   ;; feminine plural: -z, adjectives:
- {:g [(re-pattern "^(.*)(z)$") "$1ces"] 
+ {:g [(re-pattern "^(.*)(z)$") "$1ces"]
   :p [(re-pattern "(.*)ces$")  "$1z"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -149,7 +163,7 @@
  ;; TODO: this should check every possible ending above for the :p section,
  ;; since parsing tries every rule, not just the first matching rule:
  ;; other endings don't change when becoming feminine plural:
- {:g [(re-pattern "^(.*)$") "$1"] 
+ {:g [(re-pattern "^(.*)$") "$1"]
   :p [(re-pattern "(.*)$")  "$1"]
   :u {:cat :adjective
       :agr {:gender :fem
@@ -157,4 +171,3 @@
 
  ]
 
- 

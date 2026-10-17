@@ -21,8 +21,8 @@
 (deftest agreement
   (is (= (->> "el gato holgazán" parse (map syntax-tree) first)
          "[np .el +[nbar +gato .holgazán]]"))
-  (is (= (->> "los gatos holgazán" parse (map syntax-tree) first)
-         "[np .los +[nbar +gatos .holgazán]]"))
+  (is (= (->> "los gatos holgazanes" parse (map syntax-tree) first)
+         "[np .los +[nbar +gatos .holgazanes]]"))
   (is (= "[np .la +[nbar +mesa .holgazana]]"
          (->> "la mesa holgazana" parse (map syntax-tree) first)))
   (is (= "[np .las +[nbar +mesas .holgazanes]]"

@@ -84,12 +84,20 @@
       :agr {:gender :masc
             :number :plur}}}
 
- ;; masculine plural: -n -z final does not change
- {:g [(re-pattern "^(.*[nz])$") "$1"]
-  :p [(re-pattern "(.*[nz])$")  "$1"]
+ ;; masculine plural: -z final: change z to c and add -es
+ {:g [(re-pattern "^(.*)z$")  "$1ces"]
+  :p [(re-pattern "(.*)ces$") "$1z"]
   :u {:cat :adjective
       :agr {:gender :masc
             :number :plur}}}
+
+ ;; masculine plural: -n final: add -es
+ {:g [(re-pattern "^(.*)n$")  "$1nes"]
+  :p [(re-pattern "(.*)nes$") "$1n"]
+  :u {:cat :adjective
+      :agr {:gender :masc
+            :number :plur}}}
+
 
  ;; otherwise: add -s for masculine plural
  {:g [(re-pattern "^(.*[^nz])$") "$1s"]

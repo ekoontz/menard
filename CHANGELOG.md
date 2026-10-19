@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.11.1] - 2026-10-19
+
+Spanish morphology fixes.
+
+- Nouns: the plural of -ón/-án drops the accent (canción -> canciones,
+  afán -> afanes), and nouns ending in -y take -es (rey -> reyes).
+- Adjectives: fix the masculine plural of adjectives ending in -ón/-án
+  (holgazán -> holgazanes), in -z (feliz -> felices) and in -n; -n and -z
+  are no longer handled by a single rule.
+- Lexicon: split the common-noun rule by number, so a plural noun entry
+  (e.g. a plural exception) gets its own subcat.
+
 ## [1.11.0] - 2026-10-14
 
 Italian: port babel's Italian to menard, and translate Italian to English.

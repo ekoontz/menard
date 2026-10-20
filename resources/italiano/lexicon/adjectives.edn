@@ -5,7 +5,7 @@
     than-this
     {:pred :di, :mod is-place}]
    (let
-    [r243
+    [r1
      (dag_unify.core/unify
       {:synsem
        {:cat :adjective,
@@ -19,17 +19,17 @@
          :2 {:cat :prep, :sem than-this}}}}
       is-place)]
     (clojure.core/merge
-     (:synsem r243)
-     (clojure.core/dissoc r243 :synsem)))
+     (:synsem r1)
+     (clojure.core/dissoc r1 :synsem)))
    (let
-    [r244
+    [r2
      (dag_unify.core/unify
       {:synsem
        {:cat :adjective, :sem {:pred :affolato, :comparative false}}}
       is-place)]
     (clojure.core/merge
-     (:synsem r244)
-     (clojure.core/dissoc r244 :synsem))))],
+     (:synsem r2)
+     (clojure.core/dissoc r2 :synsem))))],
  "alto"
  [{:cat :adjective,
    :sem {:pred :alto, :comparative false, :human true}}

@@ -75,16 +75,16 @@
      :sem {:pred :she},
      :subcat []}}]
   [(let
-    [r245
+    [r1
      (dag_unify.core/unify {:synsem {:sem {:human false}}} common)]
     (clojure.core/merge
-     (:synsem r245)
-     (clojure.core/dissoc r245 :synsem)))
+     (:synsem r1)
+     (clojure.core/dissoc r1 :synsem)))
    (let
-    [r246 (dag_unify.core/unify {:synsem {:sem {:human true}}} common)]
+    [r2 (dag_unify.core/unify {:synsem {:sem {:human true}}} common)]
     (clojure.core/merge
-     (:synsem r246)
-     (clojure.core/dissoc r246 :synsem)))]),
+     (:synsem r2)
+     (clojure.core/dissoc r2 :synsem)))]),
  "lo"
  [{:cat :noun,
    :pronoun true,
@@ -137,16 +137,16 @@
      :sem {:pred :he},
      :subcat []}}]
   [(let
-    [r247
+    [r3
      (dag_unify.core/unify {:synsem {:sem {:human false}}} common)]
     (clojure.core/merge
-     (:synsem r247)
-     (clojure.core/dissoc r247 :synsem)))
+     (:synsem r3)
+     (clojure.core/dissoc r3 :synsem)))
    (let
-    [r248 (dag_unify.core/unify {:synsem {:sem {:human true}}} common)]
+    [r4 (dag_unify.core/unify {:synsem {:sem {:human true}}} common)]
     (clojure.core/merge
-     (:synsem r248)
-     (clojure.core/dissoc r248 :synsem)))]),
+     (:synsem r4)
+     (clojure.core/dissoc r4 :synsem)))]),
  "mi"
  [{:cat :noun,
    :pronoun true,

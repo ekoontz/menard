@@ -22,14 +22,14 @@
      (:synsem r1)
      (clojure.core/dissoc r1 :synsem)))
    (let
-    [r2
+    [r1
      (dag_unify.core/unify
       {:synsem
        {:cat :adjective, :sem {:pred :affolato, :comparative false}}}
       is-place)]
     (clojure.core/merge
-     (:synsem r2)
-     (clojure.core/dissoc r2 :synsem))))],
+     (:synsem r1)
+     (clojure.core/dissoc r1 :synsem))))],
  "alto"
  [{:cat :adjective,
    :sem {:pred :alto, :comparative false, :human true}}

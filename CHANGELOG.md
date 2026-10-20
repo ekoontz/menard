@@ -20,6 +20,10 @@ Italian verb conjugation.
   determiner (`menard.ug/shared-agr`), and drop the `np-to-n-pp` rule, which
   let generation replace a requested noun phrase with a bare noun plus a
   random "di <noun>" complement.
+- Italiano lexicon and `menard.translate.it-en`: add the formal `lei`
+  pronoun (`:sem {:pred :you, :ref {:context :formal}}`) so the addressee
+  reading survives translation, and keep its second-person meaning in
+  `it-subj->en-subj` instead of taking the third-person branch.
 
 ## [1.11.1] - 2026-10-19
 

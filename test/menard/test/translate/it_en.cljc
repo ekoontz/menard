@@ -95,6 +95,15 @@
     ;; predicates (:I, :we, ...) are not carried across.
     (is (= "I talk" (translate/it-to-en "io parlo")))
     (is (= "I sleep" (translate/it-to-en "io dormo"))))
+  (testing "formal lei keeps its second-person meaning with third-person agreement"
+    (let [specs (map #(translate/it-structure-to-en-spec %)
+                     (it/parse "lei parla"))]
+      (is (some #(= {:pred :you
+                     :ref {:human? true, :context :formal, :number :sing}
+                     :existential? false
+                     :mod []}
+                    (get-in % [:sem :subj]))
+                specs))))
   (testing "the verb reaches the sentence (menard.ug/head-sem on the s rules)"
     (is (= :sleep (u/get-in (first (it/parse "il cane dorme")) [:sem :pred])))))
 

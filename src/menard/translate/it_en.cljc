@@ -97,16 +97,25 @@
    An italian pronoun subject, or no subject at all (italiano is pro-drop), is
    synthesized from :agr: english has no italian pronoun predicates."
   [it-subj agr]
-  (if (and it-subj (not (contains? it-pronoun-preds (:pred it-subj))))
-    (-> it-subj
-        (it-det->en-quant)
-        (it-number->en-ref agr)
-        (assoc :existential? false))
-    (when-let [pronoun (it-agr->en-subject agr)]
-      {:pred pronoun
-       :ref {:number (:number agr) :human? true}
-       :existential? false
-       :mod []})))
+   (cond
+     (and (= :you (:pred it-subj))
+          (= :formal (get-in it-subj [:ref :context])))
+     (-> it-subj
+         (assoc-in [:ref :number] (:number agr))
+         (assoc :existential? false :mod []))
+
+     (and it-subj (not (contains? it-pronoun-preds (:pred it-subj))))
+     (-> it-subj
+         (it-det->en-quant)
+         (it-number->en-ref agr)
+         (assoc :existential? false))
+
+     :else
+     (when-let [pronoun (it-agr->en-subject agr)]
+       {:pred pronoun
+        :ref {:number (:number agr) :human? true}
+        :existential? false
+        :mod []})))
 
 (defn it-structure-to-en-spec
   "Turn a parsed italiano structure into a spec menard.english can generate from.

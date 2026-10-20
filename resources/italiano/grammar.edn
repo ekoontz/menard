@@ -20,6 +20,7 @@
   [menard.ug/head-first
    menard.subcat/a-comp-with-one-subcat
    menard.ug/head-rule
+   menard.ug/shared-agr
    menard.ug/head-is-root],
   :cat :noun,
   :italiano/babel-spec
@@ -47,6 +48,7 @@
   [menard.ug/head-first
    menard.subcat/a-comp-with-one-subcat
    menard.ug/head-rule
+   menard.ug/shared-agr
    menard.ug/head-is-root],
   :cat :noun,
   :italiano/babel-spec
@@ -74,6 +76,7 @@
   [menard.ug/head-last
    menard.subcat/a
    menard.ug/head-rule
+   menard.ug/shared-agr
    menard.nesting/comp-modifies
    menard.ug/head-is-root
    menard.ug/head-sem
@@ -96,22 +99,6 @@
   :italiano/schema 'c10,
   :sem {:number :top, :mod []},
   :propernoun :top}
- {:rule "np-to-n-pp",
-  :cat :noun,
-  :comp {:cat :prep, :sem {:pred :di}},
-  :unify
-  [menard.ug/head-first
-   menard.subcat/a
-   menard.ug/head-rule
-   menard.ug/head-sem
-   menard.nesting/nest-only],
-  :italiano/babel-spec
-  {:rule "np-to-n-pp",
-   :synsem {:cat :noun},
-   :head {:phrasal false},
-   :comp {:synsem {:cat :prep, :sem {:pred :di}}}},
-  :italiano/schema 'h10,
-  :italiano/babel-helpers ['h10 'word-of-interest-is-head]}
  {:italiano/babel-helpers
   ['c10
    'comp-specs-head
@@ -121,6 +108,7 @@
   [menard.ug/head-last
    menard.subcat/a
    menard.ug/head-rule
+   menard.ug/shared-agr
    menard.nesting/comp-modifies
    menard.ug/head-is-root
    menard.ug/head-sem

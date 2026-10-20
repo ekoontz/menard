@@ -4,6 +4,7 @@
    resources/italiano/grammar.edn :options) and provides the model plus
    morph/syntax-tree/analyze/generate/parse wrappers."
   #?(:clj (:require [menard.generate :as g]
+                    [menard.italiano.lexicon :as italiano-lexicon]
                     [menard.italiano.tenses]
                     [menard.lexiconfn :as l]
                     [menard.model :refer [create]]
@@ -17,8 +18,9 @@
    (defn model-fn []
      (create "italiano/models/basic"
              "basic"
-             ;; compile-lexicon-fn
-             (fn [lexicon _ _] lexicon)
+             ;; compile-lexicon-fn: derive the irregular forms kept in
+             ;; resources/italiano/lexicon/verbs.edn as menard :exceptions.
+             italiano-lexicon/compile-lexicon-fn
              ;; filter-out-nils?
              true
              {:include-derivation? false})))
@@ -92,6 +94,20 @@
                   g/allow-backtracking? true]
           (-> spec
               (g/generate (:grammar m) (:lexicon-index-fn m) syntax-tree)))))))
+
+#?(:clj
+   (defn generate-all
+     ([spec] (generate-all spec model))
+     ([spec input-model]
+      (let [m (or input-model model)
+            m @m]
+        (binding [g/max-depth (:max-depth spec g/max-depth)
+                  g/max-fails (:max-fails spec g/max-fails)
+                  g/allow-backtracking? true]
+          (g/generate-all [spec]
+                          (:grammar m)
+                          (:lexicon-index-fn m)
+                          syntax-tree))))))
 
 #?(:clj
    (defn parse

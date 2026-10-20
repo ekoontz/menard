@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.11.2-SNAPSHOT] - 2026-10-20
+
+Italian verb conjugation.
+
+- `menard.italiano.lexicon`: derive menard `:exceptions` from the
+  babel-style `:italiano` irregular data in
+  `resources/italiano/lexicon/verbs.edn`, so irregular verbs inflect
+  correctly (vado, ho, sono, faccio, andrò, detto, ...).
+- `menard.italiano.conjugate`: tonic and compound conjugation, with
+  avere/essere auxiliary selection and reflexive clitics, plus
+  `generate-chart` for the verbcoach conjugation table.
+- `menard.italiano/generate-all`.
+- Italiano grammar: share agreement between a noun and its adjective or
+  determiner (`menard.ug/shared-agr`), and drop the `np-to-n-pp` rule, which
+  let generation replace a requested noun phrase with a bare noun plus a
+  random "di <noun>" complement.
+
 ## [1.11.1] - 2026-10-19
 
 Spanish morphology fixes.

@@ -3,6 +3,7 @@
 /checkouts
 pom.xml
 pom.xml.asc
+pom.xml.sig
 *.jar
 *.class
 /.lein-*
@@ -30,6 +31,7 @@ profiling/*.jstack
 *.zip
 lambda/output
 packaged-native.yml
+menard-template.json
 pom.properties
 lambda/target/*
 lambda/history.txt

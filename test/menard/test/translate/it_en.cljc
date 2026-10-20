@@ -7,7 +7,7 @@
             [menard.english.complete]
 
             [menard.italiano :as it]
-            [menard.morphology :refer [morph-leaf]]
+            [menard.morphology :as m :refer [morph-leaf]]
             [menard.translate.it-en :as translate]
             [clojure.test :refer [deftest is testing]]))
 
@@ -107,6 +107,29 @@
   (testing "the verb reaches the sentence (menard.ug/head-sem on the s rules)"
     (is (= :sleep (u/get-in (first (it/parse "il cane dorme")) [:sem :pred])))))
 
+(deftest lei-scrive
+  (testing "'lei scrive' translates as both third person 'she' and formal
+            second person 'you'"
+    ;; 'lei' is ambiguous between 'she' and the formal 'you', so both readings
+    ;; have to survive translation. menard spells second person with a
+    ;; formality emoji (cf. menard.test.translate.es-en), and which emoji is
+    ;; picked varies, so match the formal set rather than pinning one.
+    (let [translations (set (translate/it-to-en-surface-alternatives "lei scrive"))]
+      (is (contains? translations "she writes"))
+      (is (some #(contains? translations (str "you " % " write")) m/formal)
+          (str "no formal 'you ... write' in: " (pr-str translations)))))
+  (testing "the third-person reading keeps the feminine gender that the verb's
+            :agr does not carry"
+    (is (some #(= :she (get-in % [:sem :subj :pred]))
+              (map translate/it-structure-to-en-spec (it/parse "lei scrive")))))
+  (testing "the formal reading generates with english's second-person agreement"
+    (let [formal-spec (first (filter #(= :you (get-in % [:sem :subj :pred]))
+                                     (map translate/it-structure-to-en-spec
+                                          (it/parse "lei scrive"))))]
+      (is (= :2nd (get-in formal-spec [:agr :person])))
+      (is (= :sing (get-in formal-spec [:agr :number])))
+      (is (= :formal (get-in formal-spec [:sem :subj :ref :context]))))))
+
 (deftest it-to-en-sentences
   (testing "an explicit subject noun reaches the verb
             (menard.ug/subject-is-comp), rather than being defaulted to a
@@ -197,9 +220,6 @@
     ;;     convention the español->english tests assert for 2nd person; an
     ;;     explicit subject noun does not ("i cani dormono" -> "the dogs
     ;;     sleep");
-    ;;   * italian pronoun predicates are english-aligned now ("io" is :pred
-    ;;     :i), but english cannot spell a pronoun subject from a bare :sem,
-    ;;     so a pronoun subject is still realized from :agr;
     ;;   * menard renders 2nd person with person-emoji markers, so 2nd-person
     ;;     subjects and possessives ("il tuo cane" -> "your <emoji> dog")
     ;;     carry them; that is menard's convention, not a conversion gap;

@@ -22,8 +22,11 @@ Italian verb conjugation.
   random "di <noun>" complement.
 - Italiano lexicon and `menard.translate.it-en`: add the formal `lei`
   pronoun (`:sem {:pred :you, :ref {:context :formal}}`) so the addressee
-  reading survives translation, and keep its second-person meaning in
-  `it-subj->en-subj` instead of taking the third-person branch.
+  reading survives translation: `it-subj->en-subj` keeps pronoun subjects
+  instead of re-deriving them from `:agr` (which lost gender, turning
+  "lei scrive" into "he writes"), and a formal `lei` subject puts the clause
+  into english's second person so the verb takes its base form. "lei scrive"
+  now translates as both "she writes" and "you <formal emoji> write".
 
 ## [1.11.1] - 2026-10-19
 

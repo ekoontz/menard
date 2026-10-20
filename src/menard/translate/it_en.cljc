@@ -77,13 +77,20 @@
           :else nil)))
 
 (def ^:private it-pronoun-preds
-  "italiano's pronoun predicates (cf. resources/italiano/lexicon/pronouns.edn).
-   english spells its pronouns itself, so a pronoun subject is realized from
-   :agr (it-agr->en-subject) rather than from its italiano predicate. The two
-   conjoined ones ('Giovanni e io', 'Luisa e io') have no english counterpart at
-   all, so they fall back to the agreement pronoun as well."
+  "italiano's pronoun predicates (cf. resources/italiano/lexicon/pronouns.edn)."
   #{:i :we :you :he :she :they :it
     :giovanni-and-i :luisa-and-i})
+
+(def ^:private en-pronoun-preds
+  "The italian pronoun predicates english spells the same way. The conjoined
+   ones ('Giovanni e io', 'Luisa e io') have no english counterpart at all."
+  #{:i :we :you :he :she :they :it})
+
+(defn- formal-you?
+  "True for the addressee reading of italiano's formal 'lei'."
+  [subj]
+  (and (= :you (:pred subj))
+       (= :formal (get-in subj [:ref :context]))))
 
 (defn- it-subject->en-subject
   "The clause's subject as english wants it.
@@ -94,28 +101,32 @@
    :ref. It is then marked non-existential, without which english generates the
    existential 'there sleeps' instead of 'the dog sleeps'.
 
-   An italian pronoun subject, or no subject at all (italiano is pro-drop), is
-   synthesized from :agr: english has no italian pronoun predicates."
+   A pronoun subject keeps its italiano predicate, which english spells the same
+   way; re-deriving it from :agr would lose information the verb's agreement
+   does not carry, e.g. 'lei scrive' would come out 'he writes'. Only the
+   conjoined subjects and a pro-drop (absent) subject are synthesized from :agr."
   [it-subj agr]
-   (cond
-     (and (= :you (:pred it-subj))
-          (= :formal (get-in it-subj [:ref :context])))
-     (-> it-subj
-         (assoc-in [:ref :number] (:number agr))
-         (assoc :existential? false :mod []))
+  (cond
+    (formal-you? it-subj)
+    (-> it-subj
+        (assoc-in [:ref :number] (:number agr))
+        (assoc :existential? false :mod []))
 
-     (and it-subj (not (contains? it-pronoun-preds (:pred it-subj))))
-     (-> it-subj
-         (it-det->en-quant)
-         (it-number->en-ref agr)
-         (assoc :existential? false))
+    (and it-subj (contains? en-pronoun-preds (:pred it-subj)))
+    (assoc it-subj :existential? false :mod [])
 
-     :else
-     (when-let [pronoun (it-agr->en-subject agr)]
-       {:pred pronoun
-        :ref {:number (:number agr) :human? true}
-        :existential? false
-        :mod []})))
+    (and it-subj (not (contains? it-pronoun-preds (:pred it-subj))))
+    (-> it-subj
+        (it-det->en-quant)
+        (it-number->en-ref agr)
+        (assoc :existential? false))
+
+    :else
+    (when-let [pronoun (it-agr->en-subject agr)]
+      {:pred pronoun
+       :ref {:number (:number agr) :human? true}
+       :existential? false
+       :mod []})))
 
 (defn it-structure-to-en-spec
   "Turn a parsed italiano structure into a spec menard.english can generate from.
@@ -131,12 +142,16 @@
      * nil/:top placeholders are dropped"
   [it-structure]
   (log/debug (str "it-structure-to-en-spec tree: " (it/syntax-tree it-structure)))
-  (let [agr (let [a (resolve-dag (u/get-in it-structure [:agr]))] (if (map? a) a {}))
+  (let [agr0 (let [a (resolve-dag (u/get-in it-structure [:agr]))] (if (map? a) a {}))
         infl (resolve-dag (u/get-in it-structure [:infl]))
         sem0 (let [s (resolve-dag (u/get-in it-structure [:sem]))] (if (map? s) s {}))
         it-subj (let [s (:subj sem0)]
                   (when (and (map? s) (some? (:pred s)) (not= :top (:pred s))) s))
-        subj (it-subject->en-subject it-subj agr)
+        subj (it-subject->en-subject it-subj agr0)
+        ;; 'lei' takes italiano's third-person verb form but is english's second
+        ;; person, and english inflects the verb to agree with the subject:
+        ;; "you write", not *"you writes".
+        agr (if (formal-you? subj) (assoc agr0 :person :2nd) agr0)
         cat (resolve-dag (u/get-in it-structure [:cat]))
         sem0 (cond-> (it-det->en-quant sem0)
                (= :noun cat) (it-number->en-ref agr))

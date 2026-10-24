@@ -1,5 +1,6 @@
 (ns menard.test.translate.it-en
-  (:require [dag_unify.core :as u]
+  (:require [clojure.string :as str]
+            [dag_unify.core :as u]
 
             ;; TODO: load a subset of the default "complete" model
             ;; rather than the whole thing:
@@ -10,6 +11,12 @@
             [menard.morphology :as m :refer [morph-leaf]]
             [menard.translate.it-en :as translate]
             [clojure.test :refer [deftest is testing]]))
+
+(defn- has-emoji-of?
+  "menard appends a formality emoji to a 2nd-person pronoun; true if _surface_
+   carries one of the emojis in _emojis_."
+  [surface emojis]
+  (some #(str/includes? surface %) emojis))
 
 ;; ---------------------------------------------------------------------------
 ;; italiano side
@@ -131,6 +138,31 @@
       (is (= :2nd (get-in formal-spec [:agr :person])))
       (is (= :sing (get-in formal-spec [:agr :number])))
       (is (= :formal (get-in formal-spec [:sem :subj :ref :context]))))))
+
+(deftest second-person-formality-emojis
+  (testing "the formal 'Lei' only ever gets a formal (older person) emoji"
+    ;; english has one 'you' entry per formality, and its :note is what menard
+    ;; turns into the emoji, so a subject whose :ref :context is :formal must
+    ;; not be spelled with the informal entries.
+    (let [translations (->> (range 5)
+                            (mapcat (fn [_] (translate/it-to-en-surface-alternatives "Lei trova")))
+                            distinct
+                            (filter #(str/includes? % "you")))]
+      (is (seq translations) "expected at least one 'you ...' translation")
+      (doseq [t translations]
+        (is (has-emoji-of? t m/formal) (str "no formal emoji in: " t))
+        (is (not (has-emoji-of? t m/informal)) (str "informal emoji in: " t)))))
+  (testing "the informal 'tu', and an unmarked 2nd person, only ever get an
+            informal (child) emoji"
+    (doseq [input ["tu balli" "balli"]]
+      (let [translations (->> (range 5)
+                              (mapcat (fn [_] (translate/it-to-en-surface-alternatives input)))
+                              distinct
+                              (filter #(str/includes? % "you")))]
+        (is (seq translations) (str "expected at least one 'you ...' translation for " input))
+        (doseq [t translations]
+          (is (has-emoji-of? t m/informal) (str input ", no informal emoji in: " t))
+          (is (not (has-emoji-of? t m/formal)) (str input ", formal emoji in: " t)))))))
 
 (deftest it-to-en-sentences
   (testing "an explicit subject noun reaches the verb

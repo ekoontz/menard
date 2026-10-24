@@ -75,18 +75,25 @@
     :passato     {:tense :present :aspect :perfect}
     {}))
 
-(defn- it-agr->en-subject
+(defn- it-agr->en-subject-info
   "italiano is pro-drop: the subject is only marked by :agr, so synthesize the
-   english subject pronoun english needs to generate deterministically."
+   english subject pronoun english needs to generate deterministically.
+
+   An unmarked second person is informal: italiano says 'tu'/'voi' for the
+   informal addressee and needs the explicit formal 'Lei' otherwise, so a bare
+   second-person :agr means informal. Without the :context english would pick
+   any of its 'you' entries, and with it the formality emoji menard appends
+   would be arbitrary."
   [agr]
   (let [person (case (:person agr) :1st 1 :2nd 2 :3rd 3 (:person agr))
-        number (:number agr)]
-    (cond (= [1 :sing] [person number]) :i
-          (= [2 :sing] [person number]) :you
-          (= [3 :sing] [person number]) :he
-          (= [1 :plur] [person number]) :we
-          (= [2 :plur] [person number]) :you
-          (= [3 :plur] [person number]) :they
+        number (:number agr)
+        context (when (= 2 person) :informal)]
+    (cond (= [1 :sing] [person number]) {:pred :i}
+          (= [2 :sing] [person number]) {:pred :you :context context}
+          (= [3 :sing] [person number]) {:pred :he}
+          (= [1 :plur] [person number]) {:pred :we}
+          (= [2 :plur] [person number]) {:pred :you :context context}
+          (= [3 :plur] [person number]) {:pred :they}
           :else nil)))
 
 (def ^:private it-pronoun-preds
@@ -135,9 +142,10 @@
         (assoc :existential? false))
 
     :else
-    (when-let [pronoun (it-agr->en-subject agr)]
-      {:pred pronoun
-       :ref {:number (:number agr) :human? true}
+    (when-let [{:keys [pred context]} (it-agr->en-subject-info agr)]
+      {:pred pred
+       :ref (cond-> {:number (:number agr) :human? true}
+              context (assoc :context context))
        :existential? false
        :mod []})))
 

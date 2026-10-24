@@ -206,13 +206,13 @@
    :pronoun true,
    :case :nom,
    :agr {:person :2nd, :gender :fem, :number :sing},
-   :sem {:pred :you, :human true},
+   :sem {:pred :you, :human true, :ref {:context :informal}},
    :subcat []}
   {:cat :noun,
    :pronoun true,
    :case :nom,
    :agr {:person :2nd, :gender :masc, :number :sing},
-   :sem {:pred :you, :human true},
+   :sem {:pred :you, :human true, :ref {:context :informal}},
    :subcat []}],
  "vi"
  [{:cat :noun,
@@ -227,11 +227,11 @@
    :pronoun true,
    :case :nom,
    :agr {:person :2nd, :gender :fem, :number :plur},
-   :sem {:pred :you, :human true},
+   :sem {:pred :you, :human true, :ref {:context :informal}},
    :subcat []}
   {:cat :noun,
    :pronoun true,
    :case :nom,
    :agr {:person :2nd, :gender :masc, :number :plur},
-   :sem {:pred :you, :human true},
+   :sem {:pred :you, :human true, :ref {:context :informal}},
    :subcat []}]}

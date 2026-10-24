@@ -61,6 +61,13 @@ Italian verb conjugation.
   instead of the first parse. A sentence's words also parse as a bare verb or
   noun phrase, and translating one of those drops the rest of the sentence
   ("io parlo" was translated from its `vp-pronoun-nonphrasal` parse).
+- Italiano second-person formality: `tu` and `voi` now carry
+  `:sem :ref {:context :informal}`, and a pro-drop second-person subject
+  (synthesized from `:agr`) defaults to informal. Without it english had no
+  formality to go on, so it could pick any of its `you` entries and menard
+  then appended an arbitrary formality emoji: "tu balli" came out as
+  "you 👵 dance". It is now always a child emoji, and the formal `Lei` (which
+  already carried `:context :formal`) always an older-person one.
 
 ## [1.11.1] - 2026-10-19
 

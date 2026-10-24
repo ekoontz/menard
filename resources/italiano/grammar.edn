@@ -16,9 +16,16 @@
   :italiano/babel-helpers ['h21]}
  {:italiano/babel-helpers
   ['h11-comp-subcat-1 'root-is-head 'word-of-interest-is-head],
+  ;; babel had a second copy of this rule (nbar1-woi-2) differing only in which
+  ;; child was the "word of interest", because babel analyzes one word at a
+  ;; time. menard has no word-of-interest, so the port's two copies came out
+  ;; identical and every parse of "noun + adjective" was reported twice; one
+  ;; copy is kept.
   :unify
   [menard.ug/head-first
-   menard.subcat/a-comp-with-one-subcat
+   menard.subcat/b
+   menard.ug/sem-mod-rest-is-comp-sem
+   menard.ug/head-sem
    menard.ug/head-rule
    menard.ug/shared-agr
    menard.ug/head-is-root],
@@ -37,39 +44,11 @@
     :propernoun :top}},
   :rule "nbar1-woi-1",
   :modified true,
-  :head {:modified false, :sem {:mod {:first :top}}, :propernoun :top},
+  :head {:phrasal? false, :modified false, :sem {:mod {:first :top}}, :propernoun :top},
   :italiano/schema 'h11-comp-subcat-1,
   :sem {:mod {:first :top}},
   :propernoun :top,
-  :comp {:cat :adjective, :sem :top}}
- {:italiano/babel-helpers
-  ['h11-comp-subcat-1 'root-is-head 'word-of-interest-is-comp],
-  :unify
-  [menard.ug/head-first
-   menard.subcat/a-comp-with-one-subcat
-   menard.ug/head-rule
-   menard.ug/shared-agr
-   menard.ug/head-is-root],
-  :cat :noun,
-  :italiano/babel-spec
-  {:comp {:phrasal false, :synsem {:cat :adjective, :sem :top}},
-   :head
-   {:phrasal false,
-    :synsem
-    {:modified false, :sem {:mod {:first :top}}, :propernoun :top}},
-   :rule "nbar1-woi-2",
-   :synsem
-   {:cat :noun,
-    :modified true,
-    :sem {:mod {:first :top}},
-    :propernoun :top}},
-  :rule "nbar1-woi-2",
-  :modified true,
-  :head {:modified false, :sem {:mod {:first :top}}, :propernoun :top},
-  :italiano/schema 'h11-comp-subcat-1,
-  :sem {:mod {:first :top}},
-  :propernoun :top,
-  :comp {:cat :adjective, :sem :top}}
+  :comp {:phrasal? false, :cat :adjective, :sem :top}}
  {:italiano/babel-helpers
   ['c10 'comp-specs-head 'root-is-head 'word-of-interest-is-head],
   :unify

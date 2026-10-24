@@ -10,12 +10,25 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [menard.log :as log])))
 
+(defn- it-mods->en-mods
+  "english nests a modifier list as {:first <mod> :rest <more>}; a lone
+   modifier (what italiano's :mod :rest holds) is that list's head."
+  [mods]
+  (cond (or (nil? mods) (= :top mods)) []
+        (and (map? mods) (contains? mods :first)) mods
+        (map? mods) {:first mods :rest []}
+        :else mods))
+
 (defn- it-det->en-quant
   "italiano keeps its determiner as a modifier (:mod :first); english wants it
    as :sem :quant, so move it: a determiner's :pred is english's :quant for
    :definite (:the) and :indefinite (:some), and a possessive carries its
    possessor in :of, which is english's :quant too (english determines \"my\"
-   from {:pred :i}, and \"my dog\" has :quant :i)."
+   from {:pred :i}, and \"my dog\" has :quant :i).
+
+   Whatever else modified the noun (a postnominal adjective, e.g.) moves to
+   :mod, in english's {:first ... :rest ...} shape (cf. the \"the black cat\"
+   parse)."
   [sem]
   (let [det (get-in sem [:mod :first])
         quant (or (case (:pred det)
@@ -29,7 +42,7 @@
     (if quant
       (-> sem
           (assoc :quant quant)
-          (assoc :mod (or (get-in sem [:mod :rest]) [])))
+          (assoc :mod (it-mods->en-mods (get-in sem [:mod :rest]))))
       sem)))
 
 (defn- it-number->en-ref

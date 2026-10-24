@@ -139,6 +139,16 @@
    {:def 'sem-mod-first-is-comp-sem
     :sem {:mod {:first mod}}
     :comp {:sem mod}})
+
+ ;; sem|mod|rest = comp|sem
+ ;;
+ ;; A determiner occupies :mod :first (menard.translate.it-en/it-det->en-quant
+ ;; reads it there), so a modifier that may still get a determiner in front of
+ ;; it -- a postnominal adjective, e.g. -- goes in :mod :rest.
+ (let [mod (atom :top)]
+   {:def 'sem-mod-rest-is-comp-sem
+    :sem {:mod {:rest mod}}
+    :comp {:sem mod}})
  
  ;; sem|mod = comp|mod
  (let [mod (atom :top)]

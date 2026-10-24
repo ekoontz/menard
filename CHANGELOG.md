@@ -27,6 +27,22 @@ Italian verb conjugation.
   "lei scrive" into "he writes"), and a formal `lei` subject puts the clause
   into english's second person so the verb takes its base form. "lei scrive"
   now translates as both "she writes" and "you <formal emoji> write".
+- Italiano grammar: a modified noun can take a determiner again. The nbar
+  rule used `menard.subcat/a-comp-with-one-subcat`, so the adjective consumed
+  the noun's argument slot and "il cane nero" had no parse; it now uses
+  `menard.subcat/b` and keeps the head's `:sem` (`menard.ug/head-sem`). The
+  adjective lands in `:sem :mod :rest`, which leaves `:mod :first` to the
+  determiner (new `menard.ug/sem-mod-rest-is-comp-sem`).
+- Italiano grammar: port babel's `:phrasal false` as menard's `:phrasal?`, so
+  an nbar's head must be a bare noun -- `[nbar1-woi-1 +[noun-phrase2 .il
+  +cane] .affollato]` no longer parses -- and its complement a bare adjective.
+- Italiano grammar: drop the duplicate `nbar1-woi-2`. babel had two copies of
+  the noun+adjective rule differing only in the `:word-of-interest` child, a
+  concept menard does not have, so the port's copies were identical and every
+  such parse was reported twice.
+- `menard.translate.it-en`: `it-det->en-quant` moves the noun's remaining
+  modifiers into english's `{:first ... :rest ...}` modifier list, so a
+  translated det+adjective noun phrase has english's shape.
 
 ## [1.11.1] - 2026-10-19
 

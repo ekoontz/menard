@@ -1,5 +1,6 @@
 (ns menard.test.italiano
-  (:require [menard.italiano :as it]
+  (:require [dag_unify.core :as u]
+            [menard.italiano :as it]
             [clojure.test :refer [deftest is testing]]))
 
 (def model @it/model)
@@ -48,3 +49,24 @@
   (testing "well-known italian verbs are present in the lexicon"
     (doseq [verb ["parlare" "credere" "avere" "essere"]]
       (is (contains? (:lexicon model) verb)))))
+
+(deftest noun-phrases-with-adjectives
+  (testing "a postnominal adjective modifies the noun"
+    (is (seq (it/parse "cane nero"))))
+  (testing "a determiner can still be added to a modified noun"
+    ;; the nbar has to leave the noun's determiner slot open. With
+    ;; menard.subcat/a-comp-with-one-subcat the adjective took that slot
+    ;; ('nbar's :subcat' came out []), so nothing could attach 'il' and
+    ;; "il cane nero" had no parse at all.
+    (doseq [s ["il cane nero" "il gatto nero" "i cani neri" "la casa nera"]]
+      (is (seq (it/parse s)) s)))
+  (testing "the modified noun reaches a full clause"
+    (is (some #(= "s-aux" (:rule %)) (it/parse "il cane nero dorme"))))
+  (testing "the noun keeps its semantics and the adjective leaves :mod :first
+            free for the determiner"
+    (let [np (first (it/parse "il cane nero"))]
+      (is (= :dog (u/get-in np [:sem :pred])))
+      (is (= :definite (u/get-in np [:sem :mod :first :pred])))
+      (is (= :nero (u/get-in np [:sem :mod :rest :pred])))
+      (is (= :masc (u/get-in np [:agr :gender])))
+      (is (= :sing (u/get-in np [:agr :number]))))))

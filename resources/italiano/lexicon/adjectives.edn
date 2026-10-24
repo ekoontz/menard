@@ -97,14 +97,14 @@
  "nero"
  [{:cat :adjective,
    :sem
-   {:pred :nero,
+   {:pred :black,
     :comparative false,
     :physical-object true,
     :human false}}],
  "rosso"
  [{:cat :adjective,
    :sem
-   {:pred :rosso,
+   {:pred :red,
     :comparative false,
     :physical-object true,
     :human false}}]}

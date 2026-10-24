@@ -217,6 +217,18 @@
       (log/debug (str "morph(en-expression): " (en/morph en-expression)))
       en-expression)))
   
+(defn it-clause-parse
+  "The parse to translate for a sentence.
+
+   The parse list also holds verb- and noun-phrase parses of the same words
+   (\"io parlo\" parses both as an s and as a vp-pronoun-*), and translating
+   one of those would drop the rest of the sentence. Falls back to the first
+   parse when there is no clause parse, so a lone word or phrase still
+   translates."
+  [parses]
+  (or (first (filter #(#{"s" "s-aux"} (:rule %)) parses))
+      (first parses)))
+
 (defn it-string-to-en-structure
   "return one English structure translation for the given Spanish input."  
   [it-input & [it-model en-model]]
@@ -228,8 +240,8 @@
         parses (it/parse it-input it-model)]
     (if (seq parses)
       (do
-        (log/debug (str "translating it parse: " (it/syntax-tree (first parses))))
-        (-> parses first (it-structure-to-en-structure it-model en-model)))
+        (log/debug (str "translating it parse: " (it/syntax-tree (it-clause-parse parses))))
+        (-> parses it-clause-parse (it-structure-to-en-structure it-model en-model)))
       (log/error (str "could not parse it-input: '" it-input "'")))))
 
 (defn it-to-en-structure-alternatives

@@ -43,6 +43,24 @@ Italian verb conjugation.
 - `menard.translate.it-en`: `it-det->en-quant` moves the noun's remaining
   modifiers into english's `{:first ... :rest ...}` modifier list, so a
   translated det+adjective noun phrase has english's shape.
+- Italiano grammar: port babel's `:phrasal` constraints as menard's
+  `:phrasal?` on the remaining rules (`s-aux`, `vp-aux-*`, `vp-32`,
+  `vp-pronoun-*`, `s-modifier`, `noun-phrase1`, `noun-phrase2`). The port
+  kept the key as `:phrasal`, which nothing sets, so every one of these
+  constraints was inert -- for instance "ho parlato" could be headed by the
+  phrasal-complement rule as well as the nonphrasal one, and `s-aux` could
+  take a bare verb as its head.
+- Italiano grammar: `noun-phrase1` (determiner + bare noun) builds again.
+  Its `:sem ... :mod []` came from babel, where the determiner lands in
+  `:sem :spec`; menard puts it in `:mod :first`, so the constraint failed
+  against every determiner and the rule was dropped when the grammar loaded.
+  It now splits the determiner+noun work with `noun-phrase2` by the head's
+  phrasalness, as in babel: "il cane" is `noun-phrase1`, "il cane nero" is
+  `noun-phrase2`.
+- `menard.translate.it-en`: translate the clause parse (`it-clause-parse`)
+  instead of the first parse. A sentence's words also parse as a bare verb or
+  noun phrase, and translating one of those drops the rest of the sentence
+  ("io parlo" was translated from its `vp-pronoun-nonphrasal` parse).
 
 ## [1.11.1] - 2026-10-19
 

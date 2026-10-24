@@ -61,12 +61,12 @@
     (doseq [s ["il cane nero" "il gatto nero" "i cani neri" "la casa nera"]]
       (is (seq (it/parse s)) s)))
   (testing "the modified noun reaches a full clause"
-    (is (some #(= "s-aux" (:rule %)) (it/parse "il cane nero dorme"))))
+    (is (some #(#{"s" "s-aux"} (:rule %)) (it/parse "il cane nero dorme"))))
   (testing "the noun keeps its semantics and the adjective leaves :mod :first
             free for the determiner"
     (let [np (first (it/parse "il cane nero"))]
       (is (= :dog (u/get-in np [:sem :pred])))
       (is (= :definite (u/get-in np [:sem :mod :first :pred])))
-      (is (= :nero (u/get-in np [:sem :mod :rest :pred])))
+      (is (= :black (u/get-in np [:sem :mod :rest :pred])))
       (is (= :masc (u/get-in np [:agr :gender])))
       (is (= :sing (u/get-in np [:agr :number]))))))

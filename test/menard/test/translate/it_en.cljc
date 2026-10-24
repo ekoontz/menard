@@ -23,7 +23,9 @@
 
 (deftest italian-parse-tree
   (testing "a parsed noun phrase renders as expected"
-    (is (= "[noun-phrase2 .il +cane]"
+    ;; noun-phrase1 is the determiner + bare noun rule; noun-phrase2 takes the
+    ;; :phrasal head, so it is the rule for "il cane nero".
+    (is (= "[noun-phrase1 .il +cane]"
            (it/syntax-tree (first (it/parse "il cane")))))))
 
 (deftest italian-morphology
@@ -206,9 +208,11 @@
 
   (testing "pronouns and possessives use english's predicate spellings"
     ;; the port kept babel's :I and :you-all, which english spells :i and :you;
-    ;; english tells plural 'you' by :agr, not by the predicate.
-    (is (= :i (u/get-in (first (it/parse "io parlo")) [:sem :subj :pred])))
-    (is (= :you (u/get-in (first (it/parse "voi parlate")) [:sem :subj :pred])))
+    ;; english tells plural 'you' by :agr, not by the predicate. (These look at
+    ;; the clause parse: the same words also parse as a bare vp, which has no
+    ;; subject.)
+    (is (= :i (u/get-in (translate/it-clause-parse (it/parse "io parlo")) [:sem :subj :pred])))
+    (is (= :you (u/get-in (translate/it-clause-parse (it/parse "voi parlate")) [:sem :subj :pred])))
     (is (= :i (u/get-in (first (it/analyze "il mio" false)) [:sem :of :pred])))
     (is (= :you (u/get-in (first (it/analyze "il vostro" false)) [:sem :of :pred])))))
 

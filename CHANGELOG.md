@@ -68,9 +68,14 @@ Italian verb conjugation.
   then appended an arbitrary formality emoji: "tu balli" came out as
   "you 👵 dance". It is now always a child emoji, and the formal `Lei` (which
   already carried `:context :formal`) always an older-person one.
-  `it-subject->en-subject` also defaults any second-person subject that
-  arrives without a `:context` to `:informal` (a stale lexicon, or a spec
+  `it-subject->en-subject` also defaults any second person subject
+  that arrives without a `:context` to `:informal` (a stale lexicon, or a spec
   built by a caller), so the annotation does not depend on the lexicon alone.
+  Formality carried in `:agr` is honoured too: a spec built from a conjugation
+  chart, which marks the polite second person as `:agr {:formal? true}` (the
+  convention `menard.español.conjugate`'s `:2nd-formal` person uses), now gets
+  the formal `you` and an older-person emoji, where before it was
+  indistinguishable from an unmarked `tu`.
 
 ## [1.11.1] - 2026-10-19
 

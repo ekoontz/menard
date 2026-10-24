@@ -75,19 +75,31 @@
     :passato     {:tense :present :aspect :perfect}
     {}))
 
+(defn- it-agr-formality
+  "The formality recorded in :agr, if any.
+
+   Italiano writes it in two places: the formal 'Lei' lexeme carries
+   :ref {:context :formal}, and a spec built from a conjugation chart -- or by
+   an application that generates the italian and then translates it -- marks
+   the polite second person as :agr :formal? true, which is the convention
+   menard.español.conjugate's :2nd-formal person uses."
+  [agr]
+  (let [formal? (:formal? agr)]
+    (cond (true? formal?) :formal
+          (false? formal?) :informal)))
+
 (defn- it-agr->en-subject-info
   "italiano is pro-drop: the subject is only marked by :agr, so synthesize the
    english subject pronoun english needs to generate deterministically.
 
    An unmarked second person is informal: italiano says 'tu'/'voi' for the
-   informal addressee and needs the explicit formal 'Lei' otherwise, so a bare
-   second-person :agr means informal. Without the :context english would pick
-   any of its 'you' entries, and with it the formality emoji menard appends
-   would be arbitrary."
+   informal addressee and needs the explicit formal 'Lei' otherwise. Without the
+   :context english would pick any of its 'you' entries, and the formality emoji
+   menard appends from that entry's :note would be arbitrary."
   [agr]
   (let [person (case (:person agr) :1st 1 :2nd 2 :3rd 3 (:person agr))
         number (:number agr)
-        context (when (= 2 person) :informal)]
+        context (when (= 2 person) (or (it-agr-formality agr) :informal))]
     (cond (= [1 :sing] [person number]) {:pred :i}
           (= [2 :sing] [person number]) {:pred :you :context context}
           (= [3 :sing] [person number]) {:pred :he}
@@ -112,18 +124,23 @@
   (and (= :you (:pred subj))
        (= :formal (get-in subj [:ref :context]))))
 
-(defn- informal-second-person?
-  "True for english's informal 'you'.
+(defn- with-formality
+  "The subject with the :ref :context english needs in order to pick its 'you'
+   entry -- and so the formality emoji menard appends from that entry's :note
+   ('you 👦' vs 'you 👴').
 
-   Italiano marks the formal addressee explicitly -- 'Lei', :ref {:context
-   :formal} -- so a second-person subject with no :context at all is 'tu'/'voi'.
-   english needs the :context: it has one 'you' entry per formality, and menard
-   turns that entry's :note into the formality emoji it appends ('you 👦' vs
-   'you 👴'), so without it the emoji is arbitrary."
-  [subj]
-  (and (= :you (:pred subj))
-       (let [context (get-in subj [:ref :context])]
-         (or (nil? context) (= :top context)))))
+   Italiano records the addressee's formality as either the subject's
+   :ref {:context :formal} (the 'Lei' lexeme) or the clause's
+   :agr {:formal? true} (cf. it-agr-formality); the subject's own marker wins.
+   A second person with neither is informal: italiano needs 'Lei' to be
+   polite, so 'tu' and 'voi' are 'you' without further ceremony."
+  [subj agr]
+  (if (= :you (:pred subj))
+    (let [own (get-in subj [:ref :context])
+          own (when (and own (not= :top own)) own)]
+      (assoc-in subj [:ref :context]
+                (or own (it-agr-formality agr) :informal)))
+    subj))
 
 (defn- it-subject->en-subject
   "The clause's subject as english wants it.
@@ -140,19 +157,14 @@
    conjoined subjects and a pro-drop (absent) subject are synthesized from :agr."
   [it-subj agr]
   (cond
-    (formal-you? it-subj)
-    (-> (if (:number agr)
-          (assoc-in it-subj [:ref :number] (:number agr))
-          it-subj)
-        (assoc :existential? false :mod []))
-
-    (informal-second-person? it-subj)
-    (-> it-subj
-        (assoc-in [:ref :context] :informal)
-        (assoc :existential? false :mod []))
-
     (and it-subj (contains? en-pronoun-preds (:pred it-subj)))
-    (assoc it-subj :existential? false :mod [])
+    (let [subj (with-formality it-subj agr)]
+      (cond-> (assoc subj :existential? false :mod [])
+        ;; english has a singular and a plural 'you'; the formality emoji
+        ;; follows the number, so a singular addressee needs it spelled out
+        ;; when the clause's :agr is what says they are the polite one.
+        (and (formal-you? subj) (:number agr))
+        (assoc-in [:ref :number] (:number agr))))
 
     (and it-subj (not (contains? it-pronoun-preds (:pred it-subj))))
     (-> it-subj

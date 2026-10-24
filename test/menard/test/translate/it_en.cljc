@@ -170,18 +170,45 @@
     ;; italiano marks the formal addressee explicitly ("Lei", :ref {:context
     ;; :formal}); without the :context english cannot pick between its "you"
     ;; entries and the emoji menard appends would be arbitrary.
-    (doseq [subj [{:pred :you}
-                  {:pred :you :ref {:number :sing :human? true}}
-                  {:pred :you :ref {:context :informal}}
-                  {:pred :you :ref {:context :formal}}]]
+    (doseq [[subj expected] [[{:pred :you} :informal]
+                             [{:pred :you :ref {:number :sing :human? true}} :informal]
+                             [{:pred :you :ref {:context :informal}} :informal]
+                             [{:pred :you :ref {:context :formal}} :formal]]]
       (let [spec (translate/it-structure-to-en-spec
                   {:cat :verb :subcat [] :phrasal? true
                    :agr {:number :sing :person :2nd}
                    :sem {:pred :eat :mod [] :tense :present :aspect :simple
                          :subj subj}})]
-        (is (= (if (= :formal (get-in subj [:ref :context])) :formal :informal)
-               (get-in spec [:sem :subj :ref :context]))
-            (pr-str subj))))))
+        (is (= expected (get-in spec [:sem :subj :ref :context])) (pr-str subj)))))
+  (testing "a spec that carries the formality in :agr instead (as a
+            conjugation chart does) is understood too"
+    (doseq [[agr expected] [[{:person :2nd :number :sing :formal? true} :formal]
+                            [{:person :2nd :number :sing :formal? false} :informal]
+                            [{:person :2nd :number :sing} :informal]]]
+      (let [spec (translate/it-structure-to-en-spec
+                  {:cat :verb :subcat [] :phrasal? true
+                   :agr agr
+                   :sem {:pred :eat :mod [] :tense :present :aspect :simple}})]
+        (is (= :you (get-in spec [:sem :subj :pred])))
+        (is (= expected (get-in spec [:sem :subj :ref :context])) (pr-str agr))))))
+
+(deftest chart-formal-you-gets-a-formal-emoji
+  (testing "a conjugation chart's polite 2nd person generates 'you' plus an
+            older-person emoji"
+    ;; This is the shape an application generates from when it builds the
+    ;; english spec itself instead of translating a parse (verbcoach does this
+    ;; for its italian conjugation chart): :agr :formal? true is the polite
+    ;; second person, i.e. "Lei".
+    (let [spec (translate/it-structure-to-en-spec
+                {:cat :verb :subcat [] :phrasal? true
+                 :agr {:person :2nd :number :sing :formal? true}
+                 :sem {:pred :read :mod [] :tense :conditional :aspect :simple}})
+          translations (->> (range 5) (map (fn [_] (-> spec en/generate en/morph))) distinct)]
+      (is (seq translations))
+      (doseq [t translations]
+        (is (str/starts-with? t "you ") (str "expected 'you ...': " t))
+        (is (has-emoji-of? t m/formal) (str "no formal emoji in: " t))
+        (is (not (has-emoji-of? t m/informal)) (str "informal emoji in: " t))))))
 
 (deftest formal-lei-emojis-per-parse
   (testing "each parse whose subject is the formal 'you' generates an

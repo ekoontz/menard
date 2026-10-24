@@ -112,6 +112,19 @@
   (and (= :you (:pred subj))
        (= :formal (get-in subj [:ref :context]))))
 
+(defn- informal-second-person?
+  "True for english's informal 'you'.
+
+   Italiano marks the formal addressee explicitly -- 'Lei', :ref {:context
+   :formal} -- so a second-person subject with no :context at all is 'tu'/'voi'.
+   english needs the :context: it has one 'you' entry per formality, and menard
+   turns that entry's :note into the formality emoji it appends ('you 👦' vs
+   'you 👴'), so without it the emoji is arbitrary."
+  [subj]
+  (and (= :you (:pred subj))
+       (let [context (get-in subj [:ref :context])]
+         (or (nil? context) (= :top context)))))
+
 (defn- it-subject->en-subject
   "The clause's subject as english wants it.
 
@@ -128,8 +141,14 @@
   [it-subj agr]
   (cond
     (formal-you? it-subj)
+    (-> (if (:number agr)
+          (assoc-in it-subj [:ref :number] (:number agr))
+          it-subj)
+        (assoc :existential? false :mod []))
+
+    (informal-second-person? it-subj)
     (-> it-subj
-        (assoc-in [:ref :number] (:number agr))
+        (assoc-in [:ref :context] :informal)
         (assoc :existential? false :mod []))
 
     (and it-subj (contains? en-pronoun-preds (:pred it-subj)))

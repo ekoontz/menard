@@ -164,6 +164,47 @@
           (is (has-emoji-of? t m/informal) (str input ", no informal emoji in: " t))
           (is (not (has-emoji-of? t m/formal)) (str input ", formal emoji in: " t)))))))
 
+(deftest second-person-formality-defaulting
+  (testing "a 2nd-person subject that does not say whether it is formal is
+            english's informal 'you'"
+    ;; italiano marks the formal addressee explicitly ("Lei", :ref {:context
+    ;; :formal}); without the :context english cannot pick between its "you"
+    ;; entries and the emoji menard appends would be arbitrary.
+    (doseq [subj [{:pred :you}
+                  {:pred :you :ref {:number :sing :human? true}}
+                  {:pred :you :ref {:context :informal}}
+                  {:pred :you :ref {:context :formal}}]]
+      (let [spec (translate/it-structure-to-en-spec
+                  {:cat :verb :subcat [] :phrasal? true
+                   :agr {:number :sing :person :2nd}
+                   :sem {:pred :eat :mod [] :tense :present :aspect :simple
+                         :subj subj}})]
+        (is (= (if (= :formal (get-in subj [:ref :context])) :formal :informal)
+               (get-in spec [:sem :subj :ref :context]))
+            (pr-str subj))))))
+
+(deftest formal-lei-emojis-per-parse
+  (testing "each parse whose subject is the formal 'you' generates an
+            older-person emoji"
+    ;; The formal reading of "Lei" is the parse whose subject carries
+    ;; :ref {:context :formal} (the other readings are "she"). english picks
+    ;; one of its "you" entries -- and so the emoji menard appends -- from
+    ;; that :context, so every such parse has to come out with an older-person
+    ;; emoji, never a child one.
+    (let [formal-parses (->> (it/parse "Lei mangia")
+                             (filter #(= :formal (u/get-in % [:sem :subj :ref :context]))))]
+      (is (seq formal-parses) "expected the formal reading of 'Lei' among the parses")
+      (doseq [parse formal-parses]
+        (let [translations (->> (range 4)
+                                (map (fn [_] (translate/it-structure-to-en-string parse)))
+                                (remove nil?)
+                                distinct)]
+          (is (seq translations) "expected at least one translation")
+          (doseq [t translations]
+            (is (str/starts-with? t "you ") (str "expected 'you ...': " t))
+            (is (has-emoji-of? t m/formal) (str "no formal emoji in: " t))
+            (is (not (has-emoji-of? t m/informal)) (str "informal emoji in: " t))))))))
+
 (deftest it-to-en-sentences
   (testing "an explicit subject noun reaches the verb
             (menard.ug/subject-is-comp), rather than being defaulted to a

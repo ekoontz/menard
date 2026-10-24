@@ -68,6 +68,9 @@ Italian verb conjugation.
   then appended an arbitrary formality emoji: "tu balli" came out as
   "you 👵 dance". It is now always a child emoji, and the formal `Lei` (which
   already carried `:context :formal`) always an older-person one.
+  `it-subject->en-subject` also defaults any second-person subject that
+  arrives without a `:context` to `:informal` (a stale lexicon, or a spec
+  built by a caller), so the annotation does not depend on the lexicon alone.
 
 ## [1.11.1] - 2026-10-19
 

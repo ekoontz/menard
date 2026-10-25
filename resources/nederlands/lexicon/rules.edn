@@ -185,6 +185,12 @@
        :modal ::unspec}
   :then [{:modal :none}]}
 
+ ;; a verb like "spelen", which takes a direct object but not a human one.
+ {:rule :inanimate-object-default-false
+  :if {:cat :verb
+       :inanimate-object? ::unspec}
+  :then [{:inanimate-object? false}]}
+
  ;; if a verb does not specify a particular
  ;; transitivity, generate both intransitive and transitive forms
  ;; of the verb, where the second form has:
@@ -192,6 +198,7 @@
  {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux? false
+       :inanimate-object? false
        :modal :none
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}
@@ -208,6 +215,31 @@
                    :2 {:cat :noun
                        :subcat []}}
           :sem {:obj {:existential? false}}}]}
+
+ ;; "ik speel gitaar", but not *"ik speel hem": the object carries
+ ;; :ref {:human? false}, so a human object has no parse, while the
+ ;; object-free reading ("ik speel") is kept.
+ {:rule :subcat-inanimate-object
+  :if {:cat :verb
+       :aux? false
+       :inanimate-object? true
+       :modal :none
+       :subcat {:1 {:cat :noun}
+                :2 ::unspec}
+       :sem {:obj ::unspec}}
+  :then [{:derivation {:sense :intransitive}
+          :subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 []}
+          :sem {:args :none
+                :obj :none}}
+         {:derivation {:sense :transitive-animate-object-false}
+          :subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 {:cat :noun
+                       :subcat []}}
+          :sem {:obj {:existential? false
+                      :ref {:human? false}}}}]}
 
  {:rule :existential-verb?
   :if {:cat :verb

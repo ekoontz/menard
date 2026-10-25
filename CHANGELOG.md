@@ -8,6 +8,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 Italian verb conjugation, and direct object pronouns in every language.
 
+- Transitivity: "eat" and "dance" are intransitive, and "play" (in both
+  senses, music and games) takes a direct object but not a human one, in
+  every language:
+  - English: `:intransitive-only?` for "eat" and "dance", and a new
+    `:inanimate-object?` (with the matching
+    `:subcat-frames-inanimate-object` rule) for "play": its object carries
+    `:ref {:human? false}`, so "I play him" has no parse while "I play it",
+    "I play a book" and the object-free "I play" still do.
+  - Español: `:transitivity :intransitive` for "comer" and "bailar", and two
+    senses for "jugar" and "tocar" (intransitive, and transitive with
+    `:obj {:ref {:human? false}}`), so "yo lo toco" only has the inanimate
+    (`:pred :it`) reading.
+  - Nederlands: `:sem {:obj :none}` for "eten", and `:inanimate-object?` plus
+    a `:subcat-inanimate-object` rule for "spelen" (there is no "dansen").
+  - Italiano: `:subcat {:2 []}` for "mangiare" and "ballare" (so "lo
+    mangio" has no parse, like "li andiamo"), and `:sem {:obj {:human
+    false}}` for "giocare" and "suonare" ("lo gioco" keeps only the inanimate
+    reading of "lo"). New `menard.italiano.conjugate/takes-human-object?`
+    tells a verb that can take a person as its direct object from one that
+    cannot.
+
 - Direct object pronouns, per language:
   - Italiano: add the direct object clitics `li` and `le`, which were
     missing, and non-reflexive senses for `mi`, `ti` and `ci` (only

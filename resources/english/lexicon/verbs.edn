@@ -266,7 +266,8 @@
                       {:infl :past-participle
                        :surface "cut"}]}]
  "damage" [{:sem {:pred :damage}}]
- "dance" [{:sem {:pred :dance}}]
+ "dance" [{:intransitive-only? true
+           :sem {:pred :dance}}]
  "decide" [{:sem {:pred :decide}}] 
  "defend" [{:sem {:pred :defend}}]
  "deny" [{:sem {:pred :deny}}] 
@@ -390,7 +391,9 @@
                        {:infl :past-participle :surface "driven"}]}]
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
-         [{:exceptions exceptions :sem {:pred :eat}}])
+         [{:exceptions exceptions
+           :intransitive-only? true
+           :sem {:pred :eat}}])
  "earn" [{ :sem {:pred :earn}}]
  "elaborate" [{:sem {:pred :elaborate}}]
  "embrace" [{:sem {:pred :embrace}}]
@@ -730,9 +733,11 @@
          :exceptions [{:infl :past-simple :surface "paid"}
                       {:infl :past-participle :surface "paid"}]}]
  "perform" [{ :sem {:pred :perform}}]
- "play" [{:sem {:pred :play-music}
+ "play" [{:inanimate-object? true
+          :sem {:pred :play-music}
           :note "music"}
-         {:sem {:pred :play-games}
+         {:inanimate-object? true
+          :sem {:pred :play-games}
           :note "games"}]
  "practice" [{:sem {:pred :practice}}]
  "prefer" [{:sem {:pred :prefer}}]

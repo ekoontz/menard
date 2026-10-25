@@ -51,3 +51,21 @@
                     (and surface (re-find #" hem$" surface)))
                   surfaces)
           (str "generated: " (vec surfaces))))))
+
+(defn object-humans
+  "the :sem :obj :ref :human? of each parse of _expression_."
+  [expression]
+  (set (map #(u/get-in % [:sem :obj :ref :human?]) (parse expression))))
+
+(deftest play-takes-an-inanimate-object
+  (testing "play takes a direct object, but not a human one"
+    (doseq [expression ["ik speel hem" "ik speel haar" "ik speel hen"]]
+      (is (not (contains? (object-humans expression) true)) expression)))
+  (testing "the inanimate reading of the pronoun is kept"
+    (is (contains? (object-humans "ik speel het") false)))
+  (testing "the human object pronouns still work with other verbs"
+    (is (contains? (object-humans "ik zie hem") true))))
+
+(deftest eten-is-intransitive
+  (doseq [expression ["ik eet hem" "ik eet het"]]
+    (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

@@ -40,6 +40,29 @@
                         "they see themselves"]]
       (is (seq (parse expression)) expression))))
 
+(defn human-object?
+  "True if any parse of _expression_ has a human direct object. English spells
+   the human and the nonhuman object pronouns alike ('them'), so the object's
+   :ref :human? is what tells them apart."
+  [expression]
+  (boolean (some #(true? (u/get-in % [:sem :obj :ref :human?])) (parse expression))))
+
+(deftest play-takes-an-inanimate-object
+  (testing "play takes a direct object, but not a human one"
+    (is (contains? (object-preds "I play it") :it))
+    (is (contains? (object-preds "I play a book") :book)
+        "an inanimate noun phrase is still an object")
+    (doseq [expression ["I play him" "I play her" "I play them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "the human object pronouns still work with other verbs"
+    (is (human-object? "I see him"))
+    (is (human-object? "I see them"))))
+
+(deftest eat-and-dance-are-intransitive
+  (doseq [expression ["I eat a book" "I dance it"]]
+    (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression))
+        expression)))
+
 (deftest generate-direct-object-pronouns
   (testing "a parsed direct object pronoun can be generated again"
     (doseq [expression ["she sees him"

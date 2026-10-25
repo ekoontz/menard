@@ -52,7 +52,8 @@
  "eten" (let [exceptions [{:infl :present
                            :agr {:number :sing}
                            :surface "eet"}]]
-          [{:sem {:pred :eat}
+          [{:sem {:pred :eat
+                  :obj :none}
             :strong? :e-a-e}])
  "ervaren" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}
@@ -339,6 +340,7 @@
                     :agr {:person :3rd :number :sing}
                     :surface "speelt"}]]
    [{:exceptions exceptions
+     :inanimate-object? true
      :sem {:pred :play
            :subj {:prop {:animate true}}}}]) ;; TODO: move to encyclopedia.
  

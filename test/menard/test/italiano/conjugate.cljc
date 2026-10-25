@@ -83,10 +83,12 @@
 (deftest object-less-verbs
   (testing "the lexicon marks the verbs that take no direct object"
     (is (conjugate/object-less? "andare"))
-    (is (conjugate/object-less? "arrivare")))
+    (is (conjugate/object-less? "arrivare"))
+    (is (conjugate/object-less? "mangiare"))
+    (is (conjugate/object-less? "ballare")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
-    (is (not (conjugate/object-less? "mangiare")))
+    (is (not (conjugate/object-less? "bere")))
     (is (not (conjugate/object-less? "no-such-verb")))))
 
 (deftest chart-shape
@@ -94,3 +96,14 @@
     (is (= "parlare" (:canonical chart)))
     (is (= 3 (count (:moods chart))))
     (is (= "parlo" (get-in chart [:moods 0 :inflections 0 :singular :1st])))))
+
+(deftest takes-human-object
+  (testing "verbs that take a person as their direct object"
+    (doseq [canonical ["vedere" "comprare" "leggere" "bere" "avere"]]
+      (is (conjugate/takes-human-object? canonical) canonical)))
+  (testing "not the verbs that take no direct object"
+    (doseq [canonical ["andare" "arrivare" "mangiare" "ballare"]]
+      (is (not (conjugate/takes-human-object? canonical)) canonical)))
+  (testing "not the verbs whose object must be inanimate"
+    (doseq [canonical ["giocare" "suonare"]]
+      (is (not (conjugate/takes-human-object? canonical)) canonical))))

@@ -18,6 +18,11 @@
 
 (def model es/model)
 
+(defn object-preds
+  "the :sem :obj :pred of each parse of _expression_."
+  [expression]
+  (set (map #(u/get-in % [:sem :obj :pred]) (parse expression))))
+
 (deftest generation
   (is (= "yo los veo"
          (->
@@ -48,3 +53,20 @@
       (is (seq (parse expression)) expression)
       (is (contains? (set (map #(u/get-in % [:sem :obj :pred]) (parse expression))) pred)
           (str expression " should have a direct object with :pred " pred)))))
+
+
+(deftest play-takes-an-inanimate-object
+  (testing "play takes a clitic direct object, but not a human one"
+    (is (contains? (object-preds "yo lo toco") :it))
+    (is (contains? (object-preds "yo lo juego") :it))
+    (is (not (contains? (object-preds "yo lo toco") :he)))
+    (is (not (contains? (object-preds "yo lo juego") :he))))
+  (testing "the human clitics still work with other verbs"
+    (is (contains? (object-preds "yo lo veo") :he)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo juego")))
+    (is (seq (parse "yo toco")))))
+
+(deftest eat-and-dance-are-intransitive
+  (doseq [expression ["yo lo como" "yo lo bailo"]]
+    (is (empty? (parse expression)) expression)))

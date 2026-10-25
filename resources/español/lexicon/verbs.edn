@@ -49,7 +49,8 @@
            {:sem {:pred :help,
                   :obj {:ref {:human? true}}}
             :transitivity :transitive}]
- "bailar" [{:sem {:pred :dance}}]
+ "bailar" [{:transitivity :intransitive
+            :sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "bañarse" [{:sem {:pred :take-a-bath}}]
  "beber" [{:sem {:pred :drink}}]
@@ -163,7 +164,8 @@
                     :agr {:person :1st :number :sing}
                     :surface "comencé"}]
               :stems {:boot "comienz"}}]
- "comer" [{:sem {:pred :eat
+ "comer" [{:transitivity :intransitive
+           :sem {:pred :eat
                  ;; of course animals {:animate? true} can eat too, but we
                  ;; don't have a good way to indicate the gender distinction of
                  ;; them for the article ("él/ella/ellos/ellas) with the emoji.
@@ -666,7 +668,15 @@
  "herir" [{:sem {:pred :wound}, :stems {:boot "hier"}}]
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]
 
- "jugar" [{:sem {:pred :play-games}, :stems {:boot "jueg"}}]
+ "jugar" [{:transitivity :intransitive
+           :sem {:pred :play-games}
+           :stems {:boot "jueg"}}
+          {:transitivity :transitive
+           ;; play takes an object, but not a person: "juego al tenis", and
+           ;; "lo juego" for a game, but not *"lo juego" for someone.
+           :sem {:pred :play-games
+                 :obj {:ref {:human? false}}}
+           :stems {:boot "jueg"}}]
 
  
  "impedir" [{:sem {:pred :prevent}, :stems {:boot "impid"}}]
@@ -1206,7 +1216,12 @@
 ;;    "valer" {}
 ;;   "vender" {}
 
- "tocar" [{:sem {:pred :play-music}}]
+ "tocar" [{:transitivity :intransitive
+           :sem {:pred :play-music}}
+          {:transitivity :transitive
+           ;; as with jugar: an instrument or a piece, not a person.
+           :sem {:pred :play-music
+                 :obj {:ref {:human? false}}}}]
  
  "venir" [{:sem {:subj {:animate true}, :pred :come},
            :transitivity :intransitive

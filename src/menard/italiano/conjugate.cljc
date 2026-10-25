@@ -111,6 +111,17 @@
     (and (some? lexeme)
          (= [] (u/get-in lexeme [:subcat :2])))))
 
+(defn takes-human-object?
+  "True if canonical can take a human direct object, so that a clitic like lo
+   or la can stand for a person: false for a verb that takes no direct object
+   (object-less?) and for one whose object must be inanimate (giocare,
+   suonare, whose lexicon entries carry :sem {:obj {:human false}})."
+  [canonical]
+  (let [lexeme (verb-lexeme canonical)]
+    (and (some? lexeme)
+         (not (object-less? canonical))
+         (not= false (u/get-in lexeme [:sem :obj :human])))))
+
 (defn essere? [canonical]
   (let [lexeme (verb-lexeme canonical)]
     (or (true? (:essere lexeme))

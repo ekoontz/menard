@@ -35,3 +35,20 @@
   (testing "a full noun phrase direct object lands in :sem :obj too"
     (is (contains? (set (map #(u/get-in % [:sem :obj :pred]) (parse "il cane vede il gatto")))
                    :cat))))
+
+(deftest play-takes-an-inanimate-object
+  (testing "play takes a clitic direct object, but not a human one"
+    (doseq [expression ["lo gioco" "li gioco" "lo suono" "le suono"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression)))
+  (testing "the inanimate reading of the clitic is kept"
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo gioco"))))
+  (testing "the human clitics still work with other verbs"
+    (is (some #(true? (u/get-in % [:sem :obj :human])) (parse "lo vedo"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "gioco")))
+    (is (seq (parse "suono")))))
+
+(deftest eat-and-dance-are-intransitive
+  (doseq [expression ["lo mangio" "la mangio" "lo ballo" "li ballo"]]
+    (is (empty? (parse expression)) expression)))

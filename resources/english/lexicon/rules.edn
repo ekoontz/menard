@@ -150,6 +150,12 @@
        :intransitive-only? ::unspec}
   :then [{:intransitive-only? false}]}
 
+ ;; a verb like "play", which takes a direct object but not a human one.
+ {:rule :inanimate-object-default-false
+  :if {:cat :verb
+       :inanimate-object? ::unspec}
+  :then [{:inanimate-object? false}]}
+
  {:rule :intransitive
   :if {:cat :verb
        :adjectival-verb? false
@@ -192,6 +198,7 @@
   :if {:cat :verb
        :reflexive? false
        :intransitive-only? false
+       :inanimate-object? false
        :nominal-verb? false
        :prepositional-verb? false
        :adjectival-verb? false
@@ -242,6 +249,44 @@
                          :sem obj
                          :subcat []}}
             :reflexive? false
+            :sem {:subj subj
+                  :obj obj}})]}
+
+ ;; "I play the guitar", "I play tennis", but not *"I play him": the object
+ ;; carries :ref {:human? false}, so a human object ("him", "her", "them") has
+ ;; no parse, while the object-free reading ("I play") is kept.
+ {:rule :subcat-frames-inanimate-object
+  :if {:cat :verb
+       :reflexive? false
+       :inanimate-object? true
+       :nominal-verb? false
+       :prepositional-verb? false
+       :adjectival-verb? false
+       :modal :none
+       :aux? false
+       :subcat {:2 ::unspec}
+       :sem {:subj {:existential? ::unspec}
+             :obj ::unspec}}
+  :then [;; 1. intransitive:
+         (let [subj (atom {:existential? false})]
+           {:reflexive? false
+            :sem {:subj subj
+                  :obj :none}
+            :subcat {:1 {:sem subj}
+                     :2 []}})
+         ;; 2. transitive, but only an inanimate object:
+         (let [subj (atom {:existential? false})
+               obj (atom {:existential? false
+                          :ref {:human? false}})]
+           {:reflexive? false
+            :subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []}}
             :sem {:subj subj
                   :obj obj}})]}
 

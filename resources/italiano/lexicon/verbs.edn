@@ -198,7 +198,10 @@
      (clojure.core/merge
       (:synsem r1)
       (clojure.core/dissoc r1 :synsem))))]),
- "ballare" [{:cat :verb, :sem {:pred :dance}}],
+ "ballare"
+ [{:cat :verb,
+   :sem {:pred :dance},
+   :subcat {:2 []}}],
  "bere"
  [{:cat :verb,
    :sem {:pred :drink, :subj {:animate true}, :obj {:drinkable true}},
@@ -635,7 +638,10 @@
  [{:sem {:pred :manage}, :cat :verb, :italiano {:boot-verb true}}],
  "giocare"
  [{:cat :verb,
-   :sem {:pred :play-games},
+   :sem {:pred :play-games,
+         ;; play takes an object, but not a person: "gioco la partita",
+         ;; and "lo gioco" for a song, but not *"lo gioco" for someone.
+         :obj {:human false}},
    :italiano {:future-stem "giocher"}}],
  "gridare" [{:cat :verb, :sem {:pred :yell}}],
  "guadagnare" [{:cat :verb, :sem {:pred :earn}}],
@@ -670,7 +676,8 @@
  "mandare" [{:cat :verb, :sem {:pred :send}}],
  "mangiare"
  [{:cat :verb,
-   :sem {:pred :eat, :subj {:animate true}, :obj {:edible true}}}],
+   :sem {:pred :eat, :subj {:animate true}},
+   :subcat {:2 []}}],
  "mentire" [{:cat :verb, :sem {:pred :lie}}],
  "mettere"
  [{:cat :verb, :sem {:pred :put}, :italiano {:passato "messo"}}],
@@ -1002,7 +1009,11 @@
      (clojure.core/dissoc r1 :synsem)))]),
  "studiare" [{:cat :verb, :sem {:pred :study}}],
  "suonare"
- [{:cat :verb, :sem {:subj {:human true}, :pred :play-music}}],
+ [{:cat :verb,
+   :sem {:subj {:human true},
+         :pred :play-music,
+         ;; as with giocare: an instrument or a piece, not a person.
+         :obj {:human false}}}],
  "svegliarsi" [{:cat :verb, :sem {:pred :wake-up, :reflexive true}}],
  "svenire"
  [{:cat :verb,

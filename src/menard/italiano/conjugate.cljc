@@ -111,6 +111,16 @@
     (and (some? lexeme)
          (= [] (u/get-in lexeme [:subcat :2])))))
 
+(defn takes-indirect-object?
+  "True if the lexicon marks canonical as taking an indirect object (a
+   recipient): dare, dire, mostrare, portare, scrivere carry
+   :indirect-object? true, which is what
+   menard.italiano.conjugate/with-clitics needs to add gli/le."
+  [canonical]
+  (let [lexeme (verb-lexeme canonical)]
+    (and (some? lexeme)
+         (true? (:indirect-object? lexeme)))))
+
 (defn takes-human-object?
   "True if canonical can take a human direct object, so that a clitic like lo
    or la can stand for a person: false for a verb that takes no direct object
@@ -228,20 +238,72 @@
    a silent h, and lo ha visto elides to l'ha visto."
   #"^([aeiouàèéìòù]|h)")
 
+(def person-number-gender->indirect-object-clitic
+  "Clitic indirect object pronouns by agreement: the dative (\"to someone\")
+   pronouns. 'gli' covers both a lui (to him) and a loro (to them) in modern
+   Italian; 'le' is a lei (to her)."
+  {:1st {:sing "mi" :plur "ci"}
+   :2nd {:sing "ti" :plur "vi"}
+   :3rd {:sing {:masc "gli" :fem "le"}
+         :plur {:masc "gli" :fem "gli"}}})
+
+(defn indirect-object-clitic
+  "The clitic indirect object pronoun for the given agreement, or nil."
+  ([person number]
+   (indirect-object-clitic person number :masc))
+  ([person number gender]
+   (let [clitic (get-in person-number-gender->indirect-object-clitic [person number])]
+     (if (map? clitic)
+       (get clitic (or gender :masc))
+       clitic))))
+
+(def ^:private dative-before-object
+  "mi/ti/ci/vi become me/te/ce/ve before another clitic: me lo dai, ce lo
+   danno, me l'ha dato."
+  {"mi" "me" "ti" "te" "ci" "ce" "vi" "ve"})
+
+(defn with-clitics
+  "Prefix _surface_ with the clitics for the objects in _objects_, a map of
+   :direct and/or :indirect, each of [person number gender].
+
+   The dative comes first, and the third person dative fuses with the
+   accusative into one word: 'glielo do', 'gliela do', 'gliel'ho dato'; the
+   first and second person datives stay separate: 'me lo dai', 'me l'ha
+   dato'. lo and la elide before a vowel (see elides-before)."
+  [surface {:keys [direct indirect]}]
+  (let [dative (when indirect (apply indirect-object-clitic indirect))
+        object (when direct (apply direct-object-clitic direct))
+        eliding? (and object
+                      (contains? eliding-clitics object)
+                      (re-find elides-before surface))
+        object-string (when object
+                        (if eliding?
+                          (str (subs object 0 1) "'")
+                          (str object " ")))]
+    (cond
+      (nil? dative) (str object-string surface)
+
+      (nil? object) (str dative " " surface)
+
+      ;; gli/le + accusative fuse: glielo, gliela, glieli, gliele
+      (contains? #{"gli" "le"} dative) (str "glie" object-string surface)
+
+      ;; mi/ti/ci/vi stay a separate word: me lo, te lo, ce lo, ve lo
+      :else (str (get dative-before-object dative dative) " " object-string surface))))
+
 (defn with-direct-object-clitic
   "Prefix _surface_ with the direct object clitic for the given agreement:
    lo vedo, l'ho visto."
   [person number gender surface]
-  (let [clitic (direct-object-clitic person number gender)]
-    (cond
-      (nil? clitic) surface
+  (with-clitics surface {:direct [person number gender]}))
 
-      (and (contains? eliding-clitics clitic)
-           (re-find elides-before surface))
-      (str (subs clitic 0 1) "'" surface)
-
-      :else
-      (str clitic " " surface))))
+(defn with-indirect-object-clitic
+  "Prefix _surface_ with the indirect object clitic for the given agreement:
+   gli do, le do, mi dai."
+  ([person number surface]
+   (with-indirect-object-clitic person number :masc surface))
+  ([person number gender surface]
+   (with-clitics surface {:indirect [person number gender]})))
 
 (defn form-with-clitic
   "The tense form of canonical including the reflexive clitic, if any."

@@ -112,3 +112,43 @@
     (doseq [canonical ["giocare" "suonare" "mangiare" "pensare" "aprire"
                        "avere" "fare" "bere" "leggere" "mettere"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical))))
+
+(deftest indirect-object-clitics
+  (testing "the dative clitic is the noun's agreement"
+    (is (= "gli" (conjugate/indirect-object-clitic :3rd :sing :masc)))
+    (is (= "le" (conjugate/indirect-object-clitic :3rd :sing :fem)))
+    (is (= "gli" (conjugate/indirect-object-clitic :3rd :plur :masc)))
+    (is (= "gli" (conjugate/indirect-object-clitic :3rd :plur :fem)))
+    (is (= "mi" (conjugate/indirect-object-clitic :1st :sing)))
+    (is (= "ci" (conjugate/indirect-object-clitic :1st :plur)))
+    (is (= "ti" (conjugate/indirect-object-clitic :2nd :sing)))
+    (is (= "vi" (conjugate/indirect-object-clitic :2nd :plur))))
+  (testing "it goes before the verb"
+    (is (= "gli do" (conjugate/with-indirect-object-clitic :3rd :sing :masc "do")))
+    (is (= "le do" (conjugate/with-indirect-object-clitic :3rd :sing :fem "do")))
+    (is (= "mi dai" (conjugate/with-indirect-object-clitic :1st :sing "dai"))))
+  (testing "with a direct object the dative comes first"
+    (is (= "glielo do" (conjugate/with-clitics "do" {:direct [:3rd :sing :masc]
+                                                     :indirect [:3rd :sing :masc]})))
+    (is (= "gliela do" (conjugate/with-clitics "do" {:direct [:3rd :sing :fem]
+                                                     :indirect [:3rd :sing :fem]})))
+    (is (= "glieli do" (conjugate/with-clitics "do" {:direct [:3rd :plur :masc]
+                                                     :indirect [:3rd :sing :masc]})))
+    (is (= "me lo dai" (conjugate/with-clitics "dai" {:direct [:3rd :sing :masc]
+                                                      :indirect [:1st :sing]})))
+    (is (= "ce lo danno" (conjugate/with-clitics "danno" {:direct [:3rd :sing :masc]
+                                                          :indirect [:1st :plur]}))))
+  (testing "lo and la still elide"
+    (is (= "gliel'ho dato" (conjugate/with-clitics "ho dato" {:direct [:3rd :sing :masc]
+                                                              :indirect [:3rd :sing :masc]})))
+    (is (= "me l'ho dato" (conjugate/with-clitics "ho dato" {:direct [:3rd :sing :masc]
+                                                             :indirect [:1st :sing]})))
+    (is (= "l'ho dato" (conjugate/with-clitics "ho dato" {:direct [:3rd :sing :masc]})))))
+
+(deftest takes-indirect-object
+  (testing "the verbs the lexicon marks as taking a recipient"
+    (doseq [canonical ["dare" "dire" "mostrare" "portare" "scrivere"]]
+      (is (conjugate/takes-indirect-object? canonical) canonical)))
+  (testing "not the others"
+    (doseq [canonical ["vedere" "andare" "mangiare" "no-such-verb"]]
+      (is (not (conjugate/takes-indirect-object? canonical)) canonical))))

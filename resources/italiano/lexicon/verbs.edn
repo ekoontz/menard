@@ -341,6 +341,9 @@
  "credere" [{:cat :verb, :sem {:subj {:human true}, :pred :believe}}],
  "dare"
  [{:cat :verb,
+   ;; dare gives something *to someone*: see
+   ;; menard.italiano.conjugate/takes-indirect-object?.
+   :indirect-object? true,
    :sem {:pred :give},
    :italiano
    {:present {:2sing "dai", :3plur "danno"}, :future-stem "dar"}}],
@@ -381,7 +384,7 @@
   [(let
     [r1
      (dag_unify.core/unify
-      {:synsem {:sem {:pred :say}}}
+      {:synsem {:sem {:pred :say}, :indirect-object? true}}
       shared-part-of-dire)]
     (clojure.core/merge
      (:synsem r1)
@@ -389,7 +392,7 @@
    (let
     [r1
      (dag_unify.core/unify
-      {:synsem {:sem {:pred :tell}}}
+      {:synsem {:sem {:pred :tell}, :indirect-object? true}}
       shared-part-of-dire)]
     (clojure.core/merge
      (:synsem r1)
@@ -721,7 +724,7 @@
      :1plur "moriamo",
      :2plur "morite",
      :3plur "muoiono"}}}],
- "mostrare" [{:cat :verb, :sem {:pred :show}}],
+ "mostrare" [{:cat :verb, :indirect-object? true, :sem {:pred :show}}],
  "muovere"
  [{:cat :verb, :sem {:pred :move}, :italiano {:passato "mosso"}}],
  "nascere"
@@ -767,8 +770,8 @@
  [{:cat :verb, :sem {:pred :cry}, :italiano {:passato "pianto"}}],
  "piegare" [{:cat :verb, :sem {:pred :fold}}],
  "portare"
- [{:cat :verb, :sem {:pred :carry}}
-  {:cat :verb, :sem {:pred :wear-p}}],
+ [{:cat :verb, :indirect-object? true, :sem {:pred :carry}}
+  {:cat :verb, :indirect-object? true, :sem {:pred :wear-p}}],
  "potere"
  (let
   [shared-part-of-potere
@@ -944,7 +947,10 @@
    :sem {:pred :go-downstairs},
    :italiano {:passato "sceso"}}],
  "scrivere"
- [{:cat :verb, :sem {:pred :write}, :italiano {:passato "scritto"}}],
+ [{:cat :verb,
+   :indirect-object? true,
+   :sem {:pred :write},
+   :italiano {:passato "scritto"}}],
  "sedersi"
  [{:cat :verb,
    :sem {:pred :sit-down, :reflexive true, :subj {:human true}},

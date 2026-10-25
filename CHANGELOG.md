@@ -105,6 +105,18 @@ Italian verb conjugation, and direct object pronouns in every language.
     tienda", "vado a la negozio"). Giving those languages the construction is
     a separate piece of work.
 
+- Indirect object (dative) clitics for italiano:
+  `menard.italiano.conjugate/indirect-object-clitic` gives the dative pronoun
+  for an agreement (`gli` for a lui and for a loro, `le` for a lei, and `mi`,
+  `ti`, `ci`, `vi`), and `with-clitics` prefixes one or both clitics to a verb
+  form: "gli do", "le do", "glielo do", "gliela do", "glieli do", "gliele do",
+  "me lo dai", "ce lo danno", "gliel'ho dato", "me l'ho dato" (the third
+  person dative fuses with the accusative into one word, the first and second
+  person datives stay separate). `with-indirect-object-clitic` is the
+  indirect-object counterpart of `with-direct-object-clitic`.
+  `takes-indirect-object?` reports the verbs the lexicon marks with
+  `:indirect-object? true` (dare, dire, mostrare, portare, scrivere).
+
 - Direct object pronouns, per language:
   - Italiano: add the direct object clitics `li` and `le`, which were
     missing, and non-reflexive senses for `mi`, `ti` and `ci` (only

@@ -1,5 +1,8 @@
 {"abbandonare" [{:cat :verb, :sem {:pred :abandon}}],
- "abbassare" [{:cat :verb, :sem {:pred :lower}}],
+ "abbassare"
+ [{:cat :verb,
+   ;; as with giocare: something to lower, not someone.
+   :sem {:pred :lower, :obj {:human false}}}],
  "abbracciare"
  (let
   [shared-part-of-abbracciare {:synsem {:cat :verb}}]
@@ -426,7 +429,14 @@
      :1plur "dobbiamo",
      :2plur "dovete",
      :3plur "devono"}}}],
- "entrare" [{:cat :verb, :essere true, :sem {:pred :enter}}],
+ "entrare"
+ [{:cat :verb,
+   :essere true,
+   ;; "entrare" is intransitive: one enters, one does not enter something
+   ;; (entrare *in* something takes a preposition, which this italian grammar
+   ;; has no frame for).
+   :sem {:pred :enter},
+   :subcat {:2 []}}],
  "esistere"
  [{:cat :verb,
    :essere true,

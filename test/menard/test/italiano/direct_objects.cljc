@@ -140,15 +140,17 @@
 (deftest more-verbs-take-an-inanimate-object
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo taglio" "la taglio" "lo guido" "la guido"
-                        "lo spendo" "lo so" "lo conservo" "lo formo" "lo presto"]]
+                        "lo spendo" "lo so" "lo conservo" "lo formo" "lo presto"
+                        "lo abbasso" "la abbasso"]]
       (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
           expression))
     (doseq [expression ["lo taglio" "lo guido" "lo spendo" "lo so"
-                        "lo conservo" "lo formo" "lo presto"]]
+                        "lo conservo" "lo formo" "lo presto" "lo abbasso"]]
       (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
           expression)))
   (testing "the intransitive readings are kept"
-    (doseq [expression ["taglio" "guido" "spendo" "so" "conservo" "formo" "presto"]]
+    (doseq [expression ["taglio" "guido" "spendo" "so" "conservo" "formo"
+                        "presto" "abbasso"]]
       (is (seq (parse expression)) expression))))
 
 (deftest abbracciare-takes-a-human-object
@@ -172,15 +174,16 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
-(deftest stare-frequentare-sembrare-cenare-venire-and-commentare-are-intransitive
+(deftest stare-frequentare-sembrare-cenare-venire-commentare-and-entrare-are-intransitive
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
                       "lo sembro" "la sembro" "li sembro"
                       "lo ceno" "la ceno"
-                      "lo vengo" "lo commento"]]
+                      "lo vengo" "lo commento" "lo entro"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
     (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"
-                        "ceno" "io ceno" "vengo" "io vengo" "commento"]]
+                        "ceno" "io ceno" "vengo" "io vengo" "commento"
+                        "entro" "io entro"]]
       (is (seq (parse expression)) expression)))
   (testing "stare is still the progressive auxiliary"
     (is (seq (parse "sto camminando")))))

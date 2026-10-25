@@ -40,12 +40,13 @@ Italian verb conjugation, and direct object pronouns in every language.
     (`maak`, `maakt`): like "spelen", its stem doubles the long vowel, which
     the morphology's `^(.*)en$` rule cannot derive, so "ik maak" and
     "hij maakt" had no parse before.
-  - Italiano: `:subcat {:2 []}` for "ballare", "venire" and "commentare" (so
-    "lo ballo"/"lo vengo"/"lo commento" have no parse, like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
+  - Italiano: `:subcat {:2 []}` for "ballare", "venire", "commentare" and
+    "entrare" (so "lo ballo"/"lo vengo"/"lo commento"/"lo entro" have no
+    parse, like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
     "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
     "cancellare", "riparare", "parlare", "pulire", "tagliare", "guidare",
-    "spendere", "sapere", "conservare", "formare", "prestare", all three
-    lexical senses of "avere"
+    "spendere", "sapere", "conservare", "formare", "prestare", "abbassare",
+    all three lexical senses of "avere"
     (the perfect-auxiliary senses are separate and untouched) and both senses
     of "fare" ("lo mangio", "lo bevo", "lo leggo",
     "lo gioco", "lo penso", "lo apro", "lo cancello", "lo riparo", "lo parlo",
@@ -59,12 +60,12 @@ Italian verb conjugation, and direct object pronouns in every language.
   hugged.
 
 - Intransitive verbs: italiano "stare", "frequentare", "sembrare", "cenare",
-  "venire" and "commentare", english "stay", and "attend" in every language that has it (english
+  "venire", "commentare" and "entrare", english "stay", and "attend" in every language that has it (english
   "attend", español "asistir", italiano "frequentare") no longer take a
   direct object: "lo sto", "lo frequento",
-  "lo ceno", "yo lo asisto", "I attend a book" and "I stay him" have no
-  parse, while "sto", "io sto", "frequento", "ceno", "yo asisto", "I attend"
-  and "I stay" still parse. Only the "stay" sense of "stare" is intransitive -- its two
+  "lo ceno", "lo entro", "yo lo asisto", "I attend a book" and "I stay him"
+  have no parse, while "sto", "io sto", "frequento", "ceno", "entro", "yo
+  asisto", "I attend" and "I stay" still parse. Only the "stay" sense of "stare" is intransitive -- its two
   progressive-auxiliary senses keep their verb complement, so "sto
   camminando" still parses. Nederlands "blijven" already carried
   `:sem {:obj :none}`.

@@ -281,7 +281,11 @@
     (clojure.core/merge
      (:synsem r1)
      (clojure.core/dissoc r1 :synsem)))]),
- "chiacchierare" [{:cat :verb, :sem {:pred :chat}}],
+ "chiacchierare"
+ [{:cat :verb,
+   ;; "chiacchierare" is intransitive: one chats, one does not chat something.
+   :sem {:pred :chat},
+   :subcat {:2 []}}],
  "chiamarsi"
  (let
   [gender

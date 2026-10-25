@@ -183,7 +183,15 @@
           (str infl))))
   (testing "a single vowel in a stressed final syllable still doubles"
     (doseq [[canonical expected] [["stop" "stopped"] ["step" "stepped"]
-                                  ["fit" "fitted"] ["plan" "planned"]]]
+                                  ["fit" "fitted"] ["plan" "planned"]
+                                  ["chat" "chatted"]]]
+      (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-simple} (:morphology @en-complete/model)))
+          canonical)
+      (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-participle} (:morphology @en-complete/model)))
+          (str canonical " (participle)"))))
+  (testing "a long vowel does not double, and it is spelled \"eat\" not \"at\""
+    (doseq [[canonical expected] [["cheat" "cheated"] ["repeat" "repeated"]
+                                  ["open" "opened"] ["explain" "explained"]]]
       (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-simple} (:morphology @en-complete/model)))
           canonical))))
 

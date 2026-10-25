@@ -95,7 +95,8 @@
     (is (conjugate/object-less? "riposare"))
     (is (conjugate/object-less? "vivere"))
     (is (conjugate/object-less? "cadere"))
-    (is (conjugate/object-less? "nascere")))
+    (is (conjugate/object-less? "nascere"))
+    (is (conjugate/object-less? "chiacchierare")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))
@@ -115,7 +116,8 @@
   (testing "not the verbs that take no direct object"
     (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"
                        "sembrare" "cenare" "venire" "commentare" "entrare"
-                       "riposare" "vivere" "cadere" "nascere"]]
+                       "riposare" "vivere" "cadere" "nascere"
+                       "chiacchierare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical)))
   (testing "not the verbs whose object must be inanimate"
     (doseq [canonical ["giocare" "suonare" "mangiare" "pensare" "aprire"

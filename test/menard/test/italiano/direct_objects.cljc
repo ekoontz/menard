@@ -181,13 +181,14 @@
                       "lo sembro" "la sembro" "li sembro"
                       "lo ceno" "la ceno"
                       "lo vengo" "lo commento" "lo entro"
-                      "lo vivo" "lo cado" "lo nasco"]]
+                      "lo vivo" "lo cado" "lo nasco" "lo chiacchiero"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
     (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"
                         "ceno" "io ceno" "vengo" "io vengo" "commento"
                         "entro" "io entro"
-                        "riposo" "vivo" "cado" "nasco"]]
+                        "riposo" "vivo" "cado" "nasco"
+                        "chiacchiero" "io chiacchiero"]]
       (is (seq (parse expression)) expression)))
   (testing "riposare's own (non-reflexive) reading takes no object; riposarsi
             still does, since it is the reflexive verb"

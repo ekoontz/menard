@@ -41,7 +41,8 @@ Italian verb conjugation, and direct object pronouns in every language.
     the morphology's `^(.*)en$` rule cannot derive, so "ik maak" and
     "hij maakt" had no parse before.
   - Italiano: `:subcat {:2 []}` for "ballare", "venire", "commentare",
-    "entrare", "riposare", "vivere", "cadere" and "nascere" (so "lo
+    "entrare", "riposare", "vivere", "cadere", "nascere" and
+    "chiacchierare" (so "lo
     ballo"/"lo vengo"/"lo commento"/"lo entro"/"lo vivo"/"lo cado"/"lo nasco"
     have no parse, like "li andiamo"; "riposarsi" keeps its own reflexive
     clitic, being a different verb), and `:sem {:obj {:human false}}` for "mangiare",
@@ -63,8 +64,8 @@ Italian verb conjugation, and direct object pronouns in every language.
   hugged.
 
 - Intransitive verbs: italiano "stare", "frequentare", "sembrare", "cenare",
-  "venire", "commentare", "entrare", "riposare", "vivere", "cadere" and
-  "nascere", english "stay", and "attend" in every language that has it (english
+  "venire", "commentare", "entrare", "riposare", "vivere", "cadere",
+  "nascere" and "chiacchierare", english "stay", and "attend" in every language that has it (english
   "attend", español "asistir", italiano "frequentare") no longer take a
   direct object: "lo sto", "lo frequento",
   "lo ceno", "lo entro", "yo lo asisto", "I attend a book" and "I stay him"
@@ -194,6 +195,12 @@ Italian verb conjugation, and direct object pronouns in every language.
   the noun+adjective rule differing only in the `:word-of-interest` child, a
   concept menard does not have, so the port's copies were identical and every
   such parse was reported twice.
+- English morphology: "chat" now gives "chatted"/"chatted", not "chated". The
+  rule that keeps a long vowel from doubling ("repeat/repeated",
+  "cheat/cheated") listed "at" instead of "eat", so it also caught a short
+  "chat". (A pre-existing gap remains for words like "deposit", whose
+  unstressed "-it" the rules double: "depositted".)
+
 - English morphology: the past-simple and past-participle doubling rule now
   needs a *single* vowel before the final consonant, so "seem" gives
   "seemed"/"seemed" rather than "seemmed" (the rule's `^(.*[eiou])([bglmnpst])$`

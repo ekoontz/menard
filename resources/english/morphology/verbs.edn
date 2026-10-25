@@ -108,9 +108,11 @@
   :u {:cat :verb
       :infl :past-simple}}
 
- ;; prohibit/prohibited, develop/developed, deposit/deposited, etc
- {:g [(re-pattern "^(.*(ain|at|bit|eep|en|il|lop))$")   "$1ed"]
-  :p [(re-pattern "^(.*(ain|at|bit|eep|en|il|lop))ed$") "$1"]
+ ;; prohibit/prohibited, develop/developed, deposit/deposited, repeat/repeated,
+ ;; cheat/cheated, etc. Note "eat" rather than "at": a short "at" doubles
+ ;; (chat/chatted), a long "eat" does not.
+ {:g [(re-pattern "^(.*(ain|eat|bit|eep|en|il|lop))$")   "$1ed"]
+  :p [(re-pattern "^(.*(ain|eat|bit|eep|en|il|lop))ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -155,9 +157,10 @@
   :u {:cat :verb
       :infl :past-participle}}
 
- ;; prohibit/prohibited, develop/developed, etc
- {:g [(re-pattern "^(.*(ain|at|bit|ean|eep|en|il|lop))$")   "$1ed"]
-  :p [(re-pattern "^(.*(ain|at|bit|ean|eep|en|il|lop))ed$") "$1"]
+ ;; prohibit/prohibited, develop/developed, repeat/repeated, etc: as above,
+ ;; "eat" rather than "at", so chat/chatted doubles.
+ {:g [(re-pattern "^(.*(ain|eat|bit|ean|eep|en|il|lop))$")   "$1ed"]
+  :p [(re-pattern "^(.*(ain|eat|bit|ean|eep|en|il|lop))ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 

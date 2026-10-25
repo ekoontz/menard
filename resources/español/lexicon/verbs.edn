@@ -609,10 +609,16 @@
                     :sem sem}}
        :sem sem})
     
-      ;; non-aux sense:
+      ;; non-aux senses (as with jugar: something to have, not someone):
       {:exceptions exceptions
        :sense :have
-       :sem {:pred :have}}])
+       :transitivity :intransitive
+       :sem {:pred :have}}
+      {:exceptions exceptions
+       :sense :have
+       :transitivity :transitive
+       :sem {:pred :have
+             :obj {:ref {:human? false}}}}])
 
     
  "hablar" [{:sem {:pred :speak

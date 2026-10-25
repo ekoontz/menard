@@ -82,6 +82,17 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "apro")))))
 
+(deftest avere-takes-an-inanimate-object
+  (testing "have takes a clitic direct object, but not a human one"
+    (doseq [expression ["lo ho" "la ho" "li ho"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo ho"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "ho"))))
+  (testing "avere is still the perfect auxiliary"
+    (is (seq (parse "ho mangiato")))))
+
 (deftest ballare-is-intransitive
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

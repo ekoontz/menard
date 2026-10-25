@@ -92,6 +92,14 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "yo abro")))))
 
+(deftest tener-takes-an-inanimate-object
+  (testing "have takes a clitic direct object, but not a human one"
+    (doseq [expression ["yo lo tengo" "yo la tengo"]]
+      (is (contains? (object-preds expression) :it) expression)
+      (is (not (contains? (object-preds expression) :he)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo tengo")))))
+
 (deftest bailar-is-intransitive
   (doseq [expression ["yo lo bailo" "yo la bailo"]]
     (is (empty? (parse expression)) expression)))

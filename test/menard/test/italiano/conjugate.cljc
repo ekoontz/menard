@@ -101,11 +101,12 @@
 
 (deftest takes-human-object
   (testing "verbs that take a person as their direct object"
-    (doseq [canonical ["vedere" "comprare" "leggere" "bere" "avere"]]
+    (doseq [canonical ["vedere" "comprare" "leggere" "bere"]]
       (is (conjugate/takes-human-object? canonical) canonical)))
   (testing "not the verbs that take no direct object"
-    (doseq [canonical ["andare" "arrivare" "ballare"]]
+    (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical)))
   (testing "not the verbs whose object must be inanimate"
-    (doseq [canonical ["giocare" "suonare" "mangiare"]]
+    (doseq [canonical ["giocare" "suonare" "mangiare" "pensare" "aprire"
+                       "avere" "fare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical))))

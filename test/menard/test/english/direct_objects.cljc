@@ -94,6 +94,18 @@
   (testing "the object-free reading is kept"
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I open")))))
 
+(deftest have-takes-an-inanimate-object
+  (testing "have takes a direct object, but not a human one"
+    (doseq [expression ["I have him" "I have her" "I have them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I have a book")))
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I have it"))))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I have"))))
+  (testing "the perfect auxiliary is unaffected"
+    (is (seq (parse "I have seen him")))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

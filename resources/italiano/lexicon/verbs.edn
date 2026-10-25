@@ -98,7 +98,9 @@
   [(let
     [r1
      (dag_unify.core/unify
-      {:note "avere (possess)", :synsem {:sem {:pred :have}}}
+      {:note "avere (possess)",
+       ;; as with giocare: something to have, not someone.
+       :synsem {:sem {:pred :have, :obj {:human false}}}}
       avere-common)]
     (clojure.core/merge
      (:synsem r1)
@@ -106,7 +108,9 @@
    (let
     [r1
      (dag_unify.core/unify
-      {:note "avere (relation)", :synsem {:sem {:pred :have}}}
+      {:note "avere (relation)",
+       ;; as with giocare: something to have, not someone.
+       :synsem {:sem {:pred :have, :obj {:human false}}}}
       avere-common)]
     (clojure.core/merge
      (:synsem r1)
@@ -115,7 +119,7 @@
     [r1
      (dag_unify.core/unify
       {:note "avere (possess): unspecified object",
-       :synsem {:sem {:pred :have}}}
+       :synsem {:sem {:pred :have, :obj {:human false}}}}
       avere-common)]
     (clojure.core/merge
      (:synsem r1)

@@ -530,6 +530,7 @@
           [{;; {:aux? false} not needed because of rule: aux-default-is-false,
             ;; but made explicit for contrast with aux=true senses below of this verb.
             :aux? false
+            :inanimate-object? true
             :sense 1
             :sem {:pred :have}
             :exceptions non-aux-exceptions}

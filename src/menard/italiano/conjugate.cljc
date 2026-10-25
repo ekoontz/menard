@@ -180,6 +180,49 @@
     (str (get-in person-number->clitic [person number]) " " surface)
     surface))
 
+(def person-number-gender->direct-object-clitic
+  "Clitic direct object pronouns by agreement: the non-reflexive :case :acc
+   pronoun entries in resources/italiano/lexicon/pronouns.edn."
+  {:1st {:sing "mi" :plur "ci"}
+   :2nd {:sing "ti" :plur "vi"}
+   :3rd {:sing {:masc "lo" :fem "la"}
+         :plur {:masc "li" :fem "le"}}})
+
+(defn direct-object-clitic
+  "The clitic direct object pronoun for the given agreement, or nil."
+  ([person number]
+   (direct-object-clitic person number :masc))
+  ([person number gender]
+   (let [clitic (get-in person-number-gender->direct-object-clitic [person number])]
+     (if (map? clitic)
+       (get clitic (or gender :masc))
+       clitic))))
+
+(def ^:private eliding-clitics
+  "lo and la elide before a vowel: l'ho visto, l'amavo (mi, ti, ci and vi do
+   not: mi alzo, ci hanno visto)."
+  #{"lo" "la"})
+
+(def ^:private elides-before
+  "a vowel, initial h included: avere's forms (ho, ha, hanno) are spelled with
+   a silent h, and lo ha visto elides to l'ha visto."
+  #"^([aeiouàèéìòù]|h)")
+
+(defn with-direct-object-clitic
+  "Prefix _surface_ with the direct object clitic for the given agreement:
+   lo vedo, l'ho visto."
+  [person number gender surface]
+  (let [clitic (direct-object-clitic person number gender)]
+    (cond
+      (nil? clitic) surface
+
+      (and (contains? eliding-clitics clitic)
+           (re-find elides-before surface))
+      (str (subs clitic 0 1) "'" surface)
+
+      :else
+      (str clitic " " surface))))
+
 (defn form-with-clitic
   "The tense form of canonical including the reflexive clitic, if any."
   ([canonical tense person number]

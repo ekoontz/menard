@@ -41,6 +41,45 @@
   (testing "reflexive verbs take essere"
     (is (= "mi sono alzato" (conjugate/form-with-clitic "alzarsi" :passato :1st :sing)))))
 
+(deftest direct-object-clitics
+  (testing "the clitic is the noun's agreement"
+    (is (= "lo" (conjugate/direct-object-clitic :3rd :sing :masc)))
+    (is (= "la" (conjugate/direct-object-clitic :3rd :sing :fem)))
+    (is (= "li" (conjugate/direct-object-clitic :3rd :plur :masc)))
+    (is (= "le" (conjugate/direct-object-clitic :3rd :plur :fem)))
+    (is (= "mi" (conjugate/direct-object-clitic :1st :sing)))
+    (is (= "ci" (conjugate/direct-object-clitic :1st :plur)))
+    (is (= "ti" (conjugate/direct-object-clitic :2nd :sing)))
+    (is (= "vi" (conjugate/direct-object-clitic :2nd :plur))))
+  (testing "every clitic is a non-reflexive accusative pronoun in the lexicon"
+    (let [lexicon (:lexicon @it/model)]
+      (doseq [[person numbers] conjugate/person-number-gender->direct-object-clitic
+              [number genders] numbers
+              [gender clitic] (if (map? genders)
+                                genders
+                                {:masc genders})
+              :let [lexemes (get lexicon clitic)]]
+        (is (some #(and (= :noun (:cat %))
+                        (= :acc (:case %))
+                        (not (true? (:reflexive %)))
+                        (= (cond-> {:person person :number number}
+                             (map? genders) (assoc :gender gender))
+                           (select-keys (:agr %) [:person :number :gender])))
+                  lexemes)
+            (str clitic " should be a " person " " number " " gender
+                 " accusative pronoun")))))
+  (testing "the clitic goes before the verb, eliding lo and la before a vowel"
+    (is (= "lo vedo" (conjugate/with-direct-object-clitic :3rd :sing :masc
+                                                         (conjugate/verb-form "vedere" :present-simple :1st :sing))))
+    (is (= "l'amo" (conjugate/with-direct-object-clitic :3rd :sing :fem
+                                                        (conjugate/verb-form "amare" :present-simple :1st :sing))))
+    (is (= "l'ho visto" (conjugate/with-direct-object-clitic :3rd :sing :masc
+                                                             (conjugate/verb-form "vedere" :passato :1st :sing))))
+    (is (= "li vedo" (conjugate/with-direct-object-clitic :3rd :plur :masc
+                                                          (conjugate/verb-form "vedere" :present-simple :1st :sing))))
+    (testing "only lo and la elide"
+      (is (= "mi alzo" (conjugate/with-direct-object-clitic :1st :sing :masc "alzo"))))))
+
 (deftest chart-shape
   (let [chart (conjugate/generate-chart "parlare" false)]
     (is (= "parlare" (:canonical chart)))

@@ -40,6 +40,11 @@ Italian verb conjugation, and direct object pronouns in every language.
 - `menard.italiano.conjugate`: tonic and compound conjugation, with
   avere/essere auxiliary selection and reflexive clitics, plus
   `generate-chart` for the verbcoach conjugation table.
+  `direct-object-clitic` and `with-direct-object-clitic` give the clitic
+  direct object pronoun for an agreement (`lo`, `la`, `li`, `le`, and `mi`,
+  `ti`, `ci`, `vi`) and prefix it to a verb form, eliding `lo`/`la` before a
+  vowel ("lo vedo", "l'ho visto"); a test checks every clitic against
+  italiano's non-reflexive accusative pronoun lexemes.
 - `menard.italiano/generate-all`.
 - Italiano grammar: share agreement between a noun and its adjective or
   determiner (`menard.ug/shared-agr`), and drop the `np-to-n-pp` rule, which

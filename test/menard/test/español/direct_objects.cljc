@@ -67,6 +67,13 @@
     (is (seq (parse "yo juego")))
     (is (seq (parse "yo toco")))))
 
-(deftest eat-and-dance-are-intransitive
-  (doseq [expression ["yo lo como" "yo lo bailo"]]
+(deftest eat-takes-an-inanimate-object
+  (testing "eat takes a clitic direct object, but not a human one"
+    (is (contains? (object-preds "yo lo como") :it))
+    (is (not (contains? (object-preds "yo lo como") :he))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo como")))))
+
+(deftest bailar-is-intransitive
+  (doseq [expression ["yo lo bailo" "yo la bailo"]]
     (is (empty? (parse expression)) expression)))

@@ -164,12 +164,17 @@
                     :agr {:person :1st :number :sing}
                     :surface "comencé"}]
               :stems {:boot "comienz"}}]
- "comer" [{:transitivity :intransitive
-           :sem {:pred :eat
-                 ;; of course animals {:animate? true} can eat too, but we
-                 ;; don't have a good way to indicate the gender distinction of
-                 ;; them for the article ("él/ella/ellos/ellas) with the emoji.
-                 :subj {:ref {:human? true}}}}]
+ "comer" [;; of course animals {:animate? true} can eat too, but we
+           ;; don't have a good way to indicate the gender distinction of
+           ;; them for the article ("él/ella/ellos/ellas) with the emoji.
+           {:transitivity :intransitive
+            :sem {:pred :eat
+                  :subj {:ref {:human? true}}}}
+           {:transitivity :transitive
+            ;; as with jugar: something to eat, not someone.
+            :sem {:pred :eat
+                  :subj {:ref {:human? true}}
+                  :obj {:ref {:human? false}}}}]
  "compartir" [{:sem {:pred :share}}]
  "competir" [{:sem {:pred :compete}, :stems {:boot "compit"}}]
  "comprar"

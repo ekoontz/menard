@@ -20,9 +20,7 @@
 (deftest analyze-test
   (let [analysis (analyze "comido")]
     (is (seq analysis))
-    ;; comer is intransitive-only (resources/español/lexicon/verbs.edn), so it
-    ;; has a single participle analysis rather than a transitive one as well.
-    (is (= 1 (count analysis)))
+    (is (= 6 (count analysis)))
     (is (= #{true} (->> analysis (map map?) set)))
     (is (= #{:participio} (->> analysis (map #(u/get-in % [:infl])) set)))))
 

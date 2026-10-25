@@ -66,6 +66,11 @@
   (testing "the human object pronouns still work with other verbs"
     (is (contains? (object-humans "ik zie hem") true))))
 
-(deftest eten-is-intransitive
-  (doseq [expression ["ik eet hem" "ik eet het"]]
-    (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))
+(deftest eten-takes-an-inanimate-object
+  (testing "eat takes a direct object, but not a human one"
+    (doseq [expression ["ik eet hem" "ik eet haar" "ik eet hen"]]
+      (is (not (contains? (object-humans expression) true)) expression)))
+  (testing "the inanimate reading of the pronoun is kept"
+    (is (contains? (object-humans "ik eet het") false)))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "ik eet")))))

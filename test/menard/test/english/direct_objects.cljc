@@ -1,5 +1,5 @@
 (ns menard.test.english.direct-objects
-  (:require [menard.english :as en :refer [generate morph parse]]
+  (:require [menard.english :as en :refer [generate morph parse syntax-tree]]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is testing]]
             #?(:clj [clojure.tools.logging :as log])
@@ -58,10 +58,17 @@
     (is (human-object? "I see him"))
     (is (human-object? "I see them"))))
 
-(deftest eat-and-dance-are-intransitive
-  (doseq [expression ["I eat a book" "I dance it"]]
-    (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression))
-        expression)))
+(deftest eat-takes-an-inanimate-object
+  (testing "eat takes a direct object, but not a human one"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I eat a book")))
+    (doseq [expression ["I eat him" "I eat her" "I eat them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I eat")))))
+
+(deftest dance-is-intransitive
+  (doseq [expression ["I dance it" "I dance the tango"]]
+    (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))
 
 (deftest generate-direct-object-pronouns
   (testing "a parsed direct object pronoun can be generated again"

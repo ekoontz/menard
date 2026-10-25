@@ -49,6 +49,17 @@
     (is (seq (parse "gioco")))
     (is (seq (parse "suono")))))
 
-(deftest eat-and-dance-are-intransitive
-  (doseq [expression ["lo mangio" "la mangio" "lo ballo" "li ballo"]]
+(deftest mangiare-takes-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo mangio" "la mangio" "li mangio"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo mangio"))))
+  (testing "an edible noun phrase is still an object"
+    (is (some #(= :cipolla (u/get-in % [:sem :obj :pred])) (parse "mangio la cipolla"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "mangio")))))
+
+(deftest ballare-is-intransitive
+  (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

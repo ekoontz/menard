@@ -52,8 +52,9 @@
  "eten" (let [exceptions [{:infl :present
                            :agr {:number :sing}
                            :surface "eet"}]]
-          [{:sem {:pred :eat
-                  :obj :none}
+          [{:exceptions exceptions
+            :inanimate-object? true
+            :sem {:pred :eat}
             :strong? :e-a-e}])
  "ervaren" (let [exceptions [{:infl :past-simple
                               :agr {:number :sing}

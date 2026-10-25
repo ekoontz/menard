@@ -676,8 +676,10 @@
  "mandare" [{:cat :verb, :sem {:pred :send}}],
  "mangiare"
  [{:cat :verb,
-   :sem {:pred :eat, :subj {:animate true}},
-   :subcat {:2 []}}],
+   ;; as with giocare: something to eat, not someone.
+   :sem {:pred :eat,
+         :subj {:animate true},
+         :obj {:human false, :edible true}}}],
  "mentire" [{:cat :verb, :sem {:pred :lie}}],
  "mettere"
  [{:cat :verb, :sem {:pred :put}, :italiano {:passato "messo"}}],

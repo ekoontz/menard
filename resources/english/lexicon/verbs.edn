@@ -392,7 +392,7 @@
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions
-           :intransitive-only? true
+           :inanimate-object? true
            :sem {:pred :eat}}])
  "earn" [{ :sem {:pred :earn}}]
  "elaborate" [{:sem {:pred :elaborate}}]

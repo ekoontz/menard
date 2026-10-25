@@ -128,6 +128,13 @@
     :modal modal
     :head {:modal modal}})
  
+ ;; in a vp rule whose comp is the direct object, the object's semantics
+ ;; land in the head verb's :sem|obj slot.
+ (let [obj (atom :top)]
+   {:def 'comp-is-obj
+    :sem {:obj obj}
+    :comp {:sem obj}})
+
  ;; sem|obj|mod=comp|mod
  (let [mod (atom :top)]
    {:def 'nest-comp-mod

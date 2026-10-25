@@ -6,7 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.11.2] - upcoming
 
-Italian verb conjugation.
+Italian verb conjugation, and direct object pronouns in every language.
+
+- Direct object pronouns, per language:
+  - Italiano: add the direct object clitics `li` and `le`, which were
+    missing, and non-reflexive senses for `mi`, `ti` and `ci` (only
+    reflexive ones existed; `lo`, `la` and `vi` already had both). The
+    `vp-pronoun-*` rules now carry the verb's semantics
+    (`menard.ug/head-sem`) and put the clitic's meaning in `:sem :obj`
+    (new `menard.ug/comp-is-obj`), so "lo vedo" and "il cane lo vede"
+    mean 'I see him' instead of reading the clitic as the subject; the same
+    rule makes an ordinary object noun phrase land in `:sem :obj`, which
+    used to be left as `{:top :top}` ("il cane vede il gatto" lost the
+    cat). The clause rule now requires a nominative noun subject and the
+    vp rule an accusative noun object, and the non-reflexive clitic rules
+    no longer demand `:phrasal? true`: menard's italian verbs are all
+    `:phrasal? false`, so those rules never matched before.
+  - Español: add non-reflexive direct object senses for `nos` and `os`,
+    which only had reflexive ones, so "ella nos ve" and "yo os veo" parse
+    ("él me ve", "yo te veo", "yo lo veo" and the other clitics already
+    worked).
+  - English and Nederlands already had their direct object pronouns; they
+    are now covered by tests.
+- Tests: new menard.test.english.direct-objects,
+  menard.test.italiano.direct-objects and
+  menard.test.nederlands.direct-objects, and a parsing test in
+  menard.test.español.direct-objects.
 
 - `menard.italiano.lexicon`: derive menard `:exceptions` from the
   babel-style `:italiano` irregular data in

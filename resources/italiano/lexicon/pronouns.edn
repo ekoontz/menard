@@ -26,6 +26,14 @@
    :sem {:human true, :pred :we}}
   {:cat :noun,
    :pronoun true,
+   :case :acc,
+   :agr {:person :1st, :number :plur},
+   :reflexive false,
+   :sem {:human true, :pred :we},
+   :subcat [],
+   :italiano {:initial true}}
+  {:cat :noun,
+   :pronoun true,
    :case :nom,
    :sem {:null true, :pred :existential},
    :agr {:person :3rd, :number :sing}}
@@ -96,6 +104,38 @@
           :ref {:human? true,
                 :context :formal}},
     :subcat []}]),
+ "le"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :fem, :person :3rd, :number :plur},
+   :sem {:human true, :pred :they},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :fem, :person :3rd, :number :plur},
+   :sem {:human false, :place false, :pred :they},
+   :subcat [],
+   :italiano {:initial true}}],
+ "li"
+ [{:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :masc, :person :3rd, :number :plur},
+   :sem {:human true, :pred :they},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :reflexive false,
+   :agr {:gender :masc, :person :3rd, :number :plur},
+   :sem {:human false, :place false, :pred :they},
+   :subcat [],
+   :italiano {:initial true}}],
  "lo"
  [{:cat :noun,
    :pronoun true,
@@ -165,6 +205,13 @@
    :agr {:person :1st, :number :sing},
    :reflexive true,
    :sem {:human true},
+   :subcat []}
+  {:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :agr {:person :1st, :number :sing},
+   :reflexive false,
+   :sem {:human true, :pred :i},
    :subcat []}],
  "noi"
  [{:cat :noun,
@@ -199,6 +246,14 @@
    :agr {:person :2nd, :number :sing},
    :reflexive true,
    :sem {:human true},
+   :subcat [],
+   :italiano {:initial true}}
+  {:cat :noun,
+   :pronoun true,
+   :case :acc,
+   :agr {:person :2nd, :number :sing},
+   :reflexive false,
+   :sem {:human true, :pred :you},
    :subcat [],
    :italiano {:initial true}}],
  "tu"

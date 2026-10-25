@@ -4,7 +4,7 @@
             [menard.lexiconfn :as l]
             [menard.morphology :refer [morph-leaf]]
             [dag_unify.core :as u :refer [unify]]
-            [clojure.test :refer [deftest is]]
+            [clojure.test :refer [deftest is testing]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
@@ -34,3 +34,17 @@
           es/generate
           es/morph))))
 
+
+(deftest parse-direct-object-pronouns
+  (testing "a clitic direct object pronoun is the object of the verb"
+    (doseq [[expression pred] [["yo lo veo" :he]
+                               ["yo la veo" :she]
+                               ["yo los veo" :they]
+                               ["yo las veo" :they]
+                               ["él me ve" :i]
+                               ["yo te veo" :you]
+                               ["ella nos ve" :we]
+                               ["yo os veo" :you]]]
+      (is (seq (parse expression)) expression)
+      (is (contains? (set (map #(u/get-in % [:sem :obj :pred]) (parse expression))) pred)
+          (str expression " should have a direct object with :pred " pred)))))

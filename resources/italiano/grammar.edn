@@ -240,16 +240,21 @@
   :head {:aux true, :phrasal? false},
   :italiano/schema 'h22,
   :sem {:reflexive true}}
+ ;; a non-reflexive direct object clitic before the verb: "lo vedo".
+ ;; menard's italian verbs are all :phrasal? false (babel's had both
+ ;; variants), and :italiano-verb-not-reflexive marks them :reflexive false.
  {:rule "vp-pronoun-phrasal",
   :cat :verb,
-  :comp {:cat :noun, :pronoun true},
-  :head {:phrasal? true},
+  :comp {:cat :noun, :pronoun true, :reflexive false},
+  :head {:phrasal? false},
   :infl :present,
   :unify
   [menard.ug/head-last
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :italiano/babel-spec
   {:head {:phrasal true},
    :comp {:synsem {:cat :noun, :pronoun true}},
@@ -259,14 +264,16 @@
   :italiano/babel-helpers ['c21 'root-is-head-root]}
  {:rule "vp-pronoun-phrasal",
   :cat :verb,
-  :comp {:cat :noun, :pronoun true},
-  :head {:phrasal? true},
+  :comp {:cat :noun, :pronoun true, :reflexive false},
+  :head {:phrasal? false},
   :infl :imperfetto,
   :unify
   [menard.ug/head-last
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :italiano/babel-spec
   {:head {:phrasal true},
    :comp {:synsem {:cat :noun, :pronoun true}},
@@ -279,7 +286,9 @@
   [menard.ug/head-last
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
   {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
@@ -296,7 +305,9 @@
   [menard.ug/head-last
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
   {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
@@ -313,7 +324,9 @@
   [menard.ug/head-last
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
   {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
@@ -330,7 +343,9 @@
   [menard.ug/head-last
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
   {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
@@ -440,6 +455,10 @@
    menard.ug/head-sem
    menard.ug/subject-is-comp],
   :cat :verb,
+  ;; the subject is a nominative noun, so an accusative clitic like "lo"
+  ;; cannot be mistaken for one:
+  :comp {:case :nom
+         :cat :noun},
   :rule "s",
   :italiano/merged-from
   ["s-future-phrasal"
@@ -458,8 +477,12 @@
   [menard.ug/head-first
    menard.subcat/c
    menard.ug/head-rule
-   menard.ug/head-is-root],
+   menard.ug/head-is-root
+   menard.ug/head-sem
+   menard.ug/comp-is-obj],
   :italiano/schema 'h21,
+  :comp {:case :acc
+         :cat :noun},
   :sem {:obj {:top :top}},
   :rule "vp",
   :options menard.italiano.tenses/finite-tenses,

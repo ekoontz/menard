@@ -132,7 +132,8 @@
               :pred :i}
         :case :acc}]
 
- "nos" [{:agr {:number :plur
+ "nos" [;; reflexive: "nos quedamos"
+        {:agr {:number :plur
                :person :1st}
          :sem {:ref {:human? true
                      :gender :masc}
@@ -143,7 +144,23 @@
          :sem {:ref {:human? true
                      :gender :fem}
                :pred :we}
-         :reflexive? true}]
+         :reflexive? true}
+
+        ;; direct object: "ella nos ve"
+        {:agr {:number :plur
+               :person :1st}
+         :case :acc
+         :sem {:ref {:human? true
+                     :gender :masc}
+               :pred :we}
+         :reflexive? false}
+        {:agr {:number :plur
+               :person :1st}
+         :case :acc
+         :sem {:ref {:human? true
+                     :gender :fem}
+               :pred :we}
+         :reflexive? false}]
 
  "nosotras" [{:case :nom
               :agr {:number :plur
@@ -163,12 +180,23 @@
                     :pred :we}
               :reflexive? false}]
 
- "os" [{:agr {:number :plur
+ "os" [;; reflexive: "os quedáis"
+       {:agr {:number :plur
               :person :2nd
               :formal? false}
         :sem {:ref {:human? true}
               :pred :you}
-        :reflexive? true}]
+        :reflexive? true}
+
+       ;; direct object: "yo os veo"
+       {:agr {:number :plur
+              :person :2nd
+              :formal? false}
+        :case :acc
+        :sem {:ref {:human? true
+                    :context :informal}
+              :pred :you}
+        :reflexive? false}]
 
  ;; we don't have [:agr :number]
  ;; explicitly here for 'se': probably don't

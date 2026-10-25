@@ -43,7 +43,8 @@ Italian verb conjugation, and direct object pronouns in every language.
   - Italiano: `:subcat {:2 []}` for "ballare" (so "lo ballo" has no parse,
     like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
     "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
-    "cancellare", "riparare", "parlare", all three lexical senses of "avere"
+    "cancellare", "riparare", "parlare", "pulire", all three lexical senses
+    of "avere"
     (the perfect-auxiliary senses are separate and untouched) and both senses
     of "fare" ("lo mangio", "lo bevo", "lo leggo",
     "lo gioco", "lo penso", "lo apro", "lo cancello", "lo riparo", "lo parlo",
@@ -51,13 +52,13 @@ Italian verb conjugation, and direct object pronouns in every language.
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 
-- Intransitive verbs: italiano "stare", "frequentare" and "sembrare",
-  english "stay", and "attend" in every language that has it (english
+- Intransitive verbs: italiano "stare", "frequentare", "sembrare" and
+  "cenare", english "stay", and "attend" in every language that has it (english
   "attend", español "asistir", italiano "frequentare") no longer take a
   direct object: "lo sto", "lo frequento",
-  "yo lo asisto", "I attend a book" and "I stay him" have no parse, while
-  "sto", "io sto", "frequento", "yo asisto", "I attend" and "I stay" still
-  parse. Only the "stay" sense of "stare" is intransitive -- its two
+  "lo ceno", "yo lo asisto", "I attend a book" and "I stay him" have no
+  parse, while "sto", "io sto", "frequento", "ceno", "yo asisto", "I attend"
+  and "I stay" still parse. Only the "stay" sense of "stare" is intransitive -- its two
   progressive-auxiliary senses keep their verb complement, so "sto
   camminando" still parses. Nederlands "blijven" already carried
   `:sem {:obj :none}`.

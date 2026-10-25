@@ -128,6 +128,15 @@
     (doseq [expression ["cancello" "riparo" "parlo"]]
       (is (seq (parse expression)) expression))))
 
+(deftest pulire-takes-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo pulisco" "la pulisco" "li pulisco"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo pulisco"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "pulisco")))))
+
 (deftest mettere-takes-an-inanimate-object
   (testing "put takes a clitic direct object, but not a human one"
     (doseq [expression ["lo metto" "la metto" "li metto"]]
@@ -141,12 +150,14 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
-(deftest stare-frequentare-and-sembrare-are-intransitive
+(deftest stare-frequentare-sembrare-and-cenare-are-intransitive
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
-                      "lo sembro" "la sembro" "li sembro"]]
+                      "lo sembro" "la sembro" "li sembro"
+                      "lo ceno" "la ceno"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
-    (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"]]
+    (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"
+                        "ceno" "io ceno"]]
       (is (seq (parse expression)) expression)))
   (testing "stare is still the progressive auxiliary"
     (is (seq (parse "sto camminando")))))

@@ -252,7 +252,11 @@
  [{:cat :verb,
    :sem {:pred :charge},
    :italiano {:future-stem "caricher"}}],
- "cenare" [{:cat :verb, :sem {:pred :have-dinner}}],
+ "cenare"
+ [{:cat :verb,
+   ;; "cenare" is intransitive: one dines, one does not dine something.
+   :sem {:pred :have-dinner},
+   :subcat {:2 []}}],
  "cercare"
  (let
   [common {:italiano {:future-stem "cercher"}, :synsem {:cat :verb}}]
@@ -834,7 +838,10 @@
      (clojure.core/dissoc r1 :synsem)))]),
  "prestare" [{:cat :verb, :sem {:pred :lend}}],
  "pulire"
- [{:cat :verb, :sem {:pred :clean}, :italiano {:boot-verb true}}],
+ [{:cat :verb,
+   ;; as with giocare: something to clean, not someone.
+   :sem {:pred :clean, :obj {:human false}},
+   :italiano {:boot-verb true}}],
  "punire"
  [{:cat :verb, :sem {:pred :punish}, :italiano {:boot-verb true}}],
  "raccontare" [{:cat :verb, :sem {:pred :recount}}],

@@ -88,6 +88,9 @@
                      (map morph)))
           expression))))
 
-(deftest attend-is-intransitive
-  (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse "I attend a book")))
-  (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I attend"))))
+(deftest attend-and-stay-are-intransitive
+  (doseq [expression ["I attend a book" "I stay a book" "I stay him"]]
+    (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression))
+  (doseq [expression ["I attend" "I stay"]]
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
+        expression)))

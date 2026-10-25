@@ -893,7 +893,8 @@
              :sem {:pred :stand}}])
 
  "start" [{:sem {:pred :start} :subcat {:1 :top :2 :top}}]
- "stay" [{:sem {:pred :stay}}]
+ "stay" [{:intransitive-only? true
+          :sem {:pred :stay}}]
  "step" [{:sem {:pred :step}}]
  "stop" [{:sem {:pred :stop}
           :reflexive? false}

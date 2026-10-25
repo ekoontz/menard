@@ -6,7 +6,8 @@
   [(let
     [r1
      (dag_unify.core/unify
-      {:synsem {:sem {:pred :hug}}}
+      ;; one hugs a person, not a thing.
+      {:synsem {:sem {:pred :hug, :obj {:human true}}}}
       shared-part-of-abbracciare)]
     (clojure.core/merge
      (:synsem r1)
@@ -14,7 +15,7 @@
    (let
     [r1
      (dag_unify.core/unify
-      {:synsem {:sem {:pred :embrace}}}
+      {:synsem {:sem {:pred :embrace, :obj {:human true}}}}
       shared-part-of-abbracciare)]
     (clojure.core/merge
      (:synsem r1)
@@ -322,7 +323,11 @@
      (clojure.core/dissoc r1 :synsem)))]),
  "cominciare"
  [{:cat :verb, :sem {:pred :begin}} {:cat :verb, :sem {:pred :start}}],
- "commentare" [{:cat :verb, :sem {:pred :comment}}],
+ "commentare"
+ [{:cat :verb,
+   ;; "commentare" comments *on* something: no direct object.
+   :sem {:pred :comment},
+   :subcat {:2 []}}],
  "comprare" [{:cat :verb, :sem {:pred :buy}}],
  "condividere"
  [{:cat :verb, :sem {:pred :share}, :italiano {:passato "condiviso"}}],
@@ -331,8 +336,8 @@
    :sem {:pred :know-c},
    :italiano {:passato "conosciuto"}}],
  "conservare"
- [{:cat :verb, :sem {:pred :conserve}}
-  {:cat :verb, :sem {:pred :preserve}}],
+ [{:cat :verb, :sem {:pred :conserve, :obj {:human false}}}
+  {:cat :verb, :sem {:pred :preserve, :obj {:human false}}}],
  "considerare" [{:cat :verb, :sem {:pred :consider}}],
  "contare" [{:sem {:pred :count}, :cat :verb}],
  "continuare" [{:cat :verb, :sem {:pred :continue}}],
@@ -648,7 +653,10 @@
  [{:cat :verb, :sem {:pred :stop-oneself, :reflexive true}}],
  "finire"
  [{:cat :verb, :sem {:pred :finish}, :italiano {:boot-verb true}}],
- "formare" [{:cat :verb, :sem {:pred :form}}],
+ "formare"
+ [{:cat :verb,
+   ;; something to form, not someone.
+   :sem {:pred :form, :obj {:human false}}}],
  "fornire"
  [{:cat :verb, :sem {:pred :furnish}, :italiano {:boot-verb true}}],
  "frequentare"
@@ -669,7 +677,10 @@
  "gridare" [{:cat :verb, :sem {:pred :yell}}],
  "guadagnare" [{:cat :verb, :sem {:pred :earn}}],
  "guardare" [{:cat :verb, :sem {:pred :look-at}}],
- "guidare" [{:cat :verb, :sem {:pred :drive}}],
+ "guidare"
+ [{:cat :verb,
+   ;; something to drive, not someone.
+   :sem {:pred :drive, :obj {:human false}}}],
  "imparare" [{:cat :verb, :sem {:pred :learn-i}}],
  "impegnare" [{:cat :verb, :sem {:pred :engage}}],
  "incontrare" [{:cat :verb, :sem {:pred :meet}}],
@@ -836,7 +847,10 @@
     (clojure.core/merge
      (:synsem r1)
      (clojure.core/dissoc r1 :synsem)))]),
- "prestare" [{:cat :verb, :sem {:pred :lend}}],
+ "prestare"
+ [{:cat :verb,
+   ;; something to lend, not someone.
+   :sem {:pred :lend, :obj {:human false}}}],
  "pulire"
  [{:cat :verb,
    ;; as with giocare: something to clean, not someone.
@@ -940,7 +954,9 @@
      (clojure.core/dissoc r1 :synsem)))]),
  "sapere"
  [{:cat :verb,
-   :sem {:pred :know-s},
+   ;; one knows a thing or a fact, not a person (that is "conoscere"); the
+   ;; constraint leaves the human reading of a clitic out.
+   :sem {:pred :know-s, :obj {:human false}},
    :italiano
    {:present
     {:1sing "so",
@@ -1006,7 +1022,10 @@
    {:passato "spento",
     :present {:1sing "spengo", :3plur "spengono"}}}],
  "spendere"
- [{:cat :verb, :sem {:pred :spend}, :italiano {:passato "speso"}}],
+ [{:cat :verb,
+   ;; money is spent, not people.
+   :sem {:pred :spend, :obj {:human false}},
+   :italiano {:passato "speso"}}],
  "spiegare" [{:cat :verb, :sem {:pred :explain}}],
  "spostare" [{:cat :verb, :sem {:pred :displace}}],
  "sprecare" [{:cat :verb, :sem {:pred :waste}}],
@@ -1079,7 +1098,10 @@
      :3plur "svengono"},
     :future-stem "sverr"}}],
  "sviluppare" [{:cat :verb, :sem {:pred :develop}}],
- "tagliare" [{:cat :verb, :sem {:pred :cut}}],
+ "tagliare"
+ [{:cat :verb,
+   ;; as with giocare: something to cut, not someone.
+   :sem {:pred :cut, :obj {:human false}}}],
  "telefonare" [{:cat :verb, :sem {:pred :telephone}}],
  "tenere"
  (let
@@ -1136,7 +1158,9 @@
  "venire"
  [{:cat :verb,
    :essere true,
+   ;; "venire" is intransitive: one comes, one does not come something.
    :sem {:pred :come},
+   :subcat {:2 []},
    :italiano
    {:passato "venuto",
     :present

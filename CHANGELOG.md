@@ -40,11 +40,12 @@ Italian verb conjugation, and direct object pronouns in every language.
     (`maak`, `maakt`): like "spelen", its stem doubles the long vowel, which
     the morphology's `^(.*)en$` rule cannot derive, so "ik maak" and
     "hij maakt" had no parse before.
-  - Italiano: `:subcat {:2 []}` for "ballare" (so "lo ballo" has no parse,
-    like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
+  - Italiano: `:subcat {:2 []}` for "ballare", "venire" and "commentare" (so
+    "lo ballo"/"lo vengo"/"lo commento" have no parse, like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
     "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
-    "cancellare", "riparare", "parlare", "pulire", all three lexical senses
-    of "avere"
+    "cancellare", "riparare", "parlare", "pulire", "tagliare", "guidare",
+    "spendere", "sapere", "conservare", "formare", "prestare", all three
+    lexical senses of "avere"
     (the perfect-auxiliary senses are separate and untouched) and both senses
     of "fare" ("lo mangio", "lo bevo", "lo leggo",
     "lo gioco", "lo penso", "lo apro", "lo cancello", "lo riparo", "lo parlo",
@@ -52,8 +53,13 @@ Italian verb conjugation, and direct object pronouns in every language.
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 
-- Intransitive verbs: italiano "stare", "frequentare", "sembrare" and
-  "cenare", english "stay", and "attend" in every language that has it (english
+- One verb whose object must be a person: italiano "abbracciare" (both its
+  `:hug` and `:embrace` senses) carries `:sem {:obj {:human true}}`, so "lo
+  abbraccio" keeps only the human reading of the clitic — a thing cannot be
+  hugged.
+
+- Intransitive verbs: italiano "stare", "frequentare", "sembrare", "cenare",
+  "venire" and "commentare", english "stay", and "attend" in every language that has it (english
   "attend", español "asistir", italiano "frequentare") no longer take a
   direct object: "lo sto", "lo frequento",
   "lo ceno", "yo lo asisto", "I attend a book" and "I stay him" have no

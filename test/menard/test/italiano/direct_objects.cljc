@@ -137,6 +137,28 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "pulisco")))))
 
+(deftest more-verbs-take-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo taglio" "la taglio" "lo guido" "la guido"
+                        "lo spendo" "lo so" "lo conservo" "lo formo" "lo presto"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (doseq [expression ["lo taglio" "lo guido" "lo spendo" "lo so"
+                        "lo conservo" "lo formo" "lo presto"]]
+      (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression)))
+  (testing "the intransitive readings are kept"
+    (doseq [expression ["taglio" "guido" "spendo" "so" "conservo" "formo" "presto"]]
+      (is (seq (parse expression)) expression))))
+
+(deftest abbracciare-takes-a-human-object
+  (testing "only the human reading of the clitic survives"
+    (doseq [expression ["lo abbraccio" "la abbraccio" "li abbraccio"]]
+      (is (not-any? #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression)
+      (is (some #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))))
+
 (deftest mettere-takes-an-inanimate-object
   (testing "put takes a clitic direct object, but not a human one"
     (doseq [expression ["lo metto" "la metto" "li metto"]]
@@ -150,14 +172,15 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
-(deftest stare-frequentare-sembrare-and-cenare-are-intransitive
+(deftest stare-frequentare-sembrare-cenare-venire-and-commentare-are-intransitive
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
                       "lo sembro" "la sembro" "li sembro"
-                      "lo ceno" "la ceno"]]
+                      "lo ceno" "la ceno"
+                      "lo vengo" "lo commento"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
     (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"
-                        "ceno" "io ceno"]]
+                        "ceno" "io ceno" "vengo" "io vengo" "commento"]]
       (is (seq (parse expression)) expression)))
   (testing "stare is still the progressive auxiliary"
     (is (seq (parse "sto camminando")))))

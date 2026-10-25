@@ -241,7 +241,10 @@
  "cambiarsi"
  [{:cat :verb, :sem {:pred :change-clothes, :reflexive true}}],
  "camminare" [{:sem {:pred :walk}, :cat :verb}],
- "cancellare" [{:cat :verb, :sem {:pred :erase}}],
+ "cancellare"
+ [{:cat :verb,
+   ;; as with giocare: something to erase, not someone.
+   :sem {:pred :erase, :obj {:human false}}}],
  "cantare" [{:cat :verb, :sem {:pred :sing}}],
  "capire"
  [{:cat :verb, :sem {:pred :understand}, :italiano {:boot-verb true}}],
@@ -747,7 +750,9 @@
     :future-stem "otterr"}}],
  "pagare" [{:cat :verb, :sem {:pred :pay}}],
  "parlare"
- [{:cat :verb, :sem {:pred :speak}} {:cat :verb, :sem {:pred :talk}}],
+ [;; as with giocare: one speaks a language or a word, not a person.
+  {:cat :verb, :sem {:pred :speak, :obj {:human false}}}
+  {:cat :verb, :sem {:pred :talk, :obj {:human false}}}],
  "partire" [{:essere true, :cat :verb, :sem {:pred :leave-trip}}],
  "passare" [{:cat :verb, :sem {:pred :pass}}],
  "pensare"
@@ -887,7 +892,10 @@
    {:passato "rimasto",
     :present {:1sing "rimango", :3plur "rimangono"},
     :future-stem "rimarr"}}],
- "riparare" [{:cat :verb, :sem {:pred :repair}}],
+ "riparare"
+ [{:cat :verb,
+   ;; as with giocare: something to repair, not someone.
+   :sem {:pred :repair, :obj {:human false}}}],
  "ripetere" [{:cat :verb, :sem {:pred :repeat}}],
  "riposare" [{:cat :verb, :sem {:pred :rest}}],
  "riposarsi"

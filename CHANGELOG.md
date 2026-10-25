@@ -42,11 +42,12 @@ Italian verb conjugation, and direct object pronouns in every language.
     "hij maakt" had no parse before.
   - Italiano: `:subcat {:2 []}` for "ballare" (so "lo ballo" has no parse,
     like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
-    "bere", "leggere", "giocare", "suonare", "pensare", "aprire", all three
-    lexical senses of "avere" (the perfect-auxiliary senses are separate and
-    untouched) and both senses of "fare" ("lo mangio", "lo bevo", "lo leggo",
-    "lo gioco", "lo penso", "lo apro", "lo ho" and "lo faccio" keep only the
-    inanimate reading of "lo"). New
+    "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
+    "cancellare", "riparare", "parlare", all three lexical senses of "avere"
+    (the perfect-auxiliary senses are separate and untouched) and both senses
+    of "fare" ("lo mangio", "lo bevo", "lo leggo",
+    "lo gioco", "lo penso", "lo apro", "lo cancello", "lo riparo", "lo parlo",
+    "lo ho" and "lo faccio" keep only the inanimate reading of "lo"). New
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 
@@ -181,6 +182,10 @@ Italian verb conjugation, and direct object pronouns in every language.
   the noun+adjective rule differing only in the `:word-of-interest` child, a
   concept menard does not have, so the port's copies were identical and every
   such parse was reported twice.
+- `menard.translate.it-en`: a verb lexeme's object constraint with no object
+  to constrain (e.g. parlare's `:sem {:obj {:human false}}` in "parlo") is
+  dropped from the english spec instead of becoming a junk object ("there
+  talk to turnips are").
 - `menard.translate.it-en`: `it-det->en-quant` moves the noun's remaining
   modifiers into english's `{:first ... :rest ...}` modifier list, so a
   translated det+adjective noun phrase has english's shape.

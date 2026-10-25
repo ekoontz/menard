@@ -115,6 +115,19 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "leggo")))))
 
+(deftest cancellare-riparare-and-parlare-take-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo cancello" "la cancello" "lo riparo" "la riparo"
+                        "lo parlo" "la parlo"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (doseq [expression ["lo cancello" "lo riparo" "lo parlo"]]
+      (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression)))
+  (testing "the intransitive readings are kept"
+    (doseq [expression ["cancello" "riparo" "parlo"]]
+      (is (seq (parse expression)) expression))))
+
 (deftest mettere-takes-an-inanimate-object
   (testing "put takes a clitic direct object, but not a human one"
     (doseq [expression ["lo metto" "la metto" "li metto"]]

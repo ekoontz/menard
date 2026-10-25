@@ -210,6 +210,14 @@
         sem (cond-> (-> (merge sem0 {:mod (or (:mod sem0) [])} (it-tense->en-sem infl))
                         (dissoc :subj))
               subj (assoc :subj subj))
+        ;; a verb lexeme can constrain its object without there being one (e.g.
+        ;; parlare's :sem {:obj {:human false}} in the object-free reading
+        ;; "parlo"). Such a map is not an object, and english would try to
+        ;; generate a noun for it ("there talk to turnips are"), so drop it.
+        sem (if (and (map? (:obj sem))
+                     (nil? (get-in sem [:obj :pred])))
+              (dissoc sem :obj)
+              sem)
         subcat (let [sc (resolve-dag (u/get-in it-structure [:subcat]))] (if (or (nil? sc) (= :top sc) (map? sc)) [] sc))
         clean (fn [m] (->> m (remove (fn [[_ v]] (or (nil? v) (= :top v)))) (into {})))]
     (clean (cond-> {:cat cat

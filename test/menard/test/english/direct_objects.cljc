@@ -84,6 +84,16 @@
       (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
           expression))))
 
+(deftest open-takes-an-inanimate-object
+  (testing "open takes a direct object, but not a human one"
+    (doseq [expression ["I open him" "I open her" "I open them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I open a book")))
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I open it"))))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I open")))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

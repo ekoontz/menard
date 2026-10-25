@@ -8,33 +8,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 Italian verb conjugation, and direct object pronouns in every language.
 
-- Transitivity: "eat", "play", "think" and "do"/"make" take a direct object
-  but not a human one, and "dance" is intransitive, in every language:
+- Transitivity: "eat", "play", "think", "do"/"make" and "open" take a direct
+  object but not a human one, and "dance" is intransitive, in every
+  language:
   - English: `:intransitive-only?` for "dance", and a new
     `:inanimate-object?` (with the matching
     `:subcat-frames-inanimate-object` rule) for "eat", "play", "think"
     (its plain sense; the clausal "think that ..." senses are untouched),
-    "do" (likewise its lexical sense 1, not the do-support senses) and
-    "make": their object carries `:ref {:human? false}`, so "I eat him",
-    "I play him", "I think him", "I do him" and "I make him" have no parse
-    while "I eat a book", "I play a book", "I think it", "I do it", "I make a
-    book" and the object-free "I eat", "I play", "I think", "I do" and
-    "I make" still do.
+    "do" (likewise its lexical sense 1, not the do-support senses), "make"
+    and "open": their object carries `:ref {:human? false}`, so "I eat him",
+    "I play him", "I think him", "I do him", "I make him" and "I open him"
+    have no parse while "I eat a book", "I play a book", "I think it", "I do
+    it", "I make a book", "I open a book" and the object-free "I eat",
+    "I play", "I think", "I do", "I make" and "I open" still do.
   - Español: `:transitivity :intransitive` for "bailar", and two senses
     (intransitive, and transitive with `:obj {:ref {:human? false}}`) for
-    "comer", "jugar", "tocar", "pensar" and each sense of "hacer" ("do" and
-    "make"), so "yo lo como", "yo lo toco", "yo lo pienso" and "yo lo hago"
-    only have the inanimate (`:pred :it`) reading.
+    "comer", "jugar", "tocar", "pensar", "abrir" and each sense of "hacer"
+    ("do" and "make"), so "yo lo como", "yo lo toco", "yo lo pienso", "yo lo
+    abro" and "yo lo hago" only have the inanimate (`:pred :it`) reading.
   - Nederlands: `:inanimate-object?` plus a `:subcat-inanimate-object` rule
-    for "eten", "spelen" and "maken" (the lexicon has no "dansen", "denken"
-    or "doen"). Note that "maken"'s present tense forms do not parse in this
-    model for an unrelated, pre-existing reason: unlike the other Dutch
-    verbs, its lexicon entry carries no `:exceptions` for them.
+    for "eten", "spelen" and "maken" (the lexicon has no "dansen", "denken",
+    "doen" or "openen"). "maken" now also lists its present singular forms
+    (`maak`, `maakt`): like "spelen", its stem doubles the long vowel, which
+    the morphology's `^(.*)en$` rule cannot derive, so "ik maak" and
+    "hij maakt" had no parse before.
   - Italiano: `:subcat {:2 []}` for "ballare" (so "lo ballo" has no parse,
     like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
-    "giocare", "suonare", "pensare" and both senses of "fare" ("lo mangio",
-    "lo gioco", "lo penso" and "lo faccio" keep only the inanimate reading of
-    "lo"). New
+    "giocare", "suonare", "pensare", "aprire" and both senses of "fare" ("lo
+    mangio", "lo gioco", "lo penso", "lo apro" and "lo faccio" keep only the
+    inanimate reading of "lo"). New
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 

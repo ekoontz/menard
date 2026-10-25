@@ -4,7 +4,14 @@
              :exceptions [{:infl :preterito,
                            :agr {:person :1st, :number :sing},
                            :surface "abracé"}]}]
- "abrir" [{:sem {:pred :open}
+ "abrir" [;; as with jugar: something to open, not someone.
+          {:transitivity :intransitive
+           :sem {:pred :open}
+           :exceptions [{:infl :participio
+                         :surface "abierto"}]}
+          {:transitivity :transitive
+           :sem {:pred :open
+                 :obj {:ref {:human? false}}}
            :exceptions [{:infl :participio
                          :surface "abierto"}]}]
  "acabar" [{:sem {:pred :finish}}]

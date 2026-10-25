@@ -716,7 +716,8 @@
                 :shared? false}}]
  "obtain" [{:sem {:pred :obtain-c}}]
  "offer" [{:sem {:pred :offer}}]
- "open" [{:sem {:pred :open}}] 
+ "open" [{:inanimate-object? true
+          :sem {:pred :open}}] 
  "organize" [{:sem {:pred :organize}}]
  "overcome" (let [exceptions [{:infl :past-simple :surface "overcame"}
                               {:infl :past-participle :surface "overcame"}]]

@@ -58,7 +58,10 @@
  "approfittare" [{:cat :verb, :sem {:pred :take-advantage-of}}],
  "approvare" [{:cat :verb, :sem {:pred :approve}}],
  "aprire"
- [{:cat :verb, :sem {:pred :open}, :italiano {:passato "aperto"}}],
+ [{:cat :verb,
+   ;; as with giocare: something to open, not someone.
+   :sem {:pred :open, :obj {:human false}},
+   :italiano {:passato "aperto"}}],
  "arrabbiarsi"
  [{:cat :verb,
    :sem {:pred :get-angry, :reflexive true, :subj {:animate true}}}],

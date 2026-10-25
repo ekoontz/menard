@@ -73,6 +73,15 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "faccio")))))
 
+(deftest aprire-takes-an-inanimate-object
+  (testing "open takes a clitic direct object, but not a human one"
+    (doseq [expression ["lo apro" "la apro" "li apro"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo apro"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "apro")))))
+
 (deftest ballare-is-intransitive
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

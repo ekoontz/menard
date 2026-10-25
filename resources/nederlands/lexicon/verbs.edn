@@ -230,8 +230,22 @@
                    :obj :none}}]
  "lukken" [{:sem {:pred :succeed
                   :obj :none}}]
- "maken" [{:inanimate-object? true
-           :sem {:pred :make}}]
+ "maken"
+ ;; like "spelen": the stem doubles its long vowel (mak -> maak), which the
+ ;; morphology's ^(.*)en$ -> $1 rule cannot know, so the present singular
+ ;; forms are listed here.
+ (let [exceptions [{:infl :present
+                    :agr {:person :1st :number :sing}
+                    :surface "maak"}
+                   {:infl :present
+                    :agr {:person :2nd :number :sing}
+                    :surface "maakt"}
+                   {:infl :present
+                    :agr {:person :3rd :number :sing}
+                    :surface "maakt"}]]
+   [{:exceptions exceptions
+     :inanimate-object? true
+     :sem {:pred :make}}])
 
  "mogen" ;; F. 40.1
  (let [exceptions [{:infl :present

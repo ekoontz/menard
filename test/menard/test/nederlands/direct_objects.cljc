@@ -77,10 +77,17 @@
 
 (deftest maken-takes-an-inanimate-object
   (testing "make takes a direct object, but not a human one"
-    (doseq [expression ["ik maakte hem" "ik maakte haar" "ik maakte hen"]]
+    (doseq [expression ["ik maak hem" "ik maak haar" "ik maak hen"
+                        "ik maakte hem"]]
       (is (not (contains? (object-humans expression) true)) expression)))
   (testing "the inanimate reading of the pronoun is kept"
-    (is (contains? (object-humans "ik maakte het") false)))
+    (doseq [expression ["ik maak het" "ik maakte het"]]
+      (is (contains? (object-humans expression) false) expression)))
   (testing "an inanimate noun phrase is still an object"
-    (is (contains? (set (map #(u/get-in % [:sem :obj :pred]) (parse "ik maakte een boek")))
+    (is (contains? (set (map #(u/get-in % [:sem :obj :pred]) (parse "ik maak een boek")))
                    :book))))
+
+(deftest maken-present-tense-forms
+  (testing "the stem doubles its long vowel, so the singular forms are listed"
+    (doseq [expression ["ik maak" "hij maakt" "jij maakt" "wij maken"]]
+      (is (seq (parse expression)) expression))))

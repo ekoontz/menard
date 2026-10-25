@@ -67,12 +67,14 @@
     (is (seq (parse "yo juego")))
     (is (seq (parse "yo toco")))))
 
-(deftest eat-takes-an-inanimate-object
-  (testing "eat takes a clitic direct object, but not a human one"
-    (is (contains? (object-preds "yo lo como") :it))
-    (is (not (contains? (object-preds "yo lo como") :he))))
+(deftest eat-and-think-take-an-inanimate-object
+  (testing "eat and think take a clitic direct object, but not a human one"
+    (doseq [expression ["yo lo como" "yo lo pienso"]]
+      (is (contains? (object-preds expression) :it) expression)
+      (is (not (contains? (object-preds expression) :he)) expression)))
   (testing "the intransitive reading is kept"
-    (is (seq (parse "yo como")))))
+    (doseq [expression ["yo como" "yo pienso"]]
+      (is (seq (parse expression)) expression))))
 
 (deftest bailar-is-intransitive
   (doseq [expression ["yo lo bailo" "yo la bailo"]]

@@ -8,24 +8,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 Italian verb conjugation, and direct object pronouns in every language.
 
-- Transitivity: "eat" and "play" take a direct object but not a human one,
-  and "dance" is intransitive, in every language:
+- Transitivity: "eat", "play" and "think" take a direct object but not a
+  human one, and "dance" is intransitive, in every language:
   - English: `:intransitive-only?` for "dance", and a new
     `:inanimate-object?` (with the matching
-    `:subcat-frames-inanimate-object` rule) for "eat" and "play": their
-    object carries `:ref {:human? false}`, so "I eat him" and "I play him"
-    have no parse while "I eat a book", "I play a book", "I play it" and the
-    object-free "I eat" and "I play" still do.
+    `:subcat-frames-inanimate-object` rule) for "eat", "play" and "think"
+    (its plain sense; the clausal "think that ..." senses are untouched):
+    their object carries `:ref {:human? false}`, so "I eat him", "I play him"
+    and "I think him" have no parse while "I eat a book", "I play a book",
+    "I think it" and the object-free "I eat", "I play" and "I think" still
+    do.
   - Español: `:transitivity :intransitive` for "bailar", and two senses
     (intransitive, and transitive with `:obj {:ref {:human? false}}`) for
-    "comer", "jugar" and "tocar", so "yo lo como" and "yo lo toco" only have
-    the inanimate (`:pred :it`) reading.
+    "comer", "jugar", "tocar" and "pensar", so "yo lo como", "yo lo toco" and
+    "yo lo pienso" only have the inanimate (`:pred :it`) reading.
   - Nederlands: `:inanimate-object?` plus a `:subcat-inanimate-object` rule
-    for "eten" and "spelen" (there is no "dansen").
+    for "eten" and "spelen" (the lexicon has no "dansen" or "denken").
   - Italiano: `:subcat {:2 []}` for "ballare" (so "lo ballo" has no parse,
     like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
-    "giocare" and "suonare" ("lo mangio" and "lo gioco" keep only the
-    inanimate reading of "lo"). New
+    "giocare", "suonare" and "pensare" ("lo mangio", "lo gioco" and "lo
+    penso" keep only the inanimate reading of "lo"). New
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 

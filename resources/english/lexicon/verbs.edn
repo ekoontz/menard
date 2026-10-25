@@ -967,6 +967,7 @@
                            {:infl :past-participle :surface "thought"}]]
            [{:sense 1
              :exceptions exceptions
+             :inanimate-object? true
              :sem {:pred :think}}
 
             ;; "think that you will see the cat"

@@ -730,7 +730,10 @@
  [{:cat :verb, :sem {:pred :speak}} {:cat :verb, :sem {:pred :talk}}],
  "partire" [{:essere true, :cat :verb, :sem {:pred :leave-trip}}],
  "passare" [{:cat :verb, :sem {:pred :pass}}],
- "pensare" [{:cat :verb, :sem {:pred :think}}],
+ "pensare"
+ [{:cat :verb,
+   ;; as with giocare: something to think, not someone.
+   :sem {:pred :think, :obj {:human false}}}],
  "perdere"
  [{:cat :verb, :sem {:pred :lose}, :italiano {:passato "perso"}}],
  "pettinarsi"

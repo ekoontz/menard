@@ -1011,7 +1011,14 @@
  "peinarse" [{:sem {:pred :comb-oneself
                     :subj {:ref {:human? true}}}}]
 
- "pensar" [{:sem {:pred :think}, :stems {:boot "piens"}}]
+ "pensar" [{:transitivity :intransitive
+            :sem {:pred :think}
+            :stems {:boot "piens"}}
+           {:transitivity :transitive
+            ;; as with jugar: something to think, not someone.
+            :sem {:pred :think
+                  :obj {:ref {:human? false}}}
+            :stems {:boot "piens"}}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]
  "pintar" [{:sem {:pred :paint}}]
  "platicar" [{:sem {:pred :chat}}]

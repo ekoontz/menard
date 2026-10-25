@@ -58,13 +58,18 @@
     (is (human-object? "I see him"))
     (is (human-object? "I see them"))))
 
-(deftest eat-takes-an-inanimate-object
-  (testing "eat takes a direct object, but not a human one"
-    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I eat a book")))
-    (doseq [expression ["I eat him" "I eat her" "I eat them"]]
+(deftest eat-and-think-take-an-inanimate-object
+  (testing "eat and think take a direct object, but not a human one"
+    (doseq [expression ["I eat him" "I eat her" "I eat them"
+                        "I think him" "I think her" "I think them"]]
       (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I eat a book")))
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I think it"))))
   (testing "the object-free reading is kept"
-    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I eat")))))
+    (doseq [expression ["I eat" "I think"]]
+      (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
+          expression))))
 
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]

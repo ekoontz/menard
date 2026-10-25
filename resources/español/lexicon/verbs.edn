@@ -42,7 +42,8 @@
  "asegurar" [{:sem {:pred :assure}}
              {:sem {:pred :insure}}]
  
- "asistir" [{:sem {:pred :attend}}]
+ "asistir" [{:transitivity :intransitive
+             :sem {:pred :attend}}]
  "aumentar" [{:sem {:pred :increase}}]
  "ayudar" [{:sem {:pred :help}
             :transitivity :intransitive}

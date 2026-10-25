@@ -87,3 +87,7 @@
                      (map generate)
                      (map morph)))
           expression))))
+
+(deftest attend-is-intransitive
+  (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse "I attend a book")))
+  (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I attend"))))

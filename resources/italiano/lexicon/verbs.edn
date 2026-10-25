@@ -631,7 +631,10 @@
  "formare" [{:cat :verb, :sem {:pred :form}}],
  "fornire"
  [{:cat :verb, :sem {:pred :furnish}, :italiano {:boot-verb true}}],
- "frequentare" [{:cat :verb, :sem {:pred :attend}}],
+ "frequentare"
+ [{:cat :verb,
+   :sem {:pred :attend},
+   :subcat {:2 []}}],
  "fumare" [{:cat :verb, :sem {:pred :smoke}}],
  "funzionare" [{:cat :verb, :sem {:pred :work-nonhuman}}],
  "gestire"
@@ -974,7 +977,8 @@
     :italiano
     {:future-stem "star", :present {:2sing "stai", :3plur "stanno"}}}]
   [(let
-    [r1 (dag_unify.core/unify {:synsem {:sem {:pred :stay}}} common)]
+    [r1 (dag_unify.core/unify {:synsem {:sem {:pred :stay}
+                                      :subcat {:2 []}}} common)]
     (clojure.core/merge
      (:synsem r1)
      (clojure.core/dissoc r1 :synsem)))

@@ -84,7 +84,9 @@
   (testing "the lexicon marks the verbs that take no direct object"
     (is (conjugate/object-less? "andare"))
     (is (conjugate/object-less? "arrivare"))
-    (is (conjugate/object-less? "ballare")))
+    (is (conjugate/object-less? "ballare"))
+    (is (conjugate/object-less? "stare"))
+    (is (conjugate/object-less? "frequentare")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))

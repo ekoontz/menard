@@ -15,7 +15,8 @@
          :sem {:pred :ask-for}}]
  "assist" [{ :sem {:pred :assist}}]
  "assure" [{ :sem {:pred :assure}}]
- "attend" [{:sem {:pred :attend}}]  
+ "attend" [{:intransitive-only? true
+            :sem {:pred :attend}}]  
  "avoid" [{ :sem {:pred :avoid}}]
  "bark" [{ :sem {:pred :bark}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}

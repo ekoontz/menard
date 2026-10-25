@@ -79,3 +79,8 @@
 (deftest bailar-is-intransitive
   (doseq [expression ["yo lo bailo" "yo la bailo"]]
     (is (empty? (parse expression)) expression)))
+
+(deftest asistir-is-intransitive
+  (doseq [expression ["yo lo asisto" "yo la asisto"]]
+    (is (empty? (parse expression)) expression))
+  (is (seq (parse "yo asisto"))))

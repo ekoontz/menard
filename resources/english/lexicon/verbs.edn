@@ -474,7 +474,12 @@
             :subcat {:2 {:cat :prep
                          :sem {:pred :to}}
                      :3 {:cat :noun}}
-            :sem {:pred :give}}])
+            ;; give is ditransitive with a thing and a person: "she gives it
+            ;; to her", not *"she gives him to her" (*the thing is a person)
+            ;; nor *"she gives it to it" (*the recipient is a thing).
+            :sem {:pred :give
+                  :obj {:ref {:human? false}}
+                  :iobj {:ref {:human? true}}}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}
                    {:infl :past-participle :surface "gone"}]]

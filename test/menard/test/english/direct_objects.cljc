@@ -124,6 +124,33 @@
   (testing "the object-free reading is kept"
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I read")))))
 
+(defn sentence-parses
+  "the parses of _expression_ that are whole sentences."
+  [expression]
+  (filter #(re-find #"^\[s" (str (en/syntax-tree %))) (parse expression)))
+
+(defn ditransitive-parses
+  "the sentence parses of _expression_ that have an indirect object phrase."
+  [expression]
+  (filter #(re-find #"pp:" (str (en/syntax-tree %))) (sentence-parses expression)))
+
+(deftest give-takes-a-thing-and-a-person
+  (testing "a nonhuman direct object and a human recipient"
+    (doseq [expression ["she gives it to her"
+                        "I give the book to her"
+                        "I give it to him"]]
+      (let [parses (ditransitive-parses expression)]
+        (is (seq parses) expression)
+        (doseq [p parses]
+          (is (not (true? (u/get-in p [:sem :obj :ref :human?]))) expression)
+          (is (true? (u/get-in p [:sem :iobj :ref :human?])) expression)))))
+  (testing "a human direct object is rejected: the thing given is not a person"
+    (is (empty? (ditransitive-parses "I give him to her"))))
+  (testing "a nonhuman recipient is rejected"
+    (is (empty? (ditransitive-parses "I give it to it"))))
+  (testing "the object-free reading is kept"
+    (is (seq (sentence-parses "I give")))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

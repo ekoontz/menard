@@ -187,4 +187,17 @@
           menard.ug/head-rule
           menard.ug/head-sem
           menard.ug/head-first]}
+
+ ;; [pp +to .her] in "she gives it to her": the recipient's semantics become
+ ;; the phrase's :sem :obj, so the verb's :ditransitive-verbs frame can put
+ ;; them in :sem :iobj.
+ {:rule "pp-recipient"
+  :cat :prep
+  :head {:sense :recipient}
+  :unify [menard.subcat/a
+          menard.ug/head-is-root
+          menard.ug/head-rule
+          menard.ug/head-sem
+          menard.ug/head-first
+          menard.ug/comp-is-obj]}
 ]

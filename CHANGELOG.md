@@ -60,6 +60,31 @@ Italian verb conjugation, and direct object pronouns in every language.
   camminando" still parses. Nederlands "blijven" already carried
   `:sem {:obj :none}`.
 
+- Ditransitives: english "give" now needs a nonhuman direct object and a
+  human recipient, which is what its meaning calls for: "she gives it to
+  her"/"I give the book to her"/"I give it to him" parse, while "I give him
+  to her" (*the thing given is a person) and "I give it to it" (*the
+  recipient is a thing) have no ditransitive parse.
+  - `resources/english/lexicon/verbs.edn`: give's ditransitive sense carries
+    `:sem {:obj {:ref {:human? false}} :iobj {:ref {:human? true}}}`.
+  - `resources/english/lexicon/misc.edn`: new `:recipient` sense of the
+    preposition "to" whose complement must be a person, and the locative
+    `:p1` sense now carries `:sem {:obj :none}`, which keeps it out of the
+    ditransitive frame.
+  - `resources/english/grammar.edn`: new `pp-recipient` rule, which copies
+    the recipient's semantics into the phrase's `:sem :obj`
+    (`menard.ug/comp-is-obj`) so that menard's `:ditransitive-verbs` rule can
+    put it in the verb's `:sem :iobj`; without it the `:iobj` was left open.
+    Recipient animacy is checked for pronouns ("her", "him", "them" vs "it");
+    nouns in these lexicons mostly carry no `:sem :ref`, so a noun recipient
+    is not distinguished ("I give it to the book" still parses).
+  - Español "dar", italiano "dare" and nederlands (no "geven" lexeme) have no
+    ditransitive or prepositional-complement construction in their grammars
+    to constrain: neither "yo doy el libro a ella" nor "do il libro a lei"
+    parses at all, and neither does any other PP complement ("yo voy a la
+    tienda", "vado a la negozio"). Giving those languages the construction is
+    a separate piece of work.
+
 - Direct object pronouns, per language:
   - Italiano: add the direct object clitics `li` and `le`, which were
     missing, and non-reflexive senses for `mi`, `ti` and `ci` (only

@@ -133,9 +133,13 @@
            :sem {:pred :that}}]
  "to" [;; "to the park"
        {:cat :prep
+        ;; :obj :none keeps this locative "to" out of the ditransitive frame
+        ;; (see the :recipient sense below), whose :ditransitive-verbs rule
+        ;; wants the phrase's :sem :obj to be the recipient.
         :sense :p1
         :subcat {:1 {:sem {:locative? false}}}
-        :sem {:pred :to}}
+        :sem {:pred :to
+              :obj :none}}
 
        ;; "[go] to bed"
        ;; TODO: add others like "to college/jail/school/war/work"
@@ -149,7 +153,18 @@
 
        {:cat :prep
         :sense :p3
-        :subcat []}]
+        :subcat []}
+
+       ;; the recipient of a ditransitive: "she gives it to her". The
+       ;; grammar's pp-recipient rule copies the complement's semantics into
+       ;; this phrase's :sem :obj, which menard.english's :ditransitive-verbs
+       ;; rule then puts in the verb's :sem :iobj -- so the recipient of
+       ;; "to" is a person.
+       {:cat :prep
+        :sense :recipient
+        :subcat {:1 {:cat :noun
+                     :sem {:ref {:human? true}}}}
+        :sem {:pred :to}}]
        
  "up" [{:cat :prep
         :sem {:pred :up}}]

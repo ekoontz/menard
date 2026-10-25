@@ -141,16 +141,18 @@
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo taglio" "la taglio" "lo guido" "la guido"
                         "lo spendo" "lo so" "lo conservo" "lo formo" "lo presto"
-                        "lo abbasso" "la abbasso"]]
+                        "lo abbasso" "la abbasso" "lo compro" "lo riempio"
+                        "lo spengo" "lo canto"]]
       (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
           expression))
     (doseq [expression ["lo taglio" "lo guido" "lo spendo" "lo so"
-                        "lo conservo" "lo formo" "lo presto" "lo abbasso"]]
+                        "lo conservo" "lo formo" "lo presto" "lo abbasso"
+                        "lo compro" "lo riempio" "lo spengo" "lo canto"]]
       (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
           expression)))
   (testing "the intransitive readings are kept"
     (doseq [expression ["taglio" "guido" "spendo" "so" "conservo" "formo"
-                        "presto" "abbasso"]]
+                        "presto" "abbasso" "compro" "riempio" "spengo" "canto"]]
       (is (seq (parse expression)) expression))))
 
 (deftest abbracciare-takes-a-human-object
@@ -174,16 +176,23 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
-(deftest stare-frequentare-sembrare-cenare-venire-commentare-and-entrare-are-intransitive
+(deftest these-verbs-are-intransitive
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
                       "lo sembro" "la sembro" "li sembro"
                       "lo ceno" "la ceno"
-                      "lo vengo" "lo commento" "lo entro"]]
+                      "lo vengo" "lo commento" "lo entro"
+                      "lo vivo" "lo cado" "lo nasco"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
     (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"
                         "ceno" "io ceno" "vengo" "io vengo" "commento"
-                        "entro" "io entro"]]
+                        "entro" "io entro"
+                        "riposo" "vivo" "cado" "nasco"]]
       (is (seq (parse expression)) expression)))
+  (testing "riposare's own (non-reflexive) reading takes no object; riposarsi
+            still does, since it is the reflexive verb"
+    (is (not-any? #(and (= :rest (u/get-in % [:sem :pred]))
+                         (some? (u/get-in % [:sem :obj :pred])))
+                  (parse "lo riposo"))))
   (testing "stare is still the progressive auxiliary"
     (is (seq (parse "sto camminando")))))

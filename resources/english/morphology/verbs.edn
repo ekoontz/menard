@@ -116,8 +116,11 @@
  
  ;; stop/stopped,step/stepped,fit/fitted:
  ;; in the set of consonants:
- {:g [(re-pattern "^(.*[eiou])([bglmnpst])$")             "$1$2$2ed"]
-  :p [(re-pattern "^(.*[eiou][bglmnpst])([bglmnpst])ed$") "$1"]
+ ;; the consonant doubles after a *single* vowel in a stressed final syllable
+ ;; only: stop/stopped, step/stepped, fit/fitted, but not seem/seemed (whose
+ ;; "ee" is one long vowel, spelled with two letters).
+ {:g [(re-pattern "^(.*[^aeiou])([aeiou])([bglmnpst])$")             "$1$2$3$3ed"]
+  :p [(re-pattern "^(.*[^aeiou][aeiou][bglmnpst])([bglmnpst])ed$") "$1"]
   :u {:cat :verb
       :infl :past-simple}}
  
@@ -159,8 +162,9 @@
       :infl :past-participle}}
 
   ;; stop/stopped,step/stepped,chat/chatted
- {:g [(re-pattern "^(.*[aeiou])([bglmnpst])$")             "$1$2$2ed"]
-  :p [(re-pattern "^(.*[aeiou][bglmnpst])([bglmnpst])ed$") "$1"]
+ ;; as above: seem/seemed, not seemmed.
+ {:g [(re-pattern "^(.*[^aeiou])([aeiou])([bglmnpst])$")             "$1$2$3$3ed"]
+  :p [(re-pattern "^(.*[^aeiou][aeiou][bglmnpst])([bglmnpst])ed$") "$1"]
   :u {:cat :verb
       :infl :past-participle}}
 

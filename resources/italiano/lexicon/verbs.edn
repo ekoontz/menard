@@ -239,7 +239,9 @@
  "cadere"
  [{:essere true,
    :cat :verb,
+   ;; "cadere" is intransitive: one falls, one does not fall something.
    :sem {:pred :fall},
+   :subcat {:2 []},
    :italiano {:future-stem "cadr"}}],
  "cambiare" [{:cat :verb, :sem {:pred :change}}],
  "cambiarsi"
@@ -249,7 +251,10 @@
  [{:cat :verb,
    ;; as with giocare: something to erase, not someone.
    :sem {:pred :erase, :obj {:human false}}}],
- "cantare" [{:cat :verb, :sem {:pred :sing}}],
+ "cantare"
+ [{:cat :verb,
+   ;; as with giocare: something to sing, not someone.
+   :sem {:pred :sing, :obj {:human false}}}],
  "capire"
  [{:cat :verb, :sem {:pred :understand}, :italiano {:boot-verb true}}],
  "caricare"
@@ -331,7 +336,10 @@
    ;; "commentare" comments *on* something: no direct object.
    :sem {:pred :comment},
    :subcat {:2 []}}],
- "comprare" [{:cat :verb, :sem {:pred :buy}}],
+ "comprare"
+ [{:cat :verb,
+   ;; as with giocare: something to buy, not someone.
+   :sem {:pred :buy, :obj {:human false}}}],
  "condividere"
  [{:cat :verb, :sem {:pred :share}, :italiano {:passato "condiviso"}}],
  "conoscere"
@@ -758,7 +766,9 @@
  "nascere"
  [{:cat :verb,
    :essere true,
+   ;; "nascere" is intransitive: one is born, one does not be-born something.
    :sem {:pred :be-born},
+   :subcat {:2 []},
    :italiano {:passato "nato"}}],
  "nuotare" [{:cat :verb, :sem {:pred :swim}}],
  "osservare" [{:cat :verb, :sem {:pred :observe}}],
@@ -911,7 +921,8 @@
  "ricordare" [{:cat :verb, :sem {:pred :remember}}],
  "riempire"
  [{:cat :verb,
-   :sem {:pred :fill},
+   ;; as with giocare: something to fill, not someone.
+   :sem {:pred :fill, :obj {:human false}},
    :italiano
    {:present
     {:1sing "riempio", :3sing "riempie", :3plur "riempiono"}}}],
@@ -928,7 +939,11 @@
    ;; as with giocare: something to repair, not someone.
    :sem {:pred :repair, :obj {:human false}}}],
  "ripetere" [{:cat :verb, :sem {:pred :repeat}}],
- "riposare" [{:cat :verb, :sem {:pred :rest}}],
+ "riposare"
+ [{:cat :verb,
+   ;; "riposare" is intransitive: one rests, one does not rest something.
+   :sem {:pred :rest},
+   :subcat {:2 []}}],
  "riposarsi"
  [{:cat :verb,
    :sem
@@ -1027,7 +1042,8 @@
  [{:cat :verb, :sem {:pred :send-s}, :italiano {:boot-verb true}}],
  "spegnere"
  [{:cat :verb,
-   :sem {:pred :turn-off},
+   ;; as with giocare: something to turn off, not someone.
+   :sem {:pred :turn-off, :obj {:human false}},
    :italiano
    {:passato "spento",
     :present {:1sing "spengo", :3plur "spengono"}}}],
@@ -1181,7 +1197,9 @@
  [{:cat :verb, :sem {:pred :win}, :italiano {:passato "vinto"}}],
  "vivere"
  [{:cat :verb,
+   ;; "vivere" is intransitive: one lives, one does not live something.
    :sem {:subj {:living true}, :pred :live-v},
+   :subcat {:2 []},
    :essere true,
    :italiano {:passato "vissuto", :future-stem "vivr"}}],
  "volere"

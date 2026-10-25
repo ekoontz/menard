@@ -1,5 +1,7 @@
 (ns menard.test.english.direct-objects
   (:require [menard.english :as en :refer [generate morph parse syntax-tree]]
+            [menard.morphology :refer [morph-leaf]]
+            [menard.english.complete :as en-complete]
             [dag_unify.core :as u]
             [clojure.test :refer [deftest is testing]]
             #?(:clj [clojure.tools.logging :as log])
@@ -173,6 +175,17 @@
     (is (not-any? #(some? (u/get-in % [:sem :obj :pred])) (sentence-parses "I put him"))))
   (testing "the object-free reading is kept"
     (is (seq (sentence-parses "I put")))))
+
+(deftest long-vowel-stems-do-not-double-their-final-consonant
+  (testing "seem/seemed, not seemmed (the doubling rule needs a single vowel)"
+    (doseq [infl [:past-simple :past-participle]]
+      (is (= "seemed" (morph-leaf {:canonical "seem" :cat :verb :infl infl} (:morphology @en-complete/model)))
+          (str infl))))
+  (testing "a single vowel in a stressed final syllable still doubles"
+    (doseq [[canonical expected] [["stop" "stopped"] ["step" "stepped"]
+                                  ["fit" "fitted"] ["plan" "planned"]]]
+      (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-simple} (:morphology @en-complete/model)))
+          canonical))))
 
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]

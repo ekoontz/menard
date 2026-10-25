@@ -91,7 +91,11 @@
     (is (conjugate/object-less? "cenare"))
     (is (conjugate/object-less? "venire"))
     (is (conjugate/object-less? "commentare"))
-    (is (conjugate/object-less? "entrare")))
+    (is (conjugate/object-less? "entrare"))
+    (is (conjugate/object-less? "riposare"))
+    (is (conjugate/object-less? "vivere"))
+    (is (conjugate/object-less? "cadere"))
+    (is (conjugate/object-less? "nascere")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))
@@ -106,18 +110,20 @@
 
 (deftest takes-human-object
   (testing "verbs that take a person as their direct object"
-    (doseq [canonical ["vedere" "comprare"]]
+    (doseq [canonical ["vedere"]]
       (is (conjugate/takes-human-object? canonical) canonical)))
   (testing "not the verbs that take no direct object"
     (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"
-                       "sembrare" "cenare" "venire" "commentare" "entrare"]]
+                       "sembrare" "cenare" "venire" "commentare" "entrare"
+                       "riposare" "vivere" "cadere" "nascere"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical)))
   (testing "not the verbs whose object must be inanimate"
     (doseq [canonical ["giocare" "suonare" "mangiare" "pensare" "aprire"
                        "avere" "fare" "bere" "leggere" "mettere"
                        "cancellare" "riparare" "parlare" "pulire"
                        "tagliare" "guidare" "spendere" "sapere" "conservare"
-                       "formare" "prestare" "abbassare"]]
+                       "formare" "prestare" "abbassare" "comprare"
+                       "riempire" "spegnere" "cantare" "comprare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical))))
 
 (deftest indirect-object-clitics

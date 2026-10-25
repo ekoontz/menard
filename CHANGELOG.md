@@ -40,13 +40,16 @@ Italian verb conjugation, and direct object pronouns in every language.
     (`maak`, `maakt`): like "spelen", its stem doubles the long vowel, which
     the morphology's `^(.*)en$` rule cannot derive, so "ik maak" and
     "hij maakt" had no parse before.
-  - Italiano: `:subcat {:2 []}` for "ballare", "venire", "commentare" and
-    "entrare" (so "lo ballo"/"lo vengo"/"lo commento"/"lo entro" have no
-    parse, like "li andiamo"), and `:sem {:obj {:human false}}` for "mangiare",
+  - Italiano: `:subcat {:2 []}` for "ballare", "venire", "commentare",
+    "entrare", "riposare", "vivere", "cadere" and "nascere" (so "lo
+    ballo"/"lo vengo"/"lo commento"/"lo entro"/"lo vivo"/"lo cado"/"lo nasco"
+    have no parse, like "li andiamo"; "riposarsi" keeps its own reflexive
+    clitic, being a different verb), and `:sem {:obj {:human false}}` for "mangiare",
     "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
     "cancellare", "riparare", "parlare", "pulire", "tagliare", "guidare",
     "spendere", "sapere", "conservare", "formare", "prestare", "abbassare",
-    all three lexical senses of "avere"
+    "comprare", "riempire", "spegnere", "cantare", all three lexical senses
+    of "avere"
     (the perfect-auxiliary senses are separate and untouched) and both senses
     of "fare" ("lo mangio", "lo bevo", "lo leggo",
     "lo gioco", "lo penso", "lo apro", "lo cancello", "lo riparo", "lo parlo",
@@ -60,7 +63,8 @@ Italian verb conjugation, and direct object pronouns in every language.
   hugged.
 
 - Intransitive verbs: italiano "stare", "frequentare", "sembrare", "cenare",
-  "venire", "commentare" and "entrare", english "stay", and "attend" in every language that has it (english
+  "venire", "commentare", "entrare", "riposare", "vivere", "cadere" and
+  "nascere", english "stay", and "attend" in every language that has it (english
   "attend", español "asistir", italiano "frequentare") no longer take a
   direct object: "lo sto", "lo frequento",
   "lo ceno", "lo entro", "yo lo asisto", "I attend a book" and "I stay him"
@@ -190,6 +194,12 @@ Italian verb conjugation, and direct object pronouns in every language.
   the noun+adjective rule differing only in the `:word-of-interest` child, a
   concept menard does not have, so the port's copies were identical and every
   such parse was reported twice.
+- English morphology: the past-simple and past-participle doubling rule now
+  needs a *single* vowel before the final consonant, so "seem" gives
+  "seemed"/"seemed" rather than "seemmed" (the rule's `^(.*[eiou])([bglmnpst])$`
+  matched "s|ee|m" with its greedy first group). stop/stopped,
+  step/stepped, fit/fitted and plan/planned are unchanged.
+
 - `menard.translate.it-en`: a verb lexeme's object constraint with no object
   to constrain (e.g. parlare's `:sem {:obj {:human false}}` in "parlo") is
   dropped from the english spec instead of becoming a junk object ("there

@@ -128,11 +128,12 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
-(deftest stare-and-frequentare-are-intransitive
-  (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"]]
+(deftest stare-frequentare-and-sembrare-are-intransitive
+  (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
+                      "lo sembro" "la sembro" "li sembro"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
-    (doseq [expression ["sto" "io sto" "frequento"]]
+    (doseq [expression ["sto" "io sto" "frequento" "sembro" "sembra"]]
       (is (seq (parse expression)) expression)))
   (testing "stare is still the progressive auxiliary"
     (is (seq (parse "sto camminando")))))

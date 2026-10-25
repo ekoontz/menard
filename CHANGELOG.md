@@ -50,9 +50,10 @@ Italian verb conjugation, and direct object pronouns in every language.
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 
-- Intransitive verbs: italiano "stare", english "stay", and "attend" in
-  every language that has it (english "attend", español "asistir", italiano
-  "frequentare") no longer take a direct object: "lo sto", "lo frequento",
+- Intransitive verbs: italiano "stare", "frequentare" and "sembrare",
+  english "stay", and "attend" in every language that has it (english
+  "attend", español "asistir", italiano "frequentare") no longer take a
+  direct object: "lo sto", "lo frequento",
   "yo lo asisto", "I attend a book" and "I stay him" have no parse, while
   "sto", "io sto", "frequento", "yo asisto", "I attend" and "I stay" still
   parse. Only the "stay" sense of "stare" is intransitive -- its two

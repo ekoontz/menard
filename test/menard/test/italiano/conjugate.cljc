@@ -86,7 +86,8 @@
     (is (conjugate/object-less? "arrivare"))
     (is (conjugate/object-less? "ballare"))
     (is (conjugate/object-less? "stare"))
-    (is (conjugate/object-less? "frequentare")))
+    (is (conjugate/object-less? "frequentare"))
+    (is (conjugate/object-less? "sembrare")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))
@@ -104,7 +105,8 @@
     (doseq [canonical ["vedere" "comprare"]]
       (is (conjugate/takes-human-object? canonical) canonical)))
   (testing "not the verbs that take no direct object"
-    (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"]]
+    (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"
+                       "sembrare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical)))
   (testing "not the verbs whose object must be inanimate"
     (doseq [canonical ["giocare" "suonare" "mangiare" "pensare" "aprire"

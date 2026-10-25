@@ -957,7 +957,13 @@
      :2plur "sedete",
      :3plur "siedono"}}}],
  "seguire" [{:cat :verb, :sem {:pred :follow}}],
- "sembrare" [{:cat :verb, :essere true, :sem {:pred :seem}}],
+ "sembrare"
+ [{:cat :verb,
+   :essere true,
+   ;; "sembrare" is intransitive: one seems *to be* something, one does not
+   ;; seem *someone*.
+   :sem {:pred :seem},
+   :subcat {:2 []}}],
  "sentire" [{:cat :verb, :sem {:pred :hear}}],
  "servire"
  [{:essere true, :cat :verb, :sem {:pred :be-necessary-s...}}],

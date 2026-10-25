@@ -80,6 +80,15 @@
     (testing "only lo and la elide"
       (is (= "mi alzo" (conjugate/with-direct-object-clitic :1st :sing :masc "alzo"))))))
 
+(deftest object-less-verbs
+  (testing "the lexicon marks the verbs that take no direct object"
+    (is (conjugate/object-less? "andare"))
+    (is (conjugate/object-less? "arrivare")))
+  (testing "a verb that can take one is not marked"
+    (is (not (conjugate/object-less? "vedere")))
+    (is (not (conjugate/object-less? "mangiare")))
+    (is (not (conjugate/object-less? "no-such-verb")))))
+
 (deftest chart-shape
   (let [chart (conjugate/generate-chart "parlare" false)]
     (is (= "parlare" (:canonical chart)))

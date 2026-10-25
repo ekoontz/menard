@@ -44,7 +44,9 @@ Italian verb conjugation, and direct object pronouns in every language.
   direct object pronoun for an agreement (`lo`, `la`, `li`, `le`, and `mi`,
   `ti`, `ci`, `vi`) and prefix it to a verb form, eliding `lo`/`la` before a
   vowel ("lo vedo", "l'ho visto"); a test checks every clitic against
-  italiano's non-reflexive accusative pronoun lexemes.
+  italiano's non-reflexive accusative pronoun lexemes, and `object-less?`
+  reports the verbs the lexicon marks as taking no direct object (`andare`,
+  `arrivare`, which carry `:subcat {:2 []}`).
 - `menard.italiano/generate-all`.
 - Italiano grammar: share agreement between a noun and its adjective or
   determiner (`menard.ug/shared-agr`), and drop the `np-to-n-pp` rule, which

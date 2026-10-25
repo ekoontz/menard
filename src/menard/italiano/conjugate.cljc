@@ -102,6 +102,15 @@
     (or (true? (:reflexive lexeme))
         (true? (u/get-in lexeme [:sem :reflexive])))))
 
+(defn object-less?
+  "True if the lexicon says canonical takes no direct object: andare and
+   arrivare carry :subcat {:2 []} (an empty second argument slot), while a verb
+   that can take an object leaves the slot open."
+  [canonical]
+  (let [lexeme (verb-lexeme canonical)]
+    (and (some? lexeme)
+         (= [] (u/get-in lexeme [:subcat :2])))))
+
 (defn essere? [canonical]
   (let [lexeme (verb-lexeme canonical)]
     (or (true? (:essere lexeme))

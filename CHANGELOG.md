@@ -73,6 +73,11 @@ Italian verb conjugation, and direct object pronouns in every language.
   `:sem {:obj {:human false}}`; neither grammar has the PP complement, so
   there is no indirect object to constrain there, and the nederlands lexicon
   has no "put" verb ("zetten"/"leggen").
+  English "put" also takes a plain direct object now (":inanimate-object?"
+  instead of ":intransitive-only?" on its plain sense), so "I put them" and
+  "I put it" parse and the español "yo los pongo" translates as "I put them";
+  before, english had no transitive "put" without a prepositional phrase, so
+  those translations failed.
 
 - Ditransitives: english "give" now needs a nonhuman direct object and a
   human recipient, which is what its meaning calls for: "she gives it to

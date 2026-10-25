@@ -766,8 +766,11 @@
  ;; was done for {:prepositional-verb {:with "X"}.
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
-         [{:exceptions exceptions
-           :intransitive-only? true
+         [;; "I put the book there": put takes the thing put as a plain
+          ;; direct object too, so that e.g. the español "yo los pongo" can be
+          ;; translated as "I put them".
+          {:exceptions exceptions
+           :inanimate-object? true
            :sem {:pred :put}}
           ;; put places one thing on or in another: neither the thing put
           ;; nor the place is a person, so both are marked nonhuman.

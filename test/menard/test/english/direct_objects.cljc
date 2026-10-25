@@ -166,6 +166,11 @@
   (testing "a human place is rejected"
     (doseq [expression ["I put it on her" "I put it in her"]]
       (is (empty? (ditransitive-parses expression)) expression)))
+  (testing "a plain direct object is allowed: the thing put, no place given"
+    (doseq [expression ["I put them" "I put it"]]
+      (is (some #(some? (u/get-in % [:sem :obj :pred])) (sentence-parses expression))
+          expression))
+    (is (not-any? #(some? (u/get-in % [:sem :obj :pred])) (sentence-parses "I put him"))))
   (testing "the object-free reading is kept"
     (is (seq (sentence-parses "I put")))))
 

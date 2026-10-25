@@ -93,6 +93,17 @@
   (testing "avere is still the perfect auxiliary"
     (is (seq (parse "ho mangiato")))))
 
+(deftest bere-takes-an-inanimate-object
+  (testing "drink takes a clitic direct object, but not a human one"
+    (doseq [expression ["lo bevo" "la bevo" "li bevo"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo bevo"))))
+  (testing "a drinkable noun phrase is still an object"
+    (is (some #(= :birra (u/get-in % [:sem :obj :pred])) (parse "bevo la birra"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "bevo")))))
+
 (deftest ballare-is-intransitive
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

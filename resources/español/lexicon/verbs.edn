@@ -61,7 +61,12 @@
             :sem {:pred :dance}}]
  "bajar" [{:sem {:pred :lower}}]
  "bañarse" [{:sem {:pred :take-a-bath}}]
- "beber" [{:sem {:pred :drink}}]
+ "beber" [{:transitivity :intransitive
+           :sem {:pred :drink}}
+          {:transitivity :transitive
+           ;; as with jugar: something to drink, not someone.
+           :sem {:pred :drink
+                 :obj {:ref {:human? false}}}}]
  "borrar" [{:sem {:pred :erase}}]
  "buscar" (let [exceptions [{:infl :preterito
                              :agr {:person :1st
@@ -1220,7 +1225,12 @@
  "tirar" [{:sem {:pred :throw-out}, :cat :verb}
           {:sem {:pred :throw}, :cat :verb}]
  "tomar" [{:sem {:pred :take}, :cat :verb}
-          {:sem {:pred :drink-t}, :cat :verb}]
+          ;; the "drink" sense takes a thing, not a person; the "take" sense
+          ;; above stays unconstrained.
+          {:transitivity :intransitive
+           :sem {:pred :drink-t}, :cat :verb}
+          {:transitivity :transitive
+           :sem {:pred :drink-t, :obj {:ref {:human? false}}}, :cat :verb}]
  ;;   "toser" {}
  
  "trabajar" [{:sem {:pred :work}}]

@@ -385,8 +385,10 @@
  "drink" (let [exceptions [{:infl :past-simple :surface "drank"}
                            {:infl :past-participle :surface "drunk"}]]
            [{:sem {:pred :drink}
+             :inanimate-object? true
              :exceptions exceptions}
             {:sem {:pred :drink-t}
+             :inanimate-object? true
              :exceptions exceptions}])
  "drive" [{:sem {:pred :drive}
           :exceptions [{:infl :past-simple :surface "drove"}

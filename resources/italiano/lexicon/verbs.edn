@@ -211,7 +211,9 @@
    :subcat {:2 []}}],
  "bere"
  [{:cat :verb,
-   :sem {:pred :drink, :subj {:animate true}, :obj {:drinkable true}},
+   ;; as with giocare: something to drink, not someone.
+   :sem {:pred :drink, :subj {:animate true},
+         :obj {:human false, :drinkable true}},
    :italiano
    {:passato "bevuto",
     :future-stem "berr",

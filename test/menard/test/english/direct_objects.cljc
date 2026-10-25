@@ -106,6 +106,15 @@
   (testing "the perfect auxiliary is unaffected"
     (is (seq (parse "I have seen him")))))
 
+(deftest drink-takes-an-inanimate-object
+  (testing "drink takes a direct object, but not a human one"
+    (doseq [expression ["I drink him" "I drink her" "I drink them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I drink it"))))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I drink")))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

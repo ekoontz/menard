@@ -118,6 +118,14 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "yo leo")))))
 
+(deftest poner-takes-an-inanimate-object
+  (testing "put takes a clitic direct object, but not a human one"
+    (doseq [expression ["yo lo pongo" "yo la pongo"]]
+      (is (contains? (object-preds expression) :it) expression)
+      (is (not (contains? (object-preds expression) :he)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo pongo")))))
+
 (deftest bailar-is-intransitive
   (doseq [expression ["yo lo bailo" "yo la bailo"]]
     (is (empty? (parse expression)) expression)))

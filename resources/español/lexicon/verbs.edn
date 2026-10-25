@@ -1071,24 +1071,33 @@
      :stems stems}])
 
  "poner"
- [{:sem {:subj {:animate? true},
-         :pred :put},
-   :exceptions
-   [{:infl :present,
-     :agr {:person :1st, :number :sing},
-     :surface "pongo"}
-    {:infl :present,
-     :agr {:person :2nd, :number :sing, :formal? false},
-     :surface "pones"}
-    {:infl :present,
-     :agr {:person :2nd, :number :sing, :formal? true},
-     :surface "pone"}
-    {:infl :present,
-     :agr {:person :3rd, :number :sing},
-     :surface "pone"}
-    {:infl :participio
-     :surface "puesto"}],
-   :stems {:preterito "pus"}}]
+ (let [exceptions
+       [{:infl :present,
+         :agr {:person :1st, :number :sing},
+         :surface "pongo"}
+        {:infl :present,
+         :agr {:person :2nd, :number :sing, :formal? false},
+         :surface "pones"}
+        {:infl :present,
+         :agr {:person :2nd, :number :sing, :formal? true},
+         :surface "pone"}
+        {:infl :present,
+         :agr {:person :3rd, :number :sing},
+         :surface "pone"}
+        {:infl :participio
+         :surface "puesto"}]]
+   [;; as with jugar: something to put, not someone.
+    {:sem {:subj {:animate? true},
+           :pred :put}
+     :transitivity :intransitive
+     :exceptions exceptions
+     :stems {:preterito "pus"}}
+    {:sem {:subj {:animate? true},
+           :pred :put
+           :obj {:ref {:human? false}}}
+     :transitivity :transitive
+     :exceptions exceptions
+     :stems {:preterito "pus"}}])
  
  "ponerse"
  [{:sem {:subj {:animate? true},

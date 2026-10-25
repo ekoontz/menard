@@ -769,18 +769,24 @@
          [{:exceptions exceptions
            :intransitive-only? true
            :sem {:pred :put}}
+          ;; put places one thing on or in another: neither the thing put
+          ;; nor the place is a person, so both are marked nonhuman.
           {:exceptions exceptions
            :ditransitive? true           
            :subcat {:2 {:cat :prep
                         :sem {:pred :on}}
                     :3 {:cat :noun}}
-           :sem {:pred :put-on}}
+           :sem {:pred :put-on
+                 :obj {:ref {:human? false}}
+                 :iobj {:ref {:human? false}}}}
           {:exceptions exceptions
            :ditransitive? true
            :subcat {:2 {:cat :prep
                         :sem {:pred :in}}
                     :3 {:cat :noun}}
-           :sem {:pred :put-in}}
+           :sem {:pred :put-in
+                 :obj {:ref {:human? false}}
+                 :iobj {:ref {:human? false}}}}
           {:exceptions exceptions
            :sem {:pred :put-on}
            :prepositional-verb {:with "on"}}

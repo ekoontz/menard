@@ -151,6 +151,24 @@
   (testing "the object-free reading is kept"
     (is (seq (sentence-parses "I give")))))
 
+(deftest put-takes-a-thing-and-a-place
+  (testing "the thing put and the place it goes are both nonhuman"
+    (doseq [expression ["I put the book on the table"
+                        "I put it on the table"
+                        "I put it in the house"]]
+      (let [parses (ditransitive-parses expression)]
+        (is (seq parses) expression)
+        (doseq [p parses]
+          (is (not (true? (u/get-in p [:sem :obj :ref :human?]))) expression)
+          (is (not (true? (u/get-in p [:sem :iobj :ref :human?]))) expression)))))
+  (testing "a human thing put is rejected"
+    (is (empty? (ditransitive-parses "I put him on the table"))))
+  (testing "a human place is rejected"
+    (doseq [expression ["I put it on her" "I put it in her"]]
+      (is (empty? (ditransitive-parses expression)) expression)))
+  (testing "the object-free reading is kept"
+    (is (seq (sentence-parses "I put")))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

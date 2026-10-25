@@ -108,5 +108,5 @@
       (is (not (conjugate/takes-human-object? canonical)) canonical)))
   (testing "not the verbs whose object must be inanimate"
     (doseq [canonical ["giocare" "suonare" "mangiare" "pensare" "aprire"
-                       "avere" "fare" "bere" "leggere"]]
+                       "avere" "fare" "bere" "leggere" "mettere"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical))))

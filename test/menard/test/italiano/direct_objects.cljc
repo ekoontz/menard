@@ -115,6 +115,15 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "leggo")))))
 
+(deftest mettere-takes-an-inanimate-object
+  (testing "put takes a clitic direct object, but not a human one"
+    (doseq [expression ["lo metto" "la metto" "li metto"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo metto"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "metto")))))
+
 (deftest ballare-is-intransitive
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

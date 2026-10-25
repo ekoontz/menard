@@ -60,6 +60,20 @@ Italian verb conjugation, and direct object pronouns in every language.
   camminando" still parses. Nederlands "blijven" already carried
   `:sem {:obj :none}`.
 
+- Ditransitives: english "put" needs a nonhuman thing put and a nonhuman
+  place: "I put the book on the table", "I put it on the table", "I put it
+  in the house" and "I put it on it" parse, while "I put him on the table"
+  (*the thing put is a person) and "I put it on her"/"I put it in her" (*the
+  place is a person) have no ditransitive parse. Its `:put-on` and `:put-in`
+  senses carry `:sem {:obj {:ref {:human? false}} :iobj {:ref {:human?
+  false}}}`; the `:put-on-makeup` sense ("put makeup on someone") and the
+  `:put-on` prepositional sense ("put on a coat") are left as they were.
+  Español "poner" gets intransitive and transitive-with
+  `:obj {:ref {:human? false}}` senses, and italiano "mettere" carries
+  `:sem {:obj {:human false}}`; neither grammar has the PP complement, so
+  there is no indirect object to constrain there, and the nederlands lexicon
+  has no "put" verb ("zetten"/"leggen").
+
 - Ditransitives: english "give" now needs a nonhuman direct object and a
   human recipient, which is what its meaning calls for: "she gives it to
   her"/"I give the book to her"/"I give it to him" parse, while "I give him

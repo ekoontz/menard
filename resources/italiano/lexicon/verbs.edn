@@ -696,7 +696,10 @@
          :obj {:human false, :edible true}}}],
  "mentire" [{:cat :verb, :sem {:pred :lie}}],
  "mettere"
- [{:cat :verb, :sem {:pred :put}, :italiano {:passato "messo"}}],
+ [{:cat :verb,
+   ;; as with giocare: something to put, not someone.
+   :sem {:pred :put, :obj {:human false}},
+   :italiano {:passato "messo"}}],
  "mettersi"
  [{:cat :verb,
    :sem {:pred :put-oneself, :reflexive true},

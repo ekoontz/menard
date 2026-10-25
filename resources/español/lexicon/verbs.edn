@@ -881,29 +881,36 @@
  "lavarse" [{:sem {:pred :wash-oneself}}]
 
  "leer"
- [{:sem {:pred :read},
-   :exceptions
-   [{:infl :preterito,
-     :agr {:person :1st, :number :sing},
-     :surface "leí"}
-    {:infl :preterito,
-     :agr {:person :2nd, :number :sing :formal? :false},
-     :surface "leiste"}
-     {:infl :preterito,
-     :agr {:person :2nd, :number :sing :formal? :true},
-     :surface "leyó"}
-    {:infl :preterito,
-     :agr {:person :3rd, :number :sing},
-     :surface "leyó"}
-     {:infl :preterito,
-     :agr {:person :1st, :number :plur},
-     :surface "leímos"}
-     {:infl :preterito,
-     :agr {:person :2nd, :number :plur :formal? :true},
-     :surface "leyeron"}
-    {:infl :preterito,
-     :agr {:person :3rd, :number :plur},
-     :surface "leyeron"}]}]
+ (let [exceptions
+      [{:infl :preterito,
+        :agr {:person :1st, :number :sing},
+        :surface "leí"}
+       {:infl :preterito,
+        :agr {:person :2nd, :number :sing :formal? :false},
+        :surface "leiste"}
+       {:infl :preterito,
+        :agr {:person :2nd, :number :sing :formal? :true},
+        :surface "leyó"}
+       {:infl :preterito,
+        :agr {:person :3rd, :number :sing},
+        :surface "leyó"}
+       {:infl :preterito,
+        :agr {:person :1st, :number :plur},
+        :surface "leímos"}
+       {:infl :preterito,
+        :agr {:person :2nd, :number :plur :formal? :true},
+        :surface "leyeron"}
+       {:infl :preterito,
+        :agr {:person :3rd, :number :plur},
+        :surface "leyeron"}]]
+  [;; as with jugar: something to read, not someone.
+   {:sem {:pred :read}
+    :transitivity :intransitive
+    :exceptions exceptions}
+   {:sem {:pred :read
+          :obj {:ref {:human? false}}}
+    :transitivity :transitive
+    :exceptions exceptions}])
 
  "levantarse" [{:sem {:pred :get-up,
                       :subj {:ref {:human? true}}}}]

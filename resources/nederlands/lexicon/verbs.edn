@@ -225,6 +225,7 @@
        [{:curriculum :basic
          :strong? :e-a-e
          :exceptions exceptions
+         :inanimate-object? true
          :sem {:pred :read}}])
  "luieren" [{:sem {:pred :laze
                    :obj :none}}]

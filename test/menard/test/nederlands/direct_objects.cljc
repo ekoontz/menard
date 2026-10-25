@@ -91,3 +91,12 @@
   (testing "the stem doubles its long vowel, so the singular forms are listed"
     (doseq [expression ["ik maak" "hij maakt" "jij maakt" "wij maken"]]
       (is (seq (parse expression)) expression))))
+
+(deftest lezen-takes-an-inanimate-object
+  (testing "read takes a direct object, but not a human one"
+    (doseq [expression ["ik lees hem" "ik lees haar" "ik lees hen"]]
+      (is (not (contains? (object-humans expression) true)) expression)))
+  (testing "the inanimate reading of the pronoun is kept"
+    (is (contains? (object-humans "ik lees het") false)))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "ik lees")))))

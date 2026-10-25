@@ -104,6 +104,17 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "bevo")))))
 
+(deftest leggere-takes-an-inanimate-object
+  (testing "read takes a clitic direct object, but not a human one"
+    (doseq [expression ["lo leggo" "la leggo" "li leggo"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo leggo"))))
+  (testing "a noun phrase is still an object"
+    (is (some #(= :book (u/get-in % [:sem :obj :pred])) (parse "leggo il libro"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "leggo")))))
+
 (deftest ballare-is-intransitive
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

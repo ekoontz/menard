@@ -110,6 +110,14 @@
   (testing "tomar's \"take\" sense is left unconstrained"
     (is (contains? (object-preds "yo lo tomo") :he))))
 
+(deftest leer-takes-an-inanimate-object
+  (testing "read takes a clitic direct object, but not a human one"
+    (doseq [expression ["yo lo leo" "yo la leo"]]
+      (is (contains? (object-preds expression) :it) expression)
+      (is (not (contains? (object-preds expression) :he)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo leo")))))
+
 (deftest bailar-is-intransitive
   (doseq [expression ["yo lo bailo" "yo la bailo"]]
     (is (empty? (parse expression)) expression)))

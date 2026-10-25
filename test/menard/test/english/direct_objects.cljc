@@ -115,6 +115,15 @@
   (testing "the object-free reading is kept"
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I drink")))))
 
+(deftest read-takes-an-inanimate-object
+  (testing "read takes a direct object, but not a human one"
+    (doseq [expression ["I read him" "I read her" "I read them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I read it"))))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I read")))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

@@ -679,7 +679,8 @@
  "lavorare" [{:cat :verb, :sem {:pred :work-human}}],
  "leggere"
  [{:cat :verb,
-   :sem {:discrete false, :pred :read},
+   ;; as with giocare: something to read, not someone.
+   :sem {:discrete false, :pred :read, :obj {:human false}},
    :italiano {:passato "letto"}}],
  "macchiare" [{:cat :verb, :sem {:pred :stain}}],
  "mancare"

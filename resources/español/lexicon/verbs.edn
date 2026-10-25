@@ -664,12 +664,25 @@
                    {:infl :preterito
                     :agr {:person :3rd :number :plur}
                     :surface "hicieron"}]]
-   [{:stems stems
+   [;; as with jugar: something to do or make, not someone.
+    {:stems stems
      :exceptions exceptions
+     :transitivity :intransitive
      :sem {:pred :do}}
     {:stems stems
      :exceptions exceptions
-     :sem {:pred :make}}])
+     :transitivity :transitive
+     :sem {:pred :do
+           :obj {:ref {:human? false}}}}
+    {:stems stems
+     :exceptions exceptions
+     :transitivity :intransitive
+     :sem {:pred :make}}
+    {:stems stems
+     :exceptions exceptions
+     :transitivity :transitive
+     :sem {:pred :make
+           :obj {:ref {:human? false}}}}])
 
  "herir" [{:sem {:pred :wound}, :stems {:boot "hier"}}]
  "hervir" [{:sem {:pred :boil}, :stems {:boot "hierv"}}]

@@ -74,3 +74,13 @@
     (is (contains? (object-humans "ik eet het") false)))
   (testing "the object-free reading is kept"
     (is (seq (parse "ik eet")))))
+
+(deftest maken-takes-an-inanimate-object
+  (testing "make takes a direct object, but not a human one"
+    (doseq [expression ["ik maakte hem" "ik maakte haar" "ik maakte hen"]]
+      (is (not (contains? (object-humans expression) true)) expression)))
+  (testing "the inanimate reading of the pronoun is kept"
+    (is (contains? (object-humans "ik maakte het") false)))
+  (testing "an inanimate noun phrase is still an object"
+    (is (contains? (set (map #(u/get-in % [:sem :obj :pred]) (parse "ik maakte een boek")))
+                   :book))))

@@ -287,6 +287,7 @@
             agr (atom :top)]
         [{;; "I do", "I did"
           :exceptions exceptions
+          :inanimate-object? true
           :sense 1
           :sem {:pred :do}}
          
@@ -696,7 +697,9 @@
  "lower" [{:sem {:pred :lower}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
                           {:infl :past-participle :surface "made"}]]
-           [{:exceptions exceptions  :sem {:pred :make}}])
+           [{:exceptions exceptions
+             :inanimate-object? true
+             :sem {:pred :make}}])
  "may" [{:modal :base
          :infl :present
          :sem {:pred :be-allowed-to

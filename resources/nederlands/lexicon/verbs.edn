@@ -230,7 +230,8 @@
                    :obj :none}}]
  "lukken" [{:sem {:pred :succeed
                   :obj :none}}]
- "maken" [{:sem {:pred :make}}]
+ "maken" [{:inanimate-object? true
+           :sem {:pred :make}}]
 
  "mogen" ;; F. 40.1
  (let [exceptions [{:infl :present

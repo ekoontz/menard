@@ -608,7 +608,8 @@
   [(let
     [r1
      (dag_unify.core/unify
-      {:synsem {:sem {:pred :do}}}
+      ;; as with giocare: something to do, not someone.
+      {:synsem {:sem {:pred :do, :obj {:human false}}}}
       shared-part-of-fare)]
     (clojure.core/merge
      (:synsem r1)
@@ -616,7 +617,7 @@
    (let
     [r1
      (dag_unify.core/unify
-      {:synsem {:sem {:pred :make}}}
+      {:synsem {:sem {:pred :make, :obj {:human false}}}}
       shared-part-of-fare)]
     (clojure.core/merge
      (:synsem r1)

@@ -64,6 +64,15 @@
     (doseq [expression ["mangio" "penso"]]
       (is (seq (parse expression)) expression))))
 
+(deftest fare-takes-an-inanimate-object
+  (testing "do and make take a clitic direct object, but not a human one"
+    (doseq [expression ["lo faccio" "la faccio" "li faccio"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo faccio"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "faccio")))))
+
 (deftest ballare-is-intransitive
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))

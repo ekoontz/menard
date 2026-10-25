@@ -71,6 +71,19 @@
       (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
           expression))))
 
+(deftest do-and-make-take-an-inanimate-object
+  (testing "do and make take a direct object, but not a human one"
+    (doseq [expression ["I do him" "I do her" "I do them"
+                        "I make him" "I make her" "I make them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I do it")))
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I make a book"))))
+  (testing "the object-free reading is kept"
+    (doseq [expression ["I do" "I make"]]
+      (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
+          expression))))
+
 (deftest dance-is-intransitive
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))

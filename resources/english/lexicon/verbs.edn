@@ -863,7 +863,11 @@
                          {:infl :past-participle :surface "seen"}]]
          [{:exceptions exceptions
            :sem {:pred :see}}])
- "seem" [{ :sem {:pred :seem}}]
+ "seem" [{:sem {:pred :seem}}]
+ "sell" (let [exceptions [{:infl :past-simple :surface "sold"}
+                          {:infl :past-participle :surface "sold"}]]
+         [{:exceptions exceptions
+           :sem {:pred :sell}}])
  "send" (let [exceptions [{:infl :past-simple :surface "sent"}
                           {:infl :past-participle :surface "sent"}]]
           [{:exceptions exceptions  :sem {:pred :send}}])

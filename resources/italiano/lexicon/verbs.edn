@@ -35,7 +35,7 @@
  [{:cat :verb, :sem {:pred :add}, :italiano {:passato "aggiunto"}}],
  "aiutare" [{:cat :verb, :sem {:pred :help}}],
  "alzarsi" [{:cat :verb, :sem {:pred :get-up, :reflexive true}}],
- "amare" [{:cat :verb, :sem {:pred :amare}}],
+ "amare" [{:cat :verb, :sem {:pred :love}}],
  "ammirare" [{:cat :verb, :sem {:pred :admire}}],
  "andare"
  [{:cat :verb,

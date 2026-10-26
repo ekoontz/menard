@@ -1184,7 +1184,8 @@
  [{:cat :verb,
    :sem {:pred :see},
    :italiano {:passato "visto", :future-stem "vedr"}}],
- "vendere" [{:cat :verb, :sem {:pred :sell}}],
+ "vendere" [{:cat :verb, :sem {:pred :sell
+                               :obj {:human false}}}]
  "venire"
  [{:cat :verb,
    :essere true,

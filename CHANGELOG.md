@@ -259,6 +259,19 @@ Italian verb conjugation, and direct object pronouns in every language.
   convention `menard.español.conjugate`'s `:2nd-formal` person uses), now gets
   the formal `you` and an older-person emoji, where before it was
   indistinguishable from an unmarked `tu`.
+- Italiano lexicon and grammar files no longer wrap feature structures in
+  babel's nested `:synsem`: `lexicon/verbs.edn`, `lexicon/pronouns.edn`
+  (`lei`, `lui`), `lexicon/adjectives.edn` (`affollato`), `tenses.edn` and the
+  `:italiano/babel-spec` metadata of every rule in `grammar.edn` now spell the
+  same features flat, and the `(merge (:synsem r1) (dissoc r1 :synsem))`
+  identity is gone along with the `let`s that existed only for it. This is a
+  pure data refactor: the compiled lexicon (all 961 lexemes, including which
+  entries share an atom with which) and every rule field outside
+  `:italiano/babel-spec` are unchanged. `:italiano/babel-spec` is inert
+  documentation of the corresponding babel rule and nothing reads it.
+  `:synsem` survives only in `lexicon/babel-extras.edn` and
+  `morphology/babel-extras.edn`, which keep babel's own nested helpers
+  verbatim and are never loaded.
 
 ## [1.11.1] - 2026-10-19
 

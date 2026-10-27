@@ -2,11 +2,11 @@
 ;; NOTE: not wired to any grammar rule's :options, because menard's :options
 ;; must be a *symbol* (e.g. menard.español.tenses/finite-nonaux-tenses), which
 ;; would need a src/menard/italiano/tenses.cljc namespace.
-{"conditional" {:synsem {:sem {:tense :conditional}}},
- "future" {:synsem {:sem {:tense :future}}},
- "imperfetto" {:synsem {:sem {:aspect :progressive, :tense :past}}},
- "passato" {:synsem {:sem {:aspect :perfect, :tense :present}}},
+{"conditional" {:sem {:tense :conditional}},
+ "future" {:sem {:tense :future}},
+ "imperfetto" {:sem {:aspect :progressive, :tense :past}},
+ "passato" {:sem {:aspect :perfect, :tense :present}},
  "present progressive"
- {:synsem {:sem {:aspect :progressive, :tense :present}}},
- "present simple" {:synsem {:sem {:aspect :simple, :tense :present}}},
- "trapassato" {:synsem {:sem {:aspect :pluperfect, :tense :past}}}}
+ {:sem {:aspect :progressive, :tense :present}},
+ "present simple" {:sem {:aspect :simple, :tense :present}},
+ "trapassato" {:sem {:aspect :pluperfect, :tense :past}}}

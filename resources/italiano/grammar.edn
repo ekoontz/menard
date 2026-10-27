@@ -2,7 +2,7 @@
   :cat :adjective,
   :unify [menard.ug/head-first menard.subcat/c menard.ug/head-rule],
   :italiano/babel-spec
-  {:rule "adjective-phrase", :synsem {:cat :adjective}},
+  {:rule "adjective-phrase", :cat :adjective},
   :italiano/schema 'h21,
   :italiano/babel-helpers ['h21]}
  {:rule "intensifier-phrase",
@@ -10,8 +10,7 @@
   :modified true,
   :unify [menard.ug/head-first menard.subcat/c menard.ug/head-rule],
   :italiano/babel-spec
-  {:rule "intensifier-phrase",
-   :synsem {:cat :intensifier, :modified true}},
+  {:rule "intensifier-phrase", :cat :intensifier, :modified true},
   :italiano/schema 'h21,
   :italiano/babel-helpers ['h21]}
  {:italiano/babel-helpers
@@ -31,17 +30,17 @@
    menard.ug/head-is-root],
   :cat :noun,
   :italiano/babel-spec
-  {:comp {:phrasal false, :synsem {:cat :adjective, :sem :top}},
+  {:comp {:phrasal false, :cat :adjective, :sem :top},
    :head
    {:phrasal false,
-    :synsem
-    {:modified false, :sem {:mod {:first :top}}, :propernoun :top}},
-   :rule "nbar1-woi-1",
-   :synsem
-   {:cat :noun,
-    :modified true,
+    :modified false,
     :sem {:mod {:first :top}},
-    :propernoun :top}},
+    :propernoun :top},
+   :rule "nbar1-woi-1",
+   :cat :noun,
+   :modified true,
+   :sem {:mod {:first :top}},
+   :propernoun :top},
   :rule "nbar1-woi-1",
   :modified true,
   :head {:phrasal? false, :modified false, :sem {:mod {:first :top}}, :propernoun :top},
@@ -64,12 +63,11 @@
   :italiano/babel-spec
   {:rule "noun-phrase1",
    :aliases (list "np1"),
-   :synsem
-   {:agr {:number :top},
-    :cat :noun,
-    :propernoun :top,
-    :sem {:number :top, :mod []}},
-   :head {:phrasal false, :synsem {:propernoun :top}},
+   :agr {:number :top},
+   :cat :noun,
+   :propernoun :top,
+   :sem {:number :top, :mod []},
+   :head {:phrasal false, :propernoun :top},
    :comp {:phrasal false}},
   :italiano/aliases (list "np1"),
   :rule "noun-phrase1",
@@ -100,12 +98,11 @@
   :italiano/babel-spec
   {:rule "noun-phrase2",
    :aliases (list "np2"),
-   :synsem
-   {:agr {:number :top},
-    :cat :noun,
-    :sem {:number :top},
-    :propernoun :top},
-   :head {:phrasal true, :synsem {:propernoun :top}},
+   :agr {:number :top},
+   :cat :noun,
+   :sem {:number :top},
+   :propernoun :top,
+   :head {:phrasal true, :propernoun :top},
    :comp {:phrasal false}},
   :italiano/aliases (list "np2"),
   :rule "noun-phrase2",
@@ -126,8 +123,10 @@
   :cat :prep,
   :italiano/babel-spec
   {:rule "prepositional-phrase",
-   :synsem {:cat :prep, :reflexive :top, :sem :top},
-   :head {:synsem {:sem :top, :subcat {:1 {:reflexive :top}}}}},
+   :cat :prep,
+   :reflexive :top,
+   :sem :top,
+   :head {:sem :top, :subcat {:1 {:reflexive :top}}}},
   :rule "prepositional-phrase",
   :reflexive :top,
   :head {:sem :top, :subcat {:1 {:reflexive :top}}},
@@ -144,9 +143,7 @@
    menard.ug/head-sem
    menard.ug/subject-is-comp],
   :italiano/babel-spec
-  {:head {:phrasal true, :synsem {:aux true}},
-   :rule "s-aux",
-   :synsem {:cat :verb}},
+  {:head {:phrasal true, :aux true}, :rule "s-aux", :cat :verb},
   :italiano/schema 'c10,
   :italiano/babel-helpers ['c10 'root-is-head-root]}
  {:rule "vp-infinitive",
@@ -160,7 +157,9 @@
    menard.ug/head-is-root],
   :italiano/babel-spec
   {:rule "vp-infinitive",
-   :synsem {:aux false, :infl :infinitive, :cat :verb}},
+   :aux false,
+   :infl :infinitive,
+   :cat :verb},
   :italiano/schema 'h21,
   :italiano/babel-helpers ['h21 'root-is-head]}
  {:rule "vp-aux-phrasal-complement",
@@ -175,10 +174,10 @@
    menard.ug/head-is-root],
   :italiano/babel-spec
   {:rule "vp-aux-phrasal-complement",
-   :head
-   {:phrasal false, :synsem {:aux true, :sem {:obj {:top :top}}}},
+   :head {:phrasal false, :aux true, :sem {:obj {:top :top}}},
    :comp {:phrasal true},
-   :synsem {:aux true, :cat :verb}},
+   :aux true,
+   :cat :verb},
   :italiano/schema 'h21a,
   :italiano/babel-helpers ['h21a 'root-is-comp-root]}
  {:rule "vp-aux-phrasal-complement-essere-false",
@@ -195,9 +194,12 @@
   {:rule "vp-aux-phrasal-complement-essere-false",
    :head
    {:phrasal false,
-    :synsem {:aux true, :sem {:obj {:top :top}}, :essere false}},
+    :aux true,
+    :sem {:obj {:top :top}},
+    :essere false},
    :comp {:phrasal true},
-   :synsem {:aux true, :cat :verb}},
+   :aux true,
+   :cat :verb},
   :italiano/schema 'h21a,
   :italiano/babel-helpers ['h21a 'root-is-comp-root]}
  {:rule "vp-aux-nonphrasal-complement",
@@ -212,9 +214,10 @@
    menard.ug/head-is-root],
   :italiano/babel-spec
   {:rule "vp-aux-nonphrasal-complement",
-   :head {:phrasal false, :synsem {:aux true}},
+   :head {:phrasal false, :aux true},
    :comp {:phrasal false},
-   :synsem {:aux true, :cat :verb}},
+   :aux true,
+   :cat :verb},
   :italiano/schema 'h21a,
   :italiano/babel-helpers ['h21a 'root-is-comp]}
  {:italiano/babel-helpers ['h22 'root-is-comp 'vp-non-pronoun],
@@ -226,13 +229,12 @@
    menard.ug/head-is-root],
   :cat :verb,
   :italiano/babel-spec
-  {:head {:phrasal false, :synsem {:aux true}},
+  {:head {:phrasal false, :aux true},
    :rule "vp-aux-22",
-   :synsem
-   {:aux true,
-    :cat :verb,
-    :sem {:reflexive true},
-    :subcat {:2 {:agr :top}}},
+   :aux true,
+   :cat :verb,
+   :sem {:reflexive true},
+   :subcat {:2 {:agr :top}},
    :italiano {:b {:obj-agr :top}}},
   :rule "vp-aux-22",
   :subcat {:2 {:agr :top}},
@@ -257,9 +259,10 @@
    menard.ug/comp-is-obj],
   :italiano/babel-spec
   {:head {:phrasal true},
-   :comp {:synsem {:cat :noun, :pronoun true}},
+   :comp {:cat :noun, :pronoun true},
    :rule "vp-pronoun-phrasal",
-   :synsem {:cat :verb, :infl :present}},
+   :cat :verb,
+   :infl :present},
   :italiano/schema 'c21,
   :italiano/babel-helpers ['c21 'root-is-head-root]}
  {:rule "vp-pronoun-phrasal",
@@ -276,9 +279,10 @@
    menard.ug/comp-is-obj],
   :italiano/babel-spec
   {:head {:phrasal true},
-   :comp {:synsem {:cat :noun, :pronoun true}},
+   :comp {:cat :noun, :pronoun true},
    :rule "vp-pronoun-phrasal",
-   :synsem {:cat :verb, :infl :imperfetto}},
+   :cat :verb,
+   :infl :imperfetto},
   :italiano/schema 'c21,
   :italiano/babel-helpers ['c21 'root-is-head-root]}
  {:italiano/babel-helpers ['c21 'root-is-head],
@@ -291,10 +295,11 @@
    menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
-  {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
-   :comp {:synsem {:cat :noun, :reflexive true, :pronoun true}},
+  {:head {:phrasal false, :sem {:reflexive true}},
+   :comp {:cat :noun, :reflexive true, :pronoun true},
    :rule "vp-pronoun-nonphrasal",
-   :synsem {:cat :verb, :infl :present}},
+   :cat :verb,
+   :infl :present},
   :infl :present,
   :rule "vp-pronoun-nonphrasal",
   :head {:sem {:reflexive true}, :phrasal? false},
@@ -310,10 +315,11 @@
    menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
-  {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
-   :comp {:synsem {:cat :noun, :reflexive true, :pronoun true}},
+  {:head {:phrasal false, :sem {:reflexive true}},
+   :comp {:cat :noun, :reflexive true, :pronoun true},
    :rule "vp-pronoun-nonphrasal",
-   :synsem {:cat :verb, :infl :imperfetto}},
+   :cat :verb,
+   :infl :imperfetto},
   :infl :imperfetto,
   :rule "vp-pronoun-nonphrasal",
   :head {:sem {:reflexive true}, :phrasal? false},
@@ -329,10 +335,11 @@
    menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
-  {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
-   :comp {:synsem {:cat :noun, :reflexive true, :pronoun true}},
+  {:head {:phrasal false, :sem {:reflexive true}},
+   :comp {:cat :noun, :reflexive true, :pronoun true},
    :rule "vp-pronoun-nonphrasal",
-   :synsem {:cat :verb, :infl :future}},
+   :cat :verb,
+   :infl :future},
   :infl :future,
   :rule "vp-pronoun-nonphrasal",
   :head {:sem {:reflexive true}, :phrasal? false},
@@ -348,10 +355,11 @@
    menard.ug/comp-is-obj],
   :cat :verb,
   :italiano/babel-spec
-  {:head {:phrasal false, :synsem {:sem {:reflexive true}}},
-   :comp {:synsem {:cat :noun, :reflexive true, :pronoun true}},
+  {:head {:phrasal false, :sem {:reflexive true}},
+   :comp {:cat :noun, :reflexive true, :pronoun true},
    :rule "vp-pronoun-nonphrasal",
-   :synsem {:cat :verb, :infl :conditional}},
+   :cat :verb,
+   :infl :conditional},
   :infl :conditional,
   :rule "vp-pronoun-nonphrasal",
   :head {:sem {:reflexive true}, :phrasal? false},
@@ -367,8 +375,10 @@
   :cat :verb,
   :italiano/babel-spec
   {:rule "vp-32",
-   :head {:phrasal false, :synsem {:aux false}},
-   :synsem {:aux false, :infl :present, :cat :verb}},
+   :head {:phrasal false, :aux false},
+   :aux false,
+   :infl :present,
+   :cat :verb},
   :infl :present,
   :rule "vp-32",
   :head {:aux false, :phrasal? false},
@@ -383,8 +393,10 @@
   :cat :verb,
   :italiano/babel-spec
   {:rule "vp-32",
-   :head {:phrasal false, :synsem {:aux false}},
-   :synsem {:aux false, :infl :imperfetto, :cat :verb}},
+   :head {:phrasal false, :aux false},
+   :aux false,
+   :infl :imperfetto,
+   :cat :verb},
   :infl :imperfetto,
   :rule "vp-32",
   :head {:aux false, :phrasal? false},
@@ -397,7 +409,7 @@
    menard.ug/head-rule
    menard.ug/head-is-root],
   :italiano/babel-spec
-  {:head {:phrasal false, :synsem {:cat :sent-modifier}},
+  {:head {:phrasal false, :cat :sent-modifier},
    :rule "s-modifier"},
   :italiano/schema 'h10,
   :italiano/babel-helpers ['h10 'root-is-comp]}
@@ -410,12 +422,17 @@
   :cat :verb,
   :essere :top,
   :italiano/babel-spec
-  {:synsem {:subcat [], :essere :top, :cat :verb, :sem :top},
-   :comp {:synsem {:cat :prep, :subcat []}},
+  {:subcat [],
+   :essere :top,
+   :cat :verb,
+   :sem :top,
+   :comp {:cat :prep, :subcat []},
    :head
    {:modified false,
     :essere :top,
-    :synsem {:cat :verb, :sem :top, :subcat []}},
+    :cat :verb,
+    :sem :top,
+    :subcat []},
    :rule "s-modified-modifier-first"},
   :rule "s-modified-modifier-first",
   :subcat [],
@@ -433,11 +450,17 @@
   :cat :verb,
   :essere :top,
   :italiano/babel-spec
-  {:synsem {:subcat [], :cat :verb, :essere :top, :sem :top},
-   :comp {:synsem {:cat :prep, :subcat []}},
+  {:subcat [],
+   :cat :verb,
+   :essere :top,
+   :sem :top,
+   :comp {:cat :prep, :subcat []},
    :head
    {:modified false,
-    :synsem {:cat :verb, :essere :top, :sem :top, :subcat []}},
+    :cat :verb,
+    :essere :top,
+    :sem :top,
+    :subcat []},
    :rule "s-modified-modifier-last"},
   :rule "s-modified-modifier-last",
   :subcat [],

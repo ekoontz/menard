@@ -1,35 +1,19 @@
 {"affollato"
  [(let
-   [is-place
-    {:synsem {:sem {:place true}}}
-    than-this
-    {:pred :di, :mod is-place}]
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem
-       {:cat :adjective,
-        :sem
-        {:pred :affollato,
-         :arg1 is-place,
-         :arg2 is-place,
-         :comparative true},
-        :subcat
-        {:1 {:cat :noun, :sem is-place},
-         :2 {:cat :prep, :sem than-this}}}}
-      is-place)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem
-       {:cat :adjective, :sem {:pred :affolato, :comparative false}}}
-      is-place)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem))))],
+   [is-place {:sem {:place true}} than-this {:pred :di, :mod is-place}]
+   (dag_unify.core/unify
+    {:cat :adjective,
+     :sem
+     {:pred :affollato,
+      :arg1 is-place,
+      :arg2 is-place,
+      :comparative true},
+     :subcat
+     {:1 {:cat :noun, :sem is-place}, :2 {:cat :prep, :sem than-this}}}
+    is-place)
+   (dag_unify.core/unify
+    {:cat :adjective, :sem {:pred :affolato, :comparative false}}
+    is-place))],
  "alto"
  [{:cat :adjective,
    :sem {:pred :alto, :comparative false, :human true}}

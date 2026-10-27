@@ -69,6 +69,22 @@ Italian verb conjugation, and direct object pronouns in every language.
   "yo aprendo", "yo practico" and "imparo" stay intransitive. The lexicon has
   neither "praticare" nor any dutch "leren"/"oefenen".
 
+- "comment" needs a direct object, in every language that has the verb:
+  english "comment" carries the new `:transitive-only?` flag (with the
+  matching `:transitive-only` rule, the counterpart of `:intransitive-only?`;
+  `:subcat-frames-nonmodal` now requires `:transitive-only? false`, so the
+  intransitive and existential frames are not built), so "I comment" has no
+  sentence parse while "I comment it", "I comment a book" and "I comment him"
+  do, and a second, prepositional sense (`:prepositional-verb {:with "on"}`)
+  keeps "I comment on it" parsing; español "comentar" is
+  `:transitivity :transitive`, so "yo comento" no longer parses and "yo lo
+  comento" only has the transitive reading. Italiano "commentare" goes back to
+  being a plain verb (its `:subcat {:2 []}` is gone), so "lo commento" has
+  parses again and `takes-human-object?`/`object-less?` flip back: menard's
+  italian grammar has no way to *require* a complement (a full noun phrase is
+  attachable whatever the lexicon says, and the `s` rule only asks that subcat
+  be empty), so commentare is transitive but not transitive-only.
+
 - One verb whose object must be a person: italiano "abbracciare" (both its
   `:hug` and `:embrace` senses) carries `:sem {:obj {:human true}}`, so "lo
   abbraccio" keeps only the human reading of the clitic — a thing cannot be

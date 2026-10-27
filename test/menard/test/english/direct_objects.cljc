@@ -232,3 +232,13 @@
   (doseq [expression ["I attend" "I stay"]]
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
         expression)))
+
+(deftest comment-is-transitive-only
+  (testing "comment needs a direct object"
+    (is (empty? (sentence-parses "I comment")))
+    (doseq [expression ["I comment it" "I comment a book" "I comment him"]]
+      (is (seq (sentence-parses expression)) expression)
+      (is (some #(some? (u/get-in % [:sem :obj :pred])) (sentence-parses expression))
+          expression)))
+  (testing "\"comment on\" is its own prepositional sense"
+    (is (seq (sentence-parses "I comment on it")))))

@@ -185,11 +185,20 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
+(deftest commentare-takes-a-direct-object
+  (testing "commentare is not object-less, so its clitics work again"
+    (doseq [expression ["lo commento" "la commento" "li commento"]]
+      (is (seq (parse expression)) expression))
+    (is (some #(true? (u/get-in % [:sem :obj :human?])) (parse "lo commento")))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo commento"))))
+  (testing "a noun phrase is an object too"
+    (is (seq (parse "commento il libro")))))
+
 (deftest these-verbs-are-intransitive
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
                       "lo sembro" "la sembro" "li sembro"
                       "lo ceno" "la ceno"
-                      "lo vengo" "lo commento" "lo entro"
+                      "lo vengo" "lo entro"
                       "lo vivo" "lo cado" "lo nasco" "lo chiacchiero"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"

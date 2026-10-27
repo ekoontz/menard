@@ -240,7 +240,12 @@
           [{:intransitive-only? true
             :sem {:pred :come}
             :exceptions exceptions}])
- "comment" [{:sem {:pred :comment}}]
+ "comment" [{:transitive-only? true
+             ;; a comment has a subject matter, so this sense needs an
+             ;; object: "I comment the book", but not *"I comment".
+             :sem {:pred :comment}}
+            {:prepositional-verb {:with "on"}
+             :sem {:pred :comment-on}}]
  "compete" [{:sem {:pred :compete}}] 
  "complain" [{:sem {:pred :complain}}]
  "conceive" [{:sem {:pred :conceive}}]

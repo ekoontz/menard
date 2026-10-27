@@ -175,7 +175,10 @@
  "cobrar" [{:sem {:pred :charge-money}}
            {:sem {:pred :cash-checks}}]
 
- "comentar" [{:sem {:pred :comment}}]
+ "comentar" [;; as with leer: something to comment on, so the verb needs an
+             ;; object ("yo comento el libro", but not *"yo comento").
+             {:sem {:pred :comment}
+              :transitivity :transitive}]
  "comenzar" [{:sem {:pred :begin},
              :exceptions 
              [{:infl :preterito

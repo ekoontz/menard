@@ -144,3 +144,9 @@
   (doseq [expression ["yo lo asisto" "yo la asisto"]]
     (is (empty? (parse expression)) expression))
   (is (seq (parse "yo asisto"))))
+
+(deftest comentar-is-transitive-only
+  (testing "comentar needs a direct object, so the bare verb does not parse"
+    (is (empty? (parse "yo comento")))
+    (is (contains? (object-preds "yo lo comento") :it))
+    (is (contains? (object-preds "yo lo comento") :he))))

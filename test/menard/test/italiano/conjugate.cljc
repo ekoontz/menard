@@ -90,7 +90,6 @@
     (is (conjugate/object-less? "sembrare"))
     (is (conjugate/object-less? "cenare"))
     (is (conjugate/object-less? "venire"))
-    (is (conjugate/object-less? "commentare"))
     (is (conjugate/object-less? "entrare"))
     (is (conjugate/object-less? "riposare"))
     (is (conjugate/object-less? "vivere"))
@@ -101,6 +100,7 @@
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))
     (is (not (conjugate/object-less? "mangiare")))
+    (is (not (conjugate/object-less? "commentare")))
     (is (not (conjugate/object-less? "no-such-verb")))))
 
 (deftest chart-shape
@@ -111,11 +111,11 @@
 
 (deftest takes-human-object
   (testing "verbs that take a person as their direct object"
-    (doseq [canonical ["vedere"]]
+    (doseq [canonical ["vedere" "commentare"]]
       (is (conjugate/takes-human-object? canonical) canonical)))
   (testing "not the verbs that take no direct object"
     (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"
-                       "sembrare" "cenare" "venire" "commentare" "entrare"
+                       "sembrare" "cenare" "venire" "entrare"
                        "riposare" "vivere" "cadere" "nascere"
                        "chiacchierare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical)))

@@ -261,9 +261,8 @@
  [{:cat :verb, :sem {:pred :begin}} {:cat :verb, :sem {:pred :start}}],
  "commentare"
  [{:cat :verb,
-   ;; "commentare" comments *on* something: no direct object.
-   :sem {:pred :comment},
-   :subcat {:2 []}}],
+   ;; "commentare" comments *on* something: it takes a direct object.
+   :sem {:pred :comment}}],
  "comprare"
  [{:cat :verb,
    ;; as with giocare: something to buy, not someone.

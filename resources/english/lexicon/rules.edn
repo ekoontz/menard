@@ -156,6 +156,11 @@
        :inanimate-object? ::unspec}
   :then [{:inanimate-object? false}]}
 
+ {:rule :transitive-only-default-false
+  :if {:cat :verb
+       :transitive-only? ::unspec}
+  :then [{:transitive-only? false}]}
+
  {:rule :intransitive
   :if {:cat :verb
        :adjectival-verb? false
@@ -180,6 +185,32 @@
             :subcat {:1 {:sem subj}
                      :3 []}
             :reflexive? false}])}
+
+ ;; a verb like "comment", which needs a direct object: "I comment it", but
+ ;; not *"I comment". Unlike :intransitive-only?, which suppresses only the
+ ;; transitive frame, this suppresses the intransitive ones, so the verb has
+ ;; no parse until a complement fills subcat slot 2.
+ {:rule :transitive-only
+  :if {:cat :verb
+       :adjectival-verb? false
+       :transitive-only? true
+       :subcat {:2 ::unspec}
+       :sem {:subj {:existential? ::unspec}
+             :obj ::unspec}}
+  :then (let [subj (atom {:existential? false})
+              obj (atom {:existential? false})]
+          [{:reflexive? false
+            :subcat {:1 {:cat :noun
+                         :sem subj
+                         :subcat []}
+                     :2 {:cat :noun
+                         :reflexive? false
+                         :case :acc
+                         :sem obj
+                         :subcat []}
+                     :3 []}
+            :sem {:subj subj
+                  :obj obj}}])}
  
  {:rule :reflexive-defaults-to-both
   :if {:cat :verb
@@ -198,6 +229,7 @@
   :if {:cat :verb
        :reflexive? false
        :intransitive-only? false
+       :transitive-only? false
        :inanimate-object? false
        :nominal-verb? false
        :prepositional-verb? false

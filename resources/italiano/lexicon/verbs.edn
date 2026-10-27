@@ -2,40 +2,40 @@
  "abbassare"
  [{:cat :verb,
    ;; as with giocare: something to lower, not someone.
-   :sem {:pred :lower, :obj {:human false}}}],
+   :sem {:pred :lower, :obj {:human? false}}}],
  "abbracciare"
  (let
   [shared-part-of-abbracciare {:cat :verb}]
   [(dag_unify.core/unify
     ;; one hugs a person, not a thing.
-    {:sem {:pred :hug, :obj {:human true}}}
+    {:sem {:pred :hug, :obj {:human? true}}}
     shared-part-of-abbracciare)
    (dag_unify.core/unify
-    {:sem {:pred :embrace, :obj {:human true}}}
+    {:sem {:pred :embrace, :obj {:human? true}}}
     shared-part-of-abbracciare)]),
  "abitare" [{:cat :verb, :sem {:pred :live-a}}],
  "abituarsi"
- [{:cat :verb, :sem {:pred :get-used-to, :reflexive true}}],
+ [{:cat :verb, :sem {:pred :get-used-to, :reflexive? true}}],
  "accettare" [{:cat :verb, :sem {:pred :accept}}],
  "accompagnare" [{:cat :verb, :sem {:pred :accompany}}],
  "addormentarsi"
  [{:cat :verb,
-   :sem {:pred :fall-asleep, :reflexive true, :subj {:animate true}}}],
+   :sem {:pred :fall-asleep, :reflexive? true, :subj {:animate? true}}}],
  "aggiungere"
  [{:cat :verb, :sem {:pred :add}, :italiano {:passato "aggiunto"}}],
  "aiutare" [{:cat :verb, :sem {:pred :help}}],
- "alzarsi" [{:cat :verb, :sem {:pred :get-up, :reflexive true}}],
+ "alzarsi" [{:cat :verb, :sem {:pred :get-up, :reflexive? true}}],
  "amare" [{:cat :verb, :sem {:pred :love}}],
  "ammirare" [{:cat :verb, :sem {:pred :admire}}],
  "andare"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :subcat {:2 []},
-   :sem {:subj {:animate true}, :pred :go},
+   :sem {:subj {:animate? true}, :pred :go},
    :italiano
    {:italiano "andare",
-    :essere true,
-    :drop-e true,
+    :essere? true,
+    :drop-e? true,
     :future-stem "andr",
     :present
     {:1sing "vado",
@@ -44,7 +44,7 @@
      :1plur "andiamo",
      :2plur "andate",
      :3plur "vanno"}}}],
- "annoiarsi" [{:cat :verb, :sem {:pred :get-bored, :reflexive true}}],
+ "annoiarsi" [{:cat :verb, :sem {:pred :get-bored, :reflexive? true}}],
  "annunciare" [{:cat :verb, :sem {:pred :announce}}],
  "appoggiare" [{:cat :verb, :sem {:pred :support}}],
  "apprendere"
@@ -54,16 +54,16 @@
  "aprire"
  [{:cat :verb,
    ;; as with giocare: something to open, not someone.
-   :sem {:pred :open, :obj {:human false}},
+   :sem {:pred :open, :obj {:human? false}},
    :italiano {:passato "aperto"}}],
  "arrabbiarsi"
  [{:cat :verb,
-   :sem {:pred :get-angry, :reflexive true, :subj {:animate true}}}],
+   :sem {:pred :get-angry, :reflexive? true, :subj {:animate? true}}}],
  "arrampicarsi"
  [{:cat :verb,
-   :sem {:pred :climb, :reflexive true, :subj {:animate true}}}],
+   :sem {:pred :climb, :reflexive? true, :subj {:animate? true}}}],
  "arrivare"
- [{:essere true, :cat :verb, :sem {:pred :arrive}, :subcat {:2 []}}],
+ [{:essere? true, :cat :verb, :sem {:pred :arrive}, :subcat {:2 []}}],
  "ascoltare" [{:cat :verb, :sem {:pred :listen-to}}],
  "aspettare" [{:cat :verb, :sem {:pred :wait-for}}],
  "assicurare"
@@ -74,11 +74,11 @@
  (let
   [avere-common
    {:cat :verb,
-    :sem {:reflexive false},
+    :sem {:reflexive? false},
     :italiano
     {:italiano "avere",
      :future-stem "avr",
-     :drop-e true,
+     :drop-e? true,
      :present
      {:1sing "ho",
       :2sing "hai",
@@ -90,57 +90,57 @@
    (let [infl (atom :top)] {:infl infl, :italiano {:infl infl}})]
   [(dag_unify.core/unify
     ;; as with giocare: something to have, not someone.
-    {:sem {:pred :have, :obj {:human false}}, :note "avere (possess)"}
+    {:sem {:pred :have, :obj {:human? false}}, :note "avere (possess)"}
     avere-common)
    (dag_unify.core/unify
     ;; as with giocare: something to have, not someone.
-    {:sem {:pred :have, :obj {:human false}}, :note "avere (relation)"}
+    {:sem {:pred :have, :obj {:human? false}}, :note "avere (relation)"}
     avere-common)
    (dag_unify.core/unify
-    {:sem {:pred :have, :obj {:human false}},
+    {:sem {:pred :have, :obj {:human? false}},
      :note "avere (possess): unspecified object"}
     avere-common)
    (let
     [agr (atom :top)]
     (dag_unify.core/unify
      (dag_unify.core/unify
-      {:aux true,
+      {:aux? true,
        :sem {:tense :present, :aspect :perfect},
        :subcat
        {:2
         {:agr agr,
-         :sem {:reflexive false},
-         :subcat {:2 {:agr agr, :pronoun true}},
-         :essere false}},
+         :sem {:reflexive? false},
+         :subcat {:2 {:agr agr, :pronoun? true}},
+         :essere? false}},
        :note "passato prossimo transitive"}
       avere-common)
      avere-aux))
    (dag_unify.core/unify
     (dag_unify.core/unify
-     {:aux true,
+     {:aux? true,
       :infl :present,
       :sem {:tense :present, :aspect :perfect},
       :subcat
       {:2
-       {:sem {:reflexive false},
-        :essere false,
+       {:sem {:reflexive? false},
+        :essere? false,
         :infl :passato,
-        :reflexive false,
+        :reflexive? false,
         :subcat {:2 []}}},
       :note "passato prossimo intransitive"}
      avere-common)
     avere-aux)
    (dag_unify.core/unify
     (dag_unify.core/unify
-     {:aux true,
+     {:aux? true,
       :infl :imperfetto,
       :sem {:tense :past, :aspect :pluperfect},
       :subcat
       {:2
-       {:sem {:reflexive false},
+       {:sem {:reflexive? false},
         :infl :passato,
-        :essere false,
-        :reflexive false,
+        :essere? false,
+        :reflexive? false,
         :subcat {:2 []}}},
       :note "trapassato intransitive"}
      avere-common)
@@ -150,12 +150,12 @@
     (dag_unify.core/unify
      {:sem {:pred :need, :obj need-obj},
       :subcat
-      {:1 {:sem {:living true}},
+      {:1 {:sem {:living? true}},
        :2
        {:cat :noun,
         :subcat [],
         :sem {:pred :bisogno-di, :obj need-obj}}},
-      :allow-intransitivize false}
+      :allow-intransitivize? false}
      avere-common))]),
  "ballare"
  [{:cat :verb,
@@ -164,8 +164,8 @@
  "bere"
  [{:cat :verb,
    ;; as with giocare: something to drink, not someone.
-   :sem {:pred :drink, :subj {:animate true},
-         :obj {:human false, :drinkable true}},
+   :sem {:pred :drink, :subj {:animate? true},
+         :obj {:human? false, :drinkable? true}},
    :italiano
    {:passato "bevuto",
     :future-stem "berr",
@@ -185,7 +185,7 @@
      :3plur "bevono"},
     :gerund "bevendo"}}],
  "cadere"
- [{:essere true,
+ [{:essere? true,
    :cat :verb,
    ;; "cadere" is intransitive: one falls, one does not fall something.
    :sem {:pred :fall},
@@ -193,18 +193,18 @@
    :italiano {:future-stem "cadr"}}],
  "cambiare" [{:cat :verb, :sem {:pred :change}}],
  "cambiarsi"
- [{:cat :verb, :sem {:pred :change-clothes, :reflexive true}}],
+ [{:cat :verb, :sem {:pred :change-clothes, :reflexive? true}}],
  "camminare" [{:sem {:pred :walk}, :cat :verb}],
  "cancellare"
  [{:cat :verb,
    ;; as with giocare: something to erase, not someone.
-   :sem {:pred :erase, :obj {:human false}}}],
+   :sem {:pred :erase, :obj {:human? false}}}],
  "cantare"
  [{:cat :verb,
    ;; as with giocare: something to sing, not someone.
-   :sem {:pred :sing, :obj {:human false}}}],
+   :sem {:pred :sing, :obj {:human? false}}}],
  "capire"
- [{:cat :verb, :sem {:pred :understand}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :understand}, :italiano {:boot-verb? true}}],
  "caricare"
  [{:cat :verb,
    :sem {:pred :charge},
@@ -233,28 +233,28 @@
    number
    (atom :top)
    name-semantics
-   {:human human}]
+   {:human? human}]
   [{:cat :verb,
-    :sem {:pred :be-called, :reflexive true, :iobj name-semantics},
+    :sem {:pred :be-called, :reflexive? true, :iobj name-semantics},
     :subcat
     {:1
      {:agr {:gender gender, :number number},
-      :sem {:human human},
-      :propernoun false},
+      :sem {:human? human},
+      :propernoun? false},
      :3
      {:agr {:gender gender, :number number},
       :cat :noun,
       :sem name-semantics,
-      :propernoun true}}}]),
+      :propernoun? true}}}]),
  "chiedere"
  [{:cat :verb,
-   :sem {:subj {:human true}, :pred :ask-for},
+   :sem {:subj {:human? true}, :pred :ask-for},
    :italiano {:passato "chiesto"}}],
  "chiudere"
  [{:cat :verb, :sem {:pred :close}, :italiano {:passato "chiuso"}}],
  "colpire"
  (let
-  [common {:italiano {:boot-verb true}}]
+  [common {:italiano {:boot-verb? true}}]
   [(dag_unify.core/unify {:cat :verb, :sem {:pred :hit}} common)
    (dag_unify.core/unify {:cat :verb, :sem {:pred :strike}} common)]),
  "cominciare"
@@ -267,7 +267,7 @@
  "comprare"
  [{:cat :verb,
    ;; as with giocare: something to buy, not someone.
-   :sem {:pred :buy, :obj {:human false}}}],
+   :sem {:pred :buy, :obj {:human? false}}}],
  "condividere"
  [{:cat :verb, :sem {:pred :share}, :italiano {:passato "condiviso"}}],
  "conoscere"
@@ -275,8 +275,8 @@
    :sem {:pred :know-c},
    :italiano {:passato "conosciuto"}}],
  "conservare"
- [{:cat :verb, :sem {:pred :conserve, :obj {:human false}}}
-  {:cat :verb, :sem {:pred :preserve, :obj {:human false}}}],
+ [{:cat :verb, :sem {:pred :conserve, :obj {:human? false}}}
+  {:cat :verb, :sem {:pred :preserve, :obj {:human? false}}}],
  "considerare" [{:cat :verb, :sem {:pred :consider}}],
  "contare" [{:sem {:pred :count}, :cat :verb}],
  "continuare" [{:cat :verb, :sem {:pred :continue}}],
@@ -289,7 +289,7 @@
    :sem {:pred :correspond},
    :italiano {:passato "corrisposto"}}],
  "creare" [{:cat :verb, :sem {:pred :create}}],
- "credere" [{:cat :verb, :sem {:subj {:human true}, :pred :believe}}],
+ "credere" [{:cat :verb, :sem {:subj {:human? true}, :pred :believe}}],
  "dare"
  [{:cat :verb,
    ;; dare gives something *to someone*: see
@@ -314,7 +314,7 @@
   [shared-part-of-dire
    {:cat :verb,
     :italiano
-    {:drop-e false,
+    {:drop-e? false,
      :present
      {:1sing "dico",
       :2sing "dici",
@@ -339,15 +339,15 @@
     {:sem {:pred :tell}, :indirect-object? true}
     shared-part-of-dire)]),
  "disegnare" [{:cat :verb, :sem {:pred :draw}}],
- "diventare" [{:essere true, :cat :verb, :sem {:pred :become}}],
- "divertirsi" [{:cat :verb, :sem {:pred :have-fun, :reflexive true}}],
+ "diventare" [{:essere? true, :cat :verb, :sem {:pred :become}}],
+ "divertirsi" [{:cat :verb, :sem {:pred :have-fun, :reflexive? true}}],
  "dormire" [{:cat :verb, :sem {:pred :sleep}, :subcat {:2 []}}],
  "dovere"
  [{:cat :verb,
    :sem {:pred :have-to},
    :italiano
    {:future-stem "dovr",
-    :drop-e true,
+    :drop-e? true,
     :present
     {:1sing "devo",
      :2sing "devi",
@@ -357,7 +357,7 @@
      :3plur "devono"}}}],
  "entrare"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    ;; "entrare" is intransitive: one enters, one does not enter something
    ;; (entrare *in* something takes a preposition, which this italian grammar
    ;; has no frame for).
@@ -365,7 +365,7 @@
    :subcat {:2 []}}],
  "esistere"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :exist},
    :italiano {:passato "esistito"}}],
  "esprimere"
@@ -376,7 +376,7 @@
  (let
   [essere-common
    {:cat :verb,
-    :essere true,
+    :essere? true,
     :italiano
     {:future-stem "sar",
      :infinitive "essere",
@@ -426,7 +426,7 @@
    subj-obj-humanness
    (let
     [human (atom :top)]
-    {:sem {:subj {:human human}, :obj {:human human}}})]
+    {:sem {:subj {:human? human}, :obj {:human? human}}})]
   [(dag_unify.core/unify
     (dag_unify.core/unify
      {:cat :verb,
@@ -435,7 +435,7 @@
       {:1 {:cat :noun},
        :2
        {:cat :adjective,
-        :sem {:comparative false},
+        :sem {:comparative? false},
         :subcat {:1 :top, :2 []}}},
       :notes "essere-adjective"}
      essere-common)
@@ -444,27 +444,27 @@
     [pred (atom :top) obj (atom :top)]
     (dag_unify.core/unify
      {:cat :verb,
-      :aux false,
+      :aux? false,
       :sem
-      {:pred pred, :obj obj, :reflexive false, :shared-with-obj true},
+      {:pred pred, :obj obj, :reflexive? false, :shared-with-obj? true},
       :subcat
       {:1 {:cat :noun},
        :2
        {:cat :prep,
-        :reflexive false,
+        :reflexive? false,
         :sem {:obj obj, :pred pred},
         :subcat []},
        :3 []},
       :notes "essere-prepositional-phrase"}
      essere-common))
    (dag_unify.core/unify
-    {:sem {:pred :be, :reflexive false},
+    {:sem {:pred :be, :reflexive? false},
      :subcat
      {:1
       {:cat :noun,
        :agr {:person :3rd},
-       :pronoun true,
-       :sem {:null true}}},
+       :pronoun? true,
+       :sem {:null? true}}},
      :notes "existential"}
     essere-common)
    (dag_unify.core/unify
@@ -474,27 +474,27 @@
        :subcat
        {:1 {:cat :noun},
         :2
-        {:cat :noun, :pronoun {:not true}, :def {:not :demonstrativo}}},
-       :sem {:pred :be, :activity false, :discrete false},
+        {:cat :noun, :pronoun? {:not? true}, :def {:not? :demonstrativo}}},
+       :sem {:pred :be, :activity? false, :discrete? false},
        :notes "copula"}
       essere-common)
      gender-and-number-agreement)
     subj-obj-humanness)
    (dag_unify.core/unify
     (dag_unify.core/unify
-     {:aux true,
+     {:aux? true,
       :infl :present,
       :sem {:tense :present, :aspect :perfect},
-      :subcat {:2 {:essere true, :cat :verb, :infl :passato}},
+      :subcat {:2 {:essere? true, :cat :verb, :infl :passato}},
       :notes "essere-aux-passato"}
      essere-common)
     essere-aux-subject-agreement)
    (dag_unify.core/unify
     (dag_unify.core/unify
-     {:aux true,
+     {:aux? true,
       :infl :imperfetto,
       :sem {:tense :past, :aspect :pluperfect},
-      :subcat {:2 {:essere true, :cat :verb, :infl :passato}},
+      :subcat {:2 {:essere? true, :cat :verb, :infl :passato}},
       :notes "essere-aux-trapassato"}
      essere-common)
     essere-aux-subject-agreement)]),
@@ -505,7 +505,7 @@
    {:cat :verb,
     :italiano
     {:italiano "fare",
-     :drop-e false,
+     :drop-e? false,
      :passato "fatto",
      :future-stem "far",
      :gerund "facendo",
@@ -525,24 +525,24 @@
       :3plur "fanno"}}}]
   [(dag_unify.core/unify
     ;; as with giocare: something to do, not someone.
-    {:sem {:pred :do, :obj {:human false}}}
+    {:sem {:pred :do, :obj {:human? false}}}
     shared-part-of-fare)
    (dag_unify.core/unify
-    {:sem {:pred :make, :obj {:human false}}}
+    {:sem {:pred :make, :obj {:human? false}}}
     shared-part-of-fare)]),
  "ferire"
- [{:cat :verb, :sem {:pred :wound}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :wound}, :italiano {:boot-verb? true}}],
  "fermare" [{:cat :verb, :sem {:pred :stop}}],
  "fermarsi"
- [{:cat :verb, :sem {:pred :stop-oneself, :reflexive true}}],
+ [{:cat :verb, :sem {:pred :stop-oneself, :reflexive? true}}],
  "finire"
- [{:cat :verb, :sem {:pred :finish}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :finish}, :italiano {:boot-verb? true}}],
  "formare"
  [{:cat :verb,
    ;; something to form, not someone.
-   :sem {:pred :form, :obj {:human false}}}],
+   :sem {:pred :form, :obj {:human? false}}}],
  "fornire"
- [{:cat :verb, :sem {:pred :furnish}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :furnish}, :italiano {:boot-verb? true}}],
  "frequentare"
  [{:cat :verb,
    :sem {:pred :attend},
@@ -550,13 +550,13 @@
  "fumare" [{:cat :verb, :sem {:pred :smoke}}],
  "funzionare" [{:cat :verb, :sem {:pred :work-nonhuman}}],
  "gestire"
- [{:sem {:pred :manage}, :cat :verb, :italiano {:boot-verb true}}],
+ [{:sem {:pred :manage}, :cat :verb, :italiano {:boot-verb? true}}],
  "giocare"
  [{:cat :verb,
    :sem {:pred :play-games,
          ;; play takes an object, but not a person: "gioco la partita",
          ;; and "lo gioco" for a song, but not *"lo gioco" for someone.
-         :obj {:human false}},
+         :obj {:human? false}},
    :italiano {:future-stem "giocher"}}],
  "gridare" [{:cat :verb, :sem {:pred :yell}}],
  "guadagnare" [{:cat :verb, :sem {:pred :earn}}],
@@ -564,30 +564,30 @@
  "guidare"
  [{:cat :verb,
    ;; something to drive, not someone.
-   :sem {:pred :drive, :obj {:human false}}}],
+   :sem {:pred :drive, :obj {:human? false}}}],
  "imparare" [{:cat :verb,
               ;; as with leggere: something to learn, not someone.
-              :sem {:pred :learn-i, :obj {:human false}}}],
+              :sem {:pred :learn-i, :obj {:human? false}}}],
  "impegnare" [{:cat :verb, :sem {:pred :engage}}],
  "incontrare" [{:cat :verb, :sem {:pred :meet}}],
  "indossare" [{:cat :verb, :sem {:pred :wear-i}}],
  "informare" [{:cat :verb, :sem {:pred :inform}}],
  "innamorarsi"
- [{:cat :verb, :sem {:pred :fall-in-love, :reflexive true}}],
+ [{:cat :verb, :sem {:pred :fall-in-love, :reflexive? true}}],
  "insegnare" [{:cat :verb, :sem {:pred :teach}}],
  "interrompere"
  [{:cat :verb,
    :sem {:pred :interrupt},
    :italiano {:passato "interrotto"}}],
- "lamentarsi" [{:cat :verb, :sem {:pred :complain, :reflexive true}}],
+ "lamentarsi" [{:cat :verb, :sem {:pred :complain, :reflexive? true}}],
  "lasciare" [{:cat :verb, :sem {:pred :leave-behind}}],
  "lavare" [{:cat :verb, :sem {:pred :wash}}],
- "lavarsi" [{:cat :verb, :sem {:pred :wash-oneself, :reflexive true}}],
+ "lavarsi" [{:cat :verb, :sem {:pred :wash-oneself, :reflexive? true}}],
  "lavorare" [{:cat :verb, :sem {:pred :work-human}}],
  "leggere"
  [{:cat :verb,
    ;; as with giocare: something to read, not someone.
-   :sem {:discrete false, :pred :read, :obj {:human false}},
+   :sem {:discrete? false, :pred :read, :obj {:human? false}},
    :italiano {:passato "letto"}}],
  "macchiare" [{:cat :verb, :sem {:pred :stain}}],
  "mancare"
@@ -599,24 +599,24 @@
  [{:cat :verb,
    ;; as with giocare: something to eat, not someone.
    :sem {:pred :eat,
-         :subj {:animate true},
-         :obj {:human false, :edible true}}}],
+         :subj {:animate? true},
+         :obj {:human? false, :edible? true}}}],
  "mentire" [{:cat :verb, :sem {:pred :lie}}],
  "mettere"
  [{:cat :verb,
    ;; as with giocare: something to put, not someone.
-   :sem {:pred :put, :obj {:human false}},
+   :sem {:pred :put, :obj {:human? false}},
    :italiano {:passato "messo"}}],
  "mettersi"
  [{:cat :verb,
-   :sem {:pred :put-oneself, :reflexive true},
+   :sem {:pred :put-oneself, :reflexive? true},
    :italiano {:passato "messo"}}],
  "migliorare" [{:cat :verb, :sem {:pred :improve}}],
  "misurare" [{:cat :verb, :sem {:pred :measure}}],
  "moltiplicare" [{:cat :verb, :sem {:pred :multiply}}],
  "morire"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :die},
    :subcat {:2 []},
    :italiano
@@ -633,7 +633,7 @@
  [{:cat :verb, :sem {:pred :move}, :italiano {:passato "mosso"}}],
  "nascere"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    ;; "nascere" is intransitive: one is born, one does not be-born something.
    :sem {:pred :be-born},
    :subcat {:2 []},
@@ -654,21 +654,21 @@
  "pagare" [{:cat :verb, :sem {:pred :pay}}],
  "parlare"
  [;; as with giocare: one speaks a language or a word, not a person.
-  {:cat :verb, :sem {:pred :speak, :obj {:human false}}}
-  {:cat :verb, :sem {:pred :talk, :obj {:human false}}}],
- "partire" [{:essere true, :cat :verb, :sem {:pred :leave-trip}}],
+  {:cat :verb, :sem {:pred :speak, :obj {:human? false}}}
+  {:cat :verb, :sem {:pred :talk, :obj {:human? false}}}],
+ "partire" [{:essere? true, :cat :verb, :sem {:pred :leave-trip}}],
  "passare" [{:cat :verb, :sem {:pred :pass}}],
  "pensare"
  [{:cat :verb,
    ;; as with giocare: something to think, not someone.
-   :sem {:pred :think, :obj {:human false}}}],
+   :sem {:pred :think, :obj {:human? false}}}],
  "perdere"
  [{:cat :verb, :sem {:pred :lose}, :italiano {:passato "perso"}}],
  "pettinarsi"
- [{:cat :verb, :sem {:pred :comb-oneself, :reflexive true}}],
+ [{:cat :verb, :sem {:pred :comb-oneself, :reflexive? true}}],
  "piacere"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :be-pleasant},
    :italiano
    {:passato "piaciuto",
@@ -686,7 +686,7 @@
    {:cat :verb,
     :italiano
     {:future-stem "potr",
-     :drop-e true,
+     :drop-e? true,
      :present
      {:1sing "posso",
       :2sing "puoi",
@@ -699,13 +699,13 @@
     {:sem {:pred :be-able-to}}
     shared-part-of-potere)]),
  "preferire"
- [{:cat :verb, :sem {:pred :prefer}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :prefer}, :italiano {:boot-verb? true}}],
  "prendere"
  [{:cat :verb, :sem {:pred :grab}, :italiano {:passato "preso"}}],
  "prenotare" [{:cat :verb, :sem {:pred :reserve}}],
- "preoccuparsi" [{:cat :verb, :sem {:pred :worry, :reflexive true}}],
+ "preoccuparsi" [{:cat :verb, :sem {:pred :worry, :reflexive? true}}],
  "preparare" [{:cat :verb, :sem {:pred :prepare}}],
- "prepararsi" [{:cat :verb, :sem {:pred :get-ready, :reflexive true}}],
+ "prepararsi" [{:cat :verb, :sem {:pred :get-ready, :reflexive? true}}],
  "presentare"
  (let
   [common {:cat :verb}]
@@ -714,18 +714,18 @@
  "prestare"
  [{:cat :verb,
    ;; something to lend, not someone.
-   :sem {:pred :lend, :obj {:human false}}}],
+   :sem {:pred :lend, :obj {:human? false}}}],
  "pulire"
  [{:cat :verb,
    ;; as with giocare: something to clean, not someone.
-   :sem {:pred :clean, :obj {:human false}},
-   :italiano {:boot-verb true}}],
+   :sem {:pred :clean, :obj {:human? false}},
+   :italiano {:boot-verb? true}}],
  "punire"
- [{:cat :verb, :sem {:pred :punish}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :punish}, :italiano {:boot-verb? true}}],
  "raccontare" [{:cat :verb, :sem {:pred :recount}}],
  "radersi"
  [{:cat :verb,
-   :sem {:pred :shave, :reflexive true},
+   :sem {:pred :shave, :reflexive? true},
    :subcat {:1 {:agr {:gender :masc}}},
    :italiano {:passato "raso"}}],
  "recuperare" [{:cat :verb, :sem {:pred :recover}}],
@@ -736,14 +736,14 @@
   [(dag_unify.core/unify {:sem {:pred :render}} common)
    (dag_unify.core/unify {:sem {:pred :give-back-return-ren}} common)]),
  "restare"
- [{:essere true,
+ [{:essere? true,
    :cat :verb,
    :sem {:pred :remain-re},
    :subcat {:2 []}}],
  "restituire"
  [{:cat :verb,
    :sem {:pred :give-back-return-res},
-   :italiano {:boot-verb true}}],
+   :italiano {:boot-verb? true}}],
  "ricevere" [{:cat :verb, :sem {:pred :receive}}],
  "riconoscere"
  [{:cat :verb,
@@ -753,13 +753,13 @@
  "riempire"
  [{:cat :verb,
    ;; as with giocare: something to fill, not someone.
-   :sem {:pred :fill, :obj {:human false}},
+   :sem {:pred :fill, :obj {:human? false}},
    :italiano
    {:present
     {:1sing "riempio", :3sing "riempie", :3plur "riempiono"}}}],
  "rimanere"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :remain-ri},
    :italiano
    {:passato "rimasto",
@@ -768,7 +768,7 @@
  "riparare"
  [{:cat :verb,
    ;; as with giocare: something to repair, not someone.
-   :sem {:pred :repair, :obj {:human false}}}],
+   :sem {:pred :repair, :obj {:human? false}}}],
  "ripetere" [{:cat :verb, :sem {:pred :repeat}}],
  "riposare"
  [{:cat :verb,
@@ -778,12 +778,12 @@
  "riposarsi"
  [{:cat :verb,
    :sem
-   {:pred :rest-oneself, :reflexive true, :subj {:animate true}}}],
+   {:pred :rest-oneself, :reflexive? true, :subj {:animate? true}}}],
  "riscaldare" [{:cat :verb, :sem {:pred :warm-up}}],
  "rispondere"
  [{:cat :verb, :sem {:pred :answer}, :italiano {:passato "risposto"}}],
- "ritornare" [{:cat :verb, :sem {:pred :return-r}, :essere true}],
- "riuscire" [{:cat :verb, :essere true, :sem {:pred :succeed}}],
+ "ritornare" [{:cat :verb, :sem {:pred :return-r}, :essere? true}],
+ "riuscire" [{:cat :verb, :essere? true, :sem {:pred :succeed}}],
  "rompere"
  [{:cat :verb, :sem {:pred :break}, :italiano {:passato "rotto"}}],
  "rovinare" [{:cat :verb, :sem {:pred :ruin}}],
@@ -792,7 +792,7 @@
  (let
   [common
    {:cat :verb,
-    :essere true,
+    :essere? true,
     :italiano
     {:italiano "salire", :present {:1sing "salgo", :3plur "salgono"}}}]
   [(dag_unify.core/unify {:sem {:pred :get-on}} common)
@@ -801,7 +801,7 @@
  [{:cat :verb,
    ;; one knows a thing or a fact, not a person (that is "conoscere"); the
    ;; constraint leaves the human reading of a clitic out.
-   :sem {:pred :know-s, :obj {:human false}},
+   :sem {:pred :know-s, :obj {:human? false}},
    :italiano
    {:present
     {:1sing "so",
@@ -810,16 +810,16 @@
      :1plur "sappiamo",
      :3plur "sanno"},
     :future-stem "sapr"}}],
- "scappare" [{:cat :verb, :essere true, :sem {:pred :escape}}],
+ "scappare" [{:cat :verb, :essere? true, :sem {:pred :escape}}],
  "scaricare" [{:cat :verb, :sem {:pred :download}}],
  "scattare" [{:cat :verb, :sem {:pred :snap-pictures}}],
  "scendere"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :get-off},
    :italiano {:passato "sceso"}}
   {:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :go-downstairs},
    :italiano {:passato "sceso"}}],
  "scrivere"
@@ -829,7 +829,7 @@
    :italiano {:passato "scritto"}}],
  "sedersi"
  [{:cat :verb,
-   :sem {:pred :sit-down, :reflexive true, :subj {:human true}},
+   :sem {:pred :sit-down, :reflexive? true, :subj {:human? true}},
    :italiano
    {:present
     {:1sing "siedo",
@@ -841,14 +841,14 @@
  "seguire" [{:cat :verb, :sem {:pred :follow}}],
  "sembrare"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    ;; "sembrare" is intransitive: one seems *to be* something, one does not
    ;; seem *someone*.
    :sem {:pred :seem},
    :subcat {:2 []}}],
  "sentire" [{:cat :verb, :sem {:pred :hear}}],
  "servire"
- [{:essere true, :cat :verb, :sem {:pred :be-necessary-s...}}],
+ [{:essere? true, :cat :verb, :sem {:pred :be-necessary-s...}}],
  "sgridare" [{:cat :verb, :sem {:pred :scold}}],
  "sistemare" [{:cat :verb, :sem {:pred :organize-systematically}}],
  "sopportare" [{:cat :verb, :sem {:pred :endure}}],
@@ -857,20 +857,20 @@
  "sparire"
  [{:cat :verb,
    :sem {:pred :disappear-sp},
-   :italiano {:boot-verb true}}],
+   :italiano {:boot-verb? true}}],
  "spedire"
- [{:cat :verb, :sem {:pred :send-s}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :send-s}, :italiano {:boot-verb? true}}],
  "spegnere"
  [{:cat :verb,
    ;; as with giocare: something to turn off, not someone.
-   :sem {:pred :turn-off, :obj {:human false}},
+   :sem {:pred :turn-off, :obj {:human? false}},
    :italiano
    {:passato "spento",
     :present {:1sing "spengo", :3plur "spengono"}}}],
  "spendere"
  [{:cat :verb,
    ;; money is spent, not people.
-   :sem {:pred :spend, :obj {:human false}},
+   :sem {:pred :spend, :obj {:human? false}},
    :italiano {:passato "speso"}}],
  "spiegare" [{:cat :verb, :sem {:pred :explain}}],
  "spostare" [{:cat :verb, :sem {:pred :displace}}],
@@ -880,43 +880,43 @@
  (let
   [common
    {:cat :verb,
-    :essere true,
+    :essere? true,
     :italiano
     {:future-stem "star", :present {:2sing "stai", :3plur "stanno"}}}]
   [(dag_unify.core/unify {:sem {:pred :stay}, :subcat {:2 []}} common)
    (dag_unify.core/unify
-    {:aux true,
+    {:aux? true,
      :infl :present,
      :sem {:tense :present, :aspect :progressive},
      :subcat
      {:2
       {:cat :verb,
        :infl :participle,
-       :sem {:reflexive true},
-       :subcat {:1 :top, :2 {:reflexive true}}}}}
+       :sem {:reflexive? true},
+       :subcat {:1 :top, :2 {:reflexive? true}}}}}
     common)
    (dag_unify.core/unify
-    {:aux true,
+    {:aux? true,
      :infl :present,
      :sem {:tense :present, :aspect :progressive},
      :subcat
      {:2
       {:cat :verb,
        :infl :participle,
-       :sem {:reflexive false},
-       :subcat {:1 {:reflexive false}, :2 []}}}}
+       :sem {:reflexive? false},
+       :subcat {:1 {:reflexive? false}, :2 []}}}}
     common)]),
  "studiare" [{:cat :verb, :sem {:pred :study}}],
  "suonare"
  [{:cat :verb,
-   :sem {:subj {:human true},
+   :sem {:subj {:human? true},
          :pred :play-music,
          ;; as with giocare: an instrument or a piece, not a person.
-         :obj {:human false}}}],
- "svegliarsi" [{:cat :verb, :sem {:pred :wake-up, :reflexive true}}],
+         :obj {:human? false}}}],
+ "svegliarsi" [{:cat :verb, :sem {:pred :wake-up, :reflexive? true}}],
  "svenire"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    :sem {:pred :faint},
    :subcat {:2 []},
    :italiano
@@ -931,7 +931,7 @@
  "tagliare"
  [{:cat :verb,
    ;; as with giocare: something to cut, not someone.
-   :sem {:pred :cut, :obj {:human false}}}],
+   :sem {:pred :cut, :obj {:human? false}}}],
  "telefonare" [{:cat :verb, :sem {:pred :telephone}}],
  "tenere"
  (let
@@ -945,9 +945,9 @@
   [(dag_unify.core/unify {:sem {:pred :hold}} common)
    (dag_unify.core/unify {:sem {:pred :keep}} common)]),
  "tirare" [{:cat :verb, :sem {:pred :throw-t}}],
- "tornare" [{:cat :verb, :sem {:pred :return-t}, :essere true}],
+ "tornare" [{:cat :verb, :sem {:pred :return-t}, :essere? true}],
  "trasferire"
- [{:cat :verb, :sem {:pred :transfer}, :italiano {:boot-verb true}}],
+ [{:cat :verb, :sem {:pred :transfer}, :italiano {:boot-verb? true}}],
  "trattare" [{:cat :verb, :sem {:pred :treat}}],
  "trovare" [{:cat :verb, :sem {:pred :find}}],
  "usare" [{:cat :verb, :sem {:pred :use}}],
@@ -955,7 +955,7 @@
  (let
   [common
    {:cat :verb,
-    :essere true,
+    :essere? true,
     :italiano
     {:present
      {:1sing "esco", :2sing "esci", :3sing "esce", :3plur "escono"}}}]
@@ -966,10 +966,10 @@
    :sem {:pred :see},
    :italiano {:passato "visto", :future-stem "vedr"}}],
  "vendere" [{:cat :verb, :sem {:pred :sell
-                               :obj {:human false}}}]
+                               :obj {:human? false}}}]
  "venire"
  [{:cat :verb,
-   :essere true,
+   :essere? true,
    ;; "venire" is intransitive: one comes, one does not come something.
    :sem {:pred :come},
    :subcat {:2 []},
@@ -978,22 +978,22 @@
     :present
     {:1sing "vengo", :2sing "vieni", :3sing "viene", :3plur "vengono"},
     :future-stem "verr"}}],
- "vestirsi" [{:cat :verb, :sem {:pred :get-dressed, :reflexive true}}],
+ "vestirsi" [{:cat :verb, :sem {:pred :get-dressed, :reflexive? true}}],
  "vincere"
  [{:cat :verb, :sem {:pred :win}, :italiano {:passato "vinto"}}],
  "vivere"
  [{:cat :verb,
    ;; "vivere" is intransitive: one lives, one does not live something.
-   :sem {:subj {:living true}, :pred :live-v},
+   :sem {:subj {:living? true}, :pred :live-v},
    :subcat {:2 []},
-   :essere true,
+   :essere? true,
    :italiano {:passato "vissuto", :future-stem "vivr"}}],
  "volere"
  [{:cat :verb,
    :sem {:pred :want},
    :italiano
    {:future-stem "vorr",
-    :drop-e true,
+    :drop-e? true,
     :present
     {:1sing "voglio",
      :2sing "vuoi",

@@ -1,344 +1,344 @@
 [{:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)esa") "$1eso"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:g 1]}
  {:g [(re-pattern "arsi$") "ata"],
   :p [(re-pattern "(.*)esa") "$1eso"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:g 2]}
  {:g [(re-pattern "ere$") "uta"],
   :p [(re-pattern "(.*)esa") "$1eso"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:g 3]}
  {:g [(re-pattern "ersi$") "uta"],
   :p [(re-pattern "(.*)esa") "$1eso"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:g 4]}
  {:g [(re-pattern "ire$") "ita"],
   :p [(re-pattern "(.*)esa") "$1eso"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:g 5]}
  {:g [(re-pattern "irsi$") "ita"],
   :p [(re-pattern "(.*)esa") "$1eso"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:g 6]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)([aiu])ta") "$1$2to"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 2]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)tita") "$1tito"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 3]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)asta") "$1asto"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 4]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)ata") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 5]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)ata") "$1arsi"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 6]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)ita") "$1ire"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 7]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)ita") "$1irsi"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 8]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)ta") "$1ire"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 9]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)uta") "$1ere"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 10]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)uta") "$1ersi"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 11]}
  {:g [(re-pattern "are$") "ata"],
   :p [(re-pattern "(.*)uta") "$1uto"],
   :u
-  {:essere true, :agr {:number :sing, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :fem}, :infl :passato},
   :italiano/pair [:p 12]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ese") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:g 1]}
  {:g [(re-pattern "arsi$") "ate"],
   :p [(re-pattern "(.*)ese") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:g 2]}
  {:g [(re-pattern "ere$") "ute"],
   :p [(re-pattern "(.*)ese") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:g 3]}
  {:g [(re-pattern "ersi$") "ute"],
   :p [(re-pattern "(.*)ese") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:g 4]}
  {:g [(re-pattern "ire$") "ite"],
   :p [(re-pattern "(.*)ese") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:g 5]}
  {:g [(re-pattern "irsi$") "ite"],
   :p [(re-pattern "(.*)ese") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:g 6]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)([aiu])te") "$1$2to"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 2]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)tite") "$1tito"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 3]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)aste") "$1asto"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 4]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ate") "$1are"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 6]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ate") "$1arsi"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 7]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ite") "$1ire"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 8]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ite") "$1irsi"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 9]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)te") "$1ire"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 10]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ute") "$1ere"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 11]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ute") "$1ersi"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 12]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ute") "$1irsi"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 13]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ute") "$1ire"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 14]}
  {:g [(re-pattern "are$") "ate"],
   :p [(re-pattern "(.*)ute") "$1uto"],
   :u
-  {:essere true, :agr {:number :plur, :gender :fem}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :fem}, :infl :passato},
   :italiano/pair [:p 15]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)esi") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:g 1]}
  {:g [(re-pattern "arsi$") "ati"],
   :p [(re-pattern "(.*)esi") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:g 2]}
  {:g [(re-pattern "ere$") "uti"],
   :p [(re-pattern "(.*)esi") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:g 3]}
  {:g [(re-pattern "ersi$") "uti"],
   :p [(re-pattern "(.*)esi") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:g 4]}
  {:g [(re-pattern "ire$") "iti"],
   :p [(re-pattern "(.*)esi") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:g 5]}
  {:g [(re-pattern "irsi$") "iti"],
   :p [(re-pattern "(.*)esi") "$1eso"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:g 6]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)([aiu])ti") "$1$2to"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 2]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)titi") "$1tito"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 3]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)asti") "$1asto"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 4]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)([aiu])ti") "$1$2re"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 5]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)ati") "$1arsi"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 6]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)ti") "$1ire"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 7]}
  {:g [(re-pattern "are$") "ati"],
   :p [(re-pattern "(.*)uti") "$1ere"],
   :u
-  {:essere true, :agr {:number :plur, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :plur, :gender :masc}, :infl :passato},
   :italiano/pair [:p 8]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ato") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:g 1]}
  {:g [(re-pattern "arsi$") "ato"],
   :p [(re-pattern "(.*)ato") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:g 2]}
  {:g [(re-pattern "ere$") "uto"],
   :p [(re-pattern "(.*)ato") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:g 3]}
  {:g [(re-pattern "ersi$") "uto"],
   :p [(re-pattern "(.*)ato") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:g 4]}
  {:g [(re-pattern "ire$") "ito"],
   :p [(re-pattern "(.*)ato") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:g 5]}
  {:g [(re-pattern "irsi$") "ito"],
   :p [(re-pattern "(.*)ato") "$1are"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:g 6]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ato") "$1arsi"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:p 2]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ito") "$1ire"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:p 3]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ito") "$1irsi"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:p 4]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)uto") "$1ere"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:p 5]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)uto") "$1ersi"],
   :u
-  {:essere true, :agr {:number :sing, :gender :masc}, :infl :passato},
+  {:essere? true, :agr {:number :sing, :gender :masc}, :infl :passato},
   :italiano/pair [:p 6]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ato") "$1are"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:g 1]}
  {:g [(re-pattern "arsi$") "ato"],
   :p [(re-pattern "(.*)ato") "$1are"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:g 2]}
  {:g [(re-pattern "ere$") "uto"],
   :p [(re-pattern "(.*)ato") "$1are"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:g 3]}
  {:g [(re-pattern "ersi$") "uto"],
   :p [(re-pattern "(.*)ato") "$1are"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:g 4]}
  {:g [(re-pattern "ire$") "ito"],
   :p [(re-pattern "(.*)ato") "$1are"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:g 5]}
  {:g [(re-pattern "irsi$") "ito"],
   :p [(re-pattern "(.*)ato") "$1are"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:g 6]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ato") "$1arsi"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:p 2]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ito") "$1ire"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:p 3]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)ito") "$1irsi"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:p 4]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)uto") "$1ere"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:p 5]}
  {:g [(re-pattern "are$") "ato"],
   :p [(re-pattern "(.*)uto") "$1ersi"],
-  :u {:essere false, :infl :passato},
+  :u {:essere? false, :infl :passato},
   :italiano/pair [:p 6]}]

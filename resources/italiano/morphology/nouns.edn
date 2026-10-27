@@ -5,14 +5,14 @@
   :p [(re-pattern "^l$") "la"],
   :u
   {:cat :noun,
-   :pronoun true,
+   :pronoun? true,
    :case :acc,
    :agr {:number :sing, :gender :fem}}}
  {:g [(re-pattern "^(.+)$") "$1"],
   :p [(re-pattern "^l$") "lo"],
   :u
   {:cat :noun,
-   :pronoun true,
+   :pronoun? true,
    :case :acc,
    :agr {:number :sing, :gender :masc}}}
  {:g [(re-pattern "^(.+)$") "$1"],

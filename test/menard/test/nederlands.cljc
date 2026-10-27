@@ -338,7 +338,7 @@
            :cat :noun
            :agr {:number :plur}
            :pronoun? false
-           :regular true}
+           :regular? true}
           (morph-leaf morphology)))))
 
 (deftest generate-universiteiten
@@ -349,7 +349,7 @@
            :cat :noun
            :agr {:number :plur
                  :pronoun? false
-                 :regular true}}
+                 :regular? true}}
           (morph-leaf morphology)))))
 
 (deftest generate-tonijnen
@@ -360,7 +360,7 @@
            :cat :noun
            :agr {:number :plur
                  :pronoun? false
-                 :regular true}}
+                 :regular? true}}
           (morph-leaf morphology)))))
 
 (deftest generate-knopen
@@ -371,7 +371,7 @@
            :cat :noun
            :agr {:number :plur
                  :pronoun? false
-                 :regular true}}
+                 :regular? true}}
           (morph-leaf morphology)))))
 
 (deftest generate-brillen
@@ -382,7 +382,7 @@
            :cat :noun
            :agr {:number :plur
                  :pronoun? false
-                 :regular true}}
+                 :regular? true}}
           (morph-leaf morphology)))))
 
 (deftest parsing-tests

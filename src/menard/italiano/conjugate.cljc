@@ -82,7 +82,7 @@
   (->> (lexicon)
        (keep (fn [[canonical lexemes]]
                (when (some #(and (= :verb (:cat %))
-                                 (not (true? (:aux %)))
+                                 (not (true? (:aux? %)))
                                  (not (true? (:inflected? %))))
                            lexemes)
                  canonical)))
@@ -94,13 +94,13 @@
   [canonical]
   (->> (get (lexicon) canonical)
        (filter #(and (= :verb (:cat %))
-                     (not (true? (:aux %)))))
+                     (not (true? (:aux? %)))))
        first))
 
 (defn reflexive? [canonical]
   (let [lexeme (verb-lexeme canonical)]
-    (or (true? (:reflexive lexeme))
-        (true? (u/get-in lexeme [:sem :reflexive])))))
+    (or (true? (:reflexive? lexeme))
+        (true? (u/get-in lexeme [:sem :reflexive?])))))
 
 (defn object-less?
   "True if the lexicon says canonical takes no direct object: andare and
@@ -125,16 +125,16 @@
   "True if canonical can take a human direct object, so that a clitic like lo
    or la can stand for a person: false for a verb that takes no direct object
    (object-less?) and for one whose object must be inanimate (giocare,
-   suonare, whose lexicon entries carry :sem {:obj {:human false}})."
+   suonare, whose lexicon entries carry :sem {:obj {:human? false}})."
   [canonical]
   (let [lexeme (verb-lexeme canonical)]
     (and (some? lexeme)
          (not (object-less? canonical))
-         (not= false (u/get-in lexeme [:sem :obj :human])))))
+         (not= false (u/get-in lexeme [:sem :obj :human?])))))
 
 (defn essere? [canonical]
   (let [lexeme (verb-lexeme canonical)]
-    (or (true? (:essere lexeme))
+    (or (true? (:essere? lexeme))
         (reflexive? canonical))))
 
 (defn auxiliary [canonical]

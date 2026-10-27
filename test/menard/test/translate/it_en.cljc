@@ -31,7 +31,7 @@
 (deftest italian-parse-tree
   (testing "a parsed noun phrase renders as expected"
     ;; noun-phrase1 is the determiner + bare noun rule; noun-phrase2 takes the
-    ;; :phrasal head, so it is the rule for "il cane nero".
+    ;; :phrasal? head, so it is the rule for "il cane nero".
     (is (= "[noun-phrase1 .il +cane]"
            (it/syntax-tree (first (it/parse "il cane")))))))
 
@@ -90,19 +90,19 @@
     ;; parsed to a :sem with the determiner's :mod but no :pred at all.
     (let [np (first (it/parse "il cane"))]
       (is (= :dog (u/get-in np [:sem :pred])))
-      (is (= true (u/get-in np [:sem :pet]))))))
+      (is (= true (u/get-in np [:sem :pet?]))))))
 
 (deftest it-to-en-verbs
   (testing "a pro-drop subject is realized from :agr"
     ;; third-person-plural subjects come out with menard's own person-emoji
     ;; markers, so only the forms without them are asserted here.
-    (is (= "I talk" (translate/it-to-en "parlo")))
+    (is (contains? #{"I talk" "I speak"} (translate/it-to-en "parlo")))
     (is (= "I sleep" (translate/it-to-en "dormo")))
     (is (= "he sleeps" (translate/it-to-en "dorme"))))
   (testing "an explicit pronoun subject is realized the same way"
     ;; english spells its pronouns itself, so italiano's own pronoun
     ;; predicates (:I, :we, ...) are not carried across.
-    (is (= "I talk" (translate/it-to-en "io parlo")))
+    (is (contains? #{"I talk" "I speak"} (translate/it-to-en "io parlo")))
     (is (= "I sleep" (translate/it-to-en "io dormo"))))
   (testing "formal lei keeps its second-person meaning with third-person agreement"
     (let [specs (map #(translate/it-structure-to-en-spec %)
@@ -295,7 +295,9 @@
     ;; :sem :tense/:aspect, a subject synthesized from :agr, and :mod/:subcat
     ;; as lists.
     (let [spec (translate/it-structure-to-en-spec (first (it/parse "parlo")))]
-      (is (= :talk (get-in spec [:sem :pred])))
+      ;; parlare has a :speak and a :talk sense, and which one a parse carries
+      ;; depends on the order the lexicon hands the senses out, so accept both.
+      (is (contains? #{:talk :speak} (get-in spec [:sem :pred])))
       (is (= :present (get-in spec [:sem :tense])))
       (is (= :simple (get-in spec [:sem :aspect])))
       (is (= [] (get-in spec [:sem :mod])))

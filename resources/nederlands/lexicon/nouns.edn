@@ -37,8 +37,8 @@
           :sem {:pred :book
                 ;; TODO: move these properties to inference
                 ;; rules: pred=book -> animate false, readable true,etc.
-                :prop {:animate false
-                       :readable true}}
+                :prop {:animate? false
+                       :readable? true}}
           :exceptions [{:agr {:number :plur}
                         :surface "boeken"}]}]
  "boodschap" [{:sem {:pred :message}}]

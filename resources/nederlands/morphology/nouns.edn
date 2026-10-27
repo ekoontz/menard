@@ -8,7 +8,7 @@
   :u {:cat :noun
       :null? false
       :pronoun? false
-      :regular true
+      :regular? true
       :agr {:number :sing}}}
 
  ;; if a singular noun ends in a consonant+vowel (except 'e' but including 'y'), then noun pluralization ends in -'s (apostrophe + s).
@@ -20,7 +20,7 @@
       :inflection :apostrophe-s
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  
  ;; if a singular noun ends in -heid, then noun pluralization ends in -heden:
  {:g [(re-pattern "heid$")  "heden"]           ;; mogelijkheid -> mogelijkheden
@@ -30,7 +30,7 @@
       :inflection :heid
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; if a singular noun ends in -ooX, then noun pluralization ends in -oXen:
  ;; echtgenoot -> echtgenoten, bloemkool -> bloemkolen, boom -> bomen
@@ -41,7 +41,7 @@
       :inflection :oot
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; noun pluralization ending in -s:
  {:g [(re-pattern "([^aeiouy])(e|el|em|en|er|ie|oer|um)$")  "$1$2s" ]
@@ -52,7 +52,7 @@
       :inflection :s
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  
  ;; this is a complicated pattern where, in pluralization, the
  ;; vowel shortens (aa->a) and the consonant lengthens (k->kk):
@@ -65,7 +65,7 @@
       :inflection :repeat-consonant-shorten-vowel
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*a)as$")    "$1zen"]       ;; baas   -> bazen
   :p [(re-pattern "^(.*)azen$")   "$1aas"] 
@@ -74,7 +74,7 @@
       :inflection :s2z
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  
  ;; TODO: nouns end in 's' if they end in
  ;; "aar(d), -erd,-ier when referring to people" (F. p 55).
@@ -85,7 +85,7 @@
       :inflection :repeated-vowel
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*)ee(.)$")     "$1e$2en"]  ;; been   -> benen
   :p [(re-pattern "^(.*)e([nr])en$") "$1ee$2"]   ;; benen -> been
@@ -94,7 +94,7 @@
       :inflection :repeated-vowel
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; TODO: see what other consonants to add besides 'g' and 'p':
  {:g [(re-pattern "^(.*)oo([gp])$")  "$1o$2en"]  ;; oog -> ogen
@@ -104,7 +104,7 @@
       :inflection :repeated-vowel
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  
  {:g [(re-pattern "^(.*ui)s$")    "$1zen"]       ;; huis   -> huizen
   :p [(re-pattern "^(.*ui)zen$")  "$1s"] 
@@ -113,7 +113,7 @@
       :inflection :s2z
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*o)ns$")    "$1zen"]       ;; ons   -> onzen
   :p [(re-pattern "^(.*on)zen$")   "$1s"] 
@@ -122,7 +122,7 @@
       :inflection :s2z
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*ts)$")       "$1en"]      ;; fiets    -> fietsen
   :p [(re-pattern "^(.*ts)en$")     "$1"]
@@ -131,7 +131,7 @@
       :inflection :tsen
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; <bril,jas,kat,boodschap,man -> brillen, jassen,katten,boodschappen,mannen>
  ;; but         : tonijn        -> tonijnen, not *tonijnnen.
@@ -142,7 +142,7 @@
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*[^aeiou][aeiou])(m)$")    "$1$2$2en"] 
   :p [(re-pattern "^(.*[^aeiou][aeiou])(m)men$") "$1$2"] 
@@ -151,7 +151,7 @@
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; plek,gesprek -> plekken,gesprekken
  {:g [(re-pattern "([lrst])([eou])k$")        "$1$2kken"]
@@ -161,7 +161,7 @@
       :inflection :repeated-k
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; boodschap->boodschappen,
  ;; but exclude groep->groepen, not *groeppen:
@@ -175,7 +175,7 @@
       :inflection ::repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  {:g [(re-pattern "^(.*)(s)$")    "$1$2$2en"] 
   :p [(re-pattern "^(.*)(s)sen$") "$1$2"] 
   :u {:cat :noun
@@ -183,7 +183,7 @@
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ;; bril -> brillen
  {;;      consonant  vowel   l    ->  double-l
@@ -195,7 +195,7 @@
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  {;; bed -> bedden
   :g [(re-pattern "^(.*[^aeiou][aieou])(d)$")    "$1$2$2en"] 
   
@@ -206,7 +206,7 @@
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {;;      consonant  vowel   t   ->   double-t
   :g [(re-pattern "^(.*[^aeiou][aieou])(t)$")    "$1$2$2en"] 
@@ -218,7 +218,7 @@
       :inflection :repeated-consonant
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
  
  ;; </jas,kat,boodschap,man -> jassen,katten,boodschappen,mannen>
 
@@ -229,7 +229,7 @@
       :inflection :f2v
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*)t$")    "$1ten"]         ;; opdracht    -> opdrachten
   :p [(re-pattern "^(.*)ten$")  "$1t"]
@@ -238,7 +238,7 @@
       :inflection :ends-in-t
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*ee)$")    "$1ën"]    ;; zee    -> zeeën
   :p [(re-pattern "^(.*)ën$")    "$1"]      ;; zeeën  -> zee
@@ -247,7 +247,7 @@
       :inflection :umlaut-e
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "^(.*[^st])$")    "$1en"]     ;; hond   -> honden
   :p [(re-pattern "^(.*[^st])en$")  "$1"]        ;; honden -> dog
@@ -257,7 +257,7 @@
       :inflection :en
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  {:g [(re-pattern "(.*)$")      "$1's" ]
   :p [(re-pattern "(.*)[']s$")  "$1"  ]
@@ -267,7 +267,7 @@
       :inflection :abbreviation
       :pronoun? false
       :agr {:number :plur}
-      :regular true}}
+      :regular? true}}
 
  ]
 

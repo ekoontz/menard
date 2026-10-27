@@ -283,6 +283,36 @@ Italian verb conjugation, and direct object pronouns in every language.
   `:synsem` survives only in `lexicon/babel-extras.edn` and
   `morphology/babel-extras.edn`, which keep babel's own nested helpers
   verbatim and are never loaded.
+- Boolean features are spelled with a trailing `?` everywhere, so a key that
+  can only be true or false says so: `:human` → `:human?`, `:animate` →
+  `:animate?`, `:essere` → `:essere?`, `:reflexive` → `:reflexive?`,
+  `:aux` → `:aux?`, `:pronoun` → `:pronoun?`, `:propernoun` →
+  `:propernoun?`, `:phrasal` → `:phrasal?`, `:regular` → `:regular?`,
+  `:comparative` → `:comparative?`, `:place` → `:place?`, `:time` → `:time?`,
+  `:child` → `:child?`, `:mass` → `:mass?`, `:modified` → `:modified?`,
+  `:null` → `:null?`, `:not` → `:not?`, `:initial` → `:initial?`,
+  `:boot-verb` → `:boot-verb?`, `:drop-e` → `:drop-e?`, `:wh-word` →
+  `:wh-word?`, `:artifact` → `:artifact?`, `:physical-object` →
+  `:physical-object?`, `:part-of-human-body` → `:part-of-human-body?`,
+  `:edible`/`:drinkable`/`:legible`/`:readable`/`:writable`/`:speakable`/
+  `:buyable`/`:consumable` → their `?` forms, `:clothing` → `:clothing?`,
+  `:city` → `:city?`, `:pet` → `:pet?`, `:living` → `:living?`, `:adult` →
+  `:adult?`, `:activity` → `:activity?`, `:discrete` → `:discrete?`,
+  `:generic` → `:generic?`, `:generate-with` → `:generate-with?`,
+  `:allow-intransitivize` → `:allow-intransitivize?`, `:shared-with-obj` →
+  `:shared-with-obj?` and the `:morphology-noun-*` flags, in every lexicon,
+  rule, grammar and morphology file and in the `:italiano/babel-spec` mirrors
+  (so italiano now spells `:human?`/`:pronoun?`/`:propernoun?`/`:aux?` like
+  english and the shared `menard.ug` rules already did). Only map keys were
+  rewritten, so predicates such as `:pred :place`, `:pred :time`,
+  `:pred :child`, `:pred :human` and note tags like `:note [:human]` keep
+  their spelling; `:exception` is untouched because it is not a flag
+  everywhere (`{:exception true}` marks an irregular entry, but
+  `:exception [{...}]` in `nederlands/lexicon/nouns.edn` lists exception
+  forms, and `:exception?` is a different feature already). Verified by
+  dumping the compiled lexicon and grammar of all four models before and
+  after: identical apart from the renamed keys, with no map that ended up
+  with a duplicate key.
 
 ## [1.11.1] - 2026-10-19
 

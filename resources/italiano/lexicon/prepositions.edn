@@ -1,21 +1,21 @@
 {"a"
  [{:cat :prep,
-   :sem {:pred :a, :obj {:place true}},
+   :sem {:pred :a, :obj {:place? true}},
    :subcat
-   {:1 {:cat :noun, :case :acc, :reflexive false, :subcat []}, :2 []}}
+   {:1 {:cat :noun, :case :acc, :reflexive? false, :subcat []}, :2 []}}
   {:cat :prep,
-   :sem {:pred :in, :obj {:city true}},
-   :subcat {:1 {:cat :noun, :reflexive false}, :2 []}}
+   :sem {:pred :in, :obj {:city? true}},
+   :subcat {:1 {:cat :noun, :reflexive? false}, :2 []}}
   {:cat :prep,
-   :sem {:pred :a, :obj {:time true}},
-   :subcat {:1 {:cat :noun, :reflexive false, :subcat []}, :2 []}}],
+   :sem {:pred :a, :obj {:time? true}},
+   :subcat {:1 {:cat :noun, :reflexive? false, :subcat []}, :2 []}}],
  "davanti" [{:cat :prep, :sem {:pred :in-front-of}}],
  "di"
  [{:cat :prep,
-   :sem {:pred :di, :comparative true},
+   :sem {:pred :di, :comparative? true},
    :subcat
-   {:1 {:cat :noun, :subcat [], :def {:not :partitivo}, :case :disj},
+   {:1 {:cat :noun, :subcat [], :def {:not? :partitivo}, :case :disj},
     :2 []},
-   :italiano {:initial true}}],
- "dopo" [{:cat :prep, :sem {:pred :after, :obj {:time true}}}],
- "in" [{:cat :prep, :sem {:pred :in, :obj {:place true}}}]}
+   :italiano {:initial? true}}],
+ "dopo" [{:cat :prep, :sem {:pred :after, :obj {:time? true}}}],
+ "in" [{:cat :prep, :sem {:pred :in, :obj {:place? true}}}]}

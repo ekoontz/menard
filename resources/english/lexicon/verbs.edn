@@ -350,7 +350,7 @@
                          :agr agr
                          :phrasal? true
                          :sem sem
-                         :subcat {:1 {:wh-word true}
+                         :subcat {:1 {:wh-word? true}
                                   :2 []}
                          :infl :base}
                      :2 []}})
@@ -372,7 +372,7 @@
                          :agr agr
                          :phrasal? true
                          :sem sem
-                         :subcat {:1 {:wh-word true}
+                         :subcat {:1 {:wh-word? true}
                                   :2 []}
                          :infl :base}
                      :2 []}})])
@@ -900,7 +900,7 @@
            [{:exceptions exceptions
              :intransitive-only? true
              :sem {:pred :sleep
-                   :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+                   :subj {:prop {:animate? true}} ;; TODO: move to encyclopedia.
                    :obj :none}}])
  "smoke" [{ :sem {:pred :smoke}}]
  "speak" (let [exceptions [{:infl :past-simple

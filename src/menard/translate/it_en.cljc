@@ -211,7 +211,7 @@
                         (dissoc :subj))
               subj (assoc :subj subj))
         ;; a verb lexeme can constrain its object without there being one (e.g.
-        ;; parlare's :sem {:obj {:human false}} in the object-free reading
+        ;; parlare's :sem {:obj {:human? false}} in the object-free reading
         ;; "parlo"). Such a map is not an object, and english would try to
         ;; generate a noun for it ("there talk to turnips are"), so drop it.
         sem (if (and (map? (:obj sem))

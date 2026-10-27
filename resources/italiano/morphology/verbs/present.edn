@@ -30,7 +30,7 @@
   :p [(re-pattern "(.*i)sco$") "$1re"],
   :u
   {:agr {:number :sing, :person :1st},
-   :boot-verb true,
+   :boot-verb? true,
    :infl :present}}
  {:g [(re-pattern "care$") "chi"],
   :p [(re-pattern "(.*)i$") "$1are"],
@@ -112,7 +112,7 @@
   :p [(re-pattern "(.*i)sci$") "$1re"],
   :u
   {:agr {:number :sing, :person :2nd},
-   :boot-verb true,
+   :boot-verb? true,
    :infl :present}}
  {:g [(re-pattern "are$") "a"],
   :p [(re-pattern "(.*)a$") "$1are"],
@@ -154,7 +154,7 @@
   :p [(re-pattern "(.*i)sce$") "$1re"],
   :u
   {:agr {:number :sing, :person :3rd},
-   :boot-verb true,
+   :boot-verb? true,
    :infl :present}}
  {:g [(re-pattern "care$") "chiamo"],
   :p [(re-pattern "(.*)iamo$") "$1are"],
@@ -292,5 +292,5 @@
   :p [(re-pattern "(.*)scono$") "$1re"],
   :u
   {:agr {:number :plur, :person :3rd},
-   :boot-verb true,
+   :boot-verb? true,
    :infl :present}}]

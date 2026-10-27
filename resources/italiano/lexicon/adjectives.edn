@@ -1,94 +1,94 @@
 {"affollato"
  [(let
-   [is-place {:sem {:place true}} than-this {:pred :di, :mod is-place}]
+   [is-place {:sem {:place? true}} than-this {:pred :di, :mod is-place}]
    (dag_unify.core/unify
     {:cat :adjective,
      :sem
      {:pred :affollato,
       :arg1 is-place,
       :arg2 is-place,
-      :comparative true},
+      :comparative? true},
      :subcat
      {:1 {:cat :noun, :sem is-place}, :2 {:cat :prep, :sem than-this}}}
     is-place)
    (dag_unify.core/unify
-    {:cat :adjective, :sem {:pred :affolato, :comparative false}}
+    {:cat :adjective, :sem {:pred :affolato, :comparative? false}}
     is-place))],
  "alto"
  [{:cat :adjective,
-   :sem {:pred :alto, :comparative false, :human true}}
+   :sem {:pred :alto, :comparative? false, :human? true}}
   {:cat :adjective,
    :sem
-   {:comparative true,
+   {:comparative? true,
     :pred :alto,
-    :arg1 {:human true},
-    :arg2 {:human true}}}],
+    :arg1 {:human? true},
+    :arg2 {:human? true}}}],
  "bello"
  [{:cat :adjective, :sem {:pred :bello}}
-  {:cat :adjective, :sem {:comparative true, :pred :bello}}],
+  {:cat :adjective, :sem {:comparative? true, :pred :bello}}],
  "bianco"
  [{:cat :adjective,
    :sem
    {:pred :bianco,
-    :comparative false,
-    :physical-object true,
-    :human false},
+    :comparative? false,
+    :physical-object? true,
+    :human? false},
    :italiano {:masc {:plur "bianchi"}, :fem {:plur "bianche"}}}],
  "brutto"
- [{:cat :adjective, :sem {:pred :brutto, :comparative false}}],
+ [{:cat :adjective, :sem {:pred :brutto, :comparative? false}}],
  "cattivo"
  [{:cat :adjective,
-   :sem {:pred :cattivo, :comparative false, :human true, :child true},
+   :sem {:pred :cattivo, :comparative? false, :human? true, :child? true},
    :italiano {:cat :adjective}}],
  "cittadino" [{:cat :adjective, :sem {:pred :local}}],
  "contento"
- [{:cat :adjective, :sem {:pred :contento, :subj {:human true}}}
+ [{:cat :adjective, :sem {:pred :contento, :subj {:human? true}}}
   {:cat :adjective,
    :sem
-   {:comparative true,
+   {:comparative? true,
     :pred :contento,
-    :subj {:human true},
-    :obj {:human true}}}],
+    :subj {:human? true},
+    :obj {:human? true}}}],
  "corto"
- [{:cat :adjective, :sem {:pred :contento, :subj {:human true}}}
+ [{:cat :adjective, :sem {:pred :contento, :subj {:human? true}}}
   {:cat :adjective,
    :sem
-   {:comparative true,
+   {:comparative? true,
     :pred :contento,
-    :subj {:human true},
-    :obj {:human true}}}],
+    :subj {:human? true},
+    :obj {:human? true}}}],
  "difficile"
  [{:cat :adjective,
    :sem
    {:pred :difficile,
-    :drinkable false,
-    :human false,
-    :animate false,
-    :comparative false,
-    :physical-object true,
-    :buyable false,
-    :legible true,
-    :artifact true,
-    :edible false},
+    :drinkable? false,
+    :human? false,
+    :animate? false,
+    :comparative? false,
+    :physical-object? true,
+    :buyable? false,
+    :legible? true,
+    :artifact? true,
+    :edible? false},
    :italiano {:fem {:sing "difficile"}}}],
  "giallo"
  [{:cat :adjective,
    :sem
    {:pred :yellow,
-    :comparative false,
-    :physical-object true,
-    :human false}}],
+    :comparative? false,
+    :physical-object? true,
+    :human? false}}],
  "nero"
  [{:cat :adjective,
    :sem
    {:pred :black,
-    :comparative false,
-    :physical-object true,
-    :human false}}],
+    :comparative? false,
+    :physical-object? true,
+    :human? false}}],
  "rosso"
  [{:cat :adjective,
    :sem
    {:pred :red,
-    :comparative false,
-    :physical-object true,
-    :human false}}]}
+    :comparative? false,
+    :physical-object? true,
+    :human? false}}]}

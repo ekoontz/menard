@@ -165,12 +165,12 @@
           :pronoun? true
           :sem {:pred :what
                 :ref {:human? false}}
-          :wh-word true}]
+          :wh-word? true}]
  "who" [{:interogative? true
          :pronoun? true
          :sem {:pred :what
                :ref {:human? true}}
-         :wh-word true}]
+         :wh-word? true}]
  "you" [{:agr {:person :2nd
                :number :sing}
          :case :nom

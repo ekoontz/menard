@@ -329,7 +329,7 @@
      :exceptions exceptions
      :strong? :a-ie-a
      :sem {:pred :sleep
-           :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+           :subj {:prop {:animate? true}} ;; TODO: move to encyclopedia.
            :obj :none}}])
 
 
@@ -340,7 +340,7 @@
    ;; so saving it but commenting out here:
    ;;:strong? :a-ie-a
    :sem {:pred :yawn
-         :subj {:prop {:animate true}} ;; TODO: move to encyclopedia.
+         :subj {:prop {:animate? true}} ;; TODO: move to encyclopedia.
          :obj :none}}]
 
  "spelen"
@@ -359,7 +359,7 @@
    [{:exceptions exceptions
      :inanimate-object? true
      :sem {:pred :play
-           :subj {:prop {:animate true}}}}]) ;; TODO: move to encyclopedia.
+           :subj {:prop {:animate? true}}}}]) ;; TODO: move to encyclopedia.
  
  "staan" (let [exceptions [{:infl :present
                             :agr {:number :sing

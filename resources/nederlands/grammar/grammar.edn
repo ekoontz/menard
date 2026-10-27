@@ -336,7 +336,7 @@
 
  {:rule "vp-object-inf" ;; [vp .mij +helpen]
   :cat :verb
-  :aux false
+  :aux? false
   :infl :infinitive
   :sem {:tense :infinitive}
 

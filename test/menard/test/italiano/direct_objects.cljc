@@ -39,12 +39,12 @@
 (deftest play-takes-an-inanimate-object
   (testing "play takes a clitic direct object, but not a human one"
     (doseq [expression ["lo gioco" "li gioco" "lo suono" "le suono"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression)))
   (testing "the inanimate reading of the clitic is kept"
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo gioco"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo gioco"))))
   (testing "the human clitics still work with other verbs"
-    (is (some #(true? (u/get-in % [:sem :obj :human])) (parse "lo vedo"))))
+    (is (some #(true? (u/get-in % [:sem :obj :human?])) (parse "lo vedo"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "gioco")))
     (is (seq (parse "suono")))))
@@ -52,9 +52,9 @@
 (deftest imparare-takes-an-inanimate-object
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo imparo" "la imparo" "li imparo"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo imparo"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo imparo"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "imparo")))))
 
@@ -62,10 +62,10 @@
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo mangio" "la mangio" "li mangio"
                         "lo penso" "la penso" "li penso"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
     (doseq [expression ["lo mangio" "lo penso"]]
-      (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression)))
   (testing "an edible noun phrase is still an object"
     (is (some #(= :cipolla (u/get-in % [:sem :obj :pred])) (parse "mangio la cipolla"))))
@@ -76,27 +76,27 @@
 (deftest fare-takes-an-inanimate-object
   (testing "do and make take a clitic direct object, but not a human one"
     (doseq [expression ["lo faccio" "la faccio" "li faccio"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo faccio"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo faccio"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "faccio")))))
 
 (deftest aprire-takes-an-inanimate-object
   (testing "open takes a clitic direct object, but not a human one"
     (doseq [expression ["lo apro" "la apro" "li apro"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo apro"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo apro"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "apro")))))
 
 (deftest avere-takes-an-inanimate-object
   (testing "have takes a clitic direct object, but not a human one"
     (doseq [expression ["lo ho" "la ho" "li ho"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo ho"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo ho"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "ho"))))
   (testing "avere is still the perfect auxiliary"
@@ -105,9 +105,9 @@
 (deftest bere-takes-an-inanimate-object
   (testing "drink takes a clitic direct object, but not a human one"
     (doseq [expression ["lo bevo" "la bevo" "li bevo"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo bevo"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo bevo"))))
   (testing "a drinkable noun phrase is still an object"
     (is (some #(= :birra (u/get-in % [:sem :obj :pred])) (parse "bevo la birra"))))
   (testing "the intransitive reading is kept"
@@ -116,9 +116,9 @@
 (deftest leggere-takes-an-inanimate-object
   (testing "read takes a clitic direct object, but not a human one"
     (doseq [expression ["lo leggo" "la leggo" "li leggo"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo leggo"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo leggo"))))
   (testing "a noun phrase is still an object"
     (is (some #(= :book (u/get-in % [:sem :obj :pred])) (parse "leggo il libro"))))
   (testing "the intransitive reading is kept"
@@ -128,10 +128,10 @@
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo cancello" "la cancello" "lo riparo" "la riparo"
                         "lo parlo" "la parlo"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
     (doseq [expression ["lo cancello" "lo riparo" "lo parlo"]]
-      (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression)))
   (testing "the intransitive readings are kept"
     (doseq [expression ["cancello" "riparo" "parlo"]]
@@ -140,9 +140,9 @@
 (deftest pulire-takes-an-inanimate-object
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo pulisco" "la pulisco" "li pulisco"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo pulisco"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo pulisco"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "pulisco")))))
 
@@ -152,12 +152,12 @@
                         "lo spendo" "lo so" "lo conservo" "lo formo" "lo presto"
                         "lo abbasso" "la abbasso" "lo compro" "lo riempio"
                         "lo spengo" "lo canto"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
     (doseq [expression ["lo taglio" "lo guido" "lo spendo" "lo so"
                         "lo conservo" "lo formo" "lo presto" "lo abbasso"
                         "lo compro" "lo riempio" "lo spengo" "lo canto"]]
-      (is (some #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression)))
   (testing "the intransitive readings are kept"
     (doseq [expression ["taglio" "guido" "spendo" "so" "conservo" "formo"
@@ -167,17 +167,17 @@
 (deftest abbracciare-takes-a-human-object
   (testing "only the human reading of the clitic survives"
     (doseq [expression ["lo abbraccio" "la abbraccio" "li abbraccio"]]
-      (is (not-any? #(false? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(false? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression)
-      (is (some #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (some #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))))
 
 (deftest mettere-takes-an-inanimate-object
   (testing "put takes a clitic direct object, but not a human one"
     (doseq [expression ["lo metto" "la metto" "li metto"]]
-      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo metto"))))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo metto"))))
   (testing "the intransitive reading is kept"
     (is (seq (parse "metto")))))
 

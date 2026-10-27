@@ -269,7 +269,7 @@
  ;; 17
  {:note "Sentence with reflexive object"
   :example "ik zie me"
-  :generic true
+  :generic? true
   :max-depth 3
   :cat :verb
   :subcat []

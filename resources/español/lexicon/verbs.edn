@@ -153,7 +153,7 @@
      :agr {:person :3rd, :number :plur},
      :surface "cayeron"}]}]
 
- "caber" [{:sem {:subj {:animate true},
+ "caber" [{:sem {:subj {:animate? true},
                  :pred :fit},
            :cat :verb,
            :exceptions
@@ -1268,7 +1268,7 @@
      :agr {:person :1st, :number :sing},
      :surface "traduzco"}]}]
 
- "traer" [{:sem {:subj {:animate true}, :pred :bring},
+ "traer" [{:sem {:subj {:animate? true}, :pred :bring},
            :transitivity :intransitive
            :cat :verb,
            :stems {:preterito "traj"}
@@ -1298,7 +1298,7 @@
            :sem {:pred :play-music
                  :obj {:ref {:human? false}}}}]
  
- "venir" [{:sem {:subj {:animate true}, :pred :come},
+ "venir" [{:sem {:subj {:animate? true}, :pred :come},
            :transitivity :intransitive
            :cat :verb,
            :exceptions

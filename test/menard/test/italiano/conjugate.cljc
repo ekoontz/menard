@@ -20,7 +20,7 @@
     (is (= "facevo" (conjugate/verb-form "fare" :imperfetto :1st :sing)))))
 
 (deftest compound-tenses
-  (testing "the auxiliary is essere with verbs marked :essere"
+  (testing "the auxiliary is essere with verbs marked :essere?"
     (is (= "sono andato" (conjugate/verb-form "andare" :passato :1st :sing)))
     (is (= "ero andato" (conjugate/verb-form "andare" :trapassato :1st :sing))))
   (testing "the auxiliary is avere otherwise, and the participle is invariant"
@@ -61,7 +61,7 @@
               :let [lexemes (get lexicon clitic)]]
         (is (some #(and (= :noun (:cat %))
                         (= :acc (:case %))
-                        (not (true? (:reflexive %)))
+                        (not (true? (:reflexive? %)))
                         (= (cond-> {:person person :number number}
                              (map? genders) (assoc :gender gender))
                            (select-keys (:agr %) [:person :number :gender])))

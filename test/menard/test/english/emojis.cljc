@@ -16,7 +16,7 @@
   (is (= 
        '({:obj :none,
           :subj
-          {:prop {:animate true},
+          {:prop {:animate? true},
            :existential? false,
            :mod [],
            :locative? false,

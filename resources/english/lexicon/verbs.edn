@@ -665,7 +665,8 @@
  "lead" [{:sem {:pred :lead}
           :exceptions [{:infl :past-simple :surface "led"}
                        {:infl :past-participle :surface "led"}]}]
- "learn" [{:sem {:pred :learn}}] 
+ "learn" [{:inanimate-object? true
+           :sem {:pred :learn}}]
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]
            [{:exceptions exceptions :sem {:pred :leave}}
@@ -752,7 +753,8 @@
          {:inanimate-object? true
           :sem {:pred :play-games}
           :note "games"}]
- "practice" [{:sem {:pred :practice}}]
+ "practice" [{:inanimate-object? true
+              :sem {:pred :practice}}]
  "prefer" [{:sem {:pred :prefer}}]
  "prepare" [{:sem {:pred :prepare}}]
  "preserve" [{:sem {:pred :preserve}}]

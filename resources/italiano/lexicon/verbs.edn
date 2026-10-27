@@ -565,7 +565,9 @@
  [{:cat :verb,
    ;; something to drive, not someone.
    :sem {:pred :drive, :obj {:human false}}}],
- "imparare" [{:cat :verb, :sem {:pred :learn-i}}],
+ "imparare" [{:cat :verb,
+              ;; as with leggere: something to learn, not someone.
+              :sem {:pred :learn-i, :obj {:human false}}}],
  "impegnare" [{:cat :verb, :sem {:pred :engage}}],
  "incontrare" [{:cat :verb, :sem {:pred :meet}}],
  "indossare" [{:cat :verb, :sem {:pred :wear-i}}],

@@ -58,6 +58,17 @@ Italian verb conjugation, and direct object pronouns in every language.
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
 
+- "learn" and "practice" take a direct object but not a human one, in every
+  language that has the verb: english "learn" and "practice"
+  (`:inanimate-object?`), español "aprender" and "practicar" (two senses,
+  intransitive and transitive with `:obj {:ref {:human? false}}`), and
+  italiano "imparare" (`:sem {:obj {:human false}}`). So "I learn him",
+  "I practice him" and "lo imparo" have no human-object reading, while
+  "I learn it", "I learn a book", "I practice it", "yo lo aprendo",
+  "yo la practico" keep the inanimate one, and "I learn", "I practice",
+  "yo aprendo", "yo practico" and "imparo" stay intransitive. The lexicon has
+  neither "praticare" nor any dutch "leren"/"oefenen".
+
 - One verb whose object must be a person: italiano "abbracciare" (both its
   `:hug` and `:embrace` senses) carries `:sem {:obj {:human true}}`, so "lo
   abbraccio" keeps only the human reading of the clitic — a thing cannot be

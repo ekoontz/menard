@@ -126,6 +126,20 @@
   (testing "the object-free reading is kept"
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I read")))))
 
+(deftest learn-and-practice-take-an-inanimate-object
+  (testing "learn and practice take a direct object, but not a human one"
+    (doseq [expression ["I learn him" "I learn her" "I learn them"
+                        "I practice him" "I practice her" "I practice them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (= #{:it} (object-preds "I learn it")))
+    (is (= #{:book} (object-preds "I learn a book")))
+    (is (= #{:it} (object-preds "I practice it"))))
+  (testing "the object-free reading is kept"
+    (doseq [expression ["I learn" "I practice"]]
+      (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
+          expression))))
+
 (defn sentence-parses
   "the parses of _expression_ that are whole sentences."
   [expression]

@@ -41,7 +41,12 @@
  "añadir" [{:sem {:pred :add}}]
  "apagar" [{:sem {:pred :turn-off}}]
  "apoyar" [{:sem {:pred :support}}]
- "aprender" [{:sem {:pred :learn}}]
+ "aprender" [;; as with leer: something to learn, not someone.
+             {:sem {:pred :learn}
+              :transitivity :intransitive}
+             {:sem {:pred :learn
+                    :obj {:ref {:human? false}}}
+              :transitivity :transitive}]
  "aprobar" [{:sem {:pred :approve}}]
  "aprovechar" [ ;; {:sem {:pred :take-advantage-of}}
                {:sem {:pred :enjoy}}]
@@ -1119,7 +1124,12 @@
      :surface "puesto"}],
    :stems {:preterito "pus"}}]
 
- "practicar" [{:sem {:pred :practice}}]
+ "practicar" [;; as with leer: something to practice, not someone.
+              {:sem {:pred :practice}
+               :transitivity :intransitive}
+              {:sem {:pred :practice
+                     :obj {:ref {:human? false}}}
+               :transitivity :transitive}]
 
  "preferir" [{:sem {:pred :prefer}, :stems {:boot "prefier"}}]
 

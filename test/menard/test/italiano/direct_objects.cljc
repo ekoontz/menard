@@ -49,6 +49,15 @@
     (is (seq (parse "gioco")))
     (is (seq (parse "suono")))))
 
+(deftest imparare-takes-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo imparo" "la imparo" "li imparo"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human])) (parse "lo imparo"))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "imparo")))))
+
 (deftest mangiare-and-pensare-take-an-inanimate-object
   (testing "the human clitic is rejected, the inanimate one is not"
     (doseq [expression ["lo mangio" "la mangio" "li mangio"

@@ -76,6 +76,16 @@
     (doseq [expression ["yo como" "yo pienso"]]
       (is (seq (parse expression)) expression))))
 
+(deftest aprender-and-practicar-take-an-inanimate-object
+  (testing "learn and practice take a clitic direct object, but not a human one"
+    (doseq [expression ["yo lo aprendo" "yo la aprendo"
+                        "yo lo practico" "yo la practico"]]
+      (is (contains? (object-preds expression) :it) expression)
+      (is (not (contains? (object-preds expression) :he)) expression)))
+  (testing "the intransitive reading is kept"
+    (doseq [expression ["yo aprendo" "yo practico"]]
+      (is (seq (parse expression)) expression))))
+
 (deftest hacer-takes-an-inanimate-object
   (testing "do and make take a clitic direct object, but not a human one"
     (doseq [expression ["yo lo hago" "yo la hago"]]

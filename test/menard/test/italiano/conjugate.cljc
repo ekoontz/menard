@@ -125,7 +125,8 @@
                        "cancellare" "riparare" "parlare" "pulire"
                        "tagliare" "guidare" "spendere" "sapere" "conservare"
                        "formare" "prestare" "abbassare" "comprare"
-                       "riempire" "spegnere" "cantare" "comprare"]]
+                       "riempire" "spegnere" "cantare" "comprare"
+                       "imparare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical))))
 
 (deftest indirect-object-clitics

@@ -131,6 +131,18 @@ Italian verb conjugation, and direct object pronouns in every language.
   `takes-indirect-object?` reports the verbs the lexicon marks with
   `:indirect-object? true` (dare, dire, mostrare, portare, scrivere).
 
+- `resources/italiano/lexicon/verbs.edn`: drop babel's `:synsem` wrapper. The
+  entries ported from babel wrapped their features in `:synsem` and then
+  flattened it again with `(merge (:synsem r1) (dissoc r1 :synsem))` after
+  each `dag_unify.core/unify`, which menard's own flat feature layout has no
+  use for. Fourteen entries (abbracciare, avere, cercare, colpire, dire,
+  essere, fare, potere, presentare, rendere, salire, stare, tenere, uscire)
+  now carry their features directly, and the two shared-atom cases
+  (`avere-aux`, `essere-aux-subject-agreement`) still bind the atom once and
+  use it in both `:italiano` and the verb's own features, as before. The
+  compiled lexicon is unchanged: comparing every sense's features (with atom
+  identity and sharing numbered) before and after gives an identical file.
+
 - Direct object pronouns, per language:
   - Italiano: add the direct object clitics `li` and `le`, which were
     missing, and non-reflexive senses for `mi`, `ti` and `ci` (only

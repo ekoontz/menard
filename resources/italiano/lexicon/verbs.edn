@@ -5,24 +5,14 @@
    :sem {:pred :lower, :obj {:human false}}}],
  "abbracciare"
  (let
-  [shared-part-of-abbracciare {:synsem {:cat :verb}}]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      ;; one hugs a person, not a thing.
-      {:synsem {:sem {:pred :hug, :obj {:human true}}}}
-      shared-part-of-abbracciare)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :embrace, :obj {:human true}}}}
-      shared-part-of-abbracciare)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [shared-part-of-abbracciare {:cat :verb}]
+  [(dag_unify.core/unify
+    ;; one hugs a person, not a thing.
+    {:sem {:pred :hug, :obj {:human true}}}
+    shared-part-of-abbracciare)
+   (dag_unify.core/unify
+    {:sem {:pred :embrace, :obj {:human true}}}
+    shared-part-of-abbracciare)]),
  "abitare" [{:cat :verb, :sem {:pred :live-a}}],
  "abituarsi"
  [{:cat :verb, :sem {:pred :get-used-to, :reflexive true}}],
@@ -83,7 +73,8 @@
  "avere"
  (let
   [avere-common
-   {:synsem {:cat :verb, :sem {:reflexive false}},
+   {:cat :verb,
+    :sem {:reflexive false},
     :italiano
     {:italiano "avere",
      :future-stem "avr",
@@ -96,119 +87,76 @@
       :2plur "avete",
       :3plur "hanno"}}}
    avere-aux
-   (let
-    [infl (atom :top)]
-    {:italiano {:infl infl}, :synsem {:infl infl}})]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      {:note "avere (possess)",
-       ;; as with giocare: something to have, not someone.
-       :synsem {:sem {:pred :have, :obj {:human false}}}}
-      avere-common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:note "avere (relation)",
-       ;; as with giocare: something to have, not someone.
-       :synsem {:sem {:pred :have, :obj {:human false}}}}
-      avere-common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:note "avere (possess): unspecified object",
-       :synsem {:sem {:pred :have, :obj {:human false}}}}
-      avere-common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
+   (let [infl (atom :top)] {:infl infl, :italiano {:infl infl}})]
+  [(dag_unify.core/unify
+    ;; as with giocare: something to have, not someone.
+    {:sem {:pred :have, :obj {:human false}}, :note "avere (possess)"}
+    avere-common)
+   (dag_unify.core/unify
+    ;; as with giocare: something to have, not someone.
+    {:sem {:pred :have, :obj {:human false}}, :note "avere (relation)"}
+    avere-common)
+   (dag_unify.core/unify
+    {:sem {:pred :have, :obj {:human false}},
+     :note "avere (possess): unspecified object"}
+    avere-common)
    (let
     [agr (atom :top)]
-    (let
-     [r1
-      (dag_unify.core/unify
-       (dag_unify.core/unify
-        {:note "passato prossimo transitive",
-         :synsem
-         {:aux true,
-          :sem {:tense :present, :aspect :perfect},
-          :subcat
-          {:2
-           {:agr agr,
-            :sem {:reflexive false},
-            :subcat {:2 {:agr agr, :pronoun true}},
-            :essere false}}}}
-        avere-common)
-       avere-aux)]
-     (clojure.core/merge
-      (:synsem r1)
-      (clojure.core/dissoc r1 :synsem))))
-   (let
-    [r1
+    (dag_unify.core/unify
      (dag_unify.core/unify
-      (dag_unify.core/unify
-       {:note "passato prossimo intransitive",
-        :synsem
-        {:aux true,
-         :infl :present,
-         :sem {:tense :present, :aspect :perfect},
-         :subcat
-         {:2
-          {:sem {:reflexive false},
-           :essere false,
-           :infl :passato,
-           :reflexive false,
-           :subcat {:2 []}}}}}
-       avere-common)
-      avere-aux)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      (dag_unify.core/unify
-       {:note "trapassato intransitive",
-        :synsem
-        {:aux true,
-         :infl :imperfetto,
-         :sem {:tense :past, :aspect :pluperfect},
-         :subcat
-         {:2
-          {:sem {:reflexive false},
-           :infl :passato,
-           :essere false,
-           :reflexive false,
-           :subcat {:2 []}}}}}
-       avere-common)
-      avere-aux)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
+      {:aux true,
+       :sem {:tense :present, :aspect :perfect},
+       :subcat
+       {:2
+        {:agr agr,
+         :sem {:reflexive false},
+         :subcat {:2 {:agr agr, :pronoun true}},
+         :essere false}},
+       :note "passato prossimo transitive"}
+      avere-common)
+     avere-aux))
+   (dag_unify.core/unify
+    (dag_unify.core/unify
+     {:aux true,
+      :infl :present,
+      :sem {:tense :present, :aspect :perfect},
+      :subcat
+      {:2
+       {:sem {:reflexive false},
+        :essere false,
+        :infl :passato,
+        :reflexive false,
+        :subcat {:2 []}}},
+      :note "passato prossimo intransitive"}
+     avere-common)
+    avere-aux)
+   (dag_unify.core/unify
+    (dag_unify.core/unify
+     {:aux true,
+      :infl :imperfetto,
+      :sem {:tense :past, :aspect :pluperfect},
+      :subcat
+      {:2
+       {:sem {:reflexive false},
+        :infl :passato,
+        :essere false,
+        :reflexive false,
+        :subcat {:2 []}}},
+      :note "trapassato intransitive"}
+     avere-common)
+    avere-aux)
    (let
     [need-obj (atom :top)]
-    (let
-     [r1
-      (dag_unify.core/unify
-       {:allow-intransitivize false,
-        :synsem
-        {:sem {:pred :need, :obj need-obj},
-         :subcat
-         {:1 {:sem {:living true}},
-          :2
-          {:cat :noun,
-           :subcat [],
-           :sem {:pred :bisogno-di, :obj need-obj}}}}}
-       avere-common)]
-     (clojure.core/merge
-      (:synsem r1)
-      (clojure.core/dissoc r1 :synsem))))]),
+    (dag_unify.core/unify
+     {:sem {:pred :need, :obj need-obj},
+      :subcat
+      {:1 {:sem {:living true}},
+       :2
+       {:cat :noun,
+        :subcat [],
+        :sem {:pred :bisogno-di, :obj need-obj}}},
+      :allow-intransitivize false}
+     avere-common))]),
  "ballare"
  [{:cat :verb,
    :sem {:pred :dance},
@@ -268,19 +216,9 @@
    :subcat {:2 []}}],
  "cercare"
  (let
-  [common {:italiano {:future-stem "cercher"}, :synsem {:cat :verb}}]
-  [(let
-    [r1
-     (dag_unify.core/unify {:synsem {:sem {:pred :look-for}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify {:synsem {:sem {:pred :look-up}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [common {:cat :verb, :italiano {:future-stem "cercher"}}]
+  [(dag_unify.core/unify {:sem {:pred :look-for}} common)
+   (dag_unify.core/unify {:sem {:pred :look-up}} common)]),
  "chiacchierare"
  [{:cat :verb,
    ;; "chiacchierare" is intransitive: one chats, one does not chat something.
@@ -317,22 +255,8 @@
  "colpire"
  (let
   [common {:italiano {:boot-verb true}}]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:cat :verb, :sem {:pred :hit}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:cat :verb, :sem {:pred :strike}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify {:cat :verb, :sem {:pred :hit}} common)
+   (dag_unify.core/unify {:cat :verb, :sem {:pred :strike}} common)]),
  "cominciare"
  [{:cat :verb, :sem {:pred :begin}} {:cat :verb, :sem {:pred :start}}],
  "commentare"
@@ -388,7 +312,7 @@
  "dire"
  (let
   [shared-part-of-dire
-   {:synsem {:cat :verb},
+   {:cat :verb,
     :italiano
     {:drop-e false,
      :present
@@ -408,22 +332,12 @@
      :passato "detto",
      :future-stem "dir",
      :gerund "dicendo"}}]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :say}, :indirect-object? true}}
-      shared-part-of-dire)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :tell}, :indirect-object? true}}
-      shared-part-of-dire)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify
+    {:sem {:pred :say}, :indirect-object? true}
+    shared-part-of-dire)
+   (dag_unify.core/unify
+    {:sem {:pred :tell}, :indirect-object? true}
+    shared-part-of-dire)]),
  "disegnare" [{:cat :verb, :sem {:pred :draw}}],
  "diventare" [{:essere true, :cat :verb, :sem {:pred :become}}],
  "divertirsi" [{:cat :verb, :sem {:pred :have-fun, :reflexive true}}],
@@ -461,7 +375,8 @@
  "essere"
  (let
   [essere-common
-   {:synsem {:cat :verb, :essere true},
+   {:cat :verb,
+    :essere true,
     :italiano
     {:future-stem "sar",
      :infinitive "essere",
@@ -497,140 +412,97 @@
    essere-aux-subject-agreement
    (let
     [subject-agreement (atom :top) infl (atom :top)]
-    {:italiano {:infl infl},
-     :synsem
-     {:infl infl,
-      :subcat
-      {:1 {:agr subject-agreement},
-       :2 {:subcat {:1 {:agr subject-agreement}}}}}})
+    {:infl infl,
+     :subcat
+     {:1 {:agr subject-agreement},
+      :2 {:subcat {:1 {:agr subject-agreement}}}},
+     :italiano {:infl infl}})
    gender-and-number-agreement
    (let
     [gender (atom :top) number (atom :top)]
-    {:synsem
-     {:subcat
-      {:1 {:agr {:gender gender, :number number}},
-       :2 {:agr {:gender gender, :number number}}}}})
+    {:subcat
+     {:1 {:agr {:gender gender, :number number}},
+      :2 {:agr {:gender gender, :number number}}}})
    subj-obj-humanness
    (let
     [human (atom :top)]
-    {:synsem {:sem {:subj {:human human}, :obj {:human human}}}})]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      (dag_unify.core/unify
-       {:notes "essere-adjective",
-        :synsem
-        {:cat :verb,
-         :sem {:pred :be, :subj :top, :obj :top},
-         :subcat
-         {:1 {:cat :noun},
-          :2
-          {:cat :adjective,
-           :sem {:comparative false},
-           :subcat {:1 :top, :2 []}}}}}
-       essere-common)
-      gender-and-number-agreement)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
+    {:sem {:subj {:human human}, :obj {:human human}}})]
+  [(dag_unify.core/unify
+    (dag_unify.core/unify
+     {:cat :verb,
+      :sem {:pred :be, :subj :top, :obj :top},
+      :subcat
+      {:1 {:cat :noun},
+       :2
+       {:cat :adjective,
+        :sem {:comparative false},
+        :subcat {:1 :top, :2 []}}},
+      :notes "essere-adjective"}
+     essere-common)
+    gender-and-number-agreement)
    (let
     [pred (atom :top) obj (atom :top)]
-    (let
-     [r1
-      (dag_unify.core/unify
-       {:notes "essere-prepositional-phrase",
-        :synsem
-        {:cat :verb,
-         :aux false,
-         :sem
-         {:pred pred,
-          :obj obj,
-          :reflexive false,
-          :shared-with-obj true},
-         :subcat
-         {:1 {:cat :noun},
-          :2
-          {:cat :prep,
-           :reflexive false,
-           :sem {:obj obj, :pred pred},
-           :subcat []},
-          :3 []}}}
-       essere-common)]
-     (clojure.core/merge
-      (:synsem r1)
-      (clojure.core/dissoc r1 :synsem))))
-   (let
-    [r1
+    (dag_unify.core/unify
+     {:cat :verb,
+      :aux false,
+      :sem
+      {:pred pred, :obj obj, :reflexive false, :shared-with-obj true},
+      :subcat
+      {:1 {:cat :noun},
+       :2
+       {:cat :prep,
+        :reflexive false,
+        :sem {:obj obj, :pred pred},
+        :subcat []},
+       :3 []},
+      :notes "essere-prepositional-phrase"}
+     essere-common))
+   (dag_unify.core/unify
+    {:sem {:pred :be, :reflexive false},
+     :subcat
+     {:1
+      {:cat :noun,
+       :agr {:person :3rd},
+       :pronoun true,
+       :sem {:null true}}},
+     :notes "existential"}
+    essere-common)
+   (dag_unify.core/unify
+    (dag_unify.core/unify
      (dag_unify.core/unify
-      {:notes "existential",
-       :synsem
-       {:sem {:pred :be, :reflexive false},
-        :subcat
-        {:1
-         {:cat :noun,
-          :agr {:person :3rd},
-          :pronoun true,
-          :sem {:null true}}}}}
-      essere-common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      (dag_unify.core/unify
-       (dag_unify.core/unify
-        {:notes "copula",
-         :synsem
-         {:cat :verb,
-          :subcat
-          {:1 {:cat :noun},
-           :2
-           {:cat :noun,
-            :pronoun {:not true},
-            :def {:not :demonstrativo}}},
-          :sem {:pred :be, :activity false, :discrete false}}}
-        essere-common)
-       gender-and-number-agreement)
-      subj-obj-humanness)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      (dag_unify.core/unify
-       {:notes "essere-aux-passato",
-        :synsem
-        {:aux true,
-         :infl :present,
-         :sem {:tense :present, :aspect :perfect},
-         :subcat {:2 {:essere true, :cat :verb, :infl :passato}}}}
-       essere-common)
-      essere-aux-subject-agreement)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      (dag_unify.core/unify
-       {:notes "essere-aux-trapassato",
-        :synsem
-        {:aux true,
-         :infl :imperfetto,
-         :sem {:tense :past, :aspect :pluperfect},
-         :subcat {:2 {:essere true, :cat :verb, :infl :passato}}}}
-       essere-common)
-      essere-aux-subject-agreement)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+      {:cat :verb,
+       :subcat
+       {:1 {:cat :noun},
+        :2
+        {:cat :noun, :pronoun {:not true}, :def {:not :demonstrativo}}},
+       :sem {:pred :be, :activity false, :discrete false},
+       :notes "copula"}
+      essere-common)
+     gender-and-number-agreement)
+    subj-obj-humanness)
+   (dag_unify.core/unify
+    (dag_unify.core/unify
+     {:aux true,
+      :infl :present,
+      :sem {:tense :present, :aspect :perfect},
+      :subcat {:2 {:essere true, :cat :verb, :infl :passato}},
+      :notes "essere-aux-passato"}
+     essere-common)
+    essere-aux-subject-agreement)
+   (dag_unify.core/unify
+    (dag_unify.core/unify
+     {:aux true,
+      :infl :imperfetto,
+      :sem {:tense :past, :aspect :pluperfect},
+      :subcat {:2 {:essere true, :cat :verb, :infl :passato}},
+      :notes "essere-aux-trapassato"}
+     essere-common)
+    essere-aux-subject-agreement)]),
  "evitare" [{:cat :verb, :sem {:pred :avoid}}],
  "fare"
  (let
   [shared-part-of-fare
-   {:synsem {:cat :verb},
+   {:cat :verb,
     :italiano
     {:italiano "fare",
      :drop-e false,
@@ -651,23 +523,13 @@
       :1plur "facciamo",
       :2plur "fate",
       :3plur "fanno"}}}]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      ;; as with giocare: something to do, not someone.
-      {:synsem {:sem {:pred :do, :obj {:human false}}}}
-      shared-part-of-fare)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :make, :obj {:human false}}}}
-      shared-part-of-fare)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify
+    ;; as with giocare: something to do, not someone.
+    {:sem {:pred :do, :obj {:human false}}}
+    shared-part-of-fare)
+   (dag_unify.core/unify
+    {:sem {:pred :make, :obj {:human false}}}
+    shared-part-of-fare)]),
  "ferire"
  [{:cat :verb, :sem {:pred :wound}, :italiano {:boot-verb true}}],
  "fermare" [{:cat :verb, :sem {:pred :stop}}],
@@ -819,7 +681,7 @@
  "potere"
  (let
   [shared-part-of-potere
-   {:synsem {:cat :verb},
+   {:cat :verb,
     :italiano
     {:future-stem "potr",
      :drop-e true,
@@ -830,22 +692,10 @@
       :1plur "possiamo",
       :2plur "potete",
       :3plur "possono"}}}]
-  [(let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :may}}}
-      shared-part-of-potere)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :be-able-to}}}
-      shared-part-of-potere)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify {:sem {:pred :may}} shared-part-of-potere)
+   (dag_unify.core/unify
+    {:sem {:pred :be-able-to}}
+    shared-part-of-potere)]),
  "preferire"
  [{:cat :verb, :sem {:pred :prefer}, :italiano {:boot-verb true}}],
  "prendere"
@@ -856,21 +706,9 @@
  "prepararsi" [{:cat :verb, :sem {:pred :get-ready, :reflexive true}}],
  "presentare"
  (let
-  [common {:synsem {:cat :verb}}]
-  [(let
-    [r1
-     (dag_unify.core/unify {:synsem {:sem {:pred :present}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :introduce-p}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [common {:cat :verb}]
+  [(dag_unify.core/unify {:sem {:pred :present}} common)
+   (dag_unify.core/unify {:sem {:pred :introduce-p}} common)]),
  "prestare"
  [{:cat :verb,
    ;; something to lend, not someone.
@@ -892,22 +730,9 @@
  "rendere"
  (let
   [common
-   {:synsem {:cat :verb},
-    :italiano {:italiano "rendere", :passato "reso"}}]
-  [(let
-    [r1
-     (dag_unify.core/unify {:synsem {:sem {:pred :render}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :give-back-return-ren}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+   {:cat :verb, :italiano {:italiano "rendere", :passato "reso"}}]
+  [(dag_unify.core/unify {:sem {:pred :render}} common)
+   (dag_unify.core/unify {:sem {:pred :give-back-return-ren}} common)]),
  "restare"
  [{:essere true,
    :cat :verb,
@@ -964,23 +789,12 @@
  "salire"
  (let
   [common
-   {:synsem {:cat :verb, :essere true},
+   {:cat :verb,
+    :essere true,
     :italiano
     {:italiano "salire", :present {:1sing "salgo", :3plur "salgono"}}}]
-  [(let
-    [r1
-     (dag_unify.core/unify {:synsem {:sem {:pred :get-on}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem {:sem {:pred :go-upstairs}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify {:sem {:pred :get-on}} common)
+   (dag_unify.core/unify {:sem {:pred :go-upstairs}} common)]),
  "sapere"
  [{:cat :verb,
    ;; one knows a thing or a fact, not a person (that is "conoscere"); the
@@ -1063,49 +877,33 @@
  "stare"
  (let
   [common
-   {:synsem {:cat :verb, :essere true},
+   {:cat :verb,
+    :essere true,
     :italiano
     {:future-stem "star", :present {:2sing "stai", :3plur "stanno"}}}]
-  [(let
-    [r1 (dag_unify.core/unify {:synsem {:sem {:pred :stay}
-                                      :subcat {:2 []}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem
-       {:aux true,
-        :infl :present,
-        :sem {:tense :present, :aspect :progressive},
-        :subcat
-        {:2
-         {:cat :verb,
-          :infl :participle,
-          :sem {:reflexive true},
-          :subcat {:1 :top, :2 {:reflexive true}}}}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1
-     (dag_unify.core/unify
-      {:synsem
-       {:aux true,
-        :infl :present,
-        :sem {:tense :present, :aspect :progressive},
-        :subcat
-        {:2
-         {:cat :verb,
-          :infl :participle,
-          :sem {:reflexive false},
-          :subcat {:1 {:reflexive false}, :2 []}}}}}
-      common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify {:sem {:pred :stay}, :subcat {:2 []}} common)
+   (dag_unify.core/unify
+    {:aux true,
+     :infl :present,
+     :sem {:tense :present, :aspect :progressive},
+     :subcat
+     {:2
+      {:cat :verb,
+       :infl :participle,
+       :sem {:reflexive true},
+       :subcat {:1 :top, :2 {:reflexive true}}}}}
+    common)
+   (dag_unify.core/unify
+    {:aux true,
+     :infl :present,
+     :sem {:tense :present, :aspect :progressive},
+     :subcat
+     {:2
+      {:cat :verb,
+       :infl :participle,
+       :sem {:reflexive false},
+       :subcat {:1 {:reflexive false}, :2 []}}}}
+    common)]),
  "studiare" [{:cat :verb, :sem {:pred :study}}],
  "suonare"
  [{:cat :verb,
@@ -1136,25 +934,14 @@
  "tenere"
  (let
   [common
-   {:italiano
+   {:cat :verb,
+    :italiano
     {:passato "tenuto",
      :present
-     {:1sing "tengo",
-      :2sing "tieni",
-      :3sing "tiene",
-      :3plur "tengono"},
-     :future-stem "terr"},
-    :synsem {:cat :verb}}]
-  [(let
-    [r1 (dag_unify.core/unify {:synsem {:sem {:pred :hold}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1 (dag_unify.core/unify {:synsem {:sem {:pred :keep}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+     {:1sing "tengo", :2sing "tieni", :3sing "tiene", :3plur "tengono"},
+     :future-stem "terr"}}]
+  [(dag_unify.core/unify {:sem {:pred :hold}} common)
+   (dag_unify.core/unify {:sem {:pred :keep}} common)]),
  "tirare" [{:cat :verb, :sem {:pred :throw-t}}],
  "tornare" [{:cat :verb, :sem {:pred :return-t}, :essere true}],
  "trasferire"
@@ -1165,21 +952,13 @@
  "uscire"
  (let
   [common
-   {:synsem {:cat :verb, :essere true},
+   {:cat :verb,
+    :essere true,
     :italiano
     {:present
      {:1sing "esco", :2sing "esci", :3sing "esce", :3plur "escono"}}}]
-  [(let
-    [r1
-     (dag_unify.core/unify {:synsem {:sem {:pred :go-out}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))
-   (let
-    [r1 (dag_unify.core/unify {:synsem {:sem {:pred :exit}}} common)]
-    (clojure.core/merge
-     (:synsem r1)
-     (clojure.core/dissoc r1 :synsem)))]),
+  [(dag_unify.core/unify {:sem {:pred :go-out}} common)
+   (dag_unify.core/unify {:sem {:pred :exit}} common)]),
  "vedere"
  [{:cat :verb,
    :sem {:pred :see},

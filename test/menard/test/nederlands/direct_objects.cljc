@@ -100,3 +100,10 @@
     (is (contains? (object-humans "ik lees het") false)))
   (testing "the object-free reading is kept"
     (is (seq (parse "ik lees")))))
+
+(deftest werken-is-intransitive
+  (testing "werken takes no direct object"
+    (doseq [expression ["ik werk het" "ik werk hem"]]
+      (is (empty? (parse expression)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "ik werk")))))

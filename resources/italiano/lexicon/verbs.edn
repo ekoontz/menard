@@ -579,7 +579,11 @@
  "lasciare" [{:cat :verb, :sem {:pred :leave-behind}}],
  "lavare" [{:cat :verb, :sem {:pred :wash}}],
  "lavarsi" [{:cat :verb, :sem {:pred :wash-oneself, :reflexive? true}}],
- "lavorare" [{:cat :verb, :sem {:pred :work-human}}],
+ "lavorare" [{:cat :verb,
+              ;; "lavorare" is intransitive: one works, one does not work
+              ;; something.
+              :sem {:pred :work-human},
+              :subcat {:2 []}}],
  "leggere"
  [{:cat :verb,
    ;; as with giocare: something to read, not someone.

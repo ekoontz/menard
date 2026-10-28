@@ -1267,7 +1267,10 @@
            :sem {:pred :drink-t, :obj {:ref {:human? false}}}, :cat :verb}]
  ;;   "toser" {}
  
- "trabajar" [{:sem {:pred :work}}]
+ "trabajar" [{:sem {:pred :work}
+              ;; "trabajar" is intransitive: one works, one does not work
+              ;; something.
+              :transitivity :intransitive}]
 
  "traducir"
  [{:sem {:pred :translate},

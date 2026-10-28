@@ -114,6 +114,17 @@ Italian verb conjugation, and direct object pronouns in every language.
   camminando" still parses. Nederlands "blijven" already carried
   `:sem {:obj :none}`.
 
+- "work" is intransitive, in every language that has the verb: english
+  "work" marks both of its senses (`:work`, whose subject is a person, and
+  `:work-nonhuman`, e.g. "the machine works") `:intransitive-only?`, español
+  "trabajar" is `:transitivity :intransitive`, and italiano "lavorare" carries
+  `:subcat {:2 []}`. So "I work a book", "I work it", "I work him",
+  "yo lo trabajo", "lo lavoro" and "li lavoro" have no parse, while "I work",
+  "they work", "yo trabajo", "lavoro" and "ik werk" still do;
+  `object-less?` is true for "lavorare" and `takes-human-object?` false.
+  Nederlands "werken" already carried `:sem {:obj :none}`, and "ik werk
+  het"/"ik werk hem" have no parse, so it needed no change.
+
 - Ditransitives: english "put" needs a nonhuman thing put and a nonhuman
   place: "I put the book on the table", "I put it on the table", "I put it
   in the house" and "I put it on it" parse, while "I put him on the table"

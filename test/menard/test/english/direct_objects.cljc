@@ -252,3 +252,12 @@
     (is (= #{:book} (object-preds "I enter a book"))))
   (testing "the object-free reading is kept"
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I enter")))))
+
+(deftest work-is-intransitive
+  (testing "work takes no direct object, human or not"
+    (doseq [expression ["I work a book" "I work it" "I work him"]]
+      (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression))
+          expression)))
+  (testing "the object-free reading is kept, for both of its senses"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I work")))
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "they work")))))

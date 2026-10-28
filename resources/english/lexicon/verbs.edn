@@ -1184,9 +1184,11 @@
            :modal :base
            :infl :base}]
  "wound" [{ :sem {:pred :wound}}]
- "work" [{:sem {:pred :work
+ "work" [{:intransitive-only? true
+          :sem {:pred :work
                 :subj {:ref {:human? true}}}}
-         {:sem {:pred :work-nonhuman
+         {:intransitive-only? true
+          :sem {:pred :work-nonhuman
                 :subj {:ref {:human? false}}}}]
  "write" [{:sem {:pred :write}
            :exceptions [{:infl :past-simple

@@ -158,3 +158,10 @@
       (is (not (contains? (object-preds expression) :he)) expression)))
   (testing "the intransitive reading is kept"
     (is (seq (parse "yo entro")))))
+
+(deftest trabajar-is-intransitive
+  (testing "trabajar takes no direct object"
+    (doseq [expression ["yo lo trabajo" "yo la trabajo"]]
+      (is (empty? (parse expression)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo trabajo")))))

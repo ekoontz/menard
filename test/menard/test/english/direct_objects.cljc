@@ -60,16 +60,14 @@
     (is (human-object? "I see him"))
     (is (human-object? "I see them"))))
 
-(deftest eat-and-think-take-an-inanimate-object
-  (testing "eat and think take a direct object, but not a human one"
-    (doseq [expression ["I eat him" "I eat her" "I eat them"
-                        "I think him" "I think her" "I think them"]]
+(deftest eat-takes-an-inanimate-object
+  (testing "eat takes a direct object, but not a human one"
+    (doseq [expression ["I eat him" "I eat her" "I eat them"]]
       (is (not (human-object? expression)) expression)))
   (testing "an inanimate object is kept"
-    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I eat a book")))
-    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I think it"))))
+    (is (some #(map? (u/get-in % [:sem :obj])) (parse "I eat a book"))))
   (testing "the object-free reading is kept"
-    (doseq [expression ["I eat" "I think"]]
+    (doseq [expression ["I eat"]]
       (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
           expression))))
 
@@ -261,3 +259,17 @@
   (testing "the object-free reading is kept, for both of its senses"
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I work")))
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "they work")))))
+
+(deftest think-is-intransitive
+  (testing "thinking takes no noun object, human or inanimate"
+    ;; the parser also hands back parses that ignore trailing words ("you were
+    ;; thinking them" parses without "them"), so what matters is that no parse
+    ;; makes the pronoun the verb's object.
+    (doseq [expression ["I think him" "I think her" "I think them"
+                        "I think it" "I think a book" "you were thinking them"]]
+      (is (not-any? #(some? (u/get-in % [:sem :obj :pred])) (parse expression))
+          expression)))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I think"))))
+  (testing "the clausal senses still take their complement"
+    (is (seq (sentence-parses "I think that I see the cat")))))

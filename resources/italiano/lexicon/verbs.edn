@@ -660,8 +660,9 @@
  "passare" [{:cat :verb, :sem {:pred :pass}}],
  "pensare"
  [{:cat :verb,
-   ;; as with giocare: something to think, not someone.
-   :sem {:pred :think, :obj {:human? false}}}],
+   ;; thinking takes no noun object: "penso", but not *"lo penso".
+   :sem {:pred :think},
+   :subcat {:2 []}}],
  "perdere"
  [{:cat :verb, :sem {:pred :lose}, :italiano {:passato "perso"}}],
  "pettinarsi"

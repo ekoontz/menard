@@ -8,28 +8,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 Italian verb conjugation, and direct object pronouns in every language.
 
-- Transitivity: "eat", "drink", "read", "play", "think", "do"/"make", "open"
+- Transitivity: "eat", "drink", "read", "play", "do"/"make", "open"
   and "have" take a direct object but not a human one, and "dance" is
   intransitive (in every language that has the verb):
   - English: `:intransitive-only?` for "dance", and a new
     `:inanimate-object?` (with the matching
-    `:subcat-frames-inanimate-object` rule) for "eat", "play", "think"
-    (its plain sense; the clausal "think that ..." senses are untouched),
+    `:subcat-frames-inanimate-object` rule) for "eat", "play",
     "do" (likewise its lexical sense 1, not the do-support senses), "make",
     "open", "drink" (both its `:drink` and `:drink-t` senses), "read" and
     "have" sense 1 (not its perfect-auxiliary senses): their object carries
     `:ref {:human? false}`, so "I eat him", "I drink him", "I read him", "I
-    play him", "I think him", "I do him", "I make him", "I open him" and
+    play him", "I do him", "I make him", "I open him" and
     "I have him" have no parse while "I eat a book", "I drink it", "I read
-    it", "I play a book", "I think it", "I do it", "I make a book", "I open a
+    it", "I play a book", "I do it", "I make a book", "I open a
     book", "I have a book" and the object-free "I eat", "I drink", "I read",
-    "I play", "I think", "I do", "I make", "I open" and "I have" still do.
+    "I play", "I do", "I make", "I open" and "I have" still do.
   - Español: `:transitivity :intransitive` for "bailar", and two senses
     (intransitive, and transitive with `:obj {:ref {:human? false}}`) for
-    "comer", "beber", "leer", "jugar", "tocar", "pensar", "abrir", "tener",
+    "comer", "beber", "leer", "jugar", "tocar", "abrir", "tener",
     the "drink" sense of "tomar" (whose "take" sense stays unconstrained) and
     each sense of "hacer" ("do" and "make"), so "yo lo como", "yo lo bebo",
-    "yo lo leo", "yo lo toco", "yo lo pienso", "yo lo abro", "yo lo tengo"
+    "yo lo leo", "yo lo toco", "yo lo abro", "yo lo tengo"
     and "yo lo hago" only have the inanimate (`:pred :it`) reading.
   - Nederlands: `:inanimate-object?` plus a `:subcat-inanimate-object` rule
     for "eten", "spelen", "lezen" and "maken" (the lexicon has no "dansen",
@@ -46,14 +45,14 @@ Italian verb conjugation, and direct object pronouns in every language.
     ballo"/"lo vengo"/"lo vivo"/"lo cado"/"lo nasco"
     have no parse, like "li andiamo"; "riposarsi" keeps its own reflexive
     clitic, being a different verb), and `:sem {:obj {:human false}}` for "mangiare",
-    "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
+    "bere", "leggere", "giocare", "suonare", "aprire",
     "cancellare", "riparare", "parlare", "pulire", "tagliare", "guidare",
     "spendere", "sapere", "conservare", "formare", "prestare", "abbassare",
     "comprare", "riempire", "spegnere", "cantare", all three lexical senses
     of "avere"
     (the perfect-auxiliary senses are separate and untouched) and both senses
     of "fare" ("lo mangio", "lo bevo", "lo leggo",
-    "lo gioco", "lo penso", "lo apro", "lo cancello", "lo riparo", "lo parlo",
+    "lo gioco", "lo apro", "lo cancello", "lo riparo", "lo parlo",
     "lo ho" and "lo faccio" keep only the inanimate reading of "lo"). New
     `menard.italiano.conjugate/takes-human-object?` tells a verb that can take
     a person as its direct object from one that cannot.
@@ -101,6 +100,17 @@ Italian verb conjugation, and direct object pronouns in every language.
   `:hug` and `:embrace` senses) carries `:sem {:obj {:human true}}`, so "lo
   abbraccio" keeps only the human reading of the clitic — a thing cannot be
   hugged.
+
+- "think" takes no noun direct object, in every language that has the verb:
+  english "think" sense 1 is `:intransitive-only?` instead of
+  `:inanimate-object?` (its two clausal senses, "I think that ...", keep their
+  complement), español "pensar" keeps only its `:transitivity :intransitive`
+  sense, and italiano "pensare" carries `:subcat {:2 []}`. So "I think him",
+  "I think them", "I think it", "you were thinking them", "yo lo pienso" and
+  "lo penso"/"la penso"/"li penso" have no parse with the pronoun as the
+  verb's object, while "I think", "yo pienso", "penso" and "I think that I
+  see the cat" still parse; `object-less?` is true for "pensare" and
+  `takes-human-object?` false. Nederlands has no "denken" in its lexicon.
 
 - Intransitive verbs: italiano "stare", "frequentare", "sembrare", "cenare",
   "venire", "riposare", "vivere", "cadere",

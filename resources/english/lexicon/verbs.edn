@@ -1004,7 +1004,9 @@
                            {:infl :past-participle :surface "thought"}]]
            [{:sense 1
              :exceptions exceptions
-             :inanimate-object? true
+             ;; thinking takes no noun object: "I think", but not *"I think
+             ;; them". The clausal senses below ("I think that ...") stay.
+             :intransitive-only? true
              :sem {:pred :think}}
 
             ;; "think that you will see the cat"

@@ -58,20 +58,23 @@
   (testing "the intransitive reading is kept"
     (is (seq (parse "imparo")))))
 
-(deftest mangiare-and-pensare-take-an-inanimate-object
+(deftest mangiare-takes-an-inanimate-object
   (testing "the human clitic is rejected, the inanimate one is not"
-    (doseq [expression ["lo mangio" "la mangio" "li mangio"
-                        "lo penso" "la penso" "li penso"]]
+    (doseq [expression ["lo mangio" "la mangio" "li mangio"]]
       (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
           expression))
-    (doseq [expression ["lo mangio" "lo penso"]]
-      (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse expression))
-          expression)))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo mangio"))))
   (testing "an edible noun phrase is still an object"
     (is (some #(= :cipolla (u/get-in % [:sem :obj :pred])) (parse "mangio la cipolla"))))
   (testing "the intransitive reading is kept"
-    (doseq [expression ["mangio" "penso"]]
-      (is (seq (parse expression)) expression))))
+    (is (seq (parse "mangio")))))
+
+(deftest pensare-is-intransitive
+  (testing "thinking takes no noun object"
+    (doseq [expression ["lo penso" "la penso" "li penso"]]
+      (is (empty? (parse expression)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "penso")))))
 
 (deftest fare-takes-an-inanimate-object
   (testing "do and make take a clitic direct object, but not a human one"

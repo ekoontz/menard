@@ -1063,14 +1063,11 @@
  "peinarse" [{:sem {:pred :comb-oneself
                     :subj {:ref {:human? true}}}}]
 
- "pensar" [{:transitivity :intransitive
-            :sem {:pred :think}
-            :stems {:boot "piens"}}
-           {:transitivity :transitive
-            ;; as with jugar: something to think, not someone.
-            :sem {:pred :think
-                  :obj {:ref {:human? false}}}
-            :stems {:boot "piens"}}]
+ "pensar" [;; thinking takes no noun object: "yo pienso", but not
+            ;; *"yo lo pienso".
+            {:transitivity :intransitive
+             :sem {:pred :think}
+             :stems {:boot "piens"}}]
  "perder" [{:sem {:pred :lose}, :stems {:boot "pierd"}}]
  "pintar" [{:sem {:pred :paint}}]
  "platicar" [{:sem {:pred :chat}}]

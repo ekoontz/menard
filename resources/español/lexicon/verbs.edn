@@ -224,8 +224,14 @@
    {:sem {:pred :drive}
     :exceptions exceptions
     :stems stems}])
- "confesar" [{:sem {:pred :confess},
-              :stems {:boot "confies"}}]
+ "confesar" [;; as with leer: something to confess, not someone.
+              {:sem {:pred :confess}
+               :transitivity :intransitive
+               :stems {:boot "confies"}}
+              {:sem {:pred :confess
+                     :obj {:ref {:human? false}}}
+               :transitivity :transitive
+               :stems {:boot "confies"}}]
  "conocer"
  [{:sem {:pred :know-c},
    :subcat-frames :both

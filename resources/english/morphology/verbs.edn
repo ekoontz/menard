@@ -126,6 +126,16 @@
   :u {:cat :verb
       :infl :past-simple}}
  
+ ;; prefer/preferred, refer/referred, occur/occurred: a final "r" doubles
+ ;; when the last syllable is stressed, which a regex cannot see, so the
+ ;; stems that do are listed here. offer/offered, suffer/suffered,
+ ;; differ/differed and enter/entered do not double, being stressed on the
+ ;; first syllable.
+ {:g [(re-pattern "^(.*(prefer|refer|defer|confer|infer|transfer|deter|occur|recur|incur|concur|abhor|demur|stir|spur|star|bar|jar|scar))$") "$1red"]
+  :p [(re-pattern "^(.*(prefer|refer|defer|confer|infer|transfer|deter|occur|recur|incur|concur|abhor|demur|stir|spur|star|bar|jar|scar))red$") "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
+ 
  ;; walk/walked
  {:g [(re-pattern "^(.*)$") "$1ed"]
   :p [(re-pattern "^(.*)ed$") "$1"]
@@ -171,6 +181,16 @@
   :u {:cat :verb
       :infl :past-participle}}
 
+ ;; prefer/preferred, refer/referred, occur/occurred: a final "r" doubles
+ ;; when the last syllable is stressed, which a regex cannot see, so the
+ ;; stems that do are listed here. offer/offered, suffer/suffered,
+ ;; differ/differed and enter/entered do not double, being stressed on the
+ ;; first syllable.
+ {:g [(re-pattern "^(.*(prefer|refer|defer|confer|infer|transfer|deter|occur|recur|incur|concur|abhor|demur|stir|spur|star|bar|jar|scar))$") "$1red"]
+  :p [(re-pattern "^(.*(prefer|refer|defer|confer|infer|transfer|deter|occur|recur|incur|concur|abhor|demur|stir|spur|star|bar|jar|scar))red$") "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+ 
  ;; walk/walked
  {:g [(re-pattern "^(.*)$") "$1ed"]
   :p [(re-pattern "^(.*)ed$") "$1"]

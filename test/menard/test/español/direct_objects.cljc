@@ -170,3 +170,10 @@
       (is (empty? (parse expression)) expression)))
   (testing "the intransitive reading is kept"
     (is (seq (parse "yo trabajo")))))
+
+(deftest confesar-takes-an-inanimate-object
+  (testing "confess takes a clitic direct object, but not a human one"
+    (is (contains? (object-preds "yo lo confieso") :it))
+    (is (not (contains? (object-preds "yo lo confieso") :he))))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo confieso")))))

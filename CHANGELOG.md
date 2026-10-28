@@ -84,6 +84,38 @@ Italian verb conjugation, and direct object pronouns in every language.
   attachable whatever the lexicon says, and the `s` rule only asks that subcat
   be empty), so commentare is transitive but not transitive-only.
 
+- English "-r" verbs whose last syllable is stressed now double the "r" in the
+  past: "prefer" was "prefered" because the doubling rule only doubles after
+  a consonant in `[bglmnpst]`, and "r" is not one of them. The stems that
+  double are listed (prefer, refer, defer, confer, infer, transfer, deter,
+  occur, recur, incur, concur, abhor, demur, stir, spur, star, bar, jar, scar)
+  for both the past simple and the past participle, since stress is not
+  something a regex can see; offer/offered, suffer/suffered, differ/differed
+  and enter/entered still do not double.
+
+- Spanish→English translation no longer invents a clause for a noun object:
+  the clausal senses of english "believe" (`:subcat {:2 {:cat :verb :rule
+  "s"}}` and the `:comp` one) had no semantics of their own, so a spec whose
+  `:sem :obj` was a noun ("Pedro la creía") could pick one and have its
+  complement filled with an unrelated sentence, whose verb surfaced as a
+  stray auxiliary: "Pedro used to believe you 👴🏼👵🏼 are". Those senses now
+  share the complement's semantics with `:sem :obj`, so a noun object no
+  longer fits them, and the transitive sense is the only one left. "I believe
+  it", "I believe him" and the clausal parse of "I believe that you see the
+  cat" are unchanged. Translation still follows menard's generation order, so
+  an imperfect like "Pedro la creía" comes out as "Pedro was believing her"
+  when that sense generates (and fails to generate rather than emit the stray
+  clause otherwise); "think", "hope" and "say" still have the same unshaped
+  clausal senses and would need the same treatment.
+
+- "confess" takes a direct object, but not a human one, in every language
+  that has the verb: english "confess" gets `:inanimate-object?`, español
+  "confesar" the "leer" treatment (an intransitive sense plus a transitive
+  one with `:obj {:ref {:human? false}}`). "I confess him" has no
+  human-object parse, "I confess it" and "yo lo confieso" keep the inanimate
+  one, and "I confess"/"yo confieso" still parse. The italian and dutch
+  lexicons have no "confessare"/"biechten".
+
 - "enter" takes a direct object, but not a human one, in every language that
   has the verb: english "enter" gets `:inanimate-object?`, español "entrar"
   the "leer" treatment (an intransitive sense plus a transitive one with

@@ -4,6 +4,7 @@
             ;; TODO: load a subset of the default "complete" model
             ;; rather than the whole thing:
             [menard.english :as en]
+            [menard.english.complete]
 
             [menard.español :as es]
             [menard.lexiconfn :as l]
@@ -12,7 +13,7 @@
             [menard.morphology :as m :refer [formal informal]]
             [menard.morphology.emojis :as em]
             [menard.translate.es-en :as translate]
-            [clojure.test :refer [deftest is]]
+            [clojure.test :refer [deftest is testing]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [cljslog.core :as log])))
 
@@ -441,3 +442,19 @@
                               english-expression))))
           (remove true?)))))
 
+
+(deftest believe-clausal-senses-carry-their-complement-semantics
+  ;; "Pedro la creía" used to translate to "Pedro used to believe you 👴🏼👵🏼 are":
+  ;; english "believe"'s clausal senses had no semantics of their own, so a spec
+  ;; whose :sem :obj was a noun could pick one and have its complement filled by
+  ;; an unrelated clause, whose verb was the stray "are". They now share the
+  ;; complement's semantics with :sem :obj, so a noun object only fits the
+  ;; transitive sense.
+  (let [clausal (filter #(#{:verb :comp} (get-in % [:subcat :2 :cat]))
+                        (get (:lexicon @menard.english.complete/model) "believe"))]
+    (is (seq clausal) "believe has its clausal senses")
+    (doseq [sense clausal]
+      (is (some? (:obj (:sem sense)))
+          (str "sense " (:sense sense) " shares its complement's semantics"))))
+  (testing "a noun object still fits the transitive sense"
+    (is (some #(= :it (u/get-in % [:sem :obj :pred])) (en/parse "I believe it")))))

@@ -196,14 +196,22 @@
   (testing "a single vowel in a stressed final syllable still doubles"
     (doseq [[canonical expected] [["stop" "stopped"] ["step" "stepped"]
                                   ["fit" "fitted"] ["plan" "planned"]
-                                  ["chat" "chatted"]]]
+                                  ["chat" "chatted"]
+                                  ;; a final "r" doubles only when the last
+                                  ;; syllable is stressed, so these are listed:
+                                  ["prefer" "preferred"] ["refer" "referred"]
+                                  ["occur" "occurred"] ["transfer" "transferred"]
+                                  ["defer" "deferred"] ["incur" "incurred"]]]
       (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-simple} (:morphology @en-complete/model)))
           canonical)
       (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-participle} (:morphology @en-complete/model)))
           (str canonical " (participle)"))))
   (testing "a long vowel does not double, and it is spelled \"eat\" not \"at\""
     (doseq [[canonical expected] [["cheat" "cheated"] ["repeat" "repeated"]
-                                  ["open" "opened"] ["explain" "explained"]]]
+                                  ["open" "opened"] ["explain" "explained"]
+                                  ;; first-syllable stress, so no doubling:
+                                  ["offer" "offered"] ["suffer" "suffered"]
+                                  ["differ" "differed"] ["enter" "entered"]]]
       (is (= expected (morph-leaf {:canonical canonical :cat :verb :infl :past-simple} (:morphology @en-complete/model)))
           canonical))))
 
@@ -273,3 +281,12 @@
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I think"))))
   (testing "the clausal senses still take their complement"
     (is (seq (sentence-parses "I think that I see the cat")))))
+
+(deftest confess-takes-an-inanimate-object
+  (testing "confess takes a direct object, but not a human one"
+    (doseq [expression ["I confess him" "I confess her" "I confess them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (= #{:it} (object-preds "I confess it"))))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I confess")))))

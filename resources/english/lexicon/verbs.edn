@@ -139,20 +139,29 @@
           [{ :sem {:pred :begin}
             :exceptions exceptions}])
 
- "believe" [{:sense 1
-             :sem {:pred :believe}}
+ "believe" (let [;; the clausal senses have to carry the complement's meaning,
+               ;; or generation invents an unrelated sentence in slot 2: a spec
+               ;; whose :sem :obj is a noun ("Pedro la creía") would pick sense
+               ;; 2 and fill slot 2 with any clause it likes.
+               obj (atom {})]
+            [{:sense 1
+              :sem {:pred :believe}}
 
-            {:sense 2
-             :reflexive? false
-             :sem {:pred :believe}
-             :subcat {:2 {:cat :verb
-                          :rule "s"}}}
+             {:sense 2
+              :reflexive? false
+              :sem {:pred :believe
+                    :obj obj}
+              :subcat {:2 {:cat :verb
+                           :rule "s"
+                           :sem obj}}}
 
-            {:sense 3
-             :reflexive? false
-             :sem {:pred :believe}
-             :subcat {:2 {:cat :comp
-                          :rule "comp2"}}}]
+             {:sense 3
+              :reflexive? false
+              :sem {:pred :believe
+                    :obj obj}
+              :subcat {:2 {:cat :comp
+                           :rule "comp2"
+                           :sem obj}}}])
  "blow" (let [exceptions [{:infl :past-simple
                            :surface "blew"}
                           {:infl :past-participle
@@ -249,7 +258,8 @@
  "compete" [{:sem {:pred :compete}}] 
  "complain" [{:sem {:pred :complain}}]
  "conceive" [{:sem {:pred :conceive}}]
- "confess" [{:sem {:pred :confess}}]
+ "confess" [{:inanimate-object? true
+             :sem {:pred :confess}}]
  "consent" [{:sem {:pred :consent}}]
  "conserve" [{:sem {:pred :conserve}}]
  "consider" [{:sem {:pred :consider}}]

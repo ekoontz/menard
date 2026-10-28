@@ -198,7 +198,7 @@
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"
                       "lo sembro" "la sembro" "li sembro"
                       "lo ceno" "la ceno"
-                      "lo vengo" "lo entro"
+                      "lo vengo"
                       "lo vivo" "lo cado" "lo nasco" "lo chiacchiero"]]
     (is (empty? (parse expression)) expression))
   (testing "the intransitive readings are kept"
@@ -215,3 +215,12 @@
                   (parse "lo riposo"))))
   (testing "stare is still the progressive auxiliary"
     (is (seq (parse "sto camminando")))))
+
+(deftest entrare-takes-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo entro" "la entro" "li entro"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
+          expression))
+    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo entro"))))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "entro")))))

@@ -357,11 +357,8 @@
  "entrare"
  [{:cat :verb,
    :essere? true,
-   ;; "entrare" is intransitive: one enters, one does not enter something
-   ;; (entrare *in* something takes a preposition, which this italian grammar
-   ;; has no frame for).
-   :sem {:pred :enter},
-   :subcat {:2 []}}],
+   ;; as with comprare: something to enter, not someone.
+   :sem {:pred :enter, :obj {:human? false}}}],
  "esistere"
  [{:cat :verb,
    :essere? true,

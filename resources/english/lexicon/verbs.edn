@@ -409,7 +409,8 @@
  "emigrate" [{:sem {:pred :emigrate}}]
  "end" [{:sem {:pred :end}}]
  "enjoy" [{:sem {:pred :enjoy}}]
- "enter" [{:sem {:pred :enter}}]
+ "enter" [{:inanimate-object? true
+           :sem {:pred :enter}}]
  "erase" [{:sem {:pred :erase}}] 
  "escape" [{:sem {:pred :escape}}] 
  "exist" [{:sem {:pred :exist}}]

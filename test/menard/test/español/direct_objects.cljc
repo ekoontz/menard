@@ -150,3 +150,11 @@
     (is (empty? (parse "yo comento")))
     (is (contains? (object-preds "yo lo comento") :it))
     (is (contains? (object-preds "yo lo comento") :he))))
+
+(deftest entrar-takes-an-inanimate-object
+  (testing "enter takes a clitic direct object, but not a human one"
+    (doseq [expression ["yo lo entro" "yo la entro"]]
+      (is (contains? (object-preds expression) :it) expression)
+      (is (not (contains? (object-preds expression) :he)) expression)))
+  (testing "the intransitive reading is kept"
+    (is (seq (parse "yo entro")))))

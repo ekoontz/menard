@@ -442,7 +442,12 @@
             {:sem {:pred :teach}}]
  "entender" [{:sem {:pred :understand},
               :stems {:boot "entiend"}}]
- "entrar" [{:sem {:pred :enter}}]
+ "entrar" [;; as with leer: something to enter, not someone.
+           {:sem {:pred :enter}
+            :transitivity :intransitive}
+           {:sem {:pred :enter
+                  :obj {:ref {:human? false}}}
+            :transitivity :transitive}]
  "enviar" [{:sem {:pred :send}}]
  "escapar" [{:sem {:pred :escape}}]
  "escribir" [{:sem {:pred :write}}]

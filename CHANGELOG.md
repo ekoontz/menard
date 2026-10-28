@@ -40,10 +40,10 @@ Italian verb conjugation, and direct object pronouns in every language.
     (`maak`, `maakt`): like "spelen", its stem doubles the long vowel, which
     the morphology's `^(.*)en$` rule cannot derive, so "ik maak" and
     "hij maakt" had no parse before.
-  - Italiano: `:subcat {:2 []}` for "ballare", "venire", "commentare",
-    "entrare", "riposare", "vivere", "cadere", "nascere" and
+  - Italiano: `:subcat {:2 []}` for "ballare", "venire",
+    "riposare", "vivere", "cadere", "nascere" and
     "chiacchierare" (so "lo
-    ballo"/"lo vengo"/"lo commento"/"lo entro"/"lo vivo"/"lo cado"/"lo nasco"
+    ballo"/"lo vengo"/"lo vivo"/"lo cado"/"lo nasco"
     have no parse, like "li andiamo"; "riposarsi" keeps its own reflexive
     clitic, being a different verb), and `:sem {:obj {:human false}}` for "mangiare",
     "bere", "leggere", "giocare", "suonare", "pensare", "aprire",
@@ -85,17 +85,29 @@ Italian verb conjugation, and direct object pronouns in every language.
   attachable whatever the lexicon says, and the `s` rule only asks that subcat
   be empty), so commentare is transitive but not transitive-only.
 
+- "enter" takes a direct object, but not a human one, in every language that
+  has the verb: english "enter" gets `:inanimate-object?`, español "entrar"
+  the "leer" treatment (an intransitive sense plus a transitive one with
+  `:obj {:ref {:human? false}}`), and italiano "entrare" drops the
+  `:subcat {:2 []}` that made it object-less in favour of
+  `:sem {:obj {:human? false}}`. So "I enter him", "I enter her", "yo lo
+  entro" and "lo entro"/"la entro" have no human-object reading, while
+  "I enter it", "I enter a book", "yo lo entro" and "lo entro" keep the
+  inanimate one, and "I enter", "yo entro" and "entro" still parse without an
+  object. `takes-human-object?` is false for "entrare" and `object-less?` is
+  now false too, since it takes an object again.
+
 - One verb whose object must be a person: italiano "abbracciare" (both its
   `:hug` and `:embrace` senses) carries `:sem {:obj {:human true}}`, so "lo
   abbraccio" keeps only the human reading of the clitic — a thing cannot be
   hugged.
 
 - Intransitive verbs: italiano "stare", "frequentare", "sembrare", "cenare",
-  "venire", "commentare", "entrare", "riposare", "vivere", "cadere",
+  "venire", "riposare", "vivere", "cadere",
   "nascere" and "chiacchierare", english "stay", and "attend" in every language that has it (english
   "attend", español "asistir", italiano "frequentare") no longer take a
   direct object: "lo sto", "lo frequento",
-  "lo ceno", "lo entro", "yo lo asisto", "I attend a book" and "I stay him"
+  "lo ceno", "yo lo asisto", "I attend a book" and "I stay him"
   have no parse, while "sto", "io sto", "frequento", "ceno", "entro", "yo
   asisto", "I attend" and "I stay" still parse. Only the "stay" sense of "stare" is intransitive -- its two
   progressive-auxiliary senses keep their verb complement, so "sto

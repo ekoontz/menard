@@ -242,3 +242,13 @@
           expression)))
   (testing "\"comment on\" is its own prepositional sense"
     (is (seq (sentence-parses "I comment on it")))))
+
+(deftest enter-takes-an-inanimate-object
+  (testing "enter takes an object, but not a human one"
+    (doseq [expression ["I enter him" "I enter her" "I enter them"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "an inanimate object is kept"
+    (is (= #{:it} (object-preds "I enter it")))
+    (is (= #{:book} (object-preds "I enter a book"))))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I enter")))))

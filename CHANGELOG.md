@@ -68,21 +68,17 @@ Italian verb conjugation, and direct object pronouns in every language.
   "yo aprendo", "yo practico" and "imparo" stay intransitive. The lexicon has
   neither "praticare" nor any dutch "leren"/"oefenen".
 
-- "comment" needs a direct object, in every language that has the verb:
-  english "comment" carries the new `:transitive-only?` flag (with the
-  matching `:transitive-only` rule, the counterpart of `:intransitive-only?`;
-  `:subcat-frames-nonmodal` now requires `:transitive-only? false`, so the
-  intransitive and existential frames are not built), so "I comment" has no
-  sentence parse while "I comment it", "I comment a book" and "I comment him"
-  do, and a second, prepositional sense (`:prepositional-verb {:with "on"}`)
-  keeps "I comment on it" parsing; español "comentar" is
-  `:transitivity :transitive`, so "yo comento" no longer parses and "yo lo
-  comento" only has the transitive reading. Italiano "commentare" goes back to
-  being a plain verb (its `:subcat {:2 []}` is gone), so "lo commento" has
-  parses again and `takes-human-object?`/`object-less?` flip back: menard's
-  italian grammar has no way to *require* a complement (a full noun phrase is
-  attachable whatever the lexicon says, and the `s` rule only asks that subcat
-  be empty), so commentare is transitive but not transitive-only.
+- "comment" takes no direct object, in every language that has the verb:
+  english "comment" is `:intransitive-only?` (a prepositional sense,
+  `:prepositional-verb {:with "on"}`, keeps "I comment on it" parsing), so
+  "I comment it", "I comment a book" and "I comment him" have no parse with an
+  object while "I comment" and "I comment on it" do; español "comentar" is
+  `:transitivity :intransitive`, so "yo lo comento" has no parse and
+  "yo comento" does; italiano "commentare" carries `:subcat {:2 []}` again,
+  so "lo commento" has no parse and `object-less?` is true for it. English
+  keeps the `:transitive-only?` flag and its `:transitive-only` rule (with
+  `:subcat-frames-nonmodal` requiring `:transitive-only? false`), which no
+  verb uses now.
 
 - English "-r" verbs whose last syllable is stressed now double the "r" in the
   past: "prefer" was "prefered" because the doubling rule only doubles after
@@ -115,6 +111,26 @@ Italian verb conjugation, and direct object pronouns in every language.
   human-object parse, "I confess it" and "yo lo confieso" keep the inanimate
   one, and "I confess"/"yo confieso" still parse. The italian and dutch
   lexicons have no "confessare"/"biechten".
+
+- "earn", "begin" and "form" take a direct object, but not a human one, in
+  every language that has the verb: english "earn", "begin" and "form" get
+  `:inanimate-object?`; español "ganar" has it on its `:earn` sense only (its
+  `:win` sense stays unconstrained, since one can beat a person), and
+  "empezar", "comenzar" and "formar" get the "leer" treatment (an intransitive
+  sense plus a transitive one with `:obj {:ref {:human? false}}`); italiano
+  "guadagnare" and both senses of "cominciare" carry
+  `:sem {:obj {:human? false}}` ("formare" already did). So "I earn him",
+  "I begin her", "I form them", "lo guadagno", "lo comincio" and
+  "yo lo empiezo" have no human-object reading, while "I earn a book",
+  "yo lo gano", "yo lo formo" and "lo formo" keep the inanimate one, and
+  "I earn", "yo gano", "guadagno" and "comincio" still parse. "yo lo gano"
+  keeps its `:he` reading from the "win" sense. The dutch lexicon has no
+  "verdienen", "beginnen" or "vormen".
+
+- "appear" is intransitive in every language that has the verb: english
+  "appear" is `:intransitive-only?`, so "I appear a book"/"I appear it"/
+  "I appear him" have no parse with an object while "I appear" does. Español
+  and italiano have no "aparecer"/"apparire" in their lexicons.
 
 - "enter" takes a direct object, but not a human one, in every language that
   has the verb: english "enter" gets `:inanimate-object?`, español "entrar"

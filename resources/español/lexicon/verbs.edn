@@ -175,16 +175,25 @@
  "cobrar" [{:sem {:pred :charge-money}}
            {:sem {:pred :cash-checks}}]
 
- "comentar" [;; as with leer: something to comment on, so the verb needs an
-             ;; object ("yo comento el libro", but not *"yo comento").
+ "comentar" [;; a comment is *about* something: "yo comento", "yo comento
+             ;; sobre el libro", but not *"yo lo comento".
              {:sem {:pred :comment}
-              :transitivity :transitive}]
- "comenzar" [{:sem {:pred :begin},
-             :exceptions 
-             [{:infl :preterito
-                    :agr {:person :1st :number :sing}
-                    :surface "comencé"}]
-              :stems {:boot "comienz"}}]
+              :transitivity :intransitive}]
+ "comenzar" (let [exceptions
+                   [{:infl :preterito
+                     :agr {:person :1st :number :sing}
+                     :surface "comencé"}]
+                   stems {:boot "comienz"}]
+               [;; as with leer: something to begin, not someone.
+                {:sem {:pred :begin}
+                 :transitivity :intransitive
+                 :exceptions exceptions
+                 :stems stems}
+                {:sem {:pred :begin
+                       :obj {:ref {:human? false}}}
+                 :transitivity :transitive
+                 :exceptions exceptions
+                 :stems stems}])
  "comer" [;; of course animals {:animate? true} can eat too, but we
            ;; don't have a good way to indicate the gender distinction of
            ;; them for the article ("él/ella/ellos/ellas) with the emoji.
@@ -435,12 +444,21 @@
                           :surface "elijo"}] 
             :sem {:pred :correct}}] 
  
- "empezar" [{:sem {:pred :begin},
-             :exceptions
-             [{:infl :preterito
-               :agr {:person :1st :number :sing}
-               :surface "empecé"}]
-             :stems {:boot "empiez"}}]
+ "empezar" (let [exceptions
+                  [{:infl :preterito
+                    :agr {:person :1st :number :sing}
+                    :surface "empecé"}]
+                  stems {:boot "empiez"}]
+              [;; as with leer: something to begin, not someone.
+               {:sem {:pred :begin}
+                :transitivity :intransitive
+                :exceptions exceptions
+                :stems stems}
+               {:sem {:pred :begin
+                      :obj {:ref {:human? false}}}
+                :transitivity :transitive
+                :exceptions exceptions
+                :stems stems}])
  "encender" [{:sem {:pred :turn-on}, :stems {:boot "enciend"}}]
  "encontrar" [{:sem {:pred :find}, :stems {:boot "encuentr"}}]
  "enojarse" [{:sem {:pred :get-angry}}]
@@ -473,7 +491,12 @@
  "expresar" [{:sem {:pred :express}}]
 
  "firmar" [{:sem {:pred :sign}}]
- "formar" [{:sem {:pred :form}}]
+ "formar" [;; as with leer: something to form, not someone.
+            {:sem {:pred :form}
+             :transitivity :intransitive}
+            {:sem {:pred :form
+                   :obj {:ref {:human? false}}}
+             :transitivity :transitive}]
  "fregar" [{:sem {:pred :scrub},
             :stems {:boot "frieg"}}]
  "fumar" [{:sem {:pred :smoke}}]
@@ -482,8 +505,14 @@
                      :pred :work-nonhuman}
                :subcat {:person :3rd}}]
 
- "ganar" [{:sem {:pred :earn}}
-          {:sem {:pred :win}}]
+ "ganar" [;; as with leer: something to earn, not someone. The "win"
+           ;; sense stays unconstrained (one can beat a person).
+           {:sem {:pred :earn}
+            :transitivity :intransitive}
+           {:sem {:pred :earn
+                  :obj {:ref {:human? false}}}
+            :transitivity :transitive}
+           {:sem {:pred :win}}]
  "gastar" [{:sem {:pred :spend}}]
 
  "haber"

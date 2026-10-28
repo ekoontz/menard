@@ -188,14 +188,25 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
-(deftest commentare-takes-a-direct-object
-  (testing "commentare is not object-less, so its clitics work again"
+(deftest commentare-is-intransitive
+  (testing "commentare takes no direct object"
     (doseq [expression ["lo commento" "la commento" "li commento"]]
-      (is (seq (parse expression)) expression))
-    (is (some #(true? (u/get-in % [:sem :obj :human?])) (parse "lo commento")))
-    (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse "lo commento"))))
-  (testing "a noun phrase is an object too"
-    (is (seq (parse "commento il libro")))))
+      (is (empty? (parse expression)) expression)))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "commento")))))
+
+(deftest guadagnare-and-cominciare-take-an-inanimate-object
+  (testing "the human clitic is rejected, the inanimate one is not"
+    (doseq [expression ["lo guadagno" "la guadagno" "li guadagno"
+                        "lo comincio" "la comincio" "li comincio"]]
+      (is (not-any? #(true? (u/get-in % [:sem :obj :human?])) (parse expression))
+          expression))
+    (doseq [expression ["lo guadagno" "lo comincio"]]
+      (is (some #(false? (u/get-in % [:sem :obj :human?])) (parse expression))
+          expression)))
+  (testing "the object-free reading is kept"
+    (doseq [expression ["guadagno" "comincio"]]
+      (is (seq (parse expression)) expression))))
 
 (deftest these-verbs-are-intransitive
   (doseq [expression ["lo sto" "la sto" "lo frequento" "li frequento"

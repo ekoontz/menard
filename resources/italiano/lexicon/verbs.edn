@@ -258,11 +258,16 @@
   [(dag_unify.core/unify {:cat :verb, :sem {:pred :hit}} common)
    (dag_unify.core/unify {:cat :verb, :sem {:pred :strike}} common)]),
  "cominciare"
- [{:cat :verb, :sem {:pred :begin}} {:cat :verb, :sem {:pred :start}}],
+ [{:cat :verb,
+   ;; something to begin, not someone.
+   :sem {:pred :begin, :obj {:human? false}}}
+  {:cat :verb,
+   :sem {:pred :start, :obj {:human? false}}}],
  "commentare"
  [{:cat :verb,
-   ;; "commentare" comments *on* something: it takes a direct object.
-   :sem {:pred :comment}}],
+   ;; "commentare" comments *on* something: no direct object.
+   :sem {:pred :comment},
+   :subcat {:2 []}}],
  "comprare"
  [{:cat :verb,
    ;; as with giocare: something to buy, not someone.
@@ -555,7 +560,10 @@
          :obj {:human? false}},
    :italiano {:future-stem "giocher"}}],
  "gridare" [{:cat :verb, :sem {:pred :yell}}],
- "guadagnare" [{:cat :verb, :sem {:pred :earn}}],
+ "guadagnare"
+ [{:cat :verb,
+   ;; something to earn, not someone.
+   :sem {:pred :earn, :obj {:human? false}}}],
  "guardare" [{:cat :verb, :sem {:pred :look-at}}],
  "guidare"
  [{:cat :verb,

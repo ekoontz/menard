@@ -150,11 +150,21 @@
     (is (empty? (parse expression)) expression))
   (is (seq (parse "yo asisto"))))
 
-(deftest comentar-is-transitive-only
-  (testing "comentar needs a direct object, so the bare verb does not parse"
-    (is (empty? (parse "yo comento")))
-    (is (contains? (object-preds "yo lo comento") :it))
-    (is (contains? (object-preds "yo lo comento") :he))))
+(deftest comentar-is-intransitive
+  (testing "comentar takes no direct object"
+    (is (empty? (parse "yo lo comento"))))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "yo comento")))))
+
+(deftest ganar-empezar-comenzar-and-formar-take-an-inanimate-object
+  (testing "the \"earn\" sense of ganar, and the other three, keep a thing as object"
+    (doseq [expression ["yo lo gano" "yo lo empiezo" "yo lo comienzo" "yo lo formo"]]
+      (is (contains? (object-preds expression) :it) expression)))
+  (testing "the \"win\" sense of ganar still takes a person"
+    (is (contains? (object-preds "yo lo gano") :he)))
+  (testing "the intransitive reading is kept"
+    (doseq [expression ["yo gano" "yo empiezo" "yo comienzo" "yo formo"]]
+      (is (seq (parse expression)) expression))))
 
 (deftest entrar-takes-an-inanimate-object
   (testing "enter takes a clitic direct object, but not a human one"

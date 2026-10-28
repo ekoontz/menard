@@ -6,7 +6,10 @@
  "add" [{:sem {:pred :add}}]
  "announce" [{ :sem {:pred :announce}}]
  "answer" [{:sem {:pred :answer}}]
- "appear" [{:sem {:pred :appear}}]
+ "appear" [{:intransitive-only? true
+             ;; appearing is not done to something: "it appears", but not
+             ;; *"I appear it".
+            :sem {:pred :appear}}]
  "approve" [{:sem {:pred :approve}}]
  "arrive" [{:intransitive-only? true
             :sem {:pred :arrive}}] 
@@ -136,8 +139,10 @@
                             :surface "began"}
                            {:infl :past-participle
                             :surface "begun"}]]
-          [{ :sem {:pred :begin}
-            :exceptions exceptions}])
+          [{ ;; something to begin, not someone.
+             :inanimate-object? true
+             :sem {:pred :begin}
+             :exceptions exceptions}])
 
  "believe" (let [;; the clausal senses have to carry the complement's meaning,
                ;; or generation invents an unrelated sentence in slot 2: a spec
@@ -249,9 +254,9 @@
           [{:intransitive-only? true
             :sem {:pred :come}
             :exceptions exceptions}])
- "comment" [{:transitive-only? true
-             ;; a comment has a subject matter, so this sense needs an
-             ;; object: "I comment the book", but not *"I comment".
+ "comment" [{:intransitive-only? true
+             ;; a comment is *about* something: "I comment", "I comment on
+             ;; it", but not *"I comment it".
              :sem {:pred :comment}}
             {:prepositional-verb {:with "on"}
              :sem {:pred :comment-on}}]
@@ -413,7 +418,9 @@
          [{:exceptions exceptions
            :inanimate-object? true
            :sem {:pred :eat}}])
- "earn" [{ :sem {:pred :earn}}]
+ "earn" [{:inanimate-object? true
+           ;; something to earn, not someone.
+           :sem {:pred :earn}}]
  "elaborate" [{:sem {:pred :elaborate}}]
  "embrace" [{:sem {:pred :embrace}}]
  "emigrate" [{:sem {:pred :emigrate}}]
@@ -460,7 +467,9 @@
  "forget" (let [exceptions [{:infl :past-simple :surface "forgot"}
                           {:infl :past-participle :surface "forgotten"}]]
           [{:exceptions exceptions  :sem {:pred :forget}}])
- "form" [{:sem {:pred :form}}]
+ "form" [{:inanimate-object? true
+           ;; something to form, not someone.
+           :sem {:pred :form}}]
  "function" [{:sem {:pred :work-nonhuman
                     :subj {:ref {:human? false}}}}]
  "get" (let [exceptions [{:infl :past-simple :surface "got"}

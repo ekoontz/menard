@@ -239,15 +239,40 @@
     (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
         expression)))
 
-(deftest comment-is-transitive-only
-  (testing "comment needs a direct object"
-    (is (empty? (sentence-parses "I comment")))
+(deftest comment-is-intransitive
+  (testing "comment takes no direct object"
     (doseq [expression ["I comment it" "I comment a book" "I comment him"]]
-      (is (seq (sentence-parses expression)) expression)
-      (is (some #(some? (u/get-in % [:sem :obj :pred])) (sentence-parses expression))
+      (is (not-any? #(some? (u/get-in % [:sem :obj :pred])) (parse expression))
           expression)))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I comment"))))
   (testing "\"comment on\" is its own prepositional sense"
-    (is (seq (sentence-parses "I comment on it")))))
+    (is (contains? (object-preds "I comment on it") :it))))
+
+(deftest earn-begin-and-form-take-an-inanimate-object
+  (testing "their object is kept when it is a thing"
+    (doseq [[expression pred] [["I earn a book" :book]
+                               ["I earn it" :it]
+                               ["I begin a book" :book]
+                               ["I form a book" :book]]]
+      (is (contains? (object-preds expression) pred) expression)))
+  (testing "but not when it is a person"
+    (doseq [expression ["I earn him" "I earn her" "I earn them"
+                        "I begin him" "I begin her"
+                        "I form him" "I form her"]]
+      (is (not (human-object? expression)) expression)))
+  (testing "the object-free reading is kept"
+    (doseq [expression ["I earn" "I begin" "I form"]]
+      (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse expression))
+          expression))))
+
+(deftest appear-is-intransitive
+  (testing "appear takes no direct object"
+    (doseq [expression ["I appear a book" "I appear it" "I appear him"]]
+      (is (not-any? #(some? (u/get-in % [:sem :obj :pred])) (parse expression))
+          expression)))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I appear")))))
 
 (deftest enter-takes-an-inanimate-object
   (testing "enter takes an object, but not a human one"

@@ -96,12 +96,13 @@
     (is (conjugate/object-less? "nascere"))
     (is (conjugate/object-less? "chiacchierare"))
     (is (conjugate/object-less? "lavorare"))
-    (is (conjugate/object-less? "pensare")))
+    (is (conjugate/object-less? "pensare"))
+    (is (conjugate/object-less? "commentare")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))
     (is (not (conjugate/object-less? "mangiare")))
-    (is (not (conjugate/object-less? "commentare")))
+
     (is (not (conjugate/object-less? "entrare")))
     (is (not (conjugate/object-less? "no-such-verb")))))
 
@@ -113,13 +114,14 @@
 
 (deftest takes-human-object
   (testing "verbs that take a person as their direct object"
-    (doseq [canonical ["vedere" "commentare"]]
+    (doseq [canonical ["vedere"]]
       (is (conjugate/takes-human-object? canonical) canonical)))
   (testing "not the verbs that take no direct object"
     (doseq [canonical ["andare" "arrivare" "ballare" "stare" "frequentare"
                        "sembrare" "cenare" "venire"
                        "riposare" "vivere" "cadere" "nascere"
-                       "chiacchierare" "lavorare" "pensare"]]
+                       "chiacchierare" "lavorare" "pensare"
+                       "commentare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical)))
   (testing "not the verbs whose object must be inanimate"
     (doseq [canonical ["giocare" "suonare" "mangiare" "aprire"
@@ -128,7 +130,7 @@
                        "tagliare" "guidare" "spendere" "sapere" "conservare"
                        "formare" "prestare" "abbassare" "comprare"
                        "riempire" "spegnere" "cantare" "comprare"
-                       "imparare" "entrare"]]
+                       "imparare" "entrare" "guadagnare" "cominciare"]]
       (is (not (conjugate/takes-human-object? canonical)) canonical))))
 
 (deftest indirect-object-clitics

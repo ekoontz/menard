@@ -959,7 +959,8 @@
                          {:infl :past-participle :surface "struck"}]}]
  "study" [{:sem {:pred :study}}]
  "succeed" [{:sem {:pred :succeed}}]
- "swim" [{:sem {:pred :swim}
+ "swim" [{:intransitive-only? true
+          :sem {:pred :swim}
           :exceptions [{:infl :past-simple :surface "swam"}
                        {:infl :past-participle :surface "swum"}]}]
  "support" [{:sem {:pred :support}}]
@@ -1218,5 +1219,4 @@
                          :surface "written"}]}]
  "yawn" [{:sem {:pred :yawn}
           :intransitive-only? true}]}
-
 

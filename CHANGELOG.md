@@ -80,6 +80,11 @@ Italian verb conjugation, and direct object pronouns in every language.
   `:subcat-frames-nonmodal` requiring `:transitive-only? false`), which no
   verb uses now.
 
+- Swimming is intransitive in every language with a swim verb: English
+  "swim" is `:intransitive-only?`, Spanish "nadar" is
+  `:transitivity :intransitive`, and Italian "nuotare" has
+  `:subcat {:2 []}`. Dutch has no equivalent in its verb lexicon.
+
 - English "-r" verbs whose last syllable is stressed now double the "r" in the
   past: "prefer" was "prefered" because the doubling rule only doubles after
   a consonant in `[bglmnpst]`, and "r" is not one of them. The stems that
@@ -848,6 +853,5 @@ linguistic model.
 ## [0.0.1] - 2020-06-09
 
 First release.
-
 
 

@@ -219,6 +219,14 @@
   (doseq [expression ["I dance it" "I dance the tango"]]
     (is (not-any? #(map? (u/get-in % [:sem :obj])) (parse expression)) expression)))
 
+(deftest swim-is-intransitive
+  (testing "swim takes no direct object"
+    (doseq [expression ["I swim it" "I swim him" "I swim a book"]]
+      (is (not-any? #(some? (u/get-in % [:sem :obj :pred])) (parse expression))
+          expression)))
+  (testing "the object-free reading is kept"
+    (is (some #(re-find #"\[s" (str (en/syntax-tree %))) (parse "I swim")))))
+
 (deftest generate-direct-object-pronouns
   (testing "a parsed direct object pronoun can be generated again"
     (doseq [expression ["she sees him"

@@ -188,6 +188,13 @@
   (doseq [expression ["lo ballo" "li ballo" "la ballo"]]
     (is (empty? (parse expression)) expression)))
 
+(deftest nuotare-is-intransitive
+  (testing "nuotare takes no direct object"
+    (doseq [expression ["lo nuoto" "la nuoto" "li nuoto"]]
+      (is (empty? (parse expression)) expression)))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "nuoto")))))
+
 (deftest commentare-is-intransitive
   (testing "commentare takes no direct object"
     (doseq [expression ["lo commento" "la commento" "li commento"]]

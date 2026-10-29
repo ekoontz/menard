@@ -145,6 +145,13 @@
   (doseq [expression ["yo lo bailo" "yo la bailo"]]
     (is (empty? (parse expression)) expression)))
 
+(deftest nadar-is-intransitive
+  (testing "nadar takes no direct object"
+    (doseq [expression ["yo lo nado" "yo la nado"]]
+      (is (empty? (parse expression)) expression)))
+  (testing "the object-free reading is kept"
+    (is (seq (parse "yo nado")))))
+
 (deftest asistir-is-intransitive
   (doseq [expression ["yo lo asisto" "yo la asisto"]]
     (is (empty? (parse expression)) expression))

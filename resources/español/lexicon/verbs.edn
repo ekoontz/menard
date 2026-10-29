@@ -995,7 +995,8 @@
    [{:infl :present,
      :agr {:person :1st, :number :sing},
      :surface "nazco"}]}]
- "nadar" [{:sem {:pred :swim}}]
+ "nadar" [{:sem {:pred :swim}
+           :transitivity :intransitive}]
  "necesitar" [{:sem {:pred :need}}]
  "negar" [{:sem {:pred :deny}, :stems {:boot "nieg"}}]
 

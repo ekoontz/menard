@@ -646,7 +646,7 @@
    :sem {:pred :be-born},
    :subcat {:2 []},
    :italiano {:passato "nato"}}],
- "nuotare" [{:cat :verb, :sem {:pred :swim}}],
+ "nuotare" [{:cat :verb, :sem {:pred :swim}, :subcat {:2 []}}],
  "osservare" [{:cat :verb, :sem {:pred :observe}}],
  "ottenere"
  [{:cat :verb,

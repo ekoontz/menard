@@ -97,7 +97,8 @@
     (is (conjugate/object-less? "chiacchierare"))
     (is (conjugate/object-less? "lavorare"))
     (is (conjugate/object-less? "pensare"))
-    (is (conjugate/object-less? "commentare")))
+    (is (conjugate/object-less? "commentare"))
+    (is (conjugate/object-less? "nuotare")))
   (testing "a verb that can take one is not marked"
     (is (not (conjugate/object-less? "vedere")))
     (is (not (conjugate/object-less? "bere")))
